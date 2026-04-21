@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,7 +19,7 @@ import { products } from '@/lib/products';
 import { ArchiveRestore, Package, Layers, Archive } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const archivedProducts = products.slice(8, 11).map((p) => ({
   ...p,
@@ -42,7 +43,7 @@ export default function ArchivePage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Архив товаров"
         leadPlain="Товары, снятые с продажи или неактивные. Связь с каталогом Products, остатками Inventory и матрицей SKU."
@@ -126,6 +127,6 @@ export default function ArchivePage() {
           </Table>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

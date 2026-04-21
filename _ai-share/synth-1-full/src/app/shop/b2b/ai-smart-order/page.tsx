@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -46,8 +46,9 @@ export default function AiSmartOrderPage() {
   }, [result]);
 
   return (
-    <RegistryPageShell
-      className="min-h-[200px] max-w-3xl space-y-6"
+    <CabinetPageContent
+      maxWidth="3xl"
+      className="min-h-[200px] space-y-6"
       data-testid={tid.page('shop-b2b-ai-smart-order')}
     >
       <ShopB2bContentHeader lead="PDF или текст письма с PO — черновик заказа (OroCommerce AI SmartOrder)." />
@@ -175,6 +176,6 @@ export default function AiSmartOrderPage() {
             l.href === ROUTES.shop.b2bMatrix
         )}
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

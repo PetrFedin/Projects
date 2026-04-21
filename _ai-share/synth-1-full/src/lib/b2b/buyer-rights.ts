@@ -36,8 +36,12 @@ export function getCurrentBuyerRights(): BuyerRights {
     const territories = localStorage.getItem(STORAGE_KEY_TERRITORY);
     const channels = localStorage.getItem(STORAGE_KEY_CHANNELS);
     return {
-      allowedTerritories: territories ? JSON.parse(territories) : ['Moscow', 'SPb', 'Russia'],
-      allowedChannels: channels ? JSON.parse(channels) : ['wholesale', 'retail_a', 'retail_b'],
+      allowedTerritories: territories
+        ? (JSON.parse(territories) as string[])
+        : ['Moscow', 'SPb', 'Russia'],
+      allowedChannels: channels
+        ? (JSON.parse(channels) as B2BChannelId[])
+        : ['wholesale', 'retail_a', 'retail_b'],
       allowedPriceTiers: ['retail_a', 'retail_b'],
     };
   } catch {

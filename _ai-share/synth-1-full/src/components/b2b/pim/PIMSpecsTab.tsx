@@ -17,14 +17,14 @@ export function PIMSpecsTab({ selectedProduct }: PIMSpecsTabProps) {
       <div className="space-y-4">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <Box className="text-accent-primary h-4 w-4" />
-            <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+            <Box className="h-4 w-4 text-indigo-600" />
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
               Material Composition
             </h4>
           </div>
           <div className="space-y-3">
             {(selectedProduct.composition || []).map((c: any, i: number) => (
-              <div key={i} className="bg-bg-surface2 flex items-center gap-3 rounded-2xl p-4">
+              <div key={i} className="flex items-center gap-3 rounded-2xl bg-slate-50 p-4">
                 <Input
                   defaultValue={c.material}
                   className="h-10 flex-1 rounded-xl border-none bg-white text-[10px] font-bold"
@@ -35,7 +35,7 @@ export function PIMSpecsTab({ selectedProduct }: PIMSpecsTabProps) {
                     type="number"
                     className="h-10 rounded-xl border-none bg-white pr-6 text-[10px] font-black"
                   />
-                  <span className="text-text-muted absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black">
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400">
                     %
                   </span>
                 </div>
@@ -43,17 +43,17 @@ export function PIMSpecsTab({ selectedProduct }: PIMSpecsTabProps) {
             ))}
             <Button
               variant="ghost"
-              className="border-border-subtle text-text-muted hover:border-accent-primary/30 h-12 w-full rounded-2xl border-2 border-dashed text-[9px] font-black uppercase"
+              className="h-12 w-full rounded-2xl border-2 border-dashed border-slate-100 text-[9px] font-black uppercase text-slate-400 hover:border-indigo-200"
             >
-              <Plus className="mr-2 h-3.5 w-3.5" /> Add Material
+              <Plus className="mr-2 h-3.5 w-3.5" /> Материал
             </Button>
           </div>
         </div>
 
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <ShieldCheck className="text-accent-primary h-4 w-4" />
-            <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+            <ShieldCheck className="h-4 w-4 text-indigo-600" />
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
               Compliance & Certs
             </h4>
           </div>
@@ -70,7 +70,7 @@ export function PIMSpecsTab({ selectedProduct }: PIMSpecsTabProps) {
             <Button
               variant="outline"
               size="sm"
-              className="border-border-default h-10 rounded-xl border-dashed text-[9px] font-black uppercase"
+              className="h-10 rounded-xl border-dashed border-slate-200 text-[9px] font-black uppercase"
             >
               Upload Certificate
             </Button>
@@ -81,8 +81,8 @@ export function PIMSpecsTab({ selectedProduct }: PIMSpecsTabProps) {
       <div className="space-y-4">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <Wind className="text-accent-primary h-4 w-4" />
-            <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+            <Wind className="h-4 w-4 text-indigo-600" />
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-900">
               Performance Metrics
             </h4>
           </div>
@@ -91,9 +91,9 @@ export function PIMSpecsTab({ selectedProduct }: PIMSpecsTabProps) {
               { label: 'Breathability', val: '20K g/m²', icon: Wind },
               { label: 'Waterproof', val: '15K mm', icon: Droplets },
             ].map((m, i) => (
-              <Card key={i} className="bg-bg-surface2 space-y-2 border-none p-4 shadow-sm">
-                <m.icon className="text-accent-primary mb-2 h-4 w-4" />
-                <p className="text-text-muted text-[8px] font-black uppercase">{m.label}</p>
+              <Card key={i} className="space-y-2 border-none bg-slate-50 p-4 shadow-sm">
+                <m.icon className="mb-2 h-4 w-4 text-indigo-400" />
+                <p className="text-[8px] font-black uppercase text-slate-400">{m.label}</p>
                 <Input
                   defaultValue={m.val}
                   className="h-8 border-none bg-transparent p-0 text-sm font-black"
@@ -103,7 +103,7 @@ export function PIMSpecsTab({ selectedProduct }: PIMSpecsTabProps) {
           </div>
         </div>
 
-        <Card className="bg-accent-primary group relative overflow-hidden rounded-xl border-none p-4 text-white shadow-sm">
+        <Card className="group relative overflow-hidden rounded-xl border-none bg-indigo-900 p-4 text-white shadow-sm">
           <div className="absolute right-0 top-0 p-4 opacity-10 transition-transform group-hover:scale-110">
             <Settings2 className="h-20 w-20" />
           </div>
@@ -112,7 +112,7 @@ export function PIMSpecsTab({ selectedProduct }: PIMSpecsTabProps) {
             <p className="text-[10px] font-medium uppercase leading-relaxed tracking-widest text-white/60">
               Upload your pattern files and BOM for automated factory sync
             </p>
-            <Button className="text-accent-primary h-12 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest shadow-xl hover:bg-white/90">
+            <Button className="h-12 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest text-indigo-900 shadow-xl hover:bg-white/90">
               Sync with Factory
             </Button>
           </div>

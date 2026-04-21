@@ -1,7 +1,9 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { WidgetCard } from '@/components/ui/widget-card';
 import { EmptyStateB2B } from '@/components/ui/empty-state-b2b';
 import { Button } from '@/components/ui/button';
@@ -21,7 +23,7 @@ export default function BrandAcademyPage() {
   const notStarted = courses.filter((c) => c.status === 'not_started');
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-20">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-20">
       <RegistryPageHeader
         title="Академия"
         leadPlain="Собственные курсы по ДНК бренда, продуктам и процессам — для команды и партнёров."
@@ -164,6 +166,6 @@ export default function BrandAcademyPage() {
       </section>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

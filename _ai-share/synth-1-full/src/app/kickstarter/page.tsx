@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useMemo } from 'react';
 import {
   Card,
@@ -24,7 +25,6 @@ import { Users, Filter, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 import { Combobox } from '@/components/ui/combobox';
 import { products } from '@/lib/products';
 import { useUIState } from '@/providers/ui-state';
@@ -95,7 +95,7 @@ export default function KickstarterPage() {
     (statusFilter.length > 0 && !(statusFilter.length === 1 && statusFilter[0] === 'live'));
 
   return (
-    <RegistryPageShell className="space-y-6 py-12 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 py-12 pb-16 px-4 py-6 pb-24 sm:px-6">
       {viewRole === 'b2b' && (
         <div className="grid grid-cols-1 gap-3 duration-300 animate-in fade-in md:grid-cols-3">
           <Card className="bg-text-primary relative space-y-4 overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
@@ -311,6 +311,6 @@ export default function KickstarterPage() {
           );
         })}
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

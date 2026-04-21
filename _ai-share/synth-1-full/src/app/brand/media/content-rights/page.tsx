@@ -18,6 +18,7 @@ import { PartnerDemoExportBar } from '@/components/brand/partner-demo-export-bar
 import { ROUTES } from '@/lib/routes';
 import { PARTNER_DAM_POLICIES } from '@/lib/platform/partner-demo-data';
 import { ArrowLeft, Shield, ImageIcon } from 'lucide-react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 const STORAGE_KEY = 'synth.dam.policyOverrides.v1';
 
@@ -62,7 +63,7 @@ export default function DamContentRightsPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-3xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="3xl">
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -148,6 +149,6 @@ export default function DamContentRightsPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

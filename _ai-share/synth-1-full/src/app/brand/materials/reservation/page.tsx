@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,7 +11,6 @@ import { Package, Bookmark, Factory } from 'lucide-react';
 import { getSupplierLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_MATERIALS = [
   {
@@ -35,7 +35,7 @@ export default function MaterialReservationPage() {
   const [reserving, setReserving] = useState<string | null>(null);
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Material Reservation Hub"
         description="Бронирование остатков ткани и фурнитуры напрямую из техпакета у поставщика."
@@ -93,6 +93,6 @@ export default function MaterialReservationPage() {
       </Card>
 
       <RelatedModulesBlock links={getSupplierLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

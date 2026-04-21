@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { ShoppingCart, Bell } from 'lucide-react';
+import { ShoppingCart, Bell, LayoutDashboard } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -79,19 +79,22 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       <Tabs value={getShopCurrentTab()} onValueChange={handleShopTabChange} className="w-full">
         {/* cabinetSurface v1 */}
         <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
-          {mainShopNavLinks.map((link) => (
-            <TabsTrigger
-              key={link.value}
-              value={link.value}
-              className={cn(
-                cabinetSurface.tabsTrigger,
-                'h-9 gap-2 text-sm font-semibold normal-case tracking-normal'
-              )}
-            >
-              <link.icon className="h-4 w-4 shrink-0" />
-              {link.label}
-            </TabsTrigger>
-          ))}
+          {mainShopNavLinks.map((link) => {
+            const NavIcon = link.icon ?? LayoutDashboard;
+            return (
+              <TabsTrigger
+                key={link.value}
+                value={link.value}
+                className={cn(
+                  cabinetSurface.tabsTrigger,
+                  'h-9 gap-2 text-sm font-semibold normal-case tracking-normal'
+                )}
+              >
+                <NavIcon className="h-4 w-4 shrink-0" />
+                {link.label}
+              </TabsTrigger>
+            );
+          })}
         </TabsList>
       </Tabs>
 

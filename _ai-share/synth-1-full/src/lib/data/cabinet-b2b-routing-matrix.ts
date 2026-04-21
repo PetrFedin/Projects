@@ -1,7 +1,8 @@
 /**
  * Куда «относится» B2B-функционал в иерархии кабинетов и с кем стык.
  * Раньше рендерилось на `/shop/b2b` (сейчас корень редиректит на `/shop`); данные можно использовать в админке/доках.
- * Якоря shop/brand — `cabinet-matrix-anchors.ts` (синхрон с сайдбаром).
+ * Якоря shop: `buildShopCabinetAnchors()` — группы из `SHOP_B2B_HUB_GROUP_IDS` в `shop-navigation-normalized.ts`
+ * (ритейл + столпы опта + «Опт: дополнительно» + аналитика). Brand: `buildBrandCabinetAnchors()`.
  */
 import { ROUTES } from '@/lib/routes';
 import {
@@ -27,7 +28,7 @@ export const CABINET_B2B_ROUTING_MATRIX: CabinetB2bRoutingRow[] = [
     id: 'shop',
     title: 'Кабинет магазина (байер / ритейлер)',
     blurb:
-      'Основной владелец сценариев Discover, матрицы, оплат, fulfillment и розницы. Функции открываются здесь как модули ритейл-центра. Список ниже совпадает с группами сайдбара (SHOP_B2B_HUB_GROUP_IDS).',
+      'Основной владелец сценариев Discover, матрицы, оплат, fulfillment и розницы. Список якорей = ссылки из групп хаба B2B (`SHOP_B2B_HUB_GROUP_IDS`: ритейл, partners→pim→b2b→logistics, расширенный опт, аналитика), не путать с узким набором столпов сайдбара `SHOP_B2B_NAV_GROUP_IDS`.',
     homeHref: ROUTES.shop.home,
     anchors: buildShopCabinetAnchors(),
     peers: [

@@ -50,7 +50,7 @@ export function CollectionCreateWizardSteps({
       <div className="space-y-4">
         {COLLECTION_TEMPLATES.length > 0 && (
           <div className="space-y-2">
-            <Label className="text-text-muted text-[10px] font-black uppercase">Шаблон</Label>
+            <Label className="text-xs font-black uppercase text-slate-400">Шаблон</Label>
             <div className="flex flex-wrap gap-2">
               {COLLECTION_TEMPLATES.map((t) => (
                 <Button
@@ -58,9 +58,7 @@ export function CollectionCreateWizardSteps({
                   type="button"
                   variant="outline"
                   size="sm"
-                  className={
-                    templateId === t.id ? 'border-accent-primary bg-accent-primary/10' : ''
-                  }
+                  className={templateId === t.id ? 'border-indigo-500 bg-indigo-50' : ''}
                   onClick={() => applyTemplate(t)}
                 >
                   {t.name}
@@ -70,7 +68,7 @@ export function CollectionCreateWizardSteps({
           </div>
         )}
         <div className="space-y-2">
-          <Label className="text-text-muted text-[10px] font-black uppercase">
+          <Label className="text-xs font-black uppercase text-slate-400">
             Название коллекции *
           </Label>
           <Input
@@ -79,11 +77,11 @@ export function CollectionCreateWizardSteps({
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
             className="h-11 rounded-xl"
           />
-          {errors.name && <p className="text-[10px] text-rose-500">{errors.name}</p>}
+          {errors.name && <p className="text-xs text-rose-500">{errors.name}</p>}
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label className="text-text-muted text-[10px] font-black uppercase">Сезон</Label>
+            <Label className="text-xs font-black uppercase text-slate-400">Сезон</Label>
             <Select
               value={form.season}
               onValueChange={(v) => setForm((f) => ({ ...f, season: v }))}
@@ -101,7 +99,7 @@ export function CollectionCreateWizardSteps({
             </Select>
           </div>
           <div className="space-y-2">
-            <Label className="text-text-muted text-[10px] font-black uppercase">Тип</Label>
+            <Label className="text-xs font-black uppercase text-slate-400">Тип</Label>
             <Select value={form.type} onValueChange={(v) => setForm((f) => ({ ...f, type: v }))}>
               <SelectTrigger className="h-11 rounded-xl">
                 <SelectValue />
@@ -118,9 +116,7 @@ export function CollectionCreateWizardSteps({
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label className="text-text-muted text-[10px] font-black uppercase">
-              Ответственный
-            </Label>
+            <Label className="text-xs font-black uppercase text-slate-400">Ответственный</Label>
             <Input
               value={form.responsible}
               onChange={(e) => setForm((f) => ({ ...f, responsible: e.target.value }))}
@@ -128,18 +124,18 @@ export function CollectionCreateWizardSteps({
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-text-muted text-[10px] font-black uppercase">Дедлайн</Label>
+            <Label className="text-xs font-black uppercase text-slate-400">Дедлайн</Label>
             <Input
               type="date"
               value={form.deadline}
               onChange={(e) => setForm((f) => ({ ...f, deadline: e.target.value }))}
               className="h-11 rounded-xl"
             />
-            {errors.deadline && <p className="text-[10px] text-rose-500">{errors.deadline}</p>}
+            {errors.deadline && <p className="text-xs text-rose-500">{errors.deadline}</p>}
           </div>
         </div>
         <div className="space-y-2">
-          <Label className="text-text-muted text-[10px] font-black uppercase">Приоритет</Label>
+          <Label className="text-xs font-black uppercase text-slate-400">Приоритет</Label>
           <Select
             value={form.priority}
             onValueChange={(v) => setForm((f) => ({ ...f, priority: v }))}
@@ -169,7 +165,7 @@ export function CollectionCreateWizardSteps({
     return (
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label className="text-text-muted text-[10px] font-black uppercase">Первый дроп</Label>
+          <Label className="text-xs font-black uppercase text-slate-400">Первый дроп</Label>
           <div className="grid grid-cols-2 gap-2">
             <Input
               placeholder="Название"
@@ -184,10 +180,10 @@ export function CollectionCreateWizardSteps({
               className="h-11 rounded-xl"
             />
           </div>
-          {errors.dropName && <p className="text-[10px] text-rose-500">{errors.dropName}</p>}
+          {errors.dropName && <p className="text-xs text-rose-500">{errors.dropName}</p>}
         </div>
         <div className="space-y-2">
-          <Label className="text-text-muted text-[10px] font-black uppercase">
+          <Label className="text-xs font-black uppercase text-slate-400">
             Дополнительные дропы
           </Label>
           {drops.map((d, i) => (
@@ -222,7 +218,7 @@ export function CollectionCreateWizardSteps({
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="h-10 w-10 text-rose-500"
+                className="size-10 text-rose-500"
                 onClick={() =>
                   setForm((f) => ({
                     ...f,
@@ -230,7 +226,7 @@ export function CollectionCreateWizardSteps({
                   }))
                 }
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="size-4" />
               </Button>
             </div>
           ))}
@@ -246,7 +242,7 @@ export function CollectionCreateWizardSteps({
               }))
             }
           >
-            <Plus className="h-4 w-4" /> Добавить дроп
+            <Plus className="size-4" /> Добавить дроп
           </Button>
         </div>
       </div>
@@ -257,7 +253,7 @@ export function CollectionCreateWizardSteps({
     return (
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label className="text-text-muted text-[10px] font-black uppercase">
+          <Label className="text-xs font-black uppercase text-slate-400">
             Бюджет (материалы / пошив / логистика)
           </Label>
           <div className="grid grid-cols-3 gap-2">
@@ -292,15 +288,15 @@ export function CollectionCreateWizardSteps({
               className="h-11 rounded-xl"
             />
           </div>
-          {errors.budget && <p className="text-[10px] text-rose-500">{errors.budget}</p>}
+          {errors.budget && <p className="text-xs text-rose-500">{errors.budget}</p>}
         </div>
         <div className="space-y-2">
-          <Label className="text-text-muted text-[10px] font-black uppercase">
-            План мерчендайзинга (целевые единицы)
+          <Label className="text-xs font-black uppercase text-slate-400">
+            Merchandise plan (целевые единицы)
           </Label>
           {form.merchPlan?.map((m, i) => (
             <div key={m.id} className="flex items-center gap-2">
-              <span className="w-28 text-[10px] font-bold">{m.label}</span>
+              <span className="w-28 text-xs font-bold">{m.label}</span>
               <Input
                 type="number"
                 min={0}
@@ -325,7 +321,7 @@ export function CollectionCreateWizardSteps({
   if (step === 4) {
     return (
       <div className="space-y-4">
-        <p className="text-text-secondary text-[10px]">
+        <p className="text-xs text-slate-500">
           Цветовая палитра: {form.palette?.length || 0} цветов
         </p>
         {form.palette?.length ? (
@@ -333,19 +329,19 @@ export function CollectionCreateWizardSteps({
             {form.palette.map((c, i) => (
               <div
                 key={i}
-                className="border-border-default flex items-center gap-1 rounded-lg border px-2 py-1"
+                className="flex items-center gap-1 rounded-lg border border-slate-200 px-2 py-1"
                 style={{ backgroundColor: c.hex ? `${c.hex}20` : undefined }}
               >
                 <div
-                  className="border-border-default h-4 w-4 rounded-full border"
+                  className="size-4 rounded-full border border-slate-300"
                   style={{ backgroundColor: c.hex || '#ccc' }}
                 />
-                <span className="text-[10px] font-bold">{c.name || '—'}</span>
+                <span className="text-xs font-bold">{c.name || '—'}</span>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-text-muted text-[10px] italic">
+          <p className="text-xs italic text-slate-400">
             Палитра подгружается из шаблона. Нажмите &quot;Запустить&quot; для создания коллекции.
           </p>
         )}

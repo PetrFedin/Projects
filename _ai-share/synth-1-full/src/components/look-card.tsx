@@ -98,7 +98,7 @@ export default function LookCard({ look, showAuthor = true, className }: LookCar
     async function fetchProducts() {
       try {
         const response = await fetch('/data/products.json');
-        const productsData: Product[] = await response.json();
+        const productsData = (await response.json()) as Product[];
         setAllProducts(productsData);
       } catch (error) {
         console.error('Failed to fetch products for look card:', error);

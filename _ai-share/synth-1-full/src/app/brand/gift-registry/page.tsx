@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,7 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getGiftRegistryLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { Gift, ArrowLeft, Users } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const MOCK_REGISTRIES = [
   {
@@ -33,7 +34,7 @@ const MOCK_REGISTRIES = [
 
 export default function GiftRegistryManagerPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Gift Registry Manager"
         leadPlain="Списки подарков: создание и редактирование реестров (свадьба, день рождения), товары из каталога, отображение гостям. Связь с заказами и CRM."
@@ -111,6 +112,6 @@ export default function GiftRegistryManagerPage() {
         links={getGiftRegistryLinks()}
         title="Клиентский список подарков, заказы, CRM"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,16 +1,16 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { getOptimizedAttributeCards } from '@/lib/optimized-attributes-display';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function AttributesInfoPage() {
   const cards = useMemo(() => getOptimizedAttributeCards(), []);
 
   return (
-    <RegistryPageShell className="pb-16">
+    <CabinetPageContent maxWidth="5xl" className="pb-16 px-4 py-6 pb-24 sm:px-6">
       <header className="mb-8">
         <h1 className="font-headline text-sm font-bold md:text-base">Справочник атрибутов</h1>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
@@ -56,6 +56,6 @@ export default function AttributesInfoPage() {
           </Card>
         ))}
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

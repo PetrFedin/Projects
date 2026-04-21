@@ -1,7 +1,7 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { ROUTES } from '@/lib/routes';
 import { StatCard } from '@/components/stat-card';
@@ -73,7 +73,7 @@ const chartConfig = {
 
 export default function ShopAnalyticsPage() {
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       <ShopAnalyticsSegmentErpStrip />
       <header>
         <h1 className="font-headline text-base font-bold">Аналитика розничных продаж</h1>
@@ -283,6 +283,6 @@ export default function ShopAnalyticsPage() {
           </Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

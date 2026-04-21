@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +12,6 @@ import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** NuOrder-style: планирование ассортимента байером по категориям/бюджету до заказа. */
 const mockCategories = [
@@ -31,7 +31,7 @@ export default function B2BAssortmentPlanningPage() {
     : [];
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bOrderMode}
         lead="Распределите бюджет по категориям перед заказом в матрице (NuOrder-style)."
@@ -89,6 +89,6 @@ export default function B2BAssortmentPlanningPage() {
         title="Матрица, заказы, аналитика, выставки"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

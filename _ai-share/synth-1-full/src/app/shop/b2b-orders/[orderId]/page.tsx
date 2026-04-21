@@ -1,4 +1,6 @@
 'use client';
+
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -52,7 +54,6 @@ import { useToast } from '@/hooks/use-toast';
 import { initialOrderItems, mockChat, orderStatusSteps } from '@/lib/order-data';
 import { ROUTES } from '@/lib/routes';
 import { AttachProductDialog, OrderChat, SizeBreakdownDialog } from '@/components/shop/b2b';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function ShopB2BOrderDetailsPage({
   params: paramsPromise,
@@ -100,7 +101,7 @@ export default function ShopB2BOrderDetailsPage({
   const currentStatusIndex = orderStatusSteps.findIndex((s) => s.date === null);
 
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       <div className="mb-8 flex items-center gap-3">
         <Button variant="outline" size="icon" asChild>
           <Link href={ROUTES.shop.b2bOrders}>
@@ -302,6 +303,6 @@ export default function ShopB2BOrderDetailsPage({
           onSave={handleSaveSizes}
         />
       )}
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

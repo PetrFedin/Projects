@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -38,7 +39,9 @@ import { ShipWindowBadge } from '@/components/b2b/ShipWindowBadge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+import { B2bPriorityWorkflowPanel } from '@/components/b2b/B2bPriorityWorkflowPanel';
+import { getSynthaThreeCoresFullMatrixGroups } from '@/lib/syntha-priority-cores';
 
 const PoContent = dynamic(() => import('@/app/brand/b2b/po/page'), { ssr: false });
 const ShipmentsContent = dynamic(() => import('@/app/brand/b2b/shipments/page'), { ssr: false });
@@ -85,10 +88,10 @@ export default function BrandB2BOrdersListPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
       <RegistryPageHeader
-        title="B2B Заказы"
-        leadPlain="Заказы от ритейлеров: окна доставки, MOQ, заметки и согласования."
+        title="Заказы"
+        leadPlain="Оптовые заказы от ритейлеров (B2B): окна доставки, MOQ, заметки и согласования."
         actions={
           <>
             {needingActionCount > 0 && (
@@ -114,6 +117,12 @@ export default function BrandB2BOrdersListPage() {
             </Button>
           </>
         }
+      />
+      <B2bPriorityWorkflowPanel
+        title="Связка направлений: ТЗ → B2B → команды"
+        lead="Вертикаль (цех и заказ), горизонталь (роли), надстройка (чат и календарь без дублирования фундамента данных)."
+        groups={getSynthaThreeCoresFullMatrixGroups()}
+        className="mt-4"
       />
       <Tabs value={tab} onValueChange={setTab}>
         {/* cabinetSurface v1 */}
@@ -152,7 +161,7 @@ export default function BrandB2BOrdersListPage() {
             LIVE: Согласование
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="orders" className="mt-4">
+        <TabsContent value="orders" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           <div className="w-full space-y-6 pb-8">
             <div className="flex flex-wrap items-center justify-end gap-2">
               <label
@@ -245,25 +254,25 @@ export default function BrandB2BOrdersListPage() {
             />
           </div>
         </TabsContent>
-        <TabsContent value="po" className="mt-4">
+        <TabsContent value="po" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'po' && <PoContent />}
         </TabsContent>
-        <TabsContent value="shipments" className="mt-4">
+        <TabsContent value="shipments" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'shipments' && <ShipmentsContent />}
         </TabsContent>
-        <TabsContent value="approval" className="mt-4">
+        <TabsContent value="approval" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'approval' && <ApprovalContent />}
         </TabsContent>
-        <TabsContent value="amendments" className="mt-4">
+        <TabsContent value="amendments" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'amendments' && <OrderAmendmentsContent />}
         </TabsContent>
-        <TabsContent value="orders-live" className="mt-4">
+        <TabsContent value="orders-live" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'orders-live' && <B2BOrdersLiveContent />}
         </TabsContent>
-        <TabsContent value="approval-live" className="mt-4">
+        <TabsContent value="approval-live" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'approval-live' && <ApprovalLiveContent />}
         </TabsContent>
       </Tabs>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

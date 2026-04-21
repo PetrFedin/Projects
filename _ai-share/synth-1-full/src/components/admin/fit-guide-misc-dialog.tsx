@@ -43,8 +43,9 @@ export function FitGuideMiscDialog({
       setIsLoading(true);
       fetch('/data/misc-accessory-data.json')
         .then((res) => res.json())
-        .then((data) => {
-          setDetails(data[selectedCategory as keyof typeof data] || null);
+        .then((data: unknown) => {
+          const d = data as Record<string, unknown>;
+          setDetails(d[selectedCategory as string] ?? null);
           setIsLoading(false);
         })
         .catch((err) => {

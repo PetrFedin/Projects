@@ -16,12 +16,13 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 import { getStoreWeatherImpact } from '@/lib/fashion/weather-impact';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function WeatherTrafficPage() {
   const data = getStoreWeatherImpact();
 
   return (
-    <div className="mx-auto max-w-5xl p-8">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 p-8 pb-24">
       <div className="mb-8">
         <div className="mb-2 flex items-center gap-3">
           <div className="rounded-lg bg-sky-100 p-2 shadow-sm">
@@ -138,6 +139,6 @@ export default function WeatherTrafficPage() {
           View Full Forecast
         </Button>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

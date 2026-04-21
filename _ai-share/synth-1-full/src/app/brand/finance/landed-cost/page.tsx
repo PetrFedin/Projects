@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -25,7 +26,7 @@ import { LandedCostBreakdown } from '@/lib/types/finance';
 import { calculateLandedCost, generateCostOptimizationInsights } from '@/lib/logic/finance-utils';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 /**
  * Landed Cost Engine UI
@@ -58,7 +59,7 @@ export default function LandedCostPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-10 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-10 pb-16">
       <RegistryPageHeader
         title="Landed Cost Engine"
         leadPlain="Расчёт полной себестоимости: ткань, CMT, логистика, пошлины. Связи с Finance, Production, Warehouse и Duty Calculator."
@@ -371,6 +372,6 @@ export default function LandedCostPage() {
           </Card>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

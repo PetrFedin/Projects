@@ -50,15 +50,28 @@ export function CollectionProgressPanel({
           <span className="text-text-secondary text-[10px] font-bold uppercase">Готовность</span>
           <span className="text-accent-primary text-lg font-black">{readiness}%</span>
         </div>
-        <Progress value={readiness} className="h-2" />
+        <Progress
+          value={readiness}
+          className="h-2"
+          aria-label={`Готовность коллекции по этапам: ${readiness}%`}
+        />
         <div className="flex flex-wrap gap-2">
           {STAGES.map((s, i) => {
             const status =
               stageStatus[s.key] ?? (i < 2 ? 'completed' : i === 2 ? 'active' : 'locked');
+            const locked = status === 'locked';
+            const statusPhrase =
+              status === 'completed' ? 'завершено' : status === 'active' ? 'в работе' : 'заблокировано';
+            const navDisabled = locked || !onNavigate;
             return (
               <button
                 key={s.id}
-                onClick={() => onNavigate?.(s.key)}
+                type="button"
+                disabled={navDisabled}
+                onClick={() => {
+                  if (!navDisabled) onNavigate?.(s.key);
+                }}
+                aria-label={`Этап «${s.label}»: ${statusPhrase}`}
                 className={cn(
                   'flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[9px] font-bold uppercase transition-all',
                   status === 'completed' && 'bg-emerald-50 text-emerald-700',
@@ -68,11 +81,11 @@ export function CollectionProgressPanel({
                 )}
               >
                 {status === 'completed' ? (
-                  <CheckCircle2 className="h-3.5 w-3.5" />
+                  <CheckCircle2 className="h-3.5 w-3.5" aria-hidden />
                 ) : status === 'locked' ? (
-                  <Lock className="h-3.5 w-3.5" />
+                  <Lock className="h-3.5 w-3.5" aria-hidden />
                 ) : (
-                  <Circle className="h-3.5 w-3.5" />
+                  <Circle className="h-3.5 w-3.5" aria-hidden />
                 )}
                 {s.label}
               </button>

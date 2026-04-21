@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { VariantMatrixEditor } from '@/components/brand/VariantMatrixEditor';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
@@ -7,11 +8,12 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Layers } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
+import { B2bOrderUrlContextBanner } from '@/components/b2b/B2bOrderUrlContextBanner';
 
 export default function VariantMatrixPage() {
   return (
-    <RegistryPageShell className="max-w-5xl space-y-4 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 pb-16">
+      <B2bOrderUrlContextBanner variant="brand" className="rounded-xl" />
       <SectionInfoCard
         title="Variant Matrix"
         description="Размерные сетки, цвета и вариации SKU. Связи: Products (PIM), Production (Assortment), Inventory, Linesheets."
@@ -55,6 +57,6 @@ export default function VariantMatrixPage() {
       <div className="bg-transparent">
         <VariantMatrixEditor />
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

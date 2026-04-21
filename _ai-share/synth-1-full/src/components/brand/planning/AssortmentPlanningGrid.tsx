@@ -183,7 +183,7 @@ export function AssortmentPlanningGrid() {
 
       if (!response.ok) throw new Error('Failed to generate recommendation');
 
-      const data = await response.json();
+      const data = (await response.json()) as { recommendation?: unknown };
       setAiRecommendation(data.recommendation);
 
       toast({

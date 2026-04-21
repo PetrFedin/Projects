@@ -43,6 +43,42 @@ export function useSettingsForm(user: UserProfile) {
     }
   };
 
+  /** Скачать JSON: профиль (без секретов) + текущие настройки из localStorage. */
+  const exportSettingsJson = () => {
+    if (typeof window === 'undefined') return;
+    const payload = {
+      version: 1 as const,
+      exportedAt: new Date().toISOString(),
+      profile: {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+      },
+      settings: readUserSettings(),
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `syntha-settings-${user.uid.slice(0, 8)}.json`;
+    a.rel = 'noopener';
+    a.click();
+    URL.revokeObjectURL(url);
+    toast({ title: 'Файл сохранён', description: 'Экспорт настроек и профиля в JSON.' });
+  };
+
+  /** Сбросить только сохранённые настройки UI (ключ user-settings), без токенов авторизации. */
+  const resetLocalSettingsToDefaults = () => {
+    if (typeof window === 'undefined') return;
+    writeUserSettings(DEFAULT_USER_SETTINGS);
+    applyUiPreferences(DEFAULT_USER_SETTINGS);
+    setDraft(readUserSettings());
+    toast({
+      title: 'Локальные настройки сброшены',
+      description: 'Интерфейс возвращён к значениям по умолчанию на этом устройстве.',
+    });
+  };
+
   const updateDraft = (updater: (s: UserSettings) => UserSettings) => {
     setDraft(updater);
   };
@@ -67,5 +103,7 @@ export function useSettingsForm(user: UserProfile) {
     setResetEmail,
     isPreviewOpen,
     setIsPreviewOpen,
+    exportSettingsJson,
+    resetLocalSettingsToDefaults,
   };
 }

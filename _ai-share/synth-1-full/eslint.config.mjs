@@ -51,9 +51,9 @@ export default [
         {
           patterns: [
             {
-              group: ['src/**', 'synth-1/**'],
+              group: ['src/**'],
               message:
-                'Legacy Leakage: Imports from root src/ or synth-1/ are restricted in synth-1-full. Please move required logic to synth-1-full/src or use an adapter.',
+                'Legacy Leakage: Imports from monorepo root src/ are restricted in synth-1-full. Keep logic under synth-1-full/src or use an adapter.',
             },
           ],
         },
@@ -89,9 +89,9 @@ export default [
         {
           patterns: [
             {
-              group: ['src/**', 'synth-1/**'],
+              group: ['src/**'],
               message:
-                'Legacy Leakage: Imports from root src/ or synth-1/ are restricted in synth-1-full. Please move required logic to synth-1-full/src or use an adapter.',
+                'Legacy Leakage: Imports from monorepo root src/ are restricted in synth-1-full. Keep logic under synth-1-full/src or use an adapter.',
             },
             {
               group: ['@/app/**'],

@@ -134,8 +134,7 @@ import {
 } from '@/components/brand/MediaAssetsViewer';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { OnlineStorePickerDialog } from '@/components/brand/OnlineStorePickerDialog';
-import { RegistryPageHeader } from '@/components/design-system/registry-page-header';
-import { RegistryPageShell } from '@/components/design-system/registry-page-shell';
+import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 import { formatHoursCompact } from '../brand-profile-page-utils';
 
 export default function BrandProfilePage() {
@@ -805,7 +804,7 @@ export default function BrandProfilePage() {
   };
 
   return (
-    <RegistryPageShell className="!mx-0 w-full !max-w-none max-w-none space-y-6 !px-0 !py-2 !pb-0 sm:!px-0">
+    <RegistryPageShell variant="cabinet" className="space-y-4 sm:space-y-5">
       <RegistryPageHeader
         title="Профиль бренда"
         leadPlain={
@@ -813,7 +812,7 @@ export default function BrandProfilePage() {
             ? 'Коммерческие условия, B2B и публичная витрина.'
             : 'Карточка бренда, юридические данные, сертификаты и пресс-материалы.'
         }
-        className="pb-6"
+        className="pb-4"
         actions={
           <div className="flex shrink-0 flex-wrap items-center gap-2">
             <Button variant="outline" size="sm" className="h-9" asChild>
@@ -955,7 +954,7 @@ export default function BrandProfilePage() {
 
       {/* cabinetSurface v1: группа разделов + вкладки — единый стиль кабинета */}
       <div
-        className={cabinetSurface.groupTabList}
+        className={cn(cabinetSurface.groupTabList, 'mb-0.5 w-full flex-wrap gap-0.5')}
         role="tablist"
         aria-label="Группа разделов профиля"
       >
@@ -995,7 +994,7 @@ export default function BrandProfilePage() {
 
       <Card className={cn(registryFeedLayout.panelCardSoft, 'p-4 md:p-6')}>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="space-y-5">
-          <TabsList className={cn(cabinetSurface.tabsList, 'min-h-10 gap-1')}>
+          <TabsList className={cn(cabinetSurface.tabsList, 'min-h-9 w-full flex-wrap gap-0.5 shadow-inner')}>
             <AnimatePresence mode="wait">
               {activeGroup === 'profile' && (
                 <motion.div
@@ -1015,7 +1014,7 @@ export default function BrandProfilePage() {
                     <Award className="h-3.5 w-3.5 shrink-0" /> Сертификаты
                   </TabsTrigger>
                   <TabsTrigger value="presskit" className={cabinetSurface.tabsTrigger}>
-                    <Newspaper className="h-3.5 w-3.5 shrink-0" /> Press Kit
+                    <Newspaper className="h-3.5 w-3.5 shrink-0" /> Пресс-кит
                   </TabsTrigger>
                 </motion.div>
               )}
@@ -1037,7 +1036,7 @@ export default function BrandProfilePage() {
           </TabsList>
 
           {/* Brand Tab — информация о бренде + контакты */}
-          <TabsContent value="brand" className="space-y-6 outline-none">
+          <TabsContent value="brand" className={cabinetSurface.cabinetProfileTabPanel}>
             {/* Информация о бренде */}
             <div className="space-y-2">
               <div className={cabinetSurface.sectionHeader}>
@@ -1148,7 +1147,7 @@ export default function BrandProfilePage() {
                   <div className="border-border-subtle space-y-3 border-t pt-5">
                     <div className="space-y-1">
                       <h3 className="text-text-primary text-sm font-semibold">Шоурум</h3>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-text-secondary">
                         Адрес, контакты, график работы
                       </p>
                     </div>
@@ -1403,7 +1402,7 @@ export default function BrandProfilePage() {
                   <div className="mb-2 flex flex-col justify-between gap-2 sm:flex-row sm:items-start">
                     <div className="space-y-1">
                       <h3 className="text-text-primary text-sm font-semibold">Адреса магазинов</h3>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-text-secondary">
                         Филиалы и точки продаж. График и ссылки — после синхронизации с магазином.
                       </p>
                     </div>
@@ -1624,7 +1623,7 @@ export default function BrandProfilePage() {
                   <div className="mb-2 flex flex-col justify-between gap-2 sm:flex-row sm:items-start">
                     <div className="space-y-1">
                       <h3 className="text-text-primary text-sm font-semibold">Интернет-магазины</h3>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-text-secondary">
                         Площадки и ссылки на витрину бренда; парсинг цен и суммарный сток после
                         подтверждения.
                       </p>
@@ -1844,7 +1843,7 @@ export default function BrandProfilePage() {
               <div className="border-border-subtle flex flex-col gap-3 border-b pb-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="space-y-1">
                   <h2 className="text-text-primary text-base font-semibold">Контакты и доступ</h2>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-text-secondary">
                     Почта, телефон, Telegram, WhatsApp — с подписью назначения канала.
                   </p>
                 </div>
@@ -2336,7 +2335,7 @@ export default function BrandProfilePage() {
           </TabsContent>
 
           {/* Commerce Tab */}
-          <TabsContent value="commerce" className="space-y-4 outline-none">
+          <TabsContent value="commerce" className={cabinetSurface.cabinetProfileTabPanel}>
             <div className="space-y-2">
               <div className="flex items-center gap-1.5 px-1">
                 <div className="bg-accent-primary h-1 w-5 rounded-full" />
@@ -2465,10 +2464,10 @@ export default function BrandProfilePage() {
           </TabsContent>
 
           {/* Legal Tab */}
-          <TabsContent value="legal" className="space-y-6 outline-none">
+          <TabsContent value="legal" className={cabinetSurface.cabinetProfileTabPanel}>
             <div className="border-border-subtle space-y-1 border-b pb-4">
               <h2 className="text-text-primary text-base font-semibold">Юридические данные</h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-text-secondary">
                 Реквизиты и регистрационные сведения для договоров и счетов в РФ.
               </p>
             </div>
@@ -2759,12 +2758,12 @@ export default function BrandProfilePage() {
           </TabsContent>
 
           {/* Certificates Tab */}
-          <TabsContent value="certificates" className="space-y-6 outline-none">
+          <TabsContent value="certificates" className={cabinetSurface.cabinetProfileTabPanel}>
             <div className="border-border-subtle space-y-1 border-b pb-4">
               <h2 className="text-text-primary text-base font-semibold">
                 Сертификаты и соответствие
               </h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-text-secondary">
                 Сертификаты качества, сроки, ТР ТС и связка с ESG и маркировкой.
               </p>
             </div>
@@ -2874,7 +2873,7 @@ export default function BrandProfilePage() {
                                 : 'Истёк'}
                           </Badge>
                         </div>
-                        <p className="mb-2 text-sm text-muted-foreground">{cert.type}</p>
+                        <p className="mb-2 text-sm text-text-secondary">{cert.type}</p>
                         {(cert as { certNumber?: string }).certNumber && (
                           <p className="text-text-secondary mb-2 font-mono text-xs">
                             № {(cert as { certNumber?: string }).certNumber}
@@ -2941,7 +2940,7 @@ export default function BrandProfilePage() {
                           )}
                         </div>
                         {(cert as { notes?: string }).notes && (
-                          <p className="mb-3 text-sm italic text-muted-foreground">
+                          <p className="mb-3 text-sm italic text-text-secondary">
                             {(cert as { notes?: string }).notes}
                           </p>
                         )}
@@ -2999,7 +2998,7 @@ export default function BrandProfilePage() {
                 </Button>
               </div>
               <Card className="border-border-default bg-bg-surface2/60 rounded-xl border p-4 md:p-5">
-                <p className="mb-3 text-sm text-muted-foreground">
+                <p className="mb-3 text-sm text-text-secondary">
                   Декларации о соответствии техническим регламентам (ТР ТС 017/2011, ТР ТС 019/2011
                   и др.) ведутся в разделе Compliance, с привязкой к Честному ЗНАК и КИЗ.
                 </p>
@@ -3063,7 +3062,7 @@ export default function BrandProfilePage() {
                           </Badge>
                         )}
                       </div>
-                      <h4 className="mb-1 text-xs font-medium text-muted-foreground">
+                      <h4 className="mb-1 text-xs font-medium text-text-secondary">
                         {goal.label}
                       </h4>
                       <p className="text-text-primary text-lg font-semibold tracking-tight">
@@ -3077,10 +3076,10 @@ export default function BrandProfilePage() {
           </TabsContent>
 
           {/* Press Kit Tab */}
-          <TabsContent value="presskit" className="space-y-6 outline-none">
+          <TabsContent value="presskit" className={cabinetSurface.cabinetProfileTabPanel}>
             <div className="border-border-subtle space-y-1 border-b pb-4">
               <h2 className="text-text-primary text-base font-semibold">Press Kit и медиа</h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-text-secondary">
                 Материалы для витрины, каталога и партнёров; рассылки и выгрузки.
               </p>
             </div>
@@ -3121,7 +3120,7 @@ export default function BrandProfilePage() {
               <div className="border-border-subtle flex flex-col gap-4 border-b pb-4 lg:flex-row lg:items-start lg:justify-between">
                 <div className="space-y-1">
                   <h3 className="text-text-primary text-sm font-semibold">Медиа-материалы</h3>
-                  <p className="max-w-xl text-sm text-muted-foreground">
+                  <p className="max-w-xl text-sm text-text-secondary">
                     Назначение: публичная витрина, каталог, работа с партнёрами. Рассылки приходят в
                     профили партнёров.
                   </p>
@@ -3281,12 +3280,12 @@ export default function BrandProfilePage() {
                           <h4 className="text-text-primary truncate text-base font-semibold tracking-tight">
                             {asset.title}
                           </h4>
-                          <span className="shrink-0 text-xs font-medium text-muted-foreground">
+                          <span className="shrink-0 text-xs font-medium text-text-secondary">
                             {activeCount} активн.
                             {archivedCount > 0 ? ` · ${archivedCount} в архиве` : ''}
                           </span>
                         </div>
-                        <p className="mb-2 truncate text-sm text-muted-foreground">{asset.desc}</p>
+                        <p className="mb-2 truncate text-sm text-text-secondary">{asset.desc}</p>
                         <div className="mb-2 flex flex-wrap gap-1.5">
                           {asset.usage?.includes('public') && (
                             <Badge
@@ -3384,7 +3383,7 @@ export default function BrandProfilePage() {
                       { label: 'Категория', value: 'Luxury Tech' },
                     ].map((stat, i) => (
                       <div key={i} className="space-y-0.5">
-                        <p className="text-xs font-medium text-muted-foreground">{stat.label}</p>
+                        <p className="text-xs font-medium text-text-secondary">{stat.label}</p>
                         <p className="text-text-primary text-sm font-semibold tracking-tight">
                           {stat.value}
                         </p>

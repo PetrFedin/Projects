@@ -272,7 +272,7 @@ export const WORKSPACE_ITEMS: WorkspaceItem[] = [
     teaser: {
       subtitle: 'Brand Training Portal',
       image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=2000',
-      features: ['Обучение по коллекциям', 'База знаний бренда', 'Материалы для продавцов'],
+      features: ['База знаний бренда', 'Материалы для продавцов'],
     },
   },
   {

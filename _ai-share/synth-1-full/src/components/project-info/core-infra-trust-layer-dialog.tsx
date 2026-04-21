@@ -51,7 +51,7 @@ const techStackData = [
   { level: 'Аутентификация (OAuth2, Telegram, SSO)', self: '✅', api: '—' },
   { level: 'Webhooks, CSV/JSON импорт/экспорт', self: '✅', api: '—' },
   { level: 'Мониторинг, бэкапы, CDN', self: '✅', api: '—' },
-  { level: 'Платежи (Stripe/ЮKassa), e-sign (DocuSign)', self: '➕', api: '✅' },
+  { level: 'Платежи (ЮKassa, СБП, банк; Stripe при экспорте), ЭП (Контур, СБИС, Госключ)', self: '➕', api: '✅' },
   { level: 'Георазвёртывание, DR<4ч, ISO/SOC2', self: '➖', api: '✅' },
   { level: 'Полные ERP/CRM-интеграции', self: '➖', api: '✅' },
 ];
@@ -242,8 +242,8 @@ export function CoreInfraTrustLayerDialog({
                     </li>
                     <li>
                       <strong>Интеграции:</strong> ERP/CRM (через коннекторы и CSV-адаптеры);
-                      Shopify, Notion, Airtable; Stripe / ЮKassa / CryptoBot для платежей; DocuSign
-                      — для контрактов.
+                      Shopify, Notion, Airtable; ЮKassa / СБП / банк + Stripe при экспорте; CryptoBot;
+                      Контур / СБИС / Госключ — электронная подпись и ЭДО (63-ФЗ).
                     </li>
                     <li>
                       <strong>SDK:</strong> лёгкий клиент (Python/JS) для партнёров и кастомных

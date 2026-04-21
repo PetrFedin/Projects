@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { use, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -12,7 +13,8 @@ import allProducts from '@/lib/products';
 import { tid } from '@/lib/ui/test-ids';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 
 /** Le New Black: Le Privé / VIP-шоурум — приватный showroom с отдельным URL */
@@ -90,7 +92,7 @@ export default function VipShowroomPage({ params }: { params: Promise<{ slug: st
 
   return (
     <div className="bg-text-primary min-h-screen text-white" data-testid={tid.page('vip-showroom')}>
-      <RegistryPageShell className="max-w-5xl space-y-6 py-8">
+      <CabinetPageContent maxWidth="5xl" className="space-y-6 py-8">
         <RegistryPageHeader
           className="border-text-primary/25 [&_p]:!text-text-muted pb-4 text-white [&_h1]:!text-white"
           eyebrow={
@@ -169,7 +171,7 @@ export default function VipShowroomPage({ params }: { params: Promise<{ slug: st
             <Link href={ROUTES.shop.b2bPartners}>Перейти в B2B</Link>
           </Button>
         </div>
-      </RegistryPageShell>
+      </CabinetPageContent>
     </div>
   );
 }

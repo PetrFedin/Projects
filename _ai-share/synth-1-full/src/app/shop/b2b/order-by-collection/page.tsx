@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,6 @@ import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { getVisibleLookbooksForPartner } from '@/lib/b2b/lookbook-projects-store';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_PARTNER_ID = 'retail_msk_1';
 
@@ -17,7 +17,7 @@ export default function B2BOrderByCollectionPage() {
   const projects = getVisibleLookbooksForPartner(MOCK_PARTNER_ID);
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="JOOR / Colect: выберите коллекцию или лукбук — затем оформите заказ из каталога коллекции." />
 
       <Card className="mb-6">
@@ -85,6 +85,6 @@ export default function B2BOrderByCollectionPage() {
           )
         )}
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

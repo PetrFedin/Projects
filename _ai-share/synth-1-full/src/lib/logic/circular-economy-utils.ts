@@ -20,7 +20,7 @@ export const MOCK_MATERIAL_LISTINGS: MaterialListing[] = [
     images: [
       'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=400&auto=format&fit=crop',
     ],
-    location: 'Milan, Italy',
+    location: 'Москва, РФ',
     createdAt: '2024-03-01T10:00:00Z',
     isEcoCertified: true,
   },
@@ -49,7 +49,7 @@ export const MOCK_MATERIAL_LISTINGS: MaterialListing[] = [
   {
     id: 'list-003',
     supplierId: 'org-brand-002',
-    supplierName: 'Nordic Wool Archive',
+    supplierName: 'A.P.C. Archive',
     materialName: 'Selvedge Denim Leftovers',
     type: 'fabric',
     quantity: 15,
@@ -65,7 +65,7 @@ export const MOCK_MATERIAL_LISTINGS: MaterialListing[] = [
     images: [
       'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?q=80&w=400&auto=format&fit=crop',
     ],
-    location: 'Paris, France',
+    location: 'Санкт-Петербург, РФ',
     createdAt: '2024-03-04T09:00:00Z',
     isEcoCertified: false,
   },
@@ -98,7 +98,7 @@ export const getConditionColor = (condition: string) => {
   const colors: { [key: string]: string } = {
     pristine: 'bg-emerald-100 text-emerald-600',
     slight_damage: 'bg-amber-100 text-amber-600',
-    cut_leftovers: 'bg-accent-primary/15 text-accent-primary',
+    cut_leftovers: 'bg-indigo-100 text-indigo-600',
   };
-  return colors[condition] || 'bg-bg-surface2 text-text-secondary';
+  return colors[condition] || 'bg-slate-100 text-slate-600';
 };

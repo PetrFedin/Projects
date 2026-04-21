@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ProductFilters from '@/components/product-filters';
@@ -20,7 +21,6 @@ import ProductCard from '@/components/product-card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function OutletPage() {
   const [allOutletProducts, setAllOutletProducts] = useState<Product[]>([]);
@@ -30,7 +30,7 @@ export default function OutletPage() {
     async function fetchProducts() {
       try {
         const res = await fetch('/data/products.json');
-        const allProducts: Product[] = await res.json();
+        const allProducts = (await res.json()) as Product[];
         setAllOutletProducts(allProducts.filter((p) => p.outlet));
       } catch (error) {
         console.error('Failed to fetch outlet products:', error);
@@ -167,7 +167,7 @@ export default function OutletPage() {
   ];
 
   return (
-    <RegistryPageShell className="pb-16">
+    <CabinetPageContent maxWidth="5xl" className="pb-16 px-4 py-6 pb-24 sm:px-6">
       <header className="mb-8 text-center">
         <h1 className="font-headline text-sm font-bold md:text-sm">Аутлет</h1>
         <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground">
@@ -275,6 +275,6 @@ export default function OutletPage() {
           )}
         </main>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

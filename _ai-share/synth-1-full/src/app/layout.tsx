@@ -1,7 +1,9 @@
 import './globals.css';
+import 'yet-another-react-lightbox/styles.css';
 import type { Metadata } from 'next';
 import { Fira_Sans, Fira_Code, Playfair_Display } from 'next/font/google';
 import ClientLayout from '@/components/layout/client-layout';
+import { ChunkLoadRecovery } from '@/components/layout/chunk-load-recovery';
 import { RealtimeIntegrationsLayout } from '@/components/layout/RealtimeIntegrationsLayout';
 import { QueryProvider } from '@/providers/query-provider';
 import { UIStateProvider } from '@/providers/ui-state';
@@ -48,8 +50,13 @@ const playfair = Playfair_Display({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={`${firaSans.variable} ${firaCode.variable} ${playfair.variable}`}>
+    <html
+      lang="ru"
+      suppressHydrationWarning
+      className={`${firaSans.variable} ${firaCode.variable} ${playfair.variable}`}
+    >
       <body className={firaSans.className}>
+        <ChunkLoadRecovery />
         <style
           dangerouslySetInnerHTML={{
             __html: `

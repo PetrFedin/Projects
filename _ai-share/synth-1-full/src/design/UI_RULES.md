@@ -14,7 +14,7 @@
 
 `PageContainer` → `PageHeader` → optional `FilterToolbar` → `DashboardGrid` / `SectionContainer` → tables in `DataTableContainer` or `DataPanel`.
 
-**Brand Center:** контент страниц обёрнут в `PageContainer` в `app/brand/layout.tsx` (узкая колонка `max-w-6xl` для внутренних роутов, шире для `/brand` и organization). **Цех 2** (`/brand/production/workshop2/**`): `max-w-7xl` в том же layout. Локальные `container mx-auto max-w-*` на этих страницах убраны — эталон посадки: `PageHeader`, `FilterToolbar`, `SectionContainer`, `EmptyState` в `Workshop2TabContent` / `Workshop2ArticleWorkspace`.
+**Brand Center:** контент страниц обёрнут в `PageContainer` в `app/brand/layout.tsx` (узкая колонка `max-w-6xl` для внутренних роутов, шире для `/brand` и organization). **Разработка коллекции** (`/brand/production/workshop2/**`): `max-w-7xl` в том же layout. Локальные `container mx-auto max-w-*` на этих страницах убраны — эталон посадки: `PageHeader`, `FilterToolbar`, `SectionContainer`, `EmptyState` в `Workshop2TabContent` / `Workshop2ArticleWorkspace`.
 
 ## JOOR + Oracle enterprise
 

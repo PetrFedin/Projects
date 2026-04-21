@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import DynamicPricingEngine from '@/components/brand/pricing/DynamicPricingEngine';
@@ -7,7 +8,8 @@ import { CommercialTermsMatrix } from '@/components/brand/commercial-terms-matri
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { DollarSign, Handshake, BarChart3, TrendingDown, Percent } from 'lucide-react';
 
 const PriceComparisonContent = dynamic(
@@ -26,7 +28,7 @@ const MarkdownContent = dynamic(
 export default function BrandPricingPage() {
   const [tab, setTab] = useState('pricing');
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
       <RegistryPageHeader
         title="Ценообразование"
         leadPlain="Динамические цены B2C, коммерческие условия B2B, сравнение каналов и markdown."
@@ -51,7 +53,7 @@ export default function BrandPricingPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="pricing" className="mt-0">
+        <TabsContent value="pricing" className={cabinetSurface.cabinetProfileTabPanel}>
           <Tabs defaultValue="dynamic" className="space-y-4">
             <TabsList className={cn(cabinetSurface.tabsList, 'w-fit flex-wrap')}>
               <TabsTrigger
@@ -68,28 +70,28 @@ export default function BrandPricingPage() {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="dynamic" className="mt-0">
+            <TabsContent value="dynamic" className={cabinetSurface.cabinetProfileTabPanel}>
               <DynamicPricingEngine />
             </TabsContent>
 
-            <TabsContent value="wholesale" className="mt-0">
+            <TabsContent value="wholesale" className={cabinetSurface.cabinetProfileTabPanel}>
               <CommercialTermsMatrix />
             </TabsContent>
           </Tabs>
         </TabsContent>
 
-        <TabsContent value="price-comparison" className="mt-0">
+        <TabsContent value="price-comparison" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'price-comparison' && <PriceComparisonContent />}
         </TabsContent>
 
-        <TabsContent value="elasticity" className="mt-0">
+        <TabsContent value="elasticity" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'elasticity' && <ElasticityContent />}
         </TabsContent>
 
-        <TabsContent value="markdown" className="mt-0">
+        <TabsContent value="markdown" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'markdown' && <MarkdownContent />}
         </TabsContent>
       </Tabs>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -60,7 +60,7 @@ export async function joorMarkOrderExported(
       body: JSON.stringify({ exported: true }),
     });
     if (!res.ok) throw new Error(`JOOR mark exported: ${res.status}`);
-    return res.json();
+    return (await res.json()) as JoorOrderExportStatus;
   }
   return { orderId, exported: true, exportedAt: new Date().toISOString() };
 }
@@ -83,7 +83,7 @@ export async function joorSetOrderReExport(
       body: JSON.stringify({ exported: false, reExport: true }),
     });
     if (!res.ok) throw new Error(`JOOR re-export: ${res.status}`);
-    return res.json();
+    return (await res.json()) as JoorOrderExportStatus;
   }
   return { orderId, exported: false, exportedAt: undefined };
 }

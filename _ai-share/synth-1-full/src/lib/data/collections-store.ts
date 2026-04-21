@@ -21,7 +21,7 @@ function load(): CollectionCard[] {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw) as unknown;
-    return Array.isArray(parsed) ? parsed : [];
+    return Array.isArray(parsed) ? (parsed as CollectionCard[]) : [];
   } catch {
     return [];
   }

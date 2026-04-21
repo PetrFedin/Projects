@@ -24,7 +24,7 @@ export const ProductPrefsTab = ({ form }: ProductPrefsTabProps) => {
             <FormItem>
               <FormLabel>Любимые бренды</FormLabel>
               <FormControl>
-                <Input className={compactInput} placeholder="Syntha, COS, Arket" {...field} />
+                <Input className={compactInput} placeholder="Syntha, ЦУМ, Lamoda" {...field} />
               </FormControl>
               <div className="text-[11px] text-muted-foreground">Через запятую</div>
               <FormMessage />
@@ -89,7 +89,7 @@ export const ProductPrefsTab = ({ form }: ProductPrefsTabProps) => {
               <FormControl>
                 <Input
                   className={compactInput}
-                  placeholder="classic / street / minimal"
+                  placeholder="классика / street / минимализм"
                   {...field}
                 />
               </FormControl>
@@ -198,7 +198,7 @@ export const ProductPrefsTab = ({ form }: ProductPrefsTabProps) => {
               <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
                 <button
                   type="button"
-                  className="text-text-primary hover:bg-bg-surface2 rounded-full bg-white p-1.5"
+                  className="rounded-full bg-white p-1.5 text-zinc-900 hover:bg-zinc-100"
                   onClick={() => {
                     const current = [...(form.getValues('styleGallery') || [])];
                     current[idx].isPrivate = !current[idx].isPrivate;
@@ -214,7 +214,7 @@ export const ProductPrefsTab = ({ form }: ProductPrefsTabProps) => {
                 </button>
                 <button
                   type="button"
-                  className="hover:bg-bg-surface2 rounded-full bg-white p-1.5 text-red-600"
+                  className="rounded-full bg-white p-1.5 text-red-600 hover:bg-zinc-100"
                   onClick={() => {
                     const current = [...(form.getValues('styleGallery') || [])];
                     current.splice(idx, 1);

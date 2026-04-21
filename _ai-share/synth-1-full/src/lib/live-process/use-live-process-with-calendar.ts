@@ -4,12 +4,17 @@ import { useCallback } from 'react';
 import { useLiveProcessRuntime } from './use-live-process-runtime';
 import { syncDatesToCalendar } from './calendar-sync';
 import { getLiveProcessDefinition } from './process-definitions';
-import type { LiveProcessStageRuntime } from './types';
+import type { LiveProcessDefinition, LiveProcessStageRuntime } from './types';
 
 /** Хук runtime с синхронизацией дат в календарь */
-export function useLiveProcessRuntimeWithCalendar(processId: string, contextId: string) {
+export function useLiveProcessRuntimeWithCalendar(
+  processId: string,
+  contextId: string,
+  /** Схема с сервера (`/api/processes/:id`) — приоритетнее встроенной. */
+  definitionOverride?: LiveProcessDefinition | null
+) {
   const { runtimes, updateStageRuntime } = useLiveProcessRuntime(processId, contextId);
-  const definition = getLiveProcessDefinition(processId);
+  const definition = definitionOverride ?? getLiveProcessDefinition(processId);
   const ctx = contextId || 'default';
 
   const updateWithCalendarSync = useCallback(

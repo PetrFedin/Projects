@@ -1,9 +1,10 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { usePathname } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Scan, Target, Ruler } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 function BodyScannerMetricsGrid() {
   return (
@@ -61,12 +62,12 @@ export default function BodyScannerPage() {
   }
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
       <RegistryPageHeader
         title="AI Сканер тела"
         leadPlain="3D-сканирование и рекомендации размеров на основе измерений."
       />
       <BodyScannerMetricsGrid />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,14 +1,14 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
-import { UserCabinetBreadcrumb } from '../_components/user-cabinet-nav';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { PaymentsPageContent } from './payments-page-content';
 
 export default function PaymentsPage() {
   return (
-    <RegistryPageShell className="space-y-4 py-4">
-      <UserCabinetBreadcrumb current="Оплата" />
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 py-4 px-4 py-6 pb-24 sm:px-6">
+      <ClientCabinetSectionHeader />
       <PaymentsPageContent />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

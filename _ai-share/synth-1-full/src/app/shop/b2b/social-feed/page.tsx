@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -44,7 +44,7 @@ export default function SocialFeedPage() {
   const [subscribed, setSubscribed] = useState<Record<string, boolean>>({});
 
   return (
-    <RegistryPageShell className="max-w-2xl space-y-6">
+    <CabinetPageContent maxWidth="2xl" className="space-y-6">
       <ShopB2bContentHeader lead="Новости коллекций и активность ваших брендов: подписка, лайки и комментарии." />
 
       <Card className="mb-6">
@@ -94,6 +94,6 @@ export default function SocialFeedPage() {
         title="Партнёры, выставки, заказы"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

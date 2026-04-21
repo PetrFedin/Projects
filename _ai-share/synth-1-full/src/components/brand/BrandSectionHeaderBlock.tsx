@@ -17,14 +17,20 @@ export function BrandSectionHeaderBlock() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { actions: contextActions } = useBrandSectionActions();
-  const meta = getBrandSectionMeta(pathname || '/brand', searchParams?.toString());
+  const meta = getBrandSectionMeta(pathname || '/brand/profile', searchParams?.toString());
 
-  const isBrandHome = pathname === '/brand' || pathname === '/brand/';
+  const isBrandHome =
+    pathname === '/brand' ||
+    pathname === '/brand/' ||
+    pathname === '/brand/profile' ||
+    pathname === '/brand/profile/';
   const hasOwnLayout = pathname?.startsWith('/brand/academy');
 
   if (!meta || isBrandHome || hasOwnLayout) return null;
 
-  const breadcrumbItems: { label: string; href?: string }[] = [{ label: 'Бренд', href: '/brand' }];
+  const breadcrumbItems: { label: string; href?: string }[] = [
+    { label: 'Бренд', href: '/brand/profile' },
+  ];
   // Показываем группу, если она отличается от раздела (напр. Устойчивость → ESG Мониторинг)
   const showGroup = meta.groupLabel && meta.groupLabel !== meta.sectionLabel;
   if (showGroup) {

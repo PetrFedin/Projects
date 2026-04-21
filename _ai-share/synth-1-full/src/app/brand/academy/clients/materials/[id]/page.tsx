@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,7 +13,7 @@ import { getAcademyLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { getClientMaterialById } from '@/lib/academy/brand-academy-data';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const TYPE_LABELS: Record<string, string> = {
   care: 'Уход за изделиями',
@@ -29,7 +30,7 @@ export default function ClientMaterialDetailPage() {
 
   if (!material) {
     return (
-      <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
         <RegistryPageHeader
           title="Материал не найден"
           leadPlain="Записи с таким идентификатором нет в демо-данных."
@@ -48,12 +49,12 @@ export default function ClientMaterialDetailPage() {
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.academy}>Вернуться в академию</Link>
         </Button>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title={material.title}
         leadPlain={TYPE_LABELS[material.type] ?? material.type}
@@ -95,6 +96,6 @@ export default function ClientMaterialDetailPage() {
       </Button>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

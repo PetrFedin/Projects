@@ -1,5 +1,6 @@
 'use client';
-import { RegistryPageShell } from '@/components/design-system';
+
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -15,7 +16,7 @@ export default function CustomerGroupsPage() {
   const groups = getCustomerGroups();
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.retailers}>
           <Button variant="ghost" size="icon">
@@ -82,6 +83,6 @@ export default function CustomerGroupsPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getB2BLinks()} title="Прайсы, заказы, партнёры" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

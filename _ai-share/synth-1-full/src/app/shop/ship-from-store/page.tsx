@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,7 +10,6 @@ import { Truck, ArrowLeft, MapPin } from 'lucide-react';
 import { getShipFromStoreLinks } from '@/lib/data/entity-links';
 import { listShipFromStoreAssignments } from '@/lib/api';
 import type { ShipFromStoreAssignment } from '@/lib/shop/ship-from-store';
-import { RegistryPageShell } from '@/components/design-system';
 import { ROUTES } from '@/lib/routes';
 
 const statusLabels: Record<ShipFromStoreAssignment['status'], string> = {
@@ -29,7 +29,7 @@ export default function ShipFromStorePage() {
   }, []);
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <div className="flex items-center gap-3">
         <Link href={ROUTES.shop.orders}>
           <Button variant="ghost" size="icon">
@@ -99,6 +99,6 @@ export default function ShipFromStorePage() {
           </ul>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

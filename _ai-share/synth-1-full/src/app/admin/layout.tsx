@@ -19,7 +19,7 @@ import { HubSidebar } from '@/components/hub/HubSidebar';
 import { HubSidebarHeader } from '@/components/hub/HubSidebarHeader';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
-import { cabinetSidebarLayout } from '@/lib/ui/cabinet-surface';
+import { cabinetHubLayout, cabinetSidebarLayout } from '@/lib/ui/cabinet-surface';
 import { ROUTES } from '@/lib/routes';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -30,8 +30,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
-      <div className="bg-bg-surface flex min-h-screen items-center justify-center">
-        <Loader2 className="size-8 animate-spin text-amber-600" />
+      <div className={cabinetHubLayout.loadingShell}>
+        <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
       </div>
     );
   }
@@ -58,13 +58,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <ErrorBoundary>
-      <div className="bg-bg-surface flex min-h-screen w-full pb-12 font-sans">
-        <aside
-          className={cn(
-            'lg:border-border-subtle lg:bg-bg-surface hidden lg:fixed lg:bottom-0 lg:left-0 lg:top-24 lg:z-30 lg:flex lg:shrink-0 lg:flex-col lg:border-r lg:pt-4',
-            cabinetSidebarLayout.asideWidthStandard
-          )}
-        >
+      <div className={cabinetHubLayout.rootShell}>
+        <aside className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}>
           <HubSidebarHeader
             href={ROUTES.admin.home}
             icon={Shield}
@@ -160,13 +155,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               }
             />
 
-            <main className="duration-300 animate-in fade-in">
+            <main className={cabinetHubLayout.mainInner}>
               <ErrorBoundary>
-                <Suspense
-                  fallback={
-                    <div className="min-h-[40vh] animate-pulse rounded-md bg-muted/30" aria-busy />
-                  }
-                >
+                <Suspense fallback={<div className={cabinetHubLayout.suspenseFallback} aria-busy />}>
                   {children}
                 </Suspense>
               </ErrorBoundary>

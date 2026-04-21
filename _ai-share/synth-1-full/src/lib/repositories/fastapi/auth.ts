@@ -46,8 +46,8 @@ export class FastApiAuthRepository implements AuthRepository {
       clearTimeout(timeoutId);
 
       if (tokenResponse.ok) {
-        const { access_token } = await tokenResponse.json();
-        if (typeof localStorage !== 'undefined') {
+        const { access_token } = (await tokenResponse.json()) as { access_token?: string };
+        if (typeof localStorage !== 'undefined' && access_token) {
           localStorage.setItem('syntha_access_token', access_token);
         }
         console.log('FastAPI login success, token stored');

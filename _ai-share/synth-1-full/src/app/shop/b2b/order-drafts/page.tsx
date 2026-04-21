@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,6 @@ import { getWorkingOrderVersions } from '@/lib/b2b/working-order-store';
 import { getConsolidatedDraft } from '@/lib/b2b/consolidated-order-draft';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function B2BOrderDraftsPage() {
   const versions = getWorkingOrderVersions();
@@ -20,7 +20,7 @@ export default function B2BOrderDraftsPage() {
   );
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="JOOR: незавершённые заказы по коллекциям — продолжить в матрице или Working Order." />
 
       {consolidated && consolidated.lines.length > 0 && (
@@ -115,6 +115,6 @@ export default function B2BOrderDraftsPage() {
           [ROUTES.shop.b2bOrders, ROUTES.shop.b2bCreateOrder].includes(l.href as string)
         )}
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

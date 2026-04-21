@@ -1,14 +1,14 @@
 'use client';
 
+import { ShopB2bNuOrderScope } from '@/components/shop/ShopB2bNuOrderScope';
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { Zap, RefreshCcw, Calendar, ArrowRight, Package, History, Layers } from 'lucide-react';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** NuOrder-style: один экран выбора режима заказа (Buy Now / Reorder / Pre-order). */
 const modes: Array<{
@@ -53,7 +53,7 @@ const modes: Array<{
 
 export default function B2BOrderModePage() {
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <ShopB2bNuOrderScope>
       <ShopB2bContentHeader lead="NuOrder-style: выберите тип заказа — один поток для каталога и матрицы." />
       <div className="grid gap-4">
         {modes.map((m) => {
@@ -109,6 +109,6 @@ export default function B2BOrderModePage() {
         title="Матрица, EZ Order, аналитика, выставки"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </ShopB2bNuOrderScope>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -83,7 +83,7 @@ export default function ProjectStatusPage() {
     async function fetchData() {
       try {
         const response = await fetch('/data/feature-registry.json');
-        const data = await response.json();
+        const data = (await response.json()) as Record<string, Feature[]>;
         setFeatureRegistry(data);
       } catch (error) {
         console.error('Failed to fetch feature registry:', error);
@@ -184,7 +184,7 @@ export default function ProjectStatusPage() {
 
   if (isLoading) {
     return (
-      <RegistryPageShell className="max-w-6xl space-y-6 py-12">
+      <CabinetPageContent maxWidth="6xl" className="space-y-6 py-12">
         <header className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
           <div className="flex-1 space-y-2">
             <Skeleton className="h-12 w-2/3" />
@@ -201,12 +201,12 @@ export default function ProjectStatusPage() {
             </div>
           </CardContent>
         </Card>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   return (
-    <RegistryPageShell className="max-w-6xl space-y-6 py-12">
+    <CabinetPageContent maxWidth="6xl" className="space-y-6 py-12">
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
         <div className="flex-1">
           <h1 className="font-headline text-sm font-bold md:text-sm">Реестр проекта</h1>
@@ -296,6 +296,6 @@ export default function ProjectStatusPage() {
           </div>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

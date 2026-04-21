@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -13,7 +14,7 @@ import { ArrowLeft } from 'lucide-react';
 import { AcademySegmentSwitcher } from '@/components/brand/AcademySegmentSwitcher';
 import { getKnowledgeArticle } from '@/lib/academy/brand-academy-data';
 import { KNOWLEDGE_CATEGORY_LABELS } from '@/lib/academy/brand-academy-data';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function KnowledgeArticlePage() {
   const params = useParams();
@@ -23,7 +24,7 @@ export default function KnowledgeArticlePage() {
 
   if (!article) {
     return (
-      <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
         <RegistryPageHeader
           title="Статья не найдена"
           leadPlain="Записи с таким идентификатором нет в демо-данных."
@@ -42,12 +43,12 @@ export default function KnowledgeArticlePage() {
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.academy}>Вернуться в академию</Link>
         </Button>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title={article.title}
         leadPlain={`База знаний · ${KNOWLEDGE_CATEGORY_LABELS[article.category] ?? article.category}`}
@@ -96,6 +97,6 @@ export default function KnowledgeArticlePage() {
       </Button>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

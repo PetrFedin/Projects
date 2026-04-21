@@ -26,6 +26,7 @@ import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import dynamic from 'next/dynamic';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 import { sizeChartDataShirts } from '@/lib/sizes';
 import {
@@ -382,7 +383,7 @@ export default function SizesPage() {
       setIsLoading((prev) => ({ ...prev, [key]: true }));
       try {
         const response = await fetch(url);
-        const data = await response.json();
+        const data = (await response.json()) as any[];
         setData(data);
       } catch (error) {
         console.error(`Failed to fetch ${key} size data`, error);
@@ -821,19 +822,19 @@ export default function SizesPage() {
             Прочее
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="clothing" className="space-y-6">
+        <TabsContent value="clothing" className={cabinetSurface.cabinetProfileTabPanel}>
           {renderContentForSection('clothing', 'women')}
         </TabsContent>
-        <TabsContent value="shoes" className="space-y-6">
+        <TabsContent value="shoes" className={cabinetSurface.cabinetProfileTabPanel}>
           {renderContentForSection('shoes', 'women')}
         </TabsContent>
-        <TabsContent value="bags" className="space-y-6">
+        <TabsContent value="bags" className={cabinetSurface.cabinetProfileTabPanel}>
           {renderContentForSection('bags', 'women')}
         </TabsContent>
-        <TabsContent value="accessories" className="space-y-6">
+        <TabsContent value="accessories" className={cabinetSurface.cabinetProfileTabPanel}>
           {renderContentForSection('accessories', 'women')}
         </TabsContent>
-        <TabsContent value="misc" className="space-y-6">
+        <TabsContent value="misc" className={cabinetSurface.cabinetProfileTabPanel}>
           {renderContentForSection('misc', 'women')}
         </TabsContent>
       </Tabs>
@@ -896,19 +897,19 @@ export default function SizesPage() {
             Прочее
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="clothing" className="space-y-6">
+        <TabsContent value="clothing" className={cabinetSurface.cabinetProfileTabPanel}>
           {renderContentForSection('clothing', 'men')}
         </TabsContent>
-        <TabsContent value="shoes" className="space-y-6">
+        <TabsContent value="shoes" className={cabinetSurface.cabinetProfileTabPanel}>
           {renderContentForSection('shoes', 'men')}
         </TabsContent>
-        <TabsContent value="bags" className="space-y-6">
+        <TabsContent value="bags" className={cabinetSurface.cabinetProfileTabPanel}>
           {renderContentForSection('bags', 'men')}
         </TabsContent>
-        <TabsContent value="accessories" className="space-y-6">
+        <TabsContent value="accessories" className={cabinetSurface.cabinetProfileTabPanel}>
           {renderContentForSection('accessories', 'men')}
         </TabsContent>
-        <TabsContent value="misc" className="space-y-6">
+        <TabsContent value="misc" className={cabinetSurface.cabinetProfileTabPanel}>
           {renderContentForSection('misc', 'men')}
         </TabsContent>
       </Tabs>
@@ -917,7 +918,7 @@ export default function SizesPage() {
 
   return (
     <>
-      <div className="space-y-4">
+      <CabinetPageContent maxWidth="full" className="space-y-4">
         <div className="flex items-center justify-between">
           <header>
             <h1 className="font-headline text-base font-bold">Справочник размеров</h1>
@@ -961,14 +962,14 @@ export default function SizesPage() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="women" className="mt-6">
+          <TabsContent value="women" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-6')}>
             {renderWomenContent()}
           </TabsContent>
 
-          <TabsContent value="men" className="mt-6">
+          <TabsContent value="men" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-6')}>
             {renderMenContent()}
           </TabsContent>
-          <TabsContent value="kids" className="mt-6">
+          <TabsContent value="kids" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-6')}>
             <Card>
               <CardHeader>
                 <CardTitle>Детские размеры</CardTitle>
@@ -979,7 +980,7 @@ export default function SizesPage() {
             </Card>
           </TabsContent>
         </Tabs>
-      </div>
+      </CabinetPageContent>
 
       {/* Clothing Dialogs */}
       {dialogStates['outerwear'] && (

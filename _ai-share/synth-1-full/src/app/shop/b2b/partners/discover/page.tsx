@@ -18,10 +18,6 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
-import { RegistryPageShell } from '@/components/design-system';
-import { ShopB2bToolHeader, ShopB2bToolTitle } from '@/components/shop/ShopB2bToolHeader';
-import { ROUTES } from '@/lib/routes';
-import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
 
 const mockBrands = [
   {
@@ -49,7 +45,7 @@ const mockBrands = [
   {
     id: 'b3',
     name: 'TERRA FORM',
-    origin: 'Berlin, DE',
+    origin: 'Saint Petersburg, RU',
     style: 'Sustainable / Outdoor',
     description:
       'Экологичная одежда для города и природы. Соответствует вашему тренду на ESG-осознанность.',
@@ -82,24 +78,18 @@ export default function DiscoveryRadarPage() {
   };
 
   return (
-    <RegistryPageShell className="flex h-[calc(100vh-100px)] max-w-none flex-col items-center justify-center overflow-hidden !px-4 !py-4">
-      <ShopB2bToolHeader
-        backHref={ROUTES.shop.b2bPartners}
-        className="mb-6 w-full max-w-lg border-0 pb-0 [&>div>div:last-of-type]:justify-center"
-        leading={
-          <div className="mx-auto max-w-lg space-y-2 text-center">
-            <Badge className="bg-accent-primary border-none px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
-              AI Discovery Radar
-            </Badge>
-            <ShopB2bToolTitle visual="sm" className="text-center">
-              Найдите ваш идеальный бренд
-            </ShopB2bToolTitle>
-            <p className={registryFeedLayout.pageSubtitle}>
-              Листайте вправо, чтобы запросить сотрудничество, влево — чтобы пропустить.
-            </p>
-          </div>
-        }
-      />
+    <div className="container mx-auto flex h-[calc(100vh-100px)] flex-col items-center justify-center overflow-hidden px-4 py-4">
+      <header className="mb-8 space-y-2 text-center">
+        <Badge className="border-none bg-indigo-600 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
+          AI-поиск брендов
+        </Badge>
+        <h1 className="text-sm font-black uppercase tracking-tighter text-slate-900">
+          Найдите ваш идеальный бренд
+        </h1>
+        <p className="text-sm font-medium text-slate-400">
+          Листайте вправо, чтобы запросить сотрудничество, влево — чтобы пропустить.
+        </p>
+      </header>
 
       <div className="relative aspect-[3/4] w-full max-w-[450px]">
         <AnimatePresence mode="wait">
@@ -124,14 +114,14 @@ export default function DiscoveryRadarPage() {
                   fill
                   className="object-cover"
                 />
-                <div className="from-text-primary absolute inset-0 bg-gradient-to-t via-transparent to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
               </div>
 
               <div className="absolute left-6 right-6 top-4 z-10 flex items-center justify-between">
                 <Badge className="flex items-center gap-2 border-white/30 bg-white/20 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-white backdrop-blur-md">
                   <Globe className="h-3 w-3" /> {currentBrand.origin}
                 </Badge>
-                <div className="bg-accent-primary flex items-center gap-2 rounded-full border-2 border-white px-3 py-1.5 shadow-lg">
+                <div className="flex items-center gap-2 rounded-full border-2 border-white bg-indigo-600 px-3 py-1.5 shadow-lg">
                   <Sparkles className="h-3 w-3 text-white" />
                   <span className="text-xs font-black text-white">
                     {currentBrand.dnaMatch}% Match
@@ -144,7 +134,7 @@ export default function DiscoveryRadarPage() {
                   <h2 className="text-sm font-black uppercase leading-none tracking-tighter">
                     {currentBrand.name}
                   </h2>
-                  <p className="text-accent-primary text-xs font-black uppercase tracking-widest">
+                  <p className="text-xs font-black uppercase tracking-widest text-indigo-400">
                     {currentBrand.style}
                   </p>
                 </div>
@@ -185,7 +175,7 @@ export default function DiscoveryRadarPage() {
           variant="outline"
           size="icon"
           onClick={() => handleSwipe('left')}
-          className="border-border-subtle text-text-muted group h-20 w-20 rounded-full border-2 bg-white shadow-xl transition-all hover:border-red-100 hover:bg-red-50 hover:text-red-500"
+          className="group h-20 w-20 rounded-full border-2 border-slate-100 bg-white text-slate-400 shadow-xl transition-all hover:border-red-100 hover:bg-red-50 hover:text-red-500"
         >
           <X className="h-10 w-10 transition-transform group-hover:rotate-90" />
         </Button>
@@ -193,7 +183,7 @@ export default function DiscoveryRadarPage() {
         <Button
           variant="ghost"
           size="icon"
-          className="bg-bg-surface2 text-text-muted hover:text-accent-primary h-10 w-10 rounded-full transition-all"
+          className="h-10 w-10 rounded-full bg-slate-100 text-slate-400 transition-all hover:text-indigo-600"
         >
           <Info className="h-6 w-6" />
         </Button>
@@ -202,7 +192,7 @@ export default function DiscoveryRadarPage() {
           variant="outline"
           size="icon"
           onClick={() => handleSwipe('right')}
-          className="border-accent-primary/20 bg-accent-primary/10 text-accent-primary hover:bg-accent-primary shadow-accent-primary/10 group h-20 w-20 rounded-full border-2 shadow-xl transition-all hover:text-white"
+          className="group h-20 w-20 rounded-full border-2 border-indigo-100 bg-indigo-50 text-indigo-600 shadow-xl shadow-indigo-100 transition-all hover:bg-indigo-600 hover:text-white"
         >
           <Check className="h-10 w-10 transition-transform group-hover:scale-125" />
         </Button>
@@ -211,15 +201,15 @@ export default function DiscoveryRadarPage() {
       <div className="mt-8 flex gap-3">
         <div className="flex items-center gap-2">
           <Heart className="h-4 w-4 text-red-500" />
-          <span className="text-text-muted text-[10px] font-black uppercase">12 сохраненных</span>
+          <span className="text-[10px] font-black uppercase text-slate-400">12 сохраненных</span>
         </div>
         <div className="flex items-center gap-2">
-          <MessageSquare className="text-accent-primary h-4 w-4" />
-          <span className="text-text-muted text-[10px] font-black uppercase">
+          <MessageSquare className="h-4 w-4 text-indigo-500" />
+          <span className="text-[10px] font-black uppercase text-slate-400">
             3 новых предложения
           </span>
         </div>
       </div>
-    </RegistryPageShell>
+    </div>
   );
 }

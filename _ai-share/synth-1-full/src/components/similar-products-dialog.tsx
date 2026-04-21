@@ -29,7 +29,7 @@ export function SimilarProductsDialog({
     if (isOpen) {
       const fetchProducts = async () => {
         const res = await fetch('/data/products.json');
-        const data = await res.json();
+        const data = (await res.json()) as Product[];
         setAllProducts(data);
       };
       fetchProducts();

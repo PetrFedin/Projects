@@ -12,9 +12,10 @@ import {
   saveStyleQuizProfile,
 } from '@/lib/fashion/style-quiz-store';
 import type { StyleQuizProfileV1 } from '@/lib/fashion/types';
-import { ArrowLeft, Wand2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 type Mood = StyleQuizProfileV1['mood'];
 type Sil = StyleQuizProfileV1['silhouette'];
@@ -72,23 +73,8 @@ export default function StyleQuizPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-lg space-y-6 px-4 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.client.home}>
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold">
-            <Wand2 className="h-6 w-6" />
-            Квиз стиля
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Локальный профиль для ранжирования «Для вас». Позже — синхронизация с CRM.
-          </p>
-        </div>
-      </div>
+    <CabinetPageContent maxWidth="lg">
+      <ClientCabinetSectionHeader />
 
       <Card>
         <CardHeader>
@@ -157,6 +143,6 @@ export default function StyleQuizPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

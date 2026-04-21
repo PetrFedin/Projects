@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +12,6 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getB2BLinks } from '@/lib/data/entity-links';
 import { useToast } from '@/hooks/use-toast';
 import { tid } from '@/lib/ui/test-ids';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** JOOR/NuOrder: генерация/загрузка Purchase Order (PO), привязка к заказу, сверка «заказ ↔ PO». */
 const MOCK_ORDER_IDS = ['B2B-0013', 'B2B-0012', 'B2B-0011', 'B2B-0010'];
@@ -46,7 +46,7 @@ export default function PurchaseOrderPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6" data-testid={tid.page('brand-b2b-po')}>
+    <CabinetPageContent maxWidth="3xl" className="space-y-6" data-testid={tid.page('brand-b2b-po')}>
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.b2bOrders}>
           <Button variant="ghost" size="icon">
@@ -141,6 +141,6 @@ export default function PurchaseOrderPage() {
         links={getB2BLinks().filter((l) => l.href !== ROUTES.brand.b2bOrders)}
         title="B2B заказы, финансы, документы"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

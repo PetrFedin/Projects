@@ -17,10 +17,11 @@ import { ROUTES } from '@/lib/routes';
 import { PARTNER_ASSORTMENT_MATRIX_ROWS } from '@/lib/platform/partner-demo-data';
 import { ArrowLeft, Grid3x3, Factory, Plug } from 'lucide-react';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function AssortmentMatrixPage() {
   return (
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="5xl">
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -107,6 +108,6 @@ export default function AssortmentMatrixPage() {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

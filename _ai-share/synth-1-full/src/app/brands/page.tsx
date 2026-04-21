@@ -94,13 +94,15 @@ export default function BrandsPage() {
           fetch('/data/products.json'),
           fetch('/data/brand-display-data.json'),
         ]);
-        const productsData: Product[] = await productsRes.json();
-        const settingsData = await settingsRes.json();
+        const productsData = (await productsRes.json()) as Product[];
         setProducts(productsData);
 
+        const settingsData = (await settingsRes.json()) as {
+          parameters?: Array<{ items?: Array<{ id: string; grid?: boolean; list?: boolean }> }>;
+        };
         const initialSettings: Record<string, Record<string, boolean>> = { grid: {}, list: {} };
-        settingsData.parameters.forEach((group: any) => {
-          group.items.forEach((item: any) => {
+        settingsData.parameters?.forEach((group) => {
+          group.items?.forEach((item) => {
             initialSettings.grid[item.id] = !!item.grid;
             initialSettings.list[item.id] = !!item.list;
           });

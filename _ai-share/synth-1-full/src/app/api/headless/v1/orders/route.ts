@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { readJsonBody } from '@/lib/http/read-json-body';
 
 /**
  * Headless Commerce API — POST /v1/orders
@@ -13,8 +14,11 @@ export async function POST(request: Request) {
   }
 
   try {
-    const body = await request.json();
-    const { items, customer_email, shipping_address } = body;
+    const { items, customer_email, shipping_address } = await readJsonBody<{
+      items?: Array<{ price?: number; qty?: number }>;
+      customer_email?: string;
+      shipping_address?: unknown;
+    }>(request);
 
     if (!items || !items.length || !customer_email) {
       return NextResponse.json(

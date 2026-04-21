@@ -4,13 +4,12 @@ import { useMemo, useState, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlatformDataBanner } from '@/components/client/platform-data-banner';
-import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { findSubstituteCandidates } from '@/lib/fashion/substitute-sku';
-import { ArrowLeft, Shuffle } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 function SkuAlternativesInner() {
   const search = useSearchParams();
@@ -100,23 +99,10 @@ function SkuAlternativesInner() {
 
 export default function SkuAlternativesPage() {
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <Shuffle className="h-6 w-6" />
-              Похожие SKU
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Замены при OOS: бренд, категория, другой цвет. Query: ?sku=
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader />
         </div>
         <PlatformDataBanner />
       </div>
@@ -124,6 +110,6 @@ export default function SkuAlternativesPage() {
       <Suspense fallback={<p className="text-sm text-muted-foreground">Загрузка…</p>}>
         <SkuAlternativesInner />
       </Suspense>
-    </div>
+    </CabinetPageContent>
   );
 }

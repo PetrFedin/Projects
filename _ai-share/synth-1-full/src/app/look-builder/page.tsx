@@ -151,7 +151,7 @@ export default function LookBuilderPage() {
     async function fetchProducts() {
       try {
         const res = await fetch('/data/products.json');
-        const data = await res.json();
+        const data = (await res.json()) as Product[];
         setProducts(data);
       } catch (error) {
         console.error('Failed to fetch products:', error);

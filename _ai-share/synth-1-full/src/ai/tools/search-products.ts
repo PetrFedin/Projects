@@ -36,7 +36,7 @@ export const searchProducts = ai.defineTool(
       const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
       const res = await fetch(`${base}/data/products.json`);
       if (!res.ok) return { products: [] };
-      const products: any[] = await res.json();
+      const products = (await res.json()) as any[];
       const q = query.toLowerCase().trim();
       const terms = q.split(/\s+/).filter(Boolean);
       const scored = products

@@ -1,12 +1,14 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Database, Package } from 'lucide-react';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 import { getRelatedLinks } from '@/lib/data/integration-modules';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
@@ -16,7 +18,7 @@ export default function BrandIntegrationsErpPlmPage() {
   const links = getRelatedLinks('1c-sync').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Синхронизация 1С (ERP, PLM)"
         leadPlain="Sellty, Compo: заказы, остатки, справочники. Двусторонняя синхронизация с 1С, Мой Склад."
@@ -56,6 +58,6 @@ export default function BrandIntegrationsErpPlmPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={links} title="Связанные модули" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

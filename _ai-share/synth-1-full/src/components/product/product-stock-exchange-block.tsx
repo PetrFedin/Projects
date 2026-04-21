@@ -28,19 +28,19 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-orange-600">
           <ArrowRightLeft className="h-4 w-4" />
-          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
-            B2B Stock Exchange (Secondary Market)
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+            B2B Stock Exchange
           </h4>
         </div>
         <Badge className="border-none bg-orange-600 text-[8px] font-black uppercase text-white">
-          Secondary Market Active
+          Liquidity Active
         </Badge>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-4">
           <div className="space-y-3">
-            <div className="text-text-muted mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest">
+            <div className="mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
               <Activity className="h-3 w-3" /> External Liquidity
             </div>
             {offers.length > 0 ? (
@@ -56,7 +56,7 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
                           {off.type === 'excess' ? 'Partner Surplus' : 'Partner Seek'}
                         </span>
                       </div>
-                      <div className="text-text-secondary mt-0.5 text-[9px] font-bold uppercase">
+                      <div className="mt-0.5 text-[9px] font-bold uppercase text-slate-500">
                         {off.quantity} Units @ {off.location}
                       </div>
                     </div>
@@ -71,7 +71,7 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
                 ))}
               </div>
             ) : (
-              <div className="text-text-muted rounded-xl border-2 border-dashed border-orange-200 p-8 text-center text-[9px] font-black uppercase tracking-widest">
+              <div className="rounded-xl border-2 border-dashed border-orange-200 p-8 text-center text-[9px] font-black uppercase tracking-widest text-slate-400">
                 No active offers
               </div>
             )}
@@ -82,21 +82,21 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
         </div>
 
         <div className="space-y-3">
-          <div className="text-text-muted mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest">
+          <div className="mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400">
             <TrendingUp className="h-3 w-3" /> Liquidity Metrics
           </div>
           <div className="grid grid-cols-2 gap-2">
             <div className="flex flex-col items-center rounded-xl border border-orange-100 bg-white/50 p-3">
               <Package className="mb-1 h-4 w-4 text-orange-600" />
-              <div className="text-text-primary text-[14px] font-black leading-none">420</div>
-              <div className="text-text-muted mt-1 text-[7px] font-black uppercase">
+              <div className="text-[14px] font-black leading-none text-slate-800">420</div>
+              <div className="mt-1 text-[7px] font-black uppercase text-slate-400">
                 Avail. Units
               </div>
             </div>
             <div className="flex flex-col items-center rounded-xl border border-orange-100 bg-white/50 p-3">
               <DollarSign className="mb-1 h-4 w-4 text-emerald-600" />
               <div className="text-[14px] font-black leading-none text-emerald-600">4.2k</div>
-              <div className="text-text-muted mt-1 text-[7px] font-black uppercase">Avg. Bid</div>
+              <div className="mt-1 text-[7px] font-black uppercase text-slate-400">Avg. Bid</div>
             </div>
           </div>
 
@@ -104,15 +104,15 @@ export function ProductStockExchangeBlock({ product }: { product: Product }) {
             <div className="mb-2 text-[8px] font-black uppercase text-orange-600">
               Market Insights
             </div>
-            <p className="text-text-secondary text-[9px] font-bold leading-tight">
-              Demand for {product.name} in Novosibirsk is peaking. Secondary resale price is 8%
-              above pre-order MSRP.
+            <p className="text-[9px] font-bold leading-tight text-slate-600">
+              Demand for {product.name} in Novosibirsk is peaking. Inter-dealer liquidity is 8%
+              above pre-order list (РРЦ).
             </p>
           </div>
         </div>
       </div>
 
-      <div className="text-text-muted mt-4 flex items-center justify-between border-t border-orange-100 pt-4 text-[8px] font-black uppercase">
+      <div className="mt-4 flex items-center justify-between border-t border-orange-100 pt-4 text-[8px] font-black uppercase text-slate-400">
         <span>B2B Peer-to-Peer Stock Swapping</span>
         <span className="text-orange-600">Trading Fee: 1.5%</span>
       </div>

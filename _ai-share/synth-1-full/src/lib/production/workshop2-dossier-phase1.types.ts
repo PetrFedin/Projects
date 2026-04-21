@@ -5,7 +5,7 @@ import type {
 } from '@/lib/production/workshop2-dossier-view-infrastructure';
 
 /**
- * Модель досье фазы 1 Цеха 2 — соответствует schemas/workshop2-dossier-phase1.json.
+ * Модель досье фазы 1 разработки коллекции — соответствует schemas/workshop2-dossier-phase1.json.
  */
 
 export type Workshop2Phase1ValueSource = 'handbook_parameter' | 'free_text' | 'numeric';
@@ -88,7 +88,7 @@ export type Workshop2MesDefectCodeRow = {
   parentCode?: string;
 };
 
-/** Этапы маршрута Цеха 2 (вкладки воркспейса, привязка метки скетча). */
+/** Этапы маршрута разработки коллекции (вкладки воркспейса, привязка метки скетча). */
 export type Workshop2TzSignoffStageId =
   | 'tz'
   | 'sample'

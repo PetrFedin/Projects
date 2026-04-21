@@ -11,15 +11,14 @@ export interface TradeInRequest {
 export interface TradeInResult {
   accepted: boolean;
   creditAmount: number; // Сумма скидки/кредита для клиента
-  nextLifecycleStage: 'resale' | 'refurbish' | 'recycle';
+  /** outlet = распределение брендом (аутлет / ликвидация), не C2C-маркетплейс */
+  nextLifecycleStage: 'outlet' | 'refurbish' | 'recycle';
   reasoning: string;
 }
 
 /**
- * [Phase 12 — Circular Economy & Re-commerce]
- * Управление жизненным циклом товара после продажи (Trade-in, Resale, Recycle).
- * Позволяет брендам принимать старые вещи от клиентов в обмен на скидку,
- * восстанавливать их и продавать как "Pre-loved" (секонд-хенд) или отправлять в переработку.
+ * [Phase 12 — Circular Economy]
+ * Trade-in после продажи: кредит клиенту, маршрут — аутлет бренда, восстановление или переработка.
  */
 export class CircularEconomyEngine {
   /**
@@ -59,28 +58,24 @@ export class CircularEconomyEngine {
     }
 
     if (declaredCondition === 'minor_wear') {
-      // Вещь с легким износом -> Химчистка и перепродажа (Resale)
-      // Кредит 30% от остаточной стоимости
       const credit = depreciatedValue * 0.3;
 
       return {
         accepted: true,
         creditAmount: Math.round(credit),
-        nextLifecycleStage: 'resale',
+        nextLifecycleStage: 'outlet',
         reasoning:
-          'Item has minor wear. Routing to "Pre-loved" resale channel after basic cleaning.',
+          'Item has minor wear. Routing to cleaning/QC, then brand outlet allocation.',
       };
     }
 
-    // Идеальное состояние (pristine) -> Сразу в перепродажу
-    // Кредит 50% от остаточной стоимости
     const credit = depreciatedValue * 0.5;
     return {
       accepted: true,
       creditAmount: Math.round(credit),
-      nextLifecycleStage: 'resale',
+      nextLifecycleStage: 'outlet',
       reasoning:
-        'Item is in pristine condition. Routing directly to premium "Pre-loved" resale channel.',
+        'Item is in pristine condition. Routing to brand outlet / allocation.',
     };
   }
 }

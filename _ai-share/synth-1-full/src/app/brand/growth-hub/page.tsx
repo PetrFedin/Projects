@@ -1,14 +1,15 @@
 'use client';
 
+
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { getGrowthPlatformCrossLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
-import { cn } from '@/lib/utils';
-import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { Rocket, Users, Megaphone } from 'lucide-react';
 
 const consumer = [
@@ -301,7 +302,7 @@ const store = [
 const sustainability = [
   { href: '#', title: 'Material Traceability', desc: 'Прослеживаемость сырья (Ledger)' },
   { href: '#', title: 'ESG Order Scorecard', desc: 'Эко-скоринг оптовых заказов' },
-  { href: '#', title: 'Circular Resale Ops', desc: 'Управление вторичным оборотом' },
+  { href: '#', title: 'Take-back & Recycling', desc: 'Возврат и переработка изделий' },
   { href: '#', title: 'LCA Batch Reports', desc: 'Поартикульные эко-паспорта' },
 ];
 
@@ -353,7 +354,7 @@ function LinkGrid({ items }: { items: { href: string; title: string; desc: strin
     <div className="grid gap-3 sm:grid-cols-2">
       {items.map((x) => (
         <Link key={x.href} href={x.href}>
-          <Card className="hover:border-accent-primary/25 h-full transition-colors">
+          <Card className="h-full transition-colors hover:border-violet-200">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm">{x.title}</CardTitle>
               <CardDescription className="text-xs">{x.desc}</CardDescription>
@@ -370,51 +371,52 @@ function LinkGrid({ items }: { items: { href: string; title: string; desc: strin
 
 export default function BrandGrowthHubPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
-      <RegistryPageHeader
+    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+      <SectionInfoCard
         title="Платформа: рост и вау-сценарии"
-        leadPlain="Единая точка входа: клиентские фичи (B2C/байер), инструменты партнёров и демо для маркетинга."
-        actions={<Rocket className="text-accent-primary size-6 shrink-0" aria-hidden />}
+        description="Единая точка входа: клиентские фичи (B2C/байер), инструменты партнёров и демо для маркетинга."
+        icon={Rocket}
+        iconBg="bg-violet-100"
+        iconColor="text-violet-700"
       />
 
       <Tabs defaultValue="consumer">
-        {/* cabinetSurface v1 */}
-        <TabsList className={cn(cabinetSurface.tabsList, 'flex-wrap')}>
-          <TabsTrigger value="consumer" className={cn(cabinetSurface.tabsTrigger, 'h-8 gap-1')}>
+        <TabsList className={cn(cabinetSurface.tabsList, 'h-auto gap-1 shadow-inner')}>
+          <TabsTrigger value="consumer" className="gap-1 text-xs">
             <Users className="h-3.5 w-3.5" />
             Клиенты
           </TabsTrigger>
-          <TabsTrigger value="partners" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+          <TabsTrigger value="partners" className="text-xs">
             Партнёры
           </TabsTrigger>
-          <TabsTrigger value="store" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+          <TabsTrigger value="store" className="text-xs">
             Магазины
           </TabsTrigger>
-          <TabsTrigger value="production" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+          <TabsTrigger value="production" className="text-xs">
             Производство
           </TabsTrigger>
-          <TabsTrigger value="sustainability" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+          <TabsTrigger value="sustainability" className="text-xs">
             Экология
           </TabsTrigger>
-          <TabsTrigger value="distribution" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+          <TabsTrigger value="distribution" className="text-xs">
             Дистрибуция
           </TabsTrigger>
-          <TabsTrigger value="b2b_advanced" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+          <TabsTrigger value="b2b_advanced" className="text-xs">
             B2B Pro
           </TabsTrigger>
-          <TabsTrigger value="operations" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+          <TabsTrigger value="operations" className="text-xs">
             Операции & CRM
           </TabsTrigger>
-          <TabsTrigger value="compliance" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+          <TabsTrigger value="compliance" className="text-xs">
             Комплаенс
           </TabsTrigger>
-          <TabsTrigger value="fintech" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+          <TabsTrigger value="fintech" className="text-xs">
             Финтех
           </TabsTrigger>
-          <TabsTrigger value="admin" className={cn(cabinetSurface.tabsTrigger, 'h-8')}>
+          <TabsTrigger value="admin" className="text-xs">
             Админ
           </TabsTrigger>
-          <TabsTrigger value="wow" className={cn(cabinetSurface.tabsTrigger, 'h-8 gap-1')}>
+          <TabsTrigger value="wow" className="gap-1 text-xs">
             <Megaphone className="h-3.5 w-3.5" />
             Демо
           </TabsTrigger>
@@ -462,6 +464,6 @@ export default function BrandGrowthHubPage() {
         title="Связанные разделы"
         className="mt-2"
       />
-    </RegistryPageShell>
+    </div>
   );
 }

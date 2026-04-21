@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -43,7 +43,7 @@ export default function MachineMonitoringPage() {
 
   return (
     <>
-      <RegistryPageShell className="max-w-6xl space-y-6 duration-700 animate-in fade-in">
+      <CabinetPageContent maxWidth="6xl" className="space-y-6 duration-700 animate-in fade-in">
         <header className="border-border-subtle flex flex-col justify-between gap-3 border-b pb-4 md:flex-row md:items-end">
           <div className="space-y-1">
             <div className="text-accent-primary flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
@@ -385,7 +385,7 @@ export default function MachineMonitoringPage() {
             </Card>
           </div>
         </div>
-      </RegistryPageShell>
+      </CabinetPageContent>
     </>
   );
 }

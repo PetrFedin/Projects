@@ -11,7 +11,9 @@ import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import type { Product } from '@/lib/types';
 import { analyzeOutfitGaps, inferFashionSlot } from '@/lib/fashion/outfit-taxonomy';
-import { ArrowLeft, Layers, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 function OutfitBuilderInner() {
   const search = useSearchParams();
@@ -22,7 +24,7 @@ function OutfitBuilderInner() {
   useEffect(() => {
     fetch('/data/products.json')
       .then((r) => r.json())
-      .then((d: Product[]) => setCatalog(d.slice(0, 48)))
+      .then((d) => setCatalog((d as Product[]).slice(0, 48)))
       .catch(() => setCatalog([]));
   }, []);
 
@@ -164,23 +166,10 @@ function OutfitBuilderInner() {
 
 export default function ClientOutfitBuilderPage() {
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <Layers className="h-6 w-6" />
-              Конструктор образа
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Слоты + эвристика «дыр» в образе; связка с капсулами и визуальным поиском.
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader description="Слоты + эвристика «дыр» в образе; связка с капсулами и визуальным поиском." />
         </div>
         <PlatformDataBanner />
       </div>
@@ -188,6 +177,6 @@ export default function ClientOutfitBuilderPage() {
       <Suspense fallback={<p className="text-sm text-muted-foreground">Загрузка…</p>}>
         <OutfitBuilderInner />
       </Suspense>
-    </div>
+    </CabinetPageContent>
   );
 }

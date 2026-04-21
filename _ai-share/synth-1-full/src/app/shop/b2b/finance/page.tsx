@@ -1,10 +1,10 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { RegistryPageShell } from '@/components/design-system';
 import { DollarSign, CreditCard, Clock, CheckCircle2, FileText, ShoppingCart } from 'lucide-react';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { ROUTES } from '@/lib/routes';
@@ -28,7 +28,7 @@ export default function PartnerFinancePage() {
   const formatMoney = (n: number) => n.toLocaleString('ru-RU', { maximumFractionDigits: 0 }) + ' ₽';
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="Заказы по статусам, кредитный лимит, ожидаемые и оплаченные платежи, JOOR Pay и документы." />
       <ShopAnalyticsSegmentErpStrip />
 
@@ -221,6 +221,6 @@ export default function PartnerFinancePage() {
         title="Заказы, оплата, документы"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

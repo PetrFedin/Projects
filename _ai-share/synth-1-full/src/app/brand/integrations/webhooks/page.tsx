@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,12 +10,11 @@ import { Zap, Webhook, Plus } from 'lucide-react';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { getIntegrationsLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageShell } from '@/components/design-system';
 import { ROUTES } from '@/lib/routes';
 
 export default function WebhooksPage() {
   return (
-    <RegistryPageShell className="space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
       <SectionInfoCard
         title="Webhooks & API"
         description="Уведомления и автоматизация. Настройте webhooks для событий: заказы, сэмплы, оплаты. API для внешних систем."
@@ -55,6 +55,6 @@ export default function WebhooksPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getIntegrationsLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

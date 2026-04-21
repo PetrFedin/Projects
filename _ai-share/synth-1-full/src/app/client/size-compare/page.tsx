@@ -19,7 +19,9 @@ import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { buildSizeCompareRows } from '@/lib/fashion/size-compare';
 import { downloadJsonFile } from '@/lib/platform/json-io';
-import { ArrowLeft, Columns2, Download } from 'lucide-react';
+import { Download } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 function SizeCompareInner() {
   const search = useSearchParams();
@@ -148,25 +150,18 @@ function SizeCompareInner() {
 
 export default function SizeComparePage() {
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <Columns2 className="h-6 w-6" />
-              Сравнение SKU
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Два артикула: размерный ряд, состав, сезон. Параметры URL:{' '}
-              <code className="rounded bg-muted px-1 text-[10px]">a</code>,{' '}
-              <code className="rounded bg-muted px-1 text-[10px]">b</code> (slug).
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader
+            description={
+              <>
+                Два артикула: размерный ряд, состав, сезон. Параметры URL:{' '}
+                <code className="rounded bg-muted px-1 text-[10px]">a</code>,{' '}
+                <code className="rounded bg-muted px-1 text-[10px]">b</code> (slug).
+              </>
+            }
+          />
         </div>
         <PlatformDataBanner />
       </div>
@@ -174,6 +169,6 @@ export default function SizeComparePage() {
       <Suspense fallback={<p className="text-sm text-muted-foreground">Загрузка…</p>}>
         <SizeCompareInner />
       </Suspense>
-    </div>
+    </CabinetPageContent>
   );
 }

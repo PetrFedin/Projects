@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -29,7 +30,8 @@ import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function KizStockAccountingPage() {
@@ -98,7 +100,7 @@ export default function KizStockAccountingPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-500 animate-in fade-in">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-500 animate-in fade-in">
       <RegistryPageHeader
         title="Складской учет КИЗ"
         leadPlain="Мониторинг и синхронизация маркированных остатков в реальном времени."
@@ -344,6 +346,6 @@ export default function KizStockAccountingPage() {
           )}
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

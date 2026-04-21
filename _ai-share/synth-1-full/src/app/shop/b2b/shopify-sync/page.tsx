@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,8 +17,9 @@ import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisH
 /** JOOR/NuOrder для РФ: синхронизация заказов и каталога с Shopify. Позже — 1С, Мой Склад, ЭДО. */
 export default function ShopifySyncPage() {
   return (
-    <RegistryPageShell
-      className="min-h-[200px] max-w-2xl space-y-6"
+    <CabinetPageContent
+      maxWidth="2xl"
+      className="min-h-[200px] space-y-6"
       data-testid={tid.page('shop-b2b-shopify-sync')}
     >
       <ShopB2bContentHeader lead="Оптовые заказы и каталог в интернет-магазин; для РФ — 1С, Мой Склад, ЭДО и маркировка." />
@@ -117,6 +118,6 @@ export default function ShopifySyncPage() {
         title="Заказы, каталог, партнёры"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

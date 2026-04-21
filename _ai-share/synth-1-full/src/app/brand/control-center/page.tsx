@@ -61,6 +61,10 @@ import { PredictiveRiskWidget } from '@/components/brand/control-center/Predicti
 import { getControlCenterPredictiveRisks } from '@/lib/control/control-aggregator';
 import { OperationalPageChrome } from '@/components/design-system/operational-page-chrome';
 import { RegistryPageHeader } from '@/components/design-system/registry-page-header';
+import {
+  B2bPriorityWorkflowPanel,
+  getSynthaThreeCoresFullMatrixGroups,
+} from '@/lib/syntha-priority-cores';
 
 const MODULE_ICONS: Record<string, React.ElementType> = {
   Building2,
@@ -336,6 +340,13 @@ export default function ControlCenterOverviewPage() {
                 </Button>
               </div>
             }
+          />
+
+          <B2bPriorityWorkflowPanel
+            title="Связка приоритетных направлений"
+            lead="Из контроль-центра — в цех, оптовый контур и коммуникации: вертикаль, горизонталь ролей и надстройка без дублирования источника истины."
+            groups={getSynthaThreeCoresFullMatrixGroups()}
+            className="mb-6"
           />
 
           {/* Мини-виджеты: живой статус заказов, задач, дедлайны, алерты */}

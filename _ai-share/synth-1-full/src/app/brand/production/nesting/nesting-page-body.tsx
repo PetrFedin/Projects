@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -20,7 +21,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
-import { RegistryPageShell } from '@/components/design-system';
 
 type NestingJob = {
   id: string;
@@ -78,7 +78,7 @@ export function NestingPageBody() {
   };
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Nesting ИИ · раскрой"
         description={
@@ -97,11 +97,11 @@ export function NestingPageBody() {
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-3">
-          <Link href={ROUTES.brand.production}>
-            <Button variant="ghost" size="icon" aria-label="Назад к цеху">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.production} aria-label="Назад к производству">
+              <ArrowLeft className="h-4 w-4" aria-hidden />
+            </Link>
+          </Button>
           <h1 className="text-2xl font-bold uppercase tracking-tight">Nesting ИИ</h1>
           <Badge
             variant="outline"
@@ -167,7 +167,11 @@ export function NestingPageBody() {
                   <td className="py-3 pr-2 text-right text-[11px]">{row.pieces}</td>
                   <td className="w-36 py-3 pr-2">
                     <div className="flex items-center gap-2">
-                      <Progress value={row.yield} className="h-1.5 flex-1" />
+                      <Progress
+                        value={row.yield}
+                        className="h-1.5 flex-1"
+                        aria-label={`Выход раскроя задания ${row.id}: ${row.yield}%`}
+                      />
                       <span className="w-10 text-[10px] font-semibold tabular-nums">
                         {row.yield}%
                       </span>
@@ -194,6 +198,6 @@ export function NestingPageBody() {
           </table>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

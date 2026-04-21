@@ -17,9 +17,17 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { jsonAs } from '@/lib/json';
 
 type Message = { type: 'success' | 'error'; text: string };
+
+type JoorActionResponse = {
+  success?: boolean;
+  error?: string;
+  processed?: number;
+  count?: number;
+  synced?: number;
+};
 
 export default function BrandIntegrationsJoorPage() {
   const [inventoryMsg, setInventoryMsg] = useState<Message | null>(null);
@@ -65,7 +73,7 @@ export default function BrandIntegrationsJoorPage() {
           overwrite: false,
         }),
       });
-      const data = await res.json();
+      const data = jsonAs<JoorActionResponse>(await res.json());
       if (data.success)
         setInventoryMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
       else setInventoryMsg({ type: 'error', text: data.error ?? 'Ошибка' });
@@ -80,8 +88,12 @@ export default function BrandIntegrationsJoorPage() {
     setPriceTypesLoading(true);
     try {
       const res = await fetch('/api/b2b/joor/price-types');
-      const data = (await res.ok) ? res.json() : [];
-      setPriceTypes(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setPriceTypes(
+        Array.isArray(data)
+          ? jsonAs<Array<{ id: string; name?: string; currency_code?: string }>>(data)
+          : []
+      );
     } catch {
       setPriceTypes([]);
     } finally {
@@ -101,14 +113,14 @@ export default function BrandIntegrationsJoorPage() {
             {
               sku_identifier: 'DEMO-SKU-01',
               price_type_name: 'Wholesale',
-              price_type_currency_code: 'USD',
-              wholesale_value: 50,
-              retail_value: 100,
+              price_type_currency_code: 'RUB',
+              wholesale_value: 5000,
+              retail_value: 9900,
             },
           ],
         }),
       });
-      const data = await res.json();
+      const data = jsonAs<JoorActionResponse>(await res.json());
       if (data.success) setPricesMsg({ type: 'success', text: `Обновлено: ${data.count ?? 0}` });
       else setPricesMsg({ type: 'error', text: data.error ?? 'Ошибка' });
     } catch (e) {
@@ -122,8 +134,22 @@ export default function BrandIntegrationsJoorPage() {
     setOrdersLoading(true);
     try {
       const res = await fetch('/api/b2b/joor/orders?limit=20');
-      const data = (await res.ok) ? res.json() : [];
-      setOrders(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setOrders(
+        Array.isArray(data)
+          ? jsonAs<
+              Array<{
+                id: string;
+                orderNumber: string;
+                status: string;
+                partnerName?: string;
+                createdAt: string;
+                total?: number;
+                currency?: string;
+              }>
+            >(data)
+          : []
+      );
     } catch {
       setOrders([]);
     } finally {
@@ -142,7 +168,7 @@ export default function BrandIntegrationsJoorPage() {
           styles: [{ style_identifier: 'DEMO-STYLE-01', name: 'Demo Style' }],
         }),
       });
-      const data = await res.json();
+      const data = jsonAs<JoorActionResponse>(await res.json());
       if (data.success)
         setStylesMsg({ type: 'success', text: `Синхронизировано: ${data.synced ?? 0}` });
       else setStylesMsg({ type: 'error', text: data.error ?? 'Ошибка' });
@@ -164,7 +190,7 @@ export default function BrandIntegrationsJoorPage() {
           customers: [{ name: 'Demo Partner', email: 'partner@example.com' }],
         }),
       });
-      const data = await res.json();
+      const data = jsonAs<JoorActionResponse>(await res.json());
       if (data.success)
         setCustomersMsg({ type: 'success', text: `Синхронизировано: ${data.synced ?? 0}` });
       else setCustomersMsg({ type: 'error', text: data.error ?? 'Ошибка' });
@@ -176,18 +202,20 @@ export default function BrandIntegrationsJoorPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
-      <RegistryPageHeader
-        title="JOOR"
-        leadPlain="Остатки (v2), цены (v4), импорт заказов, синхрон стилей и клиентов."
-        eyebrow={
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.brand.integrations} aria-label="Назад к интеграциям">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.brand.integrations}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
           </Button>
-        }
-      />
+        </Link>
+        <div>
+          <h1 className="text-2xl font-bold uppercase tracking-tight">JOOR</h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            Остатки (v2), цены (v4), импорт заказов, синхрон стилей и клиентов.
+          </p>
+        </div>
+      </div>
 
       <div className="grid gap-4">
         {/* Inventory v2 */}
@@ -305,7 +333,7 @@ export default function BrandIntegrationsJoorPage() {
                   </li>
                 ))}
                 {orders.length > 5 && (
-                  <li className="text-text-secondary px-3 py-2">… ещё {orders.length - 5}</li>
+                  <li className="px-3 py-2 text-slate-500">… ещё {orders.length - 5}</li>
                 )}
               </ul>
             )}
@@ -399,6 +427,6 @@ export default function BrandIntegrationsJoorPage() {
           </Button>
         </Link>
       </div>
-    </RegistryPageShell>
+    </div>
   );
 }

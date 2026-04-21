@@ -14,17 +14,15 @@ export interface TradeInResult {
   requestId: string;
   status: 'accepted' | 'rejected';
   storeCreditOffered: number;
-  nextAction: 'resell_as_is' | 'refurbish' | 'recycle' | 'donate';
-  estimatedResalePrice?: number;
+  nextAction: 'outlet_sort' | 'refurbish' | 'recycle' | 'donate';
+  /** Внутренняя оценка остаточной стоимости для кредита / аутлета бренда (не вторичный рынок C2C). */
+  estimatedRecoveryValue?: number;
   reasoning: string;
 }
 
 /**
- * [Phase 19 — Circular Economy & Re-commerce Engine]
- * Движок экономики замкнутого цикла (Trade-in & Resale).
- * Оценивает б/у вещи, предложенные клиентами к возврату,
- * рассчитывает размер кэшбека (Store Credit) и определяет судьбу вещи:
- * перепродажа (Pre-owned), ремонт (Refurbish) или переработка (Recycle).
+ * [Phase 19 — Circular Economy Engine]
+ * Trade-in: оценка возвратов, store credit, маршрут — аутлет бренда, ремонт, переработка, donate.
  */
 export class CircularEconomyEngine {
   /**
@@ -65,19 +63,19 @@ export class CircularEconomyEngine {
 
     let creditPercent = 0;
     let nextAction: TradeInResult['nextAction'] = 'recycle';
-    let estimatedResalePrice = 0;
+    let estimatedRecoveryValue = 0;
 
     // 1. Базовая оценка состояния
     switch (request.condition) {
       case 'mint':
         creditPercent = 0.4; // 40% от оригинальной цены
-        nextAction = 'resell_as_is';
-        estimatedResalePrice = request.originalPrice * 0.7; // Продаем за 70%
+        nextAction = 'outlet_sort';
+        estimatedRecoveryValue = request.originalPrice * 0.7;
         break;
       case 'good':
         creditPercent = 0.25;
         nextAction = 'refurbish'; // Требуется химчистка или мелкий ремонт
-        estimatedResalePrice = request.originalPrice * 0.5;
+        estimatedRecoveryValue = request.originalPrice * 0.5;
         break;
       case 'fair':
         creditPercent = 0.1;
@@ -90,9 +88,9 @@ export class CircularEconomyEngine {
     }
 
     // 2. Амортизация по времени владения (устаревание коллекции)
-    if (request.monthsOwned > 24 && nextAction === 'resell_as_is') {
+    if (request.monthsOwned > 24 && nextAction === 'outlet_sort') {
       creditPercent *= 0.8; // Снижаем выплату, так как вещь старая
-      estimatedResalePrice *= 0.8;
+      estimatedRecoveryValue *= 0.8;
       nextAction = 'refurbish'; // Старые вещи чаще требуют обновления
     }
 
@@ -115,7 +113,7 @@ export class CircularEconomyEngine {
       status: 'accepted',
       storeCreditOffered,
       nextAction,
-      estimatedResalePrice: estimatedResalePrice > 0 ? Math.round(estimatedResalePrice) : undefined,
+      estimatedRecoveryValue: estimatedRecoveryValue > 0 ? Math.round(estimatedRecoveryValue) : undefined,
       reasoning: `Condition is ${request.condition}. Offering ${storeCreditOffered} credit. Item will be routed to ${nextAction}.`,
     };
   }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import dynamic from 'next/dynamic';
 import type { LucideIcon } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -40,7 +41,8 @@ import {
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { fmtMoney, fmtNumber } from '@/lib/format';
 import { Progress } from '@/components/ui/progress';
 
@@ -303,7 +305,7 @@ export default function RetailersPage() {
 
   return (
     <TooltipProvider delayDuration={350}>
-      <RegistryPageShell className="w-full max-w-none space-y-4 pb-20">
+      <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-20">
         <RegistryPageHeader
           title="Партнёры и клиенты"
           leadPlain="Ритейлеры, дистрибьюторы, вовлечённость, предзаказ и инструменты партнёрского контура."
@@ -321,7 +323,7 @@ export default function RetailersPage() {
               />
             ))}
           </TabsList>
-          <TabsContent value="retailers" className="mt-4">
+          <TabsContent value="retailers" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             <div className="space-y-6 pb-24">
               <div className="border-border-subtle flex flex-wrap items-center justify-between gap-3 border-b pb-4">
                 <div className="flex items-center gap-2">
@@ -873,56 +875,56 @@ export default function RetailersPage() {
               </div>
             </div>
           </TabsContent>
-          <TabsContent value="distributors" className="mt-4">
+          <TabsContent value="distributors" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'distributors' && <DistributorsContent />}
           </TabsContent>
-          <TabsContent value="engagement" className="mt-4">
+          <TabsContent value="engagement" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'engagement' && <EngagementContent />}
           </TabsContent>
-          <TabsContent value="pre-orders" className="mt-4">
+          <TabsContent value="pre-orders" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'pre-orders' && <PreOrdersContent />}
           </TabsContent>
-          <TabsContent value="company-accounts" className="mt-4">
+          <TabsContent value="company-accounts" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'company-accounts' && <CompanyAccountsContent />}
           </TabsContent>
-          <TabsContent value="territory" className="mt-4">
+          <TabsContent value="territory" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'territory' && <TerritoryContent />}
           </TabsContent>
-          <TabsContent value="quotas" className="mt-4">
+          <TabsContent value="quotas" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'quotas' && <PreOrderQuotaContent />}
           </TabsContent>
-          <TabsContent value="commissions" className="mt-4">
+          <TabsContent value="commissions" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'commissions' && <CommissionsContent />}
           </TabsContent>
-          <TabsContent value="last-call" className="mt-4">
+          <TabsContent value="last-call" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'last-call' && <LastCallContent />}
           </TabsContent>
-          <TabsContent value="bopis" className="mt-4">
+          <TabsContent value="bopis" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'bopis' && <BopisContent />}
           </TabsContent>
-          <TabsContent value="investing" className="mt-4">
+          <TabsContent value="investing" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'investing' && <InvestingContent />}
           </TabsContent>
-          <TabsContent value="dealer-cabinet" className="mt-4">
+          <TabsContent value="dealer-cabinet" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'dealer-cabinet' && <DealerCabinetContent />}
           </TabsContent>
-          <TabsContent value="smart-replenishment" className="mt-4">
+          <TabsContent value="smart-replenishment" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'smart-replenishment' && <SmartReplenishmentContent />}
           </TabsContent>
-          <TabsContent value="order-lists" className="mt-4">
+          <TabsContent value="order-lists" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'order-lists' && <OrderListsContent />}
           </TabsContent>
-          <TabsContent value="multi-cart" className="mt-4">
+          <TabsContent value="multi-cart" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'multi-cart' && <MultiCartContent />}
           </TabsContent>
-          <TabsContent value="favorites" className="mt-4">
+          <TabsContent value="favorites" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'favorites' && <RetailersFavoritesContent />}
           </TabsContent>
-          <TabsContent value="volume-rules" className="mt-4">
+          <TabsContent value="volume-rules" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'volume-rules' && <VolumeRulesContent />}
           </TabsContent>
         </Tabs>
-      </RegistryPageShell>
+      </CabinetPageContent>
     </TooltipProvider>
   );
 }

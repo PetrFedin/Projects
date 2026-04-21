@@ -11,15 +11,15 @@ export function OrderAllocationTab() {
     <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
       <div className="flex items-center justify-between">
         <div className="space-y-1 text-left">
-          <h4 className="text-text-primary text-sm font-black uppercase tracking-tight">
+          <h4 className="text-sm font-black uppercase tracking-tight text-slate-900">
             Pre-Allocation Plan
           </h4>
-          <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
             Distribute order items across your physical locations
           </p>
         </div>
-        <Button className="bg-text-primary h-12 gap-2 rounded-2xl px-6 text-[10px] font-black uppercase tracking-widest text-white">
-          <Plus className="h-4 w-4" /> Add Location
+        <Button className="h-12 gap-2 rounded-2xl bg-slate-900 px-6 text-[10px] font-black uppercase tracking-widest text-white">
+          <Plus className="h-4 w-4" /> Локация
         </Button>
       </div>
 
@@ -31,24 +31,24 @@ export function OrderAllocationTab() {
         ].map((loc, i) => (
           <Card key={i} className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
             <div className="flex items-center justify-between">
-              <MapPin className="text-accent-primary h-5 w-5" />
-              <Badge className="bg-bg-surface2 text-text-secondary border-none px-2 text-[8px] font-black uppercase tracking-widest">
+              <MapPin className="h-5 w-5 text-indigo-600" />
+              <Badge className="border-none bg-slate-100 px-2 text-[8px] font-black uppercase tracking-widest text-slate-600">
                 {loc.capacity}% UTILIZED
               </Badge>
             </div>
             <div className="space-y-1">
-              <p className="text-text-primary text-sm font-black uppercase">{loc.name}</p>
-              <p className="text-text-primary text-base font-black">{loc.units}</p>
-              <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+              <p className="text-sm font-black uppercase text-slate-900">{loc.name}</p>
+              <p className="text-base font-black text-slate-900">{loc.units}</p>
+              <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
                 Units Allocated
               </p>
             </div>
-            <div className="bg-bg-surface2 h-1.5 w-full overflow-hidden rounded-full">
-              <div className="bg-accent-primary h-full" style={{ width: `${loc.capacity}%` }} />
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+              <div className="h-full bg-indigo-500" style={{ width: `${loc.capacity}%` }} />
             </div>
             <Button
               variant="outline"
-              className="border-border-default h-10 w-full rounded-xl text-[9px] font-black uppercase tracking-widest"
+              className="h-10 w-full rounded-xl border-slate-200 text-[9px] font-black uppercase tracking-widest"
             >
               Edit Distribution
             </Button>

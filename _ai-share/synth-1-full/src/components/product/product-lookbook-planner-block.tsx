@@ -46,7 +46,7 @@ export const ProductLookbookPlannerBlock: React.FC<{ product: Product }> = ({ pr
           size="sm"
           className="h-8 w-full border-stone-200 text-[10px] text-stone-700 hover:bg-stone-50"
         >
-          <CheckCircle2 className="mr-1 h-3 w-3" /> Add to Shooting List
+          <CheckCircle2 className="mr-1 h-3 w-3" /> В список съёмки
         </Button>
       </div>
     </Card>

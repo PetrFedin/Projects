@@ -46,7 +46,8 @@ import {
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getIntegrationsLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
@@ -268,8 +269,9 @@ export default function IntegrationsPage() {
   };
 
   return (
-    <RegistryPageShell
-      className="w-full max-w-none space-y-5 pb-20"
+    <CabinetPageContent
+      maxWidth="full"
+      className="space-y-5 pb-20"
       data-testid="brand-integrations-page"
     >
       {returnResolved && (
@@ -764,6 +766,6 @@ export default function IntegrationsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

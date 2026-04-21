@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -10,7 +11,8 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 
 const VacanciesContent = dynamic(
@@ -21,7 +23,7 @@ const VacanciesContent = dynamic(
 export default function HRHubPage() {
   const [tab, setTab] = useState('hr-hub');
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-20">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-20">
       <RegistryPageHeader
         title="HR-центр"
         leadPlain="Команда, вакансии, онбординг и связь с академией в одном хабе."
@@ -36,7 +38,7 @@ export default function HRHubPage() {
             <Briefcase className="h-3 w-3 shrink-0" /> Вакансии
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="hr-hub" className="mt-0 space-y-6">
+        <TabsContent value="hr-hub" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="grid gap-4 md:grid-cols-2">
             <Link href={ROUTES.brand.team}>
               <Card className="border-accent-primary/20 hover:border-accent-primary/30 h-full cursor-pointer rounded-xl border transition-colors">
@@ -84,10 +86,10 @@ export default function HRHubPage() {
           </div>
           <RelatedModulesBlock links={getHRHubLinks()} />
         </TabsContent>
-        <TabsContent value="vacancies" className="mt-0">
+        <TabsContent value="vacancies" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'vacancies' && <VacanciesContent />}
         </TabsContent>
       </Tabs>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

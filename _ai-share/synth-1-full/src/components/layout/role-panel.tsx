@@ -1,10 +1,9 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { Suspense, useEffect, useState } from 'react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { createPortal } from 'react-dom';
+import { useEffect, useState, useRef } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import {
   Shield,
   Store,
@@ -13,21 +12,9 @@ import {
   Briefcase,
   Factory,
   Warehouse,
-  Scan,
-  FileCheck,
-  Share2,
-  Gavel,
-  Newspaper,
-  Monitor,
-  Zap,
-  Globe,
   RefreshCcw,
-  UserCheck,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useAuth } from '@/providers/auth-provider';
-import { useToast } from '@/hooks/use-toast';
-import { useUIState } from '@/providers/ui-state';
 import { useIdentitySwitch } from '@/hooks/use-identity-switch';
 import { ROUTES } from '@/lib/routes';
 
@@ -41,7 +28,7 @@ const roles = [
     orgId: 'org-hq-001',
   },
   {
-    href: ROUTES.brand.home,
+    href: ROUTES.brand.profile,
     icon: Store,
     label: 'Бренд',
     email: 'brand@syntha.ai',
@@ -65,7 +52,7 @@ const roles = [
     orgId: 'org-dist-001',
   },
   {
-    href: ROUTES.factory.production,
+    href: '/factory?role=manufacturer',
     icon: Factory,
     label: 'Производство',
     roleKey: 'manufacturer',
@@ -73,7 +60,7 @@ const roles = [
     orgId: 'org-factory-001',
   },
   {
-    href: ROUTES.factory.supplier,
+    href: '/factory?role=supplier',
     icon: Warehouse,
     label: 'Поставщик',
     roleKey: 'supplier',
@@ -81,13 +68,14 @@ const roles = [
     orgId: 'org-supplier-001',
   },
   {
-    href: ROUTES.client.home,
+    href: ROUTES.client.profile,
     icon: User,
     label: 'Клиент',
     email: 'elena.petrova@example.com',
     roleKey: 'client',
+    orgId: 'org-client-001',
   },
-];
+] as const;
 
 export default function RolePanel() {
   return (
@@ -99,99 +87,75 @@ export default function RolePanel() {
 
 function RolePanelContent() {
   const pathname = usePathname();
-  const router = useRouter();
-  const { user } = useAuth();
+  const searchParams = useSearchParams();
+  const currentRole = searchParams.get('role');
   const { handleIdentitySwitch } = useIdentitySwitch();
   const [loadingRole, setLoadingRole] = useState<string | null>(null);
-  const { isFlowMapOpen } = useUIState();
+  const [mounted, setMounted] = useState(false);
+  const busyRef = useRef(false);
 
-  const handleRoleSwitch = async (e: React.MouseEvent, role: (typeof roles)[0]) => {
-    e.preventDefault();
-    e.stopPropagation();
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    console.log(
-      'RolePanel: Switch triggered for',
-      role.roleKey,
-      'Current flow map state:',
-      isFlowMapOpen
-    );
-
-    if (loadingRole) {
-      console.log('RolePanel: Already loading', loadingRole);
-      return;
-    }
-
+  const runSwitch = async (role: (typeof roles)[number]) => {
+    if (busyRef.current || loadingRole) return;
+    busyRef.current = true;
+    setLoadingRole(role.roleKey);
     try {
-      setLoadingRole(role.roleKey);
-
-      if (role.email) {
-        console.log('RolePanel: Calling handleIdentitySwitch for', role.email);
-        await handleIdentitySwitch(role.email, role.roleKey, role.orgId);
-      } else {
-        console.log('RolePanel: No email, redirecting to', role.href);
-        router.push(role.href);
-      }
+      await handleIdentitySwitch(role.email, role.roleKey, role.orgId);
     } catch (err) {
       console.error('RolePanel: Switch failed:', err);
     } finally {
+      busyRef.current = false;
       setLoadingRole(null);
     }
   };
 
-  return (
-    <TooltipProvider>
-      <div
-        className={cn(
-          'fixed right-4 top-1/2 z-[100] -translate-y-1/2 transition-opacity duration-300',
-          isFlowMapOpen && 'pointer-events-none opacity-0'
-        )}
-      >
-        <div className="flex flex-col gap-2 rounded-2xl border bg-card p-2 shadow-2xl backdrop-blur-xl">
-          {roles.map((role) => {
-            const isActive =
-              role.roleKey === 'manufacturer'
-                ? pathname.startsWith(ROUTES.factory.production)
-                : role.roleKey === 'supplier'
-                  ? pathname.startsWith(ROUTES.factory.supplier)
-                  : pathname === role.href || (pathname.startsWith(role.href) && role.href !== '/');
+  const panel = (
+    <aside
+      className="fixed right-2 top-1/2 z-[10050] flex max-h-[min(560px,calc(100vh-6rem))] -translate-y-1/2 flex-col gap-2 overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white/95 p-2.5 shadow-2xl backdrop-blur-md select-none touch-manipulation"
+      aria-label="Демо: переключение роли"
+    >
+      <p className="text-text-muted px-0.5 text-center text-[8px] font-black uppercase leading-tight tracking-widest">
+        Роли
+      </p>
+      {roles.map((role) => {
+        const isActive =
+          role.roleKey === 'manufacturer' || role.roleKey === 'supplier'
+            ? pathname.startsWith('/factory') && currentRole === role.roleKey
+            : pathname === role.href || (pathname.startsWith(role.href) && role.href !== '/');
 
-            const isLoading = loadingRole === role.roleKey;
+        const isLoading = loadingRole === role.roleKey;
 
-            return (
-              <Tooltip key={role.roleKey}>
-                <TooltipTrigger asChild>
-                  <button
-                    onClick={(e) => handleRoleSwitch(e, role)}
-                    disabled={!!loadingRole}
-                    style={{ cursor: loadingRole ? 'not-allowed' : 'pointer' }}
-                    className={cn(
-                      'relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl transition-all duration-300',
-                      isActive
-                        ? 'bg-text-primary text-white shadow-lg'
-                        : 'text-text-muted hover:bg-bg-surface2 hover:text-text-primary',
-                      loadingRole && !isLoading && 'opacity-50 grayscale'
-                    )}
-                  >
-                    {isLoading ? (
-                      <RefreshCcw className="text-accent-primary h-4 w-4 animate-spin" />
-                    ) : (
-                      <role.icon className="h-5 w-5" />
-                    )}
-                    <span className="sr-only">{role.label}</span>
-                    {isLoading && <div className="absolute inset-0 animate-pulse bg-white/10" />}
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent
-                  side="left"
-                  className="rounded-lg text-[10px] font-bold uppercase tracking-widest"
-                >
-                  <p>{isLoading ? 'Загрузка...' : role.label}</p>
-                </TooltipContent>
-              </Tooltip>
-            );
-          })}
-        </div>
-      </div>
-    </TooltipProvider>
+        return (
+          <button
+            key={role.roleKey}
+            type="button"
+            title={role.label}
+            aria-label={role.label}
+            aria-current={isActive ? 'true' : undefined}
+            onClick={() => void runSwitch(role)}
+            disabled={loadingRole !== null}
+            className={cn(
+              'relative flex min-h-12 min-w-12 shrink-0 items-center justify-center rounded-xl border border-transparent transition-colors',
+              isActive
+                ? 'border-slate-900 bg-slate-900 text-white shadow-md'
+                : 'bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-900',
+              loadingRole !== null && !isLoading && 'opacity-45'
+            )}
+          >
+            {isLoading ? (
+              <RefreshCcw className="h-5 w-5 animate-spin text-indigo-600" />
+            ) : (
+              <role.icon className="h-6 w-6" aria-hidden />
+            )}
+          </button>
+        );
+      })}
+    </aside>
   );
+
+  if (!mounted || typeof document === 'undefined') return null;
+  return createPortal(panel, document.body);
 }

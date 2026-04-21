@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,7 +18,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const CORE_TREND_NOVELTY = [
   {
@@ -57,7 +57,7 @@ export default function RangePlannerPage() {
   const [season, setSeason] = useState('SS2026');
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Smart Range Planner & Assortment Simulator"
         description="Матрица ассортимента Core/Trend/Novelty с целевой маржой и бюджетом. Прогон коллекции через модель спроса — хиты и висляки до пошива."
@@ -223,6 +223,6 @@ export default function RangePlannerPage() {
           <Link href={ROUTES.brand.productsMatrix}>Матрица вариантов</Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

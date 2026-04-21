@@ -1,4 +1,6 @@
 'use client';
+
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { use, useEffect, useState, Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -36,7 +38,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const generateDailyData = (base: number) => {
   return Array.from({ length: 15 }).map((_, i) => {
@@ -107,7 +109,7 @@ export default function CampaignAnalyticsPage({
   const conversionRate = totalViews > 0 ? (project.currentQuantity / totalViews) * 100 : 0;
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Аналитика кампании"
         leadPlain={project.title}
@@ -325,6 +327,6 @@ export default function CampaignAnalyticsPage({
           </CardContent>
         </Card>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,12 +1,12 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 import {
   getConsolidatedDraft,
   getTotalsByBrand,
@@ -78,7 +78,7 @@ export default function AgentConsolidatedOrderPage() {
     : {};
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bAgentCabinet}
         lead="Корзина по нескольким брендам для агентов и дистрибьюторов; MOV/MOQ по бренду (Zedonk-style)."
@@ -255,6 +255,6 @@ export default function AgentConsolidatedOrderPage() {
           </CardContent>
         </Card>
       )}
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

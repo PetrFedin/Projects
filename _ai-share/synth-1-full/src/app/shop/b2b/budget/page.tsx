@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -65,7 +65,7 @@ const budgetData = [
 
 export default function B2BBudgetPage() {
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       {/* --- BRAND PROPOSALS & BUDGET RESERVATION (CROSS-SYNC) --- */}
       <B2BFintech />
 
@@ -255,6 +255,6 @@ export default function B2BBudgetPage() {
           </Table>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

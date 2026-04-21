@@ -30,7 +30,7 @@ export function AIAssistantChat() {
         'Найти аналоги out-of-stock товара',
         'Подобрать ассортимент FW26',
         'Проверить статус заказа',
-        'Условия оплаты Net 30',
+        'Условия оплаты: отсрочка 30 дней',
       ],
     },
   ]);
@@ -78,15 +78,15 @@ export function AIAssistantChat() {
     const lowerQuery = query.toLowerCase();
 
     if (lowerQuery.includes('заказ') || lowerQuery.includes('order')) {
-      return `У вас 3 активных заказа:\n\n1. ORD-8821 - Nordic Wool FW26 (420,000 ₽) - In Production\n2. ORD-8819 - Radical Chic Draft (156,000 ₽) - Draft\n3. ORD-8790 - Syntha Lab SS26 (890,000 ₽) - Confirmed\n\nХотите подробности по какому-то из них?`;
+      return `У вас 3 активных заказа:\n\n1. ORD-8821 — «Северная шерсть» FW26 (420 000 ₽) — в производстве\n2. ORD-8819 — «Радикальный шик», черновик (156 000 ₽)\n3. ORD-8790 — Syntha Lab SS26 (890 000 ₽) — подтверждён\n\nХотите подробности по какому-то из них?`;
     }
 
     if (lowerQuery.includes('аналог') || lowerQuery.includes('замен')) {
-      return `Нашёл 3 альтернативы для out-of-stock товара:\n\n1. Tech Parka Pro (Syntha Lab) - 28,500 ₽ - В наличии 450 шт\n2. Urban Nomad Jacket (Nordic Wool) - 32,000 ₽ - В наличии 200 шт\n3. Arctic Explorer Coat (Radical Chic) - 35,500 ₽ - Предзаказ FW26\n\nДобавить в корзину?`;
+      return `Нашёл 3 альтернативы для позиции без остатка:\n\n1. Tech Parka Pro (Syntha Lab) — 28 500 ₽ — в наличии 450 шт\n2. Urban Nomad («Северная шерсть») — 32 000 ₽ — в наличии 200 шт\n3. Arctic Explorer («Радикальный шик») — 35 500 ₽ — предзаказ FW26\n\nДобавить в корзину?`;
     }
 
     if (lowerQuery.includes('оплат') || lowerQuery.includes('payment')) {
-      return `Доступные способы оплаты для ${currentOrg?.name}:\n\n✅ Net 30 - оплата через 30 дней\n✅ Net 60 - для заказов > 500K ₽\n✅ Klarna BNPL - 0% на 3 месяца\n✅ Escrow - безопасная сделка\n✅ Factoring - получите деньги сегодня\n\nВаш кредитный лимит: 2.4M ₽`;
+      return `Доступные способы оплаты для ${currentOrg?.name}:\n\n✅ Отсрочка 30 дней (B2B)\n✅ Отсрочка 60 дней — для заказов свыше 500 тыс. ₽\n✅ Рассрочка / кредитная линия (банк-партнёр РФ), карта «Мир»\n✅ ЮKassa, СБП, эквайринг банка; при экспорте — Stripe и др.\n✅ Эскроу — безопасная сделка\n✅ Факторинг — финансирование под дебиторку\n\nВаш кредитный лимит: 2,4 млн ₽`;
     }
 
     if (lowerQuery.includes('fw26') || lowerQuery.includes("fw'26")) {
@@ -104,7 +104,7 @@ export function AIAssistantChat() {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="from-accent-primary to-accent-primary group fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br text-white shadow-2xl transition-transform hover:scale-110"
+        className="group fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-2xl transition-transform hover:scale-110"
       >
         <MessageCircle className="h-7 w-7" />
         <div className="absolute -right-1 -top-1 flex h-5 w-5 animate-pulse items-center justify-center rounded-full bg-rose-500">
@@ -117,12 +117,12 @@ export function AIAssistantChat() {
   return (
     <Card
       className={cn(
-        'border-accent-primary/30 fixed bottom-6 right-6 z-50 overflow-hidden rounded-2xl border-2 shadow-2xl',
+        'fixed bottom-6 right-6 z-50 overflow-hidden rounded-2xl border-2 border-indigo-200 shadow-2xl',
         isMinimized ? 'h-12 w-80' : 'h-[600px] w-[400px]'
       )}
     >
       {/* Header */}
-      <div className="from-accent-primary to-accent-primary border-b bg-gradient-to-r p-4 text-white">
+      <div className="border-b bg-gradient-to-r from-indigo-600 to-purple-600 p-4 text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
@@ -161,7 +161,7 @@ export function AIAssistantChat() {
       {!isMinimized && (
         <>
           {/* Messages */}
-          <div className="bg-bg-surface2 h-[440px] flex-1 space-y-4 overflow-y-auto p-4">
+          <div className="h-[440px] flex-1 space-y-4 overflow-y-auto bg-slate-50 p-4">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -171,8 +171,8 @@ export function AIAssistantChat() {
                   className={cn(
                     'max-w-[80%] rounded-2xl p-3',
                     message.role === 'user'
-                      ? 'bg-accent-primary text-white'
-                      : 'text-text-primary border-border-default border-2 bg-white'
+                      ? 'bg-indigo-600 text-white'
+                      : 'border-2 border-slate-200 bg-white text-slate-900'
                   )}
                 >
                   <p className="whitespace-pre-line text-sm leading-relaxed">{message.content}</p>
@@ -186,7 +186,7 @@ export function AIAssistantChat() {
                             'rounded-full px-3 py-1.5 text-[10px] font-medium transition-colors',
                             message.role === 'user'
                               ? 'bg-white/20 text-white hover:bg-white/30'
-                              : 'bg-accent-primary/10 hover:bg-accent-primary/15 text-accent-primary'
+                              : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100'
                           )}
                         >
                           {suggestion}
@@ -200,15 +200,15 @@ export function AIAssistantChat() {
 
             {isTyping && (
               <div className="flex justify-start">
-                <div className="border-border-default rounded-2xl border-2 bg-white p-3">
+                <div className="rounded-2xl border-2 border-slate-200 bg-white p-3">
                   <div className="flex gap-1">
-                    <div className="bg-text-muted h-2 w-2 animate-bounce rounded-full" />
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-slate-400" />
                     <div
-                      className="bg-text-muted h-2 w-2 animate-bounce rounded-full"
+                      className="h-2 w-2 animate-bounce rounded-full bg-slate-400"
                       style={{ animationDelay: '0.1s' }}
                     />
                     <div
-                      className="bg-text-muted h-2 w-2 animate-bounce rounded-full"
+                      className="h-2 w-2 animate-bounce rounded-full bg-slate-400"
                       style={{ animationDelay: '0.2s' }}
                     />
                   </div>
@@ -229,18 +229,18 @@ export function AIAssistantChat() {
                 placeholder="Спросите что-нибудь..."
                 className="flex-1 rounded-xl"
               />
-              <Button size="icon" variant="ghost" className="hover:bg-bg-surface2 flex-shrink-0">
+              <Button size="icon" variant="ghost" className="flex-shrink-0 hover:bg-slate-100">
                 <Mic className="h-4 w-4" />
               </Button>
               <Button
                 size="icon"
                 onClick={handleSend}
-                className="bg-accent-primary hover:bg-accent-primary flex-shrink-0 rounded-xl"
+                className="flex-shrink-0 rounded-xl bg-indigo-600 hover:bg-indigo-700"
               >
                 <Send className="h-4 w-4" />
               </Button>
             </div>
-            <p className="text-text-muted mt-2 text-center text-[9px]">
+            <p className="mt-2 text-center text-[9px] text-slate-400">
               Powered by GPT-4 • Ваши данные защищены
             </p>
           </div>

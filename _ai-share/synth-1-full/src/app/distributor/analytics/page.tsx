@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,7 +20,6 @@ import {
   ShoppingCart,
   ArrowRight,
 } from 'lucide-react';
-import { RegistryPageShell } from '@/components/design-system';
 
 type Period = 'week' | 'month' | 'year';
 
@@ -71,7 +71,7 @@ export default function DistributorAnalyticsPage() {
   const stats = periodStats[period];
 
   return (
-    <RegistryPageShell className="max-w-6xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="6xl" className="space-y-6 pb-16">
       <header className="border-border-subtle flex flex-col justify-between gap-3 border-b pb-4 sm:flex-row sm:items-start">
         <div>
           <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
@@ -218,6 +218,6 @@ export default function DistributorAnalyticsPage() {
           <Link href={ROUTES.distributor.commissions}>Комиссии</Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

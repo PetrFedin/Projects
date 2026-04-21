@@ -1,15 +1,15 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import CheckoutForm from '@/components/checkout-form';
 import OrderSummary from '@/components/order-summary';
 import { UIStateProvider } from '@/providers/ui-state';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function CheckoutPage() {
   return (
     <UIStateProvider>
       <div className="bg-background">
-        <RegistryPageShell className="py-12 pb-16">
+        <CabinetPageContent maxWidth="5xl" className="px-4 py-12 pb-24 sm:px-6">
           <header className="mb-12 text-center">
             <h1 className="font-headline text-sm font-bold">Оформление заказа</h1>
           </header>
@@ -22,7 +22,7 @@ export default function CheckoutPage() {
               <OrderSummary />
             </div>
           </div>
-        </RegistryPageShell>
+        </CabinetPageContent>
       </div>
     </UIStateProvider>
   );

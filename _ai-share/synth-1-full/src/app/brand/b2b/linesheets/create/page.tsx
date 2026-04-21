@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import {
   Card,
@@ -35,7 +36,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 
 export default function CreateLinesheetPage() {
@@ -54,7 +56,7 @@ export default function CreateLinesheetPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
       <RegistryPageHeader
         title="New Linesheet"
         leadPlain="Создайте персональную выборку для ваших байеров."
@@ -300,6 +302,6 @@ export default function CreateLinesheetPage() {
           </Button>
         </CardFooter>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

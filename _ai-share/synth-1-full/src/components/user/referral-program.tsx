@@ -52,7 +52,7 @@ export default function ReferralProgram() {
     const stored = localStorage.getItem(`referrals_${user.uid}`);
     if (stored) {
       try {
-        const parsed = JSON.parse(stored).map((item: any) => ({
+        const parsed = (JSON.parse(stored) as Referral[]).map((item) => ({
           ...item,
           registeredAt: item.registeredAt ? new Date(item.registeredAt) : undefined,
           firstPurchaseAt: item.firstPurchaseAt ? new Date(item.firstPurchaseAt) : undefined,

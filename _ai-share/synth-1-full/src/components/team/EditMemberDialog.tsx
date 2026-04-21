@@ -59,11 +59,11 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
           Изменение личных данных, контактной информации и настроек доступа сотрудника.
         </DialogDescription>
         <div className="grid h-full grid-cols-1 md:grid-cols-5">
-          <div className="bg-text-primary flex flex-col items-center justify-center p-4 text-center text-white md:col-span-2">
+          <div className="flex flex-col items-center justify-center bg-slate-900 p-4 text-center text-white md:col-span-2">
             <div className="group relative mb-6">
               <Avatar className="h-32 w-24 overflow-hidden rounded-3xl border-4 border-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-105">
                 <AvatarImage src={formData.avatar} className="object-cover" />
-                <AvatarFallback className="bg-text-primary/90 text-base font-black">
+                <AvatarFallback className="bg-slate-800 text-base font-black">
                   {formData.firstName?.[0]}
                 </AvatarFallback>
               </Avatar>
@@ -86,7 +86,7 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                     member.status === 'admin'
                       ? 'bg-amber-400 text-black'
                       : member.status === 'co-admin'
-                        ? 'bg-accent-primary/10 text-white'
+                        ? 'bg-indigo-50 text-white'
                         : 'bg-white/10 text-white/40'
                   )}
                 >
@@ -115,15 +115,15 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
           </div>
 
           <div className="flex h-full flex-col overflow-hidden bg-white md:col-span-3">
-            <header className="border-border-subtle flex shrink-0 items-center justify-between border-b p-4">
-              <h2 className="text-text-primary text-sm font-black uppercase tracking-tighter">
+            <header className="flex shrink-0 items-center justify-between border-b border-slate-50 p-4">
+              <h2 className="text-sm font-black uppercase tracking-tighter text-slate-900">
                 Редактирование
               </h2>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => onOpenChange(false)}
-                className="hover:bg-bg-surface2 h-8 w-8 rounded-full"
+                className="h-8 w-8 rounded-full hover:bg-slate-50"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -132,79 +132,79 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
             <div className="custom-scrollbar flex-1 overflow-y-auto p-4">
               <div className="space-y-4 pb-32">
                 <div className="space-y-4">
-                  <p className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">
                     Личные данные
                   </p>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <label className="text-text-muted ml-1 text-[9px] font-black uppercase">
+                      <label className="ml-1 text-[9px] font-black uppercase text-slate-400">
                         Имя
                       </label>
                       <Input
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none font-bold focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 font-bold ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-text-muted ml-1 text-[9px] font-black uppercase">
+                      <label className="ml-1 text-[9px] font-black uppercase text-slate-400">
                         Фамилия
                       </label>
                       <Input
                         value={formData.lastName}
                         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none font-bold focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 font-bold ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <label className="text-text-muted ml-1 text-[9px] font-black uppercase">
+                      <label className="ml-1 text-[9px] font-black uppercase text-slate-400">
                         Никнейм
                       </label>
                       <Input
                         value={formData.nickname}
                         onChange={(e) => setFormData({ ...formData, nickname: e.target.value })}
-                        className="bg-bg-surface2 text-accent-primary ring-accent-primary/20 h-11 rounded-2xl border-none font-black focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 font-black text-indigo-600 ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-text-muted ml-1 text-[9px] font-black uppercase">
+                      <label className="ml-1 text-[9px] font-black uppercase text-slate-400">
                         Должность
                       </label>
                       <Input
                         value={formData.role}
                         onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none font-bold focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 font-bold ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <label className="text-text-muted ml-1 text-[9px] font-black uppercase">
+                      <label className="ml-1 text-[9px] font-black uppercase text-slate-400">
                         Подразделение (Группа)
                       </label>
                       <Input
                         value={formData.department || ''}
                         placeholder="Напр. Логистика / Финансы / IT"
                         onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none font-bold focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 font-bold ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-text-muted ml-1 text-[9px] font-black uppercase">
+                      <label className="ml-1 text-[9px] font-black uppercase text-slate-400">
                         Дата начала работы
                       </label>
                       <Input
                         type="date"
                         value={formData.joinedAt?.split('T')[0] || ''}
                         onChange={(e) => setFormData({ ...formData, joinedAt: e.target.value })}
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none font-bold focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 font-bold ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-text-muted ml-1 text-[9px] font-black uppercase">
+                    <label className="ml-1 text-[9px] font-black uppercase text-slate-400">
                       Компетенции (Skills Matrix)
                     </label>
                     <Input
@@ -219,22 +219,22 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                             .filter((s) => s),
                         })
                       }
-                      className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none font-bold focus:ring-2"
+                      className="h-11 rounded-2xl border-none bg-slate-50 font-bold ring-indigo-500/20 focus:ring-2"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <p className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">
                     Этичность и Приватность
                   </p>
-                  <div className="bg-bg-surface2 border-border-subtle space-y-6 rounded-xl border p-4">
+                  <div className="space-y-6 rounded-xl border border-slate-100 bg-slate-50 p-4">
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label className="text-[11px] font-black uppercase tracking-tight">
                           Рабочий календарь
                         </Label>
-                        <p className="text-text-muted text-[9px] font-bold uppercase">
+                        <p className="text-[9px] font-bold uppercase text-slate-400">
                           Видимость задач и событий коллегам
                         </p>
                       </div>
@@ -256,7 +256,7 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                         <Label className="text-[11px] font-black uppercase tracking-tight">
                           Рабочие задачи
                         </Label>
-                        <p className="text-text-muted text-[9px] font-bold uppercase">
+                        <p className="text-[9px] font-bold uppercase text-slate-400">
                           Открытость статусов текущих дел
                         </p>
                       </div>
@@ -278,7 +278,7 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                         <Label className="text-[11px] font-black uppercase tracking-tight">
                           Активность (Live)
                         </Label>
-                        <p className="text-text-muted text-[9px] font-bold uppercase">
+                        <p className="text-[9px] font-bold uppercase text-slate-400">
                           Трансляция «В эфире» (что делает сейчас)
                         </p>
                       </div>
@@ -300,7 +300,7 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                         <Label className="text-[11px] font-black uppercase tracking-tight">
                           Финансовые KPI
                         </Label>
-                        <p className="text-text-muted text-[9px] font-bold uppercase">
+                        <p className="text-[9px] font-bold uppercase text-slate-400">
                           Публичность личных достижений и бонусов
                         </p>
                       </div>
@@ -318,9 +318,9 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                       />
                     </div>
                   </div>
-                  <div className="bg-accent-primary/10 border-accent-primary/20 flex items-start gap-3 rounded-2xl border p-4">
-                    <ShieldCheck className="text-accent-primary mt-0.5 h-4 w-4 shrink-0" />
-                    <p className="text-accent-primary text-[9px] font-medium uppercase leading-relaxed">
+                  <div className="flex items-start gap-3 rounded-2xl border border-indigo-100 bg-indigo-50 p-4">
+                    <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-indigo-600" />
+                    <p className="text-[9px] font-medium uppercase leading-relaxed text-indigo-900">
                       Личные переписки и задачи, отмеченные как «приватные», скрыты от всех
                       участников команды по умолчанию, независимо от роли.
                     </p>
@@ -328,65 +328,65 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                 </div>
 
                 <div className="space-y-4">
-                  <p className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">
                     Безопасность
                   </p>
                   <div className="space-y-1.5">
-                    <label className="text-text-muted ml-1 text-[9px] font-black uppercase">
+                    <label className="ml-1 text-[9px] font-black uppercase text-slate-400">
                       Смена кода доступа
                     </label>
                     <div className="relative">
-                      <Lock className="text-text-muted absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2" />
+                      <Lock className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
                       <Input
                         placeholder="Новый пароль"
                         type="password"
                         value={formData.password || ''}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none pl-11 font-bold focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 pl-11 font-bold ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <p className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">
                     Контакты
                   </p>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <label className="text-text-muted ml-1 text-[9px] font-black uppercase">
+                      <label className="ml-1 text-[9px] font-black uppercase text-slate-400">
                         Телефон
                       </label>
                       <Input
                         value={formData.phone || ''}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none font-bold focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 font-bold ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-text-muted ml-1 text-[9px] font-black uppercase">
+                      <label className="ml-1 text-[9px] font-black uppercase text-slate-400">
                         Email
                       </label>
                       <Input
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none font-bold focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 font-bold ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <p className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">
                     Интеграция сетей
                   </p>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="relative">
-                      <div className="bg-accent-primary/10 absolute left-4 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-lg">
-                        <Send className="text-accent-primary h-3 w-3" />
+                      <div className="absolute left-4 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-lg bg-indigo-50">
+                        <Send className="h-3 w-3 text-indigo-600" />
                       </div>
                       <Input
-                        placeholder="Telegram"
+                        placeholder="@username или ссылка"
                         value={formData.socials?.telegram}
                         onChange={(e) =>
                           setFormData({
@@ -394,7 +394,7 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                             socials: { ...formData.socials, telegram: e.target.value },
                           })
                         }
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none pl-12 text-xs font-medium focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 pl-12 text-xs font-medium ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                     <div className="relative">
@@ -402,7 +402,7 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                         <MessageCircle className="h-3 w-3 text-green-600" />
                       </div>
                       <Input
-                        placeholder="WhatsApp"
+                        placeholder="+7 …"
                         value={formData.socials?.whatsapp}
                         onChange={(e) =>
                           setFormData({
@@ -410,15 +410,15 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                             socials: { ...formData.socials, whatsapp: e.target.value },
                           })
                         }
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none pl-12 text-xs font-medium focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 pl-12 text-xs font-medium ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                     <div className="relative">
-                      <div className="bg-accent-primary/10 absolute left-4 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-lg">
-                        <Instagram className="text-accent-primary h-3 w-3" />
+                      <div className="absolute left-4 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-lg bg-pink-50">
+                        <Instagram className="h-3 w-3 text-pink-600" />
                       </div>
                       <Input
-                        placeholder="Instagram"
+                        placeholder="@username"
                         value={formData.socials?.instagram}
                         onChange={(e) =>
                           setFormData({
@@ -426,15 +426,15 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                             socials: { ...formData.socials, instagram: e.target.value },
                           })
                         }
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none pl-12 text-xs font-medium focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 pl-12 text-xs font-medium ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                     <div className="relative">
-                      <div className="bg-bg-surface2 absolute left-4 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-lg">
-                        <Globe className="text-text-secondary h-3 w-3" />
+                      <div className="absolute left-4 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-lg bg-slate-100">
+                        <Globe className="h-3 w-3 text-slate-600" />
                       </div>
                       <Input
-                        placeholder="MAX"
+                        placeholder="Профиль в MAX"
                         value={formData.socials?.max}
                         onChange={(e) =>
                           setFormData({
@@ -442,7 +442,7 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
                             socials: { ...formData.socials, max: e.target.value },
                           })
                         }
-                        className="bg-bg-surface2 ring-accent-primary/20 h-11 rounded-2xl border-none pl-12 text-xs font-medium focus:ring-2"
+                        className="h-11 rounded-2xl border-none bg-slate-50 pl-12 text-xs font-medium ring-indigo-500/20 focus:ring-2"
                       />
                     </div>
                   </div>
@@ -450,10 +450,10 @@ const EditMemberDialog = ({ member, onSave, open, onOpenChange }: EditMemberDial
               </div>
             </div>
 
-            <footer className="border-border-subtle shrink-0 border-t bg-white p-4">
+            <footer className="shrink-0 border-t border-slate-50 bg-white p-4">
               <Button
                 onClick={() => onSave(formData)}
-                className="hover:bg-text-primary/90 group h-10 w-full rounded-[1.5rem] bg-black text-xs font-black uppercase tracking-widest text-white shadow-md shadow-xl transition-all hover:scale-[1.02] active:scale-95"
+                className="group h-10 w-full rounded-[1.5rem] bg-black text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200 transition-all hover:scale-[1.02] hover:bg-slate-800 active:scale-95"
               >
                 <Save className="mr-2 h-5 w-5 transition-transform group-hover:rotate-12" />
                 Сохранить изменения

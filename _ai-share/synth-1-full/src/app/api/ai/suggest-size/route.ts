@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { suggestSize } from '@/ai/flows/suggest-size';
+import { readJsonBody } from '@/lib/http/read-json-body';
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
     const {
       productName,
       category,
@@ -14,14 +14,29 @@ export async function POST(req: NextRequest) {
       userWaist,
       userHips,
       userQuestion,
-    } = body;
+    } = await readJsonBody<{
+      productName?: string;
+      category?: string;
+      sizeChart?: unknown;
+      userHeight?: unknown;
+      userWeight?: unknown;
+      userChest?: unknown;
+      userWaist?: unknown;
+      userHips?: unknown;
+      userQuestion?: string;
+    }>(req);
     if (!productName || !category) {
       return NextResponse.json({ error: 'productName and category are required' }, { status: 400 });
     }
     const result = await suggestSize({
       productName,
       category,
-      sizeChart,
+      sizeChart:
+        sizeChart === undefined || sizeChart === null
+          ? undefined
+          : typeof sizeChart === 'string'
+            ? sizeChart
+            : String(sizeChart),
       userHeight: userHeight ? Number(userHeight) : undefined,
       userWeight: userWeight ? Number(userWeight) : undefined,
       userChest: userChest ? Number(userChest) : undefined,

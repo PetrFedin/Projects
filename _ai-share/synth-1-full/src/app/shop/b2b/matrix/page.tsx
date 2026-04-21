@@ -1,8 +1,8 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { WholesaleOrderMatrix } from '@/components/b2b/WholesaleOrderMatrix';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** NuOrder-style: матрица заказа. ?mode=… ; ?brand= — контекст PIM (Fashion Cloud). */
 export default function B2BMatrixPage() {
@@ -13,13 +13,13 @@ export default function B2BMatrixPage() {
   const pimBrand = searchParams.get('brand') || undefined;
 
   return (
-    <RegistryPageShell className="max-w-none !p-0">
+    <CabinetPageContent maxWidth="full" className="!p-0">
       <WholesaleOrderMatrix
         onClose={() => router.back()}
         activeRetailer={{ name: 'Партнер' }}
         initialOrderMode={validMode}
         pimBrandContext={pimBrand}
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

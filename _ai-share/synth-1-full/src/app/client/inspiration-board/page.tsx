@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PlatformDataBanner } from '@/components/client/platform-data-banner';
-import { ROUTES } from '@/lib/routes';
 import { products as libProducts } from '@/lib/products';
 import type { Product } from '@/lib/types';
 import {
@@ -21,9 +20,11 @@ import {
   type InspirationBoardStateV1,
 } from '@/lib/fashion/inspiration-board';
 import { downloadJsonFile, readJsonFromFile } from '@/lib/platform/json-io';
-import { ArrowLeft, LayoutGrid, Download, Upload, Trash2 } from 'lucide-react';
+import { Download, Upload, Trash2 } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { useToast } from '@/hooks/use-toast';
 import type { ChangeEvent } from 'react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 function resolveProduct(slugOrId: string): Product | undefined {
   return libProducts.find((p) => p.slug === slugOrId || String(p.id) === slugOrId);
@@ -38,7 +39,10 @@ function InspirationBoardInner() {
   useEffect(() => {
     fetch('/data/products.json')
       .then((r) => r.json())
-      .then((d: Product[]) => setCatalog(d.length ? d : libProducts))
+      .then((d) => {
+        const arr = d as Product[];
+        setCatalog(arr.length ? arr : libProducts);
+      })
       .catch(() => setCatalog(libProducts));
   }, []);
 
@@ -211,23 +215,10 @@ function InspirationBoardInner() {
 
 export default function InspirationBoardPage() {
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <LayoutGrid className="h-6 w-6" />
-              Доска вдохновения
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Пины SKU + версионный JSON. Позже: совместное редактирование и импорт из лукбуков.
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader />
         </div>
         <PlatformDataBanner />
       </div>
@@ -235,6 +226,6 @@ export default function InspirationBoardPage() {
       <Suspense fallback={<p className="text-sm text-muted-foreground">Загрузка…</p>}>
         <InspirationBoardInner />
       </Suspense>
-    </div>
+    </CabinetPageContent>
   );
 }

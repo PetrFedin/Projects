@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { use, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -53,17 +53,17 @@ export default function ShoppableLookbookPage({
 
   if (looks.length === 0) {
     return (
-      <RegistryPageShell className="max-w-2xl space-y-6 py-12 text-center">
+      <CabinetPageContent maxWidth="2xl" className="space-y-6 py-12 text-center">
         <p className="text-text-secondary">Лукбук не найден или в нём нет shoppable look'ов.</p>
         <Button variant="outline" className="mt-4" asChild>
           <Link href={ROUTES.shop.b2bShowroom}>В шоурум</Link>
         </Button>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bShowroom}
         lead="Клик по товару на look'е — добавление в заказ (JOOR Shoppable Lookbook)."
@@ -136,7 +136,7 @@ export default function ShoppableLookbookPage({
           <Link href={ROUTES.shop.b2bShowroom}>Шоурум</Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }
 

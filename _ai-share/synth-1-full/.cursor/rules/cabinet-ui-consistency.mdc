@@ -6,6 +6,8 @@ alwaysApply: false
 
 # Cabinet UI — единый стиль
 
+**Полный канон профилей и кабинетов (иерархия документов, роли, чеклист):** `src/design/CABINET_PROFILES_STYLING_RULES_RU.md` — см. также правило `cabinet-profiles-styling-canon.mdc`.
+
 - **Источник токенов вкладок/бейджей:** `src/lib/ui/cabinet-surface.ts` (`cabinetSurface.tabsList`, `tabsTrigger`, `groupTabList`, …). Не вводить новые «свои» бордеры/радиусы для тех же ролей.
 - **Каркас страниц реестра/настроек:** `RegistryPageShell` + при необходимости `RegistryPageHeader` из `@/components/design-system` — одинаковая типографика заголовка и lead (`registry-feed-layout` внутри хедера).
 - **Крошки / eyebrow:** как на соседних страницах кабинета (например `BreadcrumbsNav` у brand, компактный eyebrow со ссылкой на хаб у shop).

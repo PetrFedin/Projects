@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { tid } from '@/lib/ui/test-ids';
 
 import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
@@ -78,7 +78,7 @@ export default function B2BPaymentPage() {
   );
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6" data-testid={tid.page('shop-b2b-payment')}>
+    <CabinetPageContent maxWidth="4xl" className="space-y-6" data-testid={tid.page('shop-b2b-payment')}>
       <ShopB2bContentHeader lead="Оплата заказов внутри платформы; кредитный лимит обновляется после оплаты (JOOR Pay)." />
       <ShopAnalyticsSegmentErpStrip />
 
@@ -228,6 +228,6 @@ export default function B2BPaymentPage() {
           (l) => l.href === ROUTES.shop.b2bFinance || l.href === ROUTES.shop.b2bOrders
         )}
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

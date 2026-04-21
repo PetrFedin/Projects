@@ -16,6 +16,7 @@ import { PartnerDemoExportBar } from '@/components/brand/partner-demo-export-bar
 import { ROUTES } from '@/lib/routes';
 import { PARTNER_MARKDOWN_HINTS } from '@/lib/platform/partner-demo-data';
 import { ArrowLeft, TrendingDown, BarChart3 } from 'lucide-react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 const confLabel: Record<string, string> = {
   rule: 'Правило',
@@ -25,7 +26,7 @@ const confLabel: Record<string, string> = {
 
 export default function MarkdownPredictPage() {
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -109,6 +110,6 @@ export default function MarkdownPredictPage() {
           </Card>
         ))}
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

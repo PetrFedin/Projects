@@ -4,14 +4,13 @@ import { useMemo, useState, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlatformDataBanner } from '@/components/client/platform-data-banner';
-import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { suggestColorHarmony } from '@/lib/fashion/color-harmony';
-import { ArrowLeft, Palette } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { Label } from '@/components/ui/label';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 function ColorStudioInner() {
   const search = useSearchParams();
@@ -105,23 +104,10 @@ function ColorStudioInner() {
 
 export default function ClientColorStudioPage() {
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <Palette className="h-6 w-6" />
-              Цвет и сочетания
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Эвристики палитры для мерча и витрины; позже — эмбеддинги образов и правила бренда.
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader />
         </div>
         <PlatformDataBanner />
       </div>
@@ -129,6 +115,6 @@ export default function ClientColorStudioPage() {
       <Suspense fallback={<p className="text-sm text-muted-foreground">Загрузка…</p>}>
         <ColorStudioInner />
       </Suspense>
-    </div>
+    </CabinetPageContent>
   );
 }

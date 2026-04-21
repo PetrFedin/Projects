@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,6 @@ import { Package, BarChart2, RefreshCcw } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getFulfillmentDashboardCrossRoleLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
@@ -38,7 +38,7 @@ const MOCK_REPLENISH = [
 
 export default function FulfillmentDashboardPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="Каналы исполнения и пополнение (ZEOS / zDirect). Ниже — связки с заказами бренда, производством и трекингом." />
       <ShopAnalyticsSegmentErpStrip />
 
@@ -175,6 +175,6 @@ export default function FulfillmentDashboardPage() {
         title="Бренд, factory и ритейл"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

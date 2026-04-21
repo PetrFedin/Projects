@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useUIState } from '@/providers/ui-state';
 import { useAuth } from '@/providers/auth-provider';
-import { ROUTES } from '@/lib/routes';
 
 const heroAds = [
   {
@@ -83,7 +82,7 @@ const heroAdsB2B = [
       'Единое хранилище ТЗ, лекал и сертификатов для всех ваших фабрик с Live-мониторингом линий.',
     imageUrl: 'https://images.unsplash.com/photo-1558444479-c8f02e62156e?q=80&w=2000',
     ctaText: 'Контроль производства',
-    ctaLink: ROUTES.factory.production,
+    ctaLink: '/factory/production',
     isPaid: true,
   },
   {
@@ -120,8 +119,8 @@ export function AdvertisingSection() {
 
   return (
     <section className="group/section relative overflow-hidden bg-white pb-3 pt-6">
-      <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
-        <div className="border-border-subtle group/card relative flex h-[500px] items-center overflow-hidden rounded-xl border bg-[#fcfcfc] shadow-2xl shadow-md">
+      <div className="container relative mx-auto px-4">
+        <div className="group/card relative flex h-[500px] items-center overflow-hidden rounded-xl border border-slate-100 bg-[#fcfcfc] shadow-2xl shadow-slate-200/50">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentAdIndex}
@@ -134,13 +133,13 @@ export function AdvertisingSection() {
               <img
                 src={currentAd.imageUrl}
                 alt={currentAd.title}
-                className="h-full w-full object-cover transition-transform [transition-duration:30s] group-hover/card:scale-105"
+                className="duration-[30s] h-full w-full object-cover transition-transform group-hover/card:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
             </motion.div>
           </AnimatePresence>
 
-          <div className="relative z-10 w-full py-12 pl-12 pr-12 md:pl-[120px]">
+          <div className="relative z-10 w-full max-w-full py-8 pl-6 pr-6 sm:py-10 sm:pl-10 sm:pr-8 md:py-12 md:pl-16 md:pr-12">
             <div className="max-w-4xl space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
@@ -169,7 +168,7 @@ export function AdvertisingSection() {
 
               <div className="flex min-h-[80px] flex-col justify-center">
                 {currentAd.description && (
-                  <p className="text-text-muted border-accent-primary/50 max-w-2xl border-l-2 pl-6 text-sm font-medium leading-relaxed">
+                  <p className="max-w-2xl border-l-2 border-indigo-500/50 pl-6 text-sm font-medium leading-relaxed text-slate-300">
                     "{currentAd.description}"
                   </p>
                 )}
@@ -181,30 +180,30 @@ export function AdvertisingSection() {
                     href={
                       currentAd.ctaText === 'Панель управления'
                         ? user?.roles?.includes('admin')
-                          ? ROUTES.admin.cmsHome
+                          ? '/admin/home'
                           : user?.roles?.includes('brand')
-                            ? ROUTES.brand.home
+                            ? '/brand'
                             : user?.roles?.includes('shop')
-                              ? ROUTES.shop.b2bDiscover
+                              ? '/shop/b2b'
                               : user?.roles?.includes('distributor')
-                                ? ROUTES.distributor.home
+                                ? '/distributor'
                                 : user?.roles?.includes('manufacturer')
-                                  ? ROUTES.factory.production
+                                  ? '/factory'
                                   : user?.roles?.includes('supplier')
-                                    ? ROUTES.factory.supplier
-                                    : ROUTES.brand.home
+                                    ? '/factory'
+                                    : '/brand'
                         : currentAd.id === 'b2b-fintech'
                           ? '/brand/finance'
                           : currentAd.id === 'b2b-production-archive'
-                            ? ROUTES.factory.production
+                            ? '/factory/production'
                             : currentAd.id === 'b2b-commerce'
                               ? '/brand/showroom'
                               : currentAd.id === 'b2b-distributors'
-                                ? ROUTES.distributor.home
+                                ? '/distributor'
                                 : currentAd.id === 'b2b-suppliers'
-                                  ? ROUTES.factory.productionMaterials
+                                  ? '/factory/materials'
                                   : currentAd.id === 'b2b-production'
-                                    ? ROUTES.factory.production
+                                    ? '/factory/production'
                                     : currentAd.ctaLink
                     }
                     className="flex items-center gap-2"
@@ -217,7 +216,7 @@ export function AdvertisingSection() {
             </div>
           </div>
 
-          <div className="absolute bottom-8 right-8 z-20 flex flex-col items-end gap-3">
+          <div className="absolute bottom-4 right-4 z-20 flex max-w-[min(100%,calc(100%-1rem))] flex-col items-end gap-2 sm:bottom-6 sm:right-6 md:bottom-8 md:right-8">
             <div className="flex items-center gap-3">
               {activeAds.map((_, i) => (
                 <button

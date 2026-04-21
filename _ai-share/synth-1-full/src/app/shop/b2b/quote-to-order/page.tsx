@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 /** NetSuite/BigCommerce: Quote-to-Order — переход от коммерческого предложения к заказу */
@@ -42,7 +42,7 @@ export default function QuoteToOrderPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader lead="Конвертация коммерческого предложения в заказ одной кнопкой (интеграции NetSuite / BigCommerce)." />
 
       <Card>
@@ -94,6 +94,6 @@ export default function QuoteToOrderPage() {
           <Link href={ROUTES.shop.b2bCreateOrder}>Написание заказа</Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

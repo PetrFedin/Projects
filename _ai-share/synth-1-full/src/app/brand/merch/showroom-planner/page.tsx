@@ -24,7 +24,6 @@ import {
   ArrowUpRight,
   Target,
   AlertTriangle,
-  AlertCircle,
   Activity,
   BarChart3,
   Zap,
@@ -42,8 +41,9 @@ import {
   Map,
   ShoppingBag,
   Scan,
-  Lock,
+  AlertCircle,
   Smartphone,
+  Lock as LockIcon,
 } from 'lucide-react';
 import { getShowroomAppointments } from '@/lib/fashion/showroom-planner';
 import { getDraftLooksForPartner } from '@/lib/fashion/showroom-look-to-order';
@@ -123,10 +123,10 @@ export default function ShowroomPlannerPage() {
     <div className="mx-auto max-w-7xl p-8">
       <div className="mb-8">
         <div className="mb-2 flex items-center gap-3">
-          <div className="bg-accent-primary/15 rounded-lg p-2 shadow-sm">
-            <Briefcase className="text-accent-primary h-6 w-6" />
+          <div className="rounded-lg bg-indigo-100 p-2 shadow-sm">
+            <Briefcase className="h-6 w-6 text-indigo-600" />
           </div>
-          <h1 className="text-text-primary text-3xl font-bold uppercase tracking-tight tracking-tighter">
+          <h1 className="text-3xl font-bold uppercase tracking-tight tracking-tighter text-slate-800">
             B2B Showroom PRO
           </h1>
         </div>
@@ -142,10 +142,10 @@ export default function ShowroomPlannerPage() {
           {appointments.map((app) => (
             <Card
               key={app.id}
-              className="border-border-subtle hover:border-accent-primary/30 relative overflow-hidden border-2 p-6 shadow-md transition-all"
+              className="relative overflow-hidden border-2 border-slate-100 p-6 shadow-md transition-all hover:border-indigo-200"
             >
               <div className="absolute right-0 top-0 rotate-12 p-4 opacity-5">
-                <Briefcase className="text-accent-primary h-24 w-24" />
+                <Briefcase className="h-24 w-24 text-indigo-600" />
               </div>
 
               {(() => {
@@ -156,7 +156,7 @@ export default function ShowroomPlannerPage() {
                       <div className="mb-3 flex items-center gap-2">
                         <Badge
                           variant="outline"
-                          className="bg-bg-surface2 border-border-default h-4 text-[10px] font-black uppercase"
+                          className="h-4 border-slate-200 bg-slate-50 text-[10px] font-black uppercase"
                         >
                           {app.id}
                         </Badge>
@@ -174,79 +174,79 @@ export default function ShowroomPlannerPage() {
                       </div>
 
                       <div className="mb-4 flex items-start justify-between">
-                        <h3 className="text-text-primary text-2xl font-black tracking-tight">
+                        <h3 className="text-2xl font-black tracking-tight text-slate-800">
                           {app.partnerName}
                         </h3>
                         <div className="flex items-center gap-2">
                           <div className="text-right">
-                            <div className="text-text-muted mb-1 text-[8px] font-black uppercase leading-none">
+                            <div className="mb-1 text-[8px] font-black uppercase leading-none text-slate-400">
                               Reliability
                             </div>
                             <div
-                              className={`text-sm font-black ${reliability.reliabilityTier === 'A+' ? 'text-emerald-600' : 'text-text-primary'}`}
+                              className={`text-sm font-black ${reliability.reliabilityTier === 'A+' ? 'text-emerald-600' : 'text-slate-700'}`}
                             >
                               Tier {reliability.reliabilityTier}
                             </div>
                           </div>
-                          <div className="bg-bg-surface2 border-border-subtle flex h-10 w-10 items-center justify-center rounded-xl border">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-100 bg-slate-50">
                             <ShieldCheck
-                              className={`h-6 w-6 ${reliability.reliabilityTier === 'A+' ? 'text-emerald-500' : 'text-text-muted'}`}
+                              className={`h-6 w-6 ${reliability.reliabilityTier === 'A+' ? 'text-emerald-500' : 'text-slate-300'}`}
                             />
                           </div>
                         </div>
                       </div>
 
                       <div className="mb-6 grid grid-cols-2 gap-6">
-                        <div className="text-text-secondary flex items-center gap-2 text-sm font-bold">
-                          <Calendar className="text-accent-primary h-4 w-4" /> {app.date}
+                        <div className="flex items-center gap-2 text-sm font-bold text-slate-600">
+                          <Calendar className="h-4 w-4 text-indigo-500" /> {app.date}
                         </div>
-                        <div className="text-text-secondary flex items-center gap-2 text-sm font-bold">
-                          <MapPin className="text-accent-primary h-4 w-4" /> {app.location}
+                        <div className="flex items-center gap-2 text-sm font-bold text-slate-600">
+                          <MapPin className="h-4 w-4 text-indigo-500" /> {app.location}
                         </div>
                       </div>
 
                       <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                         {app.estimatedPreOrderValue && (
-                          <div className="bg-accent-primary/10 border-accent-primary/20 flex items-center justify-between rounded-xl border p-3">
-                            <div className="text-accent-primary flex items-center gap-2 text-xs font-black uppercase">
+                          <div className="flex items-center justify-between rounded-xl border border-indigo-100 bg-indigo-50/50 p-3">
+                            <div className="flex items-center gap-2 text-xs font-black uppercase text-indigo-700">
                               <TrendingUp className="h-4 w-4" /> Est. Pre-order
                             </div>
-                            <div className="text-accent-primary text-lg font-black">
+                            <div className="text-lg font-black text-indigo-800">
                               {app.estimatedPreOrderValue.toLocaleString()} ₽
                             </div>
                           </div>
                         )}
-                        <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-3">
-                          <div className="text-text-secondary flex items-center gap-2 text-xs font-black uppercase">
+                        <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3">
+                          <div className="flex items-center gap-2 text-xs font-black uppercase text-slate-500">
                             <CreditCard className="h-4 w-4" /> Pay Score
                           </div>
-                          <div className="text-text-primary text-lg font-black">
+                          <div className="text-lg font-black text-slate-700">
                             {reliability.paymentOnTimeRate}%
                           </div>
                         </div>
                       </div>
 
                       <div className="space-y-3">
-                        <h4 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                           Partner Feedback & Wishlist
                         </h4>
                         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                           {app.selectedSkus.map((sku) => (
                             <div
                               key={sku}
-                              className="border-border-subtle group flex items-center justify-between rounded-lg border bg-white p-2.5 shadow-sm"
+                              className="group flex items-center justify-between rounded-lg border border-slate-100 bg-white p-2.5 shadow-sm"
                             >
                               <div className="flex items-center gap-2">
-                                <div className="bg-border-subtle group-hover:bg-accent-primary h-2 w-2 rounded-full transition-colors" />
-                                <span className="text-text-primary text-xs font-bold">{sku}</span>
+                                <div className="h-2 w-2 rounded-full bg-slate-200 transition-colors group-hover:bg-indigo-400" />
+                                <span className="text-xs font-bold text-slate-700">{sku}</span>
                               </div>
                               {app.partnerFeedback?.[sku] ? (
-                                <Badge className="bg-accent-primary/10 text-accent-primary border-none text-[8px] font-black uppercase">
-                                  <Heart className="fill-accent-primary mr-1 h-2.5 w-2.5" />{' '}
+                                <Badge className="border-none bg-fuchsia-50 text-[8px] font-black uppercase text-fuchsia-700">
+                                  <Heart className="mr-1 h-2.5 w-2.5 fill-fuchsia-500" />{' '}
                                   {app.partnerFeedback[sku]}
                                 </Badge>
                               ) : (
-                                <MessageSquare className="text-text-muted h-3 w-3 cursor-pointer opacity-0 transition-opacity group-hover:opacity-100" />
+                                <MessageSquare className="h-3 w-3 cursor-pointer text-slate-300 opacity-0 transition-opacity group-hover:opacity-100" />
                               )}
                             </div>
                           ))}
@@ -255,12 +255,12 @@ export default function ShowroomPlannerPage() {
                     </div>
 
                     <div className="w-full space-y-3 md:w-56">
-                      <Button className="bg-accent-primary hover:bg-accent-primary h-10 w-full text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
+                      <Button className="h-10 w-full bg-indigo-600 text-[10px] font-black uppercase tracking-widest text-white shadow-lg hover:bg-indigo-700">
                         Enter Session Mode
                       </Button>
                       <Button
                         variant="outline"
-                        className="border-border-default h-10 w-full text-[10px] font-black uppercase"
+                        className="h-10 w-full border-slate-200 text-[10px] font-black uppercase"
                       >
                         Send AR Invitation
                       </Button>
@@ -283,89 +283,89 @@ export default function ShowroomPlannerPage() {
 
         {/* Sidebar Tools */}
         <div className="space-y-6">
-          <Card className="border-border-subtle relative overflow-hidden border-2 bg-white p-6 shadow-xl">
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
-              <BarChart3 className="text-accent-primary h-4 w-4" /> Order Impact Simulator
+          <Card className="relative overflow-hidden border-2 border-slate-100 bg-white p-6 shadow-xl">
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-800">
+              <BarChart3 className="h-4 w-4 text-indigo-600" /> Order Impact Simulator
             </h3>
 
             <div className="relative z-10 space-y-5">
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-bg-surface2 border-border-subtle rounded-xl border p-3">
-                  <div className="text-text-muted mb-1 text-[8px] font-black uppercase tracking-tighter">
+                <div className="rounded-xl border border-slate-100 bg-slate-50 p-3">
+                  <div className="mb-1 text-[8px] font-black uppercase tracking-tighter text-slate-400">
                     Proj. Sell-Through
                   </div>
                   <div className="text-lg font-black text-emerald-600">
                     {orderSim.projectedSellThrough}%
                   </div>
                 </div>
-                <div className="bg-bg-surface2 border-border-subtle rounded-xl border p-3">
-                  <div className="text-text-muted mb-1 text-[8px] font-black uppercase tracking-tighter">
+                <div className="rounded-xl border border-slate-100 bg-slate-50 p-3">
+                  <div className="mb-1 text-[8px] font-black uppercase tracking-tighter text-slate-400">
                     Proj. Margin
                   </div>
-                  <div className="text-text-primary text-lg font-black">
+                  <div className="text-lg font-black text-slate-800">
                     {orderSim.projectedMargin}%
                   </div>
                 </div>
               </div>
 
               <div className="space-y-3">
-                <div className="text-text-muted flex items-center justify-between text-[9px] font-black uppercase">
+                <div className="flex items-center justify-between text-[9px] font-black uppercase text-slate-400">
                   <span>Inventory Turnover</span>
-                  <span className="text-text-primary">{orderSim.inventoryTurnoverWeeks} Weeks</span>
+                  <span className="text-slate-800">{orderSim.inventoryTurnoverWeeks} Weeks</span>
                 </div>
                 <Progress
                   value={(orderSim.inventoryTurnoverWeeks / 12) * 100}
-                  className="bg-bg-surface2 fill-accent-primary h-1"
+                  className="h-1 bg-slate-100 fill-indigo-500"
                 />
               </div>
 
-              <div className="bg-accent-primary/10 border-accent-primary/20 flex items-center justify-between rounded-xl border p-3">
-                <div className="text-accent-primary text-[9px] font-bold">Markdown Risk Score</div>
-                <Badge className="bg-accent-primary h-5 text-[8px] font-black uppercase text-white">
+              <div className="flex items-center justify-between rounded-xl border border-indigo-100 bg-indigo-50 p-3">
+                <div className="text-[9px] font-bold text-indigo-700">Markdown Risk Score</div>
+                <Badge className="h-5 bg-indigo-600 text-[8px] font-black uppercase text-white">
                   {orderSim.markdownRiskScore}% LOW
                 </Badge>
               </div>
             </div>
           </Card>
 
-          <Card className="bg-bg-surface2 border-none p-6 shadow-md">
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
+          <Card className="border-none bg-slate-100 p-6 shadow-md">
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-700">
               <MessageSquare className="h-4 w-4" /> Collaboration Hub
             </h3>
             <div className="custom-scrollbar mb-4 max-h-48 space-y-3 overflow-y-auto pr-2">
               {sessionNotes.map((note, i) => (
                 <div
                   key={i}
-                  className="border-border-default relative rounded-lg border bg-white p-2.5 shadow-sm"
+                  className="relative rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm"
                 >
                   <div className="mb-1 flex items-center justify-between">
                     <span
-                      className={`rounded px-1.5 py-0.5 text-[7px] font-black uppercase ${note.role === 'brand' ? 'bg-accent-primary/15 text-accent-primary' : note.role === 'store' ? 'bg-emerald-100 text-emerald-700' : 'bg-bg-surface2 text-text-primary'}`}
+                      className={`rounded px-1.5 py-0.5 text-[7px] font-black uppercase ${note.role === 'brand' ? 'bg-indigo-100 text-indigo-700' : note.role === 'store' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-700'}`}
                     >
                       {note.role}
                     </span>
-                    <span className="text-text-muted text-[7px] font-black uppercase">Now</span>
+                    <span className="text-[7px] font-black uppercase text-slate-400">Now</span>
                   </div>
-                  <div className="text-text-primary mb-0.5 text-[10px] font-bold">{note.name}</div>
-                  <p className="text-text-secondary text-[10px] leading-tight">{note.text}</p>
+                  <div className="mb-0.5 text-[10px] font-bold text-slate-800">{note.name}</div>
+                  <p className="text-[10px] leading-tight text-slate-600">{note.text}</p>
                 </div>
               ))}
             </div>
             <div className="relative">
               <input
                 type="text"
-                placeholder="Type collaborative note..."
-                className="border-border-default focus:ring-accent-primary h-9 w-full rounded-lg border bg-white pl-3 pr-10 text-[10px] font-medium outline-none focus:ring-2"
+                placeholder="Совместная заметка…"
+                className="h-9 w-full rounded-lg border border-slate-200 bg-white pl-3 pr-10 text-[10px] font-medium outline-none focus:ring-2 focus:ring-indigo-500"
               />
-              <button className="bg-accent-primary hover:bg-accent-primary absolute right-1 top-1 flex h-7 w-7 items-center justify-center rounded-md text-white shadow-md transition-colors">
+              <button className="absolute right-1 top-1 flex h-7 w-7 items-center justify-center rounded-md bg-indigo-600 text-white shadow-md transition-colors hover:bg-indigo-700">
                 <Send className="h-3.5 w-3.5" />
               </button>
             </div>
           </Card>
 
-          <Card className="bg-text-primary relative overflow-hidden border-none p-6 shadow-2xl">
-            <div className="from-accent-primary/10 pointer-events-none absolute left-0 top-0 h-full w-full bg-gradient-to-br to-transparent" />
-            <h3 className="text-accent-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
+          <Card className="relative overflow-hidden border-none bg-slate-900 p-6 shadow-2xl">
+            <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-gradient-to-br from-indigo-500/10 to-transparent" />
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-indigo-400">
               <Users className="h-4 w-4" /> Live Buyer Presence
             </h3>
 
@@ -377,14 +377,14 @@ export default function ShowroomPlannerPage() {
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative">
-                      <div className="bg-accent-primary flex h-8 w-8 items-center justify-center rounded-full text-[10px] font-black">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-500 text-[10px] font-black">
                         {buyer.name[0]}
                       </div>
-                      <div className="border-text-primary absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 bg-emerald-500" />
+                      <div className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-slate-900 bg-emerald-500" />
                     </div>
                     <div>
                       <div className="text-[11px] font-black text-white">{buyer.name}</div>
-                      <div className="text-accent-primary text-[8px] font-bold uppercase tracking-tighter">
+                      <div className="text-[8px] font-bold uppercase tracking-tighter text-indigo-300">
                         Viewing: {buyer.currentSku}
                       </div>
                     </div>
@@ -393,7 +393,7 @@ export default function ShowroomPlannerPage() {
                     <div className="mb-0.5 flex items-center justify-end gap-1 text-[8px] font-black uppercase text-white/40">
                       <Clock className="h-2.5 w-2.5" /> {buyer.lastSeen}
                     </div>
-                    <button className="text-accent-primary text-[7px] font-black uppercase tracking-widest underline hover:text-white">
+                    <button className="text-[7px] font-black uppercase tracking-widest text-indigo-400 underline hover:text-white">
                       Join View
                     </button>
                   </div>
@@ -401,17 +401,17 @@ export default function ShowroomPlannerPage() {
               ))}
             </div>
 
-            <div className="bg-accent-primary/20 text-accent-primary/40 mt-4 rounded-lg p-2 text-center text-[8px] font-black uppercase tracking-widest">
+            <div className="mt-4 rounded-lg bg-indigo-500/20 p-2 text-center text-[8px] font-black uppercase tracking-widest text-indigo-200">
               Showroom Multi-User Sync Enabled
             </div>
           </Card>
 
-          <Card className="bg-text-primary border-text-primary/30 group relative overflow-hidden border-2 p-6 shadow-2xl">
+          <Card className="group relative overflow-hidden border-2 border-slate-800 bg-slate-900 p-6 shadow-2xl">
             <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-10 transition-transform group-hover:scale-110">
               <Map className="h-24 w-24 text-white" />
             </div>
             <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-white">
-              <Map className="text-accent-primary h-4 w-4" /> Regional Demand Heatmap
+              <Map className="h-4 w-4 text-indigo-400" /> Regional Demand Heatmap
             </h3>
 
             <div className="relative z-10 mb-6 space-y-4">
@@ -421,15 +421,13 @@ export default function ShowroomPlannerPage() {
                     <div className="text-[11px] font-black uppercase tracking-tight text-white">
                       {h.region}
                     </div>
-                    <div className="text-accent-primary text-[10px] font-black">
-                      {h.interestScore}%
-                    </div>
+                    <div className="text-[10px] font-black text-indigo-300">{h.interestScore}%</div>
                   </div>
                   <Progress
                     value={h.interestScore}
-                    className="fill-accent-primary h-1 rounded-full bg-white/10"
+                    className="h-1 rounded-full bg-white/10 fill-indigo-500"
                   />
-                  <div className="text-text-secondary mt-1 flex items-center justify-between text-[8px] font-bold uppercase">
+                  <div className="mt-1 flex items-center justify-between text-[8px] font-bold uppercase text-slate-500">
                     <span>Proj: {h.projectedUnits} units</span>
                     <span className="text-emerald-500">+{h.growthRate}% Growth</span>
                   </div>
@@ -437,12 +435,12 @@ export default function ShowroomPlannerPage() {
               ))}
             </div>
 
-            <Button className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/20 h-10 w-full text-[10px] font-black uppercase text-white shadow-lg">
+            <Button className="h-10 w-full bg-indigo-600 text-[10px] font-black uppercase text-white shadow-lg shadow-indigo-500/20 hover:bg-indigo-700">
               Export Regional Analysis
             </Button>
           </Card>
 
-          <Card className="bg-accent-primary border-accent-primary group relative overflow-hidden border-2 p-6 shadow-xl">
+          <Card className="group relative overflow-hidden border-2 border-indigo-500 bg-indigo-600 p-6 shadow-xl">
             <div className="pointer-events-none absolute -bottom-4 -right-4 opacity-10 transition-transform group-hover:scale-110">
               <Sparkles className="h-32 w-32 text-white" />
             </div>
@@ -461,7 +459,7 @@ export default function ShowroomPlannerPage() {
                       <ShoppingBag className="h-3.5 w-3.5 text-white" />
                       <div>
                         <div className="text-[10px] font-black uppercase text-white">{s.sku}</div>
-                        <div className="text-accent-primary/40 text-[7px] font-bold uppercase">
+                        <div className="text-[7px] font-bold uppercase text-indigo-200">
                           {s.reason}
                         </div>
                       </div>
@@ -476,20 +474,20 @@ export default function ShowroomPlannerPage() {
               ))}
             </div>
 
-            <Button className="text-accent-primary hover:bg-accent-primary/10 h-10 w-full bg-white text-[10px] font-black uppercase shadow-lg">
+            <Button className="h-10 w-full bg-white text-[10px] font-black uppercase text-indigo-600 shadow-lg hover:bg-indigo-50">
               Apply All Suggestions
             </Button>
           </Card>
 
-          <Card className="border-border-subtle group relative overflow-hidden border-2 bg-white p-6 shadow-xl">
+          <Card className="group relative overflow-hidden border-2 border-slate-100 bg-white p-6 shadow-xl">
             <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5 transition-transform group-hover:scale-110">
-              <Scan className="text-text-primary h-24 w-24" />
+              <Scan className="h-24 w-24 text-slate-900" />
             </div>
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
-              <Scan className="text-text-primary h-4 w-4" /> Live Sample Inventory
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-800">
+              <Scan className="h-4 w-4 text-slate-700" /> Live Sample Inventory
             </h3>
 
-            <div className="bg-bg-surface2 border-border-subtle relative z-10 mb-4 rounded-2xl border p-4">
+            <div className="relative z-10 mb-4 rounded-2xl border border-slate-100 bg-slate-50 p-4">
               <div className="mb-3 flex items-center gap-4">
                 <div
                   className={`flex h-10 w-10 items-center justify-center rounded-xl border-2 border-white shadow-sm ${
@@ -501,9 +499,7 @@ export default function ShowroomPlannerPage() {
                   <Box className="h-5 w-5" />
                 </div>
                 <div>
-                  <div className="text-text-primary text-[11px] font-black">
-                    {sampleInventory.id}
-                  </div>
+                  <div className="text-[11px] font-black text-slate-800">{sampleInventory.id}</div>
                   <Badge
                     className={`h-4 border-none text-[8px] font-black uppercase ${
                       sampleInventory.status === 'available'
@@ -515,37 +511,37 @@ export default function ShowroomPlannerPage() {
                   </Badge>
                 </div>
               </div>
-              <div className="text-text-secondary flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest">
+              <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-slate-500">
                 <MapPin className="h-3 w-3" /> {sampleInventory.currentZone}
               </div>
             </div>
 
             <Button
               variant="outline"
-              className="border-text-primary text-text-primary hover:bg-bg-surface2 h-10 w-full text-[10px] font-black uppercase"
+              className="h-10 w-full border-slate-900 text-[10px] font-black uppercase text-slate-900 hover:bg-slate-50"
             >
               Refresh Sample Status
             </Button>
           </Card>
 
-          <Card className="bg-text-primary border-text-primary/30 group relative overflow-hidden border-2 p-6 shadow-2xl">
+          <Card className="group relative overflow-hidden border-2 border-slate-800 bg-slate-900 p-6 shadow-2xl">
             <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-10 transition-transform group-hover:scale-110">
               <Truck className="h-24 w-24 text-white" />
             </div>
             <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-white">
-              <Truck className="text-accent-primary h-4 w-4" /> Order Lifecycle Tracker
+              <Truck className="h-4 w-4 text-indigo-400" /> Order Lifecycle Tracker
             </h3>
 
             <div className="relative z-10 mb-6 space-y-4">
               {milestones.map((m, i) => (
                 <div key={m.id} className="group/item flex items-center gap-4">
                   <div
-                    className={`border-text-primary/30 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 ${
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-slate-800 ${
                       m.status === 'completed'
                         ? 'bg-emerald-500 text-white'
                         : m.status === 'in_progress'
-                          ? 'bg-accent-primary animate-pulse text-white'
-                          : 'bg-text-primary/90 text-text-secondary'
+                          ? 'animate-pulse bg-indigo-600 text-white'
+                          : 'bg-slate-800 text-slate-500'
                     }`}
                   >
                     {m.status === 'completed' ? (
@@ -557,10 +553,10 @@ export default function ShowroomPlannerPage() {
                     )}
                   </div>
                   <div className="flex-1">
-                    <div className="group-hover/item:text-accent-primary mb-1 text-[11px] font-black uppercase leading-none tracking-tight text-white transition-colors">
+                    <div className="mb-1 text-[11px] font-black uppercase leading-none tracking-tight text-white transition-colors group-hover/item:text-indigo-300">
                       {m.name}
                     </div>
-                    <div className="text-text-secondary text-[8px] font-bold uppercase tracking-widest">
+                    <div className="text-[8px] font-bold uppercase tracking-widest text-slate-500">
                       Est: {m.estimatedDate}
                     </div>
                   </div>
@@ -568,7 +564,7 @@ export default function ShowroomPlannerPage() {
               ))}
             </div>
 
-            <Button className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/20 h-10 w-full text-[10px] font-black uppercase text-white shadow-lg">
+            <Button className="h-10 w-full bg-indigo-600 text-[10px] font-black uppercase text-white shadow-lg shadow-indigo-500/20 hover:bg-indigo-700">
               Detailed Delivery SLA
             </Button>
           </Card>
@@ -577,7 +573,7 @@ export default function ShowroomPlannerPage() {
             <div className="pointer-events-none absolute -bottom-4 -right-4 opacity-5 transition-transform group-hover:scale-110">
               <Globe className="h-32 w-32 text-emerald-600" />
             </div>
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-800">
               <Globe className="h-4 w-4 text-emerald-600" /> B2B Regional Settlement
             </h3>
 
@@ -590,28 +586,26 @@ export default function ShowroomPlannerPage() {
                   Active
                 </Badge>
               </div>
-              <div className="text-text-primary text-2xl font-black">
+              <div className="text-2xl font-black text-slate-900">
                 {currencySettlement.finalAmount.toLocaleString()} {currencySettlement.currency}
               </div>
-              <div className="text-text-muted mt-1 text-[9px] font-bold uppercase tracking-widest">
+              <div className="mt-1 text-[9px] font-bold uppercase tracking-widest text-slate-400">
                 Base: {currencySettlement.baseAmount.toLocaleString()} RUB
               </div>
             </div>
 
             <div className="relative z-10 mb-4 space-y-2">
-              <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-2">
-                <div className="text-text-secondary text-[9px] font-black uppercase">
-                  Currency Pair
-                </div>
-                <div className="text-text-primary text-[10px] font-black">
+              <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-2">
+                <div className="text-[9px] font-black uppercase text-slate-500">Currency Pair</div>
+                <div className="text-[10px] font-black text-slate-800">
                   RUB / {currencySettlement.currency}
                 </div>
               </div>
-              <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-2">
-                <div className="text-text-secondary text-[9px] font-black uppercase">
+              <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-2">
+                <div className="text-[9px] font-black uppercase text-slate-500">
                   Rate (v. 1.0.8)
                 </div>
-                <div className="text-text-primary text-[10px] font-black">
+                <div className="text-[10px] font-black text-slate-800">
                   {currencySettlement.exchangeRate}
                 </div>
               </div>
@@ -622,12 +616,12 @@ export default function ShowroomPlannerPage() {
             </Button>
           </Card>
 
-          <Card className="border-text-primary group relative overflow-hidden border-2 bg-white p-6 shadow-2xl">
+          <Card className="group relative overflow-hidden border-2 border-slate-900 bg-white p-6 shadow-2xl">
             <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-10 transition-transform group-hover:scale-110">
-              <Users className="text-text-primary h-24 w-24" />
+              <Users className="h-24 w-24 text-slate-900" />
             </div>
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
-              <Users className="text-text-primary h-4 w-4" /> Showroom Resource Sync
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-800">
+              <Users className="h-4 w-4 text-slate-700" /> Showroom Resource Sync
             </h3>
 
             <div className="relative z-10 mb-6 space-y-4">
@@ -653,15 +647,15 @@ export default function ShowroomPlannerPage() {
                         )}
                       </div>
                       <div>
-                        <div className="text-text-primary group-hover/item:text-accent-primary text-[11px] font-black leading-tight transition-colors">
+                        <div className="text-[11px] font-black leading-tight text-slate-800 transition-colors group-hover/item:text-indigo-600">
                           {r.name}
                         </div>
-                        <div className="text-text-muted text-[8px] font-bold uppercase tracking-wider">
+                        <div className="text-[8px] font-bold uppercase tracking-wider text-slate-400">
                           Next: {r.nextAvailableSlot}
                         </div>
                       </div>
                     </div>
-                    <div className="text-text-primary text-[10px] font-black">
+                    <div className="text-[10px] font-black text-slate-800">
                       {r.availabilityPercent}%
                     </div>
                   </div>
@@ -673,25 +667,25 @@ export default function ShowroomPlannerPage() {
               ))}
             </div>
 
-            <Button className="bg-text-primary h-10 w-full text-[10px] font-black uppercase text-white shadow-lg hover:bg-black">
+            <Button className="h-10 w-full bg-slate-900 text-[10px] font-black uppercase text-white shadow-lg hover:bg-black">
               Manage Capacity & Slots
             </Button>
           </Card>
 
-          <Card className="bg-text-primary border-text-primary/30 group relative overflow-hidden border-2 p-6 shadow-2xl">
+          <Card className="group relative overflow-hidden border-2 border-slate-800 bg-slate-900 p-6 shadow-2xl">
             <div className="pointer-events-none absolute right-0 top-0 rotate-12 p-4 opacity-5 transition-transform group-hover:scale-110">
               <Truck className="h-24 w-24 text-white" />
             </div>
             <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-white">
-              <Truck className="text-accent-primary h-4 w-4" /> Ship-to-Store Splitter
+              <Truck className="h-4 w-4 text-indigo-400" /> Ship-to-Store Splitter
             </h3>
 
             <div className="mb-4 rounded-2xl border border-white/10 bg-white/5 p-3">
               <div className="mb-1 flex items-center justify-between">
-                <div className="text-accent-primary text-[10px] font-black uppercase">
+                <div className="text-[10px] font-black uppercase text-indigo-300">
                   Current SKU: {orderSplit.sku}
                 </div>
-                <Badge className="bg-accent-primary h-4 border-none text-[8px] font-black text-white">
+                <Badge className="h-4 border-none bg-indigo-500 text-[8px] font-black text-white">
                   MULTI-DIST
                 </Badge>
               </div>
@@ -702,10 +696,10 @@ export default function ShowroomPlannerPage() {
               {orderSplit.splits.map((s, i) => (
                 <div
                   key={i}
-                  className="hover:border-accent-primary/30 flex items-center justify-between rounded-xl border border-white/5 bg-white/5 p-3 transition-all"
+                  className="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 p-3 transition-all hover:border-indigo-500/30"
                 >
                   <div className="flex items-center gap-3">
-                    <MapPin className="text-accent-primary h-4 w-4" />
+                    <MapPin className="h-4 w-4 text-indigo-400" />
                     <div>
                       <div className="text-[11px] font-black text-white">{s.storeId}</div>
                       <div className="text-[8px] font-bold uppercase tracking-widest text-white/40">
@@ -713,12 +707,12 @@ export default function ShowroomPlannerPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="text-accent-primary text-[14px] font-black">{s.qty}</div>
+                  <div className="text-[14px] font-black text-indigo-300">{s.qty}</div>
                 </div>
               ))}
             </div>
 
-            <Button className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/20 h-10 w-full text-[10px] font-black uppercase text-white shadow-lg">
+            <Button className="h-10 w-full bg-indigo-600 text-[10px] font-black uppercase text-white shadow-lg shadow-indigo-500/20 hover:bg-indigo-700">
               Finalize Multi-Store Splitting
             </Button>
           </Card>
@@ -727,7 +721,7 @@ export default function ShowroomPlannerPage() {
             <div className="pointer-events-none absolute -bottom-4 -left-4 opacity-5 transition-transform group-hover:scale-110">
               <Gift className="h-32 w-32 text-amber-600" />
             </div>
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-800">
               <Gift className="h-4 w-4 text-amber-600" /> Partner Perk Progress
             </h3>
 
@@ -737,19 +731,19 @@ export default function ShowroomPlannerPage() {
                   <div className="mb-2 flex items-start justify-between">
                     <div className="flex items-center gap-3">
                       <div
-                        className={`flex h-8 w-8 items-center justify-center rounded-xl transition-all ${perk.isUnlocked ? 'bg-amber-100' : 'bg-bg-surface2'}`}
+                        className={`flex h-8 w-8 items-center justify-center rounded-xl transition-all ${perk.isUnlocked ? 'bg-amber-100' : 'bg-slate-100'}`}
                       >
                         {perk.isUnlocked ? (
                           <Sparkles className="h-4 w-4 animate-pulse text-amber-600" />
                         ) : (
-                          <Lock className="text-text-muted h-4 w-4" />
+                          <LockIcon className="h-4 w-4 text-slate-400" />
                         )}
                       </div>
                       <div>
-                        <div className="text-text-primary text-[11px] font-black leading-tight transition-colors group-hover/item:text-amber-600">
+                        <div className="text-[11px] font-black leading-tight text-slate-800 transition-colors group-hover/item:text-amber-600">
                           {perk.title}
                         </div>
-                        <div className="text-text-muted text-[8px] font-medium uppercase tracking-wider">
+                        <div className="text-[8px] font-medium uppercase tracking-wider text-slate-400">
                           {perk.requirementDescription}
                         </div>
                       </div>
@@ -766,7 +760,7 @@ export default function ShowroomPlannerPage() {
                       <div className="flex-1">
                         <Progress
                           value={perk.progressPercent}
-                          className="bg-bg-surface2 h-1.5 rounded-full fill-amber-500"
+                          className="h-1.5 rounded-full bg-slate-100 fill-amber-500"
                         />
                       </div>
                       <span className="text-[10px] font-black text-amber-600">
@@ -780,30 +774,30 @@ export default function ShowroomPlannerPage() {
 
             <div className="relative z-10 rounded-xl border border-amber-100 bg-amber-50 p-3 text-center">
               <p className="mb-1 flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-amber-800">
-                <TrendingUp className="h-3 w-3" /> Next Reward in 1.2M ₽
+                <TrendingUp className="h-3 w-3" /> Следующая награда через 1,2 млн ₽
               </p>
               <div className="text-[8px] font-bold uppercase text-amber-600/70">
-                Unlock Priority Logistics Tier
+                Откройте приоритетный уровень логистики
               </div>
             </div>
           </Card>
 
-          <Card className="border-accent-primary/20 group relative overflow-hidden border-2 bg-white p-6 shadow-xl">
+          <Card className="group relative overflow-hidden border-2 border-indigo-100 bg-white p-6 shadow-xl">
             <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5 transition-transform group-hover:scale-110">
-              <Box className="text-accent-primary h-24 w-24" />
+              <Box className="h-24 w-24 text-indigo-600" />
             </div>
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
-              <Box className="text-accent-primary h-4 w-4" /> Virtual Sample Hub
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-800">
+              <Box className="h-4 w-4 text-indigo-600" /> Virtual Sample Hub
             </h3>
 
-            <div className="bg-accent-primary/10 border-accent-primary/20 relative z-10 mb-4 rounded-2xl border p-4">
+            <div className="relative z-10 mb-4 rounded-2xl border border-indigo-100/50 bg-indigo-50/30 p-4">
               <div className="mb-3 flex items-center gap-4">
-                <div className="border-accent-primary/15 flex h-12 w-12 items-center justify-center rounded-xl border bg-white shadow-sm">
-                  <Smartphone className="text-accent-primary h-6 w-6" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-50 bg-white shadow-sm">
+                  <Smartphone className="h-6 w-6 text-indigo-500" />
                 </div>
                 <div>
-                  <div className="text-text-primary text-[11px] font-black">3D VTO Enabled</div>
-                  <div className="text-text-muted text-[8px] font-bold uppercase tracking-widest">
+                  <div className="text-[11px] font-black text-slate-800">3D VTO Enabled</div>
+                  <div className="text-[8px] font-bold uppercase tracking-widest text-slate-400">
                     Fit Accuracy: {vto.fitAccuracy}%
                   </div>
                 </div>
@@ -813,7 +807,7 @@ export default function ShowroomPlannerPage() {
                   <Badge
                     key={type}
                     variant="secondary"
-                    className="border-border-subtle h-3.5 bg-white text-[7px] font-black uppercase"
+                    className="h-3.5 border-slate-100 bg-white text-[7px] font-black uppercase"
                   >
                     {type}
                   </Badge>
@@ -821,31 +815,31 @@ export default function ShowroomPlannerPage() {
               </div>
             </div>
 
-            <Button className="bg-text-primary h-10 w-full text-[10px] font-black uppercase text-white shadow-lg hover:bg-black">
+            <Button className="h-10 w-full bg-slate-900 text-[10px] font-black uppercase text-white shadow-lg hover:bg-black">
               Launch Digital Fitting Room
             </Button>
           </Card>
 
-          <Card className="border-border-subtle group relative overflow-hidden border-2 bg-white p-6 shadow-xl">
+          <Card className="group relative overflow-hidden border-2 border-slate-100 bg-white p-6 shadow-xl">
             <div className="pointer-events-none absolute -bottom-4 -right-4 opacity-5 transition-transform group-hover:scale-110">
-              <Globe className="text-text-secondary h-24 w-24" />
+              <Globe className="h-24 w-24 text-slate-600" />
             </div>
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
-              <Globe className="text-text-secondary h-4 w-4" /> EAEU Export Estimator
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-800">
+              <Globe className="h-4 w-4 text-slate-500" /> EAEU Export Estimator
             </h3>
 
             <div className="relative z-10 mb-4 space-y-3">
-              <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-3">
+              <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3">
                 <div>
-                  <div className="text-text-muted mb-0.5 text-[8px] font-black uppercase">
+                  <div className="mb-0.5 text-[8px] font-black uppercase text-slate-400">
                     VAT / NDS ({eaeuTaxes.country})
                   </div>
-                  <div className="text-text-primary text-[12px] font-black">
+                  <div className="text-[12px] font-black text-slate-800">
                     {Math.round(eaeuTaxes.vatRate * 100)}% Applied
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-accent-primary text-[12px] font-black">
+                  <div className="text-[12px] font-black text-indigo-600">
                     {eaeuTaxes.estimatedTotalTax.toLocaleString()} {eaeuTaxes.currency}
                   </div>
                 </div>
@@ -868,26 +862,26 @@ export default function ShowroomPlannerPage() {
             </div>
           </Card>
 
-          <Card className="border-text-primary group relative overflow-hidden border-2 bg-white p-6 shadow-xl">
+          <Card className="group relative overflow-hidden border-2 border-slate-900 bg-white p-6 shadow-xl">
             <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-10 transition-transform group-hover:scale-110">
-              <LayoutGrid className="text-text-primary h-20 w-20" />
+              <LayoutGrid className="h-20 w-20 text-slate-900" />
             </div>
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
-              <LayoutGrid className="text-text-primary h-4 w-4" /> Capsule Integrity
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-800">
+              <LayoutGrid className="h-4 w-4 text-slate-700" /> Capsule Integrity
             </h3>
 
-            <div className="bg-bg-surface2 mb-4 rounded-2xl p-3">
+            <div className="mb-4 rounded-2xl bg-slate-50 p-3">
               <div className="mb-2 flex items-center justify-between">
-                <div className="text-text-primary text-[10px] font-black uppercase">
+                <div className="text-[10px] font-black uppercase text-slate-800">
                   Integrity Score
                 </div>
-                <div className="text-accent-primary text-[12px] font-black">
+                <div className="text-[12px] font-black text-indigo-600">
                   {capsule.integrityScore}%
                 </div>
               </div>
               <Progress
                 value={capsule.integrityScore}
-                className="bg-border-subtle fill-accent-primary h-1.5 rounded-full"
+                className="h-1.5 rounded-full bg-slate-200 fill-indigo-600"
               />
             </div>
 
@@ -899,13 +893,13 @@ export default function ShowroomPlannerPage() {
                 >
                   <div className="flex items-center gap-2">
                     <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
-                    <div className="text-text-secondary text-[10px] font-black uppercase">
+                    <div className="text-[10px] font-black uppercase text-slate-600">
                       Missing: {sku}
                     </div>
                   </div>
                   <Button
                     variant="ghost"
-                    className="text-accent-primary hover:bg-accent-primary/10 h-6 px-2 text-[8px] font-black uppercase"
+                    className="h-6 px-2 text-[8px] font-black uppercase text-indigo-600 hover:bg-indigo-50"
                   >
                     Add Now
                   </Button>
@@ -923,45 +917,45 @@ export default function ShowroomPlannerPage() {
 
             <Button
               variant="outline"
-              className="border-text-primary text-text-primary hover:bg-bg-surface2 h-10 w-full text-[10px] font-black uppercase"
+              className="h-10 w-full border-slate-900 text-[10px] font-black uppercase text-slate-900 hover:bg-slate-50"
             >
               View Suggested Capsule Mix
             </Button>
           </Card>
 
-          <Card className="border-accent-primary relative overflow-hidden border-2 bg-white p-6 shadow-xl">
+          <Card className="relative overflow-hidden border-2 border-indigo-600 bg-white p-6 shadow-xl">
             <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5">
-              <Hammer className="text-accent-primary h-16 w-16" />
+              <Hammer className="h-16 w-16 text-indigo-600" />
             </div>
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
-              <Hammer className="text-accent-primary h-4 w-4" /> Production Priority Sync
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-800">
+              <Hammer className="h-4 w-4 text-indigo-600" /> Production Priority Sync
             </h3>
 
             <div className="relative z-10 space-y-4">
               {trendingLooks.map((look) => (
                 <div
                   key={look.lookId}
-                  className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-3"
+                  className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3"
                 >
                   <div className="flex-1">
-                    <div className="text-text-primary mb-1 text-[10px] font-black uppercase leading-none">
+                    <div className="mb-1 text-[10px] font-black uppercase leading-none text-slate-800">
                       {look.lookId}
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-text-muted flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest">
+                      <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-slate-400">
                         <Heart className="h-2.5 w-2.5 fill-rose-500 text-rose-500" />{' '}
                         {look.totalHearts} Interests
                       </span>
                       <Badge
                         variant="outline"
-                        className={`h-3.5 text-[7px] font-black uppercase ${look.trendingStatus === 'rising' ? 'border-emerald-100 bg-emerald-50 text-emerald-600' : 'bg-bg-surface2 text-text-muted border-border-default'}`}
+                        className={`h-3.5 text-[7px] font-black uppercase ${look.trendingStatus === 'rising' ? 'border-emerald-100 bg-emerald-50 text-emerald-600' : 'border-slate-200 bg-slate-100 text-slate-400'}`}
                       >
                         {look.trendingStatus}
                       </Badge>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-text-muted mb-1 text-[8px] font-black uppercase">
+                    <div className="mb-1 text-[8px] font-black uppercase text-slate-400">
                       Factory SLA
                     </div>
                     <Badge
@@ -970,8 +964,8 @@ export default function ShowroomPlannerPage() {
                         look.productionPriority === 'urgent'
                           ? 'bg-rose-600 text-white'
                           : look.productionPriority === 'high'
-                            ? 'bg-accent-primary text-white'
-                            : 'bg-text-secondary text-white'
+                            ? 'bg-indigo-600 text-white'
+                            : 'bg-slate-600 text-white'
                       }`}
                     >
                       {look.productionPriority}
@@ -981,83 +975,81 @@ export default function ShowroomPlannerPage() {
               ))}
             </div>
 
-            <p className="text-text-secondary mt-4 text-center text-[9px] font-medium italic">
+            <p className="mt-4 text-center text-[9px] font-medium italic text-slate-500">
               Feedback from showroom sessions automatically triggers production slot reservations.
             </p>
           </Card>
 
-          <Card className="bg-bg-surface2 border-accent-primary/20 relative overflow-hidden border-2 p-6 shadow-xl">
+          <Card className="relative overflow-hidden border-2 border-indigo-100 bg-slate-50 p-6 shadow-xl">
             <div className="pointer-events-none absolute -right-4 -top-4 opacity-5">
-              <Activity className="text-accent-primary h-24 w-24" />
+              <Activity className="h-24 w-24 text-indigo-600" />
             </div>
-            <h3 className="text-accent-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-indigo-700">
               <Zap className="h-4 w-4" /> Live Session Analytics
             </h3>
 
             <div className="relative z-10 space-y-6">
-              <div className="border-accent-primary/15 relative overflow-hidden rounded-2xl border bg-white p-4 shadow-sm">
+              <div className="relative overflow-hidden rounded-2xl border border-indigo-50 bg-white p-4 shadow-sm">
                 <div className="mb-4 flex items-start justify-between">
                   <div>
-                    <div className="text-text-muted mb-1 text-[10px] font-black uppercase tracking-widest">
+                    <div className="mb-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
                       Active Item Heatmap
                     </div>
-                    <div className="text-text-primary text-sm font-black">{currentSku}</div>
+                    <div className="text-sm font-black text-slate-800">{currentSku}</div>
                   </div>
-                  <Badge className="bg-accent-primary h-4 border-none text-[8px] font-black uppercase text-white">
+                  <Badge className="h-4 border-none bg-indigo-600 text-[8px] font-black uppercase text-white">
                     Live
                   </Badge>
                 </div>
 
                 <div className="mb-4 grid grid-cols-2 gap-4">
                   <div>
-                    <div className="text-text-primary text-[18px] font-black leading-none">
+                    <div className="text-[18px] font-black leading-none text-slate-800">
                       {traffic.totalTouches}
                     </div>
-                    <div className="text-text-muted mt-1 text-[7px] font-black uppercase tracking-widest">
+                    <div className="mt-1 text-[7px] font-black uppercase tracking-widest text-slate-400">
                       Physical Touches
                     </div>
                   </div>
                   <div>
-                    <div className="text-accent-primary text-[18px] font-black leading-none">
+                    <div className="text-[18px] font-black leading-none text-indigo-600">
                       {traffic.fittingsCount}
                     </div>
-                    <div className="text-text-muted mt-1 text-[7px] font-black uppercase tracking-widest">
+                    <div className="mt-1 text-[7px] font-black uppercase tracking-widest text-slate-400">
                       Showroom Fittings
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <div className="text-text-muted mb-1.5 flex items-center justify-between text-[8px] font-black uppercase">
+                  <div className="mb-1.5 flex items-center justify-between text-[8px] font-black uppercase text-slate-400">
                     <span>Interest Density</span>
                     <span>{Math.round(traffic.scanDensityScore)}%</span>
                   </div>
                   <Progress
                     value={traffic.scanDensityScore}
-                    className="bg-bg-surface2 fill-accent-primary h-1"
+                    className="h-1 bg-slate-50 fill-indigo-500"
                   />
                 </div>
               </div>
 
-              <div className="bg-accent-primary shadow-accent-primary/15 border-accent-primary relative overflow-hidden rounded-2xl border p-4 text-white shadow-lg">
+              <div className="relative overflow-hidden rounded-2xl border border-indigo-800 bg-indigo-900 p-4 text-white shadow-lg shadow-indigo-200">
                 <div className="absolute right-0 top-0 p-2 opacity-10">
                   <MousePointer2 className="h-12 w-12 text-white" />
                 </div>
-                <div className="text-accent-primary mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
+                <div className="mb-3 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-indigo-300">
                   <BarChart3 className="h-3.5 w-3.5" /> Price Negotiator AI
                 </div>
 
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-accent-primary/40 text-[10px] font-bold">
-                      Base Wholesale:
-                    </span>
-                    <span className="text-accent-primary/30 decoration-accent-primary text-[12px] font-black line-through">
+                    <span className="text-[10px] font-bold text-indigo-200">Base Wholesale:</span>
+                    <span className="text-[12px] font-black text-indigo-100 line-through decoration-indigo-400">
                       {negotiation.baseWholesalePrice.toLocaleString()} ₽
                     </span>
                   </div>
                   <div className="flex items-center justify-between border-t border-white/10 pt-2">
-                    <span className="text-accent-primary/40 text-[10px] font-black uppercase tracking-widest">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-indigo-200">
                       AI Counter-Offer:
                     </span>
                     <span className="text-lg font-black text-emerald-400">
@@ -1074,7 +1066,7 @@ export default function ShowroomPlannerPage() {
                   </div>
                   <Button
                     size="sm"
-                    className="text-accent-primary hover:bg-accent-primary/10 h-8 w-full bg-white text-[9px] font-black uppercase shadow-md"
+                    className="h-8 w-full bg-white text-[9px] font-black uppercase text-indigo-900 shadow-md hover:bg-indigo-50"
                   >
                     Apply Suggested Price
                   </Button>
@@ -1082,22 +1074,22 @@ export default function ShowroomPlannerPage() {
               </div>
             </div>
 
-            <div className="text-accent-primary mt-4 flex items-center justify-center gap-2 text-center text-[8px] font-black uppercase italic tracking-widest">
+            <div className="mt-4 flex items-center justify-center gap-2 text-center text-[8px] font-black uppercase italic tracking-widest text-indigo-400">
               <Activity className="h-3 w-3 animate-pulse" /> Real-time Showroom Hub Telemetry
             </div>
           </Card>
 
-          <Card className="bg-accent-primary relative overflow-hidden border-none p-6 text-white shadow-2xl">
+          <Card className="relative overflow-hidden border-none bg-indigo-900 p-6 text-white shadow-2xl">
             <div className="absolute -right-4 -top-4 opacity-10">
               <Wallet className="h-24 w-24" />
             </div>
             <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
-              <Wallet className="text-accent-primary h-4 w-4" /> Session Budget Hub
+              <Wallet className="h-4 w-4 text-indigo-400" /> Session Budget Hub
             </h3>
             <div className="relative z-10 space-y-5">
               <div>
                 <div className="mb-1 flex items-end justify-between">
-                  <span className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-indigo-300">
                     Budget Utilization
                   </span>
                   <span className="text-[12px] font-black">
@@ -1107,9 +1099,9 @@ export default function ShowroomPlannerPage() {
                     %
                   </span>
                 </div>
-                <div className="bg-accent-primary h-1.5 overflow-hidden rounded-full">
+                <div className="h-1.5 overflow-hidden rounded-full bg-indigo-950">
                   <div
-                    className="bg-accent-primary/40 h-full"
+                    className="h-full bg-indigo-400"
                     style={{
                       width: `${(sessionBudget.currentOrderValue / sessionBudget.allocatedBudget) * 100}%`,
                     }}
@@ -1118,16 +1110,16 @@ export default function ShowroomPlannerPage() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-accent-primary/50 border-accent-primary/50 rounded-xl border p-3">
-                  <div className="text-accent-primary mb-1 text-[8px] font-black uppercase tracking-tighter">
+                <div className="rounded-xl border border-indigo-800/50 bg-indigo-950/50 p-3">
+                  <div className="mb-1 text-[8px] font-black uppercase tracking-tighter text-indigo-400">
                     Remaining
                   </div>
                   <div className="text-sm font-black tracking-tight">
                     {sessionBudget.remainingBudget.toLocaleString()} ₽
                   </div>
                 </div>
-                <div className="bg-accent-primary/50 border-accent-primary/50 rounded-xl border p-3">
-                  <div className="text-accent-primary mb-1 text-[8px] font-black uppercase tracking-tighter">
+                <div className="rounded-xl border border-indigo-800/50 bg-indigo-950/50 p-3">
+                  <div className="mb-1 text-[8px] font-black uppercase tracking-tighter text-indigo-400">
                     Order Margin
                   </div>
                   <div className="flex items-center gap-1.5 text-sm font-black tracking-tight">
@@ -1139,12 +1131,12 @@ export default function ShowroomPlannerPage() {
 
               <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3">
                 <div className="flex items-center gap-2">
-                  <Percent className="text-accent-primary h-4 w-4" />
-                  <div className="text-accent-primary/30 text-[10px] font-bold">
+                  <Percent className="h-4 w-4 text-indigo-300" />
+                  <div className="text-[10px] font-bold text-indigo-100">
                     Target Margin: {sessionBudget.targetMargin}%
                   </div>
                 </div>
-                <button className="text-accent-primary text-[8px] font-black uppercase tracking-widest underline hover:text-white">
+                <button className="text-[8px] font-black uppercase tracking-widest text-indigo-300 underline hover:text-white">
                   Adjust Prices
                 </button>
               </div>
@@ -1161,18 +1153,18 @@ export default function ShowroomPlannerPage() {
             </div>
           </Card>
 
-          <Card className="border-text-primary relative overflow-hidden border-2 bg-white p-6 shadow-xl">
+          <Card className="relative overflow-hidden border-2 border-slate-900 bg-white p-6 shadow-xl">
             <div className="pointer-events-none absolute right-0 top-0 p-4 opacity-5">
-              <Target className="text-text-primary h-16 w-16" />
+              <Target className="h-16 w-16 text-slate-900" />
             </div>
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
-              <Target className="text-text-primary h-4 w-4" /> Assortment Compliance
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-800">
+              <Target className="h-4 w-4 text-slate-800" /> Assortment Compliance
             </h3>
 
             <div className="mb-6 space-y-4">
-              <div className="text-text-muted flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
+              <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
                 <span>Must-Have Hits</span>
-                <span className="text-text-primary">
+                <span className="text-slate-900">
                   {compliance.mustHaveItems.filter((i) => i.ordered).length}/
                   {compliance.mustHaveItems.length}
                 </span>
@@ -1191,18 +1183,18 @@ export default function ShowroomPlannerPage() {
             </div>
 
             <div className="mb-6 space-y-3">
-              <div className="text-text-muted mb-2 text-[10px] font-black uppercase tracking-widest">
+              <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
                 Category Balance
               </div>
               {compliance.categoryBalance.map((cat) => (
                 <div key={cat.category}>
-                  <div className="text-text-secondary mb-1 flex items-center justify-between text-[9px] font-bold">
+                  <div className="mb-1 flex items-center justify-between text-[9px] font-bold text-slate-600">
                     <span>{cat.category}</span>
                     <span
                       className={
                         Math.abs(cat.targetPercent - cat.currentPercent) > 10
                           ? 'text-rose-600'
-                          : 'text-text-muted'
+                          : 'text-slate-400'
                       }
                     >
                       {cat.currentPercent}% / {cat.targetPercent}%
@@ -1210,58 +1202,56 @@ export default function ShowroomPlannerPage() {
                   </div>
                   <Progress
                     value={cat.currentPercent}
-                    className="bg-bg-surface2 fill-text-primary h-1"
+                    className="h-1 bg-slate-100 fill-slate-900"
                   />
                 </div>
               ))}
             </div>
 
-            <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-xl border p-3">
-              <div className="text-text-primary text-[10px] font-black">Overall Score</div>
-              <div className="text-text-primary text-xl font-black">
+            <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3">
+              <div className="text-[10px] font-black text-slate-800">Overall Score</div>
+              <div className="text-xl font-black text-slate-900">
                 {compliance.overallComplianceScore}%
               </div>
             </div>
           </Card>
 
-          <Card className="bg-text-primary relative overflow-hidden border-none p-6 text-white shadow-2xl">
+          <Card className="relative overflow-hidden border-none bg-slate-900 p-6 text-white shadow-2xl">
             <div className="absolute -bottom-4 -right-4 opacity-10">
               <Sparkles className="h-24 w-24" />
             </div>
             <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase tracking-widest">
-              <Sparkles className="text-accent-primary h-4 w-4" /> Draft Look-to-Order
+              <Sparkles className="h-4 w-4 text-indigo-400" /> Draft Look-to-Order
             </h3>
             <div className="relative z-10 space-y-4">
               {drafts.map((d) => (
                 <div
                   key={d.lookId}
-                  className="bg-text-primary/50 border-text-primary/25 hover:border-accent-primary/50 rounded-xl border p-4 transition-colors"
+                  className="rounded-xl border border-slate-700/50 bg-slate-800/50 p-4 transition-colors hover:border-indigo-500/50"
                 >
                   <div className="mb-3 flex items-start justify-between">
-                    <span className="text-accent-primary text-[10px] font-black uppercase tracking-tighter">
+                    <span className="text-[10px] font-black uppercase tracking-tighter text-indigo-400">
                       {d.lookId}
                     </span>
-                    <Badge className="bg-accent-primary h-4 px-1.5 text-[8px] font-black">
-                      DRAFT
-                    </Badge>
+                    <Badge className="h-4 bg-indigo-500 px-1.5 text-[8px] font-black">DRAFT</Badge>
                   </div>
                   <div className="mb-4 flex flex-wrap gap-1.5">
                     {d.skus.map((s) => (
                       <span
                         key={s}
-                        className="text-text-muted bg-text-primary/80 border-text-primary/25 rounded border px-1.5 py-0.5 text-[9px] font-bold"
+                        className="rounded border border-slate-700/30 bg-slate-900/80 px-1.5 py-0.5 text-[9px] font-bold text-slate-400"
                       >
                         {s}
                       </span>
                     ))}
                   </div>
-                  <div className="border-text-primary/25 flex items-center justify-between border-t pt-3">
+                  <div className="flex items-center justify-between border-t border-slate-700/50 pt-3">
                     <div className="text-xs font-black tracking-tight">
                       {d.totalWholesaleValue.toLocaleString()} ₽
                     </div>
                     <Button
                       size="sm"
-                      className="bg-accent-primary hover:bg-accent-primary shadow-accent-primary/20 h-7 px-3 text-[8px] font-black uppercase shadow-lg"
+                      className="h-7 bg-indigo-600 px-3 text-[8px] font-black uppercase shadow-lg shadow-indigo-900/20 hover:bg-indigo-500"
                     >
                       Convert to Order
                     </Button>
@@ -1269,25 +1259,25 @@ export default function ShowroomPlannerPage() {
                 </div>
               ))}
             </div>
-            <p className="text-text-secondary mt-4 text-center text-[9px] font-medium italic">
+            <p className="mt-4 text-center text-[9px] font-medium italic text-slate-500">
               Create visual looks in the showroom and convert them immediately to wholesale drafts.
             </p>
           </Card>
 
-          <Card className="border-border-subtle bg-bg-surface2/20 border-2 p-6 shadow-md">
-            <h3 className="text-text-primary mb-4 flex items-center gap-2 text-sm font-black uppercase">
+          <Card className="border-2 border-slate-100 bg-slate-50/20 p-6 shadow-md">
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-black uppercase text-slate-700">
               <TrendingUp className="h-4 w-4 text-emerald-500" /> Season Insights
             </h3>
-            <div className="text-text-secondary space-y-4 text-[11px] font-medium leading-tight">
+            <div className="space-y-4 text-[11px] font-medium leading-tight text-slate-600">
               <p>
                 Бренды, использующие AR-инвайты, фиксируют на <b>22% более высокий чек</b>{' '}
                 предзаказа в шоуруме.
               </p>
-              <div className="border-border-subtle rounded-lg border bg-white p-3 shadow-sm">
-                <div className="text-text-muted mb-1 text-[9px] font-black uppercase">
+              <div className="rounded-lg border border-slate-100 bg-white p-3 shadow-sm">
+                <div className="mb-1 text-[9px] font-black uppercase text-slate-400">
                   Top Requested Category
                 </div>
-                <div className="text-text-primary flex items-center justify-between font-black uppercase">
+                <div className="flex items-center justify-between font-black uppercase text-slate-800">
                   <span>Outerwear</span>
                   <span className="text-emerald-600">+14% YoY</span>
                 </div>
@@ -1295,26 +1285,26 @@ export default function ShowroomPlannerPage() {
             </div>
           </Card>
 
-          <Card className="border-accent-primary/15 bg-accent-primary/10 border-2 p-6 shadow-md">
-            <h3 className="text-accent-primary mb-4 text-sm font-black uppercase">Pro Tools</h3>
+          <Card className="border-2 border-indigo-50 bg-indigo-50/10 p-6 shadow-md">
+            <h3 className="mb-4 text-sm font-black uppercase text-indigo-700">Pro Tools</h3>
             <div className="space-y-3">
               <Button
                 variant="outline"
-                className="border-accent-primary/20 hover:bg-accent-primary/10 h-10 w-full justify-start bg-white text-[10px] font-black uppercase"
+                className="h-10 w-full justify-start border-indigo-100 bg-white text-[10px] font-black uppercase hover:bg-indigo-50"
               >
-                <Package className="text-accent-primary mr-2 h-4 w-4" /> Sample Manager
+                <Package className="mr-2 h-4 w-4 text-indigo-500" /> Sample Manager
               </Button>
               <Button
                 variant="outline"
-                className="border-accent-primary/20 hover:bg-accent-primary/10 h-10 w-full justify-start bg-white text-[10px] font-black uppercase"
+                className="h-10 w-full justify-start border-indigo-100 bg-white text-[10px] font-black uppercase hover:bg-indigo-50"
               >
-                <MessageSquare className="text-accent-primary mr-2 h-4 w-4" /> B2B Chat Sync
+                <MessageSquare className="mr-2 h-4 w-4 text-indigo-500" /> B2B Chat Sync
               </Button>
               <Button
                 variant="outline"
-                className="border-accent-primary/20 hover:bg-accent-primary/10 h-10 w-full justify-start bg-white text-[10px] font-black uppercase"
+                className="h-10 w-full justify-start border-indigo-100 bg-white text-[10px] font-black uppercase hover:bg-indigo-50"
               >
-                <Calendar className="text-accent-primary mr-2 h-4 w-4" /> Global Calendar
+                <Calendar className="mr-2 h-4 w-4 text-indigo-500" /> Global Calendar
               </Button>
             </div>
           </Card>
@@ -1333,7 +1323,7 @@ export default function ShowroomPlannerPage() {
                   key={hub.city}
                   className="flex items-center justify-between text-[10px] font-bold"
                 >
-                  <span className="text-text-secondary">{hub.city}</span>
+                  <span className="text-slate-600">{hub.city}</span>
                   <Badge
                     variant="outline"
                     className="h-4 border-emerald-100 bg-white text-[8px] font-black text-emerald-700"

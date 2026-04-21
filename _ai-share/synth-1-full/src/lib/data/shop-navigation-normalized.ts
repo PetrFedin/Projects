@@ -1,12 +1,12 @@
 'use client';
 
 import { ROUTES } from '@/lib/routes';
+import type { LucideIcon } from 'lucide-react';
 import {
   Handshake,
   BarChart2,
   MessageSquare,
   Users,
-  Briefcase,
   Edit,
   FileText,
   Percent,
@@ -22,7 +22,6 @@ import {
   Building2,
   CreditCard,
   ShoppingBag,
-  Archive,
   PlusCircle,
   Zap,
   LayoutGrid,
@@ -45,7 +44,14 @@ import {
   Gavel,
   Sparkles,
   Network,
+  Database,
 } from 'lucide-react';
+import {
+  SYNTHA_SIDEBAR_CLUSTERS,
+  SHOP_CORE_GROUP_ORDER,
+  SHOP_ARCHIVE_GROUP_ORDER,
+  sortNavGroupsByOrder,
+} from './syntha-nav-clusters';
 
 /**
  * Навигация кабинета ритейлера: блоки без дублирования ссылок.
@@ -54,13 +60,57 @@ import {
  * — Тендеры и котировки — отдельно от опта у бренда; учёт в складе; бюджет закупок — в сети.
  * — `/shop/b2b` → редирект на `/shop`.
  * — У пунктов меню опционально `navTier: 'phase2'` — скрываются при `NEXT_PUBLIC_SHOP_NAV_MVP=1`.
+ * — Группа `comms` (Связь: сообщения + календарь) — тот же `id`, что у дистрибутора и factory; см. `CROSS_ROLE_FLOWS.md`.
+ * — Ядро как у бренда: team → comms → partners → pim → b2b → logistics (`SHOP_CORE_GROUP_ORDER`); прочий опт — `shop-b2b-extended` и др. в архиве.
+ * — Плотность ядра: матрица заказа — подпункт каталога; создание заказа — подпункт реестра; склад и поставки B2B — одна колонка с подразделами.
  */
 
+export const SHOP_NAV_CLUSTERS = SYNTHA_SIDEBAR_CLUSTERS;
+
 export const shopNavGroups = [
+  {
+    id: 'team',
+    label: 'Команда',
+    icon: Users,
+    clusterId: 'syntha-cores' as const,
+    links: [
+      {
+        href: ROUTES.shop.staff,
+        value: 'staff',
+        label: 'Команда',
+        icon: Users,
+        description: 'Сотрудники магазина, роли и доступы',
+      },
+    ],
+  },
+  {
+    id: 'comms',
+    label: 'Связь',
+    icon: MessageSquare,
+    clusterId: 'syntha-cores' as const,
+    links: [
+      {
+        href: ROUTES.shop.messages,
+        value: 'messages',
+        label: 'Сообщения',
+        icon: MessageSquare,
+        description: 'Коммуникация с брендами',
+      },
+      {
+        href: `${ROUTES.shop.calendar}?layers=orders,logistics`,
+        value: 'calendar',
+        label: 'Календарь',
+        icon: Calendar,
+        description:
+          'События по заказам B2B, поставкам и дедлайнам сети (слои orders + logistics по умолчанию).',
+      },
+    ],
+  },
   {
     id: 'overview',
     label: 'Обзор',
     icon: LayoutDashboard,
+    clusterId: 'archive' as const,
     links: [
       {
         href: ROUTES.shop.home,
@@ -75,6 +125,7 @@ export const shopNavGroups = [
     id: 'retail-ops',
     label: 'Розница',
     icon: ShoppingCart,
+    clusterId: 'archive' as const,
     links: [
       {
         href: ROUTES.shop.orders,
@@ -145,95 +196,55 @@ export const shopNavGroups = [
     ],
   },
   {
-    id: 'inventory-precision',
-    label: 'Склад сети',
-    icon: Archive,
-    links: [
-      {
-        href: ROUTES.shop.inventory,
-        value: 'inventory',
-        label: 'Склад и остатки',
-        icon: Package,
-        description: 'Остатки и движение',
-        subsections: [
-          { href: ROUTES.shop.inventory, label: 'Текущие остатки', value: 'current' },
-          { href: ROUTES.shop.inventoryArchive, label: 'Архив', value: 'archive' },
-        ],
-      },
-      {
-        href: ROUTES.shop.cycleCounting,
-        value: 'cycle-counting',
-        label: 'Быстрая инвентаризация',
-        icon: Camera,
-        description: 'Пересчёт по зонам, камера телефона',
-      },
-      {
-        href: ROUTES.shop.localInventoryAds,
-        value: 'lia',
-        label: 'Наличие на картах',
-        icon: Map,
-        description: 'Карточки в поиске карт (Google, Яндекс) с наличием',
-        navTier: 'phase2' as const,
-      },
-      {
-        href: ROUTES.shop.b2bShopifySync,
-        value: 'shopify-sync',
-        label: 'Учёт и каналы (1С, каталог)',
-        icon: Package,
-        description: 'Связка с 1С, каталогом и остатками',
-      },
-    ],
-  },
-  {
-    id: 'b2b-procurement',
-    label: 'Закупка у брендов',
-    icon: Building2,
+    id: 'partners',
+    label: 'Партнёры',
+    icon: Handshake,
+    clusterId: 'syntha-cores' as const,
     links: [
       {
         href: ROUTES.shop.b2bPartners,
         value: 'partner-funnel',
-        label: 'Бренды и партнёрство',
+        label: 'Партнёры',
         icon: Handshake,
-        description: 'Каталог брендов, заявки, портфель, договоры и документы',
+        description: 'Бренды, заявки, договоры и документы',
         subsections: [
-          { href: ROUTES.shop.b2bDiscover, label: 'Каталог и поиск брендов', value: 'discover' },
+          { href: ROUTES.shop.b2bDiscover, label: 'Поиск брендов', value: 'discover' },
           { href: ROUTES.shop.b2bApply, label: 'Заявка на доступ', value: 'apply' },
-          { href: ROUTES.shop.b2bPartners, label: 'Портфель брендов', value: 'portfolio' },
+          { href: ROUTES.shop.b2bPartners, label: 'Портфель', value: 'portfolio' },
           { href: ROUTES.shop.b2bContracts, label: 'Договоры', value: 'contracts' },
           { href: ROUTES.shop.b2bDocuments, label: 'Документы', value: 'documents' },
           { href: ROUTES.shop.b2bRating, label: 'Рейтинг брендов', value: 'rating' },
         ],
       },
+    ],
+  },
+  {
+    id: 'pim',
+    label: 'Товар',
+    icon: Database,
+    clusterId: 'syntha-cores' as const,
+    links: [
       {
-        href: ROUTES.shop.b2bTradeShows,
-        value: 'trade-events',
-        label: 'Выставки и события',
-        icon: CalendarDays,
-        description: 'Календарь выставок и встречи',
-        navTier: 'phase2' as const,
-      },
-      {
-        href: ROUTES.shop.b2bCreateOrder,
-        value: 'b2b-order-master',
-        label: 'Новый заказ',
-        icon: PlusCircle,
-        description: 'Мастер и связанные экраны',
+        href: ROUTES.shop.b2bCatalog,
+        value: 'b2b-catalog',
+        label: 'Каталог опта',
+        icon: Package,
+        description:
+          'Ассортимент у брендов; матрица быстрого заказа — тот же столбец, отдельной строки в сайдбаре нет.',
         subsections: [
-          { href: ROUTES.shop.b2bOrderMode, label: 'Режим заказа', value: 'order-mode' },
-          { href: ROUTES.shop.b2bCreateOrder, label: 'Мастер заказа', value: 'create-order' },
-          { href: ROUTES.shop.b2bQuickOrder, label: 'Быстрый по артикулам', value: 'quick-order' },
-          { href: ROUTES.shop.b2bCatalog, label: 'Каталог опта', value: 'catalog' },
-          { href: ROUTES.shop.b2bOrderDrafts, label: 'Черновики', value: 'order-drafts' },
-          { href: ROUTES.shop.b2bOrderTemplates, label: 'Шаблоны', value: 'order-templates' },
-          { href: ROUTES.shop.b2bReorder, label: 'Повтор заказа', value: 'reorder' },
+          {
+            href: ROUTES.shop.b2bMatrix,
+            label: 'Матрица заказа',
+            value: 'matrix',
+          },
         ],
       },
       {
         href: ROUTES.shop.b2bCollectionTerms,
         value: 'collection-planning',
-        label: 'Условия коллекций и план',
+        label: 'Коллекции и план',
         icon: Calendar,
-        description: 'Мин. партии, сроки, план и отбор',
+        description: 'Условия, сроки, план отбора',
         subsections: [
           {
             href: ROUTES.shop.b2bCollectionTerms,
@@ -252,19 +263,36 @@ export const shopNavGroups = [
           },
         ],
       },
+      {
+        href: ROUTES.shop.b2bShowroom,
+        value: 'showroom-suite',
+        label: 'Шоурум и презентации',
+        icon: Store,
+        description: 'Витрина коллекций',
+        subsections: [
+          { href: ROUTES.shop.b2bShowroom, label: 'Шоурум', value: 'showroom' },
+          {
+            href: ROUTES.shop.b2bVideoConsultation,
+            label: 'Видеосвязь',
+            value: 'video-consultation',
+          },
+        ],
+      },
     ],
   },
   {
-    id: 'b2b-execution',
-    label: 'Исполнение опта',
-    icon: Briefcase,
+    id: 'b2b',
+    label: 'Заказы B2B',
+    icon: ShoppingCart,
+    clusterId: 'syntha-cores' as const,
     links: [
       {
         href: ROUTES.shop.b2bOrders,
         value: 'b2b-orders',
-        label: 'Заказы опта',
+        label: 'Заказы B2B',
         icon: ListOrdered,
-        description: 'Опт у брендов',
+        description:
+          'Реестр опта и цепочка оформления: мастер, быстрый заказ, черновики — без второй строки в ядре.',
         subsections: [
           { href: ROUTES.shop.b2bOrders, label: 'Все заказы', value: 'all' },
           { href: `${ROUTES.shop.b2bOrders}?status=draft`, label: 'Черновики', value: 'draft' },
@@ -275,37 +303,39 @@ export const shopNavGroups = [
           },
           {
             href: `${ROUTES.shop.b2bOrders}?status=confirmed`,
-            label: 'Подтвержденные',
+            label: 'Подтверждённые',
             value: 'confirmed',
           },
           { href: `${ROUTES.shop.b2bOrders}?status=shipped`, label: 'В пути', value: 'shipped' },
+          { href: ROUTES.shop.b2bOrderMode, label: 'Режим заказа', value: 'order-mode' },
+          { href: ROUTES.shop.b2bCreateOrder, label: 'Мастер заказа', value: 'create-order' },
+          { href: ROUTES.shop.b2bQuickOrder, label: 'Быстрый заказ', value: 'quick-order' },
+          { href: ROUTES.shop.b2bOrderDrafts, label: 'Черновики (личные)', value: 'order-drafts' },
+          { href: ROUTES.shop.b2bOrderTemplates, label: 'Шаблоны', value: 'order-templates' },
+          { href: ROUTES.shop.b2bReorder, label: 'Повтор заказа', value: 'reorder' },
         ],
       },
+    ],
+  },
+  {
+    id: 'logistics',
+    label: 'Логистика и остатки',
+    icon: Truck,
+    clusterId: 'syntha-cores' as const,
+    links: [
       {
-        href: ROUTES.shop.b2bMatrix,
-        value: 'matrix',
-        label: 'Матрица заказов',
-        icon: Edit,
-        description: 'Быстрое создание заказов',
-      },
-      {
-        href: ROUTES.shop.b2bWhiteboard,
-        value: 'whiteboard',
-        label: 'Визуальная доска',
-        icon: LayoutGrid,
-        description: 'Визуальное планирование ассортимента',
-        navTier: 'phase2' as const,
-      },
-      {
-        href: ROUTES.shop.b2bFulfillmentDashboard,
-        value: 'b2b-supply-flow',
-        label: 'Поставки',
+        href: ROUTES.shop.inventory,
+        value: 'inventory',
+        label: 'Склад и поставки B2B',
         icon: Truck,
-        description: 'Сроки, автопополнение, трек и остатки по сети — один контур',
+        description:
+          'Остатки сети и исполнение опта: сроки, отслеживание, календарь поставок — одна колонка ядра.',
         subsections: [
+          { href: ROUTES.shop.inventory, label: 'Текущие остатки', value: 'current' },
+          { href: ROUTES.shop.inventoryArchive, label: 'Архив остатков', value: 'inv-archive' },
           {
             href: ROUTES.shop.b2bFulfillmentDashboard,
-            label: 'Сроки и каналы',
+            label: 'Поставки и сроки',
             value: 'fulfillment-dashboard',
           },
           {
@@ -318,113 +348,133 @@ export const shopNavGroups = [
           { href: ROUTES.shop.b2bStockMap, label: 'Остатки по сети', value: 'stock-map' },
         ],
       },
+    ],
+  },
+  {
+    id: 'shop-b2b-extended',
+    label: 'Опт: дополнительно',
+    icon: Building2,
+    clusterId: 'archive' as const,
+    links: [
+      {
+        href: ROUTES.shop.b2bTradeShows,
+        value: 'trade-events',
+        label: 'Выставки и события',
+        icon: CalendarDays,
+        description: 'Календарь выставок',
+        navTier: 'phase2' as const,
+      },
+      {
+        href: ROUTES.shop.b2bWhiteboard,
+        value: 'whiteboard',
+        label: 'Визуальная доска',
+        icon: LayoutGrid,
+        description: 'Планирование ассортимента',
+        navTier: 'phase2' as const,
+      },
       {
         href: ROUTES.shop.b2bPayment,
         value: 'payment',
         label: 'Оплата заказов',
         icon: CreditCard,
-        description: 'Счета, этапы оплаты, валюта',
+        description: 'Счета и этапы оплаты',
       },
       {
         href: ROUTES.shop.b2bMultiCurrency,
         value: 'multi-currency',
         label: 'Валюты и курсы',
         icon: DollarSign,
-        description: 'Договорные валюты и пересчёт',
+        description: 'Договорные валюты',
       },
       {
         href: ROUTES.shop.b2bLandedCost,
         value: 'landed-cost',
         label: 'Полная себестоимость',
         icon: Calculator,
-        description: 'Пошлины и доставка до точки',
+        description: 'Landed cost',
       },
       {
         href: ROUTES.shop.b2bClaims,
         value: 'claims',
         label: 'Претензии и возвраты',
         icon: ShieldAlert,
-        description: 'Рекламации и возвраты поставщику',
+        description: 'Рекламации',
       },
       {
         href: ROUTES.shop.b2bSizeMapping,
         value: 'size-mapping',
         label: 'Соответствие размеров',
         icon: Ruler,
-        description: 'Сетка бренда и ваша сетка',
+        description: 'Сетки размеров',
       },
       {
         href: ROUTES.shop.b2bTenders,
         value: 'indirect-procurement',
-        label: 'Тендеры и запросы цен',
+        label: 'Тендеры и RFQ',
         icon: Gavel,
-        description: 'Не опт у бренда — торги и котировки у поставщиков',
+        description: 'Вне опта у бренда',
         navTier: 'phase2' as const,
         subsections: [
-          { href: ROUTES.shop.b2bTenders, label: 'Тендеры и аукционы', value: 'tenders' },
+          { href: ROUTES.shop.b2bTenders, label: 'Тендеры', value: 'tenders' },
           { href: ROUTES.shop.b2bRfq, label: 'Запрос цен', value: 'rfq' },
-          {
-            href: ROUTES.shop.b2bSupplierDiscovery,
-            label: 'Поставщики',
-            value: 'supplier-discovery',
-          },
+          { href: ROUTES.shop.b2bSupplierDiscovery, label: 'Поставщики', value: 'supplier-discovery' },
         ],
       },
-    ],
-  },
-  {
-    id: 'b2b-service',
-    label: 'Сервис закупки',
-    icon: Sparkles,
-    links: [
       {
         href: ROUTES.shop.b2bAiSearch,
         value: 'ai-suite',
         label: 'Умный поиск и заказ',
         icon: Sparkles,
-        description: 'Поиск, подсказки и заказ из свободного текста',
+        description: 'ИИ в закупке',
         navTier: 'phase2' as const,
         subsections: [
-          { href: ROUTES.shop.b2bAiSearch, label: 'Поиск и подсказки', value: 'ai-search' },
+          { href: ROUTES.shop.b2bAiSearch, label: 'Поиск', value: 'ai-search' },
           { href: ROUTES.shop.b2bAiSmartOrder, label: 'Заказ из текста', value: 'ai-smart-order' },
-        ],
-      },
-      {
-        href: ROUTES.shop.b2bShowroom,
-        value: 'showroom-suite',
-        label: 'Презентация коллекции',
-        icon: Store,
-        description: 'Шоурум, видео и закрытые показы',
-        navTier: 'phase2' as const,
-        subsections: [
-          { href: ROUTES.shop.b2bShowroom, label: 'Шоурум', value: 'showroom' },
-          {
-            href: ROUTES.shop.b2bVideoConsultation,
-            label: 'Видеосвязь',
-            value: 'video-consultation',
-          },
-          {
-            href: ROUTES.shop.b2bVipRoomBooking,
-            label: 'Зал для встреч',
-            value: 'vip-room-booking',
-          },
-          { href: '/s/prive/syntha-fw26-elite', label: 'Le Privé', value: 'le-prive' },
         ],
       },
       {
         href: ROUTES.shop.b2bScanner,
         value: 'scanner',
-        label: 'Сканер и заказы',
+        label: 'Сканер',
         icon: Camera,
-        description: 'Планшет или телефон в зале',
+        description: 'Заказ с пола',
       },
       {
         href: ROUTES.shop.b2bSocialFeed,
         value: 'social-feed',
         label: 'Лента брендов',
         icon: MessageSquare,
-        description: 'Новости коллекций, посты, подписка',
+        description: 'Новости коллекций',
         navTier: 'phase2' as const,
+      },
+      {
+        href: ROUTES.shop.b2bVipRoomBooking,
+        value: 'vip-room-booking',
+        label: 'Зал для встреч',
+        icon: Store,
+        description: 'Бронирование',
+      },
+      {
+        href: ROUTES.shop.cycleCounting,
+        value: 'cycle-counting',
+        label: 'Инвентаризация по зонам',
+        icon: Camera,
+        description: 'Быстрый пересчёт',
+      },
+      {
+        href: ROUTES.shop.localInventoryAds,
+        value: 'lia',
+        label: 'Наличие на картах',
+        icon: Map,
+        description: 'LIA',
+        navTier: 'phase2' as const,
+      },
+      {
+        href: ROUTES.shop.b2bShopifySync,
+        value: 'shopify-sync',
+        label: 'Учёт и каналы',
+        icon: Package,
+        description: '1С, каталог',
       },
     ],
   },
@@ -432,6 +482,7 @@ export const shopNavGroups = [
     id: 'analytics',
     label: 'Аналитика',
     icon: BarChart2,
+    clusterId: 'archive' as const,
     links: [
       {
         href: ROUTES.shop.analytics,
@@ -481,28 +532,8 @@ export const shopNavGroups = [
     id: 'management',
     label: 'Сеть и доступы',
     icon: Settings,
+    clusterId: 'archive' as const,
     links: [
-      {
-        href: ROUTES.shop.calendar,
-        value: 'calendar',
-        label: 'Календарь',
-        icon: Calendar,
-        description: 'События, дедлайны, поставки',
-      },
-      {
-        href: ROUTES.shop.messages,
-        value: 'messages',
-        label: 'Сообщения',
-        icon: MessageSquare,
-        description: 'Коммуникация с брендами',
-      },
-      {
-        href: ROUTES.shop.staff,
-        value: 'staff',
-        label: 'Команда',
-        icon: Users,
-        description: 'Управление сотрудниками',
-      },
       {
         href: ROUTES.shop.b2bWorkspaceMap,
         value: 'b2b-workspace-map',
@@ -576,22 +607,34 @@ export const shopNavGroups = [
   },
 ];
 
-/** Группы опта в горизонтальной навигации `/shop/b2b/*` (все B2B-функции в трёх крупных блоках). */
-export const SHOP_B2B_NAV_GROUP_IDS = ['b2b-procurement', 'b2b-execution', 'b2b-service'] as const;
+/** Группы опта в горизонтальной навигации `/shop/b2b/*` (столпы как у бренда: partners → pim → b2b → logistics). */
+export const SHOP_B2B_NAV_GROUP_IDS = ['partners', 'pim', 'b2b', 'logistics'] as const;
 
-/** Карта хаба `/shop/b2b`: розница + склад + закупка + исполнение + сервис + аналитика. */
+/** Карта хаба `/shop/b2b`: розница + ядро опта + расширенные модули + аналитика. */
 export const SHOP_B2B_HUB_GROUP_IDS = [
   'retail-ops',
-  'inventory-precision',
-  'b2b-procurement',
-  'b2b-execution',
-  'b2b-service',
+  'partners',
+  'pim',
+  'b2b',
+  'logistics',
+  'shop-b2b-extended',
   'analytics',
 ] as const;
 
+/** Плоская ссылка сайдбара shop с опциональными подпунктами (тип для `getB2bHubTabValue` / подразделов). */
+export type ShopNavLinkFlat = {
+  href: string;
+  value: string;
+  label: string;
+  description?: string;
+  /** Иконка таба в горизонтальной навигации кабинета магазина (есть у пунктов `shopNavGroups`). */
+  icon?: LucideIcon;
+  subsections?: { href: string; label: string; value: string }[];
+};
+
 export const b2bNavLinks = shopNavGroups
   .filter((g) => (SHOP_B2B_NAV_GROUP_IDS as readonly string[]).includes(g.id))
-  .flatMap((g) => g.links);
+  .flatMap((g) => g.links) as ShopNavLinkFlat[];
 
 /** Горизонтальные вкладки подмакета `/shop/b2b/*` (корень `/shop/b2b` → редирект на `/shop`). */
 export const b2bHubTabLinks = [
@@ -626,13 +669,14 @@ const B2B_HUB_TAB_VALUES = new Set<string>(b2bHubTabLinks.map((l) => l.value));
 
 /** Родительский пункт B2B → вкладка таббара, если страница не входит в `b2bHubTabLinks`. */
 const B2B_NAV_VALUE_TO_HUB_TAB: Record<string, string> = {
+  'b2b-catalog': 'matrix',
+  inventory: 'fulfillment-dashboard',
   'trade-events': 'partner-funnel',
   'collection-planning': 'partner-funnel',
   'margin-suite': 'b2b-analytics',
   whiteboard: 'matrix',
   'landed-cost': 'b2b-orders',
   claims: 'b2b-orders',
-  'b2b-supply-flow': 'fulfillment-dashboard',
   'size-mapping': 'partner-funnel',
   'multi-currency': 'payment',
   'indirect-procurement': 'partner-funnel',
@@ -658,7 +702,7 @@ export function getB2bHubTabValue(pathname: string): string {
   }
   for (const g of shopNavGroups) {
     if (g.id !== 'analytics') continue;
-    for (const link of g.links) {
+    for (const link of g.links as ShopNavLinkFlat[]) {
       if (!link.href.startsWith('/shop/b2b')) continue;
       push(link.href, link.value);
       if (link.subsections) {
@@ -678,7 +722,7 @@ export function getB2bHubTabValue(pathname: string): string {
 
 export const mainShopNavLinks = shopNavGroups
   .flatMap((g) => g.links)
-  .filter((link) => typeof link.href === 'string' && link.href.length > 0);
+  .filter((link) => typeof link.href === 'string' && link.href.length > 0) as ShopNavLinkFlat[];
 
 /**
  * Активный пункт верхнего уровня кабинета `/shop/*` по URL (включая href из подразделов).
@@ -687,7 +731,7 @@ export function getMainShopNavTabValue(pathname: string): string {
   const normalizedPath = pathname.replace(/\/$/, '') || '/';
   const candidates: { href: string; value: string }[] = [];
   for (const g of shopNavGroups) {
-    for (const link of g.links) {
+    for (const link of g.links as ShopNavLinkFlat[]) {
       candidates.push({ href: link.href, value: link.value });
       if (link.subsections) {
         for (const sub of link.subsections) {

@@ -1,11 +1,16 @@
 import { NextResponse } from 'next/server';
 import { deleteView, updateView } from '../../../../services/viewsStore';
 import { normalizeFilters } from '../../../../lib/serverQuery';
+import { readJsonBody } from '@/lib/http/read-json-body';
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const body = await req.json();
-  const patch: any = {};
+  const body = await readJsonBody<{
+    name?: unknown;
+    scope?: unknown;
+    filters?: Record<string, unknown>;
+  }>(req);
+  const patch: Record<string, unknown> = {};
 
   if (body.name !== undefined) patch.name = String(body.name);
   if (body.scope !== undefined) patch.scope = body.scope === 'team' ? 'team' : 'personal';

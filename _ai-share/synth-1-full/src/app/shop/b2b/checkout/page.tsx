@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,7 +8,6 @@ import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { useB2BState } from '@/providers/b2b-state';
 import { ProductCustomizationBlock } from '@/components/b2b/ProductCustomizationBlock';
-import { RegistryPageShell } from '@/components/design-system';
 import { tid } from '@/lib/ui/test-ids';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
@@ -21,7 +21,7 @@ export default function B2BCheckoutPage() {
   );
 
   return (
-    <RegistryPageShell className="max-w-2xl space-y-6" data-testid={tid.page('shop-b2b-checkout')}>
+    <CabinetPageContent maxWidth="2xl" className="space-y-6" data-testid={tid.page('shop-b2b-checkout')}>
       <ShopB2bContentHeader lead="Product Customization: логотипы и мокапы при оформлении (RepSpark)." />
       <ShopAnalyticsSegmentErpStrip />
 
@@ -75,6 +75,6 @@ export default function B2BCheckoutPage() {
         </Button>
         <B2bMarginAnalysisHubButton />
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

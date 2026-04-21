@@ -18,8 +18,8 @@ export function getProductOccasions(product: Product): OccasionTag[] {
 
   // From explicit attribute if exists
   if (Array.isArray(product.attributes?.occasions)) {
-    product.attributes.occasions.forEach((o: string) => {
-      if (o in OCCASION_KEYWORDS) found.add(o as OccasionTag);
+    product.attributes.occasions.forEach((o: unknown) => {
+      if (typeof o === 'string' && o in OCCASION_KEYWORDS) found.add(o as OccasionTag);
     });
   }
 

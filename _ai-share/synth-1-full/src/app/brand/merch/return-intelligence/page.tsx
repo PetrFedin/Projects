@@ -17,6 +17,7 @@ import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { getFitSentiment } from '@/lib/fashion/return-intelligence';
 import { ArrowLeft, MessageSquare, ThumbsDown, TrendingDown, AlertCircle } from 'lucide-react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function ReturnIntelligencePage() {
   const rows = useMemo(() => {
@@ -30,7 +31,7 @@ export default function ReturnIntelligencePage() {
   }, []);
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="6xl">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -136,6 +137,6 @@ export default function ReturnIntelligencePage() {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

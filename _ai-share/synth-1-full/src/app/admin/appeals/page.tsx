@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -50,7 +51,7 @@ export default function AppealsPage() {
   };
 
   return (
-    <div className="space-y-4">
+    <CabinetPageContent maxWidth="full" className="space-y-4">
       <header>
         <h1 className="font-headline text-base font-bold">Апелляции</h1>
         <p className="text-muted-foreground">
@@ -149,6 +150,6 @@ export default function AppealsPage() {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

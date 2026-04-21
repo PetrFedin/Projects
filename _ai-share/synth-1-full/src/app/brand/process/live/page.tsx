@@ -7,10 +7,11 @@ import { ArrowLeft, Activity } from 'lucide-react';
 import { LIVE_PROCESS_DEFINITIONS } from '@/lib/live-process/process-definitions';
 import { processLiveUrl } from '@/lib/routes';
 import { ROUTES } from '@/lib/routes';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function LiveProcessHubPage() {
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.controlCenter ?? ROUTES.brand.home}>
           <Button variant="ghost" size="icon">
@@ -49,6 +50,6 @@ export default function LiveProcessHubPage() {
           </Link>
         ))}
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

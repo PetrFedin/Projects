@@ -1,5 +1,7 @@
 'use client';
 
+
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import {
   useCallback,
   useEffect,
@@ -65,8 +67,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
-import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { fetchWithHttpDeadline } from '@/lib/http/http-fetch-deadline';
 import {
   ArrowRight,
   CheckCircle2,
@@ -476,18 +476,16 @@ function CategorySketchPinHoverCard({
     a.linkedAttributeId && attributeOptions.find((o) => o.id === a.linkedAttributeId)?.label;
   return (
     <div className="max-w-[260px] space-y-1.5 text-left text-sm leading-snug">
-      <p className="text-text-primary font-semibold">
+      <p className="font-semibold text-slate-900">
         Метка #{index + 1} · {TYPE_LABELS[a.annotationType ?? 'construction']} ·{' '}
         {PRIORITY_LABELS[a.priority ?? 'important']}
       </p>
-      <p className="text-text-secondary">
+      <p className="text-slate-600">
         {STATUS_LABELS[a.status ?? 'new']} · {STAGE_LABELS[a.stage ?? 'tz']}
       </p>
-      {a.owner?.trim() ? (
-        <p className="text-text-secondary">Ответственный: {a.owner.trim()}</p>
-      ) : null}
+      {a.owner?.trim() ? <p className="text-slate-600">Ответственный: {a.owner.trim()}</p> : null}
       {a.dueDate ? (
-        <p className="text-text-secondary">
+        <p className="text-slate-600">
           Срок:{' '}
           {(() => {
             try {
@@ -499,7 +497,7 @@ function CategorySketchPinHoverCard({
         </p>
       ) : null}
       {linkedLabel ? (
-        <p className="text-accent-primary font-medium">
+        <p className="font-medium text-indigo-800">
           Связанный атрибут: <span className="font-normal">{linkedLabel}</span>
         </p>
       ) : null}
@@ -507,7 +505,7 @@ function CategorySketchPinHoverCard({
         <p className="text-xs text-amber-800">Зона ОТК: {a.linkedQcZoneId}</p>
       ) : null}
       {a.linkedTaskId ? (
-        <p className="text-text-secondary text-xs">
+        <p className="text-xs text-slate-600">
           Задача подкатегории:{' '}
           <span className="font-medium">
             {taskSlotLabelById?.[a.linkedTaskId] ?? ORPHAN_LINKED_TASK_LABEL}
@@ -527,7 +525,7 @@ function CategorySketchPinHoverCard({
         </p>
       ) : null}
       {a.proofPhotoDataUrl ? (
-        <p className="text-text-primary text-xs">
+        <p className="text-xs text-slate-700">
           Фото: {a.proofPhotoFileName ?? 'вложение'} ·{' '}
           {a.proofStatus === 'accepted'
             ? 'принято'
@@ -536,7 +534,7 @@ function CategorySketchPinHoverCard({
               : 'на проверке'}
         </p>
       ) : null}
-      <p className="border-border-default text-text-primary border-t pt-1.5">
+      <p className="border-t border-slate-200 pt-1.5 text-slate-800">
         {a.text?.trim() ? a.text.trim() : 'Описание не заполнено — добавьте текст в списке справа.'}
       </p>
     </div>
@@ -889,7 +887,7 @@ export function CategorySketchAnnotator(props: Props) {
         imageType: 'model',
       });
       if (!res.imageUrl) return;
-      const imgRes = await fetchWithHttpDeadline(res.imageUrl);
+      const imgRes = await fetch(res.imageUrl);
       const blob = await imgRes.blob();
       const dataUrl = await new Promise<string>((resolve, reject) => {
         const r = new FileReader();
@@ -1659,7 +1657,7 @@ export function CategorySketchAnnotator(props: Props) {
       {qualityHints.length > 0 ? (
         <Alert className="border-amber-200 bg-amber-50/70">
           <AlertTitle className="text-xs">Проверка перед «готово»</AlertTitle>
-          <AlertDescription className="text-text-primary text-sm">
+          <AlertDescription className="text-sm text-slate-800">
             <ul className="list-disc space-y-0.5 pl-4">
               {qualityHints.map((h) => (
                 <li key={h}>{h}</li>
@@ -1678,7 +1676,7 @@ export function CategorySketchAnnotator(props: Props) {
         </div>
       ) : null}
       {!readOnly && !sheetStorage ? (
-        <div className="border-border-subtle flex flex-wrap items-center justify-end gap-2 border-b pb-2">
+        <div className="flex flex-wrap items-center justify-end gap-2 border-b border-slate-100 pb-2">
           <Button
             type="button"
             variant="ghost"
@@ -1692,14 +1690,14 @@ export function CategorySketchAnnotator(props: Props) {
         </div>
       ) : null}
       {!sheetStorage ? (
-        <details className="border-border-default bg-bg-surface2/60 text-text-primary rounded-lg border text-sm">
-          <summary className="text-text-primary cursor-pointer list-none px-3 py-2 font-medium [&::-webkit-details-marker]:hidden">
+        <details className="rounded-lg border border-slate-200 bg-slate-50/60 text-sm text-slate-700">
+          <summary className="cursor-pointer list-none px-3 py-2 font-medium text-slate-800 [&::-webkit-details-marker]:hidden">
             Подсказки: с чего начать и как устроены метки
           </summary>
-          <div className="border-border-default space-y-3 border-t p-3">
+          <div className="space-y-3 border-t border-slate-200 p-3">
             {!readOnly && !onboard.done ? (
               <div>
-                <p className="text-text-secondary mb-1.5 text-xs font-semibold uppercase tracking-wide">
+                <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
                   Чеклист
                 </p>
                 <ul className="space-y-1">
@@ -1718,7 +1716,7 @@ export function CategorySketchAnnotator(props: Props) {
                           aria-hidden
                         />
                       ) : (
-                        <Circle className="text-text-muted mt-0.5 size-3.5 shrink-0" aria-hidden />
+                        <Circle className="mt-0.5 size-3.5 shrink-0 text-slate-400" aria-hidden />
                       )}
                       <span>{row.label}</span>
                     </li>
@@ -1733,10 +1731,10 @@ export function CategorySketchAnnotator(props: Props) {
                 </button>
               </div>
             ) : !readOnly ? (
-              <p className="text-text-secondary text-xs">
-                <span className="text-text-primary font-medium">Кратко:</span> цвет → «+ на доске» →
+              <p className="text-xs text-slate-600">
+                <span className="font-medium text-slate-800">Кратко:</span> цвет → «+ на доске» →
                 клик по картинке → текст справа.{' '}
-                <kbd className="border-border-default rounded border bg-white px-1 py-0.5 font-mono text-[9px]">
+                <kbd className="rounded border border-slate-200 bg-white px-1 py-0.5 font-mono text-[9px]">
                   Esc
                 </kbd>{' '}
                 — выйти из режима клика.
@@ -1744,42 +1742,39 @@ export function CategorySketchAnnotator(props: Props) {
             ) : null}
             <ul className="list-disc space-y-1.5 pl-4 text-xs leading-snug">
               <li>
-                <span className="text-text-primary font-medium">Цвет кружка</span> — насколько
-                срочно и для кого (критично, ОТК, обычная заметка). Это не то же самое, что «тип
-                узла» в списке ниже.
+                <span className="font-medium text-slate-900">Цвет кружка</span> — насколько срочно и
+                для кого (критично, ОТК, обычная заметка). Это не то же самое, что «тип узла» в
+                списке ниже.
               </li>
               <li>
-                <span className="text-text-primary font-medium">Тип узла</span> — что именно
-                отмечаем (шов, фурнитура…).
+                <span className="font-medium text-slate-900">Тип узла</span> — что именно отмечаем
+                (шов, фурнитура…).
               </li>
               <li>
-                <span className="text-text-primary font-medium">Этап</span> — когда проверяем (ТЗ,
+                <span className="font-medium text-slate-900">Этап</span> — когда проверяем (ТЗ,
                 образец, ОТК).
               </li>
               <li>
-                <span className="text-text-primary font-medium">Задачи по глубине ветки</span> —
-                связь метки с блоком «линия / группа / карточка» на вкладке ветки (тот же SKU,
-                разная гранулярность).
+                <span className="font-medium text-slate-900">Задачи по глубине ветки</span> — связь
+                метки с блоком «линия / группа / карточка» на вкладке ветки (тот же SKU, разная
+                гранулярность).
               </li>
             </ul>
           </div>
         </details>
       ) : null}
-      <div className="border-border-default flex flex-wrap items-center justify-between gap-2 border-b pb-2.5">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 pb-2.5">
         <div className="min-w-0 flex-1">
           {showPassportSectionHeader ? (
-            <p className="text-text-secondary text-xs font-medium">Скетч по категории</p>
+            <p className="text-xs font-medium text-zinc-500">Скетч по категории</p>
           ) : null}
-          <p
-            className="text-text-primary truncate text-sm font-semibold"
-            title={sketchCatalogCaption}
-          >
+          <p className="truncate text-sm font-semibold text-zinc-900" title={sketchCatalogCaption}>
             {sketchCatalogCaption}
           </p>
         </div>
         <div className="flex flex-wrap items-center justify-end gap-1.5">
           {articleSku?.trim() ? (
-            <span className="border-border-default bg-bg-surface2 text-text-primary rounded-md border px-2 py-0.5 font-mono text-xs font-semibold">
+            <span className="rounded-md border border-zinc-200 bg-zinc-50 px-2 py-0.5 font-mono text-xs font-semibold text-zinc-900">
               {articleSku.trim()}
             </span>
           ) : null}
@@ -1790,13 +1785,13 @@ export function CategorySketchAnnotator(props: Props) {
                 ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
                 : categorySketchFreezeUntilDate?.trim()
                   ? 'border-amber-200 bg-amber-50 text-amber-950'
-                  : 'border-border-default text-text-secondary bg-white'
+                  : 'border-zinc-200 bg-white text-zinc-600'
             )}
             title={boardSketchStatus.detail}
           >
             {boardSketchStatus.label}
           </span>
-          <span className="text-text-secondary text-xs tabular-nums">
+          <span className="text-xs tabular-nums text-zinc-500">
             {counters.total}/{annotationLimit}
             {counters.critical > 0 ? (
               <span className="text-rose-600"> · {counters.critical} крит.</span>
@@ -1806,15 +1801,13 @@ export function CategorySketchAnnotator(props: Props) {
       </div>
 
       {!sheetStorage ? (
-        <details className="border-border-default rounded-lg border bg-white text-xs">
-          <summary className="text-text-primary cursor-pointer list-none px-3 py-2 font-medium [&::-webkit-details-marker]:hidden">
+        <details className="rounded-lg border border-zinc-200 bg-white text-xs">
+          <summary className="cursor-pointer list-none px-3 py-2 font-medium text-zinc-700 [&::-webkit-details-marker]:hidden">
             PLM: сцена артикула и вид листа (по желанию)
           </summary>
-          <div className="border-border-subtle flex flex-wrap items-end gap-3 border-t p-3">
+          <div className="flex flex-wrap items-end gap-3 border-t border-zinc-100 p-3">
             <label className="min-w-40 flex-1 space-y-0.5">
-              <span className="text-text-secondary text-[9px] font-semibold uppercase">
-                ID сцены
-              </span>
+              <span className="text-[9px] font-semibold uppercase text-zinc-500">ID сцены</span>
               <Input
                 className="h-8 text-sm"
                 placeholder="один id на виды"
@@ -1826,9 +1819,9 @@ export function CategorySketchAnnotator(props: Props) {
               />
             </label>
             <label className="min-w-40 space-y-0.5">
-              <span className="text-text-secondary text-[9px] font-semibold uppercase">Вид</span>
+              <span className="text-[9px] font-semibold uppercase text-zinc-500">Вид</span>
               <select
-                className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-sm"
+                className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-sm"
                 value={sceneViewProp ?? ''}
                 disabled={readOnly}
                 onChange={(e) => {
@@ -1857,17 +1850,17 @@ export function CategorySketchAnnotator(props: Props) {
         )}
       >
         <div className="min-w-0 space-y-3">
-          <div className="border-border-default rounded-xl border bg-white p-3 shadow-sm">
-            <p className="text-text-primary mb-2 text-xs font-semibold">
+          <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
+            <p className="mb-2 text-xs font-semibold text-zinc-900">
               Шаг 1 — поставить точку на картинке
             </p>
-            <div className="border-border-subtle bg-bg-surface2/90 rounded-lg border p-2.5">
-              <div className="text-text-secondary mb-2 text-xs">
+            <div className="rounded-lg border border-zinc-100 bg-zinc-50/90 p-2.5">
+              <div className="mb-2 text-xs text-zinc-600">
                 Выберите цвет (важность), нажмите «+ на доске», затем клик по изображению ниже.
                 Текст метки — справа.
               </div>
-              <div className="border-border-default flex flex-wrap items-center gap-2 rounded-md border bg-white px-2 py-1.5">
-                <span className="text-text-secondary text-[9px] font-semibold uppercase tracking-wide">
+              <div className="flex flex-wrap items-center gap-2 rounded-md border border-zinc-200/80 bg-white px-2 py-1.5">
+                <span className="text-[9px] font-semibold uppercase tracking-wide text-zinc-500">
                   Группа
                 </span>
                 <div className="flex flex-wrap gap-1">
@@ -1887,9 +1880,9 @@ export function CategorySketchAnnotator(props: Props) {
                       },
                       {
                         key: 'other' as const,
-                        dot: 'bg-border-default',
-                        border: 'border-border-default',
-                        activeBg: 'bg-bg-surface2',
+                        dot: 'bg-zinc-400',
+                        border: 'border-zinc-300',
+                        activeBg: 'bg-zinc-50',
                       },
                     ] as const
                   ).map(({ key, dot, border, activeBg }) => (
@@ -1899,8 +1892,8 @@ export function CategorySketchAnnotator(props: Props) {
                       className={cn(
                         'inline-flex items-center gap-1 rounded border px-2 py-1 text-xs font-medium transition-colors',
                         nextPinPreset === key
-                          ? cn(border, activeBg, 'text-text-primary')
-                          : 'text-text-secondary hover:bg-bg-surface2 border-transparent bg-white'
+                          ? cn(border, activeBg, 'text-zinc-900')
+                          : 'border-transparent bg-white text-zinc-600 hover:bg-zinc-100'
                       )}
                       aria-pressed={nextPinPreset === key}
                       disabled={readOnly}
@@ -1939,12 +1932,12 @@ export function CategorySketchAnnotator(props: Props) {
                 >
                   Как у последней
                 </Button>
-                <label className="text-text-secondary flex min-w-0 flex-wrap items-center gap-1.5 text-xs">
-                  <span className="text-text-secondary shrink-0 font-semibold uppercase tracking-wide">
+                <label className="flex min-w-0 flex-wrap items-center gap-1.5 text-xs text-zinc-600">
+                  <span className="shrink-0 font-semibold uppercase tracking-wide text-zinc-500">
                     Тип узла
                   </span>
                   <select
-                    className="border-border-default h-7 max-w-44 rounded-md border bg-white px-1.5 text-xs"
+                    className="h-7 max-w-44 rounded-md border border-zinc-200 bg-white px-1.5 text-xs"
                     value={nextAnnotationType}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -1962,33 +1955,33 @@ export function CategorySketchAnnotator(props: Props) {
               </div>
             </div>
 
-            <details className="border-border-subtle rounded-lg border bg-white">
-              <summary className="text-text-primary cursor-pointer list-none p-2 text-xs font-medium [&::-webkit-details-marker]:hidden">
+            <details className="rounded-lg border border-slate-100 bg-white">
+              <summary className="cursor-pointer list-none p-2 text-xs font-medium text-slate-800 [&::-webkit-details-marker]:hidden">
                 Фильтр номеров справа (необязательно)
               </summary>
-              <div className="border-border-subtle space-y-1.5 border-t p-2">
+              <div className="space-y-1.5 border-t border-slate-100 p-2">
                 <div className="flex flex-wrap items-center gap-1.5">
                   <Filter className="size-3.5 shrink-0 text-amber-700" aria-hidden />
-                  <span className="text-text-primary text-xs font-semibold">По цвету кружка</span>
+                  <span className="text-xs font-semibold text-slate-700">По цвету кружка</span>
                   <span
-                    className="text-text-secondary cursor-help text-[8px] font-normal normal-case"
+                    className="cursor-help text-[8px] font-normal normal-case text-slate-500"
                     title="Влияет на боковую панель и кнопки номеров; на подложке всегда видны все метки листа. Новая точка — блок «Группа» выше."
                   >
                     ⓘ
                   </span>
                 </div>
-                <p className="text-text-secondary text-[9px] leading-snug">
+                <p className="text-[9px] leading-snug text-slate-500">
                   По цвету пина, типу узла и этапу. «Все» / «Сбросить» — полный список справа; точки
                   на картинке не скрываются. Пресет новой метки — блок «Новая метка» выше.
                 </p>
-                <div className="text-text-secondary flex flex-wrap items-center gap-x-2 gap-y-1 text-[9px]">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[9px] text-slate-600">
                   <button
                     type="button"
                     className={cn(
                       'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
                       filterPinVisual === 'all' && filterType === 'all' && filterStage === 'all'
-                        ? 'border-border-default bg-bg-surface2 text-text-primary font-medium'
-                        : 'hover:bg-bg-surface2 border-transparent bg-transparent'
+                        ? 'border-zinc-400 bg-zinc-100 font-medium text-zinc-900'
+                        : 'border-transparent bg-transparent hover:bg-slate-100'
                     )}
                     aria-pressed={
                       filterPinVisual === 'all' && filterType === 'all' && filterStage === 'all'
@@ -2001,7 +1994,7 @@ export function CategorySketchAnnotator(props: Props) {
                     }}
                   >
                     Все
-                    <span className="text-text-muted tabular-nums">({pinsOnLeaf.length})</span>
+                    <span className="tabular-nums text-slate-400">({pinsOnLeaf.length})</span>
                   </button>
                   <button
                     type="button"
@@ -2009,7 +2002,7 @@ export function CategorySketchAnnotator(props: Props) {
                       'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
                       filterPinVisual === 'critical'
                         ? 'border-rose-300 bg-rose-50 text-rose-900'
-                        : 'hover:bg-bg-surface2 border-transparent bg-transparent'
+                        : 'border-transparent bg-transparent hover:bg-slate-100'
                     )}
                     aria-pressed={filterPinVisual === 'critical'}
                     title="Только красное кольцо (приоритет «критично»). Ещё раз — режим «Все»."
@@ -2019,7 +2012,7 @@ export function CategorySketchAnnotator(props: Props) {
                   >
                     <span className="size-2.5 shrink-0 rounded-full bg-rose-600" aria-hidden />
                     критично
-                    <span className="text-text-muted tabular-nums">
+                    <span className="tabular-nums text-slate-400">
                       ({pinVisualCounts.critical})
                     </span>
                   </button>
@@ -2029,7 +2022,7 @@ export function CategorySketchAnnotator(props: Props) {
                       'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
                       filterPinVisual === 'qc'
                         ? 'border-amber-300 bg-amber-50 text-amber-950'
-                        : 'hover:bg-bg-surface2 border-transparent bg-transparent'
+                        : 'border-transparent bg-transparent hover:bg-slate-100'
                     )}
                     aria-pressed={filterPinVisual === 'qc'}
                     title="Только этап ОТК (янтарь). Ещё раз — «Все»."
@@ -2037,7 +2030,7 @@ export function CategorySketchAnnotator(props: Props) {
                   >
                     <span className="size-2.5 shrink-0 rounded-full bg-amber-600" aria-hidden />
                     этап ОТК
-                    <span className="text-text-muted tabular-nums">({pinVisualCounts.qc})</span>
+                    <span className="tabular-nums text-slate-400">({pinVisualCounts.qc})</span>
                   </button>
                   <button
                     type="button"
@@ -2045,7 +2038,7 @@ export function CategorySketchAnnotator(props: Props) {
                       'inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 transition-colors',
                       filterPinVisual === 'other'
                         ? 'border-teal-300 bg-teal-50 text-teal-950'
-                        : 'hover:bg-bg-surface2 border-transparent bg-transparent'
+                        : 'border-transparent bg-transparent hover:bg-slate-100'
                     )}
                     aria-pressed={filterPinVisual === 'other'}
                     title="Остальные (серое кольцо). Ещё раз — «Все»."
@@ -2053,11 +2046,11 @@ export function CategorySketchAnnotator(props: Props) {
                   >
                     <span className="size-2.5 shrink-0 rounded-full bg-teal-600" aria-hidden />
                     остальные
-                    <span className="text-text-muted tabular-nums">({pinVisualCounts.other})</span>
+                    <span className="tabular-nums text-slate-400">({pinVisualCounts.other})</span>
                   </button>
                   <button
                     type="button"
-                    className="text-text-secondary ml-0.5 text-[9px] font-medium underline-offset-2 hover:underline"
+                    className="ml-0.5 text-[9px] font-medium text-slate-500 underline-offset-2 hover:underline"
                     disabled={
                       filterPinVisual === 'all' &&
                       filterType === 'all' &&
@@ -2084,29 +2077,29 @@ export function CategorySketchAnnotator(props: Props) {
                   </p>
                 ) : null}
 
-                <details className="border-border-subtle bg-bg-surface2/80 rounded-lg border p-2">
-                  <summary className="text-text-primary flex cursor-pointer list-none items-center gap-1.5 text-xs font-semibold [&::-webkit-details-marker]:hidden">
-                    <LayoutGrid className="text-text-secondary size-3.5 shrink-0" aria-hidden />
+                <details className="rounded-lg border border-slate-100 bg-slate-50/80 p-2">
+                  <summary className="flex cursor-pointer list-none items-center gap-1.5 text-xs font-semibold text-slate-700 [&::-webkit-details-marker]:hidden">
+                    <LayoutGrid className="size-3.5 shrink-0 text-slate-600" aria-hidden />
                     Доп. фильтр: тип узла и этап
                     <span
-                      className="text-text-secondary ml-auto cursor-help text-[8px] font-normal"
+                      className="ml-auto cursor-help text-[8px] font-normal text-slate-500"
                       title="Сужает список справа и номера меток; доска показывает все точки листа. Суммируется с цветовым фильтром выше."
                     >
                       ⓘ
                     </span>
                   </summary>
-                  <p className="text-text-secondary mt-2 text-[9px] leading-snug">
+                  <p className="mt-2 text-[9px] leading-snug text-slate-600">
                     Это поля карточки метки (конструкция, материал… и ТЗ / образец / ОТК…). Вместе с
                     цветовым фильтром выше сужает список справа и кнопки номеров; на подложке
                     по‑прежнему отображаются все метки текущего листа.
                   </p>
                   <div className="mt-2 grid gap-2 sm:grid-cols-2">
                     <label className="space-y-1">
-                      <span className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
+                      <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Тип узла
                       </span>
                       <select
-                        className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-sm"
+                        className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
                         value={filterType}
                         onChange={(e) => setFilterType(e.target.value as typeof filterType)}
                       >
@@ -2119,11 +2112,11 @@ export function CategorySketchAnnotator(props: Props) {
                       </select>
                     </label>
                     <label className="space-y-1">
-                      <span className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
+                      <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Этап маршрута
                       </span>
                       <select
-                        className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-sm"
+                        className="h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
                         value={filterStage}
                         onChange={(e) => setFilterStage(e.target.value as typeof filterStage)}
                       >
@@ -2163,8 +2156,8 @@ export function CategorySketchAnnotator(props: Props) {
             ) : null}
 
             {pinTextSnippets.length > 0 ? (
-              <div className="border-border-default bg-bg-surface2/80 rounded-lg border p-2">
-                <p className="text-text-primary mb-1.5 text-xs font-medium">
+              <div className="rounded-lg border border-slate-200 bg-slate-50/80 p-2">
+                <p className="mb-1.5 text-xs font-medium text-slate-800">
                   Готовые фразы в текст метки
                 </p>
                 <div className="flex flex-wrap gap-1.5">
@@ -2219,18 +2212,16 @@ export function CategorySketchAnnotator(props: Props) {
             ) : null}
           </div>
 
-          <div className="border-border-default rounded-xl border bg-white p-2 shadow-sm">
-            <p className="text-text-primary mb-2 text-center text-xs font-semibold">
-              Картинка и точки
-            </p>
-            <div className="border-border-default bg-bg-surface2 rounded-lg border p-1.5">
+          <div className="rounded-xl border border-zinc-200 bg-white p-2 shadow-sm">
+            <p className="mb-2 text-center text-xs font-semibold text-zinc-900">Картинка и точки</p>
+            <div className="rounded-lg border border-zinc-200 bg-zinc-100 p-1.5">
               <div
                 ref={boardRef}
                 role="region"
                 aria-label="Поле скетча категории с метками"
                 className={cn(
-                  'border-border-default relative aspect-[4/3] w-full overflow-hidden border bg-white',
-                  placeMode && 'ring-text-primary cursor-crosshair ring-2 ring-offset-2'
+                  'relative aspect-[4/3] w-full overflow-hidden border border-zinc-200 bg-white',
+                  placeMode && 'cursor-crosshair ring-2 ring-zinc-900 ring-offset-2'
                 )}
                 onClick={onBoardClick}
               >
@@ -2276,16 +2267,16 @@ export function CategorySketchAnnotator(props: Props) {
                       <button
                         type="button"
                         className={cn(
-                          'bg-bg-surface2 text-text-primary absolute z-[5] flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 font-mono font-bold tabular-nums shadow-sm transition-shadow',
+                          'absolute z-[5] flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 bg-zinc-50 font-mono font-bold tabular-nums text-zinc-900 shadow-sm transition-shadow',
                           readOnly ? 'size-11 text-base' : 'size-9 text-sm',
                           a.priority === 'critical'
                             ? 'border-rose-600 shadow-[0_0_0_1px_rgba(225,29,72,0.35)]'
                             : a.stage === 'qc'
                               ? 'border-amber-500 shadow-[0_0_0_1px_rgba(217,119,6,0.35)]'
-                              : 'border-border-default',
-                          activeId === a.annotationId && 'ring-text-primary ring-2 ring-offset-1',
+                              : 'border-zinc-400',
+                          activeId === a.annotationId && 'ring-2 ring-zinc-900 ring-offset-1',
                           !visibleIds.has(a.annotationId) &&
-                            'ring-dashed ring-border-default opacity-55 ring-1'
+                            'ring-dashed opacity-55 ring-1 ring-slate-400'
                         )}
                         style={{ left: `${a.xPct}%`, top: `${a.yPct}%` }}
                         onClick={(ev) => {
@@ -2300,7 +2291,7 @@ export function CategorySketchAnnotator(props: Props) {
                     <TooltipContent
                       side="top"
                       sideOffset={8}
-                      className="border-border-default bg-white p-3 text-popover-foreground shadow-lg"
+                      className="border-slate-200 bg-white p-3 text-popover-foreground shadow-lg"
                     >
                       <CategorySketchPinHoverCard
                         annotation={a}
@@ -2315,18 +2306,18 @@ export function CategorySketchAnnotator(props: Props) {
             </div>
           </div>
 
-          <details className="border-border-default rounded-xl border bg-white shadow-sm">
-            <summary className="text-text-primary cursor-pointer list-none px-3 py-2.5 text-xs font-medium [&::-webkit-details-marker]:hidden">
+          <details className="rounded-xl border border-slate-200 bg-white shadow-sm">
+            <summary className="cursor-pointer list-none px-3 py-2.5 text-xs font-medium text-zinc-800 [&::-webkit-details-marker]:hidden">
               Свой файл вместо силуэта · эталон · скачать .svg
             </summary>
-            <div className="border-border-subtle space-y-2 border-t p-3">
-              <p className="text-text-secondary text-xs leading-snug">
+            <div className="space-y-2 border-t border-slate-100 p-3">
+              <p className="text-xs leading-snug text-slate-600">
                 {sheetStorage
                   ? 'Фото этого листа; метки остаются на своих местах.'
                   : 'Необязательно: можно оставить типовой силуэт. Свой снимок полностью меняет картинку под метками.'}
               </p>
               <div className="space-y-1">
-                <Label htmlFor={sketchImageInputId} className="text-text-secondary text-xs">
+                <Label htmlFor={sketchImageInputId} className="text-xs text-slate-500">
                   {imageDataUrl ? 'Заменить другим файлом' : 'Файл изображения (jpg, png, webp…)'}
                 </Label>
                 <Input
@@ -2352,11 +2343,11 @@ export function CategorySketchAnnotator(props: Props) {
                   Скачать .svg силуэта
                 </Button>
                 {!sheetStorage ? (
-                  <details className="border-border-default/80 min-w-48 flex-1 rounded-md border bg-white/70 p-2 text-xs">
-                    <summary className="text-text-primary cursor-pointer font-medium">
+                  <details className="min-w-48 flex-1 rounded-md border border-slate-200/80 bg-white/70 p-2 text-xs">
+                    <summary className="cursor-pointer font-medium text-slate-700">
                       Демо-подложка через API
                     </summary>
-                    <div className="border-border-subtle mt-2 space-y-2 border-t pt-2">
+                    <div className="mt-2 space-y-2 border-t border-slate-100 pt-2">
                       <Button
                         type="button"
                         variant="secondary"
@@ -2368,7 +2359,7 @@ export function CategorySketchAnnotator(props: Props) {
                         <ImageIcon className="size-3.5" />
                         {demoRefBusy ? 'Загрузка…' : 'Демо: ИИ-референс'}
                       </Button>
-                      <p className="text-text-secondary text-[9px] leading-snug">
+                      <p className="text-[9px] leading-snug text-slate-500">
                         Тестовое фото вместо ручной загрузки; в проде подключается ваша модель
                         генерации.
                       </p>
@@ -2377,24 +2368,24 @@ export function CategorySketchAnnotator(props: Props) {
                 ) : null}
               </div>
               {!sheetStorage ? (
-                <div className="border-border-default/80 space-y-1.5 border-t pt-2">
+                <div className="space-y-1.5 border-t border-slate-200/80 pt-2">
                   <div className="flex flex-wrap items-center gap-1.5">
                     <GitCompare className="size-3.5 shrink-0 text-teal-700" aria-hidden />
-                    <p className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
                       Сравнение с эталоном
                     </p>
                     <span
-                      className="text-text-secondary cursor-help text-[8px] font-normal normal-case"
+                      className="cursor-help text-[8px] font-normal normal-case text-slate-500"
                       title="Накладывает референс поверх подложки для визуальной проверки. Не входит в экспорт SVG силуэта."
                     >
                       ⓘ
                     </span>
                   </div>
-                  <p className="text-text-secondary text-[9px] leading-snug">
+                  <p className="text-[9px] leading-snug text-slate-600">
                     Наложение поверх подложки (прошлая партия, референс). Подгонка масштаба и сдвига
                     — слайдерами ниже.
                   </p>
-                  <Label htmlFor={sketchCompareInputId} className="text-text-secondary text-xs">
+                  <Label htmlFor={sketchCompareInputId} className="text-xs text-slate-500">
                     {compareOverlayDataUrl ? 'Заменить эталон' : 'Файл эталона (jpg, png…)'}
                   </Label>
                   <Input
@@ -2407,11 +2398,11 @@ export function CategorySketchAnnotator(props: Props) {
                   />
                   {compareOverlayDataUrl ? (
                     <div className="space-y-2">
-                      <p className="text-text-secondary text-[9px] leading-snug">
+                      <p className="text-[9px] leading-snug text-slate-600">
                         Прозрачность, масштаб и смещение по полю.
                       </p>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-text-secondary text-[9px]">
+                        <span className="text-[9px] text-slate-600">
                           Прозрачность: {compareOpacity}%
                         </span>
                         <input
@@ -2429,7 +2420,7 @@ export function CategorySketchAnnotator(props: Props) {
                         />
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-text-secondary text-[9px]">
+                        <span className="text-[9px] text-slate-600">
                           Масштаб: {compareScalePct}%
                         </span>
                         <input
@@ -2447,7 +2438,7 @@ export function CategorySketchAnnotator(props: Props) {
                         />
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-text-secondary text-[9px]">
+                        <span className="text-[9px] text-slate-600">
                           Сдвиг X: {compareOffsetXPct}%
                         </span>
                         <input
@@ -2463,7 +2454,7 @@ export function CategorySketchAnnotator(props: Props) {
                         />
                       </div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-text-secondary text-[9px]">
+                        <span className="text-[9px] text-slate-600">
                           Сдвиг Y: {compareOffsetYPct}%
                         </span>
                         <input
@@ -2482,7 +2473,7 @@ export function CategorySketchAnnotator(props: Props) {
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="text-text-secondary h-7 text-xs"
+                        className="h-7 text-xs text-slate-600"
                         disabled={readOnly}
                         onClick={clearCompareOverlay}
                       >
@@ -2492,7 +2483,7 @@ export function CategorySketchAnnotator(props: Props) {
                   ) : null}
                   {compareOverlayFileName ? (
                     <p
-                      className="text-text-secondary truncate text-[9px]"
+                      className="truncate text-[9px] text-slate-500"
                       title={compareOverlayFileName}
                     >
                       {compareOverlayFileName}
@@ -2501,11 +2492,8 @@ export function CategorySketchAnnotator(props: Props) {
                 </div>
               ) : null}
               {imageFileName || imageDataUrl ? (
-                <div className="border-border-default/80 flex flex-wrap items-center gap-2 border-t pt-2">
-                  <span
-                    className="text-text-secondary truncate text-xs"
-                    title={imageFileName ?? ''}
-                  >
+                <div className="flex flex-wrap items-center gap-2 border-t border-slate-200/80 pt-2">
+                  <span className="truncate text-xs text-slate-600" title={imageFileName ?? ''}>
                     {imageFileName?.trim()
                       ? imageFileName
                       : imageDataUrl
@@ -2527,12 +2515,12 @@ export function CategorySketchAnnotator(props: Props) {
             </div>
           </details>
 
-          <details className="border-accent-primary/30 bg-accent-primary/10 rounded-lg border border-dashed">
-            <summary className="text-accent-primary cursor-pointer list-none p-2 text-xs font-semibold [&::-webkit-details-marker]:hidden">
+          <details className="rounded-lg border border-dashed border-indigo-200 bg-indigo-50/30">
+            <summary className="cursor-pointer list-none p-2 text-xs font-semibold text-indigo-900 [&::-webkit-details-marker]:hidden">
               Черновики в углах поля (по желанию)
             </summary>
-            <div className="border-accent-primary/20 space-y-2 border-t p-2">
-              <p className="text-accent-primary/80 text-xs leading-snug">
+            <div className="space-y-2 border-t border-indigo-100 p-2">
+              <p className="text-xs leading-snug text-indigo-900/80">
                 До четырёх меток в углах с текущим цветом; лишнее удалите или сдвиньте.
               </p>
               <div className="flex flex-wrap gap-2">
@@ -2540,7 +2528,7 @@ export function CategorySketchAnnotator(props: Props) {
                   type="button"
                   size="sm"
                   variant="outline"
-                  className="border-accent-primary/30 h-7 text-xs"
+                  className="h-7 border-indigo-200 text-xs"
                   disabled={
                     readOnly ||
                     dataAnnotations.filter((a) => sketchPinBelongsToLeaf(a, leafId)).length >=
@@ -2564,61 +2552,44 @@ export function CategorySketchAnnotator(props: Props) {
             </div>
           </details>
 
-          <details className="border-border-default bg-bg-surface2/80 w-full rounded-xl border">
-            <summary className="text-text-primary cursor-pointer list-none px-3 py-2.5 text-xs font-medium [&::-webkit-details-marker]:hidden">
+          <details className="w-full rounded-xl border border-zinc-200 bg-zinc-50/50">
+            <summary className="cursor-pointer list-none px-3 py-2.5 text-xs font-medium text-zinc-800 [&::-webkit-details-marker]:hidden">
               Печать, выгрузки, MES и ревизия (для отдела)
             </summary>
-            <div className="border-border-default border-t p-2">
+            <div className="border-t border-zinc-200 p-2">
               <Tabs defaultValue="handoff" className="w-full">
-                {/* cabinetSurface v1 */}
-                <TabsList className={cn(cabinetSurface.tabsList, 'mb-2 h-auto min-w-0')}>
-                  <TabsTrigger
-                    value="handoff"
-                    className={cn(
-                      cabinetSurface.tabsTrigger,
-                      'text-xs font-semibold normal-case tracking-normal'
-                    )}
-                  >
+                <TabsList className={cn(cabinetSurface.tabsList, 'mb-2 h-auto rounded-md shadow-inner')}>
+                  <TabsTrigger value="handoff" className="px-2 py-1.5 text-xs">
                     Документы и MES
                   </TabsTrigger>
                   {sketchTasksPanel ? (
-                    <TabsTrigger
-                      value="tasks"
-                      className={cn(
-                        cabinetSurface.tabsTrigger,
-                        'text-xs font-semibold normal-case tracking-normal'
-                      )}
-                    >
+                    <TabsTrigger value="tasks" className="px-2 py-1.5 text-xs">
                       Задачи L1→L3
                     </TabsTrigger>
                   ) : null}
                 </TabsList>
                 <TabsContent
                   value="handoff"
-                  className="border-border-default mt-0 space-y-2 rounded-lg border bg-white p-2.5 text-sm"
+                  className="mt-0 space-y-2 rounded-lg border border-zinc-200 bg-white p-2.5 text-sm"
                 >
-                  <p className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-zinc-600">
                     Ревизия · комплаенс · экспорт
                   </p>
                   <div className="grid gap-2 sm:grid-cols-2">
                     <label className="space-y-0.5">
-                      <span className="text-text-secondary text-[9px] font-semibold">
-                        Ревизия скетча
-                      </span>
+                      <span className="text-[9px] font-semibold text-zinc-500">Ревизия скетча</span>
                       <Input
                         className="h-8 text-sm"
                         value={categorySketchRevisionLabel ?? ''}
                         disabled={readOnly}
-                        placeholder="A/B, номер"
+                        placeholder="Вариант A/B, №"
                         onChange={(e) =>
                           onPatch({ categorySketchRevisionLabel: e.target.value || undefined })
                         }
                       />
                     </label>
                     <label className="space-y-0.5">
-                      <span className="text-text-secondary text-[9px] font-semibold">
-                        Заморозка до
-                      </span>
+                      <span className="text-[9px] font-semibold text-zinc-500">Заморозка до</span>
                       <Input
                         type="date"
                         className="h-8 text-sm"
@@ -2630,7 +2601,7 @@ export function CategorySketchAnnotator(props: Props) {
                       />
                     </label>
                     <label className="space-y-0.5 sm:col-span-2">
-                      <span className="text-text-secondary text-[9px] font-semibold">
+                      <span className="text-[9px] font-semibold text-zinc-500">
                         Утверждённый референс
                       </span>
                       <Input
@@ -2648,9 +2619,7 @@ export function CategorySketchAnnotator(props: Props) {
                       />
                     </label>
                     <label className="space-y-0.5">
-                      <span className="text-text-secondary text-[9px] font-semibold">
-                        Версия лекал
-                      </span>
+                      <span className="text-[9px] font-semibold text-zinc-500">Версия лекал</span>
                       <Input
                         className="h-8 text-sm"
                         value={compliance.patternPackVersion ?? ''}
@@ -2666,9 +2635,7 @@ export function CategorySketchAnnotator(props: Props) {
                       />
                     </label>
                     <label className="space-y-0.5">
-                      <span className="text-text-secondary text-[9px] font-semibold">
-                        Акт образца
-                      </span>
+                      <span className="text-[9px] font-semibold text-zinc-500">Акт образца</span>
                       <Input
                         className="h-8 text-sm"
                         value={compliance.sampleAcceptanceActRef ?? ''}
@@ -2684,7 +2651,7 @@ export function CategorySketchAnnotator(props: Props) {
                       />
                     </label>
                   </div>
-                  <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-2">
+                  <div className="flex flex-wrap items-center gap-2 border-t border-zinc-100 pt-2">
                     <Button
                       type="button"
                       variant="outline"
@@ -2696,8 +2663,8 @@ export function CategorySketchAnnotator(props: Props) {
                       Снимок ревизии в архив
                     </Button>
                     {categorySketchRevisionSnapshots.length > 0 ? (
-                      <details className="text-text-secondary max-w-full text-xs">
-                        <summary className="text-text-primary cursor-pointer font-medium">
+                      <details className="max-w-full text-xs text-zinc-600">
+                        <summary className="cursor-pointer font-medium text-zinc-700">
                           Архив ({categorySketchRevisionSnapshots.length})
                         </summary>
                         <ul className="mt-1 max-h-28 space-y-0.5 overflow-y-auto font-mono text-[9px]">
@@ -2718,17 +2685,13 @@ export function CategorySketchAnnotator(props: Props) {
                             ))}
                         </ul>
                         {categorySketchRevisionSnapshots.length >= 2 ? (
-                          <div className="border-border-default bg-bg-surface2/90 text-text-primary mt-2 space-y-2 rounded-md border p-2 text-[9px]">
-                            <p className="text-text-primary font-semibold">
-                              Сравнение снимков A ↔ B
-                            </p>
+                          <div className="mt-2 space-y-2 rounded-md border border-zinc-200 bg-zinc-50/90 p-2 text-[9px] text-zinc-800">
+                            <p className="font-semibold text-zinc-900">Сравнение снимков A ↔ B</p>
                             <div className="flex flex-wrap gap-2">
                               <label className="flex flex-col gap-0.5">
-                                <span className="text-text-secondary text-[8px] uppercase">
-                                  Снимок A
-                                </span>
+                                <span className="text-[8px] uppercase text-zinc-500">Снимок A</span>
                                 <select
-                                  className="border-border-default h-8 max-w-56 rounded border bg-white px-1 text-[9px]"
+                                  className="h-8 max-w-56 rounded border border-zinc-200 bg-white px-1 text-[9px]"
                                   value={compareSnapIdA}
                                   onChange={(e) => setCompareSnapIdA(e.target.value)}
                                 >
@@ -2742,11 +2705,9 @@ export function CategorySketchAnnotator(props: Props) {
                                 </select>
                               </label>
                               <label className="flex flex-col gap-0.5">
-                                <span className="text-text-secondary text-[8px] uppercase">
-                                  Снимок B
-                                </span>
+                                <span className="text-[8px] uppercase text-zinc-500">Снимок B</span>
                                 <select
-                                  className="border-border-default h-8 max-w-56 rounded border bg-white px-1 text-[9px]"
+                                  className="h-8 max-w-56 rounded border border-zinc-200 bg-white px-1 text-[9px]"
                                   value={compareSnapIdB}
                                   onChange={(e) => setCompareSnapIdB(e.target.value)}
                                 >
@@ -2761,7 +2722,7 @@ export function CategorySketchAnnotator(props: Props) {
                               </label>
                             </div>
                             {revisionDiff ? (
-                              <div className="border-border-default space-y-1 border-t pt-2 font-mono text-[8px] leading-snug">
+                              <div className="space-y-1 border-t border-zinc-200 pt-2 font-mono text-[8px] leading-snug">
                                 <p>
                                   Меток: {revisionDiff.countA} → {revisionDiff.countB}
                                   {revisionDiff.leafMismatch ? (
@@ -2775,7 +2736,7 @@ export function CategorySketchAnnotator(props: Props) {
                                 {revisionDiff.changed.length > 0 ? (
                                   <table className="w-full border-collapse text-left">
                                     <thead>
-                                      <tr className="border-border-default border-b">
+                                      <tr className="border-b border-zinc-200">
                                         <th className="py-0.5 pr-1">annotationId</th>
                                         <th className="py-0.5">изменения</th>
                                       </tr>
@@ -2784,7 +2745,7 @@ export function CategorySketchAnnotator(props: Props) {
                                       {revisionDiff.changed.slice(0, 24).map((row) => (
                                         <tr
                                           key={row.annotationId}
-                                          className="border-border-subtle border-b"
+                                          className="border-b border-zinc-100"
                                         >
                                           <td className="py-0.5 pr-1 align-top">
                                             {row.annotationId.slice(0, 10)}…
@@ -2804,13 +2765,13 @@ export function CategorySketchAnnotator(props: Props) {
                                     </tbody>
                                   </table>
                                 ) : (
-                                  <p className="text-text-secondary">
+                                  <p className="text-zinc-500">
                                     Поля priority / stage / BOM ref совпадают.
                                   </p>
                                 )}
                               </div>
                             ) : (
-                              <p className="text-text-secondary">Выберите два разных снимка.</p>
+                              <p className="text-zinc-500">Выберите два разных снимка.</p>
                             )}
                           </div>
                         ) : null}
@@ -2836,7 +2797,7 @@ export function CategorySketchAnnotator(props: Props) {
                       Утвердить для производства
                     </Button>
                   </div>
-                  <div className="border-border-subtle flex flex-wrap gap-2 border-t pt-2">
+                  <div className="flex flex-wrap gap-2 border-t border-zinc-100 pt-2">
                     <Button
                       type="button"
                       variant="outline"
@@ -2909,7 +2870,7 @@ export function CategorySketchAnnotator(props: Props) {
                       Лист в цех
                     </Button>
                   </div>
-                  <div className="border-border-subtle flex flex-wrap gap-2 border-t pt-2">
+                  <div className="flex flex-wrap gap-2 border-t border-zinc-100 pt-2">
                     <Button
                       type="button"
                       variant="secondary"
@@ -2964,10 +2925,8 @@ export function CategorySketchAnnotator(props: Props) {
                     </Button>
                   </div>
                   {mesTopCodesOnBoard.length > 0 ? (
-                    <p className="text-text-secondary text-[9px] leading-snug">
-                      <span className="text-text-primary font-semibold">
-                        Топ кодов MES на доске:
-                      </span>{' '}
+                    <p className="text-[9px] leading-snug text-zinc-600">
+                      <span className="font-semibold text-zinc-700">Топ кодов MES на доске:</span>{' '}
                       {mesTopCodesOnBoard.map((x) => `${x.code} (${x.count})`).join(', ')}
                     </p>
                   ) : null}
@@ -2977,13 +2936,13 @@ export function CategorySketchAnnotator(props: Props) {
                     </p>
                   ) : null}
                   {sketchPropagatedDrafts.length > 0 ? (
-                    <ul className="border-border-subtle max-h-32 space-y-1 overflow-y-auto border-t pt-2 text-xs">
+                    <ul className="max-h-32 space-y-1 overflow-y-auto border-t border-zinc-100 pt-2 text-xs">
                       {sketchPropagatedDrafts.map((d) => (
                         <li
                           key={d.draftId}
-                          className="border-border-subtle flex justify-between gap-2 border-b pb-1"
+                          className="flex justify-between gap-2 border-b border-zinc-50 pb-1"
                         >
-                          <span className="text-text-primary min-w-0">
+                          <span className="min-w-0 text-zinc-700">
                             <span className="font-semibold text-teal-800">
                               {d.kind === 'fit' ? 'Посадка' : 'ОТК'}:
                             </span>{' '}
@@ -3006,7 +2965,7 @@ export function CategorySketchAnnotator(props: Props) {
                 {sketchTasksPanel ? (
                   <TabsContent
                     value="tasks"
-                    className="border-border-default bg-bg-surface2/80 mt-0 max-h-[min(85dvh,640px)] overflow-y-auto rounded-lg border p-2"
+                    className="mt-0 max-h-[min(85dvh,640px)] overflow-y-auto rounded-lg border border-zinc-200 bg-zinc-50/50 p-2"
                   >
                     {sketchTasksPanel}
                   </TabsContent>
@@ -3016,9 +2975,9 @@ export function CategorySketchAnnotator(props: Props) {
           </details>
         </div>
 
-        <div className="border-border-default flex min-w-0 flex-col gap-3 border-l pl-3 lg:sticky lg:top-4 lg:max-h-[calc(100dvh-5rem)] lg:self-start lg:overflow-y-auto lg:pl-4">
-          <div className="border-border-subtle rounded-lg border bg-white/80 p-2">
-            <p className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
+        <div className="flex min-w-0 flex-col gap-3 border-l border-zinc-200 pl-3 lg:sticky lg:top-4 lg:max-h-[calc(100dvh-5rem)] lg:self-start lg:overflow-y-auto lg:pl-4">
+          <div className="rounded-lg border border-slate-100 bg-white/80 p-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
               Быстрые действия
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
@@ -3071,9 +3030,7 @@ export function CategorySketchAnnotator(props: Props) {
             </div>
           </div>
 
-          <p className="text-text-secondary text-xs font-semibold uppercase tracking-wide">
-            Выбор метки
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-600">Выбор метки</p>
           <div className="flex flex-wrap gap-1">
             {pinsOnLeaf.map((p, idx) => {
               const inFilter = visibleIds.has(p.annotationId);
@@ -3084,8 +3041,8 @@ export function CategorySketchAnnotator(props: Props) {
                   className={cn(
                     'flex h-9 min-w-9 items-center justify-center rounded-md border font-mono text-sm font-bold tabular-nums transition-colors',
                     activeAnn?.annotationId === p.annotationId
-                      ? 'border-text-primary bg-text-primary text-white'
-                      : 'border-border-default text-text-primary hover:bg-bg-surface2 bg-white',
+                      ? 'border-zinc-900 bg-zinc-900 text-white'
+                      : 'border-zinc-300 bg-white text-zinc-900 hover:bg-zinc-50',
                     p.priority === 'critical' &&
                       activeAnn?.annotationId !== p.annotationId &&
                       'border-rose-500',
@@ -3106,11 +3063,11 @@ export function CategorySketchAnnotator(props: Props) {
           </div>
 
           {!activeAnn ? (
-            <p className="text-text-secondary text-sm">Нет меток на этом листе.</p>
+            <p className="text-sm text-zinc-500">Нет меток на этом листе.</p>
           ) : (
-            <div className="border-border-default space-y-3 rounded-lg border bg-white p-3">
-              <div className="border-border-subtle flex items-center justify-between gap-2 border-b pb-2">
-                <span className="text-text-primary font-mono text-xl font-bold tabular-nums tracking-tight">
+            <div className="space-y-3 rounded-lg border border-zinc-200 bg-white p-3">
+              <div className="flex items-center justify-between gap-2 border-b border-zinc-100 pb-2">
+                <span className="font-mono text-xl font-bold tabular-nums tracking-tight text-zinc-900">
                   #{activeAnnIdx + 1}
                 </span>
                 <Button
@@ -3126,9 +3083,7 @@ export function CategorySketchAnnotator(props: Props) {
               </div>
 
               <label className="block space-y-1">
-                <span className="text-text-secondary text-[9px] font-semibold uppercase">
-                  Текст
-                </span>
+                <span className="text-[9px] font-semibold uppercase text-zinc-500">Текст</span>
                 <Textarea
                   className="min-h-[100px] text-sm"
                   placeholder="Что показать в этой точке…"
@@ -3141,7 +3096,7 @@ export function CategorySketchAnnotator(props: Props) {
               </label>
 
               <div className="space-y-1">
-                <span className="text-text-secondary text-[9px] font-semibold uppercase">
+                <span className="text-[9px] font-semibold uppercase text-zinc-500">
                   Фото-доказательство
                 </span>
                 <div className="flex flex-wrap items-end gap-2">
@@ -3153,7 +3108,7 @@ export function CategorySketchAnnotator(props: Props) {
                     onChange={(e) => void onPickProofPhoto(activeAnn.annotationId, e)}
                   />
                   <select
-                    className="border-border-default h-8 rounded-md border bg-white px-2 text-xs"
+                    className="h-8 rounded-md border border-zinc-200 bg-white px-2 text-xs"
                     value={activeAnn.proofStatus ?? 'pending'}
                     disabled={readOnly || !activeAnn.proofPhotoDataUrl}
                     onChange={(e) =>
@@ -3172,16 +3127,14 @@ export function CategorySketchAnnotator(props: Props) {
                   <img
                     src={activeAnn.proofPhotoDataUrl}
                     alt=""
-                    className="border-border-default max-h-40 max-w-full rounded border object-contain"
+                    className="max-h-40 max-w-full rounded border border-zinc-200 object-contain"
                   />
                 ) : null}
               </div>
 
               <div className="grid gap-2 sm:grid-cols-2">
                 <label className="space-y-1">
-                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
-                    Срок
-                  </span>
+                  <span className="text-[9px] font-semibold uppercase text-zinc-500">Срок</span>
                   <Input
                     type="date"
                     className="h-8 text-sm"
@@ -3195,7 +3148,7 @@ export function CategorySketchAnnotator(props: Props) {
                   />
                 </label>
                 <label className="space-y-1">
-                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
+                  <span className="text-[9px] font-semibold uppercase text-zinc-500">
                     Ответственный
                   </span>
                   <Input
@@ -3212,11 +3165,11 @@ export function CategorySketchAnnotator(props: Props) {
 
               {attributeOptions.length > 0 ? (
                 <label className="block space-y-1">
-                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
+                  <span className="text-[9px] font-semibold uppercase text-zinc-500">
                     Связь с атрибутом ТЗ
                   </span>
                   <select
-                    className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
+                    className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-sm"
                     value={activeAnn.linkedAttributeId ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -3251,11 +3204,11 @@ export function CategorySketchAnnotator(props: Props) {
 
               {taskSlotLabelOptions.length > 0 ? (
                 <label className="block space-y-1">
-                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
+                  <span className="text-[9px] font-semibold uppercase text-zinc-500">
                     Задача подкатегории
                   </span>
                   <select
-                    className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
+                    className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-sm"
                     value={activeAnn.linkedTaskId ?? ''}
                     disabled={readOnly}
                     title={
@@ -3280,7 +3233,7 @@ export function CategorySketchAnnotator(props: Props) {
               ) : null}
 
               {taskSlotLabelOptions.length > 0 && activeAnn.linkedTaskId ? (
-                <div className="border-accent-primary/20 bg-accent-primary/10 text-accent-primary space-y-2 rounded-md border p-2 text-xs">
+                <div className="space-y-2 rounded-md border border-indigo-100 bg-indigo-50/50 p-2 text-xs text-indigo-950">
                   <p className="leading-snug">
                     Блок задач:{' '}
                     <span className="font-semibold">
@@ -3330,7 +3283,7 @@ export function CategorySketchAnnotator(props: Props) {
               {activeAnn.linkedAttributeId ? (
                 <button
                   type="button"
-                  className="text-accent-primary flex items-center gap-1 text-xs font-semibold hover:underline"
+                  className="flex items-center gap-1 text-xs font-semibold text-indigo-700 hover:underline"
                   onClick={() => {
                     const el = document.getElementById(`w2-attr-${activeAnn.linkedAttributeId}`);
                     if (el) {
@@ -3343,16 +3296,16 @@ export function CategorySketchAnnotator(props: Props) {
                 </button>
               ) : null}
 
-              <div className="border-accent-primary/20 bg-accent-primary/10 space-y-2 rounded-md border p-2">
-                <span className="text-text-primary text-[9px] font-semibold uppercase">
+              <div className="space-y-2 rounded-md border border-violet-100 bg-violet-50/50 p-2">
+                <span className="text-[9px] font-semibold uppercase text-violet-900">
                   Раздел ТЗ и этап маршрута
                 </span>
                 <label className="block space-y-1">
-                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
+                  <span className="text-[9px] font-semibold uppercase text-zinc-500">
                     Раздел досье (навигация)
                   </span>
                   <select
-                    className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
+                    className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-sm"
                     value={normalizeLinkedTzPanelSectionForNav(activeAnn.linkedTzSectionKey) ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -3374,11 +3327,11 @@ export function CategorySketchAnnotator(props: Props) {
                   </select>
                 </label>
                 {activeAnn.annotationType ? (
-                  <div className="border-accent-primary/30 text-text-primary rounded border bg-white/90 px-2 py-1.5 text-xs leading-snug">
-                    <p className="text-text-primary text-[9px] font-bold uppercase tracking-wide">
+                  <div className="rounded border border-violet-200/90 bg-white/90 px-2 py-1.5 text-xs leading-snug text-violet-950">
+                    <p className="text-[9px] font-bold uppercase tracking-wide text-violet-900">
                       Матрица: тип «{TYPE_LABELS[activeAnn.annotationType]}»
                     </p>
-                    <p className="text-text-primary/95 mt-1">
+                    <p className="mt-1 text-violet-900/95">
                       {sketchTypeTzMatrixHint(activeAnn.annotationType)}
                     </p>
                     {(() => {
@@ -3388,9 +3341,9 @@ export function CategorySketchAnnotator(props: Props) {
                         normalizeLinkedTzPanelSectionForNav(activeAnn.linkedTzSectionKey) === rec;
                       return (
                         <>
-                          <p className="text-text-secondary mt-1 text-[9px]">
+                          <p className="mt-1 text-[9px] text-zinc-600">
                             Рекомендуемый раздел ТЗ:{' '}
-                            <span className="text-text-primary font-semibold">
+                            <span className="font-semibold text-zinc-800">
                               {TZ_PANEL_SECTION_LABELS[rec]}
                             </span>
                             {matches ? ' · совпадает с выбором' : ''}
@@ -3471,11 +3424,11 @@ export function CategorySketchAnnotator(props: Props) {
                   </Button>
                 ) : null}
                 <label className="block space-y-1">
-                  <span className="text-text-secondary text-[9px] font-semibold uppercase">
+                  <span className="text-[9px] font-semibold uppercase text-zinc-500">
                     Этап маршрута SKU
                   </span>
                   <select
-                    className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm"
+                    className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-sm"
                     value={activeAnn.linkedRouteStageId ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -3518,7 +3471,7 @@ export function CategorySketchAnnotator(props: Props) {
                     </span>
                     <select
                       key={`${activeAnn.annotationId}-${activeAnn.linkedBomLineRef ?? ''}`}
-                      className="text-text-primary h-8 w-full rounded-md border border-emerald-200/80 bg-white px-2 text-sm"
+                      className="h-8 w-full rounded-md border border-emerald-200/80 bg-white px-2 text-sm text-zinc-900"
                       disabled={readOnly}
                       defaultValue=""
                       aria-label="Подставить ref из заполненного BOM в досье"
@@ -3637,7 +3590,7 @@ export function CategorySketchAnnotator(props: Props) {
                     Код дефекта (иерархия)
                   </span>
                   <select
-                    className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-xs"
+                    className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-xs"
                     value={activeAnn.mesDefectCode ?? ''}
                     disabled={readOnly}
                     onChange={(e) =>
@@ -3684,15 +3637,15 @@ export function CategorySketchAnnotator(props: Props) {
                 }
               />
 
-              <details className="border-border-subtle bg-bg-surface2/80 rounded-md border p-2 text-sm">
-                <summary className="text-text-primary cursor-pointer font-medium">
+              <details className="rounded-md border border-zinc-100 bg-zinc-50/80 p-2 text-sm">
+                <summary className="cursor-pointer font-medium text-zinc-800">
                   Тип, приоритет, этап, статус
                 </summary>
                 <div className="mt-2 grid gap-2 sm:grid-cols-2">
                   <label className="space-y-1">
-                    <span className="text-text-secondary text-[9px]">Тип</span>
+                    <span className="text-[9px] text-zinc-500">Тип</span>
                     <select
-                      className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-xs"
+                      className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-xs"
                       value={activeAnn.annotationType ?? 'construction'}
                       disabled={readOnly}
                       onChange={(e) =>
@@ -3709,9 +3662,9 @@ export function CategorySketchAnnotator(props: Props) {
                     </select>
                   </label>
                   <label className="space-y-1">
-                    <span className="text-text-secondary text-[9px]">Приоритет</span>
+                    <span className="text-[9px] text-zinc-500">Приоритет</span>
                     <select
-                      className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-xs"
+                      className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-xs"
                       value={activeAnn.priority ?? 'important'}
                       disabled={readOnly}
                       onChange={(e) =>
@@ -3728,9 +3681,9 @@ export function CategorySketchAnnotator(props: Props) {
                     </select>
                   </label>
                   <label className="space-y-1">
-                    <span className="text-text-secondary text-[9px]">Статус</span>
+                    <span className="text-[9px] text-zinc-500">Статус</span>
                     <select
-                      className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-xs"
+                      className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-xs"
                       value={activeAnn.status ?? 'new'}
                       disabled={readOnly}
                       onChange={(e) =>
@@ -3747,9 +3700,9 @@ export function CategorySketchAnnotator(props: Props) {
                     </select>
                   </label>
                   <label className="space-y-1">
-                    <span className="text-text-secondary text-[9px]">Этап</span>
+                    <span className="text-[9px] text-zinc-500">Этап</span>
                     <select
-                      className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-xs"
+                      className="h-8 w-full rounded-md border border-zinc-200 bg-white px-2 text-xs"
                       value={activeAnn.stage ?? 'tz'}
                       disabled={readOnly}
                       onChange={(e) =>
@@ -3768,8 +3721,8 @@ export function CategorySketchAnnotator(props: Props) {
                 </div>
               </details>
 
-              <details className="border-border-subtle bg-bg-surface2/80 rounded-md border p-2 text-xs">
-                <summary className="text-text-primary cursor-pointer font-medium">
+              <details className="rounded-md border border-zinc-100 bg-zinc-50/80 p-2 text-xs">
+                <summary className="cursor-pointer font-medium text-zinc-800">
                   Групповое редактирование
                 </summary>
                 <div className="mt-2 space-y-2">
@@ -3789,7 +3742,7 @@ export function CategorySketchAnnotator(props: Props) {
                         });
                       }}
                     />
-                    <span className="text-text-secondary">
+                    <span className="text-zinc-600">
                       Включить текущую в группу ({batchSelectedIds.length})
                     </span>
                   </div>
@@ -3830,20 +3783,20 @@ export function CategorySketchAnnotator(props: Props) {
         </div>
       </div>
 
-      <details className="border-accent-primary/20 bg-accent-primary/10 rounded-lg border p-2">
-        <summary className="text-accent-primary flex cursor-pointer list-none items-center gap-1 text-xs font-semibold uppercase tracking-wide [&::-webkit-details-marker]:hidden">
+      <details className="rounded-lg border border-violet-100 bg-violet-50/40 p-2">
+        <summary className="flex cursor-pointer list-none items-center gap-1 text-xs font-semibold uppercase tracking-wide text-violet-700 [&::-webkit-details-marker]:hidden">
           <Sparkles className="size-3 shrink-0" aria-hidden />
           Дополнительно: промпт ИИ и брендбук
-          <span className="text-text-secondary font-normal normal-case">
+          <span className="font-normal normal-case text-slate-500">
             — если пользуетесь Midjourney, Krea…
           </span>
         </summary>
-        <div className="border-accent-primary/20 mt-2 space-y-2 border-t pt-2">
-          <p className="text-text-secondary text-[9px] leading-snug">
+        <div className="mt-2 space-y-2 border-t border-violet-100/80 pt-2">
+          <p className="text-[9px] leading-snug text-slate-600">
             Брендбук попадает в текст промпта жёстче, чем свободные подсказки ниже.
           </p>
           <label className="block space-y-1">
-            <span className="text-text-secondary text-[9px] font-semibold uppercase tracking-wide">
+            <span className="text-[9px] font-semibold uppercase tracking-wide text-slate-600">
               Брендбук (палитра, силуэт, запреты)
             </span>
             <Textarea
@@ -3859,7 +3812,7 @@ export function CategorySketchAnnotator(props: Props) {
               type="button"
               size="sm"
               variant="outline"
-              className="border-accent-primary/25 h-7 gap-1 text-xs"
+              className="h-7 gap-1 border-violet-200 text-xs"
               onClick={() => void copyAiPrompt()}
             >
               <Copy className="size-3" />
@@ -3867,7 +3820,7 @@ export function CategorySketchAnnotator(props: Props) {
             </Button>
           </div>
           <label className="block space-y-1">
-            <span className="text-text-secondary text-[9px] font-semibold uppercase tracking-wide">
+            <span className="text-[9px] font-semibold uppercase tracking-wide text-slate-600">
               Свои уточнения к промпту
             </span>
             <Textarea
@@ -3877,11 +3830,11 @@ export function CategorySketchAnnotator(props: Props) {
               onChange={(e) => setAiExtraHints(e.target.value)}
             />
           </label>
-          <details className="border-accent-primary/20 text-text-secondary rounded border bg-white/50 p-2 text-xs">
-            <summary className="text-text-primary cursor-pointer font-medium">
+          <details className="rounded border border-violet-100/80 bg-white/50 p-2 text-xs text-slate-600">
+            <summary className="cursor-pointer font-medium text-slate-700">
               Техническое: полный текст промпта и интеграция в код
             </summary>
-            <pre className="border-border-subtle text-text-primary mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded border bg-white p-2 text-xs leading-snug">
+            <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap rounded border border-slate-100 bg-white p-2 text-xs leading-snug text-slate-800">
               {aiPromptText}
             </pre>
             <div className="mt-2 flex flex-wrap gap-2">
@@ -3895,33 +3848,33 @@ export function CategorySketchAnnotator(props: Props) {
                 Копировать этот блок целиком
               </Button>
             </div>
-            <p className="text-text-secondary mt-2 text-[9px] leading-snug">
+            <p className="mt-2 text-[9px] leading-snug text-slate-500">
               Демо «ИИ-референс» и{' '}
-              <code className="bg-bg-surface2 rounded px-0.5">requestCatalogImageGeneration</code>{' '}
+              <code className="rounded bg-slate-100 px-0.5">requestCatalogImageGeneration</code>{' '}
               берут тот же собранный текст (
-              <code className="bg-bg-surface2 rounded px-0.5">aiPromptText</code>), включая брендбук
+              <code className="rounded bg-slate-100 px-0.5">aiPromptText</code>), включая брендбук
               из досье. См.{' '}
-              <code className="bg-bg-surface2 rounded px-0.5">catalog-image-gen.ts</code>.
+              <code className="rounded bg-slate-100 px-0.5">catalog-image-gen.ts</code>.
             </p>
           </details>
         </div>
       </details>
 
       {!sheetStorage && (sketchMasterAnnotationAuditLog?.length ?? 0) > 0 ? (
-        <details className="border-border-default rounded-lg border bg-white p-2 text-xs">
-          <summary className="text-text-primary cursor-pointer font-medium">
+        <details className="rounded-lg border border-slate-200 bg-white p-2 text-xs">
+          <summary className="cursor-pointer font-medium text-slate-700">
             Журнал изменений меток (последние {Math.min(15, sketchMasterAnnotationAuditLog.length)})
           </summary>
-          <ul className="text-text-secondary mt-2 max-h-40 space-y-1 overflow-y-auto">
+          <ul className="mt-2 max-h-40 space-y-1 overflow-y-auto text-slate-600">
             {sketchMasterAnnotationAuditLog
               .slice(-15)
               .reverse()
               .map((e) => (
                 <li
                   key={e.entryId}
-                  className="border-border-subtle border-b pb-1 font-mono text-[9px] leading-snug"
+                  className="border-b border-slate-100 pb-1 font-mono text-[9px] leading-snug"
                 >
-                  <span className="text-text-muted">
+                  <span className="text-slate-400">
                     {(() => {
                       try {
                         return new Date(e.at).toLocaleString('ru-RU');
@@ -3932,9 +3885,9 @@ export function CategorySketchAnnotator(props: Props) {
                   </span>{' '}
                   · {e.by} · {e.summary}
                   {e.annotationId && !e.annotationId.startsWith('__') ? (
-                    <span className="text-text-muted"> · {e.annotationId.slice(0, 8)}…</span>
+                    <span className="text-slate-400"> · {e.annotationId.slice(0, 8)}…</span>
                   ) : e.action === 'revision_snapshot' ? (
-                    <span className="text-text-muted"> · PLM</span>
+                    <span className="text-slate-400"> · PLM</span>
                   ) : null}
                 </li>
               ))}
@@ -3942,7 +3895,7 @@ export function CategorySketchAnnotator(props: Props) {
         </details>
       ) : null}
 
-      <p className="text-text-secondary text-xs leading-snug">
+      <p className="text-xs leading-snug text-slate-500">
         Слой для посадки, ОТК и задач цеха; при смене категории — только метки текущего листа.
       </p>
     </div>
@@ -3954,16 +3907,13 @@ export function CategorySketchAnnotator(props: Props) {
         <div className="min-w-0 flex-1 space-y-1">
           {showPassportSectionHeader ? (
             <>
-              <p className="text-text-primary text-sm font-semibold">Скетч по категории</p>
-              <p className="text-text-secondary text-sm leading-snug">
+              <p className="text-sm font-semibold text-slate-900">Скетч по категории</p>
+              <p className="text-sm leading-snug text-slate-600">
                 Редактор в модальном окне; силуэт и метки по ветке L1–L3.
               </p>
             </>
           ) : null}
-          <p
-            className="text-text-primary truncate text-sm font-medium"
-            title={sketchCatalogCaption}
-          >
+          <p className="truncate text-sm font-medium text-slate-700" title={sketchCatalogCaption}>
             {sketchCatalogCaption}
           </p>
         </div>
@@ -3977,7 +3927,7 @@ export function CategorySketchAnnotator(props: Props) {
             tabIndex={-1}
             onChange={(e) => void onPickImage(e)}
           />
-          <span className="text-text-secondary rounded-full bg-white/80 px-2 py-1 text-xs font-bold tabular-nums shadow-sm">
+          <span className="rounded-full bg-white/80 px-2 py-1 text-xs font-bold tabular-nums text-slate-600 shadow-sm">
             {counters.total} / {annotationLimit} меток
           </span>
           <span className="rounded-full bg-rose-50 px-2 py-1 text-xs font-bold text-rose-700">
@@ -4019,7 +3969,7 @@ export function CategorySketchAnnotator(props: Props) {
             setEditorOpen(true);
           }
         }}
-        className="border-border-default group block w-full cursor-pointer overflow-hidden rounded-lg border bg-white text-left shadow-sm transition hover:border-teal-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
+        className="group block w-full cursor-pointer overflow-hidden rounded-lg border border-slate-200 bg-white text-left shadow-sm transition hover:border-teal-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
       >
         <div className="relative aspect-[4/3] min-h-56 w-full overflow-hidden bg-white sm:min-h-[min(56vh,32rem)]">
           {imageDataUrl ? (
@@ -4042,12 +3992,12 @@ export function CategorySketchAnnotator(props: Props) {
                   <button
                     type="button"
                     className={cn(
-                      'bg-bg-surface2 text-text-primary pointer-events-auto absolute z-[15] flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 font-mono text-sm font-bold tabular-nums shadow-sm transition-transform hover:scale-105',
+                      'pointer-events-auto absolute z-[15] flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 bg-zinc-50 font-mono text-sm font-bold tabular-nums text-zinc-900 shadow-sm transition-transform hover:scale-105',
                       a.priority === 'critical'
                         ? 'border-rose-600'
                         : a.stage === 'qc'
                           ? 'border-amber-500'
-                          : 'border-border-default'
+                          : 'border-zinc-400'
                     )}
                     style={{ left: `${a.xPct}%`, top: `${a.yPct}%` }}
                     onClick={(e) => {
@@ -4063,7 +4013,7 @@ export function CategorySketchAnnotator(props: Props) {
                 <TooltipContent
                   side="top"
                   sideOffset={6}
-                  className="border-border-default bg-white p-3 text-popover-foreground shadow-lg"
+                  className="border-slate-200 bg-white p-3 text-popover-foreground shadow-lg"
                 >
                   <CategorySketchPinHoverCard
                     annotation={a}
@@ -4074,7 +4024,7 @@ export function CategorySketchAnnotator(props: Props) {
                 </TooltipContent>
               </Tooltip>
             ))}
-          <div className="from-text-primary/70 pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-center justify-between bg-gradient-to-t to-transparent px-3 py-2 text-white">
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-center justify-between bg-gradient-to-t from-slate-900/70 to-transparent px-3 py-2 text-white">
             <span
               className="truncate text-xs font-bold uppercase tracking-widest"
               title={sketchCatalogCaption}
@@ -4096,7 +4046,7 @@ export function CategorySketchAnnotator(props: Props) {
         }}
       >
         <DialogContent className="overflow-hidden p-0 sm:max-w-6xl" ariaTitle="Скетч по категории">
-          <div className="border-border-subtle border-b bg-white px-6 py-4">
+          <div className="border-b border-slate-100 bg-white px-6 py-4">
             <DialogHeader>
               <DialogTitle>Скетч по категории</DialogTitle>
               <DialogDescription>
@@ -4104,7 +4054,7 @@ export function CategorySketchAnnotator(props: Props) {
               </DialogDescription>
             </DialogHeader>
           </div>
-          <div className="bg-bg-surface2/40 max-h-[85vh] overflow-y-auto p-6">{editorBody}</div>
+          <div className="max-h-[85vh] overflow-y-auto bg-slate-50/40 p-6">{editorBody}</div>
         </DialogContent>
       </Dialog>
     </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { FinancialHub } from '@/components/brand/finance/FinancialHub';
@@ -27,7 +28,6 @@ import { Button } from '@/components/ui/button';
 import BudgetVsActual from '@/components/brand/finance/BudgetVsActual';
 import { getFinanceLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageShell } from '@/components/design-system';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
@@ -64,7 +64,7 @@ const financeTabTriggerClass = cn(
 export default function BrandFinancePage() {
   const [tab, setTab] = useState('factoring');
   return (
-    <RegistryPageShell className="space-y-4 duration-700 animate-in fade-in">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 duration-700 animate-in fade-in px-4 py-6 pb-24 sm:px-6">
       {/* Control Panel: Executive Style */}
       <div className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-3 md:flex-row md:items-center">
         <div className="flex items-center gap-2">
@@ -130,25 +130,25 @@ export default function BrandFinancePage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="factoring" className="mt-0">
+        <TabsContent value="factoring" className={cabinetSurface.cabinetProfileTabPanel}>
           <FactoringAutomation />
         </TabsContent>
 
-        <TabsContent value="hub" className="mt-0">
+        <TabsContent value="hub" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="mx-auto max-w-5xl">
             <FinancialHub />
           </div>
         </TabsContent>
 
-        <TabsContent value="budget" className="mt-0">
+        <TabsContent value="budget" className={cabinetSurface.cabinetProfileTabPanel}>
           <BudgetControl brandId="BRAND-XYZ" />
         </TabsContent>
 
-        <TabsContent value="budgetVsActual" className="mt-0">
+        <TabsContent value="budgetVsActual" className={cabinetSurface.cabinetProfileTabPanel}>
           <BudgetVsActual brandId="BRAND-XYZ" embedded />
         </TabsContent>
 
-        <TabsContent value="analytics" className="mt-0">
+        <TabsContent value="analytics" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {[
               { label: 'P&L за месяц', value: '2.4M ₽', delta: '+12%', color: 'text-emerald-600' },
@@ -192,36 +192,36 @@ export default function BrandFinancePage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="escrow" className="mt-0">
+        <TabsContent value="escrow" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'escrow' && <EscrowPageContent />}
         </TabsContent>
 
-        <TabsContent value="escrow-live" className="mt-0">
+        <TabsContent value="escrow-live" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'escrow-live' && <EscrowLiveContent />}
         </TabsContent>
 
-        <TabsContent value="demand-auctions" className="mt-0">
+        <TabsContent value="demand-auctions" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'demand-auctions' && <DemandAuctionsContent />}
         </TabsContent>
 
-        <TabsContent value="landedCost" className="mt-0">
+        <TabsContent value="landedCost" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'landedCost' && <LandedCostPageContent />}
         </TabsContent>
 
-        <TabsContent value="embedded-payment" className="mt-0">
+        <TabsContent value="embedded-payment" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'embedded-payment' && <EmbeddedPaymentContent />}
         </TabsContent>
 
-        <TabsContent value="rf-terms" className="mt-0">
+        <TabsContent value="rf-terms" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'rf-terms' && <RfTermsContent />}
         </TabsContent>
 
-        <TabsContent value="auctions" className="mt-0">
+        <TabsContent value="auctions" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'auctions' && <AuctionsContent />}
         </TabsContent>
       </Tabs>
 
       <RelatedModulesBlock links={getFinanceLinks()} className="mt-6" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

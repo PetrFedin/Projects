@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import {
   Scissors,
@@ -46,13 +47,13 @@ import {
 } from '@/lib/logic/customization-utils';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function BrandCustomizationPage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-700 animate-in fade-in">
       <RegistryPageHeader
         title="Управление пошивом"
         leadPlain="Customization Hub P3: активных заказов 148, очередь 12 дней. Реестр спецзаказов и 3D-мерки."
@@ -336,6 +337,6 @@ export default function BrandCustomizationPage() {
           </CardContent>
         </Card>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

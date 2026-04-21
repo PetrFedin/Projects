@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -15,7 +16,6 @@ import type { Order } from '@/lib/types';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
-import { RegistryPageShell } from '@/components/design-system';
 
 const statusConfig = {
   pending: { label: 'В ожидании', icon: Clock, color: 'bg-yellow-100 text-yellow-800' },
@@ -62,9 +62,9 @@ export default function OrderConfirmationPage({
 
   if (loading) {
     return (
-      <RegistryPageShell className="py-12 pb-16">
+      <CabinetPageContent maxWidth="5xl" className="py-12 pb-16 px-4 py-6 pb-24 sm:px-6">
         <div className="text-center">Загрузка...</div>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
@@ -75,7 +75,7 @@ export default function OrderConfirmationPage({
   const statusInfo = statusConfig[order.status];
 
   return (
-    <RegistryPageShell className="py-12 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="py-12 pb-16 px-4 py-6 pb-24 sm:px-6">
       <div className="mx-auto max-w-4xl space-y-4">
         {/* Header */}
         <div className="flex items-center gap-3">
@@ -220,6 +220,6 @@ export default function OrderConfirmationPage({
           </Button>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -19,14 +19,16 @@ import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { tid } from '@/lib/ui/test-ids';
 import { ROUTES } from '@/lib/routes';
 import Link from 'next/link';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function ShopSettingsPage() {
   const { pulseMode, setPulseMode } = useUIState();
 
   return (
-    <RegistryPageShell
-      className="bg-bg-canvas space-y-6 duration-300 animate-in fade-in"
+    <CabinetPageContent
+      maxWidth="5xl"
+      className="bg-bg-canvas space-y-6 duration-300 animate-in fade-in px-4 py-6 pb-24 sm:px-6"
       data-testid={tid.page('shop-settings')}
     >
       <RegistryPageHeader
@@ -154,6 +156,6 @@ export default function ShopSettingsPage() {
           </Card>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

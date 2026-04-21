@@ -18,7 +18,8 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { tid } from '@/lib/ui/test-ids';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { ROUTES } from '@/lib/routes';
 const LinesheetCampaignsContent = dynamic(
   () => import('@/app/brand/b2b/linesheet-campaigns/page').then((m) => m.default),
@@ -67,8 +68,9 @@ const linesheets = [
 export default function LinesheetsPage() {
   const [tab, setTab] = useState('linesheets');
   return (
-    <RegistryPageShell
-      className="w-full max-w-none space-y-4 pb-16"
+    <CabinetPageContent
+      maxWidth="full"
+      className="space-y-4 pb-16"
       data-testid={tid.page('brand-b2b-linesheets')}
     >
       <RegistryPageHeader
@@ -114,7 +116,7 @@ export default function LinesheetsPage() {
             Builder
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="linesheets" className="mt-4">
+        <TabsContent value="linesheets" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           <div className="space-y-6">
             <header className="flex flex-wrap items-center justify-end gap-3">
               <Button
@@ -212,16 +214,16 @@ export default function LinesheetsPage() {
             </div>
           </div>
         </TabsContent>
-        <TabsContent value="campaigns" className="mt-4">
+        <TabsContent value="campaigns" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'campaigns' && <LinesheetCampaignsContent />}
         </TabsContent>
-        <TabsContent value="versions" className="mt-4">
+        <TabsContent value="versions" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'versions' && <LinesheetVersionsContent />}
         </TabsContent>
-        <TabsContent value="builder" className="mt-4">
+        <TabsContent value="builder" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'builder' && <LinesheetBuilderContent />}
         </TabsContent>
       </Tabs>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

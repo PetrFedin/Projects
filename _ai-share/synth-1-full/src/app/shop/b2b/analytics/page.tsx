@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   Card,
@@ -318,7 +318,7 @@ export default function B2BAnalyticsPage() {
   }
 
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       <ShopAnalyticsSegmentErpStrip />
       <ShopB2bToolHeader
         title="Аналитика закупок"
@@ -693,6 +693,6 @@ export default function B2BAnalyticsPage() {
         </Button>
         <B2bMarginAnalysisHubButton />
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

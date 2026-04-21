@@ -18,6 +18,7 @@ import { products } from '@/lib/products';
 import { buildStockTransferProposals } from '@/lib/fashion/inventory-balance';
 import { ArrowLeft, ArrowRightLeft, MoveRight, AlertCircle, ShoppingCart } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function InventoryBalancePage() {
   const { toast } = useToast();
@@ -31,7 +32,7 @@ export default function InventoryBalancePage() {
   };
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="6xl">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -121,6 +122,6 @@ export default function InventoryBalancePage() {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

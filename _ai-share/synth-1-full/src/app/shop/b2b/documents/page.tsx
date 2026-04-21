@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,7 +23,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
@@ -79,7 +79,7 @@ export default function DocumentsPage() {
   );
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="Счета, сертификаты и акты в одном месте; связь с финансами и контрактами." />
       <ShopAnalyticsSegmentErpStrip />
 
@@ -203,6 +203,6 @@ export default function DocumentsPage() {
         )}
         className="mt-2"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

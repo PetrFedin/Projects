@@ -1,13 +1,14 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import * as React from 'react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Heart, Trash2 } from 'lucide-react';
+import { Heart, Trash2 } from 'lucide-react';
 import { LookResultCard } from '@/components/ai/LookResultCard';
 import type { Look } from '@/lib/ai-stylist';
-import { RegistryPageShell } from '@/components/design-system';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 
 const STORAGE_KEY = 'syntha_saved_looks';
 
@@ -17,7 +18,7 @@ export default function CollectionsPage() {
   React.useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      setLooks(stored ? JSON.parse(stored) : []);
+      setLooks(stored ? (JSON.parse(stored) as Look[]) : []);
     } catch {
       setLooks([]);
     }
@@ -37,18 +38,10 @@ export default function CollectionsPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-6xl pb-16">
-      <div className="mb-8 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/">
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-sm font-black uppercase tracking-tight">Мои образы</h1>
-            <p className="text-text-secondary mt-1 text-sm">Сохранённые подборки из AI-стилиста</p>
-          </div>
+    <CabinetPageContent maxWidth="6xl" className="mx-auto pb-16">
+      <div className="mb-8 flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader />
         </div>
         {looks.length > 0 && (
           <Button
@@ -94,6 +87,6 @@ export default function CollectionsPage() {
           ))}
         </div>
       )}
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

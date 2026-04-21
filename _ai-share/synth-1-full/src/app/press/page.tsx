@@ -1,12 +1,14 @@
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { tid } from '@/lib/ui/test-ids';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function PressPage() {
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 p-4" data-testid={tid.page('press')}>
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 p-4" data-testid={tid.page('press')}>
       <RegistryPageHeader
         title="Пресса"
         leadPlain="Материалы для СМИ, бренд-кит и контакт ответственного за комментарии."
@@ -66,6 +68,6 @@ export default function PressPage() {
           </p>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

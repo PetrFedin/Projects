@@ -1,10 +1,10 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { RegistryPageShell } from '@/components/design-system';
 import {
   UserCircle,
   ShoppingCart,
@@ -127,7 +127,7 @@ export default function ClientelingDashPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-10">
+    <CabinetPageContent maxWidth="5xl" className="space-y-10">
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="text-accent-primary flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
@@ -509,6 +509,6 @@ export default function ClientelingDashPage() {
           </Card>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

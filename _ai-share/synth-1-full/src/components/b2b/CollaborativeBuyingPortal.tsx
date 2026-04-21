@@ -53,26 +53,26 @@ export function CollaborativeBuyingPortal() {
   ];
 
   return (
-    <div className="bg-bg-surface2 min-h-screen space-y-4 p-4">
+    <div className="min-h-screen space-y-4 bg-slate-50 p-4">
       {/* Header */}
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="bg-accent-primary flex h-8 w-8 items-center justify-center rounded-xl">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-600">
               <Users className="h-4 w-4 text-white" />
             </div>
             <Badge
               variant="outline"
-              className="border-accent-primary/20 text-accent-primary text-[9px] font-black uppercase tracking-widest"
+              className="border-indigo-100 text-[9px] font-black uppercase tracking-widest text-indigo-600"
             >
               COLLAB_REVIEW_v2.0
             </Badge>
           </div>
-          <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
+          <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-sm">
             Team Review
             <br />& Voting
           </h2>
-          <p className="text-text-muted max-w-md text-left text-xs font-medium">
+          <p className="max-w-md text-left text-xs font-medium text-slate-400">
             Empower your buying team to curate collections together. Vote on key styles, leave
             feedback, and reach consensus before confirming the PO.
           </p>
@@ -83,16 +83,16 @@ export function CollaborativeBuyingPortal() {
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="bg-border-subtle h-10 w-10 overflow-hidden rounded-full border-4 border-white shadow-sm"
+                className="h-10 w-10 overflow-hidden rounded-full border-4 border-white bg-slate-200 shadow-sm"
               >
                 <img src={`https://i.pravatar.cc/100?img=${i + 40}`} />
               </div>
             ))}
-            <div className="bg-text-primary flex h-10 w-10 items-center justify-center rounded-full border-4 border-white text-[10px] font-black text-white">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full border-4 border-white bg-slate-900 text-[10px] font-black text-white">
               +2
             </div>
           </div>
-          <Button className="bg-text-primary h-10 gap-2 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl">
+          <Button className="h-10 gap-2 rounded-2xl bg-slate-900 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200">
             Finalize Consensus <CheckCircle2 className="h-4 w-4" />
           </Button>
         </div>
@@ -109,7 +109,7 @@ export function CollaborativeBuyingPortal() {
             return (
               <Card
                 key={item.id}
-                className="group overflow-hidden rounded-xl border-none bg-white shadow-md shadow-xl transition-all hover:scale-[1.02]"
+                className="group overflow-hidden rounded-xl border-none bg-white shadow-xl shadow-slate-200/50 transition-all hover:scale-[1.02]"
               >
                 <div className="relative aspect-square overflow-hidden">
                   <img
@@ -117,7 +117,7 @@ export function CollaborativeBuyingPortal() {
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute left-6 top-4 flex gap-2">
-                    <Badge className="text-text-primary border-none bg-white/90 px-3 py-1 text-[10px] font-black backdrop-blur-md">
+                    <Badge className="border-none bg-white/90 px-3 py-1 text-[10px] font-black text-slate-900 backdrop-blur-md">
                       {item.sku}
                     </Badge>
                   </div>
@@ -157,10 +157,10 @@ export function CollaborativeBuyingPortal() {
                 </div>
                 <CardContent className="space-y-4 p-4">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-text-primary text-base font-black uppercase tracking-tight">
+                    <h4 className="text-base font-black uppercase tracking-tight text-slate-900">
                       {item.name}
                     </h4>
-                    <span className="text-accent-primary text-sm font-black">
+                    <span className="text-sm font-black text-indigo-600">
                       {item.price.toLocaleString('ru-RU')} ₽
                     </span>
                   </div>
@@ -168,19 +168,19 @@ export function CollaborativeBuyingPortal() {
                   <div className="flex items-center gap-3 pt-2">
                     <div className="flex items-center gap-2">
                       <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                      <span className="text-text-muted text-[10px] font-black uppercase">
+                      <span className="text-[10px] font-black uppercase text-slate-400">
                         {votes.likes.length} Team Likes
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="h-2 w-2 rounded-full bg-rose-500" />
-                      <span className="text-text-muted text-[10px] font-black uppercase">
+                      <span className="text-[10px] font-black uppercase text-slate-400">
                         {votes.dislikes.length} Dislikes
                       </span>
                     </div>
                   </div>
 
-                  <div className="bg-bg-surface2 mt-4 h-1.5 w-full overflow-hidden rounded-full">
+                  <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
                     <motion.div
                       className="h-full bg-emerald-500"
                       initial={{ width: 0 }}
@@ -206,9 +206,9 @@ export function CollaborativeBuyingPortal() {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-4"
               >
-                <Card className="space-y-4 rounded-xl border-none bg-white p-3 shadow-2xl shadow-md">
+                <Card className="space-y-4 rounded-xl border-none bg-white p-3 shadow-2xl shadow-slate-200/50">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-text-primary text-sm font-black uppercase tracking-tight">
+                    <h3 className="text-sm font-black uppercase tracking-tight text-slate-900">
                       Feedback
                     </h3>
                     <Button
@@ -238,21 +238,21 @@ export function CollaborativeBuyingPortal() {
                     ].map((msg, i) => (
                       <div
                         key={i}
-                        className="bg-bg-surface2 border-border-subtle flex gap-3 rounded-3xl border p-4"
+                        className="flex gap-3 rounded-3xl border border-slate-100 bg-slate-50 p-4"
                       >
                         <div className="h-10 w-10 shrink-0 overflow-hidden rounded-xl">
                           <img src={msg.avatar} />
                         </div>
                         <div className="space-y-1">
                           <div className="flex items-center justify-between">
-                            <span className="text-text-primary text-[10px] font-black uppercase">
+                            <span className="text-[10px] font-black uppercase text-slate-900">
                               {msg.user}
                             </span>
-                            <span className="text-text-muted text-[8px] font-bold uppercase">
+                            <span className="text-[8px] font-bold uppercase text-slate-400">
                               {msg.time}
                             </span>
                           </div>
-                          <p className="text-text-secondary text-[11px] font-medium leading-relaxed">
+                          <p className="text-[11px] font-medium leading-relaxed text-slate-600">
                             {msg.text}
                           </p>
                         </div>
@@ -263,10 +263,10 @@ export function CollaborativeBuyingPortal() {
                   <div className="pt-4">
                     <div className="relative">
                       <textarea
-                        placeholder="Add your team feedback..."
-                        className="bg-bg-surface2 focus:ring-accent-primary h-32 w-full resize-none rounded-xl border-none p-4 text-sm font-medium focus:ring-2"
+                        placeholder="Комментарий команды…"
+                        className="h-32 w-full resize-none rounded-xl border-none bg-slate-50 p-4 text-sm font-medium focus:ring-2 focus:ring-indigo-500"
                       />
-                      <Button className="bg-text-primary absolute bottom-4 right-4 h-10 w-10 rounded-xl p-0 text-white">
+                      <Button className="absolute bottom-4 right-4 h-10 w-10 rounded-xl bg-slate-900 p-0 text-white">
                         <CheckCircle2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -274,31 +274,31 @@ export function CollaborativeBuyingPortal() {
                 </Card>
               </motion.div>
             ) : (
-              <Card className="bg-text-primary relative space-y-4 overflow-hidden rounded-xl border-none p-3 text-white shadow-md shadow-xl">
+              <Card className="relative space-y-4 overflow-hidden rounded-xl border-none bg-slate-900 p-3 text-white shadow-xl shadow-slate-200/50">
                 <div className="absolute right-0 top-0 p-4 opacity-5">
                   <Users className="h-32 w-32" />
                 </div>
                 <div className="relative z-10 space-y-6">
-                  <h3 className="text-sm font-black uppercase tracking-tight">Curation Logic</h3>
+                  <h3 className="text-sm font-black uppercase tracking-tight">Логика отбора</h3>
                   <p className="text-xs font-medium uppercase leading-relaxed text-white/60">
-                    Currently, 82% of your team agrees on the FW26 selection. You need consensus on
-                    4 more items to unlock the Tier 2 bulk discount.
+                    Сейчас 82% команды согласны с подборкой FW26. Нужен консенсус ещё по 4 позициям,
+                    чтобы разблокировать оптовую скидку уровня 2.
                   </p>
                   <div className="space-y-4 pt-4">
                     <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-white/40">
-                      <span>Review Completeness</span>
+                      <span>Полнота ревью</span>
                       <span className="text-white">82%</span>
                     </div>
                     <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: '82%' }}
-                        className="bg-accent-primary h-full"
+                        className="h-full bg-indigo-500"
                       />
                     </div>
                   </div>
-                  <Button className="text-text-primary h-10 w-full gap-2 rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest shadow-2xl">
-                    Invite Team Member <ArrowRight className="h-4 w-4" />
+                  <Button className="h-10 w-full gap-2 rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-2xl">
+                    Пригласить участника <ArrowRight className="h-4 w-4" />
                   </Button>
                 </div>
               </Card>

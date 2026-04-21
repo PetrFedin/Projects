@@ -26,7 +26,7 @@ import {
 } from '@/components/layout/cabinet-hub-chrome';
 import { cabinetRoleLabelRu } from '@/lib/ui/cabinet-role-labels';
 import { cn } from '@/lib/utils';
-import { cabinetSidebarLayout } from '@/lib/ui/cabinet-surface';
+import { cabinetHubLayout, cabinetSidebarLayout } from '@/lib/ui/cabinet-surface';
 
 function ShopLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
@@ -46,14 +46,8 @@ function ShopLayoutContent({ children }: { children: React.ReactNode }) {
 
   return (
     <ErrorBoundary>
-      <div className="bg-bg-surface flex min-h-screen w-full pb-12 font-sans">
-        {/* Desktop-сайдбар: `cabinetSidebarLayout` в cabinet-surface.ts */}
-        <aside
-          className={cn(
-            'lg:border-border-subtle lg:bg-bg-surface hidden lg:fixed lg:bottom-0 lg:left-0 lg:top-24 lg:z-30 lg:flex lg:shrink-0 lg:flex-col lg:border-r lg:pt-4',
-            cabinetSidebarLayout.asideWidthStandard
-          )}
-        >
+      <div className={cabinetHubLayout.rootShell}>
+        <aside className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}>
           <ShopSidebarHeader />
           <div className="scrollbar-hide min-h-0 flex-1 overflow-y-auto">
             <ShopSidebar groups={sidebarGroups} />
@@ -120,8 +114,12 @@ function ShopLayoutContent({ children }: { children: React.ReactNode }) {
               }
             />
 
-            <main className="duration-300 animate-in fade-in">
-              <ErrorBoundary>{children}</ErrorBoundary>
+            <main className={cabinetHubLayout.mainInner}>
+              <ErrorBoundary>
+                <Suspense fallback={<div className={cabinetHubLayout.suspenseFallback} aria-busy />}>
+                  {children}
+                </Suspense>
+              </ErrorBoundary>
             </main>
           </CabinetHubMain>
         </div>
@@ -134,7 +132,12 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
   return (
     <Suspense
       fallback={
-        <div className="bg-bg-surface text-text-muted flex min-h-screen items-center justify-center text-xs font-medium uppercase tracking-widest">
+        <div
+          className={cn(
+            cabinetHubLayout.loadingShell,
+            'text-text-muted text-xs font-medium uppercase tracking-widest'
+          )}
+        >
           Загрузка…
         </div>
       }

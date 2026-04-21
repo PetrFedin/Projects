@@ -93,8 +93,10 @@ async function fetchFromApi(
       }
       return fallback;
     }
-    const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
-    const detail = error?.detail;
+    const error = (await response.json().catch(() => ({ detail: 'Unknown error' }))) as {
+      detail?: unknown;
+    };
+    const detail = error.detail;
     const msg =
       typeof detail === 'string'
         ? detail
@@ -123,13 +125,14 @@ const MOCK_FALLBACKS: Record<string, any> = {
   '/dashboard': {
     data: {
       kpis: {
-        revenue: 388000000,
-        operations: 94.2,
-        total_orders: 842,
-        active_showrooms: 128,
-        margin: 42,
-        stock_health: 65,
+        my_orders: 12,
+        my_total_spent: 4_200_000,
+        accessible_showrooms: 8,
+        fill_rate: 94,
+        low_stock_skus: 7,
+        health_score: 92,
       },
+      _source: 'demo',
     },
   },
   '/analytics/feedback': [
@@ -178,21 +181,21 @@ const MOCK_FALLBACKS: Record<string, any> = {
   '/orders': [
     {
       id: 'ORD-4521',
-      retailer: 'Демо-магазин · Москва 2',
+      retailer: 'TSUM',
       total: 1250000,
       status: 'in_production',
       created_at: '2026-03-08',
     },
     {
       id: 'ORD-4522',
-      retailer: 'Демо-магазин · СПб',
+      retailer: 'Lamoda',
       total: 890000,
       status: 'pending',
       created_at: '2026-03-10',
     },
     {
       id: 'ORD-4523',
-      retailer: 'Демо-магазин · Москва 1',
+      retailer: 'ЦУМ Online',
       total: 2100000,
       status: 'shipped',
       created_at: '2026-03-01',
@@ -232,17 +235,17 @@ const MOCK_FALLBACKS: Record<string, any> = {
   '/collaboration/projects': [
     {
       id: 'cp1',
-      project_name: 'Syntha Lab × Nordic Wool — Outerwear FW26',
-      partner_brand_id: 'brand_nordic_wool',
+      project_name: 'Syntha x Nordic Wool',
+      partner_brand_id: 'Nordic Wool',
       status: 'active',
-      description: 'Совместная капсула верхней одежды',
+      description: 'Совместная капсула верхней одежды FW26',
     },
     {
       id: 'cp2',
-      project_name: 'Nordic Wool — Merino Knit Lab',
-      partner_brand_id: 'brand_nordic_wool',
+      project_name: 'Eco-Textile Research',
+      partner_brand_id: 'GreenFabric Corp',
       status: 'pending',
-      description: 'Пилотная линия трикотажа с Syntha Lab',
+      description: 'Исследование перерабатываемых мембран',
     },
   ],
   '/academy/leaderboard': [
@@ -251,7 +254,7 @@ const MOCK_FALLBACKS: Record<string, any> = {
     { rank: 3, name: 'Мария С.', score: 1950, role: 'Стилист' },
   ],
   '/academy/modules': [
-    { id: 'm1', name: 'Продуктовая линейка Syntha Lab', completed: true },
+    { id: 'm1', name: 'Продуктовая линейка Syntha', completed: true },
     { id: 'm2', name: 'B2B процесс заказа', completed: true },
     { id: 'm3', name: 'Клиентелинг 2.0', completed: false },
   ],
@@ -263,7 +266,7 @@ const MOCK_FALLBACKS: Record<string, any> = {
       qty: 500,
       unit: 'м',
       status: 'confirmed',
-      supplier: 'Loro Piana',
+      supplier: 'ТД «Итал-текс»',
     },
     {
       id: 'r2',
@@ -307,7 +310,7 @@ const MOCK_FALLBACKS: Record<string, any> = {
     },
   ],
   '/brand/profile/': {
-    brand: { name: 'Syntha Lab', id: 'syntha-1' },
+    brand: { name: 'Syntha', id: 'syntha-1' },
     legal: { inn: '7707123456' },
     contacts: {},
     dna: {},

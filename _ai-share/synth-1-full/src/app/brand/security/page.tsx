@@ -28,6 +28,7 @@ import { useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
 import { useState } from 'react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 const SECURITY_SCORE_ITEMS = [
   { label: 'Двухфакторная аутентификация', score: 100, enabled: true, critical: true },
@@ -132,7 +133,7 @@ export default function SecurityPage() {
   );
 
   return (
-    <div className="mx-auto max-w-5xl space-y-5 px-4 pb-20 md:px-0">
+    <CabinetPageContent maxWidth="5xl" className="space-y-5 px-4 pb-20 md:px-0">
       {returnResolved && (
         <div className="bg-accent-primary/10 border-accent-primary/20 mb-4 rounded-lg border p-2">
           <Link
@@ -539,6 +540,6 @@ export default function SecurityPage() {
           </div>
         </Card>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

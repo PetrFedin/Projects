@@ -1,4 +1,6 @@
 'use client';
+
+import { ShopB2bNuOrderScope } from '@/components/shop/ShopB2bNuOrderScope';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -40,7 +42,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { use, useState, useEffect } from 'react';
+import { use, useState, useEffect, useMemo } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -71,15 +73,21 @@ import {
   orderStatusSteps,
   mockOrderDetailJoors,
 } from '@/lib/order-data';
-import { getOrdersWithPaymentState } from '@/lib/b2b/partner-finance-rollup';
+import { applyOrderPaymentsOverlay } from '@/lib/b2b/partner-finance-rollup';
+import { getWholesaleOrderIdFromB2BOrder } from '@/lib/domain/cross-role-entity-ids';
+import { useShopB2BOperationalOrdersList } from '@/hooks/use-b2b-operational-orders-list';
 import { AttachProductDialog, OrderChat, SizeBreakdownDialog } from '@/components/shop/b2b';
 import { PaymentFlowCard } from '@/components/b2b/PaymentFlowCard';
 import { ReplaceLineDialog } from '@/components/b2b/ReplaceLineDialog';
-import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { getShopB2BOrderLinks } from '@/lib/data/entity-links';
+import { B2bOrderCommsContextButtons } from '@/components/b2b/B2bOrderCommsContextButtons';
+import { B2bPriorityWorkflowPanel } from '@/components/b2b/B2bPriorityWorkflowPanel';
+import {
+  getShopB2bCollaborationProcessGroups,
+  getShopB2bOrderPriorityGroups,
+} from '@/lib/data/b2b-priority-workflow-groups';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bToolHeader, ShopB2bToolTitle } from '@/components/shop/ShopB2bToolHeader';
+import { OperationalOrderNotesV1Sync } from '@/components/b2b/OperationalOrderNotesV1Sync';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 import { B2bOptOrderIdCopy } from '@/components/shop/B2bOptOrderIdCopy';
@@ -98,7 +106,6 @@ export default function ShopB2BOrderDetailsPage({
   const [editingItem, setEditingItem] = useState<any | null>(null);
   const [orderItems, setOrderItems] = useState(initialOrderItems);
   const [orderDate, setOrderDate] = useState('');
-  const [orderNotes, setOrderNotes] = useState(mockOrderDetailJoors.orderNotes);
   const [replaceItem, setReplaceItem] = useState<any | null>(null);
   const [amendmentDialogOpen, setAmendmentDialogOpen] = useState(false);
   const [amendmentText, setAmendmentText] = useState('');
@@ -113,6 +120,19 @@ export default function ShopB2BOrderDetailsPage({
     error: shipmentError,
     refetch: refetchShipment,
   } = useOrderShipmentTracking(params.orderId);
+
+  const operationalOrders = useShopB2BOperationalOrdersList();
+  const ordersWithPayment = useMemo(
+    () => applyOrderPaymentsOverlay(operationalOrders),
+    [operationalOrders]
+  );
+  const orderFromList = useMemo(
+    () =>
+      ordersWithPayment.find(
+        (o) => getWholesaleOrderIdFromB2BOrder(o) === params.orderId
+      ),
+    [ordersWithPayment, params.orderId]
+  );
 
   useEffect(() => {
     setOrderDate(new Date().toLocaleDateString('ru-RU'));
@@ -186,7 +206,7 @@ export default function ShopB2BOrderDetailsPage({
     ) || currentStatusIndex >= 2;
   const reorderHref = `${ROUTES.shop.b2bReorder}?copyFrom=${params.orderId}`;
   const saveAsTemplateHref = `${ROUTES.shop.b2bOrderTemplates}?saveFrom=${params.orderId}`;
-  const orderFromList = getOrdersWithPaymentState().find((o) => o.order === params.orderId);
+  const workingOrderHref = `${ROUTES.shop.b2bWorkingOrder}?wholesaleOrderId=${encodeURIComponent(params.orderId)}`;
   const paymentStatus = orderFromList?.paymentStatus;
   const paidAmount = orderFromList?.paidAmount;
   const PAYMENT_LABELS: Record<string, string> = {
@@ -206,7 +226,7 @@ export default function ShopB2BOrderDetailsPage({
   ];
 
   return (
-    <RegistryPageShell className="space-y-4">
+    <ShopB2bNuOrderScope className="space-y-4 pb-24">
       <ShopAnalyticsSegmentErpStrip className="mb-2" />
       <ShopB2bToolHeader
         backHref={ROUTES.shop.b2bOrders}
@@ -274,6 +294,7 @@ export default function ShopB2BOrderDetailsPage({
         }
         trailing={
           <div className="flex flex-wrap items-center gap-2">
+            <B2bOrderCommsContextButtons orderId={params.orderId} variant="shop" />
             <Button
               variant="ghost"
               className="h-10 gap-2 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest"
@@ -281,6 +302,15 @@ export default function ShopB2BOrderDetailsPage({
             >
               <Link href={reorderHref}>
                 <Copy className="h-4 w-4" /> Дублировать / Reorder
+              </Link>
+            </Button>
+            <Button
+              variant="ghost"
+              className="h-10 gap-2 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest"
+              asChild
+            >
+              <Link href={workingOrderHref}>
+                <FileText className="h-4 w-4" /> Working Order
               </Link>
             </Button>
             <Button
@@ -738,29 +768,8 @@ export default function ShopB2BOrderDetailsPage({
               </ul>
             </CardContent>
           </Card>
-          {orderNotes !== undefined && (
-            <Card className="border-accent-primary/20 bg-accent-primary/10">
-              <CardHeader className="pb-2">
-                <CardTitle className="flex items-center gap-2 text-sm">
-                  JOOR: Заметки к заказу
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {isEditing ? (
-                  <Textarea
-                    value={orderNotes}
-                    onChange={(e) => setOrderNotes(e.target.value)}
-                    placeholder="Комментарий для бренда…"
-                    className="min-h-[80px]"
-                  />
-                ) : (
-                  <p className="text-text-primary whitespace-pre-wrap text-sm">
-                    {orderNotes || '—'}
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-          )}
+          <OperationalOrderNotesV1Sync orderId={params.orderId} variant="shop" />
+
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -989,9 +998,15 @@ export default function ShopB2BOrderDetailsPage({
         <B2bMarginAnalysisHubButton />
       </div>
 
-      <RelatedModulesBlock
-        links={getShopB2BOrderLinks()}
-        title="JOOR: матрица, reorder, выставки"
+      <B2bPriorityWorkflowPanel
+        title="Рабочие направления"
+        lead="Оптовый контур, производство у бренда, fulfillment и коммуникации — в одном компактном блоке."
+        groups={getShopB2bOrderPriorityGroups(orderItems[0]?.id)}
+      />
+      <B2bPriorityWorkflowPanel
+        title="Сквозной процесс: чат, календарь, заказ, селекции"
+        lead="Общение с брендом — в сообщениях; сроки — в календарях; формирование заказа и луков — в матрице, подборках и каталоге; аналитика — для прогноза и проверки."
+        groups={getShopB2bCollaborationProcessGroups()}
       />
 
       {editingItem && (
@@ -1016,6 +1031,6 @@ export default function ShopB2BOrderDetailsPage({
           onCancelLine={handleCancelLine}
         />
       )}
-    </RegistryPageShell>
+    </ShopB2bNuOrderScope>
   );
 }

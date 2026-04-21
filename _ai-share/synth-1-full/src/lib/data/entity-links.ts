@@ -2,7 +2,17 @@
  * Перекрёстные ссылки между модулями Brand OS.
  * Используется в RelatedModulesBlock на страницах disputes, compliance, production и др.
  */
-import { ROUTES } from '@/lib/routes';
+import {
+  PRODUCTION_FLOOR_STEPS,
+  productionFloorTabRequiresArticle,
+} from '@/lib/production/floor-flow';
+import { WORKSHOP2_DEVELOPMENT_FLOOR_TAB_IDS } from '@/lib/production/workshop2-development-scope';
+import {
+  ROUTES,
+  brandProductionFloorHref,
+  withBrandProductionDeepContext,
+} from '@/lib/routes';
+import { COLLECTION_DEV_HUB_TITLE_RU } from '@/lib/production/collection-development-labels';
 
 /** Связанный модуль: подпись + href (RelatedModulesBlock, дашборды). */
 export type EntityLink = { label: string; href: string };
@@ -70,6 +80,7 @@ export function getComplianceLinks(): EntityLink[] {
 export function getProductionLinks(): EntityLink[] {
   return filterB2B([
     { label: 'LIVE Production', href: ROUTES.brand.processLiveProduction },
+    { label: 'B2B: исполнение заказов (LIVE)', href: ROUTES.brand.processLiveB2b },
     { label: 'ЭДО и Compliance', href: ROUTES.brand.compliance },
     { label: 'Gold Sample', href: ROUTES.brand.productionGoldSample },
     { label: 'Склад', href: ROUTES.brand.warehouse },
@@ -81,6 +92,124 @@ export function getProductionLinks(): EntityLink[] {
   ]);
 }
 
+/**
+ * Вкладки пола `/brand/production` для разработки коллекции: контекст коллекции (`w2col` → `collectionId`) и,
+ * при выбранном артикуле, `stagesSku` на вкладках, где пол требует артикул.
+ */
+export function getWorkshop2FloorTabLinks(
+  collectionId?: string | null,
+  articleLineId?: string | null
+): EntityLink[] {
+  const cid = collectionId?.trim() || undefined;
+  const aid = articleLineId?.trim() || undefined;
+  return PRODUCTION_FLOOR_STEPS.map((s) => {
+    const stagesSku =
+      aid && productionFloorTabRequiresArticle(s.id) ? aid : undefined;
+    return {
+      label: s.label,
+      href: brandProductionFloorHref(s.id, {
+        collectionId: cid,
+        ...(stagesSku ? { stagesSku } : {}),
+      }),
+    };
+  });
+}
+
+/**
+ * Отдельные страницы и хабы цеха (дополнение к вкладкам пола): семплы, материалы, QC, выпуск и т.д.
+ * При наличии артикула в разработке коллекции передаётся `stagesSku` для сквозного контекста на полу.
+ */
+export function getWorkshop2FloorExtraModuleLinks(
+  collectionId?: string | null,
+  articleLineId?: string | null
+): EntityLink[] {
+  const deep = (href: string) =>
+    withBrandProductionDeepContext(href, { collectionId, stagesSku: articleLineId });
+  return filterB2B([
+    { label: 'Матрица SKU (бренд)', href: deep(ROUTES.brand.productsMatrix) },
+    { label: 'Хаб операций и PO', href: deep(ROUTES.brand.productionOperations) },
+    { label: 'Gold Sample', href: deep(ROUTES.brand.productionGoldSample) },
+    { label: 'Fit-комментарии', href: deep(ROUTES.brand.productionFitComments) },
+    { label: 'Gantt', href: deep(ROUTES.brand.productionGantt) },
+    { label: 'QC-приложение', href: deep(ROUTES.brand.productionQcApp) },
+    { label: 'Бронирование материалов', href: deep(ROUTES.brand.materialsReservation) },
+    { label: 'VMI', href: deep(ROUTES.brand.vmi) },
+    { label: 'Nesting (страница)', href: deep(ROUTES.brand.productionNesting) },
+    {
+      label: 'LIVE Production (процесс)',
+      href: withBrandProductionDeepContext(ROUTES.brand.processLiveProduction, {
+        collectionId,
+        stagesSku: undefined,
+      }),
+    },
+    { label: 'Суточный выпуск', href: deep(ROUTES.brand.productionDailyOutput) },
+    { label: 'Навыки смен', href: deep(ROUTES.brand.productionWorkerSkills) },
+    { label: 'Субподряд', href: deep(ROUTES.brand.productionSubcontractor) },
+    { label: 'Видеоэтапы', href: deep(ROUTES.brand.productionMilestonesVideo) },
+    { label: 'Ready-made', href: deep(ROUTES.brand.productionReadyMade) },
+  ]);
+}
+
+/**
+ * Разработка коллекции (workshop2) — только образец на полу: вкладки без серии, nesting, выпуска партий и складского масштаба.
+ * Согласовано с правой частью мини-шкалы в списке коллекции (зона каталога от якоря supply-path и далее, в т.ч. samples —
+ * отдельный контур от «Разработка» слева).
+ * @see WORKSHOP2_DEVELOPMENT_FLOOR_TAB_IDS
+ */
+export function getWorkshop2DevelopmentFloorTabLinks(
+  collectionId?: string | null,
+  articleLineId?: string | null
+): EntityLink[] {
+  const cid = collectionId?.trim() || undefined;
+  const aid = articleLineId?.trim() || undefined;
+  return WORKSHOP2_DEVELOPMENT_FLOOR_TAB_IDS.map((tabId) => {
+    const s = PRODUCTION_FLOOR_STEPS.find((x) => x.id === tabId);
+    if (!s) return { label: tabId, href: brandProductionFloorHref(tabId, { collectionId: cid }) };
+    const stagesSku =
+      aid && productionFloorTabRequiresArticle(tabId) ? aid : undefined;
+    return {
+      label: s.label,
+      href: brandProductionFloorHref(tabId, {
+        collectionId: cid,
+        ...(stagesSku ? { stagesSku } : {}),
+      }),
+    };
+  });
+}
+
+/**
+ * Модули пола для контура «образец и шоурум» — без PO серии, смен, субподряда масштаба заказа.
+ */
+export function getWorkshop2DevelopmentExtraModuleLinks(
+  collectionId?: string | null,
+  articleLineId?: string | null
+): EntityLink[] {
+  const deep = (href: string) =>
+    withBrandProductionDeepContext(href, { collectionId, stagesSku: articleLineId });
+  return filterB2B([
+    { label: 'Gold Sample', href: deep(ROUTES.brand.productionGoldSample) },
+    { label: 'Fit-комментарии', href: deep(ROUTES.brand.productionFitComments) },
+    { label: 'Gantt · сроки разработки', href: deep(ROUTES.brand.productionGantt) },
+    { label: 'QC · контроль образца', href: deep(ROUTES.brand.productionQcApp) },
+    { label: 'Бронирование материалов (под образец)', href: deep(ROUTES.brand.materialsReservation) },
+    { label: 'Шоурум', href: deep(ROUTES.brand.showroom) },
+    { label: 'Коллекции · из готового ассортимента', href: ROUTES.brand.collections },
+  ]);
+}
+
+/**
+ * Явный выход из контура разработки коллекции: серия, опт, исполнение заказов.
+ */
+export function getWorkshop2HandoffToSeriesLinks(): EntityLink[] {
+  return [
+    { label: 'Пол цеха · серия и выпуск', href: ROUTES.brand.production },
+    { label: 'Операции и PO', href: ROUTES.brand.productionOperations },
+    { label: 'Реестр B2B-заказов', href: ROUTES.brand.b2bOrders },
+    { label: 'Матрица SKU', href: ROUTES.brand.productsMatrix },
+    { label: 'LIVE · исполнение заказов (B2B)', href: ROUTES.brand.processLiveB2b },
+  ];
+}
+
 /** Ссылки для Академии — курсы, база знаний, клиенты, материалы */
 export function getAcademyLinks(): EntityLink[] {
   return filterB2B([
@@ -90,6 +219,7 @@ export function getAcademyLinks(): EntityLink[] {
     { label: 'Магазины', href: ROUTES.brand.academyStores },
     { label: 'Клиенты', href: ROUTES.brand.academyClients },
     { label: 'Академия платформы', href: ROUTES.brand.academyPlatform },
+    { label: 'Студия организации', href: ROUTES.brand.academyOrganizationStudio },
     { label: 'Команда бренда', href: ROUTES.brand.team },
     { label: 'Compliance', href: ROUTES.brand.compliance },
     { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
@@ -147,11 +277,53 @@ export function getB2BLinks(): EntityLink[] {
     { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Финансы', href: ROUTES.brand.finance },
     { label: 'Dispute Hub', href: ROUTES.brand.disputes },
+    /** Надстройка: коммуникации и сроки поверх ядра заказа ↔ производство */
     { label: 'Сообщения', href: ROUTES.brand.messages },
     { label: 'Календарь', href: ROUTES.brand.calendar },
     { label: 'Выставки', href: ROUTES.brand.tradeShows },
     { label: 'Партнёры', href: ROUTES.brand.retailers },
   ]);
+}
+
+/**
+ * Ядро №1 (вертикаль): ТЗ изделия в кабинете бренда → задание на отшив.
+ * `styleId` — id строки заказа / артикула (в demo совпадает с ключом tech-pack), см. `ROUTES.brand.productionTechPackStyle`.
+ */
+/** Быстрые переходы по трём ядрам с экрана байера (оптовый контур). */
+export function getSynthaThreeCoresQuickLinksForBuyer(): EntityLink[] {
+  return [
+    { label: 'Цех и ТЗ (бренд)', href: ROUTES.brand.productionOperations },
+    { label: 'Реестр заказов', href: ROUTES.shop.b2bOrders },
+    { label: 'Сообщения', href: ROUTES.shop.messages },
+    { label: 'Задачи в календаре', href: `${ROUTES.shop.calendar}?layers=tasks` },
+  ];
+}
+
+/** Быстрые переходы по трём ядрам из кабинета бренда (ТЗ, B2B, надстройка). */
+export function getSynthaThreeCoresQuickLinksForBrand(): EntityLink[] {
+  return [
+    { label: 'Операции цеха', href: ROUTES.brand.productionOperations },
+    { label: COLLECTION_DEV_HUB_TITLE_RU, href: ROUTES.brand.productionWorkshop2 },
+    { label: 'Реестр B2B', href: ROUTES.brand.b2bOrders },
+    { label: 'Сообщения', href: ROUTES.brand.messages },
+    { label: 'Задачи в календаре', href: `${ROUTES.brand.calendar}?layers=tasks` },
+  ];
+}
+
+export function getB2bOrderVerticalCoreLinks(styleId?: string): EntityLink[] {
+  const out: EntityLink[] = [
+    { label: 'Цех: задания и PO', href: ROUTES.brand.productionOperations },
+    { label: 'ТЗ: досье разработки коллекции', href: ROUTES.brand.productionWorkshop2 },
+    /** Мост к ядру №2: исполнение и статусы оптовых заказов из того же контура. */
+    { label: 'Реестр B2B-заказов', href: ROUTES.brand.b2bOrders },
+  ];
+  if (styleId) {
+    out.push({
+      label: 'ТЗ по артикулу строки',
+      href: ROUTES.brand.productionTechPackStyle(styleId),
+    });
+  }
+  return out;
 }
 
 /**
@@ -604,9 +776,26 @@ export function getCollectionLinks(): EntityLink[] {
   ]);
 }
 
-/** Ссылки для коммуникаций */
+/**
+ * Хаб сообщений: B2B, календарь задач, ЭДО/НДС РФ — чтобы чат не был «отрезан» от операционного контура.
+ */
 export function getCommLinks(): EntityLink[] {
-  return getTeamLinks();
+  return finalizeRelatedModuleLinks(
+    dedupeEntityLinksByHref([
+      { label: 'Реестр B2B-заказов', href: ROUTES.brand.b2bOrders },
+      { label: 'Календарь · задачи', href: `${ROUTES.brand.calendar}?layers=tasks` },
+      { label: 'ЭДО и комплаенс (РФ)', href: ROUTES.brand.localCompliance },
+      { label: 'Net terms · НДС (РФ)', href: ROUTES.brand.financeRf },
+      { label: 'Документы · УПД', href: ROUTES.brand.documents },
+      { label: 'Контроль-центр', href: ROUTES.brand.controlCenter },
+      ...getTeamLinks().filter(
+        (l) =>
+          l.href !== ROUTES.brand.messages &&
+          l.href !== ROUTES.brand.calendar &&
+          l.href !== ROUTES.brand.settings
+      ),
+    ])
+  );
 }
 
 /** Ссылки для Cycle Counting */
@@ -752,9 +941,18 @@ export function getMarketroomLinks(): EntityLink[] {
   ]);
 }
 
-/** Ссылки для B2B заказа (детали заказа) */
-export function getOrderLinks(): EntityLink[] {
-  return getB2BLinks();
+/**
+ * Ссылки для B2B заказа (детали заказа): ядро №2 (контур заказа) + горизонталь (ритейл/factory) + вертикаль ТЗ→цех.
+ * Чаты/календарь — в базовом `getB2BLinks()` как надстройка.
+ */
+export function getOrderLinks(options?: { techPackStyleId?: string }): EntityLink[] {
+  return finalizeRelatedModuleLinks(
+    dedupeEntityLinksByHref([
+      ...getB2BLinks(),
+      ...getBrandB2bOrdersCrossRoleLinks(),
+      ...getB2bOrderVerticalCoreLinks(options?.techPackStyleId),
+    ])
+  );
 }
 
 /** Ссылки для партнёров */
@@ -805,7 +1003,7 @@ export function getShopB2BHubLinks(): EntityLink[] {
     { label: 'Карта стока', href: ROUTES.shop.b2bStockMap },
     { label: 'Ритейл: загрузка остатков', href: ROUTES.shop.inventory },
     { label: 'Доска ассортимента', href: ROUTES.shop.b2bWhiteboard },
-    { label: 'Академия B2B', href: ROUTES.shop.b2bAcademy },
+    { label: 'Академия и обучение', href: ROUTES.shop.b2bAcademy },
     { label: 'Календарь закупок', href: ROUTES.shop.b2bPurchaseCalendar },
     { label: 'Условия по коллекциям', href: ROUTES.shop.b2bCollectionTerms },
     { label: 'Заказ по коллекции', href: ROUTES.shop.b2bOrderByCollection },
@@ -864,8 +1062,17 @@ export function getShopB2BHubLinks(): EntityLink[] {
 }
 
 /** Ссылки для Shop B2B Orders */
-export function getShopB2BOrderLinks(): EntityLink[] {
-  return getB2BLinks();
+/**
+ * Карточка B2B-заказа в кабинете shop: тот же контур, что у бренда, плюс рёбра на исполнителя и ТЗ (демо).
+ */
+export function getShopB2BOrderLinks(options?: { techPackStyleId?: string }): EntityLink[] {
+  return finalizeRelatedModuleLinks(
+    dedupeEntityLinksByHref([
+      ...getB2BLinks(),
+      ...getShopB2bOrdersCrossRoleLinks(),
+      ...getB2bOrderVerticalCoreLinks(options?.techPackStyleId),
+    ])
+  );
 }
 
 /** Ссылки для Style-Me Upsell */

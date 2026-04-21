@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import {
   Table,
   TableBody,
@@ -294,7 +295,7 @@ export default function CategoriesPage() {
     async function fetchCategories() {
       try {
         const response = await fetch('/data/categories.json');
-        const data = await response.json();
+        const data = (await response.json()) as Record<string, unknown>;
         setFullCategoryStructure(data);
       } catch (error) {
         console.error('Failed to fetch categories', error);
@@ -442,7 +443,7 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="space-y-4">
+    <CabinetPageContent maxWidth="full" className="space-y-4">
       <div className="flex items-center justify-between">
         <header>
           <h1 className="font-headline text-base font-bold">Справочник категорий</h1>
@@ -618,6 +619,6 @@ export default function CategoriesPage() {
           history={viewingHistory.history}
         />
       )}
-    </div>
+    </CabinetPageContent>
   );
 }

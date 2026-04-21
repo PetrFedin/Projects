@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -16,7 +17,6 @@ import Image from 'next/image';
 import { products } from '@/lib/products';
 import { ArchiveRestore } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { RegistryPageShell } from '@/components/design-system';
 
 const archivedProducts = products.slice(8, 11).map((p) => ({
   ...p,
@@ -40,7 +40,7 @@ export default function ArchivePage() {
   };
 
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       <Card>
         <CardHeader>
           <CardTitle>Архив товаров</CardTitle>
@@ -99,6 +99,6 @@ export default function ArchivePage() {
           </Table>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

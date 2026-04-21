@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Package, Layers } from 'lucide-react';
@@ -7,14 +8,13 @@ import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** JOOR Passport для байера: портал выставки — участники, каталог события, заказы с выставки. */
 const MOCK_EVENT = { name: 'FW26 Syntha', date: '15–20 марта 2026' };
 
 export default function ShopB2BPassportPage() {
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader lead="Единый портал события: нетворкинг, каталог, заказы с выставки (JOOR Passport)." />
 
       <Card className="mb-6">
@@ -50,6 +50,6 @@ export default function ShopB2BPassportPage() {
       </Card>
 
       <RelatedModulesBlock links={getShopB2BHubLinks()} title="Выставки, заказы, матрица" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

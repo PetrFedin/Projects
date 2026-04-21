@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import {
   Leaf,
@@ -37,7 +38,7 @@ import {
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function CircularEconomyHubPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,7 +53,7 @@ export default function CircularEconomyHubPage() {
   );
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-700 animate-in fade-in">
       <RegistryPageHeader
         title="Circular Hub"
         leadPlain="Sustainability P3: остатки тканей и материалов, верификация, ESG. Доступно 2 450 кг · углеродный след −12% CO₂."
@@ -281,6 +282,6 @@ export default function CircularEconomyHubPage() {
           ))}
         </AnimatePresence>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

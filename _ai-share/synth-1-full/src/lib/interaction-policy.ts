@@ -95,8 +95,17 @@ export function shareProcess(roleA: UserRole, roleB: UserRole): boolean {
 /** Chat/context types that extend UserRole (подкатегории для бренда) */
 const BRAND_CONTEXT_TYPES = ['production', 'b2b_orders', 'collections'] as const;
 
+/** Академия: чаты курса (куратор / группа) доступны ученикам и представителям бренда */
+const ACADEMY_CONTEXT_TYPES = ['academy'] as const;
+
 export function canInteract(requester: UserRole, target: UserRole | string): boolean {
   if (requester === 'admin') return true;
   if (BRAND_CONTEXT_TYPES.includes(target as any) && requester === 'brand') return true;
+  if (
+    ACADEMY_CONTEXT_TYPES.includes(target as any) &&
+    (requester === 'shop' || requester === 'brand' || requester === 'client' || requester === 'b2b')
+  ) {
+    return true;
+  }
   return INTERACTION_POLICY[requester]?.includes(target as UserRole) || false;
 }

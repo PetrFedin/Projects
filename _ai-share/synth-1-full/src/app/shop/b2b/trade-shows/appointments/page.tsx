@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -10,7 +11,6 @@ import { Label } from '@/components/ui/label';
 import { getTradeShowById, getUpcomingEvents } from '@/lib/b2b/trade-show-calendar';
 import { getAppointments, createAppointment } from '@/lib/b2b/trade-show-appointments';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 export default function TradeShowAppointmentsPage() {
@@ -40,7 +40,7 @@ export default function TradeShowAppointmentsPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bTradeShows}
         lead="Запись на встречи с брендами на выставке."
@@ -116,6 +116,6 @@ export default function TradeShowAppointmentsPage() {
       <Button variant="outline" className="mt-6" asChild>
         <Link href={ROUTES.shop.b2bTradeShows}>← К выставкам</Link>
       </Button>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

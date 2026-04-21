@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { ProductResaleValueBlock } from '@/components/product/product-resale-value-block';
 import { ProductSizeAffinityBlock } from '@/components/product/product-size-affinity-block';
 import Image from 'next/image';
 import { useState, useMemo, useEffect } from 'react';
@@ -37,7 +36,6 @@ import Product3dViewer from '@/components/product-3d-viewer';
 import { useToast } from '@/hooks/use-toast';
 import { useUIState } from '@/providers/ui-state';
 import { cn } from '@/lib/utils';
-import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { NotifyMeDialog } from '@/components/notify-me-dialog';
 import { UnsubscribeDialog } from '@/components/unsubscribe-dialog';
@@ -214,9 +212,9 @@ import {
 } from '@/lib/product-experience/resolvers';
 import { ProductGlassesTryOnDialog } from '@/components/product-experience/product-glasses-try-on-dialog';
 import { ProductFootwearExperienceDialog } from '@/components/product-experience/product-footwear-experience-dialog';
-function parseComposition(composition: any): { material: string; percentage: number }[] {
+function parseComposition(composition: unknown): { material: string; percentage: number }[] {
   if (Array.isArray(composition)) {
-    return composition;
+    return composition as { material: string; percentage: number }[];
   }
   if (typeof composition === 'string') {
     const parts = composition.match(/(\d+%)\s*([^,]+)/g);
@@ -319,7 +317,7 @@ export default function ProductPageContent({
     async function fetchRelatedProducts() {
       try {
         const response = await fetch('/data/products.json');
-        const products: Product[] = await response.json();
+        const products = (await response.json()) as Product[];
         // In a real app, this would be an API call to a recommendation engine
         setRelatedProducts(products.slice(10, 14));
       } catch (error) {
@@ -492,7 +490,7 @@ export default function ProductPageContent({
 
   const handleCreateNewCollection = async () => {
     if (newCollectionName.trim() === '') return;
-    const newCollection = await addWishlistCollection(newCollectionName);
+    const newCollection = await addWishlistCollection(newCollectionName.trim());
     addWishlistItem(product, newCollection.id);
     toast({
       title: 'Подборка создана',
@@ -531,7 +529,7 @@ export default function ProductPageContent({
     };
 
     const plan = (user.loyaltyPlan || 'base') as keyof typeof planDetails;
-    const tier = planDetails[plan];
+    const tier = planDetails[plan] ?? planDetails.base;
     const cashback = product.price * tier.cashback;
     const maxBonusToUse = product.price * tier.bonusLimit;
     const bonusToUse = Math.min(user.loyaltyPoints || 0, maxBonusToUse);
@@ -889,7 +887,6 @@ export default function ProductPageContent({
           <ProductLoyaltyRewardBlock product={product} />
           <ProductTrendInsightBlock product={product} />
           <ProductSizeAffinityBlock product={product} />
-          <ProductResaleValueBlock product={product} />
           <ProductMaterialOriginBlock product={product} />
           <ProductSizeConverterBlock size={selectedSize || 'M'} category={product.category} />
           <ProductBodyInclusivityBlock product={product} />
@@ -1144,7 +1141,7 @@ export default function ProductPageContent({
       </div>
 
       {!isQuickView && (
-        <div className={cn(registryFeedLayout.pageShell, 'max-w-6xl')}>
+        <div className="container mx-auto px-4">
           <div className="my-16">
             <Button
               variant="link"

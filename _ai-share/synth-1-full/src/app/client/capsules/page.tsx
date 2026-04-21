@@ -18,8 +18,10 @@ import {
   saveCapsuleToStorage,
   toCapsuleExport,
 } from '@/lib/platform/capsule-store';
-import { ArrowLeft, Layers, Plus, Download, Upload } from 'lucide-react';
+import { Plus, Download, Upload } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function ClientCapsulesPage() {
   const { toast } = useToast();
@@ -30,7 +32,7 @@ export default function ClientCapsulesPage() {
   useEffect(() => {
     fetch('/data/products.json')
       .then((r) => r.json())
-      .then((d: Product[]) => setCatalog(d.slice(0, 48)))
+      .then((d) => setCatalog((d as Product[]).slice(0, 48)))
       .catch(() => setCatalog([]));
   }, []);
 
@@ -93,23 +95,10 @@ export default function ClientCapsulesPage() {
   const emptySlots = slots.filter((s) => !s).length;
 
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <Layers className="h-6 w-6" />
-              Капсула / готовый лук
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Три слота; экспорт v1 для бэкапа. API: позже POST /v1/client/capsules.
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader />
         </div>
         <PlatformDataBanner />
       </div>
@@ -224,6 +213,6 @@ export default function ClientCapsulesPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

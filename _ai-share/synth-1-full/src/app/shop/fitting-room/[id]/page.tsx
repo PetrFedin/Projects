@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -28,7 +29,6 @@ import {
 } from 'lucide-react';
 import { FittingRoomItem, FittingRoomRequest } from '@/lib/types/retail';
 import { cn } from '@/lib/utils';
-import { RegistryPageShell } from '@/components/design-system';
 
 /**
  * Smart Fitting Room Interface (Mirror OS)
@@ -85,7 +85,7 @@ export default function SmartMirrorPage() {
   };
 
   return (
-    <RegistryPageShell className="!mx-0 flex min-h-screen max-w-none flex-col gap-3 overflow-hidden bg-black !px-4 !py-4 font-sans text-white">
+    <CabinetPageContent maxWidth="full" className="!mx-0 flex min-h-screen flex-col gap-3 overflow-hidden bg-black !px-4 !py-4 font-sans text-white">
       {/* Mirror Header */}
       <header className="flex items-center justify-between border-b border-white/10 pb-8">
         <div className="flex items-center gap-3">
@@ -407,7 +407,7 @@ export default function SmartMirrorPage() {
           </div>
         </footer>
       )}
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }
 

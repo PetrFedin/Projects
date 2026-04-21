@@ -1,12 +1,12 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 import {
   getAgentBrands,
   getSelectedAgentBrandId,
@@ -45,7 +45,7 @@ export default function AgentCabinetPage() {
   const totalOrders = brands.reduce((s, b) => s + b.ordersCountYtd, 0);
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader lead="Zedonk: один логин, несколько брендов — переключение контекста, комиссии и отчёты по брендам." />
 
       <Card className="mb-6">
@@ -222,6 +222,6 @@ export default function AgentCabinetPage() {
         title="Заказы, матрица, каталог"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

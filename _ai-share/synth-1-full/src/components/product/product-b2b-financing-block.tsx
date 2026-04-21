@@ -20,61 +20,60 @@ export function ProductB2BFinancingBlock({ product }: { product: Product }) {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-amber-600">
           <CreditCard className="h-4 w-4" />
-          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
-            B2B Pre-Order Financing (RU)
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+            B2B-финансирование предзаказа (РФ)
           </h4>
         </div>
         <Badge className="border-none bg-amber-600 text-[8px] font-black uppercase text-white">
-          Split 30/70 Split
+          30 / 70
         </Badge>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-4">
           <div className="rounded-xl border border-amber-100 bg-white/80 p-3 shadow-sm">
-            <div className="text-text-muted mb-1 text-[8px] font-black uppercase tracking-widest">
-              Initial Deposit (30%)
+            <div className="mb-1 text-[8px] font-black uppercase tracking-widest text-slate-400">
+              Первый взнос (30%)
             </div>
-            <div className="text-text-primary text-xl font-black">
+            <div className="text-xl font-black text-slate-800">
               {financing.depositAmount.toLocaleString()} ₽
             </div>
             <div className="mt-1 text-[9px] font-black uppercase text-amber-600">
-              Due: On Confirmation
+              Срок: при подтверждении
             </div>
           </div>
 
           <div className="rounded-xl border border-amber-100 bg-white/80 p-3 shadow-sm">
-            <div className="text-text-muted mb-1 text-[8px] font-black uppercase tracking-widest">
-              Remaining Balance (70%)
+            <div className="mb-1 text-[8px] font-black uppercase tracking-widest text-slate-400">
+              Остаток (70%)
             </div>
-            <div className="text-text-primary text-xl font-black">
+            <div className="text-xl font-black text-slate-800">
               {financing.remainingAmount.toLocaleString()} ₽
             </div>
             <div className="mt-1 text-[9px] font-black uppercase text-amber-600">
-              Due: {financing.remainingDueDate}
+              Срок: {financing.remainingDueDate}
             </div>
           </div>
         </div>
 
         <div className="flex flex-col justify-center rounded-xl border border-amber-100 bg-amber-600/5 p-4 text-center">
           <Calendar className="mx-auto mb-2 h-5 w-5 text-amber-400" />
-          <p className="text-text-secondary text-[9px] font-bold leading-tight">
-            Interest-free for {financing.creditTermDays} days. Credit limit subject to credit
-            scoring.
+          <p className="text-[9px] font-bold leading-tight text-slate-600">
+            Без процентов на {financing.creditTermDays} дн. Лимит зависит от скоринга.
           </p>
           <Button
             variant="link"
             className="mt-2 h-auto p-0 text-[8px] font-black uppercase text-amber-600"
           >
-            Download Schedule PDF
+            Скачать график (PDF)
           </Button>
         </div>
       </div>
 
-      <div className="text-text-muted mt-4 flex items-center justify-between border-t border-amber-100 pt-4 text-[8px] font-black uppercase">
-        <span>Integrated with VTB/Sber B2B Factor</span>
+      <div className="mt-4 flex items-center justify-between border-t border-amber-100 pt-4 text-[8px] font-black uppercase text-slate-400">
+        <span>Интеграция: ВТБ / Сбер B2B факторинг</span>
         <span className="flex items-center gap-1 text-amber-600">
-          <ShieldCheck className="h-3 w-3 text-emerald-500" /> Insured by EXIAR
+          <ShieldCheck className="h-3 w-3 text-emerald-500" /> Страхование Экспар (EXIAR)
         </span>
       </div>
     </Card>

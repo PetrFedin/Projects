@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,7 +14,6 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { useFloorTabDraftState } from '@/hooks/use-floor-tab-draft';
 import { useToast } from '@/hooks/use-toast';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
-import { RegistryPageShell } from '@/components/design-system';
 
 type WorkerRow = { id: string; name: string; operations: string[]; level: number };
 
@@ -38,7 +38,7 @@ export default function WorkerSkillsPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Матрица навыков сотрудников"
         description={
@@ -104,6 +104,6 @@ export default function WorkerSkillsPage() {
       </Card>
 
       <RelatedModulesBlock links={getProductionLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

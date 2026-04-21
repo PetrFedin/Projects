@@ -15,7 +15,7 @@ export class MockCartRepository implements CartRepository {
     if (typeof window === 'undefined') return [];
     const stored = localStorage.getItem(getStorageKey(userId));
     if (stored) {
-      return JSON.parse(stored);
+      return JSON.parse(stored) as CartItem[];
     }
     return [];
   }

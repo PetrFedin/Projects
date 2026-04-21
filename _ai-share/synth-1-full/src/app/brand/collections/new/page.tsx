@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -11,7 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ROUTES, collectionById } from '@/lib/routes';
 import { createCollection } from '@/lib/data/collections';
 import { ArrowLeft } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function BrandCollectionsNewPage() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function BrandCollectionsNewPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
       <RegistryPageHeader
         title="Создать карточку коллекции"
         leadPlain="Заполните название, сезон и описание. Концепция и ДНК можно дописать в карточке коллекции."
@@ -130,6 +131,6 @@ export default function BrandCollectionsNewPage() {
           </form>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

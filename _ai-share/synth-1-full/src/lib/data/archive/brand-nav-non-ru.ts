@@ -25,14 +25,14 @@ export const ARCHIVED_NAV_LINKS: ArchivedNavLink[] = [
     value: 'erp-plm-western',
     href: '/brand/integrations/erp-plm',
     description: 'NetSuite, SAP — Western ERP',
-    sectionId: 'org',
+    sectionId: 'brand-admin',
   },
   {
     label: 'SSO (Google/Microsoft)',
     value: 'sso-western',
     href: '/brand/integrations/sso',
     description: 'Корпоративная аутентификация Google/Microsoft',
-    sectionId: 'org',
+    sectionId: 'brand-admin',
   },
   {
     label: 'Global Duty Engine',

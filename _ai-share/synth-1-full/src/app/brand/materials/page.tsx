@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -23,7 +24,6 @@ import {
 import { SupplierCollabHub } from '@/components/brand/supplier-collab-hub';
 import MaterialReservations from '@/components/brand/supply-chain/material-reservations';
 import { cn } from '@/lib/utils';
-import { RegistryPageShell } from '@/components/design-system';
 
 const materials = [
   {
@@ -90,7 +90,7 @@ const materials = [
 
 export default function MaterialsPage() {
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 duration-500 animate-in fade-in">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 duration-500 animate-in fade-in">
       <header className="border-border-subtle flex flex-col justify-end gap-3 border-b pb-4 md:flex-row md:items-center">
         <Button className="shadow-accent-primary/10 h-9 rounded-lg px-4 text-[10px] font-bold uppercase tracking-wider shadow-md transition-all">
           <PlusCircle className="mr-2 h-4 w-4" />
@@ -221,6 +221,6 @@ export default function MaterialsPage() {
           </CardContent>
         </Card>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

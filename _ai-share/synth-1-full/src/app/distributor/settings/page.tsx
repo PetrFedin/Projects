@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import {
   Settings,
@@ -30,7 +31,7 @@ export default function DistributorSettingsPage() {
   const { pulseMode, setPulseMode } = useUIState();
 
   return (
-    <div className="bg-bg-canvas space-y-6 duration-300 animate-in fade-in">
+    <CabinetPageContent maxWidth="full" className="bg-bg-canvas space-y-6 duration-300 animate-in fade-in">
       <header className="space-y-2">
         <h1 className="text-text-primary text-sm font-black uppercase tracking-tighter">
           Настройки дистрибуции
@@ -150,6 +151,6 @@ export default function DistributorSettingsPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

@@ -29,14 +29,9 @@ import {
 import { useAuth } from '@/providers/auth-provider';
 import { useUIState } from '@/providers/ui-state';
 import { type B2BRole } from '../_fixtures/b2b-data';
-import {
-  getPartnerBadgeIconToneClass,
-  getPartnerBadgeToneClass,
-} from '@/lib/ui/semantic-data-tones';
-import { ROUTES } from '@/lib/routes';
 
 const ROLE_CONFIG: Record<B2BRole, { label: string; icon: any; color: string }> = {
-  admin: { label: 'Администратор', icon: Shield, color: 'text-accent-primary' },
+  admin: { label: 'Администратор', icon: Shield, color: 'text-indigo-500' },
   brand: { label: 'Бренд', icon: Store, color: 'text-emerald-500' },
   distributor: { label: 'Дистрибьютор', icon: Briefcase, color: 'text-blue-500' },
   manufacturer: { label: 'Производство', icon: Factory, color: 'text-orange-500' },
@@ -57,14 +52,14 @@ function RoleIcons({ roles }: { roles?: B2BRole[] }) {
               <TooltipTrigger asChild>
                 <div
                   className={cn(
-                    'border-border-subtle cursor-help rounded-lg border bg-white p-1.5 shadow-sm transition-all hover:scale-110',
+                    'cursor-help rounded-lg border border-slate-100 bg-white p-1.5 shadow-sm transition-all hover:scale-110',
                     config.color
                   )}
                 >
                   <config.icon className="h-3 w-3" />
                 </div>
               </TooltipTrigger>
-              <TooltipContent className="bg-text-primary rounded-lg border-none p-2 text-white shadow-2xl">
+              <TooltipContent className="rounded-lg border-none bg-slate-900 p-2 text-white shadow-2xl">
                 <p className="text-[10px] font-bold uppercase tracking-wide">{config.label}</p>
               </TooltipContent>
             </Tooltip>
@@ -85,7 +80,7 @@ const PARTNER_BADGES = [
   },
   {
     id: 'net60',
-    label: 'Net 60',
+    label: 'Отсрочка 60 дней',
     icon: Clock,
     color: 'indigo',
     desc: 'Возможность работы с отсрочкой платежа до 60 дней для проверенных байеров.',
@@ -154,12 +149,12 @@ export function PartnersSection() {
     const role = effectiveRole;
 
     if (role === 'admin') {
-      if (partnerTitle.includes('Бренд')) return ROUTES.admin.brands;
-      if (partnerTitle.includes('фабрик')) return ROUTES.admin.bpiMatrix;
-      if (partnerTitle.includes('Сырье')) return ROUTES.admin.attributes;
-      if (partnerTitle.includes('Ритейл')) return ROUTES.admin.users;
-      if (partnerTitle.includes('Финанс')) return ROUTES.admin.billing;
-      return ROUTES.admin.cmsHome;
+      if (partnerTitle.includes('Бренд')) return '/admin/brands';
+      if (partnerTitle.includes('фабрик')) return '/admin/bpi-matrix';
+      if (partnerTitle.includes('Сырье')) return '/admin/attributes';
+      if (partnerTitle.includes('Ритейл')) return '/admin/users';
+      if (partnerTitle.includes('Финанс')) return '/admin/billing';
+      return '/admin/home';
     }
 
     if (role === 'brand') {
@@ -172,16 +167,16 @@ export function PartnersSection() {
     }
 
     if (role === 'manufacturer' || role === 'supplier') {
-      if (partnerTitle.includes('Бренд')) return ROUTES.factory.productionBrands;
-      if (partnerTitle.includes('Сырье')) return ROUTES.factory.productionMaterials;
-      if (partnerTitle.includes('Финанс')) return ROUTES.factory.productionFinance;
-      return ROUTES.factory.production;
+      if (partnerTitle.includes('Бренд')) return '/factory/brands';
+      if (partnerTitle.includes('Сырье')) return '/factory/materials';
+      if (partnerTitle.includes('Финанс')) return '/factory/finance';
+      return '/factory';
     }
 
     if (role === 'distributor') {
-      if (partnerTitle.includes('Бренд')) return ROUTES.distributor.brands;
-      if (partnerTitle.includes('Ритейл')) return ROUTES.distributor.retailers;
-      return ROUTES.distributor.home;
+      if (partnerTitle.includes('Бренд')) return '/distributor/brands';
+      if (partnerTitle.includes('Ритейл')) return '/distributor/retailers';
+      return '/distributor';
     }
 
     if (role === 'shop') {
@@ -202,26 +197,26 @@ export function PartnersSection() {
       transition={{ duration: 0.6 }}
       className="section-spacing relative bg-transparent"
     >
-      <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
-        <Card className="border-border-subtle relative overflow-hidden rounded-xl border border-none bg-white shadow-2xl shadow-md">
+      <div className="container mx-auto px-4">
+        <Card className="relative overflow-hidden rounded-xl border border-none border-slate-100 bg-white shadow-2xl shadow-slate-200/50">
           <CardContent className="p-3">
             <div className="mb-10 flex flex-col justify-between gap-3 md:flex-row md:items-center">
               <div className="space-y-1">
                 <div className="flex items-center gap-3">
-                  <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900">
                     <Users className="h-4 w-4 text-white" />
                   </div>
                   <Badge
                     variant="outline"
-                    className="border-border-default text-text-primary px-2 py-0.5 text-xs font-bold uppercase tracking-normal"
+                    className="border-slate-200 px-2 py-0.5 text-xs font-bold uppercase tracking-normal text-slate-900"
                   >
                     PARTNERS_b2b
                   </Badge>
                 </div>
-                <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
+                <h2 className="text-2xl font-bold uppercase leading-tight tracking-tight text-slate-900 md:text-4xl">
                   ПАРТНЕРЫ
                 </h2>
-                <p className="text-text-muted max-w-md text-xs font-medium">
+                <p className="max-w-md text-xs font-medium text-slate-400">
                   Сквозная интеграция производственных цепочек и операционный контроль.
                 </p>
                 <TooltipProvider>
@@ -232,7 +227,34 @@ export function PartnersSection() {
                           <div
                             className={cn(
                               'flex min-w-[85px] cursor-help items-center justify-center gap-1 rounded-full border px-2 py-0.5 transition-all hover:scale-105',
-                              getPartnerBadgeToneClass(badge.color)
+                              badge.color === 'emerald' &&
+                                'border-emerald-500/20 bg-emerald-500/10 text-emerald-600',
+                              badge.color === 'indigo' &&
+                                'border-indigo-500/20 bg-indigo-500/10 text-indigo-600',
+                              badge.color === 'amber' &&
+                                'border-amber-500/20 bg-amber-500/10 text-amber-600',
+                              badge.color === 'teal' &&
+                                'border-teal-500/20 bg-teal-500/10 text-teal-600',
+                              badge.color === 'rose' &&
+                                'border-rose-500/20 bg-rose-500/10 text-rose-600',
+                              badge.color === 'blue' &&
+                                'border-blue-500/20 bg-blue-500/10 text-blue-600',
+                              badge.color === 'yellow' &&
+                                'border-yellow-500/20 bg-yellow-500/10 text-yellow-600',
+                              badge.color === 'violet' &&
+                                'border-violet-500/20 bg-violet-500/10 text-violet-600',
+                              badge.color === 'orange' &&
+                                'border-orange-500/20 bg-orange-500/10 text-orange-600',
+                              badge.color === 'pink' &&
+                                'border-pink-500/20 bg-pink-500/10 text-pink-600',
+                              badge.color === 'cyan' &&
+                                'border-cyan-500/20 bg-cyan-500/10 text-cyan-600',
+                              badge.color === 'slate' &&
+                                'border-slate-500/20 bg-slate-500/10 text-slate-600',
+                              badge.color === 'lime' &&
+                                'border-lime-500/20 bg-lime-500/10 text-lime-600',
+                              badge.color === 'sky' &&
+                                'border-sky-500/20 bg-sky-500/10 text-sky-600'
                             )}
                           >
                             <badge.icon className="h-2.5 w-2.5 shrink-0" />
@@ -241,17 +263,15 @@ export function PartnersSection() {
                             </span>
                           </div>
                         </TooltipTrigger>
-                        <TooltipContent className="bg-text-primary max-w-[200px] rounded-xl border-none p-3 text-white shadow-2xl">
+                        <TooltipContent className="max-w-[200px] rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl">
                           <div className="space-y-1.5">
                             <div className="flex items-center gap-2">
-                              <badge.icon
-                                className={cn('h-3 w-3', getPartnerBadgeIconToneClass(badge.color))}
-                              />
+                              <badge.icon className={cn('h-3 w-3', `text-${badge.color}-400`)} />
                               <p className="text-[10px] font-bold uppercase tracking-wide">
                                 {badge.label}
                               </p>
                             </div>
-                            <p className="text-text-muted text-[10px] font-medium leading-relaxed">
+                            <p className="text-[10px] font-medium leading-relaxed text-slate-300">
                               {badge.desc}
                             </p>
                           </div>
@@ -267,7 +287,7 @@ export function PartnersSection() {
                     const el = document.getElementById('partners-scroll-b2b');
                     if (el) el.scrollBy({ left: -320, behavior: 'smooth' });
                   }}
-                  className="text-text-muted hover:text-text-primary p-1 transition-colors"
+                  className="p-1 text-slate-400 transition-colors hover:text-slate-900"
                 >
                   <ArrowRight className="h-5 w-5 rotate-180" />
                 </button>
@@ -276,7 +296,7 @@ export function PartnersSection() {
                     const el = document.getElementById('partners-scroll-b2b');
                     if (el) el.scrollBy({ left: 320, behavior: 'smooth' });
                   }}
-                  className="text-text-muted hover:text-text-primary p-1 transition-colors"
+                  className="p-1 text-slate-400 transition-colors hover:text-slate-900"
                 >
                   <ArrowRight className="h-5 w-5" />
                 </button>
@@ -356,23 +376,23 @@ export function PartnersSection() {
                 ].map((partner, idx) => (
                   <div
                     key={idx}
-                    className="bg-bg-surface2 border-border-subtle hover:border-text-primary/30 group/partner relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-3xl border p-4 pb-3 transition-all hover:shadow-md hover:shadow-xl md:w-[320px]"
+                    className="group/partner relative flex w-[280px] flex-shrink-0 snap-start flex-col rounded-3xl border border-slate-100 bg-slate-50 p-4 pb-3 transition-all hover:border-slate-900/30 hover:shadow-xl hover:shadow-slate-200/50 md:w-[320px]"
                   >
                     <div className="absolute right-4 top-4 z-20">
                       <RoleIcons roles={partner.roles as B2BRole[]} />
                     </div>
                     <div className="mb-2 space-y-1">
-                      <p className="text-accent-primary text-[10px] font-bold uppercase tracking-wide">
+                      <p className="text-[10px] font-bold uppercase tracking-wide text-indigo-600">
                         {partner.label}
                       </p>
-                      <h4 className="text-text-primary group-hover/partner:text-accent-primary text-base font-bold uppercase leading-tight transition-colors">
+                      <h4 className="text-base font-bold uppercase leading-tight text-slate-900 transition-colors group-hover/partner:text-indigo-600">
                         {partner.title}
                       </h4>
                     </div>
-                    <p className="text-text-secondary mb-4 text-xs font-medium leading-relaxed">
+                    <p className="mb-4 text-xs font-medium leading-relaxed text-slate-500">
                       {partner.desc}
                     </p>
-                    <div className="border-border-subtle mt-auto flex items-center justify-center border-t pt-4">
+                    <div className="mt-auto flex items-center justify-center border-t border-slate-100 pt-4">
                       {(() => {
                         const isAccessGranted = partner.roles?.includes(effectiveRole);
                         return (
@@ -384,8 +404,8 @@ export function PartnersSection() {
                             className={cn(
                               'group/btn mx-auto h-9 w-[180px] border',
                               isAccessGranted
-                                ? 'text-text-muted border-border-default group-hover/partner:button-glimmer group-hover/partner:button-professional bg-white group-hover/partner:border-black group-hover/partner:bg-black group-hover/partner:text-white group-hover/partner:shadow-xl'
-                                : 'bg-bg-surface2 text-text-muted border-border-default cursor-not-allowed opacity-50'
+                                ? 'group-hover/partner:button-glimmer group-hover/partner:button-professional border-slate-200 bg-white text-slate-400 group-hover/partner:border-black group-hover/partner:bg-black group-hover/partner:text-white group-hover/partner:shadow-xl'
+                                : 'cursor-not-allowed border-slate-200 bg-slate-100 text-slate-300 opacity-50'
                             )}
                           >
                             {isAccessGranted ? (
@@ -405,14 +425,14 @@ export function PartnersSection() {
               </div>
             </div>
 
-            <Card className="bg-text-primary group/banner relative flex min-h-[300px] items-center overflow-hidden rounded-xl border-none shadow-2xl">
+            <Card className="group/banner relative flex min-h-[300px] items-center overflow-hidden rounded-xl border-none bg-slate-900 shadow-2xl">
               <div className="absolute inset-0 overflow-hidden rounded-xl opacity-40 transition-transform duration-1000 group-hover/banner:scale-105">
                 <img
                   src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000"
                   className="h-full w-full object-cover"
                 />
               </div>
-              <div className="from-text-primary via-text-primary/80 absolute inset-0 bg-gradient-to-r to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
               <CardContent className="relative z-10 max-w-4xl space-y-6 p-4 text-white">
                 <div className="group/marquee relative mb-4 overflow-hidden whitespace-nowrap border-y border-white/10 py-2">
                   <motion.div
@@ -468,7 +488,7 @@ export function PartnersSection() {
                 <h2 className="text-xl font-bold uppercase leading-tight tracking-tight md:text-3xl">
                   БИЗНЕС-АЛЬЯНС
                 </h2>
-                <p className="text-text-muted border-accent-primary/50 whitespace-nowrap border-l-2 pl-6 text-sm font-medium">
+                <p className="whitespace-nowrap border-l-2 border-indigo-500/50 pl-6 text-sm font-medium text-slate-300">
                   "Интеллектуальная среда для поиска и реализации стратегических союзов."
                 </p>
               </CardContent>

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -13,7 +14,7 @@ import { getCollectionLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { getCollectionById, updateCollection, type CollectionCard } from '@/lib/data/collections';
 import { ArrowLeft, Package, Image, Presentation, Factory, FileText } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const productionHref = (collectionId: string) =>
   `${ROUTES.brand.production}?collectionId=${encodeURIComponent(collectionId)}`;
@@ -53,7 +54,7 @@ export default function BrandCollectionCardPage() {
   if (id === undefined) return null;
   if (collection === null) {
     return (
-      <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+      <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
         <RegistryPageHeader
           title="Коллекция не найдена"
           leadPlain="Проверьте ссылку или вернитесь к списку коллекций."
@@ -61,14 +62,14 @@ export default function BrandCollectionCardPage() {
         <Button variant="link" asChild>
           <Link href={ROUTES.brand.collections}>К списку коллекций</Link>
         </Button>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   const links = getCollectionLinks();
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title={collection.name}
         leadPlain={`Сезон: ${collection.season}`}
@@ -201,6 +202,6 @@ export default function BrandCollectionCardPage() {
       </Card>
 
       <RelatedModulesBlock links={links} title="Связанные разделы по коллекции" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

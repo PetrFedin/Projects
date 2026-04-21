@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,7 +13,6 @@ import { B2BIntegrationStatusWidget } from '@/components/b2b/B2BIntegrationStatu
 import { ROUTES } from '@/lib/routes';
 import { getSupplierLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageShell } from '@/components/design-system';
 import { listRfq, type SupplierRfq } from '@/lib/supplier-rfq';
 
 const statusLabels: Record<SupplierRfq['status'], string> = {
@@ -38,18 +38,23 @@ export default function SupplierRfqPage() {
   useEffect(() => {
     fetch('/api/b2b/integrations/catalog-summary')
       .then((res) => (res.ok ? res.json() : null))
-      .then((data) =>
-        data && (data.source === 'fashion_cloud' || data.productCount >= 0)
-          ? setCatalogSummary(data)
-          : null
-      )
+      .then((data: unknown) => {
+        const d = data as { source?: string; productCount?: number; lastSync?: string } | null;
+        if (d && (d.source === 'fashion_cloud' || (d.productCount ?? -1) >= 0)) {
+          setCatalogSummary({
+            source: d.source ?? 'unknown',
+            productCount: d.productCount ?? 0,
+            lastSync: d.lastSync,
+          });
+        }
+      })
       .catch(() => {});
   }, []);
 
   const rfq = rfqList[0];
 
   return (
-    <RegistryPageShell className="space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
       <SectionInfoCard
         title="Supplier RFQ Engine"
         description="Тендеры на ткань и фурнитуру. Создание запроса из Tech Pack, получение предложений, присуждение. Связь с Materials и поставщиками. РФ: рубли, ЭДО."
@@ -134,6 +139,6 @@ export default function SupplierRfqPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getSupplierLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

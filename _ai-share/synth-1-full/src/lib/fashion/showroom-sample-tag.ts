@@ -21,7 +21,7 @@ export type ShowroomSampleTagPayloadV1 = {
   color?: string;
   sampleSize?: string;
   collectionId?: string;
-  /** Внутренний номер артикула (Цех 2 и т.п.), если известен. */
+  /** Внутренний номер артикула (разработка коллекции и т.п.), если известен. */
   internalArticleCode?: string;
 };
 

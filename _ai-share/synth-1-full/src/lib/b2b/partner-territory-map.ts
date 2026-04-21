@@ -72,7 +72,7 @@ function load(): PartnerTerritory[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return SEED;
-    return JSON.parse(raw);
+    return JSON.parse(raw) as PartnerTerritory[];
   } catch {
     return SEED;
   }

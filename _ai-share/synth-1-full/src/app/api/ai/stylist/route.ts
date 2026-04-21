@@ -32,8 +32,10 @@ export async function POST(req: NextRequest) {
         'https://api.open-meteo.com/v1/forecast?latitude=55.7558&longitude=37.6173&current=temperature_2m'
       );
       if (wRes.ok) {
-        const w = await wRes.json();
-        body.temperature = Math.round((w.current?.temperature_2m ?? 15) as number);
+        const w = (await wRes.json()) as {
+          current?: { temperature_2m?: number };
+        };
+        body.temperature = Math.round(w.current?.temperature_2m ?? 15);
       }
     } catch {
       /* ignore */

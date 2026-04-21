@@ -1,5 +1,6 @@
 'use client';
-import { RegistryPageShell } from '@/components/design-system';
+
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -25,7 +26,7 @@ const MOCK_ASN = [
 
 export default function ShipmentsPage() {
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.b2bOrders}>
           <Button variant="ghost" size="icon">
@@ -82,6 +83,6 @@ export default function ShipmentsPage() {
       </Card>
 
       <RelatedModulesBlock links={getB2BLinks()} title="B2B заказы, логистика, партнёры" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

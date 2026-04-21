@@ -27,11 +27,9 @@ import {
   Calculator,
 } from 'lucide-react';
 import { PlannedSKU, SKUDemandForecast } from '@/lib/types/analytics';
-import { skuSimulationClient } from '@/lib/ai-client/api';
+import { simulateCollectionDemand } from '@/ai/flows/sku-planner';
 import { cn } from '@/lib/utils';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
-import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 /**
  * Smart Range Planner UI
@@ -80,7 +78,7 @@ export default function SmartPlanningPage() {
   const runSimulation = async () => {
     setIsSimulating(true);
     try {
-      const results = await skuSimulationClient({
+      const results = await simulateCollectionDemand({
         brandId: 'brand-123',
         plannedItems,
       });
@@ -93,73 +91,73 @@ export default function SmartPlanningPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-4 pb-16 duration-700 animate-in fade-in">
+    <div className="container mx-auto max-w-5xl space-y-4 px-4 py-4 pb-24 duration-700 animate-in fade-in">
       <SectionInfoCard
         title="Smart Range Matrix"
         description="Планирование ассортимента с AI-симуляцией спроса. Связи: Products (PIM), Production, Analytics, Finance — Landed Cost и P&L."
         icon={Target}
-        iconBg="bg-accent-primary/15"
-        iconColor="text-accent-primary"
+        iconBg="bg-indigo-100"
+        iconColor="text-indigo-600"
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
               AI Planner
             </Badge>
             <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
-              <Link href={ROUTES.brand.products}>
+              <Link href="/brand/products">
                 <Calculator className="mr-1 h-3 w-3" /> Products
               </Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href={ROUTES.brand.production}>Production</Link>
+              <Link href="/brand/production">Production</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href={ROUTES.brand.analytics}>
+              <Link href="/brand/analytics">
                 <BarChart3 className="mr-1 h-3 w-3" /> Analytics
               </Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href={ROUTES.brand.finance}>Finance</Link>
+              <Link href="/brand/finance">Finance</Link>
             </Button>
           </>
         }
       />
-      <header className="border-border-subtle flex flex-col justify-between gap-3 border-b pb-3 md:flex-row md:items-end">
+      <header className="flex flex-col justify-between gap-3 border-b border-slate-100 pb-3 md:flex-row md:items-end">
         <div className="space-y-0.5">
-          <div className="text-text-muted flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em]">
-            <Target className="text-accent-primary h-3 w-3" />
-            <span className="hover:text-accent-primary cursor-pointer transition-colors">
+          <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
+            <Target className="h-3 w-3 text-indigo-500" />
+            <span className="cursor-pointer transition-colors hover:text-indigo-600">
               Range Planner
             </span>
           </div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-text-primary font-headline text-base font-bold uppercase leading-none tracking-tighter">
+            <h1 className="font-headline text-base font-bold uppercase leading-none tracking-tighter text-slate-900">
               Smart Range Matrix 2.0
             </h1>
             <Badge
               variant="outline"
-              className="bg-accent-primary/10 text-accent-primary border-accent-primary/20 h-4 gap-1 px-1.5 text-[7px] font-bold tracking-widest shadow-sm transition-all"
+              className="h-4 gap-1 border-indigo-100 bg-indigo-50 px-1.5 text-[7px] font-bold tracking-widest text-indigo-600 shadow-sm transition-all"
             >
               <BrainCircuit className="h-2.5 w-2.5" /> AI ENABLED
             </Badge>
           </div>
         </div>
-        <div className="bg-bg-surface2 border-border-default flex items-center gap-2 rounded-xl border p-1 shadow-inner">
+        <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-100 p-1 shadow-inner">
           <Button
             variant="ghost"
-            className="text-text-secondary hover:bg-bg-surface2 border-border-default h-7 gap-1.5 rounded-lg border bg-white px-3 text-[9px] font-bold uppercase tracking-widest shadow-sm transition-all"
+            className="h-7 gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-[9px] font-bold uppercase tracking-widest text-slate-600 shadow-sm transition-all hover:bg-slate-50"
           >
-            <Plus className="text-text-muted h-3 w-3" /> Add SKU
+            <Plus className="h-3 w-3 text-slate-400" /> Новый SKU
           </Button>
           <Button
             onClick={runSimulation}
             disabled={isSimulating}
-            className="bg-text-primary hover:bg-accent-primary h-7 gap-1.5 rounded-lg px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-md transition-all"
+            className="h-7 gap-1.5 rounded-lg bg-slate-900 px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-md transition-all hover:bg-indigo-600"
           >
             {isSimulating ? (
               <Zap className="h-3 w-3 animate-spin" />
             ) : (
-              <Zap className="text-accent-primary h-3 w-3" />
+              <Zap className="h-3 w-3 text-indigo-400" />
             )}
             {isSimulating ? 'Simulating...' : 'Run Analysis'}
           </Button>
@@ -173,9 +171,9 @@ export default function SmartPlanningPage() {
             label: 'TARGET BUDGET',
             value: '$145,000',
             icon: Calculator,
-            color: 'text-text-primary',
-            bg: 'bg-bg-surface2/80',
-            border: 'border-border-subtle',
+            color: 'text-slate-900',
+            bg: 'bg-slate-50/50',
+            border: 'border-slate-100',
           },
           {
             label: 'TARGET MARGIN',
@@ -189,23 +187,23 @@ export default function SmartPlanningPage() {
             label: 'SELL-THROUGH',
             value: forecasts ? '78%' : '--',
             icon: TrendingUp,
-            color: 'text-accent-primary',
-            bg: 'bg-accent-primary/10',
-            border: 'border-accent-primary/20',
+            color: 'text-indigo-600',
+            bg: 'bg-indigo-50/50',
+            border: 'border-indigo-100/50',
           },
           {
             label: 'RISK LEVEL',
             value: forecasts ? 'Low' : '--',
             icon: AlertTriangle,
-            color: forecasts ? 'text-emerald-600' : 'text-text-muted',
-            bg: 'bg-bg-surface2/80',
-            border: 'border-border-subtle',
+            color: forecasts ? 'text-emerald-600' : 'text-slate-300',
+            bg: 'bg-slate-50/50',
+            border: 'border-slate-100',
           },
         ].map((kpi, i) => (
           <Card
             key={i}
             className={cn(
-              'hover:border-accent-primary/20 group flex items-center gap-3.5 rounded-xl border bg-white p-3 shadow-sm transition-all hover:shadow-md',
+              'group flex items-center gap-3.5 rounded-xl border bg-white p-3 shadow-sm transition-all hover:border-indigo-100 hover:shadow-md',
               kpi.border
             )}
           >
@@ -220,7 +218,7 @@ export default function SmartPlanningPage() {
               <kpi.icon className="h-4 w-4" />
             </div>
             <div className="space-y-0.5">
-              <p className="text-text-muted text-[9px] font-bold uppercase leading-none tracking-[0.15em]">
+              <p className="text-[9px] font-bold uppercase leading-none tracking-[0.15em] text-slate-400">
                 {kpi.label}
               </p>
               <p
@@ -238,43 +236,43 @@ export default function SmartPlanningPage() {
 
       <div className="grid gap-3 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-2">
-          <Card className="border-border-subtle hover:border-accent-primary/20 overflow-hidden rounded-xl border shadow-sm transition-all">
-            <CardHeader className="border-border-subtle bg-bg-surface2/30 flex flex-row items-center justify-between border-b p-3.5">
+          <Card className="overflow-hidden rounded-xl border border-slate-100 shadow-sm transition-all hover:border-indigo-100/50">
+            <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 bg-slate-50/30 p-3.5">
               <div className="space-y-0.5">
-                <CardTitle className="text-text-primary text-[11px] font-bold uppercase tracking-widest">
+                <CardTitle className="text-[11px] font-bold uppercase tracking-widest text-slate-700">
                   Ассортиментная матрица
                 </CardTitle>
-                <CardDescription className="text-text-muted text-[9px] font-bold uppercase tracking-tight">
+                <CardDescription className="text-[9px] font-bold uppercase tracking-tight text-slate-400">
                   Планируемые артикулы и объемы пошива.
                 </CardDescription>
               </div>
               <Button
                 variant="outline"
-                className="border-border-default text-text-secondary hover:bg-bg-surface2 h-7 rounded-lg bg-white px-3 text-[9px] font-bold uppercase tracking-widest shadow-sm transition-all"
+                className="h-7 rounded-lg border-slate-200 bg-white px-3 text-[9px] font-bold uppercase tracking-widest text-slate-600 shadow-sm transition-all hover:bg-slate-50"
               >
                 Экспорт
               </Button>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
-                <TableHeader className="bg-bg-surface2/80">
+                <TableHeader className="bg-slate-50/50">
                   <TableRow className="h-9 border-none">
-                    <TableHead className="text-text-muted h-9 pl-4 text-[9px] font-bold uppercase tracking-[0.2em]">
+                    <TableHead className="h-9 pl-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                       Наименование
                     </TableHead>
-                    <TableHead className="text-text-muted h-9 text-[9px] font-bold uppercase tracking-[0.2em]">
+                    <TableHead className="h-9 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                       Тип
                     </TableHead>
-                    <TableHead className="text-text-muted h-9 text-center text-[9px] font-bold uppercase tracking-[0.2em]">
+                    <TableHead className="h-9 text-center text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                       План
                     </TableHead>
-                    <TableHead className="text-text-muted h-9 text-center text-[9px] font-bold uppercase tracking-[0.2em]">
+                    <TableHead className="h-9 text-center text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                       Cost/Retail
                     </TableHead>
-                    <TableHead className="text-text-muted h-9 text-center text-[9px] font-bold uppercase tracking-[0.2em]">
+                    <TableHead className="h-9 text-center text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                       Маржа
                     </TableHead>
-                    <TableHead className="text-text-muted h-9 pr-4 text-right text-[9px] font-bold uppercase tracking-[0.2em]">
+                    <TableHead className="h-9 pr-4 text-right text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                       AI Прогноз
                     </TableHead>
                   </TableRow>
@@ -285,13 +283,13 @@ export default function SmartPlanningPage() {
                     return (
                       <TableRow
                         key={item.id}
-                        className="border-border-subtle hover:bg-accent-primary/10 group h-11 transition-colors"
+                        className="group h-11 border-slate-50 transition-colors hover:bg-indigo-50/20"
                       >
                         <TableCell className="py-2 pl-4">
-                          <p className="text-text-primary group-hover:text-accent-primary text-[11px] font-bold uppercase leading-tight tracking-tight transition-colors">
+                          <p className="text-[11px] font-bold uppercase leading-tight tracking-tight text-slate-900 transition-colors group-hover:text-indigo-600">
                             {item.name}
                           </p>
-                          <p className="text-text-muted mt-0.5 text-[8px] font-bold uppercase tracking-widest">
+                          <p className="mt-0.5 text-[8px] font-bold uppercase tracking-widest text-slate-400">
                             {item.category}
                           </p>
                         </TableCell>
@@ -301,23 +299,23 @@ export default function SmartPlanningPage() {
                             className={cn(
                               'h-3.5 border px-1.5 text-[7px] font-bold uppercase tracking-widest shadow-sm transition-all',
                               item.type === 'core'
-                                ? 'bg-bg-surface2 text-text-secondary border-border-default'
+                                ? 'border-slate-200 bg-slate-50 text-slate-500'
                                 : item.type === 'trend'
-                                  ? 'bg-accent-primary/10 text-accent-primary border-accent-primary/20'
+                                  ? 'border-indigo-100 bg-indigo-50 text-indigo-600'
                                   : 'border-amber-100 bg-amber-50 text-amber-600'
                             )}
                           >
                             {item.type}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-text-primary py-2 text-center font-mono text-[11px] font-bold">
+                        <TableCell className="py-2 text-center font-mono text-[11px] font-bold text-slate-700">
                           {item.plannedQty}
                         </TableCell>
                         <TableCell className="py-2 text-center">
                           <div className="flex items-center justify-center gap-1 text-[10px] font-bold">
-                            <span className="text-text-muted">${item.estimatedCost}</span>
-                            <span className="text-text-muted">/</span>
-                            <span className="text-text-primary">${item.targetRetailPrice}</span>
+                            <span className="text-slate-400">${item.estimatedCost}</span>
+                            <span className="text-slate-200">/</span>
+                            <span className="text-slate-900">${item.targetRetailPrice}</span>
                           </div>
                         </TableCell>
                         <TableCell className="py-2 text-center text-[11px] font-bold uppercase tracking-tighter text-emerald-600">
@@ -326,7 +324,7 @@ export default function SmartPlanningPage() {
                         <TableCell className="py-2 pr-4 text-right">
                           {forecast ? (
                             <div className="space-y-0.5">
-                              <p className="text-accent-primary text-[11px] font-bold uppercase leading-none tracking-tighter">
+                              <p className="text-[11px] font-bold uppercase leading-none tracking-tighter text-indigo-600">
                                 {Math.round(forecast.predictedDemand)} ед.
                               </p>
                               <div className="mt-1 flex items-center justify-end gap-1">
@@ -336,13 +334,13 @@ export default function SmartPlanningPage() {
                                     forecast.confidence > 0.8 ? 'bg-emerald-500' : 'bg-amber-500'
                                   )}
                                 />
-                                <span className="text-text-muted text-[7px] font-bold uppercase tracking-widest opacity-70">
+                                <span className="text-[7px] font-bold uppercase tracking-widest text-slate-400 opacity-70">
                                   Conf. {Math.round(forecast.confidence * 100)}%
                                 </span>
                               </div>
                             </div>
                           ) : (
-                            <span className="text-text-muted text-[9px] font-bold uppercase tracking-widest opacity-50">
+                            <span className="text-[9px] font-bold uppercase tracking-widest text-slate-300 opacity-50">
                               Pending...
                             </span>
                           )}
@@ -357,18 +355,18 @@ export default function SmartPlanningPage() {
         </div>
 
         <div className="space-y-4">
-          <Card className="border-accent-primary shadow-accent-primary/10 bg-text-primary hover:bg-text-primary/90 group relative overflow-hidden rounded-xl border p-4 text-white shadow-xl transition-colors">
-            <div className="bg-accent-primary/10 absolute right-0 top-0 h-24 w-24 -translate-y-8 translate-x-8 rounded-full blur-2xl transition-transform duration-700 group-hover:scale-110"></div>
+          <Card className="group relative overflow-hidden rounded-xl border border-indigo-500 bg-slate-900 p-4 text-white shadow-xl shadow-indigo-100/30 transition-colors hover:bg-slate-800">
+            <div className="absolute right-0 top-0 h-24 w-24 -translate-y-8 translate-x-8 rounded-full bg-indigo-500/10 blur-2xl transition-transform duration-700 group-hover:scale-110"></div>
             <div className="relative z-10 space-y-4">
               <div className="flex items-center gap-2.5">
-                <div className="group-hover:bg-accent-primary flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-white/10 shadow-inner transition-colors">
-                  <BrainCircuit className="text-accent-primary h-4 w-4 group-hover:text-white" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-white/10 shadow-inner transition-colors group-hover:bg-indigo-500">
+                  <BrainCircuit className="h-4 w-4 text-indigo-400 group-hover:text-white" />
                 </div>
                 <div className="space-y-0.5">
                   <h3 className="text-[11px] font-bold uppercase leading-none tracking-widest">
                     AI Strategic Insights
                   </h3>
-                  <p className="text-accent-primary mt-1 text-[8px] font-bold uppercase leading-none tracking-[0.2em] opacity-70">
+                  <p className="mt-1 text-[8px] font-bold uppercase leading-none tracking-[0.2em] text-indigo-300 opacity-70">
                     Predictive Analysis
                   </p>
                 </div>
@@ -402,32 +400,32 @@ export default function SmartPlanningPage() {
                   </>
                 ) : (
                   <div className="space-y-3 rounded-2xl border border-dashed border-white/10 bg-white/5 py-4 text-center">
-                    <Zap className="text-accent-primary/30 mx-auto h-8 w-8 animate-pulse" />
+                    <Zap className="mx-auto h-8 w-8 animate-pulse text-indigo-500/30" />
                     <p className="px-4 text-[8px] font-bold uppercase leading-tight tracking-[0.2em] text-white/40">
                       Запустите симуляцию для инсайтов
                     </p>
                   </div>
                 )}
               </div>
-              <Button className="text-text-primary hover:bg-accent-primary/10 shadow-accent-primary/40 h-8 w-full rounded-lg border-none bg-white text-[9px] font-bold uppercase tracking-widest shadow-xl transition-all">
+              <Button className="h-8 w-full rounded-lg border-none bg-white text-[9px] font-bold uppercase tracking-widest text-slate-900 shadow-xl shadow-indigo-900/40 transition-all hover:bg-indigo-50">
                 Открыть отчет
               </Button>
             </div>
           </Card>
 
-          <Card className="border-border-subtle group space-y-4 rounded-xl border p-4 shadow-sm transition-all hover:border-emerald-100">
+          <Card className="group space-y-4 rounded-xl border border-slate-100 p-4 shadow-sm transition-all hover:border-emerald-100">
             <div className="flex items-center justify-between px-1">
               <div className="flex items-center gap-2">
                 <div className="rounded-lg border border-emerald-100 bg-emerald-50 p-1.5 text-emerald-600 shadow-inner transition-transform group-hover:scale-105">
                   <TrendingUp className="h-3.5 w-3.5" />
                 </div>
-                <h3 className="text-text-primary text-[10px] font-bold uppercase leading-none tracking-widest">
+                <h3 className="text-[10px] font-bold uppercase leading-none tracking-widest text-slate-900">
                   Market Trends
                 </h3>
               </div>
               <Badge
                 variant="outline"
-                className="bg-bg-surface2 text-text-muted border-border-subtle h-3.5 px-1.5 text-[7px] font-bold uppercase tracking-widest shadow-sm"
+                className="h-3.5 border-slate-100 bg-slate-50 px-1.5 text-[7px] font-bold uppercase tracking-widest text-slate-400 shadow-sm"
               >
                 LIVE
               </Badge>
@@ -454,16 +452,16 @@ export default function SmartPlanningPage() {
                   label: 'Oversized silhouettes',
                   trend: 'Stable',
                   direction: 'stable',
-                  color: 'text-text-muted',
-                  bg: 'bg-bg-surface2/80',
-                  border: 'border-border-subtle/50',
+                  color: 'text-slate-400',
+                  bg: 'bg-slate-50/50',
+                  border: 'border-slate-100/50',
                 },
               ].map((trend, i) => (
                 <div
                   key={i}
-                  className="bg-bg-surface2/30 group/item flex cursor-default items-center justify-between rounded-xl border border-transparent p-2.5 shadow-inner transition-all hover:border-emerald-100 hover:bg-white"
+                  className="group/item flex cursor-default items-center justify-between rounded-xl border border-transparent bg-slate-50/30 p-2.5 shadow-inner transition-all hover:border-emerald-100 hover:bg-white"
                 >
-                  <span className="text-text-secondary group-hover/item:text-text-primary text-[9px] font-bold uppercase tracking-tight transition-colors">
+                  <span className="text-[9px] font-bold uppercase tracking-tight text-slate-600 transition-colors group-hover/item:text-slate-900">
                     {trend.label}
                   </span>
                   <div className="flex items-center gap-1.5">
@@ -487,13 +485,13 @@ export default function SmartPlanningPage() {
             </div>
             <Button
               variant="ghost"
-              className="text-accent-primary hover:bg-accent-primary/10 h-7 w-full rounded-lg text-[9px] font-bold uppercase tracking-widest transition-all"
+              className="h-7 w-full rounded-lg text-[9px] font-bold uppercase tracking-widest text-indigo-600 transition-all hover:bg-indigo-50"
             >
               Trend Intelligence
             </Button>
           </Card>
         </div>
       </div>
-    </RegistryPageShell>
+    </div>
   );
 }

@@ -46,15 +46,21 @@ export const nuOrderDeskShell = {
   clientCabinetHubScope: cn(
     '!bg-[#dfe2e8]',
     '[&>aside]:!border-[#bcc3ce] [&>aside]:lg:!bg-[#eef0f4]',
-    '[&_.text-accent-primary]:!text-[#0b63ce]',
+    '[&_.text-accent-primary]:!text-[#4a5fc8]',
     '[&_h1.truncate]:!text-[#1a2433] [&_h1.truncate]:!text-base [&_h1.truncate]:!font-semibold [&_h1.truncate]:!normal-case [&_h1.truncate]:!tracking-tight',
     '[&_.border-border-subtle]:border-[#c5ccd6]',
     '[&_.text-text-muted]:text-[#6b7788]',
     '[&_.text-text-secondary]:text-[#5b6675]'
   ),
 
+  /**
+   * Единый акцент личного кабинета клиента: между «синим NuOrder» (#0b63ce) и фиолетовым маркетингом,
+   * чтобы панель и контент (в т.ч. академия) визуально согласованы.
+   */
+  clientCabinetAccentHex: '#4a5fc8',
+
   /** Плитка иконки хаба и вертикальный акцент у `CabinetHubSectionBar`. */
   clientCabinetHubIconTile:
-    'bg-[#0b63ce] text-white shadow-sm ring-1 ring-[#94a3b8]/40',
-  clientCabinetHubAccentRail: 'bg-[#0b63ce]',
+    'bg-[#4a5fc8] text-white shadow-sm ring-1 ring-[#94a3b8]/40',
+  clientCabinetHubAccentRail: 'bg-[#4a5fc8]',
 } as const;

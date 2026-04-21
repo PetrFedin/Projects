@@ -14,7 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Check, Eye, EyeOff, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import { ChatMessage, TaskPriority, DeadlineExtension, TaskStatus } from '@/lib/types';
+import { ChatMessage, TaskPriority, DeadlineExtension } from '@/lib/types';
 import { Switch } from '@/components/ui/switch';
 import { Person } from '../types';
 import { priorityConfig } from '../constants';
@@ -63,7 +63,8 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
   }, [open, task]);
 
   if (!task) return null;
-  const isAuthor = task.user === currentUser;
+  const activeTask = task;
+  const isAuthor = activeTask.user === currentUser;
   const canEdit = true;
 
   function toggleAssignee(name: string) {
@@ -74,7 +75,6 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
   }
 
   function save() {
-    if (!task) return;
     if (!canEdit) {
       toast({
         title: 'Недостаточно прав',
@@ -83,7 +83,7 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
       return;
     }
 
-    const prevDeadline = task.deadline ? safeDate(task.deadline) : null;
+    const prevDeadline = activeTask.deadline ? safeDate(activeTask.deadline) : null;
     const nextDeadline = deadline ? new Date(`${deadline}T00:00:00`) : null;
 
     if (prevDeadline && nextDeadline && nextDeadline.getTime() < prevDeadline.getTime()) {
@@ -91,9 +91,8 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
       return;
     }
 
-    let extensions: DeadlineExtension[] = Array.isArray(task.deadlineExtensions)
-      ? [...task.deadlineExtensions]
-      : [];
+    let extensions: DeadlineExtension[] = (activeTask.deadlineExtensions ?? []) as any;
+    if (!Array.isArray(extensions)) extensions = [];
 
     if (prevDeadline && nextDeadline && nextDeadline.getTime() > prevDeadline.getTime()) {
       extensions = [
@@ -119,19 +118,19 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
     }
 
     const next: ChatMessage = {
-      ...task,
-      id: task.id ?? 0,
+      ...activeTask,
+      id: activeTask.id,
       type: 'task',
       text: text.trim() || '(без описания)',
       priority,
-      status: (task.status ?? 'pending') as TaskStatus,
+      status: (activeTask.status ?? 'pending') as any,
       assignees,
       isPrivate,
       deadline: nextDeadline ? nextDeadline : undefined,
-      deadlineExtensions: extensions,
+      deadlineExtensions: extensions as any,
       widgetTags,
       reminderData: {
-        ...(task.reminderData || {}),
+        ...(activeTask.reminderData || {}),
         title: text.trim().slice(0, 50) || 'Задача',
         description: text.trim() || '',
         date: nextDeadline ? nextDeadline.toISOString().slice(0, 10) : '',
@@ -148,32 +147,32 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="border-border-default max-w-2xl rounded-none border bg-white p-3 shadow-2xl">
-        <DialogHeader className="border-border-subtle mb-8 space-y-3 border-b pb-6">
-          <DialogTitle className="text-text-primary text-base font-black uppercase tracking-tighter">
-            {String(task.id).startsWith('e_') ? 'NEW TASK' : 'EDIT TASK'}
+      <DialogContent className="max-w-2xl rounded-none border border-zinc-200 bg-white p-3 shadow-2xl">
+        <DialogHeader className="mb-8 space-y-3 border-b border-zinc-100 pb-6">
+          <DialogTitle className="text-base font-black uppercase tracking-tighter text-zinc-900">
+            {String(activeTask.id).startsWith('e_') ? 'NEW TASK' : 'EDIT TASK'}
           </DialogTitle>
-          <DialogDescription className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+          <DialogDescription className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
             {isAuthor ? 'OPERATIONAL PARAMETERS SETUP' : 'TASK VIEW MODE'}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-10">
           <div className="space-y-3">
-            <Label className="text-text-muted text-[10px] font-black uppercase tracking-[0.2rem]">
+            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
               DESCRIPTION
             </Label>
             <Textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="border-border-subtle min-h-[120px] rounded-none bg-[#FBFBFC] p-4 text-xs font-bold transition-all focus:border-black focus:ring-black"
-              placeholder="ENTER TASK REQUIREMENTS..."
+              className="min-h-[120px] rounded-none border-zinc-100 bg-[#FBFBFC] p-4 text-xs font-bold transition-all focus:border-black focus:ring-black"
+              placeholder="Опишите задачу и требования…"
             />
           </div>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <div className="space-y-4">
-              <Label className="text-text-muted text-[10px] font-black uppercase tracking-[0.2rem]">
+              <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
                 PRIORITY
               </Label>
               <div className="flex gap-2">
@@ -184,7 +183,7 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
                       'h-10 flex-1 border text-[9px] font-black uppercase tracking-widest transition-all',
                       priority === p
                         ? 'border-black bg-black text-white'
-                        : 'border-border-default text-text-muted hover:border-border-default bg-white'
+                        : 'border-zinc-200 bg-white text-zinc-400 hover:border-zinc-400'
                     )}
                     onClick={() => canEdit && setPriority(p)}
                     disabled={!canEdit}
@@ -196,21 +195,21 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
             </div>
 
             <div className="space-y-4">
-              <Label className="text-text-muted text-[10px] font-black uppercase tracking-[0.2rem]">
+              <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
                 DEADLINE
               </Label>
               <Input
                 type="date"
                 value={deadline}
                 onChange={(e) => canEdit && setDeadline(e.target.value)}
-                className="border-border-subtle h-10 rounded-none bg-[#FBFBFC] px-4 text-[10px] font-black uppercase tabular-nums"
+                className="h-10 rounded-none border-zinc-100 bg-[#FBFBFC] px-4 text-[10px] font-black uppercase tabular-nums"
                 disabled={!canEdit}
               />
             </div>
           </div>
 
           <div className="space-y-4">
-            <Label className="text-text-muted text-[10px] font-black uppercase tracking-[0.2rem]">
+            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
               ANALYTICS & TOOLS (WIDGETS)
             </Label>
             <div className="flex flex-wrap gap-2">
@@ -228,8 +227,8 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
                   className={cn(
                     'rounded-none border px-4 py-2 text-[8px] font-black uppercase tracking-widest transition-all',
                     widgetTags.includes(w.id)
-                      ? 'bg-text-primary border-text-primary text-white'
-                      : 'text-text-muted border-border-default hover:border-border-default bg-white'
+                      ? 'border-zinc-900 bg-zinc-900 text-white'
+                      : 'border-zinc-200 bg-white text-zinc-400 hover:border-zinc-400'
                   )}
                   onClick={() =>
                     canEdit &&
@@ -245,16 +244,16 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
           </div>
 
           <div className="space-y-4">
-            <Label className="text-text-muted flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2rem]">
+            <Label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
               <Calendar className="h-3.5 w-3.5" />
               КАЛЕНДАРЬ
             </Label>
-            <div className="bg-accent-primary/10 border-accent-primary/20 flex items-center justify-between rounded-lg border p-4">
+            <div className="flex items-center justify-between rounded-lg border border-indigo-100 bg-indigo-50/50 p-4">
               <div className="space-y-0.5">
-                <p className="text-text-primary text-[9px] font-black uppercase tracking-tight">
+                <p className="text-[9px] font-black uppercase tracking-tight text-zinc-900">
                   Синхронизировать с календарём
                 </p>
-                <p className="text-text-secondary text-[8px] font-bold">
+                <p className="text-[8px] font-bold text-zinc-500">
                   Задача появится в календаре (слой Tasks) с дедлайном
                 </p>
               </div>
@@ -267,7 +266,7 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
           </div>
 
           <div className="space-y-4">
-            <Label className="text-text-muted flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2rem]">
+            <Label className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
               PRIVACY & VISIBILITY
               <div className="flex items-center gap-2">
                 {isPrivate ? (
@@ -285,12 +284,12 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
                 </span>
               </div>
             </Label>
-            <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between border p-4">
+            <div className="flex items-center justify-between border border-zinc-100 bg-zinc-50 p-4">
               <div className="space-y-0.5">
-                <p className="text-text-primary text-[9px] font-black uppercase italic tracking-tight">
+                <p className="text-[9px] font-black uppercase italic tracking-tight text-zinc-900">
                   Режим личных задач
                 </p>
-                <p className="text-text-muted text-[8px] font-bold uppercase">
+                <p className="text-[8px] font-bold uppercase text-zinc-400">
                   If enabled, this task will be visible only to you.
                 </p>
               </div>
@@ -299,7 +298,7 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
           </div>
 
           <div className="space-y-4">
-            <Label className="text-text-muted text-[10px] font-black uppercase tracking-[0.2rem]">
+            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-zinc-400">
               ASSIGNED TEAM
             </Label>
             <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
@@ -311,13 +310,13 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
                     className={cn(
                       'flex h-12 items-center gap-3 border px-4 text-left transition-all',
                       active
-                        ? 'bg-bg-surface2 border-text-primary text-text-primary'
-                        : 'border-border-subtle text-text-muted hover:border-border-default bg-white'
+                        ? 'border-zinc-900 bg-zinc-50 text-zinc-900'
+                        : 'border-zinc-100 bg-white text-zinc-400 hover:border-zinc-300'
                     )}
                     onClick={() => canEdit && toggleAssignee(p.name)}
                     disabled={!canEdit}
                   >
-                    <div className="bg-bg-surface2 flex h-6 w-6 items-center justify-center text-[8px] font-black uppercase">
+                    <div className="flex h-6 w-6 items-center justify-center bg-zinc-100 text-[8px] font-black uppercase">
                       {p.name[0]}
                     </div>
                     <span className="text-[10px] font-black uppercase tracking-tighter">
@@ -331,17 +330,17 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
           </div>
         </div>
 
-        <DialogFooter className="border-border-subtle mt-12 gap-3 border-t pt-8">
+        <DialogFooter className="mt-12 gap-3 border-t border-zinc-100 pt-8">
           <Button
             variant="ghost"
             onClick={() => onOpenChange(false)}
-            className="text-text-muted h-12 rounded-none px-10 text-[10px] font-black uppercase tracking-widest"
+            className="h-12 rounded-none px-10 text-[10px] font-black uppercase tracking-widest text-slate-400"
           >
             CANCEL
           </Button>
           <Button
             onClick={save}
-            className="bg-text-primary h-12 rounded-none px-14 text-[10px] font-black uppercase tracking-[0.2rem] text-white shadow-2xl hover:bg-black"
+            className="h-12 rounded-none bg-zinc-900 px-14 text-[10px] font-black uppercase tracking-[0.2rem] text-white shadow-2xl hover:bg-black"
           >
             SAVE OPERATIONAL DATA
           </Button>

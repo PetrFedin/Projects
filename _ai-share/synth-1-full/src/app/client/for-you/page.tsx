@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PlatformDataBanner } from '@/components/client/platform-data-banner';
+import { UserStyleArchetypeBlock } from '@/components/client/user-style-archetype-block';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import {
@@ -21,7 +22,6 @@ import {
 import type { ForYouPreferencesV1 } from '@/lib/platform/types';
 import { loadStyleQuizProfile } from '@/lib/fashion/style-quiz-store';
 import { reorderForYouFeedByQuiz } from '@/lib/fashion/style-quiz-score';
-import { UserStyleArchetypeBlock } from '@/components/client/user-style-archetype-block';
 import { ArrowLeft, Sparkles, Ruler, RefreshCw, Wand2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -161,7 +161,7 @@ export default function ClientForYouPage() {
                 id="brands"
                 value={brandsLine}
                 onChange={(e) => setBrandsLine(e.target.value)}
-                placeholder="Syntha Lab, Nordic Wool"
+                placeholder="Syntha Lab, ЦУМ, Lamoda"
               />
             </div>
           </div>

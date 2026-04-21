@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { use } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -20,7 +21,6 @@ import {
   Mail,
   MoreHorizontal,
 } from 'lucide-react';
-import { RegistryPageShell } from '@/components/design-system';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getPartnerLinks } from '@/lib/data/entity-links';
@@ -58,7 +58,7 @@ export default function RetailerDetailPage({ params }: { params: Promise<{ id: s
   const partner = mockPartner;
 
   return (
-    <RegistryPageShell className="space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
       <SectionInfoCard
         title="Карточка партнёра"
         description="Детальный профиль ритейлера: заказы, документы, чаты, продажи по SKU, возвраты, условия (лимит, отсрочка)."
@@ -160,7 +160,7 @@ export default function RetailerDetailPage({ params }: { params: Promise<{ id: s
             Условия
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="orders" className="space-y-2">
+        <TabsContent value="orders" className={cn(cabinetSurface.cabinetProfileTabPanel, 'space-y-2')}>
           <Card>
             <CardHeader>
               <CardTitle className="text-sm">Последние заказы</CardTitle>
@@ -276,6 +276,6 @@ export default function RetailerDetailPage({ params }: { params: Promise<{ id: s
       </Tabs>
 
       <RelatedModulesBlock links={getPartnerLinks()} title="Связанные модули" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,7 +23,8 @@ import { getMarketingLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 
 const SOCIAL_CHANNELS = [
@@ -52,7 +54,7 @@ const SOCIAL_CHANNELS = [
 
 export default function ContentHubPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Content Hub"
         leadPlain="Синхронизация с Telegram, Instagram, VK, сайтом бренда. Видео, стримы, подкасты, блог, фото коллекций и репосты в Stories платформы."
@@ -92,7 +94,7 @@ export default function ContentHubPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="social" className="space-y-6">
+        <TabsContent value="social" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card className="border-accent-primary/20 rounded-xl border">
             <CardHeader>
               <CardTitle>Подключение каналов</CardTitle>
@@ -124,7 +126,7 @@ export default function ContentHubPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="video" className="space-y-6">
+        <TabsContent value="video" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="grid gap-4 md:grid-cols-3">
             <Card className="rounded-xl">
               <CardHeader>
@@ -168,7 +170,7 @@ export default function ContentHubPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="blog" className="space-y-6">
+        <TabsContent value="blog" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card className="rounded-xl">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -184,7 +186,7 @@ export default function ContentHubPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="photos" className="space-y-6">
+        <TabsContent value="photos" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card className="rounded-xl">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -213,6 +215,6 @@ export default function ContentHubPage() {
       </Tabs>
 
       <RelatedModulesBlock links={getMarketingLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

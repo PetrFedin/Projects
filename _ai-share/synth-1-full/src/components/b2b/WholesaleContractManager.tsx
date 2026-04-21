@@ -15,9 +15,9 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/cn';
 
 export function WholesaleContractManager({ orderId = '#8821' }) {
@@ -42,7 +42,7 @@ export function WholesaleContractManager({ orderId = '#8821' }) {
         id: 2,
         title: 'Условия оплаты',
         content:
-          'Оплата производится в соответствии с условиями Net 30 с даты выставления счета в рублях РФ.',
+          'Оплата производится с отсрочкой 30 календарных дней с даты выставления счета, в рублях РФ.',
       },
       {
         id: 3,
@@ -60,7 +60,7 @@ export function WholesaleContractManager({ orderId = '#8821' }) {
   };
 
   return (
-    <div className="bg-bg-surface2 min-h-screen space-y-4 p-4">
+    <div className="min-h-screen space-y-4 bg-slate-50 p-4">
       {/* Header */}
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
@@ -75,12 +75,12 @@ export function WholesaleContractManager({ orderId = '#8821' }) {
               LEGAL_SIGN_v3.0
             </Badge>
           </div>
-          <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
+          <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-sm">
             Договор купли-
             <br />
             продажи
           </h2>
-          <p className="text-text-muted max-w-md text-left text-xs font-medium">
+          <p className="max-w-md text-left text-xs font-medium text-slate-400">
             Юридически значимая цифровая подпись для оптовых заказов. Все контракты фиксируются в
             приватном блокчейне для обеспечения неизменности условий.
           </p>
@@ -89,14 +89,14 @@ export function WholesaleContractManager({ orderId = '#8821' }) {
         <div className="flex items-center gap-3">
           <Button
             variant="outline"
-            className="border-border-default h-10 gap-2 rounded-2xl bg-white px-6 text-[10px] font-black uppercase tracking-widest"
+            className="h-10 gap-2 rounded-2xl border-slate-200 bg-white px-6 text-[10px] font-black uppercase tracking-widest"
           >
             <Download className="h-4 w-4" /> Скачать PDF
           </Button>
           {step === 'review' && (
             <Button
               onClick={() => setStep('signing')}
-              className="bg-text-primary h-10 gap-2 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl"
+              className="h-10 gap-2 rounded-2xl bg-slate-900 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200"
             >
               Начать подписание <PenTool className="h-4 w-4" />
             </Button>
@@ -107,50 +107,50 @@ export function WholesaleContractManager({ orderId = '#8821' }) {
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
         {/* Document Viewer */}
         <div className="space-y-6 lg:col-span-8">
-          <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl shadow-md">
+          <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl shadow-slate-200/50">
             <div className="space-y-10 p-4">
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
-                  <h3 className="text-text-primary text-sm font-black uppercase tracking-tight">
+                  <h3 className="text-sm font-black uppercase tracking-tight text-slate-900">
                     {contractDetails.title}
                   </h3>
-                  <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                     Document Hash: 0x4f...8921
                   </p>
                 </div>
-                <Badge className="bg-bg-surface2 text-text-muted border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-widest">
+                <Badge className="border-none bg-slate-100 px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-slate-400">
                   {step === 'completed' ? 'EXECUTED' : 'PENDING SIGNATURE'}
                 </Badge>
               </div>
 
-              <div className="border-border-subtle grid grid-cols-2 gap-3 border-y py-4">
+              <div className="grid grid-cols-2 gap-3 border-y border-slate-50 py-4">
                 <div className="space-y-2">
-                  <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
                     Продавец (Бренд)
                   </p>
-                  <p className="text-text-primary text-sm font-black uppercase">
+                  <p className="text-sm font-black uppercase text-slate-900">
                     {contractDetails.parties.brand}
                   </p>
-                  <p className="text-text-muted text-[10px] font-medium">ИНН: 7701234567</p>
+                  <p className="text-[10px] font-medium text-slate-400">ИНН: 7701234567</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
                     Покупатель (Ритейлер)
                   </p>
-                  <p className="text-text-primary text-sm font-black uppercase">
+                  <p className="text-sm font-black uppercase text-slate-900">
                     {contractDetails.parties.retailer}
                   </p>
-                  <p className="text-text-muted text-[10px] font-medium">ИНН: 7709876543</p>
+                  <p className="text-[10px] font-medium text-slate-400">ИНН: 7709876543</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 {contractDetails.clauses.map((clause) => (
                   <div key={clause.id} className="space-y-2">
-                    <h4 className="text-text-primary text-xs font-black uppercase tracking-widest">
+                    <h4 className="text-xs font-black uppercase tracking-widest text-slate-900">
                       {clause.id}. {clause.title}
                     </h4>
-                    <p className="text-text-secondary text-sm font-medium leading-relaxed">
+                    <p className="text-sm font-medium leading-relaxed text-slate-600">
                       {clause.content}
                     </p>
                   </div>
@@ -159,35 +159,35 @@ export function WholesaleContractManager({ orderId = '#8821' }) {
 
               <div className="flex items-end justify-between pt-10">
                 <div className="space-y-6">
-                  <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                     Подписи сторон
                   </p>
                   <div className="flex gap-3">
                     <div className="space-y-3">
-                      <div className="border-border-subtle text-text-muted flex h-12 w-48 items-center justify-center border-b-2 font-sans text-base italic">
+                      <div className="flex h-12 w-48 items-center justify-center border-b-2 border-slate-100 font-sans text-base italic text-slate-300">
                         / Syntha Lab Admin /
                       </div>
-                      <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                      <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
                         Уполномоченное лицо
                       </p>
                     </div>
                     <div className="space-y-3">
-                      <div className="border-border-subtle relative flex h-12 w-48 items-center justify-center border-b-2">
+                      <div className="relative flex h-12 w-48 items-center justify-center border-b-2 border-slate-100">
                         {step === 'completed' ? (
                           <motion.div
                             initial={{ opacity: 0, scale: 0.5 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="text-accent-primary font-sans text-sm italic"
+                            className="font-sans text-sm italic text-indigo-600"
                           >
                             Premium Store HQ
                           </motion.div>
                         ) : (
-                          <span className="text-text-muted text-[9px] font-black uppercase italic tracking-widest">
+                          <span className="text-[9px] font-black uppercase italic tracking-widest text-slate-200">
                             Требуется подпись
                           </span>
                         )}
                       </div>
-                      <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                      <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
                         Представитель ритейлера
                       </p>
                     </div>
@@ -207,7 +207,7 @@ export function WholesaleContractManager({ orderId = '#8821' }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
               >
-                <Card className="shadow-accent-primary/15 bg-accent-primary relative space-y-4 overflow-hidden rounded-xl border-none p-4 text-white shadow-2xl">
+                <Card className="relative space-y-4 overflow-hidden rounded-xl border-none bg-indigo-600 p-4 text-white shadow-2xl shadow-indigo-200/50">
                   <div className="absolute right-0 top-0 p-4 opacity-10">
                     <PenTool className="h-32 w-32" />
                   </div>
@@ -220,13 +220,13 @@ export function WholesaleContractManager({ orderId = '#8821' }) {
                       </p>
                       <div className="space-y-2">
                         <Input
-                          placeholder="AUTH_TOKEN_XXXX"
+                          placeholder="AUTH_TOKEN_…"
                           className="h-10 rounded-xl border-white/20 bg-white/10 font-black tracking-widest text-white placeholder:text-white/30"
                         />
                       </div>
                       <Button
                         onClick={() => setStep('completed')}
-                        className="text-accent-primary h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest shadow-2xl"
+                        className="h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest text-indigo-600 shadow-2xl"
                       >
                         Подтвердить и подписать
                       </Button>
@@ -270,12 +270,12 @@ export function WholesaleContractManager({ orderId = '#8821' }) {
             )}
 
             {step === 'review' && (
-              <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-md shadow-xl">
+              <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl shadow-slate-200/50">
                 <div className="flex items-center gap-3">
-                  <div className="bg-bg-surface2 flex h-10 w-10 items-center justify-center rounded-xl">
-                    <Eye className="text-text-muted h-5 w-5" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50">
+                    <Eye className="h-5 w-5 text-slate-400" />
                   </div>
-                  <h4 className="text-text-primary text-sm font-black uppercase tracking-tight">
+                  <h4 className="text-sm font-black uppercase tracking-tight text-slate-900">
                     Статус проверки
                   </h4>
                 </div>
@@ -287,7 +287,7 @@ export function WholesaleContractManager({ orderId = '#8821' }) {
                       после подписания потребуют внесения поправок в контракт.
                     </p>
                   </div>
-                  <div className="text-text-muted flex items-center justify-between p-2 text-[10px] font-black uppercase tracking-widest">
+                  <div className="flex items-center justify-between p-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
                     <div className="flex items-center gap-2">
                       <Clock className="h-3.5 w-3.5" />
                       <span>Последний просмотр: 2 мин назад</span>
@@ -299,7 +299,7 @@ export function WholesaleContractManager({ orderId = '#8821' }) {
             )}
           </AnimatePresence>
 
-          <Card className="bg-text-primary relative space-y-6 overflow-hidden rounded-xl border-none p-4 text-white shadow-md shadow-xl">
+          <Card className="relative space-y-6 overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl shadow-slate-200/50">
             <div className="absolute right-0 top-0 p-4 opacity-5">
               <Lock className="h-32 w-32" />
             </div>

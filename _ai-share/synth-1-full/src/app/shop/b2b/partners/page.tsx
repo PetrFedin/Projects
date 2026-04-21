@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import {
   Table,
@@ -102,7 +102,7 @@ export default function PartnersPage() {
   };
 
   return (
-    <RegistryPageShell className="space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
       <Card>
         <CardHeader>
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
@@ -314,7 +314,10 @@ export default function PartnersPage() {
                 </TableBody>
               </Table>
             </TabsContent>
-            <TabsContent value="requests" className="space-y-3 pt-4">
+            <TabsContent
+            value="requests"
+            className={cn(cabinetSurface.cabinetProfileTabPanel, 'pt-4')}
+          >
               <p className="text-text-secondary text-sm">
                 Заявки на сотрудничество с брендами. После одобрения бренд появится в «Мои
                 партнёры».{' '}
@@ -361,6 +364,6 @@ export default function PartnersPage() {
         title="Заказы, выставки, матрица"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

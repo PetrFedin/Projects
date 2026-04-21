@@ -16,6 +16,7 @@ import {
 import { products } from '@/lib/products';
 import { getMarketplaceSeo } from '@/lib/fashion/marketplace-seo';
 import { Button } from '@/components/ui/button';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function VisibilityIndexPage() {
   const seoData = products.slice(0, 10).map((p) => ({
@@ -24,7 +25,7 @@ export default function VisibilityIndexPage() {
   }));
 
   return (
-    <div className="mx-auto max-w-6xl p-8">
+    <CabinetPageContent maxWidth="6xl" className="space-y-6 p-8 pb-24">
       <div className="mb-8">
         <div className="mb-2 flex items-center gap-3">
           <div className="bg-accent-primary/15 rounded-lg p-2 shadow-sm">
@@ -172,6 +173,6 @@ export default function VisibilityIndexPage() {
           </div>
         </Card>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

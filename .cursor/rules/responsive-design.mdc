@@ -1,6 +1,6 @@
 ---
 description: Адаптивная вёрстка — PC, ноутбук, планшет, смартфон
-globs: ["synth-1/**/*.tsx", "synth-1/**/*.css"]
+globs: ["_ai-share/synth-1-full/**/*.tsx", "_ai-share/synth-1-full/**/*.css"]
 alwaysApply: false
 ---
 

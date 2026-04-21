@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,17 +23,21 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bToolHeader, ShopB2bToolTitle } from '@/components/shop/ShopB2bToolHeader';
 import { ROUTES } from '@/lib/routes';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { B2bOrderUrlContextBanner } from '@/components/b2b/B2bOrderUrlContextBanner';
 
 export default function WhiteboardPage() {
   const [activeTab, setActiveTab] = useState('canvas');
   const whiteboardProducts = products.slice(0, 12);
 
   return (
-    <RegistryPageShell className="!mx-0 flex h-[calc(100vh-64px)] max-w-none flex-col overflow-hidden !rounded-none bg-[#F8F9FB] !p-0">
+    <CabinetPageContent maxWidth="full" className="!mx-0 flex h-[calc(100vh-64px)] flex-col overflow-hidden !rounded-none bg-[#F8F9FB] !p-0">
+      <B2bOrderUrlContextBanner
+        variant="shop"
+        className={cn('shrink-0 rounded-none border-x-0 border-t-0', cabinetSurface.hubMainContentPaddingX)}
+      />
       <ShopB2bToolHeader
         backHref={ROUTES.shop.home}
         className={cn('z-20 bg-white', cabinetSurface.hubMainContentPaddingX)}
@@ -328,6 +333,6 @@ export default function WhiteboardPage() {
           </div>
         </aside>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

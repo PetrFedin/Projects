@@ -22,6 +22,7 @@ import {
   History,
   Info,
   DollarSign,
+  User,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -42,12 +43,13 @@ import {
   getConditionColor,
 } from '@/lib/logic/circular-economy-utils';
 import Link from 'next/link';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function SupplierCircularHubPage() {
   const [activeTab, setActiveTab] = useState<'listings' | 'transactions'>('listings');
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4 px-4 pb-20 md:px-0">
+    <CabinetPageContent maxWidth="6xl" className="space-y-4 px-4 pb-20 md:px-0">
       {/* Breadcrumb Navigation */}
       <div className="mb-4 flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-slate-400">
         <Link href="/supplier" className="transition-colors hover:text-emerald-600">
@@ -412,9 +414,12 @@ export default function SupplierCircularHubPage() {
               </div>
             </div>
           </div>
-          <div className="flex h-64 items-center justify-center rounded-xl border border-white/10 bg-white/5">
-            {/* Simplified graph placeholder */}
-            <div className="flex h-32 items-end gap-3">
+          <div
+            className="flex h-64 items-center justify-center rounded-xl border border-white/10 bg-white/5"
+            role="img"
+            aria-label="Демо: упрощённая визуализация тренда ESG (статичные столбцы, не отчёт из API)"
+          >
+            <div className="flex h-32 items-end gap-3" aria-hidden>
               {[40, 65, 45, 80, 55, 90, 70].map((h, i) => (
                 <div
                   key={i}
@@ -431,6 +436,6 @@ export default function SupplierCircularHubPage() {
           </div>
         </div>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +15,7 @@ import { FileText, ShoppingBag, Download, Share2, LayoutGrid } from 'lucide-reac
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
+import { SHOP_B2B_COLLECTION_QUERY_PARAM } from '@/lib/domain/cross-role-entity-ids';
 
 /** Мок: текущий партнёр (байер). В проде — из сессии. */
 const MOCK_PARTNER_ID = 'retail_msk_1';
@@ -30,7 +31,7 @@ export default function ShopLookbooksPage() {
   }, [load]);
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader lead="Colect: лукбуки по правам и до даты видимости; PDF с водяным знаком, заказ из лукбука." />
 
       <Card>
@@ -78,7 +79,7 @@ export default function ShopLookbooksPage() {
                     </Button>
                     <Button size="sm" asChild>
                       <Link
-                        href={`${ROUTES.shop.b2bOrderByCollection}?collection=${p.collectionId ?? p.id}&brand=${encodeURIComponent(p.brandName)}`}
+                        href={`${ROUTES.shop.b2bOrderByCollection}?${SHOP_B2B_COLLECTION_QUERY_PARAM}=${encodeURIComponent(p.collectionId ?? p.id)}&brand=${encodeURIComponent(p.brandName)}`}
                       >
                         <ShoppingBag className="mr-1 h-3.5 w-3.5" /> Заказ из лукбука
                       </Link>
@@ -109,6 +110,6 @@ export default function ShopLookbooksPage() {
         title="Каталог, заказы, матрица"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

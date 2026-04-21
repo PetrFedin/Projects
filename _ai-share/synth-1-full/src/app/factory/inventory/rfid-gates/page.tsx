@@ -123,7 +123,7 @@ export default function RFIDGatesPage() {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
                 <Input
-                  placeholder="Search scan ID or gate..."
+                  placeholder="Поиск по ID сканирования или воротам…"
                   className="h-10 w-64 rounded-xl border-slate-100 pl-9 text-xs"
                 />
               </div>

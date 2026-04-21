@@ -50,7 +50,7 @@ export function RecommendationCard({ item }: { item: any }) {
             <div className="absolute inset-0 flex items-end bg-gradient-to-t from-slate-900/60 via-transparent to-transparent p-2.5 opacity-0 transition-opacity group-hover:opacity-100">
               <Button
                 size="sm"
-                variant="accent"
+                variant="secondary"
                 className="h-7 w-full rounded-lg border-none bg-white text-[9px] font-bold uppercase text-slate-900 shadow-lg shadow-indigo-600/20 hover:bg-slate-50"
               >
                 Quick View

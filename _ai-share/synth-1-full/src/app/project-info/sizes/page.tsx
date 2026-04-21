@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -13,7 +14,6 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageShell } from '@/components/design-system';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PRODUCTION_PARAMS_BY_CATEGORY } from '@/lib/data/production-params';
@@ -350,7 +350,7 @@ function LifestyleSizesSection() {
             Красота и уход
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="home" className="space-y-6">
+        <TabsContent value="home" className={cabinetSurface.cabinetProfileTabPanel}>
           <SizeChartTable
             data={sizeChartDataHomeTextileAdult}
             title="Текстиль дома — типовые габариты (см)"
@@ -372,7 +372,7 @@ function LifestyleSizesSection() {
             bullets={rfTzHomeLifestyleBullets}
           />
         </TabsContent>
-        <TabsContent value="beauty" className="space-y-6">
+        <TabsContent value="beauty" className={cabinetSurface.cabinetProfileTabPanel}>
           <SizeChartTable data={sizeChartDataBeautyPerfume} title="Парфюмерия" />
           <SizeChartTable data={sizeChartDataBeautyCosmetics} title="Косметика" />
           <SizeChartTable data={sizeChartDataBeautyCare} title="Уход за телом" />
@@ -663,7 +663,7 @@ function KidsInnerTabs({
           Аксессуары
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="clothing" className="space-y-6">
+      <TabsContent value="clothing" className={cabinetSurface.cabinetProfileTabPanel}>
         <KidsClothingStacked
           audience={audience}
           apparelTitle={apparelTitle}
@@ -677,7 +677,7 @@ function KidsInnerTabs({
           </p>
         ) : null}
       </TabsContent>
-      <TabsContent value="shoes" className="space-y-6">
+      <TabsContent value="shoes" className={cabinetSurface.cabinetProfileTabPanel}>
         <SizeChartTable
           data={shoesCov}
           title={
@@ -715,7 +715,7 @@ function KidsInnerTabs({
         />
         <CategoryMetadataCard catId="kids-shoes" />
       </TabsContent>
-      <TabsContent value="bags" className="space-y-6">
+      <TabsContent value="bags" className={cabinetSurface.cabinetProfileTabPanel}>
         <SizeChartTable
           data={bagsCov}
           title={
@@ -740,7 +740,7 @@ function KidsInnerTabs({
           headerOverlay={kidsBagsHeaderOverlay}
         />
       </TabsContent>
-      <TabsContent value="accessories" className="space-y-6">
+      <TabsContent value="accessories" className={cabinetSurface.cabinetProfileTabPanel}>
         <SizeChartTable
           data={accCov}
           title={
@@ -825,13 +825,13 @@ function KidsSizesSection() {
             Новорождённые
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="boys" className="space-y-6">
+        <TabsContent value="boys" className={cabinetSurface.cabinetProfileTabPanel}>
           <KidsInnerTabs audience="boys" flagMap={flagMap} />
         </TabsContent>
-        <TabsContent value="girls" className="space-y-6">
+        <TabsContent value="girls" className={cabinetSurface.cabinetProfileTabPanel}>
           <KidsInnerTabs audience="girls" flagMap={flagMap} />
         </TabsContent>
-        <TabsContent value="newborn" className="space-y-6">
+        <TabsContent value="newborn" className={cabinetSurface.cabinetProfileTabPanel}>
           <KidsInnerTabs audience="newborn" flagMap={flagMap} />
         </TabsContent>
       </Tabs>
@@ -972,7 +972,7 @@ export default function SizesPage() {
         const slug = sizeChartSlugForFetchKey(key);
         const res = await fetch(`/data/size-chart-${slug}.json`);
         if (res.ok) {
-          const data = await res.json();
+          const data = (await res.json()) as Record<string, string>[];
           setChartData((prev) => ({ ...prev, [key]: data }));
         }
       } catch {
@@ -1075,7 +1075,7 @@ export default function SizesPage() {
   };
 
   return (
-    <RegistryPageShell className="pb-16">
+    <CabinetPageContent maxWidth="5xl" className="pb-16 px-4 py-6 pb-24 sm:px-6">
       <header className="mb-8">
         <h1 className="font-headline text-sm font-bold md:text-base">Размерные сетки</h1>
         <p className="mt-2 text-sm text-muted-foreground">
@@ -1127,7 +1127,7 @@ export default function SizesPage() {
         </TabsList>
 
         {/* ЖЕНСКИЕ */}
-        <TabsContent value="women" className="space-y-6">
+        <TabsContent value="women" className={cabinetSurface.cabinetProfileTabPanel}>
           <Tabs defaultValue="clothing" className="space-y-6">
             {/* cabinetSurface v1 */}
             <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
@@ -1172,13 +1172,13 @@ export default function SizesPage() {
                 Аксессуары
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="clothing" className="space-y-6">
+            <TabsContent value="clothing" className={cabinetSurface.cabinetProfileTabPanel}>
               {renderClothingSection('women')}
             </TabsContent>
-            <TabsContent value="shoes" className="space-y-6">
+            <TabsContent value="shoes" className={cabinetSurface.cabinetProfileTabPanel}>
               {renderShoesSection('women')}
             </TabsContent>
-            <TabsContent value="bags" className="space-y-6">
+            <TabsContent value="bags" className={cabinetSurface.cabinetProfileTabPanel}>
               <SizeChartTable
                 data={catalogCoverageAsRows(womenBagsCoverageRows)}
                 title="Сводка: группы каталога сумок → числовые таблицы (женские)"
@@ -1198,7 +1198,7 @@ export default function SizesPage() {
                 />
               )}
             </TabsContent>
-            <TabsContent value="accessories" className="space-y-6">
+            <TabsContent value="accessories" className={cabinetSurface.cabinetProfileTabPanel}>
               <p className="text-xs text-muted-foreground">
                 Базовые таблицы ниже совпадают с мужской вкладкой; женские головные уборы, мех и
                 сводная по Alpha — отдельными блоками, затем шкалы Цеха.
@@ -1252,7 +1252,7 @@ export default function SizesPage() {
         </TabsContent>
 
         {/* МУЖСКИЕ */}
-        <TabsContent value="men" className="space-y-6">
+        <TabsContent value="men" className={cabinetSurface.cabinetProfileTabPanel}>
           <Tabs defaultValue="clothing" className="space-y-6">
             {/* cabinetSurface v1 */}
             <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-w-0')}>
@@ -1297,13 +1297,13 @@ export default function SizesPage() {
                 Аксессуары
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="clothing" className="space-y-6">
+            <TabsContent value="clothing" className={cabinetSurface.cabinetProfileTabPanel}>
               {renderClothingSection('men')}
             </TabsContent>
-            <TabsContent value="shoes" className="space-y-6">
+            <TabsContent value="shoes" className={cabinetSurface.cabinetProfileTabPanel}>
               {renderShoesSection('men')}
             </TabsContent>
-            <TabsContent value="bags" className="space-y-6">
+            <TabsContent value="bags" className={cabinetSurface.cabinetProfileTabPanel}>
               <SizeChartTable
                 data={catalogCoverageAsRows(menBagsCoverageRows)}
                 title="Сводка: группы каталога сумок → числовые таблицы (мужские)"
@@ -1323,7 +1323,7 @@ export default function SizesPage() {
                 />
               )}
             </TabsContent>
-            <TabsContent value="accessories" className="space-y-6">
+            <TabsContent value="accessories" className={cabinetSurface.cabinetProfileTabPanel}>
               <p className="text-xs text-muted-foreground">
                 Базовые таблицы совпадают с женской вкладкой; мужские шапки, мех и сводная Alpha —
                 ниже, затем шкалы Цеха.
@@ -1370,14 +1370,14 @@ export default function SizesPage() {
         </TabsContent>
 
         {/* ДЕТСКИЕ */}
-        <TabsContent value="kids" className="space-y-6">
+        <TabsContent value="kids" className={cabinetSurface.cabinetProfileTabPanel}>
           <KidsSizesSection />
         </TabsContent>
 
-        <TabsContent value="lifestyle" className="space-y-6">
+        <TabsContent value="lifestyle" className={cabinetSurface.cabinetProfileTabPanel}>
           <LifestyleSizesSection />
         </TabsContent>
       </Tabs>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

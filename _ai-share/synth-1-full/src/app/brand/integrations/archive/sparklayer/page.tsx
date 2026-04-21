@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,9 +21,16 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 type Message = { type: 'success' | 'error'; text: string };
+
+type SparkQuoteCreateResult = {
+  success?: boolean;
+  error?: string;
+  quoteId?: string;
+  quote?: { id?: string };
+};
 
 export default function BrandIntegrationsSparkLayerPage() {
   const [products, setProducts] = useState<Array<{ id: string; sku?: string; name?: string }>>([]);
@@ -54,8 +62,8 @@ export default function BrandIntegrationsSparkLayerPage() {
     setProductsLoading(true);
     try {
       const res = await fetch('/api/b2b/sparklayer/products?limit=20');
-      const data = (await res.ok) ? res.json() : [];
-      setProducts(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setProducts(Array.isArray(data) ? (data as typeof products) : []);
     } catch {
       setProducts([]);
     } finally {
@@ -80,8 +88,8 @@ export default function BrandIntegrationsSparkLayerPage() {
     setOrdersLoading(true);
     try {
       const res = await fetch('/api/b2b/sparklayer/orders?limit=20');
-      const data = (await res.ok) ? res.json() : [];
-      setOrders(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setOrders(Array.isArray(data) ? (data as typeof orders) : []);
     } catch {
       setOrders([]);
     } finally {
@@ -93,8 +101,8 @@ export default function BrandIntegrationsSparkLayerPage() {
     setQuotesLoading(true);
     try {
       const res = await fetch('/api/b2b/sparklayer/quotes?limit=20');
-      const data = (await res.ok) ? res.json() : [];
-      setQuotes(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setQuotes(Array.isArray(data) ? (data as typeof quotes) : []);
     } catch {
       setQuotes([]);
     } finally {
@@ -115,7 +123,7 @@ export default function BrandIntegrationsSparkLayerPage() {
           note: 'Demo quote',
         }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as SparkQuoteCreateResult;
       if (data.success)
         setQuoteMsg({ type: 'success', text: `КП создано: ${data.quoteId ?? data.quote?.id}` });
       else setQuoteMsg({ type: 'error', text: data.error ?? 'Ошибка' });
@@ -130,8 +138,8 @@ export default function BrandIntegrationsSparkLayerPage() {
     setRulesLoading(true);
     try {
       const res = await fetch('/api/b2b/sparklayer/customer-rules');
-      const data = (await res.ok) ? res.json() : [];
-      setRules(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setRules(Array.isArray(data) ? (data as typeof rules) : []);
     } catch {
       setRules([]);
     } finally {
@@ -143,8 +151,8 @@ export default function BrandIntegrationsSparkLayerPage() {
     setDiscountsLoading(true);
     try {
       const res = await fetch('/api/b2b/sparklayer/discounts?valid=true');
-      const data = (await res.ok) ? res.json() : [];
-      setDiscounts(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setDiscounts(Array.isArray(data) ? (data as typeof discounts) : []);
     } catch {
       setDiscounts([]);
     } finally {
@@ -153,7 +161,7 @@ export default function BrandIntegrationsSparkLayerPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="SparkLayer"
         leadPlain="Core API (products, customers, orders), Quoting, правила и скидки по клиентам. Pricing API уже встроен."
@@ -416,6 +424,6 @@ export default function BrandIntegrationsSparkLayerPage() {
           </Button>
         </Link>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,8 +1,6 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -14,39 +12,26 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { PlatformDataBanner } from '@/components/client/platform-data-banner';
-import { ROUTES } from '@/lib/routes';
 import {
   APPAREL_SIZE_TABLE,
   FOOTWEAR_EU_US,
   findApparelRowByLabel,
 } from '@/lib/fashion/size-conversion';
-import { ArrowLeft, ArrowRightLeft } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function SizeConverterPage() {
   const [label, setLabel] = useState('M');
   const row = useMemo(() => findApparelRowByLabel(label), [label]);
 
   return (
-    <div className="container mx-auto max-w-3xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="3xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <ArrowRightLeft className="h-6 w-6" />
-              Конвертер размеров
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Справочные таблицы; в проде подставляйте матрицу бренда из PIM.
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader />
         </div>
         <PlatformDataBanner />
       </div>
@@ -73,7 +58,10 @@ export default function SizeConverterPage() {
             Обувь EU→US
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="apparel" className="mt-4 space-y-4">
+        <TabsContent
+          value="apparel"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4 space-y-4')}
+        >
           <Card>
             <CardHeader>
               <CardTitle className="text-base">Подбор по маркировке</CardTitle>
@@ -142,7 +130,7 @@ export default function SizeConverterPage() {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="shoes" className="mt-4">
+        <TabsContent value="shoes" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           <Card>
             <CardHeader>
               <CardTitle className="text-base">Обувь</CardTitle>
@@ -171,6 +159,6 @@ export default function SizeConverterPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </CabinetPageContent>
   );
 }

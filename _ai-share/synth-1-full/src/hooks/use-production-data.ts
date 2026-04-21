@@ -54,7 +54,7 @@ export function useProductionData<T>(
           clearTimeout(timeout);
           if (cancelled) return;
           if (res.ok) {
-            const json = await res.json();
+            const json = (await res.json()) as { data?: T } & Record<string, unknown>;
             setData((json.data ?? json) as T);
           } else {
             setData(fallbackRef.current);

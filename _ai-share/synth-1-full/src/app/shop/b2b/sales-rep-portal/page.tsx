@@ -1,12 +1,12 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, Store, FileText, Video } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 /** Shopify/Candid: Sales Rep Portal — портал для репов и showroom */
@@ -29,7 +29,7 @@ const MOCK_APPOINTMENTS = [
 
 export default function SalesRepPortalPage() {
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader lead="Портал торгового представителя: встречи в шоуруме, видео и материалы по брендам (сценарии Shopify / Candid)." />
 
       <div className="mb-6 grid gap-4 md:grid-cols-2">
@@ -102,6 +102,6 @@ export default function SalesRepPortalPage() {
           <Link href={ROUTES.shop.b2bCatalog}>B2B каталог</Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

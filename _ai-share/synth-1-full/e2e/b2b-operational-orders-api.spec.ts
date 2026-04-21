@@ -136,4 +136,149 @@ test.describe('B2B operational orders API', () => {
     };
     expect(j.data?.order?.wholesaleOrderId).toBe(wid);
   });
+
+  test('PATCH v1 operational-note → сохранение и отражение в GET detail', async ({ request }) => {
+    const list = await request.get('/api/b2b/v1/operational-orders', {
+      headers: b2bV1ActorBrandHeaders,
+    });
+    expect(list.ok()).toBeTruthy();
+    const listJson = (await list.json()) as {
+      data?: { orders?: { wholesaleOrderId?: string }[] };
+    };
+    const wid = listJson.data?.orders?.[0]?.wholesaleOrderId;
+    expect(wid).toBeTruthy();
+
+    const noteText = `e2e-operational-note-${Date.now()}`;
+    const idem = `idem-${wid}-${noteText}`;
+    const patch = await request.patch(
+      `/api/b2b/v1/operational-orders/${encodeURIComponent(wid!)}/operational-note`,
+      {
+        data: { note: noteText },
+        headers: {
+          ...b2bV1ActorBrandHeaders,
+          'Idempotency-Key': idem,
+        },
+      }
+    );
+    expect(patch.status()).toBe(200);
+    const patchJson = (await patch.json()) as {
+      ok?: boolean;
+      data?: { note?: string; wholesaleOrderId?: string };
+      meta?: { idempotentReplay?: boolean };
+    };
+    expect(patchJson.ok).toBe(true);
+    expect(patchJson.data?.note).toBe(noteText);
+    expect(patchJson.data?.wholesaleOrderId).toBe(wid);
+    expect(patchJson.meta?.idempotentReplay).toBe(false);
+
+    const detail = await getWhenOk(
+      request,
+      `/api/b2b/v1/operational-orders/${encodeURIComponent(wid!)}`,
+      { headers: b2bV1ActorBrandHeaders }
+    );
+    const detailJson = (await detail.json()) as {
+      data?: { order?: { orderNotes?: string; wholesaleOrderId?: string } };
+    };
+    expect(detailJson.data?.order?.wholesaleOrderId).toBe(wid);
+    expect(detailJson.data?.order?.orderNotes).toBe(noteText);
+  });
+
+  test('PATCH v1 internalNote → отражение в GET detail (internalNotes)', async ({ request }) => {
+    const list = await request.get('/api/b2b/v1/operational-orders', {
+      headers: b2bV1ActorBrandHeaders,
+    });
+    expect(list.ok()).toBeTruthy();
+    const listJson = (await list.json()) as {
+      data?: { orders?: { wholesaleOrderId?: string }[] };
+    };
+    const wid = listJson.data?.orders?.[0]?.wholesaleOrderId;
+    expect(wid).toBeTruthy();
+
+    const internalText = `e2e-internal-note-${Date.now()}`;
+    const idem = `idem-internal-${wid}-${internalText}`;
+    const patch = await request.patch(
+      `/api/b2b/v1/operational-orders/${encodeURIComponent(wid!)}/operational-note`,
+      {
+        data: { internalNote: internalText },
+        headers: {
+          ...b2bV1ActorBrandHeaders,
+          'Idempotency-Key': idem,
+        },
+      }
+    );
+    expect(patch.status()).toBe(200);
+    const patchJson = (await patch.json()) as {
+      ok?: boolean;
+      data?: { internalNote?: string; wholesaleOrderId?: string };
+    };
+    expect(patchJson.ok).toBe(true);
+    expect(patchJson.data?.internalNote).toBe(internalText);
+    expect(patchJson.data?.wholesaleOrderId).toBe(wid);
+
+    const detail = await getWhenOk(
+      request,
+      `/api/b2b/v1/operational-orders/${encodeURIComponent(wid!)}`,
+      { headers: b2bV1ActorBrandHeaders }
+    );
+    const detailJson = (await detail.json()) as {
+      data?: { order?: { internalNotes?: string; wholesaleOrderId?: string } };
+    };
+    expect(detailJson.data?.order?.internalNotes).toBe(internalText);
+    expect(detailJson.data?.order?.wholesaleOrderId).toBe(wid);
+  });
+
+  test('PATCH v1 status (brand) → GET detail+list (shop) show same status — §5.7 B2B заказ', async ({
+    request,
+  }) => {
+    const listBrand = await request.get('/api/b2b/v1/operational-orders', {
+      headers: b2bV1ActorBrandHeaders,
+    });
+    expect(listBrand.ok()).toBeTruthy();
+    const listJson = (await listBrand.json()) as {
+      data?: { orders?: { wholesaleOrderId?: string }[] };
+    };
+    const wid = listJson.data?.orders?.[0]?.wholesaleOrderId;
+    expect(wid).toBeTruthy();
+
+    const newStatus = `Подтверждён брендом (e2e ${Date.now()})`;
+    const idem = `status-${wid}-${Date.now()}`;
+    const patch = await request.patch(
+      `/api/b2b/v1/operational-orders/${encodeURIComponent(wid!)}/status`,
+      {
+        data: { status: newStatus },
+        headers: {
+          ...b2bV1ActorBrandHeaders,
+          'Idempotency-Key': idem,
+        },
+      }
+    );
+    expect(patch.ok()).toBeTruthy();
+    const patchJson = (await patch.json()) as {
+      ok?: boolean;
+      data?: { status?: string; wholesaleOrderId?: string };
+    };
+    expect(patchJson.ok).toBe(true);
+    expect(patchJson.data?.status).toBe(newStatus);
+
+    const detailShop = await getWhenOk(
+      request,
+      `/api/b2b/v1/operational-orders/${encodeURIComponent(wid!)}`,
+      { headers: b2bV1ActorShopHeaders }
+    );
+    const detailShopJson = (await detailShop.json()) as {
+      data?: { order?: { status?: string; wholesaleOrderId?: string } };
+    };
+    expect(detailShopJson.data?.order?.wholesaleOrderId).toBe(wid);
+    expect(detailShopJson.data?.order?.status).toBe(newStatus);
+
+    const listShop = await request.get('/api/b2b/v1/operational-orders', {
+      headers: b2bV1ActorShopHeaders,
+    });
+    expect(listShop.ok()).toBeTruthy();
+    const listShopJson = (await listShop.json()) as {
+      data?: { orders?: { wholesaleOrderId?: string; status?: string }[] };
+    };
+    const row = listShopJson.data?.orders?.find((o) => o.wholesaleOrderId === wid);
+    expect(row?.status).toBe(newStatus);
+  });
 });

@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -196,7 +196,7 @@ export default function PartnerReportsPage() {
   }
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6">
       <div className="mb-6 flex flex-col gap-4">
         <ShopB2bContentHeader
           lead="JOOR / FashioNexus: продажи по брендам, топ SKU, sell-through, план/факт закупок. Экспорт в CSV."
@@ -529,6 +529,6 @@ export default function PartnerReportsPage() {
         title="Заказы, аналитика, fulfillment"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

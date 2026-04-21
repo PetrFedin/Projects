@@ -20,9 +20,11 @@ import {
 } from '@/lib/platform/visual-search';
 import { downloadJsonFile, readJsonFromFile } from '@/lib/platform/json-io';
 import { VISUAL_SEARCH_EXPORT_VERSION } from '@/lib/platform/types';
-import { Camera, ArrowLeft, Sparkles, Download, Upload, Trash2 } from 'lucide-react';
+import { Sparkles, Download, Upload, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function ClientVisualSearchPage() {
   const { toast } = useToast();
@@ -111,25 +113,19 @@ export default function ClientVisualSearchPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <Camera className="h-6 w-6" />
-              Визуальный поиск
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Референс → похожие <AcronymWithTooltip abbr="SKU" />. В режиме{' '}
-              <AcronymWithTooltip abbr="API" /> ожидается POST{' '}
-              <code className="rounded bg-muted px-1 text-[10px]">/v1/client/visual-search</code>.
-            </p>
-          </div>
+    <CabinetPageContent maxWidth="4xl">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader
+            title="Визуальный поиск"
+            description={
+              <>
+                Референс → похожие <AcronymWithTooltip abbr="SKU" />. В режиме{' '}
+                <AcronymWithTooltip abbr="API" /> ожидается POST{' '}
+                <code className="rounded bg-muted px-1 text-[10px]">/v1/client/visual-search</code>.
+              </>
+            }
+          />
         </div>
         <PlatformDataBanner />
       </div>
@@ -221,6 +217,6 @@ export default function ClientVisualSearchPage() {
           </div>
         )}
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

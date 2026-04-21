@@ -39,17 +39,6 @@ import {
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 
-const VARIANT_SWATCH_BG_BY_COLOR: Record<string, string> = {
-  'Midnight Black': 'bg-text-primary',
-  'Slate Grey': 'bg-text-muted',
-};
-
-function getStockBadgeClass(stock: number): string {
-  return stock < 50
-    ? 'bg-rose-50 text-rose-600 border-rose-100'
-    : 'bg-emerald-50 text-emerald-600 border-emerald-100';
-}
-
 const MOCK_VARIANTS = [
   {
     id: 'v1',
@@ -114,30 +103,30 @@ export function VariantMatrixEditor({ collectionId }: { collectionId?: string | 
   if (!collectionId || variants.length === 0) {
     return (
       <div className="space-y-4 pb-24 duration-700 animate-in fade-in">
-        <header className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-4 md:flex-row md:items-center">
+        <header className="flex flex-col items-start justify-between gap-3 border-b border-slate-100 pb-4 md:flex-row md:items-center">
           <div className="space-y-0.5">
-            <div className="text-text-muted flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.15em]">
-              <Grid className="text-accent-primary h-3.5 w-3.5" />
+            <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
+              <Grid className="h-3.5 w-3.5 text-indigo-500" />
               Fashion OS — Product Management
             </div>
-            <h1 className="text-text-primary text-sm font-bold uppercase leading-tight tracking-tight">
+            <h1 className="text-sm font-bold uppercase leading-tight tracking-tight text-slate-900">
               Variant Matrix Editor
             </h1>
           </div>
         </header>
-        <Card className="border-border-default bg-bg-surface2/30 flex flex-col items-center justify-center gap-6 rounded-[2rem] border-2 border-dashed p-20 text-center">
-          <div className="border-border-subtle flex h-20 w-20 items-center justify-center rounded-3xl border bg-white shadow-lg">
-            <Grid className="text-text-muted h-10 w-10" />
+        <Card className="flex flex-col items-center justify-center gap-6 rounded-[2rem] border-2 border-dashed border-slate-200 bg-slate-50/30 p-20 text-center">
+          <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-slate-100 bg-white shadow-lg">
+            <Grid className="h-10 w-10 text-slate-300" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-text-primary text-xl font-black uppercase tracking-tighter">
+            <h3 className="text-xl font-black uppercase tracking-tighter text-slate-900">
               Матрица вариантов пуста
             </h3>
-            <p className="text-text-muted mx-auto max-w-xs text-[10px] font-bold uppercase tracking-widest">
+            <p className="mx-auto max-w-xs text-[10px] font-bold uppercase tracking-widest text-slate-400">
               Для этой коллекции еще не созданы цвето-размерные варианты артикулов.
             </p>
           </div>
-          <Button className="hover:bg-accent-primary h-12 rounded-xl bg-black px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl transition-all">
+          <Button className="h-12 rounded-xl bg-black px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl transition-all hover:bg-indigo-600">
             Сгенерировать матрицу
           </Button>
         </Card>
@@ -147,77 +136,77 @@ export function VariantMatrixEditor({ collectionId }: { collectionId?: string | 
 
   return (
     <div className="space-y-4 pb-24 duration-700 animate-in fade-in">
-      <header className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-4 md:flex-row md:items-center">
+      <header className="flex flex-col items-start justify-between gap-3 border-b border-slate-100 pb-4 md:flex-row md:items-center">
         <div className="space-y-0.5">
-          <div className="text-text-muted flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.15em]">
-            <Grid className="text-accent-primary h-3.5 w-3.5" />
+          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
+            <Grid className="h-3.5 w-3.5 text-indigo-500" />
             Fashion OS — Product Management
           </div>
-          <h1 className="text-text-primary text-sm font-bold uppercase leading-tight tracking-tight">
+          <h1 className="text-sm font-bold uppercase leading-tight tracking-tight text-slate-900">
             Variant Matrix Editor
           </h1>
-          <p className="text-text-secondary text-[11px] font-medium">
+          <p className="text-[11px] font-medium text-slate-500">
             Управление размерными сетками, цветами и SKU в едином интерфейсе.
           </p>
         </div>
-        <div className="bg-bg-surface2 border-border-default flex items-center gap-2 rounded-xl border p-1 shadow-inner">
+        <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-100 p-1 shadow-inner">
           <Button
             variant="outline"
-            className="text-text-secondary hover:bg-bg-surface2 h-7 gap-1.5 rounded-lg border-none bg-white px-3 text-[9px] font-bold uppercase shadow-sm transition-all"
+            className="h-7 gap-1.5 rounded-lg border-none bg-white px-3 text-[9px] font-bold uppercase text-slate-600 shadow-sm transition-all hover:bg-slate-50"
           >
-            <RefreshCw className="text-text-muted h-3.5 w-3.5" /> Sync SKU
+            <RefreshCw className="h-3.5 w-3.5 text-slate-400" /> Sync SKU
           </Button>
-          <Button className="bg-text-primary hover:bg-text-primary/90 h-7 gap-1.5 rounded-lg px-4 text-[9px] font-bold uppercase text-white shadow-md transition-all">
-            <Save className="text-accent-primary h-3.5 w-3.5" /> Save Matrix
+          <Button className="h-7 gap-1.5 rounded-lg bg-slate-900 px-4 text-[9px] font-bold uppercase text-white shadow-md transition-all hover:bg-slate-800">
+            <Save className="h-3.5 w-3.5 text-indigo-400" /> Сохранить матрицу
           </Button>
         </div>
       </header>
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-4">
         {/* Product Summary */}
-        <Card className="border-border-subtle hover:border-accent-primary/20 group self-start overflow-hidden rounded-xl border bg-white shadow-sm transition-all lg:col-span-1">
-          <div className="bg-bg-surface2 relative aspect-[4/5] overflow-hidden">
+        <Card className="group self-start overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100 lg:col-span-1">
+          <div className="relative aspect-[4/5] overflow-hidden bg-slate-100">
             <img
               src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400"
               className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
             <div className="absolute left-3 top-3">
-              <Badge className="bg-text-primary/80 h-5 rounded-md border border-white/10 px-2 text-[8px] font-bold uppercase tracking-wider text-white shadow-lg backdrop-blur-md">
+              <Badge className="h-5 rounded-md border border-white/10 bg-slate-900/80 px-2 text-[8px] font-bold uppercase tracking-wider text-white shadow-lg backdrop-blur-md">
                 Master SKU: CTP-26
               </Badge>
             </div>
           </div>
           <div className="space-y-4 p-4">
             <div className="space-y-1">
-              <h2 className="text-text-primary text-sm font-bold uppercase leading-tight tracking-tight">
+              <h2 className="text-sm font-bold uppercase leading-tight tracking-tight text-slate-900">
                 Cyber Tech Parka
               </h2>
-              <p className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                 FW26 Collection • Outerwear
               </p>
             </div>
             <div className="grid grid-cols-2 gap-2">
-              <div className="bg-bg-surface2 border-border-subtle rounded-lg border p-2.5 shadow-inner">
-                <p className="text-text-muted mb-1 text-[8px] font-bold uppercase tracking-widest">
+              <div className="rounded-lg border border-slate-100 bg-slate-50 p-2.5 shadow-inner">
+                <p className="mb-1 text-[8px] font-bold uppercase tracking-widest text-slate-400">
                   Colors
                 </p>
-                <p className="text-text-primary text-sm font-bold uppercase">3 Options</p>
+                <p className="text-sm font-bold uppercase text-slate-900">3 Options</p>
               </div>
-              <div className="bg-bg-surface2 border-border-subtle rounded-lg border p-2.5 shadow-inner">
-                <p className="text-text-muted mb-1 text-[8px] font-bold uppercase tracking-widest">
+              <div className="rounded-lg border border-slate-100 bg-slate-50 p-2.5 shadow-inner">
+                <p className="mb-1 text-[8px] font-bold uppercase tracking-widest text-slate-400">
                   Sizes
                 </p>
-                <p className="text-text-primary text-sm font-bold uppercase">5 Options</p>
+                <p className="text-sm font-bold uppercase text-slate-900">5 Options</p>
               </div>
             </div>
-            <div className="bg-accent-primary/10 border-accent-primary/20 rounded-xl border p-3 shadow-sm">
+            <div className="rounded-xl border border-indigo-100 bg-indigo-50/50 p-3 shadow-sm">
               <div className="mb-1.5 flex items-center gap-2">
-                <Info className="text-accent-primary h-3.5 w-3.5" />
-                <span className="text-accent-primary text-[9px] font-bold uppercase leading-none tracking-widest">
+                <Info className="h-3.5 w-3.5 text-indigo-600" />
+                <span className="text-[9px] font-bold uppercase leading-none tracking-widest text-indigo-900">
                   AI Price Guard
                 </span>
               </div>
-              <p className="text-accent-primary text-[10px] font-bold uppercase leading-relaxed tracking-tight opacity-80">
+              <p className="text-[10px] font-bold uppercase leading-relaxed tracking-tight text-indigo-700 opacity-80">
                 «Обнаружено отклонение в маржинальности для размера L (Black). Оптовая цена выше
                 средней на 4%.»
               </p>
@@ -228,14 +217,14 @@ export function VariantMatrixEditor({ collectionId }: { collectionId?: string | 
         {/* Matrix Table */}
         {/* Matrix Table */}
         <div className="space-y-4 lg:col-span-3">
-          <Card className="border-border-subtle hover:border-accent-primary/20 overflow-hidden rounded-xl border bg-white shadow-sm transition-all">
-            <div className="bg-bg-surface2/30 border-border-subtle flex flex-col items-start justify-between gap-3 border-b p-4 md:flex-row md:items-center">
+          <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100">
+            <div className="flex flex-col items-start justify-between gap-3 border-b border-slate-100 bg-slate-50/30 p-4 md:flex-row md:items-center">
               <div className="flex w-full items-center gap-3 md:w-auto">
                 <div className="relative flex-1 md:flex-none">
-                  <Search className="text-text-muted absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
+                  <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
                   <Input
                     placeholder="Фильтр по матрице..."
-                    className="border-border-default focus:ring-accent-primary/20 h-8 w-full rounded-lg bg-white pl-8 text-[11px] font-bold uppercase tracking-tight shadow-sm transition-all focus:ring-2 md:w-64"
+                    className="h-8 w-full rounded-lg border-slate-200 bg-white pl-8 text-[11px] font-bold uppercase tracking-tight shadow-sm transition-all focus:ring-2 focus:ring-indigo-100 md:w-64"
                   />
                 </div>
               </div>
@@ -243,14 +232,14 @@ export function VariantMatrixEditor({ collectionId }: { collectionId?: string | 
                 <Button
                   variant="outline"
                   size="sm"
-                  className="border-border-default text-text-secondary hover:bg-bg-surface2 h-7 rounded-lg bg-white px-3 text-[9px] font-bold uppercase tracking-wider shadow-sm transition-all"
+                  className="h-7 rounded-lg border-slate-200 bg-white px-3 text-[9px] font-bold uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50"
                 >
                   Markup
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="border-border-default text-text-secondary hover:bg-bg-surface2 h-7 rounded-lg bg-white px-3 text-[9px] font-bold uppercase tracking-wider shadow-sm transition-all"
+                  className="h-7 rounded-lg border-slate-200 bg-white px-3 text-[9px] font-bold uppercase tracking-wider text-slate-600 shadow-sm transition-all hover:bg-slate-50"
                 >
                   Stocks
                 </Button>
@@ -258,21 +247,21 @@ export function VariantMatrixEditor({ collectionId }: { collectionId?: string | 
             </div>
             <div className="overflow-x-auto p-0">
               <Table>
-                <TableHeader className="bg-bg-surface2/80">
+                <TableHeader className="bg-slate-50/50">
                   <TableRow className="h-9 border-none">
-                    <TableHead className="text-text-muted h-9 pl-5 text-[10px] font-bold uppercase tracking-widest">
+                    <TableHead className="h-9 pl-5 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       Вариант (Color/Size)
                     </TableHead>
-                    <TableHead className="text-text-muted h-9 text-[10px] font-bold uppercase tracking-widest">
+                    <TableHead className="h-9 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       SKU Артикул
                     </TableHead>
-                    <TableHead className="text-text-muted h-9 text-[10px] font-bold uppercase tracking-widest">
+                    <TableHead className="h-9 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       Опт (Wholesale)
                     </TableHead>
-                    <TableHead className="text-text-muted h-9 text-[10px] font-bold uppercase tracking-widest">
+                    <TableHead className="h-9 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       Розница (RRP)
                     </TableHead>
-                    <TableHead className="text-text-muted h-9 text-right text-[10px] font-bold uppercase tracking-widest">
+                    <TableHead className="h-9 text-right text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       Свободный сток
                     </TableHead>
                     <TableHead className="h-9 pr-5"></TableHead>
@@ -282,23 +271,23 @@ export function VariantMatrixEditor({ collectionId }: { collectionId?: string | 
                   {variants.map((v) => (
                     <TableRow
                       key={v.id}
-                      className="hover:bg-accent-primary/10 border-border-subtle group h-10 transition-colors"
+                      className="group h-10 border-slate-50 transition-colors hover:bg-indigo-50/30"
                     >
                       <TableCell className="py-0 pl-5">
                         <div className="flex items-center gap-3">
                           <div
                             className={cn(
-                              'ring-border-default h-4 w-4 rounded-full border border-white shadow-sm ring-1',
-                              VARIANT_SWATCH_BG_BY_COLOR[v.color] ?? 'bg-text-muted'
+                              'h-4 w-4 rounded-full border border-white shadow-sm ring-1 ring-slate-200',
+                              v.color === 'Midnight Black' ? 'bg-slate-950' : 'bg-slate-400'
                             )}
                           />
                           <div>
-                            <p className="text-text-primary group-hover:text-accent-primary text-[11px] font-bold uppercase leading-none transition-colors">
+                            <p className="text-[11px] font-bold uppercase leading-none text-slate-900 transition-colors group-hover:text-indigo-600">
                               {v.color}
                             </p>
                             <Badge
                               variant="outline"
-                              className="border-border-subtle bg-bg-surface2 text-text-muted mt-1 h-4 px-1.5 text-[8px] font-bold uppercase leading-none"
+                              className="mt-1 h-4 border-slate-100 bg-slate-50 px-1.5 text-[8px] font-bold uppercase leading-none text-slate-400"
                             >
                               Size: {v.size}
                             </Badge>
@@ -306,7 +295,7 @@ export function VariantMatrixEditor({ collectionId }: { collectionId?: string | 
                         </div>
                       </TableCell>
                       <TableCell className="py-0">
-                        <code className="text-text-muted bg-bg-surface2 border-border-subtle rounded border px-1.5 py-0.5 text-[10px] font-bold uppercase">
+                        <code className="rounded border border-slate-100 bg-slate-50 px-1.5 py-0.5 text-[10px] font-bold uppercase text-slate-400">
                           {v.sku}
                         </code>
                       </TableCell>
@@ -315,27 +304,29 @@ export function VariantMatrixEditor({ collectionId }: { collectionId?: string | 
                           <Input
                             defaultValue={v.wholesale}
                             className={cn(
-                              'border-border-default focus:ring-accent-primary/20 h-8 rounded-lg bg-white pl-6 text-[11px] font-bold shadow-sm transition-all focus:ring-2',
+                              'h-8 rounded-lg border-slate-200 bg-white pl-6 text-[11px] font-bold shadow-sm transition-all focus:ring-2 focus:ring-indigo-100',
                               v.wholesale > 7200 && 'border-amber-200 bg-amber-50/30'
                             )}
                           />
-                          <DollarSign className="text-text-muted absolute left-2 top-1/2 h-3 w-3 -translate-y-1/2" />
+                          <DollarSign className="absolute left-2 top-1/2 h-3 w-3 -translate-y-1/2 text-slate-400" />
                         </div>
                       </TableCell>
                       <TableCell className="py-0">
                         <div className="relative w-24">
                           <Input
                             defaultValue={v.rrp}
-                            className="border-border-default focus:ring-accent-primary/20 h-8 rounded-lg bg-white pl-6 text-[11px] font-bold shadow-sm transition-all focus:ring-2"
+                            className="h-8 rounded-lg border-slate-200 bg-white pl-6 text-[11px] font-bold shadow-sm transition-all focus:ring-2 focus:ring-indigo-100"
                           />
-                          <DollarSign className="text-text-muted absolute left-2 top-1/2 h-3 w-3 -translate-y-1/2" />
+                          <DollarSign className="absolute left-2 top-1/2 h-3 w-3 -translate-y-1/2 text-slate-400" />
                         </div>
                       </TableCell>
                       <TableCell className="py-0 text-right">
                         <span
                           className={cn(
                             'rounded-md border px-2 py-0.5 text-[11px] font-bold tabular-nums shadow-sm',
-                            getStockBadgeClass(v.stock)
+                            v.stock < 50
+                              ? 'border-rose-100 bg-rose-50 text-rose-600'
+                              : 'border-emerald-100 bg-emerald-50 text-emerald-600'
                           )}
                         >
                           {v.stock} ед.
@@ -345,7 +336,7 @@ export function VariantMatrixEditor({ collectionId }: { collectionId?: string | 
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="text-text-muted h-7 w-7 opacity-0 transition-all hover:bg-rose-50 hover:text-rose-600 group-hover:opacity-100"
+                          className="h-7 w-7 text-slate-300 opacity-0 transition-all hover:bg-rose-50 hover:text-rose-600 group-hover:opacity-100"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                         </Button>
@@ -355,13 +346,13 @@ export function VariantMatrixEditor({ collectionId }: { collectionId?: string | 
                 </TableBody>
               </Table>
             </div>
-            <CardFooter className="bg-bg-surface2/30 border-border-subtle flex items-center justify-between border-t p-4">
-              <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+            <CardFooter className="flex items-center justify-between border-t border-slate-100 bg-slate-50/30 p-4">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 Всего вариантов: {variants.length}
               </p>
               <Button
                 variant="ghost"
-                className="text-accent-primary hover:bg-accent-primary/10 h-8 gap-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all"
+                className="h-8 gap-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-indigo-600 transition-all hover:bg-indigo-50"
               >
                 <Plus className="h-3.5 w-3.5" /> Добавить вариант
               </Button>

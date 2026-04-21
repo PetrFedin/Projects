@@ -36,24 +36,10 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
   const searchParams = useSearchParams();
   const urlCommContextApplied = React.useRef(false);
   const chatState = useChatState(initialRole);
-  const {
-    currentRole,
-    setCurrentRole,
-    chats,
-    setChats,
-    activeChatId,
-    messages,
-    setMessages,
-    chatQuery,
-    setChatQuery,
-    msgSearch,
-    setMsgSearch,
-    tab,
-    setTab,
-    activeGroup,
-    setActiveGroup,
-    activeChat,
-    switchChat,
+  const { 
+    currentRole, setCurrentRole, chats, setChats, activeChatId, messages, setMessages,
+    chatQuery, setChatQuery, msgSearch, setMsgSearch, tab, setTab, activeGroup, setActiveGroup,
+    activeChat, switchChat
   } = chatState;
 
   React.useEffect(() => {
@@ -62,27 +48,18 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
     const sku = searchParams.get('sku')?.trim() || '';
     const season = searchParams.get('season')?.trim() || '';
     const order = searchParams.get('order')?.trim() || '';
+    const orderId = searchParams.get('orderId')?.trim() || '';
     const step = searchParams.get('stagesStep')?.trim() || '';
-    const line = [q, sku, season, order, step].filter(Boolean).join(' ').trim();
+    const line = [q, sku, season, order, orderId, step].filter(Boolean).join(' ').trim();
     if (!line) return;
     setChatQuery((prev) => (prev.trim() ? prev : line));
     setMsgSearch((prev) => (prev.trim() ? prev : line));
     urlCommContextApplied.current = true;
   }, [searchParams, setChatQuery, setMsgSearch]);
 
-  const { toggleStar, togglePin, deleteMessage, addReaction } = useMessageActions(
-    activeChatId,
-    setMessages,
-    'Petr'
-  );
-  const { taskThreads, taskStages, saveTask, updateTask, setTaskStatus } = useTaskActions(
-    'user_petr',
-    setMessages
-  );
-  const { isAiProcessing, processAiCorrection } = useAIActions(
-    chatState.composerText,
-    chatState.setComposerText
-  );
+  const { toggleStar, togglePin, deleteMessage, addReaction } = useMessageActions(activeChatId, setMessages, 'Petr');
+  const { taskThreads, taskStages, saveTask, updateTask, setTaskStatus } = useTaskActions('user_petr', setMessages);
+  const { isAiProcessing, processAiCorrection } = useAIActions(chatState.composerText, chatState.setComposerText);
   const { recording, startRecording, stopRecording } = useRecording();
 
   const feedRootRef = React.useRef<HTMLDivElement>(null);
@@ -105,9 +82,7 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
       const fromMatrix = Boolean(stagesStepParam && searchParams.get('sku')?.trim());
       const matchesSearch =
         tokens.length === 0 ||
-        (fromMatrix
-          ? tokens.some((t) => t.length > 1 && blob.includes(t))
-          : tokens.every((t) => blob.includes(t)));
+        (fromMatrix ? tokens.some((t) => t.length > 1 && blob.includes(t)) : tokens.every((t) => blob.includes(t)));
       const matchesGroup = activeGroup === 'all' || c.type === activeGroup;
       return matchesSearch && matchesGroup;
     });
@@ -115,8 +90,7 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
       const isRetailish = (c: (typeof chats)[number]) =>
         c.type === 'client' ||
         (c.type === 'b2b_orders' &&
-          (c.partnerProfile === 'shop' ||
-            /демо|ритейл|магазин/i.test(`${c.title} ${c.subtitle ?? ''}`)));
+          (c.partnerProfile === 'shop' || /podium|цум|ритейл|магазин/i.test(`${c.title} ${c.subtitle ?? ''}`)));
       list = [...list.filter((c) => !isRetailish(c)), ...list.filter((c) => isRetailish(c))];
     }
     return list;
@@ -129,22 +103,20 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
 
   const availableGroups = React.useMemo(() => {
     const permissions = ROLE_PERMISSIONS[currentRole] || [];
-    return Object.entries(chatGroupConfig).filter(
-      ([key]) => permissions.includes(key) || ['all', 'starred', 'archived', 'team'].includes(key)
+    return Object.entries(chatGroupConfig).filter(([key]) => 
+      permissions.includes(key) || ['all', 'starred', 'archived', 'team'].includes(key)
     );
   }, [currentRole]);
 
   return (
-    <div
-      className={cn(
-        'border-border-default flex flex-col gap-3 overflow-hidden border bg-white p-4 shadow-sm',
-        'text-text-primary h-[calc(100vh-2rem)] min-h-[700px] rounded-xl font-sans duration-700 animate-in fade-in'
-      )}
-    >
+    <div className={cn(
+      "flex flex-col gap-3 p-4 bg-white border border-slate-200 shadow-sm overflow-hidden",
+      "rounded-xl h-[calc(100vh-2rem)] min-h-[700px] text-slate-900 font-sans animate-in fade-in duration-700"
+    )}>
       <TooltipProvider>
         <AlertsFabric isVisible={isAlertVisible} onClose={() => setIsAlertVisible(false)} />
-
-        <MessagesHeader
+        
+        <MessagesHeader 
           currentRole={currentRole}
           setCurrentRole={setCurrentRole}
           userStatus="online"
@@ -157,14 +129,14 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
           onOpenCreateChat={() => setCreateChatOpen(true)}
         />
 
-        <div className="flex min-h-0 flex-1 gap-3">
-          <GroupRail
+        <div className="flex-1 flex gap-3 min-h-0">
+          <GroupRail 
             availableGroups={availableGroups}
             activeGroup={activeGroup as any}
             setActiveGroup={setActiveGroup as any}
           />
 
-          <ChatList
+          <ChatList 
             visibleChats={visibleChats}
             activeChatId={activeChatId}
             onSwitchChat={switchChat}
@@ -176,9 +148,9 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
             currentUser="user_petr"
           />
 
-          <main className="bg-bg-surface2/30 border-border-subtle relative flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border shadow-inner transition-all">
+          <main className="flex-1 bg-slate-50/30 rounded-2xl overflow-hidden border border-slate-100 shadow-inner flex flex-col relative min-w-0 transition-all">
             {activeChat && (
-              <ChatHeader
+              <ChatHeader 
                 activeChat={activeChat}
                 isSummarizing={false}
                 onGenerateSummary={() => {}}
@@ -189,20 +161,17 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
               />
             )}
 
-            <div className="relative flex min-h-0 flex-1 flex-col bg-white">
+            <div className="flex-1 bg-white relative flex flex-col min-h-0">
               {tab === 'tasks' ? (
-                <TaskHub
-                  chatTasks={messages.filter((m) => m.type === 'task')}
+                <TaskHub 
+                  chatTasks={messages.filter(m => m.type === 'task')}
                   currentUser="user_petr"
                   onOpenCreateTask={() => setTaskEditOpen(true)}
-                  onOpenEditTask={(m) => {
-                    setTaskEditing(m);
-                    setTaskEditOpen(true);
-                  }}
+                  onOpenEditTask={(m) => { setTaskEditing(m); setTaskEditOpen(true); }}
                 />
               ) : (
                 <>
-                  <MessageList
+                  <MessageList 
                     grouped={groupedMessages}
                     currentUser="user_petr"
                     currentUserName="Petr"
@@ -211,10 +180,7 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                     unreadDividerMsgId={null}
                     unreadCountActiveChat={0}
                     feedRootRef={feedRootRef}
-                    onOpenEditTask={(m) => {
-                      setTaskEditing(m);
-                      setTaskEditOpen(true);
-                    }}
+                    onOpenEditTask={(m) => { setTaskEditing(m); setTaskEditOpen(true); }}
                     onOpenTaskProcess={() => {}}
                     onTogglePin={togglePin}
                     onToggleStar={toggleStar}
@@ -227,7 +193,7 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                     setReminderEditing={() => {}}
                     setReminderOpen={() => {}}
                   />
-                  <Composer
+                  <Composer 
                     activeChat={activeChat}
                     composerText={chatState.composerText}
                     setComposerText={chatState.setComposerText}
@@ -244,13 +210,7 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                     onFileClick={() => {}}
                     onUnarchiveChat={() => {}}
                     onOpenCreateTask={() => setTaskEditOpen(true)}
-                    onAttachProduct={() =>
-                      chatState.setComposerText((prev) =>
-                        prev
-                          ? `${prev}\n[Обсуждаю товар — прикрепите из каталога]`
-                          : '[Обсуждаю товар — прикрепите из каталога]'
-                      )
-                    }
+                    onAttachProduct={() => chatState.setComposerText(prev => prev ? `${prev}\n[Обсуждаю товар — прикрепите из каталога]` : '[Обсуждаю товар — прикрепите из каталога]')}
                   />
                 </>
               )}
@@ -258,7 +218,7 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
           </main>
         </div>
 
-        <CreateChatDialog
+        <CreateChatDialog 
           open={createChatOpen}
           onOpenChange={setCreateChatOpen}
           currentRole={currentRole}
@@ -271,20 +231,19 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
               ...(opts?.linkOrderId && { linkOrderId: opts.linkOrderId }),
               ...(opts?.linkCollectionId && { linkCollectionId: opts.linkCollectionId }),
             };
-            setChats((prev) => [...prev, newChat]);
+            setChats(prev => [...prev, newChat]);
           }}
         />
 
-        <TaskEditDialog
+        <TaskEditDialog 
           open={taskEditOpen}
           onOpenChange={setTaskEditOpen}
           task={taskEditing}
           currentUser="user_petr"
           participants={[]}
           onSave={(t) => {
-            const exists = messages.some((m) => m.id === t.id);
-            if (exists) updateTask(t);
-            else saveTask(t);
+            const exists = messages.some(m => m.id === t.id);
+            if (exists) updateTask(t); else saveTask(t);
           }}
         />
       </TooltipProvider>

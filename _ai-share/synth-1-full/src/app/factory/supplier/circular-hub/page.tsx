@@ -35,6 +35,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
 import {
@@ -51,7 +52,7 @@ export default function SupplierCircularHubPage() {
   const [activeTab, setActiveTab] = useState<'listings' | 'transactions'>('listings');
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4 px-4 pb-20 md:px-0">
+    <CabinetPageContent maxWidth="6xl" className="space-y-4 px-4 pb-20 md:px-0">
       {/* Breadcrumb Navigation */}
       <div className="text-text-muted mb-4 flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest">
         <Link href={ROUTES.factory.supplier} className="transition-colors hover:text-emerald-600">
@@ -66,6 +67,15 @@ export default function SupplierCircularHubPage() {
         title="Платформа B2B (ритейл)"
         className="border-border-default bg-bg-surface2 rounded-lg border p-3"
       />
+
+      <p
+        className="text-text-muted border-border-default bg-bg-surface2/80 rounded-md border px-3 py-2 text-xs leading-snug"
+        data-testid="supplier-circular-demo-disclaimer"
+      >
+        <span className="text-text-primary font-semibold">Демо.</span> Показатели и сделки на мок-данных;
+        не финансовая отчётность и не интеграция с OMS. См. реестр ядра:{' '}
+        <code className="text-[10px]">CORE_OPERATING_CHAIN.md</code> §5.
+      </p>
 
       {/* Hero Header */}
       <div className="relative overflow-hidden rounded-xl bg-emerald-900 p-4 text-white shadow-2xl md:p-4">
@@ -443,6 +453,6 @@ export default function SupplierCircularHubPage() {
           </div>
         </div>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

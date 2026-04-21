@@ -16,7 +16,9 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
   const stored = localStorage.getItem(USERS_STORAGE_KEY);
   if (stored) {
     try {
-      const parsed = JSON.parse(stored);
+      const parsed = JSON.parse(stored) as Iterable<
+        readonly [string, { email: string; password: string; profile: UserProfile }]
+      >;
       console.log('--- LOADING MOCK USERS v34 ---');
       return new Map(parsed);
     } catch (e) {
@@ -546,7 +548,7 @@ export class MockAuthRepository implements AuthRepository {
     if (typeof window === 'undefined') return null;
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      return JSON.parse(stored);
+      return JSON.parse(stored) as UserProfile;
     }
     return null;
   }

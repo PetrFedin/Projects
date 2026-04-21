@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Mail, Shield, Plus, Trash2 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 /** Brandboom: Private Invites по домену — доступ по корпоративному email */
 const MOCK_INVITES = [
@@ -40,7 +41,7 @@ export default function PrivateInvitesPage() {
   const [newCompany, setNewCompany] = useState('');
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Private Invites"
         leadPlain="Brandboom: доступ к B2B по корпоративному домену — только @store.ru и т.д."
@@ -123,6 +124,6 @@ export default function PrivateInvitesPage() {
           <Link href={ROUTES.brand.b2bEngagement}>B2B Engagement</Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

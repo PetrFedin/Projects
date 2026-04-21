@@ -1,4 +1,6 @@
 'use client';
+
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Suspense, useEffect, useState, useMemo, use } from 'react';
 import { notFound, useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -62,7 +64,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { PromotionDialog } from '@/components/brand/promotion-dialog';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const KICKSTARTER_CREATIVE_PLACEHOLDER_IMAGE =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
@@ -366,7 +368,7 @@ function EditCampaignPageContent({
 
   return (
     <Form {...form}>
-      <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
         <RegistryPageHeader
           title={isNew ? 'Новая кампания' : 'Редактор кампании'}
           leadPlain={project.title}
@@ -1173,7 +1175,7 @@ function EditCampaignPageContent({
           product={currentProduct}
           initialType="kickstarter_boost"
         />
-      </RegistryPageShell>
+      </CabinetPageContent>
     </Form>
   );
 }

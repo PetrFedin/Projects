@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,7 +10,6 @@ import { Search, Store, UserPlus, Cloud, Package } from 'lucide-react';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageShell } from '@/components/design-system';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 import { getSyndicationStatus } from '@/lib/b2b/content-syndication';
 
@@ -47,7 +47,7 @@ export default function DiscoverPage() {
     : null;
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader
         lead="Каталог брендов для закупки, поиск поставщиков. Запрос доступа — в разделе «Подать заявку». Синхронизация с PIM — при подключении интеграции."
         trailing={
@@ -141,6 +141,6 @@ export default function DiscoverPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getShopB2BHubLinks()} title="Партнёры, заявка, заказы" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

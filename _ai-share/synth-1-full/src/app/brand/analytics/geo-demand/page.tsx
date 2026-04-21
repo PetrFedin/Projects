@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,7 +8,7 @@ import { MapPin, ArrowLeft } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 /** Geo-Demand Heatmap: карта спроса по регионам для планирования точек и стока. */
 const MOCK_REGIONS = [
@@ -19,7 +20,7 @@ const MOCK_REGIONS = [
 
 export default function GeoDemandPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Geo-Demand Heatmap"
         leadPlain="Карта спроса по регионам для планирования открытий новых точек и распределения стока."
@@ -65,6 +66,6 @@ export default function GeoDemandPage() {
       </Card>
 
       <RelatedModulesBlock links={getAnalyticsLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

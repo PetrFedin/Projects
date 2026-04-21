@@ -27,3 +27,8 @@ export function getTopTrendingShowroomLooks(): ShowroomLookInterestV1[] {
     getShowroomLookInterest('LOOK-SS26-03'),
   ];
 }
+
+/** Сводка «образов шоурума» для сессии (демо — топ по интересу). */
+export function getShowroomLooks(): ShowroomLookInterestV1[] {
+  return getTopTrendingShowroomLooks();
+}

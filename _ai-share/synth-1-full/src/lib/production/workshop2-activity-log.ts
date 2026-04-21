@@ -1,5 +1,5 @@
 /**
- * Локальная история действий в Цехе 2 (localStorage), без API.
+ * Локальная история действий в разработке коллекции (localStorage), без API.
  */
 
 const STORAGE_KEY = 'synth.brand.workshop2ActivityLog.v1';
@@ -144,7 +144,7 @@ export function buildWorkshop2ArticleProductionHistory(args: {
     rows.push({
       id: `log-${e.id}`,
       at: e.at,
-      scope: 'Журнал Цеха 2',
+      scope: 'Журнал разработки коллекции',
       summary: e.line,
       actor: e.actor,
     });
@@ -165,7 +165,7 @@ export function buildWorkshop2ArticleProductionHistory(args: {
       id: `inv-add-${args.inventoryAddedAt}`,
       at: args.inventoryAddedAt,
       scope: 'Коллекция · строка',
-      summary: 'Артикул добавлен в состав коллекции в Цехе 2',
+      summary: 'Артикул добавлен в состав коллекции в разработке коллекции',
       actor: args.inventoryActor,
     });
   }

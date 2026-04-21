@@ -36,8 +36,9 @@ export function ErpAccountingSyncBanner({
     let cancelled = false;
     fetch('/api/shop/erp-sync-status')
       .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data: ErpAccountingSyncStatus) => {
-        if (!cancelled && data?.lastSuccessAt) setStatus(data);
+      .then((data: unknown) => {
+        const s = data as ErpAccountingSyncStatus;
+        if (!cancelled && s?.lastSuccessAt) setStatus(s);
       })
       .catch(() => {
         if (!cancelled) {

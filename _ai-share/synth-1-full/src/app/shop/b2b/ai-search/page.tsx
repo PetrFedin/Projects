@@ -1,12 +1,12 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sparkles, Search } from 'lucide-react';
 import { B2BModulePage } from '@/components/shop/B2BModulePage';
-import { RegistryPageShell } from '@/components/design-system';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
 
@@ -15,7 +15,7 @@ export default function B2BAiSearchPage() {
   const [query, setQuery] = useState('');
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <B2BModulePage
         title="AI-поиск и рекомендации"
         description="Персонализация ассортимента и допродажи (WizCommerce, Brandboom)"
@@ -47,6 +47,6 @@ export default function B2BAiSearchPage() {
           </CardContent>
         </Card>
       </B2BModulePage>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

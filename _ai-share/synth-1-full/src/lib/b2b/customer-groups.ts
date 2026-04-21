@@ -61,7 +61,7 @@ function load(): CustomerGroup[] {
   if (typeof window === 'undefined') return DEFAULT_GROUPS;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : DEFAULT_GROUPS;
+    return raw ? (JSON.parse(raw) as CustomerGroup[]) : DEFAULT_GROUPS;
   } catch {
     return DEFAULT_GROUPS;
   }

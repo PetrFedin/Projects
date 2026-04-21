@@ -48,6 +48,25 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ChevronRight, Sparkles } from 'lucide-react';
 
 import { useIdentitySwitch } from '@/hooks/use-identity-switch';
+import { ROUTES } from '@/lib/routes';
+import { hasActiveLiveBroadcast } from '@/lib/live-broadcast-status';
+import { DEFAULT_HOME_CMS } from '@/data/cms.home.default';
+
+/** Эфир: пульсирующая точка + расходящиеся кольца (сигнал), без зелёной подсветки ссылки */
+function LiveOnAirIndicator() {
+  return (
+    <span
+      className="relative mr-1 inline-flex h-4 w-4 shrink-0 items-center justify-center align-middle"
+      aria-hidden
+    >
+      <span className="absolute inline-flex h-2 w-2 animate-live-signal rounded-full border border-slate-400/55" />
+      <span className="absolute inline-flex h-2 w-2 animate-live-signal rounded-full border border-slate-400/40 [animation-delay:0.66s]" />
+      <span className="absolute inline-flex h-2 w-2 animate-live-signal rounded-full border border-slate-400/35 [animation-delay:1.33s]" />
+      <span className="relative z-[1] h-1.5 w-1.5 rounded-full bg-slate-900 shadow-sm animate-pulse-live" />
+    </span>
+  );
+}
+
 export default function Header() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const {
@@ -70,25 +89,63 @@ export default function Header() {
   const router = useRouter();
   const [time, setTime] = useState<string>('');
   const [mounted, setMounted] = useState(false);
+  const [liveBroadcastOn, setLiveBroadcastOn] = useState(false);
 
-  /** Верхняя полоса: одинаковая для B2C и B2B; каталог опта — в `/shop`. */
-  const getDynamicNavLinks = () => [
-    { href: '/search', label: 'АССОРТИМЕНТ' },
-    { href: '/brands', label: 'БРЕНДЫ' },
-    { href: '/live', label: 'LIVE' },
-    { href: '/loyalty', label: 'ЛОЯЛЬНОСТЬ' },
-  ];
+  const getDynamicNavLinks = () => {
+    const isB2B = viewRole === 'b2b';
+    const role = user?.activeOrganizationId?.includes('org-brand')
+      ? 'brand'
+      : user?.activeOrganizationId?.includes('org-factory')
+        ? 'manufacturer'
+        : user?.activeOrganizationId?.includes('org-shop')
+          ? 'shop'
+          : 'client';
+
+    const coreNav = [
+      { href: '/search', label: 'АССОРТИМЕНТ' },
+      { href: '/brands', label: 'БРЕНДЫ' },
+      { href: '/live', label: 'LIVE' },
+      { href: '/loyalty', label: 'ЛОЯЛЬНОСТЬ' },
+    ];
+
+    if (!isB2B) {
+      return coreNav;
+    }
+
+    // B2B: те же четыре пункта, что и в B2C, затем контекст платформы
+    const links = [
+      ...coreNav,
+      { href: ROUTES.catalog, label: 'КАТАЛОГ БРЕНДОВ' },
+      { href: ROUTES.shop.b2bPartners, label: 'ПАРТНЕРЫ' },
+      { href: ROUTES.academyPlatform, label: 'B2B АКАДЕМИЯ' },
+      { href: '/wallet', label: 'КОШЕЛЕК SYNTHA' },
+    ];
+
+    if (role === 'brand') {
+      links.push(
+        { href: '/brand/linesheets', label: 'ЛАЙНШИТЫ' },
+        { href: '/brand/ai-tools', label: 'ГЕНЕРАТОР КАМПАНИЙ' },
+        { href: '/brand/pricing', label: 'AI ЦЕНООБРАЗОВАНИЕ' },
+        { href: '/brand/vmi', label: 'VMI ПОРТАЛ' },
+        { href: '/brand/esg', label: 'ESG ВЛИЯНИЕ' }
+      );
+    } else if (role === 'manufacturer') {
+      links.push(
+        { href: '/factory/production', label: 'ЦЕХ В РЕАЛЬНОМ ВРЕМЕНИ' },
+        { href: '/factory/auctions', label: 'АУКЦИОН СЛОТОВ' }
+      );
+    } else if (role === 'shop') {
+      links.push(
+        { href: '/shop/b2b/replenishment', label: 'ПОПОЛНЕНИЕ' },
+        { href: '/shop/clienteling', label: 'КЛИЕНТИНГ' },
+        { href: '/auctions', label: 'АУКЦИОНЫ СТОКА' }
+      );
+    }
+
+    return links;
+  };
 
   const navLinks = getDynamicNavLinks();
-
-  const mobileSheetLinks = [
-    ...navLinks,
-    ...leftSidebarNavLinks.flatMap((item) =>
-      'sections' in item
-        ? item.sections.map((s) => ({ href: s.href, label: s.label }))
-        : [{ href: item.href, label: item.label }]
-    ),
-  ];
 
   const handleLogin = async (email: string, roleKey: string, organizationId?: string) => {
     await handleIdentitySwitch(email, roleKey, organizationId);
@@ -102,6 +159,15 @@ export default function Header() {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const tick = () => {
+      setLiveBroadcastOn(hasActiveLiveBroadcast(DEFAULT_HOME_CMS.live, Date.now()));
+    };
+    tick();
+    const id = setInterval(tick, 15000);
+    return () => clearInterval(id);
+  }, []);
+
   const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
   const wishlistItemCount = wishlistCollections.reduce(
     (acc, collection) => acc + collection.items.length,
@@ -112,14 +178,12 @@ export default function Header() {
   const wishlistBadgeText = wishlistItemCount > 99 ? '99+' : String(wishlistItemCount);
   const preOrderBadgeText = preOrderItemCount > 99 ? '99+' : String(preOrderItemCount);
 
-  const isLiveNow = true;
-
   // if (!mounted) return null;
 
   return (
     <header
       className={cn(
-        'border-border-subtle sticky top-0 z-50 w-full border-b bg-white/90 backdrop-blur-xl transition-all duration-300'
+        'sticky top-0 z-50 w-full border-b border-slate-100 bg-white/90 backdrop-blur-xl transition-all duration-300'
       )}
     >
       <div className="container relative mx-auto flex h-12 items-center px-4 sm:px-6 lg:px-10">
@@ -132,7 +196,7 @@ export default function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="flex w-[300px] flex-col sm:w-[400px]">
-            <div className="bg-text-primary border-text-primary/30 mt-4 flex w-fit items-center gap-1 rounded-xl border p-1">
+            <div className="mt-4 flex w-fit items-center gap-1 rounded-xl border border-slate-800 bg-slate-900 p-1">
               <Button
                 variant="ghost"
                 size="sm"
@@ -163,16 +227,28 @@ export default function Header() {
               </Button>
             </div>
             <nav className="mt-8 flex flex-1 flex-col gap-3">
-              {mobileSheetLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsSheetOpen(false)}
-                  className="block px-2 py-1 text-sm font-medium text-foreground hover:text-accent"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {[...navLinks, ...leftSidebarNavLinks]
+                .filter(
+                  (l): l is { href: string; label: string } =>
+                    'href' in l && typeof l.href === 'string'
+                )
+                .map((link) => {
+                  const liveHere = link.href === '/live' && liveBroadcastOn;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsSheetOpen(false)}
+                      className={cn(
+                        'flex items-center px-2 py-1 text-sm font-medium text-foreground hover:text-accent',
+                        liveHere && 'gap-1'
+                      )}
+                    >
+                      {liveHere && <LiveOnAirIndicator />}
+                      {link.label}
+                    </Link>
+                  );
+                })}
             </nav>
           </SheetContent>
         </Sheet>
@@ -182,7 +258,7 @@ export default function Header() {
           <Link
             href="/"
             prefetch
-            className="focus-visible:ring-accent-primary/35 flex items-center rounded-sm outline-none transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="flex items-center rounded-sm outline-none transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:ring-indigo-500/35 focus-visible:ring-offset-2"
           >
             <Logo className="pointer-events-none h-6 w-auto" />
             <span className="sr-only">Syntha — на главную</span>
@@ -190,24 +266,23 @@ export default function Header() {
         </div>
 
         <nav className="ml-4 hidden flex-nowrap items-center gap-x-4 overflow-x-auto text-[9.2px] font-medium uppercase tracking-tight md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                'flex h-7 flex-shrink-0 shrink-0 items-center gap-1 whitespace-nowrap transition-all hover:text-black',
-                pathname === link.href ? 'text-black' : 'text-text-primary',
-                link.label === 'LIVE' && 'rounded-full px-2.5 text-red-500'
-              )}
-            >
-              {link.label === 'LIVE' && (
-                <span className="mr-1 animate-pulse-live font-black text-red-600">•</span>
-              )}
-              <span className={cn(link.label === 'LIVE' && 'animate-pulse-live')}>
+          {navLinks.map((link) => {
+            const liveHere = link.href === '/live' && liveBroadcastOn;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  'flex h-7 flex-shrink-0 shrink-0 items-center whitespace-nowrap transition-all hover:text-black',
+                  pathname === link.href ? 'text-black' : 'text-slate-900',
+                  liveHere ? 'gap-1.5' : 'gap-1'
+                )}
+              >
+                {liveHere && <LiveOnAirIndicator />}
                 {link.label}
-              </span>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="relative z-20 ml-auto flex items-center justify-end gap-1.5 md:gap-2">
@@ -215,7 +290,7 @@ export default function Header() {
           <Link
             href="/"
             prefetch
-            className="focus-visible:ring-accent-primary/35 absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center rounded-sm outline-none transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:ring-offset-2 md:hidden"
+            className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center rounded-sm outline-none transition-opacity hover:opacity-70 focus-visible:ring-2 focus-visible:ring-indigo-500/35 focus-visible:ring-offset-2 md:hidden"
           >
             <Logo className="pointer-events-none h-5 w-auto max-w-[min(42vw,140px)]" />
             <span className="sr-only">Syntha — на главную</span>
@@ -224,7 +299,7 @@ export default function Header() {
           <SearchBar />
 
           {user?.roles?.includes('admin') && (
-            <div className="bg-text-primary border-text-primary/30 mx-1 flex scale-95 items-center gap-0.5 rounded-lg border p-0.5">
+            <div className="mx-1 flex scale-95 items-center gap-0.5 rounded-lg border border-slate-800 bg-slate-900 p-0.5">
               <Button
                 variant="ghost"
                 size="sm"
@@ -260,7 +335,7 @@ export default function Header() {
             variant="ghost"
             size="icon"
             onClick={toggleWishlist}
-            className="text-text-primary hover:bg-bg-surface2 relative h-7 w-7 transition-colors"
+            className="relative h-7 w-7 text-slate-900 transition-colors hover:bg-slate-50"
           >
             <span className="relative inline-flex">
               <Star className="h-3.5 w-3.5" />
@@ -279,7 +354,7 @@ export default function Header() {
             variant="ghost"
             size="icon"
             onClick={toggleCart}
-            className="text-text-primary hover:bg-bg-surface2 relative h-7 w-7 transition-colors"
+            className="relative h-7 w-7 text-slate-900 transition-colors hover:bg-slate-50"
           >
             <span className="relative inline-flex">
               <ShoppingCart className="h-3.5 w-3.5" />
@@ -298,14 +373,14 @@ export default function Header() {
             variant="ghost"
             size="icon"
             onClick={togglePreOrder}
-            className="text-text-primary hover:bg-bg-surface2 relative h-7 w-7 transition-colors"
+            className="relative h-7 w-7 text-slate-900 transition-colors hover:bg-slate-50"
           >
             <span className="relative inline-flex">
               <Zap className="h-3.5 w-3.5" />
               {preOrderItemCount > 0 && (
                 <Badge
                   variant="destructive"
-                  className="bg-text-primary absolute -right-1 -top-1 inline-flex h-2.5 min-w-2.5 items-center justify-center rounded-full px-0.5 text-[5px] font-black tabular-nums leading-none"
+                  className="absolute -right-1 -top-1 inline-flex h-2.5 min-w-2.5 items-center justify-center rounded-full bg-slate-900 px-0.5 text-[5px] font-black tabular-nums leading-none"
                 >
                   {preOrderBadgeText}
                 </Badge>
@@ -319,19 +394,19 @@ export default function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="border-border-default hover:bg-bg-surface2 group h-7 w-7 rounded-[2px] border transition-all"
+                className="group h-7 w-7 rounded-[2px] border border-slate-200 transition-all hover:bg-slate-50"
               >
-                <ShieldCheck className="text-text-secondary group-hover:text-accent-primary h-3.5 w-3.5 transition-colors" />
+                <ShieldCheck className="h-3.5 w-3.5 text-slate-600 transition-colors group-hover:text-indigo-600" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="border-border-default z-[600] w-[300px] overflow-hidden rounded-[2px] border bg-white p-0 shadow-xl"
+              className="z-[600] w-[300px] overflow-hidden rounded-[2px] border border-slate-200 bg-white p-0 shadow-xl"
               align="end"
               sideOffset={4}
             >
-              <div className="bg-text-primary border-text-primary/30 border-b px-4 py-3">
+              <div className="border-b border-slate-800 bg-slate-900 px-4 py-3">
                 <div className="mb-0.5 flex items-center gap-2">
-                  <Sparkles className="text-accent-primary h-3 w-3" />
+                  <Sparkles className="h-3 w-3 text-indigo-400" />
                   <span className="text-[8px] font-black uppercase leading-none tracking-[0.2em] text-white/40">
                     Syntha Ecosystem Access
                   </span>
@@ -369,9 +444,9 @@ export default function Header() {
                   ].map((role) => (
                     <div
                       key={role.id}
-                      className="border-border-subtle space-y-0.5 border-b pb-2 last:border-0"
+                      className="space-y-0.5 border-b border-slate-50 pb-2 last:border-0"
                     >
-                      <div className="text-text-muted bg-bg-surface2/80 flex items-center gap-2 rounded-[2px] px-2 py-1.5 text-[8px] font-black uppercase tracking-[0.15em]">
+                      <div className="flex items-center gap-2 rounded-[2px] bg-slate-50/50 px-2 py-1.5 text-[8px] font-black uppercase tracking-[0.15em] text-slate-400">
                         <role.icon className="h-2.5 w-2.5" />
                         {role.label}
                       </div>
@@ -382,7 +457,7 @@ export default function Header() {
                             e.preventDefault();
                             handleLogin('elena.petrova@example.com', 'client');
                           }}
-                          className="hover:bg-bg-surface2 hover:border-border-subtle flex cursor-pointer items-center gap-2.5 rounded-[2px] border border-transparent p-2 transition-all"
+                          className="flex cursor-pointer items-center gap-2.5 rounded-[2px] border border-transparent p-2 transition-all hover:border-slate-100 hover:bg-slate-50"
                         >
                           <Avatar className="h-7 w-7 rounded-[2px]">
                             <AvatarImage src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop" />
@@ -391,15 +466,15 @@ export default function Header() {
                             </AvatarFallback>
                           </Avatar>
                           <div className="flex min-w-0 flex-col">
-                            <span className="text-text-primary text-[10px] font-black leading-tight">
+                            <span className="text-[10px] font-black leading-tight text-slate-900">
                               Елена Петрова
                             </span>
-                            <span className="text-text-muted truncate text-[8px] font-bold uppercase tracking-tighter">
+                            <span className="truncate text-[8px] font-bold uppercase tracking-tighter text-slate-400">
                               Premium B2C Profile
                             </span>
                           </div>
                           {user?.email === 'elena.petrova@example.com' && (
-                            <div className="bg-accent-primary ml-auto h-1.5 w-1.5 rounded-full" />
+                            <div className="ml-auto h-1.5 w-1.5 rounded-full bg-indigo-500" />
                           )}
                         </DropdownMenuItem>
                       ) : role.id === 'admin' ? (
@@ -410,7 +485,7 @@ export default function Header() {
                               e.preventDefault();
                               handleLogin(member.email, 'admin', 'org-hq-001');
                             }}
-                            className="hover:bg-bg-surface2 hover:border-border-subtle flex cursor-pointer items-center gap-2.5 rounded-[2px] border border-transparent p-2 transition-all"
+                            className="flex cursor-pointer items-center gap-2.5 rounded-[2px] border border-transparent p-2 transition-all hover:border-slate-100 hover:bg-slate-50"
                           >
                             <Avatar className="h-7 w-7 rounded-[2px]">
                               <AvatarImage src={member.avatar} />
@@ -419,15 +494,15 @@ export default function Header() {
                               </AvatarFallback>
                             </Avatar>
                             <div className="flex min-w-0 flex-col">
-                              <span className="text-text-primary text-[10px] font-black leading-tight">
+                              <span className="text-[10px] font-black leading-tight text-slate-900">
                                 {member.firstName} {member.lastName}
                               </span>
-                              <span className="text-text-muted truncate text-[8px] font-bold uppercase tracking-tighter">
+                              <span className="truncate text-[8px] font-bold uppercase tracking-tighter text-slate-400">
                                 {member.role}
                               </span>
                             </div>
                             {user?.email === member.email && (
-                              <div className="bg-accent-primary ml-auto h-1.5 w-1.5 rounded-full" />
+                              <div className="ml-auto h-1.5 w-1.5 rounded-full bg-indigo-500" />
                             )}
                           </DropdownMenuItem>
                         ))
@@ -436,20 +511,20 @@ export default function Header() {
                           .filter((org) => org.type === role.type)
                           .map((org) => (
                             <Collapsible key={org.id} className="group/collapsible">
-                              <div className="hover:bg-bg-surface2 group flex w-full items-center justify-between rounded-[2px] transition-all">
+                              <div className="group flex w-full items-center justify-between rounded-[2px] transition-all hover:bg-slate-50">
                                 <CollapsibleTrigger asChild>
                                   <div className="flex flex-1 cursor-pointer items-center gap-2.5 overflow-hidden p-2">
-                                    <div className="bg-bg-surface2 text-text-muted group-hover:text-accent-primary border-border-default flex h-7 w-7 shrink-0 items-center justify-center rounded-[2px] border text-[9px] font-black uppercase transition-all group-hover:bg-white">
+                                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[2px] border border-slate-200 bg-slate-100 text-[9px] font-black uppercase text-slate-400 transition-all group-hover:bg-white group-hover:text-indigo-600">
                                       {org.name[0]}
                                     </div>
                                     <div className="flex flex-col overflow-hidden">
                                       <div className="flex items-center gap-1.5">
-                                        <span className="text-text-primary truncate text-[10px] font-black uppercase leading-tight tracking-tight">
+                                        <span className="truncate text-[10px] font-black uppercase leading-tight tracking-tight text-slate-900">
                                           {org.name}
                                         </span>
-                                        <ChevronRight className="text-text-muted h-2 w-2 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                                        <ChevronRight className="h-2 w-2 text-slate-300 transition-transform group-data-[state=open]/collapsible:rotate-90" />
                                       </div>
-                                      <span className="text-text-muted mt-0.5 text-[8px] font-bold uppercase tracking-widest">
+                                      <span className="mt-0.5 text-[8px] font-bold uppercase tracking-widest text-slate-400">
                                         {partnerTeams[org.id]?.length || 1} USERS
                                       </span>
                                     </div>
@@ -460,7 +535,7 @@ export default function Header() {
                                   <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="text-text-muted hover:text-accent-primary hover:bg-accent-primary/10 mr-1 h-6 w-6 rounded-[2px] transition-all"
+                                    className="mr-1 h-6 w-6 rounded-[2px] text-slate-300 transition-all hover:bg-indigo-50 hover:text-indigo-600"
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleLogin(user!.email, role.id, org.id);
@@ -471,13 +546,13 @@ export default function Header() {
                                       className={cn(
                                         'h-3 w-3',
                                         user?.activeOrganizationId === org.id &&
-                                          'text-accent-primary animate-spin-slow'
+                                          'animate-spin-slow text-indigo-600'
                                       )}
                                     />
                                   </Button>
                                 )}
                               </div>
-                              <CollapsibleContent className="border-border-subtle ml-5 mt-0.5 space-y-0.5 border-l pb-1 pl-9 pr-1">
+                              <CollapsibleContent className="ml-5 mt-0.5 space-y-0.5 border-l border-slate-100 pb-1 pl-9 pr-1">
                                 {(
                                   partnerTeams[org.id] || [
                                     {
@@ -496,26 +571,26 @@ export default function Header() {
                                       e.preventDefault();
                                       handleLogin(member.email, role.id, org.id);
                                     }}
-                                    className="hover:bg-accent-primary/10 group/member flex cursor-pointer items-center gap-2 rounded-[2px] p-1.5 outline-none transition-all"
+                                    className="group/member flex cursor-pointer items-center gap-2 rounded-[2px] p-1.5 outline-none transition-all hover:bg-indigo-50"
                                   >
-                                    <Avatar className="ring-border-subtle h-5 w-5 rounded-[2px] border border-white shadow-sm ring-1">
+                                    <Avatar className="h-5 w-5 rounded-[2px] border border-white shadow-sm ring-1 ring-slate-100">
                                       <AvatarImage src={member.avatar} />
                                       <AvatarFallback className="rounded-[2px] text-[7px]">
                                         {(member.firstName || member.name)[0]}
                                       </AvatarFallback>
                                     </Avatar>
                                     <div className="flex min-w-0 flex-1 flex-col">
-                                      <span className="text-text-primary group-hover/member:text-accent-primary truncate text-[9px] font-black leading-none transition-colors">
+                                      <span className="truncate text-[9px] font-black leading-none text-slate-700 transition-colors group-hover/member:text-indigo-600">
                                         {member.firstName} {member.lastName}
                                       </span>
-                                      <span className="text-text-muted mt-0.5 truncate text-[7px] font-bold uppercase tracking-tighter">
+                                      <span className="mt-0.5 truncate text-[7px] font-bold uppercase tracking-tighter text-slate-400">
                                         {member.role}
                                       </span>
                                     </div>
-                                    <LogIn className="text-text-muted group-hover/member:text-accent-primary h-2 w-2 opacity-0 transition-colors group-hover/member:opacity-100" />
+                                    <LogIn className="h-2 w-2 text-slate-200 opacity-0 transition-colors group-hover/member:text-indigo-400 group-hover/member:opacity-100" />
                                     {user?.email === member.email &&
                                       user?.activeOrganizationId === org.id && (
-                                        <div className="bg-accent-primary h-1 w-1 rounded-full" />
+                                        <div className="h-1 w-1 rounded-full bg-indigo-500" />
                                       )}
                                   </DropdownMenuItem>
                                 ))}
@@ -528,23 +603,23 @@ export default function Header() {
                 </div>
               </ScrollArea>
 
-              <div className="bg-bg-surface2 border-border-default flex items-center justify-between border-t px-4 py-3">
+              <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50 px-4 py-3">
                 <div className="flex flex-col">
-                  <span className="text-text-muted mb-1 text-[7px] font-black uppercase leading-none tracking-widest">
+                  <span className="mb-1 text-[7px] font-black uppercase leading-none tracking-widest text-slate-400">
                     Session Node
                   </span>
-                  <span className="text-text-primary max-w-[120px] truncate text-[9px] font-black uppercase leading-none">
+                  <span className="max-w-[120px] truncate text-[9px] font-black uppercase leading-none text-slate-900">
                     {user?.displayName || 'Guest'}
                   </span>
-                  <span className="text-text-muted mt-1 truncate text-[7px]">{user?.email}</span>
+                  <span className="mt-1 truncate text-[7px] text-slate-400">{user?.email}</span>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <Badge className="text-accent-primary border-border-default rounded-[2px] bg-white px-1.5 py-0 text-[8px] font-black">
+                  <Badge className="rounded-[2px] border-slate-200 bg-white px-1.5 py-0 text-[8px] font-black text-indigo-600">
                     {user?.activeOrganizationId
                       ? organizations[user.activeOrganizationId]?.name
                       : 'B2C_ROOT'}
                   </Badge>
-                  <span className="text-text-muted text-[7px] font-bold uppercase">
+                  <span className="text-[7px] font-bold uppercase text-slate-300">
                     ID: {user?.activeOrganizationId || 'NULL'}
                   </span>
                 </div>

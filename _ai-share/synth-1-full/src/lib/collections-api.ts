@@ -52,11 +52,11 @@ export async function createDrop(
     }),
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
+    const err = (await res.json().catch(() => ({}))) as { detail?: string };
     throw new Error(err.detail || `Failed to create drop: ${res.status}`);
   }
-  const json = await res.json();
-  return json.data ?? json;
+  const json = (await res.json()) as { data?: { id: number; status: string } } & Record<string, unknown>;
+  return json.data ?? (json as { id: number; status: string });
 }
 
 export async function createColorStory(
@@ -71,11 +71,13 @@ export async function createColorStory(
     body: JSON.stringify(payload),
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
+    const err = (await res.json().catch(() => ({}))) as { detail?: string };
     throw new Error(err.detail || `Failed to create color story: ${res.status}`);
   }
-  const json = await res.json();
-  return json.data ?? json;
+  const json = (await res.json()) as {
+    data?: { id: number; collection_name: string };
+  } & Record<string, unknown>;
+  return json.data ?? (json as { id: number; collection_name: string });
 }
 
 export async function saveMerchandiseGrid(
@@ -94,11 +96,11 @@ export async function saveMerchandiseGrid(
     }
   );
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
+    const err = (await res.json().catch(() => ({}))) as { detail?: string };
     throw new Error(err.detail || `Failed to save merchandise grid: ${res.status}`);
   }
-  const json = await res.json();
-  return json.data ?? json;
+  const json = (await res.json()) as { data?: { id: number; status: string } } & Record<string, unknown>;
+  return json.data ?? (json as { id: number; status: string });
 }
 
 export async function getDrops(
@@ -113,9 +115,17 @@ export async function getDrops(
     const q = season ? `?season=${encodeURIComponent(season)}` : '';
     const res = await fetch(`${API_BASE}/collections/drops${q}`, { headers: getAuthHeaders() });
     if (!res.ok) return getDemoDrops(season);
-    const json = await res.json();
+    const json = (await res.json()) as { data?: unknown } & Record<string, unknown>;
     const data = json.data ?? json;
-    return Array.isArray(data) ? data : getDemoDrops(season);
+    return Array.isArray(data)
+      ? (data as Array<{
+          id: number;
+          drop_name: string;
+          season: string;
+          status: string;
+          scheduled_date: string;
+        }>)
+      : getDemoDrops(season);
   } catch {
     return getDemoDrops(season);
   }

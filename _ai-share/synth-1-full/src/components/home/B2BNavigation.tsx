@@ -19,7 +19,6 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { b2bSections } from './_fixtures/home-data';
 import { useUIState } from '@/providers/ui-state';
-import { ROUTES } from '@/lib/routes';
 
 interface B2BNavigationProps {
   viewRole: string;
@@ -64,19 +63,19 @@ export function B2BNavigation({
   return (
     <div
       className={cn(
-        'border-border-default sticky top-[var(--header-height,48px)] z-30 w-full border-b bg-white/90 py-3 shadow-sm backdrop-blur-xl transition-all duration-300',
+        'sticky top-[var(--header-height,48px)] z-30 w-full border-b border-slate-200 bg-white/90 py-3 shadow-sm backdrop-blur-xl transition-all duration-300',
         (isFlowMapOpen || isCalendarOpen || isMediaRadarOpen) &&
           'pointer-events-none -translate-y-full opacity-0'
       )}
     >
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-14">
-        <div className="flex items-center gap-1.5">
+      <div className="container mx-auto px-4 sm:px-4">
+        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:flex-nowrap sm:overflow-x-auto">
           {b2bSections.map((section) => (
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
               className={cn(
-                'group flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border px-1.5 py-2.5 text-xs font-bold uppercase tracking-wide transition-all',
+                'group inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border px-2.5 py-2.5 text-xs font-bold uppercase tracking-wide transition-all',
                 activeB2BSection === section.id ? 'btn-tab-active' : 'btn-tab-inactive-light'
               )}
             >
@@ -85,7 +84,7 @@ export function B2BNavigation({
                   'h-3 w-3 shrink-0 transition-transform',
                   activeB2BSection === section.id
                     ? 'text-white'
-                    : 'text-text-muted group-hover:text-text-secondary'
+                    : 'text-slate-400 group-hover:text-slate-600'
                 )}
               />
               <span className="truncate">{section.label}</span>
@@ -93,8 +92,8 @@ export function B2BNavigation({
           ))}
 
           <Link
-            href={ROUTES.brand.controlCenter}
-            className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary hover:bg-accent-primary/15 flex shrink-0 items-center justify-center gap-1.5 rounded-xl border px-3 py-2.5 text-xs font-bold uppercase tracking-wide transition-all"
+            href="/brand/control-center"
+            className="flex shrink-0 items-center justify-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-indigo-700 transition-all hover:bg-indigo-100"
           >
             <LayoutDashboard className="h-3 w-3" />
             <span>Brand Center</span>
@@ -102,7 +101,7 @@ export function B2BNavigation({
 
           <button
             onClick={scrollToTopOrBottom}
-            className="hover:bg-text-primary/90 button-glimmer button-professional group ml-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-black text-white shadow-lg hover:shadow-xl"
+            className="button-glimmer button-professional group ml-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-black text-white shadow-lg hover:bg-slate-800 hover:shadow-xl"
             title={isScrolledDown ? 'Наверх' : 'Вниз'}
           >
             <ArrowRight

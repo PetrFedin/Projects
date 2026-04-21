@@ -53,7 +53,7 @@ export function B2BFinancialPerformance() {
         {stats.map((s, i) => (
           <Card key={i} className="space-y-4 rounded-xl border-none bg-white p-4 shadow-xl">
             <div className="flex items-center justify-between">
-              <div className="bg-bg-surface2 text-text-muted flex h-10 w-10 items-center justify-center rounded-2xl">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-50 text-slate-400">
                 {i === 0 && <DollarSign className="h-5 w-5" />}
                 {i === 1 && <PieChart className="h-5 w-5" />}
                 {i === 2 && <TrendingUp className="h-5 w-5" />}
@@ -66,17 +66,17 @@ export function B2BFinancialPerformance() {
                     ? 'bg-emerald-50 text-emerald-600'
                     : s.trend === 'down'
                       ? 'bg-rose-50 text-rose-600'
-                      : 'bg-bg-surface2 text-text-muted'
+                      : 'bg-slate-50 text-slate-400'
                 )}
               >
                 {s.change}
               </Badge>
             </div>
             <div className="space-y-1 text-left">
-              <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                 {s.label}
               </p>
-              <p className="text-text-primary text-sm font-black">{s.value}</p>
+              <p className="text-sm font-black text-slate-900">{s.value}</p>
             </div>
           </Card>
         ))}
@@ -89,18 +89,18 @@ export function B2BFinancialPerformance() {
               <h4 className="text-base font-black uppercase tracking-tight">
                 Эффективность выручки
               </h4>
-              <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 Сравнение План vs Факт по месяцам (₽)
               </p>
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
-                <div className="bg-accent-primary h-2 w-2 rounded-full" />
-                <span className="text-text-muted text-[9px] font-black uppercase">Факт</span>
+                <div className="h-2 w-2 rounded-full bg-indigo-600" />
+                <span className="text-[9px] font-black uppercase text-slate-400">Факт</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="bg-border-subtle h-2 w-2 rounded-full" />
-                <span className="text-text-muted text-[9px] font-black uppercase">План</span>
+                <div className="h-2 w-2 rounded-full bg-slate-200" />
+                <span className="text-[9px] font-black uppercase text-slate-400">План</span>
               </div>
             </div>
           </div>
@@ -109,21 +109,21 @@ export function B2BFinancialPerformance() {
               <div key={i} className="flex flex-1 flex-col items-center gap-3">
                 <div className="flex h-full w-full flex-col justify-end gap-1">
                   <div
-                    className="bg-accent-primary w-full rounded-t-lg transition-all duration-1000"
+                    className="w-full rounded-t-lg bg-indigo-600 transition-all duration-1000"
                     style={{ height: `${h}%` }}
                   />
                   <div
-                    className="bg-bg-surface2 w-full rounded-b-lg"
+                    className="w-full rounded-b-lg bg-slate-100"
                     style={{ height: `${h * 0.8}%` }}
                   />
                 </div>
-                <span className="text-text-muted text-[9px] font-black uppercase">M0{i + 1}</span>
+                <span className="text-[9px] font-black uppercase text-slate-400">M0{i + 1}</span>
               </div>
             ))}
           </div>
         </Card>
 
-        <Card className="bg-text-primary relative space-y-4 overflow-hidden rounded-xl border-none p-3 text-white shadow-2xl">
+        <Card className="relative space-y-4 overflow-hidden rounded-xl border-none bg-slate-900 p-3 text-white shadow-2xl">
           <div className="absolute right-0 top-0 p-4 opacity-10">
             <Target className="h-32 w-32" />
           </div>
@@ -141,7 +141,7 @@ export function B2BFinancialPerformance() {
                     cy="50"
                   />
                   <circle
-                    className="text-accent-primary stroke-current"
+                    className="stroke-current text-indigo-500"
                     strokeWidth="10"
                     strokeDasharray="251.2"
                     strokeDashoffset="62.8"
@@ -187,11 +187,11 @@ export function B2BFinancialPerformance() {
         <Card className="space-y-4 rounded-xl border-none bg-white p-3 shadow-2xl">
           <div className="space-y-1">
             <h4 className="text-base font-black uppercase tracking-tight">AI Прогноз продаж</h4>
-            <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
               На основе исторических данных и настроений рынка (₽)
             </p>
           </div>
-          <div className="bg-bg-surface2 border-border-subtle group relative flex h-64 items-center justify-center overflow-hidden rounded-xl border-2 border-dashed">
+          <div className="group relative flex h-64 items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-slate-100 bg-slate-50">
             <div className="absolute inset-0 flex flex-col justify-end p-4">
               <div className="space-y-4">
                 <div className="flex h-32 items-end gap-1">
@@ -200,15 +200,15 @@ export function B2BFinancialPerformance() {
                       key={i}
                       className={cn(
                         'flex-1 rounded-t-lg transition-all duration-1000',
-                        i > 5 ? 'bg-accent-primary/40' : 'bg-accent-primary'
+                        i > 5 ? 'bg-indigo-400/40' : 'bg-indigo-600'
                       )}
                       style={{ height: `${h}%` }}
                     />
                   ))}
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-text-muted text-[9px] font-black uppercase">История</p>
-                  <Badge className="bg-accent-primary/10 text-accent-primary border-none text-[8px] font-black">
+                  <p className="text-[9px] font-black uppercase text-slate-400">История</p>
+                  <Badge className="border-none bg-indigo-50 text-[8px] font-black text-indigo-600">
                     ПРОГНОЗ Q4 '26
                   </Badge>
                 </div>
@@ -216,13 +216,13 @@ export function B2BFinancialPerformance() {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-accent-primary/10 border-accent-primary/20 space-y-1 rounded-2xl border p-4">
-              <p className="text-accent-primary text-[9px] font-black uppercase">Ожидаемый рост</p>
-              <p className="text-accent-primary text-sm font-black">+24.2%</p>
+            <div className="space-y-1 rounded-2xl border border-indigo-100 bg-indigo-50 p-4">
+              <p className="text-[9px] font-black uppercase text-indigo-400">Ожидаемый рост</p>
+              <p className="text-sm font-black text-indigo-600">+24.2%</p>
             </div>
-            <div className="bg-bg-surface2 border-border-subtle space-y-1 rounded-2xl border p-4">
-              <p className="text-text-muted text-[9px] font-black uppercase">Уровень доверия</p>
-              <p className="text-text-primary text-sm font-black">89%</p>
+            <div className="space-y-1 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <p className="text-[9px] font-black uppercase text-slate-400">Уровень доверия</p>
+              <p className="text-sm font-black text-slate-900">89%</p>
             </div>
           </div>
         </Card>
@@ -234,10 +234,10 @@ export function B2BFinancialPerformance() {
                 <Zap className="h-6 w-6" />
               </div>
               <div className="space-y-0.5">
-                <h5 className="text-text-primary text-sm font-black uppercase">
+                <h5 className="text-sm font-black uppercase text-slate-900">
                   Конструктор Сценариев
                 </h5>
-                <p className="text-text-muted text-[9px] font-bold uppercase">
+                <p className="text-[9px] font-bold uppercase text-slate-400">
                   Симуляция влияния рынка на P&L
                 </p>
               </div>
@@ -250,25 +250,23 @@ export function B2BFinancialPerformance() {
               ].map((s, i) => (
                 <div
                   key={i}
-                  className="bg-bg-surface2 hover:bg-bg-surface2 group flex cursor-pointer items-center justify-between rounded-xl p-4 transition-colors"
+                  className="group flex cursor-pointer items-center justify-between rounded-xl bg-slate-50 p-4 transition-colors hover:bg-slate-100"
                 >
-                  <p className="text-text-secondary group-hover:text-text-primary text-[10px] font-black uppercase transition-colors">
+                  <p className="text-[10px] font-black uppercase text-slate-600 transition-colors group-hover:text-slate-900">
                     {s.label}
                   </p>
-                  <ArrowUpRight className="text-text-muted group-hover:text-accent-primary h-3.5 w-3.5 transition-all" />
+                  <ArrowUpRight className="h-3.5 w-3.5 text-slate-300 transition-all group-hover:text-indigo-600" />
                 </div>
               ))}
             </div>
-            <Button className="bg-text-primary mt-4 h-12 w-full rounded-xl text-[10px] font-black uppercase tracking-widest text-white">
+            <Button className="mt-4 h-12 w-full rounded-xl bg-slate-900 text-[10px] font-black uppercase tracking-widest text-white">
               Создать сценарий
             </Button>
           </Card>
 
-          <Card className="bg-bg-surface2 space-y-4 rounded-xl border-none p-4 shadow-xl">
+          <Card className="space-y-4 rounded-xl border-none bg-slate-50 p-4 shadow-xl">
             <div className="flex items-center justify-between">
-              <h5 className="text-text-primary text-sm font-black uppercase">
-                Потоки данных продаж
-              </h5>
+              <h5 className="text-sm font-black uppercase text-slate-900">Потоки данных продаж</h5>
               <Badge className="border-none bg-emerald-50 text-[8px] font-black text-emerald-600">
                 2 АКТИВНО
               </Badge>
@@ -276,13 +274,11 @@ export function B2BFinancialPerformance() {
             <div className="space-y-3">
               {[
                 { name: 'Shopify Store (Direct)', status: 'Подключено' },
-                { name: 'Milan Retail POS (EDI)', status: 'Подключено' },
+                { name: 'POS ЦУМ (EDI)', status: 'Подключено' },
                 { name: 'Amazon Brand Registry', status: 'Ожидает' },
               ].map((f, i) => (
                 <div key={i} className="flex items-center justify-between">
-                  <span className="text-text-secondary text-[9px] font-bold uppercase">
-                    {f.name}
-                  </span>
+                  <span className="text-[9px] font-bold uppercase text-slate-500">{f.name}</span>
                   <span
                     className={cn(
                       'text-[8px] font-black uppercase',
@@ -296,7 +292,7 @@ export function B2BFinancialPerformance() {
             </div>
             <Button
               variant="ghost"
-              className="border-border-default text-accent-primary mt-2 h-10 w-full rounded-xl border text-[9px] font-black uppercase tracking-widest"
+              className="mt-2 h-10 w-full rounded-xl border border-slate-200 text-[9px] font-black uppercase tracking-widest text-indigo-600"
             >
               Подключить поток
             </Button>
@@ -315,18 +311,18 @@ export function B2BFinancialPerformance() {
               <h4 className="text-base font-black uppercase tracking-tight">
                 Прогноз Cash Flow (30 дней)
               </h4>
-              <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 Притоки vs Оттоки на основе графиков заказов (₽)
               </p>
             </div>
             <div className="flex gap-2">
               <Button
                 variant="outline"
-                className="border-border-default h-10 rounded-xl text-[9px] font-black uppercase"
+                className="h-10 rounded-xl border-slate-200 text-[9px] font-black uppercase"
               >
                 Экспорт книги
               </Button>
-              <Button className="bg-text-primary h-10 rounded-xl px-6 text-[9px] font-black uppercase text-white">
+              <Button className="h-10 rounded-xl bg-slate-900 px-6 text-[9px] font-black uppercase text-white">
                 Добавить расход
               </Button>
             </div>
@@ -335,7 +331,7 @@ export function B2BFinancialPerformance() {
             {[
               {
                 date: 'Feb 15',
-                desc: 'Order #FW26-042 Payment',
+                desc: 'Оплата заказа #FW26-042',
                 type: 'in',
                 amount: '+4.2M ₽',
                 status: 'Pending',
@@ -349,7 +345,7 @@ export function B2BFinancialPerformance() {
               },
               {
                 date: 'Feb 22',
-                desc: 'Pre-order #SS27-001 Deposit',
+                desc: 'Предзаказ #SS27-001 — предоплата',
                 type: 'in',
                 amount: '+12.5M ₽',
                 status: 'Confirmed',
@@ -364,22 +360,22 @@ export function B2BFinancialPerformance() {
             ].map((t, i) => (
               <div
                 key={i}
-                className="bg-bg-surface2 border-border-subtle hover:border-accent-primary/30 group flex items-center justify-between rounded-2xl border p-3 transition-all"
+                className="group flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50 p-3 transition-all hover:border-indigo-200"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-12 text-center">
-                    <p className="text-text-primary text-[10px] font-black uppercase">
+                    <p className="text-[10px] font-black uppercase text-slate-900">
                       {t.date.split(' ')[0]}
                     </p>
-                    <p className="text-text-primary text-sm font-black">{t.date.split(' ')[1]}</p>
+                    <p className="text-sm font-black text-slate-900">{t.date.split(' ')[1]}</p>
                   </div>
-                  <div className="bg-border-subtle h-10 w-[1px]" />
+                  <div className="h-10 w-[1px] bg-slate-200" />
                   <div>
-                    <p className="text-text-primary text-xs font-black uppercase">{t.desc}</p>
+                    <p className="text-xs font-black uppercase text-slate-900">{t.desc}</p>
                     <div className="mt-1 flex items-center gap-2">
                       <Badge
                         variant="outline"
-                        className="border-border-default text-text-muted text-[8px] font-black"
+                        className="border-slate-200 text-[8px] font-black text-slate-400"
                       >
                         {t.status}
                       </Badge>
@@ -394,7 +390,7 @@ export function B2BFinancialPerformance() {
                 <p
                   className={cn(
                     'text-sm font-black',
-                    t.type === 'in' ? 'text-emerald-500' : 'text-text-primary'
+                    t.type === 'in' ? 'text-emerald-500' : 'text-slate-900'
                   )}
                 >
                   {t.amount}
@@ -438,23 +434,23 @@ export function B2BFinancialPerformance() {
   );
 
   return (
-    <div className="bg-bg-surface2 flex h-full flex-col">
+    <div className="flex h-full flex-col bg-slate-50">
       <div className="space-y-4 overflow-auto p-3">
         <div className="flex items-center justify-between">
           <div className="space-y-1 text-left">
             <div className="flex items-center gap-3">
-              <div className="bg-accent-primary shadow-accent-primary/15 flex h-10 w-10 items-center justify-center rounded-2xl text-white shadow-lg">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
                 <BarChart3 className="h-5 w-5" />
               </div>
-              <h2 className="text-text-primary text-base font-black uppercase tracking-tight">
+              <h2 className="text-base font-black uppercase tracking-tight text-slate-900">
                 Финансовые показатели
               </h2>
             </div>
-            <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
               Фискальный мониторинг в реальном времени, прогнозирование и ИИ-бюджетирование
             </p>
           </div>
-          <div className="border-border-subtle flex items-center gap-3 rounded-2xl border bg-white p-1 shadow-sm">
+          <div className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-1 shadow-sm">
             {[
               { id: 'overview', label: 'Обзор', icon: BarChart3 },
               { id: 'forecasting', label: 'Прогноз', icon: TrendingUp },
@@ -467,8 +463,8 @@ export function B2BFinancialPerformance() {
                 className={cn(
                   'flex items-center gap-2 rounded-xl px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all',
                   activeTab === tab.id
-                    ? 'bg-text-primary text-white shadow-lg'
-                    : 'text-text-muted hover:text-text-secondary hover:bg-bg-surface2'
+                    ? 'bg-slate-900 text-white shadow-lg'
+                    : 'text-slate-400 hover:bg-slate-50 hover:text-slate-600'
                 )}
               >
                 <tab.icon className="h-3.5 w-3.5" />
@@ -495,21 +491,21 @@ export function B2BFinancialPerformance() {
                   <Card className="col-span-2 space-y-4 rounded-xl border-none bg-white p-3 shadow-2xl">
                     <div className="flex items-center justify-between">
                       <div className="space-y-1">
-                        <h4 className="text-text-primary text-base font-black uppercase tracking-tight">
+                        <h4 className="text-base font-black uppercase tracking-tight text-slate-900">
                           Распределение бюджета
                         </h4>
-                        <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                           Текущий сезон: FW26 (Осень/Зима 2026)
                         </p>
                       </div>
                       <div className="flex gap-2">
                         <Button
                           variant="outline"
-                          className="border-border-default h-10 rounded-xl text-[9px] font-black uppercase"
+                          className="h-10 rounded-xl border-slate-200 text-[9px] font-black uppercase"
                         >
                           Перераспределить
                         </Button>
-                        <Button className="bg-text-primary h-10 rounded-xl px-6 text-[9px] font-black uppercase text-white">
+                        <Button className="h-10 rounded-xl bg-slate-900 px-6 text-[9px] font-black uppercase text-white">
                           Новая цель
                         </Button>
                       </div>
@@ -521,7 +517,7 @@ export function B2BFinancialPerformance() {
                           cat: 'Верхняя одежда',
                           budget: 15000000,
                           spent: 12400000,
-                          color: 'bg-accent-primary',
+                          color: 'bg-indigo-600',
                         },
                         {
                           cat: 'Трикотаж',
@@ -540,21 +536,21 @@ export function B2BFinancialPerformance() {
                         <div key={i} className="space-y-3">
                           <div className="flex items-end justify-between">
                             <div className="space-y-1">
-                              <p className="text-text-primary text-xs font-black uppercase">
+                              <p className="text-xs font-black uppercase text-slate-900">
                                 {item.cat}
                               </p>
-                              <p className="text-text-muted text-[9px] font-bold uppercase">
+                              <p className="text-[9px] font-bold uppercase text-slate-400">
                                 Освоено: {((item.spent / item.budget) * 100).toFixed(1)}%
                               </p>
                             </div>
                             <div className="text-right">
-                              <p className="text-text-primary text-sm font-black">
+                              <p className="text-sm font-black text-slate-900">
                                 {item.spent.toLocaleString('ru-RU')} /{' '}
                                 {item.budget.toLocaleString('ru-RU')} ₽
                               </p>
                             </div>
                           </div>
-                          <div className="bg-bg-surface2 h-2 w-full overflow-hidden rounded-full">
+                          <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${(item.spent / item.budget) * 100}%` }}
@@ -569,44 +565,44 @@ export function B2BFinancialPerformance() {
                   <div className="space-y-6">
                     <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
                       <div className="flex items-center gap-3">
-                        <div className="bg-accent-primary/10 text-accent-primary flex h-12 w-12 items-center justify-center rounded-2xl">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
                           <PieChart className="h-6 w-6" />
                         </div>
-                        <h5 className="text-text-primary text-sm font-black uppercase">
+                        <h5 className="text-sm font-black uppercase text-slate-900">
                           Структура бюджета
                         </h5>
                       </div>
                       <div className="space-y-4">
                         <div className="flex items-center justify-between text-[10px] font-black uppercase">
-                          <span className="text-text-muted">Производство</span>
-                          <span className="text-text-primary">65%</span>
+                          <span className="text-slate-400">Производство</span>
+                          <span className="text-slate-900">65%</span>
                         </div>
                         <div className="flex items-center justify-between text-[10px] font-black uppercase">
-                          <span className="text-text-muted">Маркетинг</span>
-                          <span className="text-text-primary">20%</span>
+                          <span className="text-slate-400">Маркетинг</span>
+                          <span className="text-slate-900">20%</span>
                         </div>
                         <div className="flex items-center justify-between text-[10px] font-black uppercase">
-                          <span className="text-text-muted">Логистика</span>
-                          <span className="text-text-primary">15%</span>
+                          <span className="text-slate-400">Логистика</span>
+                          <span className="text-slate-900">15%</span>
                         </div>
                       </div>
                       <Button
                         variant="outline"
-                        className="border-border-subtle h-12 w-full rounded-xl text-[10px] font-black uppercase tracking-widest"
+                        className="h-12 w-full rounded-xl border-slate-100 text-[10px] font-black uppercase tracking-widest"
                       >
                         Детальный отчет
                       </Button>
                     </Card>
 
-                    <Card className="bg-text-primary space-y-4 rounded-xl border-none p-4 text-white shadow-xl">
+                    <Card className="space-y-4 rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl">
                       <h5 className="text-sm font-black uppercase tracking-tight">
                         AI Инсайт по экономии
                       </h5>
-                      <p className="text-text-muted text-[10px] font-medium uppercase leading-relaxed tracking-widest">
-                        Консолидация отгрузок FW26 через **Хаб Дубай** может снизить логистические
-                        расходы на **12% (1.4M ₽)**.
+                      <p className="text-[10px] font-medium uppercase leading-relaxed tracking-widest text-slate-400">
+                        Консолидация отгрузок FW26 через **РЦ Москва** может снизить логистические
+                        расходы на **12% (1,4 млн ₽)**.
                       </p>
-                      <Button className="text-text-primary h-10 w-full rounded-xl bg-white text-[9px] font-black uppercase tracking-widest">
+                      <Button className="h-10 w-full rounded-xl bg-white text-[9px] font-black uppercase tracking-widest text-slate-900">
                         Оптимизировать
                       </Button>
                     </Card>

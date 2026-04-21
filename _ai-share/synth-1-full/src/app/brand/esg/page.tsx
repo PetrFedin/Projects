@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import ESGDashboard from '@/components/brand/esg/ESGDashboard';
 import Link from 'next/link';
@@ -10,7 +11,7 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const ESG_LINKS = [
   { label: 'Production & BOM', href: ROUTES.brand.production },
@@ -26,7 +27,7 @@ const ESG_LINKS = [
 
 export default function BrandESGPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-20">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-20">
       <RegistryPageHeader
         title="ESG-мониторинг"
         leadPlain="Сертификаты, углеродный след и отчётность: статус A+ (демо)."
@@ -85,6 +86,6 @@ export default function BrandESGPage() {
       </div>
 
       <RelatedModulesBlock links={ESG_LINKS} className="mt-6" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

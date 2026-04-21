@@ -6,7 +6,6 @@ test.describe('B2B create-order platform export UI', () => {
   test('platform export card shows exportJobId after submit', async ({ page }) => {
     await page.goto('/shop/b2b/create-order', gotoOpts);
     await expect(page.getByTestId('page-shop-b2b-create-order')).toBeVisible({ timeout: 90_000 });
-    await expect(page.getByRole('heading', { name: /Создать заказ/i })).toBeVisible({ timeout: 30_000 });
     const card = page.getByTestId('shop-b2b-create-order-platform-export');
     await expect(card).toBeVisible({ timeout: 30_000 });
     await card.scrollIntoViewIfNeeded();

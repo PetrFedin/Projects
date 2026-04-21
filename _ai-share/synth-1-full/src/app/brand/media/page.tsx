@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -76,7 +77,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const ContentHubContent = dynamic(
   () => import('@/app/brand/content-hub/page').then((m) => m.default),
@@ -121,7 +122,7 @@ export default function BrandMediaPage() {
 
   return (
     <TooltipProvider>
-      <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+      <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
         <RegistryPageHeader
           title="Медиа и контент"
           leadPlain="DAM, контент-хаб, CMS, блог и live: единая медиа-поверхность бренда."
@@ -149,7 +150,7 @@ export default function BrandMediaPage() {
                 Live
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="media" className="mt-4">
+            <TabsContent value="media" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
               <Tabs defaultValue="dam" onValueChange={setActiveTab} className="w-full">
                 {/* cabinetSurface v1 */}
                 <TabsList className={cn(cabinetSurface.tabsList, 'mb-8 flex-wrap')}>
@@ -179,11 +180,11 @@ export default function BrandMediaPage() {
                   </TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="dam">
+                <TabsContent value="dam" className={cabinetSurface.cabinetProfileTabPanel}>
                   <BrandDAM />
                 </TabsContent>
 
-                <TabsContent value="streams" className="space-y-6">
+                <TabsContent value="streams" className={cabinetSurface.cabinetProfileTabPanel}>
                   <div className="grid grid-cols-1 items-start gap-3 lg:grid-cols-3">
                     <div className="lg:col-span-2">
                       <Card className="border-border-subtle overflow-hidden rounded-xl shadow-sm">
@@ -334,7 +335,7 @@ export default function BrandMediaPage() {
                   </div>
                 </TabsContent>
 
-                <TabsContent value="videos" className="space-y-6">
+                <TabsContent value="videos" className={cabinetSurface.cabinetProfileTabPanel}>
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                     <Card className="border-border-subtle bg-accent-primary group relative cursor-pointer overflow-hidden rounded-xl text-white shadow-sm">
                       <div className="absolute right-0 top-0 p-4 opacity-10 transition-transform group-hover:scale-110">
@@ -383,7 +384,7 @@ export default function BrandMediaPage() {
                   </div>
                 </TabsContent>
 
-                <TabsContent value="digital_hub" className="space-y-6">
+                <TabsContent value="digital_hub" className={cabinetSurface.cabinetProfileTabPanel}>
                   <div className="space-y-6">
                     <Card className="border-border-subtle overflow-hidden rounded-xl bg-white shadow-sm">
                       <CardContent className="flex items-center gap-3 p-4">
@@ -446,21 +447,21 @@ export default function BrandMediaPage() {
                 </TabsContent>
               </Tabs>
             </TabsContent>
-            <TabsContent value="content-hub" className="mt-4">
+            <TabsContent value="content-hub" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
               {tab === 'content-hub' && <ContentHubContent />}
             </TabsContent>
-            <TabsContent value="cms" className="mt-4">
+            <TabsContent value="cms" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
               {tab === 'cms' && <CmsContent />}
             </TabsContent>
-            <TabsContent value="blog" className="mt-4">
+            <TabsContent value="blog" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
               {tab === 'blog' && <BlogContent />}
             </TabsContent>
-            <TabsContent value="live" className="mt-4">
+            <TabsContent value="live" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
               {tab === 'live' && <LiveContent />}
             </TabsContent>
           </Tabs>
         </div>
-      </RegistryPageShell>
+      </CabinetPageContent>
 
       <LiveStreamAnalyticsDialog
         isOpen={isAnalyticsOpen}

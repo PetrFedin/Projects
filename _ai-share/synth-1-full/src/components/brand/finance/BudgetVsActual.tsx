@@ -40,7 +40,16 @@ export default function BudgetVsActual({
     async function load() {
       try {
         const data = await fastApiService.getBudgets(brandId, season);
-        setBudgets(Array.isArray(data) ? data : []);
+        setBudgets(
+          (Array.isArray(data) ? data : []) as {
+            id: string;
+            budget_type: string;
+            limit_amount: number;
+            spent_amount: number;
+            currency: string;
+            season?: string;
+          }[]
+        );
       } catch {
         setBudgets([]);
       } finally {

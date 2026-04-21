@@ -48,9 +48,14 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { EmptyState, FilterToolbar, PageHeader } from '@/components/design-system';
+import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { COLLECTION_STEPS } from '@/lib/production/collection-steps-catalog';
+import { COLLECTION_DEV_HUB_TITLE_RU } from '@/lib/production/collection-development-labels';
 import {
+  WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX,
   WORKSHOP2_PIPELINE_STEP_IDS,
+  workshop2PipelineLaneForStepId,
+  workshop2PipelineLaneLabelRu,
   type Workshop2RunStatus,
 } from '@/lib/production/workshop2-collection-metrics';
 import {
@@ -155,7 +160,7 @@ function Workshop2ArticleDateFlip({
   }, [addedAtIso, updatedAtIso]);
 
   if (!addedAtIso) {
-    return <span className="text-text-muted text-[9px]">Нет даты в Цехе 2</span>;
+    return <span className="text-text-muted text-[9px]">Нет даты в разработке коллекции</span>;
   }
   const canFlip =
     updatedAtIso && updatedAtIso !== addedAtIso && updatedAtIso.localeCompare(addedAtIso) > 0;
@@ -315,11 +320,11 @@ export type Workshop2ArticleRow = {
   commentPreview?: string;
   /** Полный текст комментария (workshopComment). */
   workshopComment?: string;
-  /** ISO добавления в Цех 2 (для сортировки). */
+  /** ISO добавления в разработку коллекции (для сортировки). */
   addedAtIso?: string;
-  /** ISO последнего изменения в Цех 2 (после смены состава и т.п.). */
+  /** ISO последнего изменения в разработке коллекции (после смены состава и т.п.). */
   updatedAtIso?: string;
-  /** Кто добавил строку в Цех 2 (если есть). */
+  /** Кто добавил строку в разработку коллекции (если есть). */
   createdInWorkshop2By?: string;
   /** Первое изображение из вложений строки (data URL) — для превью в фильтрах. */
   articleThumbDataUrl?: string;
@@ -372,7 +377,7 @@ export type Workshop2CollectionListItem = {
 };
 
 const READINESS_HELP =
-  'Показатель заполнения этапов по подборке: число завершённых пар «артикул × этап» (done/skipped) к общему числу таких пар. Диапазон 0–100%.';
+  'Показатель заполнения этапов по подборке: число завершённых пар «артикул × этап» (done/skipped) к общему числу таких пар. Диапазон 0–100%. На мини-шкале слева — разработка и ТЗ (в каталоге — в т.ч. tech-pack и gate-all-stakeholders), справа — от supply-path: сэмплы и выпуск (в досье артикула те же контуры: обзор/ТЗ vs снабжение и далее).';
 
 /** Подсказки для поля «Канал»; можно ввести любой свой текст. */
 const WORKSHOP2_TARGET_CHANNEL_SUGGESTIONS = [
@@ -569,7 +574,7 @@ type Props = {
 };
 
 const PAGE_SUBTITLE =
-  'Сезонные подборки и артикулы в производственном контуре бренда: что в работе и по каким изделиям ведётся разработка.';
+  'Коллекция → разработка артикула (обзор, ТЗ) → сэмплы и выпуск образца. На мини-шкале: слева разработка и согласование ТЗ (в т.ч. gate-all-stakeholders в матрице этапов), справа — от якоря supply-path в каталоге; в досье SKU те же контуры. Серия и опт — на поле цеха и в B2B, не здесь.';
 
 export function Workshop2TabContent({
   basePath,
@@ -1334,8 +1339,8 @@ export function Workshop2TabContent({
                   Артикулы · {open.displayName}
                 </CardTitle>
                 <CardDescription className="text-xs">
-                  Готовность по этапам каталога; клик по столбцу подсвечивает артикулы, которые
-                  сейчас на этом этапе.
+                  Слева — разработка и ТЗ по каталогу, справа — сэмплы и выпуск. Клик по столбцу
+                  подсвечивает артикулы, у которых по матрице открыт этот этап.
                 </CardDescription>
               </div>
               <div
@@ -1494,62 +1499,100 @@ export function Workshop2TabContent({
               </div>
               {rowsSorted.length === 0 ? null : (
                 <div className="border-accent-primary/20 w-full min-w-0 overflow-x-auto rounded-md border bg-white/80 p-1.5">
-                  <div className="flex min-w-max gap-px">
+                  <div className="flex min-w-max items-end gap-px">
                     {WORKSHOP2_PIPELINE_STEP_IDS.map((sid, idx) => {
                       const step = COLLECTION_STEP_BY_ID.get(sid);
                       const n = articleIds.length;
                       const done = aggregateSkuDoneCount(flowDoc, articleIds, sid);
                       const fillPct = n ? Math.round((done / n) * 100) : 0;
                       const active = articlePanelStageFilter === sid;
+                      const split = WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX;
+                      const showLaneSep =
+                        idx === split &&
+                        split > 0 &&
+                        split < WORKSHOP2_PIPELINE_STEP_IDS.length;
+                      const laneHint =
+                        idx < split ? 'Разработка и ТЗ' : 'Сэмплы и выпуск';
                       return (
-                        <Tooltip key={sid}>
-                          <TooltipTrigger asChild>
-                            <button
-                              type="button"
-                              className={cn(
-                                'flex h-11 w-8 shrink-0 flex-col items-stretch justify-end rounded-sm border px-0.5 pb-0.5 transition-colors',
-                                active
-                                  ? 'border-accent-primary bg-accent-primary/15 shadow-sm'
-                                  : 'border-border-default/90 hover:border-border-default hover:bg-bg-surface2 bg-white'
-                              )}
-                              aria-pressed={active}
-                              aria-label={`${step?.title ?? sid}: закрыли этап ${done} из ${n}`}
-                              onClick={() =>
-                                setArticlePanelStageFilter((prev) => (prev === sid ? null : sid))
-                              }
+                        <Fragment key={sid}>
+                          {showLaneSep ? (
+                            <div
+                              className="flex h-11 w-1 shrink-0 flex-col items-center justify-end px-0.5"
+                              role="separator"
+                              aria-orientation="vertical"
+                              aria-label="Разработка и ТЗ · сэмплы и выпуск"
                             >
-                              <div className="bg-border-subtle/90 relative mx-auto mt-1 flex h-7 w-5 flex-1 overflow-hidden rounded-sm">
-                                <div
-                                  className="bg-accent-primary absolute bottom-0 left-0 right-0 transition-all"
-                                  style={{ height: `${fillPct}%` }}
-                                />
-                              </div>
-                              <span className="text-text-secondary text-center text-[8px] font-bold tabular-nums">
-                                {idx + 1}
-                              </span>
-                            </button>
-                          </TooltipTrigger>
-                          <TooltipContent
-                            side="top"
-                            className="max-w-[260px] text-[11px] leading-snug"
-                          >
-                            <p className="font-semibold">{step?.title ?? sid}</p>
-                            <p className="text-text-secondary">
-                              Закрыли этап: {done}/{n} арт.
-                            </p>
-                            <p className="text-text-secondary mt-1">
-                              Повторный клик снимает подсветку строк.
-                            </p>
-                          </TooltipContent>
-                        </Tooltip>
+                              <div className="bg-border-default h-9 w-px" />
+                            </div>
+                          ) : null}
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                type="button"
+                                className={cn(
+                                  'flex h-11 w-8 shrink-0 flex-col items-stretch justify-end rounded-sm border px-0.5 pb-0.5 transition-colors',
+                                  active
+                                    ? 'border-accent-primary bg-accent-primary/15 shadow-sm'
+                                    : 'border-border-default/90 hover:border-border-default hover:bg-bg-surface2 bg-white'
+                                )}
+                                aria-pressed={active}
+                                aria-label={`${step?.title ?? sid}: закрыли этап ${done} из ${n}`}
+                                onClick={() =>
+                                  setArticlePanelStageFilter((prev) => (prev === sid ? null : sid))
+                                }
+                              >
+                                <div className="bg-border-subtle/90 relative mx-auto mt-1 flex h-7 w-5 flex-1 overflow-hidden rounded-sm">
+                                  <div
+                                    className="bg-accent-primary absolute bottom-0 left-0 right-0 transition-all"
+                                    style={{ height: `${fillPct}%` }}
+                                  />
+                                </div>
+                                <span className="text-text-secondary text-center text-[8px] font-bold tabular-nums">
+                                  {idx + 1}
+                                </span>
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                              side="top"
+                              className="max-w-[260px] text-[11px] leading-snug"
+                            >
+                              <p className="font-semibold">{step?.title ?? sid}</p>
+                              <p className="text-text-secondary">{laneHint}</p>
+                              <p className="text-text-secondary">
+                                Закрыли этап: {done}/{n} арт.
+                              </p>
+                              <p className="text-text-secondary mt-1">
+                                Повторный клик снимает подсветку строк.
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </Fragment>
                       );
                     })}
                   </div>
+                  {WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX > 0 &&
+                  WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX <
+                    WORKSHOP2_PIPELINE_STEP_IDS.length ? (
+                    <div className="text-text-muted mt-1.5 flex w-full min-w-0 flex-wrap justify-between gap-x-2 gap-y-0.5 text-[9px] leading-tight">
+                      <span>
+                        Разработка: этапы 1–{WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX}
+                      </span>
+                      <span className="text-right">
+                        Сэмплы и выпуск: этапы{' '}
+                        {WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX + 1}–
+                        {WORKSHOP2_PIPELINE_STEP_IDS.length}
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
               )}
               {articlePanelStageFilter ? (
                 <p className="text-accent-primary/90 text-[10px]">
-                  Подсветка: артикулы, у которых по матрице текущий открытый этап — «
+                  Подсветка ·{' '}
+                  {workshop2PipelineLaneForStepId(articlePanelStageFilter) === 'development'
+                    ? 'контур разработки'
+                    : 'контур сэмплов'}
+                  : артикулы, у которых по матрице текущий открытый этап — «
                   {COLLECTION_STEP_BY_ID.get(articlePanelStageFilter)?.title ??
                     articlePanelStageFilter}
                   ».
@@ -1607,6 +1650,14 @@ export function Workshop2TabContent({
                     WORKSHOP2_PIPELINE_STEP_IDS,
                     prog
                   );
+                  const pipelineLane = workshop2PipelineLaneForStepId(currentStepId);
+                  const openArticleAriaLabel = (() => {
+                    const base = row.name?.trim()
+                      ? `Открыть артикул ${row.sku}, ${row.name.trim()}`
+                      : `Открыть артикул ${row.sku}`;
+                    if (prog.total === 0) return `${base}. Этапы по матрице не заданы.`;
+                    return `${base}. Готовность по этапам ${prog.pct}%, ${prog.done} из ${prog.total}. Текущий контур: ${workshop2PipelineLaneLabelRu(pipelineLane)}.`;
+                  })();
                   return (
                     <li
                       key={row.id}
@@ -1618,6 +1669,7 @@ export function Workshop2TabContent({
                     >
                       <button
                         type="button"
+                        aria-label={openArticleAriaLabel}
                         className={cn(
                           'flex min-h-0 min-w-0 flex-1 flex-row items-stretch justify-between gap-2 overflow-hidden px-4 py-3 text-left transition-colors',
                           'hover:bg-accent-primary/10 active:bg-accent-primary/15',
@@ -1667,6 +1719,20 @@ export function Workshop2TabContent({
                                 В работе
                               </Badge>
                             )}
+                            {prog.total > 0 ? (
+                              <Badge
+                                variant="outline"
+                                title="По матрице этапов: текущий открытый этап — контур разработки (до supply-path) или сэмплов (от supply-path)"
+                                className={cn(
+                                  'h-5 px-1.5 text-[8px] font-bold normal-case',
+                                  pipelineLane === 'development'
+                                    ? 'border-indigo-200 bg-indigo-50 text-indigo-950'
+                                    : 'border-teal-200 bg-teal-50 text-teal-950'
+                                )}
+                              >
+                                {workshop2PipelineLaneLabelRu(pipelineLane)}
+                              </Badge>
+                            ) : null}
                             {row.attachmentCount ? (
                               <span
                                 className="text-text-secondary inline-flex items-center gap-0.5 text-[9px]"
@@ -1705,7 +1771,15 @@ export function Workshop2TabContent({
                               {prog.pct}%
                             </span>
                           )}
-                          <Progress value={prog.pct} className="h-1.5 w-full" />
+                          <Progress
+                            value={prog.pct}
+                            className="h-1.5 w-full"
+                            aria-label={
+                              prog.total === 0
+                                ? 'Прогресс по этапам не задан'
+                                : `Закрыто этапов по матрице коллекции: ${prog.done} из ${prog.total}, ${prog.pct}%`
+                            }
+                          />
                           <span className="text-text-muted text-right text-[8px] uppercase leading-tight tracking-tighter">
                             Этапы {prog.done}/{prog.total}
                           </span>
@@ -2302,6 +2376,7 @@ export function Workshop2TabContent({
                               <Progress
                                 value={metrics.progressPct}
                                 className="h-2.5 min-w-0 flex-1 basis-0"
+                                aria-label={`Общая готовность подборки по всем артикулам и этапам: ${metrics.progressPct}%`}
                               />
                               <div className="flex shrink-0 items-center gap-0.5">
                                 <span className="text-accent-primary whitespace-nowrap text-base font-black tabular-nums">
@@ -2414,7 +2489,29 @@ export function Workshop2TabContent({
     <TooltipProvider delayDuration={200}>
       <div className="space-y-5">
         <PageHeader
-          title="Цех 2"
+          title={COLLECTION_DEV_HUB_TITLE_RU}
+          titleAddon={
+            <>
+              <span className="sr-only">Контуры на шкале коллекции:</span>
+              <Badge
+                variant="outline"
+                title="Левая часть мини-шкалы (каталог: до supply-path, в т.ч. gate-all-stakeholders) и вкладки обзор/ТЗ в карточке артикула"
+                className="h-6 border-indigo-200 bg-indigo-50 px-2 text-[10px] font-bold uppercase tracking-wide text-indigo-950"
+              >
+                Разработка
+              </Badge>
+              <span className="text-slate-400 text-xs font-medium" aria-hidden>
+                →
+              </span>
+              <Badge
+                variant="outline"
+                title="Правая часть мини-шкалы (от якоря supply-path в каталоге) — снабжение и далее в карточке артикула"
+                className="h-6 border-teal-200 bg-teal-50 px-2 text-[10px] font-bold uppercase tracking-wide text-teal-950"
+              >
+                Сэмплы
+              </Badge>
+            </>
+          }
           description={PAGE_SUBTITLE}
           className="border-border-default/80 mb-0 border-b pb-4"
           actions={
@@ -2456,10 +2553,29 @@ export function Workshop2TabContent({
           }
         />
 
+        {w2col && activeCollection ? (
+          <div className="space-y-1">
+            <Breadcrumb
+              items={[
+                { label: COLLECTION_DEV_HUB_TITLE_RU, href: basePath },
+                {
+                  label: `Коллекция · ${activeCollection.displayName}`,
+                  title: activeCollection.displayName,
+                },
+              ]}
+              className="text-text-secondary flex-wrap gap-x-1 gap-y-0.5 text-[11px] leading-tight"
+            />
+            <p className="text-text-muted text-[10px] leading-snug">
+              Откройте артикул: слева в карточке SKU — обзор и ТЗ (согласования как в gate-all-stakeholders), справа — от
+              supply-path снабжение и выпуск (как на мини-шкале). Серия и опт — на поле цеха и в B2B.
+            </p>
+          </div>
+        ) : null}
+
         <details className="border-border-default bg-bg-surface2/80 group rounded-lg border shadow-sm">
           <summary className="text-text-primary flex cursor-pointer list-none items-center gap-2 px-3 py-2.5 text-left text-xs font-semibold [&::-webkit-details-marker]:hidden">
             <ClipboardList className="text-accent-primary h-4 w-4 shrink-0" aria-hidden />
-            <span>Пилот Цеха 2 — чеклист и обратная связь</span>
+            <span>Пилот разработки коллекции — чеклист и обратная связь</span>
             <ChevronDown className="text-text-muted ml-auto h-4 w-4 shrink-0 transition group-open:rotate-180" />
           </summary>
           <div className="border-border-default text-text-primary space-y-3 border-t bg-white px-3 py-3 text-[11px] leading-snug">
@@ -2474,7 +2590,7 @@ export function Workshop2TabContent({
             </ol>
             <a
               className="text-accent-primary inline-flex items-center gap-1 font-semibold hover:underline"
-              href={`mailto:?subject=${encodeURIComponent('Пилот Цеха 2 — обратная связь')}&body=${encodeURIComponent('Коллекция / SKU:\n\nЧто сработало:\n\nЧто мешает:\n')}`}
+              href={`mailto:?subject=${encodeURIComponent('Пилот разработки коллекции — обратная связь')}&body=${encodeURIComponent('Коллекция / SKU:\n\nЧто сработало:\n\nЧто мешает:\n')}`}
             >
               Открыть шаблон письма (mailto)
             </a>

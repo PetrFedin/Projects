@@ -30,14 +30,14 @@ export type LocalOrderLine = Record<string, unknown> & {
   fabricMainFromBrandStock: boolean;
   investorDemo?: boolean;
   lineStatus?: string;
-  /** Цех 2: создан с нуля или скопирован из базы артикулов. */
+  /** Разработка коллекции: создан с нуля или скопирован из базы артикулов. */
   articleOrigin?: Workshop2ArticleOrigin;
   workshopComment?: string;
   workshopAttachments?: { name: string; dataUrl: string }[];
-  /** Кто добавил строку в Цехе 2 (аудит). */
+  /** Кто добавил строку в разработке коллекции (аудит). */
   createdInWorkshop2By?: string;
   createdInWorkshop2At?: string;
-  /** ISO последнего изменения строки в Цехе 2 (состав коллекции, метаданные). */
+  /** ISO последнего изменения строки в разработке коллекции (состав коллекции, метаданные). */
   updatedInWorkshop2At?: string;
   /** Внутренний 6-значный номер артикула (от 100000), уникальный в локальном инвентаре. */
   internalArticleCode?: string;
@@ -56,7 +56,7 @@ export type UserCollectionRow = {
   updatedAt?: string;
   /** ISO-время переноса в архив (только для записей в archivedUserCollections). */
   archivedAt?: string;
-  /** Опциональная мета коллекции (Цех 2). */
+  /** Опциональная мета коллекции (разработка коллекции). */
   targetSeason?: string;
   targetChannel?: string;
   dropDeadlineIso?: string;
@@ -74,7 +74,7 @@ export type LocalCollectionInventory = {
   userCollections: UserCollectionRow[];
   /** Пользовательские коллекции, убранные в архив (локально). */
   archivedUserCollections: UserCollectionRow[];
-  /** Обложки карточек коллекций в Цехе 2: id коллекции → data URL (локально). */
+  /** Обложки карточек коллекций в разработке коллекции: id коллекции → data URL (локально). */
   collectionCovers?: Record<string, string>;
   /** Системные коллекции (SS27), убранные в архив. */
   archivedSystemCollectionIds?: string[];
@@ -701,7 +701,7 @@ function buildWorkshop2NewArticleLine(
 }
 
 /**
- * Пометить локальные строки Цеха 2 как изменённые (кроме id из exceptLineIds) —
+ * Пометить локальные строки разработки коллекции как изменённые (кроме id из exceptLineIds) —
  * чтобы в UI чередовались «создан» / «изменён» после смены состава.
  */
 export function touchWorkshop2LinesOnCompositionChange(
@@ -801,7 +801,7 @@ function applyWorkshop2ArticleCommitInner(
   return { ok: true, inventory: nextInv, newArticleId: line.id };
 }
 
-/** Добавить артикул в коллекцию Цеха 2 (новый или клон из базы). */
+/** Добавить артикул в коллекцию в разработке (новый или клон из базы). */
 export function applyWorkshop2ArticleCommit(
   inv: LocalCollectionInventory,
   collectionId: string,
@@ -864,7 +864,7 @@ export type Workshop2ArticleLinePatch = {
   workshopTzSignatoryBindings?: Workshop2TzSignatoryBindings | null;
 };
 
-/** Обновить поля строки артикула в Цехе 2 (имя, комментарий, категория, вложения). */
+/** Обновить поля строки артикула в разработке коллекции (имя, комментарий, категория, вложения). */
 export function patchWorkshop2ArticleLine(
   inv: LocalCollectionInventory,
   collectionId: string,

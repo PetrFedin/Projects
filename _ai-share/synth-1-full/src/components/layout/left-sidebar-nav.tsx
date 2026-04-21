@@ -23,9 +23,9 @@ import {
   Palette,
   PanelLeftOpen,
   PanelLeftClose,
+  TableProperties,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useUIState } from '@/providers/ui-state';
 import { ROUTES } from '@/lib/routes';
 
 const REFERENCE_SECTIONS = [
@@ -43,14 +43,15 @@ type NavDropdown = {
   sections: typeof REFERENCE_SECTIONS;
 };
 
-function isNavDropdown(item: NavLink | NavDropdown): item is NavDropdown {
-  return 'sections' in item;
-}
-
 export const leftSidebarNavLinks: (NavLink | NavDropdown)[] = [
   { href: ROUTES.catalog, icon: Tags, label: 'Каталог брендов' },
   { href: '/project-info', icon: Info, label: 'О проекте' },
   { href: '/project-status', icon: ClipboardList, label: 'Реестр проекта' },
+  {
+    href: '/project-info/roles-matrix',
+    icon: TableProperties,
+    label: 'Матрица ролей',
+  },
   { href: '/quiz', icon: HelpCircle, label: 'Квиз для брендов' },
   { href: '/project-info/product-display', icon: Table, label: 'Структура данных' },
   { type: 'dropdown', icon: ListTree, label: 'Справочники', sections: REFERENCE_SECTIONS },
@@ -58,14 +59,12 @@ export const leftSidebarNavLinks: (NavLink | NavDropdown)[] = [
 
 export function LeftSidebarNav() {
   const pathname = usePathname();
-  const { isFlowMapOpen } = useUIState();
   const [collapsed, setCollapsed] = useState(true);
 
   return (
     <div
       className={cn(
-        'fixed left-0 top-1/2 z-[100] -translate-y-1/2 transition-all duration-300',
-        isFlowMapOpen && 'pointer-events-none opacity-0',
+        'fixed left-0 top-1/2 z-[700] -translate-y-1/2 transition-all duration-300',
         collapsed && 'pointer-events-none'
       )}
     >
@@ -74,7 +73,7 @@ export function LeftSidebarNav() {
         type="button"
         onClick={() => setCollapsed((v) => !v)}
         className={cn(
-          'border-border-default text-text-muted hover:text-text-primary hover:bg-bg-surface2 pointer-events-auto absolute -right-3 top-1/2 z-10 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border bg-white shadow-md transition-all',
+          'pointer-events-auto absolute -right-3 top-1/2 z-10 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 shadow-md transition-all hover:bg-slate-50 hover:text-slate-900',
           collapsed ? 'translate-x-[52px]' : 'translate-x-[calc(100%+16px)]'
         )}
         aria-label={collapsed ? 'Развернуть панель' : 'Свернуть панель'}
@@ -95,7 +94,7 @@ export function LeftSidebarNav() {
         )}
       >
         {leftSidebarNavLinks.map((link) => {
-          if (isNavDropdown(link)) {
+          if ('type' in link && link.type === 'dropdown') {
             const isActive = link.sections.some(
               (s: (typeof REFERENCE_SECTIONS)[number]) =>
                 pathname === s.href || pathname.startsWith(s.href + '/')
@@ -109,8 +108,8 @@ export function LeftSidebarNav() {
                         buttonVariants({ variant: 'ghost', size: 'icon' }),
                         'h-10 w-10 rounded-xl transition-all duration-300',
                         isActive
-                          ? 'bg-text-primary text-white shadow-lg'
-                          : 'text-text-muted hover:bg-bg-surface2 hover:text-text-primary'
+                          ? 'bg-slate-900 text-white shadow-lg'
+                          : 'text-slate-400 hover:bg-slate-50 hover:text-slate-900'
                       )}
                     >
                       <link.icon className="h-5 w-5" />
@@ -122,7 +121,7 @@ export function LeftSidebarNav() {
                     className="rounded-lg text-[10px] font-bold uppercase tracking-widest"
                   >
                     <p>{link.label}</p>
-                    <p className="text-text-muted mt-0.5 text-[9px] font-normal normal-case">
+                    <p className="mt-0.5 text-[9px] font-normal normal-case text-slate-400">
                       Категории, размеры, цвета
                     </p>
                   </TooltipContent>
@@ -163,8 +162,8 @@ export function LeftSidebarNav() {
                     buttonVariants({ variant: 'ghost', size: 'icon' }),
                     'h-10 w-10 rounded-xl transition-all duration-300',
                     isActive
-                      ? 'bg-text-primary text-white shadow-lg'
-                      : 'text-text-muted hover:bg-bg-surface2 hover:text-text-primary'
+                      ? 'bg-slate-900 text-white shadow-lg'
+                      : 'text-slate-400 hover:bg-slate-50 hover:text-slate-900'
                   )}
                 >
                   <navLink.icon className="h-5 w-5" />

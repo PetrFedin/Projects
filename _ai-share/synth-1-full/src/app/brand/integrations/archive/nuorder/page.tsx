@@ -15,9 +15,15 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { jsonAs } from '@/lib/json';
 
 type Message = { type: 'success' | 'error'; text: string };
+
+type NuorderActionResponse = {
+  success?: boolean;
+  error?: string;
+  processed?: number;
+};
 
 export default function BrandIntegrationsNuorderPage() {
   const [inventoryMsg, setInventoryMsg] = useState<Message | null>(null);
@@ -43,7 +49,7 @@ export default function BrandIntegrationsNuorderPage() {
           overwrite: false,
         }),
       });
-      const data = await res.json();
+      const data = jsonAs<NuorderActionResponse>(await res.json());
       if (data.success)
         setInventoryMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
       else setInventoryMsg({ type: 'error', text: data.error ?? 'Ошибка' });
@@ -69,7 +75,7 @@ export default function BrandIntegrationsNuorderPage() {
           shipped_at: new Date().toISOString(),
         }),
       });
-      const data = await res.json();
+      const data = jsonAs<NuorderActionResponse>(await res.json());
       if (data.success) setShipmentMsg({ type: 'success', text: 'Статус отгрузки отправлен' });
       else setShipmentMsg({ type: 'error', text: data.error ?? 'Ошибка' });
     } catch (e) {
@@ -92,7 +98,7 @@ export default function BrandIntegrationsNuorderPage() {
           note: 'Amendment: quantity update',
         }),
       });
-      const data = await res.json();
+      const data = jsonAs<NuorderActionResponse>(await res.json());
       if (data.success) setEditMsg({ type: 'success', text: 'Заказ обновлён' });
       else setEditMsg({ type: 'error', text: data.error ?? 'Ошибка' });
     } catch (e) {
@@ -113,7 +119,7 @@ export default function BrandIntegrationsNuorderPage() {
           items: [{ sku: 'DEMO-SKU-01', qty_suggested: 25, min_qty: 10 }],
         }),
       });
-      const data = await res.json();
+      const data = jsonAs<NuorderActionResponse>(await res.json());
       if (data.success)
         setReplenishmentMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
       else setReplenishmentMsg({ type: 'error', text: data.error ?? 'Ошибка' });
@@ -128,18 +134,20 @@ export default function BrandIntegrationsNuorderPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
-      <RegistryPageHeader
-        title="NuOrder"
-        leadPlain="Остатки (pre-book, ATS), отгрузки, amendments, replenishment. OAuth 1.0."
-        eyebrow={
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.brand.integrations} aria-label="Назад к интеграциям">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.brand.integrations}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
           </Button>
-        }
-      />
+        </Link>
+        <div>
+          <h1 className="text-2xl font-bold uppercase tracking-tight">NuOrder</h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            Остатки (pre-book, ATS), отгрузки, amendments, replenishment. OAuth 1.0.
+          </p>
+        </div>
+      </div>
 
       <div className="grid gap-4">
         <Card>
@@ -179,7 +187,7 @@ export default function BrandIntegrationsNuorderPage() {
           <CardContent className="space-y-3">
             <input
               type="text"
-              placeholder="Order ID"
+              placeholder="ID заказа"
               value={orderIdShipment}
               onChange={(e) => setOrderIdShipment(e.target.value)}
               className="w-48 rounded border px-2 py-1.5 text-sm"
@@ -215,7 +223,7 @@ export default function BrandIntegrationsNuorderPage() {
           <CardContent className="space-y-3">
             <input
               type="text"
-              placeholder="Order ID"
+              placeholder="ID заказа"
               value={orderIdEdit}
               onChange={(e) => setOrderIdEdit(e.target.value)}
               className="w-48 rounded border px-2 py-1.5 text-sm"
@@ -299,6 +307,6 @@ export default function BrandIntegrationsNuorderPage() {
           </Button>
         </Link>
       </div>
-    </RegistryPageShell>
+    </div>
   );
 }

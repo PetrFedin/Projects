@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Calculator, Percent } from 'lucide-react';
 import { B2BModulePage } from '@/components/shop/B2BModulePage';
-import { RegistryPageShell } from '@/components/design-system';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
@@ -20,7 +20,7 @@ export default function B2BMarginCalculatorPage() {
   const margin = sellPrice > 0 ? (((sellPrice - buyPrice) / sellPrice) * 100).toFixed(1) : '0';
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopAnalyticsSegmentErpStrip />
       <B2BModulePage
         title="Margin Calculator"
@@ -84,6 +84,6 @@ export default function B2BMarginCalculatorPage() {
         </Button>
         <B2bMarginAnalysisHubButton />
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,7 +18,6 @@ import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { Share2, ArrowRightLeft, Database, Globe, Zap, AlertCircle, RefreshCw } from 'lucide-react';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
-import { RegistryPageShell } from '@/components/design-system';
 
 /**
  * Integration Hub (Connective Tissue) UI
@@ -28,7 +28,7 @@ export default function IntegrationHubPage() {
   const [activeTab, setActiveTab] = useState('internal');
 
   return (
-    <RegistryPageShell className="space-y-6 py-12 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 py-12 pb-16 px-4 py-6 pb-24 sm:px-6">
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
         <div className="flex-1">
           <h1 className="font-headline text-sm font-bold">Integration Hub</h1>
@@ -73,7 +73,7 @@ export default function IntegrationHubPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="internal" className="space-y-6 pt-6">
+        <TabsContent value="internal" className={cn(cabinetSurface.cabinetProfileTabPanel, 'pt-6')}>
           <div className="grid gap-3 md:grid-cols-2">
             <Card>
               <CardHeader>
@@ -166,7 +166,7 @@ export default function IntegrationHubPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="external" className="space-y-6 pt-6">
+        <TabsContent value="external" className={cn(cabinetSurface.cabinetProfileTabPanel, 'pt-6')}>
           <div className="grid gap-3 md:grid-cols-3">
             {['Wildberries', 'Ozon', 'Amazon'].map((mp) => (
               <Card key={mp}>
@@ -209,6 +209,6 @@ export default function IntegrationHubPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,9 +1,9 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import {
   Users,
@@ -38,7 +38,7 @@ import {
 
 export default function FootfallAnalysisPage() {
   return (
-    <RegistryPageShell className="max-w-6xl space-y-6 duration-700 animate-in fade-in">
+    <CabinetPageContent maxWidth="6xl" className="space-y-6 duration-700 animate-in fade-in">
       <ShopAnalyticsSegmentErpStrip />
       <header className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-4 md:flex-row md:items-center">
         <div className="space-y-1">
@@ -463,6 +463,6 @@ export default function FootfallAnalysisPage() {
           </Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

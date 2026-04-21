@@ -27,7 +27,7 @@ export const PROFILE_MAIN_PAGES: Record<ProfileKey, string[]> = {
     ROUTES.factory.supplier,
     ROUTES.distributor.home,
   ],
-  brand: ['/brand'],
+  brand: [ROUTES.brand.home, '/brand'],
   /** `/shop` — дашборд; `/shop/b2b` — редирект на `/shop`; сценарии — в сайдбаре. */
   shop: ['/shop', '/shop/b2b'],
   retailer: ['/shop', '/shop/b2b'],
@@ -52,16 +52,12 @@ export const PROFILE_MAIN_PAGES: Record<ProfileKey, string[]> = {
 /** Resource → основные маршруты (для поиска, breadcrumb) */
 export const RESOURCE_TO_ROUTES: Record<Resource, string[]> = {
   brand_profile: ['/brand/profile', '/brand/profile?group=profile', '/brand?group=profile'],
-  production: [
-    '/brand/production',
-    '/brand/production/operations',
-    '/brand/factories',
-    '/brand/materials',
-  ],
+  production: ['/brand/production', '/brand/production/operations'],
   b2b_orders: [
     ROUTES.brand.b2bOrders,
     '/brand/showroom',
     '/brand/b2b/linesheets',
+    '/brand/factories',
     '/shop/b2b/orders',
   ],
   b2b_catalog: [
@@ -70,11 +66,21 @@ export const RESOURCE_TO_ROUTES: Record<Resource, string[]> = {
     '/brand/products/matrix',
     '/shop/b2b/catalog',
   ],
-  warehouse: ['/brand/warehouse', '/brand/logistics', '/brand/inventory'],
+  warehouse: ['/brand/warehouse', '/brand/logistics', '/brand/inventory', '/brand/materials'],
   finance: ['/brand/finance', '/brand/pricing', ROUTES.shop.b2bFinance, ROUTES.shop.b2bPayment],
   compliance: ['/brand/compliance', '/brand/documents', '/brand/disputes'],
   integrations: ['/brand/integrations'],
-  team: ['/brand/team', '/brand/messages', '/brand/calendar', '/brand/tasks'],
+  team: [
+    '/brand/team',
+    '/brand/messages',
+    '/brand/calendar',
+    '/brand/tasks',
+    ROUTES.shop.staff,
+    ROUTES.shop.messages,
+    ROUTES.shop.calendar,
+    '/shop/b2b/trade-shows',
+    '/shop/b2b/trade-shows/appointments',
+  ],
   analytics: [
     '/brand/analytics',
     '/brand/analytics-bi',
@@ -107,9 +113,13 @@ export const RESOURCE_TO_ROUTES: Record<Resource, string[]> = {
 
 /** Nav group id → RBAC Resource. Группы без resource видны brand/admin. */
 export const NAV_GROUP_RESOURCE: Record<string, Resource> = {
-  org: 'brand_profile',
-  catalog: 'b2b_catalog',
+  team: 'team',
+  'brand-admin': 'brand_profile',
+  pim: 'b2b_catalog',
+  /** Разработка коллекции — тот же доступ, что к производственному контуру. */
+  development: 'production',
   production: 'production',
+  comms: 'team',
   logistics: 'warehouse',
   b2b: 'b2b_orders',
   partners: 'b2b_orders',
@@ -120,6 +130,10 @@ export const NAV_GROUP_RESOURCE: Record<string, Resource> = {
 
 /** Shop nav group id → Resource. Для фильтрации ритейл-центра по роли. */
 export const SHOP_NAV_GROUP_RESOURCE: Record<string, Resource> = {
+  /** Команда магазина (`/shop/staff`) — тот же ресурс `team`, что и сообщения/календарь в связке. */
+  team: 'team',
+  /** Сообщения и календарь байера — `RESOURCE_TO_ROUTES.team`. */
+  comms: 'team',
   overview: 'analytics',
   /** @deprecated — см. retail-ops, inventory-precision */
   retail: 'warehouse',
@@ -130,6 +144,9 @@ export const SHOP_NAV_GROUP_RESOURCE: Record<string, Resource> = {
   'b2b-procurement': 'b2b_orders',
   'b2b-execution': 'b2b_orders',
   'b2b-service': 'b2b_orders',
+  pim: 'b2b_catalog',
+  logistics: 'warehouse',
+  'shop-b2b-extended': 'b2b_orders',
   /** @deprecated старые id групп до схлопывания навигации */
   'b2b-trade-entry': 'b2b_orders',
   'b2b-order-writing': 'b2b_orders',
@@ -149,7 +166,9 @@ export const SHOP_NAV_GROUP_RESOURCE: Record<string, Resource> = {
 export const SHOP_NAV_GROUP_ROLES: Partial<Record<string, readonly PlatformRole[]>> = {
   /** Розница и склад сети: операционные роли, не чистый HQ-buyer. */
   'retail-ops': ['retailer', 'distributor', 'sales_rep', 'merchandiser', 'admin'],
+  /** @deprecated см. shop-b2b-extended */
   'inventory-precision': ['retailer', 'distributor', 'merchandiser', 'admin'],
+  'shop-b2b-extended': ['retailer', 'distributor', 'sales_rep', 'merchandiser', 'admin'],
   /** Сеть, бюджет, команда: магазин + финконтур + дистрибутор. */
   management: ['retailer', 'finance_manager', 'distributor', 'admin'],
 };

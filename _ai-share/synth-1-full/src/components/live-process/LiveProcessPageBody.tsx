@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -38,6 +38,7 @@ import { PushNotificationBanner } from '@/components/live-process/PushNotificati
 import { LiveProcessMobileQuickActions } from '@/components/live-process/LiveProcessMobileQuickActions';
 import { processLiveUrl } from '@/lib/routes';
 import { ROUTES } from '@/lib/routes';
+import type { LiveProcessDefinition } from '@/lib/live-process/types';
 
 type ViewMode = 'grid' | 'kanban' | 'gantt' | 'graph';
 
@@ -87,11 +88,57 @@ export function LiveProcessPageBody({
     contextId && contextId !== 'default' ? contextId : undefined
   );
 
-  const definition = useMemo(() => getLiveProcessDefinition(processId), [processId]);
+  const staticDefinition = useMemo(() => getLiveProcessDefinition(processId), [processId]);
+  const [definition, setDefinition] = useState<LiveProcessDefinition | null>(staticDefinition);
+  const [defResolved, setDefResolved] = useState(() => Boolean(staticDefinition));
+  /** Сбрасывает редактор схемы при новой версии с сервера (GET/PUT). */
+  const [schemeEditorRevision, setSchemeEditorRevision] = useState(0);
+
+  useEffect(() => {
+    setDefinition(staticDefinition);
+  }, [staticDefinition]);
+
+  useEffect(() => {
+    setSchemeEditorRevision(0);
+  }, [processId]);
+
+  useEffect(() => {
+    let cancelled = false;
+    setDefResolved(Boolean(staticDefinition));
+    fetch(`/api/processes/${encodeURIComponent(processId)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: unknown) => {
+        const def = data as LiveProcessDefinition | null;
+        if (cancelled || !def?.id || !Array.isArray(def.stages)) return;
+        setDefinition(def);
+        setSchemeEditorRevision((n) => n + 1);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setDefResolved(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [processId, staticDefinition]);
+
+  const [processIdList, setProcessIdList] = useState<string[]>(() => getAllLiveProcessIds());
+  useEffect(() => {
+    fetch('/api/processes')
+      .then((r) => (r.ok ? r.json() : []))
+      .then((list: unknown) => {
+        if (!Array.isArray(list) || !list.length) return;
+        const ids = (list as { id: string }[]).map((p) => p.id).filter(Boolean);
+        setProcessIdList((prev) => [...new Set([...prev, ...ids])]);
+      })
+      .catch(() => {});
+  }, []);
+
   const team = useMemo(() => getLiveProcessTeam(), []);
   const { runtimes, updateStageRuntime } = useLiveProcessRuntimeWithCalendar(
     processId,
-    contextId || 'default'
+    contextId || 'default',
+    definition
   );
 
   const completedCount = useMemo(() => {
@@ -160,16 +207,28 @@ export function LiveProcessPageBody({
     };
   }, [definition, runtimes]);
 
-  if (!processId || !definition) {
+  if (!processId) {
+    return null;
+  }
+
+  if (!definition && !defResolved) {
+    return (
+      <div className="text-muted-foreground container mx-auto max-w-4xl px-4 py-10 text-sm">
+        Загрузка схемы процесса…
+      </div>
+    );
+  }
+
+  if (!definition) {
     return (
       <div className="container mx-auto max-w-4xl px-4 py-8">
         <Card>
           <CardHeader>
             <CardTitle>LIVE process</CardTitle>
-            <CardDescription>Выберите процесс:</CardDescription>
+            <CardDescription>Процесс не найден или выберите другой:</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
-            {getAllLiveProcessIds().map((id) => (
+            {processIdList.map((id) => (
               <Link key={id} href={processLiveUrl(id)}>
                 <Button variant="outline" size="sm">
                   {id}
@@ -286,14 +345,23 @@ export function LiveProcessPageBody({
             Редактор этапов — создание/редактирование без деплоя
           </h2>
           <LiveProcessSchemeEditor
+            key={`${processId}-${schemeEditorRevision}`}
             processId={processId}
+            initialDefinition={definition}
             onSave={async (def) => {
               const res = await fetch(`/api/processes/${processId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(def),
               });
-              if (res.ok) setShowSchemeEditor(false);
+              if (res.ok) {
+                const updated = (await res.json()) as LiveProcessDefinition;
+                if (updated?.id && Array.isArray(updated.stages)) {
+                  setDefinition(updated);
+                  setSchemeEditorRevision((n) => n + 1);
+                }
+                setShowSchemeEditor(false);
+              }
             }}
           />
         </div>
@@ -303,7 +371,9 @@ export function LiveProcessPageBody({
         <CardHeader className="pb-2">
           <CardTitle className="text-sm uppercase tracking-tight">Прогресс по этапам</CardTitle>
           <CardDescription>
-            Ответственные, даты, доступы и обсуждения по каждому этапу. Данные сохраняются локально.
+            Ответственные, даты, доступы и обсуждения по каждому этапу. Прогресс — в браузере
+            (localStorage); схема этапов после «Сохранить» в редакторе — в `.data/workflow-store.json` на
+            сервере (см. API `/api/processes`).
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
@@ -314,7 +384,7 @@ export function LiveProcessPageBody({
             </span>
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
-            {getAllLiveProcessIds().map((id) => (
+            {processIdList.map((id) => (
               <Link key={id} href={processLiveUrl(id, contextId)}>
                 <Button
                   variant={id === processId ? 'default' : 'ghost'}

@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -55,7 +55,7 @@ export default function OrderDetailsPage({
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await fetch('/data/products.json');
-      const allProducts: Product[] = await res.json();
+      const allProducts = (await res.json()) as Product[];
       setOrderItems(allProducts.slice(0, 2));
     };
     fetchProducts();
@@ -72,7 +72,7 @@ export default function OrderDetailsPage({
   }
 
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       <div className="mb-8 flex items-center gap-3">
         <Button variant="outline" size="icon" asChild>
           <Link href={ROUTES.shop.orders}>
@@ -271,6 +271,6 @@ export default function OrderDetailsPage({
           </div>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

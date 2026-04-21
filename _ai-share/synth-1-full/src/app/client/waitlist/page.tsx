@@ -13,8 +13,10 @@ import {
   removeFromWaitlist,
   type WaitlistEntryV1,
 } from '@/lib/fashion/waitlist-store';
-import { ArrowLeft, Bell, Trash2, ShoppingBag } from 'lucide-react';
+import { Trash2, ShoppingBag } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { useToast } from '@/hooks/use-toast';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function WaitlistPage() {
   const { toast } = useToast();
@@ -31,24 +33,8 @@ export default function WaitlistPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.client.home}>
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold">
-            <Bell className="h-6 w-6 text-primary" />
-            Лист ожидания
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Здесь собраны товары и размеры, которых нет в наличии. Мы пришлем уведомление при
-            поступлении.
-          </p>
-        </div>
-      </div>
+    <CabinetPageContent maxWidth="4xl">
+      <ClientCabinetSectionHeader />
 
       <Card>
         <CardHeader>
@@ -117,6 +103,6 @@ export default function WaitlistPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

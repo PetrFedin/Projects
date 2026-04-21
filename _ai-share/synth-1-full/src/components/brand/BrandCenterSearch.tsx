@@ -24,14 +24,24 @@ type SearchResult = {
   fromFavorite?: boolean;
 };
 
+function isBrandNavLinkForSearch(
+  link: unknown
+): link is { href: string; label: string; description?: string } {
+  if (link === null || typeof link !== 'object') return false;
+  const o = link as Record<string, unknown>;
+  return typeof o.href === 'string' && typeof o.label === 'string';
+}
+
 export function BrandCenterSearch({ open, onOpenChange }: BrandCenterSearchProps) {
   const router = useRouter();
   const { recentPages, favorites, addRecent } = useBrandCenter();
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const searchableLinks = allBrandNavLinks.map((link) => ({
-    ...link,
+  const searchableLinks = allBrandNavLinks.filter(isBrandNavLinkForSearch).map((link) => ({
+    href: link.href,
+    label: link.label,
+    description: link.description,
     searchText: `${link.label} ${link.description || ''} ${link.href}`.toLowerCase(),
   }));
 

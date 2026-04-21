@@ -151,6 +151,22 @@ export function buildBackToStagesMatrixHref(ctx: ParsedStageUrlContext): string 
   return `/brand/production${q ? `?${q}` : ''}`;
 }
 
+/** Матрица этапов с привязкой коллекции и артикула (ядро №1: сквозной контекст). */
+export function buildStagesMatrixHrefForArticle(
+  collectionId: string,
+  articleId: string,
+  stagesStep?: string
+): string {
+  return buildBackToStagesMatrixHref({
+    collectionId,
+    stagesSku: articleId,
+    stagesStep: stagesStep ?? '',
+    skuCode: '',
+    productId: '',
+    resolvedArticleId: articleId,
+  });
+}
+
 /** Частичное обновление query на странице производства (контекст этапов). `null` в поле — удалить параметр. */
 export type BrandProductionStagesPatch = Partial<{
   floorTab: string | null;

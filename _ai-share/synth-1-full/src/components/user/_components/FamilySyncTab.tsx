@@ -190,7 +190,7 @@ export const FamilySyncTab = ({ form }: FamilySyncTabProps) => {
                   <FormItem className="m-0">
                     <FormLabel>Контакт (email/id)</FormLabel>
                     <FormControl>
-                      <Input className={compactInput} placeholder="email / id" {...field} />
+                      <Input className={compactInput} placeholder="почта или id" {...field} />
                     </FormControl>
                   </FormItem>
                 )}

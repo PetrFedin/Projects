@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,7 +10,6 @@ import { Camera, ArrowLeft } from 'lucide-react';
 import { getCycleCountingLinks } from '@/lib/data/entity-links';
 import { listCycleCountSessions } from '@/lib/api';
 import type { CycleCountSession } from '@/lib/shop/cycle-counting';
-import { RegistryPageShell } from '@/components/design-system';
 import { ROUTES } from '@/lib/routes';
 
 const statusLabels: Record<CycleCountSession['status'], string> = {
@@ -27,7 +27,7 @@ export default function CycleCountingPage() {
   }, []);
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <div className="flex items-center gap-3">
         <Link href={ROUTES.shop.inventory}>
           <Button variant="ghost" size="icon">
@@ -98,6 +98,6 @@ export default function CycleCountingPage() {
           </ul>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

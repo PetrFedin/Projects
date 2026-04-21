@@ -62,8 +62,12 @@ export async function joorFetchOrders(
       headers: { Authorization: `Bearer ${config.accessToken}` },
     });
     if (!res.ok) return [];
-    const data = (await res.json()) as { data?: JoorOrderRaw[]; orders?: JoorOrderRaw[] };
-    const orders: JoorOrderRaw[] = Array.isArray(data) ? data : (data.data ?? data.orders ?? []);
+    const parsed = (await res.json()) as unknown;
+    const orders: JoorOrderRaw[] = Array.isArray(parsed)
+      ? (parsed as JoorOrderRaw[])
+      : ((parsed as { data?: JoorOrderRaw[]; orders?: JoorOrderRaw[] }).data ??
+        (parsed as { data?: JoorOrderRaw[]; orders?: JoorOrderRaw[] }).orders ??
+        []);
     return orders.map((o) => ({
       id: String(o.id),
       source: 'joor' as const,

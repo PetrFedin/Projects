@@ -25,6 +25,7 @@ import {
   SAMPLE_PRODUCTION_CHAIN_LABELS,
   validateSampleIntakeForCollection,
 } from '@/lib/production/workshop2-sample-intake-gate';
+import { Workshop2Core1MatrixBridgeCard } from '@/components/brand/production/Workshop2Core1MatrixBridgeCard';
 
 function newRowId(): string {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
@@ -62,6 +63,12 @@ function PanelShell({
           <div className="space-y-1">
             <p className="text-text-primary text-[12px] font-semibold">{title}</p>
             <CardDescription className="text-[11px]">{hint}</CardDescription>
+            <p className="text-teal-900/85 text-[10px] leading-snug" role="note">
+              <span className="font-bold text-teal-950">Сэмплы</span> — тот же контур, что правая часть мини-шкалы в
+              списке коллекции (группа «Сэмплы и выпуск» в статусе маршрута выше). В каталоге этапов коллекции это зона
+              от supply-path и далее (в т.ч. шаг samples — отшив и приёмка образца), распределённая по этим вкладкам и
+              полу цеха.
+            </p>
           </div>
           <span className="border-border-default bg-bg-surface2 text-text-secondary rounded border px-1.5 py-0.5 font-mono text-[9px]">
             {dataMode === 'http' ? 'API' : 'local'}
@@ -723,6 +730,7 @@ export function Workshop2ArticlePlanPoPanel() {
 
   return (
     <div className="space-y-3">
+      <Workshop2Core1MatrixBridgeCard />
       <PanelShell
         title="План · заказ (PO)"
         hint="Черновики и статусы заказов; дальше — связь с ERP и подтверждениями."

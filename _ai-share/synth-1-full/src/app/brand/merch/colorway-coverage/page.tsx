@@ -16,6 +16,7 @@ import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { buildColorwayRollup, colorwayRollupToCsv } from '@/lib/fashion/colorway-rollup';
 import { ArrowLeft, Palette } from 'lucide-react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function ColorwayCoveragePage() {
   const rows = useMemo(() => buildColorwayRollup(products), []);
@@ -32,7 +33,7 @@ export default function ColorwayCoveragePage() {
   };
 
   return (
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="5xl">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -95,6 +96,6 @@ export default function ColorwayCoveragePage() {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

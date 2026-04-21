@@ -1,11 +1,19 @@
 import { NextResponse } from 'next/server';
 import { generateEzOrderToken } from '@/lib/b2b/ez-order-link';
+import { readJsonBody } from '@/lib/http/read-json-body';
 
 /** POST /api/b2b/ez-order/generate — создать EZ Order ссылку (NuOrder-style) */
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { brandId, linesheetId, collectionId, expiresInDays, allowedEmail, allowedDomain } = body;
+    const { brandId, linesheetId, collectionId, expiresInDays, allowedEmail, allowedDomain } =
+      await readJsonBody<{
+        brandId?: string;
+        linesheetId?: string;
+        collectionId?: string;
+        expiresInDays?: number;
+        allowedEmail?: string;
+        allowedDomain?: string;
+      }>(request);
     if (!brandId || !linesheetId) {
       return NextResponse.json({ error: 'brandId and linesheetId required' }, { status: 400 });
     }

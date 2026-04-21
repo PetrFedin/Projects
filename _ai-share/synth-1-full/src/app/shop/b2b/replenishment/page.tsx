@@ -1,8 +1,8 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import SmartReplenishment from '@/components/shop/replenishment/SmartReplenishment';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import Link from 'next/link';
@@ -12,7 +12,7 @@ import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisH
 
 export default function SmartReplenishmentPage() {
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6">
       <ShopB2bContentHeader lead="AI-пополнение по POS и остаткам; связь с заказами B2B и трекингом." />
       <ShopAnalyticsSegmentErpStrip />
       <SmartReplenishment />
@@ -36,6 +36,6 @@ export default function SmartReplenishmentPage() {
         </Button>
         <B2bMarginAnalysisHubButton />
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

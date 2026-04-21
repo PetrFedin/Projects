@@ -26,6 +26,7 @@ import { useRouter } from 'next/navigation';
 import { useB2BOperationalOrdersList } from '@/hooks/use-b2b-operational-orders-list';
 import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 import { ROUTES } from '@/lib/routes';
+import { getWholesaleOrderIdFromB2BOrder } from '@/lib/domain/cross-role-entity-ids';
 
 export default function B2BOrdersPage() {
   const router = useRouter();
@@ -90,13 +91,14 @@ export default function B2BOrdersPage() {
           </TableHeader>
           <TableBody>
             {orders.map((order) => {
+              const wid = getWholesaleOrderIdFromB2BOrder(order);
               const statusInfo = getStatusVariant(order.status);
               const requiresAction = order.status === 'На проверке';
               return (
-                <TableRow key={order.order} data-state={requiresAction ? 'selected' : ''}>
+                <TableRow key={wid} data-state={requiresAction ? 'selected' : ''}>
                   <TableCell className="font-medium">
                     <Button variant="link" asChild className="p-0 font-medium">
-                      <Link href={ROUTES.brand.b2bOrder(order.order)}>{order.order}</Link>
+                      <Link href={ROUTES.brand.b2bOrder(wid)}>{wid}</Link>
                     </Button>
                   </TableCell>
                   <TableCell>{order.shop}</TableCell>
@@ -110,7 +112,7 @@ export default function B2BOrdersPage() {
                   <TableCell className="text-right">{order.amount}</TableCell>
                   <TableCell className="text-right">
                     <Button variant={requiresAction ? 'default' : 'outline'} size="sm" asChild>
-                      <Link href={ROUTES.brand.b2bOrder(order.order)}>
+                      <Link href={ROUTES.brand.b2bOrder(wid)}>
                         {requiresAction && <AlertCircle className="mr-2 size-4" />}
                         {requiresAction ? 'Рассмотреть' : 'Посмотреть'}
                       </Link>

@@ -17,6 +17,7 @@ import {
 import { products } from '@/lib/products';
 import { getMarketplaceHealth } from '@/lib/fashion/marketplace-health';
 import { Button } from '@/components/ui/button';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function MarketplaceHealthPage() {
   const healthData = products.slice(0, 10).map((p) => ({
@@ -25,7 +26,7 @@ export default function MarketplaceHealthPage() {
   }));
 
   return (
-    <div className="mx-auto max-w-6xl p-8">
+    <CabinetPageContent maxWidth="6xl" className="space-y-6 p-8 pb-24">
       <div className="mb-8">
         <div className="mb-2 flex items-center gap-3">
           <div className="rounded-lg bg-emerald-100 p-2 shadow-sm">
@@ -183,6 +184,6 @@ export default function MarketplaceHealthPage() {
           </p>
         </Card>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

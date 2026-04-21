@@ -77,7 +77,7 @@ export function LookProductItem({ item, look, excludeIds }: LookProductItemProps
         `/api/ai/stylist/alternatives?productId=${p.id}&category=${p.category}&excludeIds=${excludeIds.join(',')}`
       );
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as { alternatives?: typeof alternatives };
         setAlternatives(data.alternatives ?? []);
       }
     } catch {
@@ -97,10 +97,10 @@ export function LookProductItem({ item, look, excludeIds }: LookProductItemProps
         body: JSON.stringify({ productName: p.title, category: p.category }),
       });
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as { suggestedSize?: string; recommendation?: string };
         setSizeSuggestion({
-          suggestedSize: data.suggestedSize,
-          recommendation: data.recommendation,
+          suggestedSize: data.suggestedSize ?? '—',
+          recommendation: data.recommendation ?? '',
         });
       }
     } catch {
@@ -119,7 +119,7 @@ export function LookProductItem({ item, look, excludeIds }: LookProductItemProps
     try {
       const res = await fetchAiWithRetry(`/api/ai/reviews?productId=${p.id}`);
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as ReviewSummaryPayload;
         setReviewsSummary(data);
       }
     } catch {

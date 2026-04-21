@@ -58,7 +58,6 @@ export interface DigitalWardrobeItem {
   lastWornAt?: string;
   timesWorn: number;
   isFavorite: boolean;
-  resaleEligible: boolean;
 }
 
 export interface AIStyleRecommendation {

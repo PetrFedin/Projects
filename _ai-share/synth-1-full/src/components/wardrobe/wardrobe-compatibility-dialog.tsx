@@ -33,7 +33,7 @@ export function WardrobeCompatibilityDialog({
       const fetchProducts = async () => {
         try {
           const res = await fetch('/data/products.json');
-          const allProducts: Product[] = await res.json();
+          const allProducts = (await res.json()) as Product[];
           // Mock purchased items
           setPurchasedProducts(allProducts.slice(1, 4));
         } catch (error) {

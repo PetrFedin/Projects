@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import {
   Suspense,
   useCallback,
@@ -15,7 +16,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Smartphone, QrCode, Trash2 } from 'lucide-react';
 import { B2BModulePage } from '@/components/shop/B2BModulePage';
-import { RegistryPageShell } from '@/components/design-system';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
 import { fetchShowroomSampleByRegistryId } from '@/lib/fashion/showroom-sample-client';
@@ -353,7 +353,7 @@ function ScannerFallback() {
 /** Colect, Le New Black: Sales App — скан бирок образцов → список моделей → размеры/кол-ва. */
 export default function B2BScannerPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <B2BModulePage
         title="Sales App (мобильное)"
         description="Скан QR и штрихкода бирки образца в шоуруме — модель сразу в списке выбранного, без ручного ввода артикула."
@@ -365,6 +365,6 @@ export default function B2BScannerPage() {
           <B2BScannerInner />
         </Suspense>
       </B2BModulePage>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

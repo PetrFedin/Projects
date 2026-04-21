@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import {
   Card,
   CardContent,
@@ -243,7 +244,7 @@ export default function BPIMatrixPage() {
 
   return (
     <TooltipProvider>
-      <div className="space-y-4">
+      <CabinetPageContent maxWidth="full" className="space-y-4">
         <header className="flex items-start justify-between">
           <div>
             <h1 className="font-headline text-base font-bold">
@@ -647,7 +648,7 @@ export default function BPIMatrixPage() {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </CabinetPageContent>
 
       <Dialog open={isCreateSegmentDialogOpen} onOpenChange={setIsCreateSegmentDialogOpen}>
         <DialogContent>

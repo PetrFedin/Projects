@@ -1,4 +1,4 @@
-# JSON Schema: досье Цех 2 · фаза 1 и каталог атрибутов
+# JSON Schema: досье разработки коллекции (workshop2) · фаза 1 и каталог атрибутов
 
 | Файл | Назначение |
 |------|------------|
@@ -8,16 +8,16 @@
 ## Проверка локально и в CI
 
 ```bash
-cd synth-1
+cd _ai-share/synth-1-full
 npm run schemas:validate              # JSON + каркас схем
 npm run schemas:validate:examples     # ajv: schemas/examples/*.min.json
 ```
 
-В GitHub Actions job **`synth-1`** запускает оба шага после `npm install`.
+В CI монорепо шаги привязаны к **`_ai-share/synth-1-full`** (единственный фронтенд в репозитории).
 
 Снимок категорий для приложения: `npm run gen:category-catalog` → `src/lib/production/generated/category-handbook.snapshot.json`; импорт в коде — `@/lib/production/category-catalog`.
 
-Инстанс каталога атрибутов (фаза 1 Цеха 2): `src/lib/production/data/attribute-catalog.instance.json`, загрузка в рантайме — `@/lib/production/attribute-catalog`.
+Инстанс каталога атрибутов (фаза 1 разработки коллекции): `src/lib/production/data/attribute-catalog.instance.json`, загрузка в рантайме — `@/lib/production/attribute-catalog`.
 
 В инстансе и схеме: **`workflowPhases`** `[1|2|3]` у атрибута — на экране фазы 1 показываются только с `1`; **`phase1CoreOrder`** — порядок глобальных полей (страна → сезон → цвет → …); **`leafBindings`** — какие атрибуты подмешиваются по `leafId` (Ур. 1–3 из снимка категорий). Подсказки под «свой атрибут»: **`phase1HintExamples`** у группы.
 

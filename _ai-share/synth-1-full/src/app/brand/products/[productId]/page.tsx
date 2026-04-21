@@ -20,7 +20,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ChevronLeft, Loader2, Save, Sparkles, Package, Layers } from 'lucide-react';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { Badge } from '@/components/ui/badge';
-import { ROUTES } from '@/lib/routes';
 
 export default function ProductEditPage({
   params: paramsPromise,
@@ -46,26 +45,26 @@ export default function ProductEditPage({
         title="Редактирование товара"
         description="Карточка SKU: данные, медиа, BOM. Связи: Products, Variant Matrix, Production, Inventory, Linesheets."
         icon={Package}
-        iconBg="bg-accent-primary/15"
-        iconColor="text-accent-primary"
+        iconBg="bg-indigo-100"
+        iconColor="text-indigo-600"
         badges={
           <>
             <Badge variant="outline" className="text-[9px]">
               SKU
             </Badge>
             <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
-              <Link href={ROUTES.brand.products}>Products</Link>
+              <Link href="/brand/products">Products</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href={ROUTES.brand.productsMatrix}>
+              <Link href="/brand/products/matrix">
                 <Layers className="mr-1 h-3 w-3" /> Matrix
               </Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href={ROUTES.brand.production}>Production</Link>
+              <Link href="/brand/production">Production</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href={ROUTES.brand.inventory}>Inventory</Link>
+              <Link href="/brand/inventory">Inventory</Link>
             </Button>
           </>
         }
@@ -190,7 +189,11 @@ export default function ProductEditPage({
                                 includeSeo,
                               }),
                             });
-                            const json = await res.json();
+                            const json = (await res.json()) as {
+                              description?: string;
+                              metaTitle?: string;
+                              metaDescription?: string;
+                            };
                             if (json.description) form.setValue('description', json.description);
                             if (includeSeo && (json.metaTitle || json.metaDescription)) {
                               const prev = form.getValues('seo') ?? {};
@@ -260,7 +263,7 @@ export default function ProductEditPage({
                                   '',
                               }),
                             });
-                            const json = await res.json();
+                            const json = (await res.json()) as { tags?: string[] };
                             if (json.tags?.length) form.setValue('tags', json.tags);
                           } finally {
                             setAiLoading(false);
@@ -277,7 +280,7 @@ export default function ProductEditPage({
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="minimal, casual, formal..."
+                        placeholder="минимализм, casual, formal…"
                         value={Array.isArray(field.value) ? field.value.join(', ') : ''}
                         onChange={(e) =>
                           field.onChange(e.target.value ? e.target.value.split(/,\s*/) : [])
@@ -291,7 +294,7 @@ export default function ProductEditPage({
             </CardContent>
           </Card>
 
-          <div className="text-text-muted rounded-xl border-2 border-dashed bg-white/50 p-3 text-center font-bold uppercase tracking-widest">
+          <div className="rounded-xl border-2 border-dashed bg-white/50 p-3 text-center font-bold uppercase tracking-widest text-slate-400">
             Секции инвентаря, медиа и атрибутов рефакторятся...
           </div>
         </form>

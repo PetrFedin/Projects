@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createView, listViews } from '../../../services/viewsStore';
 import { normalizeFilters } from '../../../lib/serverQuery';
+import { readJsonBody } from '@/lib/http/read-json-body';
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -10,7 +11,11 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const body = await req.json();
+  const body = await readJsonBody<{
+    name?: unknown;
+    scope?: unknown;
+    filters?: Record<string, unknown>;
+  }>(req);
   const name = String(body.name ?? 'Untitled view');
   const scope = (body.scope === 'team' ? 'team' : 'personal') as 'personal' | 'team';
   const ownerId = scope === 'personal' ? 'me' : undefined;

@@ -1,28 +1,36 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, type ComponentType } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { ChevronDown, Star, MessageSquare } from 'lucide-react';
+import { ChevronDown, ChevronRight, Star, MessageSquare } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { useNavPins } from '@/hooks/use-nav-pins';
-import { NAV_GROUP_CLUSTERS, type brandNavGroups } from '@/lib/data/brand-navigation';
+import {
+  NAV_GROUP_CLUSTERS,
+  type brandNavGroups,
+} from '@/lib/data/brand-navigation';
+import {
+  BRAND_ARCHIVE_GROUP_ORDER,
+  BRAND_CORE_GROUP_ORDER,
+  sortNavGroupsByOrder,
+} from '@/lib/data/syntha-nav-clusters';
 
 type NavGroup = (typeof brandNavGroups)[number];
 type ClusterId = (typeof NAV_GROUP_CLUSTERS)[number]['id'];
 type NavLink = NavGroup['links'][number];
 
-/** Совпадение href с path + query: ссылки с ?… требуют тех же параметров в URL (напр. Цех 2 vs Цех). */
+/** Совпадение href с path + query: ссылки с ?… требуют тех же параметров в URL (напр. разработка коллекции vs пол). */
 function hrefMatchScore(href: string, path: string, sp: URLSearchParams): number {
   const qIdx = href.indexOf('?');
   const pathPart = (qIdx >= 0 ? href.slice(0, qIdx) : href).replace(/\/$/, '') || '/';
   const queryPart = qIdx >= 0 ? href.slice(qIdx + 1) : '';
-  if (pathPart === '/brand') {
-    return path === '/brand' ? pathPart.length : -1;
+  if (pathPart === '/brand' || pathPart === '/brand/profile') {
+    return path === '/brand' || path === '/brand/profile' ? pathPart.length : -1;
   }
   if (path !== pathPart && !path.startsWith(`${pathPart}/`)) return -1;
   const base = pathPart.length;
@@ -34,39 +42,71 @@ function hrefMatchScore(href: string, path: string, sp: URLSearchParams): number
   return base + 1000 + queryPart.length;
 }
 
-/** Длина самого длинного префикса ссылки, совпадающего с path (-1 = нет совпадения). */
-function linkMatchSpecificity(link: NavLink, path: string, sp: URLSearchParams): number {
-  const href = (link as { href?: string }).href ?? '';
-  let max = hrefMatchScore(href, path, sp);
-  const subsections = (link as { subsections?: { href: string }[] }).subsections;
-  for (const s of subsections ?? []) {
-    max = Math.max(max, hrefMatchScore(s.href, path, sp));
-  }
-  return max;
+type NavSubsection = {
+  href: string;
+  label: string;
+  value: string;
+  icon?: ComponentType<{ className?: string }>;
+  /** Не рисовать в сайдбаре (маршрут только для подсветки и метаданных). */
+  hideInSidebar?: boolean;
+  /** Вложенные пункты (напр. лайншиты внутри B2B Шоурум). */
+  children?: NavSubsection[];
+};
+
+function visibleSubsections(subs: NavSubsection[] | undefined): NavSubsection[] {
+  return (subs ?? []).filter((s) => !s.hideInSidebar);
 }
 
-function isLinkActive(link: NavLink, winnerValue: string | undefined): boolean {
+function hasSubsections(
+  link: NavLink
+): link is NavLink & { subsections: NavSubsection[] } {
+  return !!(link as { subsections?: unknown[] }).subsections?.length;
+}
+
+function subsectionMatchesWinner(s: NavSubsection, winnerValue: string): boolean {
+  if (s.value === winnerValue) return true;
+  return !!s.children?.some((c) => subsectionMatchesWinner(c, winnerValue));
+}
+
+function isLinkOrSubActive(link: NavLink, winnerValue: string | undefined): boolean {
   if (winnerValue === undefined) return false;
-  return link.value === winnerValue;
+  if (link.value === winnerValue) return true;
+  const subs = (link as { subsections?: NavSubsection[] }).subsections;
+  return !!subs?.some((s) => subsectionMatchesWinner(s, winnerValue));
 }
 
-/** Из всех совпадений по префиксу оставляем самое узкое (длинный href), иначе /brand/analytics подсвечивается вместе с /brand/analytics/budget-actual. */
+/** Самое узкое совпадение по href (родитель или подпункт), иначе коллизии по префиксу. */
 function resolveMostSpecificActiveLink(
   allLinks: NavLink[],
   pathname: string,
   sp: URLSearchParams
-): NavLink | undefined {
+): { link: NavLink; activeValue: string } | undefined {
   const path = pathname.replace(/\/$/, '') || '/';
-  let best: NavLink | undefined;
-  let bestScore = -1;
+  let best: { link: NavLink; activeValue: string; score: number } | undefined;
   for (const link of allLinks) {
-    const score = linkMatchSpecificity(link, path, sp);
-    if (score > bestScore) {
-      bestScore = score;
-      best = link;
+    const href = (link as { href?: string }).href ?? '';
+    const parentScore = hrefMatchScore(href, path, sp);
+    if (parentScore >= 0) {
+      const v = (link as { value: string }).value;
+      if (!best || parentScore > best.score) {
+        best = { link, activeValue: v, score: parentScore };
+      }
+    }
+    const subs = (link as { subsections?: NavSubsection[] }).subsections;
+    for (const s of subs ?? []) {
+      const sc = hrefMatchScore(s.href, path, sp);
+      if (sc >= 0 && (!best || sc > best.score)) {
+        best = { link, activeValue: s.value, score: sc };
+      }
+      for (const ch of s.children ?? []) {
+        const chSc = hrefMatchScore(ch.href, path, sp);
+        if (chSc >= 0 && (!best || chSc > best.score)) {
+          best = { link, activeValue: ch.value, score: chSc };
+        }
+      }
     }
   }
-  return bestScore >= 0 ? best : undefined;
+  return best;
 }
 
 function NavLinkActions({ linkKey, onNavigate }: { linkKey: string; onNavigate?: () => void }) {
@@ -183,25 +223,36 @@ export function BrandSidebar({
     {} as Record<ClusterId, NavGroup[]>
   );
 
-  const flatLinks = filtered.flatMap((g) => g.links);
+  const flatLinks: NavLink[] = [];
+  for (const g of filtered) {
+    for (const l of g.links) {
+      flatLinks.push(l as NavLink);
+    }
+  }
   const sp = useMemo(() => new URLSearchParams(searchParams?.toString() ?? ''), [searchParams]);
   const resolvedActive = resolveMostSpecificActiveLink(flatLinks, pathname || '', sp);
-  const activeLinkValue = resolvedActive?.value;
+  const activeLinkValue = resolvedActive?.activeValue;
   const activeGroupId = resolvedActive
-    ? filtered.find((g) => g.links.some((l) => l.value === resolvedActive.value))?.id
+    ? filtered.find((g) => g.links.some((l) => l.value === resolvedActive.link.value))?.id
     : undefined;
 
   const groupIdsKey = useMemo(() => groups.map((g) => g.id).join('|'), [groups]);
 
-  /** По умолчанию все группы развёрнуты — иначе ссылки скрыты в Collapsible и кажется, что навигация «не работает». */
-  const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(groups.map((g) => g.id)));
+  /** По умолчанию развёрнут только основной контур; архив свёрнут до ручного разворота или перехода в раздел. */
+  const [openGroups, setOpenGroups] = useState<Set<string>>(() => {
+    return new Set(
+      groups
+        .filter((g) => (g as NavGroup & { clusterId?: string }).clusterId === 'syntha-cores')
+        .map((g) => g.id)
+    );
+  });
 
   useEffect(() => {
     setOpenGroups((prev) => {
       const next = new Set(prev);
       let changed = false;
       for (const g of groups) {
-        if (!next.has(g.id)) {
+        if (!next.has(g.id) && (g as NavGroup & { clusterId?: string }).clusterId === 'syntha-cores') {
           next.add(g.id);
           changed = true;
         }
@@ -234,7 +285,11 @@ export function BrandSidebar({
     >
       <div className="space-y-0.5 p-2">
         {NAV_GROUP_CLUSTERS.map((cluster) => {
-          const clusterGroups = groupsByCluster[cluster.id].filter(Boolean);
+          const raw = groupsByCluster[cluster.id].filter(Boolean);
+          const clusterGroups = sortNavGroupsByOrder(
+            raw,
+            cluster.id === 'syntha-cores' ? BRAND_CORE_GROUP_ORDER : BRAND_ARCHIVE_GROUP_ORDER
+          );
           if (clusterGroups.length === 0) return null;
 
           return (
@@ -277,7 +332,153 @@ export function BrandSidebar({
                       <CollapsibleContent>
                         <div className="border-border-subtle ml-3 space-y-0.5 border-l pb-2 pl-2 pr-1 pt-0.5">
                           {group.links.map((link) => {
-                            const active = isLinkActive(link, activeLinkValue);
+                            const subs = hasSubsections(link)
+                              ? visibleSubsections(
+                                  link.subsections.filter((s) => s.href) as NavSubsection[]
+                                )
+                              : [];
+                            const parentStrong = activeLinkValue === link.value;
+                            const parentMild =
+                              !parentStrong &&
+                              isLinkOrSubActive(link, activeLinkValue) &&
+                              subs.length > 0;
+
+                            if (subs.length > 0) {
+                              return (
+                                <div
+                                  key={link.value}
+                                  className={cn(
+                                    'group/sub flex flex-col gap-0.5',
+                                    pins[link.value]?.pinned &&
+                                      'rounded-md bg-amber-50/50 ring-1 ring-amber-200'
+                                  )}
+                                >
+                                  <div className="flex">
+                                    <Link
+                                      href={(link as { href: string }).href}
+                                      onClick={onNavigate}
+                                      className={cn(
+                                        'flex flex-1 items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
+                                        parentStrong
+                                          ? 'bg-text-primary text-white'
+                                          : parentMild
+                                            ? 'bg-bg-surface2 text-text-primary'
+                                            : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
+                                      )}
+                                    >
+                                      <link.icon className="h-3.5 w-3.5 shrink-0" />
+                                      <span className="flex-1 truncate">{link.label}</span>
+                                      <ChevronRight
+                                        className={cn(
+                                          'text-text-muted h-3 w-3 shrink-0',
+                                          parentMild && 'text-text-secondary'
+                                        )}
+                                        aria-hidden
+                                      />
+                                    </Link>
+                                    <NavLinkActions linkKey={link.value} onNavigate={onNavigate} />
+                                  </div>
+                                  <div className="border-border-subtle space-y-0.5 border-l pl-3">
+                                    {subs.map((sub) => {
+                                      const SubIcon = sub.icon;
+                                      const subActive = activeLinkValue === sub.value;
+                                      const hasChildren = !!sub.children?.length;
+
+                                      if (hasChildren) {
+                                        const nestMild =
+                                          !subActive &&
+                                          sub.children!.some((c) => activeLinkValue === c.value);
+                                        return (
+                                          <div key={sub.value} className="space-y-0.5">
+                                            <Link
+                                              href={sub.href}
+                                              onClick={onNavigate}
+                                              className={cn(
+                                                'flex items-center gap-2 truncate rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
+                                                subActive
+                                                  ? 'bg-text-primary text-white'
+                                                  : nestMild
+                                                    ? 'bg-bg-surface2 text-text-primary'
+                                                    : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
+                                              )}
+                                            >
+                                              {SubIcon ? (
+                                                <SubIcon
+                                                  className={cn(
+                                                    'size-3.5 shrink-0',
+                                                    subActive ? 'text-white' : 'text-text-muted'
+                                                  )}
+                                                />
+                                              ) : null}
+                                              <span className="min-w-0 flex-1 truncate">
+                                                {sub.label}
+                                              </span>
+                                            </Link>
+                                            <div className="border-border-subtle space-y-0.5 border-l pl-3">
+                                              {sub.children!.map((ch) => {
+                                                const chActive = activeLinkValue === ch.value;
+                                                const ChIcon = ch.icon;
+                                                return (
+                                                  <Link
+                                                    key={ch.value}
+                                                    href={ch.href}
+                                                    onClick={onNavigate}
+                                                    className={cn(
+                                                      'flex items-center gap-2 truncate rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
+                                                      chActive
+                                                        ? 'bg-text-primary text-white'
+                                                        : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
+                                                    )}
+                                                  >
+                                                    {ChIcon ? (
+                                                      <ChIcon
+                                                        className={cn(
+                                                          'size-3.5 shrink-0',
+                                                          chActive ? 'text-white' : 'text-text-muted'
+                                                        )}
+                                                      />
+                                                    ) : null}
+                                                    <span className="min-w-0 flex-1 truncate">
+                                                      {ch.label}
+                                                    </span>
+                                                  </Link>
+                                                );
+                                              })}
+                                            </div>
+                                          </div>
+                                        );
+                                      }
+
+                                      return (
+                                        <Link
+                                          key={sub.value}
+                                          href={sub.href}
+                                          onClick={onNavigate}
+                                          className={cn(
+                                            'flex items-center gap-2 truncate rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
+                                            subActive
+                                              ? 'bg-text-primary text-white'
+                                              : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
+                                          )}
+                                        >
+                                          {SubIcon ? (
+                                            <SubIcon
+                                              className={cn(
+                                                'size-3.5 shrink-0',
+                                                subActive ? 'text-white' : 'text-text-muted'
+                                              )}
+                                            />
+                                          ) : null}
+                                          <span className="min-w-0 flex-1 truncate">{sub.label}</span>
+                                        </Link>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              );
+                            }
+
+                            const active = activeLinkValue === link.value;
 
                             return (
                               <div

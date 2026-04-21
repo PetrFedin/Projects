@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,6 +24,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { getMetricValueToneClass } from '@/lib/ui/semantic-data-tones';
 
 const EDO_STATUS_BADGE_CLASS: Record<string, string> = {
@@ -35,9 +37,7 @@ const CZ_METRIC_TONE_KEY: Record<string, 'rose' | 'indigo' | 'slate'> = {
   'text-accent-primary': 'indigo',
   'text-text-primary': 'slate',
 };
-import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { EDODocument, ChestnyZNAKCode } from '@/lib/types/compliance';
-import { RegistryPageShell } from '@/components/design-system';
 
 /**
  * Compliance Dashboard UI (Russian Layer)
@@ -82,7 +82,7 @@ export default function ComplianceDashboard() {
   ];
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-4 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 pb-16 duration-700 animate-in fade-in">
       <div className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-3 md:flex-row md:items-end">
         <div className="space-y-0.5">
           <div className="text-text-muted flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em]">
@@ -139,7 +139,7 @@ export default function ComplianceDashboard() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="edo" className="space-y-4 pt-0">
+        <TabsContent value="edo" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card className="border-border-subtle hover:border-accent-primary/20 overflow-hidden rounded-xl border bg-white shadow-sm transition-all">
             <div className="border-border-subtle bg-bg-surface2/80 border-b p-4">
               <h3 className="text-text-primary text-[10px] font-bold uppercase leading-none tracking-widest">
@@ -233,7 +233,7 @@ export default function ComplianceDashboard() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="cz" className="space-y-4 pt-0">
+        <TabsContent value="cz" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="grid gap-3 md:grid-cols-3">
             {[
               {
@@ -369,6 +369,6 @@ export default function ComplianceDashboard() {
           </Card>
         </TabsContent>
       </Tabs>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

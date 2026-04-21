@@ -222,7 +222,7 @@ export function useWorkshop2LocalState(): Workshop2LocalStateApi {
   const v = useContext(Workshop2LocalStateContext);
   if (!v) {
     throw new Error(
-      'useWorkshop2LocalState: оберните страницу в Workshop2LocalStateProvider (layout Цеха 2)'
+      'useWorkshop2LocalState: оберните страницу в Workshop2LocalStateProvider (layout разработки коллекции)'
     );
   }
   return v;
@@ -632,7 +632,7 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
         appendWorkshop2ArticleActivity(
           collectionId,
           articleId,
-          'Изменены данные артикула в составе коллекции (локальный инвентарь Цеха 2)',
+          'Изменены данные артикула в составе коллекции (локальный инвентарь разработки коллекции)',
           createdByLabel
         );
       }

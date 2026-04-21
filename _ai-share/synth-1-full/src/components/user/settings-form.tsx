@@ -85,7 +85,14 @@ export default function SettingsForm({ user }: { user: UserProfile }) {
                     <div className="text-sm font-medium">Двухфакторная аутентификация</div>
                     <div className="text-xs text-muted-foreground">Защита аккаунта кодом</div>
                   </div>
-                  <Button variant="outline" size="sm" className="rounded-lg">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="rounded-lg"
+                    disabled
+                    title="Подключение корпоративного 2FA — вне scope локального демо-профиля"
+                  >
                     Настроить
                   </Button>
                 </div>
@@ -100,25 +107,37 @@ export default function SettingsForm({ user }: { user: UserProfile }) {
             <AccordionContent>
               <div className="grid gap-3 pt-2 md:grid-cols-2">
                 <Button
+                  type="button"
                   variant="outline"
                   className="h-auto flex-col items-start gap-1 rounded-xl p-4"
-                  onClick={() => {}}
+                  onClick={() => state.exportSettingsJson()}
                 >
                   <Download className="h-4 w-4" />
                   <span className="text-sm font-bold">Экспорт данных</span>
                   <span className="text-[10px] text-muted-foreground">
-                    Скачать JSON-файл с вашим профилем
+                    Скачать JSON: профиль и настройки интерфейса из этого браузера
                   </span>
                 </Button>
                 <Button
+                  type="button"
                   variant="outline"
                   className="h-auto flex-col items-start gap-1 rounded-xl p-4 text-red-600 hover:bg-red-50 hover:text-red-700"
-                  onClick={() => {}}
+                  onClick={() => {
+                    if (
+                      typeof window !== 'undefined' &&
+                      !window.confirm(
+                        'Сбросить локальные настройки интерфейса (тема, виджеты, уведомления) к значениям по умолчанию? Токены входа не затрагиваются.'
+                      )
+                    ) {
+                      return;
+                    }
+                    state.resetLocalSettingsToDefaults();
+                  }}
                 >
                   <Trash2 className="h-4 w-4" />
-                  <span className="text-sm font-bold">Очистить локальные данные</span>
+                  <span className="text-sm font-bold">Сбросить настройки интерфейса</span>
                   <span className="text-[10px] text-muted-foreground text-red-500/60">
-                    Удалить кэш на этом устройстве
+                    Только настройки из этого раздела (localStorage), не аккаунт
                   </span>
                 </Button>
               </div>

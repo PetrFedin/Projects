@@ -6,7 +6,7 @@ export function loadBodyProfile(): BodyProfileV1 | null {
   if (typeof window === 'undefined') return null;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
+    return raw ? (JSON.parse(raw) as BodyProfileV1) : null;
   } catch {
     return null;
   }

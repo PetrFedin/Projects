@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -113,7 +114,7 @@ const actionConfig = {
 
 export default function ActivityLogPage() {
   return (
-    <div className="space-y-4">
+    <CabinetPageContent maxWidth="full" className="space-y-4">
       <header className="flex items-center justify-between border-b pb-4">
         <div>
           <h1 className="font-headline text-base font-black uppercase tracking-tighter">
@@ -233,6 +234,6 @@ export default function ActivityLogPage() {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

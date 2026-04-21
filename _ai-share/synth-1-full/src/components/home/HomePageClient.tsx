@@ -270,7 +270,7 @@ export function HomePageClient() {
       try {
         const response = await fetch('/data/products.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const allProducts: Product[] = await response.json();
+        const allProducts = (await response.json()) as Product[];
         if (Array.isArray(allProducts)) {
           setProducts(allProducts);
         }

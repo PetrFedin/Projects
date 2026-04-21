@@ -37,6 +37,9 @@ data/workshop2-dossier-metrics.ndjson
 data/w2-metrics-archive-state.json
 data/integration-export-jobs.json
 data/domain-event-outbox.json
+data/b2b-operational-notes.json
+data/b2b-operational-status.json
+data/b2b-working-order-versions.json
 
 # персистентность процессов (dev / PROCESS_PERSISTENCE)
 .data/

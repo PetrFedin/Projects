@@ -17,6 +17,7 @@ import { products } from '@/lib/products';
 import { buildFabricRollupRows, fabricRollupToCsv } from '@/lib/fashion/fabric-rollup';
 import { downloadJsonFile } from '@/lib/platform/json-io';
 import { ArrowLeft, FileSpreadsheet, Database } from 'lucide-react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function BrandFabricPassportPage() {
   const rows = useMemo(() => buildFabricRollupRows(products.slice(0, 60)), []);
@@ -34,7 +35,7 @@ export default function BrandFabricPassportPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="5xl">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -108,6 +109,6 @@ export default function BrandFabricPassportPage() {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

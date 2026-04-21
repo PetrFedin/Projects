@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     if (!Array.isArray(reviews) || reviews.length === 0) {
       return NextResponse.json({ error: 'reviews non-empty array is required' }, { status: 400 });
     }
-    const normalized = reviews.map((r: { text?: unknown; rating?: unknown }) => ({
+    const normalized = (reviews as Array<{ text?: unknown; rating?: unknown }>).map((r) => ({
       text: typeof r?.text === 'string' ? r.text : '',
       rating: typeof r?.rating === 'number' ? r.rating : 0,
     }));

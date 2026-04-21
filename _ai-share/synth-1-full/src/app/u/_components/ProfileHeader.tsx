@@ -117,14 +117,19 @@ export function ProfileHeader({ user }: { user: any }) {
     if (storedHeader) setHeaderImage(storedHeader);
     if (storedPrefs) {
       try {
-        setPrefs((prev) => ({ ...prev, ...JSON.parse(storedPrefs) }));
+        const parsed = JSON.parse(storedPrefs) as Partial<{
+          avatarBorder: boolean;
+          avatarShape: string;
+          headerTheme: string;
+        }>;
+        setPrefs((prev) => ({ ...prev, ...parsed }));
       } catch {}
     }
     if (storedPhotos) {
       try {
-        const parsed = JSON.parse(storedPhotos);
+        const parsed = JSON.parse(storedPhotos) as unknown;
         if (Array.isArray(parsed) && parsed.length > 0) {
-          setPhotos(parsed);
+          setPhotos(parsed.filter((x): x is string => typeof x === 'string'));
         }
       } catch {}
     }
@@ -232,12 +237,12 @@ export function ProfileHeader({ user }: { user: any }) {
                 src={currentAvatar || user.photoURL || DEFAULT_PROFILE_PHOTO}
                 className="object-cover"
               />
-              <AvatarFallback className="bg-slate-100 text-base font-black text-slate-400 md:text-sm">
+              <AvatarFallback className="bg-bg-surface2 text-base font-black text-text-muted md:text-sm">
                 {user.displayName?.charAt(0) || 'U'}
               </AvatarFallback>
             </Avatar>
             {photos.length > 1 && (
-              <div className="absolute -bottom-1 -right-1 flex h-4 items-center justify-center rounded-full border-2 border-white bg-indigo-600 px-1.5 text-[8px] font-bold text-white shadow-lg">
+              <div className="absolute -bottom-1 -right-1 flex h-4 items-center justify-center rounded-full border-2 border-white bg-accent-primary px-1.5 text-[8px] font-bold text-text-inverse shadow-lg">
                 {photos.length}
               </div>
             )}
@@ -269,7 +274,7 @@ export function ProfileHeader({ user }: { user: any }) {
                   <PopoverContent
                     align="start"
                     sideOffset={6}
-                    className="w-72 overflow-hidden rounded-xl border-slate-100 bg-white p-0 shadow-2xl"
+                    className="w-72 overflow-hidden rounded-xl border border-border-subtle bg-bg-surface p-0 shadow-2xl"
                     onPointerEnter={openPlan}
                     onPointerLeave={scheduleClosePlan}
                     onOpenAutoFocus={(e) => e.preventDefault()}
@@ -278,7 +283,7 @@ export function ProfileHeader({ user }: { user: any }) {
                     <div className="bg-slate-900 p-4 text-white">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0 space-y-0.5">
-                          <div className="text-[10px] font-bold uppercase leading-none tracking-widest text-indigo-400">
+                          <div className="text-[10px] font-bold uppercase leading-none tracking-widest text-accent-primary">
                             Subscription Profile
                           </div>
                           <div className="text-base font-bold uppercase tracking-tight">
@@ -291,7 +296,7 @@ export function ProfileHeader({ user }: { user: any }) {
                         <Button
                           size="sm"
                           asChild
-                          className="h-7 rounded-lg border-none bg-white px-3 text-[9px] font-bold uppercase text-slate-900 shadow-lg transition-all hover:bg-indigo-50"
+                          className="h-7 rounded-lg border-none bg-bg-surface px-3 text-[9px] font-bold uppercase text-text-primary shadow-lg transition-all hover:bg-accent-soft"
                         >
                           <Link href="/loyalty?renew=1">Renew</Link>
                         </Button>
@@ -300,22 +305,22 @@ export function ProfileHeader({ user }: { user: any }) {
 
                     <div className="space-y-3 p-4">
                       {offer && (
-                        <div className="space-y-2.5 rounded-xl border border-indigo-50 bg-indigo-50/30 p-3">
+                        <div className="space-y-2.5 rounded-xl border border-border-subtle bg-accent-soft/30 p-3">
                           {offer.type === 'promo' && (
                             <>
-                              <div className="text-[9px] font-bold uppercase leading-none tracking-widest text-slate-400">
+                              <div className="text-[9px] font-bold uppercase leading-none tracking-widest text-text-muted">
                                 Renewal Incentive:{' '}
-                                <span className="text-indigo-600">-{offer.discountPercent}%</span>
+                                <span className="text-accent-primary">-{offer.discountPercent}%</span>
                               </div>
                               <div className="flex items-center gap-1.5">
-                                <div className="flex-1 rounded-lg border border-indigo-100 bg-white px-2.5 py-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-indigo-900 shadow-sm">
+                                <div className="flex-1 rounded-lg border border-border-subtle bg-bg-surface px-2.5 py-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-text-primary shadow-sm">
                                   {offer.code}
                                 </div>
                                 <Button
                                   type="button"
                                   variant="ghost"
                                   size="icon"
-                                  className="h-8 w-8 rounded-lg border border-indigo-100 text-indigo-600 hover:bg-indigo-50"
+                                  className="h-8 w-8 rounded-lg border border-border-subtle text-accent-primary hover:bg-accent-soft"
                                   onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
@@ -326,7 +331,7 @@ export function ProfileHeader({ user }: { user: any }) {
                                 </Button>
                               </div>
                               {offer.expiresAt && (
-                                <div className="text-[8px] font-bold uppercase tracking-[0.15em] text-slate-400 opacity-60">
+                                <div className="text-[8px] font-bold uppercase tracking-[0.15em] text-text-muted opacity-60">
                                   Validity:{' '}
                                   {format(new Date(offer.expiresAt), 'dd MMM yyyy', { locale: ru })}
                                 </div>
@@ -336,17 +341,17 @@ export function ProfileHeader({ user }: { user: any }) {
 
                           {offer.type === 'email' && (
                             <>
-                              <div className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+                              <div className="text-[9px] font-bold uppercase tracking-widest text-text-muted">
                                 Unique strategic offer available
                               </div>
                               <Button
                                 variant="outline"
                                 size="sm"
                                 asChild
-                                className="h-8 w-full rounded-lg border-indigo-100 text-[9px] font-bold uppercase text-indigo-600 hover:bg-indigo-50"
+                                className="h-8 w-full rounded-lg border-border-subtle text-[9px] font-bold uppercase text-accent-primary hover:bg-accent-soft"
                               >
                                 <Link href="/u/offers/renewal">
-                                  <Mail className="mr-1.5 h-3.5 w-3.5" /> View Proposal
+                                  <Mail className="mr-1.5 h-3.5 w-3.5" /> Предложение
                                 </Link>
                               </Button>
                             </>

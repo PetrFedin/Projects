@@ -1,12 +1,12 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Users, ShoppingCart, LayoutDashboard } from 'lucide-react';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function DealerCabinetPage() {
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16 duration-500 animate-in fade-in">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16 duration-500 animate-in fade-in">
       <div className="space-y-1">
         <h1 className="text-text-primary text-xl font-bold tracking-tight">
           Личный кабинет дилера
@@ -47,6 +47,6 @@ export default function DealerCabinetPage() {
           </CardContent>
         </Card>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

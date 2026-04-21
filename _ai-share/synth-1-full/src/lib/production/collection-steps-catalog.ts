@@ -2,6 +2,8 @@
  * Каталог этапов коллекции: полный контур от брифа и SKU до ESG.
  * Порядок в COLLECTION_STEPS — единый источник правды: матрица, справка, мини-схема и COLLECTION_BRAND_NARRATIVE_STEP_IDS совпадают с топологией dependsOn.
  * Продуктовая документация (корень репозитория): COLLECTION_CONTROL_UNIFIED_RU.md, COLLECTION_CONTROL_IMPLEMENTATION_MAP_RU.md — держать в синхроне с этим файлом.
+ * Разработка коллекции: мини-шкала в карточке SKU — левая часть этапов каталога до якоря `supply-path`, правая от него (`workshop2-collection-metrics.ts`).
+ * Матрица «этап каталога → вкладка карточки разработки коллекции» и handoff в серию — `workshop2-core1-stage-routing.ts` (импортирует только этот каталог).
  * Краткая цепочка в подсказке вкладки «Этапы» цеха: `floor-flow.ts` → `PRODUCTION_FLOOR_STEPS[0].hint` (обновлять при изменении порядка этапов).
  * Дорожная карта в переговорах — `COLLECTION_BRAND_GUIDE_STEP_IDS` (может расходиться с матрицей там, где `dependsOn` отражает физику цеха).
  * Профили сценария (reorder, готовый товар и т.д.) — `collection-production-profiles.ts` + поле `productionProfileId` в unified flow.
@@ -505,6 +507,27 @@ export const COLLECTION_STEPS: CollectionStep[] = [
     phase: 'Устойчивость',
   },
 ];
+
+const COLLECTION_STEP_BY_ID_LOOKUP = new Map(COLLECTION_STEPS.map((s) => [s.id, s] as const));
+
+/**
+ * Все этапы каталога, от которых транзитивно зависит `stepId` (поле `dependsOn` у этапов).
+ * Пример: для `production-window` — полный набор предпосылок до сценария «площадка и сроки серии».
+ */
+export function getTransitiveDependsOnStepIds(stepId: string): readonly string[] {
+  const root = COLLECTION_STEP_BY_ID_LOOKUP.get(stepId);
+  if (!root) return [];
+  const out = new Set<string>();
+  const stack = [...root.dependsOn];
+  while (stack.length) {
+    const d = stack.pop()!;
+    if (out.has(d)) continue;
+    out.add(d);
+    const s = COLLECTION_STEP_BY_ID_LOOKUP.get(d);
+    if (s) stack.push(...s.dependsOn);
+  }
+  return [...out];
+}
 
 /** Id этапов в том же порядке, что и матрица / dependsOn (без отдельного «презентационного» порядка). */
 export const COLLECTION_BRAND_NARRATIVE_STEP_IDS: readonly string[] = COLLECTION_STEPS.map(

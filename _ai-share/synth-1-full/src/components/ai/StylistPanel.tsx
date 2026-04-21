@@ -229,7 +229,7 @@ export function StylistPanel({ viewRole = 'client' }: { viewRole?: 'client' | 'b
     if (typeof window === 'undefined') return {};
     try {
       const stored = localStorage.getItem(PREF_STORAGE_KEY);
-      return stored ? JSON.parse(stored) : {};
+      return stored ? (JSON.parse(stored) as StylistPreferences) : {};
     } catch {
       return {};
     }
@@ -244,7 +244,7 @@ export function StylistPanel({ viewRole = 'client' }: { viewRole?: 'client' | 'b
   React.useEffect(() => {
     try {
       const stored = localStorage.getItem(SESSION_HISTORY_KEY);
-      setSessionHistory(stored ? JSON.parse(stored) : []);
+      setSessionHistory(stored ? (JSON.parse(stored) as SessionEntry[]) : []);
     } catch {
       setSessionHistory([]);
     }
@@ -443,8 +443,8 @@ export function StylistPanel({ viewRole = 'client' }: { viewRole?: 'client' | 'b
   const getFeedbackPreferences = (): StylistPreferences => {
     if (typeof window === 'undefined') return preferences;
     try {
-      const likedIds = JSON.parse(localStorage.getItem('syntha_liked_tags') ?? '[]');
-      const dislikedIds = JSON.parse(localStorage.getItem('syntha_disliked_tags') ?? '[]');
+      const likedIds = JSON.parse(localStorage.getItem('syntha_liked_tags') ?? '[]') as string[];
+      const dislikedIds = JSON.parse(localStorage.getItem('syntha_disliked_tags') ?? '[]') as string[];
       return {
         ...preferences,
         likedTags: likedIds, // Здесь ID товаров используются как суррогат тегов для скоринга

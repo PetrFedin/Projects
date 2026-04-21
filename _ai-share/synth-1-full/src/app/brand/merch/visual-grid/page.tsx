@@ -6,12 +6,13 @@ import { Badge } from '@/components/ui/badge';
 import { LayoutGrid, Palette, Target, Zap } from 'lucide-react';
 import { products } from '@/lib/products';
 import { optimizeVisualGrid } from '@/lib/fashion/visual-merch';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function VisualMerchGridPage() {
   const slots = optimizeVisualGrid(products);
 
   return (
-    <div className="mx-auto max-w-7xl p-8">
+    <CabinetPageContent maxWidth="7xl" className="space-y-6 p-8 pb-24">
       <div className="mb-8">
         <div className="mb-2 flex items-center gap-3">
           <div className="bg-accent-primary/15 rounded-lg p-2">
@@ -83,6 +84,6 @@ export default function VisualMerchGridPage() {
           );
         })}
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

@@ -51,6 +51,7 @@ import {
 import { Workshop2DossierViewProvider } from '@/components/brand/production/workshop2-dossier-view-context';
 import { Workshop2DossierViewModeSelect } from '@/components/brand/production/Workshop2DossierViewModeSelect';
 import { ROUTES } from '@/lib/routes';
+import { COLLECTION_DEV_HUB_TITLE_RU } from '@/lib/production/collection-development-labels';
 import {
   appendWorkshop2ArticleActivity,
   buildWorkshop2ArticleProductionHistory,
@@ -72,12 +73,14 @@ import {
 import { Workshop2ArticleWorkspaceTabPanels } from '@/components/brand/production/Workshop2ArticleWorkspaceTabPanels';
 import { useWorkshop2TzDueNotifications } from '@/hooks/use-workshop2-tz-due-notifications';
 import { useRbac } from '@/hooks/useRbac';
+import { Breadcrumb, type BreadcrumbItem } from '@/components/ui/breadcrumb';
 import { Badge } from '@/components/ui/badge';
 import {
   emptyWorkshop2DossierPhase1,
   getWorkshop2Phase1Dossier,
   setWorkshop2Phase1Dossier,
 } from '@/lib/production/workshop2-phase1-dossier-storage';
+import { mergeSs27DemoDossierIfNeeded } from '@/lib/production/workshop2-ss27-demo-full-tz-dossier';
 import { WORKSHOP2_TZ_DIGITAL_SIGNOFF_DEFAULT_CAPABILITIES } from '@/lib/production/workshop2-tz-digital-signoff';
 import type {
   Workshop2DossierPhase1,
@@ -111,6 +114,13 @@ import {
   type Workshop2OverviewTab,
 } from '@/lib/production/workshop2-overview-model';
 import {
+  workshop2PipelineLaneForArticleMainTab,
+  workshop2PipelineLaneForTzSignoffStage,
+  workshop2PipelineLaneLabelRu,
+  type Workshop2ArticleMainTab,
+  type Workshop2PipelineLane,
+} from '@/lib/production/workshop2-collection-metrics';
+import {
   visualReadinessProgress,
   visualReadinessHints,
 } from '@/lib/production/workshop2-visual-excellence';
@@ -127,7 +137,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { SectionContainer } from '@/components/design-system';
 
-type MainTab = 'overview' | 'tz' | 'supply' | 'fit' | 'plan' | 'release' | 'qc' | 'stock';
+type MainTab = Workshop2ArticleMainTab;
 
 const W2_PASSPORT_TZ_STAGE_DEFS: { id: Workshop2TzSignoffStageId; label: string }[] = [
   { id: 'tz', label: 'ТЗ' },
@@ -353,6 +363,7 @@ function Workshop2StageSignatoryStrip({
   if (!stage) return null;
   const signers = workshopTzStageExpectedSigners(bindings, stage);
   if (signers.length === 0) return null;
+  const signoffLane = workshop2PipelineLaneForTzSignoffStage(stage);
   return (
     <div
       className={cn(
@@ -360,9 +371,27 @@ function Workshop2StageSignatoryStrip({
         className
       )}
     >
-      <p className="text-text-secondary text-[9px] font-bold uppercase tracking-wider">
-        Подпись на этапе
-      </p>
+      <div className="flex flex-wrap items-center gap-2">
+        <p className="text-text-secondary text-[9px] font-bold uppercase tracking-wider">
+          Подпись на этапе
+        </p>
+        <Badge
+          variant="outline"
+          title={
+            signoffLane === 'development'
+              ? 'Контур разработки: в каталоге этапов до якоря supply-path (в т.ч. tech-pack и gate-all-stakeholders)'
+              : 'Контур сэмплов: в каталоге от якоря supply-path — снабжение, выпуск и шаг samples'
+          }
+          className={cn(
+            'h-4 px-1 text-[8px] font-bold uppercase tracking-wide',
+            signoffLane === 'development'
+              ? 'border-indigo-200 bg-indigo-50 text-indigo-950'
+              : 'border-teal-200 bg-teal-50 text-teal-950'
+          )}
+        >
+          {workshop2PipelineLaneLabelRu(signoffLane)}
+        </Badge>
+      </div>
       <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
         {signers.map((s) => (
           <li key={`${s.role}-${s.name}`}>
@@ -521,6 +550,17 @@ function Workshop2ArticleRouteStatusCard({
   onOpenStage: (tab: MainTab) => void;
   onStageHelp: (tab: MainTab) => void;
 }) {
+  const laneUi = workshop2PipelineLaneForArticleMainTab(activeTab);
+  const { devStages, sampleStages } = useMemo(() => {
+    const dev: RouteStageMeta[] = [];
+    const sample: RouteStageMeta[] = [];
+    for (const s of routeStages) {
+      if (workshop2PipelineLaneForArticleMainTab(s.id) === 'development') dev.push(s);
+      else sample.push(s);
+    }
+    return { devStages: dev, sampleStages: sample };
+  }, [routeStages]);
+
   return (
     <Card className="border-border-default flex min-h-0 flex-col bg-white shadow-sm">
       <CardContent className="flex min-h-0 flex-1 flex-col space-y-3 p-4 sm:p-5">
@@ -529,22 +569,69 @@ function Workshop2ArticleRouteStatusCard({
             <LucideIcons.GitBranch className="h-4 w-4" aria-hidden />
           </div>
           <div className="min-w-0 space-y-1">
-            <h2 className="text-text-primary text-base font-semibold">Статус маршрута</h2>
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-text-primary text-base font-semibold">Статус маршрута</h2>
+              <Badge
+                variant="outline"
+                title="Обзор и ТЗ — контур разработки и согласование сторон (как gate-all-stakeholders в матрице коллекции); снабжение и далее — сэмплы от якоря supply-path (как на мини-шкале в списке коллекции)"
+                className={cn(
+                  'h-5 px-1.5 text-[9px] font-bold uppercase tracking-wide',
+                  laneUi === 'development'
+                    ? 'border-indigo-200 bg-indigo-50 text-indigo-950'
+                    : 'border-teal-200 bg-teal-50 text-teal-950'
+                )}
+              >
+                {workshop2PipelineLaneLabelRu(laneUi)}
+              </Badge>
+            </div>
             <p className="text-text-secondary text-sm">
-              Этапы артикула и готовность — без повтора ключевых блокеров и призывов к действию.
+              Этапы артикула и готовность. Плитки сгруппированы: разработка и ТЗ (включая смысл этапов tech-pack и
+              gate-all-stakeholders в матрице коллекции), затем сэмплы и выпуск — от якоря supply-path и далее, как
+              правая часть мини-шкалы в списке коллекции.
             </p>
           </div>
         </div>
-        <div className="grid min-h-0 flex-1 grid-cols-1 gap-2 md:grid-cols-3 md:items-stretch">
-          {routeStages.map((stage) => (
-            <Workshop2RouteStageTile
-              key={stage.id}
-              stage={stage}
-              active={activeTab === stage.id}
-              onOpen={() => onOpenStage(stage.id)}
-              onHelp={() => onStageHelp(stage.id)}
-            />
-          ))}
+        <div className="space-y-4">
+          <section aria-labelledby="w2-route-dev-heading">
+            <h3
+              id="w2-route-dev-heading"
+              className="text-text-muted mb-2 text-[10px] font-bold uppercase tracking-widest"
+            >
+              Разработка
+            </h3>
+            <div className="grid min-h-0 flex-1 grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 md:items-stretch">
+              {devStages.map((stage) => (
+                <Workshop2RouteStageTile
+                  key={stage.id}
+                  stage={stage}
+                  lane="development"
+                  active={activeTab === stage.id}
+                  onOpen={() => onOpenStage(stage.id)}
+                  onHelp={() => onStageHelp(stage.id)}
+                />
+              ))}
+            </div>
+          </section>
+          <section aria-labelledby="w2-route-samples-heading">
+            <h3
+              id="w2-route-samples-heading"
+              className="text-text-muted mb-2 text-[10px] font-bold uppercase tracking-widest"
+            >
+              Сэмплы и выпуск
+            </h3>
+            <div className="grid min-h-0 flex-1 grid-cols-1 gap-2 md:grid-cols-3 md:items-stretch">
+              {sampleStages.map((stage) => (
+                <Workshop2RouteStageTile
+                  key={stage.id}
+                  stage={stage}
+                  lane="samples"
+                  active={activeTab === stage.id}
+                  onOpen={() => onOpenStage(stage.id)}
+                  onHelp={() => onStageHelp(stage.id)}
+                />
+              ))}
+            </div>
+          </section>
         </div>
       </CardContent>
     </Card>
@@ -554,11 +641,13 @@ function Workshop2ArticleRouteStatusCard({
 /** Плитка этапа: как карточки сводки ТЗ — иконка, %, полоска прогресса, роль и статус. */
 function Workshop2RouteStageTile({
   stage,
+  lane,
   active,
   onOpen,
   onHelp,
 }: {
   stage: RouteStageMeta;
+  lane: Workshop2PipelineLane;
   active: boolean;
   onOpen: () => void;
   onHelp: () => void;
@@ -573,6 +662,8 @@ function Workshop2RouteStageTile({
     <div
       role="button"
       tabIndex={0}
+      aria-current={active ? 'step' : undefined}
+      aria-label={`${title}, ${stage.pct}%. Контур ${workshop2PipelineLaneLabelRu(lane)}. Открыть этап`}
       onClick={onOpen}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -586,6 +677,7 @@ function Workshop2RouteStageTile({
         'flex h-full min-h-0 cursor-pointer flex-col justify-between gap-0.5 rounded-xl border p-2 text-left shadow-sm outline-none transition-all',
         'border-border-default hover:border-accent-primary/30 hover:bg-bg-surface2/90 bg-white hover:shadow-md',
         'focus-visible:ring-accent-primary focus-visible:ring-2 focus-visible:ring-offset-2',
+        W2_PIPELINE_LANE_TILE_BORDER[lane],
         active && 'border-accent-primary/40 ring-accent-primary/20 bg-accent-primary/10 ring-1',
         done && 'border-emerald-100 bg-emerald-50/35',
         blocked && 'border-rose-200 bg-rose-50/35'
@@ -636,6 +728,7 @@ function Workshop2RouteStageTile({
           'mt-1.5 h-0.5 w-full overflow-hidden rounded-full',
           done ? 'bg-emerald-100' : blocked ? 'bg-rose-100' : 'bg-bg-surface2'
         )}
+        aria-hidden
       >
         <div
           className={cn(
@@ -697,6 +790,12 @@ const W2_DECISION_SNAPSHOT_ICONS: Record<DossierSection, ComponentType<{ classNa
 const W2_ROUTE_HELP_INFO_BTN_CLASS =
   'relative z-10 shrink-0 rounded-full p-0.5 text-text-muted transition-colors hover:bg-white/80 hover:text-accent-primary';
 
+/** Левый акцент плиток по контуру разработки коллекции (согласовано с карточкой «Статус маршрута»). */
+const W2_PIPELINE_LANE_TILE_BORDER: Record<Workshop2PipelineLane, string> = {
+  development: 'border-l-[3px] border-l-indigo-200',
+  samples: 'border-l-[3px] border-l-teal-300',
+};
+
 /** Тонкая полоска как в «Сводке решений»: незаполнено — slate + indigo, заполнено — emerald трек и заливка. */
 function W2OverviewThinProgressBar({
   value,
@@ -711,7 +810,10 @@ function W2OverviewThinProgressBar({
   const v = Math.min(100, Math.max(0, value));
   if (risk) {
     return (
-      <div className="bg-bg-surface2 mt-1.5 h-0.5 w-full overflow-hidden rounded-full">
+      <div
+        className="bg-bg-surface2 mt-1.5 h-0.5 w-full overflow-hidden rounded-full"
+        aria-hidden
+      >
         <div className="h-full w-full rounded-full bg-red-500" />
       </div>
     );
@@ -722,6 +824,7 @@ function W2OverviewThinProgressBar({
         'mt-1.5 h-0.5 w-full overflow-hidden rounded-full',
         complete ? 'bg-emerald-100' : 'bg-bg-surface2'
       )}
+      aria-hidden
     >
       <div
         className={cn('h-full rounded-full', complete ? 'bg-emerald-500' : 'bg-accent-primary')}
@@ -815,6 +918,13 @@ function Workshop2ArticleWorkspaceOverviewStats({
   const qcOkVisual = !(aqlRejects > 0 || failedBatches > 0);
   const fgComplete = factoryGatePrice > 0 && bomComplete && opComplete;
 
+  const samplesLaneBorder = W2_PIPELINE_LANE_TILE_BORDER.samples;
+  const riskLaneBorder = riskTargetStage
+    ? W2_PIPELINE_LANE_TILE_BORDER[
+        workshop2PipelineLaneForArticleMainTab(riskTargetStage.id as Workshop2ArticleMainTab)
+      ]
+    : samplesLaneBorder;
+
   return (
     <div className={cn('grid gap-4', hasRisk ? 'lg:grid-cols-2 lg:items-stretch' : '')}>
       <Card className="border-border-default flex h-full min-h-0 flex-col bg-white shadow-sm">
@@ -823,11 +933,21 @@ function Workshop2ArticleWorkspaceOverviewStats({
             <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
               <LucideIcons.LayoutDashboard className="h-4 w-4 shrink-0" aria-hidden />
             </div>
-            <div>
-              <p className="text-text-primary text-base font-semibold">Операционные KPI</p>
-              <p className="text-text-secondary text-sm leading-snug">
-                Порядок плиток совпадает с типовым процессом: снабжение и посадка → выпуск и
-                себестоимость → ОТК → склад
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-text-primary text-base font-semibold">Операционные KPI</p>
+                <Badge
+                  variant="outline"
+                  title="Контур сэмплов и выпуска: в каталоге от якоря supply-path (в т.ч. samples) — та же правая часть мини-шкалы в списке коллекции"
+                  className="h-5 border-teal-200 bg-teal-50 px-1.5 text-[9px] font-bold uppercase tracking-wide text-teal-950"
+                >
+                  Сэмплы
+                </Badge>
+              </div>
+              <p className="text-text-secondary mt-1 text-sm leading-snug">
+                Контур сэмплов и выпуска (в каталоге этапов — от якоря supply-path, в т.ч. samples): снабжение и посадка
+                → выпуск и себестоимость → ОТК → склад. Порядок совпадает с типовым процессом и с группой «Сэмплы и
+                выпуск» в статусе маршрута.
               </p>
             </div>
           </div>
@@ -836,6 +956,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               role="button"
               tabIndex={0}
               title="Открыть раздел «Снабжение» — BOM и брони"
+              aria-label={`Снабжение и BOM, ${bomPct}%. ${bomReady} из ${bomTotal} единиц заполнено. Открыть вкладку «Снабжение»`}
               onClick={() => onOpenTabWithFlash('supply')}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -846,6 +967,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               className={cn(
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
+                samplesLaneBorder,
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
                 bomComplete
                   ? 'border-emerald-100 bg-emerald-50/40'
@@ -917,6 +1039,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               role="button"
               tabIndex={0}
               title="Открыть раздел «Эталон · посадка»"
+              aria-label={`Эталон и посадка, ${fitPct}%. ${fitApproved ? 'Эталон в коллекции' : fitCommentCount > 0 ? 'Есть комментарии по посадке' : 'Требуется заполнение'}. Открыть вкладку «Эталон · посадка»`}
               onClick={() => onOpenTabWithFlash('fit')}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -927,6 +1050,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               className={cn(
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
+                samplesLaneBorder,
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
                 fitApproved
                   ? 'border-emerald-100 bg-emerald-50/40'
@@ -1001,6 +1125,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               role="button"
               tabIndex={0}
               title="Открыть раздел «Выпуск» — производство и операции"
+              aria-label={`Производство и операции, ${opPct}%. ${opDone} из ${opTotal} операций. Открыть вкладку «Выпуск»`}
               onClick={() => onOpenTabWithFlash('release')}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -1011,6 +1136,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               className={cn(
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
+                samplesLaneBorder,
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
                 opComplete
                   ? 'border-emerald-100 bg-emerald-50/40'
@@ -1082,6 +1208,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               role="button"
               tabIndex={0}
               title="Открыть «Выпуск» — техсебестоимость и factory gate"
+              aria-label={`Техсебестоимость и factory gate: ${factoryGatePrice.toLocaleString('ru-RU')} ₽. ${fgComplete ? 'Показатели закрыты' : 'Требуется заполнение'}. Открыть вкладку «Выпуск»`}
               onClick={() => onOpenTabWithFlash('release')}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -1092,6 +1219,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               className={cn(
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
+                samplesLaneBorder,
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
                 fgComplete
                   ? 'border-emerald-100 bg-emerald-50/40'
@@ -1137,6 +1265,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   fgComplete ? 'bg-emerald-100' : 'bg-bg-surface2'
                 )}
                 title="Доля BOM и пошива в factory gate"
+                aria-hidden
               >
                 <div
                   className={cn(
@@ -1184,6 +1313,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               role="button"
               tabIndex={0}
               title="Открыть раздел «ОТК» — контроль качества"
+              aria-label={`Контроль качества ОТК. ${qcOkVisual ? 'Без критичных отклонений' : `Отклонений: ${aqlRejects + failedBatches}`}. Открыть вкладку «ОТК»`}
               onClick={() => onOpenTabWithFlash('qc')}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -1194,6 +1324,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               className={cn(
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
+                samplesLaneBorder,
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
                 qcOkVisual
                   ? 'border-emerald-100 bg-emerald-50/40'
@@ -1277,6 +1408,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               role="button"
               tabIndex={0}
               title="Открыть «Склад» — приёмка и движения ГП"
+              aria-label={`Склад: приёмка и движения, ${stockMovementsPct}%. ${stockMovementCount > 0 ? `${stockMovementCount} операций` : 'Нет движений'}. Открыть вкладку «Склад»`}
               onClick={() => onOpenTabWithFlash('stock')}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -1287,6 +1419,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               className={cn(
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
+                samplesLaneBorder,
                 'flex flex-col justify-between rounded-xl border px-3 py-2.5',
                 stockMovementsStarted
                   ? 'border-emerald-100 bg-emerald-50/40'
@@ -1363,6 +1496,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               role="button"
               tabIndex={0}
               title="Открыть «План» — Nesting AI"
+              aria-label={`Nesting AI: эффективность +${bundle.planPo.nestingAiOptimization.efficiencyGainPct}%. Открыть раздел плана с раскладкой`}
               onClick={() =>
                 onOpenTabWithFlash('plan', { articleFlashId: W2_ARTICLE_SECTION_DOM.planNest })
               }
@@ -1375,10 +1509,14 @@ function Workshop2ArticleWorkspaceOverviewStats({
               className={cn(
                 W2_OVERVIEW_DECISION_ROW_MIN,
                 W2_OVERVIEW_KPI_TILE_INTERACTIVE,
+                samplesLaneBorder,
                 'relative flex flex-col justify-between overflow-hidden rounded-xl border border-emerald-100 bg-emerald-50/40 px-3 py-2.5'
               )}
             >
-              <LucideIcons.Zap className="pointer-events-none absolute -bottom-1 -right-1 h-10 w-10 text-emerald-100" />
+              <LucideIcons.Zap
+                className="pointer-events-none absolute -bottom-1 -right-1 h-10 w-10 text-emerald-100"
+                aria-hidden
+              />
               <div className="flex items-center justify-between gap-2">
                 <div className="flex min-w-0 flex-1 items-center gap-2">
                   <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-emerald-700">
@@ -1410,7 +1548,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                   +{bundle.planPo.nestingAiOptimization.efficiencyGainPct}%
                 </Badge>
               </div>
-              <div className="mt-1.5 h-0.5 w-full overflow-hidden rounded-full bg-emerald-100">
+              <div className="mt-1.5 h-0.5 w-full overflow-hidden rounded-full bg-emerald-100" aria-hidden>
                 <div className="h-full w-full rounded-full bg-emerald-500" />
               </div>
               <div className="mt-1 flex justify-end">
@@ -1431,7 +1569,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
           <CardContent className="flex min-h-0 flex-1 flex-col gap-4 p-5">
             <div className="flex shrink-0 items-start gap-3">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
-                <LucideIcons.AlertTriangle className="h-4 w-4" />
+                <LucideIcons.AlertTriangle className="h-4 w-4" aria-hidden />
               </div>
               <div>
                 <p className="text-text-primary text-base font-semibold">Риски производства</p>
@@ -1444,6 +1582,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
               <div
                 className={cn(
                   W2_OVERVIEW_DECISION_ROW_MIN,
+                  riskLaneBorder,
                   'flex flex-col justify-center gap-2 rounded-xl border border-rose-100 bg-rose-50/70 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between'
                 )}
               >
@@ -1462,7 +1601,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                         ? `${riskDetail} Проверьте соответствующие вкладки.`
                         : 'Проверьте вкладки снабжения, выпуска и контроля качества.'}
                     </p>
-                    <div className="mt-2 h-0.5 overflow-hidden rounded-full bg-rose-200/80">
+                    <div className="mt-2 h-0.5 overflow-hidden rounded-full bg-rose-200/80" aria-hidden>
                       <div
                         className={cn('h-full', riskDetail ? 'bg-rose-500' : 'bg-rose-300/60')}
                         style={{ width: riskDetail ? '100%' : '40%' }}
@@ -1478,6 +1617,7 @@ function Workshop2ArticleWorkspaceOverviewStats({
                     W2_OVERVIEW_OPEN_BTN_CLASS,
                     'self-start whitespace-nowrap sm:self-center'
                   )}
+                  aria-label="Перейти к этапу с риском"
                   onClick={() => openRiskTarget()}
                 >
                   Открыть &gt;
@@ -1516,7 +1656,16 @@ function Workshop2OverviewDecisionSnapshot({
             <LucideIcons.FileBadge2 className="h-4 w-4 shrink-0" aria-hidden />
           </div>
           <div className="min-w-0 space-y-1">
-            <h2 className="text-text-primary text-base font-semibold">Сводка решений</h2>
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-text-primary text-base font-semibold">Сводка решений</h2>
+              <Badge
+                variant="outline"
+                title="Разделы ТЗ — контур разработки: в каталоге до якоря supply-path (в т.ч. gate-all-stakeholders) — левая часть мини-шкалы"
+                className="h-5 border-indigo-200 bg-indigo-50 px-1.5 text-[9px] font-bold uppercase tracking-wide text-indigo-950"
+              >
+                Разработка
+              </Badge>
+            </div>
             <p className="text-text-secondary text-sm leading-snug">
               Каждый раздел ТЗ задаёт входные данные для следующего этапа маршрута — от досье до
               фабрики и ОТК.
@@ -1534,6 +1683,7 @@ function Workshop2OverviewDecisionSnapshot({
                 key={item.label}
                 role="button"
                 tabIndex={0}
+                aria-label={`${title}: ${item.filled ? 'заполнено' : 'не заполнено'}, ${pct}%. Открыть раздел в ТЗ`}
                 onClick={() => onGoToTzSection(item.dossierSection)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -1544,6 +1694,7 @@ function Workshop2OverviewDecisionSnapshot({
                 className={cn(
                   W2_OVERVIEW_DECISION_ROW_MIN,
                   W2_OVERVIEW_KPI_TILE_INTERACTIVE,
+                  W2_PIPELINE_LANE_TILE_BORDER.development,
                   'flex h-full min-h-0 cursor-pointer flex-col justify-between rounded-xl border px-3 py-2.5 text-left shadow-sm outline-none transition-colors',
                   'hover:border-border-default focus-visible:ring-accent-primary hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2',
                   item.filled
@@ -1675,6 +1826,9 @@ function Workshop2OverviewTopBlockers({
                     key={blocker.id}
                     className={cn(
                       W2_OVERVIEW_DECISION_ROW_MIN,
+                      W2_PIPELINE_LANE_TILE_BORDER[
+                        workshop2PipelineLaneForArticleMainTab(blocker.stage)
+                      ],
                       'flex flex-col justify-center gap-2 rounded-xl border border-rose-100 bg-rose-50/70 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between'
                     )}
                   >
@@ -1689,7 +1843,7 @@ function Workshop2OverviewTopBlockers({
                         <p className="text-text-primary mt-0.5 text-sm font-semibold leading-snug">
                           {blocker.text}
                         </p>
-                        <div className="mt-2 h-0.5 overflow-hidden rounded-full bg-rose-200/80">
+                        <div className="mt-2 h-0.5 overflow-hidden rounded-full bg-rose-200/80" aria-hidden>
                           <div className="h-full w-full bg-rose-500" />
                         </div>
                       </div>
@@ -1702,6 +1856,7 @@ function Workshop2OverviewTopBlockers({
                         W2_OVERVIEW_OPEN_BTN_CLASS,
                         'self-start whitespace-nowrap sm:self-center'
                       )}
+                      aria-label={`Перейти к этапу «${blocker.stageLabel}»`}
                       onClick={() =>
                         onOpenTab(
                           blocker.stage,
@@ -1732,6 +1887,7 @@ function Workshop2OverviewActionRail({
   action: Workshop2OverviewPrimaryAction;
   onOpenTab: (tab: MainTab, opts?: OpenTabWithFlashOpts) => void;
 }) {
+  const actionLane = workshop2PipelineLaneForArticleMainTab(action.tab);
   return (
     <div className="self-start xl:sticky xl:top-4">
       <Card className="border-border-default bg-white shadow-sm">
@@ -1739,22 +1895,32 @@ function Workshop2OverviewActionRail({
           <div className="flex items-center justify-between gap-2">
             <div className="flex min-w-0 flex-1 items-center gap-2.5">
               <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-                <LucideIcons.CornerDownRight className="h-4 w-4" />
+                <LucideIcons.CornerDownRight className="h-4 w-4" aria-hidden />
               </div>
-              <div className="min-w-0 flex-1">
+              <div className="min-w-0 flex-1 space-y-1">
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      'h-4 shrink-0 px-1.5 text-[8px] font-bold uppercase tracking-wide',
+                      actionLane === 'development'
+                        ? 'border-indigo-200 bg-indigo-50 text-indigo-950'
+                        : 'border-teal-200 bg-teal-50 text-teal-950'
+                    )}
+                  >
+                    {workshop2PipelineLaneLabelRu(actionLane)}
+                  </Badge>
                   <p className="text-text-primary shrink-0 text-xs font-semibold leading-snug">
                     {action.title}
                   </p>
-                  <p className="text-text-secondary min-w-0 flex-1 text-[11px] leading-snug">
-                    {action.reason}
-                  </p>
                 </div>
+                <p className="text-text-secondary text-[11px] leading-snug">{action.reason}</p>
               </div>
             </div>
             <Button
               type="button"
               className={cn(W2_TZ_PASSPORT_CONTINUE_BTN_CLASS, 'shrink-0 whitespace-nowrap')}
+              aria-label={`${action.buttonLabel}: ${action.title}`}
               onClick={() =>
                 onOpenTab(
                   action.tab,
@@ -1785,6 +1951,7 @@ function Workshop2ArticleContextRail({
   onOpenTab: (tab: MainTab, opts?: OpenTabWithFlashOpts) => void;
 }) {
   const activeStage = stages.find((stage) => stage.id === activeTab) ?? stages[0]!;
+  const activeLane = workshop2PipelineLaneForArticleMainTab(activeTab);
   return (
     <div className="space-y-4 self-start xl:sticky xl:top-4">
       <Card className="border-border-default">
@@ -1796,30 +1963,49 @@ function Workshop2ArticleContextRail({
             <p className="text-text-primary mt-1 text-sm font-bold">{nextAction.title}</p>
             <p className="text-text-secondary text-[11px]">{nextAction.reason}</p>
           </div>
-          <Button
-            type="button"
-            size="sm"
-            className="h-8 text-xs"
-            onClick={() =>
-              onOpenTab(
-                nextAction.tab,
-                nextAction.dossierSection
-                  ? { dossierSection: nextAction.dossierSection }
-                  : undefined
-              )
-            }
-          >
-            Открыть этап
-          </Button>
+            <Button
+              type="button"
+              size="sm"
+              className="h-8 text-xs"
+              aria-label={`Открыть этап: ${nextAction.title}`}
+              onClick={() =>
+                onOpenTab(
+                  nextAction.tab,
+                  nextAction.dossierSection
+                    ? { dossierSection: nextAction.dossierSection }
+                    : undefined
+                )
+              }
+            >
+              Открыть этап
+            </Button>
         </CardContent>
       </Card>
 
       <Card className="border-border-default">
         <CardContent className="space-y-3 pt-4">
           <div>
-            <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
-              Текущий этап
-            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                Текущий этап
+              </p>
+              <Badge
+                variant="outline"
+                title={
+                  activeLane === 'development'
+                    ? 'Текущий этап в контуре разработки (каталог: до supply-path, в т.ч. gate-all-stakeholders)'
+                    : 'Текущий этап в контуре сэмплов (каталог: от supply-path, в т.ч. samples)'
+                }
+                className={cn(
+                  'h-5 px-1.5 text-[9px] font-bold uppercase tracking-wide',
+                  activeLane === 'development'
+                    ? 'border-indigo-200 bg-indigo-50 text-indigo-950'
+                    : 'border-teal-200 bg-teal-50 text-teal-950'
+                )}
+              >
+                {workshop2PipelineLaneLabelRu(activeLane)}
+              </Badge>
+            </div>
             <p className="text-text-primary mt-1 text-sm font-bold">{activeStage.label}</p>
             <p className="text-text-secondary text-[11px]">Ответственный: {activeStage.owner}</p>
           </div>
@@ -1949,6 +2135,17 @@ function Workshop2ArticleWorkspaceScreen({
 
   useEffect(() => {
     let raw = getWorkshop2Phase1Dossier(collectionId, article.id) ?? null;
+    const demoMerged = mergeSs27DemoDossierIfNeeded(
+      collectionId,
+      article,
+      raw,
+      leaf ?? null,
+      createdByLabel
+    );
+    if (demoMerged) {
+      setWorkshop2Phase1Dossier(collectionId, article.id, demoMerged);
+      raw = demoMerged;
+    }
     if (raw) {
       const lineB = normalizeWorkshopTzSignatoryBindings(lineTzBindings);
       const dossierB = normalizeWorkshopTzSignatoryBindings(raw.tzSignatoryBindings);
@@ -1964,7 +2161,16 @@ function Workshop2ArticleWorkspaceScreen({
       }
     }
     setDossier(raw);
-  }, [article.id, collectionId, createdByLabel, dossierHydrateKey, lineTzBindings, mainTab]);
+  }, [
+    article.id,
+    article.sku,
+    collectionId,
+    createdByLabel,
+    dossierHydrateKey,
+    leaf,
+    lineTzBindings,
+    mainTab,
+  ]);
 
   const signatoryOptions = useMemo(() => getWorkshopTzSignatoryPickerOptions(), []);
   const signatoryByGroup = useMemo(() => {
@@ -2343,6 +2549,10 @@ function Workshop2ArticleWorkspaceScreen({
     routeStageHelpId !== null
       ? WORKSHOP2_ROUTE_STAGE_GUIDANCE[routeStageHelpId as Workshop2OverviewTab]
       : null;
+  const routeStageHelpLane = useMemo(
+    () => (routeStageHelpId ? workshop2PipelineLaneForArticleMainTab(routeStageHelpId) : null),
+    [routeStageHelpId]
+  );
   const dossierSectionHelp =
     dossierSectionHelpId !== null ? WORKSHOP2_DOSSIER_SECTION_GUIDANCE[dossierSectionHelpId] : null;
 
@@ -2634,8 +2844,52 @@ function Workshop2ArticleWorkspaceScreen({
     [openTabWithFlash]
   );
 
+  const articleSegForHref = workshop2ArticleUrlSegment(article.internalArticleCode, article.id);
+  const articleOverviewHref = useMemo(
+    () => workshop2ArticleHref(collectionId, articleSegForHref, { w2pane: 'overview' }),
+    [articleSegForHref, collectionId]
+  );
+
+  const articleBreadcrumbItems = useMemo((): BreadcrumbItem[] => {
+    const stageMeta = routeStages.find((s) => s.id === mainTab);
+    const stageShort = stageMeta?.label ?? mainTab;
+    const isDev = workshop2PipelineLaneForArticleMainTab(mainTab) === 'development';
+    const fourth = isDev
+      ? mainTab === 'tz'
+        ? 'Разработка · ТЗ'
+        : 'Разработка · Обзор'
+      : `Сэмплы · ${stageShort}`;
+
+    return [
+      { label: COLLECTION_DEV_HUB_TITLE_RU, href: ROUTES.brand.productionWorkshop2 },
+      {
+        label: `Коллекция · ${collection.displayName}`,
+        href: listHref,
+        title: collection.displayName,
+      },
+      { label: article.sku, href: articleOverviewHref },
+      { label: fourth },
+    ];
+  }, [
+    article.sku,
+    articleOverviewHref,
+    collection.displayName,
+    listHref,
+    mainTab,
+    routeStages,
+  ]);
+
   return (
     <div className="space-y-4">
+      <div className="space-y-1">
+        <Breadcrumb
+          items={articleBreadcrumbItems}
+          className="text-text-secondary flex-wrap gap-x-1 gap-y-0.5 text-[11px] leading-tight"
+        />
+        <p className="text-text-muted text-[10px] leading-snug">
+          Коллекция → разработка артикула → сэмплы; серия и опт — на поле цеха и в B2B.
+        </p>
+      </div>
       <Card className="border-border-default overflow-hidden bg-white shadow-md">
         <div className="from-accent-primary via-accent-primary relative h-2 bg-gradient-to-r to-emerald-500" />
         <CardContent className="p-0">
@@ -2745,7 +2999,7 @@ function Workshop2ArticleWorkspaceScreen({
                 title={
                   isWorkshop2InternalArticleCodeValid(article.internalArticleCode)
                     ? undefined
-                    : 'Формат: 6 цифр от 100000. Номер присваивается при сохранении строки в инвентаре Цеха 2.'
+                    : 'Формат: 6 цифр от 100000. Номер присваивается при сохранении строки в инвентаре разработки коллекции.'
                 }
               >
                 <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
@@ -2785,7 +3039,9 @@ function Workshop2ArticleWorkspaceScreen({
                     </Button>
                     <span className="text-text-muted">/</span>
                     <span className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
-                      Цифровой паспорт SKU
+                      {workshop2PipelineLaneForArticleMainTab(mainTab) === 'development'
+                        ? 'Разработка · паспорт SKU'
+                        : 'Сэмплы · маршрут артикула'}
                     </span>
                   </div>
 
@@ -3048,7 +3304,7 @@ function Workshop2ArticleWorkspaceScreen({
                     type="button"
                     onClick={() => setArticleHistoryOpen(true)}
                     className="text-text-muted hover:bg-bg-surface2 hover:text-text-primary inline-flex max-w-full flex-col items-end gap-0.5 rounded-md py-0.5 text-right text-[10px] font-medium transition-colors sm:ml-auto"
-                    title="История изменений по артикулу в Цехе 2"
+                    title="История изменений по артикулу в разработке коллекции"
                   >
                     <span className="inline-flex items-center gap-1">
                       <LucideIcons.Clock className="h-3 w-3 shrink-0" aria-hidden />
@@ -3174,10 +3430,19 @@ function Workshop2ArticleWorkspaceScreen({
             />
             <Card className="border-border-default from-bg-surface2/80 to-bg-surface bg-gradient-to-b">
               <CardContent className="pb-8 pt-6">
-                <div className="border-border-subtle mb-4 flex flex-wrap items-center justify-end gap-2 border-b pb-3">
-                  <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
-                    Режим ТЗ
-                  </span>
+                <div className="border-border-subtle mb-4 flex flex-wrap items-center justify-between gap-2 border-b pb-3">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                      Режим ТЗ
+                    </span>
+                    <Badge
+                      variant="outline"
+                      title="Контур разработки: в каталоге до supply-path (в т.ч. gate-all-stakeholders) — левая часть мини-шкалы в списке коллекции"
+                      className="h-5 border-indigo-200 bg-indigo-50 px-1.5 text-[9px] font-bold uppercase tracking-wide text-indigo-950"
+                    >
+                      Разработка
+                    </Badge>
+                  </div>
                   <Workshop2DossierViewModeSelect />
                 </div>
                 <Workshop2Phase1DossierPanel
@@ -3295,6 +3560,10 @@ function Workshop2ArticleWorkspaceScreen({
                   </p>
                   <p className="text-text-primary mt-1">
                     Выполнено шагов: {prog.done} из {prog.total} ({prog.pct}%).
+                  </p>
+                  <p className="text-text-muted mt-2 text-[11px] leading-snug">
+                    По каталогу этапов коллекции — та же шкала, что мини-полоска в списке: слева разработка и ТЗ, справа
+                    сэмплы и выпуск; в карточке артикула контур «сэмплы» начинается с этапа снабжения.
                   </p>
                 </div>
                 <div className="border-border-subtle bg-bg-surface2/80 rounded-lg border p-3">
@@ -3572,12 +3841,30 @@ function Workshop2ArticleWorkspaceScreen({
         }}
       >
         <DialogContent ariaTitle={routeStageHelp?.headline ?? 'Этап маршрута'} className="max-w-md">
-          {routeStageHelp ? (
+          {routeStageHelp && routeStageHelpId && routeStageHelpLane ? (
             <>
               <DialogHeader>
-                <DialogTitle className="text-text-primary text-base">
-                  {routeStageHelp.headline}
-                </DialogTitle>
+                <div className="flex flex-wrap items-center gap-2">
+                  <DialogTitle className="text-text-primary text-base">
+                    {routeStageHelp.headline}
+                  </DialogTitle>
+                  <Badge
+                    variant="outline"
+                    title={
+                      routeStageHelpLane === 'development'
+                        ? 'Этап в контуре разработки (каталог: до supply-path, в т.ч. gate-all-stakeholders) — левая часть мини-шкалы'
+                        : 'Этап в контуре сэмплов (каталог: от supply-path, в т.ч. samples) — правая часть мини-шкалы'
+                    }
+                    className={cn(
+                      'h-5 px-1.5 text-[9px] font-bold uppercase tracking-wide',
+                      routeStageHelpLane === 'development'
+                        ? 'border-indigo-200 bg-indigo-50 text-indigo-950'
+                        : 'border-teal-200 bg-teal-50 text-teal-950'
+                    )}
+                  >
+                    {workshop2PipelineLaneLabelRu(routeStageHelpLane)}
+                  </Badge>
+                </div>
                 <DialogDescription className="text-text-secondary">
                   {routeStageHelp.purpose}
                 </DialogDescription>
@@ -3607,9 +3894,18 @@ function Workshop2ArticleWorkspaceScreen({
           {dossierSectionHelp && dossierSectionHelpId ? (
             <>
               <DialogHeader>
-                <DialogTitle className="text-text-primary text-base">
-                  {dossierSectionHelp.headline}
-                </DialogTitle>
+                <div className="flex flex-wrap items-center gap-2">
+                  <DialogTitle className="text-text-primary text-base">
+                    {dossierSectionHelp.headline}
+                  </DialogTitle>
+                  <Badge
+                    variant="outline"
+                    title="Секции ТЗ — контур разработки: в каталоге до supply-path (в т.ч. gate-all-stakeholders) — левая часть мини-шкалы"
+                    className="h-5 border-indigo-200 bg-indigo-50 px-1.5 text-[9px] font-bold uppercase tracking-wide text-indigo-950"
+                  >
+                    Разработка · ТЗ
+                  </Badge>
+                </div>
                 <DialogDescription className="text-text-secondary">
                   {dossierSectionHelp.purpose}
                 </DialogDescription>
@@ -3662,7 +3958,7 @@ function Workshop2ArticleWorkspaceScreen({
             <DialogDescription className="text-text-secondary">
               Данные производства артикула{' '}
               <span className="text-text-primary font-mono font-semibold">{article.sku}</span>:
-              журнал Цеха 2, сохранения ТЗ и правки строки коллекции (локально).
+              журнал разработки коллекции, сохранения ТЗ и правки строки коллекции (локально).
             </DialogDescription>
           </DialogHeader>
           <div className="min-h-0 flex-1 overflow-y-auto py-2">
@@ -3857,7 +4153,7 @@ export function Workshop2ArticleWorkspace({
             Коллекция не найдена (возможно, архив или другой браузер).
           </CardDescription>
           <Button asChild variant="outline" size="sm" className="text-xs">
-            <Link href={ROUTES.brand.productionWorkshop2}>К Цеху 2</Link>
+            <Link href={ROUTES.brand.productionWorkshop2}>{COLLECTION_DEV_HUB_TITLE_RU}</Link>
           </Button>
         </CardContent>
       </Card>

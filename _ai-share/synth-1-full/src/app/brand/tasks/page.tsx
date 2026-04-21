@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -24,7 +25,6 @@ import type { BrandTaskRecord, BrandTaskStatus } from '@/lib/production-data';
 import { generateTaskId, loadBrandTasks, saveBrandTasks } from '@/lib/production-data';
 import { demoTasksForProductionStage } from '@/lib/production/stages-comm-demo';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const DEMO_TASK_STATUS_STORAGE_KEY = 'brandStageDemoTaskStatus';
 
@@ -182,7 +182,7 @@ function BrandTasksPageInner() {
   }, [newTitle, newAssignee, newDue, newProject]);
 
   return (
-    <RegistryPageShell className="max-w-6xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="6xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Задачи команды"
         description="Kanban с сохранением в localStorage (brand_tasks_kanban_v1). Позже тот же контракт — через ProductionDataPort → API."
@@ -341,7 +341,7 @@ function BrandTasksPageInner() {
       </div>
 
       <RelatedModulesBlock links={getTaskLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }
 

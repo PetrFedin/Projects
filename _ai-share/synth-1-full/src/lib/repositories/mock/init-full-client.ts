@@ -371,7 +371,7 @@ export async function initializeFullClientData(user: UserProfile) {
     if (typeof window !== 'undefined') {
       const existingClients = JSON.parse(
         localStorage.getItem('syntha_brand_analytics_clients') || '[]'
-      );
+      ) as unknown[];
       existingClients.push(clientAnalytics);
       localStorage.setItem('syntha_brand_analytics_clients', JSON.stringify(existingClients));
     }

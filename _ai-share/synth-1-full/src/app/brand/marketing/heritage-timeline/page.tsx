@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +12,6 @@ import { getMarketingLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_TIMELINE = [
   {
@@ -70,7 +70,7 @@ export default function HeritageTimelinePage() {
   const selected = MOCK_TIMELINE.find((t) => t.id === selectedId);
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Brand Heritage Timeline"
         description="Интерактивная история создания каждой вещи для конечных клиентов. Storytelling, аутентичность. Связь с Digital Passport, Products, Production."
@@ -163,6 +163,6 @@ export default function HeritageTimelinePage() {
       </Card>
 
       <RelatedModulesBlock links={getMarketingLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

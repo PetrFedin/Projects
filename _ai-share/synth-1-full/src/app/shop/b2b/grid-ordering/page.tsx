@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import { Plus, Trash2, Upload, Download } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import allProducts from '@/lib/products';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 /** NetSuite: Grid Ordering — массовое занесение позиций (таблица) */
@@ -31,7 +31,7 @@ export default function GridOrderingPage() {
   const totalAmount = filledRows.reduce((a, r) => a + r.qty * (r.price || 0), 0);
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6">
       <ShopB2bContentHeader lead="Табличный ввод заказа: артикул, размер и количество по строкам (сценарий NetSuite Grid Ordering)." />
 
       <Card>
@@ -143,6 +143,6 @@ export default function GridOrderingPage() {
           <Link href={ROUTES.shop.b2bQuickOrder}>Быстрый заказ</Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

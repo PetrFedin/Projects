@@ -1,5 +1,7 @@
 'use client';
 
+import { useMemo } from 'react';
+import { ShopB2bNuOrderScope } from '@/components/shop/ShopB2bNuOrderScope';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { getAgentBrands } from '@/lib/b2b/agent-context';
-import { getOrdersWithPaymentState } from '@/lib/b2b/partner-finance-rollup';
+import { useShopB2BOperationalOrdersList } from '@/hooks/use-b2b-operational-orders-list';
+import { getWholesaleOrderIdFromB2BOrder } from '@/lib/domain/cross-role-entity-ids';
 import { Filter } from 'lucide-react';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
@@ -19,25 +22,35 @@ import {
 } from '@/lib/data/entity-links';
 import { OrderRecommendationsBlock } from '@/components/b2b/OrderRecommendationsBlock';
 import { OrderChatBot } from '@/components/b2b/OrderChatBot';
-import { RegistryPageShell } from '@/components/design-system';
 import { tid } from '@/lib/ui/test-ids';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
+import { B2bPriorityWorkflowPanel } from '@/components/b2b/B2bPriorityWorkflowPanel';
+import { getSynthaThreeCoresFullMatrixGroups } from '@/lib/syntha-priority-cores';
 
 export default function ShopB2BOrdersPage() {
   const searchParams = useSearchParams();
   const brandFilter = searchParams.get('brand') ?? '';
 
   const brands = getAgentBrands();
-  const ordersWithPayment = getOrdersWithPaymentState();
-  const filteredOrders = brandFilter
-    ? ordersWithPayment.filter((o) => o.brand === brandFilter)
-    : ordersWithPayment;
+  /** Тот же пайплайн, что у `/brand/b2b-orders`: v1 API → legacy → read-model (с фильтром ритейлера). */
+  const operationalOrders = useShopB2BOperationalOrdersList();
+  const filteredOrders = useMemo(
+    () =>
+      brandFilter ? operationalOrders.filter((o) => o.brand === brandFilter) : operationalOrders,
+    [operationalOrders, brandFilter]
+  );
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6" data-testid={tid.page('shop-b2b-orders')}>
+    <ShopB2bNuOrderScope className="space-y-6" data-testid={tid.page('shop-b2b-orders')}>
       <ShopB2bContentHeader lead="Список заказов; фильтр по бренду для агента — один вход, несколько брендов." />
       <ShopAnalyticsSegmentErpStrip />
+
+      <B2bPriorityWorkflowPanel
+        title="Связка направлений: ТЗ → B2B → команды"
+        lead="То же, что у бренда: вертикаль исполнения, оптовый контур, надстройка коммуникаций, горизонталь ролей."
+        groups={getSynthaThreeCoresFullMatrixGroups()}
+      />
 
       <Card className="mb-6">
         <CardHeader className="pb-2">
@@ -103,14 +116,16 @@ export default function ShopB2BOrdersPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredOrders.map((o) => (
-                      <tr key={o.order} className="border-border-subtle border-b">
+                    {filteredOrders.map((o) => {
+                      const wid = getWholesaleOrderIdFromB2BOrder(o);
+                      return (
+                      <tr key={wid} className="border-border-subtle border-b">
                         <td className="py-2 font-mono">
                           <Link
                             className="text-accent-primary hover:underline"
-                            href={ROUTES.shop.b2bOrder(o.order)}
+                            href={ROUTES.shop.b2bOrder(wid)}
                           >
-                            {o.order}
+                            {wid}
                           </Link>
                         </td>
                         <td className="py-2">{o.brand}</td>
@@ -127,7 +142,7 @@ export default function ShopB2BOrdersPage() {
                           <div className="flex flex-wrap justify-end gap-x-2 gap-y-0.5 text-[10px] font-semibold uppercase tracking-wide">
                             <Link
                               className="text-accent-primary hover:underline"
-                              href={`${ROUTES.shop.b2bPayment}?orderId=${encodeURIComponent(o.order)}`}
+                              href={`${ROUTES.shop.b2bPayment}?orderId=${encodeURIComponent(wid)}`}
                             >
                               Оплата
                             </Link>
@@ -146,7 +161,8 @@ export default function ShopB2BOrdersPage() {
                           </div>
                         </td>
                       </tr>
-                    ))}
+                    );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -189,6 +205,6 @@ export default function ShopB2BOrdersPage() {
         title="Связанные кабинеты и B2B-модули"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </ShopB2bNuOrderScope>
   );
 }

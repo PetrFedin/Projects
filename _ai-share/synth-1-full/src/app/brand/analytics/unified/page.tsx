@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,7 +13,7 @@ import { getAnalyticsLinks } from '@/lib/data/entity-links';
 import { buildBIDashboard } from '@/lib/analytics/bi-service';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 /** Сводная аналитика: все каналы (B2B, Маркетрум, Аутлет, внешние продажи) на одной платформе для полного анализа. */
 const MOCK_UNIFIED = {
@@ -61,7 +62,7 @@ export default function UnifiedAnalyticsPage() {
   const [data] = useState(() => buildBIDashboard());
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Сводная аналитика"
         leadPlain="Полный анализ: B2B, Маркетрум, Аутлет и продажи закупленных коллекций на других площадках — все данные сведены на платформе."
@@ -98,7 +99,7 @@ export default function UnifiedAnalyticsPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="channels" className="space-y-4">
+        <TabsContent value="channels" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card>
             <CardHeader>
               <CardTitle className="text-base">Распределение по каналам</CardTitle>
@@ -130,7 +131,7 @@ export default function UnifiedAnalyticsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="collections" className="space-y-4">
+        <TabsContent value="collections" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
@@ -176,7 +177,7 @@ export default function UnifiedAnalyticsPage() {
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Button variant="outline" size="sm" asChild>
           <Link href={ROUTES.brand.b2bOrders}>
-            <Package className="mr-2 h-4 w-4" /> B2B Заказы
+            <Package className="mr-2 h-4 w-4" /> Заказы
           </Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
@@ -196,6 +197,6 @@ export default function UnifiedAnalyticsPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getAnalyticsLinks()} title="BI, 360°, платформа" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

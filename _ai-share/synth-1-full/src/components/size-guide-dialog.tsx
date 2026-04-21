@@ -98,7 +98,11 @@ export function SizeGuideDialog({ product, isOpen, onOpenChange }: SizeGuideDial
           userQuestion: inputs.footLength ? `Длина стопы: ${inputs.footLength} см` : undefined,
         }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as {
+        recommendation?: string;
+        suggestedSize?: string;
+        tips?: string[];
+      };
       const parts = [data.recommendation];
       if (data.suggestedSize) parts.unshift(`Рекомендуемый размер: ${data.suggestedSize}.`);
       if (data.tips?.length) parts.push(data.tips.join(' '));

@@ -6,12 +6,13 @@ import { Badge } from '@/components/ui/badge';
 import { Factory, MapPin, ShieldCheck, Star, Users, Briefcase, Zap, Search } from 'lucide-react';
 import { getCisSuppliers } from '@/lib/fashion/cis-sourcing';
 import { Button } from '@/components/ui/button';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function CisSourcingPage() {
   const suppliers = getCisSuppliers();
 
   return (
-    <div className="mx-auto max-w-6xl p-8">
+    <CabinetPageContent maxWidth="6xl" className="space-y-6 p-8 pb-24">
       <div className="mb-8">
         <div className="mb-2 flex items-center gap-3">
           <div className="rounded-lg bg-emerald-100 p-2">
@@ -165,6 +166,6 @@ export default function CisSourcingPage() {
           </div>
         </div>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

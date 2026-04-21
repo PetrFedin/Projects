@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { use } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -14,7 +15,6 @@ import { Button } from '@/components/ui/button';
 import { Download, TrendingUp } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bToolHeader } from '@/components/shop/ShopB2bToolHeader';
 import { ROUTES } from '@/lib/routes';
 
@@ -69,7 +69,7 @@ export default function B2BBudgetSeasonPage({
   const seasonName = decodeURIComponent(params.season).replace('-', ' ');
 
   return (
-    <RegistryPageShell className="space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
       <TooltipProvider>
         <div className="space-y-6">
           <ShopB2bToolHeader
@@ -156,6 +156,6 @@ export default function B2BBudgetSeasonPage({
           </Card>
         </div>
       </TooltipProvider>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

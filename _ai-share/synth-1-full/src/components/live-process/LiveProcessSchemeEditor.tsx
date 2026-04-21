@@ -24,6 +24,8 @@ import type { LiveProcessDefinition, LiveProcessStageDef } from '@/lib/live-proc
 
 interface LiveProcessSchemeEditorProps {
   processId: string;
+  /** Схема с сервера / переопределение встроенной (приоритет над `getLiveProcessDefinition`). */
+  initialDefinition?: LiveProcessDefinition | null;
   onSave?: (definition: LiveProcessDefinition) => void;
   readOnly?: boolean;
   /** При загрузке шаблона сохранить текущий processId */
@@ -32,11 +34,12 @@ interface LiveProcessSchemeEditorProps {
 
 export function LiveProcessSchemeEditor({
   processId,
+  initialDefinition,
   onSave,
   readOnly = false,
   preserveProcessIdOnTemplate = true,
 }: LiveProcessSchemeEditorProps) {
-  const initialDef = getLiveProcessDefinition(processId);
+  const initialDef = initialDefinition ?? getLiveProcessDefinition(processId);
   const {
     definition,
     setDefinition,

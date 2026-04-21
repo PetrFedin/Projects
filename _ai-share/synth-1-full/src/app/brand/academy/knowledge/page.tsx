@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { WidgetCard } from '@/components/ui/widget-card';
@@ -15,7 +16,7 @@ import {
   getBrandKnowledgeArticles,
   KNOWLEDGE_CATEGORY_LABELS,
 } from '@/lib/academy/brand-academy-data';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function AcademyKnowledgePage() {
   const [searchKnowledge, setSearchKnowledge] = useState('');
@@ -35,7 +36,7 @@ export default function AcademyKnowledgePage() {
   }, [searchKnowledge, filterCategory]);
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="База знаний бренда"
         leadPlain="Информация о бренде и сфере для партнёров и клиентов."
@@ -119,6 +120,6 @@ export default function AcademyKnowledgePage() {
       </section>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

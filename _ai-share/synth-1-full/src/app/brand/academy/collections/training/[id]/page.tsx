@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -13,7 +14,7 @@ import { ROUTES } from '@/lib/routes';
 import { ArrowLeft, Clock, BookOpen } from 'lucide-react';
 import { getCollectionTrainingById } from '@/lib/academy/brand-academy-data';
 import { COLLECTION_TRAINING_TYPE_LABELS } from '@/lib/academy/brand-academy-data';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function CollectionTrainingDetailPage() {
   const params = useParams();
@@ -23,7 +24,7 @@ export default function CollectionTrainingDetailPage() {
 
   if (!training) {
     return (
-      <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
         <RegistryPageHeader
           title="Обучение не найдено"
           leadPlain="Записи с таким идентификатором нет в демо-данных."
@@ -42,12 +43,12 @@ export default function CollectionTrainingDetailPage() {
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.academy}>Вернуться в академию</Link>
         </Button>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title={training.title}
         leadPlain={`${training.collectionName} · ${training.season}`}
@@ -95,6 +96,6 @@ export default function CollectionTrainingDetailPage() {
       </Button>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

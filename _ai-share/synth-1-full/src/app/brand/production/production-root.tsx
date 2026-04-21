@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export function ProductionRoot({
   children,
@@ -12,11 +12,12 @@ export function ProductionRoot({
   className?: string;
 }) {
   return (
-    <RegistryPageShell
-      className={cn('relative max-w-5xl space-y-4 pb-16', className)}
+    <CabinetPageContent
+      maxWidth="5xl"
+      className={cn('relative space-y-4 pb-16', className)}
       aria-label="Production"
     >
       {children}
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

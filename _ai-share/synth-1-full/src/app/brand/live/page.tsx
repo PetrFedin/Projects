@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -27,14 +28,14 @@ import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function BrandLiveDashboard() {
   const [isLive, setIsLive] = useState(false);
   const [viewers, setViewers] = useState(1242);
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-300 animate-in fade-in">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-300 animate-in fade-in">
       <RegistryPageHeader
         title="Live Broadcast Control"
         leadPlain={
@@ -246,6 +247,6 @@ export default function BrandLiveDashboard() {
           </div>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

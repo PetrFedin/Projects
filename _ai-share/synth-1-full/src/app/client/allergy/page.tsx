@@ -6,9 +6,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { AlertTriangle, Tag } from 'lucide-react';
+import { Tag } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { getClientAllergyLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 const MOCK_ALLERGIES = ['Шерсть', 'Латекс'];
 const MOCK_PRODUCTS = [
@@ -20,15 +22,8 @@ export default function AllergyPage() {
   const [tags, setTags] = useState<string[]>(MOCK_ALLERGIES);
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
-      <header>
-        <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
-          <AlertTriangle className="h-6 w-6 text-amber-600" /> Allergy & Material Alerts
-        </h1>
-        <p className="text-text-secondary mt-1 text-sm">
-          Персональные фильтры по составу ткани. Отметки на товарах.
-        </p>
-      </header>
+    <CabinetPageContent maxWidth="2xl">
+      <ClientCabinetSectionHeader iconClassName="text-amber-600" />
 
       <Card className="rounded-xl border border-amber-200 bg-amber-50/30">
         <CardHeader>
@@ -88,6 +83,6 @@ export default function AllergyPage() {
       </Card>
 
       <RelatedModulesBlock links={getClientAllergyLinks()} />
-    </div>
+    </CabinetPageContent>
   );
 }

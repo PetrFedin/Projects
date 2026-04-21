@@ -5,12 +5,15 @@
 
 import { NextResponse } from 'next/server';
 import { exportOrderToProvider } from '@/lib/b2b/integrations/b2b-integration-service';
+import { readJsonBody } from '@/lib/http/read-json-body';
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const provider = body?.provider as string;
-    const payload = body?.payload;
+    const body = await readJsonBody<Record<string, unknown>>(request);
+    const idempotencyKey = request.headers.get('Idempotency-Key')?.trim() || undefined;
+    const simulateReject = body.simulateReject === true;
+    const provider = body.provider as string;
+    const payload = body.payload;
     if (!payload || (provider !== 'platform' && provider !== 'nuorder' && provider !== 'joor')) {
       return NextResponse.json(
         { success: false, error: 'provider: platform (nuorder/joor в archive). payload required.' },
@@ -26,7 +29,10 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    const result = await exportOrderToProvider('platform', payload);
+    const result = await exportOrderToProvider('platform', payload, {
+      idempotencyKey,
+      simulateReject,
+    });
     return NextResponse.json(result);
   } catch (e) {
     return NextResponse.json(

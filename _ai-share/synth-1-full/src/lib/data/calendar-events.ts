@@ -4,7 +4,6 @@
  */
 
 import { format, differenceInDays, startOfDay } from 'date-fns';
-import { ROUTES, brandB2bOrderHref } from '@/lib/routes';
 
 export type EventSource =
   | 'production'
@@ -79,16 +78,16 @@ export interface UpcomingDeadline {
 export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
   {
     d: 3,
-    t: 'Paris Fashion Week',
+    t: 'Неделя моды в Москве (SS26)',
     source: 'events',
-    c: 'bg-text-primary text-white',
+    c: 'bg-slate-900 text-white',
     href: '/brand/events',
     partner: 'Оргкомитет',
     entityType: 'event',
     startTime: '10:00',
     endTime: '18:00',
-    timezone: 'Europe/Paris',
-    location: 'Paris',
+    timezone: 'Europe/Moscow',
+    location: 'Москва',
     reminderMinutes: 60,
     collection: 'SS26',
     weight: 8,
@@ -98,29 +97,29 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     d: 5,
     t: 'Согласование PO ORD-4521',
     source: 'orders',
-    c: 'bg-accent-primary/15 text-accent-primary',
-    href: brandB2bOrderHref('4521'),
+    c: 'bg-indigo-100 text-indigo-700',
+    href: '/brand/b2b-orders/4521',
     role: 'Байер',
-    partner: 'Демо-магазин · Москва 1',
+    partner: 'Podium',
     entityId: '4521',
     entityType: 'order',
     startTime: '11:00',
     endTime: '12:00',
     reminderMinutes: 15,
     collection: 'SS26',
-    dependsOn: 'task-retail-msk1',
+    dependsOn: 'task-podium',
     weight: 1,
     priority: 'high',
   },
   {
     d: 5,
-    t: 'Звонок с демо-магазином (Москва 1)',
+    t: 'Звонок с Podium',
     source: 'meetings',
     c: 'bg-sky-100 text-sky-700',
     href: '/brand/messages',
     role: 'Байер',
-    partner: 'Демо-магазин · Москва 1',
-    entityId: 'retail-msk1-chat',
+    partner: 'Podium',
+    entityId: 'podium-chat',
     startTime: '14:00',
     endTime: '14:30',
     reminderMinutes: 5,
@@ -129,13 +128,13 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
   },
   {
     d: 6,
-    t: 'Договор с демо-магазином — черновик',
+    t: 'Договор Podium — черновик',
     source: 'tasks',
-    c: 'bg-accent-primary/15 text-accent-primary',
+    c: 'bg-violet-100 text-violet-700',
     href: '/brand/tasks',
     assignee: 'Анна',
     role: 'Юрист',
-    entityId: 'task-retail-msk1',
+    entityId: 'task-podium',
     entityType: 'task',
     startTime: '09:00',
     endTime: '12:00',
@@ -148,8 +147,8 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     source: 'finance',
     c: 'bg-emerald-100 text-emerald-700',
     href: '/brand/finance/escrow',
-    partner: 'Демо-магазин · Москва 2',
-    entityId: 'escrow-demo-msk2',
+    partner: 'ЦУМ',
+    entityId: 'escrow-tsum',
     entityType: 'escrow',
     startTime: '12:00',
     endTime: '13:00',
@@ -176,7 +175,7 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     d: 12,
     t: 'Lookbook Graphene — релиз',
     source: 'content',
-    c: 'bg-accent-primary/15 text-accent-primary',
+    c: 'bg-purple-100 text-purple-700',
     href: '/brand/media',
     role: 'Маркетолог',
     startTime: '09:00',
@@ -188,7 +187,7 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     d: 12,
     t: 'Gold Sample SYN-001',
     source: 'tasks',
-    c: 'bg-accent-primary/15 text-accent-primary',
+    c: 'bg-violet-100 text-violet-700',
     href: '/brand/production',
     assignee: 'Петр (QC)',
     entityId: 'syn-001',
@@ -217,11 +216,11 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
   },
   {
     d: 15,
-    t: 'Встреча с демо-магазином (Москва 2)',
+    t: 'Встреча с ЦУМ',
     source: 'meetings',
     c: 'bg-sky-100 text-sky-700',
-    href: ROUTES.brand.b2bOrders,
-    partner: 'Демо-магазин · Москва 2',
+    href: '/brand/b2b-orders',
+    partner: 'ЦУМ',
     startTime: '15:00',
     endTime: '16:30',
     timezone: 'Europe/Moscow',
@@ -233,7 +232,7 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     d: 18,
     t: 'Gold Sample — примерка',
     source: 'production',
-    c: 'bg-accent-primary/15 text-accent-primary',
+    c: 'bg-purple-100 text-purple-700',
     href: '/brand/production',
     role: 'QC',
     partner: 'Фабрика #4',
@@ -251,7 +250,7 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
     source: 'finance',
     c: 'bg-emerald-100 text-emerald-700',
     href: '/brand/finance/escrow',
-    partner: 'Демо-магазин · Москва 2',
+    partner: 'ЦУМ',
     entityId: '4420',
     entityType: 'escrow',
     startTime: '10:00',
@@ -263,28 +262,28 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
   },
   {
     d: 24,
-    t: 'Milan SS26 Drop',
+    t: 'Дроп коллекции SS26 — Москва',
     source: 'events',
     c: 'bg-blue-100 text-blue-700',
     href: '/brand/events',
     entityType: 'event',
     startTime: '09:00',
     endTime: '20:00',
-    timezone: 'Europe/Rome',
-    location: 'Milan',
+    timezone: 'Europe/Moscow',
+    location: 'Москва',
     collection: 'SS26',
     weight: 11,
     priority: 'high',
   },
   {
     d: 28,
-    t: 'Контракт с демо-магазином — подписание',
+    t: 'Контракт TSUM — подписание',
     source: 'orders',
-    c: 'bg-accent-primary/15 text-accent-primary',
-    href: ROUTES.brand.b2bOrders,
+    c: 'bg-indigo-100 text-indigo-700',
+    href: '/brand/b2b-orders',
     role: 'CFO',
-    partner: 'Демо-магазин · Москва 2',
-    entityId: 'demo-msk2-contract',
+    partner: 'ЦУМ',
+    entityId: 'tsum-contract',
     entityType: 'order',
     startTime: '16:00',
     endTime: '17:00',
@@ -298,13 +297,13 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
 /** Цвета статусов по источнику */
 const SOURCE_COLORS: Record<EventSource, string> = {
   production: 'bg-amber-50 text-amber-600 border-amber-100',
-  orders: 'bg-accent-primary/10 text-accent-primary border-accent-primary/20',
+  orders: 'bg-indigo-50 text-indigo-600 border-indigo-100',
   finance: 'bg-emerald-50 text-emerald-600 border-emerald-100',
   events: 'bg-blue-50 text-blue-600 border-blue-100',
   meetings: 'bg-sky-50 text-sky-600 border-sky-100',
-  tasks: 'bg-accent-primary/10 text-accent-primary border-accent-primary/20',
+  tasks: 'bg-violet-50 text-violet-600 border-violet-100',
   marketing: 'bg-emerald-50 text-emerald-600 border-emerald-100',
-  content: 'bg-accent-primary/10 text-accent-primary border-accent-primary/20',
+  content: 'bg-purple-50 text-purple-600 border-purple-100',
 };
 
 /** Генерирует Upcoming Deadlines из событий календаря: сортировка по дате, дни до дедлайна, просроченные */
@@ -321,8 +320,7 @@ export function getUpcomingDeadlines(
     const date = new Date(year, month, ev.d);
     const daysUntil = differenceInDays(date, today);
     const isOverdue = daysUntil < 0;
-    const baseColor =
-      SOURCE_COLORS[ev.source] ?? 'bg-bg-surface2 text-text-secondary border-border-subtle';
+    const baseColor = SOURCE_COLORS[ev.source] ?? 'bg-slate-50 text-slate-500 border-slate-100';
     const color = isOverdue ? 'bg-rose-50 text-rose-600 border-rose-200' : baseColor;
     let s: string;
     if (ev.priority === 'high') s = 'Urgent';
@@ -404,19 +402,19 @@ export const SEASON_PIPELINE_PHASES = [
   {
     id: 'research',
     label: 'Research',
-    color: 'bg-bg-surface2 text-text-primary',
+    color: 'bg-slate-100 text-slate-700',
     layers: ['tasks', 'meetings'] as EventSource[],
   },
   {
     id: 'design',
     label: 'Design',
-    color: 'bg-accent-primary/15 text-accent-primary',
+    color: 'bg-indigo-100 text-indigo-700',
     layers: ['tasks', 'content', 'orders'] as EventSource[],
   },
   {
     id: 'sampling',
     label: 'Sampling',
-    color: 'bg-accent-primary/15 text-accent-primary',
+    color: 'bg-violet-100 text-violet-700',
     layers: ['production', 'tasks', 'meetings'] as EventSource[],
   },
   {
@@ -446,7 +444,7 @@ export interface FashionSeasonDate {
 export const FASHION_SEASON_DATES: FashionSeasonDate[] = [
   {
     season: 'SS26',
-    label: 'Paris FW',
+    label: 'Неделя моды (Москва)',
     date: '3 Jan',
     phase: 'launch',
     href: '/brand/events',
@@ -455,7 +453,7 @@ export const FASHION_SEASON_DATES: FashionSeasonDate[] = [
   },
   {
     season: 'SS26',
-    label: 'Lookbook Release',
+    label: 'Публикация лукбука',
     date: '12 Jan',
     phase: 'launch',
     href: '/brand/media',
@@ -464,7 +462,7 @@ export const FASHION_SEASON_DATES: FashionSeasonDate[] = [
   },
   {
     season: 'SS26',
-    label: 'Milan Drop',
+    label: 'Дроп коллекции (Москва)',
     date: '24 Jan',
     phase: 'launch',
     href: '/brand/events',
@@ -473,7 +471,7 @@ export const FASHION_SEASON_DATES: FashionSeasonDate[] = [
   },
   {
     season: 'SS26',
-    label: 'Pre-Order Close',
+    label: 'Закрытие предзаказа',
     date: '15 Feb',
     phase: 'production',
     href: '/brand/pre-orders',
@@ -482,7 +480,7 @@ export const FASHION_SEASON_DATES: FashionSeasonDate[] = [
   },
   {
     season: 'FW26',
-    label: 'Pre-Order Open',
+    label: 'Открытие предзаказа',
     date: 'Mar 2026',
     phase: 'design',
     href: '/brand/pre-orders',

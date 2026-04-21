@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,6 @@ import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getBuyerOnboardingLinks } from '@/lib/data/entity-links';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** JOOR / B2B: рейтинг надёжности ритейлеров, лимиты, история платежей. */
 const MOCK_PARTNERS = [
@@ -21,7 +21,7 @@ const MOCK_PARTNERS = [
 
 export default function CreditRiskPage() {
   return (
-    <RegistryPageShell className="space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
       <SectionInfoCard
         title="Credit Risk Scoring"
         description="JOOR-style: внутренний рейтинг надёжности ритейлеров. Лимиты, история платежей, автоматический пересчёт при задержках."
@@ -88,6 +88,6 @@ export default function CreditRiskPage() {
         links={getBuyerOnboardingLinks()}
         title="Заявки байеров, партнёры, B2B заказы, Territory"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

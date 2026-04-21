@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,6 @@ import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import type { RfqRequest, RfqStatus } from '@/lib/rf-market/rfq';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2bRfqCrossRoleLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** Alibaba/OroCommerce: RFQ — запрос котировок от поставщиков */
 const MOCK_RFQS: RfqRequest[] = [
@@ -67,7 +67,7 @@ function StatusBadge({ status }: { status: RfqStatus }) {
 
 export default function RfqPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="Витрина байера: котировки по материалам и услугам; ответы поставщиков можно сопоставить с производственным хабом и брендовым RFQ." />
 
       <Card className="bg-bg-surface2/50 mb-6 border-dashed">
@@ -136,6 +136,6 @@ export default function RfqPage() {
         title="Бренд, factory, следующие шаги"
         className="mt-8"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

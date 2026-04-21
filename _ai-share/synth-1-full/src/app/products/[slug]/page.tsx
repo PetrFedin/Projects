@@ -1,12 +1,12 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { use, useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
 import ProductPageContent from '@/components/product/product-page-content';
 import type { Product } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { fetchWithHttpDeadline } from '@/lib/http/http-fetch-deadline';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function ProductPage({
   params: paramsPromise,
@@ -21,7 +21,7 @@ export default function ProductPage({
     async function fetchProduct() {
       try {
         const response = await fetchWithHttpDeadline('/data/products.json');
-        const products: Product[] = await response.json();
+        const products = (await response.json()) as Product[];
         const foundProduct = products.find((p) => p.slug === params.slug);
         setProduct(foundProduct || null);
       } catch (error) {
@@ -36,7 +36,7 @@ export default function ProductPage({
 
   if (loading) {
     return (
-      <RegistryPageShell className="max-w-7xl p-4">
+      <CabinetPageContent maxWidth="7xl" className="p-4">
         <div className="grid gap-3 md:grid-cols-2 lg:gap-3">
           <div className="flex flex-col gap-3">
             <Skeleton className="aspect-[4/5] w-full rounded-lg" />
@@ -55,7 +55,7 @@ export default function ProductPage({
             <Skeleton className="h-12 w-full" />
           </div>
         </div>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -34,7 +35,8 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { motion } from 'framer-motion';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getDocumentsLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
@@ -233,7 +235,7 @@ export default function DocumentsPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-5 pb-20">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-5 pb-20">
       <RegistryPageHeader
         title="Документооборот и ЭДО"
         leadPlain="Договоры, акты, счета, шаблоны и интеграции ЭДО в одном рабочем потоке."
@@ -316,7 +318,7 @@ export default function DocumentsPage() {
         </TabsList>
 
         {/* All Documents */}
-        <TabsContent value="all" className="space-y-6">
+        <TabsContent value="all" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="flex items-center gap-3">
             <div className="relative flex-1">
               <Search className="text-text-muted absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2" />
@@ -431,7 +433,7 @@ export default function DocumentsPage() {
         </TabsContent>
 
         {/* Templates */}
-        <TabsContent value="templates" className="space-y-6">
+        <TabsContent value="templates" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="bg-accent-primary h-1 w-8 rounded-full" />
@@ -542,7 +544,7 @@ export default function DocumentsPage() {
         </TabsContent>
 
         {/* EDO */}
-        <TabsContent value="edo" className="space-y-6">
+        <TabsContent value="edo" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="bg-accent-primary h-1 w-8 rounded-full" />
@@ -651,12 +653,12 @@ export default function DocumentsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="kiz" className="space-y-6">
+        <TabsContent value="kiz" className={cabinetSurface.cabinetProfileTabPanel}>
           {activeTab === 'kiz' && <ComplianceStockContent />}
         </TabsContent>
       </Tabs>
 
       <RelatedModulesBlock links={getDocumentsLinks()} className="mt-6" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

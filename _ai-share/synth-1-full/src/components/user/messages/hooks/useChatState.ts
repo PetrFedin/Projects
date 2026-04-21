@@ -10,6 +10,14 @@ import {
   matrixContextChatRow,
   matrixContextMessages,
 } from '@/lib/production/stages-comm-demo';
+import {
+  ACADEMY_ENROLLMENT_EVENT,
+  buildAcademyChatsForCourse,
+  getAcademyChatSeedMessages,
+  getAcademyChatsForDeepLink,
+  getEnrolledCourseIds,
+  resolveCourseTitleForAcademy,
+} from '@/lib/academy/academy-course-chats';
 
 export function useChatState(initialRole?: string) {
   const searchParams = useSearchParams();
@@ -17,8 +25,29 @@ export function useChatState(initialRole?: string) {
     (initialRole as UserRole) || 'admin'
   );
 
+  const [academyEnrollVersion, setAcademyEnrollVersion] = React.useState(0);
+
+  React.useEffect(() => {
+    const bump = () => setAcademyEnrollVersion((v) => v + 1);
+    if (typeof window === 'undefined') return;
+    window.addEventListener(ACADEMY_ENROLLMENT_EVENT, bump);
+    window.addEventListener('storage', bump);
+    return () => {
+      window.removeEventListener(ACADEMY_ENROLLMENT_EVENT, bump);
+      window.removeEventListener('storage', bump);
+    };
+  }, []);
+
+  const conversationsWithAcademy = React.useMemo(() => {
+    const enrolled = typeof window === 'undefined' ? [] : getEnrolledCourseIds();
+    const extra = enrolled.flatMap((courseId) =>
+      buildAcademyChatsForCourse(courseId, resolveCourseTitleForAcademy(courseId))
+    );
+    return [...initialConversations, ...extra];
+  }, [academyEnrollVersion]);
+
   const filteredConversations = React.useMemo(() => {
-    return initialConversations.filter((chat) => {
+    return conversationsWithAcademy.filter((chat) => {
       // If admin, show everything
       if (currentRole === 'admin') return true;
 
@@ -26,19 +55,28 @@ export function useChatState(initialRole?: string) {
       // Each chat has a 'type' property in our mock data which corresponds to the role it belongs to
       return canInteract(currentRole, chat.type as UserRole);
     });
-  }, [currentRole]);
+  }, [currentRole, conversationsWithAcademy]);
 
   const spGet = React.useCallback(
     (name: string) => searchParams?.get(name) ?? null,
     [searchParams]
   );
 
+  const chatParam = searchParams?.get('chat') ?? '';
+
+  const withDeepLinkAcademy = React.useMemo(() => {
+    const extra = getAcademyChatsForDeepLink(chatParam);
+    if (extra.length === 0) return filteredConversations;
+    const ids = new Set(filteredConversations.map((c) => c.id));
+    return [...filteredConversations, ...extra.filter((c) => !ids.has(c.id))];
+  }, [filteredConversations, chatParam, academyEnrollVersion]);
+
   const conversationsWithMatrix = React.useMemo(() => {
     const matrixRow = matrixContextChatRow({ get: spGet });
-    if (!matrixRow) return filteredConversations;
-    const rest = filteredConversations.filter((c) => c.id !== matrixRow.id);
+    if (!matrixRow) return withDeepLinkAcademy;
+    const rest = withDeepLinkAcademy.filter((c) => c.id !== matrixRow.id);
     return [matrixRow, ...rest];
-  }, [filteredConversations, spGet]);
+  }, [withDeepLinkAcademy, spGet]);
 
   const [chats, setChats] = React.useState<ChatConversation[]>(filteredConversations);
   const [activeChatId, setActiveChatId] = React.useState<ID>(filteredConversations[0]?.id || '');
@@ -90,6 +128,8 @@ export function useChatState(initialRole?: string) {
     (id: ID): ChatMessage[] => {
       const mid = matrixContextChatId({ get: spGet });
       if (mid && id === mid) return matrixContextMessages({ get: spGet });
+      const academySeed = getAcademyChatSeedMessages(String(id));
+      if (academySeed?.length) return academySeed;
       return (mockChatHistories as any)[id] ?? [];
     },
     [spGet]

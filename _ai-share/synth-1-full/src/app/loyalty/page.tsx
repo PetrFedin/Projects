@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import * as React from 'react';
 import { useState } from 'react';
 import LoyaltyProgramDetails from '@/components/loyalty-program-details';
@@ -11,7 +12,6 @@ import { Users, Store, ShoppingCart, Ticket, Gift, Target, ShoppingBag } from 'l
 import BrandPricingPlans from '@/components/brand-pricing-plans';
 import { BrandFeaturesTable } from '@/components/project-info/brand-features-table';
 import { ShopFeaturesTable } from '@/components/project-info/shop-features-table';
-import { RegistryPageShell } from '@/components/design-system';
 import ShopPricingPlans from '@/components/shop-pricing-plans';
 import {
   Card,
@@ -361,7 +361,7 @@ export default function LoyaltyPage() {
 
   return (
     <div className="bg-secondary/30 duration-300 animate-in fade-in">
-      <RegistryPageShell className="space-y-6 py-4 pb-16 md:py-24">
+      <CabinetPageContent maxWidth="5xl" className="space-y-6 py-4 pb-16 md:py-24 px-4 py-6 pb-24 sm:px-6">
         <header className="text-center">
           <h1 className="font-headline text-sm font-bold md:text-sm">
             Программа лояльности Syntha
@@ -475,7 +475,7 @@ export default function LoyaltyPage() {
             <GiftCardContent />
           </TabsContent>
         </Tabs>
-      </RegistryPageShell>
+      </CabinetPageContent>
     </div>
   );
 }

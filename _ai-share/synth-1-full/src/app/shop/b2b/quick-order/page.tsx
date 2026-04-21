@@ -1,5 +1,6 @@
 'use client';
 
+import { ShopB2bNuOrderScope } from '@/components/shop/ShopB2bNuOrderScope';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -19,7 +20,6 @@ import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** NuOrder/JOOR: быстрый заказ по артикулам — ввод строк "стиль / размер / кол-во" без каталога. */
 type QuickLine = { styleNumber: string; size: string; qty: string };
@@ -79,7 +79,7 @@ export default function QuickOrderPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <ShopB2bNuOrderScope>
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bOrderMode}
         lead="NuOrder / JOOR: артикулы стилей, размеры и количество — затем матрица для проверки и отправки."
@@ -210,6 +210,6 @@ export default function QuickOrderPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getShopB2BHubLinks()} title="Матрица, EZ Order, шаблоны" />
-    </RegistryPageShell>
+    </ShopB2bNuOrderScope>
   );
 }

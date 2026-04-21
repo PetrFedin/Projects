@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,7 @@ import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getProductionLinks } from '@/lib/data/entity-links';
 import { Package, ArrowLeft, MapPin } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function MultiLocationInventoryPage() {
   const locations = getLocations();
@@ -17,7 +18,7 @@ export default function MultiLocationInventoryPage() {
   );
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Остатки по складам"
         leadPlain="Москва, СПб, регионы — остатки по локациям."
@@ -102,6 +103,6 @@ export default function MultiLocationInventoryPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getProductionLinks()} title="Логистика" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,6 @@ import { getLiaLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import type { LiaStoreFeed } from '@/lib/shop/local-inventory-ads';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_FEEDS: LiaStoreFeed[] = [
   {
@@ -39,7 +39,7 @@ const statusLabels: Record<LiaStoreFeed['status'], string> = {
 
 export default function LocalInventoryAdsPage() {
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Local Inventory Ads (LIA)"
         description="Передача наличия в Google / Yandex Maps. Связь со складом, маркетингом и BOPIS. При API — фиды по магазинам, синхронизация остатков."
@@ -108,6 +108,6 @@ export default function LocalInventoryAdsPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getLiaLinks()} title="Склад, маркетинг, BOPIS" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

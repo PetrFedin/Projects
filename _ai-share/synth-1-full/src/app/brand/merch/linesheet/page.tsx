@@ -17,6 +17,7 @@ import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { buildLineSheetItems, lineSheetToCsv } from '@/lib/fashion/linesheet-logic';
 import { ArrowLeft, FileText, Download, ShoppingCart } from 'lucide-react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function LineSheetPage() {
   const rows = useMemo(() => buildLineSheetItems(products), []);
@@ -33,7 +34,7 @@ export default function LineSheetPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="6xl">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -123,6 +124,6 @@ export default function LineSheetPage() {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

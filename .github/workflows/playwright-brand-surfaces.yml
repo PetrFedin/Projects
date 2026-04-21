@@ -1,0 +1,65 @@
+# Playwright: brand control + interaction + (опционально) visual в _ai-share/synth-1-full.
+# Visual: эталоны *-chromium-linux.png — см. комментарии в job brand-visual.
+name: playwright-brand-surfaces
+on:
+  push:
+    branches: [main]
+    paths:
+      - '_ai-share/synth-1-full/**'
+      - '.github/workflows/playwright-brand-surfaces.yml'
+  pull_request:
+    paths:
+      - '_ai-share/synth-1-full/**'
+      - '.github/workflows/playwright-brand-surfaces.yml'
+  workflow_dispatch:
+
+jobs:
+  brand-e2e:
+    name: Brand E2E (control + interaction)
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    defaults:
+      run:
+        working-directory: _ai-share/synth-1-full
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+      - run: npm ci
+      - run: npx playwright install chromium --with-deps
+      - run: npx playwright test e2e/brand-control-surfaces.spec.ts --workers=1
+      - run: npm run test:interaction
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-brand-e2e
+          path: _ai-share/synth-1-full/playwright-report/
+
+  brand-visual:
+    name: Visual regression (chromium)
+    if: false
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    defaults:
+      run:
+        working-directory: _ai-share/synth-1-full
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+      - run: npm ci
+      - run: npx playwright install chromium --with-deps
+      - run: npm run test:visual
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-visual
+          path: _ai-share/synth-1-full/playwright-report/

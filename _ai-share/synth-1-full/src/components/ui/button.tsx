@@ -18,6 +18,9 @@ const buttonVariants = cva(
         cta: 'bg-black text-white hover:bg-text-primary/90 rounded-xl text-xs font-bold uppercase tracking-wide shadow-sm button-glimmer button-professional active:scale-[0.98]',
         ctaOutline:
           'border border-border-default bg-white text-text-secondary hover:bg-black hover:text-white hover:border-black rounded-xl text-xs font-bold uppercase tracking-wide shadow-sm button-glimmer button-professional active:scale-[0.98]',
+        /** B2B / JOOR-style экспорт и тяжёлые CTA (обводка, контраст). */
+        joor:
+          'border-2 border-slate-900 bg-white text-slate-900 hover:bg-slate-50 font-semibold',
       },
       size: {
         default: 'h-9 px-4 py-2',

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -18,7 +19,8 @@ import { getAvailableQty, type InventoryItem } from '@/lib/warehouse';
 import { cn } from '@/lib/utils';
 import { getLogisticsLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 
 const MOCK_INVENTORY: InventoryItem[] = [
@@ -54,7 +56,7 @@ const MOCK_INVENTORY: InventoryItem[] = [
 
 export default function WarehousePage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Складской учёт"
         leadPlain="Инвентарь, остатки, связь с Production и маркировкой"
@@ -164,6 +166,6 @@ export default function WarehousePage() {
       </Card>
 
       <RelatedModulesBlock links={getLogisticsLinks()} className="mt-6" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

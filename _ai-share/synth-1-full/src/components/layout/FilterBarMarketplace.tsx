@@ -6,7 +6,13 @@ import type { Facets } from '../../types/facets';
 import { Card } from '../ui/card';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 import { Range } from '../ui/Range';
 import { DateRange } from '../ui/DateRange';
 import { cn } from '../../lib/cn';
@@ -22,8 +28,9 @@ async function fetchFacets(filters: MarketplaceFilters): Promise<Facets> {
 
   const res = await fetch(`/api/facets?${qs.toString()}`, { cache: 'no-store' });
   if (!res.ok) throw new Error('Failed to fetch facets');
-  const json = await res.json();
-  return json.facets as Facets;
+  const json = (await res.json()) as { facets?: Facets };
+  if (!json.facets) throw new Error('Invalid facets response');
+  return json.facets;
 }
 
 export function FilterBarMarketplace({
@@ -57,36 +64,33 @@ export function FilterBarMarketplace({
           <Input
             value={filters.q}
             onChange={(e) => setFilters({ q: e.target.value, page: 1 }, { replace: true })}
-            placeholder="Search SKU / product / brand / factory…"
+            placeholder="Поиск: SKU, товар, бренд, фабрика…"
           />
         </div>
 
         <Select
           value={filters.currency}
-          onValueChange={(v: string) => setFilters({ currency: v, page: 1 }, { replace: true })}
+          onValueChange={(v: string) =>
+            setFilters({ currency: v, page: 1 }, { replace: true })
+          }
         >
           <SelectTrigger className="h-10 w-[120px]">
             <SelectValue placeholder="Валюта" />
           </SelectTrigger>
           <SelectContent>
-            {[
-              { value: 'USD', label: 'USD' },
-              { value: 'EUR', label: 'EUR' },
-              { value: 'GBP', label: 'GBP' },
-              { value: 'RUB', label: 'RUB' },
-            ].map((o) => (
-              <SelectItem key={o.value} value={o.value}>
-                {o.label}
+            {(['RUB', 'USD', 'EUR', 'GBP'] as const).map((c) => (
+              <SelectItem key={c} value={c}>
+                {c}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
 
         {[
-          ['inStockOnly', 'In stock'],
-          ['lowStock', 'Low stock'],
-          ['slowMover', 'Slow mover'],
-          ['highReturnRisk', 'Return risk'],
+          ['inStockOnly', 'В наличии'],
+          ['lowStock', 'Мало на складе'],
+          ['slowMover', 'Медленный оборот'],
+          ['highReturnRisk', 'Риск возврата'],
         ].map(([k, label]) => (
           <button
             key={k}
@@ -105,13 +109,13 @@ export function FilterBarMarketplace({
 
         <div className="ml-auto flex items-center gap-2">
           <Button variant="secondary" onClick={() => setOpen((v) => !v)}>
-            {open ? 'Hide filters' : 'More filters'}
+            {open ? 'Скрыть фильтры' : 'Ещё фильтры'}
           </Button>
           <Button variant="secondary" onClick={reset}>
-            Reset
+            Сброс
           </Button>
-          <Button variant="cta" onClick={() => setFilters({ page: 1 }, { replace: false })}>
-            Apply
+          <Button variant="default" onClick={() => setFilters({ page: 1 }, { replace: false })}>
+            Применить
           </Button>
         </div>
       </div>
@@ -122,30 +126,30 @@ export function FilterBarMarketplace({
             type="brands"
             value={filters.brandIds}
             onChange={(v) => setFilters({ brandIds: v, page: 1 }, { replace: true })}
-            placeholder={`Brands${facets?.brand?.length ? ` (${facets.brand.reduce((a, b) => a + b.count, 0)})` : ''}`}
+            placeholder={`Бренды${facets?.brand?.length ? ` (${facets.brand.reduce((a, b) => a + b.count, 0)})` : ''}`}
           />
           <AsyncMultiSelect
             type="retailers"
             value={filters.retailerIds}
             onChange={(v) => setFilters({ retailerIds: v, page: 1 }, { replace: true })}
-            placeholder="Retailers"
+            placeholder="Ритейлеры"
           />
           <AsyncMultiSelect
             type="suppliers"
             value={filters.supplierIds}
             onChange={(v) => setFilters({ supplierIds: v, page: 1 }, { replace: true })}
-            placeholder="Suppliers / Factories"
+            placeholder="Поставщики / фабрики"
           />
           <AsyncMultiSelect
             type="marketplaces"
             value={filters.marketplaceIds}
             onChange={(v) => setFilters({ marketplaceIds: v, page: 1 }, { replace: true })}
-            placeholder="Marketplaces / Channels"
+            placeholder="Маркетплейсы / каналы"
           />
 
           <div>
             <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
-              Wholesale price
+              Оптовая цена
             </div>
             <Range
               min={filters.wholesaleMin}
@@ -158,7 +162,7 @@ export function FilterBarMarketplace({
 
           <div>
             <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
-              Retail price
+              Розничная цена
             </div>
             <Range
               min={filters.retailMin}
@@ -182,7 +186,7 @@ export function FilterBarMarketplace({
 
           <div>
             <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
-              Sell-through %
+              Распродажа %
             </div>
             <Range
               min={filters.sellThroughMin}
@@ -195,7 +199,7 @@ export function FilterBarMarketplace({
 
           <div>
             <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
-              Stock (units)
+              Остаток (шт.)
             </div>
             <Range
               min={filters.stockMin}
@@ -208,7 +212,7 @@ export function FilterBarMarketplace({
 
           <div>
             <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
-              Created date
+              Дата создания
             </div>
             <DateRange
               from={filters.createdFrom}
@@ -221,7 +225,7 @@ export function FilterBarMarketplace({
 
           <div>
             <div className="text-text-muted mb-1 text-xs uppercase tracking-[0.06em]">
-              Delivery window
+              Окно поставки
             </div>
             <DateRange
               from={filters.deliveryFrom}

@@ -27,7 +27,9 @@ export function B2BIntegrationStatusWidget({ settingsHref }: B2BIntegrationStatu
   useEffect(() => {
     fetch('/api/b2b/integrations/status')
       .then((res) => (res.ok ? res.json() : []))
-      .then((data: B2BIntegrationStatusItem[]) => setItems(Array.isArray(data) ? data : []))
+      .then((data: unknown) =>
+        setItems(Array.isArray(data) ? (data as B2BIntegrationStatusItem[]) : [])
+      )
       .catch(() => setItems([]))
       .finally(() => setLoading(false));
   }, []);

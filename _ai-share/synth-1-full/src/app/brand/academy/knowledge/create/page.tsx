@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -15,7 +16,7 @@ import { getAcademyLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { addKnowledgeArticle } from '@/lib/academy/brand-academy-data';
 import { ArrowLeft } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function CreateKnowledgePage() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function CreateKnowledgePage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Добавить статью"
         leadPlain="База знаний — для партнёров и клиентов"
@@ -142,6 +143,6 @@ export default function CreateKnowledgePage() {
       </WidgetCard>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -21,6 +21,7 @@ import { calculateWholesaleOrderTotal } from '@/lib/fashion/wholesale-order';
 import type { WholesaleOrderEntryV1 } from '@/lib/fashion/types';
 import { ArrowLeft, ShoppingCart, Send, Plus, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function WholesalePreorderPage() {
   const { toast } = useToast();
@@ -53,7 +54,7 @@ export default function WholesalePreorderPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="6xl">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" asChild>
@@ -210,6 +211,6 @@ export default function WholesalePreorderPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

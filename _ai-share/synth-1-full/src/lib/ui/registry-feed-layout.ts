@@ -5,6 +5,11 @@
 export const registryFeedLayout = {
   /** Оболочка контента под layout кабинета (узкая колонка как у ленты) */
   pageShell: 'mx-auto w-full max-w-5xl space-y-4 px-4 py-6 pb-24 sm:px-6',
+  /**
+   * Внутри `CabinetHubMain` — без второго max-width и px у края (отступы даёт только хаб).
+   * Используйте для `/client/me`, `/brand`, shop и т.п. внутри кабинетного layout.
+   */
+  pageShellCabinet: 'w-full max-w-none space-y-4 px-0 py-4 pb-20',
   /** Шапка страницы: заголовок + нижняя граница */
   headerRow:
     'flex flex-col gap-3 border-b border-border-subtle pb-4 sm:flex-row sm:items-start sm:justify-between',

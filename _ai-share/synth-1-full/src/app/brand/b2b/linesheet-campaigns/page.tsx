@@ -1,5 +1,6 @@
 'use client';
-import { RegistryPageShell } from '@/components/design-system';
+
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -42,7 +43,7 @@ export default function LinesheetCampaignsPage() {
   const [creating, setCreating] = useState(false);
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <div className="mb-6 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <Link href={ROUTES.brand.b2bLinesheets}>
@@ -124,6 +125,6 @@ export default function LinesheetCampaignsPage() {
         title="Лайншиты, заказы, выставки, партнёры"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

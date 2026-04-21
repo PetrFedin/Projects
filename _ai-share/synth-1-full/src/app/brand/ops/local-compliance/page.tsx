@@ -15,12 +15,13 @@ import {
 } from 'lucide-react';
 import { getRecentEdoDocuments } from '@/lib/fashion/edo-status';
 import { Button } from '@/components/ui/button';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function LocalCompliancePage() {
   const docs = getRecentEdoDocuments();
 
   return (
-    <div className="mx-auto max-w-5xl p-8">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 p-8 pb-24">
       <div className="mb-8">
         <div className="mb-2 flex items-center gap-3">
           <div className="rounded-lg bg-emerald-100 p-2">
@@ -157,6 +158,6 @@ export default function LocalCompliancePage() {
           </div>
         </div>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

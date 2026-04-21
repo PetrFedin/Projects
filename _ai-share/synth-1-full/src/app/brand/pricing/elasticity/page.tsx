@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,7 +13,6 @@ import { SectionInfoCard } from '@/components/brand/production/ProductionSection
 import { getFinanceLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** Упрощённая модель: эластичность -1.2 => при +10% цены объём -12% */
 function elasticityImpact(priceChangePct: number, elasticity = -1.2) {
@@ -38,7 +38,7 @@ export default function PriceElasticityPage() {
   }, [currentPrice, priceChangePct, baseVolume]);
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Price Elasticity Predictor"
         description="AI-прогноз влияния изменения цены на объём продаж. Эластичность по SKU, категориям, каналам. Связь с Finance, Pricing, Analytics."
@@ -156,6 +156,6 @@ export default function PriceElasticityPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getFinanceLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

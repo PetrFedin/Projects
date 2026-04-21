@@ -36,9 +36,9 @@ export function useProductFilters(brandProducts: Product[]) {
           fetch('/data/colors.json'),
           fetch('/data/attribute-data.json'),
         ]);
-        setCategoriesData(await catRes.json());
-        setColorsData(await colRes.json());
-        setAttributesData(await attrRes.json());
+        setCategoriesData((await catRes.json()) as unknown);
+        setColorsData((await colRes.json()) as any[]);
+        setAttributesData((await attrRes.json()) as any[]);
       } catch (e) {
         console.error('Failed to load reference data', e);
       }

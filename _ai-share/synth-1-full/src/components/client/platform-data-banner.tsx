@@ -1,6 +1,7 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
+import { SynthaDemoMark } from '@/components/ui/syntha-demo-mark';
 import { getPlatformApiBaseUrl, getPlatformTransport } from '@/lib/platform/config';
 import { Database, Cloud } from 'lucide-react';
 
@@ -19,9 +20,12 @@ export function PlatformDataBanner({ className }: { className?: string }) {
   }
 
   return (
-    <Badge variant="secondary" className={`gap-1 text-[10px] font-normal ${className ?? ''}`}>
-      <Database className="h-3 w-3" />
-      Локально: каталог + localStorage
-    </Badge>
+    <div className={`flex flex-wrap items-center gap-1.5 ${className ?? ''}`}>
+      <SynthaDemoMark compact />
+      <Badge variant="secondary" className="gap-1 text-[10px] font-normal">
+        <Database className="h-3 w-3" />
+        Локально: каталог + localStorage
+      </Badge>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -21,7 +22,8 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { Progress } from '@/components/ui/progress';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 const factories = [
   {
@@ -52,7 +54,7 @@ const factories = [
 
 export default function FactoriesPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
       <RegistryPageHeader
         title="Производства"
         leadPlain="Управление вашими производственными партнерами и фабриками."
@@ -95,7 +97,10 @@ export default function FactoriesPage() {
                       className="hover:text-accent-primary flex items-center gap-2"
                     >
                       {factory.name}
-                      <ChevronRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
+                      <ChevronRight
+                        className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100"
+                        aria-hidden
+                      />
                     </Link>
                   </TableCell>
                   <TableCell>
@@ -104,7 +109,11 @@ export default function FactoriesPage() {
                   <TableCell>{factory.activeOrders}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <Progress value={factory.load} className="w-24" />
+                      <Progress
+                        value={factory.load}
+                        className="w-24"
+                        aria-label={`Загрузка фабрики ${factory.name}: ${factory.load}%`}
+                      />
                       <span>{factory.load}%</span>
                     </div>
                   </TableCell>
@@ -112,8 +121,12 @@ export default function FactoriesPage() {
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button size="icon" variant="ghost">
-                          <MoreHorizontal className="h-4 w-4" />
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          aria-label={`Действия: ${factory.name}`}
+                        >
+                          <MoreHorizontal className="h-4 w-4" aria-hidden />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
@@ -130,6 +143,6 @@ export default function FactoriesPage() {
           </Table>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

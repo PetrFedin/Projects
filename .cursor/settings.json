@@ -1,0 +1,16 @@
+{
+  "plugins": {
+    "figma": {
+      "enabled": true
+    },
+    "langfuse": {
+      "enabled": true
+    },
+    "superpowers": {
+      "enabled": true
+    },
+    "semgrep-plugin": {
+      "enabled": true
+    }
+  }
+}

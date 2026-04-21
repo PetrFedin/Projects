@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +16,6 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { useFloorTabDraftState } from '@/hooks/use-floor-tab-draft';
 import { useToast } from '@/hooks/use-toast';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const GOLD_DEFAULT = {
   v: 1 as const,
@@ -31,7 +31,7 @@ export default function GoldSamplePage() {
   const { data, setData, save, hydrated } = useFloorTabDraftState('gold-sample', GOLD_DEFAULT);
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Gold Sample Approval"
         description="Маршрут и заметки сохраняются локально (floor-tab: gold-sample). После API — ЭДО и подписи в HttpProductionDataPort."
@@ -104,6 +104,6 @@ export default function GoldSamplePage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getProductionLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

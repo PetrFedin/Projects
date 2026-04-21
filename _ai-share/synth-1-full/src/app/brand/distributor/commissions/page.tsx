@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +16,7 @@ import {
   listCommissionRecords,
   type CommissionRecord,
 } from '@/lib/distributor/sub-agent-commission';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const statusLabels: Record<CommissionRecord['status'], string> = {
   pending: 'На согласовании',
@@ -31,7 +32,7 @@ export default function SubAgentCommissionPage() {
   }, []);
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Sub-Agent Commission"
         leadPlain="Расчёт комиссий торговых представителей. Связь с партнёрами, финансами и дистрибуцией. При API — утверждение и отметка о выплате."
@@ -95,6 +96,6 @@ export default function SubAgentCommissionPage() {
         links={getSubAgentCommissionLinks()}
         title="Партнёры, финансы, дистрибуция"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

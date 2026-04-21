@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import {
@@ -31,7 +32,6 @@ import {
   Globe,
   Monitor,
 } from 'lucide-react';
-import { RegistryPageShell } from '@/components/design-system';
 import Image from 'next/image';
 import { VirtualShowroom } from '@/components/brand/virtual-showroom';
 const TradeShowsContent = dynamic(
@@ -199,8 +199,8 @@ export default function BrandShowroomPage() {
           AI-поиск
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="showroom" className="mt-4">
-        <RegistryPageShell className="space-y-6 duration-700 animate-in fade-in">
+      <TabsContent value="showroom" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+        <CabinetPageContent maxWidth="5xl" className="space-y-6 duration-700 animate-in fade-in px-4 py-6 pb-24 sm:px-6">
           {/* Control Panel: Executive Style */}
           <div className="flex flex-col items-start justify-between gap-3 md:flex-row md:items-center">
             <div className="flex items-center gap-3">
@@ -396,30 +396,30 @@ export default function BrandShowroomPage() {
               </Card>
             ))}
           </div>
-        </RegistryPageShell>
+        </CabinetPageContent>
       </TabsContent>
-      <TabsContent value="trade-shows" className="mt-4">
+      <TabsContent value="trade-shows" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
         {tab === 'trade-shows' && <TradeShowsContent />}
       </TabsContent>
-      <TabsContent value="passport" className="mt-4">
+      <TabsContent value="passport" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
         {tab === 'passport' && <PassportContent />}
       </TabsContent>
-      <TabsContent value="buyers" className="mt-4">
+      <TabsContent value="buyers" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
         {tab === 'buyers' && <BuyerAppsContent />}
       </TabsContent>
-      <TabsContent value="invites" className="mt-4">
+      <TabsContent value="invites" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
         {tab === 'invites' && <PrivateInvitesContent />}
       </TabsContent>
-      <TabsContent value="merchandising" className="mt-4">
+      <TabsContent value="merchandising" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
         {tab === 'merchandising' && <MerchandisingContent />}
       </TabsContent>
-      <TabsContent value="video-consultation" className="mt-4">
+      <TabsContent value="video-consultation" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
         {tab === 'video-consultation' && <VideoConsultationContent />}
       </TabsContent>
-      <TabsContent value="banners" className="mt-4">
+      <TabsContent value="banners" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
         {tab === 'banners' && <ShowroomBannersContent />}
       </TabsContent>
-      <TabsContent value="ai-search" className="mt-4">
+      <TabsContent value="ai-search" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
         {tab === 'ai-search' && <ShowroomAiSearchContent />}
       </TabsContent>
     </Tabs>

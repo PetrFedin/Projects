@@ -18,6 +18,7 @@ import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { simulateMargin } from '@/lib/fashion/margin-simulator';
 import { ArrowLeft, Calculator, TrendingUp, DollarSign, Percent } from 'lucide-react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function MarginSimulatorPage() {
   const [selectedSku, setSelectedSku] = useState(products[0].sku);
@@ -41,7 +42,7 @@ export default function MarginSimulatorPage() {
   );
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="6xl">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -190,6 +191,6 @@ export default function MarginSimulatorPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

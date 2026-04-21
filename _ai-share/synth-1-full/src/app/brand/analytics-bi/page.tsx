@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -39,7 +40,6 @@ import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageShell } from '@/components/design-system';
 import { ROUTES } from '@/lib/routes';
 import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 
@@ -64,7 +64,7 @@ export default function BIAnalyticsPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <Card className="border-border-default bg-bg-surface2/80 rounded-xl">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm">Дашборды аналитики</CardTitle>
@@ -205,7 +205,7 @@ export default function BIAnalyticsPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-6">
+        <TabsContent value="overview" className={cabinetSurface.cabinetProfileTabPanel}>
           {/* KPI карточки */}
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6">
             <Link href={ROUTES.brand.production}>
@@ -386,7 +386,7 @@ export default function BIAnalyticsPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="sales" className="space-y-4">
+        <TabsContent value="sales" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
             <CardHeader>
               <CardTitle>B2B и дистрибуторы</CardTitle>
@@ -442,7 +442,7 @@ export default function BIAnalyticsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="production" className="space-y-4">
+        <TabsContent value="production" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="grid gap-4 md:grid-cols-4">
             <Card>
               <CardContent className="pt-4">
@@ -476,7 +476,7 @@ export default function BIAnalyticsPage() {
           </Button>
         </TabsContent>
 
-        <TabsContent value="inventory" className="space-y-4">
+        <TabsContent value="inventory" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="grid gap-4 md:grid-cols-4">
             <Card>
               <CardContent className="pt-4">
@@ -508,7 +508,7 @@ export default function BIAnalyticsPage() {
           </Button>
         </TabsContent>
 
-        <TabsContent value="network" className="space-y-6">
+        <TabsContent value="network" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -550,7 +550,7 @@ export default function BIAnalyticsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="geo" className="space-y-6">
+        <TabsContent value="geo" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -584,7 +584,7 @@ export default function BIAnalyticsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="sentiment" className="space-y-6">
+        <TabsContent value="sentiment" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -634,7 +634,7 @@ export default function BIAnalyticsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="budget" className="space-y-6">
+        <TabsContent value="budget" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -698,7 +698,7 @@ export default function BIAnalyticsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="import" className="space-y-6">
+        <TabsContent value="import" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card className="border-accent-primary/30 bg-accent-primary/10 rounded-xl border-2 border-dashed">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -792,6 +792,6 @@ export default function BIAnalyticsPage() {
       </Tabs>
 
       <RelatedModulesBlock links={getAnalyticsLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

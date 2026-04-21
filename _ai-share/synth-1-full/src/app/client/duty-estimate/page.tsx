@@ -1,14 +1,12 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ROUTES } from '@/lib/routes';
 import { estimateFashionImportDuty } from '@/lib/fashion/duty-estimate';
-import { ArrowLeft, Calculator } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function DutyEstimatePage() {
   const [amount, setAmount] = useState('15000');
@@ -22,24 +20,8 @@ export default function DutyEstimatePage() {
   }, [amount, category, origin]);
 
   return (
-    <div className="container mx-auto max-w-lg space-y-6 px-4 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.client.home}>
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold">
-            <Calculator className="h-6 w-6" />
-            Пошлина (демо)
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Оценка для витрины: не юридический совет. В проде — тарифный справочник и страна
-            происхождения из декларации.
-          </p>
-        </div>
-      </div>
+    <CabinetPageContent maxWidth="lg">
+      <ClientCabinetSectionHeader />
 
       <Card>
         <CardHeader>
@@ -105,6 +87,6 @@ export default function DutyEstimatePage() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

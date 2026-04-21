@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
@@ -20,7 +20,7 @@ export default function ShopKnowledgeArticlePage() {
 
   if (!article) {
     return (
-      <RegistryPageShell className="max-w-2xl space-y-4">
+      <CabinetPageContent maxWidth="2xl" className="space-y-4">
         <Button variant="ghost" size="icon" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4" />
         </Button>
@@ -28,12 +28,12 @@ export default function ShopKnowledgeArticlePage() {
         <Button variant="outline" asChild className="mt-4">
           <Link href={ROUTES.shop.b2bAcademy}>В академию</Link>
         </Button>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   return (
-    <RegistryPageShell className="max-w-2xl space-y-6">
+    <CabinetPageContent maxWidth="2xl" className="space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bAcademy}
         lead={
@@ -70,6 +70,6 @@ export default function ShopKnowledgeArticlePage() {
       <Button variant="outline" asChild>
         <Link href={ROUTES.shop.b2bAcademy}>← К списку</Link>
       </Button>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

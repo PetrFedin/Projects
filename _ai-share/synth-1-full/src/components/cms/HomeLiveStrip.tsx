@@ -160,12 +160,7 @@ export function HomeLiveStrip({ live }: { live: CmsLive[] }) {
   };
 
   const handleOpenLive = (stream: CmsLive) => {
-    setActiveLiveStream({
-      cover: stream.cover,
-      title: stream.title,
-      broadcastType: stream.broadcastType,
-      features: stream.features,
-    });
+    setActiveLiveStream(stream);
     // Remove any notifications for this specific stream
     const relatedNotif = notifications.find((n) => n.streamId === stream.id);
     if (relatedNotif) {

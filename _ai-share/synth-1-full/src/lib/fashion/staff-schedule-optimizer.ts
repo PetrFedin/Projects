@@ -17,3 +17,5 @@ export function getStaffShiftOptimization(
     peakHours: ['14:00', '18:00', '19:30'],
   };
 }
+
+export const getStaffScheduleOptimization = getStaffShiftOptimization;

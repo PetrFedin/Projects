@@ -1,13 +1,13 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Package } from 'lucide-react';
 import { InventoryPageContent } from '@/components/shop/inventory-page-content';
 
 export default function InventoryPage() {
   return (
-    <RegistryPageShell className="max-w-6xl space-y-6" data-testid="shop-inventory-page">
+    <CabinetPageContent maxWidth="6xl" className="space-y-6" data-testid="shop-inventory-page">
       <SectionHeader
         icon={Package}
         title="Управление ассортиментом"
@@ -16,6 +16,6 @@ export default function InventoryPage() {
       <div className="border-border-subtle bg-bg-surface2 overflow-hidden rounded-xl border shadow-sm">
         <InventoryPageContent />
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

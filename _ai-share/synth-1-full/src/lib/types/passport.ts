@@ -25,7 +25,6 @@ export interface ProductPassport {
   careInstructions: string[];
   repairGuideUrl?: string;
   recyclingInstructions: string;
-  resaleEligible: boolean;
 
   // Authenticity
   isAuthentic: boolean;

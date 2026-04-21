@@ -88,18 +88,15 @@ export function DashboardTab({
         {/* cabinetSurface v1 */}
         <TabsList className={cn(cabinetSurface.tabsList, 'w-full shadow-inner')}>
           {[
-            { value: 'analytics', label: 'Intelligence' },
-            { value: 'ai', label: 'AI Strategy' },
-            { value: 'activity', label: 'Pulse' },
-            { value: 'recommendations', label: 'Curated' },
+            { value: 'analytics', label: 'Аналитика' },
+            { value: 'ai', label: 'ИИ' },
+            { value: 'activity', label: 'Активность' },
+            { value: 'recommendations', label: 'Подборки' },
           ].map((t) => (
             <TabsTrigger
               key={t.value}
               value={t.value}
-              className={cn(
-                cabinetSurface.tabsTrigger,
-                'data-[state=active]:text-accent-primary h-7 rounded-lg px-4 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:border'
-              )}
+              className={cn(cabinetSurface.tabsTrigger, 'data-[state=active]:text-accent-primary')}
             >
               {t.label}
             </TabsTrigger>
@@ -115,10 +112,10 @@ export function DashboardTab({
               <Sparkles className="text-accent-primary h-3.5 w-3.5 animate-pulse" />
               <span className="text-text-secondary text-[10px] font-bold uppercase italic tracking-tight">
                 {analyticsPeriod === 'week'
-                  ? 'Week Delta: -800 ₽ cost reduction. Style optimization active.'
+                  ? 'Неделя: −800 ₽ к затратам. Оптимизация стиля активна.'
                   : analyticsPeriod === 'year'
-                    ? 'Annual yield: 18,400 ₽ saved. Portfolio quality +25%.'
-                    : 'Monthly cycle: 3,200 ₽ liquidity gain. Affinity +15%.'}
+                    ? 'Год: 18 400 ₽ сэкономлено. Качество портфеля +25%.'
+                    : 'Месяц: +3 200 ₽ ликвидности. Сходство с брендами +15%.'}
               </span>
             </div>
             <div className="border-border-subtle bg-bg-surface flex shrink-0 rounded-lg border p-0.5 shadow-sm">
@@ -345,9 +342,9 @@ export function DashboardTab({
                   <DialogTitle>RFM Анализ</DialogTitle>
                   <DialogDescription className="pt-4 text-base leading-relaxed">
                     RFM — это метод сегментации клиентов по трём показателям:
-                    <br />• <b>Recency</b> (давность заказа)
-                    <br />• <b>Frequency</b> (частота заказов)
-                    <br />• <b>Monetary</b> (сумма трат)
+                    <br />• давность заказа (R)
+                    <br />• частота заказов (F)
+                    <br />• сумма трат (M)
                   </DialogDescription>
                 </DialogHeader>
                 <div className="mt-4 rounded-xl border border-primary/10 bg-primary/5 p-4">
@@ -368,7 +365,7 @@ export function DashboardTab({
                 <Card className="group relative flex h-full cursor-pointer flex-col transition-colors hover:border-accent/50">
                   <CardHeader className="pb-2">
                     <CardTitle className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                      <span>Loyalty Score</span>
+                      <span>Балл лояльности</span>
                       <div className="flex items-center gap-1">
                         <Info className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
                         <Gem className="h-3 w-3 text-blue-500" />
@@ -396,7 +393,7 @@ export function DashboardTab({
                     <DialogTitle className="text-sm">Ваша программа лояльности</DialogTitle>
                   </div>
                   <DialogDescription className="pt-2 text-base text-foreground">
-                    Loyalty Score отражает вашу общую ценность и вовлеченность.
+                    Балл лояльности отражает вашу общую ценность и вовлечённость.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="mt-6 space-y-6">
@@ -415,7 +412,7 @@ export function DashboardTab({
                       </div>
                       <div className="text-text-primary flex items-center gap-2 text-[11px] font-bold uppercase tracking-tight">
                         <Sparkles className="h-3 w-3" />
-                        Осталось 150 баллов до уровня "Diamond"
+                        Осталось 150 баллов до уровня «Алмаз»
                       </div>
                     </div>
                     <Gem className="text-accent-primary/15 absolute -bottom-4 -right-4 h-24 w-24 rotate-12" />
@@ -451,7 +448,7 @@ export function DashboardTab({
                 <Card className="group relative flex h-full cursor-pointer flex-col transition-colors hover:border-accent/50">
                   <CardHeader className="pb-2">
                     <CardTitle className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-                      <span>Influence</span>
+                      <span>Влияние</span>
                       <div className="flex items-center gap-1">
                         <Info className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
                         <Rocket className="h-3 w-3 text-amber-500" />
@@ -472,7 +469,7 @@ export function DashboardTab({
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Influence Score</DialogTitle>
+                  <DialogTitle>Балл влияния</DialogTitle>
                   <DialogDescription className="pt-4 text-base leading-relaxed">
                     Этот показатель оценивает ваше влияние на других пользователей через социальные
                     сети и внутренние активности.
@@ -848,7 +845,7 @@ export function DashboardTab({
                     <div className="rounded-xl border border-accent/10 bg-accent/5 p-4">
                       <div className="mb-2 flex items-center gap-2">
                         <Brain className="h-4 w-4 text-accent" />
-                        <span className="text-sm font-bold">Style DNA</span>
+                        <span className="text-sm font-bold">ДНК стиля</span>
                       </div>
                       <p className="text-xs text-muted-foreground">
                         Ваш стиль определен как "Минимализм с акцентами". Мы ищем вещи простых форм,
@@ -892,7 +889,7 @@ export function DashboardTab({
                     : 'text-text-muted hover:bg-bg-surface2'
                 )}
               >
-                Active
+                Активные
               </button>
               <button
                 onClick={() => setRecommendationOfferTab('archive')}
@@ -903,7 +900,7 @@ export function DashboardTab({
                     : 'text-text-muted hover:bg-bg-surface2'
                 )}
               >
-                Archive
+                Архив
               </button>
             </div>
             <div className="flex shrink-0 gap-1.5 px-1">
@@ -912,7 +909,7 @@ export function DashboardTab({
                 value={offerFilterBrand}
                 onChange={(e) => setOfferFilterBrand(e.target.value)}
               >
-                <option value="all">Global Brands</option>
+                <option value="all">Все бренды</option>
                 <option value="Syntha">Syntha</option>
                 <option value="Zara">Zara</option>
                 <option value="H&M">H&M</option>
@@ -922,10 +919,10 @@ export function DashboardTab({
                 value={offerFilterType}
                 onChange={(e) => setOfferFilterType(e.target.value)}
               >
-                <option value="all">All Modules</option>
-                <option value="promo">Incentives</option>
-                <option value="points">Capital</option>
-                <option value="match">Curations</option>
+                <option value="all">Все типы</option>
+                <option value="promo">Акции и промо</option>
+                <option value="points">Баллы</option>
+                <option value="match">Подборки</option>
               </select>
             </div>
           </div>

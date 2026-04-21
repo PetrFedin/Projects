@@ -22,15 +22,15 @@ export function GlobalCategorySelector({
   onChange,
 }: GlobalCategorySelectorProps) {
   return (
-    <section className="border-border-default sticky top-[var(--header-height,48px)] z-30 w-full border-b bg-white/90 py-3 shadow-sm backdrop-blur-xl">
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-14">
-        <div className="no-scrollbar flex items-center justify-start gap-1.5 overflow-x-auto md:justify-center">
+    <section className="sticky top-[var(--header-height,48px)] z-30 w-full border-b border-slate-200 bg-white/90 py-3 shadow-sm backdrop-blur-xl">
+      <div className="container mx-auto px-4">
+        <div className="no-scrollbar flex items-center justify-start gap-1.5 overflow-x-auto md:justify-center md:overflow-x-visible">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => onChange(cat.id)}
               className={cn(
-                'group flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border px-1.5 py-2.5 text-xs font-bold uppercase tracking-wide transition-all',
+                'group inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border px-2.5 py-2.5 text-xs font-bold uppercase tracking-wide transition-all',
                 activeCategory === cat.id ? 'btn-tab-active' : 'btn-tab-inactive-light'
               )}
             >
@@ -39,7 +39,7 @@ export function GlobalCategorySelector({
                   'h-3 w-3 shrink-0 transition-transform',
                   activeCategory === cat.id
                     ? 'text-white'
-                    : 'text-text-muted group-hover:text-text-secondary'
+                    : 'text-slate-400 group-hover:text-slate-600'
                 )}
               />
               <span className="truncate">{cat.label}</span>

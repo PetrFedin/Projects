@@ -1,12 +1,13 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Shield, Clock, Banknote } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function EscrowLivePage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
       <RegistryPageHeader
         title="LIVE: Этапы оплаты (Эскроу)"
         leadPlain="Текущие сделки в эскроу и статусы этапов оплаты в реальном времени."
@@ -49,6 +50,6 @@ export default function EscrowLivePage() {
           </CardContent>
         </Card>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

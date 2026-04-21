@@ -8,9 +8,11 @@
  * 3) затем этот read-model в браузере.
  *
  * @see `docs/domain-model/order.md` §4.1 · TASK_QUEUE — Phase 2 Order (полный aggregate — отдельно)
+ *
+ * **Серверные API** используют {@link listB2BOrdersForOperationalUiServer} и снимок `data/b2b-orders.snapshot.json`.
  */
 import { getOrdersWithPaymentState } from '@/lib/b2b/partner-finance-rollup';
-import { isDemoBrandName } from '@/lib/data/demo-platform-brands';
+import { filterB2BOrdersByOperationalActor } from '@/lib/order/b2b-orders-read-model-shared';
 import type { B2BOrder } from '@/lib/types';
 import type { PlatformRole } from '@/lib/rbac';
 
@@ -22,18 +24,5 @@ export function listB2BOrdersForOperationalUi(options?: {
   actorId?: string;
 }): B2BOrderListRow[] {
   const orders = getOrdersWithPaymentState();
-
-  if (!options?.actorRole) return orders;
-
-  // [Phase 2 — Order architecture] Tenant/Owner filtering.
-  // В demo — только заказы демо-брендов Syntha Lab / Nordic Wool.
-  if (options.actorRole === 'brand') {
-    return orders.filter((o) => isDemoBrandName(o.brand));
-  }
-
-  if (options.actorRole === 'retailer' || options.actorRole === 'buyer') {
-    return orders.filter((o) => o.shop.startsWith('Демо-магазин'));
-  }
-
-  return orders;
+  return filterB2BOrdersByOperationalActor(orders, options);
 }

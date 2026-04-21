@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
@@ -28,9 +28,15 @@ import { getCurrentBuyerRights } from '@/lib/b2b/buyer-rights';
 import products from '@/lib/products';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
-import { getShopB2bCatalogRelatedLinks } from '@/lib/data/entity-links';
+import {
+  dedupeEntityLinksByHref,
+  finalizeRelatedModuleLinks,
+  getShopB2bCatalogRelatedLinks,
+  getSynthaThreeCoresQuickLinksForBuyer,
+} from '@/lib/data/entity-links';
 import { getRecommendedSize, getSizeUpWarningMessage } from '@/lib/b2b/size-fit';
 import { tid } from '@/lib/ui/test-ids';
+import { B2bOrderUrlContextBanner } from '@/components/b2b/B2bOrderUrlContextBanner';
 
 export default function B2BCatalogPage() {
   const searchParams = useSearchParams();
@@ -133,7 +139,7 @@ export default function B2BCatalogPage() {
     : null;
 
   return (
-    <RegistryPageShell className="space-y-6" data-testid={tid.page('shop-b2b-catalog')}>
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6" data-testid={tid.page('shop-b2b-catalog')}>
       <ShopB2bContentHeader
         lead={
           <>
@@ -174,6 +180,8 @@ export default function B2BCatalogPage() {
           </>
         }
       />
+
+      <B2bOrderUrlContextBanner variant="shop" className="rounded-xl" />
 
       <div className="flex flex-wrap gap-4">
         <div className="relative max-w-md flex-1">
@@ -375,10 +383,15 @@ export default function B2BCatalogPage() {
       )}
 
       <RelatedModulesBlock
-        links={getShopB2bCatalogRelatedLinks()}
-        title="Закупка: связанные кабинеты и B2B"
+        links={finalizeRelatedModuleLinks(
+          dedupeEntityLinksByHref([
+            ...getShopB2bCatalogRelatedLinks(),
+            ...getSynthaThreeCoresQuickLinksForBuyer(),
+          ])
+        )}
+        title="Закупка: кабинеты, B2B и ядра платформы"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

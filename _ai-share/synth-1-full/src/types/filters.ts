@@ -118,7 +118,7 @@ export const DEFAULT_FILTERS: MarketplaceFilters = {
   productStatus: [],
   lifecycle: [],
 
-  currency: 'USD',
+  currency: 'RUB',
   inStockOnly: false,
 
   productionStage: [],

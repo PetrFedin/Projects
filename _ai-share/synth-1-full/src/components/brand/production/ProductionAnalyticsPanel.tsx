@@ -33,10 +33,11 @@ export function ProductionAnalyticsPanel({ collectionIds }: Props) {
         if (!r.ok) throw new Error(`analytics ${r.status}`);
         return r.json();
       })
-      .then((d) => {
+      .then((d: unknown) => {
+        const x = d as { kpis: AnalyticsKpi; drillDown?: AnalyticsDrillDown[] };
         if (mounted) {
-          setKpis(d.kpis);
-          setDrillDown(d.drillDown ?? []);
+          setKpis(x.kpis);
+          setDrillDown(x.drillDown ?? []);
         }
       })
       .catch(() => {

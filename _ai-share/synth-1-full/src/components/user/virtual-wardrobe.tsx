@@ -257,7 +257,7 @@ export default function VirtualWardrobe() {
                 Чаще всего
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="unused" className="space-y-3">
+            <TabsContent value="unused" className={cabinetSurface.cabinetProfileTabPanel}>
               {unusedItems.length > 0 ? (
                 <>
                   <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-3 dark:border-yellow-800 dark:bg-yellow-950/20">
@@ -295,7 +295,7 @@ export default function VirtualWardrobe() {
                 </div>
               )}
             </TabsContent>
-            <TabsContent value="most-worn" className="space-y-3">
+            <TabsContent value="most-worn" className={cabinetSurface.cabinetProfileTabPanel}>
               <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
                 {mostWorn.map((item) => (
                   <div key={item.id} className="text-center">

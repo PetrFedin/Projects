@@ -31,9 +31,9 @@ export async function fetchEdoDocuments(config?: EdoOperatorConfig): Promise<EDO
       },
     });
     if (res.ok) {
-      const json = await res.json();
+      const json = (await res.json()) as { data?: unknown } & Record<string, unknown>;
       const data = json?.data ?? json;
-      return Array.isArray(data) ? data : [];
+      return Array.isArray(data) ? (data as EDODoc[]) : [];
     }
     return [];
   } catch {

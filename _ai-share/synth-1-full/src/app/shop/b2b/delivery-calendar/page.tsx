@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,6 @@ import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { joorGetDeliveryWindows } from '@/lib/b2b/integrations';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 
@@ -17,7 +17,7 @@ export default function B2BDeliveryCalendarPage() {
   const windows = joorGetDeliveryWindows();
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="Окна доставки (drop dates) по коллекциям: Start Ship Date — Complete Ship Date (JOOR / NuOrder)." />
       <ShopAnalyticsSegmentErpStrip />
 
@@ -84,6 +84,6 @@ export default function B2BDeliveryCalendarPage() {
           [ROUTES.shop.b2bCreateOrder, ROUTES.shop.b2bCollectionTerms].includes(l.href as string)
         )}
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

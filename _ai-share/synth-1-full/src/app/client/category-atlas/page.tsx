@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { PlatformDataBanner } from '@/components/client/platform-data-banner';
-import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { buildCategoryIndex } from '@/lib/fashion/category-index';
-import { ArrowLeft, FolderTree } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function CategoryAtlasPage() {
   const [q, setQ] = useState('');
@@ -21,24 +21,10 @@ export default function CategoryAtlasPage() {
   }, [buckets, q]);
 
   return (
-    <div className="container mx-auto max-w-3xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="3xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <FolderTree className="h-6 w-6" />
-              Атлас категорий
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Путь из category_group → category → subcategory. Тот же индекс можно отдать с API
-              taxonomy.
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader />
         </div>
         <PlatformDataBanner />
       </div>
@@ -75,6 +61,6 @@ export default function CategoryAtlasPage() {
           </li>
         ))}
       </ul>
-    </div>
+    </CabinetPageContent>
   );
 }

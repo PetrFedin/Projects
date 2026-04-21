@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +16,7 @@ import {
   listPreOrderQuotaCampaigns,
   type PreOrderQuotaCampaign,
 } from '@/lib/distributor/pre-order-quota';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function PreOrderQuotaPage() {
   const [campaigns, setCampaigns] = useState<PreOrderQuotaCampaign[]>([]);
@@ -27,7 +28,7 @@ export default function PreOrderQuotaPage() {
   const campaign = campaigns[0];
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Pre-Order Quota"
         leadPlain="Распределение дефицитных артикулов между дилерами по KPI. Связь с Pre-order, B2B заказами и планированием. При API — публикация квот, блокировка сверх лимита."
@@ -90,6 +91,6 @@ export default function PreOrderQuotaPage() {
         links={getPreOrderQuotaLinks()}
         title="Pre-order, B2B заказы, планирование"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

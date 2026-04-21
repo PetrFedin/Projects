@@ -1,4 +1,4 @@
-/** Параметры вкладки «Цех 2»: выбранная коллекция и артикул внутри неё. */
+/** Параметры раздела разработки коллекции (workshop2): выбранная коллекция и артикул внутри неё. */
 export const WORKSHOP2_COL_PARAM = 'w2col';
 export const WORKSHOP2_ART_PARAM = 'w2art';
 /** `active` | `archive` */
@@ -110,7 +110,7 @@ export function workshop2ArticleHref(
   return h ? `${base}#${h}` : base;
 }
 
-/** Список артикулов коллекции на главной Цеха 2. */
+/** Список артикулов коллекции на главной разработки коллекции. */
 export function workshop2CollectionListHref(collectionId: string): string {
   return `${WORKSHOP2_BASE_PATH}?${WORKSHOP2_COL_PARAM}=${encodeURIComponent(collectionId)}`;
 }

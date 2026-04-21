@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { b2bV1SynthaActorRoleHeaders } from '@/lib/auth/b2b-v1-api-client-headers';
 import { listB2BOrdersForOperationalUi } from '@/lib/order/b2b-orders-list-read-model';
 import { parseOperationalOrdersV1ListResponse } from '@/lib/order/operational-order-dto.schema';
 import { operationalOrderListRowDtoToB2BOrder } from '@/lib/order/operational-order-dto';
@@ -10,10 +11,11 @@ import type { PlatformRole } from '@/lib/rbac';
 /** Кабинет бренда (`brand`) или shop/distributor (`shop` → API header, fallback как `retailer` в read-model). */
 export type OperationalOrdersListActor = 'brand' | 'shop';
 
-const ACTOR_HEADERS: Record<OperationalOrdersListActor, { 'x-syntha-api-actor-role': string }> = {
-  brand: { 'x-syntha-api-actor-role': 'brand' },
-  shop: { 'x-syntha-api-actor-role': 'shop' },
-};
+const ACTOR_HEADERS: Record<OperationalOrdersListActor, ReturnType<typeof b2bV1SynthaActorRoleHeaders>> =
+  {
+    brand: b2bV1SynthaActorRoleHeaders('brand'),
+    shop: b2bV1SynthaActorRoleHeaders('shop'),
+  };
 
 function readModelRole(actor: OperationalOrdersListActor): PlatformRole {
   return actor === 'shop' ? 'retailer' : 'brand';

@@ -1,12 +1,18 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
 import type { shopNavGroups } from '@/lib/data/shop-navigation-normalized';
+import {
+  SHOP_ARCHIVE_GROUP_ORDER,
+  SHOP_CORE_GROUP_ORDER,
+  SYNTHA_SIDEBAR_CLUSTERS,
+  sortNavGroupsByOrder,
+} from '@/lib/data/syntha-nav-clusters';
 
 type NavGroup = (typeof shopNavGroups)[number];
 type NavLink = NavGroup['links'][number];
@@ -49,15 +55,50 @@ export function ShopSidebar({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const activeGroupId = groups.find((g) =>
+  const clusteredSections = useMemo(() => {
+    const core = sortNavGroupsByOrder(
+      groups.filter((g) => (g as { clusterId?: string }).clusterId === 'syntha-cores'),
+      SHOP_CORE_GROUP_ORDER
+    );
+    const archive = sortNavGroupsByOrder(
+      groups.filter((g) => (g as { clusterId?: string }).clusterId === 'archive'),
+      SHOP_ARCHIVE_GROUP_ORDER
+    );
+    return SYNTHA_SIDEBAR_CLUSTERS.map((c) => ({
+      ...c,
+      groups: c.id === 'syntha-cores' ? core : archive,
+    }));
+  }, [groups]);
+
+  const flatGroups = useMemo(
+    () => clusteredSections.flatMap((s) => s.groups),
+    [clusteredSections]
+  );
+
+  const activeGroupId = flatGroups.find((g) =>
     g.links.some((l) => isLinkActive(l, pathname || ''))
   )?.id;
-  const activeLinkValue = groups
+  const activeLinkValue = flatGroups
     .flatMap((g) => g.links)
     .find((l) => isLinkActive(l, pathname || ''))?.value;
 
-  const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set());
+  const groupIdsKey = useMemo(() => groups.map((g) => g.id).join('|'), [groups]);
+  const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(groups.map((g) => g.id)));
   const [openLinks, setOpenLinks] = useState<Set<string>>(() => new Set());
+
+  useEffect(() => {
+    setOpenGroups((prev) => {
+      const next = new Set(prev);
+      let changed = false;
+      for (const g of groups) {
+        if (!next.has(g.id)) {
+          next.add(g.id);
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, [groupIdsKey, groups]);
 
   useEffect(() => {
     if (activeGroupId) setOpenGroups((prev) => new Set([...prev, activeGroupId]));
@@ -82,6 +123,126 @@ export function ShopSidebar({
     });
   };
 
+  const renderGroup = (group: NavGroup) => {
+    const isGroupActive = activeGroupId === group.id;
+    return (
+      <div key={group.id} className="mb-3 last:mb-0">
+        <Collapsible
+          key={group.id}
+          open={openGroups.has(group.id)}
+          onOpenChange={(open) => setGroupOpen(group.id, open)}
+          className="group/coll"
+        >
+          <CollapsibleTrigger
+            className={cn(
+              'group/trigger hover:bg-bg-surface2 data-[state=open]:bg-bg-surface2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[10px] font-black uppercase tracking-widest transition-colors'
+            )}
+          >
+            <group.icon
+              className={cn(
+                'h-4 w-4 shrink-0',
+                isGroupActive ? 'text-rose-600' : 'text-text-muted'
+              )}
+            />
+            <span
+              className={cn(
+                'flex-1 truncate',
+                isGroupActive ? 'text-text-primary' : 'text-text-secondary'
+              )}
+            >
+              {group.label}
+            </span>
+            <ChevronDown className="text-text-muted h-3.5 w-3.5 shrink-0 transition-transform group-data-[state=open]/trigger:rotate-180" />
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <div className="border-border-subtle ml-3 space-y-0.5 border-l pb-2 pl-2 pr-1 pt-0.5">
+              {group.links.map((link) => {
+                const linkHref = (link as { href?: string }).href;
+                if (!hasHref(linkHref)) return null;
+                const active = isLinkActive(link, pathname || '');
+                const subs = hasSubsections(link)
+                  ? link.subsections.filter((sub) => hasHref(sub.href))
+                  : [];
+
+                if (subs.length > 0) {
+                  return (
+                    <Collapsible
+                      key={link.value}
+                      open={openLinks.has(link.value)}
+                      onOpenChange={(open) => setLinkOpen(link.value, open)}
+                    >
+                      <CollapsibleTrigger asChild>
+                        <div
+                          className={cn(
+                            'group/sub flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
+                            active
+                              ? 'bg-rose-50 text-rose-700'
+                              : 'text-text-secondary hover:bg-bg-surface2'
+                          )}
+                        >
+                          <link.icon className="h-3.5 w-3.5 shrink-0" />
+                          <span className="flex-1 truncate">{link.label}</span>
+                          <ChevronRight className="h-3 w-3 shrink-0 transition-transform group-data-[state=open]/sub:rotate-90" />
+                        </div>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <div className="space-y-0.5 pb-1 pl-4 pt-0.5">
+                          {subs.map((sub) => {
+                            const pathMatch =
+                              (pathname || '').replace(/\/$/, '') === pathFromHref(sub.href);
+                            const qs = sub.href.includes('?') ? sub.href.split('?')[1] : '';
+                            const queryMatch =
+                              !qs ||
+                              Array.from(new URLSearchParams(qs)).every(
+                                ([k, v]) => searchParams?.get(k) === v
+                              );
+                            const subIsActive = pathMatch && queryMatch;
+                            return (
+                              <Link
+                                key={sub.value}
+                                href={sub.href}
+                                onClick={onNavigate}
+                                className={cn(
+                                  'block truncate rounded px-2 py-1 text-[9px] font-bold uppercase tracking-wider transition-colors',
+                                  subIsActive
+                                    ? 'bg-text-primary text-white'
+                                    : 'text-text-secondary hover:text-text-primary hover:bg-bg-surface2'
+                                )}
+                              >
+                                {sub.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={link.value}
+                    href={linkHref}
+                    onClick={onNavigate}
+                    className={cn(
+                      'flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
+                      active
+                        ? 'bg-text-primary text-white'
+                        : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
+                    )}
+                  >
+                    <link.icon className="h-3.5 w-3.5 shrink-0" />
+                    <span className="flex-1 truncate">{link.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
+    );
+  };
+
   return (
     <nav
       className={cn(
@@ -90,125 +251,18 @@ export function ShopSidebar({
       )}
     >
       <div className="space-y-0.5 p-2">
-        {groups.map((group) => {
-          const isGroupActive = activeGroupId === group.id;
-          return (
-            <div key={group.id} className="mb-3 last:mb-0">
-              <Collapsible
-                key={group.id}
-                open={openGroups.has(group.id)}
-                onOpenChange={(open) => setGroupOpen(group.id, open)}
-                className="group/coll"
-              >
-                <CollapsibleTrigger
-                  className={cn(
-                    'group/trigger hover:bg-bg-surface2 data-[state=open]:bg-bg-surface2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[10px] font-black uppercase tracking-widest transition-colors'
-                  )}
-                >
-                  <group.icon
-                    className={cn(
-                      'h-4 w-4 shrink-0',
-                      isGroupActive ? 'text-rose-600' : 'text-text-muted'
-                    )}
-                  />
-                  <span
-                    className={cn(
-                      'flex-1 truncate',
-                      isGroupActive ? 'text-text-primary' : 'text-text-secondary'
-                    )}
-                  >
-                    {group.label}
-                  </span>
-                  <ChevronDown className="text-text-muted h-3.5 w-3.5 shrink-0 transition-transform group-data-[state=open]/trigger:rotate-180" />
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <div className="border-border-subtle ml-3 space-y-0.5 border-l pb-2 pl-2 pr-1 pt-0.5">
-                    {group.links.map((link) => {
-                      const linkHref = (link as { href?: string }).href;
-                      if (!hasHref(linkHref)) return null;
-                      const active = isLinkActive(link, pathname || '');
-                      const subs = hasSubsections(link)
-                        ? link.subsections.filter((sub) => hasHref(sub.href))
-                        : [];
-
-                      if (subs.length > 0) {
-                        return (
-                          <Collapsible
-                            key={link.value}
-                            open={openLinks.has(link.value)}
-                            onOpenChange={(open) => setLinkOpen(link.value, open)}
-                          >
-                            <CollapsibleTrigger asChild>
-                              <div
-                                className={cn(
-                                  'group/sub flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
-                                  active
-                                    ? 'bg-rose-50 text-rose-700'
-                                    : 'text-text-secondary hover:bg-bg-surface2'
-                                )}
-                              >
-                                <link.icon className="h-3.5 w-3.5 shrink-0" />
-                                <span className="flex-1 truncate">{link.label}</span>
-                                <ChevronRight className="h-3 w-3 shrink-0 transition-transform group-data-[state=open]/sub:rotate-90" />
-                              </div>
-                            </CollapsibleTrigger>
-                            <CollapsibleContent>
-                              <div className="space-y-0.5 pb-1 pl-4 pt-0.5">
-                                {subs.map((sub) => {
-                                  const pathMatch =
-                                    (pathname || '').replace(/\/$/, '') === pathFromHref(sub.href);
-                                  const qs = sub.href.includes('?') ? sub.href.split('?')[1] : '';
-                                  const queryMatch =
-                                    !qs ||
-                                    Array.from(new URLSearchParams(qs)).every(
-                                      ([k, v]) => searchParams?.get(k) === v
-                                    );
-                                  const subIsActive = pathMatch && queryMatch;
-                                  return (
-                                    <Link
-                                      key={sub.value}
-                                      href={sub.href}
-                                      onClick={onNavigate}
-                                      className={cn(
-                                        'block truncate rounded px-2 py-1 text-[9px] font-bold uppercase tracking-wider transition-colors',
-                                        subIsActive
-                                          ? 'bg-text-primary text-white'
-                                          : 'text-text-secondary hover:text-text-primary hover:bg-bg-surface2'
-                                      )}
-                                    >
-                                      {sub.label}
-                                    </Link>
-                                  );
-                                })}
-                              </div>
-                            </CollapsibleContent>
-                          </Collapsible>
-                        );
-                      }
-
-                      return (
-                        <Link
-                          key={link.value}
-                          href={linkHref}
-                          onClick={onNavigate}
-                          className={cn(
-                            'flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
-                            active
-                              ? 'bg-text-primary text-white'
-                              : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
-                          )}
-                        >
-                          <link.icon className="h-3.5 w-3.5 shrink-0" />
-                          <span className="flex-1 truncate">{link.label}</span>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
+        {clusteredSections.map((section) => (
+          <div key={section.id} className="mb-4 last:mb-0">
+            <div className="flex items-center gap-1.5 px-3 py-1.5">
+              <div className="bg-border-subtle h-0.5 min-w-2 flex-1 rounded-full" />
+              <span className="text-text-muted shrink-0 text-[8px] font-black uppercase tracking-[0.15em]">
+                {section.label}
+              </span>
+              <div className="bg-border-subtle h-0.5 min-w-2 flex-1 rounded-full" />
             </div>
-          );
-        })}
+            <div className="mt-0.5 space-y-0.5">{section.groups.map(renderGroup)}</div>
+          </div>
+        ))}
       </div>
     </nav>
   );

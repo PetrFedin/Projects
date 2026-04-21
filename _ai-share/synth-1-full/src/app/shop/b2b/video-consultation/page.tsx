@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,7 +11,6 @@ import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** Бронирование видеозвонков со стилистом или мерчандайзером (Zoom/Teams). */
 const MOCK_SLOTS = [
@@ -23,7 +23,7 @@ export default function VideoConsultationPage() {
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
-    <RegistryPageShell className="max-w-2xl space-y-6">
+    <CabinetPageContent maxWidth="2xl" className="space-y-6">
       <ShopB2bContentHeader lead="Слоты со стилистом или мерчандайзером (Zoom/Teams), напоминание перед встречей." />
 
       <Card className="mb-6">
@@ -83,6 +83,6 @@ export default function VideoConsultationPage() {
         title="VIP шоурум, выставки, заказы"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

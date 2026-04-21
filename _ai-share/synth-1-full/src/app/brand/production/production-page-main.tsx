@@ -21,6 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import {
@@ -203,13 +204,14 @@ const ProductionPageContent = dynamic(
 /** Root layout wrapper - styled like organization/brand profile pages */
 function ProductionPageRoot({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      className="mx-auto max-w-7xl space-y-5 px-4 pb-20 md:px-0"
+    <CabinetPageContent
+      maxWidth="7xl"
+      className="space-y-5 px-4 pb-20 md:px-0"
       role="main"
       aria-label="Production"
     >
       {children}
-    </div>
+    </CabinetPageContent>
   );
 }
 

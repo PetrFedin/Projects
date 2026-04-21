@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,7 +16,6 @@ import {
   Sparkles,
   FileSpreadsheet,
 } from 'lucide-react';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** Мок: лук = набор товаров из каталога */
 const MOCK_LOOKS = [
@@ -54,7 +54,7 @@ const MOCK_TRENDS = [
 export default function MarketroomPage() {
   return (
     <div className="from-bg-surface2 to-bg-surface min-h-screen bg-gradient-to-b">
-      <RegistryPageShell className="max-w-5xl space-y-12 py-8 pb-16">
+      <CabinetPageContent maxWidth="5xl" className="space-y-12 py-8 pb-16">
         {/* Шапка */}
         <header className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -167,7 +167,7 @@ export default function MarketroomPage() {
           links={getMarketroomLinks()}
           title="Каталог, заказы, аналитика Маркетрум"
         />
-      </RegistryPageShell>
+      </CabinetPageContent>
     </div>
   );
 }

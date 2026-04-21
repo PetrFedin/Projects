@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bNuOrderScope } from '@/components/shop/ShopB2bNuOrderScope';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -51,8 +51,8 @@ export default function EzOrderPage() {
   };
 
   return (
-    <RegistryPageShell
-      className="min-h-[200px] max-w-4xl space-y-6"
+    <ShopB2bNuOrderScope
+      className="min-h-[200px] space-y-6"
       data-testid={tid.page('shop-b2b-ez-order')}
     >
       <ShopB2bContentHeader
@@ -161,6 +161,6 @@ export default function EzOrderPage() {
         title="Матрица, Working Order, аналитика"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </ShopB2bNuOrderScope>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,7 +12,7 @@ import { Combobox } from '@/components/ui/combobox';
 import { products } from '@/lib/products';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const productOptions = products.map((p) => ({
   value: p.id,
@@ -35,7 +36,7 @@ export default function CreateKickstarterPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Новая кампания"
         leadPlain="Создайте кампанию по сбору предзаказов на новый товар."
@@ -78,6 +79,6 @@ export default function CreateKickstarterPage() {
           </Button>
         </CardFooter>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

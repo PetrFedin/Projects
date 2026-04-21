@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -26,7 +27,6 @@ import {
   Globe,
   DollarSign,
 } from 'lucide-react';
-import { RegistryPageShell } from '@/components/design-system';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getDistributorLinks } from '@/lib/data/entity-links';
@@ -80,7 +80,7 @@ export default function DistributorsPage() {
   );
 
   return (
-    <RegistryPageShell className="space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
       <SectionInfoCard
         title="Дистрибьюторы"
         description="Региональные дистрибьюторы: территория, условия, выручка. Связь с B2B заказами, Analytics BI (distributorsRevenue) и Retailers."
@@ -223,6 +223,6 @@ export default function DistributorsPage() {
       </Card>
 
       <RelatedModulesBlock title="Связанные модули" links={getDistributorLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import LivePlayer from '@/components/live-player';
@@ -28,7 +29,6 @@ import { useUIState } from '@/providers/ui-state';
 import { StreamDateDisplay } from '@/components/live/stream-date-display';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function LivePage() {
   const { viewRole, user } = useUIState();
@@ -202,7 +202,7 @@ export default function LivePage() {
 
   return (
     <TooltipProvider>
-      <RegistryPageShell className="space-y-4 pb-16">
+      <CabinetPageContent maxWidth="5xl" className="space-y-4 pb-16 px-4 py-6 pb-24 sm:px-6">
         {viewRole === 'b2b' && (
           <div className="grid grid-cols-1 gap-3 duration-500 animate-in slide-in-from-top-4 md:grid-cols-3">
             <Card className="bg-text-primary group relative flex items-center justify-between overflow-hidden rounded-xl border-none p-4 text-white shadow-2xl md:col-span-2">
@@ -506,7 +506,7 @@ export default function LivePage() {
             isLive={isEventLive}
           />
         )}
-      </RegistryPageShell>
+      </CabinetPageContent>
     </TooltipProvider>
   );
 }

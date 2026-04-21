@@ -1,5 +1,7 @@
 import type { HonestMarkRequirementV1 } from './types';
 
+export { getHonestMarkStatus } from './honest-mark';
+
 /** Инфраструктура для управления Честным Знаком и требованиями ЕАЭС. */
 export function getHonestMarkRequirementsForSkus(skus: string[]): HonestMarkRequirementV1[] {
   return skus.map((sku) => ({

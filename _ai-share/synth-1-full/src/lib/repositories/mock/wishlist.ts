@@ -15,7 +15,7 @@ export class MockWishlistRepository implements WishlistRepository {
     if (typeof window === 'undefined') return [];
     const stored = localStorage.getItem(getWishlistKey(userId));
     if (stored) {
-      return JSON.parse(stored);
+      return JSON.parse(stored) as WishlistItem[];
     }
     return [];
   }
@@ -30,7 +30,7 @@ export class MockWishlistRepository implements WishlistRepository {
     if (typeof window === 'undefined') return [];
     const stored = localStorage.getItem(getCollectionsKey(userId));
     if (stored) {
-      return JSON.parse(stored);
+      return JSON.parse(stored) as WishlistCollection[];
     }
     // Default collection
     const defaultCollections: WishlistCollection[] = [

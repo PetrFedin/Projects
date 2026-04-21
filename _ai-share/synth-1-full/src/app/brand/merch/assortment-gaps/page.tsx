@@ -85,7 +85,7 @@ export default function AssortmentGapsPage() {
                 size="sm"
                 className="mt-2 h-7 w-full gap-1 border border-dashed text-[10px]"
               >
-                <PlusCircle className="h-3 w-3" /> Add Placeholder Style
+                <PlusCircle className="h-3 w-3" /> Заглушка стиля
               </Button>
             </CardContent>
           </Card>

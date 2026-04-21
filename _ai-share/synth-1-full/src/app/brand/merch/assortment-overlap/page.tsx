@@ -6,12 +6,13 @@ import { Badge } from '@/components/ui/badge';
 import { Layers, AlertTriangle, ArrowRight, Info } from 'lucide-react';
 import { products } from '@/lib/products';
 import { analyzeCannibalization } from '@/lib/fashion/cannibalization-analysis';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function AssortmentOverlapPage() {
   const impacts = analyzeCannibalization(products);
 
   return (
-    <div className="mx-auto max-w-5xl p-8">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 p-8 pb-24">
       <div className="mb-8">
         <div className="mb-2 flex items-center gap-3">
           <div className="rounded-lg bg-rose-100 p-2">
@@ -105,6 +106,6 @@ export default function AssortmentOverlapPage() {
           );
         })}
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

@@ -2,6 +2,10 @@
 
 FastAPI backend for the Synth-1 Fashion Intelligence Platform.
 
+**Фронтенд (Next.js):** единственный код в монорепо — **`_ai-share/synth-1-full`**. Субмодуль **`synth-1/`** удалён; порядок работ и субмодули — **`docs/MIGRATION_FULL_CUTOVER.md`**, **`docs/SUBMODULES.md`**.
+
+**Cursor (агенты / MCP):** контракт агента — **`AGENTS.md`**, правило **`/.cursor/rules/gsd-superpowers-mcp-monorepo.mdc`**, детали — **`docs/CURSOR_AGENT_TOOLKIT.md`**, MCP — **`.cursor/mcp.json`**. Исходники Superpowers: **`tools/superpowers`** ([obra/superpowers](https://github.com/obra/superpowers.git)). После clone: **`bash scripts/bootstrap-monorepo-dev.sh`** (внутри вызывается **`scripts/normalize-gsd-cursor-paths.sh`**). После отдельного **`npx get-shit-done-cc@latest --local --cursor`** при необходимости снова: **`bash scripts/normalize-gsd-cursor-paths.sh`**.
+
 ## Quick start
 
 ```bash

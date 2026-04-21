@@ -980,7 +980,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </div>
         </TabsList>
 
-        <TabsContent value="chat" className="mt-0 space-y-4">
+        <TabsContent value="chat" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Обсуждения по коллекциям" barColor="bg-accent-primary" />
           <div className="border-border-subtle flex min-h-[480px] gap-4 overflow-hidden rounded-xl border bg-white shadow-sm">
             {/* Слева: список чатов по коллекциям */}
@@ -1075,7 +1075,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             </main>
           </div>
         </TabsContent>
-        <TabsContent value="collections" className="mt-0 space-y-4">
+        <TabsContent value="collections" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Коллекции" barColor="bg-text-primary" />
           <SectionInfoCard
             title="Что такое коллекции"
@@ -1445,7 +1445,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </div>
         </TabsContent>
 
-        <TabsContent value="dashboard" className="mt-0 space-y-4">
+        <TabsContent value="dashboard" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Командный центр" barColor="bg-accent-primary" />
           <SectionInfoCard
             title="Дашборд"
@@ -1669,7 +1669,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="demand" className="mt-0 space-y-4">
+        <TabsContent value="demand" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Прогноз спроса" barColor="bg-accent-primary" />
           <SectionInfoCard
             title="Прогноз спроса"
@@ -1734,7 +1734,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="tz" className="mt-0 space-y-4">
+        <TabsContent value="tz" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="ТЗ на коллекцию" barColor="bg-text-primary/75" />
           <SectionInfoCard
             title="ТЗ (Техническое задание)"
@@ -1792,7 +1792,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="plm" className="mt-0 space-y-4">
+        <TabsContent value="plm" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Артикулы и PLM" barColor="bg-accent-primary" />
           <SectionInfoCard
             title="Артикулы (PLM)"
@@ -1904,7 +1904,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           )}
         </TabsContent>
 
-        <TabsContent value="samples" className="mt-0 space-y-4">
+        <TabsContent value="samples" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Сэмплы" barColor="bg-amber-600" />
           <SectionInfoCard
             title="Сэмплы"
@@ -2018,8 +2018,8 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                     return s.stage === sampleStageFilter;
                   })
                   .map((s: any) => {
-                    const stages = Array.isArray(SAMPLE_STAGES)
-                      ? SAMPLE_STAGES
+                    const stages: string[] = Array.isArray(SAMPLE_STAGES)
+                      ? (SAMPLE_STAGES as string[])
                       : ['Proto1', 'Proto2', 'SMS', 'PP', 'SizeSet', 'TOP'];
                     const stageIdx = stages.indexOf(s.stage);
                     return (
@@ -2128,7 +2128,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="fitting" className="mt-0 space-y-4">
+        <TabsContent value="fitting" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Примерки" barColor="bg-teal-600" />
           <SectionInfoCard
             title="Примерки (Fitting)"
@@ -2198,7 +2198,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="approval" className="mt-0 space-y-4">
+        <TabsContent value="approval" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Утверждения" barColor="bg-emerald-600" />
           <SectionInfoCard
             title="Утверждения"
@@ -2217,7 +2217,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           <ApprovalWorkflow />
         </TabsContent>
 
-        <TabsContent value="orders" className="mt-0 space-y-4">
+        <TabsContent value="orders" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Заказы на производство (PO)" barColor="bg-emerald-600" />
           <SectionInfoCard
             title="Заказы (PO)"
@@ -2337,7 +2337,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="mps" className="mt-0 space-y-4">
+        <TabsContent value="mps" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="План производства (MPS)" barColor="bg-accent-primary" />
           <SectionInfoCard
             title="MPS (Master Production Schedule)"
@@ -2378,7 +2378,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           />
         </TabsContent>
 
-        <TabsContent value="materials" className="mt-0 space-y-4">
+        <TabsContent value="materials" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Снабжение" barColor="bg-accent-primary" />
           <SectionInfoCard
             title="Снабжение"
@@ -2655,7 +2655,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           )}
         </TabsContent>
 
-        <TabsContent value="costing" className="mt-0 space-y-4">
+        <TabsContent value="costing" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Костинг" barColor="bg-amber-600" />
           <SectionInfoCard
             title="Костинг"
@@ -2682,7 +2682,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </div>
         </TabsContent>
 
-        <TabsContent value="execution" className="mt-0 space-y-4">
+        <TabsContent value="execution" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Цех" barColor="bg-sky-600" />
           <SectionInfoCard
             title="Цех"
@@ -2744,7 +2744,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           )}
         </TabsContent>
 
-        <TabsContent value="compliance" className="mt-0 space-y-4">
+        <TabsContent value="compliance" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Закон / QC" barColor="bg-emerald-600" />
           <SectionInfoCard
             title="Закон / QC"
@@ -2815,7 +2815,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           )}
         </TabsContent>
 
-        <TabsContent value="logistics" className="mt-0 space-y-4">
+        <TabsContent value="logistics" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Логистика" barColor="bg-blue-600" />
           <SectionInfoCard
             title="Логистика"
@@ -2905,7 +2905,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="warehouse" className="mt-0 space-y-4">
+        <TabsContent value="warehouse" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Склад" barColor="bg-blue-600" />
           <SectionInfoCard
             title="Склад (WMS)"
@@ -2955,7 +2955,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="labeling" className="mt-0 space-y-4">
+        <TabsContent value="labeling" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Маркировка" barColor="bg-teal-600" />
           <SectionInfoCard
             title="Маркировка"
@@ -2996,7 +2996,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </div>
         </TabsContent>
 
-        <TabsContent value="budget" className="mt-0 space-y-4">
+        <TabsContent value="budget" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Бюджет" barColor="bg-rose-600" />
           <SectionInfoCard
             title="Что такое бюджет коллекции"
@@ -3070,6 +3070,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
                       <Progress
                         value={Math.min(pct, 100)}
                         className={cn('h-2', isOver && '[&>div]:bg-rose-500')}
+                        aria-label={`Бюджет «${coll?.name ?? b.collectionId}»: факт к плану ${Math.min(pct, 100)}%`}
                       />
                     </CardContent>
                   </Card>
@@ -3078,7 +3079,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </div>
         </TabsContent>
 
-        <TabsContent value="finance" className="mt-0 space-y-4">
+        <TabsContent value="finance" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Финансы" barColor="bg-emerald-600" />
           <SectionInfoCard
             title="Финансы"
@@ -3142,7 +3143,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           )}
         </TabsContent>
 
-        <TabsContent value="documents" className="mt-0 space-y-4">
+        <TabsContent value="documents" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Документы" barColor="bg-text-secondary" />
           <SectionInfoCard
             title="Документы"
@@ -3245,7 +3246,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="losses" className="mt-0 space-y-4">
+        <TabsContent value="losses" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Потери" barColor="bg-rose-600" />
           <SectionInfoCard
             title="Потери"
@@ -3399,7 +3400,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="factories" className="mt-0 space-y-4">
+        <TabsContent value="factories" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Фабрики" barColor="bg-accent-primary" />
           <SectionInfoCard
             title="Фабрики"
@@ -3471,7 +3472,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </div>
         </TabsContent>
 
-        <TabsContent value="handbooks" className="mt-0 space-y-4">
+        <TabsContent value="handbooks" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Справочники (Партнёры)" barColor="bg-accent-primary" />
           <SectionInfoCard
             title="Партнёры и справочники"
@@ -3549,7 +3550,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="audit" className="mt-0 space-y-4">
+        <TabsContent value="audit" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Аудит" barColor="bg-text-secondary" />
           <SectionInfoCard
             title="Аудит"
@@ -3654,7 +3655,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="sla" className="mt-0 space-y-4">
+        <TabsContent value="sla" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="SLA по сэмплам" barColor="bg-amber-600" />
           <SectionInfoCard
             title="SLA"
@@ -3751,7 +3752,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="calendar" className="mt-0 space-y-4">
+        <TabsContent value="calendar" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Календарь" barColor="bg-sky-600" />
           {/* Таблица Ганта */}
           <ProductionGantt
@@ -3895,7 +3896,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="notifications" className="mt-0 space-y-4">
+        <TabsContent value="notifications" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Уведомления" barColor="bg-rose-600" />
           <Card className="border-border-subtle rounded-xl border border-none bg-white shadow-sm">
             <CardHeader>
@@ -3919,7 +3920,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="reports" className="mt-0 space-y-4">
+        <TabsContent value="reports" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Отчёты и аналитика" barColor="bg-accent-primary" />
           <SectionInfoCard
             title="Отчёты"
@@ -4005,7 +4006,7 @@ export function ProductionPageContent(props: Record<string, unknown>) {
           </div>
         </TabsContent>
 
-        <TabsContent value="archive" className="mt-0 space-y-4">
+        <TabsContent value="archive" className={cabinetSurface.cabinetProfileTabPanel}>
           <SectionHeader title="Архив" barColor="bg-text-primary" />
           <SectionInfoCard
             title="Архив"

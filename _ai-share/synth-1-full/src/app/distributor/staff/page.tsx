@@ -1,11 +1,12 @@
 'use client';
 
 import { TeamManagement } from '@/components/team/TeamManagement';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function DistributorStaffPage() {
   return (
-    <div className="mx-auto max-w-[1600px]">
+    <CabinetPageContent maxWidth="screen">
       <TeamManagement />
-    </div>
+    </CabinetPageContent>
   );
 }

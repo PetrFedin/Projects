@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, ShoppingCart, Building2, Layers, Loader2 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function BrandIntegrationsZedonkPage() {
   const [orders, setOrders] = useState<
@@ -69,7 +70,7 @@ export default function BrandIntegrationsZedonkPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Zedonk"
         leadPlain="Приём заказов из Zedonk (и при необходимости из JOOR/NuOrder через него). Multi-brand / agent — сводные заказы и список брендов при появлении API."
@@ -218,6 +219,6 @@ export default function BrandIntegrationsZedonkPage() {
           </Button>
         </Link>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

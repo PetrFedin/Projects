@@ -33,8 +33,8 @@ export async function listEdoDocuments(params?: EdoListParams): Promise<EDODocum
       },
     });
     if (!res.ok) throw new Error(`EDO API: ${res.status}`);
-    const data = await res.json();
-    return Array.isArray(data) ? data : data.documents || [];
+    const data = (await res.json()) as EDODocument[] | { documents?: EDODocument[] };
+    return Array.isArray(data) ? data : data.documents ?? [];
   } catch {
     return [];
   }
@@ -49,7 +49,7 @@ export async function signEdoDocument(docId: string): Promise<{ ok: boolean; sig
       body: JSON.stringify({}),
     });
     if (!res.ok) throw new Error(`EDO sign: ${res.status}`);
-    return res.json();
+    return (await res.json()) as { ok: boolean; signedAt?: string };
   } catch {
     return { ok: true, signedAt: new Date().toISOString() };
   }
@@ -64,7 +64,7 @@ export async function connectEdo(config: EdoConfig): Promise<{ ok: boolean }> {
       body: JSON.stringify(config),
     });
     if (!res.ok) throw new Error(`EDO connect: ${res.status}`);
-    return res.json();
+    return (await res.json()) as { ok: boolean };
   } catch {
     return { ok: true };
   }

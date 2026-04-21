@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { use } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -18,7 +19,8 @@ import {
   MapPin,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getProductionLinks } from '@/lib/data/entity-links';
 import { Progress } from '@/components/ui/progress';
@@ -53,7 +55,7 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
   const factory = mockFactory;
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title={factory.name}
         leadPlain={`${factory.specialization}. PO, качество, штрафы, материалы. Связь с Production, VMI и B2B.`}
@@ -87,7 +89,11 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
         <Card className="p-4">
           <p className="text-text-muted text-[10px] font-bold uppercase">Загруженность</p>
           <div className="mt-1 flex items-center gap-2">
-            <Progress value={factory.load} className="h-2 flex-1" />
+            <Progress
+              value={factory.load}
+              className="h-2 flex-1"
+              aria-label={`Загруженность фабрики: ${factory.load}%`}
+            />
             <span className="font-bold">{factory.load}%</span>
           </div>
         </Card>
@@ -121,7 +127,7 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
             Штрафы
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="po" className="space-y-2">
+        <TabsContent value="po" className={cn(cabinetSurface.cabinetProfileTabPanel, 'space-y-2')}>
           <Card>
             <CardHeader>
               <CardTitle className="text-sm">Активные PO</CardTitle>
@@ -213,6 +219,6 @@ export default function FactoryDetailPage({ params }: { params: Promise<{ id: st
       </Tabs>
 
       <RelatedModulesBlock links={getProductionLinks()} title="Связанные модули" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

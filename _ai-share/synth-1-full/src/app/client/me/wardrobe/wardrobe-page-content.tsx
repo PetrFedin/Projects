@@ -26,7 +26,7 @@ export function WardrobePageContent() {
     async function fetchProducts() {
       try {
         const response = await fetch('/data/products.json');
-        const allProducts: Product[] = await response.json();
+        const allProducts = (await response.json()) as Product[];
         setPurchasedProducts(allProducts.slice(0, 5));
       } catch (error) {
         console.error('Failed to fetch products for wardrobe', error);

@@ -6,7 +6,13 @@ import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { CabinetBreadcrumbs } from '@/components/layout/cabinet-breadcrumbs';
+import {
+  CabinetBreadcrumbs,
+  type BreadcrumbItem,
+} from '@/components/layout/cabinet-breadcrumbs';
+import { SynthaDemoMark } from '@/components/ui/syntha-demo-mark';
+
+export type { BreadcrumbItem };
 
 export function CabinetHubMain({
   className,
@@ -62,9 +68,10 @@ export function CabinetHubTitleRow({
         <div className={cn(cabinetSurface.hubIconTile, iconTileClassName)}>
           <HubIcon className="h-5.5 w-5.5" aria-hidden />
         </div>
-        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+        <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-3">
           <h1 className={cabinetSurface.hubH1}>{title}</h1>
           {badges}
+          <SynthaDemoMark compact className="ml-0.5" />
         </div>
       </div>
       {trailing ? (
@@ -76,8 +83,12 @@ export function CabinetHubTitleRow({
 
 type CabinetHubSectionBarProps = {
   accentClassName: string;
-  breadcrumbItems: string[];
-  sectionTitle: string;
+  breadcrumbItems: BreadcrumbItem[];
+  /**
+   * Подзаголовок под крошками. Не передавайте, если последний пункт крошек уже совпадает с названием
+   * страницы — иначе дублирование (актуально для ЛК клиента: путь «… › Избранное» без второго «Избранное»).
+   */
+  sectionTitle?: string;
   trailing?: ReactNode;
 };
 
@@ -93,7 +104,7 @@ export function CabinetHubSectionBar({
         <div className={cn(cabinetSurface.hubAccentRail, accentClassName)} aria-hidden />
         <div className={cabinetSurface.hubSectionTitleStack}>
           <CabinetBreadcrumbs items={breadcrumbItems} />
-          <h2 className={cabinetSurface.hubH2}>{sectionTitle}</h2>
+          {sectionTitle ? <h2 className={cabinetSurface.hubH2}>{sectionTitle}</h2> : null}
         </div>
       </div>
       {trailing ? <div className="flex shrink-0 items-center gap-2">{trailing}</div> : null}

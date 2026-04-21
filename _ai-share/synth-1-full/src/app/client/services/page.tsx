@@ -4,9 +4,11 @@ import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, Droplets, Scissors, Package } from 'lucide-react';
+import { Droplets, Scissors, Package } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { getClientServiceBookingLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 const MOCK_SERVICES = [
   {
@@ -28,15 +30,8 @@ const MOCK_SERVICES = [
 
 export default function ServiceBookingPage() {
   return (
-    <div className="mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
-      <header>
-        <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
-          <Calendar className="text-accent-primary h-6 w-6" /> Service Booking Hub
-        </h1>
-        <p className="text-text-secondary mt-1 text-sm">
-          Заказ химчистки, ремонта или кастомизации. Привязка к вещи из гардероба.
-        </p>
-      </header>
+    <CabinetPageContent maxWidth="2xl">
+      <ClientCabinetSectionHeader iconClassName="text-accent-primary" />
 
       <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader>
@@ -71,6 +66,6 @@ export default function ServiceBookingPage() {
       </Card>
 
       <RelatedModulesBlock links={getClientServiceBookingLinks()} />
-    </div>
+    </CabinetPageContent>
   );
 }

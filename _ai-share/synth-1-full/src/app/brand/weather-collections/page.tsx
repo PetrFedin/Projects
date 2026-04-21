@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,7 +11,6 @@ import { CloudRain, Thermometer, Sun, Target, Package } from 'lucide-react';
 import { getProductLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function WeatherCollectionsPage() {
   const [weather, setWeather] = useState<{
@@ -23,8 +23,10 @@ export default function WeatherCollectionsPage() {
   useEffect(() => {
     fetch('/api/ai/weather')
       .then((r) => r.json())
-      .then((d) => {
-        setWeather(d);
+      .then((d: unknown) => {
+        setWeather(
+          d as { temperature: number; precipitation: number; weatherCode: number }
+        );
         setLoading(false);
       })
       .catch(() => {
@@ -55,7 +57,7 @@ export default function WeatherCollectionsPage() {
   ].filter((r) => r.when);
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Weather-Driven Collections"
         description="Рекомендации по наполнению дропа на основе прогноза погоды и сезонности. Связь с Range Planner и ассортиментом."
@@ -154,6 +156,6 @@ export default function WeatherCollectionsPage() {
       </Card>
 
       <RelatedModulesBlock links={getProductLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

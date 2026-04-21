@@ -28,6 +28,7 @@ import {
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Progress } from '@/components/ui/progress';
 import { useState } from 'react';
 import { Label } from '@/components/ui/label';
@@ -119,7 +120,7 @@ export default function SubscriptionPage() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-4 px-4 pb-20 md:px-0">
+    <CabinetPageContent maxWidth="4xl" className="space-y-4 px-4 pb-20 md:px-0">
       {returnResolved && (
         <div className="bg-accent-primary/10 border-accent-primary/20 mb-4 rounded-lg border p-2">
           <Link
@@ -546,6 +547,6 @@ export default function SubscriptionPage() {
         title="Связанные разделы"
         className="mt-6"
       />
-    </div>
+    </CabinetPageContent>
   );
 }

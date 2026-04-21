@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Calendar, MapPin, Clock, Video, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { ROUTES } from '@/lib/routes';
 
 interface ShowroomEvent {
   id: string;
@@ -34,7 +33,7 @@ export function ShowroomCalendarWidget() {
       title: 'Syntha Lab Private Showroom',
       type: 'showroom',
       date: '2026-03-01',
-      location: 'Milan',
+      location: 'Москва',
       brand: 'Syntha Lab',
     },
     {
@@ -65,27 +64,27 @@ export function ShowroomCalendarWidget() {
       case 'virtual':
         return 'border-blue-200 bg-blue-50';
       case 'showroom':
-        return 'border-accent-primary/25 bg-accent-primary/10';
+        return 'border-purple-200 bg-purple-50';
       case 'market_week':
-        return 'border-accent-primary/30 bg-accent-primary/10';
+        return 'border-indigo-200 bg-indigo-50';
       default:
-        return 'border-border-default bg-bg-surface2';
+        return 'border-slate-200 bg-slate-50';
     }
   };
 
   return (
-    <Card className="border-accent-primary/20 rounded-xl border-2 shadow-xl">
-      <CardHeader className="border-border-subtle from-accent-primary/10 to-accent-primary/10 border-b bg-gradient-to-r">
+    <Card className="rounded-xl border-2 border-purple-100 shadow-xl">
+      <CardHeader className="border-b border-slate-100 bg-gradient-to-r from-purple-50 to-pink-50">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-accent-primary flex h-12 w-12 items-center justify-center rounded-xl">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600">
               <Calendar className="h-6 w-6 text-white" />
             </div>
             <div>
-              <CardTitle className="text-text-primary text-sm font-black uppercase tracking-tight">
+              <CardTitle className="text-sm font-black uppercase tracking-tight text-slate-900">
                 Showroom Calendar
               </CardTitle>
-              <p className="text-text-secondary text-[10px] font-medium">
+              <p className="text-[10px] font-medium text-slate-500">
                 {upcomingEvents.length} upcoming events
               </p>
             </div>
@@ -97,7 +96,7 @@ export function ShowroomCalendarWidget() {
             className="h-9 text-[8px] font-black uppercase"
             asChild
           >
-            <Link href={ROUTES.shop.b2bCalendar}>View All</Link>
+            <Link href="/shop/b2b/calendar">View All</Link>
           </Button>
         </div>
       </CardHeader>
@@ -123,8 +122,8 @@ export function ShowroomCalendarWidget() {
                     event.type === 'virtual'
                       ? 'bg-blue-200 text-blue-700'
                       : event.type === 'showroom'
-                        ? 'bg-accent-primary/25 text-accent-primary'
-                        : 'bg-accent-primary/25 text-accent-primary'
+                        ? 'bg-purple-200 text-purple-700'
+                        : 'bg-indigo-200 text-indigo-700'
                   )}
                 >
                   <Icon className="h-5 w-5" />
@@ -133,25 +132,25 @@ export function ShowroomCalendarWidget() {
                 <div className="min-w-0 flex-1">
                   <div className="mb-2 flex items-start justify-between gap-2">
                     <div>
-                      <h4 className="text-text-primary text-sm font-black uppercase leading-tight">
+                      <h4 className="text-sm font-black uppercase leading-tight text-slate-900">
                         {event.title}
                       </h4>
                       {event.brand && (
-                        <p className="text-text-secondary mt-1 text-[10px]">by {event.brand}</p>
+                        <p className="mt-1 text-[10px] text-slate-600">by {event.brand}</p>
                       )}
                     </div>
 
                     <Badge
                       className={cn(
                         'flex-shrink-0 border-none text-[7px] font-black uppercase',
-                        daysUntil <= 7 ? 'bg-rose-500 text-white' : 'bg-bg-surface2 text-white'
+                        daysUntil <= 7 ? 'bg-rose-500 text-white' : 'bg-slate-500 text-white'
                       )}
                     >
                       {daysUntil} days
                     </Badge>
                   </div>
 
-                  <div className="text-text-secondary flex items-center gap-3 text-[10px]">
+                  <div className="flex items-center gap-3 text-[10px] text-slate-600">
                     <div className="flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       <span>

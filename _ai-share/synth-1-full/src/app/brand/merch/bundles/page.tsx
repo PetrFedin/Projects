@@ -17,12 +17,13 @@ import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { getAllBundles } from '@/lib/fashion/bundle-logic';
 import { ArrowLeft, Sparkles, Percent, Plus } from 'lucide-react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function BundlesManagementPage() {
   const bundles = useMemo(() => getAllBundles(products), []);
 
   return (
-    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="5xl">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -98,6 +99,6 @@ export default function BundlesManagementPage() {
           </Card>
         ))}
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

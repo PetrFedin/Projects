@@ -12,7 +12,7 @@ export async function get<T>(path: string): Promise<T> {
   }
   const res = await fetch(url, { cache: 'no-store' });
   if (!res.ok) throw new Error(`API ${res.status}: ${res.statusText}`);
-  return res.json() as Promise<T>;
+  return (await res.json()) as T;
 }
 
 export async function post<T>(path: string, body: unknown): Promise<T> {
@@ -27,7 +27,7 @@ export async function post<T>(path: string, body: unknown): Promise<T> {
     cache: 'no-store',
   });
   if (!res.ok) throw new Error(`API ${res.status}: ${res.statusText}`);
-  return res.json() as Promise<T>;
+  return (await res.json()) as T;
 }
 
 export const api = { get, post };

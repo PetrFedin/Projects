@@ -73,7 +73,7 @@ export default function ReplenishmentPage() {
                   <TableCell className="text-xs text-muted-foreground">{r.restockDate}</TableCell>
                   <TableCell className="text-right">
                     <Button size="sm" variant="outline" className="h-7 gap-1.5 text-[10px]">
-                      <ShoppingCart className="h-3 w-3" /> Create PO
+                      <ShoppingCart className="h-3 w-3" /> Создать PO
                     </Button>
                   </TableCell>
                 </TableRow>

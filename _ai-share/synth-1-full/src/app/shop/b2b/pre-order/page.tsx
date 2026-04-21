@@ -1,11 +1,11 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, Package } from 'lucide-react';
 import Link from 'next/link';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { ROUTES } from '@/lib/routes';
 
@@ -35,7 +35,7 @@ const mockDrops = [
 
 export default function PreOrderB2BPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="Предзаказ коллекций к дате дропа: выберите дроп и оформите заказ в режиме Pre-order в матрице." />
 
       <Card className="border-accent-primary/20">
@@ -87,6 +87,6 @@ export default function PreOrderB2BPage() {
           </p>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

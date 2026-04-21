@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useMemo } from 'react';
 import {
   Card,
@@ -41,7 +42,6 @@ import {
 import { Badge } from '@/components/ui/badge';
 import type { Product } from '@/lib/types';
 import { isDemoBrandName } from '@/lib/data/demo-platform-brands';
-import { RegistryPageShell } from '@/components/design-system';
 
 const shopProducts = allProducts.filter((p) => isDemoBrandName(p.brand));
 const productOptions = shopProducts.map((p) => ({ value: p.id, label: `${p.sku} - ${p.name}` }));
@@ -82,7 +82,7 @@ export default function ShopPromotionsPage() {
     promotionType === 'discount' || promotionType === 'outlet' || promotionType === 'promo_code';
 
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       <header>
         <h1 className="font-headline text-base font-bold">Управление продвижением</h1>
         <p className="text-muted-foreground">
@@ -240,6 +240,6 @@ export default function ShopPromotionsPage() {
           </Table>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

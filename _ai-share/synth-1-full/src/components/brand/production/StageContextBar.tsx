@@ -15,6 +15,8 @@ import {
   getNextCollectionStep,
   getPreviousCollectionStep,
 } from '@/lib/production/stages-url';
+import { workshop2ArticleHrefForCatalogStep } from '@/lib/production/workshop2-core1-stage-routing';
+import { COLLECTION_DEV_ARTICLE_LINK_RU } from '@/lib/production/collection-development-labels';
 import { useProductionStageContext } from '@/hooks/use-production-stage-context';
 
 function stepStatusRu(
@@ -38,7 +40,7 @@ function stepStatusRu(
 
 /**
  * Сквозной контекст «коллекция → SKU → этап» + действия статуса (тот же flow-store, что матрица).
- * Вешается из layout бренд-центра; на матрице этапов и Цехе 2 скрыт, чтобы не дублировать UI.
+ * Вешается из layout бренд-центра; на матрице этапов и в разработке коллекции скрыт, чтобы не дублировать UI.
  */
 export function StageContextBar() {
   const router = useRouter();
@@ -53,7 +55,7 @@ export function StageContextBar() {
     markStepStatus,
   } = useProductionStageContext();
 
-  /** Матрица этапов и отдельная страница Цех 2 — без дублирования контекстной шапки. */
+  /** Матрица этапов и карточка разработки коллекции — без дублирования контекстной шапки. */
   const hideOnProductionSubviews = useMemo(() => {
     const p = (pathname || '').replace(/\/$/, '') || '/';
     if (p === '/brand/production/workshop2' || p.startsWith('/brand/production/workshop2/c/')) {
@@ -97,6 +99,15 @@ export function StageContextBar() {
       setStagesStepTo: nextStep.id,
     });
   }, [canSetStageStatus, parsed, nextStep]);
+
+  /** Сквозной deep link в карточку разработки артикула по текущему этапу каталога (если этап маппится на `w2pane`). */
+  const workshop2ArticleHrefFromStage = useMemo(() => {
+    const col = (parsed.collectionId || '').trim();
+    const art = (parsed.resolvedArticleId || '').trim();
+    const step = (parsed.stagesStep || '').trim();
+    if (!col || !art || !step) return null;
+    return workshop2ArticleHrefForCatalogStep(col, art, step);
+  }, [parsed.collectionId, parsed.resolvedArticleId, parsed.stagesStep]);
 
   const articleLine = useMemo(() => {
     const code = (parsed.skuCode || '').trim();
@@ -186,6 +197,17 @@ export function StageContextBar() {
                 <ArrowLeft className="mr-1.5 h-3.5 w-3.5" aria-hidden />К этапам
               </Link>
             </Button>
+
+            {workshop2ArticleHrefFromStage ? (
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-accent-primary/40 h-9 shrink-0 bg-white text-[10px] font-bold uppercase tracking-wide"
+                asChild
+              >
+                <Link href={workshop2ArticleHrefFromStage}>{COLLECTION_DEV_ARTICLE_LINK_RU}</Link>
+              </Button>
+            ) : null}
 
             {canSetStageStatus ? (
               <>

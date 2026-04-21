@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { WidgetCard } from '@/components/ui/widget-card';
@@ -12,7 +13,7 @@ import { ROUTES } from '@/lib/routes';
 import { UserCircle, Search, ChevronRight, Plus } from 'lucide-react';
 import { EmptyStateB2B } from '@/components/ui/empty-state-b2b';
 import { getClientMaterials } from '@/lib/academy/brand-academy-data';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function AcademyClientsPage() {
   const [searchClients, setSearchClients] = useState('');
@@ -38,7 +39,7 @@ export default function AcademyClientsPage() {
   }, [searchClients, filterCollection]);
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Материалы для клиентов"
         leadPlain="Уход, стилинг и ознакомление с коллекциями для покупателей."
@@ -117,6 +118,6 @@ export default function AcademyClientsPage() {
       </section>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

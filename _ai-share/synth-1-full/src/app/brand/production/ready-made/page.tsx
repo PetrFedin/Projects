@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,11 +12,10 @@ import { getProductionLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function ReadyMadeProductionPage() {
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Готовый товар — упрощённый flow"
         description={
@@ -113,6 +113,6 @@ export default function ReadyMadeProductionPage() {
       </Card>
 
       <RelatedModulesBlock links={getProductionLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

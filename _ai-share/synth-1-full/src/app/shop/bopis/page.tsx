@@ -1,12 +1,12 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { PackageCheck, ArrowLeft, Store, RotateCcw } from 'lucide-react';
-import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_PICKUPS = [
   { id: 'p1', orderId: 'ORD-2026-001', customer: 'Иван П.', status: 'ready', items: 2 },
@@ -15,7 +15,7 @@ const MOCK_PICKUPS = [
 
 export default function ShopBopisPage() {
   return (
-    <RegistryPageShell className="max-w-2xl space-y-6">
+    <CabinetPageContent maxWidth="2xl" className="space-y-6">
       <div className="flex flex-wrap items-center gap-3">
         <Link href={ROUTES.shop.home}>
           <Button variant="ghost" size="icon">
@@ -88,6 +88,6 @@ export default function ShopBopisPage() {
           BOPIS Hub
         </Link>
       </p>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import Link from 'next/link';
 import LineSheetGenerator from '@/components/brand/linesheet/LineSheetGenerator';
@@ -7,11 +8,11 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FileText, Package, ShoppingBag } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function BrandLineSheetsPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Linesheets"
         leadPlain="Оптовые каталоги для байеров. Версионность (Early Bird, VIP, Outlet). Связь с каталогом Products и B2B Showroom."
@@ -41,6 +42,6 @@ export default function BrandLineSheetsPage() {
         }
       />
       <LineSheetGenerator />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

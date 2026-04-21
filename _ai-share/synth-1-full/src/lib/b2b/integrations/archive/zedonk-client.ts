@@ -94,8 +94,12 @@ export async function zedonkFetchOrders(
       headers: { Authorization: `Bearer ${cfg.accessToken}`, Accept: 'application/json' },
     });
     if (!res.ok) return [];
-    const data = (await res.json()) as { data?: ZedonkOrder[]; orders?: ZedonkOrder[] };
-    const orders: ZedonkOrder[] = Array.isArray(data) ? data : (data.data ?? data.orders ?? []);
+    const parsed = (await res.json()) as unknown;
+    const orders: ZedonkOrder[] = Array.isArray(parsed)
+      ? (parsed as ZedonkOrder[])
+      : ((parsed as { data?: ZedonkOrder[]; orders?: ZedonkOrder[] }).data ??
+        (parsed as { data?: ZedonkOrder[]; orders?: ZedonkOrder[] }).orders ??
+        []);
     return orders.map((o) => ({
       id: String(o.id),
       source: 'zedonk' as const,

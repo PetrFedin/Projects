@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +12,7 @@ import { B2B_FIELD_LABELS } from '@/lib/b2b/b2b-catalog-contract';
 import type { B2BRequiredFieldId } from '@/lib/b2b/b2b-catalog-contract';
 import products from '@/lib/products';
 import { CheckCircle2, AlertTriangle, FileText, Download, ArrowLeft } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 /** Экспорт SKU с ошибками в CSV (разделитель — точка с запятой, UTF-8 BOM для Excel). */
 function exportSkuErrorsToCsv(
@@ -86,7 +87,7 @@ export default function CatalogQualityPage() {
   }, []);
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Качество каталога"
         leadPlain="Обязательные поля для B2B (размерная сетка, состав, уход, EAN, медиа). Доля SKU без ошибок, список полей с проблемами, экспорт в CSV."
@@ -279,6 +280,6 @@ export default function CatalogQualityPage() {
           <Link href={ROUTES.shop.b2bSizeFinder}>Подбор размера / размерная сетка</Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

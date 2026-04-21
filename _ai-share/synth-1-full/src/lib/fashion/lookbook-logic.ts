@@ -7,7 +7,7 @@ export function loadLookbookProjects(): LookbookProjectV1[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw
-      ? JSON.parse(raw)
+      ? (JSON.parse(raw) as LookbookProjectV1[])
       : [
           {
             id: 'proj-01',

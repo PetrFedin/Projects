@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
@@ -13,7 +14,6 @@ import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { getLookbookProjects, getWatermarkedPdfUrl } from '@/lib/b2b/lookbook-projects-store';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** JOOR/Colect: шаринг лукбука/лайншита — ссылка с истечением срока, опционально пароль. */
 export default function LookbookSharePage() {
@@ -41,7 +41,7 @@ export default function LookbookSharePage() {
   }, [shareLink]);
 
   return (
-    <RegistryPageShell className="max-w-xl space-y-6">
+    <CabinetPageContent maxWidth="xl" className="space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bShowroom}
         lead="Ссылка на просмотр лукбука: срок действия и пароль (опционально)."
@@ -160,6 +160,6 @@ export default function LookbookSharePage() {
         title="Шоурум, лукбуки, заказы"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

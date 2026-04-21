@@ -1,28 +1,37 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { ShopB2bNuOrderScope } from '@/components/shop/ShopB2bNuOrderScope';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FileDown, FileUp, History, User, CheckCircle, XCircle, Send, Diff } from 'lucide-react';
-import { ROUTES } from '@/lib/routes';
+import { ROUTES, shopB2bOrderHref } from '@/lib/routes';
+import { useShopB2BOperationalOrdersList } from '@/hooks/use-b2b-operational-orders-list';
 import { cn } from '@/lib/utils';
 import { initialOrderItems } from '@/lib/order-data';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 import { mockOrderDetailJoors } from '@/lib/order-data';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
+import { B2bOrderUrlContextBanner } from '@/components/b2b/B2bOrderUrlContextBanner';
 import {
   getWorkingOrderVersions,
   addWorkingOrderVersion,
   setWorkingOrderStatus,
   submitWorkingOrderForReview,
   compareWorkingOrderWithMatrix,
+  setWorkingOrderVersionWholesaleOrderId,
+  replaceWorkingOrderVersions,
   type WorkingOrderRow,
   type WorkingOrderVersion,
 } from '@/lib/b2b/working-order-store';
+import {
+  fetchWorkingOrderVersionsV1,
+  putWorkingOrderVersionsV1,
+} from '@/lib/b2b/working-order-versions-api-client';
 import { useB2BState } from '@/providers/b2b-state';
 
 /** NuOrder: Working Order — экспорт заказа в Excel (размер/цвет/qty по колонкам), импорт обратно, версии, сравнение с матрицей, подтверждение брендом. */
@@ -104,17 +113,62 @@ function exportWorkingOrderExcel() {
 const MOCK_UPLOADER = 'Покупатель (магазин)';
 
 export default function WorkingOrderPage() {
+  const searchParams = useSearchParams();
+  const operationalOrders = useShopB2BOperationalOrdersList();
   const { b2bCart = [] } = useB2BState();
+  /** `undefined` — взять заказ из `?wholesaleOrderId=` если он есть в списке; иначе строка с выбором пользователя. */
+  const [manualWholesaleOrderId, setManualWholesaleOrderId] = useState<string | undefined>(
+    undefined
+  );
+  const wholesaleOrderIdFromUrl = useMemo(() => {
+    const q = searchParams.get('wholesaleOrderId')?.trim() ?? '';
+    return q && operationalOrders.some((o) => o.order === q) ? q : '';
+  }, [searchParams, operationalOrders]);
+  const effectiveWholesaleOrderId =
+    manualWholesaleOrderId !== undefined ? manualWholesaleOrderId : wholesaleOrderIdFromUrl;
   const [importMessage, setImportMessage] = useState<string | null>(null);
   const [parsedRows, setParsedRows] = useState<WorkingOrderRow[]>([]);
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null);
   const [showCompare, setShowCompare] = useState(false);
   const [brandComment, setBrandComment] = useState('');
   const [versions, setVersions] = useState<WorkingOrderVersion[]>(() => getWorkingOrderVersions());
+  const [serverSyncReady, setServerSyncReady] = useState(false);
+  const syncDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const refreshVersions = useCallback(() => {
     setVersions(getWorkingOrderVersions());
   }, []);
+
+  /** Гидратация с сервера (файл `data/b2b-working-order-versions.json`) и первичный push локальных данных. */
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const remote = await fetchWorkingOrderVersionsV1();
+      const local = getWorkingOrderVersions();
+      if (cancelled) return;
+      if (remote && remote.length > 0) {
+        replaceWorkingOrderVersions(remote);
+        setVersions(remote);
+      } else if (local.length > 0) {
+        await putWorkingOrderVersionsV1(local);
+      }
+      setServerSyncReady(true);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!serverSyncReady) return;
+    if (syncDebounceRef.current) clearTimeout(syncDebounceRef.current);
+    syncDebounceRef.current = setTimeout(() => {
+      void putWorkingOrderVersionsV1(versions);
+    }, 900);
+    return () => {
+      if (syncDebounceRef.current) clearTimeout(syncDebounceRef.current);
+    };
+  }, [versions, serverSyncReady]);
 
   const matrixLines = useMemo(() => {
     const bySku = new Map<string, number>();
@@ -168,6 +222,7 @@ export default function WorkingOrderPage() {
           fileName: file.name,
           rows,
           uploadedBy: MOCK_UPLOADER,
+          wholesaleOrderId: effectiveWholesaleOrderId || undefined,
         });
         setSelectedVersionId(version.id);
         setImportMessage(
@@ -178,14 +233,44 @@ export default function WorkingOrderPage() {
       reader.readAsText(file, 'utf-8');
     };
     input.click();
-  }, [refreshVersions]);
+  }, [refreshVersions, effectiveWholesaleOrderId]);
 
   return (
-    <RegistryPageShell className="max-w-2xl space-y-6">
+    <ShopB2bNuOrderScope>
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bOrders}
-        lead="NuOrder: экспорт заказа в Excel по шаблону (размер/цвет/qty), правка офлайн, импорт обратно и версии."
+        lead="NuOrder: экспорт заказа в Excel по шаблону (размер/цвет/qty), правка офлайн, импорт обратно и версии. Версии дублируются на сервер (GET/PUT v1) — локальный кэш в браузере сохраняется."
       />
+
+      <B2bOrderUrlContextBanner variant="shop" className="rounded-xl" />
+
+      <Card className="border-border-default border-dashed">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base">Контекст оптового заказа</CardTitle>
+          <CardDescription>
+            Новые версии файла привязываются к выбранному заказу. Можно открыть страницу с{' '}
+            <code className="text-text-secondary rounded bg-bg-surface2 px-1 text-[11px]">
+              ?wholesaleOrderId=…
+            </code>{' '}
+            из списка заказов.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <select
+            className="bg-bg-surface text-text-primary border-border-default w-full max-w-lg rounded-lg border px-3 py-2 text-sm"
+            value={effectiveWholesaleOrderId}
+            onChange={(e) => setManualWholesaleOrderId(e.target.value)}
+            aria-label="Оптовый заказ для новых импортов"
+          >
+            <option value="">Не привязан</option>
+            {operationalOrders.map((o) => (
+              <option key={o.order} value={o.order}>
+                {o.order} · {o.brand} — {o.status}
+              </option>
+            ))}
+          </select>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -305,6 +390,31 @@ export default function WorkingOrderPage() {
                     >
                       {STATUS_LABELS[v.status]}
                     </Badge>
+                    <select
+                      className="border-border-subtle bg-bg-surface text-text-primary max-w-[min(100%,14rem)] rounded border px-1.5 py-0.5 text-[11px]"
+                      value={v.wholesaleOrderId ?? ''}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setWorkingOrderVersionWholesaleOrderId(v.id, val || undefined);
+                        refreshVersions();
+                      }}
+                      aria-label={`Привязка версии ${v.fileName} к заказу`}
+                    >
+                      <option value="">Заказ: —</option>
+                      {operationalOrders.map((o) => (
+                        <option key={o.order} value={o.order}>
+                          {o.order}
+                        </option>
+                      ))}
+                    </select>
+                    {v.wholesaleOrderId ? (
+                      <Link
+                        href={shopB2bOrderHref(v.wholesaleOrderId)}
+                        className="text-accent-primary text-[11px] font-medium underline-offset-2 hover:underline"
+                      >
+                        Карточка заказа
+                      </Link>
+                    ) : null}
                   </div>
                   {v.status === 'draft' && (
                     <Button
@@ -452,6 +562,6 @@ export default function WorkingOrderPage() {
         title="Матрица, EZ Order, аналитика"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </ShopB2bNuOrderScope>
   );
 }

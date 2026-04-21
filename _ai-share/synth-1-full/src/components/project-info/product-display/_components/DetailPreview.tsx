@@ -50,7 +50,7 @@ import { RecommendedProducts } from './RecommendedProducts';
 
 function parseComposition(composition: any): { material: string; percentage: number }[] {
   if (Array.isArray(composition)) {
-    return composition;
+    return composition as { material: string; percentage: number }[];
   }
   if (typeof composition === 'string') {
     const parts = composition.match(/(\d+%)\s*([^,]+)/g);

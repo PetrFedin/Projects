@@ -1,13 +1,13 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, Hourglass, TrendingUp } from 'lucide-react';
 import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function B2BOrdersLivePage() {
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       <div>
         <h1 className="text-2xl font-bold uppercase tracking-tight">
           LIVE: {B2B_ORDERS_REGISTRY_LABEL}
@@ -52,6 +52,6 @@ export default function B2BOrdersLivePage() {
           </CardContent>
         </Card>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

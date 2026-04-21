@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { ArrowUpRight, Map } from 'lucide-react';
@@ -27,7 +28,7 @@ import { getShopB2bDashboardCrossRoleLinks } from '@/lib/data/entity-links';
 import { RETAILER_B2B_QUICK_LINK_SECTIONS } from '@/lib/data/retailer-b2b-dashboard';
 import { tid } from '@/lib/ui/test-ids';
 import { Button } from '@/components/ui/button';
-import { RegistryPageShell } from '@/components/design-system';
+import { ShopCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 
 const SHOP_PANEL_ALERTS: HubAlert[] = [
@@ -131,7 +132,8 @@ export default function ShopHubPage() {
   );
 
   return (
-    <RegistryPageShell className="space-y-10" data-testid={tid.page('shop-retail-dashboard')}>
+    <CabinetPageContent maxWidth="5xl" className="space-y-10 px-4 py-6 pb-24 sm:px-6" data-testid={tid.page('shop-retail-dashboard')}>
+      <ShopCabinetSectionHeader showBack={false} />
       <HubTodayPanel
         e2eVariant="shop"
         hubLabel="ритейл-центр"
@@ -279,6 +281,6 @@ export default function ShopHubPage() {
       </div>
 
       <AIAssistantChat />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

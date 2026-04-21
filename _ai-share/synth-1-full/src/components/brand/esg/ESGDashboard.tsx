@@ -71,10 +71,10 @@ export default function ESGDashboard() {
           <Badge className="border-none bg-emerald-600 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">
             Corporate Sustainability
           </Badge>
-          <h1 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter">
+          <h1 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900">
             ESG <span className="italic text-emerald-600">Impact</span> Dashboard
           </h1>
-          <p className="text-text-secondary max-w-2xl text-sm font-medium">
+          <p className="max-w-2xl text-sm font-medium text-slate-500">
             Мониторинг экологического следа в реальном времени. Соответствие стандартам CSRD и
             прозрачность цепочки поставок.
           </p>
@@ -82,11 +82,11 @@ export default function ESGDashboard() {
         <div className="flex gap-3">
           <Button
             variant="outline"
-            className="border-border-default h-12 rounded-xl px-6 text-[10px] font-black uppercase tracking-widest"
+            className="h-12 rounded-xl border-slate-200 px-6 text-[10px] font-black uppercase tracking-widest"
           >
-            <Download className="mr-2 h-4 w-4" /> Export Report
+            <Download className="mr-2 h-4 w-4" /> Экспорт отчёта
           </Button>
-          <Button className="bg-text-primary h-12 rounded-xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl transition-all hover:bg-emerald-600">
+          <Button className="h-12 rounded-xl bg-slate-900 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-slate-200 transition-all hover:bg-emerald-600">
             Update Data
           </Button>
         </div>
@@ -132,12 +132,10 @@ export default function ESGDashboard() {
                   <stat.icon className="h-full w-full" />
                 </div>
                 <div className="relative z-10 space-y-1">
-                  <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
                     {stat.label}
                   </p>
-                  <h3 className="text-text-primary text-base font-black leading-none">
-                    {stat.value}
-                  </h3>
+                  <h3 className="text-base font-black leading-none text-slate-900">{stat.value}</h3>
                 </div>
                 <div className="relative z-10 flex items-center gap-2">
                   <Badge
@@ -145,7 +143,7 @@ export default function ESGDashboard() {
                       'border-none px-2 py-0.5 text-[8px] font-black uppercase',
                       stat.diff.startsWith('-')
                         ? 'bg-emerald-50 text-emerald-600'
-                        : 'bg-accent-primary/10 text-accent-primary'
+                        : 'bg-indigo-50 text-indigo-600'
                     )}
                   >
                     {stat.diff} vs Last Year
@@ -166,13 +164,13 @@ export default function ESGDashboard() {
               <div className="flex gap-3">
                 <div className="flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                  <span className="text-text-muted text-[9px] font-black uppercase">
+                  <span className="text-[9px] font-black uppercase text-slate-400">
                     CO2 Emissions
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-blue-500" />
-                  <span className="text-text-muted text-[9px] font-black uppercase">
+                  <span className="text-[9px] font-black uppercase text-slate-400">
                     Water Usage
                   </span>
                 </div>
@@ -221,7 +219,7 @@ export default function ESGDashboard() {
 
         {/* Side Panels */}
         <div className="space-y-4 lg:col-span-4">
-          <Card className="bg-text-primary group relative overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
+          <Card className="group relative overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl">
             <Leaf className="absolute -right-4 -top-4 h-32 w-32 text-emerald-500 opacity-10 transition-transform duration-700 group-hover:rotate-12" />
             <div className="relative z-10 space-y-4">
               <header className="space-y-2">
@@ -259,7 +257,7 @@ export default function ESGDashboard() {
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
                     <p className="text-sm font-black text-white">88</p>
-                    <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                       Excellent
                     </p>
                   </div>
@@ -274,7 +272,7 @@ export default function ESGDashboard() {
                 ].map((row, i) => (
                   <div key={i} className="space-y-2">
                     <div className="flex justify-between text-[8px] font-black uppercase tracking-widest">
-                      <span className="text-text-muted">{row.label}</span>
+                      <span className="text-slate-400">{row.label}</span>
                       <span className="text-emerald-400">{row.value}%</span>
                     </div>
                     <Progress value={row.value} className="h-1 rounded-full bg-white/10" />
@@ -286,7 +284,7 @@ export default function ESGDashboard() {
 
           <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
             <div className="flex items-center gap-3">
-              <PieChart className="text-accent-primary h-5 w-5" />
+              <PieChart className="h-5 w-5 text-indigo-600" />
               <h3 className="text-sm font-black uppercase tracking-widest">Emissions Breakdown</h3>
             </div>
             <div className="h-48 w-full">
@@ -313,18 +311,18 @@ export default function ESGDashboard() {
                   key={entry.name}
                   className="flex items-center justify-between text-[9px] font-black uppercase tracking-tight"
                 >
-                  <div className="text-text-muted flex items-center gap-2">
+                  <div className="flex items-center gap-2 text-slate-400">
                     <div
                       className="h-2 w-2 rounded-full"
                       style={{ backgroundColor: entry.color }}
                     />
                     {entry.name}
                   </div>
-                  <span className="text-text-primary">{entry.value}%</span>
+                  <span className="text-slate-900">{entry.value}%</span>
                 </div>
               ))}
             </div>
-            <p className="text-text-muted border-border-subtle border-t pt-4 text-center text-[9px] font-medium italic leading-relaxed">
+            <p className="border-t border-slate-50 pt-4 text-center text-[9px] font-medium italic leading-relaxed text-slate-400">
               *Расчеты основаны на методологии GHG Protocol и данных первичных поставщиков.
             </p>
           </Card>
@@ -333,7 +331,7 @@ export default function ESGDashboard() {
 
       {/* Sustainability Live Audit (IoT) */}
       <Card className="overflow-hidden rounded-xl border-none bg-white shadow-2xl">
-        <CardHeader className="bg-bg-surface2 border-border-subtle flex flex-row items-center justify-between border-b p-3">
+        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 bg-slate-50 p-3">
           <div className="space-y-2">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg shadow-emerald-100">
@@ -343,14 +341,14 @@ export default function ESGDashboard() {
                 Sustainability <span className="italic text-emerald-600">Live Audit</span>
               </CardTitle>
             </div>
-            <CardDescription className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+            <CardDescription className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
               Прямые IoT-данные с производственных площадок (Real-time monitoring)
             </CardDescription>
           </div>
           <div className="flex gap-3">
-            <div className="border-border-default flex items-center gap-2 rounded-xl border bg-white px-4 py-2">
+            <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2">
               <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
-              <span className="text-text-secondary text-[9px] font-black uppercase">
+              <span className="text-[9px] font-black uppercase text-slate-600">
                 IoT Active: 14 Nodes
               </span>
             </div>
@@ -385,25 +383,23 @@ export default function ESGDashboard() {
                 value: '100%',
                 sub: 'ZDHC MRSL Compliance',
                 icon: ShieldCheck,
-                color: 'text-accent-primary',
+                color: 'text-indigo-500',
               },
             ].map((node, i) => (
               <div key={i} className="space-y-4">
                 <div className="flex items-center gap-3">
                   <node.icon className={cn('h-5 w-5', node.color)} />
-                  <p className="text-text-muted text-[11px] font-black uppercase tracking-widest">
+                  <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">
                     {node.label}
                   </p>
                 </div>
                 <div>
-                  <p className="text-text-primary text-base font-black leading-none">
-                    {node.value}
-                  </p>
-                  <p className="text-text-muted mt-2 text-[10px] font-bold uppercase italic">
+                  <p className="text-base font-black leading-none text-slate-900">{node.value}</p>
+                  <p className="mt-2 text-[10px] font-bold uppercase italic text-slate-400">
                     {node.sub}
                   </p>
                 </div>
-                <div className="bg-bg-surface2 h-1.5 w-full overflow-hidden rounded-full">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-50">
                   <div
                     className={cn('h-full', node.color.replace('text', 'bg'))}
                     style={{ width: node.value.split('%')[0] + '%' }}
@@ -413,17 +409,17 @@ export default function ESGDashboard() {
             ))}
           </div>
         </CardContent>
-        <CardFooter className="bg-bg-surface2 border-border-subtle border-t p-3">
+        <CardFooter className="border-t border-slate-100 bg-slate-50 p-3">
           <div className="flex w-full flex-col items-center justify-between gap-3 md:flex-row">
-            <div className="text-text-secondary flex items-center gap-3">
+            <div className="flex items-center gap-3 text-slate-500">
               <Info className="h-5 w-5" />
               <p className="max-w-xl text-[11px] font-medium italic leading-relaxed">
                 Данные передаются в реальном времени через систему{' '}
-                <span className="text-text-primary font-black">Syntha IoT-Bridge</span>. Каждая
-                единица продукции получает ESG-паспорт при отгрузке.
+                <span className="font-black text-slate-900">Syntha IoT-Bridge</span>. Каждая единица
+                продукции получает ESG-паспорт при отгрузке.
               </p>
             </div>
-            <Button className="bg-text-primary h-10 rounded-2xl px-8 text-[11px] font-black uppercase tracking-widest text-white shadow-2xl">
+            <Button className="h-10 rounded-2xl bg-slate-900 px-8 text-[11px] font-black uppercase tracking-widest text-white shadow-2xl">
               Проверить сертификацию <ArrowUpRight className="ml-2 h-4 w-4" />
             </Button>
           </div>

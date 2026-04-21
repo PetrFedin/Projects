@@ -139,6 +139,7 @@ export function BudgetCategoryBreakdown({
             <Progress
               value={Math.min(pct, 100)}
               className={cn('h-1.5', overCat && '[&>div]:bg-rose-400')}
+              aria-label={`${cat.label}: факт к плану ${Math.min(pct, 100)}%`}
             />
           </div>
         );
@@ -158,7 +159,11 @@ export function SLACountdown({ dueDate, overdue }: { dueDate?: string; overdue?:
   if (!dueDate) return null;
   return (
     <Badge variant={overdue ? 'destructive' : 'outline'} className="gap-0.5 text-[8px]">
-      {overdue ? <AlertTriangle className="size-3" /> : <Clock className="size-3" />}
+      {overdue ? (
+        <AlertTriangle className="size-3" aria-hidden />
+      ) : (
+        <Clock className="size-3" aria-hidden />
+      )}
       {overdue ? 'Просрочено' : dueDate}
     </Badge>
   );
@@ -224,7 +229,11 @@ export function PODetailExpanded({
       {po.colors && <p className="text-xs">Цвета: {po.colors.join(', ')}</p>}
       <div>
         <div className="mb-1 flex justify-between text-xs font-bold">Прогресс</div>
-        <Progress value={progress} className="h-2" />
+        <Progress
+          value={progress}
+          className="h-2"
+          aria-label={`Прогресс PO ${po.id}: ${progress}%`}
+        />
       </div>
       <div className="flex gap-2">
         <Button size="sm" variant="outline" className="h-7 text-[9px]" onClick={onNavigateFinance}>

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,7 +24,8 @@ import {
   RefreshCcw,
   ExternalLink,
 } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -71,7 +73,7 @@ export default function BrandCompliancePage() {
   ];
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16 duration-500 animate-in fade-in">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16 duration-500 animate-in fade-in">
       <RegistryPageHeader
         title="Russian Layer & Compliance"
         leadPlain="ЭДО (УПД/УКД), маркировка «Честный ЗНАК» и EAC. ЦРПТ и ГИС МТ — единый слой учёта для РФ. Связь с Production, складом и B2B-заказами."
@@ -131,7 +133,7 @@ export default function BrandCompliancePage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="edo" className="space-y-6 focus-visible:outline-none">
+        <TabsContent value="edo" className={cabinetSurface.cabinetProfileTabPanel}>
           <EdoDocumentFlow />
           <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
             <Card className="border-border-subtle flex items-center justify-between rounded-xl border border-none bg-white p-4 shadow-sm">
@@ -259,7 +261,7 @@ export default function BrandCompliancePage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="cz" className="space-y-6 focus-visible:outline-none">
+        <TabsContent value="cz" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card className="bg-text-primary relative space-y-6 overflow-hidden rounded-xl border-none p-4 text-center text-white shadow-sm">
             <div className="absolute right-0 top-0 p-4 opacity-5">
               <QrCode className="h-64 w-64" />
@@ -292,7 +294,7 @@ export default function BrandCompliancePage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="certs" className="space-y-6 focus-visible:outline-none">
+        <TabsContent value="certs" className={cabinetSurface.cabinetProfileTabPanel}>
           {/* Reuse certificates component or list here */}
           <Card className="rounded-xl border-none bg-white p-4 shadow-sm">
             <div className="mb-8 flex items-center justify-between">
@@ -342,6 +344,6 @@ export default function BrandCompliancePage() {
       </Tabs>
 
       <RelatedModulesBlock links={getComplianceLinks()} className="mt-6" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

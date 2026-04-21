@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -8,7 +9,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { Glasses } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const GlassesVirtualTryOn = dynamic(
   () =>
@@ -30,7 +30,7 @@ export default function BrandGlassesVirtualTryOnPage() {
   }, []);
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6 pb-16 duration-500 animate-in fade-in">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6 pb-16 duration-500 animate-in fade-in">
       <SectionInfoCard
         title="Виртуальная примерка очков"
         description="Камера или фото лица: оправа масштабируется по межзрачковому расстоянию и наклону головы. Расчёт в браузере; лица на ваш бэкенд не отправляются."
@@ -69,6 +69,6 @@ export default function BrandGlassesVirtualTryOnPage() {
           ← Образцы и маркетинг
         </Link>
       </p>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

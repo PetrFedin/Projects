@@ -364,15 +364,7 @@ export type DesignDnaV1 = {
   pocketType?: string;
 };
 
-export type SupplierScorecardMetricV1 = {
-  id: string;
-  name: string;
-  qualityScore: number; // 0-100
-  esgGrade: 'A' | 'B' | 'C' | 'D';
-  avgLeadTimeDays: number;
-  onTimeDeliveryPct: number;
-};
-
+/** Агрегированный индекс здоровья ассортимента (портфель). */
 export type PortfolioAssortmentHealthV1 = {
   overallScore: number;
   attributeCompleteness: number;
@@ -481,13 +473,6 @@ export type ProductHeritageV1 = {
   sustainabilityHigh: boolean;
 };
 
-export type ResaleEstimateV1 = {
-  estimatedValue: number;
-  conditionGrades: Record<string, number>;
-  carbonSavedKg: number;
-  demandLevel: 'high' | 'medium' | 'low';
-};
-
 export type SizeAffinityV1 = {
   brand: string;
   affinityScore: number; // 0-100
@@ -514,14 +499,6 @@ export type LoyaltyRewardV1 = {
   perks: string[];
 };
 
-export type B2BCatalogPriceCampaignV1 = {
-  id: string;
-  version: 'early_bird' | 'standard' | 'outlet' | 'sample_sale';
-  priceMultiplier: number;
-  accessExpiry: string;
-  moqOverride?: number;
-};
-
 export type CollectionLcaSummaryV1 = {
   totalCo2: number;
   totalWater: number;
@@ -529,6 +506,7 @@ export type CollectionLcaSummaryV1 = {
   topImpactCategory: string;
 };
 
+/** Пробелы ассортимента по категории (цвета, ценовые ярусы). */
 export type CategoryAssortmentGapV1 = {
   category: string;
   missingColors: string[];
@@ -595,16 +573,6 @@ export type WholesalePreOrderV1 = {
   allocationStatus: 'open' | 'limited' | 'sold_out';
 };
 
-export type WholesalePartnerTierV1 = {
-  partnerId: string;
-  partnerName: string;
-  tier: string;
-  creditLine: number;
-  unpaidInvoices: number;
-  availableLimit: number;
-  loyaltyPoints: number;
-};
-
 export type ReturnPredictionV1 = {
   productId: string;
   riskScore: number; // 0-100
@@ -621,6 +589,16 @@ export type SupplierMetricV1 = {
   activeOrders: number;
 };
 
+/** Карточка поставщика для сводных списков (без привязки к заказу) — `supplier-logic.ts`. */
+export type SupplierScorecardMetricV1 = {
+  id: string;
+  name: string;
+  qualityScore: number;
+  esgGrade: 'A' | 'B' | 'C' | 'D';
+  avgLeadTimeDays: number;
+  onTimeDeliveryPct: number;
+};
+
 export type CannibalizationImpactV1 = {
   primarySku: string;
   competingSku: string;
@@ -629,7 +607,8 @@ export type CannibalizationImpactV1 = {
   recommendation: string;
 };
 
-export type LookbookShootProjectV1 = {
+/** Отдельная сущность от `LookbookProjectV1`: съёмка/локация (планировщик). */
+export type LookbookShootScheduleV1 = {
   id: string;
   name: string;
   shootingDate: string;
@@ -661,6 +640,15 @@ export type B2BCampaignV1 = {
   targetMarket: string;
   activeStatus: boolean;
   publishedAt: string;
+};
+
+/** Каталожные ценовые кампании (мультипликаторы, early bird) — `campaign-logic.ts`. */
+export type B2BCatalogPriceCampaignV1 = {
+  id: string;
+  version: 'early_bird' | 'standard' | 'outlet' | 'sample_sale';
+  priceMultiplier: number;
+  accessExpiry: string;
+  moqOverride?: number;
 };
 
 export type HonestMarkStatusV1 = {
@@ -816,7 +804,6 @@ export type CircularityScoreV1 = {
   sku: string;
   recycledContent: number; // percentage
   recyclabilityRate: number; // percentage
-  estimatedResaleValue: number;
   carbonSavings: number; // kg
 };
 
@@ -871,6 +858,7 @@ export type PvzEfficiencyV1 = {
   logisticLossPerUnit: number; // RUB
 };
 
+/** Расширенная запись шоурума (локация, отбор SKU) — не путать с `ShowroomAppointmentV1`. */
 export type ShowroomAppointmentSessionV1 = {
   id: string;
   partnerName: string;
@@ -1008,6 +996,7 @@ export type EdiDocumentV1 = {
   legalRef: string;
 };
 
+/** Пробелы в строках заказа (рекомендации по SKU). */
 export type OrderLineAssortmentGapV1 = {
   sku: string;
   recommendation: 'essential' | 'optional' | 'trend_match';
@@ -1326,6 +1315,7 @@ export type LineSheetV1 = {
   lastExported: string;
 };
 
+/** Здоровье ассортимента в разрезе категории. */
 export type CategoryAssortmentHealthV1 = {
   category: string;
   colorBalance: number; // 0-100
@@ -1340,6 +1330,17 @@ export type PartnerTierV1 = {
   creditLimit: number;
   paymentTermDays: number;
   discountPercentage: number;
+};
+
+/** Профиль оптового партнёра (кредитная линия, лояльность) — `wholesale-tiers.ts`. */
+export type WholesalePartnerTierV1 = {
+  partnerId: string;
+  partnerName: string;
+  tier: 'Diamond' | 'Platinum' | 'Gold';
+  creditLine: number;
+  unpaidInvoices: number;
+  availableLimit: number;
+  loyaltyPoints: number;
 };
 
 export type LaunchReadinessV1 = {

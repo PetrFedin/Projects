@@ -9,6 +9,7 @@ import { hubAlertsForSource } from '@/lib/hub/dashboard-hub-data';
 import { useDashboardHubPanel } from '@/lib/hub/use-dashboard-hub-panel';
 import { USE_FASTAPI } from '@/lib/syntha-api-mode';
 import { tid } from '@/lib/ui/test-ids';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 const ADMIN_PANEL_ALERTS: HubAlert[] = [
   {
@@ -47,6 +48,11 @@ const overviewSections = [
       { href: ROUTES.admin.brands, label: 'Бренды и компании', desc: 'Статусы и модерация' },
       { href: ROUTES.admin.staff, label: 'Команда HQ', desc: 'Админы и модераторы' },
       { href: ROUTES.admin.appeals, label: 'Апелляции', desc: 'Споры и жалобы' },
+      {
+        href: ROUTES.admin.academyModeration,
+        label: 'Академия: модерация курсов',
+        desc: 'Публикация в каталог для клиентов',
+      },
     ],
   },
   {
@@ -86,7 +92,7 @@ export default function AdminDashboardPage() {
   const alerts = hubAlertsForSource(USE_FASTAPI, loading ? undefined : source, ADMIN_PANEL_ALERTS);
 
   return (
-    <div className="space-y-10" data-testid={tid.adminHqDashboard}>
+    <CabinetPageContent maxWidth="full" className="space-y-10" data-testid={tid.adminHqDashboard}>
       <HubTodayPanel
         e2eVariant="admin"
         hubLabel="админ-центр HQ"
@@ -161,6 +167,6 @@ export default function AdminDashboardPage() {
           </div>
         ))}
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

@@ -41,12 +41,14 @@ export default function AiWardrobeAssistant({ wardrobe }: AiWardrobeAssistantPro
           })),
         }),
       });
-      const data = await res.json();
-      if (data.summary) setAnalysis(data);
+      const data = (await res.json()) as Partial<AnalysisResult> & {
+        recommendations?: string[];
+      };
+      if (data.summary) setAnalysis(data as AnalysisResult);
 
       if (data.recommendations?.length) {
         const productsRes = await fetch('/data/products.json');
-        const allProducts: Product[] = await productsRes.json();
+        const allProducts = (await productsRes.json()) as Product[];
         const q = data.recommendations[0]?.toLowerCase().split(/\s+/)[0] ?? '';
         const matched = allProducts
           .filter(

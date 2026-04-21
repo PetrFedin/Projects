@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
@@ -15,7 +16,8 @@ import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getB2BLinks } from '@/lib/data/entity-links';
 import { DollarSign, Users } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
@@ -34,7 +36,7 @@ export default function PriceListsPage() {
     : lists;
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Прайс-листы и группы клиентов"
         leadPlain="Прайс-листы по сегментам и группы покупателей для B2B."
@@ -67,7 +69,7 @@ export default function PriceListsPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="price-lists" className="mt-0 space-y-6">
+        <TabsContent value="price-lists" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="flex flex-wrap gap-2">
             <Button variant={!groupFilter ? 'default' : 'outline'} size="sm" asChild>
               <Link href={ROUTES.brand.priceLists}>Все</Link>
@@ -140,10 +142,10 @@ export default function PriceListsPage() {
           <RelatedModulesBlock links={getB2BLinks()} title="B2B" />
         </TabsContent>
 
-        <TabsContent value="groups" className="mt-0 space-y-6">
+        <TabsContent value="groups" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'groups' && <CustomerGroupsContent />}
         </TabsContent>
       </Tabs>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

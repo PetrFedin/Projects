@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,7 +11,6 @@ import { ArrowLeft, Clock, BookOpen } from 'lucide-react';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { getCollectionTrainingById } from '@/lib/academy/brand-academy-data';
 import { COLLECTION_TRAINING_TYPE_LABELS } from '@/lib/academy/brand-academy-data';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function ShopTrainingDetailPage() {
   const params = useParams();
@@ -20,7 +20,7 @@ export default function ShopTrainingDetailPage() {
 
   if (!training) {
     return (
-      <RegistryPageShell className="max-w-2xl space-y-6">
+      <CabinetPageContent maxWidth="2xl" className="space-y-6">
         <Button variant="ghost" size="icon" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4" />
         </Button>
@@ -28,12 +28,12 @@ export default function ShopTrainingDetailPage() {
         <Button variant="outline" asChild className="mt-4">
           <Link href={ROUTES.shop.b2bAcademy}>В академию</Link>
         </Button>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   return (
-    <RegistryPageShell className="max-w-2xl space-y-6">
+    <CabinetPageContent maxWidth="2xl" className="space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bAcademy}
         lead={
@@ -66,6 +66,6 @@ export default function ShopTrainingDetailPage() {
       <Button variant="outline" asChild>
         <Link href={ROUTES.shop.b2bAcademy}>← К списку тренингов</Link>
       </Button>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

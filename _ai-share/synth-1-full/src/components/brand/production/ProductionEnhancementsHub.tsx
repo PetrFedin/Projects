@@ -54,7 +54,7 @@ export function AQLCalculator() {
     <Card className="border-border-subtle rounded-xl border shadow-sm">
       <CardHeader className="px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
-          <Calculator className="h-4 w-4" /> AQL-калькулятор (ISO 2859)
+          <Calculator className="h-4 w-4" aria-hidden /> AQL-калькулятор (ISO 2859)
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3 px-4 pb-4">
@@ -136,7 +136,7 @@ export function CashFlowSummary({
     <Card className="border-border-subtle rounded-xl border shadow-sm">
       <CardHeader className="px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
-          <CreditCard className="h-4 w-4" /> Кэш-флоу (месяц)
+          <CreditCard className="h-4 w-4" aria-hidden /> Кэш-флоу (месяц)
         </CardTitle>
       </CardHeader>
       <CardContent className="px-4 pb-4">
@@ -224,7 +224,7 @@ export function FactoryLoadOverview({
     <Card className="border-border-subtle rounded-xl border shadow-sm">
       <CardHeader className="px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
-          <BarChart3 className="h-4 w-4" /> Загрузка фабрик
+          <BarChart3 className="h-4 w-4" aria-hidden /> Загрузка фабрик
         </CardTitle>
       </CardHeader>
       <CardContent className="px-4 pb-4">
@@ -242,7 +242,11 @@ export function FactoryLoadOverview({
                 <TableCell className="text-[10px]">{r.factory}</TableCell>
                 <TableCell className="text-[10px]">{r.week}</TableCell>
                 <TableCell className="text-[10px]">
-                  <Progress value={r.load} className="h-2 w-20" />
+                  <Progress
+                    value={r.load}
+                    className="h-2 w-20"
+                    aria-label={`Загрузка фабрики ${r.factory}: ${r.load}%`}
+                  />
                   <span className="ml-2 text-[9px]">{r.load}%</span>
                 </TableCell>
               </TableRow>
@@ -264,7 +268,7 @@ export function CertExpiryReminder({ items }: { items?: Array<{ name: string; ex
     <Card className="border-border-subtle rounded-xl border shadow-sm">
       <CardHeader className="px-4 py-2">
         <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
-          <FileCheck className="h-4 w-4" /> Срок действия сертификатов
+          <FileCheck className="h-4 w-4" aria-hidden /> Срок действия сертификатов
         </CardTitle>
       </CardHeader>
       <CardContent className="px-4 pb-4">

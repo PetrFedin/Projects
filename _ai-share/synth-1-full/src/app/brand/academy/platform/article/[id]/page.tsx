@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
@@ -11,7 +12,7 @@ import { getAcademyLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { getPlatformArticleById, getCourseById } from '@/lib/education-data';
 import { ArrowLeft } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function PlatformArticleDetailPage() {
   const params = useParams();
@@ -33,7 +34,7 @@ export default function PlatformArticleDetailPage() {
 
   if (!article) {
     return (
-      <RegistryPageShell className="from-bg-surface2/80 to-bg-surface w-full max-w-none space-y-6 bg-gradient-to-b pb-16">
+      <CabinetPageContent maxWidth="full" className="from-bg-surface2/80 to-bg-surface w-full space-y-6 bg-gradient-to-b pb-16">
         <RegistryPageHeader
           title="Статья не найдена"
           leadPlain="Материал отсутствует в демо-данных платформы."
@@ -52,7 +53,7 @@ export default function PlatformArticleDetailPage() {
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.academyPlatform}>Вернуться в Академию платформы</Link>
         </Button>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
@@ -72,7 +73,7 @@ export default function PlatformArticleDetailPage() {
     .join(' ');
 
   return (
-    <RegistryPageShell className="from-bg-surface2/80 to-bg-surface w-full max-w-none space-y-8 bg-gradient-to-b pb-16">
+    <CabinetPageContent maxWidth="full" className="from-bg-surface2/80 to-bg-surface w-full space-y-8 bg-gradient-to-b pb-16">
       <RegistryPageHeader
         title={article.title}
         leadPlain={leadPlain}
@@ -129,6 +130,6 @@ export default function PlatformArticleDetailPage() {
       </Button>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -36,7 +36,6 @@ import {
 import { APIKey, WebhookConfig } from '@/lib/types/api-hub';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
-import { RegistryPageShell } from '@/components/design-system';
 
 /**
  * Headless Commerce API Hub — Brand OS
@@ -78,10 +77,10 @@ export default function HeadlessAPIHubPage() {
   ]);
 
   return (
-    <RegistryPageShell className="space-y-10 pb-16">
+    <div className="container mx-auto space-y-10 px-4 py-4">
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
-          <div className="text-accent-primary flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
+          <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-indigo-600">
             <Cpu className="h-3.5 w-3.5" />
             Infrastructure & Headless
           </div>
@@ -99,14 +98,14 @@ export default function HeadlessAPIHubPage() {
           >
             <ExternalLink className="h-4 w-4" /> API Explorer
           </Button>
-          <Button className="bg-text-primary h-11 gap-2 rounded-xl px-6 text-[10px] font-black uppercase text-white shadow-lg shadow-md">
+          <Button className="h-11 gap-2 rounded-xl bg-slate-900 px-6 text-[10px] font-black uppercase text-white shadow-lg shadow-slate-200">
             <Plus className="h-4 w-4" /> Generate New Key
           </Button>
         </div>
       </header>
 
       {/* Tabs Switcher */}
-      <div className="bg-bg-surface2/50 flex w-fit gap-2 rounded-2xl p-1">
+      <div className="flex w-fit gap-2 rounded-2xl bg-slate-100/50 p-1">
         {[
           { id: 'keys', label: 'API Keys', icon: Key },
           { id: 'webhooks', label: 'Webhooks', icon: Webhook },
@@ -118,7 +117,7 @@ export default function HeadlessAPIHubPage() {
             variant={activeTab === tab.id ? 'default' : 'ghost'}
             className={cn(
               'h-10 gap-2 rounded-xl px-6 text-[9px] font-black uppercase transition-all',
-              activeTab === tab.id ? 'text-text-primary bg-white shadow-sm' : 'text-text-muted'
+              activeTab === tab.id ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400'
             )}
           >
             <tab.icon className="h-3.5 w-3.5" />
@@ -130,8 +129,8 @@ export default function HeadlessAPIHubPage() {
       <div className="grid gap-3 lg:grid-cols-12">
         <div className="space-y-6 lg:col-span-8">
           {activeTab === 'keys' && (
-            <Card className="overflow-hidden rounded-xl border-none bg-white shadow-md shadow-xl">
-              <CardHeader className="border-border-subtle border-b p-4">
+            <Card className="overflow-hidden rounded-xl border-none bg-white shadow-xl shadow-slate-200/50">
+              <CardHeader className="border-b border-slate-50 p-4">
                 <CardTitle className="text-base font-black uppercase tracking-tight">
                   Active API Keys
                 </CardTitle>
@@ -141,7 +140,7 @@ export default function HeadlessAPIHubPage() {
               </CardHeader>
               <CardContent className="p-0">
                 <Table>
-                  <TableHeader className="bg-bg-surface2/80">
+                  <TableHeader className="bg-slate-50/50">
                     <TableRow>
                       <TableHead className="pl-8 text-[10px] font-black uppercase">
                         Name / Status
@@ -155,10 +154,10 @@ export default function HeadlessAPIHubPage() {
                   </TableHeader>
                   <TableBody>
                     {apiKeys.map((key) => (
-                      <TableRow key={key.id} className="hover:bg-bg-surface2/80 transition-colors">
+                      <TableRow key={key.id} className="transition-colors hover:bg-slate-50/50">
                         <TableCell className="py-6 pl-8">
                           <div className="space-y-1">
-                            <p className="text-text-primary text-sm font-black">{key.name}</p>
+                            <p className="text-sm font-black text-slate-900">{key.name}</p>
                             <Badge
                               variant="outline"
                               className="h-5 border-emerald-100 bg-emerald-50 text-[8px] font-black uppercase text-emerald-600"
@@ -169,26 +168,26 @@ export default function HeadlessAPIHubPage() {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <code className="bg-bg-surface2 text-text-secondary rounded px-2 py-1 font-mono text-xs">
+                            <code className="rounded bg-slate-100 px-2 py-1 font-mono text-xs text-slate-600">
                               {key.key}
                             </code>
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="text-text-muted hover:text-accent-primary h-8 w-8"
+                              className="h-8 w-8 text-slate-300 hover:text-indigo-600"
                             >
                               <Copy className="h-3.5 w-3.5" />
                             </Button>
                           </div>
                         </TableCell>
                         <TableCell>
-                          <p className="text-text-secondary text-xs font-bold">{key.lastUsedAt}</p>
+                          <p className="text-xs font-bold text-slate-500">{key.lastUsedAt}</p>
                         </TableCell>
                         <TableCell className="pr-8 text-right">
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="text-text-muted hover:text-rose-600"
+                            className="text-slate-300 hover:text-rose-600"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -202,8 +201,8 @@ export default function HeadlessAPIHubPage() {
           )}
 
           {activeTab === 'webhooks' && (
-            <Card className="overflow-hidden rounded-xl border-none bg-white shadow-md shadow-xl">
-              <CardHeader className="border-border-subtle flex flex-row items-center justify-between border-b p-4">
+            <Card className="overflow-hidden rounded-xl border-none bg-white shadow-xl shadow-slate-200/50">
+              <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 p-4">
                 <div>
                   <CardTitle className="text-base font-black uppercase tracking-tight">
                     Webhook Endpoints
@@ -214,22 +213,22 @@ export default function HeadlessAPIHubPage() {
                 </div>
                 <Button
                   size="sm"
-                  className="bg-accent-primary h-9 gap-2 rounded-xl text-[9px] font-black uppercase text-white"
+                  className="h-9 gap-2 rounded-xl bg-indigo-600 text-[9px] font-black uppercase text-white"
                 >
-                  <Plus className="h-3.5 w-3.5" /> Add Endpoint
+                  <Plus className="h-3.5 w-3.5" /> Endpoint
                 </Button>
               </CardHeader>
               <CardContent className="space-y-6 p-4">
                 {webhooks.map((wh) => (
                   <div
                     key={wh.id}
-                    className="bg-bg-surface2 border-border-subtle space-y-4 rounded-3xl border p-4"
+                    className="space-y-4 rounded-3xl border border-slate-100 bg-slate-50 p-4"
                   >
                     <div className="flex items-start justify-between">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <Webhook className="text-accent-primary h-4 w-4" />
-                          <p className="text-text-primary max-w-md truncate text-sm font-black">
+                          <Webhook className="h-4 w-4 text-indigo-600" />
+                          <p className="max-w-md truncate text-sm font-black text-slate-900">
                             {wh.url}
                           </p>
                         </div>
@@ -237,7 +236,7 @@ export default function HeadlessAPIHubPage() {
                           {wh.events.map((ev) => (
                             <Badge
                               key={ev}
-                              className="text-text-secondary border-border-default border bg-white text-[8px] font-bold uppercase"
+                              className="border border-slate-200 bg-white text-[8px] font-bold uppercase text-slate-500"
                             >
                               {ev}
                             </Badge>
@@ -248,20 +247,18 @@ export default function HeadlessAPIHubPage() {
                         Healthy
                       </Badge>
                     </div>
-                    <div className="border-border-default/50 flex items-center justify-between border-t pt-4">
+                    <div className="flex items-center justify-between border-t border-slate-200/50 pt-4">
                       <div className="flex items-center gap-2">
-                        <p className="text-text-muted text-[9px] font-black uppercase">
+                        <p className="text-[9px] font-black uppercase text-slate-400">
                           Signing Secret:
                         </p>
-                        <code className="text-text-secondary font-mono text-[10px]">
-                          {wh.secret}
-                        </code>
+                        <code className="font-mono text-[10px] text-slate-500">{wh.secret}</code>
                       </div>
                       <div className="flex gap-2">
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-text-muted h-8 text-[9px] font-black uppercase"
+                          className="h-8 text-[9px] font-black uppercase text-slate-400"
                         >
                           Test
                         </Button>
@@ -281,13 +278,13 @@ export default function HeadlessAPIHubPage() {
           )}
 
           {activeTab === 'docs' && (
-            <Card className="rounded-xl border-none bg-white p-3 shadow-md shadow-xl">
+            <Card className="rounded-xl border-none bg-white p-3 shadow-xl shadow-slate-200/50">
               <div className="space-y-10">
                 <div className="space-y-4">
                   <h3 className="text-sm font-black uppercase tracking-tighter">
                     API Documentation
                   </h3>
-                  <p className="text-text-secondary text-sm font-medium leading-relaxed">
+                  <p className="text-sm font-medium leading-relaxed text-slate-500">
                     Synth-1 предоставляет REST API для управления PIM, заказами и клиентами. Все
                     ответы возвращаются в формате JSON.
                   </p>
@@ -295,20 +292,20 @@ export default function HeadlessAPIHubPage() {
 
                 <div className="space-y-6">
                   <div className="flex items-center gap-3">
-                    <div className="bg-text-primary flex h-8 w-8 items-center justify-center rounded-xl text-white">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900 text-white">
                       <Terminal className="h-4 w-4" />
                     </div>
-                    <h4 className="text-text-primary text-[11px] font-black uppercase tracking-widest">
+                    <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-900">
                       Base URL
                     </h4>
                   </div>
-                  <code className="bg-text-primary text-accent-primary block rounded-2xl p-4 font-mono text-sm">
+                  <code className="block rounded-2xl bg-slate-900 p-4 font-mono text-sm text-indigo-300">
                     https://api.synth1.fashion/v1/
                   </code>
                 </div>
 
-                <div className="border-border-subtle space-y-6 border-t pt-10">
-                  <h4 className="text-text-muted text-[11px] font-black uppercase tracking-widest">
+                <div className="space-y-6 border-t border-slate-50 pt-10">
+                  <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400">
                     Core Endpoints
                   </h4>
                   <div className="space-y-4">
@@ -331,23 +328,23 @@ export default function HeadlessAPIHubPage() {
                     ].map((ep, i) => (
                       <div
                         key={i}
-                        className="bg-bg-surface2 hover:bg-bg-surface2 flex items-center gap-3 rounded-2xl p-4 transition-colors"
+                        className="flex items-center gap-3 rounded-2xl bg-slate-50 p-4 transition-colors hover:bg-slate-100"
                       >
                         <Badge
                           className={cn(
                             'h-7 w-12 justify-center border-none text-[10px] font-black',
                             ep.method === 'GET'
                               ? 'bg-emerald-500 text-white'
-                              : 'bg-accent-primary text-white'
+                              : 'bg-indigo-500 text-white'
                           )}
                         >
                           {ep.method}
                         </Badge>
                         <div className="flex-1">
-                          <p className="text-text-primary font-mono text-xs font-bold">{ep.path}</p>
-                          <p className="text-text-muted text-[10px] font-medium">{ep.desc}</p>
+                          <p className="font-mono text-xs font-bold text-slate-900">{ep.path}</p>
+                          <p className="text-[10px] font-medium text-slate-400">{ep.desc}</p>
                         </div>
-                        <ChevronRight className="text-text-muted h-4 w-4" />
+                        <ChevronRight className="h-4 w-4 text-slate-300" />
                       </div>
                     ))}
                   </div>
@@ -359,10 +356,10 @@ export default function HeadlessAPIHubPage() {
 
         {/* Sidebar Controls */}
         <div className="space-y-6 lg:col-span-4">
-          <Card className="bg-text-primary rounded-xl border-none p-4 text-white shadow-md shadow-xl">
+          <Card className="rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl shadow-slate-200/50">
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10">
-                <Zap className="text-accent-primary h-5 w-5" />
+                <Zap className="h-5 w-5 text-indigo-400" />
               </div>
               <div>
                 <h3 className="text-sm font-black uppercase tracking-tight">API Insights</h3>
@@ -391,25 +388,22 @@ export default function HeadlessAPIHubPage() {
                   <span className="text-[10px] font-black uppercase text-white/60">
                     Success Rate
                   </span>
-                  <span className="text-accent-primary text-sm font-black">99.98%</span>
+                  <span className="text-sm font-black text-indigo-400">99.98%</span>
                 </div>
                 <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-                  <div
-                    className="bg-accent-primary h-full rounded-full"
-                    style={{ width: '99.98%' }}
-                  />
+                  <div className="h-full rounded-full bg-indigo-500" style={{ width: '99.98%' }} />
                 </div>
               </div>
             </div>
-            <Button className="bg-accent-primary hover:bg-accent-primary mt-8 h-10 w-full rounded-xl border-none text-[9px] font-black uppercase text-white shadow-lg">
+            <Button className="mt-8 h-10 w-full rounded-xl border-none bg-indigo-600 text-[9px] font-black uppercase text-white shadow-lg hover:bg-indigo-700">
               View Full Metrics
             </Button>
           </Card>
 
-          <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-md shadow-xl">
+          <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl shadow-slate-200/50">
             <div className="flex items-center gap-3">
-              <Lock className="text-accent-primary h-5 w-5" />
-              <h3 className="text-text-primary text-sm font-black uppercase tracking-tight">
+              <Lock className="h-5 w-5 text-indigo-600" />
+              <h3 className="text-sm font-black uppercase tracking-tight text-slate-900">
                 Security Policies
               </h3>
             </div>
@@ -422,24 +416,24 @@ export default function HeadlessAPIHubPage() {
               ].map((policy, i) => (
                 <div
                   key={i}
-                  className="border-border-subtle flex items-center justify-between border-b py-2 last:border-0"
+                  className="flex items-center justify-between border-b border-slate-50 py-2 last:border-0"
                 >
-                  <span className="text-text-muted text-[10px] font-black uppercase">
+                  <span className="text-[10px] font-black uppercase text-slate-400">
                     {policy.label}
                   </span>
-                  <span className="text-text-primary text-[10px] font-black">{policy.status}</span>
+                  <span className="text-[10px] font-black text-slate-900">{policy.status}</span>
                 </div>
               ))}
             </div>
             <Button
               variant="outline"
-              className="border-border-subtle hover:bg-bg-surface2 h-11 w-full rounded-xl text-[10px] font-black uppercase"
+              className="h-11 w-full rounded-xl border-slate-100 text-[10px] font-black uppercase hover:bg-slate-50"
             >
               Manage Security
             </Button>
           </Card>
         </div>
       </div>
-    </RegistryPageShell>
+    </div>
   );
 }

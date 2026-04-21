@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,7 +13,7 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getFactTables, getBuyingSummary } from '@/lib/api/analytics';
 import type { FactTableMeta, BuyingAnalyticsSummary } from '@/lib/analytics/phase2-types';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const kindLabels: Record<FactTableMeta['kind'], string> = {
   sales: 'Продажи',
@@ -32,7 +33,7 @@ export default function AnalyticsPhase2Page() {
   }, []);
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Analytics Phase 2"
         leadPlain="ETL в fact_* / snapshot_*, buying analytics API, дашборды план/факт и закупки. Связь с финансами, Production, B2B заказами, 1С/Мой Склад."
@@ -126,6 +127,6 @@ export default function AnalyticsPhase2Page() {
         links={getAnalyticsPhase2Links()}
         title="Финансы, Production, B2B заказы, 1С/Мой Склад"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

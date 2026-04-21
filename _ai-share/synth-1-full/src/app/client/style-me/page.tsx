@@ -4,8 +4,10 @@ import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, ShoppingBag, ArrowRight } from 'lucide-react';
+import { ShoppingBag, ArrowRight } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 const MOCK_LAST_PURCHASE = { name: 'Cyber Parka', orderId: '4501', date: '2 дня назад' };
 const MOCK_RECOMMENDATIONS = [
@@ -16,15 +18,8 @@ const MOCK_RECOMMENDATIONS = [
 
 export default function StyleMePage() {
   return (
-    <div className="mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
-      <header>
-        <h1 className="text-text-primary flex items-center gap-2 text-xl font-black uppercase tracking-tight">
-          <Sparkles className="text-accent-primary h-6 w-6" /> Style-Me: дополняем образ
-        </h1>
-        <p className="text-text-secondary mt-1 text-sm">
-          Персональные подборки к вашей последней покупке
-        </p>
-      </header>
+    <CabinetPageContent maxWidth="2xl">
+      <ClientCabinetSectionHeader iconClassName="text-accent-primary" />
 
       <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl border">
         <CardHeader>
@@ -82,6 +77,6 @@ export default function StyleMePage() {
           <Link href={ROUTES.client.profileWardrobe}>Гардероб</Link>
         </Button>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

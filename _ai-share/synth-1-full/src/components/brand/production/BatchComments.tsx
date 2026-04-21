@@ -28,7 +28,14 @@ export function BatchComments({ batchId, skuId }: BatchCommentsProps) {
     setLoading(true);
     try {
       const data = await getProductionMessages({ batch_id: batchId, sku_id: skuId, limit: 30 });
-      setMessages(Array.isArray(data) ? data : []);
+      setMessages(
+        (Array.isArray(data) ? data : []) as Array<{
+          id: number;
+          content: string;
+          sender_role: string;
+          created_at: string;
+        }>
+      );
     } catch {
       setMessages([]);
     } finally {

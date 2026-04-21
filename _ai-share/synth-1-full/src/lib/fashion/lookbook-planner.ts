@@ -1,8 +1,8 @@
 import type { Product } from '@/lib/types';
-import type { LookbookShootProjectV1 } from './types';
+import type { LookbookShootScheduleV1 } from './types';
 
 /** Планирование съемок (Creative Lookbook Planning). */
-export function createLookbookProject(product: Product): LookbookShootProjectV1 {
+export function createLookbookProject(product: Product): LookbookShootScheduleV1 {
   const date = new Date();
   date.setDate(date.getDate() + 30);
 

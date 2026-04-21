@@ -1,5 +1,6 @@
 'use client';
-import { RegistryPageShell } from '@/components/design-system';
+
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import { Suspense, useState, useEffect, useMemo } from 'react';
@@ -10,8 +11,12 @@ import type { CalendarEvent } from '@/lib/types/calendar';
 import StyleCalendar from '@/components/user/style-calendar';
 import { CollaborationCalendarSection } from '@/components/collaboration/CollaborationCalendarSection';
 import { CommunicationsNavBar } from '@/components/brand/communications/CommunicationsNavBar';
+import { CommunicationsOperationalStrip } from '@/components/brand/communications/CommunicationsOperationalStrip';
 import { CommunicationsUpcomingStrip } from '@/components/brand/communications/CommunicationsUpcomingStrip';
 import { demoCalendarEventsForProductionStage } from '@/lib/production/stages-comm-demo';
+import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { getCommLinks } from '@/lib/data/entity-links';
+import { CommunicationsEntityContextBanner } from '@/components/brand/communications/CommunicationsEntityContextBanner';
 
 /** Преобразовать LIVE process события в CalendarEvent */
 function mapLiveToCalendarEvent(e: {
@@ -54,6 +59,10 @@ function BrandCalendarMain() {
       searchParams.get('sku')?.trim(),
       searchParams.get('season')?.trim(),
       searchParams.get('order')?.trim(),
+      searchParams.get('orderId')?.trim(),
+      searchParams.get('stagesStep')?.trim(),
+      searchParams.get('collectionId')?.trim(),
+      searchParams.get('po')?.trim(),
     ].filter(Boolean) as string[];
     return parts.join(' ');
   }, [searchParams]);
@@ -83,7 +92,7 @@ function BrandCalendarMain() {
   }, [liveEvents, collabEvents, stageDemoCalendar]);
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <StyleCalendar
         initialRole="brand"
         variant="full"
@@ -91,22 +100,31 @@ function BrandCalendarMain() {
         contextSearchSeed={contextSearchSeed || undefined}
       />
       <CollaborationCalendarSection />
-    </RegistryPageShell>
+      <RelatedModulesBlock
+        title="Связанные операции"
+        links={getCommLinks()}
+        className="mt-2"
+      />
+    </CabinetPageContent>
   );
 }
 
 export default function BrandCalendarPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
       <div className="border-border-subtle bg-bg-surface2/90 supports-[backdrop-filter]:bg-bg-surface2/75 sticky top-0 z-30 -mx-4 space-y-2 border-b px-4 py-3 backdrop-blur-sm sm:-mx-6 sm:px-6">
         <CommunicationsNavBar currentPath="/brand/calendar" />
         <CommunicationsUpcomingStrip />
+        <CommunicationsOperationalStrip variant="brand" className="-mx-1 mt-1" />
+        <Suspense fallback={null}>
+          <CommunicationsEntityContextBanner variant="brand" className="-mx-1 mt-2 rounded-lg" />
+        </Suspense>
       </div>
       <Suspense
         fallback={<div className="text-text-secondary py-10 text-sm">Загрузка календаря…</div>}
       >
         <BrandCalendarMain />
       </Suspense>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +15,7 @@ import {
   type CollectionCard,
 } from '@/lib/data/collections';
 import { Plus, Archive, FolderOpen, ArrowRight } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function BrandCollectionsHubPage() {
   const [active, setActive] = useState<CollectionCard[]>([]);
@@ -26,7 +27,7 @@ export default function BrandCollectionsHubPage() {
   }, []);
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Коллекции"
         leadPlain="Создайте карточку коллекции, опишите концепцию и ДНК, затем работайте в ней: артикулы, инспирейшен, презентации, каталоги и производство."
@@ -119,6 +120,6 @@ export default function BrandCollectionsHubPage() {
       )}
 
       <RelatedModulesBlock links={getProductionLinks()} title="Производство и связанные разделы" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

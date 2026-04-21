@@ -66,8 +66,6 @@ import {
   FileCheck,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageShell } from '@/components/design-system';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -110,9 +108,9 @@ const MOCK_CHATS: any[] = [
   },
   {
     id: 'chat_selfridges',
-    title: 'Selfridges (B2B Buy)',
+    title: 'ЦУМ (B2B)',
     subtitle: 'Reviewing LineSheet',
-    company: 'Selfridges UK',
+    company: 'ЦУМ Москва',
     unread: 0,
     sentiment: 'Bullish',
     ltv: '12.8M ₽',
@@ -135,6 +133,7 @@ export default function BrandMessagesPro() {
   const [recording, setRecording] = useState(false);
   const [isNegotiationOpen, setIsNegotiationOpen] = useState(false);
   const [msgSearch, setMsgSearch] = useState('');
+  const attachmentInputRef = useRef<HTMLInputElement>(null);
 
   // Engine specific states
   const [productionPhase, setProductionPhase] = useState(65);
@@ -194,11 +193,11 @@ export default function BrandMessagesPro() {
       header: 'Ритейлер',
       cell: ({ row }: any) => (
         <div className="flex items-center gap-3">
-          <div className="bg-bg-surface2 flex h-7 w-7 items-center justify-center rounded-sm text-[10px] font-black">
+          <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-zinc-100 text-[10px] font-black">
             {row.original.company[0]}
           </div>
           <div className="min-w-0">
-            <p className="text-text-primary mb-1 truncate font-black leading-none">
+            <p className="mb-1 truncate font-black leading-none text-zinc-900">
               {row.original.company}
             </p>
             <Badge variant="secondary" className="h-4 text-[8px]">
@@ -212,7 +211,7 @@ export default function BrandMessagesPro() {
       accessorKey: 'ltv',
       header: 'Оборот (LTV)',
       cell: ({ row }: any) => (
-        <span className="text-text-primary font-black tabular-nums">{row.original.ltv}</span>
+        <span className="font-black tabular-nums text-zinc-900">{row.original.ltv}</span>
       ),
     },
     {
@@ -220,10 +219,10 @@ export default function BrandMessagesPro() {
       header: 'Стадия Сделки',
       cell: ({ row }: any) => (
         <div className="flex flex-col gap-1">
-          <span className="text-text-primary text-[10px] font-black uppercase leading-none">
+          <span className="text-[10px] font-black uppercase leading-none text-zinc-900">
             {row.original.activeDeal?.stage}
           </span>
-          <div className="bg-bg-surface2 h-1 w-20 overflow-hidden rounded-full">
+          <div className="h-1 w-20 overflow-hidden rounded-full bg-zinc-100">
             <div
               className="h-full bg-black"
               style={{ width: `${row.original.activeDeal?.progress}%` }}
@@ -237,8 +236,8 @@ export default function BrandMessagesPro() {
       header: 'Интент',
       cell: ({ row }: any) => (
         <div className="flex items-center gap-2">
-          <span className="text-text-primary text-[10px] font-black">{row.original.intent}%</span>
-          <div className="bg-bg-surface2 h-1 w-12 flex-1 overflow-hidden rounded-full">
+          <span className="text-[10px] font-black text-zinc-900">{row.original.intent}%</span>
+          <div className="h-1 w-12 flex-1 overflow-hidden rounded-full bg-zinc-100">
             <div className="h-full bg-blue-600" style={{ width: `${row.original.intent}%` }} />
           </div>
         </div>
@@ -270,21 +269,21 @@ export default function BrandMessagesPro() {
 
   return (
     <TooltipProvider>
-      <RegistryPageShell className="flex h-[calc(100vh-2rem)] max-w-5xl flex-col space-y-4 pb-16 duration-700 animate-in fade-in">
+      <div className="container mx-auto flex h-[calc(100vh-2rem)] max-w-5xl flex-col space-y-4 px-4 py-4 pb-24 duration-700 animate-in fade-in">
         {/* --- OPERATIONAL HEADER --- */}
-        <div className="border-border-subtle flex shrink-0 flex-col items-start justify-between gap-3 border-b pb-3 md:flex-row md:items-end">
+        <div className="flex shrink-0 flex-col items-start justify-between gap-3 border-b border-slate-100 pb-3 md:flex-row md:items-end">
           <div className="space-y-0.5">
-            <div className="text-text-muted flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em]">
+            <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
               <MessageSquare className="h-2.5 w-2.5" />
               <span>Communication</span>
               <ChevronRight className="h-2 w-2 opacity-50" />
-              <span className="text-text-muted">Strategy OS Messages</span>
+              <span className="text-slate-300">Strategy OS Messages</span>
             </div>
             <div className="flex items-center gap-2.5">
-              <div className="bg-text-primary border-text-primary/30 flex h-7 w-7 items-center justify-center rounded-lg border text-[10px] font-bold uppercase text-white shadow-lg">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-[10px] font-bold uppercase text-white shadow-lg">
                 {activeChat.company[0]}
               </div>
-              <h1 className="text-text-primary font-headline text-base font-bold uppercase leading-none tracking-tighter">
+              <h1 className="font-headline text-base font-bold uppercase leading-none tracking-tighter text-slate-900">
                 {activeChat.company}
               </h1>
               <Badge
@@ -298,25 +297,19 @@ export default function BrandMessagesPro() {
           </div>
 
           <div className="flex w-full items-center gap-2 md:w-auto">
-            {/* cabinetSurface v1 */}
-            <div
-              className={cn(
-                cabinetSurface.groupTabList,
-                'h-auto min-h-10 flex-wrap items-center gap-1 shadow-inner'
-              )}
-            >
-              <div className="border-border-default flex shrink-0 items-center gap-3 rounded-lg border bg-white p-1 px-3 shadow-sm">
+            <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-slate-100 p-1 shadow-inner">
+              <div className="flex shrink-0 items-center gap-3 rounded-lg border border-slate-200 bg-white p-1 px-3 shadow-sm">
                 <div className="flex shrink-0 flex-col">
-                  <span className="text-text-muted mb-0.5 text-[7px] font-bold uppercase leading-none tracking-widest">
+                  <span className="mb-0.5 text-[7px] font-bold uppercase leading-none tracking-widest text-slate-400">
                     LTV Portfolio
                   </span>
-                  <span className="text-text-primary text-[10px] font-bold tabular-nums leading-none">
+                  <span className="text-[10px] font-bold tabular-nums leading-none text-slate-900">
                     {activeChat.ltv}
                   </span>
                 </div>
-                <div className="bg-bg-surface2 mx-0.5 h-6 w-px shrink-0" />
+                <div className="mx-0.5 h-6 w-px shrink-0 bg-slate-100" />
                 <div className="flex shrink-0 flex-col">
-                  <span className="text-text-muted mb-0.5 text-[7px] font-bold uppercase leading-none tracking-widest">
+                  <span className="mb-0.5 text-[7px] font-bold uppercase leading-none tracking-widest text-slate-400">
                     SLA Deadline
                   </span>
                   <span className="text-[10px] font-bold italic tabular-nums leading-none text-rose-600">
@@ -324,34 +317,25 @@ export default function BrandMessagesPro() {
                   </span>
                 </div>
               </div>
-              <div
-                className={cn(
-                  cabinetSurface.groupTabList,
-                  'border-border-default inline-flex h-auto min-h-7 rounded-lg border bg-white p-0.5 shadow-sm'
-                )}
-              >
+              <div className="flex rounded-lg border border-slate-200 bg-white p-0.5 shadow-sm">
                 <button
-                  type="button"
                   onClick={() => setViewType('chat')}
                   className={cn(
-                    cabinetSurface.groupTabButton,
-                    'h-6 px-3 text-[9px] font-bold uppercase tracking-widest',
+                    'h-6 rounded-md px-3 text-[9px] font-bold uppercase tracking-widest transition-all',
                     viewMode === 'chat'
-                      ? 'bg-text-primary text-white shadow-sm'
-                      : 'text-text-muted hover:bg-bg-surface2 hover:text-text-primary'
+                      ? 'bg-slate-900 text-white shadow-sm'
+                      : 'text-slate-400 hover:bg-slate-50 hover:text-slate-900'
                   )}
                 >
                   Chat OS
                 </button>
                 <button
-                  type="button"
                   onClick={() => setViewType('table')}
                   className={cn(
-                    cabinetSurface.groupTabButton,
-                    'h-6 px-3 text-[9px] font-bold uppercase tracking-widest',
+                    'h-6 rounded-md px-3 text-[9px] font-bold uppercase tracking-widest transition-all',
                     viewMode === 'table'
-                      ? 'bg-text-primary text-white shadow-sm'
-                      : 'text-text-muted hover:bg-bg-surface2 hover:text-text-primary'
+                      ? 'bg-slate-900 text-white shadow-sm'
+                      : 'text-slate-400 hover:bg-slate-50 hover:text-slate-900'
                   )}
                 >
                   Data Hub
@@ -359,13 +343,13 @@ export default function BrandMessagesPro() {
               </div>
               <Button
                 variant="outline"
-                className="text-text-secondary border-border-default hover:text-accent-primary h-7 rounded-lg border bg-white px-3 text-[9px] font-bold uppercase tracking-widest shadow-sm transition-all"
+                className="h-7 rounded-lg border border-slate-200 bg-white px-3 text-[9px] font-bold uppercase tracking-widest text-slate-600 shadow-sm transition-all hover:text-indigo-600"
                 onClick={() => setIsNegotiationOpen(true)}
               >
-                <Handshake className="text-accent-primary mr-1.5 h-3.5 w-3.5" /> Handshake
+                <Handshake className="mr-1.5 h-3.5 w-3.5 text-indigo-500" /> Handshake
               </Button>
-              <Button className="bg-text-primary hover:bg-accent-primary border-text-primary h-7 gap-1.5 rounded-lg border px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg transition-all">
-                <Zap className="text-accent-primary h-3.5 w-3.5" /> Finalize Deal
+              <Button className="h-7 gap-1.5 rounded-lg border border-slate-900 bg-slate-900 px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg transition-all hover:bg-indigo-600">
+                <Zap className="h-3.5 w-3.5 text-indigo-400" /> Finalize Deal
               </Button>
             </div>
           </div>
@@ -373,13 +357,13 @@ export default function BrandMessagesPro() {
 
         <div className="flex min-h-0 flex-1 gap-3 overflow-hidden">
           {/* --- LEFT: ACCOUNTS & FILTERS --- */}
-          <Card className="border-border-subtle hover:border-accent-primary/20 flex w-64 shrink-0 flex-col overflow-hidden rounded-xl border bg-white shadow-sm transition-all">
-            <CardHeader className="border-border-subtle bg-bg-surface2/80 shrink-0 border-b p-3">
+          <Card className="flex w-64 shrink-0 flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100/50">
+            <CardHeader className="shrink-0 border-b border-slate-50 bg-slate-50/50 p-3">
               <div className="group relative">
-                <Search className="text-text-muted group-focus-within:text-accent-primary absolute left-2.5 top-1/2 h-3 w-3 -translate-y-1/2 transition-colors" />
+                <Search className="absolute left-2.5 top-1/2 h-3 w-3 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-indigo-600" />
                 <Input
-                  placeholder="Search Portfolio..."
-                  className="border-border-default placeholder:text-text-muted focus:ring-accent-primary h-7 rounded-lg bg-white pl-8 text-[9px] font-bold uppercase tracking-widest shadow-sm focus:ring-1"
+                  placeholder="Поиск в портфолио…"
+                  className="h-7 rounded-lg border-slate-200 bg-white pl-8 text-[9px] font-bold uppercase tracking-widest shadow-sm placeholder:text-slate-300 focus:ring-1 focus:ring-indigo-500"
                 />
               </div>
             </CardHeader>
@@ -392,12 +376,12 @@ export default function BrandMessagesPro() {
                     className={cn(
                       'group/item cursor-pointer rounded-lg border p-2.5 transition-all',
                       activeChatId === chat.id
-                        ? 'border-border-default ring-border-subtle bg-white shadow-md ring-1'
-                        : 'hover:bg-bg-surface2/80 hover:border-border-subtle border-transparent'
+                        ? 'border-slate-200 bg-white shadow-md ring-1 ring-slate-100'
+                        : 'border-transparent hover:border-slate-100 hover:bg-slate-50/80'
                     )}
                   >
                     <div className="mb-1.5 flex items-start justify-between">
-                      <p className="text-text-primary group-hover/item:text-accent-primary truncate text-[10px] font-bold uppercase leading-none tracking-tight transition-colors">
+                      <p className="truncate text-[10px] font-bold uppercase leading-none tracking-tight text-slate-900 transition-colors group-hover/item:text-indigo-600">
                         {chat.company}
                       </p>
                       <Badge
@@ -406,14 +390,14 @@ export default function BrandMessagesPro() {
                           'h-3.5 rounded border px-1 text-[6px] font-bold uppercase tracking-widest shadow-sm transition-all',
                           chat.sentiment === 'Bullish'
                             ? 'border-emerald-100 bg-emerald-50 text-emerald-600'
-                            : 'bg-bg-surface2 text-text-muted border-border-subtle'
+                            : 'border-slate-100 bg-slate-50 text-slate-400'
                         )}
                       >
                         {chat.sentiment}
                       </Badge>
                     </div>
-                    <div className="text-text-muted flex items-center justify-between text-[8px] font-bold uppercase leading-none tracking-widest">
-                      <span className="text-text-primary tabular-nums">{chat.ltv}</span>
+                    <div className="flex items-center justify-between text-[8px] font-bold uppercase leading-none tracking-widest text-slate-400">
+                      <span className="tabular-nums text-slate-900">{chat.ltv}</span>
                       <span className="flex items-center gap-1 opacity-60">
                         <Clock className="h-2 w-2" /> {chat.time || 'NOW'}
                       </span>
@@ -427,25 +411,25 @@ export default function BrandMessagesPro() {
           {/* --- MAIN OPERATIONAL AREA --- */}
           <div className="flex min-w-0 flex-1 flex-col gap-3 overflow-hidden">
             {viewMode === 'table' ? (
-              <Card className="border-border-subtle hover:border-accent-primary/20 flex flex-1 flex-col overflow-hidden rounded-xl border bg-white p-4 shadow-sm transition-all">
-                <div className="border-border-subtle mb-4 flex items-end justify-between border-b px-1 pb-3">
+              <Card className="flex flex-1 flex-col overflow-hidden rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition-all hover:border-indigo-100/50">
+                <div className="mb-4 flex items-end justify-between border-b border-slate-50 px-1 pb-3">
                   <div className="space-y-0.5">
-                    <h2 className="text-text-primary text-sm font-bold uppercase leading-none tracking-tighter">
+                    <h2 className="text-sm font-bold uppercase leading-none tracking-tighter text-slate-900">
                       Portfolio Data Hub
                     </h2>
-                    <p className="text-text-muted text-[9px] font-bold uppercase tracking-widest opacity-60">
-                      Advanced Performance Analytics & Deal Pipeline
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
+                      Аналитика и воронка сделок
                     </p>
                   </div>
                   <div className="flex gap-1.5">
                     <Button
                       variant="outline"
-                      className="text-text-secondary border-border-default hover:text-accent-primary h-7 rounded-lg border bg-white px-3 text-[9px] font-bold uppercase tracking-widest shadow-sm transition-all"
+                      className="h-7 rounded-lg border border-slate-200 bg-white px-3 text-[9px] font-bold uppercase tracking-widest text-slate-600 shadow-sm transition-all hover:text-indigo-600"
                     >
-                      <Download className="mr-1.5 h-3 w-3" /> Export
+                      <Download className="mr-1.5 h-3 w-3" /> Экспорт
                     </Button>
-                    <Button className="bg-text-primary hover:bg-accent-primary border-text-primary h-7 gap-1.5 rounded-lg border px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg transition-all">
-                      <Plus className="h-3.5 w-3.5" /> Create Deal
+                    <Button className="h-7 gap-1.5 rounded-lg border border-slate-900 bg-slate-900 px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg transition-all hover:bg-indigo-600">
+                      <Plus className="h-3.5 w-3.5" /> Новая сделка
                     </Button>
                   </div>
                 </div>
@@ -453,7 +437,7 @@ export default function BrandMessagesPro() {
                   <DataTablePro
                     columns={tableColumns}
                     data={MOCK_CHATS}
-                    searchPlaceholder="Filter by Company or ID..."
+                    searchPlaceholder="Поиск по компании или ID..."
                   />
                 </div>
               </Card>
@@ -469,8 +453,8 @@ export default function BrandMessagesPro() {
                         className={cn(
                           'group flex h-10 min-w-[160px] shrink-0 cursor-pointer flex-col justify-between rounded-xl border p-2.5 shadow-sm transition-all',
                           isActive
-                            ? 'border-border-default hover:border-accent-primary bg-white hover:shadow-md'
-                            : 'bg-bg-surface2 border-transparent opacity-40 grayscale'
+                            ? 'border-slate-200 bg-white hover:border-indigo-600 hover:shadow-md'
+                            : 'border-transparent bg-slate-50 opacity-40 grayscale'
                         )}
                       >
                         <div className="flex items-center justify-between">
@@ -478,24 +462,22 @@ export default function BrandMessagesPro() {
                             <widget.icon
                               className={cn(
                                 'h-3 w-3',
-                                isActive ? 'text-accent-primary' : 'text-text-muted'
+                                isActive ? 'text-indigo-600' : 'text-slate-400'
                               )}
                             />
-                            <span className="text-text-primary text-[8px] font-bold uppercase tracking-widest">
+                            <span className="text-[8px] font-bold uppercase tracking-widest text-slate-700">
                               {widget.label}
                             </span>
                           </div>
                           {isActive && (
-                            <div className="bg-accent-primary h-1 w-1 animate-pulse rounded-full" />
+                            <div className="h-1 w-1 animate-pulse rounded-full bg-indigo-500" />
                           )}
                         </div>
-                        <div className="bg-bg-surface2 h-0.5 w-full overflow-hidden rounded-full shadow-inner">
+                        <div className="h-0.5 w-full overflow-hidden rounded-full bg-slate-100 shadow-inner">
                           <div
                             className={cn(
                               'h-full transition-all duration-1000',
-                              widget.id === 'production_timeline'
-                                ? 'bg-accent-primary'
-                                : 'bg-text-primary'
+                              widget.id === 'production_timeline' ? 'bg-indigo-600' : 'bg-slate-900'
                             )}
                             style={{
                               width:
@@ -509,8 +491,8 @@ export default function BrandMessagesPro() {
                 </div>
 
                 {/* Message Feed (High Density) */}
-                <Card className="border-border-subtle hover:border-accent-primary/20 flex flex-1 flex-col overflow-hidden rounded-xl border bg-white shadow-sm transition-all">
-                  <ScrollArea className="bg-bg-surface2/30 flex-1">
+                <Card className="flex flex-1 flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100/50">
+                  <ScrollArea className="flex-1 bg-slate-50/30">
                     <div className="space-y-6 p-4">
                       {currentHistory.map((m: any) => {
                         const isMe = m.user === 'Вы' || m.user === 'AI Assistant';
@@ -528,8 +510,8 @@ export default function BrandMessagesPro() {
                               className={cn(
                                 'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border text-[9px] font-bold uppercase shadow-sm transition-transform group-hover/msg:scale-110',
                                 isMe
-                                  ? 'bg-text-primary border-text-primary/30 text-white'
-                                  : 'text-text-primary border-border-default bg-white'
+                                  ? 'border-slate-800 bg-slate-900 text-white'
+                                  : 'border-slate-200 bg-white text-slate-900'
                               )}
                             >
                               {m.user[0]}
@@ -546,10 +528,10 @@ export default function BrandMessagesPro() {
                                   isMe ? 'flex-row-reverse' : ''
                                 )}
                               >
-                                <span className="text-text-primary text-[9px] font-bold uppercase leading-none tracking-widest">
+                                <span className="text-[9px] font-bold uppercase leading-none tracking-widest text-slate-900">
                                   {m.user}
                                 </span>
-                                <span className="text-text-muted text-[8px] font-bold uppercase tabular-nums leading-none">
+                                <span className="text-[8px] font-bold uppercase tabular-nums leading-none text-slate-300">
                                   {m.time}
                                 </span>
                               </div>
@@ -557,18 +539,17 @@ export default function BrandMessagesPro() {
                                 className={cn(
                                   'relative rounded-xl border p-3 text-[12px] leading-relaxed shadow-sm transition-all group-hover/msg:shadow-md',
                                   isMe
-                                    ? 'bg-text-primary border-text-primary/30 text-white'
-                                    : 'text-text-primary border-border-subtle bg-white',
-                                  isTask &&
-                                    'border-l-accent-primary bg-accent-primary/10 border-l-4'
+                                    ? 'border-slate-800 bg-slate-900 text-white'
+                                    : 'border-slate-100 bg-white text-slate-800',
+                                  isTask && 'border-l-4 border-l-indigo-600 bg-indigo-50/30'
                                 )}
                               >
                                 {isTask && (
                                   <div className="mb-2 flex items-center gap-2">
-                                    <Badge className="bg-accent-primary h-3.5 border-none px-1.5 text-[7px] font-bold uppercase tracking-widest text-white shadow-sm">
+                                    <Badge className="h-3.5 border-none bg-indigo-600 px-1.5 text-[7px] font-bold uppercase tracking-widest text-white shadow-sm">
                                       TASK ACTIVE
                                     </Badge>
-                                    <span className="text-text-muted text-[8px] font-bold uppercase tracking-tighter">
+                                    <span className="text-[8px] font-bold uppercase tracking-tighter text-slate-400">
                                       ID: #T-{m.id}
                                     </span>
                                   </div>
@@ -576,14 +557,14 @@ export default function BrandMessagesPro() {
                                 <div className="whitespace-pre-wrap">{m.text}</div>
 
                                 {isTask && (
-                                  <div className="border-border-default/50 mt-3 flex items-center gap-2 border-t pt-3">
+                                  <div className="mt-3 flex items-center gap-2 border-t border-slate-200/50 pt-3">
                                     <Button
                                       variant="outline"
-                                      className="text-text-primary hover:bg-bg-surface2 border-border-default h-6 rounded-md bg-white px-2.5 text-[8px] font-bold uppercase shadow-sm transition-all"
+                                      className="h-6 rounded-md border-slate-200 bg-white px-2.5 text-[8px] font-bold uppercase text-slate-900 shadow-sm transition-all hover:bg-slate-50"
                                     >
                                       Details
                                     </Button>
-                                    <Button className="bg-accent-primary hover:bg-accent-primary border-accent-primary h-6 rounded-md px-3 text-[8px] font-bold uppercase text-white shadow-md transition-all">
+                                    <Button className="h-6 rounded-md border-indigo-600 bg-indigo-600 px-3 text-[8px] font-bold uppercase text-white shadow-md transition-all hover:bg-indigo-700">
                                       Mark Done
                                     </Button>
                                   </div>
@@ -593,13 +574,13 @@ export default function BrandMessagesPro() {
                                 <div className="mt-1 flex items-center gap-1.5 pl-1 opacity-0 transition-all duration-200 group-hover/msg:opacity-100">
                                   <Badge
                                     variant="outline"
-                                    className="border-border-default text-text-muted hover:text-accent-primary hover:border-accent-primary/20 h-4 cursor-pointer bg-white px-1.5 text-[7px] font-bold uppercase tracking-widest shadow-sm transition-all"
+                                    className="h-4 cursor-pointer border-slate-200 bg-white px-1.5 text-[7px] font-bold uppercase tracking-widest text-slate-400 shadow-sm transition-all hover:border-indigo-100 hover:text-indigo-600"
                                   >
                                     Reply
                                   </Badge>
                                   <Badge
                                     variant="outline"
-                                    className="border-border-default text-text-muted hover:text-accent-primary hover:border-accent-primary/20 h-4 cursor-pointer bg-white px-1.5 text-[7px] font-bold uppercase tracking-widest shadow-sm transition-all"
+                                    className="h-4 cursor-pointer border-slate-200 bg-white px-1.5 text-[7px] font-bold uppercase tracking-widest text-slate-400 shadow-sm transition-all hover:border-indigo-100 hover:text-indigo-600"
                                   >
                                     Quick Task
                                   </Badge>
@@ -613,51 +594,69 @@ export default function BrandMessagesPro() {
                   </ScrollArea>
 
                   {/* Operational Input Hub (Density) */}
-                  <div className="border-border-subtle shrink-0 border-t bg-white p-4">
+                  <div className="shrink-0 border-t border-slate-100 bg-white p-4">
                     <div className="mx-auto max-w-4xl space-y-3">
                       <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto pb-0.5">
                         {['Status Check', 'Payment Link', 'Credit Limit', 'VIP Priority'].map(
                           (p) => (
                             <button
                               key={p}
-                              className="bg-bg-surface2 border-border-default text-text-secondary hover:bg-text-primary/90 hover:border-text-primary h-5 shrink-0 rounded border px-2 text-[7px] font-bold uppercase tracking-widest shadow-sm transition-all hover:text-white"
+                              className="h-5 shrink-0 rounded border border-slate-200 bg-slate-50 px-2 text-[7px] font-bold uppercase tracking-widest text-slate-500 shadow-sm transition-all hover:border-slate-900 hover:bg-slate-900 hover:text-white"
                             >
                               {p}
                             </button>
                           )
                         )}
                         <div className="ml-auto shrink-0">
-                          <div className="bg-accent-primary/10 border-accent-primary/20 hover:bg-accent-primary group flex h-5 cursor-pointer items-center gap-1.5 rounded-lg border px-2 shadow-sm transition-all">
-                            <Bot className="text-accent-primary h-2.5 w-2.5 transition-colors group-hover:text-white" />
-                            <span className="text-accent-primary text-[7px] font-bold uppercase tracking-widest transition-colors group-hover:text-white">
+                          <div className="group flex h-5 cursor-pointer items-center gap-1.5 rounded-lg border border-indigo-100 bg-indigo-50 px-2 shadow-sm transition-all hover:bg-indigo-600">
+                            <Bot className="h-2.5 w-2.5 text-indigo-600 transition-colors group-hover:text-white" />
+                            <span className="text-[7px] font-bold uppercase tracking-widest text-indigo-600 transition-colors group-hover:text-white">
                               AI PROCUREMENT MODE
                             </span>
                           </div>
                         </div>
                       </div>
 
-                      <div className="border-border-default focus-within:border-accent-primary bg-bg-surface2/80 group/composer relative overflow-hidden rounded-xl border shadow-inner transition-all">
+                      <div className="group/composer relative overflow-hidden rounded-xl border border-slate-200 bg-slate-50/50 shadow-inner transition-all focus-within:border-indigo-600">
+                        <input
+                          ref={attachmentInputRef}
+                          type="file"
+                          className="sr-only"
+                          tabIndex={-1}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+                            const line = `[вложение: ${file.name}]`;
+                            setComposerText((prev) => (prev.trim() ? `${prev.trim()}\n${line}` : line));
+                            toast({
+                              title: 'Файл добавлен в черновик',
+                              description: file.name,
+                            });
+                            e.target.value = '';
+                          }}
+                        />
                         <textarea
                           value={composerText}
                           onChange={(e) => setComposerText(e.target.value)}
                           placeholder={`Message to ${activeChat.company}...`}
-                          className="no-scrollbar placeholder:text-text-muted min-h-[80px] w-full resize-none border-none bg-transparent p-3 text-[12px] font-medium placeholder:text-[9px] placeholder:font-bold placeholder:uppercase placeholder:tracking-widest focus:ring-0"
+                          className="no-scrollbar min-h-[80px] w-full resize-none border-none bg-transparent p-3 text-[12px] font-medium placeholder:text-[9px] placeholder:font-bold placeholder:uppercase placeholder:tracking-widest placeholder:text-slate-300 focus:ring-0"
                         />
-                        <div className="border-border-subtle flex items-center justify-between border-t bg-white/80 p-2 backdrop-blur-sm">
+                        <div className="flex items-center justify-between border-t border-slate-100 bg-white/80 p-2 backdrop-blur-sm">
                           <div className="flex items-center gap-0.5">
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <Button
+                                  type="button"
                                   variant="ghost"
                                   size="icon"
-                                  className="hover:bg-bg-surface2 text-text-muted hover:text-accent-primary h-7 w-7 rounded-lg transition-all"
-                                  onClick={() => {}}
+                                  className="h-7 w-7 rounded-lg text-slate-400 transition-all hover:bg-slate-50 hover:text-indigo-600"
+                                  onClick={() => attachmentInputRef.current?.click()}
                                 >
                                   <Paperclip className="h-3.5 w-3.5" />
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent className="bg-text-primary border-none text-[8px] font-bold uppercase tracking-widest text-white">
-                                Attach File
+                              <TooltipContent className="border-none bg-slate-900 text-[8px] font-bold uppercase tracking-widest text-white">
+                                Добавить файл в текст сообщения (локально)
                               </TooltipContent>
                             </Tooltip>
                             <Tooltip>
@@ -669,7 +668,7 @@ export default function BrandMessagesPro() {
                                     'h-7 w-7 rounded-lg transition-all',
                                     recording
                                       ? 'animate-pulse border-rose-100 bg-rose-50 text-rose-600'
-                                      : 'text-text-muted hover:text-accent-primary hover:bg-bg-surface2'
+                                      : 'text-slate-400 hover:bg-slate-50 hover:text-indigo-600'
                                   )}
                                   onClick={runVoiceDNA}
                                 >
@@ -680,7 +679,7 @@ export default function BrandMessagesPro() {
                                   )}
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent className="bg-text-primary border-none text-[8px] font-bold uppercase tracking-widest text-white">
+                              <TooltipContent className="border-none bg-slate-900 text-[8px] font-bold uppercase tracking-widest text-white">
                                 Voice AI
                               </TooltipContent>
                             </Tooltip>
@@ -689,7 +688,7 @@ export default function BrandMessagesPro() {
                             {composerText.length > 20 && (
                               <Button
                                 variant="ghost"
-                                className="text-accent-primary hover:bg-accent-primary/10 border-accent-primary/20 h-7 gap-1.5 rounded-lg border px-2.5 text-[8px] font-bold uppercase tracking-widest transition-all"
+                                className="h-7 gap-1.5 rounded-lg border border-indigo-100 px-2.5 text-[8px] font-bold uppercase tracking-widest text-indigo-600 transition-all hover:bg-indigo-50"
                                 onClick={() => setIsAiProcessing(true)}
                               >
                                 <Sparkles className="h-3 w-3" /> Optimize AI
@@ -697,7 +696,7 @@ export default function BrandMessagesPro() {
                             )}
                             <Button
                               onClick={() => setComposerText('')}
-                              className="bg-text-primary hover:bg-accent-primary border-text-primary h-7 rounded-lg border px-4 text-[9px] font-bold uppercase tracking-[0.15em] text-white shadow-lg transition-all"
+                              className="h-7 rounded-lg border border-slate-900 bg-slate-900 px-4 text-[9px] font-bold uppercase tracking-[0.15em] text-white shadow-lg transition-all hover:bg-indigo-600"
                             >
                               Send Ops
                             </Button>
@@ -713,17 +712,17 @@ export default function BrandMessagesPro() {
 
           {/* --- RIGHT: INTELLIGENCE PANEL (JOOR STYLE) --- */}
           {viewMode === 'chat' && (
-            <Card className="border-border-subtle no-scrollbar hover:border-accent-primary/20 flex w-72 shrink-0 flex-col space-y-6 overflow-y-auto rounded-xl border bg-[#FBFBFC] p-4 shadow-sm transition-all">
+            <Card className="no-scrollbar flex w-72 shrink-0 flex-col space-y-6 overflow-y-auto rounded-xl border border-slate-100 bg-[#FBFBFC] p-4 shadow-sm transition-all hover:border-indigo-100/50">
               <div className="space-y-4">
-                <header className="border-border-default flex items-center justify-between border-b px-1 pb-2">
-                  <h3 className="text-text-muted text-[9px] font-bold uppercase italic tracking-[0.2em]">
+                <header className="flex items-center justify-between border-b border-slate-200 px-1 pb-2">
+                  <h3 className="text-[9px] font-bold uppercase italic tracking-[0.2em] text-slate-400">
                     Deal Pulse
                   </h3>
                   <Signal className="h-3 w-3 animate-pulse text-emerald-500" />
                 </header>
                 <div className="space-y-4 px-1">
                   <div className="flex items-end justify-between">
-                    <span className="text-text-primary text-sm font-bold uppercase italic leading-none tracking-tighter">
+                    <span className="text-sm font-bold uppercase italic leading-none tracking-tighter text-slate-900">
                       {activeChat.sentiment}
                     </span>
                     <span className="flex h-4 items-center rounded bg-emerald-50 px-1.5 text-[8px] font-bold uppercase tracking-widest text-emerald-600 shadow-sm">
@@ -731,13 +730,13 @@ export default function BrandMessagesPro() {
                     </span>
                   </div>
                   <div className="space-y-2">
-                    <div className="text-text-muted flex justify-between text-[8px] font-bold uppercase tracking-widest">
+                    <div className="flex justify-between text-[8px] font-bold uppercase tracking-widest text-slate-400">
                       <span>Negotiation Progress</span>
-                      <span className="text-text-primary">65%</span>
+                      <span className="text-slate-900">65%</span>
                     </div>
-                    <div className="bg-border-subtle border-border-subtle h-1 w-full overflow-hidden rounded-full border shadow-inner">
+                    <div className="h-1 w-full overflow-hidden rounded-full border border-slate-100 bg-slate-200 shadow-inner">
                       <div
-                        className="bg-text-primary h-full transition-all duration-1000"
+                        className="h-full bg-slate-900 transition-all duration-1000"
                         style={{ width: '65%' }}
                       />
                     </div>
@@ -746,25 +745,25 @@ export default function BrandMessagesPro() {
               </div>
 
               <div className="space-y-4">
-                <header className="border-border-default flex items-center justify-between border-b px-1 pb-2">
-                  <h3 className="text-text-muted text-[9px] font-bold uppercase italic tracking-[0.2em]">
+                <header className="flex items-center justify-between border-b border-slate-200 px-1 pb-2">
+                  <h3 className="text-[9px] font-bold uppercase italic tracking-[0.2em] text-slate-400">
                     Live SKU Context
                   </h3>
                 </header>
-                <Card className="border-border-default group/sku hover:border-accent-primary cursor-pointer space-y-3 rounded-xl border bg-white p-3 shadow-sm transition-all hover:shadow-md">
+                <Card className="group/sku cursor-pointer space-y-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transition-all hover:border-indigo-600 hover:shadow-md">
                   <div className="flex items-start justify-between">
                     <Badge
                       variant="outline"
-                      className="bg-text-primary h-3.5 border-none px-1 text-[6px] font-bold uppercase tracking-widest text-white shadow-sm"
+                      className="h-3.5 border-none bg-slate-900 px-1 text-[6px] font-bold uppercase tracking-widest text-white shadow-sm"
                     >
                       VIEWING NOW
                     </Badge>
-                    <span className="text-accent-primary animate-pulse text-[8px] font-bold uppercase tracking-widest">
+                    <span className="animate-pulse text-[8px] font-bold uppercase tracking-widest text-indigo-600">
                       LIVE
                     </span>
                   </div>
                   <div className="flex items-center gap-2.5">
-                    <div className="bg-bg-surface2 border-border-subtle relative h-12 w-10 shrink-0 overflow-hidden rounded-lg border shadow-sm">
+                    <div className="relative h-12 w-10 shrink-0 overflow-hidden rounded-lg border border-slate-100 bg-slate-100 shadow-sm">
                       <Image
                         src="https://picsum.photos/seed/sku1/200/300"
                         alt=""
@@ -773,20 +772,20 @@ export default function BrandMessagesPro() {
                       />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-text-primary group-hover/sku:text-accent-primary mb-1 truncate text-[10px] font-bold uppercase leading-none tracking-tighter transition-colors">
+                      <p className="mb-1 truncate text-[10px] font-bold uppercase leading-none tracking-tighter text-slate-900 transition-colors group-hover/sku:text-indigo-600">
                         {activeChat.lastSku}
                       </p>
-                      <p className="text-text-muted mb-1 truncate text-[8px] font-bold uppercase leading-none tracking-tight opacity-70">
+                      <p className="mb-1 truncate text-[8px] font-bold uppercase leading-none tracking-tight text-slate-400 opacity-70">
                         Wool Blend Oversized Coat
                       </p>
-                      <p className="text-text-primary text-[9px] font-bold tabular-nums leading-none">
+                      <p className="text-[9px] font-bold tabular-nums leading-none text-slate-900">
                         $240.00 <span className="ml-1 text-emerald-600 opacity-80">42% GM</span>
                       </p>
                     </div>
                   </div>
                   <Button
                     variant="outline"
-                    className="border-border-default hover:bg-text-primary/90 h-6 w-full rounded-md text-[7px] font-bold uppercase tracking-widest shadow-sm transition-all hover:text-white"
+                    className="h-6 w-full rounded-md border-slate-200 text-[7px] font-bold uppercase tracking-widest shadow-sm transition-all hover:bg-slate-900 hover:text-white"
                   >
                     Adjust Quote
                   </Button>
@@ -794,21 +793,21 @@ export default function BrandMessagesPro() {
               </div>
 
               <div className="flex flex-1 flex-col justify-end">
-                <Card className="bg-text-primary border-text-primary/30 group/ai relative space-y-3 overflow-hidden rounded-xl border p-4 text-white shadow-xl">
-                  <Sparkles className="text-accent-primary absolute -right-2 -top-2 h-12 w-12 rotate-12 opacity-[0.1] transition-all group-hover/ai:scale-110 group-hover/ai:opacity-[0.2]" />
+                <Card className="group/ai relative space-y-3 overflow-hidden rounded-xl border border-slate-800 bg-slate-900 p-4 text-white shadow-xl">
+                  <Sparkles className="absolute -right-2 -top-2 h-12 w-12 rotate-12 text-indigo-600 opacity-[0.1] transition-all group-hover/ai:scale-110 group-hover/ai:opacity-[0.2]" />
                   <div className="relative z-10 flex items-center gap-2">
-                    <div className="bg-accent-primary border-accent-primary flex h-6 w-6 items-center justify-center rounded-lg border shadow-lg">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-lg border border-indigo-500 bg-indigo-600 shadow-lg">
                       <Bot className="h-3 w-3 text-white" />
                     </div>
-                    <p className="text-accent-primary text-[9px] font-bold uppercase tracking-[0.2em]">
+                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-indigo-300">
                       AI Closer
                     </p>
                   </div>
-                  <p className="text-text-muted relative z-10 text-[10px] font-bold uppercase italic leading-relaxed tracking-tight opacity-80">
+                  <p className="relative z-10 text-[10px] font-bold uppercase italic leading-relaxed tracking-tight text-slate-400 opacity-80">
                     "Intent peaked at 94%. Recommend 5% discount for MOQ 50 to lock production this
                     week."
                   </p>
-                  <Button className="text-text-primary hover:bg-accent-primary/10 hover:text-accent-primary relative z-10 h-8 w-full rounded-lg bg-white text-[8px] font-bold uppercase tracking-widest shadow-xl transition-all">
+                  <Button className="relative z-10 h-8 w-full rounded-lg bg-white text-[8px] font-bold uppercase tracking-widest text-slate-900 shadow-xl transition-all hover:bg-indigo-50 hover:text-indigo-600">
                     Apply Strategy
                   </Button>
                 </Card>
@@ -816,7 +815,7 @@ export default function BrandMessagesPro() {
             </Card>
           )}
         </div>
-      </RegistryPageShell>
+      </div>
 
       {/* AI Handshake Dialog (Messages OS Feature) */}
       <Dialog open={isNegotiationOpen} onOpenChange={setIsNegotiationOpen}>
@@ -830,11 +829,11 @@ export default function BrandMessagesPro() {
                 <DialogTitle className="text-base font-black uppercase italic tracking-tighter">
                   Handshake Strategy
                 </DialogTitle>
-                <DialogDescription className="text-text-muted mt-2 text-[10px] font-bold uppercase tracking-widest">
+                <DialogDescription className="mt-2 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
                   Анализ рычагов влияния и сценарии закрытия сделки
                 </DialogDescription>
               </div>
-              <Handshake className="text-text-primary h-12 w-12" />
+              <Handshake className="h-12 w-12 text-zinc-800" />
             </div>
           </div>
           <div className="space-y-4 bg-[#FBFBFC] p-3">
@@ -842,15 +841,15 @@ export default function BrandMessagesPro() {
               {[
                 { label: 'SENTIMENT', val: 'Bullish', color: 'text-emerald-600' },
                 { label: 'LEVERAGE', val: 'High', color: 'text-blue-600' },
-                { label: 'RISK', val: 'Minimal', color: 'text-text-muted' },
+                { label: 'RISK', val: 'Minimal', color: 'text-zinc-400' },
               ].map((s) => (
-                <div key={s.label} className="border-border-subtle border bg-white p-4">
-                  <p className="text-text-muted mb-1 text-[9px] font-black uppercase">{s.label}</p>
+                <div key={s.label} className="border border-zinc-100 bg-white p-4">
+                  <p className="mb-1 text-[9px] font-black uppercase text-zinc-400">{s.label}</p>
                   <span className={cn('text-sm font-black uppercase', s.color)}>{s.val}</span>
                 </div>
               ))}
             </div>
-            <div className="bg-text-primary space-y-4 p-4 text-white">
+            <div className="space-y-4 bg-zinc-900 p-4 text-white">
               <div className="flex items-center gap-2 text-blue-400">
                 <Zap className="h-4 w-4" />
                 <span className="text-[10px] font-black uppercase tracking-widest">
@@ -874,7 +873,7 @@ export default function BrandMessagesPro() {
               </Button>
             </div>
           </div>
-          <DialogFooter className="border-border-subtle border-t bg-white p-4">
+          <DialogFooter className="border-t border-zinc-100 bg-white p-4">
             <Button
               variant="outline"
               className="h-12 rounded-none px-8 text-[10px] font-black uppercase tracking-widest"

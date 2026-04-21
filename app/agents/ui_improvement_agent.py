@@ -3,7 +3,7 @@ import re
 from typing import List
 
 class UIImprovementAgent:
-    def __init__(self, root_dir: str = ".", frontend_dir: str = "synth-1/src"):
+    def __init__(self, root_dir: str = ".", frontend_dir: str = "_ai-share/synth-1-full/src"):
         self.root_dir = os.path.abspath(root_dir)
         self.frontend_dir = os.path.join(self.root_dir, frontend_dir)
         self.suggestions: List[str] = []

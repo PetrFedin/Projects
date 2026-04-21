@@ -28,6 +28,10 @@ export type CmsLive = {
   title: string;
   brand: string;
   startsAtISO: string;
+  /** Конец эфира; если нет — берётся слот по умолчанию после startsAtISO */
+  endsAtISO?: string;
+  /** Ручной флаг из CMS: эфир идёт (приоритет над временем) */
+  isOnAir?: boolean;
   cover: string;
   broadcastType?: BroadcastType;
   features?: LiveFeatures;
@@ -88,6 +92,21 @@ export const DEFAULT_HOME_CMS: CmsHomeConfig = {
     },
   ],
   live: [
+    {
+      id: 'l-air-day',
+      title: 'Syntha Live: витрина дня',
+      brand: 'Syntha',
+      startsAtISO: '2026-04-18T00:00:00.000Z',
+      endsAtISO: '2026-04-18T23:59:59.999Z',
+      cover: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800',
+      broadcastType: 'product_launch',
+      features: {
+        showProducts: true,
+        showChat: true,
+        showReactions: true,
+        showStats: true,
+      },
+    },
     {
       id: 'l1',
       title: 'Live: Capsule FW',

@@ -15,9 +15,9 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: '1rem',
       screens: {
-        "2xl": "1400px",
+        '2xl': '1680px',
       },
     },
     extend: {
@@ -153,7 +153,12 @@ export default {
         },
         'pulse-live': {
           '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-          '50%': { transform: 'scale(1.04)', opacity: '1' },
+          '50%': { transform: 'scale(1.1)', opacity: '.7' },
+        },
+        /** Рипплы от точки LIVE в шапке (сигнал), без заливки — только кольца */
+        'live-signal': {
+          '0%': { transform: 'scale(0.45)', opacity: '0.45' },
+          '100%': { transform: 'scale(2.6)', opacity: '0' },
         },
         'float': {
             '0%': { transform: 'translateY(0px)', opacity: '1' },
@@ -164,11 +169,16 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'pulse-live': 'pulse-live 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'live-signal': 'live-signal 2s cubic-bezier(0.4, 0, 0.2, 1) infinite',
         'float': 'float 4s ease-out forwards',
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), require('@tailwindcss/container-queries')],
+  plugins: [
+    require('tailwindcss-animate'),
+    require('@tailwindcss/container-queries'),
+    require('@tailwindcss/typography'),
+  ],
 } satisfies Config;
 
     

@@ -4,10 +4,13 @@
 
 **Связанные источники (не дублировать правила здесь):**
 
+- **`src/design/CABINET_PROFILES_STYLING_RULES_RU.md`** — единый канон **профилей и оформления всех кабинетов** (хром, токены, вкладки, роли, пробелы, Joor/NuORDER).
 - `STYLE_GUIDE.md` — типографика, карточки, кнопки, палитра.
 - `src/design/UI_RULES.md` — примитивы `@/components/design-system`, скелет страницы.
 - `src/design/JOOR_ORACLE_ENTERPRISE_UI.md` — wholesale / planning / analytics.
 - `src/design/OPERATIONAL_SCREEN_SPEC.md` + `src/lib/ui/operational-layout-contract.ts` — эталон операционных экранов (таблицы, фильтры, панели).
+
+**Примечание:** таблица акцентов **§4 ниже** задаёт идею по ролям; в коде кабинетов приоритет у **семантических токенов** (`bg-bg-surface`, `text-accent-primary`, …) — см. `CABINET_PROFILES_STYLING_RULES_RU.md` §2 и §7.
 
 ---
 

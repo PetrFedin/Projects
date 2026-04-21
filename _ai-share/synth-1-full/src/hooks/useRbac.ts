@@ -7,8 +7,10 @@ import { getPlatformRole, canAccess, type Resource, type Action } from '@/lib/rb
 function normalizeRoles(profile: any, user: any): string[] {
   const fromProfile = profile?.user?.roles ?? (profile?.user?.role ? [profile.user.role] : []);
   const fromUser = user?.roles ?? [];
-  const merged = Array.isArray(fromProfile) ? fromProfile : [].concat(fromProfile).filter(Boolean);
-  return merged.length ? merged : Array.isArray(fromUser) ? fromUser : [];
+  const merged = (
+    Array.isArray(fromProfile) ? fromProfile : [].concat(fromProfile).filter(Boolean)
+  ) as string[];
+  return merged.length ? merged : Array.isArray(fromUser) ? (fromUser as string[]) : [];
 }
 
 export function useRbac() {

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,7 +18,7 @@ import { ArrowLeft, Link2, Upload, CheckCircle } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 /** Интеграция результатов продаж закупленных коллекций на других площадках — свод на платформе. */
 const MOCK_EXTERNAL = [
@@ -78,7 +79,7 @@ const channelLabel = (integration: string) =>
 
 export default function ExternalSalesPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Продажи на других площадках"
         leadPlain="Интеграция результатов продаж закупленных у вас коллекций: ритейлеры отчитывают продажи с своего сайта и внешних каналов (маркетплейсы, офлайн). Все данные сводятся на платформе для полного анализа."
@@ -198,6 +199,6 @@ export default function ExternalSalesPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getAnalyticsLinks()} title="BI, платформа, 360°" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

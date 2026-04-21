@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { DollarSign, Users, TrendingUp } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_AGENTS = [
   { id: '1', name: 'Иван Петров', deals: 12, volume: 2400000, commission: 72000, paid: true },
@@ -16,7 +16,7 @@ const MOCK_AGENTS = [
 
 export default function CommissionsPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6 pb-16">
       <header>
         <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
           <DollarSign className="h-6 w-6 text-emerald-600" /> Sub-Agent Commission Dash
@@ -71,6 +71,6 @@ export default function CommissionsPage() {
           <Link href={ROUTES.distributor.vmi}>VMI</Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

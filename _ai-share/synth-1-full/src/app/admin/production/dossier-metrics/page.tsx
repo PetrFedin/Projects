@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
@@ -32,7 +33,6 @@ import type {
   W2DossierMetricsOrgAggregate,
   W2DossierMetricsTeamAggregate,
 } from '@/lib/server/workshop2-dossier-metrics-store';
-import { RegistryPageShell } from '@/components/design-system';
 
 type TimeFilterMeta = {
   sinceMs: number | null;
@@ -173,17 +173,17 @@ export default function AdminDossierMetricsPage() {
 
   if (role !== 'admin') {
     return (
-      <RegistryPageShell className="max-w-3xl py-10">
+      <CabinetPageContent maxWidth="3xl" className="py-10">
         <p className="text-text-secondary text-sm">Раздел доступен только роли администратора.</p>
         <Button variant="outline" className="mt-4" asChild>
           <Link href={ROUTES.admin.home}>Назад</Link>
         </Button>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   return (
-    <RegistryPageShell className="max-w-6xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="6xl" className="space-y-6 pb-16">
       <header className="flex flex-wrap items-start justify-between gap-4 space-y-1">
         <div>
           <h1 className="text-text-primary flex items-center gap-2 text-xl font-black uppercase tracking-tight">
@@ -499,6 +499,6 @@ export default function AdminDossierMetricsPage() {
       <Button variant="outline" size="sm" asChild>
         <Link href={ROUTES.admin.home}>В админку</Link>
       </Button>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

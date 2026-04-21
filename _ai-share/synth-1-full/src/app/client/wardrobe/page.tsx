@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Shirt, ArrowLeft, LayoutGrid } from 'lucide-react';
+import { Shirt, LayoutGrid } from 'lucide-react';
 import { getDigitalWardrobeLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { listWardrobeItems, listWardrobeLooks } from '@/lib/api';
 import type { WardrobeItem, WardrobeLook } from '@/lib/client/digital-wardrobe';
 
@@ -23,19 +24,10 @@ export default function DigitalWardrobePage() {
 
   return (
     <div className="container max-w-4xl space-y-6 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Link href={ROUTES.client.home}>
-          <Button variant="ghost" size="icon" aria-label="Назад">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Digital Wardrobe</h1>
-          <p className="text-text-secondary text-sm">
-            Виртуальный шкаф купленного + конструктор луков. Заказы, Body Scan, каталог.
-          </p>
-        </div>
-      </div>
+      <ClientCabinetSectionHeader
+        title="Мой гардероб"
+        description="Виртуальный шкаф купленного + конструктор луков. Заказы, Body Scan, каталог."
+      />
 
       <Card className="border-amber-100">
         <CardHeader className="pb-2">

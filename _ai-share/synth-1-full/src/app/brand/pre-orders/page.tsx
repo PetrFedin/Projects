@@ -95,7 +95,7 @@ export default function PreOrdersPage() {
               B2C → Production
             </Badge>
             <Button variant="outline" size="sm" className="ml-1 h-7 text-[9px]" asChild>
-              <Link href={ROUTES.brand.b2bOrders}>B2B Заказы</Link>
+              <Link href={ROUTES.brand.b2bOrders}>Заказы</Link>
             </Button>
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href={ROUTES.brand.production}>Production</Link>

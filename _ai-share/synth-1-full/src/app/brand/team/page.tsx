@@ -1,5 +1,7 @@
 'use client';
 
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import dynamic from 'next/dynamic';
 import { TeamManagement } from '@/components/team/TeamManagement';
@@ -28,7 +30,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getTeamLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
@@ -118,7 +121,7 @@ export default function TeamCollaborationPage() {
   const returnResolved = searchParams.get('returnResolved');
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       {returnResolved && (
         <div className="bg-accent-primary/10 border-accent-primary/20 mb-4 rounded-lg border p-2">
           <Link
@@ -154,60 +157,41 @@ export default function TeamCollaborationPage() {
       </div>
 
       {/* Tabs */}
-      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
-        <TabsList className="flex h-auto min-h-10 w-full flex-wrap items-center justify-start gap-1 rounded-lg bg-muted p-1 text-muted-foreground">
-          <TabsTrigger
-            value="directory"
-            className="gap-2 rounded-md px-3 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
-          >
-            <Users className="h-3.5 w-3.5" /> Команда (24)
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-5">
+        <TabsList
+          className={cn(
+            cabinetSurface.tabsList,
+            'scrollbar-hide h-auto min-h-9 w-full flex-wrap gap-0.5 overflow-x-auto p-1 shadow-inner'
+          )}
+        >
+          <TabsTrigger value="directory" className={cabinetSurface.tabsTrigger}>
+            <Users className="h-3.5 w-3.5 shrink-0" /> Команда (24)
           </TabsTrigger>
-          <TabsTrigger
-            value="activity"
-            className="gap-2 rounded-md px-3 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
-          >
-            <Activity className="h-3.5 w-3.5" /> Активность
+          <TabsTrigger value="activity" className={cabinetSurface.tabsTrigger}>
+            <Activity className="h-3.5 w-3.5 shrink-0" /> Активность
           </TabsTrigger>
-          <TabsTrigger
-            value="tasks"
-            className="gap-2 rounded-md px-3 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
-          >
-            <CheckCircle2 className="h-3.5 w-3.5" /> Задачи (3)
+          <TabsTrigger value="tasks" className={cabinetSurface.tabsTrigger}>
+            <CheckCircle2 className="h-3.5 w-3.5 shrink-0" /> Задачи (3)
           </TabsTrigger>
-          <TabsTrigger
-            value="permissions"
-            className="gap-2 rounded-md px-3 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
-          >
-            <Shield className="h-3.5 w-3.5" /> Роли и доступ
+          <TabsTrigger value="permissions" className={cabinetSurface.tabsTrigger}>
+            <Shield className="h-3.5 w-3.5 shrink-0" /> Роли и доступ
           </TabsTrigger>
-          <TabsTrigger
-            value="orgchart"
-            className="gap-2 rounded-md px-3 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
-          >
-            <Users className="h-3.5 w-3.5" /> Орг. структура
+          <TabsTrigger value="orgchart" className={cabinetSurface.tabsTrigger}>
+            <Users className="h-3.5 w-3.5 shrink-0" /> Орг. структура
           </TabsTrigger>
-          <TabsTrigger
-            value="performance"
-            className="gap-2 rounded-md px-3 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
-          >
-            <BarChart3 className="h-3.5 w-3.5" /> Эффективность
+          <TabsTrigger value="performance" className={cabinetSurface.tabsTrigger}>
+            <BarChart3 className="h-3.5 w-3.5 shrink-0" /> Эффективность
           </TabsTrigger>
-          <TabsTrigger
-            value="messages"
-            className="gap-2 rounded-md px-3 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
-          >
-            <MessageSquare className="h-3.5 w-3.5" /> Сообщения
+          <TabsTrigger value="messages" className={cabinetSurface.tabsTrigger}>
+            <MessageSquare className="h-3.5 w-3.5 shrink-0" /> Сообщения
           </TabsTrigger>
-          <TabsTrigger
-            value="calendar"
-            className="gap-2 rounded-md px-3 py-2 text-sm font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
-          >
-            <Calendar className="h-3.5 w-3.5" /> Календарь
+          <TabsTrigger value="calendar" className={cabinetSurface.tabsTrigger}>
+            <Calendar className="h-3.5 w-3.5 shrink-0" /> Календарь
           </TabsTrigger>
         </TabsList>
 
         {/* Team Directory */}
-        <TabsContent value="directory" className="space-y-6">
+        <TabsContent value="directory" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="bg-accent-primary h-3.5 w-1 rounded-full" />
@@ -218,7 +202,7 @@ export default function TeamCollaborationPage() {
         </TabsContent>
 
         {/* Activity Feed */}
-        <TabsContent value="activity" className="space-y-6">
+        <TabsContent value="activity" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="h-3.5 w-1 rounded-full bg-emerald-600" />
@@ -250,7 +234,7 @@ export default function TeamCollaborationPage() {
         </TabsContent>
 
         {/* Tasks */}
-        <TabsContent value="tasks" className="space-y-6">
+        <TabsContent value="tasks" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="h-3.5 w-1 rounded-full bg-blue-600" />
@@ -310,7 +294,7 @@ export default function TeamCollaborationPage() {
         </TabsContent>
 
         {/* Permissions */}
-        <TabsContent value="permissions" className="space-y-6">
+        <TabsContent value="permissions" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="h-3.5 w-1 rounded-full bg-rose-600" />
@@ -326,7 +310,7 @@ export default function TeamCollaborationPage() {
         </TabsContent>
 
         {/* Org Chart */}
-        <TabsContent value="orgchart" className="space-y-6">
+        <TabsContent value="orgchart" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="bg-accent-primary h-3.5 w-1 rounded-full" />
@@ -417,7 +401,7 @@ export default function TeamCollaborationPage() {
         </TabsContent>
 
         {/* Performance Tracking */}
-        <TabsContent value="performance" className="space-y-6">
+        <TabsContent value="performance" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="h-3.5 w-1 rounded-full bg-emerald-600" />
@@ -585,16 +569,16 @@ export default function TeamCollaborationPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="messages" className="space-y-6">
+        <TabsContent value="messages" className={cabinetSurface.cabinetProfileTabPanel}>
           {activeTab === 'messages' && <MessagesContent />}
         </TabsContent>
 
-        <TabsContent value="calendar" className="space-y-6">
+        <TabsContent value="calendar" className={cabinetSurface.cabinetProfileTabPanel}>
           {activeTab === 'calendar' && <CalendarContent />}
         </TabsContent>
       </Tabs>
 
       <RelatedModulesBlock links={getTeamLinks()} title="Связанные разделы" className="mt-6" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

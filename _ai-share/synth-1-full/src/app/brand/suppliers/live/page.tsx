@@ -1,12 +1,12 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileSearch, MessageSquareWarning, Timer } from 'lucide-react';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function SuppliersLivePage() {
   return (
-    <RegistryPageShell className="max-w-5xl space-y-4 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 pb-16">
       <div>
         <h1 className="text-2xl font-bold uppercase tracking-tight">LIVE: Сорсинг</h1>
         <p className="text-text-secondary mt-1 text-sm">Real-time sourcing pipeline monitoring</p>
@@ -49,6 +49,6 @@ export default function SuppliersLivePage() {
           </CardContent>
         </Card>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

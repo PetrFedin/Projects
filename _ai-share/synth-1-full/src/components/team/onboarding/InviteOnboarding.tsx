@@ -54,7 +54,7 @@ export function InviteOnboarding() {
           <UserPlus className="h-8 w-8 text-white" />
         </div>
         <h2 className="text-base font-black uppercase tracking-tighter">Масштабирование Команды</h2>
-        <p className="text-text-muted text-sm font-bold uppercase tracking-widest">
+        <p className="text-sm font-bold uppercase tracking-widest text-slate-400">
           Быстрый запуск и настройка участников профиля
         </p>
       </header>
@@ -63,12 +63,12 @@ export function InviteOnboarding() {
         <Card className="overflow-hidden rounded-xl border-none bg-white shadow-sm">
           <CardContent className="space-y-6 p-4">
             <h3 className="flex items-center gap-2 text-sm font-black uppercase">
-              <Mail className="text-accent-primary h-5 w-5" />
+              <Mail className="h-5 w-5 text-indigo-600" />
               Пригласить по почте
             </h3>
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-widest">
+                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
                   Тип профиля для подключения
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -81,8 +81,8 @@ export function InviteOnboarding() {
                         className={cn(
                           'rounded-xl border-2 px-3 py-1.5 text-[9px] font-black uppercase transition-all',
                           targetProfileType === r
-                            ? 'border-accent-primary bg-accent-primary/10 text-accent-primary'
-                            : 'border-border-subtle text-text-muted'
+                            ? 'border-indigo-600 bg-indigo-50 text-indigo-600'
+                            : 'border-slate-100 text-slate-400'
                         )}
                       >
                         {r}
@@ -92,18 +92,18 @@ export function InviteOnboarding() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-widest">
+                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
                   Email участника или представителя
                 </label>
                 <Input
-                  placeholder="name@company.com"
+                  placeholder="you@company.ru"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-bg-surface2 h-12 rounded-2xl border-none px-4 font-bold"
+                  className="h-12 rounded-2xl border-none bg-slate-50 px-4 font-bold"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-widest">
+                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
                   Роль в системе
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -117,19 +117,19 @@ export function InviteOnboarding() {
                       className={cn(
                         'group rounded-2xl border-2 p-4 text-left transition-all',
                         role === r.id
-                          ? 'border-accent-primary bg-accent-primary/10'
-                          : 'border-border-subtle hover:border-border-default'
+                          ? 'border-indigo-600 bg-indigo-50'
+                          : 'border-slate-100 hover:border-slate-200'
                       )}
                     >
                       <p
                         className={cn(
                           'text-xs font-black uppercase',
-                          role === r.id ? 'text-accent-primary' : 'text-text-primary'
+                          role === r.id ? 'text-indigo-600' : 'text-slate-900'
                         )}
                       >
                         {r.label}
                       </p>
-                      <p className="text-text-muted mt-1 text-[9px] font-bold uppercase tracking-tighter">
+                      <p className="mt-1 text-[9px] font-bold uppercase tracking-tighter text-slate-400">
                         {r.desc}
                       </p>
                     </button>
@@ -137,7 +137,7 @@ export function InviteOnboarding() {
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-widest">
+                <label className="ml-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
                   Назначение процессов (Flows)
                 </label>
                 <div className="grid grid-cols-1 gap-2">
@@ -148,22 +148,20 @@ export function InviteOnboarding() {
                       className={cn(
                         'flex items-center justify-between rounded-xl border-2 p-3 transition-all',
                         selectedFlows.includes(f.id)
-                          ? 'border-accent-primary bg-accent-primary/10'
-                          : 'border-border-subtle hover:border-border-subtle'
+                          ? 'border-indigo-600 bg-indigo-50'
+                          : 'border-slate-50 hover:border-slate-100'
                       )}
                     >
                       <div className="text-left">
                         <p
                           className={cn(
                             'text-[9px] font-black uppercase',
-                            selectedFlows.includes(f.id)
-                              ? 'text-accent-primary'
-                              : 'text-text-primary'
+                            selectedFlows.includes(f.id) ? 'text-indigo-600' : 'text-slate-900'
                           )}
                         >
                           {f.name}
                         </p>
-                        <p className="text-text-muted mt-1 text-[8px] font-medium leading-tight">
+                        <p className="mt-1 text-[8px] font-medium leading-tight text-slate-400">
                           {f.description}
                         </p>
                       </div>
@@ -171,8 +169,8 @@ export function InviteOnboarding() {
                         className={cn(
                           'flex h-4 w-4 items-center justify-center rounded-full border-2 transition-all',
                           selectedFlows.includes(f.id)
-                            ? 'bg-accent-primary border-accent-primary'
-                            : 'border-border-default'
+                            ? 'border-indigo-600 bg-indigo-600'
+                            : 'border-slate-200'
                         )}
                       >
                         {selectedFlows.includes(f.id) && (
@@ -195,13 +193,13 @@ export function InviteOnboarding() {
           </CardContent>
         </Card>
 
-        <Card className="bg-text-primary relative overflow-hidden rounded-xl border-none text-white shadow-sm">
+        <Card className="relative overflow-hidden rounded-xl border-none bg-slate-900 text-white shadow-sm">
           <div className="absolute right-0 top-0 p-4 opacity-10">
             <Sparkles className="h-32 w-32" />
           </div>
           <CardContent className="relative z-10 space-y-6 p-4">
             <h3 className="flex items-center gap-2 text-sm font-black uppercase">
-              <Shield className="text-accent-primary h-5 w-5" />
+              <Shield className="h-5 w-5 text-indigo-400" />
               Матрица Доступа
             </h3>
             <div className="space-y-4">

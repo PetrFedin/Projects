@@ -48,7 +48,7 @@ export function ActivityFeed() {
     const fetchProducts = async () => {
       try {
         const res = await fetch('/data/products.json');
-        const allProducts = await res.json();
+        const allProducts = (await res.json()) as Product[];
         // Mock wishlist items for the component
         setProducts(allProducts.slice(0, 3));
       } catch (error) {

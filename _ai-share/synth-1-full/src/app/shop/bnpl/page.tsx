@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,7 +10,6 @@ import { CreditCard, ArrowLeft } from 'lucide-react';
 import { getBnplLinks } from '@/lib/data/entity-links';
 import { listBnplTransactions } from '@/lib/api';
 import type { BnplTransaction } from '@/lib/shop/bnpl-gateway';
-import { RegistryPageShell } from '@/components/design-system';
 import { ROUTES } from '@/lib/routes';
 
 const statusLabels: Record<BnplTransaction['status'], string> = {
@@ -34,7 +34,7 @@ export default function ShopBnplPage() {
   }, []);
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <div className="flex items-center gap-3">
         <Link href={ROUTES.shop.orders}>
           <Button variant="ghost" size="icon">
@@ -101,6 +101,6 @@ export default function ShopBnplPage() {
           </ul>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

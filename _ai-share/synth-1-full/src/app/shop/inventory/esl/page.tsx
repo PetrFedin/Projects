@@ -12,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { RegistryPageShell } from '@/components/design-system';
 import {
   Wifi,
   WifiOff,
@@ -58,15 +57,15 @@ export default function ESLManagementPage() {
     if (status === 'critical')
       return <BatteryLow className="h-4 w-4 animate-pulse text-rose-500" />;
     if (status === 'low') return <BatteryLow className="h-4 w-4 text-amber-500" />;
-    if (status === 'normal') return <BatteryMedium className="text-text-muted h-4 w-4" />;
+    if (status === 'normal') return <BatteryMedium className="h-4 w-4 text-slate-400" />;
     return <Battery className="h-4 w-4 text-emerald-500" />;
   };
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-10">
+    <div className="container mx-auto space-y-10 px-4 py-4">
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
-          <div className="text-accent-primary flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
+          <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-indigo-600">
             <Tag className="h-3.5 w-3.5" />
             Retail Operations
           </div>
@@ -87,7 +86,7 @@ export default function ESLManagementPage() {
           <Button
             onClick={syncAll}
             disabled={!!updating}
-            className="bg-accent-primary shadow-accent-primary/15 h-11 gap-2 rounded-xl px-6 text-[10px] font-black uppercase text-white shadow-lg"
+            className="h-11 gap-2 rounded-xl bg-indigo-600 px-6 text-[10px] font-black uppercase text-white shadow-lg shadow-indigo-200"
           >
             <RefreshCcw className={cn('h-4 w-4', updating === 'all' && 'animate-spin')} />
             Sync All Devices
@@ -114,14 +113,11 @@ export default function ESLManagementPage() {
           { label: 'Pending Updates', value: '0', status: 'All Synced' },
         ].map((stat, i) => (
           <Card key={i} className="rounded-3xl border-none bg-white p-4 shadow-sm">
-            <p className="text-text-muted mb-1 text-[10px] font-black uppercase tracking-widest">
+            <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
               {stat.label}
             </p>
             <p className={cn('mb-2 text-base font-black', stat.color)}>{stat.value}</p>
-            <Badge
-              variant="outline"
-              className="border-border-subtle text-[8px] font-black uppercase"
-            >
+            <Badge variant="outline" className="border-slate-100 text-[8px] font-black uppercase">
               {stat.status}
             </Badge>
           </Card>
@@ -129,8 +125,8 @@ export default function ESLManagementPage() {
       </div>
 
       {/* Main Management Table */}
-      <Card className="overflow-hidden rounded-xl border-none bg-white shadow-md shadow-xl">
-        <CardHeader className="border-border-subtle flex flex-row items-center justify-between border-b p-4">
+      <Card className="overflow-hidden rounded-xl border-none bg-white shadow-xl shadow-slate-200/50">
+        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 p-4">
           <div>
             <CardTitle className="text-base font-black uppercase tracking-tight">
               Label Registry
@@ -139,10 +135,10 @@ export default function ESLManagementPage() {
           </div>
           <div className="flex gap-3">
             <div className="relative">
-              <Search className="text-text-muted absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
               <Input
-                placeholder="Search SKU or ID..."
-                className="border-border-subtle h-10 w-64 rounded-xl pl-9 text-xs"
+                placeholder="Поиск SKU или ID…"
+                className="h-10 w-64 rounded-xl border-slate-100 pl-9 text-xs"
               />
             </div>
             <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl">
@@ -152,7 +148,7 @@ export default function ESLManagementPage() {
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-bg-surface2/80">
+            <TableHeader className="bg-slate-50/50">
               <TableRow>
                 <TableHead className="pl-8 text-[10px] font-black uppercase">
                   Device / SKU
@@ -168,21 +164,18 @@ export default function ESLManagementPage() {
             </TableHeader>
             <TableBody>
               {devices.map((device) => (
-                <TableRow
-                  key={device.id}
-                  className="hover:bg-bg-surface2/80 group transition-colors"
-                >
+                <TableRow key={device.id} className="group transition-colors hover:bg-slate-50/50">
                   <TableCell className="py-6 pl-8">
                     <div className="space-y-1">
-                      <p className="text-text-primary text-xs font-black">{device.id}</p>
-                      <code className="text-accent-primary bg-accent-primary/10 rounded px-1.5 py-0.5 font-mono text-[10px]">
+                      <p className="text-xs font-black text-slate-900">{device.id}</p>
+                      <code className="rounded bg-indigo-50 px-1.5 py-0.5 font-mono text-[10px] text-indigo-600">
                         {device.sku}
                       </code>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <p className="text-text-primary text-sm font-black">{device.productName}</p>
-                    <p className="text-text-muted text-[10px] font-bold uppercase tracking-tight">
+                    <p className="text-sm font-black text-slate-900">{device.productName}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-tight text-slate-400">
                       {device.location}
                     </p>
                   </TableCell>
@@ -193,12 +186,12 @@ export default function ESLManagementPage() {
                           <span className="text-sm font-black text-rose-500">
                             ${device.promoPrice}
                           </span>
-                          <span className="text-text-muted text-xs font-bold line-through">
+                          <span className="text-xs font-bold text-slate-300 line-through">
                             ${device.currentPrice}
                           </span>
                         </>
                       ) : (
-                        <span className="text-text-primary text-sm font-black">
+                        <span className="text-sm font-black text-slate-900">
                           ${device.currentPrice}
                         </span>
                       )}
@@ -209,10 +202,10 @@ export default function ESLManagementPage() {
                       <div
                         className={cn(
                           'h-2 w-2 rounded-full',
-                          device.status === 'online' ? 'bg-emerald-500' : 'bg-border-default'
+                          device.status === 'online' ? 'bg-emerald-500' : 'bg-slate-300'
                         )}
                       />
-                      <span className="text-text-secondary text-[10px] font-black uppercase">
+                      <span className="text-[10px] font-black uppercase text-slate-600">
                         {device.status}
                       </span>
                     </div>
@@ -221,7 +214,7 @@ export default function ESLManagementPage() {
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-1.5">
                         {getBatteryIcon(device.batteryLevel)}
-                        <span className="text-text-secondary text-[10px] font-bold">
+                        <span className="text-[10px] font-bold text-slate-500">
                           {device.batteryLevel}%
                         </span>
                       </div>
@@ -229,10 +222,10 @@ export default function ESLManagementPage() {
                         <Wifi
                           className={cn(
                             'h-4 w-4',
-                            device.signalStrength > 50 ? 'text-accent-primary' : 'text-text-muted'
+                            device.signalStrength > 50 ? 'text-indigo-400' : 'text-slate-300'
                           )}
                         />
-                        <span className="text-text-secondary text-[10px] font-bold">
+                        <span className="text-[10px] font-bold text-slate-500">
                           {device.signalStrength}%
                         </span>
                       </div>
@@ -242,7 +235,7 @@ export default function ESLManagementPage() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="text-text-muted hover:text-accent-primary rounded-xl"
+                      className="rounded-xl text-slate-300 hover:text-indigo-600"
                     >
                       <ArrowRight className="h-4 w-4" />
                     </Button>
@@ -256,13 +249,13 @@ export default function ESLManagementPage() {
 
       {/* Info Section */}
       <div className="grid gap-3 md:grid-cols-2">
-        <Card className="bg-text-primary group relative overflow-hidden rounded-xl border-none p-4 text-white shadow-md shadow-xl">
+        <Card className="group relative overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl shadow-slate-200/50">
           <div className="absolute -bottom-10 -right-10 opacity-10 transition-transform group-hover:scale-110">
-            <Zap className="text-accent-primary h-40 w-40" />
+            <Zap className="h-40 w-40 text-indigo-400" />
           </div>
           <div className="relative z-10 mb-6 flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10">
-              <Smartphone className="text-accent-primary h-5 w-5" />
+              <Smartphone className="h-5 w-5 text-indigo-400" />
             </div>
             <h3 className="text-sm font-black uppercase italic tracking-tight">
               Storefront Automation
@@ -273,15 +266,15 @@ export default function ESLManagementPage() {
             акцию в Brand OS. При сканировании QR-кода на ценнике клиент попадает в **Digital
             Product Passport** с историей вещи.
           </p>
-          <Button className="bg-accent-primary relative z-10 h-10 rounded-xl border-none px-6 text-[10px] font-black uppercase text-white">
+          <Button className="relative z-10 h-10 rounded-xl border-none bg-indigo-600 px-6 text-[10px] font-black uppercase text-white">
             View Automation Logs
           </Button>
         </Card>
 
-        <Card className="border-border-subtle space-y-6 rounded-xl border border-none bg-white p-4 shadow-md shadow-xl">
+        <Card className="space-y-6 rounded-xl border border-none border-slate-50 bg-white p-4 shadow-xl shadow-slate-200/50">
           <div className="flex items-center gap-3">
             <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-            <h3 className="text-text-primary text-sm font-black uppercase tracking-tight">
+            <h3 className="text-sm font-black uppercase tracking-tight text-slate-900">
               Sync Status
             </h3>
           </div>
@@ -293,13 +286,13 @@ export default function ESLManagementPage() {
                 status: 'Online (Showroom A)',
                 color: 'text-emerald-500',
               },
-              { label: 'Firmware Update', status: 'v2.4.1 (Stable)', color: 'text-text-muted' },
+              { label: 'Firmware Update', status: 'v2.4.1 (Stable)', color: 'text-slate-400' },
             ].map((item, i) => (
               <div
                 key={i}
-                className="border-border-subtle flex items-center justify-between border-b py-2 last:border-0"
+                className="flex items-center justify-between border-b border-slate-50 py-2 last:border-0"
               >
-                <span className="text-text-muted text-[10px] font-black uppercase">
+                <span className="text-[10px] font-black uppercase text-slate-400">
                   {item.label}
                 </span>
                 <span className={cn('text-[10px] font-black uppercase', item.color)}>
@@ -310,6 +303,6 @@ export default function ESLManagementPage() {
           </div>
         </Card>
       </div>
-    </RegistryPageShell>
+    </div>
   );
 }

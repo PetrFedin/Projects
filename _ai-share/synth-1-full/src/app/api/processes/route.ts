@@ -1,13 +1,15 @@
 /**
  * API процессов LIVE.
- * TODO: заменить на БД (Postgres, SQLite). Сейчас — чтение из определений.
+ * Определения: встроенные в код + переопределения/кастом из `.data/workflow-store.json`
+ * (см. `process-workflow-store.ts`). Отключение: `WORKFLOW_STORE_DISABLED=1`.
  */
 import { NextResponse } from 'next/server';
-import {
-  getAllLiveProcessIds,
-  getLiveProcessDefinition,
-} from '@/lib/live-process/process-definitions';
+import { readJsonBody } from '@/lib/http/read-json-body';
+import { mergeAllProcessDefinitionsForApi, upsertDefinition } from '@/lib/server/process-workflow-store';
 import { PROCESS_TEMPLATES } from '@/lib/live-process/process-templates';
+import type { LiveProcessDefinition } from '@/lib/live-process/types';
+
+export const runtime = 'nodejs';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -19,9 +21,7 @@ export async function GET(request: Request) {
       return NextResponse.json(templates);
     }
 
-    const ids = getAllLiveProcessIds();
-    const processes = ids.map((id) => getLiveProcessDefinition(id)).filter(Boolean);
-
+    const processes = mergeAllProcessDefinitionsForApi();
     return NextResponse.json(processes);
   } catch (e) {
     console.error('GET /api/processes:', e);
@@ -30,26 +30,25 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  /**
-   * Создание кастомного процесса.
-   * TODO: сохранять в БД, возвращать id.
-   */
   try {
-    const body = await request.json();
-    const { name, description, contextKey, stages } = body;
+    const { name, description, contextKey, stages } = await readJsonBody<{
+      name?: string;
+      description?: string;
+      contextKey?: string;
+      stages?: unknown;
+    }>(request);
 
-    // Временная реализация: возвращаем как "созданный"
     const id = `custom-${Date.now()}`;
-    const process = {
+    const process: LiveProcessDefinition = {
       id,
       name: name ?? 'Новый процесс',
       description: description ?? '',
-      contextKey: contextKey ?? null,
-      stages: stages ?? [],
+      contextKey: contextKey || undefined,
+      stages: Array.isArray(stages) ? (stages as LiveProcessDefinition['stages']) : [],
       meta: { isTemplate: false },
     };
 
-    // TODO: await db.processes.create(process);
+    upsertDefinition(process);
     return NextResponse.json(process, { status: 201 });
   } catch (e) {
     console.error('POST /api/processes:', e);

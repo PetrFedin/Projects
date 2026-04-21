@@ -9,7 +9,7 @@ export function loadAppointments(): ShowroomAppointmentV1[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw
-      ? JSON.parse(raw)
+      ? (JSON.parse(raw) as ShowroomAppointmentV1[])
       : [
           {
             id: 'apt-1',

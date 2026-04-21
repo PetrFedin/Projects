@@ -26,7 +26,7 @@ import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { tid } from '@/lib/ui/test-ids';
 import { motion } from 'framer-motion';
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 // --- Mock Data ---
 
@@ -116,9 +116,10 @@ export default function CareerPage() {
   );
 
   return (
-    <RegistryPageShell
+    <CabinetPageContent
+      maxWidth="full"
       data-testid={tid.page('shop-career')}
-      className="flex min-h-0 max-w-none flex-col bg-transparent !p-0"
+      className="flex min-h-0 flex-col bg-transparent !p-0"
     >
       {!isClient ? (
         <div className="text-text-secondary p-4 text-sm">Загрузка карьерного центра…</div>
@@ -215,7 +216,7 @@ export default function CareerPage() {
               </div>
             </div>
 
-            <TabsContent value="talents" className="space-y-6 outline-none">
+            <TabsContent value="talents" className={cabinetSurface.cabinetProfileTabPanel}>
               <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
                 {TALENTS.map((talent) => (
                   <motion.div
@@ -300,7 +301,7 @@ export default function CareerPage() {
               </div>
             </TabsContent>
 
-            <TabsContent value="jobs" className="space-y-6 outline-none">
+            <TabsContent value="jobs" className={cabinetSurface.cabinetProfileTabPanel}>
               <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
                 {JOBS.map((job) => (
                   <Card
@@ -359,7 +360,7 @@ export default function CareerPage() {
               </div>
             </TabsContent>
 
-            <TabsContent value="contracts" className="outline-none">
+            <TabsContent value="contracts" className={cabinetSurface.cabinetProfileTabPanel}>
               <div className="mx-auto max-w-4xl space-y-4 py-12 text-center">
                 <div className="relative inline-block">
                   <div className="bg-accent-primary/10 absolute -inset-4 animate-pulse rounded-full blur-2xl" />
@@ -435,6 +436,6 @@ export default function CareerPage() {
           </div>
         </div>
       )}
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

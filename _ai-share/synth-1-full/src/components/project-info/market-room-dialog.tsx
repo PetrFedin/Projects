@@ -40,7 +40,7 @@ const techStackData = [
     api: '➕ BI-интеграция (Power BI, GDS)',
   },
   { level: 'Чаты / коммуникация', self: '✅ Telegram Bot API, email-интеграция', api: '—' },
-  { level: 'Платежи и контракты', self: '➕ Stripe / ЮKassa / DocuSign', api: '✅ внешние SDK' },
+  { level: 'Платежи и контракты', self: '➕ ЮKassa / СБП / банк + Stripe при экспорте; ЭП Контур/СБИС/Госключ', api: '✅ внешние SDK' },
   { level: 'AI-рекомендации брендов', self: '✅ простая ML-модель на embeddings', api: '—' },
   { level: 'ERP/CRM связь', self: '➕ CSV / API-коннектор', api: '✅ SAP / 1C / Odoo' },
 ];
@@ -263,11 +263,12 @@ export function MarketRoomDialog({ isOpen, onOpenChange }: MarketRoomDialogProps
                       или API.
                     </li>
                     <li>
-                      <strong>Подключение платёжных шлюзов:</strong> Stripe, Yandex Pay, CryptoBot —
-                      на этапе Pro.
+                      <strong>Подключение платёжных шлюзов:</strong> ЮKassa, СБП, эквайринг банка,
+                      CryptoBot; при экспорте — Stripe и др. — на этапе Pro.
                     </li>
                     <li>
-                      <strong>Docflow:</strong> e-signature через DocuSign или локальные аналоги.
+                      <strong>Документооборот:</strong> электронная подпись и ЭДО (Контур, СБИС,
+                      Госключ; соответствие 63-ФЗ).
                     </li>
                     <li>
                       <strong>Безопасность:</strong> шифрование пользовательских данных, доступ по

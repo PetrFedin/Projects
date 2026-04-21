@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,7 +13,6 @@ import { getOrderRulesForPartner } from '@/lib/b2b/order-rules';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { B2BIntegrationStatusWidget } from '@/components/b2b/B2BIntegrationStatusWidget';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 
 const MOV_DEFAULT = 150_000; // минимальная сумма заказа (мок)
 
@@ -26,12 +26,18 @@ export default function B2BCollectionTermsPage() {
   useEffect(() => {
     fetch('/api/b2b/integrations/price-lists')
       .then((res) => (res.ok ? res.json() : []))
-      .then((data) => setPriceLists(Array.isArray(data) ? data : []))
+      .then((data: unknown) =>
+        setPriceLists(
+          Array.isArray(data)
+            ? (data as { slug: string; name: string; currency?: string }[])
+            : []
+        )
+      )
       .catch(() => {});
   }, []);
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="NuOrder / JOOR: дедлайны заказа, MOQ по стилю, минимальная сумма заказа (MOV)." />
 
       <Card className="mb-6">
@@ -143,6 +149,6 @@ export default function B2BCollectionTermsPage() {
           [ROUTES.shop.b2bDeliveryCalendar, ROUTES.shop.b2bCreateOrder].includes(l.href as string)
         )}
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

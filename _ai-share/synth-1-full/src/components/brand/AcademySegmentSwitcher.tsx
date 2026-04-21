@@ -1,22 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import { GraduationCap, BookOpen } from 'lucide-react';
+import { GraduationCap, BookOpen, Building2 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { cn } from '@/lib/utils';
 
 interface AcademySegmentSwitcherProps {
-  /** Текущий сегмент: brand | platform */
-  active: 'brand' | 'platform';
+  /** Текущий сегмент: brand | platform | organization */
+  active: 'brand' | 'platform' | 'organization';
   className?: string;
 }
 
-/** Два сегмента: Академия бренда и Академия платформы. B2B-стиль. */
+/** Сегменты: академия бренда, витрина платформы, студия партнёрской организации. */
 export function AcademySegmentSwitcher({ active, className }: AcademySegmentSwitcherProps) {
   return (
     <div
       className={cn(
-        'bg-bg-surface2 border-border-default inline-flex rounded-lg border p-0.5',
+        'bg-bg-surface2 border-border-default inline-flex max-w-full flex-wrap rounded-lg border p-0.5',
         className
       )}
     >
@@ -43,6 +43,18 @@ export function AcademySegmentSwitcher({ active, className }: AcademySegmentSwit
       >
         <BookOpen className="h-3.5 w-3.5" />
         Платформа
+      </Link>
+      <Link
+        href={ROUTES.brand.academyOrganizationStudio}
+        className={cn(
+          'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors',
+          active === 'organization'
+            ? 'text-text-primary border-border-default border bg-white shadow-sm'
+            : 'text-text-secondary hover:text-text-primary hover:bg-white/60'
+        )}
+      >
+        <Building2 className="h-3.5 w-3.5" />
+        Организация
       </Link>
     </div>
   );

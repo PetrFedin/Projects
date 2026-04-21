@@ -41,9 +41,9 @@ export async function nuorderServerGetCompanyCodes(
       headers: { Authorization: auth, Accept: 'application/json' },
     });
     if (!res.ok) return MOCK_COMPANIES;
-    const data = await res.json();
-    if (Array.isArray(data)) return data as NuOrderCompanyCode[];
-    if (data?.codes) return data.codes as NuOrderCompanyCode[];
+    const data = (await res.json()) as NuOrderCompanyCode[] | { codes?: NuOrderCompanyCode[] };
+    if (Array.isArray(data)) return data;
+    if (data && 'codes' in data && data.codes) return data.codes;
     return MOCK_COMPANIES;
   } catch {
     return MOCK_COMPANIES;

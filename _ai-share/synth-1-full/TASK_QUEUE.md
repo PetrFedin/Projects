@@ -29,7 +29,7 @@
 - [completed] **Blockchain IP Ledger (P3)**: Реестр авторских прав на дизайны.
 - [completed] **RFID Warehouse Gates (P3)**: Программная поддержка мгновенной приемки паллет.
 - [completed] **Mass Customization Hub (P3)**: Платформа для индивидуального пошива.
-- [completed] **Circular Economy Hub (P3)**: Площадка для перепродажи остатков сырья.
+- [completed] **Circular Economy Hub (P3)**: Учёт возвратов и перераспределение остатков сырья.
 - [completed] **IoT Machine Monitoring (P3)**: Сбор данных о КПД каждой швейной машины.
 - [completed] **AI Content Factory (P3)**: Автоматическая генерация маркетингового контента.
 - [completed] **Staff Gamification (P3)**: Дашборд бонусов и наград продавцов.

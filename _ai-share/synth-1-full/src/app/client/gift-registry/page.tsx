@@ -3,11 +3,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import Link from 'next/link';
 import { Gift, Plus, Share2 } from 'lucide-react';
 import type { GiftRegistry, GiftRegistryItem } from '@/lib/gift-registry';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
+import Link from 'next/link';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 
 const MOCK_REGISTRY: GiftRegistry = {
   id: 'gr1',
@@ -64,19 +65,9 @@ export default function ClientGiftRegistryPage() {
 
   return (
     <div className="container max-w-3xl space-y-6 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Link href={ROUTES.client.home}>
-          <Button variant="ghost" size="icon">
-            ←
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Список подарков</h1>
-          <p className="text-text-secondary text-sm">
-            Свадьба, ДР, юбилей — отметьте «куплено» по всей сети. РФ.
-          </p>
-        </div>
-      </div>
+      <ClientCabinetSectionHeader
+        description="Свадьба, ДР, юбилей — отметьте «куплено» по всей сети. РФ."
+      />
 
       <Card className="border-amber-100">
         <CardHeader className="pb-2">

@@ -32,7 +32,7 @@ export function ContentIdeasGenerator() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ brandName, theme, channel, count: 5 }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as { ideas?: Idea[] };
       if (data.ideas?.length) setIdeas(data.ideas);
     } catch (e) {
       console.error('Content ideas failed', e);
@@ -58,7 +58,7 @@ export function ContentIdeasGenerator() {
             <Input
               value={brandName}
               onChange={(e) => setBrandName(e.target.value)}
-              placeholder="Syntha"
+              placeholder="Название бренда"
             />
           </div>
           <div>

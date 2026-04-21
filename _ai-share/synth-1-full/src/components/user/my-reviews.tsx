@@ -55,7 +55,7 @@ export default function MyReviews() {
     const stored = localStorage.getItem(`user_reviews_${user.uid}`);
     if (stored) {
       try {
-        const parsed = JSON.parse(stored).map((item: any) => ({
+        const parsed = (JSON.parse(stored) as Review[]).map((item) => ({
           ...item,
           createdAt: new Date(item.createdAt),
         }));

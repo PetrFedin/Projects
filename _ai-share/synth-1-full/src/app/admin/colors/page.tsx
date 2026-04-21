@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -46,7 +47,7 @@ export default function ColorsPage() {
     const fetchColors = async () => {
       try {
         const response = await fetch('/data/colors.json');
-        const data: Color[] = await response.json();
+        const data = (await response.json()) as Color[];
         setPalette(data);
       } catch (error) {
         console.error('Failed to fetch colors', error);
@@ -77,7 +78,7 @@ export default function ColorsPage() {
   };
 
   return (
-    <div className="space-y-4">
+    <CabinetPageContent maxWidth="full" className="space-y-4">
       <header className="flex items-center justify-between">
         <div>
           <h1 className="font-headline text-base font-bold">Справочник цветов</h1>
@@ -201,6 +202,6 @@ export default function ColorsPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

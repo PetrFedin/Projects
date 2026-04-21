@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { VisualMerchandiser } from '@/components/brand/VisualMerchandiser';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
@@ -7,11 +8,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { LayoutGrid, Package, ShoppingBag, Target } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function MerchandisingPage() {
   return (
-    <RegistryPageShell className="max-w-5xl space-y-4 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 pb-16">
       <SectionInfoCard
         title="Digital Rack Planner"
         description="Визуальный мерчандайзинг для шоурума и байеров. Связь с Products (каталог), B2B (линии) и Showroom."
@@ -45,6 +45,6 @@ export default function MerchandisingPage() {
         }
       />
       <VisualMerchandiser />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

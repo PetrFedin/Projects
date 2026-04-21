@@ -2,15 +2,17 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Shirt, Trash2, ShoppingCart, Sparkles } from 'lucide-react';
+import { Shirt, Trash2, ShoppingCart, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ROUTES } from '@/lib/routes';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { useUIState } from '@/providers/ui-state';
 import allProductsData from '@/lib/products';
 import type { Product, SavedCartOutfit } from '@/lib/types';
 import { lineRefMatchesCartItem, subtotalForItems } from '@/lib/cart-outfit-utils';
 import { useMemo } from 'react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 function outfitPreviewUrls(outfit: SavedCartOutfit, catalog: Product[], max = 5): string[] {
   const urls: string[] = [];
@@ -56,23 +58,10 @@ export default function ClientMyOutfitsPage() {
   }, [savedCartOutfits, catalog, cart]);
 
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.client.home}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <Shirt className="text-accent-primary h-6 w-6" />
-            Мои образы
-          </h1>
-          <p className="text-text-secondary mt-0.5 text-sm">
-            Сохранённые наборы из корзины: сумма в каталоге и в текущей корзине.
-          </p>
-        </div>
-      </div>
+    <CabinetPageContent maxWidth="3xl">
+      <ClientCabinetSectionHeader
+        description="Сохранённые наборы из корзины: сумма в каталоге и в текущей корзине."
+      />
 
       {rows.length === 0 ? (
         <Card className="border-border-subtle">
@@ -162,6 +151,6 @@ export default function ClientMyOutfitsPage() {
           ))}
         </ul>
       )}
-    </div>
+    </CabinetPageContent>
   );
 }

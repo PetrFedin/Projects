@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,12 +17,13 @@ import { PartnerDemoExportBar } from '@/components/brand/partner-demo-export-bar
 import { ROUTES } from '@/lib/routes';
 import { PARTNER_MARKETPLACE_ISSUES } from '@/lib/platform/partner-demo-data';
 import { ArrowLeft, Store, Boxes } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 export default function MarketplaceCardHealthPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Здоровье карточек на МП"
         leadPlain="Ошибки атрибутов по регионам. Тип: PartnerMarketplaceIssue."
@@ -115,6 +117,6 @@ export default function MarketplaceCardHealthPage() {
           </Card>
         ))}
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

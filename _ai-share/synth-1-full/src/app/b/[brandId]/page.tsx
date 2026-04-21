@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { useBrandProfile } from './hooks/useBrandProfile';
@@ -7,7 +8,6 @@ import { useProductFilters } from './hooks/use-product-filters';
 import { measurementLabels, brandMediaData, capsuleCollections } from './_fixtures/mock-data';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { RegistryPageShell } from '@/components/design-system';
 
 // Components
 import { BrandHeader } from './_components/BrandHeader';
@@ -186,7 +186,7 @@ export default function BrandProfilePage({
 
   if (loading && !isPreview) {
     return (
-      <RegistryPageShell className="max-w-6xl py-4 md:py-4">
+      <CabinetPageContent maxWidth="6xl" className="py-4 md:py-4">
         <header className="mb-12 flex flex-col items-center gap-3 md:flex-row">
           <Skeleton className="h-32 w-32 rounded-full" />
           <div className="space-y-3">
@@ -205,7 +205,7 @@ export default function BrandProfilePage({
             ))}
           </div>
         </div>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 

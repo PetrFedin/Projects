@@ -13,6 +13,7 @@ import type { Order } from '@/lib/types';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 
 const statusConfig = {
   pending: { label: 'В ожидании', color: 'bg-yellow-100 text-yellow-800' },
@@ -57,16 +58,19 @@ export default function OrdersPage() {
 
   if (loading) {
     return (
-      <div className="w-full py-6">
-        <div className="text-center">Загрузка...</div>
+      <div className="w-full space-y-6 py-2">
+        <ClientCabinetSectionHeader />
+        <div className="text-center text-text-secondary text-sm">Загрузка…</div>
       </div>
     );
   }
 
   return (
     <div className="w-full py-2">
-      <div className="w-full">
-        <h1 className="mb-8 font-headline text-base font-bold">Мои заказы</h1>
+      <div className="w-full space-y-6">
+        <ClientCabinetSectionHeader
+          meta={orders.length > 0 ? `${orders.length} заказов` : undefined}
+        />
 
         {orders.length === 0 ? (
           <Card>

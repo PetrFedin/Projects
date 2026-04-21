@@ -43,8 +43,6 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageShell } from '@/components/design-system';
 import { Progress } from '@/components/ui/progress';
 import { motion } from 'framer-motion';
 
@@ -54,7 +52,6 @@ import { useRouter } from 'next/navigation';
 import { fmtMoney } from '@/lib/format';
 import { EXCHANGE_RATES } from '@/lib/constants';
 import Link from 'next/link';
-import { ROUTES } from '@/lib/routes';
 import { useUIState } from '@/providers/ui-state';
 import { getDefaultUpcomingDeadlines } from '@/lib/data/calendar-events';
 import { fastApiService } from '@/lib/fastapi-service';
@@ -136,7 +133,7 @@ export function BrandDashboardWidgets() {
       color: 'text-blue-600',
       bg: 'bg-blue-50',
       section: 'Финансы',
-      href: ROUTES.brand.finance,
+      href: '/brand/finance',
       desc: 'Gross Merchandise Volume: Общий объем продаж всех товаров.',
     },
     {
@@ -148,7 +145,7 @@ export function BrandDashboardWidgets() {
       color: 'text-emerald-600',
       bg: 'bg-emerald-50',
       section: 'Операции',
-      href: ROUTES.brand.inventory,
+      href: '/brand/inventory',
       desc: 'Процент укомплектованных и отгруженных заказов.',
     },
     {
@@ -157,10 +154,10 @@ export function BrandDashboardWidgets() {
       value: getKpi('total_orders', 842),
       change: '+15',
       icon: Package,
-      color: 'text-accent-primary',
-      bg: 'bg-accent-primary/10',
+      color: 'text-indigo-600',
+      bg: 'bg-indigo-50',
       section: 'Склад',
-      href: ROUTES.brand.b2bOrders,
+      href: '/brand/b2b-orders',
       desc: 'Количество заказов в обработке на текущий момент.',
     },
     {
@@ -169,10 +166,10 @@ export function BrandDashboardWidgets() {
       value: getKpi('active_showrooms', 128),
       change: '+5',
       icon: Users,
-      color: 'text-accent-primary',
-      bg: 'bg-accent-primary/10',
+      color: 'text-indigo-600',
+      bg: 'bg-indigo-50',
       section: 'Сеть',
-      href: ROUTES.brand.retailers,
+      href: '/brand/retailers',
       desc: 'Активные оптовые покупатели текущего сезона.',
     },
   ];
@@ -199,7 +196,7 @@ export function BrandDashboardWidgets() {
       currency: 'USD',
       maximumFractionDigits: 0,
     });
-    const eur = (scaledVal / EXCHANGE_RATES.EUR).toLocaleString('en-US', {
+    const eur = (scaledVal / EXCHANGE_RATES.EUR).toLocaleString('ru-RU', {
       style: 'currency',
       currency: 'EUR',
       maximumFractionDigits: 0,
@@ -215,53 +212,46 @@ export function BrandDashboardWidgets() {
   ];
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-4 pb-16 duration-700 animate-in fade-in">
+    <div className="container mx-auto max-w-5xl space-y-4 px-4 py-4 pb-24 duration-700 animate-in fade-in">
       {/* Breadcrumb Navigation - Refined for premium visibility */}
-      <div className="text-text-muted flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+      <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
         <Link
-          href={ROUTES.brand.home}
-          className="hover:text-accent-primary flex items-center gap-1.5 transition-colors"
+          href="/brand"
+          className="flex items-center gap-1.5 transition-colors hover:text-indigo-600"
         >
           <Building className="h-3 w-3" />
           ORGANIZATION
         </Link>
         <ChevronRight className="h-2 w-2 opacity-50" />
-        <span className="text-text-muted">OPERATIONAL INTELLIGENCE</span>
+        <span className="text-slate-300">OPERATIONAL INTELLIGENCE</span>
       </div>
 
       {/* Control Panel: Strategic Tools - Pattern: [Title] [Filters] [Actions] */}
-      <div className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-4 md:flex-row md:items-center">
+      <div className="flex flex-col items-start justify-between gap-3 border-b border-slate-100 pb-4 md:flex-row md:items-center">
         <div className="space-y-1">
           <div className="flex items-center gap-2.5">
-            <h1 className="text-text-primary text-sm font-bold uppercase leading-none tracking-tighter">
+            <h1 className="text-sm font-bold uppercase leading-none tracking-tighter text-slate-900">
               Strategic Pulse
             </h1>
             <Badge
               variant="outline"
-              className="bg-accent-primary/10 text-accent-primary border-accent-primary/20 h-4 gap-1 px-1.5 text-[7px] font-bold uppercase tracking-widest shadow-sm transition-all"
+              className="h-4 gap-1 border-indigo-100 bg-indigo-50 px-1.5 text-[7px] font-bold uppercase tracking-widest text-indigo-600 shadow-sm transition-all"
             >
-              <span className="bg-accent-primary h-1.5 w-1.5 animate-pulse rounded-full" /> LIVE
-              STREAM
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-indigo-500" /> LIVE STREAM
             </Badge>
           </div>
-          <p className="text-text-muted text-[10px] font-bold uppercase leading-none tracking-widest">
-            Context: <span className="text-accent-primary">Omni-Channel Aggregation</span>
+          <p className="text-[10px] font-bold uppercase leading-none tracking-widest text-slate-400">
+            Context: <span className="text-indigo-600">Omni-Channel Aggregation</span>
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           {/* Strategic Filters - Compact Row Layout */}
-          {/* cabinetSurface v1 */}
-          <div
-            className={cn(
-              cabinetSurface.groupTabList,
-              'h-auto min-h-10 flex-wrap items-center gap-1'
-            )}
-          >
+          <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-slate-100 p-1 shadow-inner">
             <select
               value={filterChannel}
               onChange={(e) => setFilterChannel(e.target.value as any)}
-              className="text-text-secondary hover:bg-bg-surface2 h-7 cursor-pointer rounded-lg border-none bg-white px-3 text-[9px] font-bold uppercase shadow-sm outline-none transition-all"
+              className="h-7 cursor-pointer rounded-lg border-none bg-white px-3 text-[9px] font-bold uppercase text-slate-600 shadow-sm outline-none transition-all hover:bg-slate-50"
             >
               <option value="all">Global Channels</option>
               <option value="b2b">B2B Wholesale</option>
@@ -271,7 +261,7 @@ export function BrandDashboardWidgets() {
             <select
               value={filterRegion}
               onChange={(e) => setFilterRegion(e.target.value as any)}
-              className="text-text-secondary hover:bg-bg-surface2 h-7 cursor-pointer rounded-lg border-none bg-white px-3 text-[9px] font-bold uppercase shadow-sm outline-none transition-all"
+              className="h-7 cursor-pointer rounded-lg border-none bg-white px-3 text-[9px] font-bold uppercase text-slate-600 shadow-sm outline-none transition-all hover:bg-slate-50"
             >
               <option value="all">Geo Clusters</option>
               <option value="ru">Russian Fed.</option>
@@ -281,7 +271,7 @@ export function BrandDashboardWidgets() {
             <select
               value={filterCollection}
               onChange={(e) => setFilterCollection(e.target.value as any)}
-              className="text-text-secondary hover:bg-bg-surface2 h-7 cursor-pointer rounded-lg border-none bg-white px-3 text-[9px] font-bold uppercase shadow-sm outline-none transition-all"
+              className="h-7 cursor-pointer rounded-lg border-none bg-white px-3 text-[9px] font-bold uppercase text-slate-600 shadow-sm outline-none transition-all hover:bg-slate-50"
             >
               <option value="all">Lifecycle Cycle</option>
               <optgroup label="FW26">
@@ -293,7 +283,7 @@ export function BrandDashboardWidgets() {
             </select>
           </div>
 
-          <div className="bg-border-subtle mx-0.5 h-5 w-px" />
+          <div className="mx-0.5 h-5 w-px bg-slate-200" />
 
           <div className="flex items-center gap-1.5">
             <Button
@@ -301,19 +291,21 @@ export function BrandDashboardWidgets() {
               size="sm"
               onClick={() => setShowEquivalents(!showEquivalents)}
               className={cn(
-                'border-border-default h-7 rounded-lg px-3 text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all',
+                'h-7 rounded-lg border-slate-200 px-3 text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all',
                 showEquivalents
-                  ? 'bg-text-primary border-text-primary text-white'
-                  : 'text-text-secondary hover:text-text-primary bg-white'
+                  ? 'border-slate-900 bg-slate-900 text-white'
+                  : 'bg-white text-slate-500 hover:text-slate-900'
               )}
             >
-              {showEquivalents ? 'CURRENCY: RUB' : 'UNIFY: RUB / $/€'}
+              {showEquivalents
+                ? 'Валюта: RUB'
+                : 'Единая валюта + эквиваленты $/€'}
             </Button>
             <Button
               variant="default"
               size="sm"
-              onClick={() => router.push(ROUTES.brand.b2bOrders)}
-              className="bg-accent-primary shadow-accent-primary/10 hover:bg-accent-primary border-accent-primary h-7 rounded-lg border px-4 text-[8px] font-bold uppercase tracking-widest text-white shadow-lg transition-all"
+              onClick={() => router.push('/brand/b2b-orders')}
+              className="h-7 rounded-lg border border-indigo-500 bg-indigo-600 px-4 text-[8px] font-bold uppercase tracking-widest text-white shadow-lg shadow-indigo-100 transition-all hover:bg-indigo-700"
             >
               <Plus className="mr-1.5 h-3.5 w-3.5" /> Initialize Order
             </Button>
@@ -325,12 +317,12 @@ export function BrandDashboardWidgets() {
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
-            <div className="bg-accent-primary h-3 w-[2px] rounded-full" />
-            <h2 className="text-text-muted text-[10px] font-bold uppercase tracking-[0.2em]">
+            <div className="h-3 w-[2px] rounded-full bg-indigo-500" />
+            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
               Core Performance Entities
             </h2>
           </div>
-          <span className="text-text-muted text-[8px] font-bold uppercase tracking-widest">
+          <span className="text-[8px] font-bold uppercase tracking-widest text-slate-300">
             Real-time Attribution
           </span>
         </div>
@@ -340,7 +332,7 @@ export function BrandDashboardWidgets() {
               <UITooltip key={i}>
                 <UITooltipTrigger asChild>
                   <Card
-                    className="border-border-subtle hover:border-accent-primary/20 group relative cursor-pointer overflow-hidden rounded-xl border bg-white p-3.5 shadow-sm transition-all duration-300 hover:shadow-md"
+                    className="group relative cursor-pointer overflow-hidden rounded-xl border border-slate-100 bg-white p-3.5 shadow-sm transition-all duration-300 hover:border-indigo-100 hover:shadow-md"
                     onClick={(e) => {
                       if (
                         (e.target as HTMLElement).closest('button') ||
@@ -354,7 +346,7 @@ export function BrandDashboardWidgets() {
                       <div className="flex flex-col gap-1.5">
                         <Badge
                           variant="outline"
-                          className="bg-bg-surface2/80 text-text-muted border-border-subtle group-hover:bg-accent-primary/10 group-hover:text-accent-primary group-hover:border-accent-primary/20 h-3.5 w-fit px-1.5 text-[7px] font-bold uppercase leading-none tracking-[0.15em] transition-colors"
+                          className="h-3.5 w-fit border-slate-100 bg-slate-50/50 px-1.5 text-[7px] font-bold uppercase leading-none tracking-[0.15em] text-slate-400 transition-colors group-hover:border-indigo-100 group-hover:bg-indigo-50 group-hover:text-indigo-600"
                         >
                           {stat.section}
                         </Badge>
@@ -376,7 +368,7 @@ export function BrandDashboardWidgets() {
                           asChild
                           variant="ghost"
                           size="icon"
-                          className="bg-bg-surface2 text-text-muted hover:bg-text-primary/90 h-6 w-6 rounded-md opacity-0 shadow-sm transition-all hover:text-white group-hover:opacity-100"
+                          className="h-6 w-6 rounded-md bg-slate-50 text-slate-300 opacity-0 shadow-sm transition-all hover:bg-slate-900 hover:text-white group-hover:opacity-100"
                         >
                           <Link href={stat.href}>
                             <ArrowUpRight className="h-3.5 w-3.5" />
@@ -384,11 +376,11 @@ export function BrandDashboardWidgets() {
                         </Button>
                       </div>
                     </div>
-                    <p className="text-text-muted mb-0.5 text-[9px] font-bold uppercase tracking-[0.15em]">
+                    <p className="mb-0.5 text-[9px] font-bold uppercase tracking-[0.15em] text-slate-400">
                       {stat.label}
                     </p>
                     <div className="flex flex-col justify-between">
-                      <p className="text-text-primary text-sm font-bold uppercase leading-none tracking-tighter">
+                      <p className="text-sm font-bold uppercase leading-none tracking-tighter text-slate-900">
                         {typeof stat.value === 'number'
                           ? stat.type === 'retailers'
                             ? formatVal(stat.value, 'unit')
@@ -396,7 +388,7 @@ export function BrandDashboardWidgets() {
                           : stat.value}
                       </p>
                       {showEquivalents && typeof stat.value === 'number' && (
-                        <p className="text-text-muted border-border-subtle mt-2 border-t pt-1.5 text-[8px] font-bold uppercase tabular-nums tracking-widest opacity-70">
+                        <p className="mt-2 border-t border-slate-50 pt-1.5 text-[8px] font-bold uppercase tabular-nums tracking-widest text-slate-400 opacity-70">
                           ≈ {getEquiv(stat.value)}
                         </p>
                       )}
@@ -405,7 +397,7 @@ export function BrandDashboardWidgets() {
                 </UITooltipTrigger>
                 <TooltipContent
                   side="bottom"
-                  className="bg-text-primary z-[100] max-w-[180px] rounded-lg border-none p-2.5 text-[9px] font-bold uppercase tracking-widest text-white shadow-2xl"
+                  className="z-[100] max-w-[180px] rounded-lg border-none bg-slate-900 p-2.5 text-[9px] font-bold uppercase tracking-widest text-white shadow-2xl"
                 >
                   <p className="leading-relaxed opacity-80">{stat.desc}</p>
                 </TooltipContent>
@@ -420,11 +412,11 @@ export function BrandDashboardWidgets() {
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
             <div className="h-3 w-[2px] rounded-full bg-emerald-500" />
-            <h2 className="text-text-muted text-[10px] font-bold uppercase tracking-[0.2em]">
+            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
               Channel Efficiency Matrix
             </h2>
           </div>
-          <span className="text-text-muted text-[8px] font-bold uppercase tracking-widest">
+          <span className="text-[8px] font-bold uppercase tracking-widest text-slate-300">
             Network Performance
           </span>
         </div>
@@ -433,9 +425,9 @@ export function BrandDashboardWidgets() {
             {
               label: 'B2B Wholesale',
               val: 288000000,
-              color: 'text-accent-primary',
-              bg: 'bg-accent-primary/10',
-              border: 'border-accent-primary/20',
+              color: 'text-indigo-600',
+              bg: 'bg-indigo-50',
+              border: 'border-indigo-100',
               icon: Briefcase,
               change: '+18%',
               sub: 'Active Orders: 842',
@@ -443,9 +435,9 @@ export function BrandDashboardWidgets() {
             {
               label: 'B2C Omni-Channel',
               val: 84200000,
-              color: 'text-accent-primary',
-              bg: 'bg-accent-primary/10',
-              border: 'border-accent-primary/20',
+              color: 'text-pink-600',
+              bg: 'bg-pink-50',
+              border: 'border-pink-100',
               icon: Rocket,
               change: '+24%',
               sub: 'Direct Fulfillment',
@@ -453,9 +445,9 @@ export function BrandDashboardWidgets() {
             {
               label: 'Marketroom Node',
               val: 12800000,
-              color: 'text-accent-primary',
-              bg: 'bg-accent-primary/10',
-              border: 'border-accent-primary/20',
+              color: 'text-purple-600',
+              bg: 'bg-purple-50',
+              border: 'border-purple-100',
               icon: Monitor,
               change: '+42%',
               sub: '240 Integrated SKUs',
@@ -473,7 +465,7 @@ export function BrandDashboardWidgets() {
           ].map((c, i) => (
             <Card
               key={i}
-              className="border-border-subtle group relative overflow-hidden rounded-xl border bg-white p-3.5 shadow-sm transition-all hover:border-emerald-100"
+              className="group relative overflow-hidden rounded-xl border border-slate-100 bg-white p-3.5 shadow-sm transition-all hover:border-emerald-100"
             >
               <div className="mb-3 flex items-start justify-between">
                 <div
@@ -488,19 +480,19 @@ export function BrandDashboardWidgets() {
                 </div>
                 <Badge
                   variant="outline"
-                  className="bg-bg-surface2 text-text-muted border-border-subtle h-4 rounded-md px-1.5 text-[8px] font-bold tracking-widest"
+                  className="h-4 rounded-md border-slate-100 bg-slate-50 px-1.5 text-[8px] font-bold tracking-widest text-slate-400"
                 >
                   {c.change}
                 </Badge>
               </div>
               <div className="space-y-0.5">
-                <p className="text-text-muted text-[9px] font-bold uppercase leading-none tracking-widest">
+                <p className="text-[9px] font-bold uppercase leading-none tracking-widest text-slate-400">
                   {c.label}
                 </p>
-                <p className="text-text-primary text-sm font-bold uppercase leading-none tracking-tighter">
+                <p className="text-sm font-bold uppercase leading-none tracking-tighter text-slate-900">
                   {formatVal(c.val, 'short')}
                 </p>
-                <p className="text-text-muted mt-1.5 text-[8px] font-bold uppercase leading-none tracking-[0.15em] opacity-60">
+                <p className="mt-1.5 text-[8px] font-bold uppercase leading-none tracking-[0.15em] text-slate-400 opacity-60">
                   {c.sub}
                 </p>
               </div>
@@ -514,7 +506,7 @@ export function BrandDashboardWidgets() {
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
             <div className="h-3 w-[2px] rounded-full bg-rose-500" />
-            <h2 className="text-text-muted text-[10px] font-bold uppercase tracking-[0.2em]">
+            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
               Critical System Anomalies
             </h2>
           </div>
@@ -527,14 +519,14 @@ export function BrandDashboardWidgets() {
         </div>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
           {/* Manufacturing Alert */}
-          <Card className="border-border-subtle group relative flex flex-col justify-between overflow-hidden rounded-xl border-y border-l-4 border-r border-l-rose-600 bg-white shadow-sm transition-all hover:border-rose-200">
+          <Card className="group relative flex flex-col justify-between overflow-hidden rounded-xl border-y border-l-4 border-r border-slate-100 border-l-rose-600 bg-white shadow-sm transition-all hover:border-rose-200">
             <div className="space-y-3 p-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2">
                   <div className="rounded-lg border border-rose-100 bg-rose-50 p-1.5 text-rose-600 shadow-inner transition-transform group-hover:scale-105">
                     <Factory className="h-3.5 w-3.5" />
                   </div>
-                  <span className="text-text-muted text-[9px] font-bold uppercase leading-none tracking-widest">
+                  <span className="text-[9px] font-bold uppercase leading-none tracking-widest text-slate-400">
                     Manufacturing Node
                   </span>
                 </div>
@@ -542,18 +534,18 @@ export function BrandDashboardWidgets() {
                   asChild
                   variant="ghost"
                   size="icon"
-                  className="bg-bg-surface2 text-text-muted h-6 w-6 rounded-md shadow-sm transition-all hover:bg-rose-600 hover:text-white"
+                  className="h-6 w-6 rounded-md bg-slate-50 text-slate-300 shadow-sm transition-all hover:bg-rose-600 hover:text-white"
                 >
-                  <Link href={ROUTES.brand.production}>
+                  <Link href="/brand/production">
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
               </div>
               <div className="space-y-1">
-                <h3 className="text-text-primary text-sm font-bold uppercase leading-none tracking-tight">
+                <h3 className="text-sm font-bold uppercase leading-none tracking-tight text-slate-900">
                   Factory Latency Detected
                 </h3>
-                <p className="text-text-secondary text-[10px] font-medium uppercase italic leading-snug tracking-tight opacity-80">
+                <p className="text-[10px] font-medium uppercase italic leading-snug tracking-tight text-slate-500 opacity-80">
                   Risk: Delivery slippage for key accounts (TSUM).
                 </p>
               </div>
@@ -561,22 +553,22 @@ export function BrandDashboardWidgets() {
                 <Badge className="h-4.5 rounded-md border border-rose-100 bg-rose-50 px-1.5 text-[8px] font-bold uppercase tracking-tight text-rose-600 shadow-sm">
                   -5 Days Drift
                 </Badge>
-                <div className="bg-border-subtle h-0.5 w-0.5 rounded-full" />
+                <div className="h-0.5 w-0.5 rounded-full bg-slate-200" />
                 <span className="animate-pulse text-[9px] font-bold uppercase tracking-widest text-rose-500">
                   Severity: High
                 </span>
               </div>
             </div>
-            <div className="bg-bg-surface2 border-border-subtle flex gap-1.5 border-t px-4 py-2.5">
+            <div className="flex gap-1.5 border-t border-slate-100 bg-slate-50 px-4 py-2.5">
               <Button
                 variant="outline"
-                className="border-border-default text-text-secondary h-6 flex-1 rounded-lg bg-white text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all hover:border-rose-200 hover:text-rose-600"
+                className="h-6 flex-1 rounded-lg border-slate-200 bg-white text-[8px] font-bold uppercase tracking-widest text-slate-500 shadow-sm transition-all hover:border-rose-200 hover:text-rose-600"
               >
                 Escalate
               </Button>
               <Button
                 variant="outline"
-                className="border-border-default text-text-secondary hover:text-text-primary h-6 flex-1 rounded-lg bg-white text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all"
+                className="h-6 flex-1 rounded-lg border-slate-200 bg-white text-[8px] font-bold uppercase tracking-widest text-slate-500 shadow-sm transition-all hover:text-slate-900"
               >
                 Calibration
               </Button>
@@ -584,14 +576,14 @@ export function BrandDashboardWidgets() {
           </Card>
 
           {/* Inventory Alert */}
-          <Card className="border-border-subtle group relative flex flex-col justify-between overflow-hidden rounded-xl border-y border-l-4 border-r border-l-amber-500 bg-white shadow-sm transition-all hover:border-amber-200">
+          <Card className="group relative flex flex-col justify-between overflow-hidden rounded-xl border-y border-l-4 border-r border-slate-100 border-l-amber-500 bg-white shadow-sm transition-all hover:border-amber-200">
             <div className="space-y-3 p-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2">
                   <div className="rounded-lg border border-amber-100 bg-amber-50 p-1.5 text-amber-600 shadow-inner transition-transform group-hover:scale-105">
                     <Package className="h-3.5 w-3.5" />
                   </div>
-                  <span className="text-text-muted text-[9px] font-bold uppercase leading-none tracking-widest">
+                  <span className="text-[9px] font-bold uppercase leading-none tracking-widest text-slate-400">
                     Inventory Cluster
                   </span>
                 </div>
@@ -599,18 +591,18 @@ export function BrandDashboardWidgets() {
                   asChild
                   variant="ghost"
                   size="icon"
-                  className="bg-bg-surface2 text-text-muted h-6 w-6 rounded-md shadow-sm transition-all hover:bg-amber-600 hover:text-white"
+                  className="h-6 w-6 rounded-md bg-slate-50 text-slate-300 shadow-sm transition-all hover:bg-amber-600 hover:text-white"
                 >
-                  <Link href={ROUTES.brand.inventory}>
+                  <Link href="/brand/inventory">
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
               </div>
               <div className="space-y-1">
-                <h3 className="text-text-primary text-sm font-bold uppercase leading-none tracking-tight">
+                <h3 className="text-sm font-bold uppercase leading-none tracking-tight text-slate-900">
                   Liquidity Risk: Low Velocity
                 </h3>
-                <p className="text-text-secondary text-[10px] font-medium uppercase italic leading-snug tracking-tight opacity-80">
+                <p className="text-[10px] font-medium uppercase italic leading-snug tracking-tight text-slate-500 opacity-80">
                   SKU #4821: 12% Sell-thru @ 60 days. Stagnation alert.
                 </p>
               </div>
@@ -618,22 +610,22 @@ export function BrandDashboardWidgets() {
                 <Badge className="h-4.5 rounded-md border border-amber-100 bg-amber-50 px-1.5 text-[8px] font-bold uppercase tracking-tight text-amber-600 shadow-sm">
                   82% Risk Index
                 </Badge>
-                <div className="bg-border-subtle h-0.5 w-0.5 rounded-full" />
+                <div className="h-0.5 w-0.5 rounded-full bg-slate-200" />
                 <span className="text-[9px] font-bold uppercase tracking-widest text-amber-500">
                   Optimization: Required
                 </span>
               </div>
             </div>
-            <div className="bg-bg-surface2 border-border-subtle flex gap-1.5 border-t px-4 py-2.5">
+            <div className="flex gap-1.5 border-t border-slate-100 bg-slate-50 px-4 py-2.5">
               <Button
                 variant="outline"
-                className="border-border-default text-text-secondary h-6 flex-1 rounded-lg bg-white text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all hover:border-amber-200 hover:text-amber-600"
+                className="h-6 flex-1 rounded-lg border-slate-200 bg-white text-[8px] font-bold uppercase tracking-widest text-slate-500 shadow-sm transition-all hover:border-amber-200 hover:text-amber-600"
               >
                 Markdown
               </Button>
               <Button
                 variant="outline"
-                className="border-border-default text-text-secondary hover:text-accent-primary flex h-6 flex-1 items-center justify-center gap-1 rounded-lg bg-white text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all"
+                className="flex h-6 flex-1 items-center justify-center gap-1 rounded-lg border-slate-200 bg-white text-[8px] font-bold uppercase tracking-widest text-slate-500 shadow-sm transition-all hover:text-indigo-600"
               >
                 <Sparkles className="h-2.5 w-2.5" /> AI Strategy
               </Button>
@@ -641,14 +633,14 @@ export function BrandDashboardWidgets() {
           </Card>
 
           {/* Cash Flow Alert */}
-          <Card className="border-l-text-primary border-border-subtle hover:border-border-default group relative flex flex-col justify-between overflow-hidden rounded-xl border-y border-l-4 border-r bg-white shadow-sm transition-all">
+          <Card className="group relative flex flex-col justify-between overflow-hidden rounded-xl border-y border-l-4 border-r border-slate-100 border-l-slate-900 bg-white shadow-sm transition-all hover:border-slate-200">
             <div className="space-y-3 p-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="bg-bg-surface2 text-text-primary border-border-default rounded-lg border p-1.5 shadow-inner transition-transform group-hover:scale-105">
+                  <div className="rounded-lg border border-slate-200 bg-slate-100 p-1.5 text-slate-900 shadow-inner transition-transform group-hover:scale-105">
                     <DollarSign className="h-3.5 w-3.5" />
                   </div>
-                  <span className="text-text-muted text-[9px] font-bold uppercase leading-none tracking-widest">
+                  <span className="text-[9px] font-bold uppercase leading-none tracking-widest text-slate-400">
                     Financial Pipeline
                   </span>
                 </div>
@@ -656,41 +648,41 @@ export function BrandDashboardWidgets() {
                   asChild
                   variant="ghost"
                   size="icon"
-                  className="bg-bg-surface2 text-text-muted hover:bg-text-primary/90 h-6 w-6 rounded-md shadow-sm transition-all hover:text-white"
+                  className="h-6 w-6 rounded-md bg-slate-50 text-slate-300 shadow-sm transition-all hover:bg-slate-900 hover:text-white"
                 >
-                  <Link href={ROUTES.brand.finance}>
+                  <Link href="/brand/finance">
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
               </div>
               <div className="space-y-1">
-                <h3 className="text-text-primary text-sm font-bold uppercase leading-none tracking-tight">
+                <h3 className="text-sm font-bold uppercase leading-none tracking-tight text-slate-900">
                   Capital Flux: Liquidity Gap
                 </h3>
-                <p className="text-text-secondary text-[10px] font-medium uppercase italic leading-snug tracking-tight opacity-80">
+                <p className="text-[10px] font-medium uppercase italic leading-snug tracking-tight text-slate-500 opacity-80">
                   Predictive shortfall detected in T+18 days cycle.
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <Badge className="bg-text-primary h-4.5 rounded-md border-none px-1.5 text-[8px] font-bold uppercase tracking-tight text-white shadow-sm">
+                <Badge className="h-4.5 rounded-md border-none bg-slate-900 px-1.5 text-[8px] font-bold uppercase tracking-tight text-white shadow-sm">
                   18 Day Window
                 </Badge>
-                <div className="bg-border-subtle h-0.5 w-0.5 rounded-full" />
-                <span className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
+                <div className="h-0.5 w-0.5 rounded-full bg-slate-200" />
+                <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
                   P&L Status: Warning
                 </span>
               </div>
             </div>
-            <div className="bg-bg-surface2 border-border-subtle flex gap-1.5 border-t px-4 py-2.5">
+            <div className="flex gap-1.5 border-t border-slate-100 bg-slate-50 px-4 py-2.5">
               <Button
                 variant="outline"
-                className="border-border-default text-text-secondary hover:text-accent-primary h-6 flex-1 rounded-lg bg-white text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all"
+                className="h-6 flex-1 rounded-lg border-slate-200 bg-white text-[8px] font-bold uppercase tracking-widest text-slate-500 shadow-sm transition-all hover:text-indigo-600"
               >
                 Factoring
               </Button>
               <Button
                 variant="outline"
-                className="border-border-default text-text-secondary hover:text-text-primary h-6 flex-1 rounded-lg bg-white text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all"
+                className="h-6 flex-1 rounded-lg border-slate-200 bg-white text-[8px] font-bold uppercase tracking-widest text-slate-500 shadow-sm transition-all hover:text-slate-900"
               >
                 Ledger Details
               </Button>
@@ -702,21 +694,21 @@ export function BrandDashboardWidgets() {
       {/* SECTION 4: Операционная эффективность */}
       <div className="space-y-3">
         <div className="flex items-center gap-1.5 px-1">
-          <div className="bg-accent-primary h-1 w-5 rounded-full" />
-          <h2 className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+          <div className="h-1 w-5 rounded-full bg-indigo-600" />
+          <h2 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
             Операционная эффективность
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
           {/* Воронка Pipeline */}
-          <Card className="border-border-subtle hover:border-accent-primary/20 group flex cursor-pointer flex-col justify-between overflow-hidden rounded-xl border bg-white shadow-sm transition-all hover:shadow-md">
-            <CardHeader className="border-border-subtle bg-bg-surface2/30 border-b p-3.5">
+          <Card className="group flex cursor-pointer flex-col justify-between overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100 hover:shadow-md">
+            <CardHeader className="border-b border-slate-50 bg-slate-50/30 p-3.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="bg-accent-primary/10 text-accent-primary border-accent-primary/20 rounded-lg border p-1.5 shadow-inner transition-transform group-hover:scale-105">
+                  <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-1.5 text-indigo-600 shadow-inner transition-transform group-hover:scale-105">
                     <Waves className="h-3.5 w-3.5" />
                   </div>
-                  <CardTitle className="text-text-secondary group-hover:text-accent-primary text-[10px] font-bold uppercase tracking-widest transition-colors">
+                  <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-slate-500 transition-colors group-hover:text-indigo-600">
                     Воронка выручки
                   </CardTitle>
                 </div>
@@ -724,9 +716,9 @@ export function BrandDashboardWidgets() {
                   asChild
                   variant="ghost"
                   size="icon"
-                  className="border-border-default text-text-muted hover:bg-text-primary/90 h-6 w-6 rounded-md border bg-white shadow-sm transition-all hover:text-white"
+                  className="h-6 w-6 rounded-md border border-slate-200 bg-white text-slate-400 shadow-sm transition-all hover:bg-slate-900 hover:text-white"
                 >
-                  <Link href={ROUTES.brand.analytics360}>
+                  <Link href="/brand/analytics-360">
                     <ArrowUpRight className="h-3 w-3" />
                   </Link>
                 </Button>
@@ -740,7 +732,7 @@ export function BrandDashboardWidgets() {
                     label: 'На согласовании',
                     value: 110900000,
                     progress: 60,
-                    color: 'bg-accent-primary',
+                    color: 'bg-indigo-500',
                   },
                   {
                     label: 'Подтверждено',
@@ -751,12 +743,12 @@ export function BrandDashboardWidgets() {
                 ].map((item, i) => (
                   <div key={i} className="space-y-1">
                     <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest">
-                      <span className="text-text-muted">{item.label}</span>
-                      <span className="text-text-primary leading-none">
+                      <span className="text-slate-400">{item.label}</span>
+                      <span className="leading-none text-slate-900">
                         {formatVal(item.value, 'short')}
                       </span>
                     </div>
-                    <div className="bg-bg-surface2 h-1 w-full overflow-hidden rounded-full shadow-inner">
+                    <div className="h-1 w-full overflow-hidden rounded-full bg-slate-100 shadow-inner">
                       <div
                         className={cn('h-full transition-all duration-1000', item.color)}
                         style={{ width: `${item.progress}%` }}
@@ -769,19 +761,19 @@ export function BrandDashboardWidgets() {
           </Card>
 
           {/* Strategic Planner — ближайшие дедлайны */}
-          <Link href={ROUTES.brand.calendar}>
-            <Card className="border-border-subtle hover:border-accent-primary/20 group flex cursor-pointer flex-col justify-between overflow-hidden rounded-xl border bg-white shadow-sm transition-all hover:shadow-md">
-              <CardHeader className="border-border-subtle bg-bg-surface2/30 border-b p-3.5">
+          <Link href="/brand/calendar">
+            <Card className="group flex cursor-pointer flex-col justify-between overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100 hover:shadow-md">
+              <CardHeader className="border-b border-slate-50 bg-slate-50/30 p-3.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
-                    <div className="bg-accent-primary/10 text-accent-primary border-accent-primary/20 rounded-lg border p-1.5 shadow-inner transition-transform group-hover:scale-105">
+                    <div className="rounded-lg border border-indigo-100 bg-indigo-50 p-1.5 text-indigo-600 shadow-inner transition-transform group-hover:scale-105">
                       <Calendar className="h-3.5 w-3.5" />
                     </div>
-                    <CardTitle className="text-text-secondary group-hover:text-accent-primary text-[10px] font-bold uppercase tracking-widest transition-colors">
+                    <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-slate-500 transition-colors group-hover:text-indigo-600">
                       Strategic Planner
                     </CardTitle>
                   </div>
-                  <ArrowUpRight className="text-text-muted group-hover:text-accent-primary h-3.5 w-3.5" />
+                  <ArrowUpRight className="h-3.5 w-3.5 text-slate-400 group-hover:text-indigo-600" />
                 </div>
               </CardHeader>
               <CardContent className="space-y-1.5 p-3.5">
@@ -792,14 +784,14 @@ export function BrandDashboardWidgets() {
                       'group/item flex items-center justify-between rounded-lg border p-2 transition-all',
                       d.isOverdue
                         ? 'border-rose-100 bg-rose-50/50'
-                        : 'bg-bg-surface2/80 border-border-subtle hover:bg-accent-primary/10'
+                        : 'border-slate-100 bg-slate-50/50 hover:bg-indigo-50/30'
                     )}
                   >
                     <div className="min-w-0">
-                      <p className="text-text-primary group-hover/item:text-accent-primary truncate text-[9px] font-bold uppercase leading-none tracking-tight transition-colors">
+                      <p className="truncate text-[9px] font-bold uppercase leading-none tracking-tight text-slate-900 transition-colors group-hover/item:text-indigo-600">
                         {d.t}
                       </p>
-                      <p className="text-text-muted mt-0.5 text-[8px] font-bold uppercase tracking-widest">
+                      <p className="mt-0.5 text-[8px] font-bold uppercase tracking-widest text-slate-400">
                         {[d.role, d.partner].filter(Boolean).join(' · ') || '—'}
                       </p>
                     </div>
@@ -821,7 +813,7 @@ export function BrandDashboardWidgets() {
                               ? 'text-rose-600'
                               : d.daysUntil <= 3
                                 ? 'text-amber-600'
-                                : 'text-text-muted'
+                                : 'text-slate-400'
                           )}
                         >
                           {d.isOverdue
@@ -841,7 +833,7 @@ export function BrandDashboardWidgets() {
           </Link>
 
           {/* Showroom Live Activity */}
-          <Card className="border-accent-primary/20 shadow-accent-primary/10 bg-accent-primary group relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-xl border text-white shadow-xl transition-all hover:shadow-2xl">
+          <Card className="group relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-xl border border-indigo-100 bg-indigo-600 text-white shadow-xl shadow-indigo-100/30 transition-all hover:shadow-2xl">
             <div className="absolute right-0 top-0 p-3 opacity-10 transition-transform group-hover:scale-110">
               <Monitor className="h-12 w-12" />
             </div>
@@ -851,7 +843,7 @@ export function BrandDashboardWidgets() {
                   <div className="rounded-lg border border-white/20 bg-white/10 p-1.5 text-white shadow-lg backdrop-blur-sm transition-transform group-hover:scale-105">
                     <Monitor className="h-3.5 w-3.5" />
                   </div>
-                  <CardTitle className="text-accent-primary/30 text-[10px] font-bold uppercase leading-none tracking-widest">
+                  <CardTitle className="text-[10px] font-bold uppercase leading-none tracking-widest text-indigo-100">
                     Шоурум онлайн
                   </CardTitle>
                 </div>
@@ -861,13 +853,13 @@ export function BrandDashboardWidgets() {
             <CardContent className="relative z-10 space-y-4 p-4 pt-0">
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-0.5">
-                  <p className="text-accent-primary/40 text-[8px] font-bold uppercase leading-none tracking-widest">
+                  <p className="text-[8px] font-bold uppercase leading-none tracking-widest text-indigo-200">
                     Байеры онлайн
                   </p>
                   <p className="text-sm font-bold leading-none tracking-tighter text-white">12</p>
                 </div>
                 <div className="space-y-0.5 text-right">
-                  <p className="text-accent-primary/40 text-[8px] font-bold uppercase leading-none tracking-widest">
+                  <p className="text-[8px] font-bold uppercase leading-none tracking-widest text-indigo-200">
                     В корзине
                   </p>
                   <p className="text-sm font-bold uppercase leading-none tracking-tighter text-white">
@@ -876,7 +868,7 @@ export function BrandDashboardWidgets() {
                 </div>
               </div>
               <div className="border-t border-white/10 pt-3">
-                <Button className="text-accent-primary hover:bg-accent-primary/10 h-7 w-full rounded-lg bg-white text-[9px] font-bold uppercase tracking-widest shadow-lg transition-all">
+                <Button className="h-7 w-full rounded-lg bg-white text-[9px] font-bold uppercase tracking-widest text-indigo-600 shadow-lg transition-all hover:bg-indigo-50">
                   Управление
                 </Button>
               </div>
@@ -890,24 +882,24 @@ export function BrandDashboardWidgets() {
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
             <div className="h-3 w-[2px] rounded-full bg-emerald-500" />
-            <h2 className="text-text-muted text-[10px] font-bold uppercase tracking-[0.2em]">
+            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
               Production Node & Predictive AI
             </h2>
           </div>
-          <span className="text-text-muted text-[8px] font-bold uppercase tracking-widest">
+          <span className="text-[8px] font-bold uppercase tracking-widest text-slate-300">
             Forward Intelligence
           </span>
         </div>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
           {/* Factory Pulse Monitoring */}
-          <Card className="border-border-subtle hover:border-accent-primary/20 group flex flex-col justify-between overflow-hidden rounded-xl border bg-white shadow-sm transition-all">
-            <CardHeader className="border-border-subtle bg-bg-surface2/30 border-b p-3.5">
+          <Card className="group flex flex-col justify-between overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100">
+            <CardHeader className="border-b border-slate-50 bg-slate-50/30 p-3.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   <div className="rounded-lg border border-emerald-100 bg-emerald-50 p-1.5 text-emerald-600 shadow-inner transition-transform group-hover:scale-105">
                     <Factory className="h-3.5 w-3.5" />
                   </div>
-                  <CardTitle className="text-text-secondary group-hover:text-accent-primary text-[10px] font-bold uppercase tracking-widest transition-colors">
+                  <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-slate-500 transition-colors group-hover:text-indigo-600">
                     Manufacturing Pulse
                   </CardTitle>
                 </div>
@@ -915,9 +907,9 @@ export function BrandDashboardWidgets() {
                   asChild
                   variant="ghost"
                   size="icon"
-                  className="border-border-default text-text-muted hover:bg-text-primary/90 h-6 w-6 rounded-md border bg-white shadow-sm transition-all hover:text-white"
+                  className="h-6 w-6 rounded-md border border-slate-200 bg-white text-slate-400 shadow-sm transition-all hover:bg-slate-900 hover:text-white"
                 >
-                  <Link href={ROUTES.brand.production}>
+                  <Link href="/brand/production">
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
@@ -940,17 +932,17 @@ export function BrandDashboardWidgets() {
               ].map((f, i) => (
                 <div
                   key={i}
-                  className="bg-bg-surface2/80 border-border-subtle/50 hover:border-accent-primary/20 group/item space-y-1.5 rounded-xl border p-2.5 transition-all hover:bg-white"
+                  className="group/item space-y-1.5 rounded-xl border border-slate-100/50 bg-slate-50/50 p-2.5 transition-all hover:border-indigo-100 hover:bg-white"
                 >
                   <div className="flex items-start justify-between">
-                    <p className="text-text-primary group-hover/item:text-accent-primary text-[9px] font-bold uppercase leading-none tracking-tight transition-colors">
+                    <p className="text-[9px] font-bold uppercase leading-none tracking-tight text-slate-900 transition-colors group-hover/item:text-indigo-600">
                       {f.factory}
                     </p>
-                    <span className="text-text-muted text-[9px] font-bold tabular-nums leading-none tracking-widest">
+                    <span className="text-[9px] font-bold tabular-nums leading-none tracking-widest text-slate-400">
                       {f.progress}%
                     </span>
                   </div>
-                  <div className="bg-bg-surface2 h-1 w-full overflow-hidden rounded-full shadow-inner">
+                  <div className="h-1 w-full overflow-hidden rounded-full bg-slate-100 shadow-inner">
                     <div
                       className={cn('h-full transition-all duration-1000', f.color)}
                       style={{ width: `${f.progress}%` }}
@@ -962,14 +954,14 @@ export function BrandDashboardWidgets() {
           </Card>
 
           {/* Demand Forecast AI */}
-          <Card className="border-accent-primary/20 hover:border-accent-primary/30 group flex flex-col justify-between overflow-hidden rounded-xl border bg-white shadow-sm transition-all">
-            <CardHeader className="border-border-subtle bg-bg-surface2/30 border-b p-3.5">
+          <Card className="group flex flex-col justify-between overflow-hidden rounded-xl border border-indigo-100 bg-white shadow-sm transition-all hover:border-indigo-200">
+            <CardHeader className="border-b border-slate-50 bg-slate-50/30 p-3.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="bg-accent-primary border-accent-primary rounded-lg border p-1.5 text-white shadow-lg transition-transform group-hover:scale-105">
+                  <div className="rounded-lg border border-indigo-500 bg-indigo-600 p-1.5 text-white shadow-lg transition-transform group-hover:scale-105">
                     <Sparkles className="h-3.5 w-3.5" />
                   </div>
-                  <h3 className="text-text-secondary group-hover:text-accent-primary text-[10px] font-bold uppercase tracking-widest transition-colors">
+                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-500 transition-colors group-hover:text-indigo-600">
                     Neural Demand Forecast
                   </h3>
                 </div>
@@ -977,9 +969,9 @@ export function BrandDashboardWidgets() {
                   asChild
                   variant="ghost"
                   size="icon"
-                  className="border-border-default text-text-muted hover:bg-text-primary/90 h-6 w-6 rounded-md border bg-white shadow-sm transition-all hover:text-white"
+                  className="h-6 w-6 rounded-md border border-slate-200 bg-white text-slate-400 shadow-sm transition-all hover:bg-slate-900 hover:text-white"
                 >
-                  <Link href={ROUTES.brand.analytics360}>
+                  <Link href="/brand/analytics-360">
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
@@ -993,16 +985,16 @@ export function BrandDashboardWidgets() {
                       className={cn(
                         'w-full rounded-t-sm transition-all duration-500',
                         i === 5
-                          ? 'bg-accent-primary shadow-[0_0_8px_rgba(79,70,229,0.3)]'
-                          : 'bg-accent-primary/15'
+                          ? 'bg-indigo-600 shadow-[0_0_8px_rgba(79,70,229,0.3)]'
+                          : 'bg-indigo-100'
                       )}
                       style={{ height: `${h}%` }}
                     />
                   </div>
                 ))}
               </div>
-              <div className="bg-accent-primary/10 border-accent-primary/20 group-hover:bg-accent-primary/10 rounded-lg border p-2.5 transition-colors">
-                <p className="text-accent-primary text-[9px] font-bold uppercase italic leading-snug tracking-widest">
+              <div className="rounded-lg border border-indigo-100/50 bg-indigo-50/50 p-2.5 transition-colors group-hover:bg-indigo-50">
+                <p className="text-[9px] font-bold uppercase italic leading-snug tracking-widest text-indigo-700">
                   AI Synthesis: Demand peak projected in T+14 days.
                 </p>
               </div>
@@ -1010,14 +1002,14 @@ export function BrandDashboardWidgets() {
           </Card>
 
           {/* Global Distribution Summary */}
-          <Card className="border-text-primary shadow-md/20 bg-text-primary hover:bg-text-primary/90 group relative flex flex-col justify-between overflow-hidden rounded-xl border text-white shadow-xl transition-all">
+          <Card className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-slate-900 bg-slate-900 text-white shadow-xl shadow-slate-200/20 transition-all hover:bg-slate-800">
             <div className="absolute right-0 top-0 p-3 opacity-10 transition-transform group-hover:scale-110">
               <Rocket className="h-12 w-12" />
             </div>
             <CardHeader className="border-b border-white/5 bg-white/5 p-4">
               <div className="flex items-center justify-between">
                 <div className="relative z-10 flex items-center gap-2.5">
-                  <div className="bg-accent-primary border-accent-primary rounded-lg border p-1.5 text-white shadow-lg transition-transform group-hover:scale-105">
+                  <div className="rounded-lg border border-indigo-500 bg-indigo-600 p-1.5 text-white shadow-lg transition-transform group-hover:scale-105">
                     <Rocket className="h-3.5 w-3.5" />
                   </div>
                   <CardTitle className="text-[10px] font-bold uppercase leading-none tracking-widest text-white">
@@ -1028,7 +1020,7 @@ export function BrandDashboardWidgets() {
                   asChild
                   variant="ghost"
                   size="icon"
-                  className="hover:text-text-primary relative z-10 h-6 w-6 rounded-md bg-white/10 text-white shadow-sm transition-all hover:bg-white"
+                  className="relative z-10 h-6 w-6 rounded-md bg-white/10 text-white shadow-sm transition-all hover:bg-white hover:text-slate-900"
                 >
                   <Link href="/outlet">
                     <ArrowUpRight className="h-3.5 w-3.5" />
@@ -1081,6 +1073,6 @@ export function BrandDashboardWidgets() {
         widgetType={selectedWidget}
         period={period}
       />
-    </RegistryPageShell>
+    </div>
   );
 }

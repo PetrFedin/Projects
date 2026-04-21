@@ -128,7 +128,7 @@ import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 function parseComposition(composition: any): { material: string; percentage: number }[] {
   if (Array.isArray(composition)) {
-    return composition;
+    return composition as { material: string; percentage: number }[];
   }
   if (typeof composition === 'string') {
     const parts = composition.match(/(\\d+%)\\s*([^,]+)/g);
@@ -1439,10 +1439,14 @@ export default function ProductDisplayInfoPage() {
           fetch('/data/brand-display-data.json'),
         ]);
 
-        const productData = await productsRes.json();
+        const productData = (await productsRes.json()) as {
+          parameters: { items: any[] }[];
+        };
         setProductDisplayData(productData);
 
-        const brandData = await brandsRes.json();
+        const brandData = (await brandsRes.json()) as {
+          parameters: { items: any[] }[];
+        };
         setBrandDisplayData(brandData);
 
         const initialProductSettings: Record<string, Record<string, boolean>> = {

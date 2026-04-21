@@ -1,11 +1,11 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { RegistryPageShell } from '@/components/design-system';
 import {
   Trophy,
   Star,
@@ -73,7 +73,7 @@ export default function StaffGamificationPage() {
   }, []);
 
   return (
-    <RegistryPageShell className="max-w-6xl space-y-6 duration-700 animate-in fade-in">
+    <CabinetPageContent maxWidth="6xl" className="space-y-6 duration-700 animate-in fade-in">
       <header className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-4 md:flex-row md:items-center">
         <div className="space-y-1">
           <div className="text-text-muted flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider">
@@ -453,6 +453,6 @@ export default function StaffGamificationPage() {
           </Tabs>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

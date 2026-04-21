@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,11 +17,11 @@ import { PartnerDemoExportBar } from '@/components/brand/partner-demo-export-bar
 import { ROUTES } from '@/lib/routes';
 import { PARTNER_FACTORY_SAMPLES } from '@/lib/platform/partner-demo-data';
 import { ArrowLeft, Factory, ClipboardList } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function FactoryPortalPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Портал фабрики"
         leadPlain="Образцы, QC, расхождения с tech pack. Тип строк: PartnerFactorySample."
@@ -110,6 +111,6 @@ export default function FactoryPortalPage() {
           </Card>
         ))}
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

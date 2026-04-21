@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import Image from 'next/image';
 import {
@@ -31,7 +32,6 @@ import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 
@@ -73,7 +73,7 @@ export default function ClaimsPortalPage() {
   const activeClaim = claims.find((c) => c.id === selectedClaimId) || claims[0];
 
   return (
-    <RegistryPageShell className="flex h-[calc(100vh-64px)] max-w-none flex-col space-y-4 !px-4 !py-4">
+    <CabinetPageContent maxWidth="full" className="flex h-[calc(100vh-64px)] flex-col space-y-4 !px-4 !py-4">
       <ShopAnalyticsSegmentErpStrip className="shrink-0" />
 
       <div className="border-border-subtle flex shrink-0 flex-wrap items-center gap-2 border-b pb-3">
@@ -352,7 +352,7 @@ export default function ClaimsPortalPage() {
           </Card>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }
 

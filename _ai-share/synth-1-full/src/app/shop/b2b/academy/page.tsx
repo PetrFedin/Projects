@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -13,7 +14,6 @@ import {
 } from '@/lib/academy/brand-academy-data';
 import { COLLECTION_TRAINING_TYPE_LABELS } from '@/lib/academy/brand-academy-data';
 import { cn } from '@/lib/utils';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 /** Мок: коллекции, купленные магазином (в проде — из заказов/договоров) */
@@ -28,7 +28,7 @@ export default function ShopAcademyPage() {
   const knowledgeArticles = getBrandKnowledgeArticles('partners');
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader lead="Обучение по купленным коллекциям и база знаний бренда для партнёров." />
 
       <div className="bg-bg-surface2 flex gap-1 rounded-xl p-2">
@@ -63,7 +63,7 @@ export default function ShopAcademyPage() {
           <Card className="border-border-subtle rounded-xl border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Store className="text-accent-primary h-5 w-5" /> Обучение по коллекциям
+                <Store className="text-accent-primary h-5 w-5" /> Тренинги по коллекциям
               </CardTitle>
               <CardDescription>
                 Product knowledge, мерчандайзинг, скрипты продаж — по коллекциям, которые вы
@@ -144,6 +144,6 @@ export default function ShopAcademyPage() {
       <Button variant="outline" asChild>
         <Link href={ROUTES.shop.home}>← Кабинет магазина</Link>
       </Button>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

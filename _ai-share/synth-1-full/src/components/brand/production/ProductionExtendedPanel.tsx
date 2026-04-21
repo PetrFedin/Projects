@@ -47,7 +47,14 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
     if (!batchId) return;
     try {
       const data = await getCuttingMarkers(batchId);
-      setMarkers(Array.isArray(data) ? data : []);
+      setMarkers(
+        (Array.isArray(data) ? data : []) as {
+          id: number;
+          marker_number: string;
+          efficiency_percent: number;
+          status: string;
+        }[]
+      );
     } catch {
       setMarkers([]);
     }
@@ -56,7 +63,13 @@ export function ProductionExtendedPanel({ batchId, skuId }: ProductionExtendedPa
   const loadDefectTypes = async () => {
     try {
       const data = await getDefectTypes();
-      setDefectTypes(Array.isArray(data) ? data : []);
+      setDefectTypes(
+        (Array.isArray(data) ? data : []) as {
+          code: string;
+          name_ru: string;
+          category: string;
+        }[]
+      );
     } catch {
       setDefectTypes([]);
     }

@@ -25,6 +25,7 @@ export type SkuStageDetail = {
   delayReason?: string;
   costLines?: { label: string; amountRub: number; paid?: boolean }[];
   approvals?: { role: string; name: string; at: string }[];
+  /** Семантика `kind`: см. `workshop2-core1-linkage.ts` (например `po`, `floor_batch`). */
   outputs?: { kind: string; ref: string }[];
   /** Ссылки на файлы, пути, ID в DAM — текстом до появления загрузки. */
   attachmentsNotes?: string;

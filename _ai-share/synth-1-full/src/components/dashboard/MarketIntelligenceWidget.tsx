@@ -12,26 +12,26 @@ export function MarketIntelligenceWidget() {
 
   if (isLoading) {
     return (
-      <Card className="border-accent-primary/20 rounded-xl border-2 shadow-xl">
+      <Card className="rounded-xl border-2 border-indigo-100 shadow-xl">
         <CardContent className="flex items-center justify-center p-20">
-          <Loader2 className="text-accent-primary h-8 w-8 animate-spin" />
+          <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="border-accent-primary/20 rounded-xl border-2 shadow-xl">
-      <CardHeader className="border-border-subtle from-accent-primary/10 to-accent-primary/10 border-b bg-gradient-to-r">
+    <Card className="rounded-xl border-2 border-indigo-100 shadow-xl">
+      <CardHeader className="border-b border-slate-100 bg-gradient-to-r from-indigo-50 to-purple-50">
         <div className="flex items-center gap-3">
-          <div className="bg-accent-primary flex h-12 w-12 items-center justify-center rounded-xl">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600">
             <Award className="h-6 w-6 text-white" />
           </div>
           <div>
-            <CardTitle className="text-text-primary text-sm font-black uppercase tracking-tight">
+            <CardTitle className="text-sm font-black uppercase tracking-tight text-slate-900">
               Market Intelligence
             </CardTitle>
-            <p className="text-text-secondary text-[10px] font-medium">
+            <p className="text-[10px] font-medium text-slate-500">
               Powered by AI • Updated 5 min ago
             </p>
           </div>
@@ -41,7 +41,7 @@ export function MarketIntelligenceWidget() {
       <CardContent className="space-y-6 p-4">
         {/* Trending Items */}
         <div className="space-y-3">
-          <h4 className="text-text-muted flex items-center gap-2 text-xs font-black uppercase tracking-widest">
+          <h4 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-400">
             <TrendingUp className="h-4 w-4 text-emerald-600" />
             Trending in Your Category
           </h4>
@@ -50,7 +50,7 @@ export function MarketIntelligenceWidget() {
             {trendingItems.map((item, i) => (
               <div
                 key={i}
-                className="bg-bg-surface2 hover:bg-bg-surface2 flex cursor-pointer items-center justify-between rounded-xl p-3 transition-colors"
+                className="flex cursor-pointer items-center justify-between rounded-xl bg-slate-50 p-3 transition-colors hover:bg-slate-100"
               >
                 <div className="flex items-center gap-3">
                   <div
@@ -59,7 +59,7 @@ export function MarketIntelligenceWidget() {
                       item.trend > 0 ? 'animate-pulse bg-emerald-500' : 'bg-rose-500'
                     )}
                   />
-                  <span className="text-text-primary text-sm font-bold">{item.name}</span>
+                  <span className="text-sm font-bold text-slate-900">{item.name}</span>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -87,8 +87,8 @@ export function MarketIntelligenceWidget() {
         </div>
 
         {/* Price Position */}
-        <div className="border-border-subtle space-y-3 border-t pt-4">
-          <h4 className="text-text-muted flex items-center gap-2 text-xs font-black uppercase tracking-widest">
+        <div className="space-y-3 border-t border-slate-100 pt-4">
+          <h4 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-400">
             <Target className="h-4 w-4 text-blue-600" />
             Your Price Position
           </h4>
@@ -103,10 +103,10 @@ export function MarketIntelligenceWidget() {
               </div>
 
               <div className="text-right">
-                <p className="text-text-secondary text-sm font-black tabular-nums tracking-tight">
+                <p className="text-sm font-black tabular-nums tracking-tight text-slate-600">
                   {pricePosition.marketAvg.toLocaleString('ru-RU')} ₽
                 </p>
-                <p className="text-text-secondary text-[10px] font-bold uppercase">Market Avg</p>
+                <p className="text-[10px] font-bold uppercase text-slate-500">Market Avg</p>
               </div>
             </div>
 
@@ -122,36 +122,35 @@ export function MarketIntelligenceWidget() {
         </div>
 
         {/* Sell-Through Prediction */}
-        <div className="border-border-subtle space-y-3 border-t pt-4">
-          <h4 className="text-text-muted flex items-center gap-2 text-xs font-black uppercase tracking-widest">
-            <AlertCircle className="text-accent-primary h-4 w-4" />
-            Predicted Sell-Through Rate
+        <div className="space-y-3 border-t border-slate-100 pt-4">
+          <h4 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-400">
+            <AlertCircle className="h-4 w-4 text-purple-600" />
+            Прогноз распродажи
           </h4>
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-text-secondary text-sm font-bold">Your FW26 Collection</span>
-              <span className="text-accent-primary text-sm font-black tabular-nums">
+              <span className="text-sm font-bold text-slate-600">Ваша коллекция FW26</span>
+              <span className="text-sm font-black tabular-nums text-purple-600">
                 {predictedSellthrough.yours}%
               </span>
             </div>
 
             <Progress value={predictedSellthrough.yours} className="h-3" />
 
-            <div className="text-text-muted flex items-center justify-between text-[10px] font-bold uppercase">
-              <span>Industry Average: {predictedSellthrough.industry}%</span>
+            <div className="flex items-center justify-between text-[10px] font-bold uppercase text-slate-400">
+              <span>Среднее по отрасли: {predictedSellthrough.industry}%</span>
               <Badge className="border-none bg-emerald-100 text-[7px] text-emerald-700">
-                +{predictedSellthrough.yours - predictedSellthrough.industry}% Better
+                +{predictedSellthrough.yours - predictedSellthrough.industry}% лучше
               </Badge>
             </div>
           </div>
 
-          <div className="bg-accent-primary/10 border-accent-primary/20 rounded-lg border p-3">
-            <p className="text-text-primary text-[10px] font-medium italic">
-              💡 <strong>AI Insight:</strong> Based on pre-order velocity and market trends, your
-              collection is projected to outperform industry STR by{' '}
-              {predictedSellthrough.yours - predictedSellthrough.industry}%. Consider increasing
-              initial order quantities for top 3 SKU.
+          <div className="rounded-lg border border-purple-100 bg-purple-50 p-3">
+            <p className="text-[10px] font-medium italic text-purple-900">
+              💡 <strong>Инсайт AI:</strong> по скорости предзаказов и трендам коллекция может
+              обогнать отраслевой STR на {predictedSellthrough.yours - predictedSellthrough.industry}
+              %. Имеет смысл поднять стартовые объёмы по топ-3 SKU.
             </p>
           </div>
         </div>

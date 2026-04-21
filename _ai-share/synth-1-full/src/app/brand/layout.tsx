@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { AiVoiceAssistant } from '@/components/admin/voice-assistant';
 import { GlobalPulse } from '@/components/global/global-pulse';
 import { cn } from '@/lib/utils';
-import { BRAND_SIDEBAR_W, cabinetSidebarLayout } from '@/lib/ui/cabinet-surface';
+import { BRAND_SIDEBAR_W, cabinetHubLayout, cabinetSidebarLayout } from '@/lib/ui/cabinet-surface';
 import {
   brandNavGroups,
   allBrandNavLinks,
@@ -67,15 +67,44 @@ import { cabinetRoleLabelRu } from '@/lib/ui/cabinet-role-labels';
 export const navGroups = brandNavGroups;
 export const allNavLinks = allBrandNavLinks;
 
+/** Плоская ссылка навигации для сопоставления с pathname (хлебные крошки, «Недавние»). */
+type BrandFlatNavLink = {
+  href: string;
+  value: string;
+  label: string;
+  description?: string;
+};
+
+function isBrandFlatNavLink(link: unknown): link is BrandFlatNavLink {
+  if (link === null || typeof link !== 'object') return false;
+  const o = link as Record<string, unknown>;
+  return (
+    typeof o.href === 'string' &&
+    typeof o.value === 'string' &&
+    typeof o.label === 'string' &&
+    (o.description === undefined || typeof o.description === 'string')
+  );
+}
+
+const brandFlatNavLinks = allBrandNavLinks.filter(isBrandFlatNavLink);
+
+function isHubNavItem(item: unknown): item is { path: string; title: string } {
+  return (
+    item !== null &&
+    typeof item === 'object' &&
+    'path' in item &&
+    'title' in item &&
+    typeof (item as { path: unknown }).path === 'string' &&
+    typeof (item as { title: unknown }).title === 'string'
+  );
+}
+
 // Global Hub Navigation — только если API вернул валидный массив {path, title}
-function GlobalHubNav({ navigation }: { navigation: any[] }) {
+function GlobalHubNav({ navigation }: { navigation: unknown }) {
   const pathname = usePathname();
-  const valid =
-    Array.isArray(navigation) &&
-    navigation.every(
-      (item) => item && typeof item.path === 'string' && typeof item.title === 'string'
-    );
-  if (!valid || navigation.length === 0) return null;
+  if (!Array.isArray(navigation) || navigation.length === 0 || !navigation.every(isHubNavItem)) {
+    return null;
+  }
 
   return (
     <div className="border-border-subtle bg-bg-surface scrollbar-hide flex w-full flex-nowrap items-center gap-4 overflow-x-auto border-b px-4 py-2 sm:px-6 lg:px-8">
@@ -107,18 +136,16 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
 
   const getCurrentTab = () => {
     const safePathname = pathname || '/';
-    const linksWithHref = allNavLinks.filter(
-      (l): l is typeof l & { href: string } => typeof l?.href === 'string'
-    );
-    const sortedLinks = [...linksWithHref].sort(
+    const pathOnly = (h: string) => (h.split('?')[0] || '').replace(/\/$/, '') || '/';
+    const sortedLinks = [...brandFlatNavLinks].sort(
       (a, b) => (b.href?.length ?? 0) - (a.href?.length ?? 0)
     );
     const currentBase = sortedLinks.find((link) => {
       const normalizedPath = safePathname.replace(/\/$/, '') || '/';
-      const normalizedLink = (link.href ?? '').replace(/\/$/, '') || '/';
+      const normalizedLink = pathOnly(link.href ?? '');
 
-      if (normalizedLink === '/brand') {
-        return normalizedPath === '/brand';
+      if (normalizedLink === '/brand' || normalizedLink === '/brand/profile') {
+        return normalizedPath === '/brand' || normalizedPath === '/brand/profile';
       }
       return normalizedPath === normalizedLink || normalizedPath.startsWith(normalizedLink + '/');
     });
@@ -126,17 +153,24 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
   };
 
   const activeTab = getCurrentTab();
-  const activeLinkForRecent = allNavLinks.find((l) => l.value === activeTab);
+  const activeLinkForRecent = brandFlatNavLinks.find((l) => l.value === activeTab);
+  const hubPath = (pathname || '').replace(/\/$/, '');
   const hubBreadcrumbLeaf =
-    (pathname || '').replace(/\/$/, '') === '/brand'
-      ? 'Профиль'
-      : activeLinkForRecent?.label || 'Раздел';
+    hubPath === '/brand' || hubPath === '/brand/profile' ? 'Профиль' : activeLinkForRecent?.label || 'Раздел';
   React.useEffect(() => {
-    if (pathname && pathname.startsWith('/brand') && activeLinkForRecent && pathname !== '/brand') {
+    if (
+      pathname &&
+      pathname.startsWith('/brand') &&
+      activeLinkForRecent &&
+      pathname !== '/brand' &&
+      pathname !== '/brand/profile'
+    ) {
       addRecent({
         href: pathname,
         label: activeLinkForRecent.label,
-        group: activeLinkForRecent.description,
+        ...(activeLinkForRecent.description !== undefined
+          ? { group: activeLinkForRecent.description }
+          : {}),
       });
     }
   }, [pathname, activeTab, addRecent]);
@@ -315,7 +349,7 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
         trend: p === 'week' ? +6.1 : p === 'month' ? +9.2 : +11.3,
         color: (v: number) => 'text-accent-primary',
         desc: 'Выручка по оптовым каналам (B2B заказы, ритейлеры).',
-        controlledIn: 'B2B Заказы, Ритейлеры, Лайншиты',
+        controlledIn: 'Заказы, Ритейлеры, Лайншиты',
         factors: 'Заказы опт, Средний чек B2B',
         href: '/brand/b2b-orders',
         roles: ['CEO', 'CFO', 'CMO'],
@@ -447,15 +481,9 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <ErrorBoundary>
       <ProductionDataBootstrap />
-      <div className="bg-bg-surface flex min-h-screen w-full pb-12 font-sans">
-        {/* Вертикальная панель — desktop */}
-        {/* Левая панель: фиксированная ширина на всём кабинете бренда (cabinet layout v1) */}
-        <aside
-          className={cn(
-            'lg:border-border-subtle lg:bg-bg-surface hidden lg:fixed lg:bottom-0 lg:left-0 lg:top-24 lg:z-30 lg:flex lg:shrink-0 lg:flex-col lg:border-r lg:pt-4',
-            cabinetSidebarLayout.asideWidthBrand
-          )}
-        >
+      <div className={cabinetHubLayout.rootShell}>
+        {/* Вертикальная панель — desktop; ширина — cabinet layout v1 */}
+        <aside className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthBrand)}>
           <SidebarOrgHeader />
           <div className="scrollbar-hide min-h-0 flex-1 overflow-y-auto">
             <BrandSidebar
@@ -519,7 +547,7 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                 trailing={
                   <div className="flex w-full min-w-0 shrink-0 flex-wrap items-center justify-end gap-2 sm:w-auto">
                     {/* Live Intelligence + переключающиеся KPI — одна линия до поиска */}
-                    <div className="border-border-subtle mr-0.5 hidden min-w-0 max-w-full items-center gap-2 border-r pr-2 sm:flex">
+                    <div className="border-border-subtle mr-0.5 hidden min-w-0 max-w-full items-center gap-2 border-r pr-2 2xl:flex">
                       <p className="text-text-secondary flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[9px] font-black uppercase tracking-widest">
                         <Activity className="text-accent-primary h-3 w-3 shrink-0" /> Центр
                         live-аналитики
@@ -830,11 +858,13 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
 
               <BrandSectionHeaderBlock />
               <StageContextBar />
-              <main className="mt-2 duration-500 animate-in fade-in slide-in-from-bottom-2">
+              <main
+                className={cn('mt-2 slide-in-from-bottom-2', cabinetHubLayout.mainInner)}
+              >
                 <PageContainer
                   className={
-                    /* cabinet layout v1: контент на полную ширину колонки, компактные боковые отступы */
-                    '!mx-0 w-full max-w-none !px-3 !py-4 sm:!px-4 sm:!py-5 lg:!px-5'
+                    /* cabinet v1: горизонтальные inset только у CabinetHubMain — здесь без px */
+                    '!mx-0 w-full max-w-none !px-0 !py-4 sm:!py-5'
                   }
                 >
                   <ErrorBoundary>{children}</ErrorBoundary>

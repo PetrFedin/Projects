@@ -10,7 +10,7 @@ import { cn } from '../../lib/cn';
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(path, { ...init, cache: 'no-store' });
   if (!res.ok) throw new Error(`API error ${res.status}`);
-  return res.json();
+  return (await res.json()) as T;
 }
 
 export function ViewSwitcher({
@@ -99,7 +99,7 @@ export function ViewSwitcher({
             <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="New view name…"
+              placeholder="Название представления…"
             />
             <select
               className="border-border-default bg-bg-surface text-text-primary h-10 rounded-md border px-3 text-sm"

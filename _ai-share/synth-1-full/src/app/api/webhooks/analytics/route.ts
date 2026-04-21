@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
+import { readJsonBody } from '@/lib/http/read-json-body';
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { event, data, timestamp } = body;
+    const { event, data, timestamp } = await readJsonBody<{
+      event?: string;
+      data?: unknown;
+      timestamp?: unknown;
+    }>(request);
 
     // Валидация webhook
     if (!event || !data) {

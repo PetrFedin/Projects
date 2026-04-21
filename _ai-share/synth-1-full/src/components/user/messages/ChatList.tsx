@@ -32,15 +32,15 @@ export const ChatList: React.FC<ChatListProps> = ({
   currentUser,
 }) => {
   return (
-    <aside className="border-border-subtle flex w-64 shrink-0 flex-col gap-3 overflow-hidden rounded-2xl border bg-white p-4 shadow-sm transition-all">
+    <aside className="flex w-64 shrink-0 flex-col gap-3 overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition-all">
       <div className="flex items-center justify-between px-1">
-        <h3 className="text-text-muted text-[9px] font-bold uppercase tracking-[0.2em]">
+        <h3 className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
           Conversations
         </h3>
         <Button
           size="icon"
           variant="ghost"
-          className="bg-bg-surface2 border-border-subtle text-accent-primary hover:bg-text-primary/90 h-7 w-7 rounded-lg border shadow-sm transition-all hover:text-white"
+          className="h-7 w-7 rounded-lg border border-slate-100 bg-slate-50 text-indigo-600 shadow-sm transition-all hover:bg-slate-900 hover:text-white"
           onClick={onOpenCreateChat}
         >
           <Plus className="h-4 w-4" />
@@ -48,10 +48,10 @@ export const ChatList: React.FC<ChatListProps> = ({
       </div>
 
       <div className="group relative">
-        <Search className="text-text-muted group-focus-within:text-accent-primary absolute left-2.5 top-1/2 h-3 w-3 -translate-y-1/2 transition-colors" />
+        <Search className="absolute left-2.5 top-1/2 h-3 w-3 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-indigo-600" />
         <Input
-          className="bg-bg-surface2 placeholder:text-text-muted focus:border-accent-primary/20 h-8 rounded-lg border-transparent pl-8 text-[10px] font-bold shadow-inner transition-all focus:bg-white"
-          placeholder="SEARCH CONTACTS…"
+          className="h-8 rounded-lg border-transparent bg-slate-100 pl-8 text-[10px] font-bold shadow-inner transition-all placeholder:text-slate-400 focus:border-indigo-100 focus:bg-white"
+          placeholder="ПОИСК КОНТАКТОВ…"
           value={chatQuery}
           onChange={(e) => setChatQuery(e.target.value)}
         />
@@ -69,10 +69,10 @@ export const ChatList: React.FC<ChatListProps> = ({
               otherParticipants.length === 1
                 ? otherParticipants[0].isOnline
                   ? 'bg-emerald-500'
-                  : 'bg-border-default'
+                  : 'bg-slate-300'
                 : isAnyOnline
                   ? 'bg-emerald-500'
-                  : 'bg-border-default';
+                  : 'bg-slate-300';
 
             return (
               <div
@@ -83,14 +83,14 @@ export const ChatList: React.FC<ChatListProps> = ({
                   className={cn(
                     'relative flex w-full min-w-0 items-center gap-3 rounded-xl border p-2.5 text-left transition-all',
                     isActive
-                      ? 'bg-accent-primary/10 border-accent-primary/20 shadow-sm'
-                      : 'hover:bg-bg-surface2 border-transparent bg-transparent'
+                      ? 'border-indigo-100 bg-indigo-50 shadow-sm'
+                      : 'border-transparent bg-transparent hover:bg-slate-50'
                   )}
                   onClick={() => onSwitchChat(c.id)}
                 >
                   <div className="relative shrink-0">
-                    <Avatar className="ring-border-subtle h-9 w-9 border-2 border-white shadow-sm ring-1">
-                      <AvatarFallback className="bg-bg-surface2 text-text-muted text-[10px] font-bold uppercase">
+                    <Avatar className="h-9 w-9 border-2 border-white shadow-sm ring-1 ring-slate-100">
+                      <AvatarFallback className="bg-slate-100 text-[10px] font-bold uppercase text-slate-400">
                         {c.title[0]}
                       </AvatarFallback>
                       <AvatarImage src={typeof c.avatar === 'string' ? c.avatar : undefined} />
@@ -102,7 +102,7 @@ export const ChatList: React.FC<ChatListProps> = ({
                       )}
                     />
                     {unread > 0 && (
-                      <span className="bg-accent-primary absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full text-[8px] font-bold text-white shadow-lg ring-2 ring-white">
+                      <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-indigo-600 text-[8px] font-bold text-white shadow-lg ring-2 ring-white">
                         {unread}
                       </span>
                     )}
@@ -113,21 +113,21 @@ export const ChatList: React.FC<ChatListProps> = ({
                         <p
                           className={cn(
                             'truncate text-[11px] font-bold uppercase leading-none tracking-tight',
-                            isActive ? 'text-accent-primary' : 'text-text-primary'
+                            isActive ? 'text-indigo-700' : 'text-slate-900'
                           )}
                         >
                           {c.title}
                         </p>
                         <div className="flex gap-0.5">
                           {c.isPinned && (
-                            <Pin className="text-accent-primary h-2 w-2 shrink-0 rotate-45" />
+                            <Pin className="h-2 w-2 shrink-0 rotate-45 text-indigo-400" />
                           )}
                           {c.isStarred && (
                             <Star className="h-2 w-2 shrink-0 fill-amber-400 text-amber-400" />
                           )}
                         </div>
                       </div>
-                      <span className="text-text-muted shrink-0 text-[7px] font-bold uppercase tabular-nums">
+                      <span className="shrink-0 text-[7px] font-bold uppercase tabular-nums text-slate-300">
                         {c.time}
                       </span>
                     </div>
@@ -135,16 +135,16 @@ export const ChatList: React.FC<ChatListProps> = ({
                       {typingUsers[c.id] && typingUsers[c.id].length > 0 ? (
                         <div className="flex w-full min-w-0 animate-pulse items-center gap-1">
                           <div className="flex shrink-0 gap-0.5">
-                            <span className="bg-accent-primary/40 h-1 w-1 animate-bounce rounded-full [animation-delay:-0.3s]" />
-                            <span className="bg-accent-primary/40 h-1 w-1 animate-bounce rounded-full [animation-delay:-0.15s]" />
-                            <span className="bg-accent-primary/40 h-1 w-1 animate-bounce rounded-full" />
+                            <span className="h-1 w-1 animate-bounce rounded-full bg-indigo-400 [animation-delay:-0.3s]" />
+                            <span className="h-1 w-1 animate-bounce rounded-full bg-indigo-400 [animation-delay:-0.15s]" />
+                            <span className="h-1 w-1 animate-bounce rounded-full bg-indigo-400" />
                           </div>
-                          <span className="text-accent-primary truncate text-[9px] font-bold uppercase tracking-widest">
+                          <span className="truncate text-[9px] font-bold uppercase tracking-widest text-indigo-600">
                             Typing...
                           </span>
                         </div>
                       ) : (
-                        <p className="text-text-muted w-full truncate text-[9px] font-bold uppercase tracking-tight opacity-60">
+                        <p className="w-full truncate text-[9px] font-bold uppercase tracking-tight text-slate-400 opacity-60">
                           {c.subtitle || 'NO UPDATES'}
                         </p>
                       )}

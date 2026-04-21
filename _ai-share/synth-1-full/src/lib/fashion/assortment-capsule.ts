@@ -23,3 +23,8 @@ export function checkCapsuleIntegrity(
     isCapsuleComplete: missing.length === 0,
   };
 }
+
+/** Рекомендации по капсулам для текущей сессии (обёртка над `checkCapsuleIntegrity`). */
+export function recommendCapsules(sku: string, sessionSkus: string[]): AssortmentCapsuleIntegrityV1 {
+  return checkCapsuleIntegrity(sku, sessionSkus);
+}

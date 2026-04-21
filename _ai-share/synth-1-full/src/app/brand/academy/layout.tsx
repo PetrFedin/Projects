@@ -15,6 +15,7 @@ import {
   getClientMaterials,
   getBrandCourses,
 } from '@/lib/academy/brand-academy-data';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 const TABS = [
   {
@@ -80,7 +81,11 @@ const KPI_ITEMS = [
 
 export default function AcademyLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isPlatform = pathname.startsWith('/brand/academy/platform');
+  const isPlatformShell =
+    pathname.startsWith('/brand/academy/platform') ||
+    pathname.startsWith('/brand/academy/organization-studio');
+  const platformSwitcherActive =
+    pathname.startsWith('/brand/academy/organization-studio') ? 'organization' : 'platform';
   const courses = getBrandCourses();
   const inProgressCount = courses.filter((c) => c.status === 'in_progress').length;
   const completedCount = courses.filter((c) => c.status === 'completed').length;
@@ -88,22 +93,27 @@ export default function AcademyLayout({ children }: { children: React.ReactNode 
   const totalTrainings = getCollectionTrainings().length;
   const totalClientMaterials = getClientMaterials().length;
 
-  if (isPlatform) {
+  if (isPlatformShell) {
+    const breadcrumbItems = pathname.startsWith('/brand/academy/organization-studio')
+      ? [
+          { label: 'Бренд', href: ROUTES.brand.home },
+          { label: 'Академия платформы', href: ROUTES.brand.academyPlatform },
+          { label: 'Студия организации' },
+        ]
+      : [{ label: 'Бренд', href: ROUTES.brand.home }, { label: 'Академия платформы' }];
+
     return (
-      <div className="mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
-        <Breadcrumb
-          items={[{ label: 'Бренд', href: ROUTES.brand.home }, { label: 'Академия платформы' }]}
-          className="mb-2"
-        />
+      <CabinetPageContent maxWidth="5xl">
+        <Breadcrumb items={breadcrumbItems} className="mb-2" />
         <SectionHeader
           icon={BookOpen}
           title="Академия платформы"
           description="Best practices, compliance, производство и ритейл. Курсы, траектории и база знаний для всех ролей."
           iconColor="indigo"
-          actions={<AcademySegmentSwitcher active="platform" />}
+          actions={<AcademySegmentSwitcher active={platformSwitcherActive} />}
         />
         {children}
-      </div>
+      </CabinetPageContent>
     );
   }
 
@@ -120,7 +130,7 @@ export default function AcademyLayout({ children }: { children: React.ReactNode 
     (pathname !== '/brand/academy/knowledge' && pathname.startsWith('/brand/academy/knowledge/'));
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="5xl">
       {!isNestedPage && (
         <Breadcrumb
           items={[{ label: 'Бренд', href: ROUTES.brand.home }, { label: 'Академия' }]}
@@ -167,6 +177,6 @@ export default function AcademyLayout({ children }: { children: React.ReactNode 
         ))}
       </nav>
       {children}
-    </div>
+    </CabinetPageContent>
   );
 }

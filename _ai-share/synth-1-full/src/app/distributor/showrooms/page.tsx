@@ -1,10 +1,11 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { MapPin } from 'lucide-react';
 
 export default function DistributorShowroomsPage() {
   return (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center space-y-4">
+    <CabinetPageContent maxWidth="full" className="flex min-h-[60vh] flex-col items-center justify-center space-y-4">
       <div className="bg-bg-surface2 flex h-12 w-12 items-center justify-center rounded-2xl">
         <MapPin className="text-text-muted h-8 w-8" />
       </div>
@@ -13,6 +14,6 @@ export default function DistributorShowroomsPage() {
         Раздел находится в разработке. Здесь будет поиск и управление физическими площадками для
         презентации коллекций в регионах.
       </p>
-    </div>
+    </CabinetPageContent>
   );
 }

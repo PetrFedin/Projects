@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { WidgetCard } from '@/components/ui/widget-card';
@@ -12,7 +13,7 @@ import { ROUTES } from '@/lib/routes';
 import { Store, Search, ChevronRight, Plus, Clock } from 'lucide-react';
 import { EmptyStateB2B } from '@/components/ui/empty-state-b2b';
 import { getCollectionTrainings } from '@/lib/academy/brand-academy-data';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function AcademyStoresPage() {
   const [searchStores, setSearchStores] = useState('');
@@ -38,9 +39,9 @@ export default function AcademyStoresPage() {
   }, [searchStores, filterCollection]);
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
-        title="Обучение по коллекциям для магазинов"
+        title="Тренинги по коллекциям для магазинов"
         leadPlain="Product knowledge, мерчандайзинг и тренинги для партнёров."
       />
       <section className="space-y-6">
@@ -119,6 +120,6 @@ export default function AcademyStoresPage() {
       </section>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

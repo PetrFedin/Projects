@@ -29,17 +29,17 @@ export function SearchFilters({
   onChange: (next: Params) => void;
 }) {
   return (
-    <Card className="border-border-default sticky top-24 overflow-hidden rounded-none border bg-white shadow-sm">
+    <Card className="sticky top-24 overflow-hidden rounded-none border border-slate-200 bg-white shadow-sm">
       <CardContent className="p-0">
-        <div className="border-border-subtle bg-bg-surface2/80 flex items-center justify-between border-b px-6 py-5">
+        <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/50 px-6 py-5">
           <div className="flex items-center gap-2">
-            <Filter className="text-text-primary h-3.5 w-3.5" />
-            <h3 className="text-text-primary text-[11px] font-black uppercase tracking-[0.1em]">
+            <Filter className="h-3.5 w-3.5 text-slate-900" />
+            <h3 className="text-[11px] font-black uppercase tracking-[0.1em] text-slate-900">
               Refine Results
             </h3>
           </div>
           <button
-            className="text-text-muted hover:text-text-primary flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest transition-colors"
+            className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-slate-400 transition-colors hover:text-slate-900"
             onClick={() => onChange({ q: '', brand: '', category: '', sort: 'relevance' })}
           >
             <RotateCcw className="h-3 w-3" /> Clear
@@ -49,65 +49,65 @@ export function SearchFilters({
         <div className="space-y-4 p-4">
           {/* Text Search */}
           <div className="space-y-2.5">
-            <label className="text-text-muted text-[9px] font-black uppercase tracking-[0.15em]">
-              Search Keywords
+            <label className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-400">
+              Ключевые слова
             </label>
             <div className="relative">
               <input
-                className="border-border-default text-text-primary focus:border-text-primary placeholder:text-text-muted h-11 w-full rounded-none border bg-white px-4 text-[11px] font-bold outline-none transition-all"
+                className="h-11 w-full rounded-none border border-slate-200 bg-white px-4 text-[11px] font-bold text-slate-900 outline-none transition-all placeholder:text-slate-300 focus:border-slate-900"
                 value={params.q}
                 onChange={(e) => onChange({ ...params, q: e.target.value })}
-                placeholder="e.g. Cashmere, Oversize..."
+                placeholder="Напр. кашемир, oversize…"
               />
             </div>
           </div>
 
-          <div className="bg-bg-surface2 h-px" />
+          <div className="h-px bg-slate-100" />
 
           {/* Sort */}
           <div className="space-y-2.5">
-            <label className="text-text-muted text-[9px] font-black uppercase tracking-[0.15em]">
-              Sort By
+            <label className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-400">
+              Сортировка
             </label>
             <select
-              className="border-border-default text-text-primary focus:border-text-primary h-11 w-full cursor-pointer appearance-none rounded-none border bg-white px-4 text-[11px] font-bold outline-none transition-all"
+              className="h-11 w-full cursor-pointer appearance-none rounded-none border border-slate-200 bg-white px-4 text-[11px] font-bold text-slate-900 outline-none transition-all focus:border-slate-900"
               value={params.sort}
               onChange={(e) => onChange({ ...params, sort: e.target.value })}
             >
-              <option value="relevance">Relevance</option>
-              <option value="price_asc">Price: Low to High</option>
-              <option value="price_desc">Price: High to Low</option>
+              <option value="relevance">По релевантности</option>
+              <option value="price_asc">Цена: по возрастанию</option>
+              <option value="price_desc">Цена: по убыванию</option>
             </select>
           </div>
 
-          <div className="bg-bg-surface2 h-px" />
+          <div className="h-px bg-slate-100" />
 
           {/* Brands */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <label className="text-text-primary block text-[9px] font-black uppercase tracking-[0.15em]">
-                Brands
+              <label className="block text-[9px] font-black uppercase tracking-[0.15em] text-slate-900">
+                Бренды
               </label>
-              <div className="bg-text-primary/10 h-px flex-1" />
+              <div className="h-px flex-1 bg-slate-900/10" />
             </div>
-            <div className="scrollbar-thin scrollbar-thumb-border-default max-h-64 space-y-2 overflow-y-auto pr-2">
+            <div className="scrollbar-thin scrollbar-thumb-slate-200 max-h-64 space-y-2 overflow-y-auto pr-2">
               <label className="group flex cursor-pointer items-center gap-3">
                 <input
                   type="radio"
                   name="brand"
                   checked={params.brand === ''}
                   onChange={() => onChange({ ...params, brand: '' })}
-                  className="accent-accent-primary h-3.5 w-3.5"
+                  className="h-3.5 w-3.5 accent-slate-900"
                 />
                 <span
                   className={cn(
                     'text-[11px] font-bold uppercase transition-colors',
                     params.brand === ''
-                      ? 'text-text-primary'
-                      : 'text-text-secondary group-hover:text-text-primary'
+                      ? 'text-slate-900'
+                      : 'text-slate-500 group-hover:text-slate-700'
                   )}
                 >
-                  All Brands
+                  Все бренды
                 </span>
               </label>
               {(facets?.brands ?? []).map((b) => (
@@ -118,20 +118,20 @@ export function SearchFilters({
                     value={b.value}
                     checked={params.brand === b.value}
                     onChange={(e) => onChange({ ...params, brand: e.target.value })}
-                    className="accent-accent-primary h-3.5 w-3.5"
+                    className="h-3.5 w-3.5 accent-slate-900"
                   />
                   <div className="flex flex-1 items-center justify-between">
                     <span
                       className={cn(
                         'text-[11px] font-bold uppercase transition-colors',
                         params.brand === b.value
-                          ? 'text-text-primary'
-                          : 'text-text-secondary group-hover:text-text-primary'
+                          ? 'text-slate-900'
+                          : 'text-slate-500 group-hover:text-slate-700'
                       )}
                     >
                       {b.value}
                     </span>
-                    <span className="text-text-muted text-[9px] font-black tabular-nums">
+                    <span className="text-[9px] font-black tabular-nums text-slate-300">
                       {b.count}
                     </span>
                   </div>
@@ -140,34 +140,34 @@ export function SearchFilters({
             </div>
           </div>
 
-          <div className="bg-bg-surface2 h-px" />
+          <div className="h-px bg-slate-100" />
 
           {/* Categories */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <label className="text-text-primary block text-[9px] font-black uppercase tracking-[0.15em]">
+              <label className="block text-[9px] font-black uppercase tracking-[0.15em] text-slate-900">
                 Categories
               </label>
-              <div className="bg-text-primary/10 h-px flex-1" />
+              <div className="h-px flex-1 bg-slate-900/10" />
             </div>
-            <div className="scrollbar-thin scrollbar-thumb-border-default max-h-64 space-y-2 overflow-y-auto pr-2">
+            <div className="scrollbar-thin scrollbar-thumb-slate-200 max-h-64 space-y-2 overflow-y-auto pr-2">
               <label className="group flex cursor-pointer items-center gap-3">
                 <input
                   type="radio"
                   name="category"
                   checked={params.category === ''}
                   onChange={() => onChange({ ...params, category: '' })}
-                  className="accent-accent-primary h-3.5 w-3.5"
+                  className="h-3.5 w-3.5 accent-slate-900"
                 />
                 <span
                   className={cn(
                     'text-[11px] font-bold uppercase transition-colors',
                     params.category === ''
-                      ? 'text-text-primary'
-                      : 'text-text-secondary group-hover:text-text-primary'
+                      ? 'text-slate-900'
+                      : 'text-slate-500 group-hover:text-slate-700'
                   )}
                 >
-                  All Categories
+                  Все категории
                 </span>
               </label>
               {(facets?.categories ?? []).map((c) => (
@@ -178,20 +178,20 @@ export function SearchFilters({
                     value={c.value}
                     checked={params.category === c.value}
                     onChange={(e) => onChange({ ...params, category: e.target.value })}
-                    className="accent-accent-primary h-3.5 w-3.5"
+                    className="h-3.5 w-3.5 accent-slate-900"
                   />
                   <div className="flex flex-1 items-center justify-between">
                     <span
                       className={cn(
                         'text-[11px] font-bold uppercase transition-colors',
                         params.category === c.value
-                          ? 'text-text-primary'
-                          : 'text-text-secondary group-hover:text-text-primary'
+                          ? 'text-slate-900'
+                          : 'text-slate-500 group-hover:text-slate-700'
                       )}
                     >
                       {c.value}
                     </span>
-                    <span className="text-text-muted text-[9px] font-black tabular-nums">
+                    <span className="text-[9px] font-black tabular-nums text-slate-300">
                       {c.count}
                     </span>
                   </div>
@@ -200,18 +200,18 @@ export function SearchFilters({
             </div>
           </div>
 
-          <div className="bg-bg-surface2 h-px" />
+          <div className="h-px bg-slate-100" />
 
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <label className="text-text-primary text-[9px] font-black uppercase tracking-[0.15em]">
-                Price Range (₽)
+              <label className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-900">
+                Диапазон цен (₽)
               </label>
-              <div className="bg-text-primary/10 h-px flex-1" />
+              <div className="h-px flex-1 bg-slate-900/10" />
             </div>
             <div className="grid grid-cols-2 gap-2">
               <input
-                className="border-border-default text-text-primary focus:border-text-primary placeholder:text-text-muted h-11 w-full rounded-none border bg-white px-4 text-[11px] font-bold outline-none transition-all"
+                className="h-11 w-full rounded-none border border-slate-200 bg-white px-4 text-[11px] font-bold text-slate-900 outline-none transition-all placeholder:text-slate-300 focus:border-slate-900"
                 value={params.priceMin?.toString() ?? ''}
                 onChange={(e) =>
                   onChange({
@@ -220,10 +220,10 @@ export function SearchFilters({
                   })
                 }
                 inputMode="numeric"
-                placeholder="From"
+                placeholder="От"
               />
               <input
-                className="border-border-default text-text-primary focus:border-text-primary placeholder:text-text-muted h-11 w-full rounded-none border bg-white px-4 text-[11px] font-bold outline-none transition-all"
+                className="h-11 w-full rounded-none border border-slate-200 bg-white px-4 text-[11px] font-bold text-slate-900 outline-none transition-all placeholder:text-slate-300 focus:border-slate-900"
                 value={params.priceMax?.toString() ?? ''}
                 onChange={(e) =>
                   onChange({
@@ -232,19 +232,19 @@ export function SearchFilters({
                   })
                 }
                 inputMode="numeric"
-                placeholder="To"
+                placeholder="До"
               />
             </div>
           </div>
         </div>
 
-        <div className="border-border-subtle bg-bg-surface2/30 border-t p-4">
+        <div className="border-t border-slate-100 bg-slate-50/30 p-4">
           <button
             disabled={loading}
-            className="bg-text-primary flex h-12 w-full items-center justify-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-black disabled:opacity-50"
+            className="flex h-12 w-full items-center justify-center gap-2 bg-slate-900 text-[10px] font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-black disabled:opacity-50"
             onClick={() => onChange({ ...params })}
           >
-            {loading ? 'Searching...' : 'Apply Filters'}
+            {loading ? 'Поиск…' : 'Применить фильтры'}
           </button>
         </div>
       </CardContent>

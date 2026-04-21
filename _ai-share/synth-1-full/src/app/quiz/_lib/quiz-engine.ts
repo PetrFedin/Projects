@@ -1,4 +1,9 @@
-import { ParamKey, NormVec, SegmentInfo, SegmentId, QuizResult, StyleArchetype } from './types';
+import {
+  ParamKey,
+  NormVec,
+  SegmentInfo,
+  StyleArchetype,
+} from './types';
 
 export const SEGMENTS: SegmentInfo[] = [
   {
@@ -179,6 +184,113 @@ export const calcBPI = (norm: NormVec): number => {
     s += w * val;
   });
   return Math.round(100 * s);
+};
+
+/** Соответствие индексу BPI (0–100) одному из 20 сегментов шкалы. */
+export const segmentFromBpi = (bpi: number): SegmentInfo => {
+  const clamped = Math.max(0, Math.min(100, bpi));
+  const idx = Math.min(
+    SEGMENTS.length - 1,
+    Math.floor((clamped / 100) * SEGMENTS.length)
+  );
+  return SEGMENTS[idx];
+};
+
+const effectiveNorm = (key: ParamKey, norm: NormVec): number => {
+  const n = norm[key];
+  return DIR[key] === -1 ? 1 - n : n;
+};
+
+const contribution = (key: ParamKey, norm: NormVec): number => {
+  const w = BPI_W[key];
+  if (!w) return 0;
+  return w * effectiveNorm(key, norm);
+};
+
+const UPGRADE_TIP: Record<ParamKey, string> = {
+  price_index: 'Поднять средний чек и ценовое позиционирование',
+  materials_quality: 'Усилить качество материалов и прозрачность составов',
+  craftsmanship_level: 'Инвестировать в ремесло, отделку и контроль качества',
+  price_stability: 'Снизить зависимость от глубоких скидок и стабилизировать цену',
+  discount_intensity: 'Сократить частоту и глубину промо (сохранить маржу и премиум-сигнал)',
+  boutique_presence: 'Развивать премиум-ритейл и бутики / партнёров сегмента',
+  retail_presence: 'Укрепить присутствие в сильных розничных точках',
+  heritage_age: 'Усилить storytelling наследия и доказательства происхождения',
+  visual_identity: 'Свести айдентику к единому узнаваемому стилю и контенту',
+  innovation_design: 'Добавить дизайнерские инициативы и капсулы с креативом',
+  sustainability: 'Систематизировать ESG и коммуникацию устойчивости',
+  export_share: 'Нарастить экспорт и дистрибуцию в целевых рынках',
+  d2c_share: 'Развивать D2C и прямой контакт с клиентом',
+  production_volume: 'Сместить микс к меньшим партиям и эксклюзивности',
+  assortment_width: 'Сузить ассортимент под ядро аудитории',
+  tech_fabrics: 'Внедрить технологичные материалы и функциональность',
+  category_focus: 'Усилить фокус в ключевых категориях',
+  collab_frequency: 'Использовать коллаборации и дропы для роста узнаваемости',
+  audience_income: 'Сместить продукт и цену под более платёжеспособную аудиторию',
+  digital_maturity: 'Усилить digital, данные и персонализацию',
+};
+
+export const inferStyleArchetype = (norm: NormVec): StyleArchetype => {
+  const scores: { id: StyleArchetype; v: number }[] = [
+    {
+      id: 'techwear',
+      v: norm.tech_fabrics * 0.45 + norm.innovation_design * 0.3 + norm.visual_identity * 0.2,
+    },
+    {
+      id: 'street',
+      v: norm.collab_frequency * 0.4 + norm.innovation_design * 0.35 + norm.visual_identity * 0.2,
+    },
+    {
+      id: 'sport',
+      v: norm.tech_fabrics * 0.5 + norm.category_focus * 0.2,
+    },
+    {
+      id: 'heritage',
+      v: norm.heritage_age * 0.5 + norm.craftsmanship_level * 0.35,
+    },
+    {
+      id: 'luxury',
+      v:
+        norm.price_index * 0.3 +
+        norm.boutique_presence * 0.25 +
+        norm.materials_quality * 0.25 +
+        norm.craftsmanship_level * 0.2,
+    },
+    {
+      id: 'contemporary',
+      v:
+        norm.innovation_design * 0.35 +
+        norm.visual_identity * 0.2 +
+        norm.digital_maturity * 0.25,
+    },
+  ];
+  scores.sort((a, b) => b.v - a.v);
+  const top = scores[0];
+  if (!top || top.v < 0.22) return 'none';
+  return top.id;
+};
+
+export const buildUpgradeTips = (norm: NormVec, target: SegmentInfo | null): string[] => {
+  const tips: string[] = [];
+  if (target) {
+    tips.push(
+      `Ориентир роста: сегмент «${target.name}» — ${target.description}`
+    );
+  }
+  const keys = (Object.keys(BPI_W) as ParamKey[]).filter((k) => BPI_W[k] > 0);
+  const ranked = keys
+    .map((key) => ({
+      key,
+      c: contribution(key, norm),
+      max: BPI_W[key]! * 1,
+    }))
+    .sort((a, b) => a.c / a.max - b.c / b.max);
+  const weakest = ranked.slice(0, 4);
+  for (const w of weakest) {
+    const line = UPGRADE_TIP[w.key];
+    if (line && !tips.includes(line)) tips.push(line);
+  }
+  return tips.slice(0, 6);
 };
 
 export const getUpgradeTargetSegment = (current: SegmentInfo): SegmentInfo | null => {

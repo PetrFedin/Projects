@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -77,7 +77,7 @@ export default function ShopB2BApplyPage() {
 
   if (sent && result) {
     return (
-      <RegistryPageShell className="max-w-xl space-y-6">
+      <CabinetPageContent maxWidth="xl" className="space-y-6">
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2 text-emerald-600">
@@ -106,12 +106,12 @@ export default function ShopB2BApplyPage() {
             </div>
           </CardContent>
         </Card>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   return (
-    <RegistryPageShell className="max-w-xl space-y-6">
+    <CabinetPageContent maxWidth="xl" className="space-y-6">
       <ShopB2bContentHeader
         lead={
           <>
@@ -245,6 +245,6 @@ export default function ShopB2BApplyPage() {
         title="Мои выставки, заказы, шоурум"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

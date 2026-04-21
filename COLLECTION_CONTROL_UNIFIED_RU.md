@@ -2,9 +2,9 @@
 
 Документ сводит в один контур: **этапы**, **коммуникации**, **расходы и сроки**, **материалы/фурнитура/бирки/упаковка и их остатки**, **особенности для РФ**. Назначение — ТЗ на продукт и чеклист пробелов; нормы права не исчерпываются, юридическую проверку давать юристам.
 
-**Код:** `synth-1/src/lib/production/collection-steps-catalog.ts`, `synth-1/src/lib/types/production.ts`, `synth-1/src/lib/data/production-params.ts`.
+**Код:** `_ai-share/synth-1-full/src/lib/production/collection-steps-catalog.ts`, `_ai-share/synth-1-full/src/lib/types/production.ts`, `_ai-share/synth-1-full/src/lib/data/production-params.ts`.
 
-**Синхронизация:** любое изменение порядка или состава этапов — только через правку `COLLECTION_STEPS` / `dependsOn` в `collection-steps-catalog.ts`, затем обновить этот файл и `COLLECTION_CONTROL_IMPLEMENTATION_MAP_RU.md` (§2). Подсказки вкладок цеха: `synth-1/src/lib/production/floor-flow.ts`; справка в UI: блок «Контур коллекции в каталоге» на `/brand/production` (вкладка «Этапы и зависимости»).
+**Синхронизация:** любое изменение порядка или состава этапов — только через правку `COLLECTION_STEPS` / `dependsOn` в `collection-steps-catalog.ts`, затем обновить этот файл и `COLLECTION_CONTROL_IMPLEMENTATION_MAP_RU.md` (§2). Подсказки вкладок цеха: `_ai-share/synth-1-full/src/lib/production/floor-flow.ts`; справка в UI: блок «Контур коллекции в каталоге» на `/brand/production` (вкладка «Этапы и зависимости»).
 
 ---
 
@@ -38,7 +38,7 @@
 
 ## 3. Этапы (сводка)
 
-Полная матрица и **единый порядок** (матрица в UI, подсказки, мини-схема в цеху, список в справке): массив `COLLECTION_STEPS` в `synth-1/src/lib/production/collection-steps-catalog.ts` — поля `mandatory`, `canSkipForNow`, `relaxesWhenNotStarted`, `dependsOn`. Производные `COLLECTION_BRAND_NARRATIVE_STEP_IDS` и `COLLECTION_VISUAL_CHAIN_IDS` в том же файле **не задают отдельный порядок**: они строятся из `COLLECTION_STEPS`.
+Полная матрица и **единый порядок** (матрица в UI, подсказки, мини-схема в цеху, список в справке): массив `COLLECTION_STEPS` в `_ai-share/synth-1-full/src/lib/production/collection-steps-catalog.ts` — поля `mandatory`, `canSkipForNow`, `relaxesWhenNotStarted`, `dependsOn`. Производные `COLLECTION_BRAND_NARRATIVE_STEP_IDS` и `COLLECTION_VISUAL_CHAIN_IDS` в том же файле **не задают отдельный порядок**: они строятся из `COLLECTION_STEPS`.
 
 **Ядро цепочки (как в коде, топология `dependsOn`):** бриф → карта ассортимента → хаб коллекции в цеху → себестоимость/маржа → подбор материалов → референсы/медиа → Tech Pack → согласование сторон → поставка в цех (закупка/сток) → семплы и примерки → B2B лукбуки/лайншиты → площадка и сроки → PO → операции (BOM/аудит) → снабжение цеха → nesting → выпуск в цеху → ОТК → готовый товар на склад → комплектация под B2B → отгрузка в магазины → ESG (параллельно по графу после материалов/PO).
 
@@ -46,7 +46,7 @@
 
 **Гайд бренда (дорожная карта, переговоры):** константа `COLLECTION_BRAND_GUIDE_STEP_IDS` в `collection-steps-catalog.ts` — порядок формулировок как в презентациях (семплы и закупка раньше формального согласования «картинки и ТЗ»; комплектация B2B в повестке рядом со складом). Исполнение и блокировки в UI — по `COLLECTION_STEPS` / `dependsOn` (семплы после утверждённого ТЗ и поставки; на серии: nesting → выпуск → ОТК → склад → комплектация).
 
-**Профили контура:** `synth-1/src/lib/production/collection-production-profiles.ts` — пресеты (reorder, муслин, сток сырья, CMT, покупка готового товара, дропшип, MTO и т.д.) переопределяют только **эффективные** зависимости для матрицы; выбор профиля на вкладке «Этапы и зависимости», значение в `productionProfileId` внутри unified flow (localStorage).
+**Профили контура:** `_ai-share/synth-1-full/src/lib/production/collection-production-profiles.ts` — пресеты (reorder, муслин, сток сырья, CMT, покупка готового товара, дропшип, MTO и т.д.) переопределяют только **эффективные** зависимости для матрицы; выбор профиля на вкладке «Этапы и зависимости», значение в `productionProfileId` внутри unified flow (localStorage).
 
 **Профили коллекции (рекомендуется в продукте):** «новая разработка» vs **reorder** (семпл/ТЗ короче) vs **CMT** — иначе жёсткая цепочка ломается на реальных клиентах.
 
@@ -120,7 +120,7 @@
 
 ---
 
-**См. также:** карта «модель ↔ реализованные разделы и роли» — `COLLECTION_CONTROL_IMPLEMENTATION_MAP_RU.md` (корень репозитория и `synth-1/docs/`).
+**См. также:** карта «модель ↔ реализованные разделы и роли» — `COLLECTION_CONTROL_IMPLEMENTATION_MAP_RU.md` (корень репозитория и `_ai-share/synth-1-full/docs/`).
 
 ---
 

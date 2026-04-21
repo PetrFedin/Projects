@@ -87,7 +87,10 @@ export function CreateChatDialog({
               <Store className="h-4 w-4 shrink-0" />С партнером
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="team" className="space-y-4 py-4">
+          <TabsContent
+            value="team"
+            className={cn(cabinetSurface.cabinetProfileTabPanel, 'py-4')}
+          >
             <DialogDescription>
               Создайте приватный групповой чат для обсуждения рабочих вопросов с коллегами.
             </DialogDescription>
@@ -118,7 +121,10 @@ export function CreateChatDialog({
               Создать групповой чат
             </Button>
           </TabsContent>
-          <TabsContent value="partner" className="space-y-4 py-4">
+          <TabsContent
+            value="partner"
+            className={cn(cabinetSurface.cabinetProfileTabPanel, 'py-4')}
+          >
             <DialogDescription>
               Найдите существующего партнера или клиента для начала диалога.
             </DialogDescription>

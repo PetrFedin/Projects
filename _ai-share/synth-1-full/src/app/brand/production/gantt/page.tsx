@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +16,6 @@ import { cn } from '@/lib/utils';
 import { useFloorTabDraftState } from '@/hooks/use-floor-tab-draft';
 import { useToast } from '@/hooks/use-toast';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
-import { RegistryPageShell } from '@/components/design-system';
 
 const GANTT_DEFAULT = { v: 1 as const, lines: getGanttLines() };
 
@@ -36,7 +36,7 @@ export default function GanttProductionPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Планировщик Gantt производства"
         description="Клик по ячейке недели переключает загрузку линии. Сохранение — floor-tab: gantt."
@@ -47,15 +47,15 @@ export default function GanttProductionPage() {
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-3">
-          <Link href={ROUTES.brand.production}>
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.production} aria-label="Назад к производству">
+              <ArrowLeft className="h-4 w-4" aria-hidden />
+            </Link>
+          </Button>
           <h1 className="text-2xl font-bold uppercase">Планировщик Gantt производства</h1>
-          <Link href={ROUTES.brand.productionDailyOutput}>
+            <Link href={ROUTES.brand.productionDailyOutput}>
             <Button variant="outline" size="sm" className="gap-1">
-              <ClipboardList className="h-4 w-4" /> Сменный выпуск
+              <ClipboardList className="h-4 w-4" aria-hidden /> Сменный выпуск
             </Button>
           </Link>
         </div>
@@ -68,14 +68,14 @@ export default function GanttProductionPage() {
             toast({ title: 'Сохранено', description: 'План линий записан (gantt).' });
           }}
         >
-          <Save className="h-3.5 w-3.5" /> Сохранить план
+          <Save className="h-3.5 w-3.5" aria-hidden /> Сохранить план
         </Button>
       </div>
 
       <Card className="border-border-default rounded-xl border shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Factory className="h-5 w-5" /> Загрузка линий
+            <Factory className="h-5 w-5" aria-hidden /> Загрузка линий
           </CardTitle>
           <CardDescription>
             Нажмите на ячейку, чтобы отметить / снять неделю. Ключевые{' '}
@@ -133,6 +133,6 @@ export default function GanttProductionPage() {
       </Card>
 
       <RelatedModulesBlock links={getProductionLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

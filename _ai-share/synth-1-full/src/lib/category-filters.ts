@@ -16,7 +16,7 @@ export function findSubcategories(parentCategory: string, structure: any): strin
       if (key === currentCategory) {
         const children = currentStructure[key];
         if (Array.isArray(children)) {
-          categories = [...categories, ...children];
+          categories = [...categories, ...(children as string[])];
         } else if (typeof children === 'object' && children !== null) {
           const childKeys = Object.keys(children);
           categories = [...categories, ...childKeys];
@@ -87,7 +87,7 @@ function filterTreeForAudience(structure: any, audience: 'Женский' | 'М�
         newStructure[key] = filteredSubtree;
       }
     } else if (Array.isArray(value)) {
-      const filteredArray = value.filter((item) => !exclusions.includes(item));
+      const filteredArray = (value as string[]).filter((item) => !exclusions.includes(item));
       if (filteredArray.length > 0) {
         newStructure[key] = filteredArray;
       }

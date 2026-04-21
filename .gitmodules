@@ -1,0 +1,6 @@
+[submodule "pw-demo"]
+	path = pw-demo
+	url = https://github.com/PetrFedin/pw-demo.git
+[submodule "tools/superpowers"]
+	path = tools/superpowers
+	url = https://github.com/obra/superpowers.git

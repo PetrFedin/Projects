@@ -113,27 +113,27 @@ export default function LoginPage() {
         {isForgotPassword ? (
           <div className="space-y-4 p-3 duration-500 animate-in fade-in zoom-in-95">
             <div className="space-y-2 text-center">
-              <div className="bg-accent-primary/10 mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-xl">
-                <Lock className="text-accent-primary h-8 w-8" />
+              <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50">
+                <Lock className="h-8 w-8 text-indigo-600" />
               </div>
               <h2 className="text-sm font-black uppercase tracking-tighter">Восстановление</h2>
-              <p className="text-text-muted text-[10px] font-bold uppercase leading-relaxed tracking-widest">
+              <p className="text-[10px] font-bold uppercase leading-relaxed tracking-widest text-slate-400">
                 Введите ваш email для получения ссылки <br /> восстановления доступа к платформе
               </p>
             </div>
             <form onSubmit={handleForgotPassword} className="space-y-6">
               <div className="space-y-2">
-                <Label className="text-text-muted ml-1 text-[10px] font-black uppercase tracking-widest">
+                <Label className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
                   Email адрес
                 </Label>
                 <div className="relative">
-                  <Mail className="text-text-muted absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2" />
+                  <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
                   <Input
                     type="email"
                     value={forgotPasswordEmail}
                     onChange={(e) => setForgotPasswordEmail(e.target.value)}
-                    placeholder="name@company.ai"
-                    className="bg-bg-surface2 ring-accent-primary/20 h-10 rounded-2xl border-none pl-12 font-bold focus:ring-2"
+                    placeholder="you@company.ru"
+                    className="h-10 rounded-2xl border-none bg-slate-50 pl-12 font-bold ring-indigo-500/20 focus:ring-2"
                   />
                 </div>
               </div>
@@ -146,7 +146,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setIsForgotPassword(false)}
-                className="text-text-muted hover:text-text-secondary w-full py-2 text-[10px] font-black uppercase tracking-widest transition-colors"
+                className="w-full py-2 text-[10px] font-black uppercase tracking-widest text-slate-400 transition-colors hover:text-slate-600"
               >
                 Вернуться к входу
               </button>
@@ -155,10 +155,10 @@ export default function LoginPage() {
         ) : (
           <>
             <CardHeader className="px-10 pb-4 pt-10">
-              <CardTitle className="text-text-primary text-base font-black uppercase tracking-tighter">
+              <CardTitle className="text-base font-black uppercase tracking-tighter text-slate-900">
                 {isSignUp ? 'Регистрация' : 'Вход'}
               </CardTitle>
-              <CardDescription className="text-text-muted mt-2 text-[10px] font-bold uppercase tracking-widest">
+              <CardDescription className="mt-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 {isSignUp
                   ? 'Создайте аккаунт для начала работы в Intel OS'
                   : 'Войдите в свою учетную запись'}
@@ -173,13 +173,13 @@ export default function LoginPage() {
                       name="displayName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-text-muted text-[10px] font-black uppercase">
+                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">
                             Имя
                           </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Иван Иванов"
-                              className="bg-bg-surface2 h-12 rounded-xl border-none font-bold"
+                              className="h-12 rounded-xl border-none bg-slate-50 font-bold"
                               {...field}
                             />
                           </FormControl>
@@ -192,14 +192,14 @@ export default function LoginPage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-text-muted text-[10px] font-black uppercase">
+                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">
                             Email
                           </FormLabel>
                           <FormControl>
                             <Input
                               type="email"
-                              placeholder="email@example.com"
-                              className="bg-bg-surface2 h-12 rounded-xl border-none font-bold"
+                              placeholder="you@company.ru"
+                              className="h-12 rounded-xl border-none bg-slate-50 font-bold"
                               {...field}
                             />
                           </FormControl>
@@ -212,14 +212,14 @@ export default function LoginPage() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-text-muted text-[10px] font-black uppercase">
+                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">
                             Пароль
                           </FormLabel>
                           <FormControl>
                             <Input
                               type="password"
                               placeholder="••••••••"
-                              className="bg-bg-surface2 h-12 rounded-xl border-none font-bold"
+                              className="h-12 rounded-xl border-none bg-slate-50 font-bold"
                               {...field}
                             />
                           </FormControl>
@@ -247,14 +247,14 @@ export default function LoginPage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-text-muted text-[10px] font-black uppercase">
+                          <FormLabel className="text-[10px] font-black uppercase text-slate-400">
                             Email
                           </FormLabel>
                           <FormControl>
                             <Input
                               type="email"
-                              placeholder="email@example.com"
-                              className="bg-bg-surface2 h-12 rounded-xl border-none font-bold"
+                              placeholder="you@company.ru"
+                              className="h-12 rounded-xl border-none bg-slate-50 font-bold"
                               {...field}
                             />
                           </FormControl>
@@ -268,13 +268,13 @@ export default function LoginPage() {
                       render={({ field }) => (
                         <FormItem>
                           <div className="flex items-center justify-between">
-                            <FormLabel className="text-text-muted text-[10px] font-black uppercase">
+                            <FormLabel className="text-[10px] font-black uppercase text-slate-400">
                               Пароль
                             </FormLabel>
                             <button
                               type="button"
                               onClick={() => setIsForgotPassword(true)}
-                              className="text-accent-primary hover:text-accent-primary text-[9px] font-black uppercase tracking-widest transition-colors"
+                              className="text-[9px] font-black uppercase tracking-widest text-indigo-500 transition-colors hover:text-indigo-600"
                             >
                               Забыли пароль?
                             </button>
@@ -283,7 +283,7 @@ export default function LoginPage() {
                             <Input
                               type="password"
                               placeholder="••••••••"
-                              className="bg-bg-surface2 h-12 rounded-xl border-none font-bold"
+                              className="h-12 rounded-xl border-none bg-slate-50 font-bold"
                               {...field}
                             />
                           </FormControl>
@@ -305,23 +305,23 @@ export default function LoginPage() {
                 </Form>
               )}
 
-              <div className="border-border-subtle mt-8 border-t pt-6 text-center text-sm">
+              <div className="mt-8 border-t border-slate-50 pt-6 text-center text-sm">
                 {isSignUp ? (
-                  <p className="text-text-muted text-[11px] font-bold uppercase tracking-tight">
+                  <p className="text-[11px] font-bold uppercase tracking-tight text-slate-400">
                     Уже есть аккаунт?{' '}
                     <button
                       onClick={() => setIsSignUp(false)}
-                      className="text-accent-primary ml-1 font-black hover:underline"
+                      className="ml-1 font-black text-indigo-600 hover:underline"
                     >
                       Войти
                     </button>
                   </p>
                 ) : (
-                  <p className="text-text-muted text-[11px] font-bold uppercase tracking-tight">
+                  <p className="text-[11px] font-bold uppercase tracking-tight text-slate-400">
                     Нет аккаунта?{' '}
                     <button
                       onClick={() => setIsSignUp(true)}
-                      className="text-accent-primary ml-1 font-black hover:underline"
+                      className="ml-1 font-black text-indigo-600 hover:underline"
                     >
                       Зарегистрироваться
                     </button>
@@ -332,7 +332,7 @@ export default function LoginPage() {
               <div className="mt-4 text-center">
                 <Link
                   href="/"
-                  className="text-text-muted hover:text-text-secondary text-[9px] font-black uppercase tracking-widest transition-colors"
+                  className="text-[9px] font-black uppercase tracking-widest text-slate-300 transition-colors hover:text-slate-500"
                 >
                   Вернуться на главную
                 </Link>

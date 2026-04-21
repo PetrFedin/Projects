@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { BrandDashboardWidgets } from '@/components/brand/brand-dashboard-widgets';
 import { Badge } from '@/components/ui/badge';
@@ -7,7 +8,8 @@ import { Button } from '@/components/ui/button';
 import { BarChart3, Factory, Map, ShoppingBag } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getBrandPartnerRetailCrossRoleLinks } from '@/lib/data/entity-links';
@@ -15,7 +17,7 @@ import { B2BWorkspaceModuleGrid } from '@/components/b2b/B2BWorkspaceModuleGrid'
 
 export default function BrandDashboardPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Главный дашборд"
         leadPlain={
@@ -64,6 +66,6 @@ export default function BrandDashboardPage() {
         title="Партнёрский контур: ритейл и байеры"
         className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

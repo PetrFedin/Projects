@@ -12,8 +12,10 @@ import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { loadForYouPreferences } from '@/lib/platform/for-you';
 import { buildFitAdvice } from '@/lib/fashion/fit-advisor';
-import { ArrowLeft, Ruler, ArrowDown, ArrowUp, MinusCircle, HelpCircle } from 'lucide-react';
+import { ArrowDown, ArrowUp, MinusCircle, HelpCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 
 function IconFor({ skew }: { skew: ReturnType<typeof buildFitAdvice>['skew'] }) {
   if (skew === 'size_down') return <ArrowDown className="h-8 w-8 text-amber-600" />;
@@ -90,23 +92,10 @@ function FitAdvisorInner() {
 
 export default function ClientFitAdvisorPage() {
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <Ruler className="h-6 w-6" />
-              Посадка и размер
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Детерминированный совет до подключения size-ML и истории заказов.
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader />
         </div>
         <PlatformDataBanner />
       </div>
@@ -114,6 +103,6 @@ export default function ClientFitAdvisorPage() {
       <Suspense fallback={<p className="text-sm text-muted-foreground">Загрузка…</p>}>
         <FitAdvisorInner />
       </Suspense>
-    </div>
+    </CabinetPageContent>
   );
 }

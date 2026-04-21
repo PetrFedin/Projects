@@ -13,8 +13,8 @@ export const PASS_DB: Record<string, ProductPassport> = {
     sku: 'SD-001-BL-S',
     name: 'Silk Evening Dress',
     originCountry: 'Italy',
-    factoryName: 'Milan Silk Mills',
-    factoryLocation: 'Milan, Italy',
+    factoryName: 'Текстильный комбинат «Север»',
+    factoryLocation: 'Иваново, РФ',
     composition: [{ material: 'Silk', percentage: 100 }],
     certifications: ['OEKO-TEX Standard 100', 'Fair Trade Certified'],
     manufactureDate: '2026-01-15',
@@ -25,7 +25,6 @@ export const PASS_DB: Record<string, ProductPassport> = {
     repairGuideUrl: 'https://synth1.fashion/care/silk-repair',
     recyclingInstructions:
       'Silk is a natural fiber and can be composted or recycled into high-quality textiles.',
-    resaleEligible: true,
     isAuthentic: true,
     blockchainHash: '0x8872...f9e1',
   },
@@ -48,7 +47,6 @@ export const PASS_DB: Record<string, ProductPassport> = {
     waterUsage: 1200,
     careInstructions: ['Machine Wash 30°C', 'Do Not Tumble Dry'],
     recyclingInstructions: 'Organic cotton can be mechanically recycled into insulation material.',
-    resaleEligible: true,
     isAuthentic: true,
   },
 };

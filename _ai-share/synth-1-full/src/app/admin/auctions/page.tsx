@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import * as React from 'react';
 import {
   Gavel,
@@ -92,7 +93,7 @@ export default function AdminAuctionsPage() {
   ];
 
   return (
-    <div className="space-y-4">
+    <CabinetPageContent maxWidth="full" className="space-y-4">
       {/* Admin Stats Row */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
@@ -350,6 +351,6 @@ export default function AdminAuctionsPage() {
           </div>
         </CardFooter>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -9,7 +10,8 @@ import { AdvancedPIM } from '@/components/brand/AdvancedPIM';
 import { Database, Layers, Target, Fingerprint } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { tid } from '@/lib/ui/test-ids';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
@@ -65,7 +67,7 @@ export default function BrandProductsPage() {
   const [tab, setTab] = useState('pim');
 
   return (
-    <RegistryPageShell className="space-y-4" data-testid={tid.page('brand-products')}>
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6" data-testid={tid.page('brand-products')}>
       <RegistryPageHeader
         title="Продукт"
         leadPlain="Карточки, матрица ассортимента и продуктовые потоки от планирования до цифрового паспорта."
@@ -173,15 +175,15 @@ export default function BrandProductsPage() {
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
 
-        <TabsContent value="pim" className="mt-4">
+        <TabsContent value="pim" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           <AdvancedPIM />
         </TabsContent>
 
-        <TabsContent value="matrix" className="mt-4">
+        <TabsContent value="matrix" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'matrix' && <VariantMatrixEditor />}
         </TabsContent>
 
-        <TabsContent value="planning" className="mt-4">
+        <TabsContent value="planning" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'planning' && <SmartPlanningContent />}
         </TabsContent>
 
@@ -202,6 +204,6 @@ export default function BrandProductsPage() {
           {tab === 'digital-passport' && <DigitalPassportContent />}
         </TabsContent>
       </Tabs>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

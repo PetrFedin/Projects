@@ -63,7 +63,7 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
     LAB: 'bg-[radial-gradient(circle_at_center,_#ffffff05_1px,transparent_1px)] bg-[size:30px_30px]',
     STREET:
       'bg-[url("https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2000")] bg-cover bg-center opacity-40',
-    RUNWAY: 'bg-gradient-to-b from-accent-primary/20 to-text-primary opacity-60',
+    RUNWAY: 'bg-gradient-to-b from-indigo-900/20 to-slate-950 opacity-60',
   };
 
   return (
@@ -74,7 +74,7 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9, y: 20 }}
       className={cn(
-        'bg-text-primary fixed z-[100] overflow-hidden rounded-xl border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.7)] backdrop-blur-2xl transition-all duration-700',
+        'fixed z-[100] overflow-hidden rounded-xl border border-white/10 bg-slate-950 shadow-[0_0_80px_rgba(0,0,0,0.7)] backdrop-blur-2xl transition-all duration-700',
         isExpanded
           ? 'inset-8 h-auto w-auto md:inset-16'
           : 'bottom-12 right-12 w-[360px] md:w-[440px]'
@@ -85,16 +85,16 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
         className={cn('absolute inset-0 transition-all duration-1000', envBackgrounds[activeEnv])}
       />
 
-      <div className="from-text-primary/90 via-text-primary/40 absolute left-0 right-0 top-0 z-20 flex items-start justify-between bg-gradient-to-b to-transparent p-4">
+      <div className="absolute left-0 right-0 top-0 z-20 flex items-start justify-between bg-gradient-to-b from-slate-950/90 via-slate-950/40 to-transparent p-4">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <Badge className="rounded-xl border-none bg-emerald-500 px-3 py-1 text-[9px] font-black uppercase text-white shadow-[0_0_15px_rgba(16,185,129,0.4)]">
               PRO_TWIN_v5.0
             </Badge>
             {investorMode && (
-              <div className="bg-accent-primary/20 border-accent-primary/30 flex items-center gap-2 rounded-full border px-2 py-0.5">
-                <Cpu className="text-accent-primary h-2 w-2" />
-                <span className="text-accent-primary text-[7px] font-black uppercase tracking-widest">
+              <div className="flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/20 px-2 py-0.5">
+                <Cpu className="h-2 w-2 text-indigo-400" />
+                <span className="text-[7px] font-black uppercase tracking-widest text-indigo-400">
                   Neural_Engine_Monitoring
                 </span>
               </div>
@@ -111,7 +111,7 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
             className={cn(
               'rounded-full p-2 transition-all',
               investorMode
-                ? 'bg-accent-primary text-white'
+                ? 'bg-indigo-500 text-white'
                 : 'bg-white/5 text-white/40 hover:text-white'
             )}
           >
@@ -136,7 +136,7 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
         {/* Fit Heatmap Simulation Overlay */}
         {showHeatmap && (
           <div className="pointer-events-none absolute inset-0 z-30 opacity-40 mix-blend-overlay">
-            <div className="to-accent-primary/40 absolute inset-0 animate-pulse bg-gradient-to-t from-rose-500/40 via-emerald-500/20" />
+            <div className="absolute inset-0 animate-pulse bg-gradient-to-t from-rose-500/40 via-emerald-500/20 to-indigo-500/40" />
           </div>
         )}
 
@@ -189,7 +189,7 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
                   </svg>
                 )}
 
-                <div className="from-text-primary absolute inset-0 bg-gradient-to-t via-transparent to-transparent opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-90" />
               </motion.div>
             ) : (
               <div
@@ -247,7 +247,7 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
             >
               <div className="w-44 space-y-1 rounded-xl border border-white/10 bg-black/60 p-3 backdrop-blur-2xl">
                 <div className="mb-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-white/40">
-                  <Box className="text-accent-primary h-3 w-3" /> Fit Confidence
+                  <Box className="h-3 w-3 text-indigo-400" /> Fit Confidence
                 </div>
                 <div className="text-base font-black tabular-nums leading-none text-emerald-400">
                   {activeItem.fit}
@@ -274,9 +274,9 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
                 isExpanded ? 'right-16 top-40' : 'right-10 top-40'
               )}
             >
-              <div className="bg-accent-primary/10 border-accent-primary/20 w-64 rounded-xl border p-4 backdrop-blur-2xl">
+              <div className="w-64 rounded-xl border border-indigo-500/20 bg-indigo-500/10 p-4 backdrop-blur-2xl">
                 <div className="mb-4 flex items-center gap-2">
-                  <ShieldCheck className="text-accent-primary h-4 w-4" />
+                  <ShieldCheck className="h-4 w-4 text-indigo-400" />
                   <span className="text-[9px] font-black uppercase tracking-widest text-white">
                     Business Intelligence
                   </span>
@@ -292,7 +292,7 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
                         initial={{ width: 0 }}
                         animate={{ width: `${activeItem.synergy}%` }}
                         transition={{ duration: 1.5 }}
-                        className="bg-accent-primary h-full shadow-[0_0_10px_#6366f1]"
+                        className="h-full bg-indigo-500 shadow-[0_0_10px_#6366f1]"
                       />
                     </div>
                   </div>
@@ -329,7 +329,7 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* Control Panel */}
-      <div className="bg-text-primary/90 relative z-20 space-y-4 border-t border-white/5 p-3 backdrop-blur-[40px]">
+      <div className="relative z-20 space-y-4 border-t border-white/5 bg-slate-900/90 p-3 backdrop-blur-[40px]">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
             <div className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
@@ -368,7 +368,7 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
             onClick={() => setShowHeatmap(!showHeatmap)}
             className={cn(
               'h-10 gap-3 rounded-[1.5rem] text-[11px] font-black uppercase tracking-widest shadow-xl transition-all',
-              showHeatmap ? 'bg-rose-500 text-white' : 'hover:bg-bg-surface2 bg-white text-black'
+              showHeatmap ? 'bg-rose-500 text-white' : 'bg-white text-black hover:bg-slate-200'
             )}
           >
             <Thermometer className="h-4 w-4" /> Fit Heatmap
@@ -388,7 +388,7 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
                 <span className="text-[8px] font-black uppercase text-white/40">
                   Market Strategy
                 </span>
-                <span className="text-accent-primary text-[10px] font-black uppercase">
+                <span className="text-[10px] font-black uppercase text-indigo-400">
                   Growth_Optimized
                 </span>
               </div>
@@ -402,9 +402,9 @@ export function DigitalTwinRunway({ onClose }: { onClose: () => void }) {
             </div>
             <Button
               variant="ghost"
-              className="text-accent-primary hover:text-accent-primary text-[9px] font-black uppercase"
+              className="text-[9px] font-black uppercase text-indigo-400 hover:text-indigo-300"
             >
-              Download Investor Report
+              Скачать отчёт для инвесторов
             </Button>
           </div>
         )}

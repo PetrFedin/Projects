@@ -82,9 +82,9 @@ RouteGuard защищает все cabinet-маршруты. ClientLayout скр
 
 ## Маппинг профилей (код)
 
-- `synth-1/src/lib/data/profile-page-features.ts` — PROFILE_MAIN_PAGES, RESOURCE_TO_ROUTES, NAV_GROUP_RESOURCE, canSeeNavGroup()
-- `synth-1/src/lib/rbac.ts` — RBAC матрица, getPlatformRole, canAccess
-- `synth-1/src/components/route-guard.tsx` — ROUTE_ROLES по префиксам
+- `_ai-share/synth-1-full/src/lib/data/profile-page-features.ts` — PROFILE_MAIN_PAGES, RESOURCE_TO_ROUTES, NAV_GROUP_RESOURCE, canSeeNavGroup()
+- `_ai-share/synth-1-full/src/lib/rbac.ts` — RBAC матрица, getPlatformRole, canAccess
+- `_ai-share/synth-1-full/src/components/route-guard.tsx` — ROUTE_ROLES по префиксам
 
 ## Следующие шаги (post-MVP)
 

@@ -5,11 +5,12 @@
  * Используется в `app/client/layout.tsx` и в корневых layout’ах `/orders`, `/academy`, `/wallet`
  * (экспорт `UserCabinetRouteLayout` — то же самое).
  */
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { User, Loader2 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import type { UserProfile } from '@/lib/types';
+import { Progress } from '@/components/ui/progress';
 import { useRbac } from '@/hooks/useRbac';
 import { useAuth } from '@/providers/auth-provider';
 import { HUB_AUTH_FULLSCREEN_SPINNER } from '@/lib/syntha-api-mode';
@@ -23,21 +24,97 @@ import {
   CabinetHubSectionBar,
   CabinetHubTitleRow,
 } from '@/components/layout/cabinet-hub-chrome';
-import { cabinetRoleLabelRu } from '@/lib/ui/cabinet-role-labels';
 import { cn } from '@/lib/utils';
 import { cabinetHubLayout, cabinetSidebarLayout, cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { nuOrderDeskShell } from '@/lib/ui/nuorder-desk-shell';
 import { resolveCabinetActiveNavLink } from '@/lib/ui/cabinet-nav-active';
 import { ROUTES } from '@/lib/routes';
+import { getClientAcademyLearningActivity, getMyPlatformEnrollments } from '@/lib/education-data';
 
 const CLIENT_ROLES = ['client', 'admin'];
 
+function clientDisplayName(user: ReturnType<typeof useAuth>['user']): string {
+  if (!user) return 'Профиль';
+  const id = user.identity;
+  if (id?.firstName || id?.lastName) {
+    return [id.firstName, id.lastName].filter(Boolean).join(' ').trim();
+  }
+  if (user.displayName?.trim()) return user.displayName.trim();
+  const mail = user.email?.split('@')[0];
+  return mail ? mail.replace(/\./g, ' ') : 'Профиль';
+}
+
+function clientInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+  if (parts.length === 1 && parts[0].length >= 2) return parts[0].slice(0, 2).toUpperCase();
+  return name.slice(0, 2).toUpperCase() || '••';
+}
+
+function clientPublicHandle(user: UserProfile | null): string {
+  if (!user) return '—';
+  const nick = user.nickname?.trim();
+  if (nick) {
+    const clean = nick.replace(/^@+/, '');
+    return `@${clean}`;
+  }
+  const uid = user.uid?.trim();
+  return uid || '—';
+}
+
 export function ClientCabinetShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
-  const { loading } = useAuth();
+  const { loading, user } = useAuth();
   const { role } = useRbac();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const hasAccess = CLIENT_ROLES.includes(role);
+
+  const clientNuOrderHub = pathname.startsWith('/client');
+  const isAcademyHub = pathname === '/academy' || pathname.startsWith('/academy/');
+
+  const profileName = useMemo(() => clientDisplayName(user), [user]);
+  const initials = useMemo(() => clientInitials(profileName), [profileName]);
+  const photo = user?.photoURL?.trim();
+  const publicHandle = useMemo(() => clientPublicHandle(user), [user]);
+
+  const academyProfileFooter = useMemo(() => {
+    if (!isAcademyHub) return null;
+    const activity = getClientAcademyLearningActivity(getMyPlatformEnrollments());
+    const accentNum = clientNuOrderHub ? 'text-[#4a5fc8]' : 'text-accent-primary';
+    const accentBar = clientNuOrderHub ? 'bg-[#4a5fc8]' : 'bg-accent-primary';
+    return (
+      <div className="rounded-md border border-border-subtle/90 bg-bg-surface2/60 px-2.5 py-2 shadow-sm">
+        <div className="space-y-2">
+          <div className="min-w-0">
+            <p className="text-text-muted text-[10px] font-medium leading-tight">Активность</p>
+            <p className="mt-0.5 flex flex-wrap items-baseline gap-x-0.5 leading-none">
+              <span className={cn('text-sm font-bold tabular-nums tracking-tight', accentNum)}>
+                {activity.activityScore}
+              </span>
+              <span className="text-text-muted text-[10px] font-normal tabular-nums">/ 100</span>
+            </p>
+          </div>
+          <div className="min-w-0 border-t border-border-subtle/70 pt-2">
+            <p className="text-text-muted text-[10px] font-medium leading-tight">Рейтинг</p>
+            <p className="text-text-primary mt-0.5 text-[11px] font-semibold leading-tight tabular-nums">
+              {activity.rankAmongClients.toLocaleString('ru-RU')}
+              <span className="text-text-muted text-[10px] font-normal"> / </span>
+              <span className="text-text-muted text-[10px] font-normal tabular-nums">
+                {activity.totalClientsRanked.toLocaleString('ru-RU')}
+              </span>
+            </p>
+          </div>
+        </div>
+        <div className="pointer-events-none mt-2" aria-hidden>
+          <Progress
+            value={activity.activityScore}
+            className="h-1 rounded-full bg-border-subtle/90"
+            indicatorClassName={cn('rounded-full', accentBar)}
+          />
+        </div>
+      </div>
+    );
+  }, [isAcademyHub, pathname, clientNuOrderHub]);
 
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
@@ -64,9 +141,6 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
   const sectionLabel =
     resolveCabinetActiveNavLink(pathname, clientNavGroups)?.label ?? 'Главная';
 
-  /** NuOrder/JOOR-плотность только для сегмента `/client/*` (не для orders/academy/wallet через алиас). */
-  const clientNuOrderHub = pathname.startsWith('/client');
-
   return (
     <ErrorBoundary>
       <div
@@ -78,13 +152,20 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
       >
         <aside className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}>
           <HubSidebarHeader
-            href={ROUTES.client.home}
+            href={ROUTES.client.profile}
             icon={User}
             title="Личный кабинет"
-            badge="Клиент"
+            showRole={false}
+            profile={{
+              name: profileName,
+              initials,
+              photoURL: photo,
+              clientId: publicHandle,
+              profileFooter: isAcademyHub ? academyProfileFooter : undefined,
+            }}
             badgeClass={
               clientNuOrderHub
-                ? 'bg-[#0b63ce]/12 text-[#0b63ce] border border-[#0b63ce]/25'
+                ? 'bg-[#4a5fc8]/12 text-[#4a5fc8] border border-[#4a5fc8]/25'
                 : 'bg-accent-primary/10 text-accent-primary'
             }
             iconBgClass={
@@ -95,8 +176,8 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
             <HubSidebar
               groups={clientNavGroups}
               basePath={ROUTES.client.home}
-              accentClass={clientNuOrderHub ? 'text-[#0b63ce]' : 'text-accent-primary'}
-              activeBgClass={clientNuOrderHub ? 'bg-[#0b63ce]' : 'bg-accent-primary'}
+              accentClass={clientNuOrderHub ? 'text-[#4a5fc8]' : 'text-accent-primary'}
+              activeBgClass={clientNuOrderHub ? 'bg-[#4a5fc8]' : 'bg-accent-primary'}
             />
           </div>
         </aside>
@@ -111,13 +192,20 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
           >
             <div className="shrink-0 pb-0 pt-12">
               <HubSidebarHeader
-                href={ROUTES.client.home}
+                href={ROUTES.client.profile}
                 icon={User}
                 title="Личный кабинет"
-                badge="Клиент"
+                showRole={false}
+                profile={{
+                  name: profileName,
+                  initials,
+                  photoURL: photo,
+                  clientId: publicHandle,
+                  profileFooter: isAcademyHub ? academyProfileFooter : undefined,
+                }}
                 badgeClass={
                   clientNuOrderHub
-                    ? 'bg-[#0b63ce]/12 text-[#0b63ce] border border-[#0b63ce]/25'
+                    ? 'bg-[#4a5fc8]/12 text-[#4a5fc8] border border-[#4a5fc8]/25'
                     : 'bg-accent-primary/10 text-accent-primary'
                 }
                 iconBgClass={
@@ -134,8 +222,8 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
               <HubSidebar
                 groups={clientNavGroups}
                 basePath={ROUTES.client.home}
-                accentClass={clientNuOrderHub ? 'text-[#0b63ce]' : 'text-accent-primary'}
-                activeBgClass={clientNuOrderHub ? 'bg-[#0b63ce]' : 'bg-accent-primary'}
+                accentClass={clientNuOrderHub ? 'text-[#4a5fc8]' : 'text-accent-primary'}
+                activeBgClass={clientNuOrderHub ? 'bg-[#4a5fc8]' : 'bg-accent-primary'}
                 onNavigate={() => setSidebarOpen(false)}
               />
             </div>
@@ -159,28 +247,19 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
                   : 'bg-accent-primary text-white shadow-sm ring-1 ring-border-subtle'
               }
               title="Личный кабинет"
-              badges={
-                <Badge
-                  variant="outline"
-                  className={
-                    clientNuOrderHub
-                      ? 'shrink-0 border-[#0b63ce]/30 text-[#0b63ce] text-[8px] font-bold'
-                      : 'border-accent-primary/25 text-accent-primary shrink-0 text-[8px] font-bold'
-                  }
-                >
-                  {cabinetRoleLabelRu(role)}
-                </Badge>
-              }
             />
             {/*
-              Полный путь: Аккаунт › Личный кабинет › … Под крошками без второго заголовка —
-              название дублируется в контенте страницы (иконка + подпись).
+              Путь: Личный кабинет › Аккаунт › текущий раздел (как в навигации продукта).
             */}
             <CabinetHubSectionBar
               accentClassName={
                 clientNuOrderHub ? nuOrderDeskShell.clientCabinetHubAccentRail : 'bg-accent-primary'
               }
-              breadcrumbItems={['Аккаунт', 'Личный кабинет', sectionLabel]}
+              breadcrumbItems={[
+                { label: 'Личный кабинет', href: ROUTES.client.home },
+                { label: 'Аккаунт', href: ROUTES.client.profile },
+                sectionLabel,
+              ]}
             />
 
             <main className={cabinetHubLayout.mainInner}>

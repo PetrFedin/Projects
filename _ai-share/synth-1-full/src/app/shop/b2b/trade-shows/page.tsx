@@ -1,19 +1,19 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getUpcomingEvents } from '@/lib/b2b/trade-show-calendar';
 import { ROUTES } from '@/lib/routes';
 import { ArrowRight } from 'lucide-react';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 export default function ShopTradeShowsPage() {
   const events = getUpcomingEvents();
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader lead="Ближайшие события и запись на встречи с брендами." />
 
       <Card className="mb-6">
@@ -41,6 +41,6 @@ export default function ShopTradeShowsPage() {
           ))}
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

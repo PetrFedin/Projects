@@ -51,7 +51,7 @@ function load(): TradeShowEvent[] {
   if (typeof window === 'undefined') return SEED;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : SEED;
+    return raw ? (JSON.parse(raw) as TradeShowEvent[]) : SEED;
   } catch {
     return SEED;
   }

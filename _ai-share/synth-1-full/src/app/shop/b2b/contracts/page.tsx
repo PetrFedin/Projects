@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import {
   Table,
   TableBody,
@@ -17,7 +18,6 @@ import Image from 'next/image';
 import { GlobalTradeAi } from '@/components/distributor/global-trade-ai';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageShell } from '@/components/design-system';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
@@ -61,7 +61,7 @@ const statusConfig = {
 
 export default function ContractsPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="Юридические документы с брендами; связь с документами, финансами и заказами." />
       <ShopAnalyticsSegmentErpStrip />
 
@@ -180,6 +180,6 @@ export default function ContractsPage() {
         )}
         className="mt-2"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

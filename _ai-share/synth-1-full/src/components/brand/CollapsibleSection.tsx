@@ -14,7 +14,9 @@ function getStoredState(sectionId: string, defaultPinned = true, defaultOpen = t
   if (typeof window === 'undefined') return { pinned: defaultPinned, open: defaultOpen };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    const all: Record<string, SectionState> = raw ? JSON.parse(raw) : {};
+    const all: Record<string, SectionState> = raw
+      ? (JSON.parse(raw) as Record<string, SectionState>)
+      : {};
     const stored = all[sectionId];
     if (stored) {
       // Если снят гвоздик — по умолчанию сворачиваем
@@ -30,7 +32,9 @@ function saveState(sectionId: string, state: SectionState) {
   if (typeof window === 'undefined') return;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    const all: Record<string, SectionState> = raw ? JSON.parse(raw) : {};
+    const all: Record<string, SectionState> = raw
+      ? (JSON.parse(raw) as Record<string, SectionState>)
+      : {};
     all[sectionId] = state;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
   } catch {

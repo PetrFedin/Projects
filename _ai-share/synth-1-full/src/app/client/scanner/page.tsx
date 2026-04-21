@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Camera, Ruler, Scan, CheckCircle, Smartphone } from 'lucide-react';
 import { bodyScanClient } from '@/lib/ai-client/api';
 import { BodyMeasurements } from '@/lib/types/client';
-import { RegistryPageShell } from '@/components/design-system';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 
 /**
  * AI Body Scanner UI
@@ -39,11 +40,8 @@ export default function BodyScannerPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-lg space-y-6 pb-16">
-      <header className="space-y-2 text-center">
-        <h1 className="font-headline text-base font-bold">AI Body Scanner</h1>
-        <p className="text-muted-foreground">Подберите идеальный размер за 30 секунд</p>
-      </header>
+    <CabinetPageContent maxWidth="lg" className="space-y-6 pb-16">
+      <ClientCabinetSectionHeader />
 
       {step === 'intro' && (
         <Card className="border-2 border-primary/20">
@@ -204,6 +202,6 @@ export default function BodyScannerPage() {
           </CardContent>
         </Card>
       )}
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

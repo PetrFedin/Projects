@@ -1,5 +1,8 @@
 /**
- * Якоря для матрицы кабинетов (синхрон с `shopNavGroups` / `SHOP_B2B_HUB_GROUP_IDS` и brand).
+ * Якоря для матрицы кабинетов.
+ * Shop: ссылки собираются из `shopNavGroups`, оставляя только группы из `SHOP_B2B_HUB_GROUP_IDS`
+ * (ритейл `retail-ops`, ядро опта `partners` → `pim` → `b2b` → `logistics`, `shop-b2b-extended`, `analytics`).
+ * Brand: все группы `brandNavGroups` (дедуп по href).
  */
 import { shopNavGroups, SHOP_B2B_HUB_GROUP_IDS } from '@/lib/data/shop-navigation-normalized';
 import { brandNavGroups } from '@/lib/data/brand-navigation';
@@ -18,7 +21,10 @@ function dedupeByHref(anchors: CabinetMatrixAnchor[]): CabinetMatrixAnchor[] {
   return out;
 }
 
-/** Срез ритейл-центра для B2B-хаба в данных: розница, склад, закупка, исполнение, сервис, аналитика. */
+/**
+ * Срез хаба `/shop/b2b/*` для матрицы кабинетов: те же группы, что и горизонтальный хаб
+ * (`SHOP_B2B_HUB_GROUP_IDS`), не только четыре столпа `SHOP_B2B_NAV_GROUP_IDS`.
+ */
 export function buildShopCabinetAnchors(): CabinetMatrixAnchor[] {
   const allowed = new Set<string>(SHOP_B2B_HUB_GROUP_IDS as readonly string[]);
   const raw: CabinetMatrixAnchor[] = [];

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -21,7 +22,6 @@ import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 import { useToast } from '@/hooks/use-toast';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** JOOR: шаблоны заказов по коллекциям — сохранённые наборы позиций для быстрого повторного заказа. */
 const MOCK_TEMPLATES = [
@@ -67,7 +67,7 @@ export default function OrderTemplatesPage() {
   const showSaveFrom = saveFromOrderId && !saveFromDismissed;
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader lead="JOOR: сохраняйте наборы позиций по коллекции и повторяйте заказ в один клик." />
 
       {showSaveFrom && (
@@ -147,6 +147,6 @@ export default function OrderTemplatesPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getShopB2BHubLinks()} title="Матрица, заказы, Reorder" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { use, useState, useEffect } from 'react';
@@ -11,7 +12,6 @@ import { Heart, MessageCircle, Send, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import type { Product } from '@/lib/types';
-import { RegistryPageShell } from '@/components/design-system';
 
 const mockComments = [
   {
@@ -37,7 +37,7 @@ export default function LookPage({ params: paramsPromise }: { params: Promise<{ 
     async function fetchProducts() {
       try {
         const response = await fetch('/data/products.json');
-        const products: Product[] = await response.json();
+        const products = (await response.json()) as Product[];
         setRelatedProducts(products.slice(0, 3));
       } catch (error) {
         console.error('Failed to fetch products for look page:', error);
@@ -53,7 +53,7 @@ export default function LookPage({ params: paramsPromise }: { params: Promise<{ 
   const relatedLooks = looks.filter((l) => l.id !== look.id).slice(0, 3);
 
   return (
-    <RegistryPageShell className="pb-16">
+    <CabinetPageContent maxWidth="5xl" className="pb-16 px-4 py-6 pb-24 sm:px-6">
       <div className="grid gap-3 lg:grid-cols-3 lg:gap-3">
         {/* Main Content */}
         <div className="space-y-4 lg:col-span-2">
@@ -180,6 +180,6 @@ export default function LookPage({ params: paramsPromise }: { params: Promise<{ 
           </Card>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

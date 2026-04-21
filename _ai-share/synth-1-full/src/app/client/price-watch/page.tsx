@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlatformDataBanner } from '@/components/client/platform-data-banner';
-import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import {
   addOrRefreshPriceWatch,
@@ -16,9 +15,11 @@ import {
   removePriceWatch,
   type PriceWatchEntryV1,
 } from '@/lib/fashion/price-watch-store';
-import { ArrowLeft, Bell, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 function currentPrice(sku: string): number | null {
   const p = products.find((x) => x.sku === sku);
@@ -127,23 +128,16 @@ function PriceWatchInner() {
 
 export default function PriceWatchPage() {
   return (
-    <div className="container mx-auto max-w-lg space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="lg">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="flex items-center gap-2 text-xl font-bold">
-              <Bell className="h-6 w-6" />
-              Слежение за ценой
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Локально в браузере; контракт под price-alert <AcronymWithTooltip abbr="API" />.
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader
+            description={
+              <>
+                Локально в браузере; контракт под price-alert <AcronymWithTooltip abbr="API" />.
+              </>
+            }
+          />
         </div>
         <PlatformDataBanner />
       </div>
@@ -151,6 +145,6 @@ export default function PriceWatchPage() {
       <Suspense fallback={<p className="text-sm text-muted-foreground">Загрузка…</p>}>
         <PriceWatchInner />
       </Suspense>
-    </div>
+    </CabinetPageContent>
   );
 }

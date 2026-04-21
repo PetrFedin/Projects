@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { useAuth } from '@/providers/auth-provider';
@@ -11,7 +12,7 @@ import { Copy, Mail } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 
 export default function RenewalOfferLetterPage() {
   const { user } = useAuth();
@@ -34,18 +35,11 @@ export default function RenewalOfferLetterPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-3xl py-10 pb-16">
-      <div className="mb-6 flex items-center justify-between gap-3">
-        <div>
-          <h1 className="font-headline text-base font-bold">Сообщение</h1>
-          <p className="text-sm text-muted-foreground">
-            Письмо от Syntha с инструкцией по продлению.
-          </p>
-        </div>
-        <Button variant="outline" asChild>
-          <Link href={`${ROUTES.client.profile}?tab=profile`}>Назад в профиль</Link>
-        </Button>
-      </div>
+    <CabinetPageContent maxWidth="3xl" className="mx-auto py-10 pb-16">
+      <ClientCabinetSectionHeader
+        title={title}
+        description="Письмо от Syntha с инструкцией по продлению."
+      />
 
       <Card>
         <CardHeader>
@@ -122,6 +116,6 @@ export default function RenewalOfferLetterPage() {
           )}
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

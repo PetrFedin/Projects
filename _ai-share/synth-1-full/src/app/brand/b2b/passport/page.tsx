@@ -1,5 +1,6 @@
 'use client';
-import { RegistryPageShell } from '@/components/design-system';
+
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
@@ -72,7 +73,7 @@ export default function BrandB2BPassportPage() {
     );
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
@@ -225,6 +226,6 @@ export default function BrandB2BPassportPage() {
           встречи.
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

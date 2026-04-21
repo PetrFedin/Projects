@@ -3,37 +3,17 @@
  * Версии файла, кто загрузил, сравнение с матрицей, подтверждение брендом.
  */
 
-export type WorkingOrderVersionStatus = 'draft' | 'pending_review' | 'confirmed' | 'rejected';
+import type {
+  WorkingOrderRow,
+  WorkingOrderVersion,
+  WorkingOrderVersionStatus,
+} from '@/lib/b2b/working-order-version.types';
 
-export interface WorkingOrderRow {
-  Style?: string;
-  SKU?: string;
-  Color?: string;
-  'Delivery Window'?: string;
-  'Qty XS'?: string;
-  'Qty S'?: string;
-  'Qty M'?: string;
-  'Qty L'?: string;
-  'Qty XL'?: string;
-  Total?: string;
-  Price?: string;
-  'Line Total'?: string;
-  [key: string]: string | undefined;
-}
-
-export interface WorkingOrderVersion {
-  id: string;
-  createdAt: string; // ISO
-  uploadedBy: string;
-  uploadedByUserId?: string;
-  fileName: string;
-  rows: WorkingOrderRow[];
-  status: WorkingOrderVersionStatus;
-  /** Комментарий бренда при reject/confirm */
-  brandComment?: string;
-  confirmedAt?: string;
-  confirmedBy?: string;
-}
+export type {
+  WorkingOrderVersionStatus,
+  WorkingOrderRow,
+  WorkingOrderVersion,
+} from '@/lib/b2b/working-order-version.types';
 
 const STORAGE_KEY = 'b2b_working_order_versions';
 
@@ -42,7 +22,7 @@ function loadVersions(): WorkingOrderVersion[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
-    return JSON.parse(raw);
+    return JSON.parse(raw) as WorkingOrderVersion[];
   } catch {
     return [];
   }
@@ -53,9 +33,19 @@ function saveVersions(versions: WorkingOrderVersion[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(versions));
 }
 
-export function getWorkingOrderVersions(brandId?: string): WorkingOrderVersion[] {
+export function getWorkingOrderVersions(_brandId?: string): WorkingOrderVersion[] {
   const all = loadVersions();
   return all; // при необходимости фильтр по brandId
+}
+
+/** Полная замена списка (гидратация с сервера или сброс). */
+export function replaceWorkingOrderVersions(versions: WorkingOrderVersion[]): void {
+  saveVersions(versions);
+}
+
+/** Версии, привязанные к указанному оптовому заказу. */
+export function getWorkingOrderVersionsForOrder(wholesaleOrderId: string): WorkingOrderVersion[] {
+  return loadVersions().filter((v) => v.wholesaleOrderId === wholesaleOrderId);
 }
 
 export function addWorkingOrderVersion(payload: {
@@ -63,6 +53,7 @@ export function addWorkingOrderVersion(payload: {
   rows: WorkingOrderRow[];
   uploadedBy: string;
   uploadedByUserId?: string;
+  wholesaleOrderId?: string;
 }): WorkingOrderVersion {
   const versions = loadVersions();
   const version: WorkingOrderVersion = {
@@ -73,10 +64,28 @@ export function addWorkingOrderVersion(payload: {
     fileName: payload.fileName,
     rows: payload.rows,
     status: 'draft',
+    ...(payload.wholesaleOrderId ? { wholesaleOrderId: payload.wholesaleOrderId } : {}),
   };
   versions.unshift(version);
   saveVersions(versions);
   return version;
+}
+
+/** Сменить или снять привязку версии к оптовому заказу. */
+export function setWorkingOrderVersionWholesaleOrderId(
+  versionId: string,
+  wholesaleOrderId: string | undefined
+): WorkingOrderVersion | null {
+  const versions = loadVersions();
+  const i = versions.findIndex((v) => v.id === versionId);
+  if (i === -1) return null;
+  if (wholesaleOrderId) {
+    versions[i].wholesaleOrderId = wholesaleOrderId;
+  } else {
+    delete versions[i].wholesaleOrderId;
+  }
+  saveVersions(versions);
+  return versions[i];
 }
 
 export function setWorkingOrderStatus(

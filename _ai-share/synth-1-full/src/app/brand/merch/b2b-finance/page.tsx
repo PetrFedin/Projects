@@ -17,13 +17,14 @@ import { Progress } from '@/components/ui/progress';
 import { ROUTES } from '@/lib/routes';
 import { getB2BCreditTerms, PAYMENT_TERM_LABELS } from '@/lib/fashion/b2b-finance';
 import { ArrowLeft, Wallet, CreditCard, Clock, CheckCircle2 } from 'lucide-react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function B2BFinancePage() {
   const buyers = ['BUY-7721', 'BUY-8842', 'BUY-1102', 'BUY-4493'];
   const data = useMemo(() => buyers.map((id) => ({ id, terms: getB2BCreditTerms(id) })), []);
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="6xl">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -107,6 +108,6 @@ export default function B2BFinancePage() {
           </Card>
         ))}
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

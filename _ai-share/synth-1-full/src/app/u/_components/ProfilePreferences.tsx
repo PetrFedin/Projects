@@ -254,9 +254,9 @@ export function ProfilePreferences({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="RUB">RUB (₽)</SelectItem>
-                <SelectItem value="USD">USD ($)</SelectItem>
-                <SelectItem value="EUR">EUR (€)</SelectItem>
+                <SelectItem value="RUB">RUB — рубль (₽)</SelectItem>
+                <SelectItem value="USD">USD — доллар ($)</SelectItem>
+                <SelectItem value="EUR">EUR — евро (€)</SelectItem>
               </SelectContent>
             </Select>
           </div>

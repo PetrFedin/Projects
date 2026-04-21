@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { analyzeWardrobe } from '@/ai/flows/analyze-wardrobe';
+import { readJsonBody } from '@/lib/http/read-json-body';
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { items, occasion } = body;
+    const { items, occasion } = await readJsonBody<{ items?: unknown; occasion?: string }>(req);
 
     if (!Array.isArray(items)) {
       return NextResponse.json({ error: 'items array is required' }, { status: 400 });

@@ -17,6 +17,7 @@ import {
   Shield,
   Package,
   Layers,
+  GraduationCap,
 } from 'lucide-react';
 import React from 'react';
 
@@ -49,10 +50,11 @@ export const ROLE_PERMISSIONS = {
     'shop',
     'client',
     'team',
+    'academy',
     'starred',
     'archived',
   ],
-  b2b: ['all', 'brand', 'shop', 'team', 'b2b_orders', 'collections', 'starred', 'archived'],
+  b2b: ['all', 'brand', 'shop', 'team', 'b2b_orders', 'collections', 'academy', 'starred', 'archived'],
   brand: [
     'all',
     'admin',
@@ -66,11 +68,12 @@ export const ROLE_PERMISSIONS = {
     'production',
     'b2b_orders',
     'collections',
+    'academy',
     'starred',
     'archived',
   ],
-  client: ['all', 'admin', 'brand', 'shop', 'starred', 'archived'],
-  shop: ['all', 'admin', 'brand', 'distributor', 'team', 'starred', 'archived', 'client'],
+  client: ['all', 'admin', 'brand', 'shop', 'academy', 'starred', 'archived'],
+  shop: ['all', 'admin', 'brand', 'distributor', 'team', 'starred', 'archived', 'client', 'academy'],
   distributor: ['all', 'admin', 'brand', 'shop', 'team', 'starred', 'archived'],
   supplier: ['all', 'admin', 'brand', 'manufacturer', 'team', 'starred', 'archived'],
   manufacturer: ['all', 'admin', 'brand', 'supplier', 'team', 'starred', 'archived'],
@@ -86,6 +89,7 @@ export const chatGroupConfig = {
   production: { label: 'Производство', icon: Briefcase },
   b2b_orders: { label: SHOP_B2B_ORDERS_HUB_LABEL, icon: Package },
   collections: { label: 'Коллекции', icon: Layers },
+  academy: { label: 'Академия', icon: GraduationCap },
   shop: { label: 'Магазины', icon: Users },
   team: { label: 'Команда', icon: Users },
   client: { label: 'Клиенты', icon: Users },

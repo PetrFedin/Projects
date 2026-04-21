@@ -1,11 +1,13 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
 import { getRelatedLinks } from '@/lib/data/integration-modules';
@@ -15,7 +17,7 @@ export default function BrandB2BTradeShowsPage() {
   const links = getRelatedLinks('trade-show').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-700 animate-in fade-in">
       <RegistryPageHeader
         title="Market Week / Trade Show"
         leadPlain="CPM, МФН и др. события. Календарь выставок, инвайты байерам, заказы с события."
@@ -49,6 +51,6 @@ export default function BrandB2BTradeShowsPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={links} title="Связанные модули" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

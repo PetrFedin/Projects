@@ -1,12 +1,14 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin, ChevronRight } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
 import {
@@ -33,7 +35,7 @@ export default function BrandEventsPage() {
   );
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="События"
         leadPlain="Мероприятия, показы, дедлайны. Полный календарь со всеми слоями — в разделе Календарь."
@@ -138,6 +140,6 @@ export default function BrandEventsPage() {
           { label: 'Production', href: ROUTES.brand.production },
         ]}
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

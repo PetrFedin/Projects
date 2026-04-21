@@ -199,8 +199,8 @@ export function LookResultCard({
       return [it.productId];
     });
 
-    const prev = JSON.parse(localStorage.getItem(key) ?? '[]');
-    const oppositePrev = JSON.parse(localStorage.getItem(oppositeKey) ?? '[]');
+    const prev = JSON.parse(localStorage.getItem(key) ?? '[]') as string[];
+    const oppositePrev = JSON.parse(localStorage.getItem(oppositeKey) ?? '[]') as string[];
 
     localStorage.setItem(key, JSON.stringify([...new Set([...prev, ...allTags])].slice(0, 100)));
     localStorage.setItem(
@@ -217,7 +217,7 @@ export function LookResultCard({
 
   const handlePostToFeed = () => {
     const key = 'syntha_feed_posts';
-    const prev = JSON.parse(localStorage.getItem(key) ?? '[]');
+    const prev = JSON.parse(localStorage.getItem(key) ?? '[]') as unknown[];
     const newPost = {
       id: `post-${Date.now()}`,
       look,
@@ -671,7 +671,7 @@ export function LookResultCard({
           className="bg-bg-surface2 text-text-muted border-border-default hover:border-text-primary hover:text-text-primary group/save mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed py-3 text-[8px] font-black uppercase tracking-[0.2em] transition-all hover:bg-white active:scale-[0.98]"
           onClick={() => {
             const key = 'syntha_saved_looks';
-            const prev = JSON.parse(localStorage.getItem(key) ?? '[]');
+            const prev = JSON.parse(localStorage.getItem(key) ?? '[]') as unknown[];
             localStorage.setItem(key, JSON.stringify([look, ...prev].slice(0, 50)));
             toast({
               title: 'Образ сохранён',

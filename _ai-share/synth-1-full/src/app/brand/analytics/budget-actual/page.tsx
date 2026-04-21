@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,13 +12,7 @@ import { listBudgetActualSnapshots } from '@/lib/api/analytics';
 import type { BudgetActualSnapshot } from '@/lib/analytics/budget-actual';
 import { ROUTES } from '@/lib/routes';
 import { cn } from '@/lib/utils';
-import {
-  DataTableContainer,
-  FilterToolbar,
-  LoadingState,
-  RegistryPageHeader,
-  RegistryPageShell,
-} from '@/components/design-system';
+import { DataTableContainer, FilterToolbar, LoadingState, RegistryPageHeader } from '@/components/design-system';
 
 const PERIODS = ['SS26', 'FW25', 'SS25'];
 
@@ -36,7 +31,7 @@ export default function BudgetActualPage() {
   }, [period]);
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title={`Бюджет: план / факт — ${period}`}
         leadPlain="Единый паттерн снимков по категориям. При API — данные из snapshot_* и импорт 1С / МойСклад."
@@ -138,6 +133,6 @@ export default function BudgetActualPage() {
       </Card>
 
       <RelatedModulesBlock links={links} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

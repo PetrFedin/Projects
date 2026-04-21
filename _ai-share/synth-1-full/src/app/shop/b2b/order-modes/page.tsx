@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { ShopB2bNuOrderScope } from '@/components/shop/ShopB2bNuOrderScope';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Package, Calendar } from 'lucide-react';
@@ -37,8 +37,8 @@ const modes = [
 
 export default function OrderModesPage() {
   return (
-    <RegistryPageShell
-      className="min-h-[200px] max-w-4xl space-y-6"
+    <ShopB2bNuOrderScope
+      className="min-h-[200px] space-y-6"
       data-testid={tid.page('shop-b2b-order-modes')}
     >
       <ShopB2bContentHeader lead="Buy Now, Reorder и Pre-order в одном потоке оформления (NuOrder style)." />
@@ -84,6 +84,6 @@ export default function OrderModesPage() {
             l.href === ROUTES.shop.b2bOrders
         )}
       />
-    </RegistryPageShell>
+    </ShopB2bNuOrderScope>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import {
@@ -101,7 +102,7 @@ export default function AdminQualityPage() {
   }, [searchQuery]);
 
   return (
-    <div className="space-y-4 p-4">
+    <CabinetPageContent maxWidth="full" className="space-y-4 p-4">
       <header className="flex items-center justify-between">
         <div>
           <h1 className="text-base font-black uppercase tracking-tighter">
@@ -405,6 +406,6 @@ export default function AdminQualityPage() {
           )}
         </DialogContent>
       </Dialog>
-    </div>
+    </CabinetPageContent>
   );
 }

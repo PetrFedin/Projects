@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,7 +13,6 @@ import { getStyleMeUpsellLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { listCampaigns, type StyleMeCampaign } from '@/lib/marketing/style-me-upsell';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const statusLabels: Record<StyleMeCampaign['status'], string> = {
   draft: 'Черновик',
@@ -29,7 +29,7 @@ export default function StyleMeUpsellPage() {
   }, []);
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Post-Purchase Style-Me Upsell"
         description="Персональные подборки в мессенджер через 2 дня после покупки. Связь с CRM, заказами и контентом. При API — триггер по событию заказа + шаблоны подборок."
@@ -84,6 +84,6 @@ export default function StyleMeUpsellPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getStyleMeUpsellLinks()} title="CRM, заказы, контент" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

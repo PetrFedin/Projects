@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -20,7 +21,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
-import { RegistryPageShell } from '@/components/design-system';
 
 const QC_DEFAULT: { v: 1; inspections: QcInspection[] } = {
   v: 1,
@@ -69,7 +69,7 @@ export default function QcAppPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Мобильный QC-модуль"
         description={
@@ -97,11 +97,11 @@ export default function QcAppPage() {
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Link href={ROUTES.brand.production}>
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.production} aria-label="Назад к производству">
+              <ArrowLeft className="h-4 w-4" aria-hidden />
+            </Link>
+          </Button>
           <h1 className="text-2xl font-bold uppercase">
             Мобильный <AcronymWithTooltip abbr="QC" />
             -модуль
@@ -171,6 +171,6 @@ export default function QcAppPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getProductionLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

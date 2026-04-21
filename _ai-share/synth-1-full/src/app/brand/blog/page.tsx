@@ -1,16 +1,18 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import BlogManagementPro from '@/components/brand/blog/BlogManagementPro';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FileText, Megaphone } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 
 export default function BrandBlogPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
       <RegistryPageHeader
         title="Блог"
         leadPlain="Публикации, редакция, контент. Связь с Media (DAM), Marketing и Products."
@@ -35,6 +37,6 @@ export default function BrandBlogPage() {
         }
       />
       <BlogManagementPro />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

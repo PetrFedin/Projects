@@ -1,11 +1,11 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { RegistryPageShell } from '@/components/design-system';
 import { Download, Share2, BookOpen, ShoppingBag, FileText, ChevronRight } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
@@ -47,7 +47,7 @@ export default function VirtualShowroomPage() {
   }, [projects, brandFilter, seasonFilter]);
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6">
       <ShopB2bContentHeader lead="Просмотр коллекций по бренду и сезону: лайншит (PDF), шаринг, заказ из лукбука в один клик." />
 
       <Card className="mb-6">
@@ -251,6 +251,6 @@ export default function VirtualShowroomPage() {
         title="Лукбуки, каталог, матрица"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

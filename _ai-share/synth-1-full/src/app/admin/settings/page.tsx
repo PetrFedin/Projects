@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
@@ -83,7 +84,7 @@ export default function AdminSettingsPage() {
   };
 
   return (
-    <div className="bg-bg-canvas space-y-4">
+    <CabinetPageContent maxWidth="full" className="bg-bg-canvas space-y-4">
       <header>
         <h1 className="text-text-primary font-headline text-base font-bold">
           Настройки доступности (Feature Flags)
@@ -249,6 +250,6 @@ export default function AdminSettingsPage() {
           Сохранить изменения
         </Button>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

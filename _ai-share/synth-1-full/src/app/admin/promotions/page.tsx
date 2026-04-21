@@ -1,6 +1,5 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system/registry-page-shell';
 import { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -45,12 +44,120 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { DateRange } from 'react-day-picker';
 import { cn } from '@/lib/utils';
-import { ROUTES } from '@/lib/routes';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useRouter } from 'next/navigation';
 import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { mockPromotions } from '@/lib/data/mock-promotions';
+
+export const mockPromotions: Promotion[] = [
+  {
+    id: 'promo1',
+    productName: 'Кашемировый свитер с круглым вырезом',
+    productId: '1',
+    targetType: 'products',
+    brandName: 'Syntha',
+    type: 'catalog_boost',
+    startDate: '2024-08-01',
+    endDate: '2024-08-08',
+    budget: { value: 5000, model: 'cpm', bid: 300 },
+    status: 'active',
+    source: 'brand',
+    metrics: { views: 12500, engagement: 18.2, ctr: 4.5, roi: 250 },
+  },
+  {
+    id: 'promo2',
+    productName: 'Вся коллекция FW24',
+    productId: '2',
+    targetType: 'categories',
+    brandName: 'Syntha',
+    type: 'homepage_banner',
+    startDate: '2024-08-05',
+    endDate: '2024-08-12',
+    budget: { value: 10000, model: 'cpc', bid: 50 },
+    status: 'pending',
+    source: 'brand',
+    metrics: { views: 0, engagement: 0, ctr: 0, roi: 0 },
+  },
+  {
+    id: 'promo3',
+    productName: 'Легендарный тренч',
+    productId: '4',
+    targetType: 'products',
+    brandName: 'Syntha',
+    type: 'catalog_boost',
+    startDate: '2024-07-15',
+    endDate: '2024-07-22',
+    budget: { value: 7000, model: 'cpm', bid: 300 },
+    status: 'archived',
+    source: 'system',
+    metrics: { views: 8200, engagement: 12.1, ctr: 2.1, roi: 80 },
+    evaluation: {
+      aiSummary:
+        'Кампания показала высокий CTR (+25%), но низкую конверсию в покупки (ROAS 80%). Вероятно, цена оказалась выше ожиданий аудитории.',
+      brandRating: [
+        { metric: 'Рост просмотров', score: 5 },
+        { metric: 'Вовлеченность', score: 4 },
+        { metric: 'Продажи', score: 2 },
+      ],
+    },
+  },
+  {
+    id: 'promo4',
+    productName: 'Классическая джинсовая куртка',
+    productId: '8',
+    targetType: 'products',
+    brandName: 'Syntha',
+    type: 'outlet_boost',
+    startDate: '2024-08-10',
+    endDate: '2024-08-17',
+    budget: { value: 2000, model: 'fixed' },
+    status: 'rejected',
+    source: 'admin',
+    metrics: { views: 0, engagement: 0, ctr: 0, roi: 0 },
+  },
+  {
+    id: 'promo5',
+    productName: 'Шелковое платье-миди',
+    productId: '12',
+    targetType: 'products',
+    brandName: 'Syntha',
+    type: 'stories_feature',
+    startDate: '2024-06-01',
+    endDate: '2024-06-08',
+    budget: { value: 5000, model: 'fixed' },
+    status: 'unpublished',
+    source: 'brand',
+    metrics: { views: 25000, engagement: 25.0, ctr: 8.0, roi: 450 },
+  },
+  {
+    id: 'promo6',
+    productName: 'A.P.C. Весь бренд',
+    productId: 'brand_apc',
+    targetType: 'brand',
+    brandName: 'A.P.C.',
+    type: 'email_blast',
+    startDate: '2024-08-10',
+    endDate: '2024-08-20',
+    budget: { value: 4000, model: 'fixed' },
+    status: 'frozen',
+    source: 'admin',
+    metrics: { views: 1500, engagement: 5.0, ctr: 1.5, roi: 120 },
+  },
+  {
+    id: 'promo7',
+    productName: 'Льняная рубашка',
+    productId: '9',
+    targetType: 'products',
+    brandName: 'Syntha',
+    type: 'catalog_boost',
+    startDate: '2024-08-12',
+    endDate: '2024-08-19',
+    budget: { value: 3000, model: 'cpm', bid: 250 },
+    status: 'appealed',
+    source: 'brand',
+    metrics: { views: 0, engagement: 0, ctr: 0, roi: 0 },
+  },
+];
 
 const statusConfig: Record<PromotionStatus, { label: string; variant: any; className?: string }> = {
   active: { label: 'Активна', variant: 'default', className: 'bg-green-500/80' },
@@ -62,7 +169,7 @@ const statusConfig: Record<PromotionStatus, { label: string; variant: any; class
   appealed: {
     label: 'На обжаловании',
     variant: 'secondary',
-    className: 'bg-accent-primary/80 text-white',
+    className: 'bg-purple-500/80 text-white',
   },
 };
 
@@ -75,8 +182,8 @@ const typeConfig: Record<PromotionType, string> = {
   shop_the_look: 'Продвижение образа',
   live_shopping_event: 'Live Shopping',
   ugc_sponsorship: 'Спонсорство UGC',
-  kickstarter_boost: 'Kickstarter / предзаказ',
   outlet_boost: 'Буст в аутлете',
+  kickstarter_boost: 'Kickstarter / краудфандинг',
 };
 
 const statusOptions = Object.entries(statusConfig).map(([key, value]) => ({
@@ -92,11 +199,10 @@ const typeOptions = Object.entries(typeConfig).map(([key, value]) => ({
   label: value,
 }));
 
-export default function PromotionsPage() {
-  const isBrandView = false;
+export default function PromotionsPage({ isBrandView = false }: { isBrandView?: boolean }) {
   const router = useRouter();
   const [promotions, setPromotions] = useState(
-    isBrandView ? mockPromotions.filter((p) => p.brandName === 'Syntha Lab') : mockPromotions
+    isBrandView ? mockPromotions.filter((p) => p.brandName === 'Syntha') : mockPromotions
   );
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([
@@ -187,24 +293,24 @@ export default function PromotionsPage() {
 
   return (
     <TooltipProvider>
-      <RegistryPageShell className="max-w-5xl space-y-4 py-4 duration-700 animate-in fade-in">
+      <div className="container mx-auto max-w-5xl space-y-4 px-4 py-4 pb-24 duration-700 animate-in fade-in">
         {!isBrandView && (
-          <div className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-3 md:flex-row md:items-end">
+          <div className="flex flex-col items-start justify-between gap-3 border-b border-slate-100 pb-3 md:flex-row md:items-end">
             <div className="space-y-0.5">
-              <div className="text-text-muted flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em]">
+              <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                 <span>Admin</span>
                 <ChevronRight className="h-2 w-2" />
-                <span className="text-text-muted">Campaign Manager</span>
+                <span className="text-slate-300">Campaign Manager</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <h1 className="text-text-primary font-headline text-base font-bold uppercase leading-none tracking-tighter">
+                <h1 className="font-headline text-base font-bold uppercase leading-none tracking-tighter text-slate-900">
                   Promotion Hub 2.0
                 </h1>
                 <Badge
                   variant="outline"
-                  className="bg-accent-primary/10 text-accent-primary border-accent-primary/20 h-4 gap-1 px-1.5 text-[7px] font-bold uppercase tracking-widest shadow-sm transition-all"
+                  className="h-4 gap-1 border-indigo-100 bg-indigo-50 px-1.5 text-[7px] font-bold uppercase tracking-widest text-indigo-600 shadow-sm transition-all"
                 >
-                  <span className="bg-accent-primary h-1.5 w-1.5 animate-pulse rounded-full" /> LIVE
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-indigo-500" /> LIVE
                   ENGINE
                 </Badge>
               </div>
@@ -212,8 +318,8 @@ export default function PromotionsPage() {
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
-                className="border-border-default hover:bg-bg-surface2 h-8 rounded-lg px-3 text-[9px] font-bold uppercase tracking-widest shadow-sm transition-all"
-                onClick={() => router.push(ROUTES.admin.appeals)}
+                className="h-8 rounded-lg border-slate-200 px-3 text-[9px] font-bold uppercase tracking-widest shadow-sm transition-all hover:bg-slate-50"
+                onClick={() => router.push('/admin/appeals')}
               >
                 <Gavel className="mr-1.5 h-3.5 w-3.5 text-rose-500" />
                 Appeals{' '}
@@ -225,8 +331,8 @@ export default function PromotionsPage() {
                 </Badge>
               </Button>
               <Button
-                className="bg-text-primary hover:bg-accent-primary border-text-primary h-8 gap-1.5 rounded-lg border px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg transition-all"
-                onClick={() => router.push(ROUTES.admin.promotionsCalendar)}
+                className="h-8 gap-1.5 rounded-lg border border-slate-900 bg-slate-900 px-4 text-[9px] font-bold uppercase tracking-widest text-white shadow-lg transition-all hover:bg-indigo-600"
+                onClick={() => router.push('/admin/promotions/calendar')}
               >
                 <CalendarIcon className="h-3.5 w-3.5" />
                 Strategy Map
@@ -237,27 +343,27 @@ export default function PromotionsPage() {
 
         <div className="space-y-4">
           {/* Toolbar & Filters */}
-          <div className="bg-bg-surface2 border-border-default flex items-center justify-between rounded-xl border p-1 shadow-inner">
+          <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-100 p-1 shadow-inner">
             <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto">
               <div className="group relative">
-                <Search className="text-text-muted group-focus-within:text-accent-primary absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 transition-colors" />
+                <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-indigo-600" />
                 <Input
-                  placeholder="Filter by Name..."
-                  className="border-border-default focus:ring-accent-primary h-7 w-32 rounded-lg bg-white pl-8 text-[10px] font-bold uppercase tracking-tight shadow-sm focus:ring-1 md:w-48"
+                  placeholder="Фильтр по названию..."
+                  className="h-7 w-32 rounded-lg border-slate-200 bg-white pl-8 text-[10px] font-bold uppercase tracking-tight shadow-sm focus:ring-1 focus:ring-indigo-500 md:w-48"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <div className="bg-border-subtle mx-0.5 h-4 w-[1px] shrink-0" />
+              <div className="mx-0.5 h-4 w-[1px] shrink-0 bg-slate-200" />
               <div className="flex shrink-0 items-center gap-1.5">
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
-                      className="border-border-default text-text-secondary hover:text-text-primary h-7 rounded-lg bg-white px-2.5 text-[9px] font-bold uppercase tracking-widest shadow-sm transition-all"
+                      className="h-7 rounded-lg border-slate-200 bg-white px-2.5 text-[9px] font-bold uppercase tracking-widest text-slate-500 shadow-sm transition-all hover:text-slate-900"
                     >
                       <CalendarIcon className="mr-1.5 h-3 w-3" />
-                      {dateRange?.from ? 'Active Range' : 'Temporal Filter'}
+                      {dateRange?.from ? 'Выбран период' : 'Период'}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -279,7 +385,7 @@ export default function PromotionsPage() {
                     value={selectedBrands}
                     onChange={(value) => setSelectedBrands((value as string[]) || [])}
                     multiple
-                    placeholder="Brands"
+                    placeholder="Бренды"
                     className="h-7 w-28 text-[9px] font-bold uppercase tracking-widest md:w-32"
                   />
                 )}
@@ -288,7 +394,7 @@ export default function PromotionsPage() {
                   value={selectedTypes}
                   onChange={(value) => setSelectedTypes((value as string[]) || [])}
                   multiple
-                  placeholder="Module"
+                  placeholder="Модуль"
                   className="h-7 w-28 text-[9px] font-bold uppercase tracking-widest md:w-32"
                 />
                 <Combobox
@@ -296,7 +402,7 @@ export default function PromotionsPage() {
                   value={selectedStatuses}
                   onChange={(value) => setSelectedStatuses((value as string[]) || [])}
                   multiple
-                  placeholder="Lifecycle"
+                  placeholder="Статус"
                   className="h-7 w-32 text-[9px] font-bold uppercase tracking-widest md:w-40"
                 />
               </div>
@@ -306,7 +412,7 @@ export default function PromotionsPage() {
               {!isBrandView && selectedRows.size > 0 && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button className="bg-accent-primary hover:bg-accent-primary border-accent-primary h-7 gap-1.5 rounded-lg border px-3 text-[9px] font-bold uppercase tracking-widest text-white shadow-md transition-all">
+                    <Button className="h-7 gap-1.5 rounded-lg border border-indigo-500 bg-indigo-600 px-3 text-[9px] font-bold uppercase tracking-widest text-white shadow-md transition-all hover:bg-indigo-700">
                       Batch Ops ({selectedRows.size}) <MoreHorizontal className="h-3 w-3" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -336,10 +442,10 @@ export default function PromotionsPage() {
             </div>
           </div>
 
-          <Card className="border-border-subtle hover:border-accent-primary/20 overflow-hidden rounded-xl border bg-white shadow-sm transition-all">
+          <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all hover:border-indigo-100/50">
             <Table>
               <TableHeader>
-                <TableRow className="bg-bg-surface2/80 hover:bg-bg-surface2/80 border-border-subtle border-b">
+                <TableRow className="border-b border-slate-100 bg-slate-50/50 hover:bg-slate-50/50">
                   {!isBrandView && (
                     <TableHead className="w-[40px] px-4">
                       <Checkbox
@@ -351,43 +457,43 @@ export default function PromotionsPage() {
                       />
                     </TableHead>
                   )}
-                  <TableHead className="text-text-muted h-10 text-[9px] font-bold uppercase tracking-[0.2em]">
+                  <TableHead className="h-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                     Campaign Entity
                   </TableHead>
                   {!isBrandView && (
-                    <TableHead className="text-text-muted h-10 text-[9px] font-bold uppercase tracking-[0.2em]">
+                    <TableHead className="h-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                       Partner
                     </TableHead>
                   )}
-                  <TableHead className="text-text-muted h-10 text-[9px] font-bold uppercase tracking-[0.2em]">
+                  <TableHead className="h-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                     Segment
                   </TableHead>
-                  <TableHead className="text-text-muted h-10 text-[9px] font-bold uppercase tracking-[0.2em]">
+                  <TableHead className="h-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                     Window
                   </TableHead>
-                  <TableHead className="text-text-muted h-10 text-right text-[9px] font-bold uppercase tracking-[0.2em]">
+                  <TableHead className="h-10 text-right text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                     Views
                   </TableHead>
-                  <TableHead className="text-text-muted h-10 text-right text-[9px] font-bold uppercase tracking-[0.2em]">
+                  <TableHead className="h-10 text-right text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                     CTR
                   </TableHead>
-                  <TableHead className="text-text-muted h-10 text-right text-[9px] font-bold uppercase tracking-[0.2em]">
+                  <TableHead className="h-10 text-right text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                     ROAS
                   </TableHead>
-                  <TableHead className="text-text-muted h-10 text-center text-[9px] font-bold uppercase tracking-[0.2em]">
+                  <TableHead className="h-10 text-center text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                     Status
                   </TableHead>
-                  <TableHead className="text-text-muted h-10 w-24 text-right text-[9px] font-bold uppercase tracking-[0.2em]">
+                  <TableHead className="h-10 w-24 text-right text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
                     Actions
                   </TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody className="divide-border-subtle divide-y">
+              <TableBody className="divide-y divide-slate-50">
                 {filteredPromotions.map((promo) => (
                   <TableRow
                     key={promo.id}
                     data-state={selectedRows.has(promo.id) ? 'selected' : ''}
-                    className="hover:bg-bg-surface2/80 group h-12 transition-all"
+                    className="group h-12 transition-all hover:bg-slate-50/50"
                   >
                     {!isBrandView && (
                       <TableCell className="px-4">
@@ -400,17 +506,17 @@ export default function PromotionsPage() {
                     )}
                     <TableCell>
                       <div className="flex flex-col">
-                        <span className="text-text-primary mb-1 max-w-[180px] truncate text-[11px] font-bold uppercase leading-none tracking-tight">
+                        <span className="mb-1 max-w-[180px] truncate text-[11px] font-bold uppercase leading-none tracking-tight text-slate-900">
                           {promo.productName}
                         </span>
-                        <span className="text-text-muted text-[8px] font-bold uppercase tracking-[0.15em] opacity-60">
+                        <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-slate-400 opacity-60">
                           ID: {promo.productId}
                         </span>
                       </div>
                     </TableCell>
                     {!isBrandView && (
                       <TableCell>
-                        <span className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
                           {promo.brandName}
                         </span>
                       </TableCell>
@@ -418,24 +524,24 @@ export default function PromotionsPage() {
                     <TableCell>
                       <Badge
                         variant="outline"
-                        className="bg-bg-surface2 text-text-secondary border-border-default h-4 px-1.5 text-[7px] font-bold uppercase tracking-widest"
+                        className="h-4 border-slate-200 bg-slate-50 px-1.5 text-[7px] font-bold uppercase tracking-widest text-slate-500"
                       >
                         {typeConfig[promo.type]}
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <span className="text-text-muted text-[10px] font-bold uppercase tabular-nums">
+                      <span className="text-[10px] font-bold uppercase tabular-nums text-slate-400">
                         {format(new Date(promo.startDate), 'dd MMM', { locale: ru })} -{' '}
                         {format(new Date(promo.endDate), 'dd MMM', { locale: ru })}
                       </span>
                     </TableCell>
                     <TableCell className="text-right">
-                      <span className="text-text-primary text-[11px] font-bold tabular-nums">
+                      <span className="text-[11px] font-bold tabular-nums text-slate-900">
                         {promo.metrics?.views.toLocaleString('ru-RU')}
                       </span>
                     </TableCell>
                     <TableCell className="text-right">
-                      <span className="text-accent-primary text-[11px] font-bold tabular-nums">
+                      <span className="text-[11px] font-bold tabular-nums text-indigo-600">
                         {promo.metrics?.ctr}%
                       </span>
                     </TableCell>
@@ -466,14 +572,14 @@ export default function PromotionsPage() {
                                     ? 'border-blue-100 bg-blue-50 text-blue-600'
                                     : promo.status === 'rejected'
                                       ? 'border-rose-100 bg-rose-50 text-rose-600'
-                                      : 'bg-bg-surface2 text-text-muted border-border-subtle'
+                                      : 'border-slate-100 bg-slate-50 text-slate-400'
                             )}
                           >
                             {statusConfig[promo.status].label}
                           </Badge>
                         </TooltipTrigger>
                         {['frozen', 'rejected', 'unpublished'].includes(promo.status) && (
-                          <TooltipContent className="bg-text-primary border-none text-[8px] font-bold uppercase tracking-widest text-white">
+                          <TooltipContent className="border-none bg-slate-900 text-[8px] font-bold uppercase tracking-widest text-white">
                             <p>
                               Origin:{' '}
                               {promo.source === 'admin' ? 'Strategic Admin' : 'Partner Protocol'}
@@ -487,7 +593,7 @@ export default function PromotionsPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="hover:bg-text-primary/90 text-text-muted h-7 w-7 rounded-lg transition-all hover:text-white"
+                          className="h-7 w-7 rounded-lg text-slate-400 transition-all hover:bg-slate-900 hover:text-white"
                           onClick={() => openAnalytics(promo)}
                         >
                           <BarChart2 className="h-3.5 w-3.5" />
@@ -497,7 +603,7 @@ export default function PromotionsPage() {
                             <Button
                               size="icon"
                               variant="ghost"
-                              className="text-text-muted hover:bg-bg-surface2 h-7 w-7 rounded-lg"
+                              className="h-7 w-7 rounded-lg text-slate-400 hover:bg-slate-100"
                             >
                               <MoreHorizontal className="h-3.5 w-3.5" />
                             </Button>
@@ -562,25 +668,25 @@ export default function PromotionsPage() {
                 ))}
               </TableBody>
             </Table>
-            <div className="bg-bg-surface2/80 border-border-subtle flex items-center justify-between border-t px-4 py-2">
-              <span className="text-text-muted text-[9px] font-bold uppercase tracking-widest opacity-60">
+            <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-4 py-2">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 opacity-60">
                 Displaying {filteredPromotions.length} of {promotions.length} campaigns
               </span>
               <div className="flex gap-1">
                 <button
-                  className="border-border-default text-text-muted hover:bg-bg-surface2 h-6 rounded-md border bg-white px-2.5 text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all disabled:opacity-50"
+                  className="h-6 rounded-md border border-slate-200 bg-white px-2.5 text-[8px] font-bold uppercase tracking-widest text-slate-400 shadow-sm transition-all hover:bg-slate-50 disabled:opacity-50"
                   disabled
                 >
                   PREV
                 </button>
-                <button className="border-border-default text-text-secondary hover:bg-bg-surface2 h-6 rounded-md border bg-white px-2.5 text-[8px] font-bold uppercase tracking-widest shadow-sm transition-all">
+                <button className="h-6 rounded-md border border-slate-200 bg-white px-2.5 text-[8px] font-bold uppercase tracking-widest text-slate-600 shadow-sm transition-all hover:bg-slate-50">
                   NEXT
                 </button>
               </div>
             </div>
           </Card>
         </div>
-      </RegistryPageShell>
+      </div>
       {selectedPromotionForAnalytics && (
         <PromotionAnalyticsDialog
           promotion={selectedPromotionForAnalytics}

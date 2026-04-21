@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { List, PlusCircle, Loader2 } from 'lucide-react';
 import { AttributeValuesDialog } from '@/components/admin/attribute-values-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 interface Attribute {
   id: string;
@@ -25,7 +26,7 @@ export default function AttributesPage() {
       try {
         setIsLoading(true);
         const response = await fetch('/data/attribute-data.json');
-        const data = await response.json();
+        const data = (await response.json()) as Attribute[];
         setAttributes(data);
       } catch (error) {
         console.error('Failed to fetch attributes', error);
@@ -49,7 +50,7 @@ export default function AttributesPage() {
 
   return (
     <>
-      <div className="space-y-4">
+      <CabinetPageContent maxWidth="full" className="space-y-4">
         <header>
           <h1 className="font-headline text-base font-bold">Справочник атрибутов</h1>
           <p className="text-muted-foreground">
@@ -94,7 +95,7 @@ export default function AttributesPage() {
             ))}
           </div>
         )}
-      </div>
+      </CabinetPageContent>
       {selectedAttribute && (
         <AttributeValuesDialog
           isOpen={isDialogOpen}

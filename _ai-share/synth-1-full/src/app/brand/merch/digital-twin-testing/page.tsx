@@ -17,12 +17,13 @@ import { Progress } from '@/components/ui/progress';
 import { ROUTES } from '@/lib/routes';
 import { loadDigitalTwinTests } from '@/lib/fashion/digital-twin-logic';
 import { ArrowLeft, Box, Users, MousePointerClick, Zap } from 'lucide-react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function DigitalTwinTestingPage() {
   const tests = useMemo(() => loadDigitalTwinTests(), []);
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="6xl">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -103,6 +104,6 @@ export default function DigitalTwinTestingPage() {
           </Card>
         ))}
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

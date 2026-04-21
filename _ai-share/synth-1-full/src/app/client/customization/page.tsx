@@ -289,7 +289,7 @@ export default function CustomizationHubPage() {
                       </TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="fabric" className="space-y-6">
+                    <TabsContent value="fabric" className={cabinetSurface.cabinetProfileTabPanel}>
                       <p className="text-text-muted mb-4 text-[10px] font-black uppercase tracking-widest">
                         Выберите основной материал
                       </p>
@@ -324,7 +324,7 @@ export default function CustomizationHubPage() {
                       </div>
                     </TabsContent>
 
-                    <TabsContent value="collar" className="space-y-6">
+                    <TabsContent value="collar" className={cabinetSurface.cabinetProfileTabPanel}>
                       <p className="text-text-muted mb-4 text-[10px] font-black uppercase tracking-widest">
                         Тип лацкана и воротника
                       </p>
@@ -357,7 +357,7 @@ export default function CustomizationHubPage() {
                     </TabsContent>
 
                     {/* More tabs content... */}
-                    <TabsContent value="details" className="space-y-6">
+                    <TabsContent value="details" className={cabinetSurface.cabinetProfileTabPanel}>
                       <p className="text-text-muted mb-4 text-[10px] font-black uppercase tracking-widest">
                         Пуговицы и карманы
                       </p>

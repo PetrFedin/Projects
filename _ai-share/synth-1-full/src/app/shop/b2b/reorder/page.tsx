@@ -1,5 +1,6 @@
 'use client';
 
+import { ShopB2bNuOrderScope } from '@/components/shop/ShopB2bNuOrderScope';
 import { useSearchParamsNonNull } from '@/hooks/use-search-params-non-null';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +15,6 @@ import {
 } from '@/lib/b2b/reorder-sellthrough';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 export default function B2BReorderPage() {
@@ -36,7 +36,7 @@ export default function B2BReorderPage() {
     copyFrom && ordersWithLines.some((o) => o.orderId === copyFrom) ? copyFrom : null;
 
   return (
-    <RegistryPageShell>
+    <ShopB2bNuOrderScope className="pb-24">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bOrders}
         lead="Повтор заказа из истории с подсказками по sell-through (NuORDER, мок)."
@@ -152,6 +152,6 @@ export default function B2BReorderPage() {
         title="Заказы, матрица, каталог"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </ShopB2bNuOrderScope>
   );
 }

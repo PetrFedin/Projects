@@ -37,25 +37,29 @@ export const getProductDetails = ai.defineTool(
       console.error('Failed to fetch product data');
       return undefined;
     }
-    const products = await response.json();
+    const products = (await response.json()) as Array<{
+      id: string;
+      name: string;
+      brand: string;
+      price: number;
+      description?: string;
+    }>;
 
     // This is a mock search. In a real app, you'd use a proper search engine like Algolia or Elasticsearch.
-    const foundProduct = products.find((p: any) =>
+    const foundProduct = products.find((p) =>
       p.name.toLowerCase().includes(query.toLowerCase())
     );
 
     if (foundProduct) {
       console.log(`[getProductDetails Tool] Found: ${foundProduct.name}`);
+      const description = foundProduct.description ?? '';
       // Token Economy: Return only necessary fields and truncate description
       return {
         id: foundProduct.id,
         name: foundProduct.name,
         brand: foundProduct.brand,
         price: foundProduct.price,
-        description:
-          foundProduct.description.length > 300
-            ? foundProduct.description.substring(0, 300) + '...'
-            : foundProduct.description,
+        description: description.length > 300 ? description.substring(0, 300) + '...' : description,
       };
     }
 

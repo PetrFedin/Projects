@@ -2,25 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import type {
-  UserProfile,
-  CartItem,
-  WishlistItem,
-  Product,
-  SubscribedSize,
-  AvailableSubscription,
-  ComparisonListItem,
-  SavedComparison,
-  WishlistCollection,
-  Lookboard,
-  ColorInfo,
-  SizeAvailabilityStatus,
-  ImagePlaceholder,
-  UserRole,
-  GlobalCategory,
-  SavedCartOutfit,
-  CartOutfitLineRef,
-} from '@/lib/types';
+import type { UserProfile, CartItem, WishlistItem, Product, SubscribedSize, AvailableSubscription, ComparisonListItem, SavedComparison, WishlistCollection, Lookboard, ColorInfo, SizeAvailabilityStatus, ImagePlaceholder, UserRole, GlobalCategory, SavedCartOutfit, CartOutfitLineRef } from '@/lib/types';
 import {
   cartLineKey,
   cartItemToLineRef,
@@ -40,23 +22,16 @@ import { CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import allProductsData from '@/lib/products';
 import { cartRepository, wishlistRepository, cartOutfitsRepository } from '@/lib/repositories';
 import { useAuth } from './auth-provider';
-import {
-  applyUiPreferences,
-  readUserSettings,
-  USER_SETTINGS_UPDATED_EVENT,
-} from '@/lib/user-settings';
+import { applyUiPreferences, readUserSettings, USER_SETTINGS_UPDATED_EVENT } from '@/lib/user-settings';
+import type { CmsLive } from '@/data/cms.home.default';
 
-/** Минимальное состояние глобального live-плеера (эфир). */
-export type ActiveLiveStream = {
-  cover: string;
+export type PartnershipUiStatus = 'pending' | 'accepted' | 'rejected' | 'none';
+
+export type GlobalUiNotification = {
+  id: string;
   title: string;
-  broadcastType?: 'product_launch' | 'interview' | 'trend_review' | 'fashion_show';
-  features?: {
-    showProducts?: boolean;
-    showChat?: boolean;
-    showReactions?: boolean;
-    showStats?: boolean;
-  };
+  message: string;
+  type?: 'success' | 'info';
 };
 
 interface UIState {
@@ -73,12 +48,6 @@ interface UIState {
   savedComparisons: SavedComparison[];
   manualWardrobe: Product[];
   followedBrands: string[];
-  /** Избранные бренды (отдельно от подписок) */
-  favoriteBrands: string[];
-  /** Статусы B2B-запросов на партнёрство по id бренда */
-  partnershipRequests: Record<string, 'pending' | 'accepted' | 'rejected' | 'none'>;
-  notifications: Array<{ id: string; title: string; message: string; type?: 'success' | 'info' }>;
-  removeNotification: (id: string) => void;
   user: UserProfile | null;
   isUserLoading: boolean;
   subscribedSizes: SubscribedSize[];
@@ -86,15 +55,11 @@ interface UIState {
   newlyAvailableSizes: SubscribedSize[];
   isComparisonOpen: boolean;
   setIsComparisonOpen: (isOpen: boolean) => void;
-  activeColorSelection: { productId: string; colorName: string } | null;
-  setActiveColorSelection: (selection: { productId: string; colorName: string } | null) => void;
-  purchasedItems: { productId: string; size: string; color: string }[];
+  activeColorSelection: { productId: string, colorName: string } | null;
+  setActiveColorSelection: (selection: { productId: string, colorName: string } | null) => void;
+  purchasedItems: { productId: string, size: string, color: string }[];
   playingPodcast: ImagePlaceholder | null;
   setPlayingPodcast: (podcast: ImagePlaceholder | null) => void;
-  activeLiveStream: ActiveLiveStream | null;
-  setActiveLiveStream: (stream: ActiveLiveStream | null) => void;
-  isLivePlayerMinimized: boolean;
-  setIsLivePlayerMinimized: (v: boolean) => void;
   viewRole: UserRole;
   setViewRole: (role: UserRole) => void;
   globalCategory: GlobalCategory;
@@ -117,30 +82,16 @@ interface UIState {
   togglePreOrder: () => void;
   toggleLikedVideo: (videoUrl: string) => void;
   toggleFollowBrand: (brandId: string) => void;
-  toggleFavoriteBrand: (brandId: string) => void;
-  sendPartnershipRequest: (brandId: string) => void;
-  updatePartnershipStatus: (
-    brandId: string,
-    status: 'pending' | 'accepted' | 'rejected' | 'none'
-  ) => void;
   addCartItem: (product: Product, size?: string, quantity?: number) => void;
   removeCartItem: (productId: string, size?: string, color?: string) => void;
-  updateCartItemQuantity: (
-    productId: string,
-    quantity: number,
-    size?: string,
-    color?: string
-  ) => void;
+  updateCartItemQuantity: (productId: string, quantity: number, size?: string, color?: string) => void;
   updateCartItemDeliveryDate: (productId: string, size: string, deliveryDate: string) => void;
   addWishlistItem: (product: Product, collectionId?: string) => void;
   removeWishlistItem: (product: Product, collectionId?: string) => void;
   addWishlistCollection: (name: string) => Promise<WishlistCollection>;
   getCartItem: (productId: string, size: string) => CartItem | undefined;
   getCartItemById: (productId: string) => CartItem | undefined;
-  getProductAvailability: (
-    product: Product,
-    activeColor?: ColorInfo
-  ) => { status: SizeAvailabilityStatus; text: string; icon: any; className: string };
+  getProductAvailability: (product: Product, activeColor?: ColorInfo) => { status: SizeAvailabilityStatus, text: string, icon: any, className: string };
   addSubscribedSize: (productId: string, size: string) => void;
   removeSubscribedSize: (productId: string, size: string) => void;
   removeAvailableSubscription: (productId: string, size: string) => void;
@@ -175,12 +126,26 @@ interface UIState {
   duplicateCartOutfit: (id: string) => void;
   removeLineFromCartOutfit: (outfitId: string, refKey: string) => void;
   replaceCartOutfitFromCartKeys: (outfitId: string, lineKeys: string[]) => void;
-  importSharedOutfit: (payload: {
-    name: string;
-    lineRefs: CartOutfitLineRef[];
-  }) => SavedCartOutfit | null;
+  importSharedOutfit: (payload: { name: string; lineRefs: CartOutfitLineRef[] }) => SavedCartOutfit | null;
   cartTotalsScope: 'full' | 'outfit';
   setCartTotalsScope: (s: 'full' | 'outfit') => void;
+  /** DEV / демо: статус кнопки «Партнерство» по brandId */
+  partnershipStatusByBrand: Record<string, PartnershipUiStatus>;
+  updatePartnershipStatus: (brandId: string, status: PartnershipUiStatus) => void;
+  /** Избранные бренды (каталог /brands) — отдельно от подписок `followedBrands`. */
+  favoriteBrands: string[];
+  toggleFavoriteBrand: (brandId: string) => void;
+  /** Алиас `partnershipStatusByBrand` для экранов с legacy-именем. */
+  partnershipRequests: Record<string, PartnershipUiStatus>;
+  /** Заявка на партнёрство: переводит статус в `pending`. */
+  sendPartnershipRequest: (brandId: string) => void;
+  activeLiveStream: CmsLive | null;
+  setActiveLiveStream: (stream: CmsLive | null) => void;
+  isLivePlayerMinimized: boolean;
+  setIsLivePlayerMinimized: (v: boolean) => void;
+  notifications: GlobalUiNotification[];
+  addNotification: (n: Omit<GlobalUiNotification, 'id'>) => void;
+  removeNotification: (id: string) => void;
 }
 
 const UIStateContext = createContext<UIState | undefined>(undefined);
@@ -203,36 +168,19 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
   const [manualWardrobe, setManualWardrobe] = useState<Product[]>([]);
   const [followedBrands, setFollowedBrands] = useState<string[]>([]);
   const [favoriteBrands, setFavoriteBrands] = useState<string[]>([]);
-  const [partnershipRequests, setPartnershipRequests] = useState<
-    Record<string, 'pending' | 'accepted' | 'rejected' | 'none'>
-  >({});
-  const [notifications, setNotifications] = useState<
-    Array<{ id: string; title: string; message: string; type?: 'success' | 'info' }>
-  >([]);
-  const removeNotification = (id: string) =>
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
   const [subscribedSizes, setSubscribedSizes] = useState<SubscribedSize[]>([]);
   const [availableSubscriptions, setAvailableSubscriptions] = useState<AvailableSubscription[]>([]);
   const [newlyAvailableSizes, setNewlyAvailableSizes] = useState<SubscribedSize[]>([]);
-  const [activeColorSelection, setActiveColorSelection] = useState<{
-    productId: string;
-    colorName: string;
-  } | null>(null);
-  const [purchasedItems, setPurchasedItems] = useState<
-    { productId: string; size: string; color: string }[]
-  >([
+  const [activeColorSelection, setActiveColorSelection] = useState<{ productId: string, colorName: string } | null>(null);
+  const [purchasedItems, setPurchasedItems] = useState<{ productId: string, size: string, color: string }[]>([
     { productId: '1', size: 'M', color: 'Черный' },
     { productId: '2', size: '48', color: 'Серый' },
-    { productId: '4', size: 'S', color: 'Розовый' },
+    { productId: '4', size: 'S', color: 'Розовый' }
   ]);
   const [playingPodcast, setPlayingPodcast] = useState<ImagePlaceholder | null>(null);
-  const [activeLiveStream, setActiveLiveStream] = useState<ActiveLiveStream | null>(null);
-  const [isLivePlayerMinimized, setIsLivePlayerMinimized] = useState(false);
   const [viewRole, setViewRole] = useState<UserRole>('client');
   const [globalCategory, setGlobalCategory] = useState<GlobalCategory>('all');
-  const [isFlowMapOpen, setIsFlowMapOpen] = useState<
-    'production' | 'ecosystem' | 'workplace' | null
-  >(null);
+  const [isFlowMapOpen, setIsFlowMapOpen] = useState<'production' | 'ecosystem' | 'workplace' | null>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isMediaRadarOpen, setIsMediaRadarOpen] = useState(false);
   const [isConstellationOpen, setIsConstellationOpen] = useState(false);
@@ -256,23 +204,17 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
 
   const setPulseMode = (mode: 'floating' | 'ticker') => {
     setPulseModeState(mode);
-    try {
-      if (typeof window !== 'undefined') localStorage.setItem('brand-pulse-mode', mode);
-    } catch {}
+    try { if (typeof window !== 'undefined') localStorage.setItem('brand-pulse-mode', mode); } catch {}
   };
 
   const setDashboardPeriod = (p: 'week' | 'month' | 'year') => {
     setDashboardPeriodState(p);
-    try {
-      if (typeof window !== 'undefined') localStorage.setItem('brand-dashboard-period', p);
-    } catch {}
+    try { if (typeof window !== 'undefined') localStorage.setItem('brand-dashboard-period', p); } catch {}
   };
 
   const setBusinessMode = (mode: 'b2c' | 'b2b') => {
     setBusinessModeState(mode);
-    try {
-      localStorage.setItem('brand-business-mode', mode);
-    } catch {}
+    try { localStorage.setItem('brand-business-mode', mode); } catch {}
   };
   const [filterChannel, setFilterChannel] = useState<'all' | 'b2b' | 'b2c' | 'marketplace'>('all');
   const [filterRegion, setFilterRegion] = useState<'all' | 'ru' | 'kz' | 'by'>('all');
@@ -281,12 +223,42 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
   const [activeCartOutfitId, setActiveCartOutfitIdState] = useState<string | null>(null);
   const [cartOutfitsHydrated, setCartOutfitsHydrated] = useState(false);
   const [cartTotalsScope, setCartTotalsScopeState] = useState<'full' | 'outfit'>('full');
+  const [partnershipStatusByBrand, setPartnershipStatusByBrand] = useState<
+    Record<string, PartnershipUiStatus>
+  >({});
+  const [activeLiveStream, setActiveLiveStream] = useState<CmsLive | null>(null);
+  const [isLivePlayerMinimized, setIsLivePlayerMinimized] = useState(false);
+  const [notifications, setNotifications] = useState<GlobalUiNotification[]>([]);
   const outfitsLoadedForUid = useRef<string | null>(null);
 
-  /** Диалоги flow/calendar на главной размонтируются при навигации, но состояние оставалось — глушило сайдбар (pointer-events-none). */
+  const updatePartnershipStatus = (brandId: string, status: PartnershipUiStatus) => {
+    setPartnershipStatusByBrand((prev) => ({ ...prev, [brandId]: status }));
+  };
+
+  const toggleFavoriteBrand = (brandId: string) => {
+    setFavoriteBrands((prev) =>
+      prev.includes(brandId) ? prev.filter((id) => id !== brandId) : [...prev, brandId]
+    );
+  };
+
+  const sendPartnershipRequest = (brandId: string) => {
+    updatePartnershipStatus(brandId, 'pending');
+  };
+
+  const addNotification = (n: Omit<GlobalUiNotification, 'id'>) => {
+    setNotifications((prev) => [...prev, { ...n, id: `n-${Date.now()}` }]);
+  };
+
+  const removeNotification = (id: string) => {
+    setNotifications((prev) => prev.filter((x) => x.id !== id));
+  };
+
+  /**
+   * Диалоги flow/calendar размонтируются при навигации, но состояние оставалось и глушило панели
+   * (`pointer-events-none` у левого/правого сайдбара). Раньше пропускали `/` — на главной оверлей
+   * никогда не сбрасывался, правая панель ролей переставала принимать клики.
+   */
   useEffect(() => {
-    const p = pathname ?? '';
-    if (p === '/' || p === '') return;
     setIsFlowMapOpen(null);
     setIsCalendarOpen(false);
     setIsMediaRadarOpen(false);
@@ -385,7 +357,7 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = wishlistRepository.onWishlistChange(user.uid, (items) => {
       setWishlist(items);
     });
-    wishlistRepository.getCollections(user.uid).then((collections) => {
+    wishlistRepository.getCollections(user.uid).then(collections => {
       setWishlistCollections(collections);
     });
     return unsubscribe;
@@ -400,68 +372,31 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
           id: 'comp1',
           name: 'Сравнение свитеров',
           items: allProducts.slice(0, 3),
-          createdAt: new Date().toISOString(),
-        },
+          createdAt: new Date().toISOString()
+        }
       ]);
       setAvailableSubscriptions([{ productId: '1', size: 'XL' }]);
     } catch (error) {
-      console.error('Failed to fetch initial product data for UI state:', error);
+      console.error("Failed to fetch initial product data for UI state:", error);
     }
   }, []);
 
-  const getProductAvailability = (
-    product: Product,
-    activeColor?: ColorInfo
-  ): { status: SizeAvailabilityStatus; text: string; icon: any; className: string } => {
+  const getProductAvailability = (product: Product, activeColor?: ColorInfo): { status: SizeAvailabilityStatus, text: string, icon: any, className: string } => {
     const colorsToCheck = activeColor ? [activeColor] : product.availableColors || [];
     if (colorsToCheck.length === 0) {
-      const availability = product.availability || 'out_of_stock';
-      switch (availability) {
-        case 'in_stock':
-          return {
-            status: 'in_stock',
-            text: 'В наличии',
-            icon: CheckCircle,
-            className: 'text-green-600',
-          };
-        case 'pre_order':
-          return {
-            status: 'pre_order',
-            text: 'Предзаказ',
-            icon: Clock,
-            className: 'text-amber-600',
-          };
-        default:
-          return {
-            status: 'out_of_stock',
-            text: 'Нет в наличии',
-            icon: AlertCircle,
-            className: 'text-red-600',
-          };
-      }
+        const availability = product.availability || 'out_of_stock';
+        switch(availability) {
+            case 'in_stock': return { status: 'in_stock', text: 'В наличии', icon: CheckCircle, className: 'text-green-600' };
+            case 'pre_order': return { status: 'pre_order', text: 'Предзаказ', icon: Clock, className: 'text-amber-600' };
+            default: return { status: 'out_of_stock', text: 'Нет в наличии', icon: AlertCircle, className: 'text-red-600' };
+        }
     }
-    const hasInStock = colorsToCheck.some((color) =>
-      color.sizeAvailability?.some((s) => s.status === 'in_stock' && (s.quantity || 0) > 0)
-    );
-    if (hasInStock)
-      return {
-        status: 'in_stock',
-        text: 'В наличии',
-        icon: CheckCircle,
-        className: 'text-green-600',
-      };
-    const hasPreOrder = colorsToCheck.some((color) =>
-      color.sizeAvailability?.some((s) => s.status === 'pre_order')
-    );
-    if (hasPreOrder)
-      return { status: 'pre_order', text: 'Предзаказ', icon: Clock, className: 'text-amber-600' };
-    return {
-      status: 'out_of_stock',
-      text: 'Нет в наличии',
-      icon: AlertCircle,
-      className: 'text-red-600',
-    };
-  };
+    const hasInStock = colorsToCheck.some(color => color.sizeAvailability?.some(s => s.status === 'in_stock' && (s.quantity || 0) > 0));
+    if (hasInStock) return { status: 'in_stock', text: 'В наличии', icon: CheckCircle, className: 'text-green-600' };
+    const hasPreOrder = colorsToCheck.some(color => color.sizeAvailability?.some(s => s.status === 'pre_order'));
+    if (hasPreOrder) return { status: 'pre_order', text: 'Предзаказ', icon: Clock, className: 'text-amber-600' };
+    return { status: 'out_of_stock', text: 'Нет в наличии', icon: AlertCircle, className: 'text-red-600' };
+  }
 
   const toggleCart = () => setIsCartOpen(!isCartOpen);
   const toggleWishlist = () => setIsWishlistOpen(!isWishlistOpen);
@@ -469,19 +404,14 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
 
   const checkATS = (productId: string, size: string, color?: string): number => {
     const seed = (parseInt(productId) || 1) + size.length + (color?.length || 0);
-    return ((seed * 17) % 50) + 5;
+    return (seed * 17) % 50 + 5;
   };
 
-  const addCartItem = async (product: Product, size: string = 'One Size', quantity: number = 1) => {
+  const addCartItem = async (product: Product, size: string = "One Size", quantity: number = 1) => {
     if (!user) {
-      setCart((prevCart) => {
+      setCart(prevCart => {
         const targetColor = (product as any).color || product.color;
-        const existingItemIndex = prevCart.findIndex(
-          (item) =>
-            item.id === product.id &&
-            item.selectedSize === size &&
-            ((item as any).color === targetColor || item.color === targetColor)
-        );
+        const existingItemIndex = prevCart.findIndex(item => item.id === product.id && item.selectedSize === size && ((item as any).color === targetColor || item.color === targetColor));
         if (existingItemIndex > -1) {
           const newCart = [...prevCart];
           newCart[existingItemIndex].quantity += quantity;
@@ -497,27 +427,13 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
 
   const removeCartItem = async (productId: string, size?: string, color?: string) => {
     if (!user) {
-      setCart((prevCart) =>
-        prevCart.filter(
-          (item) =>
-            !(
-              item.id === productId &&
-              item.selectedSize === size &&
-              (!color || (item as any).color === color || item.color === color)
-            )
-        )
-      );
+      setCart(prevCart => prevCart.filter(item => !(item.id === productId && item.selectedSize === size && (!color || (item as any).color === color || item.color === color))));
       return;
     }
     await cartRepository.removeItem(user.uid, productId, size || 'One Size', color);
   };
 
-  const updateCartItemQuantity = async (
-    productId: string,
-    quantity: number,
-    size?: string,
-    color?: string
-  ) => {
+  const updateCartItemQuantity = async (productId: string, quantity: number, size?: string, color?: string) => {
     if (quantity <= 0) {
       await removeCartItem(productId, size, color);
       return;
@@ -525,26 +441,14 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
     const available = checkATS(productId, size || 'One Size', color);
     if (quantity > available) quantity = available;
     if (!user) {
-      setCart((prevCart) =>
-        prevCart.map((item) =>
-          item.id === productId &&
-          item.selectedSize === size &&
-          (!color || (item as any).color === color || item.color === color)
-            ? { ...item, quantity }
-            : item
-        )
-      );
+      setCart(prevCart => prevCart.map(item => (item.id === productId && item.selectedSize === size && (!color || (item as any).color === color || item.color === color)) ? { ...item, quantity } : item));
       return;
     }
     await cartRepository.updateItem(user.uid, productId, size || 'One Size', quantity, color);
   };
 
   const updateCartItemDeliveryDate = (productId: string, size: string, deliveryDate: string) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === productId && item.selectedSize === size ? { ...item, deliveryDate } : item
-      )
-    );
+    setCart(prevCart => prevCart.map(item => (item.id === productId && item.selectedSize === size) ? { ...item, deliveryDate } : item));
   };
 
   const saveCartOutfit = (name: string, lineKeys: string[]): SavedCartOutfit | null => {
@@ -653,10 +557,7 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
     );
   };
 
-  const importSharedOutfit = (payload: {
-    name: string;
-    lineRefs: CartOutfitLineRef[];
-  }): SavedCartOutfit | null => {
+  const importSharedOutfit = (payload: { name: string; lineRefs: CartOutfitLineRef[] }): SavedCartOutfit | null => {
     const catalog = allProductsData as Product[];
     const now = new Date().toISOString();
     const temp: SavedCartOutfit = {
@@ -672,9 +573,7 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
     if (!normalized) return null;
     const p0 = catalog.find((x) => x.id === normalized.lineRefs[0]?.productId);
     const cover =
-      p0?.images?.[0]?.url ||
-      (p0 as { image?: string } | undefined)?.image ||
-      normalized.coverImageUrl;
+      p0?.images?.[0]?.url || (p0 as { image?: string } | undefined)?.image || normalized.coverImageUrl;
     const outfit = { ...normalized, coverImageUrl: cover };
     setSavedCartOutfits((prev) => [outfit, ...prev]);
     return outfit;
@@ -708,14 +607,8 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
 
   const addWishlistItem = async (product: Product, collectionId: string = 'default') => {
     if (!user) {
-      setWishlistCollections((prev) =>
-        prev.map((c) =>
-          c.id === collectionId && !c.items.some((p) => p.id === product.id)
-            ? { ...c, items: [...c.items, product] }
-            : c
-        )
-      );
-      setWishlist((prev) => (prev.some((p) => p.id === product.id) ? prev : [...prev, product]));
+      setWishlistCollections(prev => prev.map(c => c.id === collectionId && !c.items.some(p => p.id === product.id) ? { ...c, items: [...c.items, product] } : c));
+      setWishlist(prev => prev.some(p => p.id === product.id) ? prev : [...prev, product]);
       return;
     }
     await wishlistRepository.addItem(user.uid, product, collectionId);
@@ -723,14 +616,8 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
 
   const removeWishlistItem = async (product: Product, collectionId?: string) => {
     if (!user) {
-      setWishlistCollections((prev) =>
-        prev.map((c) =>
-          !collectionId || c.id === collectionId
-            ? { ...c, items: c.items.filter((item) => item.id !== product.id) }
-            : c
-        )
-      );
-      setWishlist((prev) => prev.filter((item) => item.id !== product.id));
+      setWishlistCollections(prev => prev.map(c => (!collectionId || c.id === collectionId) ? { ...c, items: c.items.filter(item => item.id !== product.id) } : c));
+      setWishlist(prev => prev.filter(item => item.id !== product.id));
       return;
     }
     await wishlistRepository.removeItem(user.uid, product.id, collectionId);
@@ -739,246 +626,54 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
   const addWishlistCollection = async (name: string): Promise<WishlistCollection> => {
     if (!user) {
       const newCol: WishlistCollection = { id: `col-${Date.now()}`, name, items: [] };
-      setWishlistCollections((prev) => [...prev, newCol]);
+      setWishlistCollections(prev => [...prev, newCol]);
       return newCol;
     }
     return await wishlistRepository.addCollection(user.uid, name);
   };
 
   const toggleComparisonItem = (product: Product) => {
-    setComparisonList((prev) =>
-      prev.some((item) => item.id === product.id)
-        ? prev.filter((item) => item.id !== product.id)
-        : prev.length < 4
-          ? [...prev, product]
-          : prev
-    );
+    setComparisonList(prev => prev.some(item => item.id === product.id) ? prev.filter(item => item.id !== product.id) : (prev.length < 4 ? [...prev, product] : prev));
   };
 
-  const toggleLikedVideo = (videoUrl: string) =>
-    setLikedVideos((prev) =>
-      prev.includes(videoUrl) ? prev.filter((v) => v !== videoUrl) : [...prev, videoUrl]
-    );
-  const toggleFollowBrand = (brandId: string) =>
-    setFollowedBrands((prev) =>
-      prev.includes(brandId) ? prev.filter((id) => id !== brandId) : [...prev, brandId]
-    );
-  const toggleFavoriteBrand = (brandId: string) =>
-    setFavoriteBrands((prev) =>
-      prev.includes(brandId) ? prev.filter((id) => id !== brandId) : [...prev, brandId]
-    );
-  const sendPartnershipRequest = (brandId: string) =>
-    setPartnershipRequests((prev) => ({ ...prev, [brandId]: 'pending' }));
-  const updatePartnershipStatus = (
-    brandId: string,
-    status: 'pending' | 'accepted' | 'rejected' | 'none'
-  ) => setPartnershipRequests((prev) => ({ ...prev, [brandId]: status }));
+  const toggleLikedVideo = (videoUrl: string) => setLikedVideos(prev => prev.includes(videoUrl) ? prev.filter(v => v !== videoUrl) : [...prev, videoUrl]);
+  const toggleFollowBrand = (brandId: string) => setFollowedBrands(prev => prev.includes(brandId) ? prev.filter(id => id !== brandId) : [...prev, brandId]);
   const clearComparisonList = () => setComparisonList([]);
-  const saveComparison = (name: string) =>
-    setSavedComparisons((prev) => [
-      {
-        id: `comp-${Date.now()}`,
-        name,
-        items: [...comparisonList],
-        createdAt: new Date().toISOString(),
-      },
-      ...prev,
-    ]);
+  const saveComparison = (name: string) => setSavedComparisons(prev => [{ id: `comp-${Date.now()}`, name, items: [...comparisonList], createdAt: new Date().toISOString() }, ...prev]);
   const addLookboard = (title: string, description: string) => {
     const lb: Lookboard = { id: `lb-${Date.now()}`, title, description, looks: [] };
-    setLookboards((prev) => [lb, ...prev]);
+    setLookboards(prev => [lb, ...prev]);
     return lb;
   };
   const addProductToLookboard = (product: Product, lookboardId: string) => {
-    const look = {
-      id: `l-${Date.now()}`,
-      imageUrl: product.images?.[0]?.url || '/placeholder.jpg',
-      imageHint: product.name,
-      description: `Образ с ${product.name}`,
-      author: { name: 'Вы', handle: '@me', avatarUrl: '' },
-      likesCount: 0,
-      commentsCount: 0,
-      products: [{ productId: product.id }],
-    };
-    setLookboards((prev) =>
-      prev.map((lb) => (lb.id === lookboardId ? { ...lb, looks: [...lb.looks, look] } : lb))
-    );
+    const look = { id: `l-${Date.now()}`, imageUrl: product.images?.[0]?.url || '/placeholder.jpg', imageHint: product.name, description: `Образ с ${product.name}`, author: { name: 'Вы', handle: '@me', avatarUrl: '' }, likesCount: 0, commentsCount: 0, products: [{ productId: product.id }] };
+    setLookboards(prev => prev.map(lb => lb.id === lookboardId ? { ...lb, looks: [...lb.looks, look] } : lb));
   };
 
-  const addToManualWardrobe = (product: Product) =>
-    setManualWardrobe((prev) =>
-      prev.some((p) => p.id === product.id) ? prev : [...prev, product]
-    );
-  const removeFromManualWardrobe = (productId: string) =>
-    setManualWardrobe((prev) => prev.filter((p) => p.id !== productId));
+  const addToManualWardrobe = (product: Product) => setManualWardrobe(prev => prev.some(p => p.id === product.id) ? prev : [...prev, product]);
+  const removeFromManualWardrobe = (productId: string) => setManualWardrobe(prev => prev.filter(p => p.id !== productId));
 
   const { updateProfile } = useAuth();
   const switchOrganization = async (orgId: string) => {
     if (user) await updateProfile({ activeOrganizationId: orgId });
   };
 
-  const value = useMemo(
-    () => ({
-      isCartOpen,
-      isWishlistOpen,
-      isPreOrderOpen,
-      cart,
-      preOrders,
-      wishlist,
-      wishlistCollections,
-      lookboards,
-      comparisonList,
-      savedComparisons,
-      manualWardrobe,
-      followedBrands,
-      favoriteBrands,
-      partnershipRequests,
-      notifications,
-      removeNotification,
-      user: user || null,
-      isUserLoading: false,
-      subscribedSizes,
-      availableSubscriptions,
-      newlyAvailableSizes,
-      isComparisonOpen,
-      setIsComparisonOpen,
-      activeColorSelection,
-      setActiveColorSelection,
-      purchasedItems,
-      playingPodcast,
-      setPlayingPodcast,
-      activeLiveStream,
-      setActiveLiveStream,
-      isLivePlayerMinimized,
-      setIsLivePlayerMinimized,
-      viewRole,
-      setViewRole,
-      globalCategory,
-      setGlobalCategory,
-      isFlowMapOpen,
-      setIsFlowMapOpen,
-      isCalendarOpen,
-      setIsCalendarOpen,
-      isMediaRadarOpen,
-      setIsMediaRadarOpen,
-      isConstellationOpen,
-      setIsConstellationOpen,
-      hoveredProduct,
-      setHoveredProduct,
-      pulseMode,
-      setPulseMode,
-      checkATS,
-      likedVideos,
-      toggleLikedVideo,
-      toggleCart,
-      toggleWishlist,
-      togglePreOrder,
-      addCartItem,
-      removeCartItem,
-      updateCartItemQuantity,
-      updateCartItemDeliveryDate,
-      addWishlistItem,
-      removeWishlistItem,
-      addWishlistCollection,
-      getCartItem: (productId: string, size: string) =>
-        cart.find((item) => item.id === productId && item.selectedSize === size),
-      getCartItemById: (productId: string) => cart.find((item) => item.id === productId),
-      getProductAvailability,
-      addSubscribedSize: (productId: string, size: string) =>
-        setSubscribedSizes((prev) => [...prev, { productId, size }]),
-      removeSubscribedSize: (productId: string, size: string) =>
-        setSubscribedSizes((prev) =>
-          prev.filter((s) => !(s.productId === productId && s.size === size))
-        ),
-      removeAvailableSubscription: (productId: string, size: string) =>
-        setAvailableSubscriptions((prev) =>
-          prev.filter((s) => !(s.productId === productId && s.size === size))
-        ),
-      toggleComparisonItem,
-      clearComparisonList,
-      saveComparison,
-      addLookboard,
-      addProductToLookboard,
-      addToManualWardrobe,
-      removeFromManualWardrobe,
-      toggleFollowBrand,
-      toggleFavoriteBrand,
-      sendPartnershipRequest,
-      updatePartnershipStatus,
-      switchOrganization,
-      activeCurrency,
-      setCurrency: setActiveCurrency,
-      dashboardPeriod,
-      setDashboardPeriod: setDashboardPeriod,
-      businessMode,
-      setBusinessMode: (mode: 'b2c' | 'b2b') => setBusinessMode(mode),
-      filterChannel,
-      setFilterChannel,
-      filterRegion,
-      setFilterRegion,
-      filterCollection,
-      setFilterCollection,
-      savedCartOutfits,
-      activeCartOutfitId,
-      setActiveCartOutfitId,
-      saveCartOutfit,
-      saveWishlistOutfit,
-      deleteCartOutfit,
-      applyCartOutfitToCart,
-      renameCartOutfit,
-      duplicateCartOutfit,
-      removeLineFromCartOutfit,
-      replaceCartOutfitFromCartKeys,
-      importSharedOutfit,
-      cartTotalsScope,
-      setCartTotalsScope,
-    }),
-    [
-      isCartOpen,
-      isWishlistOpen,
-      isPreOrderOpen,
-      cart,
-      preOrders,
-      wishlist,
-      wishlistCollections,
-      lookboards,
-      comparisonList,
-      savedComparisons,
-      manualWardrobe,
-      followedBrands,
-      favoriteBrands,
-      partnershipRequests,
-      notifications,
-      user,
-      subscribedSizes,
-      availableSubscriptions,
-      newlyAvailableSizes,
-      isComparisonOpen,
-      activeColorSelection,
-      purchasedItems,
-      playingPodcast,
-      activeLiveStream,
-      isLivePlayerMinimized,
-      viewRole,
-      globalCategory,
-      isFlowMapOpen,
-      isCalendarOpen,
-      isMediaRadarOpen,
-      isConstellationOpen,
-      hoveredProduct,
-      pulseMode,
-      likedVideos,
-      activeCurrency,
-      dashboardPeriod,
-      businessMode,
-      filterChannel,
-      filterRegion,
-      filterCollection,
-      savedCartOutfits,
-      activeCartOutfitId,
-      cartTotalsScope,
-    ]
-  );
+  const value = useMemo(() => ({
+    isCartOpen, isWishlistOpen, isPreOrderOpen, cart, preOrders, wishlist, wishlistCollections, lookboards, comparisonList, savedComparisons, manualWardrobe, followedBrands, user: user || null, isUserLoading: false, subscribedSizes, availableSubscriptions, newlyAvailableSizes, isComparisonOpen, setIsComparisonOpen, activeColorSelection, setActiveColorSelection, purchasedItems, playingPodcast, setPlayingPodcast, viewRole, setViewRole, globalCategory, setGlobalCategory, isFlowMapOpen, setIsFlowMapOpen, isCalendarOpen, setIsCalendarOpen, isMediaRadarOpen, setIsMediaRadarOpen, isConstellationOpen, setIsConstellationOpen, hoveredProduct, setHoveredProduct, pulseMode, setPulseMode, checkATS, likedVideos, toggleLikedVideo, toggleCart, toggleWishlist, togglePreOrder, addCartItem, removeCartItem, updateCartItemQuantity, updateCartItemDeliveryDate, addWishlistItem, removeWishlistItem, addWishlistCollection, getCartItem: (productId: string, size: string) => cart.find(item => item.id === productId && item.selectedSize === size), getCartItemById: (productId: string) => cart.find(item => item.id === productId), getProductAvailability, addSubscribedSize: (productId: string, size: string) => setSubscribedSizes(prev => [...prev, { productId, size }]), removeSubscribedSize: (productId: string, size: string) => setSubscribedSizes(prev => prev.filter(s => !(s.productId === productId && s.size === size))), removeAvailableSubscription: (productId: string, size: string) => setAvailableSubscriptions(prev => prev.filter(s => !(s.productId === productId && s.size === size))), toggleComparisonItem, clearComparisonList, saveComparison, addLookboard, addProductToLookboard, addToManualWardrobe, removeFromManualWardrobe, toggleFollowBrand, switchOrganization,     activeCurrency, setCurrency: setActiveCurrency, dashboardPeriod, setDashboardPeriod: setDashboardPeriod,
+    businessMode, setBusinessMode: (mode: 'b2c' | 'b2b') => setBusinessMode(mode),
+    filterChannel, setFilterChannel, filterRegion, setFilterRegion, filterCollection, setFilterCollection,
+    savedCartOutfits, activeCartOutfitId, setActiveCartOutfitId, saveCartOutfit, saveWishlistOutfit, deleteCartOutfit, applyCartOutfitToCart,
+    renameCartOutfit, duplicateCartOutfit, removeLineFromCartOutfit, replaceCartOutfitFromCartKeys, importSharedOutfit,
+    cartTotalsScope, setCartTotalsScope,
+    partnershipStatusByBrand,
+    updatePartnershipStatus,
+    favoriteBrands,
+    toggleFavoriteBrand,
+    partnershipRequests: partnershipStatusByBrand,
+    sendPartnershipRequest,
+    activeLiveStream, setActiveLiveStream, isLivePlayerMinimized, setIsLivePlayerMinimized,
+    notifications, addNotification, removeNotification,
+   }), [isCartOpen, isWishlistOpen, isPreOrderOpen, cart, preOrders, wishlist, wishlistCollections, lookboards, comparisonList, savedComparisons, manualWardrobe, followedBrands, favoriteBrands, user, subscribedSizes, availableSubscriptions, newlyAvailableSizes, isComparisonOpen, activeColorSelection, purchasedItems, playingPodcast, viewRole, globalCategory, isFlowMapOpen, isCalendarOpen, isMediaRadarOpen, isConstellationOpen, hoveredProduct, pulseMode, likedVideos, activeCurrency, dashboardPeriod, businessMode, filterChannel, filterRegion, filterCollection, savedCartOutfits, activeCartOutfitId, cartTotalsScope, partnershipStatusByBrand, activeLiveStream, isLivePlayerMinimized, notifications]);
 
   return <UIStateContext.Provider value={value}>{children}</UIStateContext.Provider>;
 }

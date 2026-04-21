@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { tid } from '@/lib/ui/test-ids';
 
 import Link from 'next/link';
@@ -18,7 +18,7 @@ export default function B2BTrackingPage() {
   const ordersWithTracking = mockB2BOrders.filter((o) => o.status !== 'Черновик').slice(0, 8);
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6" data-testid={tid.page('shop-b2b-tracking')}>
+    <CabinetPageContent maxWidth="4xl" className="space-y-6" data-testid={tid.page('shop-b2b-tracking')}>
       <ShopB2bContentHeader lead="Сквозной мониторинг отгрузок: JOOR ASN, статусы доставки и ссылки на трекинг перевозчика." />
       <ShopAnalyticsSegmentErpStrip />
 
@@ -81,6 +81,6 @@ export default function B2BTrackingPage() {
           (l) => l.href === ROUTES.shop.b2bOrders || l.href === ROUTES.shop.b2bDeliveryCalendar
         )}
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

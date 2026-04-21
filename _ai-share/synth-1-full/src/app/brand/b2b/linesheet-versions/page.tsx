@@ -1,5 +1,6 @@
 'use client';
-import { RegistryPageShell } from '@/components/design-system';
+
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -25,7 +26,7 @@ const VERSIONS = [
 
 export default function LinesheetVersionsPage() {
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
+    <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <div className="mb-6 flex items-center gap-3">
         <Link href={ROUTES.brand.b2bLinesheets}>
           <Button variant="ghost" size="icon">
@@ -75,6 +76,6 @@ export default function LinesheetVersionsPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getB2BLinks()} title="Лайншиты, кампании, заказы" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

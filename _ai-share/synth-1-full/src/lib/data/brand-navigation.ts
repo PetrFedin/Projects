@@ -1,10 +1,13 @@
 import { ROUTES, processLiveUrl } from '@/lib/routes';
+import { COLLECTION_DEV_SIDEBAR_LINK_RU } from '@/lib/production/collection-development-labels';
 import { PRIMARY_LINK_VALUES, type SecondaryNavItem } from './brand-nav-priority';
+import { SYNTHA_SIDEBAR_CLUSTERS } from './syntha-nav-clusters';
 import {
   Activity,
   BarChart3,
   Briefcase,
   Building2,
+  Calendar,
   Calculator,
   Database,
   DollarSign,
@@ -42,24 +45,41 @@ import {
   CreditCard,
   UserPlus,
   PackageSearch,
-  CalendarDays,
+  MessageSquare,
 } from 'lucide-react';
 
-/** Группировки разделов — логические кластеры для визуальной организации навигации */
-export const NAV_GROUP_CLUSTERS = [
-  { id: 'profile', label: 'Бренд', order: 1 },
-  { id: 'product', label: 'Продукт', order: 2 },
-  { id: 'operations', label: 'Производство', order: 3 },
-  { id: 'sales', label: 'Продажи', order: 4 },
-  { id: 'insights', label: 'Аналитика и инструменты', order: 5 },
-] as const;
+/** Кластеры сайдбара: основной контур · ядра 1–3 и архив (см. `syntha-nav-clusters.ts`). */
+export const NAV_GROUP_CLUSTERS = SYNTHA_SIDEBAR_CLUSTERS;
 
+/**
+ * Порядок групп в UI задаётся `BRAND_CORE_GROUP_ORDER` / `BRAND_ARCHIVE_GROUP_ORDER`
+ * (syntha-nav-clusters), а не порядком в массиве.
+ * Основной контур бренда: team → comms → partners → development → pim → b2b → production → logistics.
+ * Перегруз убран в архив: второй пункт «Склад» в логистике объединён с хабом; быстрые ссылки ритейла у календаря — только в «Витрина байера».
+ * Группа `comms` (идентификатор как у shop/distributor/factory) — сквозные сообщения/календарь; межролевые сценарии: `CROSS_ROLE_FLOWS.md`.
+ */
 export const brandNavGroups = [
-  // ─── Кластер: Бренд ────────────────────────────────────────────
+  // ─── Команда (ядро) — только участники; профиль и настройки → brand-admin (архив) ─
   {
-    id: 'org',
-    label: 'Профиль и организация',
-    clusterId: 'profile',
+    id: 'team',
+    label: 'Команда',
+    clusterId: 'syntha-cores',
+    icon: Users,
+    scope: 'shared',
+    links: [
+      {
+        label: 'Команда',
+        value: 'team',
+        icon: Users,
+        href: ROUTES.brand.team,
+        description: 'Участники проекта, задачи, права и орг. структура бренда.',
+      },
+    ],
+  },
+  {
+    id: 'brand-admin',
+    label: 'Организация и настройки',
+    clusterId: 'archive',
     icon: Building2,
     scope: 'shared',
     links: [
@@ -67,15 +87,8 @@ export const brandNavGroups = [
         label: 'Профиль',
         value: 'profile',
         icon: UserCircle,
-        href: '/brand?group=profile&tab=brand',
+        href: '/brand/profile?group=profile&tab=brand',
         description: 'Профиль бренда, юр. данные, контакты',
-      },
-      {
-        label: 'Команда',
-        value: 'team',
-        icon: Users,
-        href: ROUTES.brand.team,
-        description: 'Участники, задачи, права, орг. структура',
       },
       {
         label: 'Интеграции',
@@ -93,7 +106,7 @@ export const brandNavGroups = [
           'Договоры, счета, ЭДО, Честный ЗНАК. Шаблоны, интеграции Диадок/СБИС, склад КИЗ.',
         iconColor: 'indigo',
         quickActions: [
-          { label: 'Compliance', href: ROUTES.brand.compliance, icon: Shield },
+          { label: 'Комплаенс', href: ROUTES.brand.compliance, icon: Shield },
           { label: 'B2B', href: ROUTES.brand.b2bOrders, icon: Factory },
         ],
       },
@@ -113,77 +126,128 @@ export const brandNavGroups = [
           'Стратегический хаб: все модули организации, логистики, продуктов, B2B, производства, маркетинга, аналитики, финансов, арбитража, устойчивости, коммуникаций. Обзор и быстрые переходы.',
         iconColor: 'indigo',
         quickActions: [
-          { label: 'Dashboard', href: ROUTES.brand.dashboard, icon: LayoutDashboard },
-          { label: 'Analytics 360', href: ROUTES.brand.analytics360, icon: BarChart3 },
-          { label: 'Customer Intel', href: ROUTES.brand.customerIntelligence, icon: Users },
-          { label: 'Production', href: ROUTES.brand.production, icon: Factory },
-          { label: 'B2B', href: ROUTES.brand.b2bOrders, icon: ShoppingCart },
+          { label: 'Обзор', href: ROUTES.brand.dashboard, icon: LayoutDashboard },
+          { label: 'Заказы B2B', href: ROUTES.brand.b2bOrders, icon: ShoppingCart },
+          { label: 'Производство', href: ROUTES.brand.production, icon: Factory },
         ],
       },
     ],
   },
 
-  // ─── Кластер: Продукт ──────────────────────────────────────────
   {
-    id: 'catalog',
-    /** Не дублировать кластер «Продукт» (см. NAV_GROUP_CLUSTERS.product.label). */
-    label: 'Каталог и PIM',
-    clusterId: 'product',
-    icon: Layers,
+    id: 'pim',
+    label: 'Товар',
+    clusterId: 'syntha-cores',
+    icon: Database,
     scope: 'shared',
     links: [
+      {
+        label: 'Товары',
+        value: 'pim',
+        icon: Database,
+        href: ROUTES.brand.products,
+        description:
+          'Единый источник правды по карточке артикула: полный каталог и архив, сезонность, цены, медиа, статусы. Матрица и выпуск в цеху — в «Производство».',
+        iconColor: 'indigo',
+        quickActions: [
+          { label: 'Производство', href: ROUTES.brand.production, icon: Factory },
+          { label: 'Заказы B2B', href: ROUTES.brand.b2bOrders, icon: ShoppingCart },
+        ],
+      },
       {
         label: 'Коллекции',
         value: 'collections',
         icon: Layers,
         href: ROUTES.brand.collections,
-        description: 'Каталог коллекций, создание, архив',
+        description:
+          'Собранные подборки сезонов, фотосессии и контекст для B2B; не дублирует полный каталог в «Товары».',
+        iconColor: 'indigo',
       },
       {
-        label: 'PIM-центр',
-        value: 'pim',
-        icon: Database,
-        href: ROUTES.brand.products,
+        label: 'B2B Шоурум',
+        value: 'showroom',
+        icon: Monitor,
+        href: ROUTES.brand.showroom,
         description:
-          'Каталог артикулов, сезонность, цены, медиа и статусы. Production — коллекции, BOM, сэмплы. B2B — Linesheets, заказы. Inventory — остатки. Matrix — размеры и цвета.',
+          'Phygital-витрина для байеров; лайншиты доступны внутри модуля, отдельной строки в навигации нет.',
         iconColor: 'indigo',
         quickActions: [
-          { label: 'Production', href: ROUTES.brand.production, icon: Factory },
-          { label: 'Planning', href: ROUTES.brand.planning, icon: Target },
-          { label: 'Matrix', href: ROUTES.brand.productsMatrix, icon: Layers },
-          { label: 'Inventory', href: ROUTES.brand.inventory, icon: Package },
-          { label: 'Linesheets', href: ROUTES.brand.b2bLinesheets, icon: FileText },
+          { label: 'Лайншиты', href: ROUTES.brand.b2bLinesheets, icon: FileText },
+          { label: 'Заказы B2B', href: ROUTES.brand.b2bOrders, icon: Package },
+        ],
+        subsections: [
+          {
+            href: ROUTES.brand.b2bLinesheets,
+            label: 'Лайншиты',
+            value: 'linesheets',
+            hideInSidebar: true,
+          },
         ],
       },
     ],
   },
 
-  // ─── Кластер: Производство ─────────────────────────────────────
+  // ─── Кластер: Разработка (артикул → ТЗ → образец → шоурум) ─────
   {
-    id: 'production',
-    /** Не дублировать кластер «Производство» (NAV_GROUP_CLUSTERS.operations). */
-    label: 'Цеха и материалы',
-    clusterId: 'operations',
-    icon: Factory,
+    id: 'development',
+    label: 'Разработка',
+    clusterId: 'syntha-cores',
+    icon: Sparkles,
     scope: 'shared',
     links: [
       {
-        label: 'Цех',
-        value: 'shop-floor',
-        icon: Factory,
-        href: ROUTES.brand.production,
-        description: 'Мониторинг линий, ОТК, утверждение эталона',
-      },
-      {
-        label: 'Цех 2',
+        label: COLLECTION_DEV_SIDEBAR_LINK_RU,
         value: 'workshop2',
         icon: Layers2,
         href: ROUTES.brand.productionWorkshop2,
         description:
-          'Коллекции и артикулы: /brand/production/workshop2. Сейчас в интерфейсе — SS27; новые коллекции сохраняются со сведениями «кто / когда».',
+          'Полный процесс от карточки артикула до ТЗ, согласования образца и финального сэмпла. Серия и опт — в «Производстве» и B2B.',
         iconColor: 'indigo',
-        quickActions: [{ label: 'Цех', href: ROUTES.brand.production, icon: Factory }],
+        quickActions: [
+          { label: 'Производство', href: ROUTES.brand.production, icon: Factory },
+          { label: 'Коллекции', href: ROUTES.brand.collections, icon: Layers },
+        ],
       },
+    ],
+  },
+
+  // ─── Ядро 1: производство (исполнение) ───────────────────────
+  {
+    id: 'production',
+    label: 'Производство',
+    clusterId: 'syntha-cores',
+    icon: Factory,
+    scope: 'shared',
+    links: [
+      {
+        label: 'Производство',
+        value: 'shop-floor',
+        icon: Factory,
+        href: ROUTES.brand.production,
+        description:
+          'Исполнение B2B-заказов и серий: этапы, снабжение, выпуск, ОТК. Матрица SKU — внутри модуля; данные карточки — в «Товар» → «Товары».',
+        quickActions: [
+          { label: 'Матрица SKU', href: ROUTES.brand.productsMatrix, icon: Layers },
+          { label: 'Товары', href: ROUTES.brand.products, icon: Database },
+        ],
+        subsections: [
+          {
+            href: ROUTES.brand.productsMatrix,
+            label: 'Матрица SKU',
+            value: 'products-matrix',
+            hideInSidebar: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'production-live',
+    label: 'LIVE и сценарии',
+    clusterId: 'archive',
+    icon: Activity,
+    scope: 'shared',
+    links: [
       {
         label: 'LIVE: от идеи до склада',
         value: 'live-production',
@@ -197,95 +261,48 @@ export const brandNavGroups = [
           { label: 'Все LIVE', href: ROUTES.brand.processLiveHub, icon: Activity },
         ],
       },
-      {
-        label: 'Фабрики',
-        value: 'factories',
-        icon: Factory,
-        href: ROUTES.brand.factories,
-        description:
-          'Фабрики и ателье. Загрузка линий, качество, активные PO. Связь с Production, VMI (материалы) и B2B заказами.',
-        iconColor: 'slate',
-        quickActions: [
-          { label: 'Products', href: ROUTES.brand.products, icon: Package },
-          { label: 'Production', href: ROUTES.brand.production, icon: Factory },
-          { label: 'VMI', href: ROUTES.brand.vmi, icon: Warehouse },
-        ],
-      },
-      {
-        label: 'Материалы',
-        value: 'materials',
-        icon: Layers,
-        href: ROUTES.brand.materials,
-        description:
-          'Сырьё и фурнитура для производства и BOM. Связь с Production, VMI и поставщиками.',
-        iconColor: 'slate',
-        quickActions: [
-          { label: 'Products', href: ROUTES.brand.products, icon: FileText },
-          { label: 'Production', href: ROUTES.brand.production, icon: Factory },
-          { label: 'VMI', href: ROUTES.brand.vmi, icon: Warehouse },
-        ],
-      },
     ],
   },
   {
     id: 'logistics',
-    label: 'Логистика и закупки',
-    clusterId: 'operations',
+    label: 'Логистика и остатки',
+    clusterId: 'syntha-cores',
     icon: Truck,
     scope: 'shared',
     links: [
       {
-        label: 'Центр логистики',
+        label: 'Логистика и склад',
         value: 'logistics-hub',
         icon: Truck,
         href: ROUTES.brand.logistics,
         description:
-          'Сводка по складам, перевозчикам, доставке и документам для российского бизнеса бренда.',
+          'Единая точка: перевозчики, документы, склад готовой продукции и материалов, КИЗ. Детальные экраны — через быстрые действия и deep link (без второй строки в сайдбаре).',
         iconColor: 'amber',
         quickActions: [
           { label: 'Склад', href: ROUTES.brand.warehouse, icon: Package },
-          { label: 'B2B', href: ROUTES.brand.b2bOrders, icon: ShoppingCart },
-        ],
-      },
-      {
-        label: 'Склад и остатки',
-        value: 'warehouse',
-        icon: Package,
-        href: ROUTES.brand.warehouse,
-        description:
-          'Остатки готовых изделий и материалов. Связь с Production (приёмки по PO), B2B (резервы под заказы) и Compliance (учёт КИЗ). Интеграция с маркировкой «Честный ЗНАК».',
-        iconColor: 'blue',
-        quickActions: [
-          { label: 'Production', href: ROUTES.brand.production, icon: Factory },
+          { label: 'Материалы', href: ROUTES.brand.materials, icon: Layers },
           { label: 'B2B', href: ROUTES.brand.b2bOrders, icon: ShoppingCart },
           { label: 'КИЗ', href: ROUTES.brand.complianceStock, icon: QrCode },
         ],
-      },
-      {
-        label: 'BOPIS Hub',
-        value: 'bopis',
-        icon: PackageCheck,
-        href: ROUTES.brand.bopis,
-        description:
-          'Выдача и возврат интернет-заказов в магазине (Buy Online, Pick Up In Store). Статусы заказов на выдачу, приём возвратов в точке, отчётность по магазинам.',
-        iconColor: 'emerald',
-        quickActions: [
-          { label: 'Склад', href: ROUTES.brand.warehouse, icon: Package },
-          { label: 'Возвраты', href: ROUTES.brand.returnsClaims, icon: Truck },
-          { label: 'Партнёры', href: ROUTES.brand.retailers, icon: Users },
-        ],
-      },
-      {
-        label: 'Поставщики',
-        value: 'suppliers',
-        icon: Package,
-        href: ROUTES.brand.suppliers,
-        description:
-          'Реестр поставщиков, тендеры (RFQ), договоры, КП, история заказов. Связь с Production (BOM), Materials, VMI и Factories.',
-        iconColor: 'amber',
-        quickActions: [
-          { label: 'Materials', href: ROUTES.brand.materials, icon: Layers },
-          { label: 'Production', href: ROUTES.brand.production, icon: Factory },
+        subsections: [
+          {
+            href: ROUTES.brand.warehouse,
+            label: 'Склад и остатки',
+            value: 'warehouse',
+            hideInSidebar: true,
+          },
+          {
+            href: ROUTES.brand.materials,
+            label: 'Материалы',
+            value: 'materials',
+            hideInSidebar: true,
+          },
+          {
+            href: ROUTES.brand.complianceStock,
+            label: 'КИЗ / маркировка',
+            value: 'compliance-stock',
+            hideInSidebar: true,
+          },
         ],
       },
     ],
@@ -294,9 +311,26 @@ export const brandNavGroups = [
   // ─── Кластер: Продажи ──────────────────────────────────────────
   {
     id: 'b2b',
-    label: 'B2B Заказы',
-    clusterId: 'sales',
+    label: 'Заказы',
+    clusterId: 'syntha-cores',
     icon: ShoppingCart,
+    scope: 'b2b',
+    links: [
+      {
+        label: 'Заказы B2B',
+        value: 'orders',
+        icon: Package,
+        href: ROUTES.brand.b2bOrders,
+        description:
+          'Заказы, PO, отгрузки, согласование. Лайншиты и витрина — в «Товар» → «B2B Шоурум».',
+      },
+    ],
+  },
+  {
+    id: 'b2b-showcase',
+    label: 'B2B: витрина и карты',
+    clusterId: 'archive',
+    icon: Monitor,
     scope: 'b2b',
     links: [
       {
@@ -313,44 +347,6 @@ export const brandNavGroups = [
         ],
       },
       {
-        label: 'B2B Шоурум',
-        value: 'showroom',
-        icon: Monitor,
-        href: ROUTES.brand.showroom,
-        description:
-          'Phygital-презентации для байеров. Заказы из шоурума → B2B Orders. Связь с Products, Linesheets и Retailers.',
-        iconColor: 'indigo',
-        quickActions: [
-          { label: 'Products', href: ROUTES.brand.products, icon: Layers },
-          { label: 'Linesheets', href: ROUTES.brand.b2bLinesheets, icon: FileText },
-          { label: 'B2B', href: ROUTES.brand.b2bOrders, icon: Package },
-          { label: 'Выставки', href: ROUTES.brand.tradeShows, icon: Monitor },
-          { label: 'Заявки байеров', href: ROUTES.brand.buyerApplications, icon: Users },
-        ],
-      },
-      {
-        label: 'Лайншиты',
-        value: 'linesheets',
-        icon: FileText,
-        href: ROUTES.brand.b2bLinesheets,
-        description:
-          'Оптовые коллекции, персонализированные подборки для ритейлеров. Связи: Products, B2B Orders, Showroom, Retailers.',
-        iconColor: 'indigo',
-        quickActions: [
-          { label: 'Products', href: ROUTES.brand.products, icon: Layers },
-          { label: 'B2B Orders', href: ROUTES.brand.b2bOrders, icon: Package },
-          { label: 'Showroom', href: ROUTES.brand.showroom, icon: Monitor },
-          { label: 'Retailers', href: ROUTES.brand.retailers, icon: Users },
-        ],
-      },
-      {
-        label: 'Заказы B2B',
-        value: 'orders',
-        icon: Package,
-        href: ROUTES.brand.b2bOrders,
-        description: 'Заказы, PO, отгрузки, согласование',
-      },
-      {
         label: 'Выставки и события (бренд)',
         value: 'brand-trade-shows',
         icon: Monitor,
@@ -365,10 +361,36 @@ export const brandNavGroups = [
       },
     ],
   },
+  // ─── Связь: переписка и календарь процессов (первый блок основного контура) ──
+  {
+    id: 'comms',
+    label: 'Связь',
+    clusterId: 'syntha-cores',
+    icon: MessageSquare,
+    scope: 'shared',
+    links: [
+      {
+        label: 'Сообщения',
+        value: 'messages',
+        icon: MessageSquare,
+        href: ROUTES.brand.messages,
+        description:
+          'Переписка по заказам B2B, производству и сопутствующим процессам; участники сети бренда.',
+      },
+      {
+        label: 'Календарь',
+        value: 'calendar',
+        icon: Calendar,
+        href: `${ROUTES.brand.calendar}?layers=tasks,orders,production`,
+        description:
+          'Единая временная шкала: задачи, дедлайны по заказам B2B и этапам производства. События ритейла (выставки, слоты встреч) смотрите в архиве «Витрина байера» — там же ссылки на сторону магазина.',
+      },
+    ],
+  },
   {
     id: 'buyer-retail-mirror',
     label: 'Витрина байера и площадка',
-    clusterId: 'sales',
+    clusterId: 'archive',
     icon: Globe,
     scope: 'b2b',
     links: [
@@ -381,11 +403,26 @@ export const brandNavGroups = [
           'Тот же хаб ритейла, что видит байер: сверка UX с шоурумом, лайншитами и B2B-заказами.',
       },
       {
-        label: 'Discover (маркетплейс)',
+        label: 'Выставки (ритейл)',
+        value: 'shop-b2b-trade-shows',
+        icon: Calendar,
+        href: ROUTES.shop.b2bTradeShows,
+        description:
+          'Календарь событий и стендов в кабинете магазина (раньше — быстрые ссылки у календаря бренда).',
+      },
+      {
+        label: 'Запись на встречи (ритейл)',
+        value: 'shop-b2b-trade-appointments',
+        icon: Calendar,
+        href: ROUTES.shop.b2bTradeShowAppointments,
+        description: 'Слоты встреч с брендами — интерфейс байера.',
+      },
+      {
+        label: 'Подбор брендов (маркетплейс)',
         value: 'shop-discover',
         icon: Search,
         href: ROUTES.shop.b2bDiscover,
-        description: 'Поиск брендов и запрос доступа — зеркало байерского Discover.',
+        description: 'Поиск брендов и запрос доступа — зеркало байерского подбора.',
       },
       {
         label: 'Карта процессов B2B',
@@ -407,21 +444,6 @@ export const brandNavGroups = [
         icon: UserPlus,
         href: ROUTES.shop.b2bApply,
         description: 'Онбординг байера к бренду — сопоставьте с заявками в бренд-кабинете.',
-      },
-      {
-        label: 'Выставки (ритейл)',
-        value: 'shop-trade-shows',
-        icon: CalendarDays,
-        href: ROUTES.shop.b2bTradeShows,
-        description: 'Виртуальные выставки и календарь в кабинете магазина.',
-        subsections: [
-          { href: ROUTES.shop.b2bTradeShows, label: 'Календарь', value: 'calendar' },
-          {
-            href: ROUTES.shop.b2bTradeShowAppointments,
-            label: 'Запись на встречи',
-            value: 'appointments',
-          },
-        ],
       },
       {
         label: 'Passport выставки (ритейл)',
@@ -472,12 +494,26 @@ export const brandNavGroups = [
         href: ROUTES.brand.suppliersRfq,
         description: 'Ваши запросы к поставщикам материалов — параллельно витрине RFQ ритейла.',
       },
+      {
+        label: 'BOPIS Hub',
+        value: 'bopis',
+        icon: PackageCheck,
+        href: ROUTES.brand.bopis,
+        description:
+          'Выдача и возврат интернет-заказов в магазине (Buy Online, Pick Up In Store). Статусы заказов на выдачу, приём возвратов в точке, отчётность по магазинам.',
+        iconColor: 'emerald',
+        quickActions: [
+          { label: 'Склад', href: ROUTES.brand.warehouse, icon: Package },
+          { label: 'Возвраты', href: ROUTES.brand.returnsClaims, icon: Truck },
+          { label: 'Партнёры', href: ROUTES.brand.retailers, icon: Users },
+        ],
+      },
     ],
   },
   {
     id: 'partners',
-    label: 'Партнёры и клиенты',
-    clusterId: 'sales',
+    label: 'Партнёры',
+    clusterId: 'syntha-cores',
     icon: Users,
     scope: 'shared',
     links: [
@@ -486,15 +522,36 @@ export const brandNavGroups = [
         value: 'retailers',
         icon: Users,
         href: ROUTES.brand.retailers,
-        description: 'Ритейлеры и дистрибьюторы',
+        description:
+          'Единый контур партнёров бренда: ритейлеры (список по умолчанию), поставщики и фабрики — из быстрых действий; отдельных строк в меню нет.',
+        quickActions: [
+          { label: 'Поставщики', href: ROUTES.brand.suppliers, icon: Package },
+          { label: 'Фабрики', href: ROUTES.brand.factories, icon: Factory },
+        ],
+        subsections: [
+          {
+            href: ROUTES.brand.suppliers,
+            label: 'Поставщики',
+            value: 'suppliers',
+            hideInSidebar: true,
+          },
+          {
+            href: ROUTES.brand.factories,
+            label: 'Фабрики',
+            value: 'factories',
+            hideInSidebar: true,
+          },
+        ],
       },
-      {
-        label: 'Коммерческие условия',
-        value: 'commercial',
-        icon: DollarSign,
-        href: ROUTES.brand.priceLists,
-        description: 'Прайс-листы и группы клиентов',
-      },
+    ],
+  },
+  {
+    id: 'marketing',
+    label: 'Маркетинг',
+    clusterId: 'archive',
+    icon: Megaphone,
+    scope: 'shared',
+    links: [
       {
         label: 'CRM и лояльность',
         value: 'customer-intelligence',
@@ -508,28 +565,6 @@ export const brandNavGroups = [
           { label: 'Analytics', href: ROUTES.brand.analytics, icon: BarChart3 },
         ],
       },
-      {
-        label: 'Арбитраж и споры',
-        value: 'disputes',
-        icon: Gavel,
-        href: ROUTES.brand.disputes,
-        description:
-          'B2B-претензии, арбитраж. Escrow — безопасные сделки. Связь с Production, B2B Orders и Finance.',
-        iconColor: 'rose',
-        quickActions: [
-          { label: 'Escrow', href: ROUTES.brand.financeEscrow, icon: Shield },
-          { label: 'B2B Orders', href: ROUTES.brand.b2bOrders, icon: Package },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'marketing',
-    label: 'Маркетинг',
-    clusterId: 'sales',
-    icon: Megaphone,
-    scope: 'shared',
-    links: [
       {
         label: 'Кампании и промо',
         value: 'campaigns',
@@ -575,11 +610,11 @@ export const brandNavGroups = [
     ],
   },
 
-  // ─── Кластер: Аналитика и инструменты ──────────────────────────
+  // ─── Кластер: Аналитика (BI, отчёты, прогнозы) ─────────────────
   {
     id: 'analytics',
-    label: 'Аналитика и финансы',
-    clusterId: 'insights',
+    label: 'Аналитика',
+    clusterId: 'archive',
     icon: BarChart3,
     scope: 'shared',
     links: [
@@ -606,19 +641,6 @@ export const brandNavGroups = [
         ],
       },
       {
-        label: 'План vs Факт',
-        value: 'budget-actual',
-        icon: Calculator,
-        href: ROUTES.brand.budgetActual,
-        description:
-          'Бюджеты закупок, производства, маркетинга и логистики. РФ: рубли, контрагенты, статьи. Инфраструктура под API: ETL в fact_* / snapshot_*, импорт 1С/Мой Склад.',
-        iconColor: 'indigo',
-        quickActions: [
-          { label: 'BI Hub', href: ROUTES.brand.analyticsBi, icon: BarChart3 },
-          { label: 'Финансы', href: ROUTES.brand.finance, icon: DollarSign },
-        ],
-      },
-      {
         label: 'AI Прогнозы',
         value: 'ai-analytics',
         icon: Zap,
@@ -641,6 +663,28 @@ export const brandNavGroups = [
         href: ROUTES.brand.pricing,
         description: 'AI инструмент для настройки цен и маржи',
       },
+    ],
+  },
+  {
+    id: 'finance',
+    label: 'Финансы',
+    clusterId: 'archive',
+    icon: DollarSign,
+    scope: 'shared',
+    links: [
+      {
+        label: 'План vs Факт',
+        value: 'budget-actual',
+        icon: Calculator,
+        href: ROUTES.brand.budgetActual,
+        description:
+          'Бюджеты закупок, производства, маркетинга и логистики. РФ: рубли, контрагенты, статьи. Инфраструктура под API: ETL в fact_* / snapshot_*, импорт 1С/Мой Склад.',
+        iconColor: 'indigo',
+        quickActions: [
+          { label: 'BI Hub', href: ROUTES.brand.analyticsBi, icon: BarChart3 },
+          { label: 'Финансы', href: ROUTES.brand.finance, icon: DollarSign },
+        ],
+      },
       {
         label: 'Финансовый хаб',
         value: 'finance',
@@ -652,6 +696,19 @@ export const brandNavGroups = [
         quickActions: [
           { label: 'Landed Cost', href: ROUTES.brand.financeLandedCost, icon: Calculator },
           { label: 'Escrow', href: ROUTES.brand.financeEscrow, icon: Shield },
+        ],
+      },
+      {
+        label: 'Арбитраж и споры',
+        value: 'disputes',
+        icon: Gavel,
+        href: ROUTES.brand.disputes,
+        description:
+          'B2B-претензии, арбитраж. Escrow — безопасные сделки. Связь с Production, B2B Orders и Finance.',
+        iconColor: 'rose',
+        quickActions: [
+          { label: 'Escrow', href: ROUTES.brand.financeEscrow, icon: Shield },
+          { label: 'B2B Orders', href: ROUTES.brand.b2bOrders, icon: Package },
         ],
       },
       {
@@ -672,7 +729,7 @@ export const brandNavGroups = [
   {
     id: 'tools',
     label: 'AI и обучение',
-    clusterId: 'insights',
+    clusterId: 'archive',
     icon: Zap,
     scope: 'shared',
     links: [
@@ -713,6 +770,8 @@ export const brandNavGroups = [
   },
 ];
 
+/** Плоский список ссылок; пункты с `quickActions` расширяют union — см. типы группы `tools`. */
+// @ts-expect-error TS2322 — объединение вариантов ссылок бренда (quickActions, iconColor) не сводится к одному литералу
 export const allBrandNavLinks = brandNavGroups.flatMap((group) => group.links);
 
 /** Группы с только primary-пунктами (~25–35 видимых). */
@@ -756,7 +815,7 @@ export function getSecondaryNavItems(
 /** Хаб группы — первый (главный) раздел группы */
 export function getGroupHub(groupId: string): { href: string; label: string } {
   const group = brandNavGroups.find((g) => g.id === groupId);
-  if (!group?.links?.length) return { href: ROUTES.brand.home, label: 'Brand' };
+  if (!group?.links?.length) return { href: ROUTES.brand.home, label: 'Бренд' };
   const first = group.links[0];
   return { href: first.href, label: first.label };
 }
@@ -813,6 +872,19 @@ export function getBrandSectionMeta(
             group,
             subsection: sub,
           });
+          const nested = (sub as { children?: { href: string; label: string; value: string }[] })
+            .children;
+          if (nested?.length) {
+            for (const ch of nested) {
+              flat.push({
+                href: ch.href,
+                pathOnly: pathFromHref(ch.href),
+                link,
+                group,
+                subsection: ch,
+              });
+            }
+          }
         }
       }
     }

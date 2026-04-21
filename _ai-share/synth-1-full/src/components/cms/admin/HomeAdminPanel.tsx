@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,7 +9,6 @@ import { Sparkles } from 'lucide-react';
 import type { CmsHomeConfig } from '@/data/cms.home.default';
 import { DEFAULT_HOME_CMS } from '@/data/cms.home.default';
 import { repo } from '@/lib/repo';
-import { RegistryPageShell } from '@/components/design-system';
 
 function jsonPretty(v: any) {
   return JSON.stringify(v, null, 2);
@@ -48,7 +48,7 @@ export function HomeAdminPanel() {
   }
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-4 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 pb-16 duration-700 animate-in fade-in">
       <div className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-3 md:flex-row md:items-end">
         <div className="space-y-0.5">
           <div className="text-text-muted flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em]">
@@ -171,6 +171,6 @@ export function HomeAdminPanel() {
           </Card>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -7,8 +7,6 @@ import { products as allProducts } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
-import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function TryOnPage() {
   const params = useParams();
@@ -20,28 +18,28 @@ export default function TryOnPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <RegistryPageShell className="pb-16">
+      <div className="container mx-auto px-4 py-4">
         <header className="mb-12 flex items-center justify-between">
-          <Link href={ROUTES.shop.product(product.id)}>
+          <Link href={`/shop/product/${product.id}`}>
             <Button
               variant="ghost"
-              className="text-text-muted hover:text-text-primary rounded-xl text-[10px] font-black uppercase tracking-widest"
+              className="rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900"
             >
-              <ChevronLeft className="mr-2 h-4 w-4" /> Back to Product
+              <ChevronLeft className="mr-2 h-4 w-4" /> К товару
             </Button>
           </Link>
           <div className="text-right">
-            <p className="text-text-muted mb-0.5 text-[10px] font-black uppercase">
+            <p className="mb-0.5 text-[10px] font-black uppercase text-slate-400">
               {product.brand}
             </p>
-            <h2 className="text-text-primary text-base font-black uppercase leading-none tracking-tight">
+            <h2 className="text-base font-black uppercase leading-none tracking-tight text-slate-900">
               {product.name}
             </h2>
           </div>
         </header>
 
         <VirtualTryOn product={product} />
-      </RegistryPageShell>
+      </div>
     </div>
   );
 }

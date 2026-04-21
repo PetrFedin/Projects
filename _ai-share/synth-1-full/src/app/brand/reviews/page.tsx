@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import {
@@ -46,7 +47,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const mockReviews: ProductReview[] = [
   {
@@ -202,7 +202,7 @@ export default function BrandReviewsPage() {
 
   return (
     <>
-      <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+      <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
         <SectionInfoCard
           title="Отзывы клиентов"
           description="Обратная связь, AI-анализ, ответы. Связь с Products и Quality (репутация бренда)."
@@ -357,7 +357,7 @@ export default function BrandReviewsPage() {
             })}
           </CardContent>
         </Card>
-      </RegistryPageShell>
+      </CabinetPageContent>
 
       {activeResponseReview && (
         <RespondToReviewDialog

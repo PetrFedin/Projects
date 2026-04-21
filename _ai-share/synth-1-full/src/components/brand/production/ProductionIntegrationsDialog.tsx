@@ -41,7 +41,11 @@ export function ProductionIntegrationsDialog({
           rawXml: '<component id="F-001" name="Fabric" quantity="1.2" unit="м"/>',
         }),
       });
-      const d = await r.json();
+      const d = (await r.json()) as {
+        success?: boolean;
+        bomItems?: unknown[];
+        errors?: string[];
+      };
       if (d.success)
         toast({ title: 'PLM импорт', description: `BOM: ${d.bomItems?.length ?? 0} позиций` });
       else toast({ title: 'Ошибка', description: d.errors?.[0], variant: 'destructive' });
@@ -58,7 +62,7 @@ export function ProductionIntegrationsDialog({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ provider: erpActive ?? '1c', scope: 'all' }),
       });
-      const d = await r.json();
+      const d = (await r.json()) as { success?: boolean; errors?: string[] };
       if (d.success) toast({ title: 'ERP синхронизация', description: 'Готово' });
       else toast({ title: 'Ошибка', description: d.errors?.[0], variant: 'destructive' });
     } finally {
@@ -109,7 +113,7 @@ export function ProductionIntegrationsDialog({
               Уведомления
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="plm" className="space-y-4 pt-4">
+          <TabsContent value="plm" className={cn(cabinetSurface.cabinetProfileTabPanel, 'pt-4')}>
             <p className="text-text-secondary text-[10px] font-bold uppercase">
               Gerber, CLO3D, Lectra — импорт BOM, градаций
             </p>
@@ -129,7 +133,7 @@ export function ProductionIntegrationsDialog({
               <Upload className="h-4 w-4" /> Импорт BOM
             </Button>
           </TabsContent>
-          <TabsContent value="erp" className="space-y-4 pt-4">
+          <TabsContent value="erp" className={cn(cabinetSurface.cabinetProfileTabPanel, 'pt-4')}>
             <p className="text-text-secondary text-[10px] font-bold uppercase">
               1С, МойСклад, SAP — заказы, остатки, финансы
             </p>
@@ -149,7 +153,7 @@ export function ProductionIntegrationsDialog({
               <RefreshCw className="h-4 w-4" /> Синхронизация
             </Button>
           </TabsContent>
-          <TabsContent value="notifications" className="space-y-4 pt-4">
+          <TabsContent value="notifications" className={cn(cabinetSurface.cabinetProfileTabPanel, 'pt-4')}>
             <p className="text-text-secondary text-[10px] font-bold uppercase">
               Email и Push — триггеры
             </p>

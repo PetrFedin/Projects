@@ -7,12 +7,13 @@ import { Map, TrendingUp, Info, Zap, Globe, Users } from 'lucide-react';
 import { getRegionalDemandData, getRegionRecommendation } from '@/lib/fashion/regional-demand';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function RegionalDemandPage() {
   const demandData = getRegionalDemandData();
 
   return (
-    <div className="mx-auto max-w-7xl p-8">
+    <CabinetPageContent maxWidth="7xl" className="space-y-6 p-8 pb-24">
       <div className="mb-12">
         <div className="mb-2 flex items-center gap-3">
           <div className="bg-accent-primary/15 rounded-lg p-2 shadow-sm">
@@ -165,6 +166,6 @@ export default function RegionalDemandPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

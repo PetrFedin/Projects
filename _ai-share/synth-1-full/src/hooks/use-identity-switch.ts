@@ -1,21 +1,24 @@
 'use client';
 
-import { startTransition } from 'react';
 import { useAuth } from '@/providers/auth-provider';
 import { organizations } from '@/components/team/_fixtures/team-data';
-import { useRouter } from 'next/navigation';
 import { useUIState } from '@/providers/ui-state';
 import { useToast } from '@/hooks/use-toast';
 import { ROUTES } from '@/lib/routes';
 
 export function useIdentitySwitch() {
-  const { signIn, updateProfile, user: currentUser } = useAuth();
-  const { setViewRole } = useUIState();
+  const { signIn, updateProfile } = useAuth();
+  const { setViewRole, setIsFlowMapOpen, setIsCalendarOpen, setIsMediaRadarOpen, setIsConstellationOpen } =
+    useUIState();
   const { toast } = useToast();
-  const router = useRouter();
-
   const handleIdentitySwitch = async (email: string, roleKey: string, organizationId?: string) => {
     try {
+      /** Снять полноэкранные оверлеи главной — иначе панель ролей могла остаться «мёртвой». */
+      setIsFlowMapOpen(null);
+      setIsCalendarOpen(false);
+      setIsMediaRadarOpen(false);
+      setIsConstellationOpen(false);
+
       console.log('--- GLOBAL IDENTITY SWITCH START ---');
       console.log('Switching to:', { email, roleKey, organizationId });
 
@@ -66,63 +69,36 @@ export function useIdentitySwitch() {
       console.log('Setting view role to:', isB2B ? 'b2b' : 'client');
       setViewRole(isB2B ? 'b2b' : 'client');
 
-      // 4. Determine target URL with robust fallbacks
-      let targetUrl = ROUTES.client.profile; // Default to profile
-
-      // Determine effective role type
-      const currentOrgId = organizationId || newProfile.activeOrganizationId || '';
-      const targetOrg = currentOrgId ? organizations[currentOrgId] : undefined;
-
-      // Use roleKey as fallback if org data is missing
-      let effectiveRole = roleKey;
-
-      if (!targetOrg) {
-        console.warn(`Organization ${currentOrgId} not found, falling back to roleKey: ${roleKey}`);
-        effectiveRole = roleKey;
-      } else {
-        effectiveRole = targetOrg.type;
-      }
-
-      // Safety: check if effectiveRole is a valid role for mapping
-      const validRoles = [
-        'admin',
-        'brand',
-        'shop',
-        'manufacturer',
-        'supplier',
-        'distributor',
-        'client',
-      ];
-      if (!validRoles.includes(effectiveRole)) {
-        effectiveRole = roleKey;
-      }
-
-      console.log('Final Effective Role for Redirect:', effectiveRole);
-
-      // Map roles to URLs (главные страницы профилей)
+      // 4. Куда вести после входа — строго по выбранной на панели роли (`roleKey`).
+      // Нельзя подменять типом организации из профиля: после бренда/шопа в `activeOrganizationId`
+      // остаётся B2B-орг, `organizations[id].type` станет `brand` и клиент улетит не в `/client/me`.
       const roleMap: Record<string, string> = {
         admin: ROUTES.admin.home,
-        brand: ROUTES.brand.home,
+        /** Каноничный экран профиля бренда + query, чтобы сразу открылась вкладка «Профиль → Бренд». */
+        brand: `${ROUTES.brand.profile}?group=profile&tab=brand`,
         shop: ROUTES.shop.home,
         manufacturer: ROUTES.factory.production,
         supplier: ROUTES.factory.supplier,
         distributor: ROUTES.distributor.home,
-        /** Личный кабинет покупателя — страница профиля */
         client: ROUTES.client.profile,
       };
 
-      targetUrl = roleMap[effectiveRole] || ROUTES.client.profile;
+      const targetUrl = roleMap[roleKey] ?? ROUTES.client.profile;
 
-      console.log('Identity switch SUCCESS. Final target:', targetUrl);
+      console.log('Identity switch SUCCESS. Final target:', targetUrl, '(roleKey:', roleKey, ')');
 
       toast({
         title: 'Личность изменена',
         description: `Вы вошли как ${newProfile.displayName}`,
       });
 
-      startTransition(() => {
-        router.push(targetUrl);
-      });
+      /**
+       * Полная перезагрузка по целевому URL — надёжно для демо-панели ролей: клиентский `router.push`
+       * иногда не срабатывает из-за кэша маршрута / порядка эффектов RouteGuard после смены сессии.
+       */
+      if (typeof window !== 'undefined') {
+        window.location.assign(targetUrl);
+      }
     } catch (err: any) {
       console.error('Identity switch CRITICAL ERROR:', err);
       toast({

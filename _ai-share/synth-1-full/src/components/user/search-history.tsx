@@ -33,7 +33,7 @@ export default function SearchHistory() {
     const stored = localStorage.getItem(`search_history_${user.uid}`);
     if (stored) {
       try {
-        const parsed = JSON.parse(stored).map((item: any) => ({
+        const parsed = (JSON.parse(stored) as SearchHistoryItem[]).map((item) => ({
           ...item,
           timestamp: new Date(item.timestamp),
         }));

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "locale": "ru",
+    "updatedAt": "2024-07-29T00:00:00.000Z",
+    "tenantHint": "demo-seed"
+  },
+  "orders": [
+    {
+      "order": "B2B-0013",
+      "status": "Черновик",
+      "shop": "Демо-магазин · Москва 1",
+      "brand": "Syntha Lab",
+      "amount": "0 ₽",
+      "date": "2024-07-29",
+      "deliveryDate": "2024-09-20",
+      "orderMode": "pre_order",
+      "eventId": "fw26",
+      "passportSlotId": "slot-1",
+      "priceTier": "retail_a",
+      "territory": "Moscow",
+      "creditLimit": 2500000,
+      "paymentStatus": "pending"
+    },
+    {
+      "order": "B2B-0012",
+      "status": "Зарезервировано",
+      "shop": "Демо-магазин · Москва 1",
+      "brand": "Syntha Lab",
+      "amount": "750 000 ₽",
+      "date": "2024-07-20",
+      "deliveryDate": "2024-09-15",
+      "orderMode": "buy_now",
+      "priceTier": "retail_a",
+      "territory": "Moscow",
+      "creditLimit": 2500000,
+      "paymentStatus": "partial",
+      "paidAmount": 300000
+    },
+    {
+      "order": "B2B-0011",
+      "status": "Требует внимания",
+      "shop": "Демо-магазин · Москва 2",
+      "brand": "Nordic Wool",
+      "amount": "1 200 000 ₽",
+      "date": "2024-07-15",
+      "deliveryDate": "2024-08-30",
+      "orderMode": "reorder",
+      "priceTier": "retail_b",
+      "territory": "Moscow",
+      "creditLimit": 1800000,
+      "paymentStatus": "overdue"
+    },
+    {
+      "order": "B2B-0010",
+      "status": "Черновик",
+      "shop": "Демо-магазин · СПб",
+      "brand": "Syntha Lab",
+      "amount": "450 000 ₽",
+      "date": "2024-06-25",
+      "deliveryDate": "2024-08-10",
+      "orderMode": "pre_order",
+      "territory": "SPb",
+      "creditLimit": 800000,
+      "paymentStatus": "paid"
+    }
+  ]
+}

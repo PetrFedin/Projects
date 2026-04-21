@@ -24,7 +24,8 @@ import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { SectionBlock } from '@/components/brand/SectionBlock';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { getLogisticsLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { SECTION_META, LOGISTICS_KPI, LOGISTICS_NAV_CARDS } from './page-data';
@@ -61,8 +62,9 @@ export default function LogisticsPage() {
   const [tab, setTab] = useState('hub');
   const kpi = LOGISTICS_KPI;
   return (
-    <RegistryPageShell
-      className="w-full max-w-none space-y-4 pb-16"
+    <CabinetPageContent
+      maxWidth="full"
+      className="space-y-4 pb-16"
       data-testid="brand-logistics-hub-page"
     >
       <RegistryPageHeader
@@ -104,7 +106,7 @@ export default function LogisticsPage() {
             LIVE
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="hub" className="mt-0 space-y-6">
+        <TabsContent value="hub" className={cabinetSurface.cabinetProfileTabPanel}>
           {/* Ключевые показатели */}
           <SectionBlock
             title="Ключевые показатели"
@@ -367,19 +369,19 @@ export default function LogisticsPage() {
             className="mt-6"
           />
         </TabsContent>
-        <TabsContent value="duty" className="mt-0">
+        <TabsContent value="duty" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'duty' && <DutyCalculatorPage />}
         </TabsContent>
-        <TabsContent value="consolidation" className="mt-0">
+        <TabsContent value="consolidation" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'consolidation' && <ConsolidationPage />}
         </TabsContent>
-        <TabsContent value="shadow" className="mt-0">
+        <TabsContent value="shadow" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'shadow' && <ShadowInventoryPage />}
         </TabsContent>
-        <TabsContent value="logistics-live" className="mt-0">
+        <TabsContent value="logistics-live" className={cabinetSurface.cabinetProfileTabPanel}>
           {tab === 'logistics-live' && <LogisticsLiveContent />}
         </TabsContent>
       </Tabs>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

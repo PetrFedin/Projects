@@ -51,13 +51,16 @@ export class MockLooksRepo implements LooksRepo {
       const ids = new Set(current.map((x) => x.id));
 
       // простая конвертация
-      const converted: LookPost[] = savedLooks.slice(0, 10).map((l, idx) => ({
-        id: `user-${l.id ?? idx}`,
-        title: l.title ?? 'Saved Look',
+      type SavedLookSeed = { id?: string | number; title?: string; items?: unknown[] };
+      const converted: LookPost[] = savedLooks.slice(0, 10).map((l: unknown, idx) => {
+        const sl = l as SavedLookSeed;
+        return {
+        id: `user-${sl.id ?? idx}`,
+        title: sl.title ?? 'Saved Look',
         author: 'you@local',
         createdAtISO: new Date().toISOString(),
         tags: ['ai-stylist'],
-        items: (l.items ?? []).map((it: any) => ({
+        items: (sl.items ?? []).map((it: any) => ({
           title: it?.title ?? 'Item',
           brand: it?.brand ?? 'Brand',
           price: it?.price ?? 0,
@@ -66,7 +69,8 @@ export class MockLooksRepo implements LooksRepo {
         })),
         likes: 0,
         views: Math.floor(50 + idx * 13),
-      }));
+      };
+      });
 
       const merged = [...converted.filter((x) => !ids.has(x.id)), ...current];
       localStorage.setItem(LS_KEY, JSON.stringify(merged));

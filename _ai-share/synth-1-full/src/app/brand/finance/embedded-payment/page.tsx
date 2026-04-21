@@ -8,23 +8,26 @@ import { CreditCard, ArrowLeft, Settings, Shield, DollarSign } from 'lucide-reac
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getB2BLinks } from '@/lib/data/entity-links';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function BrandEmbeddedPaymentPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
-      <RegistryPageHeader
-        title="JOOR Pay (Embedded Payment)"
-        leadPlain="Настройка приёма платежей от байеров внутри платформы. Кредитные лимиты, статусы оплат и связка с заказами."
-        eyebrow={
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.brand.finance} aria-label="Назад в финансы">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
+    <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.brand.finance}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
           </Button>
-        }
-        actions={<CreditCard className="size-6 shrink-0 text-muted-foreground" aria-hidden />}
-      />
+        </Link>
+        <div>
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+            <CreditCard className="h-6 w-6" /> JOOR Pay (Embedded Payment)
+          </h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            Настройка приёма платежей от байеров внутри платформы. Кредитные лимиты, статусы оплат и
+            связка с заказами.
+          </p>
+        </div>
+      </div>
 
       <Card className="mb-6">
         <CardHeader>
@@ -39,13 +42,14 @@ export default function BrandEmbeddedPaymentPage() {
         <CardContent className="space-y-4">
           <div className="flex items-center gap-3">
             <Badge className="bg-emerald-600">Активна</Badge>
-            <span className="text-text-secondary text-sm">
+            <span className="text-sm text-slate-600">
               Оплаты записываются в credit-store; лимит и «ожидает оплаты» пересчитываются после
               каждой оплаты.
             </span>
           </div>
-          <p className="text-text-secondary text-xs">
-            Для продакшена: подключите платёжный провайдер (Stripe, Adyen, и т.д.) и замените мок
+          <p className="text-xs text-slate-500">
+            Для продакшена: подключите эквайринг (ЮKassa, банк, СБП, «Мир») и при экспорте — Stripe
+            или аналог; замените мок
             recordPayment на вызов API списания с лимита и обновления статуса заказа.
           </p>
         </CardContent>
@@ -86,6 +90,6 @@ export default function BrandEmbeddedPaymentPage() {
       </Card>
 
       <RelatedModulesBlock title="Финансы и B2B" links={getB2BLinks().slice(0, 8)} />
-    </RegistryPageShell>
+    </div>
   );
 }

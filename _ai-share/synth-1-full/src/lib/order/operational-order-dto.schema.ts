@@ -55,3 +55,25 @@ export function parseOperationalOrdersV1ListResponse(raw: unknown) {
 export function parseOperationalOrderV1DetailResponse(raw: unknown) {
   return operationalOrderV1DetailSuccessSchema.safeParse(raw);
 }
+
+/** Ответ PATCH `/api/b2b/v1/operational-orders/:id/operational-note` */
+export const operationalOrderV1PatchSuccessSchema = z.object({
+  ok: z.literal(true),
+  data: z.object({
+    wholesaleOrderId: z.string(),
+    note: z.string(),
+    updatedAt: z.string(),
+    internalNote: z.string().optional(),
+    internalUpdatedAt: z.string().optional(),
+  }),
+  meta: z.object({
+    requestId: z.string(),
+    mode: z.enum(['demo', 'prod']),
+    apiVersion: z.literal('v1'),
+    idempotentReplay: z.boolean().optional(),
+  }),
+});
+
+export function parseOperationalOrderV1PatchResponse(raw: unknown) {
+  return operationalOrderV1PatchSuccessSchema.safeParse(raw);
+}

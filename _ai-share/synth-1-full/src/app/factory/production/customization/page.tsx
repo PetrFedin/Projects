@@ -29,6 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { cn } from '@/lib/utils';
 import {
   MOCK_CUSTOM_ORDERS,
@@ -42,7 +43,7 @@ export default function FactoryCustomizationPage() {
   const [selectedOrder, setSelectedOrder] = useState(MOCK_CUSTOM_ORDERS[0]);
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4 px-4 pb-20 md:px-0">
+    <CabinetPageContent maxWidth="6xl" className="space-y-4 px-4 pb-20 md:px-0">
       {/* Breadcrumb Navigation */}
       <div className="text-text-muted mb-4 flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest">
         <Link
@@ -365,6 +366,6 @@ export default function FactoryCustomizationPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

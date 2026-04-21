@@ -64,7 +64,7 @@ export async function sparkLayerGetPricingBySku(
     headers: { Authorization: `Bearer ${process.env.SPARKLAYER_ACCESS_TOKEN || ''}` },
   });
   if (!res.ok) return null;
-  return res.json();
+  return (await res.json()) as SparkLayerSkuPricing;
 }
 
 /** Рассчитать сумму по SKU и количеству (SparkLayer: Calculate Pricing). Мок при отсутствии API. */
@@ -90,7 +90,7 @@ export async function sparkLayerCalculatePricing(
     body: JSON.stringify(request),
   });
   if (!res.ok) throw new Error(`SparkLayer calculate: ${res.status}`);
-  return res.json();
+  return (await res.json()) as SparkLayerCalculateResponse;
 }
 
 /** Список прайс-листов (SparkLayer). Мок при отсутствии API. */
@@ -106,6 +106,6 @@ export async function sparkLayerGetPriceLists(): Promise<SparkLayerPriceList[]> 
     headers: { Authorization: `Bearer ${process.env.SPARKLAYER_ACCESS_TOKEN || ''}` },
   });
   if (!res.ok) return [];
-  const data = await res.json();
-  return Array.isArray(data) ? data : data.items || [];
+  const data = (await res.json()) as SparkLayerPriceList[] | { items?: SparkLayerPriceList[] };
+  return Array.isArray(data) ? data : data.items ?? [];
 }

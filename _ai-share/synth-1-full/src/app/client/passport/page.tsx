@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { QrCode, ArrowLeft } from 'lucide-react';
+import { QrCode } from 'lucide-react';
 import { ROUTES, passportById } from '@/lib/routes';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 
 /** Примеры паспортов для перехода (при API — список из бэкенда) */
 const EXAMPLE_PASSPORT_IDS = ['PASS-9921', 'PASS-9922'];
@@ -12,19 +13,9 @@ const EXAMPLE_PASSPORT_IDS = ['PASS-9921', 'PASS-9922'];
 export default function ClientPassportHubPage() {
   return (
     <div className="container max-w-2xl space-y-6 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Link href={ROUTES.client.home} aria-label="Назад">
-          <Button variant="ghost" size="icon" aria-label="Назад">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Digital Passport</h1>
-          <p className="text-text-secondary text-sm">
-            История и аутентичность вещей. Выберите паспорт или введите ID.
-          </p>
-        </div>
-      </div>
+      <ClientCabinetSectionHeader
+        description="История и аутентичность вещей. Выберите паспорт или введите ID."
+      />
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">

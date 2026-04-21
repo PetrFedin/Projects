@@ -14,7 +14,7 @@ export class MockOrdersRepository implements OrdersRepository {
     if (typeof window === 'undefined') return [];
     const stored = localStorage.getItem(getStorageKey(userId));
     if (stored) {
-      return JSON.parse(stored);
+      return JSON.parse(stored) as Order[];
     }
     return [];
   }

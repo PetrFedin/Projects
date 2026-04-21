@@ -31,7 +31,7 @@ export const CONSOLIDATION_POOL: LogisticsConsolidationRequest[] = [
     id: 'REQ-003',
     brandId: 'Brand C',
     origin: 'Istanbul, TR',
-    destination: 'Berlin, DE',
+    destination: 'Saint Petersburg, RU',
     volume: 12.0,
     weight: 3500,
     readyDate: '2026-03-15',
@@ -66,8 +66,8 @@ export function calculateConsolidationSavings(requests: LogisticsConsolidationRe
   const totalCBM = requests.reduce((sum, r) => sum + r.volume, 0);
   const totalKG = requests.reduce((sum, r) => sum + r.weight, 0);
 
-  // Rule of thumb: consolidation saves ~25% compared to separate LCL shipments
-  const estimatedSavings = totalCBM * 45; // $45 saved per CBM
+  // Оценка: экономия при объединении партий (оценочно ~25% к отдельным LCL), в ₽ за м³
+  const estimatedSavings = Math.round(totalCBM * 4200);
 
   return { totalCBM, totalKG, estimatedSavings };
 }

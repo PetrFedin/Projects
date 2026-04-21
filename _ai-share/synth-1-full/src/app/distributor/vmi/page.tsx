@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Package, Store, TrendingUp } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_STORES = [
   { id: 's1', name: 'Магазин Москва Тверская', stock: 45, threshold: 50, recommend: 30 },
@@ -17,7 +17,7 @@ const MOCK_STORES = [
 
 export default function VMIPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6 pb-16">
       <header>
         <h1 className="flex items-center gap-2 text-xl font-black uppercase tracking-tight">
           <Package className="h-6 w-6 text-emerald-600" /> VMI — Vendor Managed Inventory
@@ -79,6 +79,6 @@ export default function VMIPage() {
           <Link href={ROUTES.distributor.analytics}>Аналитика</Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

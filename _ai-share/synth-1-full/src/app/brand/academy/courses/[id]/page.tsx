@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { WidgetCard } from '@/components/ui/widget-card';
@@ -13,7 +14,7 @@ import { ROUTES } from '@/lib/routes';
 import { getBrandCourseById } from '@/lib/academy/brand-academy-data';
 import { ArrowLeft, Clock, PlayCircle, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function BrandCourseDetailPage() {
   const params = useParams();
@@ -23,7 +24,7 @@ export default function BrandCourseDetailPage() {
 
   if (!course) {
     return (
-      <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+      <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
         <RegistryPageHeader
           title="Курс не найден"
           leadPlain="Запрошенный курс отсутствует в демо-данных."
@@ -42,12 +43,12 @@ export default function BrandCourseDetailPage() {
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.academy}>Вернуться в Академию бренда</Link>
         </Button>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-8 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-8 pb-16">
       <RegistryPageHeader
         title={course.title}
         leadPlain={course.description}
@@ -155,6 +156,6 @@ export default function BrandCourseDetailPage() {
       </Button>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -13,11 +14,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Bot, MessageSquare, Send, Phone, Mail, Building, Handshake } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function SupportCenterPage() {
   return (
-    <RegistryPageShell className="py-12 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="py-12 pb-16 px-4 py-6 pb-24 sm:px-6">
       <header className="mb-8">
         <h1 className="flex items-center gap-3 font-headline text-sm font-bold md:text-sm">
           <MessageSquare className="h-10 w-10" />
@@ -122,6 +122,6 @@ export default function SupportCenterPage() {
           </CardContent>
         </Card>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

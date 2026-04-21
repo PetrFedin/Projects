@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { RealRouteAi } from '@/components/distributor/real-route-ai';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,7 +14,7 @@ export default function DistributorTerritoryPage() {
   const allowedRegions = ['Москва', 'МО', 'СПб', 'ЛО'];
 
   return (
-    <div className="space-y-6 duration-300 animate-in fade-in">
+    <CabinetPageContent maxWidth="full" className="space-y-6 duration-300 animate-in fade-in">
       <header className="space-y-2">
         <h1 className="text-sm font-black uppercase tracking-tighter">
           Логистическая Карта & AI Маршруты
@@ -73,6 +74,6 @@ export default function DistributorTerritoryPage() {
           </div>
         ))}
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

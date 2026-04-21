@@ -63,7 +63,6 @@ export * from './trend-logic';
 export * from './digital-twin-logic';
 export * from './assortment-mix-logic';
 export * from './heritage-logic';
-export * from './circular-resale';
 export * from './size-affinity';
 export * from './replenishment-logic';
 export * from './asset-optimizer';

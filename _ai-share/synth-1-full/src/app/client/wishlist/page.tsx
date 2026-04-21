@@ -3,30 +3,23 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Heart, ArrowLeft } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { useUIState } from '@/providers/ui-state';
 import ProductCard from '@/components/product-card';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 /** ASOS-style: страница «Избранное» и пункт в навбаре. */
 export default function ClientWishlistPage() {
   const { wishlist } = useUIState();
 
   return (
-    <div className="container mx-auto max-w-6xl px-4 py-6 pb-24">
-      <div className="mb-6 flex items-center gap-3">
-        <Link href={ROUTES.client.home}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
-            <Heart className="h-6 w-6 text-rose-500" /> Избранное
-          </h1>
-          <p className="text-text-secondary mt-0.5 text-sm">{wishlist.length} товаров</p>
-        </div>
-      </div>
+    <CabinetPageContent maxWidth="6xl">
+      <ClientCabinetSectionHeader
+        meta={`${wishlist.length} товаров`}
+        iconClassName="text-rose-500"
+      />
 
       {wishlist.length === 0 ? (
         <Card className="border-border-subtle">
@@ -56,6 +49,6 @@ export default function ClientWishlistPage() {
           <Link href={ROUTES.client.home}>В личный кабинет</Link>
         </Button>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

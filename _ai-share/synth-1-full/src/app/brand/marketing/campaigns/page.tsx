@@ -1,18 +1,19 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Megaphone, Globe, Layers, CheckCircle, Clock, History, ExternalLink } from 'lucide-react';
 import { getB2BCampaigns } from '@/lib/fashion/b2b-campaigns';
 import { Button } from '@/components/ui/button';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function B2BCampaignPage() {
   const campaigns = getB2BCampaigns();
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-20">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-20">
       <RegistryPageHeader
         title="Кампании B2B"
         leadPlain="Цифровые lookbooks, оптовые каталоги и версии кампаний для партнёров."
@@ -96,6 +97,6 @@ export default function B2BCampaignPage() {
           </div>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

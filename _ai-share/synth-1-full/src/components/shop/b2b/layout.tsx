@@ -40,7 +40,7 @@ export default function B2BLayout({ children }: { children: React.ReactNode }) {
       <Tabs value={getCurrentTab()} onValueChange={handleTabChange} className="w-full">
         <ScrollArea className="w-full whitespace-nowrap">
           <TabsList className="inline-flex w-auto">
-            {b2bHubTabLinks.map((link) => (
+            {b2bHubTabLinks.map((link: (typeof b2bHubTabLinks)[number]) => (
               <TabsTrigger key={link.value} value={link.value}>
                 <link.icon className="mr-2 h-4 w-4" />
                 {link.label}

@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Package, ArrowLeft, CreditCard } from 'lucide-react';
+import { Package, CreditCard } from 'lucide-react';
 import { getTbybB2CLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { listTbybOrders } from '@/lib/api';
 import type { TBYBOrder } from '@/lib/client/try-before-you-buy-b2c';
 
@@ -31,19 +32,9 @@ export default function TryBeforeYouBuyPage() {
 
   return (
     <div className="container max-w-4xl space-y-6 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Link href={ROUTES.client.home}>
-          <Button variant="ghost" size="icon" aria-label="Назад">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Try Before You Buy (B2C)</h1>
-          <p className="text-text-secondary text-sm">
-            Примерка с холдированием средств. Заказы, клиент, возвраты.
-          </p>
-        </div>
-      </div>
+      <ClientCabinetSectionHeader
+        description="Примерка с холдированием средств. Заказы, клиент, возвраты."
+      />
 
       <Card className="border-accent-primary/20">
         <CardHeader className="pb-2">

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +12,6 @@ import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSeg
 import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** NuOrder: аналитика по заказам — топ стилей, тренды по категориям, сравнение с прошлым сезоном. */
 const MOCK_TOP_STYLES = [
@@ -82,7 +82,7 @@ export default function OrderAnalyticsPage() {
       : MOCK_TOP_STYLES.filter((s) => s.brand === brandFilter);
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader
         lead="NuOrder: топ стилей, тренды по категориям, заказы по месяцам."
         trailing={
@@ -239,6 +239,6 @@ export default function OrderAnalyticsPage() {
         title="Заказы, матрица, маржа, fulfillment"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

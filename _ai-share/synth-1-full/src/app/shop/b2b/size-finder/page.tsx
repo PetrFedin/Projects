@@ -6,12 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Ruler, Info } from 'lucide-react';
+import { Ruler, ArrowLeft, Info } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 import { getRecommendedSize, getSizeChartByBrand, type FitPreference } from '@/lib/b2b/size-fit';
 
 const FIT_OPTIONS: { value: FitPreference; label: string }[] = [
@@ -46,8 +44,23 @@ export default function SizeFinderPage() {
   const chart = getSizeChartByBrand(brandName);
 
   return (
-    <RegistryPageShell className="max-w-3xl space-y-6">
-      <ShopB2bContentHeader lead="Рост и вес или замеры (грудь, талия, бёдра) и предпочтение посадки — рекомендация по размерной сетке бренда." />
+    <div className="container mx-auto max-w-3xl px-4 py-6 pb-24">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href={ROUTES.shop.b2b}>
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
+        <div>
+          <h1 className="flex items-center gap-2 text-2xl font-bold uppercase tracking-tight">
+            <Ruler className="h-6 w-6" /> Подбор размера / Размерная сетка
+          </h1>
+          <p className="mt-0.5 text-sm text-slate-500">
+            Рост и вес или замеры (грудь, талия, бёдра) + предпочтение посадки. Рекомендация по
+            размерной сетке бренда.
+          </p>
+        </div>
+      </div>
 
       <Card>
         <CardHeader>
@@ -80,7 +93,7 @@ export default function SizeFinderPage() {
               />
             </div>
           </div>
-          <div className="text-text-secondary flex items-center gap-1 text-xs">
+          <div className="flex items-center gap-1 text-xs text-slate-500">
             <Info className="h-3.5 w-3.5" /> Опционально: замеры дают точнее
           </div>
           <div className="grid grid-cols-3 gap-4">
@@ -135,7 +148,7 @@ export default function SizeFinderPage() {
           <div className="space-y-2">
             <Label>Бренд (сетка)</Label>
             <Input
-              placeholder="Syntha"
+              placeholder="Бренд"
               value={brandName}
               onChange={(e) => setBrandName(e.target.value)}
               className="rounded-lg"
@@ -148,13 +161,13 @@ export default function SizeFinderPage() {
       </Card>
 
       {recommendation && (
-        <Card className="border-accent-primary/20 bg-accent-primary/10 mt-6">
+        <Card className="mt-6 border-indigo-100 bg-indigo-50/30">
           <CardHeader>
-            <CardTitle className="text-accent-primary">Рекомендуемый размер</CardTitle>
+            <CardTitle className="text-indigo-900">Рекомендуемый размер</CardTitle>
             <CardDescription>{recommendation.message}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <p className="text-accent-primary text-2xl font-black uppercase tracking-tight">
+            <p className="text-2xl font-black uppercase tracking-tight text-indigo-700">
               {recommendation.retailerSize ?? recommendation.size}
             </p>
             {recommendation.sizeUpWarning && recommendation.sizeUpMessage && (
@@ -175,7 +188,7 @@ export default function SizeFinderPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-border-default border-b">
+                <tr className="border-b border-slate-200">
                   <th className="py-2 pr-4 font-medium">Размер (EU)</th>
                   <th className="py-2 pr-4 font-medium">Ритейл</th>
                   <th className="py-2 pr-4 font-medium">Грудь (см)</th>
@@ -185,7 +198,7 @@ export default function SizeFinderPage() {
               </thead>
               <tbody>
                 {chart.map((row, i) => (
-                  <tr key={i} className="border-border-subtle border-b">
+                  <tr key={i} className="border-b border-slate-100">
                     <td className="py-2 pr-4 font-medium">{row.size}</td>
                     <td className="py-2 pr-4">{row.retailerSize ?? '—'}</td>
                     <td className="py-2 pr-4">
@@ -217,7 +230,7 @@ export default function SizeFinderPage() {
             .
           </CardDescription>
         </CardHeader>
-        <CardContent className="text-text-primary text-sm">
+        <CardContent className="text-sm text-slate-700">
           <p className="text-xs">
             Демо-сплит по категории верх: <strong>12%</strong> маломерит · <strong>58%</strong> в
             размер · <strong>8%</strong> большемерит — источник: отзывы + возвраты «не подошёл
@@ -245,6 +258,6 @@ export default function SizeFinderPage() {
         title="Заказы, каталог, матрица"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </div>
   );
 }

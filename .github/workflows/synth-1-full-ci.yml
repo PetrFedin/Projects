@@ -1,7 +1,7 @@
 # Next app: _ai-share/synth-1-full (монорепозиторий Projects).
-# Ворота D/E: `synth-1/` и `Projects/src/` не удаляются из репо до фиксации «только full» (см. AGENTS.md, docs/MONOREPO_INTEGRATION.md).
+# Субмодуль synth-1/ из корня монорепо удалён; канон — только этот каталог.
 # ci-fast — каждый push/PR по paths; ci-heavy — лейбл `ci-heavy` на PR, еженедельный schedule или workflow_dispatch.
-# Скрипты — только из `_ai-share/synth-1-full/package.json`.
+# Legacy вне канона: корневой `Projects/src/` — по docs/MONOREPO_INTEGRATION.md (фазы D/E), пока не зафиксировано «только full».
 # Standalone-клон пакета (без heavy): `_ai-share/synth-1-full/.github/workflows/ci.yml`.
 name: synth-1-full CI
 

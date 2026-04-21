@@ -1,12 +1,12 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search, MapPin, Layers, ArrowUpRight } from 'lucide-react';
 import { B2BModulePage } from '@/components/shop/B2BModulePage';
-import { RegistryPageShell } from '@/components/design-system';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
@@ -42,7 +42,7 @@ const MOCK_SUPPLIERS = [
 /** Supl.biz: поиск поставщиков по гео и категориям (РФ). */
 export default function B2BSupplierDiscoveryPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <B2BModulePage
         title="Поиск поставщиков"
         description="Матчинг по региону и категории; дальше — RFQ или тендер, плюс зеркало реестра материалов в кабинете бренда."
@@ -122,6 +122,6 @@ export default function B2BSupplierDiscoveryPage() {
           className="mt-2"
         />
       </B2BModulePage>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

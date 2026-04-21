@@ -4,6 +4,9 @@ import { Workshop2TabContent } from '@/components/brand/production/Workshop2TabC
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/lib/routes';
 import { useWorkshop2LocalState } from './workshop2-local-state-provider';
+import { Workshop2FloorToolkitBridge } from '@/components/brand/production/Workshop2FloorToolkitBridge';
+import { Workshop2DevelopmentIntro } from '@/components/brand/production/Workshop2DevelopmentIntro';
+import { Workshop2SeriesOrderHandoffCard } from '@/components/brand/production/Workshop2SeriesOrderHandoffCard';
 
 export default function ProductionWorkshop2Page() {
   const ctx = useWorkshop2LocalState();
@@ -26,6 +29,8 @@ export default function ProductionWorkshop2Page() {
           </Button>
         </div>
       ) : null}
+      <Workshop2DevelopmentIntro />
+      <Workshop2FloorToolkitBridge />
       <Workshop2TabContent
         basePath={ROUTES.brand.productionWorkshop2}
         activeCollections={ctx.activeCollections}
@@ -49,6 +54,7 @@ export default function ProductionWorkshop2Page() {
         createdByLabel={ctx.createdByLabel}
         highlightArticleId={ctx.highlightArticleId}
       />
+      <Workshop2SeriesOrderHandoffCard />
     </div>
   );
 }

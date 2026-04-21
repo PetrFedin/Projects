@@ -130,6 +130,17 @@ export interface RetailerProfile {
   tier: 'Standard' | 'Silver' | 'Gold' | 'VIP';
 }
 
+/** Внутренние коды B2B — в UI показывать через NET_TERMS_LABELS */
+export type NetTerms = RetailerProfile['netTerms'];
+
+/** Подписи для UI (внутренние значения — англ. коды в данных/API) */
+export const NET_TERMS_LABELS: Record<NetTerms, string> = {
+  'Due on Receipt': 'При получении',
+  'Net 30': 'Отсрочка 30 дн.',
+  'Net 60': 'Отсрочка 60 дн.',
+  'Net 90': 'Отсрочка 90 дн.',
+};
+
 export interface EscrowTransaction {
   id: string;
   orderId: string;

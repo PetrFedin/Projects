@@ -18,6 +18,7 @@ import { products } from '@/lib/products';
 import { buildTradeCodeRows, tradeCodeRowsToCsv } from '@/lib/fashion/trade-code-rollup';
 import { ArrowLeft, FileSpreadsheet } from 'lucide-react';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function TradeCodesPage() {
   const rows = useMemo(() => buildTradeCodeRows(products), []);
@@ -40,7 +41,7 @@ export default function TradeCodesPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="6xl">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link href={ROUTES.brand.growthHub}>
@@ -123,6 +124,6 @@ export default function TradeCodesPage() {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

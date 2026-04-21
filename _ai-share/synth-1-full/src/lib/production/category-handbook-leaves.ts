@@ -50,7 +50,7 @@ export function getHandbookAudiences(): { id: string; name: string }[] {
   return catalog.audiences;
 }
 
-/** Аудитории для Цеха 2 (создание артикула): без унисекс. */
+/** Аудитории для разработки коллекции (создание артикула): без унисекс. */
 export function getHandbookAudiencesWorkshop2(): { id: string; name: string }[] {
   const filtered = getHandbookAudiences().filter((a) => a.id !== 'unisex');
   const hasDedicatedAudiences = filtered.some((a) => a.id !== 'catalog');

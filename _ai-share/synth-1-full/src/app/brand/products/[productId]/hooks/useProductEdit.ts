@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { productEditSchema, type ProductEditFormValues } from '../_lib/schema';
+import type { Product } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { DateRange } from 'react-day-picker';
 
@@ -33,10 +34,10 @@ export function useProductEdit(productId: string) {
     async function fetchData() {
       try {
         const res = await fetch('/data/products.json');
-        const data = await res.json();
-        const found = data.find((p: any) => p.id === productId);
+        const data = (await res.json()) as Product[];
+        const found = data.find((p) => p.id === productId);
         setProduct(found);
-        if (found) form.reset(found);
+        if (found) form.reset(found as unknown as ProductEditFormValues);
       } catch (error) {
         console.error(error);
       } finally {

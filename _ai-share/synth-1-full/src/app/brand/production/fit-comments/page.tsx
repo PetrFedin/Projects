@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +16,6 @@ import { useFloorTabDraftState } from '@/hooks/use-floor-tab-draft';
 import { useToast } from '@/hooks/use-toast';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const STAGES = ['Прототип 1', 'Прототип 2', 'PP / Gold'] as const;
 
@@ -81,7 +81,7 @@ export default function FitCommentsPage() {
   };
 
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Журнал комментариев по примеркам"
         description={
@@ -243,6 +243,6 @@ export default function FitCommentsPage() {
       </div>
 
       <RelatedModulesBlock links={getProductionLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

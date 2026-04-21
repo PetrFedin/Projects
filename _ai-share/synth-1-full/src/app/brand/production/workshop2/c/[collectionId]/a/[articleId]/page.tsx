@@ -2,6 +2,8 @@
 
 import { useParams } from 'next/navigation';
 import { Workshop2ArticleWorkspace } from '@/components/brand/production/Workshop2ArticleWorkspace';
+import { Workshop2FloorToolkitBridge } from '@/components/brand/production/Workshop2FloorToolkitBridge';
+import { Workshop2SeriesOrderHandoffCard } from '@/components/brand/production/Workshop2SeriesOrderHandoffCard';
 import { Button } from '@/components/ui/button';
 import { useWorkshop2LocalState } from '@/app/brand/production/workshop2/workshop2-local-state-provider';
 
@@ -29,6 +31,11 @@ export default function Workshop2ArticlePage() {
           </Button>
         </div>
       ) : null}
+      <Workshop2FloorToolkitBridge
+        routeCollectionId={collectionId}
+        routeArticleLineId={articleId}
+        startCollapsed
+      />
       <Workshop2ArticleWorkspace
         collectionId={collectionId}
         articleId={articleId}
@@ -38,6 +45,7 @@ export default function Workshop2ArticlePage() {
         getArticlePipelineProgress={ctx.getArticlePipelineProgress}
         onPatchWorkshop2ArticleLine={ctx.onPatchWorkshop2ArticleLine}
       />
+      <Workshop2SeriesOrderHandoffCard />
     </div>
   );
 }

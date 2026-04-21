@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,11 +13,10 @@ import { SectionInfoCard } from '@/components/brand/production/ProductionSection
 import { getProductLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function CreateReadyProductPage() {
   return (
-    <RegistryPageShell className="max-w-5xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Создание карточки готового товара"
         description="Товар уже произведён — создайте карточку без привязки к производственному циклу. Детальное ведение: артикул, описание, фото, размеры, цены."
@@ -70,6 +70,6 @@ export default function CreateReadyProductPage() {
       </Card>
 
       <RelatedModulesBlock links={getProductLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

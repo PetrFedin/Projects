@@ -48,7 +48,7 @@ export function CareerTab({ user }: CareerTabProps) {
     bio: 'Специализируюсь на создании коллекций из переработанных материалов. Работала с крупными домами моды в Италии. Ищу возможности для коллабораций и долгосрочных контрактов.',
     experience: '8 лет',
     location: 'Милан / Москва',
-    education: 'Istituto Marangoni, Milan',
+    education: 'МГХПА им. Строганова, Москва',
     skills: ['Luxury', 'Sustainable', 'Couture', '3D Design', 'Fabric Sourcing'],
     portfolio: [
       {
@@ -63,7 +63,7 @@ export function CareerTab({ user }: CareerTabProps) {
       },
       {
         id: 3,
-        title: 'Milan Fashion Week 23',
+        title: 'Mercedes-Benz Fashion Week Russia 23',
         image: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=400',
       },
     ],

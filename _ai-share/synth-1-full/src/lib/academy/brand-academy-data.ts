@@ -213,7 +213,7 @@ function loadKnowledge(): BrandKnowledgeArticle[] {
   if (typeof window === 'undefined') return DEFAULT_KNOWLEDGE;
   try {
     const raw = localStorage.getItem(STORAGE_KEY_KNOWLEDGE);
-    return raw ? JSON.parse(raw) : DEFAULT_KNOWLEDGE;
+    return raw ? (JSON.parse(raw) as BrandKnowledgeArticle[]) : DEFAULT_KNOWLEDGE;
   } catch {
     return DEFAULT_KNOWLEDGE;
   }
@@ -223,7 +223,7 @@ function loadCollectionTraining(): CollectionTraining[] {
   if (typeof window === 'undefined') return DEFAULT_COLLECTION_TRAINING;
   try {
     const raw = localStorage.getItem(STORAGE_KEY_COLLECTION);
-    return raw ? JSON.parse(raw) : DEFAULT_COLLECTION_TRAINING;
+    return raw ? (JSON.parse(raw) as CollectionTraining[]) : DEFAULT_COLLECTION_TRAINING;
   } catch {
     return DEFAULT_COLLECTION_TRAINING;
   }
@@ -233,7 +233,7 @@ function loadClientMaterials(): ClientMaterial[] {
   if (typeof window === 'undefined') return DEFAULT_CLIENT_MATERIALS;
   try {
     const raw = localStorage.getItem(STORAGE_KEY_CLIENT);
-    return raw ? JSON.parse(raw) : DEFAULT_CLIENT_MATERIALS;
+    return raw ? (JSON.parse(raw) as ClientMaterial[]) : DEFAULT_CLIENT_MATERIALS;
   } catch {
     return DEFAULT_CLIENT_MATERIALS;
   }

@@ -1,11 +1,17 @@
 import type { Product } from '@/lib/types';
 import type { CircularityScoreV1 } from './types';
-import { compositionSearchText } from './parse-composition';
 
-/** Расчет цикличности изделия и потенциала перепродажи (Resale). */
+function compositionSearchText(product: Product): string {
+  const c = product.composition;
+  if (!c) return '';
+  if (typeof c === 'string') return c.toLowerCase();
+  return c.map((x) => x.material).join(' ').toLowerCase();
+}
+
+/** Расчёт цикличности изделия (материалы, переработка, CO₂). */
 export function calculateCircularity(product: Product): CircularityScoreV1 {
-  const comp = compositionSearchText(product);
-  const isNatural = comp.includes('cotton') || comp.includes('wool');
+  const text = compositionSearchText(product);
+  const isNatural = text.includes('cotton') || text.includes('wool');
   const recycled = isNatural ? 20 : 0;
   const recyclability = isNatural ? 90 : 40;
 
@@ -13,7 +19,6 @@ export function calculateCircularity(product: Product): CircularityScoreV1 {
     sku: product.sku,
     recycledContent: recycled,
     recyclabilityRate: recyclability,
-    estimatedResaleValue: Math.round(product.price * 0.45),
     carbonSavings: Math.round(product.price * 0.0001 * 10) / 10,
   };
 }

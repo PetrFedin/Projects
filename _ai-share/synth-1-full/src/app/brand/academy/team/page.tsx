@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { WidgetCard } from '@/components/ui/widget-card';
 import { EmptyStateB2B } from '@/components/ui/empty-state-b2b';
@@ -10,7 +11,7 @@ import { getAcademyLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
 import { GraduationCap, Users, Award, UserPlus } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const MOCK_TEAM_PROGRESS = [
   {
@@ -49,7 +50,7 @@ const MOCK_CERTIFICATES = [
 
 export default function AcademyTeamPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Повышение квалификации команды"
         leadPlain="Прогресс команды по курсам платформы и бренда. Сертификаты и достижения."
@@ -155,6 +156,6 @@ export default function AcademyTeamPage() {
       </section>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

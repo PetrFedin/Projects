@@ -20,7 +20,7 @@ export function useBrandData(brandId: string) {
         try {
           const response = await fetch('/data/products.json');
           if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-          const productsData: Product[] = await response.json();
+          const productsData = (await response.json()) as Product[];
           if (Array.isArray(productsData)) {
             setAllProducts(productsData);
             const foundProducts = productsData.filter((p) => p.brand === foundBrand.name);

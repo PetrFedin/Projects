@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,6 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { ROUTES } from '@/lib/routes';
 import { getB2BLinks } from '@/lib/data/entity-links';
 import { FileEdit, ArrowLeft, ListTodo } from 'lucide-react';
-import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_AMENDMENTS = [
   {
@@ -35,7 +35,7 @@ const MOCK_AMENDMENTS = [
 
 export default function OrderAmendmentsPage() {
   return (
-    <RegistryPageShell className="space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
       <SectionInfoCard
         title="Order Amendments"
         description="Заявки магазинов на изменение заказа: количество, дата отгрузки, адрес, отмена позиций. JOOR/NuOrder-style. Связь с заказами и согласованием."
@@ -97,6 +97,6 @@ export default function OrderAmendmentsPage() {
         links={getB2BLinks().filter((l) => l.href !== ROUTES.brand.b2bOrders)}
         title="B2B заказы, согласование, чаты"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

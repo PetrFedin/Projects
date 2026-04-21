@@ -41,7 +41,7 @@ function loadRules(): VolumeDiscountRule[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
-    return JSON.parse(raw);
+    return JSON.parse(raw) as VolumeDiscountRule[];
   } catch {
     return [];
   }

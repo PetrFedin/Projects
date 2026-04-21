@@ -94,8 +94,8 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import ProfileForm from '@/components/user/profile-form';
 import SettingsForm from '@/components/user/settings-form';
 import SavedComparisons from '@/components/user/saved-comparisons';
-import WardrobePage from './wardrobe/page';
-import PaymentsPage from './payments/page';
+import { WardrobePageContent } from '@/app/client/me/wardrobe/wardrobe-page-content';
+import { PaymentsPageContent } from '@/app/client/me/payments/payments-page-content';
 import { MyPreorders } from '@/components/user/my-preorders';
 import StyleCalendar from '@/components/user/style-calendar';
 import AdvancedAnalytics from '@/components/user/advanced-analytics';
@@ -362,7 +362,7 @@ function UserProfileContent() {
             <MyLooksTab />
           </TabsContent>
           <TabsContent value="wardrobe" className="py-6 duration-300 animate-in fade-in-50">
-            <WardrobePage />
+            <WardrobePageContent />
           </TabsContent>
           <TabsContent value="calendar" className="py-6 duration-300 animate-in fade-in-50">
             <StyleCalendar />
@@ -377,7 +377,7 @@ function UserProfileContent() {
             <UnifiedAchievements />
           </TabsContent>
           <TabsContent value="payments" className="py-6 duration-300 animate-in fade-in-50">
-            <PaymentsPage />
+            <PaymentsPageContent />
           </TabsContent>
           <TabsContent value="profile" className="py-2 duration-300 animate-in fade-in-50">
             <div className="space-y-4">

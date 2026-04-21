@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +12,6 @@ import { getProductLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageShell } from '@/components/design-system';
 
 const MOCK_DROPS = [
   {
@@ -47,7 +47,7 @@ export default function FashionInvestingPage() {
   };
 
   return (
-    <RegistryPageShell className="space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
       <SectionInfoCard
         title="Fashion Social Investing"
         description="Инвестиции в дропы брендов: подписка на уведомления о старте, резерв слотов. Связь с предзаказами и B2B."
@@ -127,6 +127,6 @@ export default function FashionInvestingPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getProductLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

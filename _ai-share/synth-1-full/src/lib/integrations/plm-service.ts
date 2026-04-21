@@ -47,10 +47,10 @@ async function fetchPlm<T>(path: string, options?: RequestInit): Promise<T> {
 
   const res = await fetch(`${API.replace(/\/$/, '')}${path}`, { ...options, headers });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
+    const err = (await res.json().catch(() => ({}))) as { detail?: string };
     throw new Error(err.detail || `PLM API error: ${res.status}`);
   }
-  return res.json();
+  return (await res.json()) as T;
 }
 
 /** Connect PLM provider */

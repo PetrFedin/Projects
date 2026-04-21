@@ -30,7 +30,7 @@ export function createDispute(
     respondentName,
     relatedOrderId,
     claimValue,
-    currency: 'USD',
+    currency: 'RUB',
     description,
     evidence: [],
     messages: [],

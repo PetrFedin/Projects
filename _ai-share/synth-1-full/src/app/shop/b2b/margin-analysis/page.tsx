@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,14 +8,13 @@ import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { BarChart3, Calculator, PieChart } from 'lucide-react';
 
 /** Единый хаб среза «Маржа»: калькулятор, отчётность, landed cost и перекрёстные ссылки на аналитику. */
 export default function B2bMarginAnalysisHubPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6" data-testid="page-shop-b2b-margin-analysis">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6" data-testid="page-shop-b2b-margin-analysis">
       <ShopB2bContentHeader lead="Срез «Маржа»: инструменты и отчёты по закупке и рознице в одном месте." />
       <ShopAnalyticsSegmentErpStrip />
 
@@ -99,6 +99,6 @@ export default function B2bMarginAnalysisHubPage() {
         title="Заказы, аналитика, fulfillment"
         className="mt-2"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

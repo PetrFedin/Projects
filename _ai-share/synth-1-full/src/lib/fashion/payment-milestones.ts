@@ -5,7 +5,7 @@ export function getPaymentMilestones(orderTotal: number): PaymentMilestoneV1[] {
   return [
     {
       id: 'MIL-01',
-      label: 'Pre-production Deposit',
+      label: 'Предоплата до запуска производства',
       amount: Math.round(orderTotal * 0.3),
       dueDate: '2026-04-15',
       status: 'pending',
@@ -13,7 +13,7 @@ export function getPaymentMilestones(orderTotal: number): PaymentMilestoneV1[] {
     },
     {
       id: 'MIL-02',
-      label: 'Balance Shipment Payment',
+      label: 'Оплата остатка при отгрузке',
       amount: Math.round(orderTotal * 0.7),
       dueDate: '2026-06-01',
       status: 'pending',

@@ -180,7 +180,7 @@ export function PromotionDialog({
     async function fetchProducts() {
       try {
         const res = await fetch('/data/products.json');
-        const allProducts: Product[] = await res.json();
+        const allProducts = (await res.json()) as Product[];
         setBrandProducts(allProducts.filter((p) => p.brand === 'Syntha'));
       } catch (error) {
         console.error('Failed to fetch products:', error);

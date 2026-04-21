@@ -1,32 +1,15 @@
 'use client';
 
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ROUTES } from '@/lib/routes';
 import { CARE_SYMBOL_LIBRARY } from '@/lib/fashion/care-symbols';
-import { ArrowLeft, Droplets } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function CareSymbolsPage() {
   return (
-    <div className="container mx-auto max-w-3xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.client.home}>
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold">
-            <Droplets className="h-6 w-6" />
-            Пиктограммы ухода
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Библиотека для демо-карточек. В проде — синхронизация с PIM / GS1 и локализация.
-          </p>
-        </div>
-      </div>
+    <CabinetPageContent maxWidth="3xl">
+      <ClientCabinetSectionHeader />
 
       <Card>
         <CardHeader>
@@ -56,6 +39,6 @@ export default function CareSymbolsPage() {
         <code className="rounded bg-muted px-1">attributes.care</code> (массив id) или подставляется
         безопасный дефолт до заполнения PIM.
       </p>
-    </div>
+    </CabinetPageContent>
   );
 }

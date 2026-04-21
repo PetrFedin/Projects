@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import * as React from 'react';
 import {
   Card,
@@ -55,7 +56,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 
 export default function BrandAuctionsPage() {
@@ -73,7 +75,7 @@ export default function BrandAuctionsPage() {
   ];
 
   return (
-    <RegistryPageShell className="bg-bg-surface2/80 w-full max-w-none space-y-10 pb-16 font-sans">
+    <CabinetPageContent maxWidth="full" className="bg-bg-surface2/80 w-full space-y-10 pb-16 font-sans">
       <RegistryPageHeader
         title="Управление закупками"
         leadPlain="Auction Manager PRO v2.0 — тендеры и закупки бренда на платформе."
@@ -415,6 +417,6 @@ export default function BrandAuctionsPage() {
       </Card>
 
       <RelatedModulesBlock links={getAuctionLinks()} className="mt-6" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,7 @@ import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { B2BIntegrationStatusWidget } from '@/components/b2b/B2BIntegrationStatusWidget';
 import { getB2BLinks } from '@/lib/data/entity-links';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 /** Мок: визиты партнёров (шоурум, лайншит, лукбук). JOOR-style активность. */
 const MOCK_VISITS = [
@@ -57,7 +58,7 @@ const MOCK_ACTIVITY = [
 
 export default function BrandB2BEngagementPage() {
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Вовлечённость партнёров"
         leadPlain="JOOR: визиты шоурума и лайншита, активность по кампаниям. NuOrder: кто открыл/заказал — связь с заказами и событиями."
@@ -189,6 +190,6 @@ export default function BrandB2BEngagementPage() {
 
       <B2BIntegrationStatusWidget settingsHref={ROUTES.brand.integrations} />
       <RelatedModulesBlock title="B2B и партнёры" links={getB2BLinks().slice(0, 6)} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

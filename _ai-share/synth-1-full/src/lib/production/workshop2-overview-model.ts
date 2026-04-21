@@ -8,6 +8,7 @@ import type { ArticleWorkspaceBundle } from '@/lib/production/article-workspace/
 import { type HandbookCategoryLeaf } from '@/lib/production/category-catalog';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { workshop2DossierWarningLooksVisual } from '@/lib/production/workshop2-visual-section-warnings';
+import { workshop2PipelineLaneForArticleMainTab } from '@/lib/production/workshop2-collection-metrics';
 
 export type Workshop2OverviewTab =
   | 'overview'
@@ -303,7 +304,8 @@ function buildTopBlockers(
   }
 
   for (const stage of routeStages) {
-    if (stage.id === 'overview' || stage.id === 'tz' || !stage.blocker) continue;
+    if (stage.id === 'overview') continue;
+    if (workshop2PipelineLaneForArticleMainTab(stage.id) === 'development' || !stage.blocker) continue;
     pushUniqueBlocker(blockers, {
       id: `${stage.id}-blocker`,
       stage: stage.id,
@@ -435,7 +437,7 @@ function buildPrimaryAction(
   };
 }
 
-/** Тексты для диалога «зачем секция ТЗ» в сводке решений на обзоре Цеха 2. */
+/** Тексты для диалога «зачем секция ТЗ» в сводке решений на обзоре разработки коллекции. */
 export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
   DossierSection,
   { headline: string; purpose: string; essentials: string[] }
@@ -443,7 +445,7 @@ export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
   general: {
     headline: 'Аудитория и общие данные',
     purpose:
-      'Здесь задаётся, для кого изделие и в каком контексте оно живёт: позиционирование, сезон, роль модели в коллекции и финальные согласования. Без этого handoff по маршруту легко расходится с ожиданиями команды и фабрики.',
+      'Здесь задаётся, для кого изделие и в каком контексте оно живёт: позиционирование, сезон, роль модели в коллекции и финальные согласования. Без этого handoff по маршруту легко расходится с ожиданиями команды и фабрики. По матрице коллекции это часть подготовки к этапу «согласование всех сторон» (gate-all-stakeholders): подтверждения фиксируются в подписи и статусе готовности.',
     essentials: [
       'Целевая аудитория и сегмент',
       'Сезон, капсула, носители образа',
@@ -496,7 +498,7 @@ export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
   },
 };
 
-/** Тексты для диалога «что в этапе» на обзоре Цеха 2. */
+/** Тексты для диалога «что в этапе» на обзоре разработки коллекции. */
 export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   Workshop2OverviewTab,
   { headline: string; purpose: string; essentials: string[] }
@@ -504,7 +506,7 @@ export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   overview: {
     headline: 'Обзор',
     purpose:
-      'Входная панель SKU: паспорт артикула, прогресс и замечания, карта маршрута, обязательные решения из ТЗ, блокеры и один следующий шаг — без дублирования длинных форм.',
+      'Входная панель SKU: паспорт артикула, прогресс и замечания, карта маршрута, обязательные решения из ТЗ, блокеры и один следующий шаг — без дублирования длинных форм. По матрице этапов коллекции сюда относится всё до полного согласования ТЗ (в каталоге — в т.ч. tech-pack и gate-all-stakeholders), но в одном интерфейсе со вкладкой «ТЗ».',
     essentials: [
       'Понять, что за изделие и где оно в процессе',
       'Увидеть топ-блокеры и перейти в нужный раздел ТЗ',
@@ -514,7 +516,7 @@ export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   tz: {
     headline: 'ТЗ · Дизайн + тех',
     purpose:
-      'Зафиксировать изделие как продукт: кто аудитория, как выглядит модель, из чего шьём, какие мерки и конструкция, как уходит на выпуск и склад.',
+      'Зафиксировать изделие как продукт: кто аудитория, как выглядит модель, из чего шьём, какие мерки и конструкция, как уходит на выпуск и склад. Формальное согласование всех сторон из матрицы коллекции (этап gate-all-stakeholders) здесь выражено через готовность досье, цифровые подписи и чеклисты — отдельной вкладки «согласование» нет.',
     essentials: [
       'Паспорт артикула и аудитория',
       'Визуал, эскиз, замысел',
@@ -528,7 +530,7 @@ export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   supply: {
     headline: 'Снабжение · Закупка',
     purpose:
-      'Перевести материальный замысел в исполнимый BOM: позиции, статусы, поставщики и сроки.',
+      'Перевести материальный замысел в исполнимый BOM: позиции, статусы, поставщики и сроки. На мини-шкале коллекции этот контур начинается с этапа supply-path в каталоге; дальше — отшив и приёмка образца (в каталоге — samples), распределённые по следующим вкладкам и полу цеха.',
     essentials: [
       'Строки BOM по SKU',
       'Подтверждение поставок и статусов',
@@ -537,7 +539,8 @@ export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   },
   fit: {
     headline: 'Эталон · посадка',
-    purpose: 'Сверить образец с ТЗ и зафиксировать gold sample как эталон для серии.',
+    purpose:
+      'Сверить образец с ТЗ и зафиксировать gold sample как эталон для серии. Часть смысла этапа каталога «samples» (примерка, доработки до эталона) закрывается здесь и на полу (fit, gold sample).',
     essentials: ['Замеры и комментарии по посадке', 'Утверждение эталонного образца'],
   },
   plan: {

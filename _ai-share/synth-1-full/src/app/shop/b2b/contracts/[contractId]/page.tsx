@@ -1,4 +1,6 @@
 'use client';
+
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -13,7 +15,6 @@ import { FileText, Edit2 } from 'lucide-react';
 import { use, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { OrderChat } from '@/components/shop/b2b';
-import { RegistryPageShell } from '@/components/design-system';
 import { ShopB2bToolHeader } from '@/components/shop/ShopB2bToolHeader';
 import { ROUTES } from '@/lib/routes';
 
@@ -44,7 +45,7 @@ export default function B2BContractDetailsPage({
   const params = use(paramsPromise);
 
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       <ShopB2bToolHeader
         backHref={ROUTES.shop.b2bContracts}
         className="mb-8"
@@ -112,6 +113,6 @@ export default function B2BContractDetailsPage({
           </div>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

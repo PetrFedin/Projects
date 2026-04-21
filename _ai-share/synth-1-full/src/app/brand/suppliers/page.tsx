@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -39,7 +40,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 
 const SupplierRfqContent = dynamic(() => import('@/app/brand/suppliers/rfq/page'), { ssr: false });
@@ -113,7 +115,7 @@ export default function SuppliersPage() {
   });
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-20">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-20">
       <RegistryPageHeader
         title="Поставщики"
         leadPlain="Реестр контрагентов, тендеры RFQ и live-сорсинг в одном хабе."
@@ -145,7 +147,7 @@ export default function SuppliersPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="suppliers" className="mt-4 space-y-4">
+        <TabsContent value="suppliers" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           <div className="flex flex-wrap gap-2">
             {['all', 'Ткани', 'Фурнитура', 'CMT'].map((t) => (
               <Button
@@ -249,15 +251,15 @@ export default function SuppliersPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="rfq" className="mt-4">
+        <TabsContent value="rfq" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'rfq' && <SupplierRfqContent />}
         </TabsContent>
-        <TabsContent value="sourcing-live" className="mt-4">
+        <TabsContent value="sourcing-live" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'sourcing-live' && <SourcingLiveContent />}
         </TabsContent>
       </Tabs>
 
       <RelatedModulesBlock title="Связанные модули" links={getSupplierLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

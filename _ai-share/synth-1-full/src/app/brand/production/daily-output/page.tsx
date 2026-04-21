@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,7 +19,6 @@ import { cn } from '@/lib/utils';
 import { useFloorTabDraftState } from '@/hooks/use-floor-tab-draft';
 import { useToast } from '@/hooks/use-toast';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
-import { RegistryPageShell } from '@/components/design-system';
 
 const DATE_OPTIONS = ['2026-03-11', '2026-03-10'];
 
@@ -35,7 +35,7 @@ export default function DailyOutputPage() {
   const summary = useMemo(() => getShiftReportSummary(reports), [reports]);
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6 pb-16">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Контроль сменного выпуска"
         description="Сводка смен — из daily-output-data; комментарий мастера сохраняется в floor-tab: daily-output."
@@ -46,11 +46,11 @@ export default function DailyOutputPage() {
       />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-3">
-          <Link href={ROUTES.brand.production}>
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.production} aria-label="Назад к производству">
+              <ArrowLeft className="h-4 w-4" aria-hidden />
+            </Link>
+          </Button>
           <h1 className="text-2xl font-bold uppercase">Контроль сменного выпуска</h1>
         </div>
         <Button
@@ -171,6 +171,6 @@ export default function DailyOutputPage() {
       </Card>
 
       <RelatedModulesBlock links={getProductionLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

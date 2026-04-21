@@ -1,17 +1,17 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { LayoutDashboard, FileText, BarChart3, Smartphone } from 'lucide-react';
 import { B2BModulePage } from '@/components/shop/B2BModulePage';
-import { RegistryPageShell } from '@/components/design-system';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
 
 /** Sellty/Compo: личный кабинет дилера — документы, отчёты, аналитика. */
 export default function B2BDealerCabinetPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <B2BModulePage
         title="Личный кабинет дилера"
         description="Документы, отчёты, аналитика для партнёра (Sellty, Compo)"
@@ -53,6 +53,6 @@ export default function B2BDealerCabinetPage() {
           </Link>
         </Button>
       </B2BModulePage>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

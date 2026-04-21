@@ -40,27 +40,27 @@ export function usePaymentData() {
   const [paymentMethods] = useState<PaymentMethod[]>([
     {
       id: 'net30',
-      name: 'Net 30',
-      dueDate: 'Mar 20',
+      name: 'Отсрочка 30 дней',
+      dueDate: '20 мар',
       badge: 'Стандарт',
     },
     {
       id: 'bnpl',
-      name: 'Klarna BNPL',
-      badge: '0% interest',
+      name: 'Рассрочка / кредит (банк-партнёр РФ)',
+      badge: 'по программе банка',
       badgeColor: 'bg-emerald-100 text-emerald-700',
     },
     {
       id: 'escrow',
-      name: 'Escrow',
-      badge: 'Seller Protection',
+      name: 'Эскроу',
+      badge: 'Защита сделки',
       badgeColor: 'bg-blue-100 text-blue-700',
     },
     {
       id: 'factoring',
-      name: 'Invoice Factoring',
-      badge: 'Get paid today',
-      badgeColor: 'bg-accent-primary/15 text-accent-primary',
+      name: 'Факторинг',
+      badge: 'Финансирование под дебиторку',
+      badgeColor: 'bg-purple-100 text-purple-700',
     },
   ]);
 

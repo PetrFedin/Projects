@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { use, useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -49,7 +50,7 @@ import { useB2BState } from '@/providers/b2b-state';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 const mockComments = [
   {
@@ -184,7 +185,7 @@ export default function CampaignDetailsPage({
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title={project.title}
         leadPlain={`${daysLeft} дн. до конца · ${progress.toFixed(0)}% от цели по количеству`}
@@ -249,7 +250,13 @@ export default function CampaignDetailsPage({
                 Комментарии ({mockComments.length})
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="story" className="prose dark:prose-invert mt-6 max-w-none">
+            <TabsContent
+              value="story"
+              className={cn(
+                cabinetSurface.cabinetProfileTabPanel,
+                'prose dark:prose-invert mt-6 max-w-none'
+              )}
+            >
               <h2>Концепция: {project.title}</h2>
               <p>{project.description}</p>
               <p>
@@ -262,7 +269,10 @@ export default function CampaignDetailsPage({
                 свободный, но структурированный, идеально подходящий для городского жителя.
               </p>
             </TabsContent>
-            <TabsContent value="updates" className="mt-6 space-y-6">
+            <TabsContent
+              value="updates"
+              className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-6')}
+            >
               {updates.map((update, index) => (
                 <Card
                   key={index}
@@ -293,7 +303,10 @@ export default function CampaignDetailsPage({
                 </Card>
               ))}
             </TabsContent>
-            <TabsContent value="comments" className="mt-6 space-y-6">
+            <TabsContent
+              value="comments"
+              className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-6')}
+            >
               {mockComments.map((comment, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <Avatar>
@@ -479,6 +492,6 @@ export default function CampaignDetailsPage({
           </div>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

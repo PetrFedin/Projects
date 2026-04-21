@@ -1,6 +1,8 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 import dynamic from 'next/dynamic';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -19,6 +21,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { ProductionWorkshop2HubBanner } from '@/components/brand/production/ProductionWorkshop2HubBanner';
 import { getProductionLinks } from '@/lib/data/entity-links';
 import { ROUTES, processLiveUrl } from '@/lib/routes';
 import { COLLECTION_STEPS } from '@/lib/production/collection-steps-catalog';
@@ -45,7 +48,6 @@ import { CollectionWorkshopStageChain } from '@/components/brand/production/Coll
 import type { CollectionModuleSaveEvent } from '@/components/brand/production/CollectionStepModuleDialog';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageShell } from '@/components/design-system';
 import {
   CheckCircle2,
   CircleDot,
@@ -256,9 +258,12 @@ const MOCK_COLLECTIONS: {
 ];
 
 export default function BrandProductionCollectionFlowPage() {
+  const { toast } = useToast();
   const searchParams = useSearchParams() ?? new URLSearchParams();
   const router = useRouter();
   const pathname = usePathname() ?? '';
+  /** Не дублировать toast при сбросе неверного stagesSku (Strict Mode / повтор эффекта). */
+  const invalidStagesSkuToastKeyRef = useRef<string | null>(null);
   const collectionIdFromQuery = searchParams.get('collectionId') || '';
   const effectiveCollectionId = collectionIdFromQuery || 'default';
   /** Демо-коллекция Investor делит с «по умолчанию» один flow в localStorage (те же три SKU). */
@@ -313,7 +318,7 @@ export default function BrandProductionCollectionFlowPage() {
     else setTabState('workshop');
   }, [searchParams]);
 
-  /** Старые ссылки ?floorTab=workshop2 → отдельный маршрут Цех 2. */
+  /** Старые ссылки ?floorTab=workshop2 → отдельный маршрут разработки коллекции (workshop2). */
   useEffect(() => {
     if (searchParams.get('floorTab') !== 'workshop2') return;
     const p = new URLSearchParams(searchParams.toString());
@@ -365,9 +370,12 @@ export default function BrandProductionCollectionFlowPage() {
     userCollections: [],
     archivedUserCollections: [],
   }));
+  /** После первого чтения localStorage — чтобы не сбрасывать stagesSku до появления строк коллекции. */
+  const [localInventoryHydrated, setLocalInventoryHydrated] = useState(false);
 
   useEffect(() => {
     setLocalInventory(loadLocalCollectionInventory());
+    setLocalInventoryHydrated(true);
   }, []);
 
   useEffect(() => {
@@ -1276,7 +1284,13 @@ export default function BrandProductionCollectionFlowPage() {
 
   useEffect(() => {
     const id = stagesSkuContextId;
-    if (!id) return;
+    if (!id) {
+      invalidStagesSkuToastKeyRef.current = null;
+      return;
+    }
+    if (!localInventoryHydrated) {
+      return;
+    }
     if (collectionArticles.length === 0) {
       const params = new URLSearchParams(searchParams.toString());
       params.delete(STAGES_SKU_PARAM);
@@ -1284,14 +1298,37 @@ export default function BrandProductionCollectionFlowPage() {
       router.replace(`${pathname}${q ? `?${q}` : ''}`, { scroll: false });
       return;
     }
-    if (collectionArticles.some((a) => a.id === id)) return;
+    if (collectionArticles.some((a) => a.id === id)) {
+      invalidStagesSkuToastKeyRef.current = null;
+      return;
+    }
+    const toastKey = `${collectionFlowKey}:${id}`;
+    if (invalidStagesSkuToastKeyRef.current !== toastKey) {
+      invalidStagesSkuToastKeyRef.current = toastKey;
+      toast({
+        title: 'Артикул не найден в коллекции на полу',
+        description:
+          'Параметр stagesSku не совпадает ни с одной строкой текущей коллекции. Контекст артикула сброшен. Проверьте collectionId и id строки из разработки коллекции.',
+        duration: 10_000,
+      });
+    }
     const params = new URLSearchParams(searchParams.toString());
     params.delete(STAGES_SKU_PARAM);
     const q = params.toString();
     router.replace(`${pathname}${q ? `?${q}` : ''}`, { scroll: false });
-  }, [stagesSkuContextId, collectionArticles, pathname, router, searchParams]);
+  }, [
+    collectionFlowKey,
+    localInventoryHydrated,
+    stagesSkuContextId,
+    collectionArticles,
+    pathname,
+    router,
+    searchParams,
+    toast,
+  ]);
 
   useEffect(() => {
+    if (!localInventoryHydrated) return;
     if (!productionFloorTabRequiresArticle(tab)) return;
     if (articleContextValid) return;
     const params = new URLSearchParams(searchParams.toString());
@@ -1299,7 +1336,15 @@ export default function BrandProductionCollectionFlowPage() {
     if (stagesSkuContextId) params.delete(STAGES_SKU_PARAM);
     const q = params.toString();
     router.replace(`${pathname}${q ? `?${q}` : ''}`, { scroll: false });
-  }, [tab, articleContextValid, stagesSkuContextId, pathname, router, searchParams]);
+  }, [
+    tab,
+    articleContextValid,
+    stagesSkuContextId,
+    pathname,
+    router,
+    searchParams,
+    localInventoryHydrated,
+  ]);
 
   /** Путь + query без origin — одинаково на SSR и при гидрации (избегаем рассинхрона disabled у кнопки «Ссылка»). */
   const productionFullPageUrl = useMemo(() => {
@@ -1319,7 +1364,12 @@ export default function BrandProductionCollectionFlowPage() {
   }, [unifiedDoc, collectionFlowKey]);
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent
+      maxWidth="full"
+      className="w-full space-y-6 pb-16"
+      data-testid="brand-production-page"
+    >
+      <ProductionWorkshop2HubBanner />
       <TooltipProvider delayDuration={280}>
         <Tabs value={tab} onValueChange={setTab} className="w-full">
           {/* cabinetSurface v1 */}
@@ -1441,7 +1491,7 @@ export default function BrandProductionCollectionFlowPage() {
             currentTabTitle={getProductionFloorTabTitle(tab)}
           />
 
-          <TabsContent value="stages" className="mt-4 space-y-6">
+          <TabsContent value="stages" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'stages' && (
               <StagesDependenciesTabContent
                 key={collectionFlowKey}
@@ -1474,7 +1524,7 @@ export default function BrandProductionCollectionFlowPage() {
             )}
           </TabsContent>
 
-          <TabsContent value="live" className="mt-4 space-y-4">
+          <TabsContent value="live" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'live' && (
               <LiveProcessPageBody
                 processId="production"
@@ -1485,7 +1535,7 @@ export default function BrandProductionCollectionFlowPage() {
             )}
           </TabsContent>
 
-          <TabsContent value="workshop" className="mt-4 space-y-6">
+          <TabsContent value="workshop" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             <Card className="border-accent-primary/30 bg-accent-primary/10">
               <CardHeader className="pb-2">
                 <CardTitle className="text-accent-primary text-sm uppercase tracking-tight">
@@ -1521,7 +1571,7 @@ export default function BrandProductionCollectionFlowPage() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-sm uppercase tracking-tight">
-                  <Factory className="h-4 w-4" /> Работа по коллекциям
+                  <Factory className="h-4 w-4" aria-hidden /> Работа по коллекциям
                 </CardTitle>
                 <CardDescription className="text-xs">
                   Выберите коллекцию. Дальше в таблице артикулов нажмите «В цех · процесс», чтобы
@@ -1572,7 +1622,11 @@ export default function BrandProductionCollectionFlowPage() {
                             <p className="text-text-secondary mt-2 text-[10px]">
                               Артикулов: <strong>{col.articleCount}</strong>
                             </p>
-                            <Progress value={col.progressPct} className="mt-1 h-1.5" />
+                            <Progress
+                              value={col.progressPct}
+                              className="mt-1 h-1.5"
+                              aria-label={`Готовность коллекции «${col.name}»: ${col.progressPct}%`}
+                            />
                             <p className="text-text-muted mt-0.5 text-[9px]">{col.progressPct}%</p>
                             <p
                               className={cn(
@@ -1597,7 +1651,7 @@ export default function BrandProductionCollectionFlowPage() {
             <Card className="border-accent-primary/20 bg-accent-primary/10">
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-sm uppercase tracking-tight">
-                  <ListTodo className="h-4 w-4" /> Инструменты производства
+                  <ListTodo className="h-4 w-4" aria-hidden /> Инструменты производства
                 </CardTitle>
                 <CardDescription className="text-xs">
                   После выбора артикула («В цех · процесс») эти ссылки ведут в модули с тем же
@@ -1744,6 +1798,7 @@ export default function BrandProductionCollectionFlowPage() {
                   <Progress
                     value={progressPct}
                     className="ml-1 inline-block h-1.5 w-24 align-middle"
+                    aria-label={`Прогресс коллекции по этапам: ${progressPct}%`}
                   />
                 </div>
 
@@ -1822,7 +1877,7 @@ export default function BrandProductionCollectionFlowPage() {
                       : ROUTES.brand.products
                   }
                 >
-                  <PlusCircle className="h-4 w-4" /> Добавить артикулы в коллекцию
+                  <PlusCircle className="h-4 w-4" aria-hidden /> Добавить артикулы в коллекцию
                 </Link>
               </Button>
               <Button
@@ -1832,7 +1887,7 @@ export default function BrandProductionCollectionFlowPage() {
                 asChild
               >
                 <Link href={ROUTES.brand.budgetActual}>
-                  <BarChart3 className="h-4 w-4" /> Спрогнозировать коллекцию
+                  <BarChart3 className="h-4 w-4" aria-hidden /> Спрогнозировать коллекцию
                 </Link>
               </Button>
               <Button
@@ -1843,7 +1898,7 @@ export default function BrandProductionCollectionFlowPage() {
                 <Link
                   href={`${ROUTES.brand.productionGantt}${collectionIdFromQuery ? `?collectionId=${encodeURIComponent(collectionIdFromQuery)}` : ''}`}
                 >
-                  <Play className="h-4 w-4" /> Запустить в производство
+                  <Play className="h-4 w-4" aria-hidden /> Запустить в производство
                 </Link>
               </Button>
               <span className="text-text-secondary ml-2 text-[10px]">
@@ -1861,7 +1916,7 @@ export default function BrandProductionCollectionFlowPage() {
                   <Link
                     href={`${ROUTES.shop.b2bOrders}?${collectionQuery ? collectionQuery.slice(1) + '&' : ''}view=collection`}
                   >
-                    <ShoppingBag className="h-4 w-4" /> B2B по коллекции
+                    <ShoppingBag className="h-4 w-4" aria-hidden /> B2B по коллекции
                   </Link>
                 </Button>
               )}
@@ -1872,7 +1927,7 @@ export default function BrandProductionCollectionFlowPage() {
               <Card className="border-amber-100 bg-gradient-to-br from-amber-50/50 to-white">
                 <CardHeader className="pb-2">
                   <CardTitle className="flex items-center gap-2 text-sm uppercase tracking-tight">
-                    <ListTodo className="h-4 w-4 text-amber-600" /> Что сделать по коллекции
+                    <ListTodo className="h-4 w-4 text-amber-600" aria-hidden /> Что сделать по коллекции
                   </CardTitle>
                   <CardDescription className="text-xs">
                     Чек-лист по статусам артикулов. Переход в нужный раздел по клику.
@@ -2386,7 +2441,7 @@ export default function BrandProductionCollectionFlowPage() {
             />
           </TabsContent>
 
-          <TabsContent value="supplies" className="mt-4">
+          <TabsContent value="supplies" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'supplies' && (
               <Tabs
                 value={suppliesSub}
@@ -2405,17 +2460,17 @@ export default function BrandProductionCollectionFlowPage() {
                     Бронирование
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="vmi" className="mt-0">
+                <TabsContent value="vmi" className={cabinetSurface.cabinetProfileTabPanel}>
                   {suppliesSub === 'vmi' && <VmiContent />}
                 </TabsContent>
-                <TabsContent value="reservation" className="mt-0">
+                <TabsContent value="reservation" className={cabinetSurface.cabinetProfileTabPanel}>
                   {suppliesSub === 'reservation' && <MaterialReservationContent />}
                 </TabsContent>
               </Tabs>
             )}
           </TabsContent>
 
-          <TabsContent value="sample" className="mt-4">
+          <TabsContent value="sample" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'sample' && (
               <Tabs
                 value={sampleSub}
@@ -2431,25 +2486,25 @@ export default function BrandProductionCollectionFlowPage() {
                     Fit comments
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="gold" className="mt-0">
+                <TabsContent value="gold" className={cabinetSurface.cabinetProfileTabPanel}>
                   {sampleSub === 'gold' && <GoldSampleContent />}
                 </TabsContent>
-                <TabsContent value="fit" className="mt-0">
+                <TabsContent value="fit" className={cabinetSurface.cabinetProfileTabPanel}>
                   {sampleSub === 'fit' && <FitCommentsContent />}
                 </TabsContent>
               </Tabs>
             )}
           </TabsContent>
 
-          <TabsContent value="plan" className="mt-4">
+          <TabsContent value="plan" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'plan' && <GanttContent />}
           </TabsContent>
 
-          <TabsContent value="nesting" className="mt-4">
+          <TabsContent value="nesting" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'nesting' && <NestingContent />}
           </TabsContent>
 
-          <TabsContent value="launch" className="mt-4">
+          <TabsContent value="launch" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'launch' && (
               <Tabs
                 value={launchSub}
@@ -2471,23 +2526,23 @@ export default function BrandProductionCollectionFlowPage() {
                     Субподрядчики
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="daily" className="mt-0">
+                <TabsContent value="daily" className={cabinetSurface.cabinetProfileTabPanel}>
                   {launchSub === 'daily' && <DailyOutputContent />}
                 </TabsContent>
-                <TabsContent value="skills" className="mt-0">
+                <TabsContent value="skills" className={cabinetSurface.cabinetProfileTabPanel}>
                   {launchSub === 'skills' && <WorkerSkillsContent />}
                 </TabsContent>
-                <TabsContent value="video" className="mt-0">
+                <TabsContent value="video" className={cabinetSurface.cabinetProfileTabPanel}>
                   {launchSub === 'video' && <MilestonesVideoContent />}
                 </TabsContent>
-                <TabsContent value="sub" className="mt-0">
+                <TabsContent value="sub" className={cabinetSurface.cabinetProfileTabPanel}>
                   {launchSub === 'sub' && <SubcontractorContent />}
                 </TabsContent>
               </Tabs>
             )}
           </TabsContent>
 
-          <TabsContent value="quality" className="mt-4">
+          <TabsContent value="quality" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'quality' && (
               <Tabs
                 value={qualitySub}
@@ -2503,25 +2558,25 @@ export default function BrandProductionCollectionFlowPage() {
                     Рабочее место QC
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="mobile" className="mt-0">
+                <TabsContent value="mobile" className={cabinetSurface.cabinetProfileTabPanel}>
                   {qualitySub === 'mobile' && <QcAppContent />}
                 </TabsContent>
-                <TabsContent value="desk" className="mt-0">
+                <TabsContent value="desk" className={cabinetSurface.cabinetProfileTabPanel}>
                   {qualitySub === 'desk' && <QualityLiveContent />}
                 </TabsContent>
               </Tabs>
             )}
           </TabsContent>
 
-          <TabsContent value="receipt" className="mt-4">
+          <TabsContent value="receipt" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'receipt' && <ReadyMadeContent />}
           </TabsContent>
 
-          <TabsContent value="ops" className="mt-4">
+          <TabsContent value="ops" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
             {tab === 'ops' && <ProductionLiveContent />}
           </TabsContent>
         </Tabs>
       </TooltipProvider>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

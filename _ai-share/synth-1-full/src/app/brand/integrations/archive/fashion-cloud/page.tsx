@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,9 +17,17 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 type Message = { type: 'success' | 'error'; text: string };
+
+type FashionCloudJsonResult = {
+  success?: boolean;
+  error?: string;
+  errors?: string[];
+  processed?: number;
+  synced?: number;
+};
 
 export default function BrandIntegrationsFashionCloudPage() {
   const [orders, setOrders] = useState<
@@ -49,8 +58,8 @@ export default function BrandIntegrationsFashionCloudPage() {
     setDraftsLoading(true);
     try {
       const res = await fetch('/api/b2b/fashion-cloud/draft-orders');
-      const data = (await res.ok) ? res.json() : [];
-      setDrafts(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setDrafts(Array.isArray(data) ? (data as typeof drafts) : []);
     } catch {
       setDrafts([]);
     } finally {
@@ -72,7 +81,7 @@ export default function BrandIntegrationsFashionCloudPage() {
           ],
         }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as FashionCloudJsonResult;
       if (data.success)
         setStockMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
       else setStockMsg({ type: 'error', text: data.errors?.join(', ') ?? data.error ?? 'Ошибка' });
@@ -108,7 +117,7 @@ export default function BrandIntegrationsFashionCloudPage() {
           ],
         }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as FashionCloudJsonResult;
       if (data.success)
         setCatalogMsg({ type: 'success', text: `Синхронизировано: ${data.synced ?? 0}` });
       else
@@ -121,7 +130,7 @@ export default function BrandIntegrationsFashionCloudPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Fashion Cloud"
         leadPlain="Импорт заказов и drafts, stock bulk upsert, каталог с options и media (фото, видео, 3D)."
@@ -297,6 +306,6 @@ export default function BrandIntegrationsFashionCloudPage() {
           </Button>
         </Link>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

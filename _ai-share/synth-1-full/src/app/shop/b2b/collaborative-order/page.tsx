@@ -1,17 +1,17 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Users, Share2 } from 'lucide-react';
 import { B2BModulePage } from '@/components/shop/B2BModulePage';
-import { RegistryPageShell } from '@/components/design-system';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
 
 /** NuOrder: Collaborative Buying — совместное редактирование заказа несколькими байерами. */
 export default function B2BCollaborativeOrderPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <B2BModulePage
         title="Collaborative Buying"
         description="Совместное редактирование заказа несколькими байерами (NuOrder)"
@@ -41,6 +41,6 @@ export default function B2BCollaborativeOrderPage() {
           </CardContent>
         </Card>
       </B2BModulePage>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

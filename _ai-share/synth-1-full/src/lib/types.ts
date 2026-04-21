@@ -231,12 +231,44 @@ export interface EducationCourse {
   level: 'beginner' | 'intermediate' | 'advanced' | 'pro';
   targetRoles: UserRole[];
   category: 'economics' | 'design' | 'production' | 'analytics' | 'management' | 'retail' | 'legal';
-  provider: 'Syntha Academy' | 'External' | 'Partner';
+  /**
+   * Источник записи: платформа Syntha, бренд с маркетплейса или внешняя организация.
+   * Курсы бренда/организации для клиентской витрины проходят модерацию (`moderationStatus`).
+   */
+  catalogSource: 'platform' | 'brand' | 'organization';
+  /**
+   * Для `brand` / `organization`: статус согласования с админами платформы.
+   * У курсов платформы не задаётся — считаются опубликованными.
+   */
+  moderationStatus?: 'draft' | 'pending_review' | 'approved' | 'rejected';
+  /** ID бренда-владельца при `catalogSource === 'brand'` */
+  ownerBrandId?: string;
+  /** ID организации при `catalogSource === 'organization'` */
+  ownerOrganizationId?: string;
+  /** Кто слушатель: частное лицо / индивидуально или профессионалы по ролям партнёров */
+  audienceKind: 'individual' | 'professional';
+  /**
+   * Для `audienceKind === 'professional'`: одна роль или кросс-функциональные команды (несколько ролей).
+   */
+  professionalScope?: 'single_role' | 'role_team';
+  /** Кто выпускает курс: платформа, бренд, школа, университет или партнёр */
+  provider: string;
+  /** Тип организации — для бейджей и фильтров */
+  providerKind?: 'syntha' | 'brand' | 'school' | 'university' | 'partner';
+  /** Бесплатный или платный доступ */
+  access?: 'free' | 'paid';
+  /**
+   * Итог обучения: диплом / ПК / сертификат или лёгкий курс «для себя» без формального документа.
+   */
+  outcomeKind?: 'diploma' | 'qualification' | 'certificate' | 'casual';
   rating: number;
   studentsCount: number;
   isNew?: boolean;
   isRecommended?: boolean;
-  price?: number; // 0 for free
+  /** Курс снят с активного каталога, доступен в архиве витрины */
+  archived?: boolean;
+  /** Стоимость в ₽; при бесплатном курсе обычно 0 или поле не задаётся */
+  price?: number;
   curriculum?: string[];
   media?: Array<{ type: 'video' | 'file'; title: string; url: string; size?: string }>;
   relatedIds?: string[]; // IDs of related courses or articles
@@ -254,6 +286,8 @@ export interface KnowledgeArticle {
   tags: string[];
   relatedIds?: string[];
   attachments?: Array<{ name: string; url: string; type: 'pdf' | 'xls' | 'doc' }>;
+  /** Статья в архиве базы знаний */
+  archived?: boolean;
 }
 
 export interface AcademyEvent {
@@ -266,7 +300,37 @@ export interface AcademyEvent {
   hostName: string;
   status: 'upcoming' | 'live' | 'ended';
   streamUrl?: string;
+  /** ID статьи базы знаний (mockArticles) */
   relatedId?: string;
+  /** ID курса платформы — для блока «Подготовка к эфиру» */
+  relatedCourseId?: string;
+  /** Ссылка на запись после завершения (архив) */
+  recordingUrl?: string;
+}
+
+/** Развёрнутое описание программы (модалка «О программе», справка) */
+export interface LearningPathCourseBlock {
+  courseId: string;
+  /** Зачем этот курс в цепочке */
+  roleInPath: string;
+  narrative: string;
+  keyUnits: string[];
+  labOrProject?: string;
+}
+
+export interface LearningPathProgramDetail {
+  overviewExtended: string;
+  audienceDetail: string;
+  competencies: string[];
+  prerequisites: string[];
+  workload: string;
+  assessmentAndCert: string;
+  certificationDetail: string;
+  tools?: string[];
+  readings?: string[];
+  courseBlocks: LearningPathCourseBlock[];
+  faq: Array<{ question: string; answer: string }>;
+  finePrint?: string;
 }
 
 export interface LearningPath {
@@ -276,6 +340,16 @@ export interface LearningPath {
   courses: string[]; // Course IDs
   totalDuration: string;
   outcome: string; // e.g., "Certified B2B Manager"
+  /** Для кого программа — одна строка для витрины */
+  audience?: string;
+  /** Сложность траектории целиком */
+  level?: EducationCourse['level'];
+  /** Формат: видео, вебинары, самопроверка и т.п. */
+  format?: string;
+  /** Полное описание для модального окна */
+  programDetail?: LearningPathProgramDetail;
+  /** Траектория в архиве: просмотр сохраняется, новые зачисления не активны */
+  archived?: boolean;
 }
 
 export interface Assessment {
@@ -288,6 +362,8 @@ export interface Assessment {
   timeLimitMinutes?: number;
   passingScore: number; // Percentage
   questions: Question[];
+  /** Аттестация снята с публикации / только архив */
+  archived?: boolean;
 }
 
 export interface Question {
@@ -1018,7 +1094,9 @@ export interface Chat {
     | 'team'
     | 'client'
     | 'b2b_orders'
-    | 'collections';
+    | 'collections'
+    /** Академия: куратор курса и/или группа участников */
+    | 'academy';
   isArchived?: boolean;
   isStarred?: boolean;
   isPinned?: boolean;
@@ -1033,6 +1111,10 @@ export interface Chat {
   partnerProfile?: string;
   /** Ссылка в календарь с контекстом партнёра/слоёв */
   calendarHref?: string;
+  /** Академия: id курса из education-data */
+  linkCourseId?: string;
+  /** Академия: канал с куратором или групповой чат участников */
+  academyChatKind?: 'staff' | 'cohort';
 }
 
 export type MessageEntityType = 'order' | 'task' | 'event' | 'escrow' | 'production' | 'product';

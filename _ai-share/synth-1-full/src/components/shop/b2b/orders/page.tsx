@@ -25,12 +25,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useMemo, useState } from 'react';
-import { useB2BOperationalOrdersList } from '@/hooks/use-b2b-operational-orders-list';
+import { useShopB2BOperationalOrdersList } from '@/hooks/use-b2b-operational-orders-list';
 import { cn } from '@/lib/utils';
 
 export default function B2BOrdersPage() {
   const [brandFilter, setBrandFilter] = useState('all');
-  const ordersWithPayment = useB2BOperationalOrdersList();
+  const ordersWithPayment = useShopB2BOperationalOrdersList();
 
   type OrderStatusBadge =
     | NonNullable<BadgeProps['variant']>

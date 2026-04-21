@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,7 +24,8 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { cn } from '@/lib/utils';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { getMetricValueToneClass } from '@/lib/ui/semantic-data-tones';
 
@@ -41,7 +43,7 @@ export default function BrandCustomerActivityPage() {
   const [period, setPeriod] = useState<'7d' | '30d' | '90d'>('30d');
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Активность клиентов"
         leadPlain="Подписчики, лайки, избранное, образы и метрики вовлечённости с профилем бренда."
@@ -139,7 +141,7 @@ export default function BrandCustomerActivityPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="engagement" className="space-y-6">
+        <TabsContent value="engagement" className={cabinetSurface.cabinetProfileTabPanel}>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <Card>
               <CardHeader>
@@ -226,7 +228,7 @@ export default function BrandCustomerActivityPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="content" className="space-y-6">
+        <TabsContent value="content" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card>
             <CardHeader>
               <CardTitle>Товары в контенте</CardTitle>
@@ -258,7 +260,7 @@ export default function BrandCustomerActivityPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="social" className="space-y-6">
+        <TabsContent value="social" className={cabinetSurface.cabinetProfileTabPanel}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -299,6 +301,6 @@ export default function BrandCustomerActivityPage() {
           <Link href={ROUTES.brand.customerIntelligence}>Customer Intelligence</Link>
         </Button>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

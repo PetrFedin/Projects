@@ -29,7 +29,7 @@ export async function createCuttingMarker(data: {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) throw new Error(json.detail || 'Failed to create marker');
   return json.data ?? json;
 }
@@ -38,7 +38,7 @@ export async function getCuttingMarkers(batchId: number) {
   const res = await fetch(`${API}/plm/cutting/batches/${batchId}/markers`, {
     headers: authHeaders(),
   });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) throw new Error(json.detail || 'Failed to load markers');
   return json.data ?? json ?? [];
 }
@@ -54,7 +54,7 @@ export async function createCuttingReport(data: {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) throw new Error(json.detail || 'Failed to create report');
   return json.data ?? json;
 }
@@ -71,7 +71,7 @@ export async function addMaterialAllowance(data: {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) throw new Error(json.detail || 'Failed to add allowance');
   return json.data ?? json;
 }
@@ -90,14 +90,14 @@ export async function recordInlineQC(data: {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) throw new Error(json.detail || 'Failed to record inline QC');
   return json.data ?? json;
 }
 
 export async function getDefectTypes() {
   const res = await fetch(`${API}/plm/qc/defect-types`, { headers: authHeaders() });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) return [];
   return json.data ?? json ?? [];
 }
@@ -114,7 +114,7 @@ export async function registerDefectType(data: {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) throw new Error(json.detail || 'Failed to register defect type');
   return json.data ?? json;
 }
@@ -127,7 +127,7 @@ export async function createPPSSample(batchId: number, skuId: string) {
       headers: authHeaders(),
     }
   );
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) throw new Error(json.detail || 'Failed to create PPS');
   return json.data ?? json;
 }
@@ -143,7 +143,7 @@ export async function getProductionMessages(params?: {
   if (params?.limit) sp.set('limit', String(params.limit));
   const qs = sp.toString();
   const res = await fetch(`${API}/plm/messages${qs ? '?' + qs : ''}`, { headers: authHeaders() });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) return [];
   return json.data ?? json ?? [];
 }
@@ -160,7 +160,7 @@ export async function sendProductionMessage(data: {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) throw new Error(json.detail || 'Failed to send');
   return json.data ?? json;
 }
@@ -178,7 +178,7 @@ export async function createGRN(data: {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) throw new Error(json.detail || 'Failed to create GRN');
   return json.data ?? json;
 }
@@ -186,7 +186,7 @@ export async function createGRN(data: {
 export async function getGRNs(materialOrderId?: number) {
   const qs = materialOrderId ? `?material_order_id=${materialOrderId}` : '';
   const res = await fetch(`${API}/plm/grn${qs}`, { headers: authHeaders() });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) return [];
   return json.data ?? json ?? [];
 }
@@ -203,7 +203,7 @@ export async function createCAPA(data: {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as { detail?: string; data?: unknown };
   if (!res.ok) throw new Error(json.detail || 'Failed to create CAPA');
   return json.data ?? json;
 }

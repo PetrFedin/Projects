@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import {
   Table,
   TableBody,
@@ -26,7 +27,6 @@ import { useRouter } from 'next/navigation';
 import { mockB2BOrders } from '@/lib/order-data';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { RegistryPageShell } from '@/components/design-system';
 
 export default function B2BOrdersPage() {
   const router = useRouter();
@@ -54,7 +54,7 @@ export default function B2BOrdersPage() {
   );
 
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
@@ -134,6 +134,6 @@ export default function B2BOrdersPage() {
           </Table>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -11,6 +11,11 @@ import { HUB_AUTH_FULLSCREEN_SPINNER } from '@/lib/syntha-api-mode';
 import { canAccessHub } from '@/lib/data/profile-page-features';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { supplierNavGroups } from '@/lib/data/factory-navigation';
+import {
+  FACTORY_SUP_ARCHIVE_GROUP_ORDER,
+  FACTORY_SUP_CORE_GROUP_ORDER,
+  SYNTHA_SIDEBAR_CLUSTERS,
+} from '@/lib/data/syntha-nav-clusters';
 import { HubSidebar } from '@/components/hub/HubSidebar';
 import { HubSidebarHeader } from '@/components/hub/HubSidebarHeader';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
@@ -20,7 +25,13 @@ import {
   CabinetHubTitleRow,
 } from '@/components/layout/cabinet-hub-chrome';
 import { cn } from '@/lib/utils';
-import { cabinetSidebarLayout, cabinetSurface } from '@/lib/ui/cabinet-surface';
+import {
+  cabinetHubLayout,
+  cabinetSidebarLayout,
+  cabinetSurface,
+} from '@/lib/ui/cabinet-surface';
+import { resolveCabinetActiveNavLink } from '@/lib/ui/cabinet-nav-active';
+import { cabinetRoleLabelRu } from '@/lib/ui/cabinet-role-labels';
 import { ROUTES } from '@/lib/routes';
 
 const SUPPLIER_HUB_ROLES = ['supplier', 'admin', 'platform_admin'];
@@ -51,8 +62,8 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
 
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
-      <div className="bg-bg-surface flex min-h-screen items-center justify-center">
-        <Loader2 className="size-8 animate-spin text-emerald-600" />
+      <div className={cabinetHubLayout.loadingShell}>
+        <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
       </div>
     );
   }
@@ -71,26 +82,12 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
     );
   }
 
-  const getCurrentLabel = () => {
-    const flat = supplierNavGroups.flatMap((g) => g.links);
-    const sorted = flat.sort((a, b) => b.href.length - a.href.length);
-    const current = sorted.find((l) => {
-      const p = (pathname || '').replace(/\/$/, '') || '/';
-      const h = (l.href.split('?')[0] || '').replace(/\/$/, '') || '/';
-      return p === h || p.startsWith(h + '/');
-    });
-    return current?.label || 'Дашборд';
-  };
+  const sectionLabel = resolveCabinetActiveNavLink(pathname, supplierNavGroups)?.label ?? 'Дашборд';
 
   return (
     <ErrorBoundary>
-      <div className="bg-bg-surface flex min-h-screen w-full pb-12 font-sans">
-        <aside
-          className={cn(
-            'lg:border-border-subtle lg:bg-bg-surface hidden lg:fixed lg:bottom-0 lg:left-0 lg:top-24 lg:z-30 lg:flex lg:shrink-0 lg:flex-col lg:border-r lg:pt-4',
-            cabinetSidebarLayout.asideWidthStandard
-          )}
-        >
+      <div className={cabinetHubLayout.rootShell}>
+        <aside className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}>
           <HubSidebarHeader
             href={ROUTES.factory.supplier}
             icon={Warehouse}
@@ -105,6 +102,9 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
               basePath={ROUTES.factory.supplier}
               accentClass="text-emerald-600"
               activeBgClass="bg-emerald-600"
+              sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
+              coreGroupOrder={FACTORY_SUP_CORE_GROUP_ORDER}
+              archiveGroupOrder={FACTORY_SUP_ARCHIVE_GROUP_ORDER}
             />
           </div>
         </aside>
@@ -133,6 +133,9 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
                 accentClass="text-emerald-600"
                 activeBgClass="bg-emerald-600"
                 onNavigate={() => setSidebarOpen(false)}
+                sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
+                coreGroupOrder={FACTORY_SUP_CORE_GROUP_ORDER}
+                archiveGroupOrder={FACTORY_SUP_ARCHIVE_GROUP_ORDER}
               />
             </div>
           </SheetContent>
@@ -151,7 +154,7 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
                   variant="outline"
                   className="shrink-0 border-emerald-200 text-[8px] font-bold text-emerald-700"
                 >
-                  Поставщик
+                  {cabinetRoleLabelRu(role)}
                 </Badge>
               }
               trailing={
@@ -162,7 +165,7 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
                       <Link
                         key={hub.href}
                         href={hub.href}
-                        className="text-text-secondary hover:bg-bg-surface2 hover:text-text-primary flex items-center gap-2 rounded-lg px-3 py-1.5 text-[10px] font-bold"
+                        className={cabinetHubLayout.hubSwitcherLink}
                       >
                         <HubIcon className="size-3.5" aria-hidden /> {hub.label}
                       </Link>
@@ -173,11 +176,11 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
             />
             <CabinetHubSectionBar
               accentClassName="bg-emerald-500"
-              breadcrumbItems={['Аккаунт', 'Кабинет поставщика', getCurrentLabel()]}
-              sectionTitle={getCurrentLabel()}
+              breadcrumbItems={['Аккаунт', 'Кабинет поставщика', sectionLabel]}
+              sectionTitle={sectionLabel}
             />
 
-            <main className="duration-300 animate-in fade-in">
+            <main className={cabinetHubLayout.mainInner}>
               <ErrorBoundary>{children}</ErrorBoundary>
             </main>
           </CabinetHubMain>
@@ -191,8 +194,13 @@ export default function SupplierLayout({ children }: { children: React.ReactNode
   return (
     <Suspense
       fallback={
-        <div className="bg-bg-surface text-text-muted flex min-h-screen flex-col items-center justify-center gap-3 text-xs font-medium uppercase tracking-widest">
-          <Loader2 className="size-8 animate-spin text-emerald-600" aria-hidden />
+        <div
+          className={cn(
+            cabinetHubLayout.loadingShell,
+            'text-text-muted flex flex-col gap-3 text-xs font-medium uppercase tracking-widest'
+          )}
+        >
+          <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
           Загрузка…
         </div>
       }

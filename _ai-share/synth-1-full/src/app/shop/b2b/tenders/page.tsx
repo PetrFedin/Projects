@@ -1,11 +1,11 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Gavel, Search, FileText, Clock } from 'lucide-react';
 import { B2BModulePage } from '@/components/shop/B2BModulePage';
-import { RegistryPageShell } from '@/components/design-system';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
@@ -31,7 +31,7 @@ const MOCK_TENDERS = [
 /** B2B-Center: тендеры и аукционы закупок. */
 export default function B2BTendersPage() {
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <B2BModulePage
         title="Тендеры B2B"
         description="Конкурентные закупки на площадке: заявки, сроки, связь с RFQ и кабинетом бренда как заказчика."
@@ -97,6 +97,6 @@ export default function B2BTendersPage() {
           className="mt-2"
         />
       </B2BModulePage>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

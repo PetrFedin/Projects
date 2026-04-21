@@ -379,7 +379,7 @@ export default function ProductVariantManager({
   useEffect(() => {
     fetch('/data/colors.json')
       .then((res) => res.json())
-      .then((data) => setColorPalette(data));
+      .then((data: unknown) => setColorPalette(data as { name: string; hex: string }[]));
   }, []);
 
   const handleApplyTemplate = (sizes: string[]) => {

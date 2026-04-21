@@ -166,7 +166,7 @@ export const mockAuctions: Auction[] = [
     id: 'auc-6',
     title: 'Fashion Photographer for SS26 Campaign',
     description:
-      'Looking for a high-end fashion photographer for a 3-day shoot in Paris. Concept: Urban Minimalism.',
+      'Нужен fashion-фотограф для 3-дневной съёмки в Москве. Концепция: urban minimalism.',
     image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800',
     type: 'services',
     brandId: 'org-brand-1',

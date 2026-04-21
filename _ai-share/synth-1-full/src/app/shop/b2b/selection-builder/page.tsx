@@ -1,6 +1,6 @@
 'use client';
 
-import { RegistryPageShell } from '@/components/design-system';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,6 +27,7 @@ import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getRelatedLinks } from '@/lib/data/integration-modules';
+import { B2bOrderUrlContextBanner } from '@/components/b2b/B2bOrderUrlContextBanner';
 
 type SelectionMode = 'stock' | 'brand-season' | 'cross-brand';
 
@@ -208,11 +209,14 @@ export default function SelectionBuilderPage() {
   const displayItems = selection.length ? selection : [];
 
   return (
-    <RegistryPageShell
-      className="min-h-[200px] max-w-6xl space-y-6"
+    <CabinetPageContent
+      maxWidth="6xl"
+      className="min-h-[200px] space-y-6"
       data-testid={tid.page('shop-b2b-selection-builder')}
     >
       <ShopB2bContentHeader lead="Сток, бренд-сезон, кросс-бренд — образы, аналитика и AI-рекомендации." />
+
+      <B2bOrderUrlContextBanner variant="shop" className="rounded-xl" />
 
       {/* Режимы селекции */}
       <Tabs value={mode} onValueChange={(v) => setMode(v as SelectionMode)}>
@@ -500,6 +504,6 @@ export default function SelectionBuilderPage() {
         title="Связанные модули"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

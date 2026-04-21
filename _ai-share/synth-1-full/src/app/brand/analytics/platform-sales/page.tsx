@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,7 +18,7 @@ import { ROUTES } from '@/lib/routes';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
 import { cn } from '@/lib/utils';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 /** Полная статистика продаж в Маркетруме и Аутлете платформы. */
 const MOCK_MARKETROOM = {
@@ -52,7 +53,7 @@ export default function PlatformSalesPage() {
   const [period, setPeriod] = useState('30d');
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Статистика: Маркетрум и Аутлет"
         leadPlain="Полная статистика продаж на платформе — выручка, заказы, единицы, топ товаров по каналу."
@@ -241,6 +242,6 @@ export default function PlatformSalesPage() {
         </Button>
       </div>
       <RelatedModulesBlock links={getAnalyticsLinks()} title="BI, 360°, внешние продажи" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

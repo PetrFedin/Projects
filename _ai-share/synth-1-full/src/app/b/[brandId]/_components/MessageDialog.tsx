@@ -86,7 +86,7 @@ export function MessageDialog({
             <div className="relative">
               <Input
                 id="links"
-                placeholder="https://drive.google.com/..."
+                placeholder="Ссылка на файл (Google Диск, Яндекс.Диск…)"
                 className="h-11 rounded-xl border-muted/20 bg-muted/5 pl-10 text-xs focus:border-accent/30"
                 value={messageLink}
                 onChange={(e) => setMessageLink(e.target.value)}

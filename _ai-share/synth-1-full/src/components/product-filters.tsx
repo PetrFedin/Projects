@@ -52,7 +52,7 @@ const ProductFilters = ({
   audience = 'Все',
 }: ProductFiltersProps) => {
   const [localHeelHeight, setLocalHeelHeight] = useState<[number, number] | undefined>(undefined);
-  const [fullCategoryStructure, setFullCategoryStructure] = useState(null);
+  const [fullCategoryStructure, setFullCategoryStructure] = useState<unknown>(null);
 
   useEffect(() => {
     fetch('/data/categories.json')

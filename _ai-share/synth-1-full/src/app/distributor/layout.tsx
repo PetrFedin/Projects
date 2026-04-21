@@ -12,6 +12,11 @@ import { canAccessHub } from '@/lib/data/profile-page-features';
 import { cn } from '@/lib/utils';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { distributorNavGroups } from '@/lib/data/distributor-navigation';
+import {
+  DISTRIBUTOR_ARCHIVE_GROUP_ORDER,
+  DISTRIBUTOR_CORE_GROUP_ORDER,
+  SYNTHA_SIDEBAR_CLUSTERS,
+} from '@/lib/data/syntha-nav-clusters';
 import { HubSidebar } from '@/components/hub/HubSidebar';
 import { HubSidebarHeader } from '@/components/hub/HubSidebarHeader';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
@@ -21,7 +26,12 @@ import {
   CabinetHubTitleRow,
 } from '@/components/layout/cabinet-hub-chrome';
 import { cabinetRoleLabelRu } from '@/lib/ui/cabinet-role-labels';
-import { cabinetSidebarLayout, cabinetSurface } from '@/lib/ui/cabinet-surface';
+import {
+  cabinetHubLayout,
+  cabinetSidebarLayout,
+  cabinetSurface,
+} from '@/lib/ui/cabinet-surface';
+import { resolveCabinetActiveNavLink } from '@/lib/ui/cabinet-nav-active';
 import { ROUTES } from '@/lib/routes';
 
 const DISTRIBUTOR_ROLES = ['distributor', 'admin'];
@@ -52,8 +62,8 @@ export default function DistributorLayout({ children }: { children: React.ReactN
 
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
-      <div className="bg-bg-surface flex min-h-screen items-center justify-center">
-        <Loader2 className="size-8 animate-spin text-amber-600" />
+      <div className={cabinetHubLayout.loadingShell}>
+        <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
       </div>
     );
   }
@@ -72,26 +82,13 @@ export default function DistributorLayout({ children }: { children: React.ReactN
     );
   }
 
-  const getCurrentLabel = () => {
-    const flat = distributorNavGroups.flatMap((g) => g.links);
-    const sorted = flat.sort((a, b) => b.href.length - a.href.length);
-    const current = sorted.find((l) => {
-      const p = (pathname || '').replace(/\/$/, '') || '/';
-      const h = l.href.replace(/\/$/, '') || '/';
-      return p === h || p.startsWith(h + '/');
-    });
-    return current?.label || 'Дашборд';
-  };
+  const sectionLabel =
+    resolveCabinetActiveNavLink(pathname, distributorNavGroups)?.label ?? 'Дашборд';
 
   return (
     <ErrorBoundary>
-      <div className="bg-bg-surface flex min-h-screen w-full pb-12 font-sans">
-        <aside
-          className={cn(
-            'lg:border-border-subtle lg:bg-bg-surface hidden lg:fixed lg:bottom-0 lg:left-0 lg:top-24 lg:z-30 lg:flex lg:shrink-0 lg:flex-col lg:border-r lg:pt-4',
-            cabinetSidebarLayout.asideWidthStandard
-          )}
-        >
+      <div className={cabinetHubLayout.rootShell}>
+        <aside className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}>
           <HubSidebarHeader
             href={ROUTES.distributor.home}
             icon={Briefcase}
@@ -106,6 +103,9 @@ export default function DistributorLayout({ children }: { children: React.ReactN
               basePath={ROUTES.distributor.home}
               accentClass="text-amber-600"
               activeBgClass="bg-amber-600"
+              sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
+              coreGroupOrder={DISTRIBUTOR_CORE_GROUP_ORDER}
+              archiveGroupOrder={DISTRIBUTOR_ARCHIVE_GROUP_ORDER}
             />
           </div>
         </aside>
@@ -134,6 +134,9 @@ export default function DistributorLayout({ children }: { children: React.ReactN
                 accentClass="text-amber-600"
                 activeBgClass="bg-amber-600"
                 onNavigate={() => setSidebarOpen(false)}
+                sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
+                coreGroupOrder={DISTRIBUTOR_CORE_GROUP_ORDER}
+                archiveGroupOrder={DISTRIBUTOR_ARCHIVE_GROUP_ORDER}
               />
             </div>
           </SheetContent>
@@ -163,7 +166,7 @@ export default function DistributorLayout({ children }: { children: React.ReactN
                       <Link
                         key={hub.href}
                         href={hub.href}
-                        className="text-text-secondary hover:bg-bg-surface2 hover:text-text-primary flex items-center gap-2 rounded-lg px-3 py-1.5 text-[10px] font-bold"
+                        className={cabinetHubLayout.hubSwitcherLink}
                       >
                         <HubIcon className="size-3.5" aria-hidden /> {hub.label}
                       </Link>
@@ -174,11 +177,11 @@ export default function DistributorLayout({ children }: { children: React.ReactN
             />
             <CabinetHubSectionBar
               accentClassName="bg-amber-500"
-              breadcrumbItems={['Аккаунт', 'Кабинет дистрибьютора', getCurrentLabel()]}
-              sectionTitle={getCurrentLabel()}
+              breadcrumbItems={['Аккаунт', 'Кабинет дистрибьютора', sectionLabel]}
+              sectionTitle={sectionLabel}
             />
 
-            <main className="duration-300 animate-in fade-in">
+            <main className={cabinetHubLayout.mainInner}>
               <ErrorBoundary>{children}</ErrorBoundary>
             </main>
           </CabinetHubMain>

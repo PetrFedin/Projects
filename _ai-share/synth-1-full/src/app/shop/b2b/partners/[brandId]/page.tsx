@@ -1,8 +1,8 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { use } from 'react';
 import { notFound } from 'next/navigation';
-import { RegistryPageShell } from '@/components/design-system';
 import { brands } from '@/lib/placeholder-data';
 import { Button } from '@/components/ui/button';
 import {
@@ -89,7 +89,7 @@ export default function PartnerDetailsPage({
   const orderBlocked = creditAvailable <= 0;
 
   return (
-    <RegistryPageShell className="space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
       <ShopB2bToolHeader
         backHref={ROUTES.shop.b2bPartners}
         leading={
@@ -155,7 +155,7 @@ export default function PartnerDetailsPage({
             История заказов
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="overview" className="mt-4">
+        <TabsContent value="overview" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           <Card>
             <CardHeader>
               <CardTitle>Основная информация</CardTitle>
@@ -221,7 +221,7 @@ export default function PartnerDetailsPage({
           </Card>
         </TabsContent>
         {/* SparkLayer/Fashion Cloud: персональные цены и прайс-лист по партнёру */}
-        <TabsContent value="prices" className="mt-4">
+        <TabsContent value="prices" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -300,7 +300,7 @@ export default function PartnerDetailsPage({
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="terms" className="mt-4">
+        <TabsContent value="terms" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           <Card>
             <CardHeader>
               <CardTitle>Коммерческие условия</CardTitle>
@@ -319,7 +319,7 @@ export default function PartnerDetailsPage({
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="contracts" className="mt-4">
+        <TabsContent value="contracts" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           <Card>
             <CardHeader>
               <CardTitle>Документы</CardTitle>
@@ -361,7 +361,7 @@ export default function PartnerDetailsPage({
             </CardFooter>
           </Card>
         </TabsContent>
-        <TabsContent value="history" className="mt-4">
+        <TabsContent value="history" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           <Card>
             <CardHeader>
               <CardTitle>История заказов</CardTitle>
@@ -406,6 +406,6 @@ export default function PartnerDetailsPage({
         title="Заказы, документы, партнёры"
         className="mt-6"
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

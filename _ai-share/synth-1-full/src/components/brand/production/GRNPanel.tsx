@@ -45,7 +45,18 @@ export function GRNPanel() {
     setLoading(true);
     try {
       const data = await getGRNs();
-      setGrns(Array.isArray(data) ? data : []);
+      setGrns(
+        (Array.isArray(data) ? data : []) as Array<{
+          id: number;
+          material_order_id: number;
+          received_qty: number;
+          ordered_qty: number;
+          variance: number;
+          status: string;
+          received_at: string;
+          received_by: string;
+        }>
+      );
     } catch {
       setGrns([]);
     } finally {

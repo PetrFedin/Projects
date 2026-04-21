@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { use, useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -40,7 +41,6 @@ import ProductCard from '@/components/product-card';
 import { products } from '@/lib/products';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { RegistryPageShell } from '@/components/design-system';
 import { Badge } from '@/components/ui/badge';
 import kickstarterUpdates from '@/lib/data/kickstarter-updates.json';
 import { format } from 'date-fns';
@@ -207,7 +207,7 @@ export default function CampaignDetailsPage({
   };
 
   return (
-    <RegistryPageShell className="py-12 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="py-12 pb-16 px-4 py-6 pb-24 sm:px-6">
       <div className="grid gap-3 lg:grid-cols-3">
         {/* Main Content */}
         <div className="space-y-4 lg:col-span-2">
@@ -551,6 +551,6 @@ export default function CampaignDetailsPage({
           </div>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

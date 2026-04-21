@@ -43,8 +43,9 @@ export function FitGuideAccessoriesDialog({
       setIsLoading(true);
       fetch('/data/accessory-details.json')
         .then((res) => res.json())
-        .then((data) => {
-          setDetails(data[selectedAccessory as keyof typeof data] || null);
+        .then((data: unknown) => {
+          const d = data as Record<string, unknown>;
+          setDetails(d[selectedAccessory as string] ?? null);
           setIsLoading(false);
         })
         .catch((err) => {

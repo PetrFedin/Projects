@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { LayoutGrid, Search, Filter } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { brands } from '@/lib/placeholder-data';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 /** ASOS-style: мультибрендовый лендинг + фильтр по бренду, единый поиск. */
 export default function ClientCatalogPage() {
@@ -22,15 +24,10 @@ export default function ClientCatalogPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-5xl px-4 py-6 pb-24">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold uppercase tracking-tight">Каталог</h1>
-        <p className="text-text-secondary mt-1 text-sm">
-          Несколько брендов, единый поиск и фильтр по бренду.
-        </p>
-      </div>
+    <CabinetPageContent maxWidth="5xl">
+      <ClientCabinetSectionHeader />
 
-      <Card className="mb-6">
+      <Card className="mb-6 mt-6">
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-base">
             <Search className="h-4 w-4" /> Поиск по каталогу
@@ -89,6 +86,6 @@ export default function ClientCatalogPage() {
           <Link href="/search">Открыть полный поиск</Link>
         </Button>
       </div>
-    </div>
+    </CabinetPageContent>
   );
 }

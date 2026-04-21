@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -32,7 +33,6 @@ import {
 } from '@/components/ui/select';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
-import { RegistryPageShell } from '@/components/design-system';
 
 const brandAnalyticsData = allBrands.map((brand, i) => ({
   ...brand,
@@ -86,7 +86,7 @@ export default function BrandRatingPage() {
   };
 
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       <Card>
         <CardHeader>
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
@@ -207,6 +207,6 @@ export default function BrandRatingPage() {
           </Table>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

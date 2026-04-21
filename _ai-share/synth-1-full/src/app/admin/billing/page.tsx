@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DollarSign, FileText, CheckCircle, Clock } from 'lucide-react';
 import {
@@ -84,7 +85,7 @@ export default function BillingPage() {
   };
 
   return (
-    <div className="space-y-4">
+    <CabinetPageContent maxWidth="full" className="space-y-4">
       <header className="border-b pb-4">
         <h1 className="font-headline text-base font-black uppercase tracking-tighter">
           Финансовый клиринг OS
@@ -262,6 +263,6 @@ export default function BillingPage() {
           </Table>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

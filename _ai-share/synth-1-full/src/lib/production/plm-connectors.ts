@@ -25,7 +25,7 @@ export async function syncPlm(
       body: JSON.stringify({ ...config, provider }),
     });
     if (!res.ok) throw new Error(await res.text());
-    const data = await res.json();
+    const data = (await res.json()) as { lastSync?: string };
     return { ok: true, lastSync: data.lastSync };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : 'Sync failed' };
@@ -43,7 +43,12 @@ export async function importBomFromPlm(
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ provider, collectionId, ...options }),
     });
-    const data = await res.json();
+    const data = (await res.json()) as {
+      success: boolean;
+      bomItems?: unknown[];
+      gradations?: unknown[];
+      errors?: string[];
+    };
     return data;
   } catch (e) {
     return { success: false, errors: [e instanceof Error ? e.message : 'Import failed'] };

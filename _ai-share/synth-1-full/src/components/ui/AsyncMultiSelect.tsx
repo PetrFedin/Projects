@@ -38,7 +38,7 @@ export function AsyncMultiSelect({
       const res = await fetch(`/api/options?type=${type}&q=${encodeURIComponent(q)}`, {
         cache: 'no-store',
       });
-      const json = await res.json();
+      const json = (await res.json()) as { options?: Option[] };
       setOptions(json.options ?? []);
     } finally {
       setLoading(false);
@@ -69,14 +69,14 @@ export function AsyncMultiSelect({
       {open && (
         <div className="border-border-subtle bg-bg-surface absolute z-30 mt-2 w-full rounded-lg border p-2 shadow-sm">
           <div className="px-1 pb-2">
-            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Type to search…" />
+            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Введите для поиска…" />
           </div>
 
           <div className="max-h-56 overflow-auto">
             {loading ? (
-              <div className="text-text-secondary px-2 py-6 text-sm">Loading…</div>
+              <div className="text-text-secondary px-2 py-6 text-sm">Загрузка…</div>
             ) : options.length === 0 ? (
-              <div className="text-text-secondary px-2 py-6 text-sm">No matches</div>
+              <div className="text-text-secondary px-2 py-6 text-sm">Нет совпадений</div>
             ) : (
               options.map((o) => (
                 <label

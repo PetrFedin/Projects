@@ -19,7 +19,7 @@ const RecommendedProducts = ({ productId }: { productId: string }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await fetch('/data/products.json');
-      const allProducts: Product[] = await res.json();
+      const allProducts = (await res.json()) as Product[];
       // In a real app, this would be an API call to a recommendation engine
       setRecommendedItems(allProducts.slice(10, 13));
     };

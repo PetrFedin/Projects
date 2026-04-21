@@ -29,7 +29,7 @@ export default function ContextualSearch({ context, setContext }: ContextualSear
     const fetchProducts = async () => {
       try {
         const res = await fetch('/data/products.json');
-        const productsData: Product[] = await res.json();
+        const productsData = (await res.json()) as Product[];
         setAllProducts(productsData);
       } catch (error) {
         console.error('Failed to fetch products for contextual search', error);

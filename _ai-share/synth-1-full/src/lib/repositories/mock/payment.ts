@@ -1,6 +1,6 @@
 /**
  * Mock Payment Repository
- * Simulates payment processing, ready to be replaced with Stripe/ЮKassa
+ * Simulates payment processing; replace with ЮKassa / банк / СБП + при экспорте Stripe и др.
  */
 
 import type { PaymentRepository } from '../types';
@@ -19,7 +19,9 @@ export class MockPaymentRepository implements PaymentRepository {
 
     // Store payment intent in localStorage for confirmation
     if (typeof window !== 'undefined') {
-      const paymentIntents = JSON.parse(localStorage.getItem('syntha_payment_intents') || '[]');
+      const paymentIntents = JSON.parse(
+        localStorage.getItem('syntha_payment_intents') || '[]'
+      ) as Array<Record<string, unknown>>;
       paymentIntents.push({
         id: paymentIntentId,
         amount,
@@ -39,8 +41,10 @@ export class MockPaymentRepository implements PaymentRepository {
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     if (typeof window !== 'undefined') {
-      const paymentIntents = JSON.parse(localStorage.getItem('syntha_payment_intents') || '[]');
-      const intent = paymentIntents.find((pi: any) => pi.id === paymentIntentId);
+      const paymentIntents = JSON.parse(
+        localStorage.getItem('syntha_payment_intents') || '[]'
+      ) as Array<{ id: string; status?: string; [key: string]: unknown }>;
+      const intent = paymentIntents.find((pi) => pi.id === paymentIntentId);
 
       if (!intent) {
         return { success: false };
@@ -53,7 +57,8 @@ export class MockPaymentRepository implements PaymentRepository {
         intent.status = 'succeeded';
         intent.confirmedAt = new Date().toISOString();
         localStorage.setItem('syntha_payment_intents', JSON.stringify(paymentIntents));
-        return { success: true, orderId: intent.metadata?.orderId };
+        const meta = intent.metadata as { orderId?: string } | undefined;
+        return { success: true, orderId: meta?.orderId };
       } else {
         intent.status = 'failed';
         intent.failedAt = new Date().toISOString();

@@ -29,8 +29,8 @@ export function B2BFinancing() {
   const financingPlans = [
     {
       id: 'net-30',
-      title: 'Протокол Net 30',
-      desc: 'Стандартные оптовые условия. Оплата в течение 30 дней после отгрузки.',
+      title: 'Отсрочка 30 дней (B2B)',
+      desc: 'Стандартные оптовые условия. Оплата в течение 30 календарных дней после отгрузки.',
       interest: '0%',
       fee: '0 ₽',
       maxLimit: '5.0M ₽',
@@ -45,7 +45,7 @@ export function B2BFinancing() {
       fee: '120K ₽',
       maxLimit: '15.0M ₽',
       icon: TrendingUp,
-      color: 'bg-accent-primary',
+      color: 'bg-indigo-600',
     },
     {
       id: 'revenue-share',
@@ -60,39 +60,39 @@ export function B2BFinancing() {
   ];
 
   return (
-    <div className="bg-bg-surface2 min-h-screen space-y-4 p-3 text-left">
+    <div className="min-h-screen space-y-4 bg-slate-50 p-3 text-left">
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="bg-accent-primary shadow-accent-primary/15 flex h-10 w-10 items-center justify-center rounded-2xl text-white shadow-lg">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
               <Landmark className="h-5 w-5" />
             </div>
             <Badge
               variant="outline"
-              className="border-accent-primary/20 text-accent-primary text-[9px] font-black uppercase tracking-widest"
+              className="border-indigo-100 text-[9px] font-black uppercase tracking-widest text-indigo-600"
             >
               FINANCE_BNPL_v1.0
             </Badge>
           </div>
-          <h2 className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
+          <h2 className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-sm">
             B2B Кредитование
             <br />и Финансирование
           </h2>
-          <p className="text-text-muted max-w-md text-xs font-medium">
+          <p className="max-w-md text-xs font-medium text-slate-400">
             Разблокируйте ликвидность для ваших оптовых операций. Подайте заявку на отсрочку платежа
             или финансирование на основе выручки мгновенно.
           </p>
         </div>
 
-        <Card className="bg-text-primary flex items-center gap-3 rounded-xl border-none p-4 text-white shadow-2xl">
+        <Card className="flex items-center gap-3 rounded-xl border-none bg-slate-900 p-4 text-white shadow-2xl">
           <div className="space-y-1">
-            <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
+            <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400">
               Доступный лимит
             </p>
             <p className="text-base font-black">12.4M ₽</p>
           </div>
           <div className="h-12 w-[1px] bg-white/10" />
-          <Button className="bg-accent-primary hover:bg-accent-primary h-12 rounded-xl px-6 text-[10px] font-black uppercase tracking-widest text-white">
+          <Button className="h-12 rounded-xl bg-indigo-600 px-6 text-[10px] font-black uppercase tracking-widest text-white hover:bg-indigo-700">
             Увеличить лимит
           </Button>
         </Card>
@@ -107,9 +107,7 @@ export function B2BFinancing() {
                 onClick={() => setActivePlan(plan.id)}
                 className={cn(
                   'group cursor-pointer rounded-xl border-none p-4 shadow-xl transition-all',
-                  activePlan === plan.id
-                    ? 'bg-text-primary text-white'
-                    : 'hover:bg-bg-surface2 bg-white'
+                  activePlan === plan.id ? 'bg-slate-900 text-white' : 'bg-white hover:bg-slate-50'
                 )}
               >
                 <div className="mb-8 flex items-start justify-between">
@@ -127,7 +125,7 @@ export function B2BFinancing() {
                       'px-3 py-1 text-[10px] font-black uppercase tracking-widest',
                       activePlan === plan.id
                         ? 'border-white/20 text-white'
-                        : 'border-border-subtle text-text-muted'
+                        : 'border-slate-100 text-slate-400'
                     )}
                   >
                     {plan.interest} APR
@@ -140,12 +138,12 @@ export function B2BFinancing() {
                   <p
                     className={cn(
                       'text-xs font-medium leading-relaxed',
-                      activePlan === plan.id ? 'text-white/60' : 'text-text-muted'
+                      activePlan === plan.id ? 'text-white/60' : 'text-slate-400'
                     )}
                   >
                     {plan.desc}
                   </p>
-                  <div className="border-border-subtle flex items-center justify-between border-t pt-4">
+                  <div className="flex items-center justify-between border-t border-slate-100 pt-4">
                     <div className="space-y-1">
                       <p className="text-[8px] font-black uppercase opacity-50">Лимит до</p>
                       <p className="text-sm font-black">{plan.maxLimit}</p>
@@ -159,12 +157,12 @@ export function B2BFinancing() {
 
           <Card className="space-y-4 rounded-xl border-none bg-white p-3 shadow-2xl">
             <div className="flex items-center justify-between">
-              <h4 className="text-text-primary text-base font-black uppercase tracking-tight">
+              <h4 className="text-base font-black uppercase tracking-tight text-slate-900">
                 Текущие обязательства
               </h4>
               <Button
                 variant="ghost"
-                className="text-accent-primary gap-2 text-[10px] font-black uppercase tracking-widest"
+                className="gap-2 text-[10px] font-black uppercase tracking-widest text-indigo-600"
               >
                 Смотреть книгу <ChevronRight className="h-4 w-4" />
               </Button>
@@ -180,7 +178,7 @@ export function B2BFinancing() {
                 },
                 {
                   id: 'TX-8714',
-                  brand: 'Milan Retail',
+                  brand: 'Ритейл Москва',
                   amount: '450K ₽',
                   due: 'Mar 15',
                   status: 'Active',
@@ -188,24 +186,24 @@ export function B2BFinancing() {
               ].map((tx, i) => (
                 <div
                   key={i}
-                  className="bg-bg-surface2 border-border-subtle flex items-center justify-between rounded-2xl border p-4"
+                  className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50 p-4"
                 >
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm">
-                      <Building2 className="text-text-muted h-5 w-5" />
+                      <Building2 className="h-5 w-5 text-slate-400" />
                     </div>
                     <div>
-                      <p className="text-text-muted text-[10px] font-black uppercase">Продавец</p>
-                      <p className="text-text-primary text-sm font-black">{tx.brand}</p>
+                      <p className="text-[10px] font-black uppercase text-slate-400">Продавец</p>
+                      <p className="text-sm font-black text-slate-900">{tx.brand}</p>
                     </div>
                   </div>
                   <div>
-                    <p className="text-text-muted text-[10px] font-black uppercase">К оплате</p>
-                    <p className="text-text-primary text-sm font-black">{tx.amount}</p>
+                    <p className="text-[10px] font-black uppercase text-slate-400">К оплате</p>
+                    <p className="text-sm font-black text-slate-900">{tx.amount}</p>
                   </div>
                   <div>
-                    <p className="text-text-muted text-[10px] font-black uppercase">Дата</p>
-                    <p className="text-text-primary text-sm font-black">{tx.due}</p>
+                    <p className="text-[10px] font-black uppercase text-slate-400">Дата</p>
+                    <p className="text-sm font-black text-slate-900">{tx.due}</p>
                   </div>
                   <Badge className="border-none bg-emerald-50 px-3 py-1 text-[8px] font-black uppercase text-emerald-600">
                     {tx.status}
@@ -217,17 +215,17 @@ export function B2BFinancing() {
         </div>
 
         <div className="space-y-4">
-          <Card className="bg-accent-primary space-y-6 rounded-xl border-none p-4 text-white shadow-xl">
+          <Card className="space-y-6 rounded-xl border-none bg-indigo-900 p-4 text-white shadow-xl">
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
-                <ShieldCheck className="text-accent-primary h-6 w-6" />
+                <ShieldCheck className="h-6 w-6 text-indigo-400" />
               </div>
               <h5 className="text-sm font-black uppercase tracking-widest">Рейтинг доверия</h5>
             </div>
             <div className="space-y-2">
               <div className="flex items-end justify-between">
                 <p className="text-sm font-black">A+</p>
-                <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
+                <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400">
                   Премиум уровень
                 </p>
               </div>
@@ -235,17 +233,17 @@ export function B2BFinancing() {
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: '92%' }}
-                  className="bg-accent-primary/40 h-full"
+                  className="h-full bg-indigo-400"
                 />
               </div>
-              <p className="text-accent-primary/40 text-[10px] font-medium uppercase leading-relaxed tracking-widest">
+              <p className="text-[10px] font-medium uppercase leading-relaxed tracking-widest text-indigo-200/60">
                 На основе 14 месяцев 100% своевременных расчетов.
               </p>
             </div>
           </Card>
 
           <Card className="space-y-6 rounded-xl border-none bg-white p-4 shadow-xl">
-            <h5 className="text-text-primary text-sm font-black uppercase">Статус заявки</h5>
+            <h5 className="text-sm font-black uppercase text-slate-900">Статус заявки</h5>
             <div className="space-y-6">
               {[
                 { step: 'Верификация личности', status: 'completed' },
@@ -260,8 +258,8 @@ export function B2BFinancing() {
                       s.status === 'completed'
                         ? 'bg-emerald-500 text-white'
                         : s.status === 'active'
-                          ? 'bg-accent-primary text-white'
-                          : 'bg-bg-surface2 text-text-muted'
+                          ? 'bg-indigo-600 text-white'
+                          : 'bg-slate-100 text-slate-400'
                     )}
                   >
                     {s.status === 'completed' ? <FileCheck className="h-3 w-3" /> : i + 1}
@@ -269,7 +267,7 @@ export function B2BFinancing() {
                   <span
                     className={cn(
                       'text-[10px] font-black uppercase tracking-widest',
-                      s.status === 'pending' ? 'text-text-muted' : 'text-text-primary'
+                      s.status === 'pending' ? 'text-slate-300' : 'text-slate-900'
                     )}
                   >
                     {s.step}
@@ -279,21 +277,21 @@ export function B2BFinancing() {
             </div>
           </Card>
 
-          <Card className="bg-text-primary relative space-y-4 overflow-hidden rounded-xl border-none p-4 text-white shadow-xl">
+          <Card className="relative space-y-4 overflow-hidden rounded-xl border-none bg-slate-900 p-4 text-white shadow-xl">
             <div className="absolute right-0 top-0 p-4 opacity-10">
               <Scale className="h-24 w-24" />
             </div>
             <div className="relative z-10 space-y-4">
-              <h5 className="text-accent-primary text-sm font-black uppercase tracking-widest">
+              <h5 className="text-sm font-black uppercase tracking-widest text-indigo-400">
                 Юридический комплаенс
               </h5>
-              <p className="text-text-muted text-[10px] font-medium uppercase leading-relaxed tracking-widest">
+              <p className="text-[10px] font-medium uppercase leading-relaxed tracking-widest text-slate-400">
                 Все финансирование осуществляется в соответствии с местным законодательством и
                 протоколами ПОД/ФТ.
               </p>
               <Button
                 variant="ghost"
-                className="hover:text-accent-primary border-none p-0 text-[10px] font-black uppercase tracking-widest text-white"
+                className="border-none p-0 text-[10px] font-black uppercase tracking-widest text-white hover:text-indigo-400"
               >
                 Обзор структуры
               </Button>

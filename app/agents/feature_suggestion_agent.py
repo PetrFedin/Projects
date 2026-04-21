@@ -42,7 +42,11 @@ class FeatureSuggestionAgent:
 
     def _check_component_gaps(self) -> None:
         modules = {"showroom": "Digital Showroom", "planning": "Assortment Planning", "wholesale": "Wholesale"}
-        for base in ["synth-1/src", "synth-1/src/components", "synth-1/src/app"]:
+        for base in [
+            "_ai-share/synth-1-full/src",
+            "_ai-share/synth-1-full/src/components",
+            "_ai-share/synth-1-full/src/app",
+        ]:
             d = os.path.join(self.root_dir, base)
             if os.path.exists(d):
                 content = str(os.listdir(d)).lower()

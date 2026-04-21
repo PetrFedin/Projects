@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import {
   Card,
   CardContent,
@@ -54,7 +55,8 @@ import {
 
 import { CustomerBrandMatrix } from '@/components/brand/customer-brand-matrix';
 import FeedbackAnalytics from '@/components/brand/analytics/feedback-analytics';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 export default function CustomerIntelligencePage() {
   const router = useRouter();
@@ -84,7 +86,7 @@ export default function CustomerIntelligencePage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-700 animate-in fade-in">
       <RegistryPageHeader
         title="Клиентский интеллект"
         leadPlain={
@@ -548,6 +550,6 @@ export default function CustomerIntelligencePage() {
         widgetType={selectedWidget}
         period={period}
       />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

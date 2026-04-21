@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import {
   Card,
@@ -81,7 +82,6 @@ import {
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { BrandSyncConfirmation } from '@/components/shop/BrandSyncConfirmation';
-import { RegistryPageShell } from '@/components/design-system';
 
 const initialWarehouses = [
   {
@@ -234,7 +234,7 @@ export default function B2BSettingsPage() {
   };
 
   return (
-    <RegistryPageShell className="space-y-4">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -804,6 +804,6 @@ export default function B2BSettingsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

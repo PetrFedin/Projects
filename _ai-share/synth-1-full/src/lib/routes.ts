@@ -3,6 +3,12 @@
  * Использовать вместо строковых литералов в навигации, entity-links и ссылках.
  */
 
+import type { UserRole } from '@/lib/types';
+import { B2B_WHOLESALE_ORDER_CONTEXT_QUERY } from '@/lib/domain/cross-role-entity-ids';
+import { workshop2ArticlePath } from '@/lib/production/workshop2-url';
+
+const B2B_CTX = B2B_WHOLESALE_ORDER_CONTEXT_QUERY;
+
 /** Карточка B2B-заказа в кабинете бренда (`/brand/b2b-orders/[orderId]`). Отдельный экспорт — стабильная ссылка для демо-данных и чанков. */
 export function brandB2bOrderHref(orderId: string): string {
   return `/brand/b2b-orders/${encodeURIComponent(orderId)}`;
@@ -27,7 +33,6 @@ export const ROUTES = {
     orders: '/orders',
     returns: '/client/returns',
     giftRegistry: '/client/gift-registry',
-    resale: '/client/resale',
     services: '/client/services',
     allergy: '/client/allergy',
     wishlist: '/client/wishlist',
@@ -85,19 +90,22 @@ export const ROUTES = {
     profileOffersRenewal: '/client/me/offers/renewal',
     /** Хаб паспортов (без захардкоженного ID); конкретный паспорт: passportById(id) */
     passport: '/client/passport',
+    /** Календарь планов / событий в ЛК клиента (`StyleCalendar`, роль client) */
+    calendar: '/client/calendar',
   },
   // —— Brand (бренд) ——
   brand: {
-    home: '/brand',
-    organization: '/brand?group=organization',
+    /** Кабинет бренда: каноничный профиль — `/brand/profile` (редирект с `/brand`) */
+    home: '/brand/profile',
+    organization: '/brand/profile?group=organization',
     /** Редирект на стратегию/обзор (`app/brand/organization/page.tsx`) */
     organizationPage: '/brand/organization',
     /** Хлебные крошки «Организация» → подразделы */
-    organizationOverview: '/brand?group=organization',
+    organizationOverview: '/brand/profile?group=organization',
     /** Стратегия → обзор (совпадает с редиректом `/brand/organization`) */
-    strategyOverview: '/brand?group=strategy&tab=overview',
+    strategyOverview: '/brand/profile?group=strategy&tab=overview',
     /** Профиль бренда: юр. данные, Brand DNA, история */
-    profile: '/brand',
+    profile: '/brand/profile',
     team: '/brand/team',
     teamActivity: '/brand/team?tab=activity',
     teamTasks: '/brand/team?tab=tasks',
@@ -211,7 +219,7 @@ export const ROUTES = {
     collections: '/brand/collections',
     collectionsNew: '/brand/collections/new',
     production: '/brand/production',
-    /** Цех 2: коллекции и артикулы (отдельный путь). */
+    /** Разработка коллекции (workshop2): ТЗ и сэмплы по SKU до серии — отдельный путь. */
     productionWorkshop2: '/brand/production/workshop2',
     /** Единая операционная модель: коллекции, артикулы, PO, BOM, QC, интеграции (без API, под будущий бэкенд) */
     productionOperations: '/brand/production/operations',
@@ -411,6 +419,8 @@ export const ROUTES = {
     academyCollectionTraining: (id: string) => `/brand/academy/collections/training/${id}`,
     academyClientMaterialCreate: '/brand/academy/clients/materials',
     academyClientMaterial: (id: string) => `/brand/academy/clients/materials/${id}`,
+    /** Студия партнёрской организации: курсы с модерацией платформы (демо) */
+    academyOrganizationStudio: '/brand/academy/organization-studio',
     /** Академия платформы — курсы, пути, статьи, аттестации (внутри бренда) */
     academyPlatform: '/brand/academy/platform',
     academyPlatformCourse: (id: string) => `/brand/academy/platform/course/${id}`,
@@ -434,6 +444,8 @@ export const ROUTES = {
     creditRisk: '/brand/credit-risk',
     lastCall: '/brand/last-call',
     messages: '/brand/messages',
+    messagesChat: (chatId: string) =>
+      `/brand/messages?chat=${encodeURIComponent(chatId)}`,
     calendar: '/brand/calendar',
     tasks: '/brand/tasks',
     events: '/brand/events',
@@ -626,6 +638,9 @@ export const ROUTES = {
     analyticsFootfall: '/shop/analytics/footfall',
     calendar: '/shop/calendar',
     messages: '/shop/messages',
+    /** Внутренние сообщения с предвыбранным чатом (например академия: `?chat=academy_…`) */
+    messagesChat: (chatId: string) =>
+      `/shop/messages?chat=${encodeURIComponent(chatId)}`,
     staff: '/shop/staff',
     career: '/shop/career',
   },
@@ -654,6 +669,8 @@ export const ROUTES = {
     integrations: '/admin/integrations',
     settings: '/admin/settings',
     disputes: '/admin/disputes',
+    /** Модерация курсов брендов и организаций перед публикацией в клиентской академии */
+    academyModeration: '/admin/academy/moderation',
   },
   // —— Дистрибьютор: standalone `/distributor/*` —— не путать с `brand.distributor.*`
   distributor: {
@@ -678,6 +695,8 @@ export const ROUTES = {
   // —— Factory (цех / поставщик) ——
   factory: {
     home: '/factory',
+    /** Сотрудники и доступы цеха / поставщика */
+    staff: '/factory/staff',
     production: '/factory/production',
     supplier: '/factory/supplier',
     supplierCircularHub: '/factory/supplier/circular-hub',
@@ -703,8 +722,44 @@ export const ROUTES = {
   marketroomShopTheLook: '/marketroom#shop-the-look',
   marketroomTrendRadar: '/marketroom#trend-radar',
   storeLocator: '/store-locator',
+  /** Публичная форма / страница обратной связи */
+  contact: '/contact',
   academyPlatform: '/academy',
+  /** Статья базы знаний в ЛК клиента (mock / education-data) */
+  clientAcademyKnowledgeArticle: (slug: string) =>
+    `/academy/knowledge/${encodeURIComponent(slug)}`,
+  /** Карточка курса платформы (mock / education-data) */
+  clientAcademyCourse: (id: string) => `/academy/course/${encodeURIComponent(id)}`,
+  /** Траектория обучения (mock / education-data) */
+  clientAcademyPath: (id: string) => `/academy/path/${encodeURIComponent(id)}`,
 };
+
+/**
+ * Календарь планов и событий по роли превью: клиент — ЛК `/client/calendar`,
+ * ритейл — `/shop/calendar`, бренд — `/brand/calendar`, и т.д.
+ * Использовать там, где выбран `viewRole` (например академия, кросс-ролевые ссылки).
+ */
+export function calendarHrefForRole(role: UserRole): string {
+  switch (role) {
+    case 'client':
+      return ROUTES.client.calendar;
+    case 'shop':
+      return ROUTES.shop.calendar;
+    case 'brand':
+      return ROUTES.brand.calendar;
+    case 'admin':
+      return ROUTES.admin.calendar;
+    case 'distributor':
+      return ROUTES.distributor.calendar;
+    case 'supplier':
+    case 'manufacturer':
+      return ROUTES.factory.productionCalendar;
+    case 'b2b':
+      return ROUTES.shop.b2bCalendar;
+    default:
+      return ROUTES.client.calendar;
+  }
+}
 
 /** URL паспорта по ID (Digital Product Passport) */
 export function passportById(id: string): string {
@@ -720,6 +775,118 @@ export function collectionById(id: string): string {
 export function processLiveUrl(processId: string, contextId?: string): string {
   const base = `/brand/process/${encodeURIComponent(processId)}/live`;
   return contextId ? `${base}?context=${encodeURIComponent(contextId)}` : base;
+}
+
+/**
+ * Сообщения с контекстом B2B-заказа: `order`, `orderId`, `q` — подхватывает {@link MessagesPage} в поиске чатов.
+ */
+export function brandMessagesB2bOrderContextHref(orderId: string): string {
+  const id = encodeURIComponent(orderId);
+  return `${ROUTES.brand.messages}?${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}&q=${encodeURIComponent(`B2B ${orderId}`)}`;
+}
+
+export function shopMessagesB2bOrderContextHref(orderId: string): string {
+  const id = encodeURIComponent(orderId);
+  return `${ROUTES.shop.messages}?${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}&q=${encodeURIComponent(`B2B ${orderId}`)}`;
+}
+
+/** Календарь с привязкой к заказу (ручной контекст в URL для фильтров/поиска). */
+export function brandCalendarB2bOrderContextHref(orderId: string): string {
+  const id = encodeURIComponent(orderId);
+  return `${ROUTES.brand.calendar}?layers=tasks&${B2B_CTX.order}=${id}`;
+}
+
+export function shopCalendarB2bOrderContextHref(orderId: string): string {
+  const id = encodeURIComponent(orderId);
+  return `${ROUTES.shop.calendar}?layers=tasks&${B2B_CTX.order}=${id}`;
+}
+
+/**
+ * Матрица / селекции с контекстом B2B-заказа (`order`, `orderId`) — единый контур с {@link MessagesPage} и матрицей.
+ */
+export function brandProductsMatrixB2bOrderContextHref(orderId: string): string {
+  const id = encodeURIComponent(orderId);
+  return `${ROUTES.brand.productsMatrix}?${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}`;
+}
+
+export function shopB2bMatrixOrderContextHref(orderId: string): string {
+  const id = encodeURIComponent(orderId);
+  return `${ROUTES.shop.b2bMatrix}?${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}`;
+}
+
+export function shopB2bSelectionBuilderOrderContextHref(orderId: string): string {
+  const id = encodeURIComponent(orderId);
+  return `${ROUTES.shop.b2bSelectionBuilder}?${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}`;
+}
+
+export function shopB2bWhiteboardOrderContextHref(orderId: string): string {
+  const id = encodeURIComponent(orderId);
+  return `${ROUTES.shop.b2bWhiteboard}?${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}`;
+}
+
+/** Working Order (NuOrder) с привязкой к оптовому заказу — тот же query, что на карточке бренда. */
+export function shopB2bWorkingOrderOrderContextHref(orderId: string): string {
+  const id = encodeURIComponent(orderId);
+  return `${ROUTES.shop.b2bWorkingOrder}?wholesaleOrderId=${id}&${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}`;
+}
+
+/** Хаб операций цеха с контекстом заказа (мост ядра №1 ↔ №2). */
+export function brandProductionOperationsB2bOrderContextHref(orderId: string): string {
+  const id = encodeURIComponent(orderId);
+  return `${ROUTES.brand.productionOperations}?${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}`;
+}
+
+/**
+ * Вкладка пола цеха (`/brand/production?floorTab=…`) с тем же контекстом коллекции,
+ * что передаётся из разработки коллекции (`collectionId` на полу соответствует выбранной коллекции).
+ * `stagesSku` — id строки артикула на полу (совпадает с query `w2art` в разработке коллекции), для вкладок, где нужен артикул.
+ */
+export function brandProductionFloorHref(
+  floorTab: string,
+  opts?: { collectionId?: string; stagesSku?: string }
+): string {
+  const u = new URLSearchParams();
+  u.set('floorTab', floorTab);
+  if (opts?.collectionId) u.set('collectionId', opts.collectionId);
+  if (opts?.stagesSku?.trim()) u.set('stagesSku', opts.stagesSku.trim());
+  return `${ROUTES.brand.production}?${u.toString()}`;
+}
+
+/** Карточка артикула в разработке коллекции — тот же контекст, что `w2col` / `w2art` в query списка. */
+export function brandWorkshop2ArticleCardHref(collectionId: string, articleSegment: string): string {
+  return workshop2ArticlePath(collectionId, articleSegment);
+}
+
+/** Добавляет `collectionId` к ссылке на модуль цеха (если коллекция выбрана в разработке коллекции). */
+export function withBrandProductionCollectionContext(
+  href: string,
+  collectionId?: string | null
+): string {
+  return withBrandProductionDeepContext(href, { collectionId });
+}
+
+/**
+ * Добавляет к URL модуля цеха `collectionId` и/или `stagesSku` (контекст коллекции и артикула из разработки коллекции).
+ * Корректно мержит с уже существующими query-параметрами.
+ */
+export function withBrandProductionDeepContext(
+  href: string,
+  opts?: { collectionId?: string | null; stagesSku?: string | null }
+): string {
+  const cid = typeof opts?.collectionId === 'string' ? opts.collectionId.trim() : '';
+  const sku = typeof opts?.stagesSku === 'string' ? opts.stagesSku.trim() : '';
+  if (!cid && !sku) return href;
+  const hashIdx = href.indexOf('#');
+  const beforeHash = hashIdx >= 0 ? href.slice(0, hashIdx) : href;
+  const hash = hashIdx >= 0 ? href.slice(hashIdx) : '';
+  const qIdx = beforeHash.indexOf('?');
+  const base = qIdx >= 0 ? beforeHash.slice(0, qIdx) : beforeHash;
+  const existing = qIdx >= 0 ? beforeHash.slice(qIdx + 1) : '';
+  const u = new URLSearchParams(existing);
+  if (cid) u.set('collectionId', cid);
+  if (sku) u.set('stagesSku', sku);
+  const q = u.toString();
+  return `${base}${q ? `?${q}` : ''}${hash}`;
 }
 
 export type Routes = typeof ROUTES;

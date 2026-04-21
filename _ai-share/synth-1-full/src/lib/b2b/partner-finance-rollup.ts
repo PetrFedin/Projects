@@ -9,6 +9,23 @@ import { getOrderPayments } from './credit-store';
 import { mockB2BOrders } from '@/lib/order-data';
 import type { B2BOrder, B2BOrderPaymentStatus } from '@/lib/types';
 
+/**
+ * Оверлей оплат из `credit-store` на произвольный список заказов.
+ * Позволяет подключать другой базовый источник (файл/БД) на сервере, сохраняя ту же логику rollup.
+ */
+export function applyOrderPaymentsOverlay(orders: B2BOrder[]): B2BOrder[] {
+  const payments = getOrderPayments();
+  return orders.map((o) => {
+    const orderTotal = parseAmount(o.amount ?? '0 ₽');
+    const basePaid = o.paidAmount ?? 0;
+    const effectivePaid = basePaid + (payments[o.order] ?? 0);
+    let paymentStatus = o.paymentStatus;
+    if (effectivePaid >= orderTotal && orderTotal > 0) paymentStatus = 'paid';
+    else if (effectivePaid > 0) paymentStatus = 'partial';
+    return { ...o, paidAmount: effectivePaid, paymentStatus };
+  });
+}
+
 function isAwaitingPaymentStatus(
   s: B2BOrderPaymentStatus | undefined
 ): s is 'pending' | 'partial' | 'overdue' {
@@ -27,16 +44,7 @@ export function parseAmount(s: string): number {
 
 /** Заказы с учётом записанных платежей (paidAmount + paymentStatus пересчитаны). */
 export function getOrdersWithPaymentState(): B2BOrder[] {
-  const payments = getOrderPayments();
-  return mockB2BOrders.map((o) => {
-    const orderTotal = parseAmount(o.amount ?? '0 ₽');
-    const basePaid = o.paidAmount ?? 0;
-    const effectivePaid = basePaid + (payments[o.order] ?? 0);
-    let paymentStatus = o.paymentStatus;
-    if (effectivePaid >= orderTotal && orderTotal > 0) paymentStatus = 'paid';
-    else if (effectivePaid > 0) paymentStatus = 'partial';
-    return { ...o, paidAmount: effectivePaid, paymentStatus };
-  });
+  return applyOrderPaymentsOverlay(mockB2BOrders);
 }
 
 export interface PartnerFinanceRollup {

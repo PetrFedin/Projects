@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -37,7 +38,6 @@ import {
 import { EditorialArticle, EditorialStatus, EditorialCategory } from '@/lib/types/editorial';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
-import { RegistryPageShell } from '@/components/design-system';
 
 /**
  * Editorial Marketroom CMS — Admin/Brand Dashboard
@@ -108,7 +108,7 @@ export default function EditorialCMSPage() {
   };
 
   return (
-    <RegistryPageShell className="space-y-10 pb-16">
+    <CabinetPageContent maxWidth="5xl" className="space-y-10 pb-16 px-4 py-6 pb-24 sm:px-6">
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="text-accent-primary flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
@@ -310,6 +310,6 @@ export default function EditorialCMSPage() {
           </Card>
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

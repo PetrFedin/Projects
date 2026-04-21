@@ -964,7 +964,7 @@ export function createLedgerSnapshot(params: {
   return {
     snapshotId,
     timestamp,
-    grains: JSON.parse(JSON.stringify(tenantGrains)), // Deep copy
+    grains: JSON.parse(JSON.stringify(tenantGrains)) as InventoryGrain[], // Deep copy
   };
 }
 

@@ -90,32 +90,32 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
         <header className="flex flex-col items-start justify-between gap-3 md:flex-row md:items-end">
           <div className="space-y-2">
             <div className="flex items-center gap-3">
-              <div className="bg-text-primary rounded-2xl p-2.5 text-white shadow-md shadow-xl">
+              <div className="rounded-2xl bg-slate-900 p-2.5 text-white shadow-xl shadow-slate-200">
                 <Cpu className="h-6 w-6" />
               </div>
-              <h1 className="text-text-primary text-base font-black uppercase tracking-tighter">
+              <h1 className="text-base font-black uppercase tracking-tighter text-slate-900">
                 Production Digital Twin
               </h1>
             </div>
-            <p className="text-text-secondary font-medium italic">
+            <p className="font-medium italic text-slate-500">
               Виртуальный двойник производства: живой мониторинг цехов и контроль качества в
               реальном времени.
             </p>
           </div>
         </header>
-        <Card className="border-border-default bg-bg-surface2/30 flex h-[500px] flex-col items-center justify-center gap-6 rounded-[2rem] border-2 border-dashed p-20 text-center">
-          <div className="border-border-subtle flex h-20 w-20 items-center justify-center rounded-3xl border bg-white shadow-lg">
-            <Factory className="text-text-muted h-10 w-10" />
+        <Card className="flex h-[500px] flex-col items-center justify-center gap-6 rounded-[2rem] border-2 border-dashed border-slate-200 bg-slate-50/30 p-20 text-center">
+          <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-slate-100 bg-white shadow-lg">
+            <Factory className="h-10 w-10 text-slate-300" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-text-primary text-xl font-black uppercase tracking-tighter">
+            <h3 className="text-xl font-black uppercase tracking-tighter text-slate-900">
               Цехи не подключены
             </h3>
-            <p className="text-text-muted mx-auto max-w-xs text-[10px] font-bold uppercase tracking-widest">
+            <p className="mx-auto max-w-xs text-[10px] font-bold uppercase tracking-widest text-slate-400">
               Для этой коллекции еще не распределены производственные мощности.
             </p>
           </div>
-          <Button className="hover:bg-accent-primary h-12 rounded-xl bg-black px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl transition-all">
+          <Button className="h-12 rounded-xl bg-black px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl transition-all hover:bg-indigo-600">
             Связаться с производством
           </Button>
         </Card>
@@ -128,14 +128,14 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
       <header className="flex flex-col items-start justify-between gap-3 md:flex-row md:items-end">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="bg-text-primary rounded-2xl p-2.5 text-white shadow-md shadow-xl">
+            <div className="rounded-2xl bg-slate-900 p-2.5 text-white shadow-xl shadow-slate-200">
               <Cpu className="h-6 w-6" />
             </div>
-            <h1 className="text-text-primary text-base font-black uppercase tracking-tighter">
+            <h1 className="text-base font-black uppercase tracking-tighter text-slate-900">
               Production Digital Twin
             </h1>
           </div>
-          <p className="text-text-secondary font-medium italic">
+          <p className="font-medium italic text-slate-500">
             Виртуальный двойник производства: живой мониторинг цехов и контроль качества в реальном
             времени.
           </p>
@@ -147,7 +147,7 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
               IoT Core: Connected
             </span>
           </div>
-          <Button className="bg-accent-primary shadow-accent-primary/10 h-12 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl">
+          <Button className="h-12 rounded-2xl bg-indigo-600 px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-xl shadow-indigo-100">
             <Video className="mr-2 h-4 w-4" /> Live Все камеры
           </Button>
         </div>
@@ -157,13 +157,10 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
         {/* Factory Map / Floor List */}
         <div className="space-y-6 xl:col-span-4">
           <div className="flex items-center justify-between px-2">
-            <h3 className="text-text-muted text-[11px] font-black uppercase tracking-widest">
-              Shop Floors (Milan Hub)
+            <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+              Цеха (хаб Москва)
             </h3>
-            <Badge
-              variant="outline"
-              className="border-border-default text-[8px] font-black uppercase"
-            >
+            <Badge variant="outline" className="border-slate-200 text-[8px] font-black uppercase">
               3 Floors Online
             </Badge>
           </div>
@@ -175,8 +172,8 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
                 className={cn(
                   'group cursor-pointer rounded-xl border-none shadow-sm transition-all',
                   activeFloor.id === floor.id
-                    ? 'bg-text-primary scale-[1.02] text-white shadow-2xl'
-                    : 'hover:bg-bg-surface2 bg-white'
+                    ? 'scale-[1.02] bg-slate-900 text-white shadow-2xl'
+                    : 'bg-white hover:bg-slate-50'
                 )}
               >
                 <CardContent className="p-4">
@@ -185,13 +182,13 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
                       <div
                         className={cn(
                           'flex h-10 w-10 items-center justify-center rounded-xl',
-                          activeFloor.id === floor.id ? 'bg-white/10' : 'bg-bg-surface2'
+                          activeFloor.id === floor.id ? 'bg-white/10' : 'bg-slate-100'
                         )}
                       >
                         <Factory
                           className={cn(
                             'h-5 w-5',
-                            activeFloor.id === floor.id ? 'text-accent-primary' : 'text-text-muted'
+                            activeFloor.id === floor.id ? 'text-indigo-400' : 'text-slate-400'
                           )}
                         />
                       </div>
@@ -202,7 +199,7 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
                         <p
                           className={cn(
                             'text-[9px] font-bold uppercase',
-                            activeFloor.id === floor.id ? 'text-text-muted' : 'text-text-muted'
+                            activeFloor.id === floor.id ? 'text-slate-400' : 'text-slate-400'
                           )}
                         >
                           {floor.status} • {floor.workers} workers
@@ -222,8 +219,9 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
                       value={floor.load}
                       className={cn(
                         'h-1',
-                        activeFloor.id === floor.id ? 'bg-white/10' : 'bg-bg-surface2'
+                        activeFloor.id === floor.id ? 'bg-white/10' : 'bg-slate-100'
                       )}
+                      aria-label={`Загрузка этажа ${floor.name}: ${floor.load}%`}
                     />
                   </div>
                 </CardContent>
@@ -235,12 +233,12 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
         {/* Digital Twin Viewport */}
         <div className="space-y-4 xl:col-span-8">
           <Card className="flex h-[600px] flex-col overflow-hidden rounded-xl border-none bg-white shadow-2xl">
-            <div className="bg-bg-surface2 border-border-subtle flex items-center justify-between border-b p-4">
+            <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50 p-4">
               <div className="flex items-center gap-3">
-                <Badge className="bg-accent-primary h-6 border-none px-3 text-[8px] font-black uppercase text-white">
+                <Badge className="h-6 border-none bg-indigo-600 px-3 text-[8px] font-black uppercase text-white">
                   Live Feed
                 </Badge>
-                <h3 className="text-text-primary text-base font-black uppercase tracking-tight">
+                <h3 className="text-base font-black uppercase tracking-tight text-slate-900">
                   {activeFloor.name} - View Cam 02
                 </h3>
               </div>
@@ -249,19 +247,21 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
                   variant="ghost"
                   size="icon"
                   className="h-10 w-10 rounded-xl shadow-sm hover:bg-white"
+                  aria-label="Развернуть вид"
                 >
-                  <Maximize2 className="h-4 w-4" />
+                  <Maximize2 className="h-4 w-4" aria-hidden />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="h-10 w-10 rounded-xl text-rose-500 shadow-sm hover:bg-white"
+                  aria-label="Справка по виду"
                 >
-                  <Info className="h-4 w-4" />
+                  <Info className="h-4 w-4" aria-hidden />
                 </Button>
               </div>
             </div>
-            <div className="bg-text-primary relative flex-1 overflow-hidden">
+            <div className="relative flex-1 overflow-hidden bg-slate-900">
               {/* Simulated Camera Feed */}
               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200')] bg-cover bg-center opacity-60 mix-blend-overlay" />
 
@@ -270,10 +270,10 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="bg-accent-primary/80 border-accent-primary/40 absolute left-40 top-20 rounded-2xl border p-4 text-white shadow-2xl backdrop-blur-md"
+                  className="absolute left-40 top-20 rounded-2xl border border-indigo-400 bg-indigo-600/80 p-4 text-white shadow-2xl backdrop-blur-md"
                 >
                   <div className="mb-1 flex items-center gap-2">
-                    <Box className="h-3 w-3" />
+                    <Box className="h-3 w-3" aria-hidden />
                     <span className="text-[8px] font-black uppercase">Batch ID: #CYBER-26-A</span>
                   </div>
                   <p className="text-[10px] font-black uppercase">Cyber Parka v2 (Cutting)</p>
@@ -301,21 +301,21 @@ export function ProductionDigitalTwin({ collectionId }: { collectionId?: string 
               {/* Scanline Effect */}
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,3px_100%]" />
             </div>
-            <CardFooter className="border-border-subtle grid grid-cols-3 gap-3 border-t bg-white p-4">
+            <CardFooter className="grid grid-cols-3 gap-3 border-t border-slate-50 bg-white p-4">
               <div className="space-y-2">
-                <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
                   Active Batch
                 </p>
-                <p className="text-text-primary text-sm font-black uppercase">Cyber Parka v2</p>
+                <p className="text-sm font-black uppercase text-slate-900">Cyber Parka v2</p>
               </div>
               <div className="space-y-2">
-                <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
                   Est. Completion
                 </p>
-                <p className="text-accent-primary text-sm font-black uppercase">Today, 18:00</p>
+                <p className="text-sm font-black uppercase text-indigo-600">Today, 18:00</p>
               </div>
               <div className="space-y-2">
-                <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
                   Quality Check
                 </p>
                 <div className="flex items-center gap-2 text-emerald-600">

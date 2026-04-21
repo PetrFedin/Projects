@@ -37,7 +37,7 @@ export default function StyleCalendar({
   const [currentRole, setCurrentRole] = useState(
     (initialRole || user?.roles?.[0] || 'client').toLowerCase()
   );
-  const [view, setView] = useState<'month' | 'week' | 'day' | 'list'>(
+  const [view, setView] = useState<'week' | 'month' | 'list' | 'day'>(
     variant === 'compact' ? 'month' : 'month'
   );
   const [currentDate, _setCurrentDate] = useState<Date>(externalDate || new Date());
@@ -76,9 +76,9 @@ export default function StyleCalendar({
     logistics: true,
     orders: true,
     communications: true,
-    market: true,
     trends: true,
     spam: false,
+    market: true,
   });
   const [entityFilters, setEntityFilters] = useState<Record<string, string>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -122,7 +122,7 @@ export default function StyleCalendar({
         ownerRole: 'admin',
         ownerName: 'SYNTHA Market',
         calendarId: 'market',
-        title: 'Market Week Milan',
+        title: 'Market Week Москва',
         description: 'Главное событие сезона для байеров.',
         layer: 'buying',
         visibility: 'public',
@@ -421,12 +421,12 @@ export default function StyleCalendar({
   return (
     <div
       className={cn(
-        'border-border-subtle flex flex-col overflow-hidden rounded-3xl border bg-white shadow-xl',
+        'flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-xl',
         variant === 'full' ? 'h-full' : 'h-[600px]'
       )}
     >
       {variant === 'full' ? (
-        <div className="border-border-subtle border-b p-4">
+        <div className="border-b border-slate-100 p-4">
           <CalendarHeader
             state={{
               currentRole,
@@ -457,10 +457,10 @@ export default function StyleCalendar({
           />
         </div>
       ) : (
-        <div className="border-border-subtle pointer-events-none flex items-center justify-between border-b bg-white p-4 opacity-50">
+        <div className="pointer-events-none flex items-center justify-between border-b border-slate-100 bg-white p-4 opacity-50">
           <div className="flex items-center gap-3">
-            <div className="bg-text-muted h-2 w-2 rounded-full" />
-            <div className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
+            <div className="h-2 w-2 rounded-full bg-slate-400" />
+            <div className="text-[10px] font-black uppercase tracking-widest text-slate-500">
               {currentDate.toLocaleDateString('ru', { month: 'long', year: 'numeric' })}
             </div>
           </div>
@@ -469,10 +469,7 @@ export default function StyleCalendar({
       )}
 
       <div
-        className={cn(
-          'bg-bg-surface2/80 flex-1 overflow-y-auto',
-          variant === 'full' ? 'p-4' : 'p-2'
-        )}
+        className={cn('flex-1 overflow-y-auto bg-slate-50/50', variant === 'full' ? 'p-4' : 'p-2')}
       >
         <CalendarGrid
           view={view}

@@ -15,7 +15,7 @@
 
 Персистентность экспорта на platform (идемпотентность): по умолчанию файл **`data/integration-export-jobs.json`** или **`INTEGRATION_EXPORT_JOBS_FILE`**; опционально **`INTEGRATION_EXPORT_DATABASE_URL`** (Postgres) или **`UPSTASH_REDIS_REST_URL`** + **`UPSTASH_REDIS_REST_TOKEN`** (Upstash REST). Проба SLO бэкенда: **`SYNTHA_API_SLO_URL`** или **`SYNTHA_API_SLO_PATH`** относительно origin **`NEXT_PUBLIC_API_URL`** (см. **`src/lib/b2b/integrations/integration-health-probe.ts`**).
 
-HTTP: **`POST /api/b2b/export-order`** (заголовок **`Idempotency-Key`**, тело `provider: platform`, `payload.orderId`), **`POST /api/b2b/export-order/retry`** (`exportJobId`). Повтор с тем же idempotency возвращает тот же **`orderId`**, что при первом запросе. UI: **`/shop/b2b/create-order`** (карточка экспорта на platform, `data-testid` с префиксом **`shop-b2b-platform-export-*`**), **`/brand/integrations`** и **`/admin/integrations`** — сводка **`GET /api/b2b/integrations/dashboard`**. E2E: **`e2e/b2b-export-order-api.spec.ts`**, UI — **`e2e/b2b-create-order-platform-export-ui.spec.ts`**.
+HTTP: **`POST /api/b2b/export-order`** (заголовок **`Idempotency-Key`**, тело `provider: platform`, `payload.orderId`), **`POST /api/b2b/export-order/retry`** (`exportJobId`). Повтор с тем же idempotency возвращает тот же **`orderId`**, что при первом запросе. Клиентский `fetch` из браузера — единая функция **`postB2bExportOrder`** в **`src/lib/b2b/post-b2b-export-order-client.ts`** (используется карточкой экспорта на platform; NuOrder/JOOR в API не принимаются — без дублирующих кнопок с ложным исходом). UI: **`/shop/b2b/create-order`** (карточка экспорта на platform, `data-testid` с префиксом **`shop-b2b-platform-export-*`**), **`/brand/integrations`** и **`/admin/integrations`** — сводка **`GET /api/b2b/integrations/dashboard`**. E2E: **`e2e/b2b-export-order-api.spec.ts`**, UI — **`e2e/b2b-create-order-platform-export-ui.spec.ts`**.
 
 AI boundary (client-safe): клиентские компоненты не вызывают Genkit flow напрямую в browser bundle; используются HTTP-обёртки (server route → flow): **`POST /api/ai/chat-response`**, **`POST /api/ai/outfit-preview`**, **`POST /api/ai/body-scanner`**, **`POST /api/ai/optimize-blog-text`**, **`POST /api/ai/campaign-creative`**, **`POST /api/ai/social-video`**, **`POST /api/ai/collaborative-lookbook`**, **`POST /api/ai/design-variants`**, **`POST /api/ai/sku-simulation`**, **`POST /api/ai/suggest-price`**, **`GET /api/ai/reviews`**. Это удерживает full-контур в рамках server/client границы при сборке и e2e. Server-only инстанс стилиста — **`src/lib/repo/ai-stylist-repo-instance.ts`**; в клиенте использовать только HTTP (`/api/ai/stylist`), а не `repo.aiStylist`.
 
@@ -139,11 +139,11 @@ Known warnings сборки:
 ## Продукт / prod (вне demo-матрицы)
 
 - **Brand vs shop inventory (tenant / owner)** и границы агрегата **Order** — **`TASK_QUEUE.md`**, **`docs/domain-model/*`**; не сводится к копированию UI.
-- **Монорепо — конечное состояние:** **канон один — `synth-1-full`**. Каталоги **`synth-1/`** и **`Projects/src/`** — временные доноры. **Правило порядка:** сначала **перенести** нужное в full с **улучшениями** и **настроенными связями** (маршруты, навигация, entity-links, RBAC, API, E2E), затем **заморозить** и **отключить** доноры; не отключать донор, пока перенос по плану не закрыт. После фаз **D/E** (**`docs/MONOREPO_INTEGRATION.md`**) и приёмки — удалить деревья доноров. Политика: **`docs/CANONICAL_FULL.md`**, **`AGENTS.md`**.
+- **Монорепо — конечное состояние:** **канон один — `synth-1-full`**. Субмодуль **`synth-1/`** из корня **удалён**; исторический репозиторий при необходимости — вне монорепо. Каталог **`Projects/src/`** (если есть) — legacy, не канон. Политика: **`Projects/docs/MIGRATION_FULL_CUTOVER.md`**, **`docs/CANONICAL_FULL.md`**, **`AGENTS.md`**.
 
 ## Кросс-кабинет shop inventory (demo)
 
-Канон в коде: **`src/lib/auth/shop-inventory-cross-cabinet.ts`**, **`RouteGuard`**, **`src/app/shop/layout.tsx`** (`allowCrossCabinetShopInventory`), **`src/lib/auth/demo-hub-email.ts`**. Донор **`synth-1/`** этот модуль не дублирует — разработка канона в **full**.
+Канон в коде: **`src/lib/auth/shop-inventory-cross-cabinet.ts`**, **`RouteGuard`**, **`src/app/shop/layout.tsx`** (`allowCrossCabinetShopInventory`), **`src/lib/auth/demo-hub-email.ts`** — только в этом дереве.
 
 ## Интеграции и подписи «B2B» (UX)
 

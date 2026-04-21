@@ -1,4 +1,6 @@
 'use client';
+
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -45,9 +47,7 @@ import {
   Combine,
   PackageCheck,
   PlusCircle,
-  Lock,
   Percent,
-  StickyNote,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -68,16 +68,21 @@ import {
   orderStatusSteps,
   mockOrderDetailJoors,
 } from '@/lib/order-data';
-import { getOrderLinks } from '@/lib/data/entity-links';
+import {
+  getBrandB2bCollaborationProcessGroups,
+  getBrandB2bOrderPriorityGroups,
+} from '@/lib/data/b2b-priority-workflow-groups';
 import { ROUTES } from '@/lib/routes';
 import { useOrderShipmentTracking } from '@/hooks/use-b2b-shipment';
 import { getCarrierTrackingUrl } from '@/lib/b2b/carrier-tracking-url';
-import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { B2bPriorityWorkflowPanel } from '@/components/b2b/B2bPriorityWorkflowPanel';
 import { OrderChat, SizeBreakdownDialog } from '@/components/brand/b2b';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+import { B2bOrderCommsContextButtons } from '@/components/b2b/B2bOrderCommsContextButtons';
+import { OperationalOrderNotesV1Sync } from '@/components/b2b/OperationalOrderNotesV1Sync';
 
 const MOCK_SHIPMENTS = [
   {
@@ -109,11 +114,6 @@ export default function B2BOrderDetailsPage({ params: paramsPromise }: { params:
   const { toast } = useToast();
   const [editingItem, setEditingItem] = useState<any | null>(null);
   const [orderDate, setOrderDate] = useState('');
-  const [orderNotes, setOrderNotes] = useState(mockOrderDetailJoors.orderNotes);
-  /** JOOR: внутренние заметки бренда по заказу (не видны ритейлеру) */
-  const [internalNotes, setInternalNotes] = useState(
-    'Демо-магазин · Москва 1 — приоритетный партнёр. Согласовать смену окна Drop 2 по запросу.'
-  );
   const currency = mockOrderDetailJoors.currency || 'RUB';
   const orderId = typeof params?.orderId === 'string' ? params.orderId : '';
   const { data: shipmentTracking } = useOrderShipmentTracking(orderId);
@@ -163,7 +163,7 @@ export default function B2BOrderDetailsPage({ params: paramsPromise }: { params:
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
       <RegistryPageHeader
         title={`Заказ от демо-магазина (Москва 1) / ${orderId}`}
         leadPlain="Ритейлер: Демо-магазин · Москва 1 · уровень: Platinum Partner"
@@ -196,6 +196,19 @@ export default function B2BOrderDetailsPage({ params: paramsPromise }: { params:
                 <FileText className="text-text-muted h-4 w-4" /> Pro-forma
               </Link>
             </Button>
+            <Button
+              variant="outline"
+              className="border-border-default h-10 gap-2 rounded-xl px-4 text-[10px] font-black uppercase tracking-widest"
+              asChild
+            >
+              <Link
+                href={`${ROUTES.shop.b2bWorkingOrder}?wholesaleOrderId=${encodeURIComponent(orderId)}`}
+                title="Контур ритейлера: версии файла NuOrder / Working Order"
+              >
+                <Layers className="text-text-muted h-4 w-4" /> Working Order
+              </Link>
+            </Button>
+            <B2bOrderCommsContextButtons orderId={orderId} variant="brand" />
             {approvalStatus === 'pending' ? (
               <div className="flex flex-wrap gap-2">
                 <Button
@@ -316,48 +329,7 @@ export default function B2BOrderDetailsPage({ params: paramsPromise }: { params:
             </CardContent>
           </Card>
 
-          {orderNotes != null && orderNotes !== '' && (
-            <Card className="border-accent-primary/20 bg-accent-primary/10 rounded-xl">
-              <CardHeader className="pb-2">
-                <CardTitle className="flex items-center gap-2 text-sm">
-                  JOOR: Заметки к заказу от байера
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {isEditing ? (
-                  <Textarea
-                    value={orderNotes}
-                    onChange={(e) => setOrderNotes(e.target.value)}
-                    placeholder="Ответ бренда или пометки…"
-                    className="min-h-[80px]"
-                  />
-                ) : (
-                  <p className="text-text-primary whitespace-pre-wrap text-sm">{orderNotes}</p>
-                )}
-              </CardContent>
-            </Card>
-          )}
-
-          {/* JOOR: внутренние заметки (только для команды бренда, не видны ритейлеру) */}
-          <Card className="rounded-xl border-amber-100 bg-amber-50/30">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 text-sm">
-                <Lock className="h-4 w-4 text-amber-600" />
-                <StickyNote className="h-4 w-4" /> Внутренние заметки
-              </CardTitle>
-              <CardDescription className="text-[10px] uppercase tracking-wider">
-                Только для команды бренда. Ритейлер не видит.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Textarea
-                value={internalNotes}
-                onChange={(e) => setInternalNotes(e.target.value)}
-                placeholder="Пометки по заказу, напоминания, согласования…"
-                className="min-h-[80px] bg-white/80 text-sm"
-              />
-            </CardContent>
-          </Card>
+          <OperationalOrderNotesV1Sync orderId={orderId} variant="brand" />
 
           {/* --- MULTI-SHIPMENT TIMELINE --- */}
           <Card className="bg-text-primary overflow-hidden rounded-xl border-none text-white shadow-sm">
@@ -715,7 +687,14 @@ export default function B2BOrderDetailsPage({ params: paramsPromise }: { params:
               </CardFooter>
             </Card>
             <OrderChat />
-            <RelatedModulesBlock links={getOrderLinks()} />
+            <B2bPriorityWorkflowPanel
+              groups={getBrandB2bOrderPriorityGroups(orderItems[0]?.id)}
+            />
+            <B2bPriorityWorkflowPanel
+              title="Процесс заказа: чат → календарь → материалы"
+              lead="Планирование и переговоры ведите в наших сообщениях и календаре; коллекции и обучение — рядом с реестром заказов."
+              groups={getBrandB2bCollaborationProcessGroups()}
+            />
           </div>
         </div>
       </div>
@@ -727,6 +706,6 @@ export default function B2BOrderDetailsPage({ params: paramsPromise }: { params:
           onSave={(itemId, newSizes) => setEditingItem(null)}
         />
       )}
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

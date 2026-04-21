@@ -166,7 +166,7 @@ export function ProjectInfoCategoryHandbookFlatTable() {
             </th>
             <th
               className="border-border-default bg-bg-surface2 text-text-primary sticky right-0 z-10 min-w-[88px] border-l px-1 py-2 text-center align-bottom font-semibold shadow-[-1px_0_0_0_rgb(226_232_240)]"
-              title="leafId и карточка подсказок (как в Цехе 2)"
+              title="leafId и карточка подсказок (как в разработке коллекции)"
             >
               Лист
             </th>

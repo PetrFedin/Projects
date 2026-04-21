@@ -53,6 +53,9 @@ export interface OrderExportResult {
   success: boolean;
   provider: OrderExportProvider;
   orderId?: string;
+  /** Id джоба в `integration-export-persistence` (для UI и retry). */
+  exportJobId?: string;
+  status?: 'accepted' | 'rejected';
   error?: string;
 }
 
@@ -64,7 +67,7 @@ function nextExportEventId(): string {
 export async function exportOrderToProvider(
   _provider: 'platform',
   payload: unknown,
-  opts?: { idempotencyKey?: string }
+  opts?: { idempotencyKey?: string; simulateReject?: boolean }
 ): Promise<OrderExportResult> {
   const parsed = b2bPlatformExportPayloadSchema.safeParse(payload);
   if (!parsed.success) {
@@ -76,16 +79,22 @@ export async function exportOrderToProvider(
   const job = await enqueuePlatformExport({
     orderId,
     idempotencyKey: idem,
+    simulateReject: opts?.simulateReject,
   });
 
   if (!job.success) {
     return {
       success: false,
       provider: 'platform',
-      orderId,
+      orderId: job.persistedOrderId ?? orderId,
+      exportJobId: job.exportJobId,
+      status: job.status,
       error: job.error ?? 'export rejected',
     };
   }
+
+  /** При повторе с тем же Idempotency-Key ответ привязан к первому `orderId` в джобе. */
+  const orderIdOut = job.persistedOrderId ?? orderId;
 
   if (!job.fromIdempotencyReplay && job.status === 'accepted') {
     const dedupeKey = idem ? `b2b-platform-export:idem:${idem}` : undefined;
@@ -108,7 +117,13 @@ export async function exportOrderToProvider(
     });
   }
 
-  return { success: true, provider: 'platform', orderId };
+  return {
+    success: true,
+    provider: 'platform',
+    orderId: orderIdOut,
+    exportJobId: job.exportJobId,
+    status: job.status,
+  };
 }
 
 /** Повтор экспорта по id джоба (см. `retryPlatformExport`). */

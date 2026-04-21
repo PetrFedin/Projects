@@ -15,7 +15,7 @@ function loadEvents(userId: string): CalendarEvent[] {
   if (typeof window === 'undefined') return [];
   try {
     const raw = localStorage.getItem(storageKey(userId));
-    return raw ? JSON.parse(raw) : [];
+    return raw ? (JSON.parse(raw) as CalendarEvent[]) : [];
   } catch {
     return [];
   }
@@ -35,7 +35,7 @@ function loadEventsWhereParticipant(userId: string): CalendarEvent[] {
     try {
       const raw = localStorage.getItem(key);
       if (!raw) continue;
-      const events: CalendarEvent[] = JSON.parse(raw);
+      const events = JSON.parse(raw) as CalendarEvent[];
       for (const e of events) {
         const isParticipant = e.participants?.some((p) => p.uid === userId);
         if (isParticipant && !result.some((r) => r.id === e.id)) {
@@ -105,7 +105,7 @@ export function findEventOwner(eventId: string): string | null {
     try {
       const raw = localStorage.getItem(key);
       if (!raw) continue;
-      const events: CalendarEvent[] = JSON.parse(raw);
+      const events = JSON.parse(raw) as CalendarEvent[];
       if (events.some((e) => e.id === eventId)) {
         return key.replace(STORAGE_KEY + '_', '');
       }

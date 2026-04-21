@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ProductFilters from '@/components/product-filters';
@@ -19,7 +20,6 @@ import ProductCard from '@/components/product-card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card } from '@/components/ui/card';
 import { useUIState } from '@/providers/ui-state';
-import { RegistryPageShell } from '@/components/design-system';
 import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
 
 type Audience = ProductAudience | 'Все' | 'Beauty' | 'Home';
@@ -39,7 +39,7 @@ function SearchContent() {
   );
   const [activeAudience, setActiveAudience] = useState<Audience>('Все');
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined);
-  const [fullCategoryStructure, setFullCategoryStructure] = useState(null);
+  const [fullCategoryStructure, setFullCategoryStructure] = useState<unknown>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -48,7 +48,7 @@ function SearchContent() {
           fetch('/data/products.json'),
           fetch('/data/categories.json'),
         ]);
-        const productsData: Product[] = await productsRes.json();
+        const productsData = (await productsRes.json()) as Product[];
         const categoriesData = await categoriesRes.json();
         setAllProducts(productsData);
         setFullCategoryStructure(categoriesData);
@@ -210,7 +210,7 @@ function SearchContent() {
   ];
 
   return (
-    <RegistryPageShell className="space-y-4 pb-16 duration-300 animate-in fade-in">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 pb-16 duration-300 animate-in fade-in px-4 py-6 pb-24 sm:px-6">
       {viewRole === 'b2b' && (
         <div className="grid grid-cols-1 gap-3 duration-500 animate-in slide-in-from-top-4 md:grid-cols-4">
           <Card className="bg-text-primary relative overflow-hidden rounded-3xl border-none p-4 text-white shadow-xl">
@@ -404,7 +404,7 @@ function SearchContent() {
           )}
         </main>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,7 +10,6 @@ import { Package, ArrowLeft, ShoppingBag } from 'lucide-react';
 import { getEndlessAisleLinks } from '@/lib/data/entity-links';
 import { listEndlessAisleRequests } from '@/lib/api';
 import type { EndlessAisleRequest } from '@/lib/shop/endless-aisle-pos';
-import { RegistryPageShell } from '@/components/design-system';
 import { ROUTES } from '@/lib/routes';
 
 const statusLabels: Record<EndlessAisleRequest['status'], string> = {
@@ -31,7 +31,7 @@ export default function EndlessAislePage() {
   }, []);
 
   return (
-    <RegistryPageShell className="max-w-4xl space-y-6">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <div className="flex items-center gap-3">
         <Link href={ROUTES.shop.bopis}>
           <Button variant="ghost" size="icon">
@@ -99,6 +99,6 @@ export default function EndlessAislePage() {
           </ul>
         </CardContent>
       </Card>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

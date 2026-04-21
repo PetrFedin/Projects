@@ -12,7 +12,7 @@ export async function getFromCache<T>(key: string): Promise<T | null> {
   const cached = localStorage.getItem(`ai_cache_${key}`);
   if (!cached) return null;
 
-  const { value, expiry } = JSON.parse(cached);
+  const { value, expiry } = JSON.parse(cached) as { value: T; expiry: number };
   if (Date.now() > expiry) {
     localStorage.removeItem(`ai_cache_${key}`);
     return null;

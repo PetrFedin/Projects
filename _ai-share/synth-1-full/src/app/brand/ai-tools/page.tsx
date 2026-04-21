@@ -1,12 +1,14 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Sparkles, FileText, Image } from 'lucide-react';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
+
 import { ROUTES } from '@/lib/routes';
 import { getRelatedLinks } from '@/lib/data/integration-modules';
 
@@ -15,7 +17,7 @@ export default function BrandAiToolsPage() {
   const links = getRelatedLinks('ai-creator-studio').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-20">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-20">
       <RegistryPageHeader
         title="AI Creator Studio"
         leadPlain="Генерация описаний, lookbook и контент-планы по SKU и каналам (демо Colect)."
@@ -73,6 +75,6 @@ export default function BrandAiToolsPage() {
         </Card>
       </div>
       <RelatedModulesBlock links={links} title="Связанные модули" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

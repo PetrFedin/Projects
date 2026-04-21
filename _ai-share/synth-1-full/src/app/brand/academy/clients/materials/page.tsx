@@ -15,7 +15,6 @@ import { getAcademyLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { addClientMaterial } from '@/lib/academy/brand-academy-data';
 import { ArrowLeft } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 
 export default function ClientMaterialsPage() {
   const router = useRouter();
@@ -38,25 +37,27 @@ export default function ClientMaterialsPage() {
   };
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-6 pb-16">
-      <RegistryPageHeader
-        title="Материалы для клиентов"
-        leadPlain="Уход, стилинг, коллекции — для покупателей"
-        eyebrow={
-          <Button variant="ghost" size="icon" className="-ml-2 shrink-0" asChild>
-            <Link href={ROUTES.brand.academy} aria-label="Назад в академию">
+    <div className="container mx-auto max-w-2xl space-y-6 px-4 py-6 pb-24">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3">
+          <Link href={ROUTES.brand.academy}>
+            <Button variant="ghost" size="icon">
               <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-        }
-        actions={<AcademySegmentSwitcher active="brand" />}
-      />
+            </Button>
+          </Link>
+          <div>
+            <h1 className="text-2xl font-bold uppercase tracking-tight">Материалы для клиентов</h1>
+            <p className="text-sm text-slate-500">Уход, стилинг, коллекции — для покупателей</p>
+          </div>
+        </div>
+        <AcademySegmentSwitcher active="brand" />
+      </div>
 
       <WidgetCard
         title="Для клиентов"
         description="Обучающие и ознакомительные материалы: уход за изделиями, идеи стилизации, описание коллекций. Доступны покупателям на сайте и в приложении."
       >
-        <Card className="border-border-subtle rounded-xl border">
+        <Card className="rounded-xl border border-slate-100">
           <CardHeader>
             <CardTitle>Добавить материал</CardTitle>
             <CardDescription>Уход, стилинг, о коллекции, lookbook.</CardDescription>
@@ -113,7 +114,7 @@ export default function ClientMaterialsPage() {
                 <Label>Ссылка на контент (опционально)</Label>
                 <Input
                   type="url"
-                  placeholder="https://..."
+                  placeholder="https://…"
                   className="mt-1"
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
@@ -131,6 +132,6 @@ export default function ClientMaterialsPage() {
       </WidgetCard>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </div>
   );
 }

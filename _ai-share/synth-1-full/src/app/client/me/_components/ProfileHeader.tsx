@@ -118,14 +118,19 @@ export function ProfileHeader({ user }: { user: any }) {
     if (storedHeader) setHeaderImage(storedHeader);
     if (storedPrefs) {
       try {
-        setPrefs((prev) => ({ ...prev, ...JSON.parse(storedPrefs) }));
+        const parsed = JSON.parse(storedPrefs) as Partial<{
+          avatarBorder: boolean;
+          avatarShape: string;
+          headerTheme: string;
+        }>;
+        setPrefs((prev) => ({ ...prev, ...parsed }));
       } catch {}
     }
     if (storedPhotos) {
       try {
-        const parsed = JSON.parse(storedPhotos);
+        const parsed = JSON.parse(storedPhotos) as unknown;
         if (Array.isArray(parsed) && parsed.length > 0) {
-          setPhotos(parsed);
+          setPhotos(parsed.filter((x): x is string => typeof x === 'string'));
         }
       } catch {}
     }

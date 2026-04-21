@@ -7,7 +7,8 @@ export interface UpcyclingConcept {
   newCategory: string;
   newBillOfMaterials: MaterialComponent[];
   estimatedUpcyclingCostUSD: number;
-  projectedResaleValueUSD: number;
+  /** Ожидаемая ценность изделия после апсайклинга (внутренняя оценка). */
+  projectedNetValueUSD: number;
   reasoning: string;
 }
 
@@ -15,8 +16,7 @@ export interface UpcyclingConcept {
  * [Phase 33 — Circular Economy Upcycling Engine (Waste to Value)]
  * Движок апсайклинга (переработки в более ценный продукт).
  * Если клиент возвращает порванную или неликвидную вещь (Trade-in: Poor condition),
- * вместо того чтобы выбрасывать ее (Recycle) или продавать за копейки (Clearance),
- * система генерирует концепт нового продукта (Upcycled SKU).
+ * вместо утилизации система генерирует концепт нового SKU.
  * Например: старые джинсы -> джинсовые шорты или сумка-шоппер.
  */
 export class UpcyclingEngine {
@@ -43,7 +43,7 @@ export class UpcyclingEngine {
 
     let newCategory = '';
     let estimatedUpcyclingCostUSD = 0;
-    let projectedResaleValueUSD = 0;
+    let projectedNetValueUSD = 0;
     let reasoning = '';
 
     // 2. Выбор стратегии апсайклинга в зависимости от повреждения
@@ -51,20 +51,20 @@ export class UpcyclingEngine {
       // Порваны рукава куртки -> делаем жилетку (Vest)
       newCategory = 'vest';
       estimatedUpcyclingCostUSD = 15; // Работа швеи по обрезке и обработке проймы
-      projectedResaleValueUSD = 85; // Жилетки стоят дешевле курток, но это лучше, чем 0
-      reasoning = `Sleeves are torn. Upcycling jacket into a premium vest. Cost: $${estimatedUpcyclingCostUSD}. Expected Resale: $${projectedResaleValueUSD}.`;
+      projectedNetValueUSD = 85;
+      reasoning = `Sleeves are torn. Upcycling jacket into a premium vest. Cost: $${estimatedUpcyclingCostUSD}. Expected net value: $${projectedNetValueUSD}.`;
     } else if (damageType === 'stained_hem' && damagedArticle.pim.category === 'pants') {
       // Грязный/порванный низ штанин -> делаем шорты (Shorts)
       newCategory = 'shorts';
       estimatedUpcyclingCostUSD = 10; // Обрезка и подгибка
-      projectedResaleValueUSD = 45;
-      reasoning = `Hem is stained/damaged. Upcycling pants into summer shorts. Cost: $${estimatedUpcyclingCostUSD}. Expected Resale: $${projectedResaleValueUSD}.`;
+      projectedNetValueUSD = 45;
+      reasoning = `Hem is stained/damaged. Upcycling pants into summer shorts. Cost: $${estimatedUpcyclingCostUSD}. Expected net value: $${projectedNetValueUSD}.`;
     } else if (damageType === 'faded_color') {
       // Выцветшая вещь -> красим (Garment Dyeing) или делаем пэчворк-сумку
       newCategory = 'tote_bag';
       estimatedUpcyclingCostUSD = 25; // Раскрой на лоскуты и пошив сумки
-      projectedResaleValueUSD = 60;
-      reasoning = `Fabric is faded. Upcycling into a patchwork tote bag. Cost: $${estimatedUpcyclingCostUSD}. Expected Resale: $${projectedResaleValueUSD}.`;
+      projectedNetValueUSD = 60;
+      reasoning = `Fabric is faded. Upcycling into a patchwork tote bag. Cost: $${estimatedUpcyclingCostUSD}. Expected net value: $${projectedNetValueUSD}.`;
     } else {
       // Неизвестный паттерн повреждения
       return null;
@@ -93,7 +93,7 @@ export class UpcyclingEngine {
       newCategory,
       newBillOfMaterials: newBom,
       estimatedUpcyclingCostUSD,
-      projectedResaleValueUSD,
+      projectedNetValueUSD,
       reasoning,
     };
   }

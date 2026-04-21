@@ -90,7 +90,7 @@ export default function LivePlayer({
       try {
         const res = await fetch('/data/products.json');
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        const allProducts: Product[] = await res.json();
+        const allProducts = (await res.json()) as Product[];
         if (Array.isArray(allProducts)) {
           setFeaturedProducts(allProducts.slice(8, 12));
         }

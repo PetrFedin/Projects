@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import type { Brand, Product } from '@/lib/types';
@@ -13,7 +14,7 @@ import { Users, Store, Package } from 'lucide-react';
 import { fetchWithHttpDeadline } from '@/lib/http/http-fetch-deadline';
 import { ROUTES } from '@/lib/routes';
 import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function CollaborationsPage() {
   const synthaBrand =
@@ -26,7 +27,7 @@ export default function CollaborationsPage() {
     async function fetchProducts() {
       try {
         const response = await fetchWithHttpDeadline('/data/products.json');
-        const products: Product[] = await response.json();
+        const products = (await response.json()) as Product[];
         setAllProducts(products);
       } catch (error) {
         console.error('Failed to fetch products for collaborations page:', error);
@@ -39,7 +40,7 @@ export default function CollaborationsPage() {
 
   if (isLoading) {
     return (
-      <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+      <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
         <RegistryPageHeader
           title="Коллаборации"
           leadPlain="Партнёрства с брендами, совместные коллекции и AI-аналитика синергии."
@@ -57,14 +58,14 @@ export default function CollaborationsPage() {
             </div>
           </div>
         </div>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
   if (!brand) return <div className="p-4 text-center">Бренд не найден.</div>;
 
   return (
-    <RegistryPageShell className="w-full max-w-none space-y-4 pb-16">
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
       <RegistryPageHeader
         title="Коллаборации"
         leadPlain="Находите партнёров и создавайте уникальные проекты с помощью AI-аналитики. Связь с Retailers и B2B заказами."
@@ -98,6 +99,6 @@ export default function CollaborationsPage() {
           <CollaborationProjects brandId={brand.id} />
         </div>
       </div>
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

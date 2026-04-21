@@ -208,7 +208,10 @@ export default function AdvancedAnalytics() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="spending" className="space-y-4">
+        <TabsContent
+          value="spending"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'space-y-4')}
+        >
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -251,7 +254,10 @@ export default function AdvancedAnalytics() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="categories" className="space-y-4">
+        <TabsContent
+          value="categories"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'space-y-4')}
+        >
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -309,7 +315,10 @@ export default function AdvancedAnalytics() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="projections" className="space-y-4">
+        <TabsContent
+          value="projections"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'space-y-4')}
+        >
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">

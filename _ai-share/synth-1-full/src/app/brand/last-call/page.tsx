@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +12,6 @@ import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getB2BLinks } from '@/lib/data/entity-links';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
-import { RegistryPageShell } from '@/components/design-system';
 
 /** Last Call / Flash Deals для РФ: закрытый раздел ликвидации остатков для партнёров. Таймер, лимиты, рубль. */
 const MOCK_OFFERS = [
@@ -37,7 +37,7 @@ const MOCK_OFFERS = [
 
 export default function LastCallPage() {
   return (
-    <RegistryPageShell className="space-y-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
       <SectionInfoCard
         title="Last Call / Flash Deals"
         description="Закрытый раздел ликвидации остатков для партнёров. Ограниченные по времени офферы в рублях. Доступ только для одобренных ритейлеров."
@@ -102,6 +102,6 @@ export default function LastCallPage() {
       </Card>
 
       <RelatedModulesBlock links={getB2BLinks()} title="Партнёры, заказы, финансы, Credit Risk" />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

@@ -117,25 +117,25 @@ export default function SearchPageClient({
   ]);
 
   return (
-    <div className="text-text-primary min-h-screen bg-white pb-20 font-sans">
+    <div className="min-h-screen bg-white pb-20 font-sans text-slate-900">
       {/* --- TOP STRATEGIC BAR (Inventory Style) --- */}
-      <div className="border-border-default bg-bg-surface2/80 sticky top-0 z-40 border-b backdrop-blur-md">
+      <div className="sticky top-0 z-40 border-b border-slate-200 bg-slate-50/50 backdrop-blur-md">
         <div className="mx-auto flex h-12 max-w-[1600px] items-center justify-between px-8">
           <div className="flex items-center gap-3">
-            <h1 className="text-text-primary text-sm font-black uppercase tracking-tight">
+            <h1 className="text-sm font-black uppercase tracking-tight text-slate-900">
               Showroom Matrix
             </h1>
-            <div className="bg-border-default h-4 w-[1px]" />
+            <div className="h-4 w-[1px] bg-slate-300" />
 
             {/* View Mode Toggle (Products/Looks) */}
-            <div className="bg-bg-surface2 border-border-default flex items-center gap-1 rounded-lg border p-1">
+            <div className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-100 p-1">
               <button
                 onClick={() => setSearchViewMode('products')}
                 className={cn(
                   'flex items-center gap-2 rounded-md px-4 py-1.5 text-[10px] font-black uppercase tracking-widest transition-all',
                   searchViewMode === 'products'
-                    ? 'text-text-primary bg-white shadow-sm'
-                    : 'text-text-muted hover:text-text-secondary'
+                    ? 'bg-white text-slate-900 shadow-sm'
+                    : 'text-slate-400 hover:text-slate-600'
                 )}
               >
                 <Package className="h-3 w-3" />
@@ -146,8 +146,8 @@ export default function SearchPageClient({
                 className={cn(
                   'flex items-center gap-2 rounded-md px-4 py-1.5 text-[10px] font-black uppercase tracking-widest transition-all',
                   searchViewMode === 'looks'
-                    ? 'text-text-primary bg-white shadow-sm'
-                    : 'text-text-muted hover:text-text-secondary'
+                    ? 'bg-white text-slate-900 shadow-sm'
+                    : 'text-slate-400 hover:text-slate-600'
                 )}
               >
                 <Sparkles className="h-3 w-3" />
@@ -155,54 +155,54 @@ export default function SearchPageClient({
               </button>
             </div>
 
-            <div className="bg-border-default h-4 w-[1px]" />
+            <div className="h-4 w-[1px] bg-slate-300" />
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
-                <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                   {searchViewMode === 'products' ? 'Total Items:' : 'Total Looks:'}
                 </span>
-                <span className="text-text-primary text-[10px] font-black">
+                <span className="text-[10px] font-black text-slate-900">
                   {searchViewMode === 'products' ? (data?.total ?? 0) : 6}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
-                  Market Status:
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  Статус рынка:
                 </span>
                 <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">
-                  Active FW26
+                  Активен FW26
                 </span>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="border-border-default flex rounded border bg-white p-0.5 shadow-sm">
+            <div className="flex rounded border border-slate-200 bg-white p-0.5 shadow-sm">
               <button
                 onClick={() => setViewMode('grid')}
                 className={cn(
                   'h-8 rounded-sm px-5 text-[10px] font-black uppercase transition-all',
                   viewMode === 'grid'
-                    ? 'bg-text-primary text-white shadow-sm'
-                    : 'text-text-muted hover:bg-bg-surface2'
+                    ? 'bg-slate-900 text-white shadow-sm'
+                    : 'text-slate-400 hover:bg-slate-50'
                 )}
               >
-                Grid
+                Сетка
               </button>
               <button
                 onClick={() => setViewMode('table')}
                 className={cn(
                   'h-8 rounded-sm px-5 text-[10px] font-black uppercase transition-all',
                   viewMode === 'table'
-                    ? 'bg-text-primary text-white shadow-sm'
-                    : 'text-text-muted hover:bg-bg-surface2'
+                    ? 'bg-slate-900 text-white shadow-sm'
+                    : 'text-slate-400 hover:bg-slate-50'
                 )}
               >
-                Table
+                Таблица
               </button>
             </div>
-            <div className="bg-border-default mx-2 h-4 w-[1px]" />
-            <Button variant="cta" className="h-10 border-2 px-6">
-              <Download className="mr-2 h-3.5 w-3.5" /> Export PDF
+            <div className="mx-2 h-4 w-[1px] bg-slate-300" />
+            <Button variant="joor" className="h-10 border-2 px-6">
+              <Download className="mr-2 h-3.5 w-3.5" /> Экспорт PDF
             </Button>
           </div>
         </div>
@@ -212,35 +212,35 @@ export default function SearchPageClient({
         {/* ANALYTICAL OVERVIEW (Inventory Style) */}
         <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
           {[
-            { label: 'Global Demand', val: '84.2%', sub: 'Rising', trend: 'up', icon: BarChart3 },
+            { label: 'Глобальный спрос', val: '84.2%', sub: 'Рост', trend: 'up', icon: BarChart3 },
             {
-              label: 'Supply Chain',
-              val: 'Stable',
-              sub: '98% Flow',
+              label: 'Цепочка поставок',
+              val: 'Стабильно',
+              sub: '98% поток',
               trend: 'up',
               icon: RefreshCcw,
             },
-            { label: 'Price Index', val: '+2.1%', sub: 'Inflation', trend: 'up', icon: TrendingUp },
+            { label: 'Индекс цен', val: '+2.1%', sub: 'Инфляция', trend: 'up', icon: TrendingUp },
             {
-              label: 'Available Styles',
+              label: 'Доступные модели',
               val: data?.total || '0',
-              sub: 'Across Brands',
+              sub: 'По брендам',
               trend: 'up',
               icon: Package,
             },
           ].map((m, i) => (
             <div
               key={i}
-              className="border-border-default hover:border-border-strong group flex cursor-default flex-col justify-between rounded-none border bg-white p-4 shadow-[2px_2px_0px_rgba(0,0,0,0.02)] transition-colors"
+              className="group flex cursor-default flex-col justify-between rounded-none border border-slate-200 bg-white p-4 shadow-[2px_2px_0px_rgba(0,0,0,0.02)] transition-colors hover:border-slate-400"
             >
               <div className="mb-3 flex items-center justify-between">
-                <span className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em]">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
                   {m.label}
                 </span>
-                <m.icon className="text-text-muted group-hover:text-text-primary h-4 w-4 transition-colors" />
+                <m.icon className="h-4 w-4 text-slate-200 transition-colors group-hover:text-slate-900" />
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="text-text-primary text-sm font-black tracking-tight">{m.val}</span>
+                <span className="text-sm font-black tracking-tight text-slate-900">{m.val}</span>
                 <span className="text-[10px] font-bold uppercase text-emerald-600">{m.sub}</span>
               </div>
             </div>
@@ -263,10 +263,7 @@ export default function SearchPageClient({
             {loading ? (
               <div className="grid animate-pulse grid-cols-1 gap-3 opacity-50 sm:grid-cols-2 lg:grid-cols-3">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div
-                    key={i}
-                    className="bg-bg-surface2 border-border-subtle aspect-[3/4] border"
-                  />
+                  <div key={i} className="aspect-[3/4] border border-slate-100 bg-slate-50" />
                 ))}
               </div>
             ) : searchViewMode === 'products' ? (
@@ -278,30 +275,30 @@ export default function SearchPageClient({
                 </div>
               ) : (
                 /* TABLE VIEW (Inventory Style) */
-                <div className="border-border-default overflow-hidden rounded-none border bg-white shadow-sm">
+                <div className="overflow-hidden rounded-none border border-slate-200 bg-white shadow-sm">
                   <table className="w-full border-collapse text-left">
                     <thead>
-                      <tr className="bg-bg-surface2 border-border-default border-b">
-                        <th className="text-text-muted w-[40%] px-6 py-4 text-[10px] font-black uppercase tracking-widest">
-                          Product Detail
+                      <tr className="border-b border-slate-200 bg-slate-50">
+                        <th className="w-[40%] px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                          Товар
                         </th>
-                        <th className="text-text-muted px-6 py-4 text-[10px] font-black uppercase tracking-widest">
-                          Brand
+                        <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                          Бренд
                         </th>
-                        <th className="text-text-muted px-6 py-4 text-right text-[10px] font-black uppercase tracking-widest">
-                          Wholesale Price
+                        <th className="px-6 py-4 text-right text-[10px] font-black uppercase tracking-widest text-slate-400">
+                          Опт
                         </th>
-                        <th className="text-text-muted w-24 px-6 py-4 text-right text-[10px] font-black uppercase tracking-widest">
-                          Actions
+                        <th className="w-24 px-6 py-4 text-right text-[10px] font-black uppercase tracking-widest text-slate-400">
+                          Действия
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-border-subtle divide-y">
+                    <tbody className="divide-y divide-slate-100">
                       {(data?.items ?? []).map((p) => (
-                        <tr key={p.id} className="hover:bg-bg-surface2/80 group transition-colors">
+                        <tr key={p.id} className="group transition-colors hover:bg-slate-50/50">
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">
-                              <div className="border-border-subtle relative h-12 w-12 shrink-0 overflow-hidden border bg-[#fcfcfc] p-1">
+                              <div className="relative h-12 w-12 shrink-0 overflow-hidden border border-slate-100 bg-[#fcfcfc] p-1">
                                 <img
                                   src={p.image}
                                   alt=""
@@ -309,27 +306,27 @@ export default function SearchPageClient({
                                 />
                               </div>
                               <div>
-                                <p className="text-text-primary text-xs font-black uppercase tracking-tight">
+                                <p className="text-xs font-black uppercase tracking-tight text-slate-900">
                                   {p.title}
                                 </p>
-                                <p className="text-text-muted mt-0.5 text-[9px] font-bold uppercase tracking-widest">
+                                <p className="mt-0.5 text-[9px] font-bold uppercase tracking-widest text-slate-400">
                                   {p.category}
                                 </p>
                               </div>
                             </div>
                           </td>
                           <td className="px-6 py-4">
-                            <span className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-900">
                               {p.brand}
                             </span>
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <span className="text-text-primary text-sm font-black tabular-nums">
+                            <span className="text-sm font-black tabular-nums text-slate-900">
                               {Number(p.price).toLocaleString('ru-RU')} ₽
                             </span>
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <button className="hover:bg-text-primary/90 hover:border-text-primary inline-flex h-8 w-8 items-center justify-center border border-transparent transition-all hover:text-white">
+                            <button className="inline-flex h-8 w-8 items-center justify-center border border-transparent transition-all hover:border-slate-900 hover:bg-slate-900 hover:text-white">
                               <ArrowRight className="h-4 w-4" />
                             </button>
                           </td>
@@ -440,7 +437,7 @@ export default function SearchPageClient({
                     },
                     {
                       id: 'look-5',
-                      title: 'Parisian Morning',
+                      title: 'Утро в городе',
                       author: 'Marie L.',
                       type: 'expert',
                       price: 112000,
@@ -491,7 +488,7 @@ export default function SearchPageClient({
                           setIsLookDetailsOpen(true);
                         }}
                       >
-                        <div className="bg-bg-surface2 border-border-subtle hover:border-text-primary relative overflow-hidden rounded-2xl border shadow-sm transition-all duration-500 hover:shadow-xl">
+                        <div className="relative overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-sm transition-all duration-500 hover:border-slate-900 hover:shadow-xl">
                           <div className="relative aspect-[3/4] overflow-hidden">
                             <Image
                               src={look.imageUrl}
@@ -508,17 +505,17 @@ export default function SearchPageClient({
                                   look.type === 'expert'
                                     ? 'bg-amber-500 text-white'
                                     : look.type === 'brand'
-                                      ? 'bg-accent-primary text-white'
+                                      ? 'bg-indigo-600 text-white'
                                       : look.type === 'platform'
                                         ? 'bg-black text-white'
-                                        : 'from-accent-primary to-accent-primary bg-gradient-to-r text-white'
+                                        : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'
                                 )}
                               >
                                 {look.type.toUpperCase()} LOOK
                               </Badge>
                               <div className="flex items-center gap-1.5 rounded-lg border border-white/20 bg-white/90 px-2 py-1 backdrop-blur-md">
                                 <div className="h-1 w-1 animate-pulse rounded-full bg-rose-500" />
-                                <span className="text-text-primary text-[8px] font-black">
+                                <span className="text-[8px] font-black text-slate-900">
                                   {look.timeLeft}
                                 </span>
                               </div>
@@ -545,13 +542,13 @@ export default function SearchPageClient({
                             </div>
                           </div>
 
-                          <div className="border-border-subtle flex items-end justify-between border-t bg-white p-4">
+                          <div className="flex items-end justify-between border-t border-slate-50 bg-white p-4">
                             <div className="space-y-0.5">
-                              <p className="text-text-muted text-[8px] font-black uppercase tracking-widest line-through">
+                              <p className="text-[8px] font-black uppercase tracking-widest text-slate-400 line-through">
                                 {look.originalPrice.toLocaleString('ru-RU')}₽
                               </p>
                               <div className="flex items-baseline gap-1.5">
-                                <p className="text-text-primary text-base font-black leading-none tracking-tighter">
+                                <p className="text-base font-black leading-none tracking-tighter text-slate-900">
                                   {look.price.toLocaleString('ru-RU')}₽
                                 </p>
                                 <span className="text-[8px] font-black text-emerald-600">
@@ -562,7 +559,7 @@ export default function SearchPageClient({
                             <Button
                               size="icon"
                               variant="ghost"
-                              className="bg-bg-surface2 hover:bg-text-primary/90 h-8 w-8 rounded-xl transition-all hover:text-white"
+                              className="h-8 w-8 rounded-xl bg-slate-50 transition-all hover:bg-slate-900 hover:text-white"
                             >
                               <ShoppingBag className="h-3.5 w-3.5" />
                             </Button>
@@ -575,19 +572,19 @@ export default function SearchPageClient({
             )}
 
             {(!data?.items || data?.items.length === 0) && !loading && (
-              <div className="bg-bg-surface2/80 border-border-subtle space-y-4 border border-dashed py-40 text-center">
-                <div className="border-border-subtle mx-auto flex h-20 w-20 items-center justify-center rounded-full border bg-white shadow-xl">
-                  <Search className="text-text-muted h-8 w-8" />
+              <div className="space-y-4 border border-dashed border-slate-100 bg-slate-50/50 py-40 text-center">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-slate-100 bg-white shadow-xl">
+                  <Search className="h-8 w-8 text-slate-200" />
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-text-primary text-sm font-black uppercase tracking-widest">
+                  <h4 className="text-sm font-black uppercase tracking-widest text-slate-900">
                     Ничего не найдено
                   </h4>
-                  <p className="text-text-muted mx-auto max-w-xs text-[11px] font-medium uppercase leading-loose tracking-widest">
+                  <p className="mx-auto max-w-xs text-[11px] font-medium uppercase leading-loose tracking-widest text-slate-400">
                     Попробуйте изменить параметры фильтрации или поисковый запрос.
                   </p>
                   <Button
-                    variant="cta"
+                    variant="joor"
                     className="mt-6 border-2"
                     onClick={() => {
                       const next = { q: '', brand: '', category: '', sort: 'relevance' };
@@ -610,7 +607,7 @@ export default function SearchPageClient({
           {selectedLook && (
             <div className="flex h-full flex-col overflow-hidden md:flex-row">
               {/* Left: Gallery Section */}
-              <div className="bg-bg-surface2 group relative h-[400px] md:h-auto md:w-1/2">
+              <div className="group relative h-[400px] bg-slate-50 md:h-auto md:w-1/2">
                 <Carousel className="h-full w-full">
                   <CarouselContent className="h-full">
                     {(selectedLook.gallery || [selectedLook.imageUrl]).map(
@@ -645,26 +642,26 @@ export default function SearchPageClient({
               <div className="relative flex h-full flex-col bg-white md:w-1/2">
                 <div className="max-h-[90vh] space-y-10 overflow-y-auto p-4 md:p-4">
                   {/* Header */}
-                  <div className="border-border-subtle relative space-y-4 border-b pb-10">
+                  <div className="relative space-y-4 border-b border-slate-100 pb-10">
                     <div className="space-y-1">
-                      <p className="text-accent-primary mb-2 text-[11px] font-black uppercase leading-none tracking-[0.3em]">
+                      <p className="mb-2 text-[11px] font-black uppercase leading-none tracking-[0.3em] text-indigo-600">
                         {selectedLook.author}
                       </p>
-                      <DialogTitle className="text-text-primary text-sm font-black uppercase leading-none tracking-tighter md:text-sm">
+                      <DialogTitle className="text-sm font-black uppercase leading-none tracking-tighter text-slate-900 md:text-sm">
                         {selectedLook.title}
                       </DialogTitle>
                     </div>
 
                     <div className="flex items-center gap-3">
                       <div className="flex flex-col">
-                        <span className="text-text-muted mb-1 text-[10px] font-black uppercase tracking-widest">
+                        <span className="mb-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
                           BUNDLE_PRICE
                         </span>
                         <div className="flex items-baseline gap-3">
-                          <span className="text-text-primary text-sm font-black leading-none tracking-tighter">
+                          <span className="text-sm font-black leading-none tracking-tighter text-slate-900">
                             {selectedLook.price.toLocaleString('ru-RU')}₽
                           </span>
-                          <span className="text-text-muted text-sm font-black tracking-tighter line-through">
+                          <span className="text-sm font-black tracking-tighter text-slate-300 line-through">
                             {selectedLook.originalPrice.toLocaleString('ru-RU')}₽
                           </span>
                         </div>
@@ -679,12 +676,12 @@ export default function SearchPageClient({
                   {/* Composition Matrix */}
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
-                      <h4 className="text-text-muted flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em]">
-                        <LayoutGrid className="text-accent-primary h-4 w-4" /> СОСТАВ ОБРАЗА (
+                      <h4 className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-slate-400">
+                        <LayoutGrid className="h-4 w-4 text-indigo-600" /> СОСТАВ ОБРАЗА (
                         {selectedLook.items})
                       </h4>
-                      <div className="text-accent-primary flex items-center gap-2">
-                        <Sparkles className="fill-accent-primary h-3 w-3" />
+                      <div className="flex items-center gap-2 text-indigo-600">
+                        <Sparkles className="h-3 w-3 fill-indigo-600" />
                         <span className="text-xs font-black uppercase tracking-widest">
                           +{selectedLook.bonus} BONUSES
                         </span>
@@ -695,7 +692,7 @@ export default function SearchPageClient({
                       {(selectedLook.products || []).map((product: any) => (
                         <div
                           key={product.id}
-                          className="group/item bg-bg-surface2 hover:bg-text-primary/90 flex items-center gap-3 rounded-3xl border border-transparent p-4 transition-all duration-500 hover:border-white/10"
+                          className="group/item flex items-center gap-3 rounded-3xl border border-transparent bg-slate-50 p-4 transition-all duration-500 hover:border-white/10 hover:bg-slate-900"
                         >
                           <div className="relative h-20 w-12 shrink-0 overflow-hidden rounded-xl shadow-md">
                             <Image
@@ -706,35 +703,35 @@ export default function SearchPageClient({
                             />
                           </div>
                           <div className="min-w-0 flex-1">
-                            <p className="text-accent-primary group-hover/item:text-accent-primary mb-1 text-[9px] font-black uppercase leading-none tracking-widest">
+                            <p className="mb-1 text-[9px] font-black uppercase leading-none tracking-widest text-indigo-600 group-hover/item:text-indigo-400">
                               {product.brand}
                             </p>
-                            <h5 className="text-text-primary truncate text-sm font-black uppercase leading-tight tracking-tight group-hover/item:text-white">
+                            <h5 className="truncate text-sm font-black uppercase leading-tight tracking-tight text-slate-900 group-hover/item:text-white">
                               {product.name}
                             </h5>
                             <div className="mt-2 flex gap-2">
                               <Badge
                                 variant="outline"
-                                className="border-border-default text-text-secondary bg-white text-[8px] font-black uppercase group-hover/item:border-white/20 group-hover/item:bg-white/10 group-hover/item:text-white/60"
+                                className="border-slate-200 bg-white text-[8px] font-black uppercase text-slate-500 group-hover/item:border-white/20 group-hover/item:bg-white/10 group-hover/item:text-white/60"
                               >
                                 S, M, L, XL
                               </Badge>
                               <Badge
                                 variant="outline"
-                                className="border-border-default text-text-secondary bg-white text-[8px] font-black uppercase group-hover/item:border-white/20 group-hover/item:bg-white/10 group-hover/item:text-white/60"
+                                className="border-slate-200 bg-white text-[8px] font-black uppercase text-slate-500 group-hover/item:border-white/20 group-hover/item:bg-white/10 group-hover/item:text-white/60"
                               >
                                 Black
                               </Badge>
                             </div>
                           </div>
                           <div className="flex flex-col items-end gap-2 text-right">
-                            <p className="text-text-primary text-base font-black leading-none tracking-tighter group-hover/item:text-white">
+                            <p className="text-base font-black leading-none tracking-tighter text-slate-900 group-hover/item:text-white">
                               {product.price.toLocaleString('ru-RU')}₽
                             </p>
                             <Button
                               size="icon"
                               variant="ghost"
-                              className="text-text-muted h-8 w-8 rounded-xl bg-white shadow-sm transition-all hover:bg-black hover:text-white group-hover/item:bg-white/20 group-hover/item:text-white"
+                              className="h-8 w-8 rounded-xl bg-white text-slate-400 shadow-sm transition-all hover:bg-black hover:text-white group-hover/item:bg-white/20 group-hover/item:text-white"
                             >
                               <Plus className="h-3.5 w-3.5" />
                             </Button>
@@ -746,18 +743,18 @@ export default function SearchPageClient({
 
                   {/* Actions */}
                   <div className="space-y-4 pt-6">
-                    <div className="bg-accent-primary/10 border-accent-primary/20 flex flex-col items-center justify-between gap-3 rounded-3xl border p-4 md:flex-row">
+                    <div className="flex flex-col items-center justify-between gap-3 rounded-3xl border border-indigo-100/50 bg-indigo-50 p-4 md:flex-row">
                       <div className="space-y-1">
-                        <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-indigo-600">
                           Global Rewards Active
                         </p>
-                        <p className="text-accent-primary/60 text-[11px] font-medium">
+                        <p className="text-[11px] font-medium text-indigo-900/60">
                           Бесплатная доставка + 2 года гарантии на компоненты.
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="bg-accent-primary h-2 w-2 animate-pulse rounded-full" />
-                        <span className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
+                        <div className="h-2 w-2 animate-pulse rounded-full bg-indigo-500" />
+                        <span className="text-[10px] font-black uppercase tracking-widest text-indigo-900">
                           SYNTHA_SECURE_PAY
                         </span>
                       </div>
@@ -770,7 +767,7 @@ export default function SearchPageClient({
                       </Button>
                       <Button
                         variant="outline"
-                        className="border-border-default hover:border-text-primary h-12 w-12 shrink-0 rounded-3xl transition-all hover:bg-white"
+                        className="h-12 w-12 shrink-0 rounded-3xl border-slate-200 transition-all hover:border-slate-900 hover:bg-white"
                       >
                         <Heart className="h-5 w-5" />
                       </Button>

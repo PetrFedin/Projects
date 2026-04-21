@@ -1,16 +1,21 @@
 'use client';
 
+import React from 'react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AcademySegmentSwitcher } from '@/components/brand/AcademySegmentSwitcher';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getAcademyLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
-import { getCourseById } from '@/lib/education-data';
+import { ACADEMY_CTA_PRIMARY, ACADEMY_CTA_SECONDARY } from '@/lib/ui/academy-cta';
+import { cn } from '@/lib/utils';
+import { getCourseById, academyLevelLabels } from '@/lib/education-data';
 import {
   ArrowLeft,
   Clock,
@@ -20,15 +25,18 @@ import {
   Video,
   FileText,
   ChevronRight,
+  Archive,
+  MessageCircle,
 } from 'lucide-react';
-import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
-
-const LEVEL_LABELS: Record<string, string> = {
-  beginner: 'Начальный',
-  intermediate: 'Средний',
-  advanced: 'Продвинутый',
-  pro: 'Экспертный',
-};
+import { RegistryPageHeader } from '@/components/design-system';
+import { AcademyCatalogContextCard } from '@/components/academy/academy-catalog-context-card';
+import { AcademyCourseReviewsPanel } from '@/components/academy/academy-course-reviews-panel';
+import {
+  academyCohortChatId,
+  academyStaffChatId,
+  enrollInCourse,
+  isCourseEnrolled,
+} from '@/lib/academy/academy-course-chats';
 
 const ROLE_LABELS: Record<string, string> = {
   shop: 'Магазины',
@@ -44,9 +52,14 @@ export default function PlatformCourseDetailPage() {
   const id = params.id as string;
   const course = getCourseById(id);
 
+  const [learningStarted, setLearningStarted] = React.useState(false);
+  React.useEffect(() => {
+    setLearningStarted(isCourseEnrolled(id));
+  }, [id]);
+
   if (!course) {
     return (
-      <RegistryPageShell className="from-bg-surface2/80 to-bg-surface w-full max-w-none space-y-6 bg-gradient-to-b pb-16">
+      <CabinetPageContent maxWidth="full" className="from-bg-surface2/80 to-bg-surface w-full space-y-6 bg-gradient-to-b pb-16">
         <RegistryPageHeader
           title="Курс не найден"
           leadPlain="Курс отсутствует в демо-данных платформы."
@@ -65,7 +78,7 @@ export default function PlatformCourseDetailPage() {
         <Button variant="outline" asChild>
           <Link href={ROUTES.brand.academyPlatform}>Вернуться в Академию платформы</Link>
         </Button>
-      </RegistryPageShell>
+      </CabinetPageContent>
     );
   }
 
@@ -73,7 +86,7 @@ export default function PlatformCourseDetailPage() {
   const isNew = (course as { isNew?: boolean }).isNew;
 
   return (
-    <RegistryPageShell className="from-bg-surface2/80 to-bg-surface w-full max-w-none space-y-8 bg-gradient-to-b pb-16">
+    <CabinetPageContent maxWidth="full" className="from-bg-surface2/80 to-bg-surface w-full space-y-8 bg-gradient-to-b pb-16">
       <RegistryPageHeader
         title={course.title}
         leadPlain={course.description}
@@ -88,6 +101,19 @@ export default function PlatformCourseDetailPage() {
       />
 
       <div className="flex flex-col gap-6">
+        {course.archived ? (
+          <Alert className="border-amber-200/80 bg-amber-50/90 text-foreground">
+            <Archive className="size-4 text-amber-800" aria-hidden />
+            <AlertTitle>Архив витрины</AlertTitle>
+            <AlertDescription className="text-muted-foreground text-sm">
+              Курс снят с клиентского каталога{' '}
+              <Link href={ROUTES.academyPlatform} className="font-medium text-primary underline-offset-4 hover:underline">
+                /academy
+              </Link>
+              . Материалы в кабинете бренда доступны для внутреннего просмотра.
+            </AlertDescription>
+          </Alert>
+        ) : null}
         {course.thumbnail && (
           <div className="bg-bg-surface2 relative aspect-video overflow-hidden rounded-2xl">
             <Image
@@ -118,7 +144,7 @@ export default function PlatformCourseDetailPage() {
               <Users className="h-4 w-4" /> {course.studentsCount.toLocaleString()} слушателей
             </span>
             {course.level && (
-              <Badge variant="outline">{LEVEL_LABELS[course.level] ?? course.level}</Badge>
+              <Badge variant="outline">{academyLevelLabels[course.level] ?? course.level}</Badge>
             )}
           </div>
           {course.targetRoles && course.targetRoles.length > 0 && (
@@ -132,9 +158,37 @@ export default function PlatformCourseDetailPage() {
           )}
         </div>
 
-        <Button size="lg" className="w-full gap-2 rounded-xl font-semibold sm:w-auto">
-          <PlayCircle className="h-5 w-5" /> Начать обучение
-        </Button>
+        <AcademyCatalogContextCard course={course} />
+
+        {learningStarted ? (
+          <div className="flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap">
+            <Button variant="outline" size="sm" className={cn('w-full sm:w-auto', ACADEMY_CTA_SECONDARY)} asChild>
+              <Link href={ROUTES.brand.messagesChat(academyStaffChatId(id))} className="gap-1.5">
+                <MessageCircle className="size-3.5 shrink-0" aria-hidden />
+                Чат с куратором
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" className={cn('w-full sm:w-auto', ACADEMY_CTA_SECONDARY)} asChild>
+              <Link href={ROUTES.brand.messagesChat(academyCohortChatId(id))} className="gap-1.5">
+                <Users className="size-3.5 shrink-0" aria-hidden />
+                Группа участников
+              </Link>
+            </Button>
+          </div>
+        ) : (
+          <Button
+            type="button"
+            size="sm"
+            className={cn(ACADEMY_CTA_PRIMARY, 'w-full gap-1.5 sm:w-auto')}
+            onClick={() => {
+              enrollInCourse(id);
+              setLearningStarted(true);
+              router.push(ROUTES.brand.messagesChat(academyStaffChatId(id)));
+            }}
+          >
+            <PlayCircle className="size-3.5 shrink-0" aria-hidden /> Начать обучение
+          </Button>
+        )}
 
         {course.curriculum && course.curriculum.length > 0 && (
           <Card className="border-border-default/80 rounded-2xl border">
@@ -201,15 +255,25 @@ export default function PlatformCourseDetailPage() {
               ))}
             </div>
           )}
+
+        <Card className="border-border-default/80 rounded-2xl border">
+          <CardContent className="pt-6">
+            <AcademyCourseReviewsPanel
+              courseId={course.id}
+              catalogRating={course.rating}
+              embedded
+            />
+          </CardContent>
+        </Card>
       </div>
 
-      <Button variant="outline" asChild>
-        <Link href={ROUTES.brand.academyPlatform} className="gap-2">
-          <ArrowLeft className="h-4 w-4" /> К каталогу курсов
+      <Button variant="outline" size="sm" asChild className={ACADEMY_CTA_SECONDARY}>
+        <Link href={ROUTES.brand.academyPlatform} className="gap-1.5">
+          <ArrowLeft className="size-3.5 shrink-0" aria-hidden /> К каталогу курсов
         </Link>
       </Button>
 
       <RelatedModulesBlock links={getAcademyLinks()} />
-    </RegistryPageShell>
+    </CabinetPageContent>
   );
 }

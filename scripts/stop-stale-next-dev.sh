@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Останавливает «забытые» Next dev на дополнительных портах.
-# Порт 3000 (основной synth-1) не трогает.
+# Порт 3000 (основной Next в full) не трогает.
 set -euo pipefail
 
 kill_listen_port() {
@@ -22,4 +22,4 @@ kill_listen_port() {
 # Ранее использовавшийся второй dev-сервер (см. историю сессий)
 kill_listen_port 3010
 
-echo "Готово. Основной dev: cd synth-1 && npm run dev (порт 3000)."
+echo "Готово. Основной dev: cd _ai-share/synth-1-full && npm run dev (порт 3000 по умолчанию в package.json)."
