@@ -160,6 +160,7 @@ flowchart LR
 | — | **`tsc`:** `npx tsc --noEmit` в корне `synth-1-full` — ✅; в CI полный `typecheck` может быть с **`continue-on-error`** (см. `SOURCE_OF_TRUTH.md`) — строгость горячих путей отдельно (`typecheck:order-subset` и т.д.). | Локально держать зелёным полный `tsc` перед релизом ядра. |
 | — | **Валидаторы навигации:** `npm run validate:cabinet-nav` — ✅ при зелёном дереве nav/matrix. | См. §8.1. |
 | 2026-Q2 | **Этап 1 — решение §6.1:** зафиксирован **двойной контур** в `docs/phase-1/PHASE-1-DECISION-6.1.md`: **(1) демо** — базис export + operational orders и существующие E2E без регрессий; **(2) продукт** — волна B закрывает пробел `CROSS_ROLE_FLOWS` **§5.7** по потоку **B2B заказ** (подтверждение брендом ↔ видимость статуса у магазина). Инвентаризация демо-экранов: `docs/phase-1/PHASE-1-DEMO-INVENTORY.md`. | Связь §2 «B2B заказ» и §5.7; при появлении нового теста — обновить §5.4–5.6 в `CROSS_ROLE_FLOWS.md`. |
+| 2026-Q2 | **B2B v1 статус бренда → ритейлер:** `PATCH /api/b2b/v1/operational-orders/:id/status` (только `x-syntha-api-actor-role: brand`), персист `data/b2b-operational-status.json`; list/detail v1 подмешивают статус; E2E `b2b-operational-orders-api` — «PATCH v1 status (brand) → GET detail+list (shop)». | `CROSS_ROLE_FLOWS` §5.6–5.7; UI-only зеркало без fetch — 📋. |
 
 ---
 
@@ -184,7 +185,7 @@ flowchart LR
 |-----------|-----------|--------|-------------------------|
 | **`GET /api/ops/domain-events/health`** | Снимок шины и outbox для ops | ✅ | Playwright + Jest; не замена полного наблюдения в проде |
 | **`POST /api/b2b/export-order`** + идемпотентность | Экспорт заказа, доменные события | ✅ | Сквозной «второй актор видит» — 📋 (см. `CROSS_ROLE_FLOWS` §5.6) |
-| **Operational orders** `GET/PATCH` v1 | Мутации + чтение в e2e:api | ✅ | — |
+| **Operational orders** v1 | `GET` list/detail; `PATCH` **operational-note**, **`/status`** (бренд → общий статус в GET у ритейлера); e2e:api | ✅ | UI карточек без refetch — 📋 |
 | **`/api/processes`**, **`/api/processes/[id]`**, **`/api/processes/[id]/runtime`** | CRUD определений и runtime LIVE-процессов | 🟡 | Файл на диске; **❌** общая БД между инстансами; **📋** audit trail, миграции |
 | **Переменные** | `WORKFLOW_STORE_DISABLED`, `WORKFLOW_STORE_PATH` | ✅ док | Serverless без общего диска — только read-only / встроенные схемы |
 

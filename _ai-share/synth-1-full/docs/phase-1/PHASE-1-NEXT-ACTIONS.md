@@ -53,9 +53,14 @@ npm run test:e2e:api
 
 Список экранов с `placeholder-data` под `src/app` — **[`PHASE-1-DEMO-INVENTORY.md`](./PHASE-1-DEMO-INVENTORY.md)**. Дополнять при новых импортах.
 
-### Шаг 5 — DEMO2: два «якорных» дисклеймера
+### Шаг 5 — DEMO2: два «якорных» дисклеймера **[выполнено]**
 
-Повторить паттерн [`CORE_OPERATING_CHAIN.md`](../../src/lib/data/CORE_OPERATING_CHAIN.md) (круговой хаб поставщика): явный текст + `data-testid` на **двух** самых рискованных экранах с мок-KPI (кандидаты: `brand/analytics`, тяжёлые дашборды — уточняет PO).
+Паттерн как у `supplier-circular-demo-disclaimer` на `/factory/supplier/circular-hub`: явный текст + `data-testid`.
+
+| Экран | `data-testid` |
+|-------|----------------|
+| `/brand/analytics` | `brand-analytics-demo-disclaimer` |
+| `/shop/b2b/tracking` | `shop-b2b-tracking-demo-disclaimer` |
 
 ### Шаг 6 — После появления нового E2E
 

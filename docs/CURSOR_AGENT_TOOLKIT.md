@@ -97,7 +97,7 @@ bash scripts/install-cursor-user-mcp.sh
 |------|------------|
 | `tools/superpowers/` | Submodule [obra/superpowers](https://github.com/obra/superpowers) — исходники skills / `.cursor-plugin` |
 | `.cursor/mcp.json` | MCP: filesystem (npm), git/fetch (**Python** `python3 -m mcp_server_*`), **agent-browser** (npm). См. примечание про git/fetch ниже. |
-| `scripts/cursor-mcp-sync.py`, `scripts/install-cursor-user-mcp.sh` | Синхронизируют **`.cursor/mcp.json`** и **`~/.cursor/mcp.json`**: filesystem, git, fetch, agent-browser, **Exa / Figma / Sentry / Linear** (remote), **Semgrep** (если `semgrep` в PATH), опционально Tavily / Datadog по env. |
+| `scripts/cursor-mcp-sync.py`, `scripts/install-cursor-user-mcp.sh`, `scripts/mcp-run-semgrep.sh` | Синхронизируют **`.cursor/mcp.json`** и **`~/.cursor/mcp.json`**: filesystem, git, fetch, agent-browser, **Exa / Figma / Sentry / Linear** (remote), **Semgrep** через обёртку (без user-specific `PATH` в JSON), опционально Tavily / Datadog по env. |
 | `.cursor/skills/`, `.cursor/get-shit-done/`, … | **GSD** (после `npx get-shit-done-cc … --local --cursor`) |
 
 **Git / Fetch MCP:** пакеты `@modelcontextprotocol/server-git` и `server-fetch` **сняты с npm**; используются PyPI-пакеты **`mcp-server-git`** и **`mcp-server-fetch`** (`pip3 install --user …`). Конфиг в репозитории уже переведён на `python3 -m mcp_server_git` / `mcp_server_fetch`. Альтернатива upstream: `uvx mcp-server-git` / `uvx mcp-server-fetch`.

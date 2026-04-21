@@ -47,14 +47,10 @@
       "transport": "http"
     },
     "semgrep": {
-      "command": "npx",
+      "command": "bash",
       "args": [
-        "-y",
-        "mcp-server-semgrep"
-      ],
-      "env": {
-        "PATH": "/Users/petr/Library/Python/3.14/bin:/Users/petr/Library/Python/3.14/bin:/Applications/Cursor.app/Contents/Resources/app/resources/helpers:/Users/petr/.nvm/versions/node/v22.22.2/bin:/Library/Frameworks/Python.framework/Versions/3.14/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin"
-      }
+        "${workspaceFolder}/scripts/mcp-run-semgrep.sh"
+      ]
     }
   }
 }
