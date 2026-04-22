@@ -1,5 +1,7 @@
 import { UserRole, Chat as ChatConversation, ChatMessage, TaskStatus, TaskPriority } from '@/lib/types';
 
+export type { ChatMessage } from '@/lib/types';
+
 export type ID = string;
 
 export interface Person {

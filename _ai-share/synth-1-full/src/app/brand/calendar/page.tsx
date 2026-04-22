@@ -7,10 +7,11 @@ import { getAllCalendarEvents } from '@/lib/live-process/calendar-sync';
 import { getCalendarEvents } from '@/lib/collaboration/calendar-store';
 import type { CalendarEvent } from '@/lib/types/calendar';
 import StyleCalendar from '@/components/user/style-calendar';
-import { CollaborationCalendarSection } from '@/components/collaboration/CollaborationCalendarSection';
 import { CommunicationsNavBar } from '@/components/brand/communications/CommunicationsNavBar';
 import { ROUTES } from '@/lib/routes';
 import { CommunicationsUpcomingStrip } from '@/components/brand/communications/CommunicationsUpcomingStrip';
+import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+import { Calendar } from 'lucide-react';
 import { demoCalendarEventsForProductionStage } from '@/lib/production/stages-comm-demo';
 
 /** Преобразовать LIVE process события в CalendarEvent */
@@ -76,6 +77,13 @@ function BrandCalendarMain() {
 
   return (
     <div className="container max-w-6xl mx-auto px-4 py-6 pb-24 space-y-6">
+      <SectionInfoCard
+        title="Календарь"
+        description="Задачи, дедлайны и встречи. Участников и напоминания задаёте в карточке события."
+        icon={Calendar}
+        iconBg="bg-slate-100"
+        iconColor="text-slate-700"
+      />
       <StyleCalendar
         initialRole="brand"
         variant="full"
@@ -87,7 +95,6 @@ function BrandCalendarMain() {
         calendarRole={searchParams.get('role')}
         calendarAdd={searchParams.get('add')}
       />
-      <CollaborationCalendarSection />
     </div>
   );
 }

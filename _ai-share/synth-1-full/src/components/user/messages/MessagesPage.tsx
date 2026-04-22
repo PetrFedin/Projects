@@ -32,6 +32,7 @@ import { CreateChatDialog } from './Dialogs/CreateChatDialog';
 import { TaskEditDialog } from './Dialogs/TaskEditDialog';
 import { SUPPLY_AND_STUDIO_STEP_IDS } from '@/lib/production/stages-comm-demo';
 import { useBrandCommunicationsUnread } from '@/lib/communications/use-communications-unread';
+import type { ChatMessage } from '@/lib/types';
 
 export default function MessagesPage({ initialRole }: { initialRole?: string }) {
   const { unreadByChat } = useBrandCommunicationsUnread();
@@ -59,7 +60,10 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
   }, [searchParams, setChatQuery, setMsgSearch]);
 
   const { toggleStar, togglePin, deleteMessage, addReaction } = useMessageActions(activeChatId, setMessages, 'Petr');
-  const { taskThreads, taskStages, saveTask, updateTask, setTaskStatus } = useTaskActions('user_petr', setMessages);
+  const { taskThreads, taskStages, saveTask, updateTask, setTaskStatus } = useTaskActions('user_petr', setMessages, {
+    activeChatId,
+    calendarOwnerRole: currentRole,
+  });
   const { isAiProcessing, processAiCorrection } = useAIActions(chatState.composerText, chatState.setComposerText);
   const { recording, startRecording, stopRecording } = useRecording();
 
@@ -167,7 +171,6 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                 <TaskHub 
                   chatTasks={messages.filter(m => m.type === 'task')}
                   currentUser="user_petr"
-                  onOpenCreateTask={() => setTaskEditOpen(true)}
                   onOpenEditTask={(m) => { setTaskEditing(m); setTaskEditOpen(true); }}
                 />
               ) : (
@@ -190,7 +193,21 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                     onForwardMessage={() => {}}
                     onReplyToMessage={() => {}}
                     onScrollToMessage={() => {}}
-                    onOpenCreateTask={() => setTaskEditOpen(true)}
+                    onOpenCreateTask={(initial) => {
+                      const draft: ChatMessage = {
+                        id: initial?.id ?? Date.now(),
+                        user: 'user_petr',
+                        chatId: activeChatId,
+                        text: initial?.text ?? '',
+                        time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }),
+                        type: 'task',
+                        status: 'pending',
+                        priority: 'medium',
+                        ...initial,
+                      } as ChatMessage;
+                      setTaskEditing(draft);
+                      setTaskEditOpen(true);
+                    }}
                     setReminderEditing={() => {}}
                     setReminderOpen={() => {}}
                   />
@@ -210,7 +227,6 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                     onProcessAiCorrection={processAiCorrection}
                     onFileClick={() => {}}
                     onUnarchiveChat={() => {}}
-                    onOpenCreateTask={() => setTaskEditOpen(true)}
                     onAttachProduct={() => chatState.setComposerText(prev => prev ? `${prev}\n[Обсуждаю товар — прикрепите из каталога]` : '[Обсуждаю товар — прикрепите из каталога]')}
                   />
                 </>
@@ -238,10 +254,13 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
 
         <TaskEditDialog 
           open={taskEditOpen}
-          onOpenChange={setTaskEditOpen}
+          onOpenChange={(o) => {
+            setTaskEditOpen(o);
+            if (!o) setTaskEditing(null);
+          }}
           task={taskEditing}
           currentUser="user_petr"
-          participants={[]}
+          participants={(activeChat?.participants ?? []).map((p) => ({ id: p.id, name: p.name, role: p.role }))}
           onSave={(t) => {
             const exists = messages.some(m => m.id === t.id);
             if (exists) updateTask(t); else saveTask(t);

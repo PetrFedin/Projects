@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Download, Plus } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ChatMessage, TaskStatus, TaskPriority } from '@/lib/types';
 import { DataTablePro } from '@/components/data/DataTable/DataTablePro';
@@ -10,14 +10,12 @@ import { statusConfig, priorityConfig } from './constants';
 interface TaskHubProps {
   chatTasks: ChatMessage[];
   currentUser: string;
-  onOpenCreateTask: () => void;
   onOpenEditTask: (m: ChatMessage) => void;
 }
 
 export const TaskHub: React.FC<TaskHubProps> = ({
   chatTasks,
   currentUser,
-  onOpenCreateTask,
   onOpenEditTask
 }) => {
   const visibleTasks = React.useMemo(() => {
@@ -27,19 +25,14 @@ export const TaskHub: React.FC<TaskHubProps> = ({
   return (
     <div className="flex-1 p-4 overflow-y-auto">
       <div className="max-w-6xl mx-auto space-y-4">
-        <header className="flex justify-between items-end border-b border-zinc-100 pb-6">
+        <header className="flex justify-between items-end border-b border-zinc-100 pb-4">
           <div>
-            <h2 className="text-sm font-black uppercase tracking-tighter">Operational Task Hub</h2>
-            <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1">Cross-Functional Project & Milestone Tracking</p>
+            <h2 className="text-sm font-semibold text-zinc-900">Задачи в чате</h2>
+            <p className="text-xs text-zinc-500 mt-0.5">Создание — кнопка «Задача» в поле ввода.</p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="h-9 border-zinc-200 rounded-none font-black text-[9px] uppercase tracking-widest px-4">
-              <Download className="h-3.5 w-3.5 mr-2" /> EXPORT PORTFOLIO
-            </Button>
-            <Button size="sm" className="h-9 bg-black text-white rounded-none font-black text-[9px] uppercase tracking-widest px-6" onClick={onOpenCreateTask}>
-              <Plus className="h-3.5 w-3.5 mr-2" /> NEW OPERATIONAL TASK
-            </Button>
-          </div>
+          <Button variant="outline" size="sm" className="h-8 border-zinc-200 text-xs">
+            <Download className="h-3.5 w-3.5 mr-2" /> Экспорт
+          </Button>
         </header>
         
         <DataTablePro 

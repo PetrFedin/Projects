@@ -9,10 +9,9 @@ import { CalendarHeader } from './calendar/_components/CalendarHeader';
 import { CalendarGrid } from './calendar/_components/CalendarGrid';
 import { EventDialog } from './calendar/_components/EventDialog';
 import { ROLE_VISIBILITY } from './calendar/constants';
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buildLayerFocusFilter, parseAgendaLayersParam } from "@/lib/communications/calendar-bridge";
+import { saveCalendarEvent, deleteCalendarEvent } from '@/lib/collaboration/calendar-store';
 
 export default function StyleCalendar({
   initialRole,
@@ -71,10 +70,6 @@ export default function StyleCalendar({
     setSearch(contextSearchSeed.trim());
     contextSeedApplied.current = true;
   }, [contextSearchSeed]);
-  const [mysteryEnabled, setMysteryEnabled] = useState<boolean>(true);
-  const [aiAutomationEnabled, setAiAutomationEnabled] = useState<boolean>(true);
-  const [isInvestorMode, setIsInvestorMode] = useState<boolean>(false);
-  const [spamFilterEnabled, setSpamFilterEnabled] = useState<boolean>(false);
   const [layerFilter, setLayerFilter] = useState<Record<Layer, boolean>>({
     production: true,
     buying: true,
@@ -87,9 +82,8 @@ export default function StyleCalendar({
     trends: true,
     market: true,
     spam: false,
-  });
+  } as Record<Layer, boolean>);
   const lastCalendarQueryKey = useRef<string>('');
-  const [entityFilters, setEntityFilters] = useState<Record<string, string>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
   const [draft, setDraft] = useState<Partial<CalendarEvent>>({
@@ -242,6 +236,7 @@ export default function StyleCalendar({
     return events.filter(ev => {
       const allowedLayers = ROLE_VISIBILITY[currentRole] || ROLE_VISIBILITY['brand'];
       if (currentRole !== 'admin' && !allowedLayers.includes(ev.layer)) return false;
+      if (ev.status === 'cancelled') return false;
       if (!layerFilter[ev.layer]) return false;
       if (tokens.length > 0) {
         const blob = `${ev.title} ${ev.description ?? ''} ${ev.entityName ?? ''}`.toLowerCase();
@@ -272,29 +267,38 @@ export default function StyleCalendar({
   };
 
   const handleSaveEvent = () => {
+    const uid = user?.uid ?? 'guest';
+    const ownerRole = (currentRole as CalendarEvent['ownerRole']) || 'brand';
+    const ownerName = user?.displayName || 'Пользователь';
     if (modalMode === 'create') {
-        const newEvent: CalendarEvent = {
-            ...draft,
-            id: `new_${Date.now()}`,
-            ownerId: user?.uid || 'u1',
-            ownerRole: currentRole,
-            ownerName: user?.displayName || 'User',
-            calendarId: 'personal',
-            participants: draft.participants || []
-        } as CalendarEvent;
-        setEvents([...events, newEvent]);
-    } else {
-        setEvents(events.map(e => e.id === selectedEventId ? { ...e, ...draft } as CalendarEvent : e));
+      const newEvent: CalendarEvent = {
+        ...draft,
+        id: `new_${Date.now()}`,
+        ownerId: uid,
+        ownerRole: ownerRole,
+        ownerName,
+        calendarId: 'personal',
+        status: 'scheduled',
+        participants: draft.participants || [],
+      } as CalendarEvent;
+      saveCalendarEvent(uid, newEvent);
+      setEvents((prev) => [...prev, newEvent]);
+    } else if (selectedEventId) {
+      const prev = events.find((e) => e.id === selectedEventId);
+      const merged: CalendarEvent = { ...(prev as CalendarEvent), ...draft } as CalendarEvent;
+      saveCalendarEvent(uid, merged);
+      setEvents((prev) => prev.map((e) => (e.id === selectedEventId ? merged : e)));
     }
     setIsModalOpen(false);
   };
 
   const handleDeleteEvent = () => {
-      if (selectedEventId) {
-          setEvents(events.filter(e => e.id !== selectedEventId));
-          setIsModalOpen(false);
-          setSelectedEventId(null);
-      }
+    if (!selectedEventId) return;
+    const uid = user?.uid ?? 'guest';
+    deleteCalendarEvent(uid, selectedEventId);
+    setEvents((prev) => prev.filter((e) => e.id !== selectedEventId));
+    setIsModalOpen(false);
+    setSelectedEventId(null);
   };
 
   const handleEventClick = (event: CalendarEvent) => {
@@ -308,10 +312,8 @@ export default function StyleCalendar({
   useEffect(() => {
     const layersRaw = calendarLayers ?? null;
     const dateStr = calendarDate ?? null;
-    const partner = calendarPartner ?? null;
-    const role = calendarRole ?? null;
     const add = calendarAdd ?? null;
-    const urlKey = `${layersRaw ?? ''}|${dateStr ?? ''}|${partner ?? ''}|${role ?? ''}|${add ?? ''}`;
+    const urlKey = `${layersRaw ?? ''}|${dateStr ?? ''}|${add ?? ''}`;
     if (urlKey === lastCalendarQueryKey.current) return;
     lastCalendarQueryKey.current = urlKey;
 
@@ -322,13 +324,6 @@ export default function StyleCalendar({
     if (dateStr && /^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
       const [y, m, d] = dateStr.split('-').map(Number);
       _setCurrentDate(new Date(y, m - 1, d));
-    }
-    if (partner || role) {
-      setEntityFilters((prev) => ({
-        ...prev,
-        ...(partner ? { partner } : {}),
-        ...(role ? { role } : {}),
-      }));
     }
     if (add === '1') {
       const start = new Date();
@@ -356,17 +351,25 @@ export default function StyleCalendar({
     )}>
       {variant === 'full' ? (
         <div className="p-4 border-b border-slate-100">
-          <CalendarHeader 
-              state={{ 
-                  currentRole, view, currentDate, search, mysteryEnabled, 
-                  aiAutomationEnabled, isInvestorMode, spamFilterEnabled, layerFilter, entityFilters 
-              }}
-              actions={{ 
-                  setCurrentRole, setView, setCurrentDate, setSearch, 
-                  setMysteryEnabled, setAiAutomationEnabled, setIsInvestorMode, 
-                  setSpamFilterEnabled, setLayerFilter, setEntityFilters, handleOpenCreateModal 
-              }}
-              user={user}
+          <CalendarHeader
+            state={{
+              currentRole,
+              view,
+              currentDate,
+              search,
+              layerFilter,
+              entityFilters: {},
+            }}
+            actions={{
+              setCurrentRole,
+              setView,
+              setCurrentDate,
+              setSearch,
+              setLayerFilter,
+              setEntityFilters: () => {},
+              handleOpenCreateModal,
+            }}
+            user={user}
           />
         </div>
       ) : (

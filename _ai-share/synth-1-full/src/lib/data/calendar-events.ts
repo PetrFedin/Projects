@@ -3,8 +3,9 @@
  * Связывает Production, B2B, Finance, Tasks, Events, Messages — единый источник.
  */
 
-import { format, differenceInDays, startOfDay } from 'date-fns';
+import { format, differenceInDays, startOfDay, isSameDay } from 'date-fns';
 import { ROUTES } from '@/lib/routes';
+import { getCalendarEvents } from '@/lib/collaboration/calendar-store';
 
 export type EventSource =
   | 'production'
@@ -59,6 +60,19 @@ export interface CalendarEvent {
   targetChatId?: string;
   /** Участники (расширенный список: клиенты, партнёры, платформа) */
   participants?: string[];
+}
+
+/** Элемент ленты «Сегодня» в хабе Связь (сообщения / календарь) */
+export interface TodayStripItem {
+  id: string;
+  t: string;
+  d: string;
+  color: string;
+  calendarHref?: string;
+  startAt?: string;
+  endAt?: string;
+  reminderMinutes?: number;
+  description?: string;
 }
 
 export interface UpcomingDeadline {
@@ -168,6 +182,48 @@ export function getUpcomingDeadlines(
 /** Upcoming deadlines — автогенерация из ALL_CALENDAR_EVENTS (SS26 январь 2026) */
 export function getDefaultUpcomingDeadlines(options?: { limit?: number }): UpcomingDeadline[] {
   return getUpcomingDeadlines(ALL_CALENDAR_EVENTS, 2026, 0, options);
+}
+
+/** События на текущий календарный день: локальные из календаря + демо-строки за 2026-01-… при совпадении дня */
+export function getTodayCommunicationsStripItems(userId: string, options?: { limit?: number }): TodayStripItem[] {
+  const limit = options?.limit ?? 12;
+  const today = startOfDay(new Date());
+  const ymd = format(today, 'yyyy-MM-dd');
+  const out: TodayStripItem[] = [];
+
+  if (typeof window !== 'undefined') {
+    for (const ev of getCalendarEvents(userId)) {
+      if (ev.status === 'cancelled') continue;
+      if (!isSameDay(new Date(ev.startAt), today)) continue;
+      out.push({
+        id: `cal_${ev.id}`,
+        t: ev.title,
+        d: format(new Date(ev.startAt), 'HH:mm'),
+        color: 'bg-fuchsia-50 text-fuchsia-800 border-fuchsia-100',
+        calendarHref: buildCalendarUrl({ date: ymd, layers: 'tasks' }),
+        startAt: ev.startAt,
+        endAt: ev.endAt,
+        reminderMinutes: ev.reminderMinutesBefore,
+        description: ev.description,
+      });
+    }
+  }
+
+  for (const ev of ALL_CALENDAR_EVENTS) {
+    const dt = new Date(2026, 0, ev.d);
+    if (!isSameDay(dt, today)) continue;
+    out.push({
+      id: `demo_${ev.t}_${ev.d}`,
+      t: ev.t,
+      d: ev.startTime ?? '—',
+      color: ev.c.includes('bg-') ? ev.c : SOURCE_COLORS[ev.source] ?? 'bg-slate-50 text-slate-600 border-slate-100',
+      calendarHref: buildCalendarUrl({ layers: ev.source, date: `2026-01-${String(ev.d).padStart(2, '0')}` }),
+      description: ev.description,
+      reminderMinutes: ev.reminderMinutes,
+    });
+  }
+
+  return out.slice(0, limit);
 }
 
 /** @deprecated используйте getDefaultUpcomingDeadlines() */

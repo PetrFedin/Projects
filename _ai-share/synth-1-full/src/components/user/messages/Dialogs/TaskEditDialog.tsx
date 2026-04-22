@@ -48,7 +48,7 @@ export const TaskEditDialog: React.FC<TaskEditDialogProps> = ({
     setAssignees((task.assignees ?? []) || []);
     setWidgetTags(task.widgetTags || []);
     setIsPrivate(task.isPrivate || false);
-    setSyncToCalendar((task.reminderData?.isSyncedWithCalendar) ?? false);
+    setSyncToCalendar(task.reminderData?.isSyncedWithCalendar ?? true);
     const d = task.deadline ? safeDate(task.deadline) : null;
     setDeadline(d ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` : '');
   }, [open, task]);
