@@ -9,7 +9,7 @@
 
 ## CI
 
-Файл **`.github/workflows/ci.yml`**: на push/PR в `main` параллельно backend (`poetry install --without ml`, `pytest tests/smoke tests/unit`) и frontend в `_ai-share/synth-1-full/`: `npm ci`, **`npm run lint`** (`eslint.config.cjs`, области `src/lib` + корневой `lib/`), **`npm run typecheck:ci`** (`tsconfig.ci.json`; полный проект: `npm run typecheck`), **`npm run build`**.
+Файл **`.github/workflows/ci.yml`**: на push/PR в `main` параллельно backend (`poetry install --without ml`, `pytest tests/smoke tests/unit`) и frontend в `_ai-share/synth-1-full/`: `npm ci`, **`npm run lint`** (`eslint.config.cjs`, области `src/lib` + корневой `lib/`), **`npm run typecheck:ci`** (`tsconfig.ci.json`: корневой `lib/`, ключевые `src/lib/*` и весь **`src/lib/fashion/**`**; полный проект: `npm run typecheck`), **`npm run build`**.
 
 Локально backend-тесты: `poetry run pytest tests/smoke tests/unit` из корня (импорт `app` задаётся через `pythonpath` в `pyproject.toml`).
 

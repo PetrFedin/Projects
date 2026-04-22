@@ -28,3 +28,8 @@ export function compositionToPlainText(parts: CompositionPart[]): string {
     .map((p) => (p.percentage != null ? `${p.material} ${p.percentage}%` : p.material))
     .join(', ');
 }
+
+/** Lowercase text for keyword checks (string or structured composition + material). */
+export function compositionSearchText(product: Product): string {
+  return compositionToPlainText(parseComposition(product)).toLowerCase();
+}

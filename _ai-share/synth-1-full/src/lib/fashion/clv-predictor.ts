@@ -1,10 +1,12 @@
 import type { UserProfile } from '@/lib/types';
 import type { FashionClvV1 } from './types';
 
+type LoyaltyFields = { loyaltyPoints?: number; loyaltyPlan?: 'base' | 'start' | 'comfort' | 'premium' };
+
 /** Прогноз ценности клиента (Customer Lifetime Value for Fashion). */
-export function predictFashionClv(user: UserProfile): FashionClvV1 {
-  const points = user.loyaltyPoints || 0;
-  const plan = user.loyaltyPlan || 'base';
+export function predictFashionClv(user: UserProfile & LoyaltyFields): FashionClvV1 {
+  const points = user.loyaltyPoints ?? 0;
+  const plan = user.loyaltyPlan ?? 'base';
   
   // Эвристический расчет LTV на основе тарифа лояльности
   const planMultiplier: Record<string, number> = {
@@ -18,7 +20,7 @@ export function predictFashionClv(user: UserProfile): FashionClvV1 {
   const churn = Math.max(0, 100 - (points / 50));
 
   return {
-    customerId: user.id,
+    customerId: user.uid,
     predictedLtv: ltv,
     propensityToChurn: churn,
     categoryAffinity: ['Outerwear', 'Accessories'],

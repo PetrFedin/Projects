@@ -19,7 +19,8 @@
     "src/lib/repo/searchRepo.ts",
     "src/lib/repo/aiStylistRepo.ts",
     "src/lib/websocket-service.ts",
-    "src/lib/server/workshop2-dossier-metrics-archive.ts"
+    "src/lib/server/workshop2-dossier-metrics-archive.ts",
+    "src/lib/fashion/**/*.ts"
   ],
   "exclude": ["node_modules", ".next", "backup_duplicates"]
 }
