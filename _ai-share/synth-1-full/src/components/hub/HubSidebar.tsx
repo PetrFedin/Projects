@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { ChevronRight, ChevronDown } from 'lucide-react';
@@ -40,7 +40,7 @@ function hasSubsections(link: NavLink): link is NavLink & { subsections: { href:
   return !!(link.subsections?.length);
 }
 
-export function HubSidebar({
+function HubSidebarInner({
   groups,
   basePath,
   accentClass = 'text-slate-900',
@@ -175,5 +175,14 @@ export function HubSidebar({
         })}
       </div>
     </nav>
+  );
+}
+
+/** `useSearchParams` must sit under Suspense for static generation (admin/brand layouts). */
+export function HubSidebar(props: React.ComponentProps<typeof HubSidebarInner>) {
+  return (
+    <Suspense fallback={<nav className={cn('flex flex-col h-full', props.className)} aria-hidden />}>
+      <HubSidebarInner {...props} />
+    </Suspense>
   );
 }

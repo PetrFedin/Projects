@@ -1,6 +1,6 @@
 # Synth-1 Fashion OS — Backend
 
-FastAPI backend for the Synth-1 Fashion Intelligence Platform.
+FastAPI backend for the Synth-1 Fashion Intelligence Platform. **Next.js UI:** `_ai-share/synth-1-full/`. Онбординг, CI и матрица env: **`docs/RUNBOOK.md`**.
 
 ## Quick start
 

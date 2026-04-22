@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Shield, Loader2, Menu } from 'lucide-react';
@@ -134,7 +134,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
 
             <main className="animate-in fade-in duration-300">
-              <ErrorBoundary>{children}</ErrorBoundary>
+              <ErrorBoundary>
+                <Suspense fallback={null}>{children}</Suspense>
+              </ErrorBoundary>
             </main>
           </div>
         </div>

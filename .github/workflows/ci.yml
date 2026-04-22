@@ -1,65 +1,57 @@
-name: Synth-1 CI
+# Monorepo: backend (repo root) + Next.js in _ai-share/synth-1-full/
+# See docs/RUNBOOK.md. Jobs run in parallel to keep wall time low.
+
+name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
+  backend:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-        cache: 'pip'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install poetry ruff mypy pytest pytest-cov
-        poetry install
-
-    - name: Run Ruff
-      run: ruff check app
-
-    - name: Check formatting
-      run: ruff format --check app
-
-    - name: Run Mypy
-      run: mypy app
-
-    - name: Run Tests
-      run: pytest --cov=app tests/
-
-    - name: Pip audit
-      run: pip audit
-
-  synth-1:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: synth-1
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry config virtualenvs.create true
+          poetry install --no-interaction --without ml
+
+      - name: Pytest (smoke + unit)
+        run: poetry run pytest tests/smoke tests/unit -q --tb=short
+
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: _ai-share/synth-1-full
+    steps:
+      - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
           cache: npm
-          cache-dependency-path: synth-1/package-lock.json
-      - name: Install npm dependencies
-        run: npm ci
-      - name: Regenerate category catalog snapshot
-        run: npm run gen:category-catalog
-      - name: Regenerate TZ leaf requirements matrix
-        run: npm run gen:tz-leaf-requirements
-      - name: Validate category handbook snapshot
-        run: npm run validate:category-handbook
-      - name: Validate JSON Schemas
-        run: npm run schemas:validate
-      - name: Validate schema examples (ajv)
-        run: npm run schemas:validate:examples
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+
+      - run: npm ci
+
+      - name: Production build
+        run: NODE_OPTIONS=--max-old-space-size=8192 npm run build

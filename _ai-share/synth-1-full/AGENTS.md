@@ -1,5 +1,7 @@
 # Synth-1 — AI Agent Instructions
 
+Монорепо: фронт здесь, API в корне. **`../../docs/RUNBOOK.md`**.
+
 ## Commands (/)
 Наберите `/` в Cursor чате — доступны команды из `.cursor/commands/`. Проектные: syntha-design-audit, syntha-b2b-feature, syntha-sync-integration. Общие: lint-fix, code-review, refactor-code и др.
 
