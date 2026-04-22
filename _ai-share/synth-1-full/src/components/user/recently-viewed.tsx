@@ -21,8 +21,8 @@ export default function RecentlyViewed() {
     const viewed = localStorage.getItem(`syntha_recently_viewed_${user.uid}`);
     if (viewed) {
       const productIds = JSON.parse(viewed);
-      const products = productIds
-        .map((id: string) => allProducts.find(p => p.id === id))
+      const products = (productIds as string[])
+        .map((id: string) => allProducts.find((p: Product) => p.id === id))
         .filter((p): p is Product => p !== undefined && p.price !== undefined)
         .slice(0, 8);
       setViewedProducts(products);

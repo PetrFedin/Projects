@@ -95,13 +95,20 @@ export function useCollaborativeOrder() {
         ]);
         
         // Convert activity logs to recent activity
-        const activities: RecentActivity[] = b2bActivityLogs.slice(0, 5).map(log => ({
-          userAvatar: `/avatars/${log.userName?.toLowerCase().replace(' ', '-')}.jpg`,
-          userInitials: log.userName?.split(' ').map(n => n[0]).join('') || 'U',
-          userName: log.userName || 'User',
-          action: log.description || log.details,
-          time: getRelativeTime(log.timestamp)
-        }));
+        const activities: RecentActivity[] = b2bActivityLogs.slice(0, 5).map((log) => {
+          const displayName = log.userName ?? log.actor.name ?? 'User';
+          return {
+            userAvatar: `/avatars/${displayName.toLowerCase().replace(' ', '-')}.jpg`,
+            userInitials:
+              displayName
+                .split(' ')
+                .map((n: string) => n[0])
+                .join('') || 'U',
+            userName: displayName,
+            action: log.description ?? log.details ?? '',
+            time: getRelativeTime(log.timestamp),
+          };
+        });
         
         setRecentActivity(activities);
         

@@ -158,8 +158,24 @@ export type ProfessionalRole =
   | 'analyst' 
   | 'creative_director' 
   | 'visual_merchandiser' 
+  | 'sales_representative'
+  | 'merchandiser'
   | 'blogger' 
   | 'influencer';
+
+/** Media / academy program (see `src/data/programs.ts`). */
+export interface Program {
+  id: string;
+  title: string;
+  description: string;
+  coverUrl: string;
+  subscribers: number;
+  host: { name: string; photoUrl: string; role: string };
+  sponsors: { name: string; logoUrl: string; url: string }[];
+  schedule: { dayOfWeek: string; time: string };
+  category: string;
+  pastBroadcasts: { id: string; title: string; date: string; duration: number; imageUrl: string }[];
+}
 
 export interface CareerResume {
   id: string;

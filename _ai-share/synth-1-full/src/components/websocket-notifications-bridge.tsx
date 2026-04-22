@@ -1,6 +1,6 @@
 'use client';
 
-import { useWebSocket } from '@/hooks/useWebSocket';
+import { useWebSocket, type WSMessage } from '@/hooks/useWebSocket';
 import { useNotifications } from '@/providers/notifications-provider';
 import { useEffect, useRef } from 'react';
 
@@ -12,19 +12,24 @@ import { useEffect, useRef } from 'react';
 export function WebSocketNotificationsBridge() {
   const { addNotification } = useNotifications();
   const addRef = useRef(addNotification);
-  addRef.current = addNotification;
+  useEffect(() => {
+    addRef.current = addNotification;
+  }, [addNotification]);
 
-  const onEvent = (ev: { type: string; title: string; body?: string; href?: string }) => {
-    if (ev.type === 'ping') return;
-    const type = (ev.type as 'order' | 'qc' | 'edo' | 'sla' | 'payment' | 'po' | 'system') || 'system';
-    addRef.current({
-      type,
-      title: ev.title,
-      body: ev.body,
-      href: ev.href,
-    });
-  };
-
-  useWebSocket(onEvent);
+  useWebSocket({
+    onMessage: (msg: WSMessage) => {
+      if (msg.type !== 'notification') return;
+      const ev = msg.payload;
+      if (ev.type === 'ping') return;
+      const type =
+        (ev.type as 'order' | 'qc' | 'edo' | 'sla' | 'payment' | 'po' | 'system') || 'system';
+      addRef.current({
+        type,
+        title: ev.title,
+        body: ev.body,
+        href: ev.href,
+      });
+    },
+  });
   return null;
 }

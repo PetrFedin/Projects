@@ -213,6 +213,10 @@ export interface B2BActivityLog {
   actor: { id: string, name: string, type: 'brand' | 'retailer' | 'system' };
   target: { id: string, name: string, type: 'brand' | 'retailer' | 'product' | 'linesheet' };
   details?: string;
+  /** Legacy UI field (mock logs); prefer `actor.name`. */
+  userName?: string;
+  /** Legacy UI field (mock logs); prefer `details`. */
+  description?: string;
 }
 
 export interface B2BConnection {

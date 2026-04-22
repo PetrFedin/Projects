@@ -64,7 +64,17 @@ export default function StyleCalendar({
   const [isInvestorMode, setIsInvestorMode] = useState<boolean>(false);
   const [spamFilterEnabled, setSpamFilterEnabled] = useState<boolean>(false);
   const [layerFilter, setLayerFilter] = useState<Record<Layer, boolean>>({
-    production: true, buying: true, events: true, drops: true, content: true, logistics: true, orders: true, communications: true, trends: true, spam: false,
+    production: true,
+    buying: true,
+    events: true,
+    drops: true,
+    content: true,
+    logistics: true,
+    orders: true,
+    communications: true,
+    trends: true,
+    market: true,
+    spam: false,
   });
   const [entityFilters, setEntityFilters] = useState<Record<string, string>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,7 +85,7 @@ export default function StyleCalendar({
     type: 'event',
     visibility: 'public',
     startAt: new Date().toISOString().slice(0, 16),
-    endAt: new Date(Date.now() + 3600000).toISOString().slice(0, 16),
+    endAt: new Date(new Date().getTime() + 3600000).toISOString().slice(0, 16),
     participants: []
   });
 

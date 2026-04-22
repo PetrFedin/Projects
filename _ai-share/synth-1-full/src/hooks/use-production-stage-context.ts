@@ -39,7 +39,10 @@ export type ProductionStageContextValue = {
 export function useProductionStageContext(): ProductionStageContextValue {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const parsed = useMemo(() => parseStageUrlSearchParams(searchParams), [searchParams]);
+  const parsed = useMemo(
+    () => parseStageUrlSearchParams(searchParams ?? new URLSearchParams()),
+    [searchParams]
+  );
   const collectionFlowKey = useMemo(
     () => collectionFlowStorageKey(parsed.collectionId),
     [parsed.collectionId]

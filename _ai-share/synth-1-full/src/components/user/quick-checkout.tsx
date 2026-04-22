@@ -33,10 +33,10 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
     setProcessing(true);
     try {
       // Create payment intent
-      const paymentIntent = await paymentRepository.createPaymentIntent(user.uid, total);
-      
+      const paymentIntent = await paymentRepository.createPaymentIntent(total, 'RUB', { userId: user.uid });
+
       // Confirm payment (mock - always succeeds)
-      await paymentRepository.confirmPayment(paymentIntent.id);
+      await paymentRepository.confirmPayment(paymentIntent.paymentIntentId);
       
       // Create order
       const order = await ordersRepository.createOrder(user.uid, {
@@ -46,6 +46,7 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
         shipping,
         tax,
         total,
+        status: 'processing',
         paymentStatus: 'paid',
         shippingAddress: {
           firstName: user.displayName.split(' ')[0] || 'Елена',
@@ -61,7 +62,7 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
       
       // Clear cart
       for (const item of cart) {
-        await cartRepository.removeItem(user.uid, item.id);
+        await cartRepository.removeItem(user.uid, item.id, item.selectedSize, item.color);
       }
       
       toast({
