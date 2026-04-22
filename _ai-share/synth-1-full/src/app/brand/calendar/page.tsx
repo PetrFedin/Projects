@@ -9,6 +9,7 @@ import type { CalendarEvent } from '@/lib/types/calendar';
 import StyleCalendar from '@/components/user/style-calendar';
 import { CollaborationCalendarSection } from '@/components/collaboration/CollaborationCalendarSection';
 import { CommunicationsNavBar } from '@/components/brand/communications/CommunicationsNavBar';
+import { ROUTES } from '@/lib/routes';
 import { CommunicationsUpcomingStrip } from '@/components/brand/communications/CommunicationsUpcomingStrip';
 import { demoCalendarEventsForProductionStage } from '@/lib/production/stages-comm-demo';
 
@@ -80,6 +81,11 @@ function BrandCalendarMain() {
         variant="full"
         externalEvents={externalEvents}
         contextSearchSeed={contextSearchSeed || undefined}
+        calendarLayers={searchParams.get('layers')}
+        calendarDate={searchParams.get('date')}
+        calendarPartner={searchParams.get('partner')}
+        calendarRole={searchParams.get('role')}
+        calendarAdd={searchParams.get('add')}
       />
       <CollaborationCalendarSection />
     </div>
@@ -90,7 +96,7 @@ export default function BrandCalendarPage() {
   return (
     <div className="space-y-4">
       <div className="sticky top-0 z-30 space-y-2 border-b border-slate-100 bg-slate-50/90 px-4 py-3 backdrop-blur-sm supports-[backdrop-filter]:bg-slate-50/75">
-        <CommunicationsNavBar currentPath="/brand/calendar" />
+        <CommunicationsNavBar currentPath={ROUTES.brand.calendar} />
         <CommunicationsUpcomingStrip />
       </div>
       <Suspense fallback={<div className="container max-w-6xl mx-auto px-4 py-10 text-sm text-slate-500">Загрузка календаря…</div>}>

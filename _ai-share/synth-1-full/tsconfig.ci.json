@@ -24,7 +24,8 @@
     "src/lib/production/**/*.ts",
     "src/lib/logic/**/*.ts",
     "src/lib/types/**/*.ts",
-    "src/lib/b2b-features/**/*.ts"
+    "src/lib/b2b-features/**/*.ts",
+    "src/lib/communications/**/*.ts"
   ],
   "exclude": ["node_modules", ".next", "backup_duplicates"]
 }

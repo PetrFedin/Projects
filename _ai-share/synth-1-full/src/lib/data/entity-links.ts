@@ -353,9 +353,17 @@ export function getCollectionLinks(): EntityLink[] {
   ];
 }
 
-/** Ссылки для коммуникаций */
+/** Ссылки для хаба «Связь» (сообщения / календарь и соседние модули) */
 export function getCommLinks(): EntityLink[] {
-  return getTeamLinks();
+  return [
+    { label: 'Календарь', href: ROUTES.brand.calendar },
+    { label: 'Задачи', href: ROUTES.brand.tasks },
+    { label: 'Документы', href: ROUTES.brand.documents },
+    { label: 'Live', href: ROUTES.brand.live },
+    { label: 'Отзывы', href: ROUTES.brand.reviews },
+    { label: 'B2B заказы', href: ROUTES.brand.b2bOrders },
+    { label: 'Команда', href: ROUTES.brand.team },
+  ];
 }
 
 /** Ссылки для Cycle Counting */

@@ -4,6 +4,7 @@
  */
 
 import { format, differenceInDays, startOfDay } from 'date-fns';
+import { ROUTES } from '@/lib/routes';
 
 export type EventSource =
   | 'production'
@@ -195,7 +196,7 @@ export function buildCalendarUrl(params: {
   if (params.collection) q.set('collection', params.collection);
   if (params.add) q.set('add', '1');
   const query = q.toString();
-  return `/brand/calendar${query ? `?${query}` : ''}`;
+  return `${ROUTES.brand.calendar}${query ? `?${query}` : ''}`;
 }
 
 /** Season Pipeline — фазы fashion-цикла. layers — какие слои календаря релевантны */

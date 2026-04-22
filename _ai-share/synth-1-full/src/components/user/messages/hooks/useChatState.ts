@@ -10,6 +10,7 @@ import {
   matrixContextChatRow,
   matrixContextMessages,
 } from '@/lib/production/stages-comm-demo';
+import { markMessagesRead } from '@/lib/communications/message-read-state';
 
 export function useChatState(initialRole?: string) {
   const searchParams = useSearchParams();
@@ -100,6 +101,15 @@ export function useChatState(initialRole?: string) {
   React.useEffect(() => {
     if (activeChatId) setMessages(messagesForChat(activeChatId));
   }, [activeChatId, messagesForChat]);
+
+  /** Mark thread read when opened (demo localStorage; syncs hub unread badge). */
+  React.useEffect(() => {
+    if (!activeChatId || !messages.length) return;
+    markMessagesRead(
+      activeChatId,
+      messages.map((m) => m.id)
+    );
+  }, [activeChatId, messages]);
   
   const [chatQuery, setChatQuery] = React.useState('');
   const [msgSearch, setMsgSearch] = React.useState('');

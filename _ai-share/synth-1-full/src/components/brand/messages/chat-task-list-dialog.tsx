@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Clock, CornerDownRight, AlertCircle, ArrowUp, ArrowDown } from "lucide-react";
+import { CheckCircle, Clock, CornerDownRight, AlertCircle, ArrowUp, ArrowDown, ShieldAlert } from "lucide-react";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -53,6 +53,7 @@ const priorityConfig: Record<TaskPriority, { label: string; icon: React.ElementT
     low: { label: 'Низкий', icon: ArrowDown, color: 'text-gray-500' },
     medium: { label: 'Средний', icon: ArrowUp, color: 'text-amber-600' },
     high: { label: 'Высокий', icon: AlertCircle, color: 'text-red-600' },
+    critical: { label: 'Критический', icon: ShieldAlert, color: 'text-red-700' },
 };
 
 function TaskBoard({ tasks = [], onTaskStatusChange, onTaskClick }: { tasks?: ChatMessage[], onTaskStatusChange: (taskId: number, newStatus: TaskStatus) => void, onTaskClick: (task: ChatMessage) => void }) {
@@ -172,7 +173,7 @@ export function ChatTaskListDialog({ isOpen, onOpenChange, tasks = [], onTaskSta
                                 const st = task.status ? statusConfig[task.status] : statusConfig.pending;
                                 const Icon = st.icon;
                                 const pr = task.priority ? priorityConfig[task.priority] : undefined;
-                                const PriorityIcon = pr?.icon;
+                                const PriorityIcon = pr?.icon ?? null;
 
                                 return (
                                     <React.Fragment key={task.id}>
@@ -211,7 +212,7 @@ export function ChatTaskListDialog({ isOpen, onOpenChange, tasks = [], onTaskSta
                                         </TableCell>
 
                                         <TableCell>
-                                            {pr && (
+                                            {pr && PriorityIcon && (
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <div className={cn("flex items-center gap-1", pr.color)}>

@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Clock, CornerDownRight, AlertCircle, ArrowUp, ArrowDown, GitCommit, Paperclip, Send } from "lucide-react";
+import { CheckCircle, Clock, CornerDownRight, AlertCircle, ArrowUp, ArrowDown, GitCommit, Paperclip, Send, ShieldAlert } from "lucide-react";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -50,6 +50,7 @@ const priorityConfig: Record<TaskPriority, { label: string; icon: React.ElementT
     low: { label: 'Низкий', icon: ArrowDown, color: 'text-gray-500' },
     medium: { label: 'Средний', icon: ArrowUp, color: 'text-amber-600' },
     high: { label: 'Высокий', icon: AlertCircle, color: 'text-red-600' },
+    critical: { label: 'Критический', icon: ShieldAlert, color: 'text-red-700' },
 };
 
 export function TaskDetailsDialog({ isOpen, onOpenChange, task }: TaskDetailsDialogProps) {

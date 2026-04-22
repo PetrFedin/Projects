@@ -11,6 +11,7 @@ import {
   Sparkles, Phone, Video, MoreVertical, Users, Archive, Settings, ExternalLink, Package, Factory, Calendar
 } from 'lucide-react';
 import { Chat as ChatConversation } from '@/lib/types';
+import { ROUTES } from '@/lib/routes';
 import { ID } from './types';
 
 interface ChatHeaderProps {
@@ -52,12 +53,12 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
             </div>
             <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest truncate opacity-60">{activeChat.subtitle}</span>
             {(activeChat as any).linkOrderId && (
-              <Link href="/brand/b2b-orders" className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-600 border border-indigo-100 text-[8px] font-bold uppercase tracking-widest hover:bg-indigo-100 transition-colors">
+              <Link href={ROUTES.brand.b2bOrders} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-600 border border-indigo-100 text-[8px] font-bold uppercase tracking-widest hover:bg-indigo-100 transition-colors">
                 <Package className="h-2.5 w-2.5" /> Заказ
               </Link>
             )}
             {(activeChat as any).linkCollectionId && (
-              <Link href="/brand/production" className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 text-amber-600 border border-amber-100 text-[8px] font-bold uppercase tracking-widest hover:bg-amber-100 transition-colors">
+              <Link href={ROUTES.brand.production} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 text-amber-600 border border-amber-100 text-[8px] font-bold uppercase tracking-widest hover:bg-amber-100 transition-colors">
                 <Factory className="h-2.5 w-2.5" /> Production
               </Link>
             )}

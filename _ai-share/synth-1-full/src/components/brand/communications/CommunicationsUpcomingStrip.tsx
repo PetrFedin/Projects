@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Calendar, ChevronRight, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getDefaultUpcomingDeadlines, buildCalendarUrl } from '@/lib/data/calendar-events';
+import { ROUTES } from '@/lib/routes';
 
 export function CommunicationsUpcomingStrip({ limit = 5 }: { limit?: number }) {
   const items = getDefaultUpcomingDeadlines({ limit });
@@ -24,7 +25,7 @@ export function CommunicationsUpcomingStrip({ limit = 5 }: { limit?: number }) {
         ) : items.map((d, i) => (
           <Link
             key={`${d.t}-${d.d}-${i}`}
-            href={d.calendarHref || '/brand/calendar'}
+            href={d.calendarHref || ROUTES.brand.calendar}
             className={cn(
               "shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-lg border bg-white transition-all text-[10px] font-bold uppercase tracking-tight",
               d.isOverdue ? "border-rose-200 hover:border-rose-300 hover:bg-rose-50/50" : "border-slate-100 hover:border-indigo-200 hover:bg-indigo-50/30"
@@ -37,7 +38,7 @@ export function CommunicationsUpcomingStrip({ limit = 5 }: { limit?: number }) {
         ))}
       </div>
       <Link
-        href="/brand/calendar"
+        href={ROUTES.brand.calendar}
         className="shrink-0 flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-indigo-600 hover:text-indigo-700"
       >
         Календарь <ChevronRight className="h-3 w-3" />

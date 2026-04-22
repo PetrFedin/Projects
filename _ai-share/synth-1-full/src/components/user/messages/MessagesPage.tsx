@@ -31,9 +31,11 @@ import { ConfirmDialog } from './Dialogs/ConfirmDialog';
 import { CreateChatDialog } from './Dialogs/CreateChatDialog';
 import { TaskEditDialog } from './Dialogs/TaskEditDialog';
 import { SUPPLY_AND_STUDIO_STEP_IDS } from '@/lib/production/stages-comm-demo';
+import { useBrandCommunicationsUnread } from '@/lib/communications/use-communications-unread';
 
 export default function MessagesPage({ initialRole }: { initialRole?: string }) {
-  const searchParams = useSearchParams();
+  const { unreadByChat } = useBrandCommunicationsUnread();
+  const searchParams = useSearchParams() ?? new URLSearchParams();
   const urlCommContextApplied = React.useRef(false);
   const chatState = useChatState(initialRole);
   const { 
@@ -142,7 +144,7 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
             onOpenCreateChat={() => setCreateChatOpen(true)}
             chatQuery={chatQuery}
             setChatQuery={setChatQuery}
-            unreadCountByChat={{}}
+            unreadCountByChat={unreadByChat}
             typingUsers={{}}
             currentUser="user_petr"
           />

@@ -15,6 +15,7 @@ export const USER_STATUSES = [
 export const ROLE_LABELS = {
   admin: 'Админ',
   brand: 'Бренд',
+  b2b: 'B2B',
   client: 'Клиент',
   shop: 'Магазин',
   distributor: 'Дистрибьютор',
@@ -22,15 +23,16 @@ export const ROLE_LABELS = {
   manufacturer: 'Производитель',
 } satisfies Record<UserRole, string>;
 
-export const ROLE_PERMISSIONS = {
+export const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
   admin: ['all', 'admin', 'brand', 'distributor', 'supplier', 'manufacturer', 'shop', 'client', 'team', 'starred', 'archived'],
   brand: ['all', 'admin', 'brand', 'distributor', 'supplier', 'manufacturer', 'shop', 'client', 'team', 'production', 'b2b_orders', 'collections', 'starred', 'archived'],
+  b2b: ['all', 'admin', 'brand', 'shop', 'team', 'starred', 'archived', 'client', 'b2b_orders'],
   client: ['all', 'admin', 'brand', 'shop', 'starred', 'archived'],
   shop: ['all', 'admin', 'brand', 'distributor', 'team', 'starred', 'archived', 'client'],
   distributor: ['all', 'admin', 'brand', 'shop', 'team', 'starred', 'archived'],
   supplier: ['all', 'admin', 'brand', 'manufacturer', 'team', 'starred', 'archived'],
   manufacturer: ['all', 'admin', 'brand', 'supplier', 'team', 'starred', 'archived'],
-} satisfies Record<UserRole, string[]>;
+};
 
 export const chatGroupConfig = {
   all: { label: 'Все потоки', icon: LayoutGrid },

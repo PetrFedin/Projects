@@ -53,3 +53,9 @@
 **Демо-поведение внутри контура:** KPI в шапке и часть сценариев остаются на заглушках; при `NEXT_PUBLIC_USE_FASTAPI=true` и доступном API часть метрик может подставляться с сервера (`fastApiService.getDashboardKpis` в layout). Не интерпретировать моки как боевые метрики.
 
 **Смежные зоны:** `/brand/academy/*` (отдельный `academy/layout.tsx`), `/brand/integrations/*`, календарь, документы — те же правила: клиентские компоненты, query-параметры, локальные сторы там, где нет бэка.
+
+### Хаб «Связь»: сообщения и календарь (`/brand/messages`, `/brand/calendar`)
+
+- **Навбар и лента:** `CommunicationsNavBar`, `CommunicationsUpcomingStrip`; дедлайны из `src/lib/data/calendar-events.ts` (`getDefaultUpcomingDeadlines`, `buildCalendarUrl` → `ROUTES.brand.calendar`).
+- **Календарь (операционный UI):** `StyleCalendar` получает query с **родительской** страницы (`calendarLayers`, `calendarDate`, …), чтобы не вызывать `useSearchParams` внутри виджета (он встраивается и в admin/shop без Suspense). Слои из agenda (`?layers=orders,tasks`) мапятся на слои StyleCalendar через `src/lib/communications/calendar-bridge.ts`.
+- **Сообщения:** `MessagesPage` + `mockChatHistories`; непрочитанные для бейджа — подсчёт по сообщениям **не от** `user_petr` без `readBy`, хранение прочитанного в `localStorage` (`message-read-state.ts`), синк с списком чатов и навбаром через `useBrandCommunicationsUnread`.

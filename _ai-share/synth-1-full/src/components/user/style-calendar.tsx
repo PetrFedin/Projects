@@ -12,23 +12,35 @@ import { ROLE_VISIBILITY } from './calendar/constants';
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { buildLayerFocusFilter, parseAgendaLayersParam } from "@/lib/communications/calendar-bridge";
 
-export default function StyleCalendar({ 
-    initialRole, 
-    variant = 'full',
-    externalDate,
-    onDateChange,
-    externalEvents,
-    contextSearchSeed,
-}: { 
-    initialRole?: any, 
-    variant?: 'full' | 'compact',
-    externalDate?: Date,
-    onDateChange?: (date: Date) => void,
-    /** События из LIVE process, collaboration и др. — объединяются с дефолтными */
-    externalEvents?: CalendarEvent[],
-    /** Из URL (матрица этапов): предзаполнить поиск артикул / заказ / сезон */
-    contextSearchSeed?: string,
+export default function StyleCalendar({
+  initialRole,
+  variant = 'full',
+  externalDate,
+  onDateChange,
+  externalEvents,
+  contextSearchSeed,
+  calendarLayers,
+  calendarDate,
+  calendarPartner,
+  calendarRole,
+  calendarAdd,
+}: {
+  initialRole?: any;
+  variant?: 'full' | 'compact';
+  externalDate?: Date;
+  onDateChange?: (date: Date) => void;
+  /** События из LIVE process, collaboration и др. — объединяются с дефолтными */
+  externalEvents?: CalendarEvent[];
+  /** Из URL (матрица этапов): предзаполнить поиск артикул / заказ / сезон */
+  contextSearchSeed?: string;
+  /** Из родителя (напр. `/brand/calendar`): query без useSearchParams внутри виджета */
+  calendarLayers?: string | null;
+  calendarDate?: string | null;
+  calendarPartner?: string | null;
+  calendarRole?: string | null;
+  calendarAdd?: string | null;
 }) {
   const { user } = useAuth();
   const { orders } = useUserOrders();
@@ -76,6 +88,7 @@ export default function StyleCalendar({
     market: true,
     spam: false,
   });
+  const lastCalendarQueryKey = useRef<string>('');
   const [entityFilters, setEntityFilters] = useState<Record<string, string>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
@@ -290,6 +303,51 @@ export default function StyleCalendar({
       setModalMode('edit');
       setIsModalOpen(true);
   };
+
+  /** Deep links from agenda strip / messages (passed from page with Suspense). */
+  useEffect(() => {
+    const layersRaw = calendarLayers ?? null;
+    const dateStr = calendarDate ?? null;
+    const partner = calendarPartner ?? null;
+    const role = calendarRole ?? null;
+    const add = calendarAdd ?? null;
+    const urlKey = `${layersRaw ?? ''}|${dateStr ?? ''}|${partner ?? ''}|${role ?? ''}|${add ?? ''}`;
+    if (urlKey === lastCalendarQueryKey.current) return;
+    lastCalendarQueryKey.current = urlKey;
+
+    const sources = parseAgendaLayersParam(layersRaw);
+    if (sources.length > 0) {
+      setLayerFilter(buildLayerFocusFilter(sources));
+    }
+    if (dateStr && /^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      _setCurrentDate(new Date(y, m - 1, d));
+    }
+    if (partner || role) {
+      setEntityFilters((prev) => ({
+        ...prev,
+        ...(partner ? { partner } : {}),
+        ...(role ? { role } : {}),
+      }));
+    }
+    if (add === '1') {
+      const start = new Date();
+      start.setHours(12, 0, 0, 0);
+      const end = new Date(start.getTime() + 3600000);
+      setDraft({
+        title: '',
+        layer: 'events',
+        type: 'event',
+        visibility: currentRole === 'client' ? 'public' : 'internal',
+        startAt: start.toISOString().slice(0, 16),
+        endAt: end.toISOString().slice(0, 16),
+        participants: [],
+      });
+      setModalMode('create');
+      setSelectedEventId(null);
+      setIsModalOpen(true);
+    }
+  }, [calendarLayers, calendarDate, calendarPartner, calendarRole, calendarAdd, currentRole]);
 
   return (
     <div className={cn(

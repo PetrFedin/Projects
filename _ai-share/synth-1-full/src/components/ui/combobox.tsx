@@ -28,7 +28,7 @@ import {
 import { Input } from "./input"
 import { Label } from "./label"
 
-interface ComboboxOption {
+export interface ComboboxOption {
     value: string;
     label: string;
 }
