@@ -3,7 +3,8 @@
  * Uses localStorage for persistence, ready to be replaced with Firestore
  */
 
-import type { OrdersRepository, Order, CartItem } from '../types';
+import type { OrdersRepository } from '../types';
+import type { Order, CartItem } from '../../types';
 
 const getStorageKey = (userId: string) => `syntha_orders_${userId}`;
 

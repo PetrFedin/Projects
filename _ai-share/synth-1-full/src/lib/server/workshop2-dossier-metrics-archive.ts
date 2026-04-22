@@ -14,7 +14,7 @@ export type W2ArchiveStateV1 = {
   lastFingerprint: string;
   lastSuccessAt: string;
   lastRows: number;
-  lastTarget: 'put_url' | 's3' | 'local_dir';
+  lastTarget: 'put_url' | 's3' | 'local_dir' | 'skipped_empty' | 'skipped_duplicate';
 };
 
 function ndjsonFromRows(rows: Workshop2DossierMetricsPayload[]): string {

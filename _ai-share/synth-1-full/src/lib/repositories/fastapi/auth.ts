@@ -1,4 +1,5 @@
-import type { AuthRepository, UserProfile } from '../types';
+import type { AuthRepository } from '../types';
+import type { UserProfile } from '../../types';
 import { mockAuthRepository } from '../mock/auth';
 import { fastApiService } from '../../fastapi-service';
 

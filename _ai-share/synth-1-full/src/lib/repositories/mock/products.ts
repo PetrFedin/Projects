@@ -3,7 +3,8 @@
  * Uses static product data, ready to be replaced with Firestore
  */
 
-import type { ProductsRepository, Product } from '../types';
+import type { ProductsRepository } from '../types';
+import type { Product } from '../../types';
 import allProducts from '@/lib/products';
 
 export class MockProductsRepository implements ProductsRepository {

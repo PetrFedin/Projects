@@ -19,6 +19,8 @@ export interface Product {
   description: string;
   images: { id: string; url: string; alt: string; hint: string }[];
   category: string;
+  /** Состав (витрина / PDP) */
+  composition?: string;
   sustainability: string[];
   outlet?: boolean;
   hasAR?: boolean;
@@ -26,6 +28,7 @@ export interface Product {
   color: string;
   season: string;
   tags?: ('carryover' | 'noSale' | 'newSeason')[];
+  videoUrls?: { url: string; label: string }[];
 }
 
 export interface CartItem extends Product {

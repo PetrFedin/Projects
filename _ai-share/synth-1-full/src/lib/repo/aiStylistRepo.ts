@@ -132,7 +132,7 @@ export class MockAiStylistRepo implements AiStylistRepo {
       });
     }
 
-    const pool: StylistProduct[] = filtered;
+    const pool = filtered as StylistProduct[];
     const wardrobe: WardrobeItem[] = req.wardrobe ?? [];
     let includeCategories = req.includeCategories;
     if (req.preferences?.excludedCategories?.length) {

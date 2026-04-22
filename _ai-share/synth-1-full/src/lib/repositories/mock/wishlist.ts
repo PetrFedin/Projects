@@ -3,7 +3,8 @@
  * Uses localStorage for persistence, ready to be replaced with Firestore
  */
 
-import type { WishlistRepository, WishlistItem, WishlistCollection, Product } from '../types';
+import type { WishlistRepository } from '../types';
+import type { WishlistItem, WishlistCollection, Product } from '../../types';
 
 const getWishlistKey = (userId: string) => `syntha_wishlist_${userId}`;
 const getCollectionsKey = (userId: string) => `syntha_wishlist_collections_${userId}`;
@@ -84,7 +85,7 @@ export class MockWishlistRepository implements WishlistRepository {
 
     // Add to collection
     const collection = collections.find(c => c.id === collectionId);
-    if (collection && !collection.items.find(item => item.id === product.id)) {
+    if (collection && !collection.items.find((item: WishlistItem) => item.id === product.id)) {
       collection.items.push(product);
       this.saveCollections(userId, collections);
     }
@@ -100,14 +101,14 @@ export class MockWishlistRepository implements WishlistRepository {
       const collections = this.getCollectionsSync(userId);
       const collection = collections.find(c => c.id === collectionId);
       if (collection) {
-        collection.items = collection.items.filter(item => item.id !== productId);
+        collection.items = collection.items.filter((item: WishlistItem) => item.id !== productId);
         this.saveCollections(userId, collections);
       }
     } else {
       // Remove from all collections
       const collections = this.getCollectionsSync(userId);
       collections.forEach(collection => {
-        collection.items = collection.items.filter(item => item.id !== productId);
+        collection.items = collection.items.filter((item: WishlistItem) => item.id !== productId);
       });
       this.saveCollections(userId, collections);
     }

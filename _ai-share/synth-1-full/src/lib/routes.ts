@@ -227,7 +227,6 @@ export const ROUTES = {
     analyticsSellThrough: '/brand/analytics/sell-through',
     /** Geo-Demand Heatmap: карта спроса по регионам */
     analyticsGeoDemand: '/brand/analytics/geo-demand',
-    integrationsErpPlm: '/brand/integrations/erp-plm',
     pricing: '/brand/pricing',
     pricingPriceComparison: '/brand/pricing/price-comparison',
     pricingElasticity: '/brand/pricing/elasticity',
@@ -315,8 +314,6 @@ export const ROUTES = {
     priceLadder: '/brand/merch/price-ladder',
     /** Оптимизация визуальной сетки витрины */
     visualGrid: '/brand/merch/visual-grid',
-    /** Анализ каннибализации ассортимента */
-    assortmentOverlap: '/brand/merch/assortment-overlap',
     /** Управление B2B кампаниями */
     b2bCampaigns: '/brand/marketing/campaigns',
     /** Комплаенс и ЭДО (РФ) */
@@ -335,12 +332,8 @@ export const ROUTES = {
     regionalDemand: '/brand/merch/regional-demand',
     /** Генератор лайт-шитов */
     lineSheetGenerator: '/brand/merch/linesheet-generator',
-    /** Анализ здоровья ассортимента */
-    assortmentHealth: '/brand/merch/assortment-health',
     /** Индекс видимости в поиске МП */
     visibilityIndex: '/brand/merch/visibility-index',
-    /** Карта регионального спроса (Heatmap) */
-    regionalDemand: '/brand/merch/regional-demand',
     /** Реестр локальных поставщиков (СНГ) */
     cisSourcing: '/brand/merch/cis-sourcing',
     /** Совместная матрица ассортимента: канал × размер × цвет */

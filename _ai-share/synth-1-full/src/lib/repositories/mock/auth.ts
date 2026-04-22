@@ -3,13 +3,16 @@
  * Uses localStorage for persistence, ready to be replaced with Firebase Auth
  */
 
-import type { AuthRepository, UserProfile } from '../types';
+import type { AuthRepository } from '../types';
+import type { UserProfile, UserRole } from '../../types';
 
 const STORAGE_KEY = 'syntha_auth_user';
 const USERS_STORAGE_KEY = 'syntha_users_v34'; // Complete overhaul of identity sync
 
 // Mock users database
-const getUsers = (): Map<string, { email: string; password: string; profile: UserProfile }> => {
+type MockUserRow = { email: string; password: string; profile: UserProfile };
+
+const getUsers = (): Map<string, MockUserRow> => {
   if (typeof window === 'undefined') {
     return new Map();
   }
@@ -44,7 +47,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop',
         loyaltyPlan: 'premium',
         loyaltyPoints: 18450,
-        roles: ['client'],
+        roles: ['client'] as UserRole[],
       }
     }],
 
@@ -61,7 +64,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop',
         loyaltyPlan: 'base',
         loyaltyPoints: 0,
-        roles: ['platform_admin'],
+        roles: ['admin'] as UserRole[],
         activeOrganizationId: 'org-hq-001',
         organizations: [{ organizationId: 'org-hq-001', roleInOrg: 'admin', permissions: ['all'] }],
         team: [
@@ -82,7 +85,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1519085360753-afdab827c52f?w=400&h=400&fit=crop',
         loyaltyPlan: 'base',
         loyaltyPoints: 0,
-        roles: ['platform_admin'],
+        roles: ['admin'] as UserRole[],
         activeOrganizationId: 'org-hq-001',
         organizations: [{ organizationId: 'org-hq-001', roleInOrg: 'admin', permissions: ['all'] }],
         team: [
@@ -105,7 +108,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop',
         loyaltyPlan: 'premium',
         loyaltyPoints: 5000,
-        roles: ['brand_admin'],
+        roles: ['brand'] as UserRole[],
         activeOrganizationId: 'org-brand-001',
         organizations: [
           { organizationId: 'org-brand-001', roleInOrg: 'admin', permissions: { canViewFinances: true, canEditPLM: true, canManageTeam: true } },
@@ -129,7 +132,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
         loyaltyPlan: 'base',
         loyaltyPoints: 500,
-        roles: ['brand_admin'],
+        roles: ['brand'] as UserRole[],
         activeOrganizationId: 'org-brand-001',
         organizations: [{ organizationId: 'org-brand-001', roleInOrg: 'member', permissions: { canViewAnalytics: true } }],
         team: [
@@ -150,7 +153,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop',
         loyaltyPlan: 'premium',
         loyaltyPoints: 3500,
-        roles: ['brand_admin'],
+        roles: ['brand'] as UserRole[],
         activeOrganizationId: 'org-brand-002',
         organizations: [{ organizationId: 'org-brand-002', roleInOrg: 'admin', permissions: { canViewFinances: true } }]
       }
@@ -167,7 +170,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=400&h=400&fit=crop',
         loyaltyPlan: 'premium',
         loyaltyPoints: 2000,
-        roles: ['brand_admin'],
+        roles: ['brand'] as UserRole[],
         activeOrganizationId: 'org-brand-003',
         organizations: [{ organizationId: 'org-brand-003', roleInOrg: 'admin', permissions: { canViewFinances: true } }]
       }
@@ -186,7 +189,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=400&h=400&fit=crop',
         loyaltyPlan: 'comfort',
         loyaltyPoints: 1200,
-        roles: ['manufacturer'],
+        roles: ['manufacturer'] as UserRole[],
         activeOrganizationId: 'org-factory-001',
         organizations: [{ organizationId: 'org-factory-001', roleInOrg: 'admin', permissions: { canManageProduction: true } }]
       }
@@ -203,7 +206,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=400&h=400&fit=crop',
         loyaltyPlan: 'comfort',
         loyaltyPoints: 1500,
-        roles: ['manufacturer'],
+        roles: ['manufacturer'] as UserRole[],
         activeOrganizationId: 'org-factory-002',
         organizations: [{ organizationId: 'org-factory-002', roleInOrg: 'admin', permissions: { canManageProduction: true } }]
       }
@@ -222,7 +225,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=400&fit=crop',
         loyaltyPlan: 'base',
         loyaltyPoints: 800,
-        roles: ['supplier'],
+        roles: ['supplier'] as UserRole[],
         activeOrganizationId: 'org-supplier-001',
         organizations: [{ organizationId: 'org-supplier-001', roleInOrg: 'admin', permissions: { canManageSourcing: true } }]
       }
@@ -241,7 +244,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop',
         loyaltyPlan: 'comfort',
         loyaltyPoints: 2500,
-        roles: ['distributor'],
+        roles: ['distributor'] as UserRole[],
         activeOrganizationId: 'org-dist-001',
         organizations: [{ organizationId: 'org-dist-001', roleInOrg: 'admin', permissions: { canManageLogistics: true } }]
       }
@@ -260,7 +263,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop',
         loyaltyPlan: 'premium',
         loyaltyPoints: 12000,
-        roles: ['shop'],
+        roles: ['shop'] as UserRole[],
         activeOrganizationId: 'org-shop-001',
         organizations: [{ organizationId: 'org-shop-001', roleInOrg: 'admin', permissions: { canManageRetail: true } }],
         team: [
@@ -281,7 +284,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
         photoURL: 'https://images.unsplash.com/photo-1598550874175-4d0fe4a24424?w=400&h=400&fit=crop',
         loyaltyPlan: 'comfort',
         loyaltyPoints: 1200,
-        roles: ['shop'],
+        roles: ['shop'] as UserRole[],
         activeOrganizationId: 'org-shop-001',
         organizations: [{ organizationId: 'org-shop-001', roleInOrg: 'member', permissions: { canViewAnalytics: true } }],
         team: [
@@ -293,10 +296,10 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
   ]);
 
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(Array.from(defaultUsers.entries())));
-  return defaultUsers;
+  return defaultUsers as Map<string, MockUserRow>;
 };
 
-const saveUsers = (users: Map<string, { email: string; password: string; profile: UserProfile }>) => {
+const saveUsers = (users: Map<string, MockUserRow>) => {
   if (typeof window === 'undefined') return;
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(Array.from(users.entries())));
 };
