@@ -287,13 +287,6 @@ export type WholesaleOrderEntryV1 = {
   price: number;
 };
 
-export type ProductionMilestoneV1 = {
-  id: string;
-  label: string;
-  date?: string;
-  status: 'completed' | 'current' | 'pending';
-};
-
 export type InventoryTransferV1 = {
   sku: string;
   fromLocation: string;
@@ -335,7 +328,8 @@ export type AssortmentOverlapV1 = {
   actionHint: string;
 };
 
-export type LookbookProjectV1 = {
+/** LocalStorage lookbook list (lookbook-logic). */
+export type LookbookProjectListV1 = {
   id: string;
   title: string;
   skus: string[];
@@ -352,7 +346,8 @@ export type DesignDnaV1 = {
   pocketType?: string;
 };
 
-export type SupplierMetricV1 = {
+/** Supplier list row (supplier-logic). */
+export type SupplierListMetricV1 = {
   id: string;
   name: string;
   qualityScore: number; // 0-100
@@ -361,7 +356,8 @@ export type SupplierMetricV1 = {
   onTimeDeliveryPct: number;
 };
 
-export type AssortmentHealthV1 = {
+/** Aggregated health (assortment-health-logic). */
+export type AssortmentHealthAggregateV1 = {
   overallScore: number;
   attributeCompleteness: number;
   salesVelocityTrend: 'up' | 'down' | 'stable';
@@ -429,13 +425,20 @@ export type MarkdownRecommendationV1 = {
   projectedSellThrough: number;
 };
 
+/** Simple list (appointment-logic) + advanced planner (showroom-planner). */
 export type ShowroomAppointmentV1 = {
   id: string;
   partnerName: string;
   date: string;
-  time: string;
-  type: 'physical' | 'virtual';
-  status: 'confirmed' | 'pending' | 'completed';
+  time?: string;
+  type?: 'physical' | 'virtual';
+  location?: 'Moscow Showroom' | 'Almaty Hub' | 'Milan Virtual';
+  selectedSkus?: string[];
+  status: 'confirmed' | 'pending' | 'completed' | 'scheduled' | 'review' | 'order_placed';
+  sampleStatus?: 'ready' | 'missing' | 'in_transit';
+  estimatedPreOrderValue?: number;
+  partnerFeedback?: Record<string, 'love' | 'maybe' | 'skip'>;
+  sessionNotes?: string;
 };
 
 export type TrendSentimentV1 = {
@@ -502,15 +505,8 @@ export type LoyaltyRewardV1 = {
   perks: string[];
 };
 
-export type FactoryCapacityV1 = {
-  factoryId: string;
-  sewingLines: number;
-  currentUtilization: number; // 0-100
-  estimatedLeadTimeWeeks: number;
-  complexityFactor: number;
-};
-
-export type B2BCampaignV1 = {
+/** Tier / pricing campaign (campaign-logic). */
+export type B2BOrderTierCampaignV1 = {
   id: string;
   version: 'early_bird' | 'standard' | 'outlet' | 'sample_sale';
   priceMultiplier: number;
@@ -525,12 +521,62 @@ export type CollectionLcaSummaryV1 = {
   topImpactCategory: string;
 };
 
-export type AssortmentGapV1 = {
+/** Category-level gap analysis (assortment-gap.ts). */
+export type AssortmentCategoryGapV1 = {
   category: string;
   missingColors: string[];
   missingPricePoints: string[];
   demandSignal: 'high' | 'medium';
 };
+
+/** Supplier scorecard (supplier-scorecard) + list metrics (supplier-logic). */
+export type SupplierMetricV1 = {
+  name: string;
+  qualityScore: number;
+  id?: string;
+  supplierId?: string;
+  esgGrade?: 'A' | 'B' | 'C' | 'D';
+  complianceGrade?: 'A' | 'B' | 'C' | 'D';
+  avgLeadTimeDays?: number;
+  leadTimeDays?: number;
+  onTimeDeliveryPct?: number;
+  activeOrders?: number;
+};
+
+/** Lookbook: local list (lookbook-logic) + planner row (lookbook-planner). */
+export type LookbookProjectV1 = {
+  id: string;
+  skus: string[];
+  status: string;
+  title?: string;
+  updatedAt?: number;
+  name?: string;
+  shootingDate?: string;
+  location?: string;
+};
+
+/** B2B campaigns: tier pricing (campaign-logic) + catalog rows (b2b-campaigns). */
+export type B2BCampaignV1 = {
+  id: string;
+  version: 'early_bird' | 'standard' | 'outlet' | 'sample_sale' | string;
+  priceMultiplier?: number;
+  accessExpiry?: string;
+  moqOverride?: number;
+  theme?: string;
+  targetMarket?: string;
+  activeStatus?: boolean;
+  publishedAt?: string;
+};
+
+/** Order gaps (assortment-gaps) vs category matrix (assortment-gap). */
+export type AssortmentGapV1 =
+  | {
+      sku: string;
+      recommendation: 'essential' | 'optional' | 'trend_match';
+      reason: string;
+      missingInCurrentOrder: boolean;
+    }
+  | AssortmentCategoryGapV1;
 
 export type PriceLadderBucketV1 = {
   priceRange: string;
@@ -583,6 +629,16 @@ export type VisualMerchSlotV1 = {
   colorHarmonyScore: number;
 };
 
+export type WholesalePartnerTierV1 = {
+  partnerId: string;
+  partnerName: string;
+  tier: 'Diamond' | 'Platinum' | 'Gold' | 'Silver';
+  creditLine: number;
+  unpaidInvoices: number;
+  availableLimit: number;
+  loyaltyPoints: number;
+};
+
 export type WholesalePreOrderV1 = {
   productId: string;
   moq: number; // Minimum Order Quantity
@@ -598,30 +654,12 @@ export type ReturnPredictionV1 = {
   advice: string;
 };
 
-export type SupplierMetricV1 = {
-  supplierId: string;
-  name: string;
-  leadTimeDays: number;
-  qualityScore: number; // 0-100
-  complianceGrade: 'A' | 'B' | 'C' | 'D';
-  activeOrders: number;
-};
-
 export type CannibalizationImpactV1 = {
   primarySku: string;
   competingSku: string;
   overlapScore: number; // 0-100
   riskLevel: 'high' | 'medium' | 'low';
   recommendation: string;
-};
-
-export type LookbookProjectV1 = {
-  id: string;
-  name: string;
-  shootingDate: string;
-  skus: string[];
-  location: string;
-  status: 'draft' | 'confirmed' | 'completed';
 };
 
 export type FashionClvV1 = {
@@ -638,15 +676,6 @@ export type FabricWasteV1 = {
   estimatedWaste: number; // percentage
   cutOptimizationScore: number; // 0-100
   savedMaterialCo2: number; // kg
-};
-
-export type B2BCampaignV1 = {
-  id: string;
-  version: string;
-  theme: string;
-  targetMarket: string;
-  activeStatus: boolean;
-  publishedAt: string;
 };
 
 export type HonestMarkStatusV1 = {
@@ -853,19 +882,6 @@ export type PvzEfficiencyV1 = {
   logisticLossPerUnit: number; // RUB
 };
 
-export type ShowroomAppointmentV1 = {
-  id: string;
-  partnerName: string;
-  date: string;
-  location: 'Moscow Showroom' | 'Almaty Hub' | 'Milan Virtual';
-  selectedSkus: string[];
-  status: 'scheduled' | 'review' | 'order_placed';
-  sampleStatus: 'ready' | 'missing' | 'in_transit';
-  estimatedPreOrderValue?: number;
-  partnerFeedback?: Record<string, 'love' | 'maybe' | 'skip'>;
-  sessionNotes?: string;
-};
-
 export type ShowroomSessionV1 = {
   id: string;
   appointmentId: string;
@@ -990,13 +1006,6 @@ export type EdiDocumentV1 = {
   legalRef: string;
 };
 
-export type AssortmentGapV1 = {
-  sku: string;
-  recommendation: 'essential' | 'optional' | 'trend_match';
-  reason: string;
-  missingInCurrentOrder: boolean;
-};
-
 export type EaeuCustomsValueV1 = {
   sku: string;
   transactionValue: number;
@@ -1014,13 +1023,6 @@ export type SessionParticipantV1 = {
   role: 'Buyer' | 'Merchandiser' | 'Brand Manager';
   isOnline: boolean;
   lastAction?: string;
-};
-
-export type PartnerPerkV1 = {
-  id: string;
-  title: string;
-  status: 'active' | 'locked' | 'unlocked';
-  unlockCondition?: string;
 };
 
 export type AssortmentCapsuleV1 = {
@@ -1203,23 +1205,6 @@ export type StaffScheduleV1 = {
   efficiencyRating: number; // 1-100
 };
 
-export type SustainabilityLedgerV1 = {
-  period: string;
-  co2SavedKg: number;
-  waterSavedLiters: number;
-  materialsRecycledKg: number;
-  localSourcingBenefitPercent: number;
-};
-
-export type PartnerCreditScoreV1 = {
-  partnerId: string;
-  score: number; // 0-1000
-  rating: 'A+' | 'A' | 'B' | 'C' | 'D';
-  maxCreditLimit: number;
-  availableCredit: number;
-  defaultProbability: number; // %
-};
-
 export type B2BTechPackV1 = {
   sku: string;
   fabricComposition: string;
@@ -1227,14 +1212,6 @@ export type B2BTechPackV1 = {
   careSymbols: string[];
   constructionType: string;
   sizeSpecsCm: Record<string, number>; // e.g. { chest: 54, length: 72 }
-};
-
-export type ProductionMilestoneV1 = {
-  id: string;
-  label: string;
-  status: 'pending' | 'in_progress' | 'completed' | 'delayed';
-  dueDate: string;
-  progressPercent: number;
 };
 
 export type RetailInventoryHealthV1 = {
@@ -1330,14 +1307,6 @@ export type LineSheetV1 = {
   collectionName: string;
   items: { sku: string; wholesalePrice: number; moq: number }[];
   lastExported: string;
-};
-
-export type AssortmentHealthV1 = {
-  category: string;
-  colorBalance: number; // 0-100
-  sizeAvailability: number; // 0-100
-  marginHealth: number; // 0-100
-  recommendations: string[];
 };
 
 export type PartnerTierV1 = {
@@ -1612,13 +1581,18 @@ export type RepairHubRequestV1 = {
   atelierId: string;
 };
 
+/** Sustainability ledger: period rollup OR per-SKU footprint (sustainability-ledger). */
 export type SustainabilityLedgerV1 = {
-  sku: string;
-  materialOrigin: string;
-  carbonFootprintKg: number;
-  waterUsageLiters: number;
-  isRecyclable: boolean;
-  certificates: string[]; // e.g., ['GOTS', 'OEKO-TEX']
+  sku?: string;
+  materialOrigin?: string;
+  carbonFootprintKg?: number;
+  waterUsageLiters?: number;
+  isRecyclable?: boolean;
+  certificates?: string[];
+  period?: string;
+  co2SavedKg?: number;
+  materialsRecycledKg?: number;
+  localSourcingBenefitPercent?: number;
 };
 
 export type B2BQualityClaimV1 = {
@@ -1673,22 +1647,53 @@ export type RegionalHubFulfillmentV1 = {
   nextReplenishmentDate: string;
 };
 
+/** Factory capacity: monthly booking (factory-capacity) or line mix (unused elsewhere). */
 export type FactoryCapacityV1 = {
   factoryId: string;
-  sku: string;
-  totalMonthlyCapacity: number;
-  currentBookedQty: number;
+  sku?: string;
+  totalMonthlyCapacity?: number;
+  currentBookedQty?: number;
   utilizationPercent: number;
-  earliestAvailableSlot: string;
+  earliestAvailableSlot?: string;
+  sewingLines?: number;
+  estimatedLeadTimeWeeks?: number;
+  complexityFactor?: number;
 };
 
+/** Partner credit: B2B risk bands (partner-credit-score) or letter rating (unused). */
 export type PartnerCreditScoreV1 = {
   partnerId: string;
-  creditScore: number; // 0-1000
-  recommendedLimit: number;
-  riskRating: 'low' | 'medium' | 'high';
-  paymentHistoryPoints: number;
+  creditScore?: number;
+  score?: number;
+  recommendedLimit?: number;
+  maxCreditLimit?: number;
+  availableCredit?: number;
+  defaultProbability?: number;
+  rating?: 'A+' | 'A' | 'B' | 'C' | 'D';
+  riskRating?: 'low' | 'medium' | 'high';
+  paymentHistoryPoints?: number;
 };
+
+/** Production milestone tracker (production-milestones). */
+export type ProductionMilestoneV1 = {
+  id: string;
+  label: string;
+  status: string;
+  dueDate?: string;
+  progressPercent?: number;
+  date?: string;
+};
+
+/** Assortment health: aggregate index (assortment-health-logic) or category slice (assortment-health). */
+export type AssortmentHealthV1 =
+  | AssortmentHealthAggregateV1
+  | {
+      category: string;
+      colorBalance: number;
+      sizeAvailability: number;
+      marginHealth: number;
+      recommendations: string[];
+    };
 
 export type ShowroomBuyerPresenceV1 = {
   sessionId: string;
@@ -1743,12 +1748,16 @@ export type B2BOrderSplitV1 = {
   splits: { storeId: string; qty: number; status: 'confirmed' | 'pending' }[];
 };
 
+/** Partner perks: progress bar (partner-perks) or status list (UI block). */
 export type PartnerPerkV1 = {
-  perkId: string;
   title: string;
-  requirementDescription: string;
-  isUnlocked: boolean;
-  progressPercent: number;
+  perkId?: string;
+  id?: string;
+  requirementDescription?: string;
+  unlockCondition?: string;
+  isUnlocked?: boolean;
+  progressPercent?: number;
+  status?: 'active' | 'locked' | 'unlocked';
 };
 
 export type ShowroomVirtualSampleV1 = {

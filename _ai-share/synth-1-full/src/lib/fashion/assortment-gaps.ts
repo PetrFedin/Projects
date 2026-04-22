@@ -2,7 +2,7 @@ import type { Product } from '@/lib/types';
 import type { AssortmentGapV1 } from './types';
 
 /** Анализ пробелов в заказе партнера (Assortment Gaps). */
-export function analyzeAssortmentGaps(currentSkus: string[] = [], allProducts: Product[] = []): AssortmentGapV1[] {
+export function analyzeOrderAssortmentGaps(currentSkus: string[] = [], allProducts: Product[] = []): AssortmentGapV1[] {
   // Demo logic: find high-performing products in the same category that are missing in the order
   const categories = Array.from(new Set((allProducts || []).map(p => p.category)));
   const gaps: AssortmentGapV1[] = [];

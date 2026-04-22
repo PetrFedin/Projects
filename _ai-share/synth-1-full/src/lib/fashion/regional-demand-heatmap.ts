@@ -1,7 +1,7 @@
 import type { DemandHeatmapV1 } from './types';
 
 /** Карта спроса по регионам РФ (Regional Demand Distribution). */
-export function getRegionalDemandHeatmap(): DemandHeatmapV1[] {
+export function getRegionalDemandIndexHeatmap(): DemandHeatmapV1[] {
   return [
     { region: 'Central (Moscow)', demandIndex: 95, stockStatus: 'optimal', topCategory: 'Outerwear' },
     { region: 'Northwest (Saint-P)', demandIndex: 82, stockStatus: 'low', topCategory: 'Coats' },

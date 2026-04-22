@@ -22,3 +22,13 @@ export function getLaunchReadiness(product: Product): LaunchReadinessV1 {
     launchStatus: readiness > 90 ? 'on_track' : readiness > 75 ? 'at_risk' : 'delayed',
   };
 }
+
+export type LaunchReadinessRow = { sku: string; score: number; detail: LaunchReadinessV1 };
+
+/** Rows for assortment-health-logic (readiness vs attribute completeness). */
+export function buildLaunchReadinessRows(products: Product[]): LaunchReadinessRow[] {
+  return products.map((p) => {
+    const detail = getLaunchReadiness(p);
+    return { sku: p.sku, score: detail.stockReadiness, detail };
+  });
+}

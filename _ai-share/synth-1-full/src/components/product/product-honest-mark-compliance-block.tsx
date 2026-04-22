@@ -4,11 +4,11 @@ import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { FileCheck, ShieldAlert, Scan, Info, CheckCircle2 } from 'lucide-react';
-import { getHonestMarkStatus } from '@/lib/fashion/honest-mark-compliance';
+import { getHonestMarkComplianceRequirements } from '@/lib/fashion/honest-mark-compliance';
 import type { Product } from '@/lib/types';
 
 export function ProductHonestMarkComplianceBlock({ product }: { product: Product }) {
-  const status = getHonestMarkStatus([product.sku])[0];
+  const status = getHonestMarkComplianceRequirements([product.sku])[0];
 
   return (
     <Card className="p-4 border-2 border-emerald-50 bg-white shadow-sm my-4">

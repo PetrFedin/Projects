@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Star, Gift, Lock, CheckCircle2, ChevronRight } from 'lucide-react';
 import { getPartnerPerks } from '@/lib/fashion/partner-perks';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 export function ProductPartnerPerksBlock() {
   const perks = getPartnerPerks('P-001');
@@ -27,18 +28,18 @@ export function ProductPartnerPerksBlock() {
       </div>
 
       <div className="space-y-3">
-         {perks.map(perk => (
-           <div key={perk.id} className="flex items-center justify-between group">
+         {perks.map((perk) => (
+           <div key={perk.perkId ?? perk.id ?? perk.title} className="flex items-center justify-between group">
               <div className="flex items-center gap-3">
-                 <div className={cn("w-6 h-6 rounded flex items-center justify-center", perk.status === 'active' ? 'bg-amber-100 text-amber-600' : 'bg-slate-100 text-slate-400')}>
-                    {perk.status === 'active' ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Lock className="w-3.5 h-3.5" />}
+                 <div className={cn("w-6 h-6 rounded flex items-center justify-center", (perk.status === 'active' || perk.isUnlocked) ? 'bg-amber-100 text-amber-600' : 'bg-slate-100 text-slate-400')}>
+                    {(perk.status === 'active' || perk.isUnlocked) ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Lock className="w-3.5 h-3.5" />}
                  </div>
                  <div>
-                    <div className={cn("text-[10px] font-black uppercase tracking-tight leading-none", perk.status === 'locked' ? 'text-slate-400' : 'text-slate-800')}>
+                    <div className={cn("text-[10px] font-black uppercase tracking-tight leading-none", perk.status === 'locked' && !perk.isUnlocked ? 'text-slate-400' : 'text-slate-800')}>
                        {perk.title}
                     </div>
-                    {perk.unlockCondition && (
-                      <div className="text-[7px] font-bold text-slate-400 uppercase mt-1">{perk.unlockCondition}</div>
+                    {(perk.unlockCondition || perk.requirementDescription) && (
+                      <div className="text-[7px] font-bold text-slate-400 uppercase mt-1">{perk.unlockCondition ?? perk.requirementDescription}</div>
                     )}
                  </div>
               </div>
@@ -53,5 +54,3 @@ export function ProductPartnerPerksBlock() {
     </Card>
   );
 }
-
-import { cn } from '@/lib/utils';

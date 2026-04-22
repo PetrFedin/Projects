@@ -1,7 +1,7 @@
 import type { HonestMarkRequirementV1 } from './types';
 
 /** Инфраструктура для управления Честным Знаком и требованиями ЕАЭС. */
-export function getHonestMarkStatus(skus: string[]): HonestMarkRequirementV1[] {
+export function getHonestMarkComplianceRequirements(skus: string[]): HonestMarkRequirementV1[] {
   return skus.map(sku => ({
     sku,
     status: (sku.includes('101') || sku.includes('102')) ? 'ready' : 'pending',
