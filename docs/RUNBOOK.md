@@ -9,7 +9,23 @@
 
 ## CI
 
-Файл **`.github/workflows/ci.yml`**: на push/PR в `main` параллельно backend (`poetry install --without ml`, `pytest tests/smoke tests/unit`) и frontend в `_ai-share/synth-1-full/`: `npm ci`, **`npm run lint`** (`eslint.config.cjs`, области `src/lib` + корневой `lib/`), **`npm run typecheck:ci`** (`tsconfig.ci.json`: корневой `lib/`, ключевые `src/lib/*`, **`src/lib/fashion/**`**, **`src/lib/production/**`**; полный проект: `npm run typecheck`), **`npm run build`**.
+Файл **`.github/workflows/ci.yml`**: на push/PR в `main` параллельно backend (`poetry install --without ml`, `pytest tests/smoke tests/unit`) и frontend в `_ai-share/synth-1-full/`: `npm ci`, **`npm run lint`** (`eslint.config.cjs`, области `src/lib` + корневой `lib/`), **`npm run typecheck:ci`** (`tsconfig.ci.json`, подмножество до полного `npm run typecheck`):
+
+| Область | Путь в репозитории |
+|---------|---------------------|
+| Корневые типы/утилиты фронта | `_ai-share/synth-1-full/lib/**/*.ts` |
+| Маршруты и каталог | `src/lib/routes.ts`, `src/lib/products.ts` |
+| Репозитории и поиск | `src/lib/repositories/**`, `src/lib/repo/searchRepo.ts`, `src/lib/repo/aiStylistRepo.ts` |
+| Сокеты и серверные архивы | `src/lib/websocket-service.ts`, `src/lib/server/workshop2-dossier-metrics-archive.ts` |
+| Fashion domain | `src/lib/fashion/**/*.ts` |
+| Production / Цех | `src/lib/production/**/*.ts` |
+| Чистая логика (utils) | `src/lib/logic/**/*.ts` |
+| Доменные TS-типы | `src/lib/types/**/*.ts` |
+| B2B feature flags / типы | `src/lib/b2b-features/**/*.ts` |
+
+Полный проект: `npm run typecheck` (без `-p`) — пока не обязателен в CI.
+
+**`npm run build`**.
 
 Локально backend-тесты: `poetry run pytest tests/smoke tests/unit` из корня (импорт `app` задаётся через `pythonpath` в `pyproject.toml`).
 

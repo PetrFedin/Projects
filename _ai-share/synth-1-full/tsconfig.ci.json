@@ -21,7 +21,10 @@
     "src/lib/websocket-service.ts",
     "src/lib/server/workshop2-dossier-metrics-archive.ts",
     "src/lib/fashion/**/*.ts",
-    "src/lib/production/**/*.ts"
+    "src/lib/production/**/*.ts",
+    "src/lib/logic/**/*.ts",
+    "src/lib/types/**/*.ts",
+    "src/lib/b2b-features/**/*.ts"
   ],
   "exclude": ["node_modules", ".next", "backup_duplicates"]
 }
