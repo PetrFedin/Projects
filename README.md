@@ -2,6 +2,8 @@
 
 FastAPI backend for the Synth-1 Fashion Intelligence Platform.
 
+This repository root is **only the Python API**. The **Next.js web app** lives in `_ai-share/synth-1-full/` (separate `package.json`, install and scripts from that directory). For onboarding, CI working directories, and an **environment matrix** (demo vs FastAPI vs production intent), read **`docs/RUNBOOK.md`**.
+
 ## Quick start
 
 ```bash
