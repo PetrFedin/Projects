@@ -101,7 +101,13 @@ function BrandCalendarMain() {
 
 export default function BrandCalendarPage() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-syntha-calendar="comm-hub-v2">
+      {process.env.NODE_ENV === 'development' && (
+        <div className="mx-4 rounded-lg border border-dashed border-emerald-400 bg-emerald-50 px-3 py-2 text-center text-[11px] text-emerald-950 leading-snug">
+          <strong className="font-semibold">Проверка сборки:</strong> вы на обновлённом календаре (comm-hub-v2). Если этого зелёного блока нет — не тот каталог репозитория или не перезапущен{' '}
+          <code className="rounded bg-white/80 px-1">npm run dev</code> из <code className="rounded bg-white/80 px-1">_ai-share/synth-1-full</code>.
+        </div>
+      )}
       <div className="sticky top-0 z-30 space-y-2 border-b border-slate-100 bg-slate-50/90 px-4 py-3 backdrop-blur-sm supports-[backdrop-filter]:bg-slate-50/75">
         <CommunicationsNavBar currentPath={ROUTES.brand.calendar} />
         <CommunicationsUpcomingStrip />
