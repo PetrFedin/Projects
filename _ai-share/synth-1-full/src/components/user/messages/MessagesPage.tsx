@@ -79,6 +79,8 @@ export default function MessagesPage({
   const [taskEditOpen, setTaskEditOpen] = React.useState(false);
   const [taskEditing, setTaskEditing] = React.useState<any>(null);
 
+  const [riskLevel] = React.useState(15);
+
   const stagesStepParam = searchParams.get('stagesStep') || '';
 
   const visibleChats = React.useMemo(() => {
@@ -132,7 +134,7 @@ export default function MessagesPage({
           setCurrentRole={setCurrentRole}
           userStatus="online"
           setUserStatus={() => {}}
-          riskLevel={0}
+          riskLevel={riskLevel}
           onOpenTeam={() => {}}
           onOpenRiskDetails={() => {}}
           onOpenTasksHub={() => setTab('tasks')}
