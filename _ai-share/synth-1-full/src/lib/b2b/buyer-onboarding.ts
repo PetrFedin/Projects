@@ -19,6 +19,8 @@ export interface BuyerApplication {
   city?: string;
   /** Тип: ритейлер, дистрибьютор, байер */
   applicantType: 'retailer' | 'distributor' | 'buyer';
+  /** Текст заявки от байера (Shop / публичная форма) */
+  message?: string;
   status: BuyerApplicationStatus;
   /** ID созданного партнёра после апрува (retailerId) */
   retailerId?: string;

@@ -5,7 +5,21 @@
 
 import { format, differenceInDays, startOfDay } from 'date-fns';
 
-export type EventSource = 'production' | 'orders' | 'events' | 'tasks' | 'meetings' | 'marketing' | 'content' | 'finance';
+export type EventSource =
+  | 'production'
+  | 'orders'
+  | 'events'
+  | 'tasks'
+  | 'meetings'
+  | 'marketing'
+  | 'content'
+  | 'finance';
+
+/** Single layer or comma-separated preset for `?layers=` deep links (parsed client-side). */
+export type CalendarLayersValue =
+  | EventSource
+  | `${EventSource},${EventSource}`
+  | `${EventSource},${EventSource},${EventSource}`;
 
 export type RecurrenceType = 'daily' | 'weekly' | 'monthly' | 'yearly';
 
@@ -160,7 +174,7 @@ export const UPCOMING_DEADLINES: UpcomingDeadline[] = getDefaultUpcomingDeadline
 
 /** URL календаря с контекстом для cross-links из других разделов */
 export function buildCalendarUrl(params: {
-  layers?: EventSource | EventSource[];
+  layers?: CalendarLayersValue | CalendarLayersValue[];
   partner?: string;
   role?: string;
   date?: string;
@@ -201,7 +215,7 @@ export interface FashionSeasonDate {
   phase: string;
   href: string;
   calendarDate?: string;
-  layers?: EventSource;
+  layers?: CalendarLayersValue;
 }
 export const FASHION_SEASON_DATES: FashionSeasonDate[] = [
   { season: 'SS26', label: 'Paris FW', date: '3 Jan', phase: 'launch', href: '/brand/events', calendarDate: '2026-01-03', layers: 'events' },

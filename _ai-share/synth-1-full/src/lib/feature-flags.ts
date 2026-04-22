@@ -3,7 +3,7 @@
  * Override via NEXT_PUBLIC_FEATURE_* (e.g. NEXT_PUBLIC_FEATURE_VIDEO_CONSULTATION=false).
  */
 
-const env = typeof process !== 'undefined' ? process.env : {};
+const env: NodeJS.ProcessEnv = typeof process !== 'undefined' ? process.env : ({} as NodeJS.ProcessEnv);
 
 function flag(name: string, defaultValue: boolean): boolean {
   const key = `NEXT_PUBLIC_FEATURE_${name}`;

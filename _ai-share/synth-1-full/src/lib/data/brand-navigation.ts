@@ -498,7 +498,8 @@ export const brandNavGroups = [
   },
 ];
 
-export const allBrandNavLinks = brandNavGroups.flatMap(group => group.links);
+/** Flattened nav links (per-group link tuples differ under full `tsc`). */
+export const allBrandNavLinks = brandNavGroups.flatMap((group) => group.links as any) as (typeof brandNavGroups)[number]['links'][number][];
 
 /** Группы с только primary-пунктами (~25–35 видимых). */
 export function getPrimaryNavGroups(

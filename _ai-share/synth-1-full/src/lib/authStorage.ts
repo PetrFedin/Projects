@@ -14,6 +14,8 @@ export function getStoredAuthUser(): UserProfile | null {
   }
 }
 
+type UserDbEntry = { profile?: Partial<UserProfile> } & Record<string, unknown>;
+
 function updateUsersDb(profile: UserProfile) {
   if (typeof window === 'undefined') return;
   const raw = localStorage.getItem(USERS_STORAGE_KEY);
@@ -21,7 +23,7 @@ function updateUsersDb(profile: UserProfile) {
   try {
     const parsed = JSON.parse(raw);
     const usersMap = new Map(parsed as any[]);
-    const entry = usersMap.get(profile.email);
+    const entry = usersMap.get(profile.email) as UserDbEntry | undefined;
     if (entry && typeof entry === 'object') {
       usersMap.set(profile.email, { ...entry, profile: { ...(entry.profile || {}), ...profile } });
       localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(Array.from(usersMap.entries())));

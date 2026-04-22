@@ -1,5 +1,6 @@
 'use client';
 
+import type { LucideIcon } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { Handshake, BarChart2, MessageSquare, Users, Briefcase, Edit, 
     FileText, Percent, RefreshCcw, Calendar, Sigma, Star, DollarSign, 
@@ -14,6 +15,19 @@ import { Handshake, BarChart2, MessageSquare, Users, Briefcase, Edit,
  * Normalized Shop/Retailer Cabinet Navigation Structure
  * Based on JOOR/NuOrder logic with clear B2C/B2B separation
  */
+
+export type ShopNavSubsection = { href: string; label: string; value: string };
+
+export type ShopNavLink = {
+  href: string;
+  value: string;
+  label: string;
+  icon: LucideIcon;
+  description: string;
+  subsections?: ShopNavSubsection[];
+  iconColor?: string;
+  quickActions?: { label: string; href: string; icon: LucideIcon }[];
+};
 
 export const shopNavGroups = [
     {
@@ -637,15 +651,16 @@ href: ROUTES.shop.bopis,
     },
 ];
 
-export const mainShopNavLinks = shopNavGroups.flatMap(g => g.links);
+/** Flattened nav links (per-group link tuples differ under full `tsc`). */
+export const mainShopNavLinks = shopNavGroups.flatMap((g) => g.links as any) as ShopNavLink[];
 
 // Helper functions
-export function findShopSubsection(sectionValue: string, subsectionValue: string) {
-    const section = mainShopNavLinks.find(link => link.value === sectionValue);
-    return section?.subsections?.find(sub => sub.value === subsectionValue);
+export function findShopSubsection(sectionValue: string, subsectionValue: string): ShopNavSubsection | undefined {
+    const section = mainShopNavLinks.find((link) => link.value === sectionValue);
+    return section?.subsections?.find((sub) => sub.value === subsectionValue);
 }
 
-export function getShopSubsections(sectionValue: string) {
-    const section = mainShopNavLinks.find(link => link.value === sectionValue);
-    return section?.subsections || [];
+export function getShopSubsections(sectionValue: string): ShopNavSubsection[] {
+    const section = mainShopNavLinks.find((link) => link.value === sectionValue);
+    return section?.subsections ?? [];
 }

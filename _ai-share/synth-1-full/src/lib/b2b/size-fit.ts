@@ -99,7 +99,7 @@ export function getRecommendedSize(params: {
       retailerSize: match.retailerSize,
       source: 'measurements',
       message: `По вашим замерам: ${match.retailerSize ?? match.size}. Грудь ${params.chestCm}, талия ${params.waistCm}, бёдра ${params.hipsCm} см.`,
-      sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category),
+      sizeUpWarning: Boolean(getSizeUpWarning(params.productId ?? '', brand, params.category)),
       sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category) ? 'По отзывам часто берут на размер больше.' : undefined,
     };
   }
@@ -112,7 +112,7 @@ export function getRecommendedSize(params: {
       retailerSize: entry?.retailerSize ?? size,
       source: 'height_weight',
       message: `По росту ${params.heightCm} см и весу ${params.weightKg} кг: рекомендуем ${entry?.retailerSize ?? size}.`,
-      sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category),
+      sizeUpWarning: Boolean(getSizeUpWarning(params.productId ?? '', brand, params.category)),
       sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category) ? 'Часто берут на размер больше.' : undefined,
     };
   }
@@ -123,7 +123,7 @@ export function getRecommendedSize(params: {
     retailerSize: fallback.retailerSize,
     source: 'reviews',
     message: 'Укажите рост/вес или замеры для точного подбора. По отзывам чаще всего заказывают M.',
-    sizeUpWarning: getSizeUpWarning(params.productId ?? '', brand, params.category),
+    sizeUpWarning: Boolean(getSizeUpWarning(params.productId ?? '', brand, params.category)),
     sizeUpMessage: getSizeUpWarning(params.productId ?? '', brand, params.category) ? 'По отзывам часто берут на размер больше.' : undefined,
   };
 }

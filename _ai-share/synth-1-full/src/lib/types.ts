@@ -1079,6 +1079,8 @@ export interface KickstarterProject {
   updates?: KickstarterUpdate[];
   faqs?: KickstarterFaq[];
   product?: Product; // Added to link to the full product info
+  /** Optional tags from seed JSON (image hint fallback). */
+  tags?: string[];
   segment?: string;
 }
 

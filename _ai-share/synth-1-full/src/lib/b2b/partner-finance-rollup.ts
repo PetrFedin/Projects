@@ -7,7 +7,11 @@
 import { getCreditForCurrentPartner } from './credit-check';
 import { getOrderPayments } from './credit-store';
 import { mockB2BOrders } from '@/lib/order-data';
-import type { B2BOrder } from '@/lib/types';
+import type { B2BOrder, B2BOrderPaymentStatus } from '@/lib/types';
+
+function isAwaitingPaymentStatus(s: B2BOrderPaymentStatus | undefined): s is 'pending' | 'partial' | 'overdue' {
+  return s === 'pending' || s === 'partial' || s === 'overdue';
+}
 
 /** Парсит сумму из строки "750 000 ₽" или "0 ₽" */
 export function parseAmount(s: string): number {
@@ -61,11 +65,10 @@ export function getPartnerFinanceRollup(): PartnerFinanceRollup {
     ordersByStatus[s] = (ordersByStatus[s] ?? 0) + 1;
   });
 
-  const needsPayment = ['pending', 'partial', 'overdue'] as const;
   let awaitingPayment = 0;
   const ordersAwaitingPayment: B2BOrder[] = [];
   orders.forEach((o) => {
-    if (!o.paymentStatus || !needsPayment.includes(o.paymentStatus)) return;
+    if (!isAwaitingPaymentStatus(o.paymentStatus)) return;
     const amount = parseAmount(o.amount ?? '0 ₽');
     const paid = o.paidAmount ?? 0;
     awaitingPayment += amount - paid;

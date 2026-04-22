@@ -24,6 +24,8 @@ backup_duplicates/
 *.log
 temp_*
 tsconfig.tsbuildinfo
+*.tsbuildinfo
+tsconfig.ci.probe.json
 
 # локальные метрики досье Workshop2 (NDJSON)
 data/workshop2-dossier-metrics.ndjson
