@@ -65,7 +65,7 @@ const EDO_INTEGRATIONS = [
 ];
 
 export default function DocumentsPage() {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams() ?? new URLSearchParams();
   const stagesNotesUrlApplied = useRef(false);
   const [activeTab, setActiveTab] = useState<'all' | 'templates' | 'edo' | 'kiz'>('all');
   const [searchQuery, setSearchQuery] = useState('');

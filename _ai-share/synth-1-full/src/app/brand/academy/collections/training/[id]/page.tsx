@@ -17,7 +17,7 @@ import { COLLECTION_TRAINING_TYPE_LABELS } from '@/lib/academy/brand-academy-dat
 export default function CollectionTrainingDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const id = params.id as string;
+  const id = (params?.id as string | undefined) ?? '';
   const training = getCollectionTrainingById(id);
 
   if (!training) {

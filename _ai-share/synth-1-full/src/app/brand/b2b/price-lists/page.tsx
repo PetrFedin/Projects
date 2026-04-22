@@ -22,7 +22,7 @@ const CustomerGroupsContent = dynamic(
 );
 
 export default function PriceListsPage() {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams() ?? new URLSearchParams();
   const [tab, setTab] = useState<'price-lists' | 'groups'>('price-lists');
   const groupFilter = searchParams.get('group');
   const lists = getPriceLists();

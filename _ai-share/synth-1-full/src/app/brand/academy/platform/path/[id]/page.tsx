@@ -16,7 +16,7 @@ import { ArrowLeft, Clock, Award, ChevronRight, PlayCircle } from 'lucide-react'
 export default function PlatformPathDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const id = params.id as string;
+  const id = (params?.id as string | undefined) ?? '';
   const path = getLearningPathById(id);
 
   if (!path) {

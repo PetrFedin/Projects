@@ -34,7 +34,7 @@ function mapLiveToCalendarEvent(e: { id: string; processId: string; contextId: s
 
 function BrandCalendarMain() {
   const { user } = useAuth();
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams() ?? new URLSearchParams();
   const [liveEvents, setLiveEvents] = useState<ReturnType<typeof getAllCalendarEvents>>([]);
   const [collabEvents, setCollabEvents] = useState<CalendarEvent[]>([]);
 

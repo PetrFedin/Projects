@@ -30,7 +30,7 @@ export default function BrandIntegrationsColectPage() {
     setStructureLoading(true);
     try {
       const res = await fetch(`/api/b2b/colect/lookbook/${encodeURIComponent(lookbookId)}/structure`);
-      const data = await res.ok ? res.json() : null;
+      const data = res.ok ? ((await res.json()) as { id: string; name?: string; chapters?: unknown[]; keyLooks?: unknown[] }) : null;
       setStructure(data);
     } catch {
       setStructure(null);

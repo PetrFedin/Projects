@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 export default function BrandCourseDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const id = params.id as string;
+  const id = (params?.id as string | undefined) ?? '';
   const course = getBrandCourseById(id);
 
   if (!course) {

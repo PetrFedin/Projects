@@ -109,7 +109,7 @@ const NATIVE_B2B_FEATURES = [
 ];
 
 export default function IntegrationsPage() {
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams() ?? new URLSearchParams();
     const returnResolved = searchParams.get('returnResolved');
     const [isEditing, setIsEditing] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);

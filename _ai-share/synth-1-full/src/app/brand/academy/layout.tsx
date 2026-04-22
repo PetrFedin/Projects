@@ -33,7 +33,7 @@ const KPI_ITEMS = [
 ] as const;
 
 export default function AcademyLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? '/';
   const isPlatform = pathname.startsWith('/brand/academy/platform');
   const courses = getBrandCourses();
   const inProgressCount = courses.filter((c) => c.status === 'in_progress').length;
@@ -65,7 +65,7 @@ export default function AcademyLayout({ children }: { children: React.ReactNode 
   const isNestedPage =
     pathname.includes('/courses/create') ||
     /^\/brand\/academy\/courses\/[^/]+$/.test(pathname) ||
-    pathname !== '/brand/academy/knowledge' && pathname.startsWith('/brand/academy/knowledge/');
+    (pathname !== '/brand/academy/knowledge' && pathname.startsWith('/brand/academy/knowledge/'));
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto px-4 py-6 pb-24">
@@ -87,7 +87,7 @@ export default function AcademyLayout({ children }: { children: React.ReactNode 
       />
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
         {KPI_ITEMS.map((item, i) => {
-          const value = item.value ?? (item.getValue?.(kpiValues[i] ?? 0) ?? '-');
+          const value = item.getValue(kpiValues[i] ?? 0);
           return (
             <StatCard
               key={item.href}

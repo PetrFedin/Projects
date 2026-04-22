@@ -306,7 +306,7 @@ export default function BrandIntegrationsJoorPage() {
         <Link href={ROUTES.brand.b2bOrders}>
           <Button variant="outline" size="sm">B2B заказы</Button>
         </Link>
-        <Link href={ROUTES.brand.integrationsNuorder}>
+        <Link href={ROUTES.brand.integrationsNuOrder}>
           <Button variant="ghost" size="sm">NuOrder</Button>
         </Link>
         <Link href={ROUTES.brand.integrationsFashionCloud}>

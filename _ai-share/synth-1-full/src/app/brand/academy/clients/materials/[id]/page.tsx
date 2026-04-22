@@ -23,7 +23,7 @@ const TYPE_LABELS: Record<string, string> = {
 export default function ClientMaterialDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const id = params.id as string;
+  const id = (params?.id as string | undefined) ?? '';
   const material = getClientMaterialById(id);
 
   if (!material) {

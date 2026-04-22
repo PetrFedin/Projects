@@ -354,7 +354,7 @@ export default function BrandIntegrationsSparkLayerPage() {
         <Link href={ROUTES.brand.integrationsJoor}>
           <Button variant="ghost" size="sm">JOOR</Button>
         </Link>
-        <Link href={ROUTES.brand.integrationsNuorder}>
+        <Link href={ROUTES.brand.integrationsNuOrder}>
           <Button variant="ghost" size="sm">NuOrder</Button>
         </Link>
         <Link href={ROUTES.brand.integrationsFashionCloud}>
