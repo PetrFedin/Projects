@@ -157,7 +157,7 @@ export function buildBomLinePickOptions(dossier: Workshop2DossierPhase1): { valu
     const aid = a.attributeId;
     if (!aid || !BOM_PICK_ATTR_IDS.has(aid)) continue;
     const attr = getAttributeById(aid);
-    const attrLabel = attr?.label ?? aid;
+    const attrLabel = attr?.name ?? aid;
 
     for (const val of a.values) {
       if (val.valueSource === 'handbook_parameter' && val.parameterId) {

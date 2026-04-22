@@ -11,7 +11,7 @@ export const WORKSHOP2_DEMO_LINE_SKUS = [
   'SS27-U-SNK-03',
 ] as const;
 
-const DEMO_SKU_ORDER = new Map(WORKSHOP2_DEMO_LINE_SKUS.map((s, i) => [s, i]));
+const DEMO_SKU_ORDER = new Map<string, number>(WORKSHOP2_DEMO_LINE_SKUS.map((s, i) => [s, i]));
 
 /** Оставляет только демо-артикулы цеха и фиксирует порядок строк. */
 export function filterWorkshop2DemoOrderLines(items: unknown[]): unknown[] {

@@ -8,7 +8,7 @@ export function createLocalArticleWorkspacePort(): ArticleWorkspaceDataPort {
     mode: 'local',
     async loadBundle(ref: ArticleRef): Promise<ArticleWorkspaceBundle> {
       const raw = loadArticleWorkspaceBundle(ref);
-      return normalizeArticleWorkspaceBundle(ref, { schemaVersion: 1, ...raw });
+      return normalizeArticleWorkspaceBundle(ref, { ...raw, schemaVersion: 1 });
     },
     async mergeBundle(
       ref: ArticleRef,
@@ -16,9 +16,9 @@ export function createLocalArticleWorkspacePort(): ArticleWorkspaceDataPort {
     ): Promise<ArticleWorkspaceBundle> {
       const cur = loadArticleWorkspaceBundle(ref);
       const merged: ArticleWorkspaceBundle = {
-        schemaVersion: 1,
         ...cur,
         ...patch,
+        schemaVersion: 1,
         updatedAt: new Date().toISOString(),
       };
       saveArticleWorkspaceBundle(ref, merged);
