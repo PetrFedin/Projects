@@ -25,6 +25,8 @@ interface ComposerProps {
   onUnarchiveChat: () => void;
   onOpenCreateTask?: () => void;
   onAttachProduct?: () => void;
+  /** Хаб бренда: только ввод, вложения, задача, отправка */
+  hubCompact?: boolean;
 }
 
 export const Composer: React.FC<ComposerProps> = ({
@@ -44,7 +46,8 @@ export const Composer: React.FC<ComposerProps> = ({
   onFileClick,
   onUnarchiveChat,
   onOpenCreateTask,
-  onAttachProduct
+  onAttachProduct,
+  hubCompact,
 }) => {
   if (activeChat?.isArchived) {
     return (
@@ -68,7 +71,8 @@ export const Composer: React.FC<ComposerProps> = ({
   }
 
   return (
-    <div className="p-3 border-t border-slate-100 bg-white relative z-10 max-w-4xl mx-auto w-full transition-all">
+    <div className={cn('border-t border-slate-100 bg-white relative z-10 w-full transition-all', hubCompact ? 'p-2 max-w-none' : 'p-3 max-w-4xl mx-auto')}>
+      {!hubCompact && (
       <div className="mb-2.5 flex gap-1.5 overflow-x-auto scrollbar-hide py-0.5">
         <Button variant="outline" className="rounded-lg h-6.5 px-2.5 text-[8px] font-bold uppercase tracking-widest border-indigo-100 bg-indigo-50/30 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all shadow-sm" onClick={() => onSmartReply('status')}>
           <Factory className="h-3 w-3 mr-1.5" /> Status
@@ -96,12 +100,32 @@ export const Composer: React.FC<ComposerProps> = ({
           </Button>
         )}
       </div>
+      )}
+      {hubCompact && (
+        <div className="mb-1.5 flex flex-wrap gap-1">
+          {onOpenCreateTask && (
+            <Button type="button" variant="outline" size="sm" className="h-7 text-[11px] px-2" onClick={onOpenCreateTask}>
+              <ListTodo className="h-3.5 w-3.5 mr-1" />
+              Задача
+            </Button>
+          )}
+          {onAttachProduct && (
+            <Button type="button" variant="outline" size="sm" className="h-7 text-[11px] px-2" onClick={onAttachProduct}>
+              <Package className="h-3.5 w-3.5 mr-1" />
+              Товар
+            </Button>
+          )}
+        </div>
+      )}
 
       <div className="relative group/composer">
         <div className="relative bg-slate-100 border border-slate-200 rounded-2xl shadow-inner hover:shadow-md transition-all duration-300 p-1 overflow-hidden">
           <Textarea 
-            placeholder="Type a message or issue a command…" 
-            className="border-none bg-transparent focus-visible:ring-0 min-h-[80px] max-h-[200px] resize-none py-3 px-4 font-medium text-sm placeholder:text-slate-400 placeholder:italic scrollbar-hide shadow-none"
+            placeholder={hubCompact ? 'Сообщение…' : 'Type a message or issue a command…'} 
+            className={cn(
+              'border-none bg-transparent focus-visible:ring-0 max-h-[200px] resize-none py-3 px-4 font-medium text-sm placeholder:text-slate-400 scrollbar-hide shadow-none',
+              hubCompact ? 'min-h-[52px] placeholder:not-italic' : 'min-h-[80px] placeholder:italic'
+            )}
             value={composerText}
             onChange={e => setComposerText(e.target.value)}
             onKeyDown={(e) => {
@@ -134,6 +158,7 @@ export const Composer: React.FC<ComposerProps> = ({
                   </>
                 ) : <Mic className="h-4 w-4" />}
               </Button>
+              {!hubCompact && (
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -146,6 +171,7 @@ export const Composer: React.FC<ComposerProps> = ({
               >
                 <Sparkles className="h-4 w-4" />
               </Button>
+              )}
               <div className="w-px h-4 bg-slate-200 mx-1" />
               <Button 
                 variant="ghost" 
@@ -176,7 +202,7 @@ export const Composer: React.FC<ComposerProps> = ({
                 )}
                 onClick={onSendMessage}
               >
-                SEND
+                {hubCompact ? 'Отправить' : 'SEND'}
               </Button>
             </div>
           </div>

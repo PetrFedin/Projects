@@ -23,7 +23,6 @@ import { ChatList } from './ChatList';
 import { ChatHeader } from './ChatHeader';
 import { MessageList } from './MessageList';
 import { Composer } from './Composer';
-import { WidgetsPanel } from './WidgetsPanel';
 import { TaskHub } from './TaskHub';
 
 // Dialogs
@@ -34,7 +33,14 @@ import { SUPPLY_AND_STUDIO_STEP_IDS } from '@/lib/production/stages-comm-demo';
 import { useBrandCommunicationsUnread } from '@/lib/communications/use-communications-unread';
 import type { ChatMessage } from '@/lib/types';
 
-export default function MessagesPage({ initialRole }: { initialRole?: string }) {
+export default function MessagesPage({
+  initialRole,
+  communicationHubLayout,
+}: {
+  initialRole?: string;
+  /** Кабинет бренда: компактный UI как у календаря в хабе «Связь» */
+  communicationHubLayout?: boolean;
+}) {
   const { unreadByChat } = useBrandCommunicationsUnread();
   const searchParams = useSearchParams() ?? new URLSearchParams();
   const urlCommContextApplied = React.useRef(false);
@@ -68,13 +74,11 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
   const { recording, startRecording, stopRecording } = useRecording();
 
   const feedRootRef = React.useRef<HTMLDivElement>(null);
-  const [isAlertVisible, setIsAlertVisible] = React.useState(true);
+  const [isAlertVisible, setIsAlertVisible] = React.useState(!communicationHubLayout);
   const [createChatOpen, setCreateChatOpen] = React.useState(false);
-  const [tasksHubOpen, setTasksHubOpen] = React.useState(false);
   const [taskEditOpen, setTaskEditOpen] = React.useState(false);
   const [taskEditing, setTaskEditing] = React.useState<any>(null);
 
-  const [productionPhase] = React.useState(65);
   const [riskLevel] = React.useState(15);
 
   const stagesStepParam = searchParams.get('stagesStep') || '';
@@ -114,10 +118,14 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
   }, [currentRole]);
 
   return (
-    <div className={cn(
-      "flex flex-col gap-3 p-4 bg-white border border-slate-200 shadow-sm overflow-hidden",
-      "rounded-xl h-[calc(100vh-2rem)] min-h-[700px] text-slate-900 font-sans animate-in fade-in duration-700"
-    )}>
+    <div
+      className={cn(
+        'flex flex-col gap-2 overflow-hidden text-slate-900 font-sans',
+        communicationHubLayout
+          ? 'rounded-xl border border-slate-100 bg-white shadow-sm p-3 min-h-[min(720px,calc(100dvh-14rem))] h-[calc(100dvh-14rem)] max-h-[920px]'
+          : 'gap-3 p-4 bg-white border border-slate-200 shadow-sm rounded-xl h-[calc(100vh-2rem)] min-h-[700px] animate-in fade-in duration-700'
+      )}
+    >
       <TooltipProvider>
         <AlertsFabric isVisible={isAlertVisible} onClose={() => setIsAlertVisible(false)} />
         
@@ -132,9 +140,12 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
           onOpenTasksHub={() => setTab('tasks')}
           onOpenSettings={() => {}}
           onOpenCreateChat={() => setCreateChatOpen(true)}
+          variant={communicationHubLayout ? 'communicationHub' : 'default'}
+          hubTab={tab === 'tasks' ? 'tasks' : 'messages'}
+          onHubTabChange={(t) => setTab(t === 'tasks' ? 'tasks' : 'messages')}
         />
 
-        <div className="flex-1 flex gap-3 min-h-0">
+        <div className={cn('flex-1 flex min-h-0', communicationHubLayout ? 'gap-2' : 'gap-3')}>
           <GroupRail 
             availableGroups={availableGroups}
             activeGroup={activeGroup as any}
@@ -163,6 +174,7 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                 onOpenParticipants={() => {}}
                 onOpenArchive={() => {}}
                 onOpenSettings={() => {}}
+                compact={communicationHubLayout}
               />
             )}
 
@@ -227,7 +239,21 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                     onProcessAiCorrection={processAiCorrection}
                     onFileClick={() => {}}
                     onUnarchiveChat={() => {}}
+                    onOpenCreateTask={() => {
+                      setTaskEditing({
+                        id: Date.now(),
+                        user: 'user_petr',
+                        chatId: activeChatId,
+                        text: '',
+                        time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }),
+                        type: 'task',
+                        status: 'pending',
+                        priority: 'medium',
+                      } as ChatMessage);
+                      setTaskEditOpen(true);
+                    }}
                     onAttachProduct={() => chatState.setComposerText(prev => prev ? `${prev}\n[Обсуждаю товар — прикрепите из каталога]` : '[Обсуждаю товар — прикрепите из каталога]')}
+                    hubCompact={communicationHubLayout}
                   />
                 </>
               )}
