@@ -38,3 +38,18 @@
 
 - **Backend:** `POST /api/v1/auth/login/access-token` не проверяет пароль; `get_current_user` строит пользователя из JWT (`app/api/v1/endpoints/auth.py`, `app/api/deps.py`).
 - **Frontend:** при `USE_FASTAPI === false` часть API — локальные ответы (`collections-api.ts`, `demo-data.ts`).
+
+## Brand Center — основной контур UI (`/brand`)
+
+Кабинет бренда — отдельное дерево маршрутов под префиксом `/brand`. Его нельзя путать с публичной витриной бренда (`/b/[brandId]`, другой стек страниц и данных).
+
+| Слой | Файл / модуль | Назначение |
+|------|----------------|------------|
+| Оболочка (навигация, KPI, контейнер страниц) | `_ai-share/synth-1-full/src/app/brand/layout.tsx` | `brandNavGroups` / `allBrandNavLinks` из `src/lib/data/brand-navigation.ts`, RBAC (`canSeeNavGroup`), `businessMode`, полоса KPI (мок + опционально FastAPI), `PageContainer`, `StageContextBar`, `Suspense` для `useSearchParams` |
+| Главная страница профиля | `src/app/brand/page.tsx` | Табы `?group=` / `?tab=`, карточки разделов, синк профиля, ссылки на подразделы |
+| Маршруты | `src/lib/routes.ts` → `ROUTES.brand.*` | В коде кабинета предпочитать константы, не строки |
+| Синхронизация «профиля» (демо-хук) | `src/hooks/use-brand-profile-sync.ts` | При включённом FastAPI дергает `getBrandProfile` / `getBrandDashboard` / `getIntegrationsStatus`; без API — только локальный state |
+
+**Демо-поведение внутри контура:** KPI в шапке и часть сценариев остаются на заглушках; при `NEXT_PUBLIC_USE_FASTAPI=true` и доступном API часть метрик может подставляться с сервера (`fastApiService.getDashboardKpis` в layout). Не интерпретировать моки как боевые метрики.
+
+**Смежные зоны:** `/brand/academy/*` (отдельный `academy/layout.tsx`), `/brand/integrations/*`, календарь, документы — те же правила: клиентские компоненты, query-параметры, локальные сторы там, где нет бэка.

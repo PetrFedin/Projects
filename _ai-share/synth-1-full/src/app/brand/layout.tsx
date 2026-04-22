@@ -160,7 +160,8 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
 
     // Dynamic KPI data — разведены по B2B/B2C. Общие (shared) — одинаковы в обоих режимах.
     const getKpiData = () => {
-        const p = 'month' as const;
+        /** Period placeholder (UI selector not wired); cast so week/month/year branches are legal. */
+        const p = 'month' as 'week' | 'month' | 'year';
         const mode = businessMode;
         const all: Array<{ scope: 'shared' | 'b2b' | 'b2c'; label: string; val: number | string; unit: string; trend: number; color: (v: number) => string; desc: string; controlledIn: string; factors: string; href: string; roles: string[]; sparkline: number[]; trendText: string }> = [
             { scope: 'shared', label: 'Выручка', val: serverKpis?.revenue ? (serverKpis.revenue / 1000000).toFixed(1) : (p === 'week' ? 12.4 : p === 'month' ? 48.2 : 542.8), unit: 'млн ₽', trend: p === 'week' ? +4.2 : p === 'month' ? +8.4 : +12.5, color: (v: number) => 'text-indigo-600', desc: 'Общий объем продаж (GMV) по всем каналам.', controlledIn: 'Финансы, Продажи, Дашборд', factors: 'Объем заказов, Средний чек, Конверсия', href: '/brand/finance', roles: ['CEO', 'CFO', 'CMO', 'CDO'], sparkline: [45, 52, 48, 61, 55, 67, 72, 84], trendText: 'Рост' },
