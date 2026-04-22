@@ -25,7 +25,7 @@ export default function BrandMessagesPage() {
         />
       </div>
       <Suspense fallback={<div className="mx-4 p-6 text-sm text-slate-500">Загрузка сообщений…</div>}>
-        <MessagesPage initialRole="brand" />
+        <MessagesPage initialRole="brand" communicationHubLayout />
       </Suspense>
     </div>
   );
