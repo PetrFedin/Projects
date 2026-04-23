@@ -222,6 +222,7 @@ import { Workshop2DesignerManifestoBlock } from '@/components/brand/production/W
 import { Workshop2VisualsSketchMovedHint } from '@/components/brand/production/Workshop2VisualsSketchMovedHint';
 import { Workshop2VisualsTzStickySubnav } from '@/components/brand/production/Workshop2VisualsTzStickySubnav';
 import { Workshop2MaterialHubPanel } from '@/components/brand/production/Workshop2MaterialHubPanel';
+import { Workshop2MaterialHubNineGapFooter } from '@/components/brand/production/Workshop2MaterialHubNineGapFooter';
 import { Workshop2DossierNineClosureSummary } from '@/components/brand/production/Workshop2DossierNineClosureSummary';
 import { Workshop2NineGapBacklogStrip } from '@/components/brand/production/Workshop2NineGapBacklogStrip';
 import { Workshop2DossierSupplyChainDraftsPanel } from '@/components/brand/production/Workshop2DossierSupplyChainDraftsPanel';
@@ -6491,6 +6492,7 @@ export function Workshop2Phase1DossierPanel({
             dossierViewProfile={dossierViewProfile}
             tzWriteDisabled={tzWriteDisabled}
             updatedByLabel={updatedByLabel}
+            currentLeaf={currentLeaf}
           />
           <Collapsible
             open={materialPreSupplyExpanded}
@@ -6544,135 +6546,17 @@ export function Workshop2Phase1DossierPanel({
                   onJumpToQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
                   nineGapSectionPct={sectionReadiness.material.pct}
                   nineGapFooter={
-                    <WorkshopNineGapRelatedFooterShell
+                    <Workshop2MaterialHubNineGapFooter
                       matSketchBomGapRefs={matSketchBomGapRefs}
-                      onJumpMaterialHub={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+                      onJumpMaterialHub={() =>
+                        jumpToTzSectionAnchor('material', 'w2-material-hub')
+                      }
                       onJumpSketch={openSketchFromMaterialHub}
                       onJumpMaterialMatTable={jumpToMaterialMatTable}
                       onJumpConstructionContour={jumpToConstructionContour}
                       onJumpQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
-                      hint="Строки mat с теми же linkedBomLineRef, что на метках скетча; дельта и альтернативы — в снабжении."
-                    >
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-[10px]"
-                        onClick={() => jumpToTzSectionAnchor('general', 'w2-passport-hub')}
-                      >
-                        Паспорт
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-[10px]"
-                        onClick={() => jumpToTzSectionAnchor('visuals', 'w2-visuals-hub')}
-                      >
-                        Визуал
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-[10px]"
-                        onClick={() => jumpToTzSectionAnchor('construction', 'w2-construction-hub')}
-                      >
-                        Конструкция
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-[10px]"
-                        onClick={() =>
-                          jumpToTzSectionAnchor(
-                            'material',
-                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDrafts
-                          )
-                        }
-                      >
-                        Снабжение · черновики
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-[10px]"
-                        onClick={() =>
-                          jumpToTzSectionAnchor(
-                            'material',
-                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsDelta
-                          )
-                        }
-                      >
-                        Дельта BOM
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-[10px]"
-                        onClick={() =>
-                          jumpToTzSectionAnchor(
-                            'material',
-                            W2_MATERIAL_SUBPAGE_ANCHORS.factoryExport
-                          )
-                        }
-                      >
-                        Фабрика CSV
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-[10px]"
-                        onClick={() =>
-                          jumpToTzSectionAnchor(
-                            'material',
-                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsAlts
-                          )
-                        }
-                      >
-                        Альтернативы
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-[10px]"
-                        onClick={() =>
-                          jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.compliance)
-                        }
-                      >
-                        Комплаенс
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-[10px]"
-                        onClick={() =>
-                          jumpToTzSectionAnchor(
-                            'material',
-                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsCosting
-                          )
-                        }
-                      >
-                        Costing
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-[10px]"
-                        onClick={() =>
-                          jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.bomNorms)
-                        }
-                      >
-                        Нормы BOM
-                      </Button>
-                    </WorkshopNineGapRelatedFooterShell>
+                      onDossierJump={jumpToTzSectionAnchor}
+                    />
                   }
                   nineGapOnDossierJump={jumpToTzSectionAnchor}
                 />
