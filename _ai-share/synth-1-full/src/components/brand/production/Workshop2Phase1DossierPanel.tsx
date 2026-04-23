@@ -56,15 +56,6 @@ import {
 } from '@/lib/production/attribute-catalog';
 import type { AttributeCatalogAttribute } from '@/lib/production/attribute-catalog.types';
 import {
-  loadW2FieldDeferralSet,
-  phase1FieldSatisfiedForUi,
-  saveW2FieldDeferralSet,
-} from '@/lib/production/w2-dossier-field-presentation';
-import { partitionHandbookAndFree } from '@/lib/production/workshop2-phase1-attribute-partition';
-import { extractHex6 } from '@/lib/production/workshop2-passport-color-hex';
-import { normalizeRuColorMatch } from '@/lib/production/workshop2-passport-color-normalize';
-import { resolvedHandbookDisplayLabel } from '@/lib/production/workshop2-resolved-handbook-display-label';
-import {
   getSuggestedDimensionCmForParameterId,
   getWorkshopDimensionLabels,
   getWorkshopSampleSizeScaleOptions,
@@ -95,6 +86,7 @@ import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-le
 import {
   buildWorkshop2VisualGateItems,
   collectWorkshop2VisualSectionWarnings,
+  countOpenVisualRefThreads,
   W2_VISUAL_SUBPAGE_ANCHORS,
 } from '@/lib/production/workshop2-visual-section-warnings';
 import {
@@ -104,17 +96,11 @@ import {
 } from '@/lib/production/workshop2-phase1-dossier-storage';
 import { buildBomLinePickOptions } from '@/lib/production/workshop2-collection-dossier-analytics';
 import {
-  workshopTzAssigneeBelongsToBrandOrg,
-  workshopTzAssigneeOrganizationName,
   workshopTzExtraRowsRequiringTzSignoff,
   workshopTzParticipatesOnStage,
   workshopTzSignerAllowed,
   workshopTzSignoffRequiredForRole,
 } from '@/lib/production/workshop2-tz-signatory-options';
-import {
-  w2TzDossierSectionShowsExtraSignerRow,
-  w2TzDossierSectionShowsSignerBaseRole,
-} from '@/lib/production/w2-tz-section-signer-filter';
 import { BRANCH_CATALOG_SLOT_ROLE } from '@/lib/production/workshop2-tz-subcategory-sketches';
 import type {
   Workshop2DossierPhase1,
@@ -122,6 +108,7 @@ import type {
   Workshop2Phase1AttributeValue,
   Workshop2Phase1CategorySketchAnnotation,
   Workshop2Phase1DimensionRangeCell,
+  Workshop2Phase1TechPackAttachment,
   Workshop2Phase1VisualReference,
   Workshop2DossierSignoffMeta,
   Workshop2PassportDeadlineCriticality,
@@ -132,6 +119,9 @@ import type {
   Workshop2TzPerRoleStageFlags,
   Workshop2TzSignoffSectionKey,
   Workshop2TzSignoffStageId,
+  Workshop2VisualRefComment,
+  Workshop2VisualRefCommentReactionType,
+  Workshop2VisualRefTakeawayAspect,
 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { VisualCatalogSketchLinkRow } from '@/lib/production/workshop2-sketch-tz-matrix';
 import {
@@ -149,6 +139,10 @@ import {
   parseMatRowsFromDossier,
   type MatPctRow,
 } from '@/lib/production/workshop2-material-mat-rows';
+import {
+  resolveMaterialCompositionPresets,
+  type Workshop2MaterialCompositionPreset,
+} from '@/lib/production/workshop2-material-composition-presets';
 import {
   buildPassportHubModel,
   partitionGeneralPassportExtras,
@@ -188,6 +182,7 @@ import {
   defaultSketchExportSurfaceForDossierView,
   isWorkshop2DossierViewPrimarySection,
   workshop2DossierViewUiCaps,
+  WORKSHOP2_DOSSIER_VIEW_HINTS,
   WORKSHOP2_DOSSIER_VIEW_OPTIONS,
   type Workshop2DossierViewProfile,
 } from '@/lib/production/workshop2-dossier-view-infrastructure';
@@ -218,41 +213,29 @@ import {
   normalizeSketchSheets,
   SKETCH_SHEET_VIEW_LABELS,
 } from '@/lib/production/workshop2-sketch-sheets';
+import { Workshop2DossierRolePulsePanel } from '@/components/brand/production/Workshop2DossierRolePulsePanel';
 import { CategorySketchSheetsBlock } from '@/components/brand/production/CategorySketchSheetsBlock';
 import { CategorySubcategorySketchesTzBlock } from '@/components/brand/production/CategorySubcategorySketchesTzBlock';
-import { Workshop2DossierNavigator as DossierNavigator } from '@/components/brand/production/Workshop2DossierNavigator';
-import {
-  WORKSHOP_FIELD_LABEL_CLASS,
-  WorkshopAttributeHintIcon,
-  WorkshopInlineHintIcon,
-  WorkshopLabelWithHint,
-} from '@/components/brand/production/WorkshopFieldHints';
-import {
-  AttributeRowEditor,
-  WorkshopPassportColorBundle,
-} from '@/components/brand/production/Workshop2PassportAttributeRowEditors';
-import { Workshop2SampleBaseSizeBlock as SampleBaseSizeBlock } from '@/components/brand/production/Workshop2SampleBaseSizeBlock';
-import { Workshop2HandbookMultiSelectPopover as HandbookMultiSelectPopover } from '@/components/brand/production/Workshop2HandbookMultiSelectPopover';
-import { Workshop2MaterialCompositionBlock as MaterialCompositionBlock } from '@/components/brand/production/Workshop2MaterialCompositionBlock';
 import { SketchViewModeToggle } from '@/components/brand/production/SketchViewModeToggle';
-import { Workshop2NineGapRelatedFooterShell as WorkshopNineGapRelatedFooterShell } from '@/components/brand/production/Workshop2NineGapRelatedFooterShell';
-import { Workshop2SectionStageBoard as SectionStageBoard } from '@/components/brand/production/Workshop2SectionStageBoard';
-import { Workshop2TechPackAttachmentsBlock as TechPackAttachmentsBlock } from '@/components/brand/production/Workshop2TechPackAttachmentsBlock';
-import { Workshop2TzDigitalSignoffRow } from '@/components/brand/production/Workshop2TzDigitalSignoffRow';
 import { Workshop2VisualsExcellenceBlock } from '@/components/brand/production/Workshop2VisualsExcellenceBlock';
+import { Workshop2VisualsTzStickySubnav } from '@/components/brand/production/Workshop2VisualsTzStickySubnav';
 import { Workshop2MaterialHubPanel } from '@/components/brand/production/Workshop2MaterialHubPanel';
+import { Workshop2DossierNineClosureSummary } from '@/components/brand/production/Workshop2DossierNineClosureSummary';
 import { Workshop2NineGapBacklogStrip } from '@/components/brand/production/Workshop2NineGapBacklogStrip';
 import { Workshop2DossierSupplyChainDraftsPanel } from '@/components/brand/production/Workshop2DossierSupplyChainDraftsPanel';
-import { Workshop2VisualsDossierSection } from '@/components/brand/production/Workshop2VisualsDossierSection';
-import { Workshop2HandbookCheckReportBlock } from '@/components/brand/production/Workshop2HandbookCheckReportBlock';
 import { Workshop2MaterialTzStickySubnav } from '@/components/brand/production/Workshop2MaterialTzStickySubnav';
+import { Workshop2PassportTzStickySubnav } from '@/components/brand/production/Workshop2PassportTzStickySubnav';
+import { Workshop2PassportHubPanel } from '@/components/brand/production/Workshop2PassportHubPanel';
 import { Workshop2MeasurementsTableHub } from '@/components/brand/production/Workshop2MeasurementsTableHub';
+import { Workshop2TzSectionRolesPopover } from '@/components/brand/production/Workshop2TzSectionRolesPopover';
+import { Workshop2PassportAttributeReferenceBlock } from '@/components/brand/production/Workshop2PassportAttributeReferenceBlock';
 import {
   isSketchFloorInSearch,
   replaceSketchFloorInUrl,
   SKETCH_FLOOR_QUERY_PARAM,
 } from '@/lib/production/sketch-floor-url';
 import { isSketchFloorOnlyRole } from '@/lib/production/sketch-floor-rbac';
+import { visualReadinessProgress } from '@/lib/production/workshop2-visual-excellence';
 
 /** Метка скетча «этап маршрута» → вкладка артикула в воркспейсе. */
 const SKETCH_ROUTE_STAGE_TO_WORKSPACE_TAB: Record<
@@ -344,16 +327,107 @@ function loadWorkshopAttrGroupUi(): { pinned: Set<string>; collapsed: Set<string
   return { pinned: new Set(), collapsed: new Set() };
 }
 
+/** Подписи полей как у названия атрибута в карточке («Стиль, повод и активность»). */
+const WORKSHOP_FIELD_LABEL_CLASS = 'text-sm font-semibold text-text-primary';
+
+const WORKSHOP_HINT_TOOLTIP_CLASS =
+  'max-w-[min(22rem,calc(100vw-2rem))] space-y-1.5 border border-border-default bg-white px-3 py-2 text-left text-[11px] leading-snug text-text-primary shadow-md';
+
 /** Две одинаковые кнопки-справки: «Панель скетча» и «Скетч / узлы ветки». */
 const SKETCH_PHASE1_HELP_BUTTON_CLASS =
   'inline-flex min-h-7 items-center gap-1.5 rounded-md border border-border-default bg-white px-2 py-0.5 text-left shadow-sm hover:bg-bg-surface2';
+
+/** Подпись поля + иконка «i» с подсказкой (наведение). */
+function WorkshopLabelWithHint({
+  htmlFor,
+  children,
+  hint,
+  labelClassName,
+}: {
+  htmlFor?: string;
+  children: ReactNode;
+  hint: ReactNode;
+  labelClassName?: string;
+}) {
+  const labelCls = cn(WORKSHOP_FIELD_LABEL_CLASS, labelClassName);
+  return (
+    <div className="flex items-center gap-1">
+      {htmlFor ? (
+        <Label htmlFor={htmlFor} className={labelCls}>
+          {children}
+        </Label>
+      ) : (
+        <span className={labelCls}>{children}</span>
+      )}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            className="text-text-muted hover:bg-bg-surface2 hover:text-text-secondary focus-visible:ring-accent-primary inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition focus-visible:outline-none focus-visible:ring-2"
+            aria-label="Справка по полю"
+          >
+            <LucideIcons.Info className="h-3 w-3" strokeWidth={2} aria-hidden />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent side="top" className={WORKSHOP_HINT_TOOLTIP_CLASS}>
+          {hint}
+        </TooltipContent>
+      </Tooltip>
+    </div>
+  );
+}
+
+function attributeDetailHintBody(attribute: AttributeCatalogAttribute): ReactNode {
+  const d = attribute.descriptionHint?.trim();
+  const u = attribute.uiInformationHint?.trim();
+  if (!d && !u) {
+    return (
+      <p>
+        Поле «{attribute.name}»: выберите значение из справочника или введите текст, если поле это
+        допускает. Подсказку для команды можно задать в каталоге атрибутов.
+      </p>
+    );
+  }
+  return (
+    <div className="space-y-1.5">
+      {d ? <p>{d}</p> : null}
+      {u ? <p className="text-text-secondary">{u}</p> : null}
+    </div>
+  );
+}
+
+/** Иконка «i» с произвольным содержимым тултипа. */
+function WorkshopInlineHintIcon({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          className="text-text-muted hover:bg-bg-surface2 hover:text-text-secondary focus-visible:ring-accent-primary inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition focus-visible:outline-none focus-visible:ring-2"
+          aria-label={`Подробнее: ${label}`}
+        >
+          <LucideIcons.Info className="h-3 w-3" strokeWidth={2} aria-hidden />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent side="top" className={WORKSHOP_HINT_TOOLTIP_CLASS}>
+        {children}
+      </TooltipContent>
+    </Tooltip>
+  );
+}
+
+function WorkshopAttributeHintIcon({ attribute }: { attribute: AttributeCatalogAttribute }) {
+  return (
+    <WorkshopInlineHintIcon label={attribute.name}>
+      {attributeDetailHintBody(attribute)}
+    </WorkshopInlineHintIcon>
+  );
+}
 
 const WORKSHOP_REQUIRED_BADGE_TODO_CLASS =
   'text-[9px] font-semibold text-orange-900 bg-orange-50 border border-orange-200 rounded px-1.5 py-0.5';
 const WORKSHOP_REQUIRED_BADGE_DONE_CLASS =
   'text-[9px] font-semibold text-emerald-900 bg-emerald-50 border border-emerald-200 rounded px-1.5 py-0.5';
-const WORKSHOP_REQUIRED_BADGE_DEFER_CLASS =
-  'text-[9px] font-semibold text-slate-600 bg-slate-50 border border-slate-200 rounded px-1.5 py-0.5';
 
 /** Подписи групп каталога, которые в UI совпадают с бейджем «Обязательный» (как на шаге 1). */
 const WORKSHOP_GROUP_LABEL_AMBER = new Set(['Обязательно', 'Фаза 3 (не в форме фазы 1)']);
@@ -426,6 +500,327 @@ function formatDossierSignoffRu(
   }
 }
 
+function formatSignoffWhoWhen(meta: Workshop2DossierSignoffMeta | undefined): string | null {
+  if (!meta?.at) return null;
+  try {
+    return `${meta.by} · ${new Date(meta.at).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' })}`;
+  } catch {
+    return meta.by;
+  }
+}
+
+function WorkshopTzDigitalSignoffRow({
+  title,
+  canSign,
+  signoff,
+  onSign,
+  onRevoke,
+  canRevoke,
+  showNotifyResponsible,
+  onNotifyResponsible,
+  notifyResponsibleHighlighted,
+  hasRoleCapability,
+  signatoryMismatchHint,
+  passportAssigneeName,
+}: {
+  title: string;
+  canSign: boolean;
+  signoff?: Workshop2DossierSignoffMeta;
+  onSign: () => void;
+  onRevoke: () => void;
+  canRevoke: boolean;
+  /** Пока роль не подписала — кнопка уведомления слева от «Подписать». Скрывается, когда все три подписи стоят. */
+  showNotifyResponsible?: boolean;
+  onNotifyResponsible?: () => void;
+  /** Подсветка только у строки, для которой нажали «Уведомить ответственного». */
+  notifyResponsibleHighlighted?: boolean;
+  /** Есть ли право роли в команде (без учёта закрепления за лицом). */
+  hasRoleCapability?: boolean;
+  /** Коротко: закреплено за другим лицом (имя уже под заголовком роли). */
+  signatoryMismatchHint?: string;
+  passportAssigneeName?: string;
+}) {
+  const whoWhen = formatSignoffWhoWhen(signoff);
+  return (
+    <div className="border-border-subtle bg-bg-surface2/60 text-text-primary rounded-md border p-3 text-[11px]">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        <div className="min-w-0 flex-1 space-y-1">
+          <p className="text-text-primary font-semibold">{title}</p>
+          {passportAssigneeName?.trim() ? (
+            <p className="text-text-secondary text-[10px] leading-snug">
+              {passportAssigneeName.trim()}
+            </p>
+          ) : null}
+          {!canSign && !signoff ? (
+            signatoryMismatchHint ? (
+              <p className="text-[10px] leading-snug text-amber-900/90">{signatoryMismatchHint}</p>
+            ) : hasRoleCapability === false ? (
+              <p className="text-text-secondary text-[10px] leading-snug">
+                Нет права цифровой подписи для этого направления. Выдайте право в{' '}
+                <Link
+                  href={ROUTES.brand.teamPermissions}
+                  className="text-accent-primary hover:text-accent-primary font-medium underline"
+                >
+                  Команда → права доступа
+                </Link>
+                .
+              </p>
+            ) : null
+          ) : null}
+        </div>
+        <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+          {signoff ? (
+            <>
+              {whoWhen ? (
+                <span className="text-text-secondary max-w-[min(100%,14rem)] text-right text-[10px] leading-snug sm:max-w-[18rem]">
+                  {whoWhen}
+                </span>
+              ) : null}
+              <span
+                className="inline-flex h-9 items-center justify-center rounded-md border border-emerald-400 bg-emerald-50 px-3 text-xs font-semibold text-emerald-900 shadow-[0_0_0_1px_rgba(16,185,129,0.2),0_0_16px_rgba(16,185,129,0.25)]"
+                aria-live="polite"
+              >
+                Подписано
+              </span>
+              {canRevoke ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-9 px-3 text-xs"
+                  onClick={onRevoke}
+                >
+                  Снять подпись
+                </Button>
+              ) : (
+                <span className="text-text-muted max-w-[10rem] text-[9px] sm:max-w-none">
+                  Снять может только руководитель из списка допущенных.
+                </span>
+              )}
+            </>
+          ) : (
+            <>
+              {showNotifyResponsible && onNotifyResponsible ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  aria-pressed={notifyResponsibleHighlighted === true}
+                  className={cn(
+                    'h-9 gap-1.5 px-2.5 text-[11px] font-medium sm:px-3 sm:text-xs',
+                    notifyResponsibleHighlighted &&
+                      'border-red-500 bg-red-50 text-red-800 shadow-[0_0_0_1px_rgba(239,68,68,0.25)] hover:border-red-600 hover:bg-red-100 hover:text-red-900'
+                  )}
+                  onClick={onNotifyResponsible}
+                >
+                  <LucideIcons.Bell className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                  <span className="whitespace-nowrap">Уведомить ответственного</span>
+                </Button>
+              ) : null}
+              <Button
+                type="button"
+                className="h-9 px-3 text-xs font-semibold"
+                disabled={!canSign}
+                title={
+                  canSign
+                    ? undefined
+                    : 'Подписать может только исполнитель, закреплённый за эту роль в паспорте (и с нужным правом в команде).'
+                }
+                onClick={onSign}
+              >
+                Подписать
+              </Button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Подпись значения справочника в UI: для сезона и устаревших латинских ярлыков подставляем label из каталога. */
+function resolvedHandbookDisplayLabel(
+  attributeId: string | undefined,
+  parameterId: string | undefined,
+  stored: string | undefined
+): string {
+  if (!parameterId) return stored?.trim() || '—';
+  const attr = attributeId ? getAttributeById(attributeId) : undefined;
+  const catalogParam = attr?.parameters.find((x) => x.parameterId === parameterId);
+  const canon = catalogParam?.label?.trim();
+  const st = stored?.trim() ?? '';
+
+  if (attributeId === 'season' || parameterId.startsWith('season-')) {
+    if (canon) return canon;
+    return st || parameterId;
+  }
+
+  if (canon && (!st || st === parameterId)) return canon;
+
+  if (canon && st && st !== canon && !/[а-яё]/i.test(st) && /^[a-z0-9,.\s/&+-]+$/i.test(st)) {
+    return canon;
+  }
+
+  return st || canon || parameterId;
+}
+
+function canonicalPhaseAssignmentFilled(
+  assignment: Workshop2Phase1AttributeAssignment | undefined,
+  attr: AttributeCatalogAttribute
+): boolean {
+  if (!assignment || assignment.kind !== 'canonical') return false;
+  const hb = assignment.values.filter((v) => v.valueSource === 'handbook_parameter').length;
+  const hasFree = assignment.values.some(
+    (v) => v.valueSource === 'free_text' && (v.text?.trim()?.length ?? 0) > 0
+  );
+  if (attr.type === 'text' && attr.parameters.length === 0) {
+    return hasFree;
+  }
+  if (attr.allowMultipleDistinct || attr.type === 'multiselect') {
+    return hb > 0 || (!!attr.allowFreeText && hasFree);
+  }
+  return hb > 0 || (!!attr.allowFreeText && hasFree);
+}
+
+/** Выпадающий список с чекбоксами (несколько значений справочника). */
+function HandbookMultiSelectPopover({
+  options,
+  parts,
+  onPartsChange,
+  className,
+  catalogAttributeId,
+  maxSelections,
+}: {
+  options: { parameterId: string; label: string }[];
+  parts: { parameterId: string; displayLabel: string }[];
+  onPartsChange: (next: { parameterId: string; displayLabel: string }[]) => void;
+  className?: string;
+  /** Для корректных подписей в сводке кнопки (сезон и др.) при устаревшем displayLabel в досье. */
+  catalogAttributeId?: string;
+  /** Не больше стольких значений (остальные чекбоксы неактивны, пока не снимете выбор). */
+  maxSelections?: number;
+}) {
+  const [open, setOpen] = useState(false);
+  const [filterQ, setFilterQ] = useState('');
+  const selected = new Set(parts.map((p) => p.parameterId));
+  const summary =
+    parts.length === 0
+      ? '—'
+      : parts.length <= 2
+        ? parts
+            .map((p) =>
+              resolvedHandbookDisplayLabel(catalogAttributeId, p.parameterId, p.displayLabel)
+            )
+            .join(', ')
+        : `${parts.length} выбрано`;
+
+  const needle = filterQ.trim().toLowerCase();
+  const filteredOptions =
+    needle.length === 0
+      ? options
+      : options.filter(
+          (o) =>
+            o.label.toLowerCase().includes(needle) || o.parameterId.toLowerCase().includes(needle)
+        );
+
+  const onOpenChange = (next: boolean) => {
+    setOpen(next);
+    if (!next) setFilterQ('');
+  };
+
+  const atCap =
+    maxSelections != null &&
+    Number.isFinite(maxSelections) &&
+    maxSelections >= 0 &&
+    selected.size >= maxSelections;
+
+  const toggle = (parameterId: string) => {
+    const next = new Set(selected);
+    if (next.has(parameterId)) next.delete(parameterId);
+    else {
+      if (atCap) return;
+      next.add(parameterId);
+    }
+    const ordered = options
+      .filter((o) => next.has(o.parameterId))
+      .map((o) => ({ parameterId: o.parameterId, displayLabel: o.label }));
+    onPartsChange(ordered);
+  };
+
+  return (
+    <Popover open={open} onOpenChange={onOpenChange}>
+      <PopoverTrigger asChild>
+        <Button
+          type="button"
+          variant="outline"
+          className={cn(
+            'text-text-primary h-9 w-full justify-between gap-2 px-2.5 text-left text-xs font-normal',
+            className
+          )}
+        >
+          <span className="truncate">{summary}</span>
+          <LucideIcons.ChevronDown
+            className="text-text-secondary h-3.5 w-3.5 shrink-0"
+            aria-hidden
+          />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[min(100vw-2rem,22rem)] p-0" align="start">
+        <div className="border-border-subtle border-b p-2">
+          <Input
+            className="h-8 text-xs"
+            placeholder="Поиск в фильтре…"
+            value={filterQ}
+            onChange={(e) => setFilterQ(e.target.value)}
+            autoComplete="off"
+            autoFocus
+          />
+        </div>
+        <div className="max-h-64 space-y-1 overflow-y-auto p-2">
+          {maxSelections != null &&
+          Number.isFinite(maxSelections) &&
+          maxSelections >= 0 &&
+          atCap ? (
+            <p className="text-text-secondary px-2 py-1.5 text-[10px] leading-snug">
+              Уже выбрано максимум размеров ({maxSelections}) по паспорту — снимите лишний, чтобы
+              добавить другой.
+            </p>
+          ) : null}
+          {options.length === 0 ? (
+            <p className="text-text-secondary px-2 py-2 text-[11px]">Нет значений.</p>
+          ) : filteredOptions.length === 0 ? (
+            <p className="text-text-secondary px-2 py-2 text-[11px]">
+              Ничего не найдено — измените запрос.
+            </p>
+          ) : (
+            filteredOptions.map((o) => {
+              const checked = selected.has(o.parameterId);
+              const disableAdd = !checked && atCap;
+              return (
+                <label
+                  key={o.parameterId}
+                  className={cn(
+                    'flex items-start gap-2 rounded-md py-1.5 pl-1 pr-2',
+                    disableAdd
+                      ? 'cursor-not-allowed opacity-50'
+                      : 'hover:bg-bg-surface2 cursor-pointer'
+                  )}
+                >
+                  <Checkbox
+                    checked={checked}
+                    disabled={disableAdd}
+                    onCheckedChange={() => toggle(o.parameterId)}
+                    className="mt-0.5 shrink-0"
+                  />
+                  <span className="text-text-primary text-xs leading-snug">{o.label}</span>
+                </label>
+              );
+            })
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 function newUuid(): string {
   return globalThis.crypto.randomUUID();
 }
@@ -434,6 +829,16 @@ function findCanonicalIndex(dossier: Workshop2DossierPhase1, attributeId: string
   return dossier.assignments.findIndex(
     (a) => a.kind === 'canonical' && a.attributeId === attributeId
   );
+}
+
+function partitionHandbookAndFree(a: Workshop2Phase1AttributeAssignment | undefined) {
+  const hbs =
+    a?.values.filter(
+      (v): v is Workshop2Phase1AttributeValue & { parameterId: string } =>
+        v.valueSource === 'handbook_parameter' && !!v.parameterId
+    ) ?? [];
+  const ft = a?.values.find((v) => v.valueSource === 'free_text');
+  return { hbs, ft };
 }
 
 function sumSampleBasePieceQtyForPids(
@@ -474,23 +879,9 @@ function clampSampleBasePieceQtyToCap(
   return Object.keys(nq).length ? nq : undefined;
 }
 
-function normalizeSampleCountValue(v: number | undefined): number {
-  const n = typeof v === 'number' && Number.isFinite(v) ? Math.floor(v) : 1;
-  return Math.max(1, n);
-}
-
-function normalizeDossierSampleCount(
-  dossier: Workshop2DossierPhase1
-): Workshop2DossierPhase1 {
-  const normalized = normalizeSampleCountValue(dossier.passportProductionBrief?.moqTargetMaxPieces);
-  if (dossier.passportProductionBrief?.moqTargetMaxPieces === normalized) return dossier;
-  return {
-    ...dossier,
-    passportProductionBrief: {
-      ...(dossier.passportProductionBrief ?? {}),
-      moqTargetMaxPieces: normalized,
-    },
-  };
+function partitionValues(a: Workshop2Phase1AttributeAssignment | undefined) {
+  const { hbs, ft } = partitionHandbookAndFree(a);
+  return { hb: hbs[0], ft };
 }
 
 function upsertCanonicalMultiHandbookAndFree(
@@ -634,6 +1025,11 @@ const PRIMARY_FAMILY_TO_PALETTE_KEYWORDS: [RegExp, string[]][] = [
   [/золот|gold|серебр|silver|металлик/i, ['золот', 'gold', 'серебр', 'silver', 'металлик']],
 ];
 
+/** Ё→е: иначе «чёрный» не попадает в /черн/ и не матчится с подписями палитры. */
+function normalizeRuColorMatch(s: string): string {
+  return s.toLowerCase().replace(/ё/g, 'е');
+}
+
 /** Тот же порядок семейств, что у PRIMARY_FAMILY_TO_PALETTE_KEYWORDS — fallback hex для «Свой оттенок». */
 const PRIMARY_FAMILY_FALLBACK_HEX: [RegExp, string][] = [
   [/черн|black/i, '#0f172a'],
@@ -712,6 +1108,34 @@ function normalizeCatalogHex(hex: string | undefined): string | undefined {
   return `#${h}`;
 }
 
+/** Токены для сужения списка палитры по подписи основной группы и референса. */
+function collectColorBundlePaletteNeedles(dossier: Workshop2DossierPhase1): string[] {
+  const out: string[] = [];
+  const pushTokens = (raw: string) => {
+    for (const w of raw.split(/[\s,/·|()[\]#]+/)) {
+      const t = normalizeRuColorMatch(w.trim());
+      if (t.length >= 3 && !/^pantone$/i.test(t)) out.push(t);
+    }
+  };
+  for (const aid of ['primaryColorFamilyOptions', 'colorReferenceSystemOptions'] as const) {
+    const assign = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === aid);
+    const { hbs } = partitionHandbookAndFree(assign);
+    for (const v of hbs) {
+      if (v.displayLabel) pushTokens(v.displayLabel);
+    }
+  }
+  return [...new Set(out)].slice(0, 14);
+}
+
+function split100(n: number): number[] {
+  if (n <= 0) return [];
+  const base = Math.floor(100 / n);
+  const arr = Array.from({ length: n }, () => base);
+  let rem = 100 - base * n;
+  for (let i = 0; i < rem; i++) arr[i % n] += 1;
+  return arr;
+}
+
 function applyMatComposition(
   dossier: Workshop2DossierPhase1,
   rows: MatPctRow[],
@@ -725,6 +1149,23 @@ function applyMatComposition(
   let next = upsertCanonicalHandbookValues(dossier, 'mat', handbookParts);
   if (syncComposition) next = upsertCanonicalDual(next, 'composition', null, compText);
   return next;
+}
+
+function extractHex6(s: string): string | undefined {
+  const m = s.match(/#([0-9A-Fa-f]{6})\b/);
+  return m ? `#${m[1]!.toLowerCase()}` : undefined;
+}
+
+function extractTwoHexesFromCss(s: string): { a: string; b: string } | null {
+  const matches = [...s.matchAll(/#([0-9A-Fa-f]{6})\b/gi)];
+  if (matches.length >= 2) {
+    return { a: `#${matches[0]![1]!.toLowerCase()}`, b: `#${matches[1]![1]!.toLowerCase()}` };
+  }
+  if (matches.length === 1) {
+    const h = `#${matches[0]![1]!.toLowerCase()}`;
+    return { a: h, b: h };
+  }
+  return null;
 }
 
 export type Workshop2DossierPanelVariant = 'phase1' | 'phase2' | 'phase3';
@@ -771,8 +1212,6 @@ type Props = {
   tzDigitalSignoffCapabilities?: Workshop2TzDigitalSignoffCapabilities;
   /** Внешняя перезагрузка досье из storage (например правка подписантов в паспорте). */
   dossierHydrateKey?: number;
-  /** Открыть модалку «Пульс» из разделов ТЗ. `materialHints` — показать подсказки по полям материалов в диалоге. */
-  onOpenPulse?: (ctx?: { materialHints?: boolean }) => void;
 };
 
 import { Badge } from '@/components/ui/badge';
@@ -783,9 +1222,9 @@ const SECTIONS: {
   icon: keyof typeof LucideIcons;
 }[] = [
   { id: 'general', label: 'Паспорт', icon: 'Info' },
-  { id: 'visuals', label: 'Визуал', icon: 'Image' },
-  { id: 'construction', label: 'Конструкции', icon: 'Scissors' },
-  { id: 'material', label: 'Материал', icon: 'Layers' },
+  { id: 'visuals', label: 'Визуал / Эскиз', icon: 'Image' },
+  { id: 'material', label: 'Материалы (BOM)', icon: 'Layers' },
+  { id: 'construction', label: 'Конструкция', icon: 'Scissors' },
 ];
 
 const SECTION_LABEL_BY_ID: Record<DossierSection, string> = {
@@ -903,44 +1342,48 @@ const SECTION_GUIDANCE: Record<
     step: 'Шаг 1',
     title: 'Паспорт артикула',
     description:
-      'SKU, категория, аудитория и базовые коды — ось для визуала, BOM и мерок.',
+      'Задаёт общую ось SKU для всего маршрута коллекции: аудитория, L1–L3, SKU, сезон и цвет; рынок сбыта и план по происхождению; предварительный ТН ВЭД, обоснование классификации, Incoterms и штрихкод. Финальные реквизиты под отгрузку и маркировку — на приёмке сэмпла (Fit).',
     owner: 'Бренд-дизайнер',
   },
   visuals: {
     step: 'Шаг 2',
     title: 'Соберите визуальную базу артикула',
     description:
-      'Референсы, канон, замысел, скетч с метками и поля «Визуал».',
+      'Фиксирует образ для маршрута SKU: референсы и канон, замысел (текст), скетч с метками и поля каталога «Визуал» — общий язык для дизайна, технолога и цеха до образца.',
     owner: 'Бренд-дизайнер',
   },
   material: {
     step: 'Шаг 3',
     title: 'Материалы (BOM) и сопутствующие поля выпуска',
-    description: 'Состав, mat-строки, упаковка и маркировка в одном контуре.',
+    description:
+      'Когда образ понятен, переходите к BOM: основной материал, состав, подкладка и ограничения по сырью. Здесь же — упаковка, маркировка, штрихкод, уход и температура этикетки (раньше отдельная вкладка).',
     owner: 'Дизайнер + product developer',
   },
   measurements: {
     step: 'Шаг 4',
     title: 'Табель мер',
-    description: 'Шкала, база и мерки для образца и серии.',
+    description:
+      'Размерная шкала, базовый размер и таблица мерок для образца и серии; синхронизация с конструкцией и ОТК.',
     owner: 'Технолог',
   },
   construction: {
     step: 'Шаг 5',
     title: 'Конструкция и табель мер',
-    description: 'Узлы, силуэт, мерки и скетч — одна площадка с ОТК и цехом.',
+    description:
+      'Силуэт, длину, узлы, застежки, карманы и техрешения для лекал и пошива; размерная шкала, базовый размер и таблица мерок. Точка схода для дизайна, технолога, менеджера, снабжения, цеха, ОТК, комплаенса и мерча — см. «Роли» на этой вкладке.',
     owner: 'Технолог · дизайн · смежные роли',
   },
   packaging: {
     step: 'Шаг 6',
     title: 'Упаковка и маркировка',
-    description: 'Упаковка и этикетки для серии.',
+    description: 'Спецификация упаковки, этикеток и штрихкода для выпуска и склада.',
     owner: 'Продакт',
   },
   sample_intake: {
     step: 'Fit',
     title: 'Приёмка сэмпла в коллекцию',
-    description: 'По маршруту коллекции после образца, не отдельная вкладка ТЗ.',
+    description:
+      'Не вкладка ТЗ: заполняется на маршруте разработки коллекции (Fit / gold) после образца — режим цепочки производства и финальный комплаенс-блок перед включением в коллекцию.',
     owner: 'Бренд / продакт',
   },
 };
@@ -972,31 +1415,9 @@ function getSectionWarnings(
 ): string[] {
   if (section === 'general') {
     const warnings: string[] = [];
-    const pb = dossier.passportProductionBrief;
-    if (!dossier.selectedAudienceId?.trim()) warnings.push('Не выбрана аудитория.');
-    if (!currentLeaf?.pathLabel?.trim()) warnings.push('Не зафиксирована ветка каталога (L1–L3).');
     if (!skuDraft.trim()) warnings.push('SKU еще не подтвержден.');
     if (!nameDraft.trim()) warnings.push('Нет рабочего названия модели.');
-    if (!pb?.articleCardOwnerName?.trim()) {
-      warnings.push('Укажите ответственного за карточку артикула (администратор модели).');
-    }
-    if (!pb?.plannedLaunchType || pb.plannedLaunchType === 'undecided') {
-      warnings.push('Выберите планируемый тип запуска (своё производство / КНП / смешанный).');
-    }
-    if (!pb?.targetSampleOrPilotDate?.trim()) {
-      warnings.push('Задайте целевую дату образца или пилотной партии.');
-    }
-    if (pb?.deadlineCriticality !== 'hard' && pb?.deadlineCriticality !== 'flexible') {
-      warnings.push('Укажите критичность срока: жёсткий дедлайн или гибкий ориентир.');
-    }
-    const moq = pb?.moqTargetMaxPieces;
-    const moqOk =
-      moq != null && Number.isFinite(moq) && moq >= 1;
-    if (!moqOk) {
-      warnings.push(
-        'Укажите целевое количество образцов (шт) в брифе — лимит для выбора размеров и суммы «Кол-во, шт» в табеле мерок.'
-      );
-    }
+    /** Замысел и эскиз — только вкладка «Визуал», не дублируем в баннере паспорта. */
     return warnings;
   }
   if (section === 'visuals') {
@@ -1030,19 +1451,12 @@ function getSectionWarnings(
   return [];
 }
 
-type HandbookCheckAspectRow = {
-  label: string;
-  ok: boolean;
-  jumpSection?: Workshop2TzSignoffSectionKey;
-  jumpAnchorId?: string;
-};
-
 type HandbookCheckSnapshot = {
   checkedAtIso: string;
   /** Раздел, по которому строился снимок (текущая вкладка при нажатии «Проверить»). */
   scopeSection: DossierSection;
   /** Те же контрольные пункты, что в полосе раздела — что именно сверялось. */
-  checkAspects: HandbookCheckAspectRow[];
+  checkAspects: { label: string; ok: boolean }[];
   /** Строки с префиксом названия раздела. */
   lines: string[];
   bySection: Record<DossierSection, string[]>;
@@ -1061,7 +1475,7 @@ function buildHandbookCheckSnapshot(
     { done: number; total: number; pct: number; status: string }
   >,
   scopeSection: DossierSection,
-  checkAspects: HandbookCheckAspectRow[]
+  checkAspects: { label: string; ok: boolean }[]
 ): HandbookCheckSnapshot {
   const bySection = {} as Record<DossierSection, string[]>;
   for (const s of SECTIONS) {
@@ -1093,6 +1507,169 @@ function buildHandbookCheckSnapshot(
   };
 }
 
+function renderHandbookCheckReportBlock(
+  snapshot: HandbookCheckSnapshot,
+  reportUi: { expanded: boolean; onToggleExpanded: () => void }
+): ReactNode {
+  const globals = snapshot.globalHandbookWarnings ?? [];
+  const inSections = new Set(SECTIONS.flatMap((s) => snapshot.bySection[s.id] ?? []));
+  const onlyGlobal = globals.filter((w) => !inSections.has(w));
+  const hasSectionIssues = SECTIONS.some((s) => (snapshot.bySection[s.id]?.length ?? 0) > 0);
+  const hasAny = hasSectionIssues || onlyGlobal.length > 0;
+  const scopeLabel = SECTION_LABEL_BY_ID[snapshot.scopeSection];
+  const { expanded, onToggleExpanded } = reportUi;
+
+  const aspects = snapshot.checkAspects ?? [];
+  const aspectsOk = aspects.filter((a) => a.ok).length;
+  const aspectsTotal = aspects.length;
+
+  const checklistBlock =
+    aspectsTotal > 0 ? (
+      <div className="border-border-default/90 space-y-1.5 rounded-md border bg-white/70 p-2.5">
+        <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">
+          Что сверялось · {scopeLabel} · {aspectsOk}/{aspectsTotal} ок
+        </p>
+        <ul className="space-y-1" role="list">
+          {aspects.map((a, i) => (
+            <li key={`${a.label}-${i}`} className="flex gap-2 text-[11px] leading-snug">
+              <span
+                className={cn(
+                  'w-4 shrink-0 text-center text-xs font-bold',
+                  a.ok ? 'text-emerald-600' : 'text-amber-600'
+                )}
+                aria-hidden
+              >
+                {a.ok ? '✓' : '!'}
+              </span>
+              <span className={cn(a.ok ? 'text-text-primary' : 'font-medium text-amber-900')}>
+                {a.label}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ) : null;
+
+  const body = !hasAny ? (
+    <p className="text-[11px] font-medium leading-snug text-emerald-700">
+      {aspectsTotal > 0 ? 'По перечисленным пунктам замечаний нет.' : 'Расхождений не выявлено.'}
+    </p>
+  ) : (
+    <div className="space-y-2">
+      {SECTIONS.map((s) => {
+        const ws = snapshot.bySection[s.id] ?? [];
+        if (ws.length === 0) return null;
+        return (
+          <details
+            key={s.id}
+            open={s.id === snapshot.scopeSection}
+            className="rounded-md border border-amber-100 bg-amber-50/50 text-amber-950"
+          >
+            <summary className="cursor-pointer select-none px-2 py-2 text-[11px] font-semibold leading-snug [&::-webkit-details-marker]:hidden">
+              {s.label}
+              <span className="ml-1 font-normal text-amber-800/80">
+                ({ws.length}) · развернуть / свернуть
+              </span>
+            </summary>
+            <ul className="space-y-1.5 border-t border-amber-100/80 px-2 pb-2 pt-2">
+              {ws.map((warning, idx) => (
+                <li
+                  key={`${s.id}-${idx}-${warning.slice(0, 48)}`}
+                  className="rounded-md border border-amber-100/90 bg-white/80 p-2 text-[11px] text-amber-900"
+                >
+                  {warning}
+                </li>
+              ))}
+            </ul>
+          </details>
+        );
+      })}
+      {onlyGlobal.length > 0 ? (
+        <details className="border-border-default bg-bg-surface2/90 text-text-primary rounded-md border">
+          <summary className="cursor-pointer select-none px-2 py-2 text-[11px] font-semibold leading-snug [&::-webkit-details-marker]:hidden">
+            Сквозные проверки
+            <span className="text-text-secondary ml-1 font-normal">
+              ({onlyGlobal.length}) · мерки, подписи, визуал, материал…
+            </span>
+          </summary>
+          <ul className="border-border-default space-y-1.5 border-t px-2 pb-2 pt-2">
+            {onlyGlobal.map((warning, idx) => (
+              <li
+                key={`glob-${idx}-${warning.slice(0, 48)}`}
+                className="border-border-subtle text-text-primary rounded-md border bg-white p-2 text-[11px]"
+              >
+                {warning}
+              </li>
+            ))}
+          </ul>
+        </details>
+      ) : null}
+    </div>
+  );
+
+  const checkedAtLabel = new Date(snapshot.checkedAtIso).toLocaleString('ru-RU', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+  });
+  const collapsedSummary = !hasAny ? (
+    <span className="font-medium text-emerald-700">
+      {aspectsTotal > 0
+        ? `${aspectsOk}/${aspectsTotal} пунктов без замечаний.`
+        : 'Расхождений не выявлено.'}
+    </span>
+  ) : (
+    <span className="font-medium text-amber-800">
+      {aspectsTotal > 0
+        ? `Замечания по разделу · ${aspectsOk}/${aspectsTotal} пунктов ок — разверните отчёт.`
+        : 'Есть замечания — разверните отчёт.'}
+    </span>
+  );
+
+  return (
+    <div className="border-border-subtle bg-bg-surface2/70 space-y-2 rounded-lg border p-3">
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">
+          Отчёт проверки · {scopeLabel}
+        </p>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="text-text-secondary hover:text-text-primary h-7 shrink-0 gap-1 px-2 text-[10px] font-semibold"
+          onClick={onToggleExpanded}
+          aria-expanded={expanded}
+        >
+          {expanded ? (
+            <>
+              Свернуть
+              <LucideIcons.ChevronUp className="h-3.5 w-3.5" aria-hidden />
+            </>
+          ) : (
+            <>
+              Развернуть
+              <LucideIcons.ChevronDown className="h-3.5 w-3.5" aria-hidden />
+            </>
+          )}
+        </Button>
+      </div>
+      {expanded ? (
+        <>
+          {checklistBlock}
+          {body}
+          <p className="text-text-secondary text-[10px]">
+            {checkedAtLabel}
+            {hasAny ? ' · исправьте замечания и нажмите «Проверить» снова.' : null}
+          </p>
+        </>
+      ) : (
+        <p className="text-text-secondary text-[10px] leading-snug">
+          {collapsedSummary} <span className="text-text-muted">· {checkedAtLabel}</span>
+        </p>
+      )}
+    </div>
+  );
+}
+
 type BuildControlPointsCtx = {
   dossier: Workshop2DossierPhase1;
   currentLeaf: HandbookCategoryLeaf;
@@ -1107,17 +1684,11 @@ type BuildControlPointsCtx = {
   hasAssignmentValue: (attributeId: string) => boolean;
 };
 
-type Workshop2HandbookSectionControlPoint = {
-  label: string;
-  done: boolean;
-  jump?: { section: Workshop2TzSignoffSectionKey; anchorId: string };
-};
-
 /** Чекпоинты секции — та же логика, что у полосы контроля в центральной колонке. */
 function buildSectionControlPoints(
   section: DossierSection,
   ctx: BuildControlPointsCtx
-): Workshop2HandbookSectionControlPoint[] {
+): { label: string; done: boolean }[] {
   const {
     dossier,
     currentLeaf,
@@ -1129,47 +1700,30 @@ function buildSectionControlPoints(
     hasAssignmentValue,
   } = ctx;
   const secDone = sectionReadiness[section].done;
-  const P = W2_PASSPORT_SUBPAGE_ANCHORS;
-  const M = W2_MATERIAL_SUBPAGE_ANCHORS;
-  const C = W2_CONSTRUCTION_SUBPAGE_ANCHORS;
-  const V = W2_VISUAL_SUBPAGE_ANCHORS;
-  const j = (s: Workshop2TzSignoffSectionKey, anchorId: string) => ({ section: s, anchorId });
 
   switch (section) {
     case 'general': {
       const pb = dossier.passportProductionBrief;
-      const audienceOk = Boolean(dossier.selectedAudienceId?.trim() || selectedAudienceLabel);
-      const moq = pb?.moqTargetMaxPieces;
-      const moqOk = moq != null && Number.isFinite(moq) && moq >= 1;
       return [
-        { label: 'Аудитория выбрана', done: audienceOk, jump: j('general', P.identity) },
-        { label: 'Категория 1 / 2 / 3 подтверждена', done: Boolean(currentLeaf.pathLabel), jump: j('general', P.identity) },
-        { label: 'SKU подтвержден', done: Boolean(skuDraft.trim()), jump: j('general', P.identity) },
-        { label: 'Рабочее название модели есть', done: Boolean(nameDraft.trim()), jump: j('general', P.identity) },
+        { label: 'Аудитория выбрана', done: Boolean(selectedAudienceLabel) },
+        { label: 'Категория 1 / 2 / 3 подтверждена', done: Boolean(currentLeaf.pathLabel) },
+        { label: 'SKU подтвержден', done: Boolean(skuDraft.trim()) },
+        { label: 'Рабочее название модели есть', done: Boolean(nameDraft.trim()) },
         {
           label: 'Администратор модели (карточка артикула)',
           done: Boolean(pb?.articleCardOwnerName?.trim()),
-          jump: j('general', P.brief),
         },
         {
           label: 'Тип запуска (цех / КНП / смешанный)',
           done: Boolean(pb?.plannedLaunchType && pb.plannedLaunchType !== 'undecided'),
-          jump: j('general', P.brief),
         },
         {
           label: 'Срок образца / пилота',
           done: Boolean(pb?.targetSampleOrPilotDate?.trim()),
-          jump: j('general', P.brief),
-        },
-        {
-          label: 'Количество образцов (шт, лимит для табеля)',
-          done: moqOk,
-          jump: j('general', P.brief),
         },
         {
           label: 'Критичность срока (жёстко / гибко)',
           done: pb?.deadlineCriticality === 'hard' || pb?.deadlineCriticality === 'flexible',
-          jump: j('general', P.brief),
         },
       ];
     }
@@ -1181,73 +1735,50 @@ function buildSectionControlPoints(
             dossier.categorySketchImageDataUrl ||
             (dossier.categorySketchAnnotations?.length ?? 0) > 0
           ),
-          jump: j('construction', W2_VISUALS_SKETCH_ANCHOR_ID),
         },
         {
           label: 'Есть метки на скетче',
           done: (dossier.categorySketchAnnotations?.length ?? 0) > 0,
-          jump: j('construction', W2_VISUALS_SKETCH_ANCHOR_ID),
         },
-        { label: 'Замысел в «Визуал»', done: Boolean(dossier.brandNotes?.trim()), jump: j('visuals', V.hub) },
-        {
-          label: 'Референсы добавлены',
-          done: (dossier.visualReferences?.length ?? 0) > 0,
-          jump: j('visuals', V.refs),
-        },
+        { label: 'Замысел в «Визуал»', done: Boolean(dossier.brandNotes?.trim()) },
+        { label: 'Референсы добавлены', done: (dossier.visualReferences?.length ?? 0) > 0 },
       ];
     case 'material':
       return [
-        { label: 'Основной материал выбран', done: hasAssignmentValue('mat'), jump: j('material', M.mat) },
-        {
-          label: 'Состав подтвержден',
-          done: hasAssignmentValue('composition'),
-          jump: j('material', M.composition),
-        },
+        { label: 'Основной материал выбран', done: hasAssignmentValue('mat') },
+        { label: 'Состав подтвержден', done: hasAssignmentValue('composition') },
         {
           label: 'Подкладка / дублирование описаны',
           done: hasAssignmentValue('lining') || hasAssignmentValue('fusing'),
-          jump: j('material', M.hub),
         },
         {
           label: 'Критичные material notes учтены',
           done: hasAssignmentValue('fabric_weight') || hasAssignmentValue('lining_composition'),
-          jump: j('material', M.fields),
         },
-        { label: 'Тип упаковки указан', done: hasAssignmentValue('packaging'), jump: j('material', M.compliance) },
-        { label: 'Маркировка описана', done: hasAssignmentValue('labeling'), jump: j('material', M.compliance) },
-        { label: 'Штрихкод / кодировка указаны', done: hasAssignmentValue('barcode'), jump: j('material', M.compliance) },
+        { label: 'Тип упаковки указан', done: hasAssignmentValue('packaging') },
+        { label: 'Маркировка описана', done: hasAssignmentValue('labeling') },
+        { label: 'Штрихкод / кодировка указаны', done: hasAssignmentValue('barcode') },
       ];
     case 'construction':
       return [
-        {
-          label: 'Размерная шкала выбрана',
-          done: Boolean(dossier.sampleSizeScaleId),
-          jump: j('construction', 'w2-measurements-fields'),
-        },
-        {
-          label: 'Базовый размер выбран',
-          done: hasAssignmentValue('sampleBaseSize'),
-          jump: j('construction', 'w2-measurements-fields'),
-        },
+        { label: 'Размерная шкала выбрана', done: Boolean(dossier.sampleSizeScaleId) },
+        { label: 'Базовый размер выбран', done: hasAssignmentValue('sampleBaseSize') },
         {
           label: 'Табель мер заполнен',
           done: Boolean(
             dossier.sampleBasePerSizeDimensions &&
             Object.keys(dossier.sampleBasePerSizeDimensions).length > 0
           ),
-          jump: j('construction', 'w2-measurements-fields'),
         },
         {
           label: 'Нет критичных пропусков по меркам справочника',
           done: !handbookWarnings.some(
             (warning) => warning.includes('мерки') || warning.includes('Табель мер')
           ),
-          jump: j('construction', 'w2-measurements-fields'),
         },
         {
           label: 'Силуэт / посадка описаны',
           done: hasAssignmentValue('silh') || hasAssignmentValue('fit_type'),
-          jump: j('construction', C.hub),
         },
         {
           label: 'Ключевые узлы зафиксированы',
@@ -1256,18 +1787,325 @@ function buildSectionControlPoints(
             hasAssignmentValue('pocket') ||
             hasAssignmentValue('neck') ||
             hasAssignmentValue('sleeve'),
-          jump: j('construction', C.hub),
         },
         {
           label: 'Есть tech pack / ссылка на лекала',
           done: hasAssignmentValue('techPackRef') || (dossier.techPackAttachments?.length ?? 0) > 0,
-          jump: j('construction', C.hub),
         },
-        { label: 'Раздел не пустой', done: secDone > 0, jump: j('construction', C.hub) },
+        { label: 'Раздел не пустой', done: secDone > 0 },
       ];
     default:
       return [];
   }
+}
+
+function DossierNavigator({
+  activeSection,
+  setActiveSection,
+  sectionReadiness,
+  handbookCheckBySection,
+  dossierViewProfile,
+  primarySections,
+  secondarySections,
+}: {
+  activeSection: Workshop2TzSignoffSectionKey;
+  setActiveSection: (s: Workshop2TzSignoffSectionKey) => void;
+  sectionReadiness: Record<
+    DossierSection,
+    { done: number; total: number; pct: number; status: string }
+  >;
+  /** Если задан — индикаторы по результату последней проверки «Проверить»; иначе без подсветки расхождений. */
+  handbookCheckBySection: Record<DossierSection, string[]> | null;
+  dossierViewProfile: Workshop2DossierViewProfile;
+  primarySections: typeof SECTIONS;
+  secondarySections: typeof SECTIONS;
+}) {
+  const [extraNavOpen, setExtraNavOpen] = useState(() =>
+    dossierViewProfile === 'full' ? false : secondarySections.some((s) => s.id === activeSection)
+  );
+  useEffect(() => {
+    if (dossierViewProfile === 'full') {
+      setExtraNavOpen(false);
+      return;
+    }
+    setExtraNavOpen(secondarySections.some((s) => s.id === activeSection));
+  }, [dossierViewProfile, activeSection, secondarySections]);
+
+  const renderSectionButton = (s: (typeof SECTIONS)[number], primaryForView: boolean) => {
+    const Icon = LucideIcons[s.icon] as any;
+    const sr = sectionReadiness[s.id];
+    const completion = { done: sr.done, total: sr.total, pct: sr.pct };
+    const statusLabel = sr.status;
+    const stepNumber = SECTIONS.findIndex((section) => section.id === s.id) + 1;
+    const secProbe = handbookCheckBySection ? (handbookCheckBySection[s.id] ?? []) : [];
+    const hasWarnings = handbookCheckBySection != null && secProbe.length > 0;
+
+    return (
+      <button
+        key={s.id}
+        type="button"
+        title={
+          primaryForView || activeSection === s.id ? undefined : 'Вторично для выбранного режима ТЗ'
+        }
+        onClick={() => setActiveSection(s.id)}
+        className={cn(
+          'group relative grid w-full grid-cols-[auto_auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 rounded-xl px-3 py-2.5 text-left transition-all',
+          activeSection === s.id
+            ? 'bg-accent-primary shadow-accent-primary/10 text-white shadow-lg'
+            : 'hover:bg-bg-surface2 text-text-secondary hover:text-text-primary',
+          !primaryForView &&
+            activeSection !== s.id &&
+            'ring-dashed ring-border-default/70 opacity-70 ring-1'
+        )}
+      >
+        {hasWarnings && activeSection !== s.id && (
+          <span className="absolute right-2 top-2 flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
+          </span>
+        )}
+        <span
+          className={cn(
+            'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-black',
+            activeSection === s.id
+              ? 'bg-accent-primary text-white'
+              : 'bg-bg-surface2 text-text-secondary'
+          )}
+        >
+          {stepNumber}
+        </span>
+        <Icon
+          className={cn(
+            'h-4 w-4 shrink-0',
+            activeSection === s.id
+              ? 'text-white'
+              : 'text-text-muted group-hover:text-accent-primary'
+          )}
+        />
+        <div className="flex min-w-0 items-baseline justify-between gap-2">
+          <span className="min-w-0 truncate text-[13px] font-bold leading-none">{s.label}</span>
+          <span
+            className={cn(
+              'shrink-0 text-[10px] font-semibold tabular-nums leading-none',
+              activeSection === s.id ? 'text-accent-primary/30' : 'text-text-muted'
+            )}
+          >
+            {statusLabel} · {completion.done}/{completion.total}
+          </span>
+        </div>
+        <div className="relative h-6 w-6 shrink-0 justify-self-end">
+          <svg className="h-6 w-6 -rotate-90">
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              className={activeSection === s.id ? 'text-accent-primary/30' : 'text-text-inverse'}
+            />
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeDasharray={2 * Math.PI * 10}
+              strokeDashoffset={2 * Math.PI * 10 * (1 - completion.pct / 100)}
+              className={activeSection === s.id ? 'text-white' : 'text-accent-primary'}
+            />
+          </svg>
+          <span
+            className={cn(
+              'absolute inset-0 flex items-center justify-center text-[7px] font-black',
+              activeSection === s.id ? 'text-white' : 'text-accent-primary'
+            )}
+          >
+            {completion.pct}%
+          </span>
+        </div>
+      </button>
+    );
+  };
+
+  return (
+    <nav className="flex flex-col gap-1">
+      {primarySections.map((s) =>
+        renderSectionButton(
+          s,
+          dossierViewProfile === 'full' ||
+            isWorkshop2DossierViewPrimarySection(dossierViewProfile, s.id)
+        )
+      )}
+      {secondarySections.length > 0 ? (
+        <Collapsible
+          open={extraNavOpen}
+          onOpenChange={setExtraNavOpen}
+          className="border-border-default/90 bg-bg-surface2/80 rounded-xl border border-dashed"
+        >
+          <CollapsibleTrigger className="text-text-secondary hover:bg-bg-surface2/80 flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2 text-left text-[11px] font-semibold">
+            <span>Дополнительные разделы ({secondarySections.length})</span>
+            <LucideIcons.ChevronsUpDown className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-1 px-0 pb-2 pt-1">
+            {secondarySections.map((s) => renderSectionButton(s, false))}
+          </CollapsibleContent>
+        </Collapsible>
+      ) : null}
+    </nav>
+  );
+}
+
+function SectionStageBoard({
+  warnings,
+  onJumpToVisualBrandNotes,
+}: {
+  warnings: string[];
+  onJumpToVisualBrandNotes?: () => void;
+}) {
+  if (warnings.length === 0) return null;
+
+  return (
+    <div className="border-border-default rounded-xl border bg-white p-4 shadow-sm">
+      <div className="space-y-1 rounded-lg border border-amber-100 bg-amber-50/40 p-3">
+        <ul className="space-y-1">
+          {warnings.map((w, idx) => {
+            const targetAttrId = w.includes('SKU')
+              ? 'sku'
+              : w.includes('назв')
+                ? 'name'
+                : w.includes('замыс')
+                  ? 'brandNotes'
+                  : w.includes('материал')
+                    ? 'mat'
+                    : w.includes('мерки')
+                      ? 'sampleBaseSize'
+                      : null;
+            return (
+              <li key={idx} className="flex items-start gap-1.5 text-[11px] text-amber-800">
+                <LucideIcons.AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                <span>{w}</span>
+                {targetAttrId && (
+                  <button
+                    type="button"
+                    className="text-accent-primary ml-auto text-[10px] font-bold hover:underline"
+                    onClick={() => {
+                      if (targetAttrId === 'brandNotes' && onJumpToVisualBrandNotes) {
+                        onJumpToVisualBrandNotes();
+                        return;
+                      }
+                      const el = document.getElementById(`w2-attr-${targetAttrId}`);
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    ПЕРЕЙТИ
+                  </button>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/** Футер стрипа «до 9»: ряд переходов, короткая подсказка, при разрыве BOM↔скетч — предупреждение и кнопки. */
+function WorkshopNineGapRelatedFooterShell({
+  children,
+  matSketchBomGapRefs,
+  onJumpMaterialHub,
+  onJumpSketch,
+  onJumpMaterialMatTable,
+  onJumpConstructionContour,
+  onJumpQcRoute,
+  hint,
+}: {
+  children: ReactNode;
+  matSketchBomGapRefs: readonly string[];
+  onJumpMaterialHub: () => void;
+  onJumpSketch: () => void;
+  /** Якорь таблицы mat (`w2-material-mat`). */
+  onJumpMaterialMatTable?: () => void;
+  onJumpConstructionContour?: () => void;
+  onJumpQcRoute?: () => void;
+  hint?: string;
+}) {
+  const gapCount = matSketchBomGapRefs.length;
+  const preview = matSketchBomGapRefs.slice(0, 4).join(', ');
+  const more = gapCount > 4 ? '…' : '';
+  return (
+    <div className="space-y-2">
+      <div className="flex flex-wrap gap-1.5">{children}</div>
+      {hint ? <p className="text-text-secondary text-[9px] leading-snug">{hint}</p> : null}
+      {gapCount > 0 ? (
+        <div className="space-y-1.5 rounded-md border border-amber-300/80 bg-amber-50/65 px-2 py-1.5">
+          <p className="text-[9px] font-bold uppercase tracking-wide text-amber-950">
+            Разрыв BOM ↔ скетч
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-7 border-amber-400/90 bg-white text-[10px] text-amber-950 hover:bg-amber-50"
+              onClick={onJumpMaterialHub}
+            >
+              К хабу материалов
+            </Button>
+            {onJumpMaterialMatTable ? (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-7 border-amber-400/90 bg-white text-[10px] text-amber-950 hover:bg-amber-50"
+                onClick={onJumpMaterialMatTable}
+              >
+                К таблице mat
+              </Button>
+            ) : null}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-7 border-amber-400/90 bg-white text-[10px] text-amber-950 hover:bg-amber-50"
+              onClick={onJumpSketch}
+            >
+              К скетчу · lineRef
+            </Button>
+            {onJumpConstructionContour ? (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-7 border-amber-400/90 bg-white text-[10px] text-amber-950 hover:bg-amber-50"
+                onClick={onJumpConstructionContour}
+              >
+                Конструкция · контур
+              </Button>
+            ) : null}
+            {onJumpQcRoute ? (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-7 border-amber-400/90 bg-white text-[10px] text-amber-950 hover:bg-amber-50"
+                onClick={onJumpQcRoute}
+              >
+                ОТК · вкладка
+              </Button>
+            ) : null}
+          </div>
+          <p className="text-[9px] leading-snug text-amber-950/95">
+            <span className="font-semibold tabular-nums">{gapCount}</span> ref с меток или скетча не
+            найдены в строках mat: <span className="break-all font-mono text-[8px]">{preview}</span>
+            {more}
+          </p>
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 export function Workshop2Phase1DossierPanel({
@@ -1291,7 +2129,6 @@ export function Workshop2Phase1DossierPanel({
   tzSignoffRevokerLabels,
   tzDigitalSignoffCapabilities,
   dossierHydrateKey = 0,
-  onOpenPulse,
 }: Props) {
   const { toast } = useToast();
   const { user } = useAuth();
@@ -1581,7 +2418,14 @@ export function Workshop2Phase1DossierPanel({
     []
   );
   const [activeMaterialSubNavId, setActiveMaterialSubNavId] = useState<string | null>(null);
-  const [materialPreSupplyExpanded, setMaterialPreSupplyExpanded] = useState(true);
+  const [materialPreSupplyExpanded, setMaterialPreSupplyExpanded] = useState(
+    () => !showMaterialSupplyDraftsNav
+  );
+
+  useEffect(() => {
+    if (showMaterialSupplyDraftsNav) setMaterialPreSupplyExpanded(false);
+    else setMaterialPreSupplyExpanded(true);
+  }, [showMaterialSupplyDraftsNav]);
 
   useEffect(() => {
     materialPreSupplyNavExpandRef.current = (anchorId: string) => {
@@ -1592,14 +2436,9 @@ export function Workshop2Phase1DossierPanel({
 
   const [passportDriftLogDone, setPassportDriftLogDone] = useState(false);
   const [dossierMetricsTick, setDossierMetricsTick] = useState(0);
-  /** Avoid hydration mismatch: metrics read session/localStorage, absent on the server. */
-  const [dossierMetricsFooterMounted, setDossierMetricsFooterMounted] = useState(false);
   const [sketchVisualCatalogHighlightIds, setSketchVisualCatalogHighlightIds] = useState<string[]>(
     []
   );
-  useEffect(() => {
-    setDossierMetricsFooterMounted(true);
-  }, []);
   const sketchVisualCatalogHighlightSet = useMemo(
     () => new Set(sketchVisualCatalogHighlightIds),
     [sketchVisualCatalogHighlightIds]
@@ -1822,25 +2661,6 @@ export function Workshop2Phase1DossierPanel({
     },
     [tzWriteDisabled, toast]
   );
-
-  const [fieldDeferralIds, setFieldDeferralIds] = useState<Set<string>>(() => new Set());
-  useEffect(() => {
-    setFieldDeferralIds(loadW2FieldDeferralSet(collectionId, articleId));
-  }, [collectionId, articleId]);
-
-  const toggleFieldDeferral = useCallback(
-    (attributeId: string, checked: boolean) => {
-      setFieldDeferralIds((prev) => {
-        const next = new Set(prev);
-        if (checked) next.add(attributeId);
-        else next.delete(attributeId);
-        saveW2FieldDeferralSet(collectionId, articleId, next);
-        return next;
-      });
-    },
-    [collectionId, articleId]
-  );
-
   /** Снимок последнего сохранённого досье (для диффа в журнале при «Сохранить» / шагах). */
   const lastPersistedDossierRef = useRef<Workshop2DossierPhase1 | null>(null);
   const lastPersistSuccessToastAtRef = useRef(0);
@@ -1905,7 +2725,6 @@ export function Workshop2Phase1DossierPanel({
       rowKey: string;
       title: string;
       passportAssigneeName?: string;
-      passportAssigneeOrgLabel?: string;
       assigneeForNotify?: string;
       canSign: boolean;
       hasRoleCapability: boolean;
@@ -1923,26 +2742,19 @@ export function Workshop2Phase1DossierPanel({
       if (!workshopTzParticipatesOnStage(flags, 'tz')) return;
       const d = designated?.trim();
       const hasAssignee = Boolean(d);
-      const assigneeOrgName = workshopTzAssigneeOrganizationName(d);
-      const assigneeIsBrand = workshopTzAssigneeBelongsToBrandOrg(d);
-      const effectiveAssignee = assigneeIsBrand ? d : undefined;
-      const hasEffectiveAssignee = Boolean(effectiveAssignee);
       /** Подписать может только закреплённый в паспорте исполнитель с правом роли. */
-      const canSign = cap && hasEffectiveAssignee && workshopTzSignerAllowed(updatedByLabel, effectiveAssignee);
+      const canSign = cap && hasAssignee && workshopTzSignerAllowed(updatedByLabel, d);
       const mismatch =
-        cap && hasAssignee && !assigneeIsBrand
-          ? `Для роли «${title}» нужен сотрудник бренда. Сейчас закреплено: ${d}${assigneeOrgName ? ` (${assigneeOrgName})` : ''}.`
-          : cap && hasEffectiveAssignee && !workshopTzSignerAllowed(updatedByLabel, effectiveAssignee)
+        cap && hasAssignee && !workshopTzSignerAllowed(updatedByLabel, d)
           ? 'Войдите под закреплённым в паспорте пользователем или смените закрепление.'
-          : cap && !hasEffectiveAssignee
+          : cap && !hasAssignee
             ? 'Закрепите исполнителя в паспорте — подписать может только он.'
             : undefined;
       rows.push({
         rowKey: role,
         title,
-        passportAssigneeName: effectiveAssignee || undefined,
-        passportAssigneeOrgLabel: assigneeOrgName,
-        assigneeForNotify: effectiveAssignee,
+        passportAssigneeName: d || undefined,
+        assigneeForNotify: d,
         canSign,
         hasRoleCapability: cap,
         signatoryMismatchHint: mismatch,
@@ -1977,7 +2789,6 @@ export function Workshop2Phase1DossierPanel({
       const name = ex.assigneeDisplayLabel?.trim() ?? '';
       const hasAssignee = Boolean(name);
       const canSign = hasAssignee && workshopTzSignerAllowed(updatedByLabel, name);
-      const assigneeOrgName = workshopTzAssigneeOrganizationName(name);
       const mismatch = !hasAssignee
         ? 'Закрепите исполнителя в паспорте — подписать может только он.'
         : !workshopTzSignerAllowed(updatedByLabel, name)
@@ -1987,7 +2798,6 @@ export function Workshop2Phase1DossierPanel({
         rowKey: `extra:${ex.rowId}`,
         title: ex.roleTitle?.trim() || 'Роль',
         passportAssigneeName: name || undefined,
-        passportAssigneeOrgLabel: assigneeOrgName,
         assigneeForNotify: name || undefined,
         canSign,
         hasRoleCapability: true,
@@ -2007,18 +2817,6 @@ export function Workshop2Phase1DossierPanel({
     tzSignCaps.manager,
     updatedByLabel,
   ]);
-
-  const tzDigitalSignoffRowsForActiveSection = useMemo(() => {
-    return tzDigitalSignoffRows.filter((row) => {
-      if (row.rowKey.startsWith('extra:')) {
-        return w2TzDossierSectionShowsExtraSignerRow(activeSection);
-      }
-      if (row.rowKey === 'designer' || row.rowKey === 'technologist' || row.rowKey === 'manager') {
-        return w2TzDossierSectionShowsSignerBaseRole(activeSection, row.rowKey);
-      }
-      return true;
-    });
-  }, [tzDigitalSignoffRows, activeSection]);
 
   const onTzRevokeDenied = useCallback(() => {
     setTzRevokeDeniedHint(
@@ -2084,9 +2882,8 @@ export function Workshop2Phase1DossierPanel({
 
   useEffect(() => {
     const raw = getWorkshop2Phase1Dossier(collectionId, articleId) ?? emptyWorkshop2DossierPhase1();
-    const normalized = normalizeDossierSampleCount(raw);
-    setDossierInternal(normalized);
-    lastPersistedDossierRef.current = normalized;
+    setDossierInternal(raw);
+    lastPersistedDossierRef.current = raw;
     setHandbookCheckSnapshot(null);
   }, [collectionId, articleId, dossierHydrateKey]);
 
@@ -2196,10 +2993,10 @@ export function Workshop2Phase1DossierPanel({
   const showVisualSketchLinkFieldsNav = dvCaps.visualSketchPinLinkFieldsStrip;
   const showMaterialCostingHintsNav = dvCaps.materialCostingHintsStrip;
 
-  /** Относительный href — одинаков на SSR и клиенте (избегаем hydration mismatch). */
   const workshop2FactoryShareUrl = useMemo(() => {
+    if (typeof window === 'undefined') return null;
     const seg = workshop2ArticleUrlSegment(internalArticleCode, articleId);
-    return workshop2ArticleHref(collectionId, seg, {
+    const rel = workshop2ArticleHref(collectionId, seg, {
       w2view: 'factory',
       sketchFloor: true,
       w2step: '1',
@@ -2207,6 +3004,7 @@ export function Workshop2Phase1DossierPanel({
       w2pane: 'tz',
       hash: 'w2-visuals-hub',
     });
+    return `${window.location.origin}${rel}`;
   }, [articleId, collectionId, internalArticleCode]);
 
   const sketchPinLinkAudit = useMemo(() => {
@@ -2498,30 +3296,6 @@ export function Workshop2Phase1DossierPanel({
     });
   }, [collectionId, articleId, toast, tzWriteDisabled, updatedByLabel, w2DossierMetricsCtx]);
 
-  const appendTzSessionJournalNote = useCallback(
-    (summary: string) => {
-      if (tzWriteDisabled) return;
-      setDossierInternal((prev: Workshop2DossierPhase1) => {
-        const withLog = pushTzActionLog(prev, updatedByLabel, {
-          type: 'dossier_edit',
-          summaries: [summary],
-        });
-        const stamped: Workshop2DossierPhase1 = {
-          ...withLog,
-          schemaVersion: 1,
-          updatedAt: new Date().toISOString(),
-          updatedBy: updatedByLabel.slice(0, 256),
-        };
-        lastPersistedDossierRef.current = stamped;
-        if (!setWorkshop2Phase1Dossier(collectionId, articleId, stamped)) {
-          return prev;
-        }
-        return stamped;
-      });
-    },
-    [collectionId, articleId, tzWriteDisabled, updatedByLabel]
-  );
-
   const matAttrDef = getAttributeById('mat');
   const matAttrForLeaf = useMemo(() => {
     if (!matAttrDef) return undefined;
@@ -2579,7 +3353,7 @@ export function Workshop2Phase1DossierPanel({
       }));
       const cap = prev.passportProductionBrief?.moqTargetMaxPieces;
       const capped =
-        cap != null && Number.isFinite(cap) && cap >= 1 ? parts.slice(0, Math.floor(cap)) : parts;
+        cap != null && Number.isFinite(cap) && cap >= 0 ? parts.slice(0, Math.floor(cap)) : parts;
       return syncSampleBaseSizePartsAndPruneDims(prev, capped, ft?.text ?? '');
     });
   }, [currentLeaf.leafId, tzWriteDisabled]);
@@ -2902,7 +3676,7 @@ export function Workshop2Phase1DossierPanel({
         const attr = getAttributeById(id);
         if (!attr?.requiredForPhase2) continue;
         const a = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === id);
-        if (!phase1FieldSatisfiedForUi(attr, a)) {
+        if (!canonicalPhaseAssignmentFilled(a, attr)) {
           setSaveError(`Заполните поле «${attr.name}».`);
           return;
         }
@@ -3140,11 +3914,6 @@ export function Workshop2Phase1DossierPanel({
     const ok = onPatchArticleLine({ sku: next });
     if (!ok) {
       setSkuDraft(articleSku);
-      toast({
-        title: 'Артикул уже используется',
-        description: 'В этой подборке уже есть строка с таким нормализованным кодом (SKU).',
-        variant: 'destructive',
-      });
       return;
     }
     setDossier((prev: Workshop2DossierPhase1) =>
@@ -3153,7 +3922,7 @@ export function Workshop2Phase1DossierPanel({
         summaries: [`SKU артикула: ${next}`],
       })
     );
-  }, [articleSku, onPatchArticleLine, skuDraft, toast, updatedByLabel]);
+  }, [articleSku, onPatchArticleLine, skuDraft, updatedByLabel]);
 
   const commitName = useCallback(() => {
     const next = nameDraft.trim();
@@ -3280,7 +4049,7 @@ export function Workshop2Phase1DossierPanel({
         getWorkshop2ConstructionTabMergedGroupIds().has(attribute.groupId));
 
     const body =
-      attribute.attributeId === 'techPackRef' && activeSection !== 'construction' ? null : attribute.attributeId === 'techPackRef' ? (
+      attribute.attributeId === 'techPackRef' ? (
         <div className="space-y-3">
           <TechPackAttachmentsBlock
             attachments={dossier.techPackAttachments ?? []}
@@ -3299,113 +4068,75 @@ export function Workshop2Phase1DossierPanel({
           setDossierInternal={setDossierInternal}
           tzWriteDisabled={tzWriteDisabled}
           onFreeTextSide={onFreeTextSide}
-          syncSampleBaseSizePartsAndPruneDims={syncSampleBaseSizePartsAndPruneDims}
         />
       ) : (
         editor
       );
 
     const showRequired =
-      (workshopPhase === '1' && attribute.requiredForPhase1) ||
-      (workshopPhase === '2' && attribute.requiredForPhase2);
+      variant === 'base' &&
+      ((workshopPhase === '1' && attribute.requiredForPhase1) ||
+        (workshopPhase === '2' && attribute.requiredForPhase2));
     const assignment = dossier.assignments.find((a) => a.attributeId === attribute.attributeId);
-    const isDeferred = fieldDeferralIds.has(attribute.attributeId);
-    const isFilled = phase1FieldSatisfiedForUi(attribute, assignment);
-    const isMissingRequired = showRequired && !isFilled && !isDeferred;
+    const isFilled = canonicalPhaseAssignmentFilled(assignment, attribute);
+    const isMissingRequired = showRequired && !isFilled;
 
     const hideMaterialFlatGroupCrumb =
       activeSection === 'material' &&
       groupLabel &&
       (groupLabel === 'Доп. атрибуты' ||
-        groupLabel === 'Материалы' ||
         groupLabel === WORKSHOP_MERGED_OUTERWEAR_MATERIAL_TAB_LABEL);
 
-    const fieldDeferId = `w2-field-defer-${attribute.attributeId}`;
     const header = (
-      <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1">
-        <div className="min-w-0 flex flex-1 flex-wrap items-baseline gap-x-2 gap-y-0">
-          {showRequired ? (
-            <span
-              className={cn(
-                isDeferred
-                  ? WORKSHOP_REQUIRED_BADGE_DEFER_CLASS
-                  : isMissingRequired
-                    ? WORKSHOP_REQUIRED_BADGE_TODO_CLASS
-                    : WORKSHOP_REQUIRED_BADGE_DONE_CLASS,
-                isMissingRequired && 'animate-pulse'
-              )}
-            >
-              {isDeferred ? 'Позже' : isMissingRequired ? 'Заполните' : 'Обязательный'}
-            </span>
-          ) : null}
-          {frame === 'card' &&
-          groupLabel &&
-          groupLabel !== 'Паспорт' &&
-          !hideMaterialFlatGroupCrumb ? (
-            <span
-              className={cn(
-                'text-[9px] font-semibold uppercase tracking-tight',
-                groupLabel && WORKSHOP_GROUP_LABEL_AMBER.has(groupLabel)
-                  ? 'text-orange-800'
-                  : variant === 'base'
-                    ? 'text-text-muted font-bold'
-                    : 'text-accent-primary font-bold'
-              )}
-            >
-              {groupLabel}
-            </span>
-          ) : null}
-          <span className="inline-flex min-w-0 items-center gap-0.5">
-            <span
-              className={cn(
-                'text-sm font-semibold',
-                showRequired
-                  ? isDeferred
-                    ? 'text-text-secondary'
-                    : isMissingRequired
-                      ? 'text-red-600'
-                      : 'text-emerald-700'
-                  : isDeferred
-                    ? 'text-text-secondary'
-                    : 'text-text-primary'
-              )}
-            >
-              {attribute.name}
-            </span>
-            {showAttributeNameHintIcon ? <WorkshopAttributeHintIcon attribute={attribute} /> : null}
-            {attributeIdsLinkedOnSketch.has(attribute.attributeId) ? (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span
-                    className="inline-flex rounded-full bg-teal-100 p-0.5 text-teal-700"
-                    aria-label="Есть метка на скетче"
-                  >
-                    <LucideIcons.MapPin className="h-3 w-3 shrink-0" />
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent side="top" className="max-w-[240px] text-xs">
-                  К атрибуту привязана метка на общем скетче или скетч-листе
-                </TooltipContent>
-              </Tooltip>
-            ) : null}
-          </span>
-        </div>
-        <div className="border-border-subtle text-text-secondary flex shrink-0 items-center gap-1.5 rounded-md border bg-bg-surface2/50 px-1.5 py-0.5">
-          <Checkbox
-            id={fieldDeferId}
-            checked={isDeferred}
-            onCheckedChange={(v) => toggleFieldDeferral(attribute.attributeId, v === true)}
-            disabled={tzWriteDisabled}
-            className="h-3.5 w-3.5"
-            aria-label="Временно не требовать заполнения"
-          />
-          <label
-            htmlFor={fieldDeferId}
-            className="text-text-secondary cursor-pointer select-none text-[10px] leading-tight"
+      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0">
+        {showRequired ? (
+          <span
+            className={cn(
+              isMissingRequired
+                ? WORKSHOP_REQUIRED_BADGE_TODO_CLASS
+                : WORKSHOP_REQUIRED_BADGE_DONE_CLASS,
+              isMissingRequired && 'animate-pulse'
+            )}
           >
-            Позже
-          </label>
-        </div>
+            {isMissingRequired ? 'Заполните' : 'Обязательный'}
+          </span>
+        ) : null}
+        {frame === 'card' &&
+        groupLabel &&
+        groupLabel !== 'Паспорт' &&
+        !hideMaterialFlatGroupCrumb ? (
+          <span
+            className={cn(
+              'text-[9px] font-semibold uppercase tracking-tight',
+              groupLabel && WORKSHOP_GROUP_LABEL_AMBER.has(groupLabel)
+                ? 'text-orange-800'
+                : variant === 'base'
+                  ? 'text-text-muted font-bold'
+                  : 'text-accent-primary font-bold'
+            )}
+          >
+            {groupLabel}
+          </span>
+        ) : null}
+        <span className="inline-flex items-center gap-0.5">
+          <span className="text-text-primary text-sm font-semibold">{attribute.name}</span>
+          {showAttributeNameHintIcon ? <WorkshopAttributeHintIcon attribute={attribute} /> : null}
+          {attributeIdsLinkedOnSketch.has(attribute.attributeId) ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span
+                  className="inline-flex rounded-full bg-teal-100 p-0.5 text-teal-700"
+                  aria-label="Есть метка на скетче"
+                >
+                  <LucideIcons.MapPin className="h-3 w-3 shrink-0" />
+                </span>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[240px] text-xs">
+                К атрибуту привязана метка на общем скетче или скетч-листе
+              </TooltipContent>
+            </Tooltip>
+          ) : null}
+        </span>
       </div>
     );
 
@@ -3489,24 +4220,28 @@ export function Workshop2Phase1DossierPanel({
           key={liKey}
           id={showMaterialIntroAndGuides ? 'w2-material-required-section' : undefined}
           className={cn(
-            'border-border-default space-y-3 rounded-lg border bg-white p-4 shadow-sm',
+            'border-border-subtle bg-bg-surface2/40 space-y-2 rounded-lg border p-3',
+            showMaterialIntroAndGuides &&
+              'border-accent-primary/30 from-accent-primary/10 to-bg-surface2/30 bg-gradient-to-b shadow-sm',
             matCompositionSumInvalid &&
               'ring-offset-bg-surface2/80 shadow-sm ring-2 ring-amber-400/90 ring-offset-2'
           )}
         >
           {showMaterialIntroAndGuides ? (
-            <div className="border-border-default rounded-lg border bg-white p-3 shadow-sm">
-              <div className="flex items-start gap-3">
-                <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-                  <LucideIcons.Layers className="h-4 w-4 shrink-0" aria-hidden />
-                </div>
-                <div className="min-w-0 flex-1 space-y-1">
-                  <h3 className="text-text-primary text-sm font-semibold">Материалы</h3>
-                  <p className="text-text-secondary text-[11px] leading-snug">
-                    Состав и параметры полотна — в BOM и на фабрику. Подсказки к полям — в пульсе
-                    раздела (кнопка выше).
-                  </p>
-                </div>
+            <div className="border-accent-primary/30 flex gap-3 rounded-xl border bg-white/95 p-3 shadow-sm">
+              <div className="bg-accent-primary flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-md">
+                <LucideIcons.Layers className="h-5 w-5" aria-hidden />
+              </div>
+              <div className="min-w-0 space-y-1">
+                <p className="text-accent-primary text-[9px] font-black uppercase tracking-[0.2em]">
+                  Раздел к заполнению
+                </p>
+                <h3 className="text-text-primary text-sm font-bold tracking-tight">Материалы</h3>
+                <p className="text-text-secondary text-[11px] leading-snug">
+                  Укажите материалы из справочника и доли в составе (при связке с composition — в
+                  сумме 100&nbsp;%). Далее заполните плотность полотна, температурный режим,
+                  утепление и уход — данные пойдут в BOM и на фабрику.
+                </p>
               </div>
             </div>
           ) : null}
@@ -3520,6 +4255,24 @@ export function Workshop2Phase1DossierPanel({
                 {matUnset ? 'Заполните' : 'Обязательный'}
               </span>
             ) : null}
+            <span className="inline-flex items-center gap-0.5">
+              <span className="text-text-primary text-sm font-semibold">Материал и состав</span>
+              {showAttributeNameHintIcon ? (
+                <WorkshopInlineHintIcon label="Материал и состав">
+                  <p>
+                    Укажите основной материал из справочника. Если включён состав — доли по строкам
+                    должны в сумме давать 100%.
+                  </p>
+                  {currentLeaf.l2Name === 'Верхняя одежда' ? (
+                    <p className="border-border-default mt-2 border-t pt-2">
+                      Для верхней одежды разведите shell, подклад, утеплитель и фурнитуру по разным
+                      строкам; типовые составы под категорию — быстрые кнопки ниже, когда список ещё
+                      пуст.
+                    </p>
+                  ) : null}
+                </WorkshopInlineHintIcon>
+              ) : null}
+            </span>
           </div>
           <MaterialCompositionBlock
             dossier={dossier}
@@ -3532,6 +4285,9 @@ export function Workshop2Phase1DossierPanel({
             leafId={currentLeaf.leafId}
             l3Name={currentLeaf.l3Name}
           />
+          {showMaterialIntroAndGuides ? (
+            <MaterialSectionGuidesBeforeFields l2Name={currentLeaf.l2Name} />
+          ) : null}
         </li>
       );
     }
@@ -3752,14 +4508,14 @@ export function Workshop2Phase1DossierPanel({
       }
     }
     const cap = dossier.passportProductionBrief?.moqTargetMaxPieces;
-    if (cap != null && Number.isFinite(cap) && cap >= 1) {
+    if (cap != null && Number.isFinite(cap) && cap >= 0) {
       const sa = dossier.assignments.find(
         (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
       );
       const { hbs } = partitionHandbookAndFree(sa);
-      if (hbs.length !== cap) {
+      if (hbs.length > cap) {
         warnings.push(
-          `Выберите в справочнике ровно ${cap} размер(а/ов) — по количеству образцов в паспорте.`
+          'В справочнике отмечено размеров больше, чем количество образцов в паспорте — снимите лишние или увеличьте лимит.'
         );
       }
       const pids = new Set(hbs.map((v) => v.parameterId!));
@@ -3995,11 +4751,10 @@ export function Workshop2Phase1DossierPanel({
     extrasReqTzSignoff.every((ex) => Boolean(dossier.extraTzSignoffsByRowId?.[ex.rowId]));
   const handbookCheckClean = useMemo(() => {
     if (!handbookCheckSnapshot) return false;
-    const hasSectionOrGlobal =
+    const hasIssues =
       SECTIONS.some((s) => (handbookCheckSnapshot.bySection[s.id]?.length ?? 0) > 0) ||
       (handbookCheckSnapshot.globalHandbookWarnings?.length ?? 0) > 0;
-    const hasAspectFailures = (handbookCheckSnapshot.checkAspects ?? []).some((a) => !a.ok);
-    return !(hasSectionOrGlobal || hasAspectFailures);
+    return !hasIssues;
   }, [handbookCheckSnapshot]);
   const stageBoardHandbookWarnings = handbookCheckSnapshot?.bySection[activeSection] ?? [];
 
@@ -4015,12 +4770,7 @@ export function Workshop2Phase1DossierPanel({
   }, [handbookCheckSnapshot?.checkedAtIso, handbookCheckClean]);
 
   const notifyResponsibleForTzRow = useCallback(
-    (
-      rowKey: string,
-      roleTitle: string,
-      assignee: string | undefined,
-      section: Workshop2TzSignoffSectionKey
-    ) => {
+    (rowKey: string, roleTitle: string, assignee?: string) => {
       setTzNotifyHighlightRowKey(rowKey);
       let url = typeof window !== 'undefined' ? window.location.href : '';
       if (url) {
@@ -4034,16 +4784,14 @@ export function Workshop2Phase1DossierPanel({
           /* keep raw href */
         }
       }
-      const sectionLabel = SECTION_LABEL_BY_ID[section];
       const who = assignee?.trim() ? `${roleTitle} → ${assignee.trim()}` : roleTitle;
-      const target = `Раздел «${sectionLabel}»: ${who}`;
       void (async () => {
         try {
           if (url) await navigator.clipboard.writeText(url);
           toast({
             title: url ? 'Ссылка скопирована' : 'Запрос зафиксирован',
             description: url
-              ? `Передайте ссылку на подпись: ${target}. Push — после подключения API.`
+              ? `Передайте ссылку ответственному: ${who}. Push — после подключения API.`
               : 'Запись добавлена в журнал; передайте ссылку на ТЗ вручную.',
           });
         } catch {
@@ -4057,7 +4805,7 @@ export function Workshop2Phase1DossierPanel({
           pushTzActionLog(prev, updatedByLabel.slice(0, 200), {
             type: 'dossier_edit',
             summaries: [
-              `Запрос подписи ТЗ: ${target}. ${url ? `Ссылка: ${url}` : 'URL недоступен в среде.'}`,
+              `Запрос подписи ТЗ: ${who}. ${url ? `Ссылка: ${url}` : 'URL недоступен в среде.'}`,
             ],
           })
         );
@@ -4263,32 +5011,6 @@ export function Workshop2Phase1DossierPanel({
     }
   }, [isPhase1, collectionId, articleId, tzReadyForSample]);
 
-  useEffect(() => {
-    if (!isPhase1) return;
-    appendTzSessionJournalNote('Вход в ТЗ.');
-    let lastExitMarkAt = 0;
-    const markExit = () => {
-      const now = Date.now();
-      if (now - lastExitMarkAt < 2000) return;
-      lastExitMarkAt = now;
-      appendTzSessionJournalNote('Выход из ТЗ.');
-    };
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') markExit();
-    };
-    window.addEventListener('pagehide', markExit);
-    document.addEventListener('visibilitychange', onVisibilityChange);
-    return () => {
-      window.removeEventListener('pagehide', markExit);
-      document.removeEventListener('visibilitychange', onVisibilityChange);
-    };
-  }, [isPhase1, appendTzSessionJournalNote]);
-
-  useEffect(() => {
-    if (!isPhase1 || !tzHistoryOpen) return;
-    appendTzSessionJournalNote('Просмотр истории действий ТЗ.');
-  }, [isPhase1, tzHistoryOpen, appendTzSessionJournalNote]);
-
   const hasAssignmentValue = useCallback(
     (attributeId: string) =>
       dossier.assignments.some((a) => a.attributeId === attributeId && a.values.length > 0),
@@ -4319,11 +5041,9 @@ export function Workshop2Phase1DossierPanel({
 
   const runHandbookCheck = useCallback(() => {
     const aspects = buildSectionControlPoints(activeSection, controlPointsCtx).map(
-      ({ label, done, jump }) => ({
+      ({ label, done }) => ({
         label,
         ok: done,
-        jumpSection: jump?.section,
-        jumpAnchorId: jump?.anchorId,
       })
     );
     setHandbookCheckSnapshot(
@@ -4359,8 +5079,6 @@ export function Workshop2Phase1DossierPanel({
       materialCatalogAnchorAfterMat?: string | null;
       /** Без полос «Верхняя одежда / Материалы / …» — один список атрибутов (вкладка «Визуал»). */
       flatCatalogGroups?: boolean;
-      /** Сетка 2×N для паспортных полей (не колонка). */
-      fieldLayout?: 'stack' | 'grid2';
     }
   ) => {
     if (rows.length === 0 && extras.length === 0) {
@@ -4369,7 +5087,6 @@ export function Workshop2Phase1DossierPanel({
 
     const showAttrHintIcons = opts?.showAttributeNameHintIcons === true;
     const flatCatalogGroups = opts?.flatCatalogGroups === true;
-    const fieldLayout = opts?.fieldLayout ?? 'stack';
 
     const mergeOuterwearMaterialTab =
       activeSection === 'material' && currentLeaf?.l2Name === 'Верхняя одежда';
@@ -4445,8 +5162,7 @@ export function Workshop2Phase1DossierPanel({
           const hideMaterialSubsectionStripe =
             activeSection === 'material' &&
             (groupName === WORKSHOP_MERGED_OUTERWEAR_MATERIAL_TAB_LABEL ||
-              groupName === 'Доп. атрибуты' ||
-              workshopGroupSectionTitle(groupName) === 'Доп. атрибуты');
+              groupName === 'Доп. атрибуты');
           const showGroupHeader =
             !hidePassportCatalogGroupHeader && !flatCatalogGroups && !hideMaterialSubsectionStripe;
           const contentCollapsed = flatCatalogGroups
@@ -4504,13 +5220,7 @@ export function Workshop2Phase1DossierPanel({
                 </div>
               ) : null}
               {contentCollapsed ? null : (
-                <ul
-                  className={cn(
-                    fieldLayout === 'grid2'
-                      ? 'm-0 grid list-none grid-cols-1 gap-2 p-0 sm:grid-cols-2'
-                      : 'space-y-2'
-                  )}
-                >
+                <ul className="space-y-2">
                   {(() => {
                     const inGroup = groupedBase[groupName] ?? [];
                     const bundleOrdered =
@@ -4529,7 +5239,6 @@ export function Workshop2Phase1DossierPanel({
                       <>
                         {hasColorBundle ? (
                           <WorkshopPassportColorBundle
-                            listItemClassName={fieldLayout === 'grid2' ? 'col-span-1 sm:col-span-2' : undefined}
                             bundleRows={bundleOrdered}
                             dossier={dossier}
                             currentLeaf={currentLeaf}
@@ -4608,9 +5317,160 @@ export function Workshop2Phase1DossierPanel({
     if (activeSection === 'general') {
       return (
         <div className="space-y-4">
-          <div id="w2-passport-hub" className="h-0 scroll-mt-20" aria-hidden="true" />
+          <>
+            <Workshop2PassportTzStickySubnav
+              activeAnchorId={activePassportSubNavId}
+              onNavigate={(id) => {
+                setActivePassportSubNavId(id);
+                if (typeof document === 'undefined') return;
+                document
+                  .getElementById(id)
+                  ?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
+              }}
+              onJumpToPulse={() => {
+                document.getElementById('w2-dossier-role-pulse')?.scrollIntoView({
+                  behavior: tzScrollBehavior,
+                  block: 'start',
+                });
+              }}
+              combinedPct={passportHubModel.combinedPct}
+              gateOpenCount={passportHubModel.gateItems.length}
+              tzPhase={currentPhase}
+              auditHitCount={passportCriticalAuditSummaries.length}
+              showReadOnlyNav
+              dossierViewProfile={dossierViewProfile}
+              sketchBomGapCount={matSketchBomGapRefs.length}
+              sketchBomRefCount={sketchBomRefsUnion.length}
+            />
+            <Workshop2PassportHubPanel
+              model={passportHubModel}
+              skuDraft={skuDraft}
+              nameDraft={nameDraft}
+              internalArticleCodeDisplay={
+                isWorkshop2InternalArticleCodeValid(internalArticleCode)
+                  ? internalArticleCode
+                  : formatWorkshop2InternalArticleCodePlaceholder()
+              }
+              categoryPathLabel={currentLeaf.pathLabel}
+              onNavigate={(id) => {
+                setActivePassportSubNavId(id);
+                document
+                  .getElementById(id)
+                  ?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
+              }}
+              showPostSignoffDrift={
+                Boolean(
+                  dossier.isVerifiedByDesigner ||
+                  dossier.isVerifiedByTechnologist ||
+                  dossier.isVerifiedByManager
+                ) && dossierUpdatedAfterLatestTzSignoff(dossier)
+              }
+              onLogPostSignoffReminder={appendPassportPostSignoffJournalNote}
+              pulseLoggedReminder={passportDriftLogDone}
+              onPulseLoggedReminder={() => setPassportDriftLogDone(true)}
+              tzWriteDisabled={tzWriteDisabled}
+              tzPhase={currentPhase}
+              onJumpToVisualSection={() => jumpToTzSectionAnchor('visuals', 'w2-visuals-hub')}
+              onJumpToMaterialSection={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+              onJumpToMaterialMatTable={jumpToMaterialMatTable}
+              onJumpToSketchLineRefs={jumpToSketchLineRefs}
+              onJumpToConstructionContour={jumpToConstructionContour}
+              onJumpToQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
+              dossierViewProfile={dossierViewProfile}
+              passportCriticalAuditSummaries={passportCriticalAuditSummaries}
+              readOnlyShareUrl={workshop2FactoryShareUrl}
+              sketchLinkedBomRefs={sketchBomRefsUnion}
+              matSketchBomGapRefs={matSketchBomGapRefs}
+              nineGapTzGeneralSectionPct={sectionReadiness.general.pct}
+              nineGapFooter={
+                <WorkshopNineGapRelatedFooterShell
+                  matSketchBomGapRefs={matSketchBomGapRefs}
+                  onJumpMaterialHub={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+                  onJumpSketch={() =>
+                    jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)
+                  }
+                  onJumpMaterialMatTable={jumpToMaterialMatTable}
+                  onJumpConstructionContour={jumpToConstructionContour}
+                  onJumpQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
+                  hint="Опорные поля SKU и ветка L1–L3; визуал, BOM и конструкция наследуют тот же артикул."
+                >
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() => jumpToTzSectionAnchor('visuals', 'w2-visuals-hub')}
+                  >
+                    Визуал / эскиз
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+                  >
+                    Материалы и BOM
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() => jumpToTzSectionAnchor('construction', 'w2-measurements-fields')}
+                  >
+                    Мерки
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() => jumpToTzSectionAnchor('construction', 'w2-construction-hub')}
+                  >
+                    Конструкция
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() =>
+                      jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.audit)
+                    }
+                  >
+                    Аудит
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() =>
+                      jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.denseView)
+                    }
+                  >
+                    Режим ТЗ · w2view
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() =>
+                      jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.readOnly)
+                    }
+                  >
+                    Read-only
+                  </Button>
+                </WorkshopNineGapRelatedFooterShell>
+              }
+              nineGapOnDossierJump={jumpToTzSectionAnchor}
+            />
+          </>
           {isPhase1 ? (
             <>
+              <Workshop2PassportAttributeReferenceBlock />
               <div
                 id="w2-passport-identity"
                 className="border-border-default scroll-mt-24 space-y-3 rounded-lg border bg-white p-4 shadow-sm"
@@ -4621,12 +5481,18 @@ export function Workshop2Phase1DossierPanel({
                       <LucideIcons.Fingerprint className="h-4 w-4 shrink-0" aria-hidden />
                     </div>
                     <div className="min-w-0 flex-1 space-y-1">
-                      <h2 className="text-text-primary text-base font-semibold">Паспорт артикула</h2>
+                      <h2 className="text-text-primary text-base font-semibold">
+                        Паспорт артикула
+                      </h2>
                       <p className="text-text-secondary text-xs leading-snug">
-                        Информация о продукте.
+                        <span className="text-text-primary font-medium">Для маршрута SKU:</span>{' '}
+                        опорные поля — аудитория, ветка L1–L3, артикул и название; от них строятся
+                        визуал, материалы, мерки и конструкция. Менять аудиторию или категорию после
+                        заполнения ТЗ стоит осознанно: часть значений справочника может устареть.
                       </p>
                     </div>
                   </div>
+                  <Workshop2TzSectionRolesPopover section="passport" className="shrink-0" />
                 </div>
                 <div className="grid gap-2 sm:grid-cols-2">
                   <div className="space-y-1">
@@ -4681,33 +5547,6 @@ export function Workshop2Phase1DossierPanel({
                       onBlur={commitSku}
                       className="h-9 font-mono text-sm"
                       spellCheck={false}
-                    />
-                  </div>
-                  <div className="space-y-1 sm:col-span-2">
-                    <WorkshopLabelWithHint
-                      htmlFor="w2-p1-desc"
-                      hint={
-                        <>
-                          <p>
-                            Человекочитаемое имя для команды: не путать с SKU. Сохраняется при
-                            выходе из поля.
-                          </p>
-                          <p className="text-text-secondary">
-                            Используется в заголовках и сводках, пока нет финального маркетингового
-                            названия.
-                          </p>
-                        </>
-                      }
-                    >
-                      Рабочее название модели
-                    </WorkshopLabelWithHint>
-                    <Input
-                      id="w2-p1-desc"
-                      value={nameDraft}
-                      onChange={(e) => setNameDraft(e.target.value)}
-                      onBlur={commitName}
-                      className="h-9 text-sm"
-                      placeholder="Например: Пальто прямого силуэта с поясом"
                     />
                   </div>
                   <div className="space-y-1">
@@ -4818,6 +5657,33 @@ export function Workshop2Phase1DossierPanel({
                       </select>
                     </div>
                   </div>
+                  <div className="space-y-1 sm:col-span-2">
+                    <WorkshopLabelWithHint
+                      htmlFor="w2-p1-desc"
+                      hint={
+                        <>
+                          <p>
+                            Человекочитаемое имя для команды: не путать с SKU. Сохраняется при
+                            выходе из поля.
+                          </p>
+                          <p className="text-text-secondary">
+                            Используется в заголовках и сводках, пока нет финального маркетингового
+                            названия.
+                          </p>
+                        </>
+                      }
+                    >
+                      Рабочее название модели
+                    </WorkshopLabelWithHint>
+                    <Input
+                      id="w2-p1-desc"
+                      value={nameDraft}
+                      onChange={(e) => setNameDraft(e.target.value)}
+                      onBlur={commitName}
+                      className="h-9 text-sm"
+                      placeholder="Например: Пальто прямого силуэта с поясом"
+                    />
+                  </div>
                   <div
                     className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:col-span-2"
                     role="group"
@@ -4918,8 +5784,8 @@ export function Workshop2Phase1DossierPanel({
                             в табеле мерок.
                           </p>
                           <p className="text-text-secondary">
-                            Значение обязательно: минимум 1. Если уменьшить число, лишние размеры в
-                            справочнике отрежутся, табель и количества подстроятся под новый лимит.
+                            Пустое поле — без лимита. Если уменьшить число, лишние размеры в
+                            справочнике отрежутся, табель и количества подстроятся.
                           </p>
                           <p className="text-text-secondary">
                             Следите, чтобы сумма «Кол-во, шт» по строкам не превышала это значение —
@@ -4933,20 +5799,29 @@ export function Workshop2Phase1DossierPanel({
                     <Input
                       id="w2-passport-moq-max"
                       type="number"
-                      min={1}
+                      min={0}
                       step={1}
                       className="h-9 text-sm"
-                      placeholder="1"
+                      placeholder="Без лимита"
                       value={
                         dossier.passportProductionBrief?.moqTargetMaxPieces != null
                           ? String(dossier.passportProductionBrief.moqTargetMaxPieces)
-                          : '1'
+                          : ''
                       }
                       onChange={(e) => {
                         const raw = e.target.value.trim();
                         setDossier((p: Workshop2DossierPhase1) => {
                           const prevBrief = p.passportProductionBrief ?? {};
-                          const num = raw === '' ? 1 : Math.max(1, Math.floor(Number(raw)));
+                          if (raw === '') {
+                            return {
+                              ...p,
+                              passportProductionBrief: {
+                                ...prevBrief,
+                                moqTargetMaxPieces: undefined,
+                              },
+                            };
+                          }
+                          const num = Math.max(0, Math.floor(Number(raw)));
                           if (!Number.isFinite(num)) return p;
                           let next: Workshop2DossierPhase1 = {
                             ...p,
@@ -5073,8 +5948,7 @@ export function Workshop2Phase1DossierPanel({
                     </WorkshopLabelWithHint>
                     <Textarea
                       id="w2-passport-sewing-region"
-                      rows={2}
-                      className="min-h-[28px] resize-y py-1.5 text-sm leading-snug"
+                      className="min-h-[56px] text-sm"
                       placeholder="Например: Московская область, собственный цех; или Киргизия КНП — без смешения со страной происхождения товара в комплаенсе."
                       value={dossier.passportProductionBrief?.sewingRegionPlanNote ?? ''}
                       onChange={(e) =>
@@ -5131,9 +6005,11 @@ export function Workshop2Phase1DossierPanel({
                     <LucideIcons.LayoutGrid className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1 space-y-1">
-                    <h2 className="text-text-primary text-base font-semibold">Справочник</h2>
+                    <h2 className="text-text-primary text-base font-semibold">Старт по каталогу</h2>
                     <p className="text-text-secondary text-xs leading-snug">
-                      Сезон, цвет и атрибуты по ветке.
+                      Обязательные поля справочника (сезон, цвет и др.) вне рынка и ТН ВЭД — та же
+                      рамка SKU для маршрута, что визуал и материалы. Заполните до перехода к
+                      визуалу и материалам.
                     </p>
                   </div>
                 </div>
@@ -5143,7 +6019,6 @@ export function Workshop2Phase1DossierPanel({
                   generalPassportStartExtras,
                   {
                     showAttributeNameHintIcons: true,
-                    fieldLayout: 'grid2',
                   }
                 )}
               </div>
@@ -5156,9 +6031,13 @@ export function Workshop2Phase1DossierPanel({
                     <LucideIcons.Globe2 className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1 space-y-1">
-                    <h2 className="text-text-primary text-base font-semibold">Идентификация</h2>
+                    <h2 className="text-text-primary text-base font-semibold">
+                      До образца: рынок и коды
+                    </h2>
                     <p className="text-text-secondary text-xs leading-snug">
-                      Коды, маркировка, обязательные реквизиты.
+                      Поля для РФ и рынка (ТН ВЭД, штрихкод, группа для таможни и др.). Их можно
+                      дозаполнить позже, когда ясны силуэт и материал; на «готово к образцу» этот
+                      блок обычно не влияет.
                     </p>
                   </div>
                 </div>
@@ -5168,7 +6047,6 @@ export function Workshop2Phase1DossierPanel({
                   generalPassportPreSampleExtras,
                   {
                     showAttributeNameHintIcons: true,
-                    fieldLayout: 'grid2',
                   }
                 )}
               </div>
@@ -5198,9 +6076,10 @@ export function Workshop2Phase1DossierPanel({
                     <LucideIcons.LayoutGrid className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1 space-y-1">
-                    <h2 className="text-text-primary text-base font-semibold">Справочник</h2>
+                    <h2 className="text-text-primary text-base font-semibold">Старт по каталогу</h2>
                     <p className="text-text-secondary text-xs leading-snug">
-                      Поля паспорта на шаге {currentPhase}.
+                      Поля паспорта на шаге {currentPhase} ТЗ; обязательность совпадает с гейтом в
+                      хабе выше.
                     </p>
                   </div>
                 </div>
@@ -5210,7 +6089,6 @@ export function Workshop2Phase1DossierPanel({
                   generalPassportStartExtras,
                   {
                     showAttributeNameHintIcons: true,
-                    fieldLayout: 'grid2',
                   }
                 )}
               </div>
@@ -5223,9 +6101,11 @@ export function Workshop2Phase1DossierPanel({
                     <LucideIcons.Globe2 className="h-4 w-4 shrink-0" aria-hidden />
                   </div>
                   <div className="min-w-0 flex-1 space-y-1">
-                    <h2 className="text-text-primary text-base font-semibold">Идентификация</h2>
+                    <h2 className="text-text-primary text-base font-semibold">
+                      До образца: рынок и коды
+                    </h2>
                     <p className="text-text-secondary text-xs leading-snug">
-                      К образцу и отгрузке.
+                      Дозаполните по мере приближения к образцу и отгрузке.
                     </p>
                   </div>
                 </div>
@@ -5235,7 +6115,6 @@ export function Workshop2Phase1DossierPanel({
                   generalPassportPreSampleExtras,
                   {
                     showAttributeNameHintIcons: true,
-                    fieldLayout: 'grid2',
                   }
                 )}
               </div>
@@ -5246,22 +6125,357 @@ export function Workshop2Phase1DossierPanel({
     }
 
     if (activeSection === 'visuals') {
-      const visualRowsForRender = sectionRowsCurrent.filter((row) => {
-        if (row.attribute.attributeId === 'techPackRef') return false;
-        if (currentLeaf.l2Name !== 'Верхняя одежда') return true;
-        return !/длина изделия/i.test(row.attribute.name.trim());
-      });
+      const mediaRefIdsForCanon = (dossier.visualReferences ?? [])
+        .filter(visualRefIsMediaPreview)
+        .map((r) => r.refId);
+      const visualGateItemsForSection = buildWorkshop2VisualGateItems(dossier, currentLeaf);
+      const hasAssign = (attributeId: string) =>
+        dossier.assignments.some(
+          (a) => a.attributeId === attributeId && (a.values?.length ?? 0) > 0
+        );
+      let visualCatalogFieldDone = 0;
+      let visualCatalogFieldTotal = 0;
+      for (const r of sectionRowsCurrent) {
+        visualCatalogFieldTotal++;
+        if (hasAssign(r.attribute.attributeId)) visualCatalogFieldDone++;
+      }
+      for (const ex of extraRowsCurrent) {
+        visualCatalogFieldTotal++;
+        if (hasAssign(ex.attribute.attributeId)) visualCatalogFieldDone++;
+      }
+      const visualReadinessNav = visualReadinessProgress(dossier);
+      const visualRefCount = dossier.visualReferences?.length ?? 0;
+      const openRefThreadCount = countOpenVisualRefThreads(dossier.visualReferences);
+      const sketchPinTotal =
+        (dossier.categorySketchAnnotations?.length ?? 0) +
+        (dossier.sketchSheets ?? []).reduce((acc, s) => acc + (s.annotations?.length ?? 0), 0);
+      const sketchHasSubstrate =
+        Boolean(dossier.categorySketchImageDataUrl) ||
+        Boolean(dossier.sketchSheets?.some((s) => Boolean(s.imageDataUrl)));
+      const sketchGateOk = sketchHasSubstrate || sketchPinTotal > 0;
+      const scrollToVisualsAnchor = (id: string) => {
+        const sketchAnchorsInConstruction = new Set<string>([
+          W2_VISUALS_SKETCH_ANCHOR_ID,
+          'w2-visuals-sketch-templates',
+        ]);
+        if (sketchAnchorsInConstruction.has(id)) {
+          setConstructionTzHubOpen(true);
+          setActiveSection('construction');
+          setActiveVisualSubNavId(id);
+          if (typeof document === 'undefined') return;
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+              document
+                .getElementById(id)
+                ?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
+            });
+          });
+          return;
+        }
+        setActiveVisualSubNavId(id);
+        if (typeof document === 'undefined') return;
+        document.getElementById(id)?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
+      };
       return (
-        <Workshop2VisualsDossierSection
-          dossier={dossier}
-          setDossier={setDossier}
-          saveDraft={saveDraft}
-          updatedByLabel={updatedByLabel}
-          catalogFieldsSlot={renderSectionRows(visualRowsForRender, currentPhase, extraRowsCurrent, {
-            flatCatalogGroups: true,
-            fieldLayout: 'grid2',
-          })}
-        />
+        <div className="space-y-4">
+          <Workshop2VisualsTzStickySubnav
+            activeAnchorId={activeVisualSubNavId}
+            onNavigate={scrollToVisualsAnchor}
+            onJumpToPulse={() => {
+              document.getElementById('w2-dossier-role-pulse')?.scrollIntoView({
+                behavior: tzScrollBehavior,
+                block: 'start',
+              });
+            }}
+            checklistDone={visualReadinessNav.done}
+            checklistTotal={visualReadinessNav.total}
+            catalogFieldDone={visualCatalogFieldDone}
+            catalogFieldTotal={visualCatalogFieldTotal}
+            referenceCount={visualRefCount}
+            sketchPinTotal={sketchPinTotal}
+            sketchHasSubstrate={sketchHasSubstrate}
+            sketchGateOk={sketchGateOk}
+            visualGateOpenCount={visualGateItemsForSection.length}
+            openRefThreadCount={openRefThreadCount}
+            tzPhase={currentPhase}
+            sectionReadinessPct={sectionReadiness.visuals.pct}
+            sketchPinLinkIssueCount={sketchPinLinkAudit.length}
+            routeHandoffActions={visualRouteHandoffActions}
+            showSketchExportSurfacesNav={showVisualSketchExportSurfacesNav}
+            showSketchLinkFieldsNav={showVisualSketchLinkFieldsNav}
+            showSketchTemplatesNav={sketchSurface === 'master'}
+            showVisualHandoffNav={visualRouteHandoffActions.length > 0}
+          />
+          <div id="w2-visuals-hub" className="scroll-mt-24">
+            <Workshop2VisualsExcellenceBlock
+              dossier={dossier}
+              setDossier={setDossier}
+              updatedByLabel={updatedByLabel}
+              articleSku={skuDraft}
+              articleName={nameDraft}
+              mediaRefIds={mediaRefIdsForCanon}
+              sheetOptions={(dossier.sketchSheets ?? []).map((s) => ({
+                sheetId: s.sheetId,
+                title: s.title?.trim() || s.viewKind || s.sheetId.slice(0, 8),
+              }))}
+              visualGateItems={visualGateItemsForSection}
+              onJumpToVisualAnchor={scrollToVisualsAnchor}
+              visualShareAbsoluteUrl={isPhase1 ? visualsShareAbsoluteUrl : undefined}
+              sketchFloorInUrl={sketchViewFloor}
+              tzPhase={currentPhase}
+              onJumpToPassportSection={() => jumpToTzSectionAnchor('general', 'w2-passport-hub')}
+              onJumpToMaterialSection={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+              dossierViewProfile={dossierViewProfile}
+              onHandoffToRoute={handoffFromVisualToRoute}
+              buildRouteHandoffAbsoluteUrl={isPhase1 ? buildRouteHandoffAbsoluteUrl : undefined}
+              nineGapSectionPct={sectionReadiness.visuals.pct}
+              nineGapFooter={
+                <WorkshopNineGapRelatedFooterShell
+                  matSketchBomGapRefs={matSketchBomGapRefs}
+                  onJumpMaterialHub={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+                  onJumpSketch={() =>
+                    jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)
+                  }
+                  onJumpMaterialMatTable={jumpToMaterialMatTable}
+                  onJumpConstructionContour={jumpToConstructionContour}
+                  onJumpQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
+                  hint="Согласуйте lineRef на метках с каноническим скетчем и строками mat в BOM."
+                >
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() => jumpToTzSectionAnchor('general', 'w2-passport-hub')}
+                  >
+                    Паспорт
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() =>
+                      jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)
+                    }
+                  >
+                    Скетч
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+                  >
+                    BOM
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() => jumpToTzSectionAnchor('construction', 'w2-construction-hub')}
+                  >
+                    Конструкция
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() => jumpToTzSectionAnchor('construction', 'w2-measurements-fields')}
+                  >
+                    Мерки
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() =>
+                      jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.sketchLinkFields)
+                    }
+                  >
+                    Связь меток
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() =>
+                      jumpToTzSectionAnchor(
+                        'construction',
+                        W2_VISUAL_SUBPAGE_ANCHORS.sketchTemplates
+                      )
+                    }
+                  >
+                    Шаблоны
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() =>
+                      jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.canonVersion)
+                    }
+                  >
+                    Канон
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() =>
+                      jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.handoff)
+                    }
+                  >
+                    Handoff
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-[10px]"
+                    onClick={() =>
+                      jumpToTzSectionAnchor(
+                        'visuals',
+                        W2_VISUAL_SUBPAGE_ANCHORS.sketchExportSurfaces
+                      )
+                    }
+                  >
+                    Печать / мерч-вид
+                  </Button>
+                </WorkshopNineGapRelatedFooterShell>
+              }
+              nineGapOnDossierJump={jumpToTzSectionAnchor}
+            />
+          </div>
+          <div
+            id="w2-visuals-attributes"
+            className="border-border-default scroll-mt-24 rounded-xl border bg-white p-4 shadow-sm"
+          >
+            <div className="mb-3 flex items-start gap-3">
+              <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                <LucideIcons.Palette className="h-4 w-4 shrink-0" aria-hidden />
+              </div>
+              <div className="min-w-0 space-y-1">
+                <h2 className="text-text-primary text-base font-semibold">
+                  Визуальные оси каталога
+                </h2>
+                <p className="text-text-secondary text-sm leading-snug">
+                  <span className="text-text-primary font-medium">SKU · visuals:</span> набор полей
+                  листа от категории — здесь, у референсов; та же ось артикула, что и согласование
+                  выше. Редактор скетча — в «Конструкция» → «Табель мер: хаб ТЗ».
+                </p>
+                <p className="text-text-secondary text-[11px] leading-snug">
+                  Скетч ↔ поля: <span className="font-mono">linkedAttributeId</span> на метке;
+                  подсветка по типу метки — матрица ТЗ + при необходимости{' '}
+                  <span className="font-mono">sketchHighlightForPinTypes</span> в JSON каталога.
+                </p>
+              </div>
+            </div>
+            {renderSectionRows(sectionRowsCurrent, currentPhase, extraRowsCurrent, {
+              flatCatalogGroups: true,
+            })}
+          </div>
+          <div id="w2-visuals-refs" className="scroll-mt-24">
+            <VisualReferencesBlock
+              items={dossier.visualReferences ?? []}
+              onChange={(next) =>
+                setDossier((p: Workshop2DossierPhase1) => ({ ...p, visualReferences: next }))
+              }
+              currentUserLabel={updatedByLabel}
+              threadAuthorLabel={
+                (dossier.passportProductionBrief?.articleCardOwnerName ?? '').trim() ||
+                updatedByLabel
+              }
+              canonicalMainPhotoRefId={dossier.canonicalMainPhotoRefId}
+              onSetCanonicalMainPhoto={(refId) =>
+                setDossier((p: Workshop2DossierPhase1) => ({
+                  ...p,
+                  canonicalMainPhotoRefId: refId ?? undefined,
+                }))
+              }
+            />
+          </div>
+          <div
+            id="w2-visuals-sketch-moved-hint"
+            className="border-accent-primary/30 bg-accent-primary/10 scroll-mt-24 rounded-xl border border-dashed p-4 shadow-sm"
+          >
+            <div className="flex flex-wrap items-start gap-3">
+              <div className="text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
+                <LucideIcons.Layers className="h-4 w-4 shrink-0" aria-hidden />
+              </div>
+              <div className="min-w-0 flex-1 space-y-1">
+                <p className="text-text-primary text-sm font-semibold">
+                  Скетч перенесён в контур ТЗ
+                </p>
+                <p className="text-text-secondary text-xs leading-snug">
+                  Редактор меток и листов — в «Конструкция» → разверните «Табель мер: хаб ТЗ» и
+                  прокрутите к блоку скетча (тот же якорь для переходов из материалов и «до 9»).
+                </p>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="mt-1 h-8 text-[11px]"
+                  onClick={() => jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)}
+                >
+                  Открыть конструкцию → скетч
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="w2-attr-brandNotes"
+            className="border-border-default space-y-4 rounded-xl border bg-white p-4 shadow-sm"
+          >
+            <div className="flex items-start gap-3">
+              <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                <LucideIcons.Sparkles className="h-4 w-4 shrink-0" aria-hidden />
+              </div>
+              <div className="min-w-0 flex-1 space-y-1">
+                <h2 className="text-text-primary text-base font-semibold">Дизайнерский замысел</h2>
+                <p className="text-text-secondary text-sm leading-snug">
+                  Зафиксируйте образ для команды: что важно в силуэте, деталях и общем настроении —
+                  это подхватят посадка, производство и ОТК.
+                </p>
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="w2-brand-manifesto" className="sr-only">
+                Текст дизайнерского замысла
+              </Label>
+              <Textarea
+                id="w2-brand-manifesto"
+                className="min-h-[92px] text-sm"
+                placeholder="Какой образ нужно защитить в посадке, производстве и ОТК."
+                value={dossier.brandNotes ?? ''}
+                onChange={(e) =>
+                  setDossier((prev: Workshop2DossierPhase1) => ({
+                    ...prev,
+                    brandNotes: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="border-border-subtle flex flex-wrap items-center justify-end gap-2 border-t pt-3">
+              <Button
+                type="button"
+                className="h-9 px-3 text-xs font-semibold"
+                title="Записать досье в этом браузере (то же действие, что и «Сохранить» внизу страницы)."
+                onClick={saveDraft}
+              >
+                Сохранить
+              </Button>
+            </div>
+          </div>
+        </div>
       );
     }
 
@@ -5283,16 +6497,15 @@ export function Workshop2Phase1DossierPanel({
         <div id="w2-material-mat" className="scroll-mt-24">
           {renderSectionRows(materialUnifiedFieldRows, currentPhase, [], {
             materialCatalogAnchorAfterMat: W2_MATERIAL_SUBPAGE_ANCHORS.catalog,
-            fieldLayout: 'grid2',
           })}
         </div>
       ) : (
         <>
           <div id="w2-material-mat" className="scroll-mt-24">
-            {renderSectionRows(materialMatRows, currentPhase, [], { fieldLayout: 'grid2' })}
+            {renderSectionRows(materialMatRows, currentPhase)}
           </div>
           <div id="w2-material-catalog" className="scroll-mt-24">
-            {renderSectionRows(materialCatalogRows, currentPhase, [], { fieldLayout: 'grid2' })}
+            {renderSectionRows(materialCatalogRows, currentPhase)}
           </div>
         </>
       );
@@ -5313,7 +6526,12 @@ export function Workshop2Phase1DossierPanel({
           <Workshop2MaterialTzStickySubnav
             activeAnchorId={activeMaterialSubNavId}
             onNavigate={scrollMaterialAnchor}
-            onJumpToPulse={onOpenPulse ? () => onOpenPulse({ materialHints: true }) : undefined}
+            onJumpToPulse={() => {
+              document.getElementById('w2-dossier-role-pulse')?.scrollIntoView({
+                behavior: tzScrollBehavior,
+                block: 'start',
+              });
+            }}
             combinedPct={materialBomHubModel.combinedPct}
             gateOpenCount={materialBomHubModel.gateItems.length}
             tzPhase={currentPhase}
@@ -5325,30 +6543,198 @@ export function Workshop2Phase1DossierPanel({
             showCostingHintsNav={showMaterialCostingHintsNav}
             showSupplyDraftsNav={showMaterialSupplyDraftsNav}
           />
+          <Workshop2DossierSupplyChainDraftsPanel
+            dossier={dossier}
+            setDossier={setDossier}
+            dossierViewProfile={dossierViewProfile}
+            tzWriteDisabled={tzWriteDisabled}
+            updatedByLabel={updatedByLabel}
+          />
           <Collapsible
             open={materialPreSupplyExpanded}
             onOpenChange={setMaterialPreSupplyExpanded}
-            className="scroll-mt-24 rounded-lg border border-border-default bg-white p-0 shadow-sm"
+            className="scroll-mt-24 rounded-xl border border-amber-200/80 bg-gradient-to-b from-amber-50/35 to-white shadow-sm"
           >
-            <CollapsibleTrigger className="hover:bg-bg-surface2/60 flex w-full items-center justify-between gap-2 rounded-lg px-4 py-3 text-left transition">
-              <div className="flex min-w-0 flex-1 items-start gap-3">
-                <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-                  <LucideIcons.Layers className="h-4 w-4 shrink-0" aria-hidden />
-                </div>
-                <div className="min-w-0 flex-1 space-y-0.5">
-                  <p className="text-text-primary text-sm font-semibold">Материалы и каталог ТЗ</p>
-                  <p className="text-text-secondary text-xs leading-snug">
-                    Состав, атрибуты полотна и снабжение — разверните блок.
-                  </p>
-                </div>
+            <CollapsibleTrigger className="flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left transition hover:bg-amber-100/50">
+              <div className="min-w-0 pr-2">
+                <p className="text-[11px] font-semibold text-amber-950">Материалы и BOM</p>
+                <p className="text-text-secondary text-[10px] leading-snug">
+                  Хаб, комплаенс, нормы, mat и поля каталога — ниже блока «Снабжение · дельта ·
+                  costing»
+                </p>
               </div>
               <LucideIcons.ChevronsUpDown
                 className="text-text-secondary h-4 w-4 shrink-0"
                 aria-hidden
               />
             </CollapsibleTrigger>
-            <CollapsibleContent className="border-border-subtle overflow-hidden border-t px-0 pb-4 pt-3 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-              <div id="w2-material-hub" className="h-0 scroll-mt-24" aria-hidden />
+            <CollapsibleContent className="overflow-hidden border-t border-amber-200/70 px-0 pb-3 pt-3 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+              <div id="w2-material-hub" className="scroll-mt-24 px-1 sm:px-2">
+                <Workshop2MaterialHubPanel
+                  model={materialBomHubModel}
+                  l2Name={l2}
+                  matHint={matHint}
+                  categoryNotes={materialCategoryNotes}
+                  sketchBomStrip={materialSketchBomStripModel}
+                  bomExport={materialBomExportInput}
+                  onNavigate={scrollMaterialAnchor}
+                  onOpenVisualSketch={openSketchFromMaterialHub}
+                  tzWriteDisabled={tzWriteDisabled}
+                  onJumpToPassportSection={() =>
+                    jumpToTzSectionAnchor('general', 'w2-passport-hub')
+                  }
+                  onJumpToVisualSection={() => jumpToTzSectionAnchor('visuals', 'w2-visuals-hub')}
+                  articleScopedKey={`${collectionId}:${articleId}`}
+                  materialComplianceChecklist={dossier.materialComplianceChecklist}
+                  onMaterialComplianceChecklistChange={
+                    tzWriteDisabled
+                      ? undefined
+                      : (next) =>
+                          setDossier((p: Workshop2DossierPhase1) => ({
+                            ...p,
+                            materialComplianceChecklist: next,
+                          }))
+                  }
+                  dossierViewProfile={dossierViewProfile}
+                  sketchLinkedBomRefs={sketchBomRefsUnion}
+                  matSketchBomGapRefs={matSketchBomGapRefs}
+                  onJumpToConstructionContour={jumpToConstructionContour}
+                  onJumpToQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
+                  nineGapSectionPct={sectionReadiness.material.pct}
+                  nineGapFooter={
+                    <WorkshopNineGapRelatedFooterShell
+                      matSketchBomGapRefs={matSketchBomGapRefs}
+                      onJumpMaterialHub={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+                      onJumpSketch={openSketchFromMaterialHub}
+                      onJumpMaterialMatTable={jumpToMaterialMatTable}
+                      onJumpConstructionContour={jumpToConstructionContour}
+                      onJumpQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
+                      hint="Строки mat с теми же linkedBomLineRef, что на метках скетча; дельта и альтернативы — в снабжении."
+                    >
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-[10px]"
+                        onClick={() => jumpToTzSectionAnchor('general', 'w2-passport-hub')}
+                      >
+                        Паспорт
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-[10px]"
+                        onClick={() => jumpToTzSectionAnchor('visuals', 'w2-visuals-hub')}
+                      >
+                        Визуал
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-[10px]"
+                        onClick={() => jumpToTzSectionAnchor('construction', 'w2-construction-hub')}
+                      >
+                        Конструкция
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-[10px]"
+                        onClick={() =>
+                          jumpToTzSectionAnchor(
+                            'material',
+                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDrafts
+                          )
+                        }
+                      >
+                        Снабжение · черновики
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-[10px]"
+                        onClick={() =>
+                          jumpToTzSectionAnchor(
+                            'material',
+                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsDelta
+                          )
+                        }
+                      >
+                        Дельта BOM
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-[10px]"
+                        onClick={() =>
+                          jumpToTzSectionAnchor(
+                            'material',
+                            W2_MATERIAL_SUBPAGE_ANCHORS.factoryExport
+                          )
+                        }
+                      >
+                        Фабрика CSV
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-[10px]"
+                        onClick={() =>
+                          jumpToTzSectionAnchor(
+                            'material',
+                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsAlts
+                          )
+                        }
+                      >
+                        Альтернативы
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-[10px]"
+                        onClick={() =>
+                          jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.compliance)
+                        }
+                      >
+                        Комплаенс
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-[10px]"
+                        onClick={() =>
+                          jumpToTzSectionAnchor(
+                            'material',
+                            W2_MATERIAL_SUBPAGE_ANCHORS.supplyDraftsCosting
+                          )
+                        }
+                      >
+                        Costing
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-[10px]"
+                        onClick={() =>
+                          jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.bomNorms)
+                        }
+                      >
+                        Нормы BOM
+                      </Button>
+                    </WorkshopNineGapRelatedFooterShell>
+                  }
+                  nineGapOnDossierJump={jumpToTzSectionAnchor}
+                />
+              </div>
               {dossierViewProfile === 'merch' ? (
                 <Collapsible
                   defaultOpen={false}
@@ -5377,57 +6763,82 @@ export function Workshop2Phase1DossierPanel({
               )}
             </CollapsibleContent>
           </Collapsible>
-          <Workshop2DossierSupplyChainDraftsPanel
-            dossier={dossier}
-            setDossier={setDossier}
-            dossierViewProfile={dossierViewProfile}
-            tzWriteDisabled={tzWriteDisabled}
-            updatedByLabel={updatedByLabel}
-            currentLeaf={currentLeaf}
-          />
         </div>
       );
     }
 
     if (activeSection === 'construction') {
-      const constructionRowsToRender = (() => {
-        const movedRows = phaseRowsCurrent.filter((row) => {
-          const sid = getSectionForAttr(row.attribute.attributeId, row.group?.groupId);
-          if (sid === 'construction') return false;
-          if (row.attribute.attributeId === 'techPackRef') return true;
-          return currentLeaf.l2Name === 'Верхняя одежда' && /длина изделия/i.test(row.attribute.name);
-        });
-        const byAttr = new Map<string, ResolvedPhase1AttributeRow>();
-        for (const row of [...sectionRowsCurrent, ...movedRows]) {
-          byAttr.set(row.attribute.attributeId, row);
-        }
-        return [...byAttr.values()];
-      })();
-      const l2 = currentLeaf.l2Name?.trim() || 'категория';
+      const l2 = currentLeaf.l2Name;
       const hint =
         l2 === 'Верхняя одежда'
-          ? 'Проверьте силуэт, ключевые узлы, табель мер и метки скетча перед передачей в цех.'
+          ? 'Ключевое: воротник/лацкан, борт, рукав, подкладка, утеплитель, длина, карманы. Проверьте ТЗ-скетч.'
           : l2 === 'Платья и сарафаны'
-            ? 'Согласуйте посадку, длины и обработку узлов, чтобы лекала и пошив шли без расхождений.'
-            : 'Соберите узлы, мерки и скетч в едином контуре перед передачей в производство.';
+            ? 'Ключевое: силуэт, вырез, талия, молния/застежка, шлица, длина. Зафиксируйте прилегание.'
+            : l2 === 'Брюки' || l2 === 'Джинсы'
+              ? 'Ключевое: пояс, посадка (слонка), карманы, шаговый шов, низ брючин.'
+              : l2 === 'Рубашки и блузы'
+                ? 'Ключевое: воротник, манжеты, планка, вытачки, тип застежки.'
+                : l2 === 'Юбки'
+                  ? 'Ключевое: пояс, силуэт, застежка, длина, шлица.'
+                  : l2 === 'Трикотаж'
+                    ? 'Ключевое: тип вязки, горловина, манжеты, резинка, плотность полотна.'
+                    : 'Конструктив, узлы и технический замысел без устных пояснений.';
       return (
         <div id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.hub} className="scroll-mt-24 space-y-4">
-          <div id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.contour} className="h-0 scroll-mt-24" aria-hidden />
-          <div id="w2-measurements-fields" className="h-0 scroll-mt-24" aria-hidden />
-          {onOpenPulse ? (
-            <div className="border-border-default rounded-lg border bg-white p-2 shadow-sm">
+          <div
+            id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.contour}
+            className="scroll-mt-24 rounded-lg border border-teal-200/85 bg-teal-50/45 px-3 py-2.5 text-[11px] text-teal-950 shadow-sm"
+          >
+            <p className="text-[9px] font-black uppercase tracking-wide text-teal-900">
+              Один контур: конструкция · мерки · BOM
+            </p>
+            <p className="mt-1 leading-snug text-teal-950/90">
+              Слои и длины в узлах должны сходиться с таблицей мерок и строками mat. На этом контуре
+              сходятся интересы дизайна, технолога, снабжения, цеха и ОТК — кнопка «Роли» справа
+              перечисляет, что важно каждой стороне. Технически: готовность секций —{' '}
+              <span className="font-mono text-[10px]">sectionReadiness</span>, маппинг групп
+              каталога — <span className="font-mono text-[10px]">GROUP_TO_DOSSIER_SECTION</span>;
+              mat ↔ метки скетча смотрите в паспорте и визуале.
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
-                className="h-8 gap-1.5 text-[11px]"
-                onClick={() => onOpenPulse?.()}
+                className="h-7 text-[10px]"
+                onClick={() => jumpToTzSectionAnchor('construction', 'w2-measurements-fields')}
               >
-                <LucideIcons.Activity className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                Пульс раздела: Конструкции
+                Мерки
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-7 text-[10px]"
+                onClick={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+              >
+                BOM
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-7 text-[10px]"
+                onClick={() => jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)}
+              >
+                Скетч
               </Button>
             </div>
-          ) : null}
+          </div>
+          <div id="w2-measurements-fields" className="scroll-mt-24 space-y-3">
+            <Workshop2MeasurementsTableHub
+              dossier={dossier}
+              currentLeaf={currentLeaf}
+              handbookWarnings={handbookWarnings}
+              onJumpToTzAnchor={jumpToTzSectionAnchor}
+              constructionSectionPct={sectionReadiness.construction.pct}
+            />
+          </div>
 
           <div
             id={W2_VISUALS_SKETCH_ANCHOR_ID}
@@ -6574,9 +7985,9 @@ export function Workshop2Phase1DossierPanel({
                   className="h-4 w-4 shrink-0 text-teal-700 transition-transform duration-200 group-data-[state=open]/w2-construction-tz-hub:rotate-180"
                   aria-hidden
                 />
-                <span className="min-w-0">Справка и чеклист</span>
+                <span className="min-w-0">Дорожная карта и справка конструктора</span>
                 <span className="ml-auto hidden shrink-0 text-[9px] font-normal text-teal-800/75 sm:inline">
-                  мерки · скетч · узлы
+                  до 9 · L2 · ТК · подпись
                 </span>
               </button>
             </CollapsibleTrigger>
@@ -6584,13 +7995,16 @@ export function Workshop2Phase1DossierPanel({
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div className="border-accent-primary/20 bg-accent-primary/10 min-w-0 flex-1 rounded-lg border px-3 py-2">
                   <p className="text-accent-primary text-[10px] font-black uppercase tracking-widest">
-                    Конструктив: {currentLeaf.l2Name?.trim() || 'категория'}
+                    Конструктив: {l2}
                   </p>
                   <p className="text-text-secondary mt-1 text-[10px] leading-snug">
-                    Узлы, мерки и скетч — одна площадка для лекал и производства.
+                    Узлы каталога ниже — зона дизайна и технолога; мерки и скетч связывают
+                    менеджера, снабжение, цех и ОТК с одним артикулом. Подпись секции и выгрузка ТК
+                    закрывают контур для производства и комплаенса.
                   </p>
                   <p className="text-text-primary mt-1 text-[11px] leading-snug">{hint}</p>
                 </div>
+                <Workshop2TzSectionRolesPopover section="construction" className="shrink-0" />
               </div>
               <Workshop2NineGapBacklogStrip
                 backlogItems={W2_NINE_GAP_CONSTRUCTION_ROADMAP}
@@ -6608,7 +8022,7 @@ export function Workshop2Phase1DossierPanel({
                     onJumpMaterialMatTable={jumpToMaterialMatTable}
                     onJumpConstructionContour={jumpToConstructionContour}
                     onJumpQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
-                    hint="Метки, мерки и mat — без разрывов."
+                    hint="Узлы каталога и метки скетча (construction / qc) согласуйте с мерки и строками mat."
                   >
                     <Button
                       type="button"
@@ -6664,6 +8078,34 @@ export function Workshop2Phase1DossierPanel({
                     >
                       Контур
                     </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={() =>
+                        jumpToTzSectionAnchor(
+                          'construction',
+                          W2_CONSTRUCTION_SUBPAGE_ANCHORS.export
+                        )
+                      }
+                    >
+                      ТК / выгрузка
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      onClick={() =>
+                        jumpToTzSectionAnchor(
+                          'construction',
+                          W2_CONSTRUCTION_SUBPAGE_ANCHORS.signoff
+                        )
+                      }
+                    >
+                      Подпись
+                    </Button>
                   </WorkshopNineGapRelatedFooterShell>
                 }
               />
@@ -6675,7 +8117,9 @@ export function Workshop2Phase1DossierPanel({
                   Выгрузка узлов / ТК для цеха
                 </p>
                 <p className="text-text-primary mt-1 leading-snug">
-                  Печать ТК — в маршруте вне этой карточки; здесь только согласованные данные.
+                  PDF листа узлов или табличная выгрузка техкарты подключаются маршрутами tech-pack
+                  и экспорта <span className="font-semibold">вне этого экрана</span> — здесь
+                  фиксируем согласованный контур данных для цеха.
                 </p>
               </div>
               <div
@@ -6686,7 +8130,8 @@ export function Workshop2Phase1DossierPanel({
                   Подпись блока конструкции
                 </p>
                 <p className="text-text-primary/90 mt-1 leading-snug">
-                  Подписи — в панели «Этап ТЗ» вверху экрана.
+                  Те же мета подписей, что у прочих секций ТЗ (brand / tech): чекбоксы в липкой
+                  панели «Этап ТЗ» над полями при открытой вкладке «Конструкция».
                 </p>
                 <Button
                   type="button"
@@ -6715,7 +8160,7 @@ export function Workshop2Phase1DossierPanel({
             </CollapsibleTrigger>
             <CollapsibleContent>
               <div className="border-border-default/80 space-y-4 border-t px-3 pb-3 pt-3">
-                {renderSectionRows(constructionRowsToRender, currentPhase, extraRowsCurrent)}
+                {renderSectionRows(sectionRowsCurrent, currentPhase, extraRowsCurrent)}
               </div>
             </CollapsibleContent>
           </Collapsible>
@@ -6794,6 +8239,99 @@ export function Workshop2Phase1DossierPanel({
 
   return (
     <div className="w-full min-w-0 space-y-6 text-left" data-w2-dossier-view={dossierViewProfile}>
+      {/* Horizontal Breadcrumb Bar — первичные секции для w2view + переход «до 9» (паспорт-dense) */}
+      <div id={W2_PASSPORT_SUBPAGE_ANCHORS.denseView} className="scroll-mt-24">
+        <div className="scrollbar-thin flex items-center gap-1 overflow-x-auto pb-1">
+          {dossierNavPrimarySections.map((s, idx) => {
+            const rd = sectionReadiness[s.id];
+            const isActive = activeSection === s.id;
+            const isDone = rd.pct === 100;
+            const primaryForView =
+              dossierViewProfile === 'full' ||
+              isWorkshop2DossierViewPrimarySection(dossierViewProfile, s.id);
+            return (
+              <Fragment key={s.id}>
+                {idx > 0 && (
+                  <LucideIcons.ChevronRight className="text-text-muted h-3 w-3 shrink-0" />
+                )}
+                <button
+                  type="button"
+                  title={
+                    primaryForView
+                      ? undefined
+                      : 'Вторично для выбранного режима ТЗ — откройте при необходимости'
+                  }
+                  onClick={() => setActiveSection(s.id)}
+                  className={cn(
+                    'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold transition-all',
+                    isActive
+                      ? 'bg-accent-primary text-white shadow-md'
+                      : isDone
+                        ? 'border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                        : 'bg-bg-surface2 text-text-secondary border-border-default hover:bg-bg-surface2 border',
+                    !primaryForView &&
+                      !isActive &&
+                      'ring-dashed ring-border-default/80 opacity-65 ring-1'
+                  )}
+                >
+                  {isDone && !isActive && <LucideIcons.Check className="h-3 w-3" />}
+                  <span className="uppercase tracking-tight">{s.label}</span>
+                  {!isActive && rd.pct > 0 && rd.pct < 100 && (
+                    <span className="text-[8px] font-black opacity-60">{rd.pct}%</span>
+                  )}
+                </button>
+              </Fragment>
+            );
+          })}
+          {dossierNavSecondarySections.length > 0 ? (
+            <Fragment>
+              <LucideIcons.ChevronRight className="text-text-muted h-3 w-3 shrink-0" />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 shrink-0 gap-1 rounded-full px-2.5 text-[9px] font-bold uppercase"
+                  >
+                    Ещё ({dossierNavSecondarySections.length})
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="w-56 p-2">
+                  <p className="text-text-secondary mb-1.5 text-[9px] font-bold uppercase tracking-wide">
+                    Доп. разделы ТЗ
+                  </p>
+                  <div className="flex flex-col gap-1">
+                    {dossierNavSecondarySections.map((s) => {
+                      const rd = sectionReadiness[s.id];
+                      const isActive = activeSection === s.id;
+                      return (
+                        <button
+                          key={s.id}
+                          type="button"
+                          onClick={() => setActiveSection(s.id)}
+                          className={cn(
+                            'rounded-md px-2 py-1.5 text-left text-[11px] font-semibold transition-colors',
+                            isActive
+                              ? 'bg-accent-primary text-white'
+                              : 'bg-bg-surface2 text-text-primary hover:bg-bg-surface2'
+                          )}
+                        >
+                          {s.label}
+                          <span className="ml-1 text-[10px] font-normal tabular-nums opacity-80">
+                            {rd.pct}%
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </Fragment>
+          ) : null}
+        </div>
+      </div>
+
       {tzWriteDisabled ? (
         <div
           className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-950"
@@ -6805,102 +8343,163 @@ export function Workshop2Phase1DossierPanel({
         </div>
       ) : null}
 
-      {isPhase1 && dossierViewProfile === 'factory' ? (
-        <div className="border-border-default rounded-lg border bg-white px-3 py-2 shadow-sm">
-          <p className="text-text-secondary text-[10px] font-semibold uppercase tracking-wide">
-            Быстрый переход по ТЗ
-          </p>
-          <nav className="text-accent-primary mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-[11px] font-medium">
-            <button
-              type="button"
-              className="hover:underline"
-              onClick={() => jumpToTzSectionAnchor('general', 'w2-passport-hub')}
-            >
-              Паспорт
-            </button>
-            <span className="text-text-muted" aria-hidden>
-              ·
-            </span>
-            <button
-              type="button"
-              className="hover:underline"
-              onClick={() => jumpToTzSectionAnchor('visuals', 'w2-visuals-hub')}
-            >
-              Визуал
-            </button>
-            <span className="text-text-muted" aria-hidden>
-              ·
-            </span>
-            <button
-              type="button"
-              className="hover:underline"
-              onClick={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
-            >
-              Материал
-            </button>
-            <span className="text-text-muted" aria-hidden>
-              ·
-            </span>
-            <button
-              type="button"
-              className="hover:underline"
-              onClick={() => jumpToTzSectionAnchor('construction', 'w2-construction-hub')}
-            >
-              Конструкции
-            </button>
-          </nav>
+      {dossierViewProfile !== 'full' ? (
+        <div
+          className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary rounded-lg border px-3 py-2 text-xs leading-snug"
+          role="note"
+        >
+          <span className="font-semibold">Режим просмотра:</span>{' '}
+          {WORKSHOP2_DOSSIER_VIEW_OPTIONS.find((o) => o.value === dossierViewProfile)?.label ??
+            dossierViewProfile}
+          . {WORKSHOP2_DOSSIER_VIEW_HINTS[dossierViewProfile]}
         </div>
       ) : null}
 
-      {isPhase1 ? (
-        <div
-          id={W2_PASSPORT_SUBPAGE_ANCHORS.denseView}
-          className="min-w-0 w-full scroll-mt-20"
-        >
-          <div className="mr-auto w-full max-w-full">
-            <DossierNavigator
-              layout="horizontal"
-              activeSection={activeSection}
-              setActiveSection={setActiveSection}
-              sectionReadiness={sectionReadiness}
-              handbookCheckBySection={handbookCheckSnapshot?.bySection ?? null}
-              dossierViewProfile={dossierViewProfile}
-              primarySections={dossierNavPrimarySections}
-              secondarySections={dossierNavSecondarySections}
-              allSections={SECTIONS}
-            />
+      {isPhase1 && dossierViewProfile === 'factory' ? (
+        <div className="border-border-default rounded-xl border-2 bg-white px-4 py-3 shadow-sm">
+          <p className="text-text-secondary text-[10px] font-black uppercase tracking-widest">
+            Фабрика · с чего начать
+          </p>
+          <p className="text-text-secondary mt-1 text-xs">
+            SKU → канон → эскиз → BOM без лишнего скролла.
+          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <Button
+              type="button"
+              size="sm"
+              variant="secondary"
+              className="h-8 text-xs"
+              onClick={() => jumpToTzSectionAnchor('general', 'w2-passport-hub')}
+            >
+              Паспорт / SKU
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="secondary"
+              className="h-8 text-xs"
+              onClick={() => jumpToTzSectionAnchor('visuals', 'w2-visuals-hub')}
+            >
+              Канон и эскиз
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="secondary"
+              className="h-8 text-xs"
+              onClick={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+            >
+              BOM
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="secondary"
+              className="h-8 text-xs"
+              onClick={() => jumpToTzSectionAnchor('construction', 'w2-construction-hub')}
+            >
+              Конструкция
+            </Button>
           </div>
         </div>
       ) : null}
 
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_300px]">
-        <div
-          id="w2-dossier-main"
-          className={cn(
-            'min-w-0 space-y-4 rounded-xl transition-[box-shadow] duration-300',
-            dossierMainColumnFlash && 'ring-accent-primary ring-4 ring-offset-2 ring-offset-white'
-          )}
-        >
-          {isPhase1 && (dossierViewProfile === 'factory' || dossierViewProfile === 'finance') ? (
-            <div className="bg-bg-surface2/60 space-y-2 rounded-lg p-0.5 shadow-sm">
-              {dossierViewProfile === 'factory' ? (
-                <div className="border-accent-primary/20 flex flex-wrap gap-1 border-t pt-2">
+      {isPhase1 ? (
+        <Workshop2DossierNineClosureSummary
+          passportPct={passportHubModel.combinedPct}
+          passportGatesOpen={passportHubModel.gateItems.length}
+          visualGatesOpen={visualGateOpenCountGlobal}
+          materialPct={materialBomHubModel.combinedPct}
+          materialGatesOpen={materialBomHubModel.gateItems.length}
+          constructionPct={sectionReadiness.construction.pct}
+          altDrafts={dossier.materialAlternativeDrafts?.length ?? 0}
+          deltaDrafts={dossier.bomLineDeltaDrafts?.length ?? 0}
+          costingRows={dossier.bomLineCostingHints?.length ?? 0}
+          onJump={jumpToTzSectionAnchor}
+        />
+      ) : null}
+
+      {isPhase1 ? (
+        <div id="w2-dossier-role-pulse" className="scroll-mt-24">
+          <Workshop2DossierRolePulsePanel
+            dossier={dossier}
+            currentLeaf={currentLeaf}
+            setDossier={setDossier}
+            setActiveSection={setActiveSection}
+            onJumpToTzAnchor={jumpToTzSectionAnchor}
+            onJumpToBrandNotes={() => {
+              setActiveSection('visuals');
+              queueMicrotask(() => {
+                document
+                  .getElementById('w2-attr-brandNotes')
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              });
+            }}
+            onExportHandoffPdf={exportHandoffPdfOnly}
+            handoffPdfBusy={handoffPdfBusy}
+          />
+        </div>
+      ) : null}
+
+      <div className="grid gap-4 xl:grid-cols-[220px_minmax(0,1fr)_300px]">
+        <aside className="space-y-4 self-start xl:sticky xl:top-4">
+          <div className="border-border-default rounded-xl border bg-white p-4 shadow-sm">
+            <div className="flex flex-wrap items-start justify-between gap-2 pb-1">
+              <div className="flex min-w-0 flex-1 items-start gap-3">
+                <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                  <LucideIcons.LayoutGrid className="h-4 w-4 shrink-0" aria-hidden />
+                </div>
+                <div className="min-w-0 space-y-1">
+                  <h2 className="text-text-primary text-base font-semibold">Досье артикула</h2>
+                  <p className="text-text-secondary text-xs leading-snug">
+                    Разделы ТЗ и прогресс по маршруту SKU: от паспорта и визуала к материалам,
+                    меркам и подписям без лишних переходов.
+                  </p>
+                </div>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                className="h-9 shrink-0 gap-1.5 px-3 text-xs"
+                onClick={() => setTzHistoryOpen(true)}
+              >
+                <LucideIcons.History className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                История действий
+              </Button>
+            </div>
+            <div className="mt-4">
+              <DossierNavigator
+                activeSection={activeSection}
+                setActiveSection={setActiveSection}
+                sectionReadiness={sectionReadiness}
+                handbookCheckBySection={handbookCheckSnapshot?.bySection ?? null}
+                dossierViewProfile={dossierViewProfile}
+                primarySections={dossierNavPrimarySections}
+                secondarySections={dossierNavSecondarySections}
+              />
+            </div>
+            {dossierViewProfile === 'factory' ? (
+              <div className="border-accent-primary/25 bg-accent-primary/10 mt-3 rounded-lg border p-2.5">
+                <p className="text-text-primary/90 text-[9px] font-black uppercase tracking-widest">
+                  Быстро · фабрика
+                </p>
+                <div className="mt-1.5 flex flex-wrap gap-1">
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="h-7 text-[9px]"
+                    className="border-accent-primary/25 text-text-primary h-7 bg-white text-[10px]"
                     onClick={() =>
                       jumpToTzSectionAnchor('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.hub)
                     }
                   >
-                    Конструкция
+                    Хаб конструкции
                   </Button>
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="h-7 text-[9px]"
+                    className="border-accent-primary/25 text-text-primary h-7 bg-white text-[10px]"
                     onClick={jumpToConstructionContour}
                   >
                     Контур
@@ -6909,48 +8508,93 @@ export function Workshop2Phase1DossierPanel({
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="h-7 text-[9px]"
+                    className="border-accent-primary/25 text-text-primary h-7 bg-white text-[10px]"
                     onClick={jumpToSketchLineRefs}
                   >
-                    Скетч
+                    Скетч · метки
                   </Button>
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="h-7 text-[9px]"
-                    onClick={() => jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.hub)}
+                    className="border-accent-primary/25 text-text-primary h-7 bg-white text-[10px]"
+                    onClick={() =>
+                      jumpToTzSectionAnchor('material', W2_MATERIAL_SUBPAGE_ANCHORS.hub)
+                    }
                   >
                     BOM
                   </Button>
                 </div>
-              ) : null}
-              {dossierViewProfile === 'finance' ? (
-                <div className="flex flex-wrap gap-1 border-t border-emerald-200/60 pt-2">
+              </div>
+            ) : null}
+            {dossierViewProfile === 'finance' ? (
+              <div className="mt-3 rounded-lg border border-emerald-200/85 bg-emerald-50/40 p-2.5">
+                <p className="text-[9px] font-black uppercase tracking-widest text-emerald-900/85">
+                  К образу · финансы
+                </p>
+                <div className="mt-1.5 flex flex-wrap gap-1">
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="h-7 border-emerald-200 text-[9px] text-emerald-950"
+                    className="h-7 border-emerald-200 bg-white text-[10px] text-emerald-950"
                     onClick={() =>
                       jumpToTzSectionAnchor('visuals', W2_VISUAL_SUBPAGE_ANCHORS.canonVersion)
                     }
                   >
-                    Канон
+                    Канон и версия
                   </Button>
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="h-7 border-emerald-200 text-[9px] text-emerald-950"
+                    className="h-7 border-emerald-200 bg-white text-[10px] text-emerald-950"
                     onClick={() => jumpToTzSectionAnchor('general', 'w2-passport-hub')}
                   >
                     Паспорт
                   </Button>
                 </div>
-              ) : null}
+              </div>
+            ) : null}
+            <div className="border-border-subtle bg-bg-surface2/60 mt-4 rounded-lg border p-3">
+              <div className="flex items-center justify-between gap-2">
+                <div>
+                  <p className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                    Готовность досье
+                  </p>
+                  <p className="text-text-primary mt-1 text-sm font-semibold">
+                    {overallReadinessPct}% по всем секциям
+                  </p>
+                </div>
+                <Badge
+                  variant="outline"
+                  className={cn(
+                    'h-5 text-[9px]',
+                    tzReadyForSample
+                      ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                      : 'border-amber-200 bg-amber-50 text-amber-700'
+                  )}
+                >
+                  {tzReadyForSample ? 'Готово к передаче' : 'Черновик'}
+                </Badge>
+              </div>
+              <div className="bg-bg-surface2 mt-2 h-1.5 overflow-hidden rounded-full">
+                <div
+                  className="bg-accent-primary h-full rounded-full"
+                  style={{ width: `${overallReadinessPct}%` }}
+                />
+              </div>
             </div>
-          ) : null}
+          </div>
+        </aside>
+
+        <div
+          id="w2-dossier-main"
+          className={cn(
+            'min-w-0 space-y-4 rounded-xl transition-[box-shadow] duration-300',
+            dossierMainColumnFlash && 'ring-accent-primary ring-4 ring-offset-2 ring-offset-white'
+          )}
+        >
           <div id={W2_TZ_SECTION_STAGE_DOM_ID} className="sticky top-4 z-20 scroll-mt-24 space-y-2">
             <SectionStageBoard
               warnings={stageBoardHandbookWarnings}
@@ -7241,51 +8885,39 @@ export function Workshop2Phase1DossierPanel({
                   <LucideIcons.BadgeCheck className="h-4 w-4 shrink-0" aria-hidden />
                 </div>
                 <div className="min-w-0 space-y-1">
-                  <h2 className="text-text-primary text-base font-semibold">
-                    Подписи этапа ТЗ · {SECTION_LABEL_BY_ID[activeSection]}
-                  </h2>
-                  <p className="text-text-secondary text-xs leading-snug">
-                    Подписи по текущему разделу. Права на подпись и отзыв — в разделе{' '}
+                  <h2 className="text-text-primary text-base font-semibold">Подтверждения ТЗ</h2>
+                  <p className="text-text-secondary text-sm leading-snug">
+                    Участники этапа «ТЗ» из паспорта: подпись и уведомление по строкам. Права ролей
+                    — в{' '}
                     <Link
                       href={ROUTES.brand.teamPermissions}
                       className="text-accent-primary font-medium underline"
                     >
-                      Команда
+                      Команда → права доступа
                     </Link>
-                    .
+                    ; снять подпись — только у допущенных руководителей.
                   </p>
                 </div>
               </div>
-              <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+              <div className="space-y-2">
                 {tzDigitalSignoffRows.length === 0 ? (
                   <p className="border-border-subtle bg-bg-surface2/60 text-text-secondary rounded-md border px-3 py-2 text-[11px]">
                     В паспорте нет участников на этапе «ТЗ»: отметьте этап у ролей и закрепите
                     исполнителей в «Ответственные за подпись ТЗ».
                   </p>
-                ) : tzDigitalSignoffRowsForActiveSection.length === 0 ? (
-                  <p className="border-border-subtle bg-bg-surface2/60 text-text-secondary rounded-md border px-3 py-2 text-[11px]">
-                    В этом разделе ТЗ отдельные подписи не показаны — переключитесь на другой раздел
-                    или настройте матрицу в паспорте.
-                  </p>
                 ) : (
-                  tzDigitalSignoffRowsForActiveSection.map((row) => (
-                    <Workshop2TzDigitalSignoffRow
+                  tzDigitalSignoffRows.map((row) => (
+                    <WorkshopTzDigitalSignoffRow
                       key={row.rowKey}
                       title={row.title}
                       passportAssigneeName={row.passportAssigneeName}
-                      passportAssigneeOrgLabel={row.passportAssigneeOrgLabel}
                       canSign={row.canSign}
                       hasRoleCapability={row.hasRoleCapability}
                       signatoryMismatchHint={row.signatoryMismatchHint}
                       signoff={row.signoff}
-                      showNotifyResponsible={!row.signoff}
+                      showNotifyResponsible={!row.signoff && !allTzDigitalSignoffsDone}
                       onNotifyResponsible={() =>
-                        notifyResponsibleForTzRow(
-                          row.rowKey,
-                          row.title,
-                          row.assigneeForNotify,
-                          activeSection
-                        )
+                        notifyResponsibleForTzRow(row.rowKey, row.title, row.assigneeForNotify)
                       }
                       notifyResponsibleHighlighted={tzNotifyHighlightRowKey === row.rowKey}
                       canRevoke={canRevokeTzSignoff(updatedByLabel, tzRevokersEffective)}
@@ -7295,16 +8927,12 @@ export function Workshop2Phase1DossierPanel({
                   ))
                 )}
               </div>
-              {handbookCheckSnapshot ? (
-                <Workshop2HandbookCheckReportBlock
-                  snapshot={handbookCheckSnapshot}
-                  sections={SECTIONS}
-                  scopeLabel={SECTION_LABEL_BY_ID[handbookCheckSnapshot.scopeSection]}
-                  expanded={handbookCheckReportExpanded}
-                  onToggleExpanded={() => setHandbookCheckReportExpanded((v) => !v)}
-                  onJumpToHandbookCheckTarget={(t) => jumpToTzSectionAnchor(t.section, t.anchorId)}
-                />
-              ) : null}
+              {handbookCheckSnapshot
+                ? renderHandbookCheckReportBlock(handbookCheckSnapshot, {
+                    expanded: handbookCheckReportExpanded,
+                    onToggleExpanded: () => setHandbookCheckReportExpanded((v) => !v),
+                  })
+                : null}
             </div>
           </div>
         </aside>
@@ -7313,11 +8941,9 @@ export function Workshop2Phase1DossierPanel({
       <div className="flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
         <div className="flex flex-wrap items-center gap-3">
           {dossier.updatedAt ? (
-            <span
-              className="text-text-secondary text-[10px]"
-              title={`Черновик в браузере: ${new Date(dossier.updatedAt).toLocaleString('ru-RU')}`}
-            >
-              В работе: {dossier.updatedBy ? dossier.updatedBy : 'без автора'}
+            <span className="text-text-secondary text-[10px]">
+              Черновик в браузере: {new Date(dossier.updatedAt).toLocaleString('ru-RU')}
+              {dossier.updatedBy ? ` · ${dossier.updatedBy}` : ''}
             </span>
           ) : null}
           {savedHint ? (
@@ -7327,7 +8953,7 @@ export function Workshop2Phase1DossierPanel({
             <span className="text-[11px] font-medium text-red-600">{saveError}</span>
           ) : null}
         </div>
-        {dossierMetricsFooterMounted && dossierMetricsFooterLine ? (
+        {dossierMetricsFooterLine ? (
           <span
             className="text-text-muted text-[9px] leading-snug"
             title="Локально в этом браузере, для оценки сессии"
@@ -7469,5 +9095,3418 @@ export function Workshop2Phase1DossierPanel({
         </DialogContent>
       </Dialog>
     </div>
+  );
+}
+
+type MatHandbookParam = AttributeCatalogAttribute['parameters'][number];
+
+/** Единый блок подсказок в секции «Материалы» — без подзаголовков «Доп. атрибуты» / «Верхняя одежда · материалы». */
+function MaterialSectionGuidesBeforeFields({ l2Name }: { l2Name?: string }) {
+  const outer = l2Name === 'Верхняя одежда';
+  return (
+    <div
+      className="border-border-default space-y-3 rounded-xl border bg-white/95 p-3 shadow-sm"
+      role="region"
+      aria-label="Подсказки к полям материалов"
+    >
+      <p className="text-text-secondary text-[9px] font-black uppercase tracking-[0.2em]">
+        Подсказки к полям ниже
+      </p>
+      <div className="space-y-3">
+        <div>
+          <p className="text-text-primary text-[11px] font-semibold">Плотность полотна (г/м²)</p>
+          <p className="border-accent-primary/30 bg-accent-primary/10 text-text-primary mt-1 rounded-r-md border-l-2 py-1.5 pl-2 text-[10px] leading-snug">
+            Несколько тканей: укажите г/м² <span className="font-semibold">основного</span> полотна
+            (наибольшая доля в составе) или <span className="font-semibold">лицевой</span> ткани
+            корпуса. Подклад и утеплитель — отдельные строки в BOM; при необходимости добавьте
+            плотность второго слоя в комментарии к строке материала.
+            {outer ? (
+              <span className="text-accent-primary/90 mt-1 block">
+                Для пуховиков и парок: здесь — плотность{' '}
+                <span className="font-semibold">оболочки</span>; граммы наполнителя и FP/down — в
+                полях утеплителя и в строках BOM, согласованных со скетчем.
+              </span>
+            ) : null}
+          </p>
+        </div>
+        <div>
+          <p className="text-text-primary text-[11px] font-semibold">Температурный режим</p>
+          <p className="text-text-secondary mt-1 text-[10px] leading-snug">
+            Укажите целевой диапазон носки или класс по гайду бренда; согласуйте с утеплителем и
+            сценарием использования изделия.
+          </p>
+        </div>
+        {outer ? (
+          <>
+            <div>
+              <p className="text-text-primary text-[11px] font-semibold">Материал утеплителя</p>
+              <p className="text-text-primary mt-1 rounded-r-md border-l-2 border-amber-200 bg-amber-50/40 py-1.5 pl-2 text-[10px] leading-snug">
+                Совместите с отдельной строкой «утеплитель» в справочнике материалов и при
+                необходимости с меткой <span className="font-semibold">material</span> на скетче —
+                чтобы закупка и конструкция ссылались на одно наименование.
+              </p>
+            </div>
+            <div>
+              <p className="text-text-primary text-[11px] font-semibold">Уровень утепления</p>
+              <p className="text-text-primary mt-1 rounded-r-md border-l-2 border-amber-200 bg-amber-50/40 py-1.5 pl-2 text-[10px] leading-snug">
+                Уровень утепления согласуйте с сценарием носки (город / активный отдых) и с
+                плотностью shell; при спорных значениях зафиксируйте решение в комментарии к
+                материалу или в техпаке.
+              </p>
+            </div>
+            <div>
+              <p className="text-text-primary text-[11px] font-semibold">Термо-технологии</p>
+              <p className="text-text-primary mt-1 rounded-r-md border-l-2 border-teal-200 bg-teal-50/40 py-1.5 pl-2 text-[10px] leading-snug">
+                Мембраны, отражающие слои и маркетинговые названия — продублируйте исполнимые
+                параметры (уход, паропроницаемость, стирка) в BOM или вложении техпака, чтобы
+                фабрика не гадала по бренду на вешалке.
+              </p>
+            </div>
+          </>
+        ) : null}
+        <div>
+          <p className="text-text-primary text-[11px] font-semibold">
+            Уход: стирка и обработка (ТЗ)
+          </p>
+          <p className="text-text-secondary mt-1 text-[10px] leading-snug">
+            Зафиксируйте класс ухода и ограничения, совместимые с подобранными материалами;
+            критичное продублируйте в BOM или вложении техпака.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MaterialHandbookPicker({
+  sortedParams,
+  excludeIds,
+  onPick,
+}: {
+  sortedParams: MatHandbookParam[];
+  excludeIds: Set<string>;
+  onPick: (p: MatHandbookParam) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [q, setQ] = useState('');
+  const needle = q.trim().toLowerCase();
+  const available = sortedParams.filter(
+    (p) => !excludeIds.has(p.parameterId) && (!needle || p.label.toLowerCase().includes(needle))
+  );
+  return (
+    <div className="space-y-2">
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className="h-9 text-xs"
+        onClick={() => setOpen((v) => !v)}
+      >
+        {open ? 'Скрыть справочник материалов' : '+ Добавить материал из справочника'}
+      </Button>
+      {open ? (
+        <div className="border-border-default rounded-lg border bg-white p-2 shadow-sm">
+          <Input
+            className="mb-2 h-9 text-sm"
+            placeholder="Фильтр по названию…"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
+          <div className="border-border-subtle divide-border-subtle max-h-48 divide-y overflow-y-auto rounded-md border">
+            {available.length === 0 ? (
+              <p className="text-text-secondary p-3 text-[11px]">
+                Нет позиций — измените фильтр или все материалы уже в строке состава.
+              </p>
+            ) : (
+              available.map((p) => (
+                <button
+                  key={p.parameterId}
+                  type="button"
+                  className="hover:bg-bg-surface2 w-full px-2 py-2 text-left text-sm"
+                  onClick={() => {
+                    onPick(p);
+                    setQ('');
+                    setOpen(false);
+                  }}
+                >
+                  {p.label}
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function MaterialPresetsStrip({
+  presets,
+  l2Name,
+  l3Name,
+  linkedComposition,
+  visible,
+  onApplyLinked,
+  onApplySolo,
+}: {
+  presets: Workshop2MaterialCompositionPreset[];
+  l2Name?: string;
+  l3Name?: string;
+  linkedComposition: boolean;
+  visible: boolean;
+  onApplyLinked: (rows: MatPctRow[]) => void;
+  onApplySolo: (parts: { parameterId: string; displayLabel: string }[]) => void;
+}) {
+  if (!visible || presets.length === 0) return null;
+  const l3ok = l3Name && l3Name.trim() && l3Name !== '—';
+  return (
+    <div className="border-accent-primary/20 bg-accent-primary/10 space-y-2 rounded-lg border p-3">
+      <p className="text-accent-primary text-[9px] font-black uppercase tracking-widest">
+        Типовые составы{l2Name ? ` · ${l2Name}` : ''}
+      </p>
+      {l3ok ? (
+        <p className="text-accent-primary/90 text-[9px] font-semibold uppercase tracking-wide">
+          Подтип листа: {l3Name}
+        </p>
+      ) : null}
+      <p className="text-accent-primary/85 text-[10px] leading-snug">
+        {linkedComposition
+          ? 'Подставит строки материала и распределит доли (при необходимости поправьте % вручную до 100%).'
+          : 'Добавит выбранные волокна в список без долей — дальше уточните состав в каталоге или включите связку mat ↔ composition.'}
+      </p>
+      <div className="flex flex-wrap gap-1.5">
+        {presets.map((preset) => (
+          <Button
+            key={preset.id}
+            type="button"
+            variant="outline"
+            size="sm"
+            className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 h-auto min-h-7 max-w-full whitespace-normal py-1 text-left text-[10px]"
+            title={preset.rows.map((r) => `${r.label} ${r.pct}%`).join(' · ')}
+            onClick={() =>
+              linkedComposition
+                ? onApplyLinked(preset.rows)
+                : onApplySolo(
+                    preset.rows.map((r) => ({ parameterId: r.parameterId, displayLabel: r.label }))
+                  )
+            }
+          >
+            <LucideIcons.Sparkles className="mr-1 inline h-3 w-3 shrink-0" aria-hidden />
+            <span className="font-semibold">{preset.label}</span>
+            <span className="text-accent-primary/95 mt-0.5 block text-[9px] font-normal">
+              {preset.rows.map((r) => `${r.label} ${r.pct}%`).join(' + ')}
+            </span>
+          </Button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MaterialCompositionBlock({
+  dossier,
+  matAttribute,
+  linkedComposition,
+  onApplyRows,
+  onApplySoloParts,
+  showMaterialRequiredHint,
+  l2Name,
+  leafId,
+  l3Name,
+}: {
+  dossier: Workshop2DossierPhase1;
+  matAttribute: AttributeCatalogAttribute;
+  linkedComposition: boolean;
+  onApplyRows: (rows: MatPctRow[]) => void;
+  onApplySoloParts: (parts: { parameterId: string; displayLabel: string }[]) => void;
+  showMaterialRequiredHint?: boolean;
+  l2Name?: string;
+  leafId: string;
+  l3Name?: string;
+}) {
+  const compositionPresets = useMemo(
+    () =>
+      resolveMaterialCompositionPresets({
+        leafId,
+        l2Name: l2Name ?? '',
+        l3Name,
+      }),
+    [leafId, l2Name, l3Name]
+  );
+
+  const paramLabelById = useMemo(() => {
+    const m = new Map<string, string>();
+    for (const p of matAttribute.parameters) m.set(p.parameterId, p.label);
+    return m;
+  }, [matAttribute.parameters]);
+
+  const sortedParams = useMemo(
+    () => [...matAttribute.parameters].sort((x, y) => x.sortOrder - y.sortOrder),
+    [matAttribute.parameters]
+  );
+
+  const rows = useMemo(
+    () => parseMatRowsFromDossier(dossier, paramLabelById),
+    [dossier, paramLabelById]
+  );
+
+  if (!linkedComposition) {
+    const a = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'mat');
+    const selected = new Set(
+      (a?.values ?? [])
+        .filter((v) => v.valueSource === 'handbook_parameter')
+        .map((v) => v.parameterId)
+        .filter(Boolean) as string[]
+    );
+    const pushSolo = (nextSel: Set<string>) => {
+      const parts = sortedParams
+        .filter((p) => nextSel.has(p.parameterId))
+        .map((p) => ({ parameterId: p.parameterId, displayLabel: p.label }));
+      onApplySoloParts(parts);
+    };
+    const addSolo = (pid: string) => {
+      if (selected.has(pid)) return;
+      const next = new Set(selected);
+      next.add(pid);
+      pushSolo(next);
+    };
+    const removeSolo = (pid: string) => {
+      const next = new Set(selected);
+      next.delete(pid);
+      pushSolo(next);
+    };
+    const selectedRows = sortedParams.filter((p) => selected.has(p.parameterId));
+    return (
+      <div id="w2-material-composition" className="scroll-mt-20 space-y-3">
+        {showMaterialRequiredHint ? (
+          <p className="text-[11px] font-medium text-amber-700">Выберите материал.</p>
+        ) : null}
+        <MaterialHandbookPicker
+          sortedParams={sortedParams}
+          excludeIds={selected}
+          onPick={(p) => addSolo(p.parameterId)}
+        />
+        <MaterialPresetsStrip
+          presets={compositionPresets}
+          l2Name={l2Name}
+          l3Name={l3Name}
+          linkedComposition={false}
+          visible={selected.size === 0}
+          onApplySolo={(parts) => onApplySoloParts(parts)}
+          onApplyLinked={() => {}}
+        />
+        <div>
+          <p className="text-text-secondary mb-1.5 text-[10px] font-semibold uppercase">
+            Выбранные материалы
+          </p>
+          {selectedRows.length === 0 ? (
+            <p className="text-text-secondary text-[11px]">
+              Пока пусто — откройте «+ Добавить материал из справочника» выше или выберите типовой
+              состав для категории.
+            </p>
+          ) : (
+            <div className="overflow-x-auto pb-1">
+              <div className="flex min-w-min flex-nowrap items-stretch gap-2 sm:flex-wrap">
+                {selectedRows.map((p) => (
+                  <div
+                    key={p.parameterId}
+                    className="border-border-default flex h-9 shrink-0 items-center gap-2 rounded-md border bg-white px-2 text-sm"
+                  >
+                    <span
+                      className="max-w-[10rem] truncate whitespace-nowrap leading-none"
+                      title={p.label}
+                    >
+                      {p.label}
+                    </span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-9 w-9 shrink-0 p-0 text-sm text-red-600"
+                      onClick={() => removeSolo(p.parameterId)}
+                      aria-label={`Убрать ${p.label}`}
+                    >
+                      ×
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  const pctByPid = Object.fromEntries(rows.map((r) => [r.parameterId, r.pct])) as Record<
+    string,
+    number
+  >;
+  const sum = rows.reduce((s, r) => s + r.pct, 0);
+  const selectedIds = new Set(rows.map((r) => r.parameterId));
+
+  const addLinked = (pid: string, label: string) => {
+    if (rows.some((r) => r.parameterId === pid)) return;
+    const next = [...rows, { parameterId: pid, label, pct: 0 }];
+    const parts = split100(next.length);
+    onApplyRows(next.map((r, i) => ({ ...r, pct: parts[i]! })));
+  };
+
+  const removeLinked = (pid: string) => {
+    let next = rows.filter((r) => r.parameterId !== pid);
+    if (next.length === 1) next[0] = { ...next[0]!, pct: 100 };
+    else if (next.length > 1) {
+      const parts = split100(next.length);
+      next = next.map((r, i) => ({ ...r, pct: parts[i]! }));
+    }
+    onApplyRows(next);
+  };
+
+  const setPctFor = (pid: string, label: string, raw: string) => {
+    const n = parseInt(raw.replace(/\D/g, ''), 10);
+    const pct = Number.isFinite(n) ? Math.min(100, Math.max(0, n)) : 0;
+    const next = rows.map((r) => (r.parameterId === pid ? { ...r, label, pct } : r));
+    onApplyRows(next);
+  };
+
+  const selectedRows = rows;
+
+  return (
+    <div id="w2-material-composition" className="scroll-mt-20 space-y-3">
+      {showMaterialRequiredHint ? (
+        <p className="text-[11px] font-medium text-amber-700">Выберите материал.</p>
+      ) : null}
+      <MaterialHandbookPicker
+        sortedParams={sortedParams}
+        excludeIds={selectedIds}
+        onPick={(p) => addLinked(p.parameterId, p.label)}
+      />
+
+      <MaterialPresetsStrip
+        presets={compositionPresets}
+        l2Name={l2Name}
+        l3Name={l3Name}
+        linkedComposition
+        visible={rows.length === 0}
+        onApplyLinked={onApplyRows}
+        onApplySolo={() => {}}
+      />
+
+      <div>
+        <p className="text-text-secondary mb-1.5 text-[10px] font-semibold uppercase">
+          Выбранные материалы
+        </p>
+        {selectedRows.length === 0 ? (
+          <p className="text-text-secondary text-[11px]">
+            Пока пусто — добавьте позиции из справочника
+            {l2Name ? ` или примените типовой состав для «${l2Name}».` : '.'}
+          </p>
+        ) : (
+          <div className="overflow-x-auto pb-1">
+            <div className="flex min-w-min flex-nowrap items-center gap-2 sm:flex-wrap">
+              {selectedRows.map((r) => (
+                <div
+                  key={r.parameterId}
+                  className="border-border-default flex h-9 shrink-0 items-center gap-1.5 rounded-md border bg-white px-2"
+                >
+                  <span
+                    className="max-w-[9rem] truncate whitespace-nowrap text-sm leading-none sm:max-w-[11rem]"
+                    title={r.label}
+                  >
+                    {r.label}
+                  </span>
+                  <Input
+                    className={cn(
+                      'h-9 w-12 px-1.5 text-sm',
+                      sum !== 100 && rows.length > 0 && 'border-amber-400 ring-1 ring-amber-200/80'
+                    )}
+                    inputMode="numeric"
+                    value={String(pctByPid[r.parameterId] ?? 0)}
+                    onChange={(e) => setPctFor(r.parameterId, r.label, e.target.value)}
+                    aria-label={`Процент для ${r.label}`}
+                    aria-invalid={sum !== 100 && rows.length > 0 ? true : undefined}
+                  />
+                  <span className="text-text-secondary pr-0.5 text-xs leading-none">%</span>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-9 w-9 shrink-0 p-0 text-sm text-red-600"
+                    onClick={() => removeLinked(r.parameterId)}
+                    aria-label={`Убрать ${r.label}`}
+                  >
+                    ×
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      {sum !== 100 && rows.length > 0 ? (
+        <div
+          className="rounded-md border border-amber-400/90 bg-amber-50/95 px-2.5 py-2 text-[11px] leading-snug text-amber-950 shadow-sm"
+          role="alert"
+        >
+          <span className="font-semibold">Состав не сходится до 100%.</span> Сейчас сумма{' '}
+          <span className="font-bold tabular-nums">{sum}%</span> — поправьте доли до сохранения ТЗ
+          (комплаенс, BOM, экспорт).
+        </div>
+      ) : null}
+      <p className={cn('text-xs font-medium', sum === 100 ? 'text-emerald-700' : 'text-amber-700')}>
+        Всего: {sum}%
+      </p>
+    </div>
+  );
+}
+
+const MAX_TECH_PACK_FILES = 5;
+
+function readFileAsDataUrlLimited(file: File, maxChars = 900_000): Promise<string | undefined> {
+  return new Promise((resolve) => {
+    const fr = new FileReader();
+    fr.onload = () => {
+      const s = String(fr.result ?? '');
+      resolve(s.length <= maxChars ? s : undefined);
+    };
+    fr.onerror = () => resolve(undefined);
+    fr.readAsDataURL(file);
+  });
+}
+
+const MAX_VISUAL_REF_IMAGE_DATA_URL_CHARS = 900_000;
+const MAX_VISUAL_REF_VIDEO_DATA_URL_CHARS = 5_000_000;
+/** Референсы модели в ТЗ: до 6 файлов (общий реф — сетка 2×3). */
+const MAX_VISUAL_REFERENCES = 6;
+
+function readVisualRefFileAsDataUrl(file: File): Promise<string | undefined> {
+  const t = file.type?.trim() ?? '';
+  const isVideo =
+    t.startsWith('video/') || (!t && /\.(mp4|m4v|webm|mov|mkv|ogv)$/i.test(file.name));
+  const max = isVideo ? MAX_VISUAL_REF_VIDEO_DATA_URL_CHARS : MAX_VISUAL_REF_IMAGE_DATA_URL_CHARS;
+  return readFileAsDataUrlLimited(file, max);
+}
+
+function mimeFromDataUrl(dataUrl: string): string | undefined {
+  const m = /^data:([^;,]+)/i.exec(dataUrl);
+  return m?.[1]?.trim() || undefined;
+}
+
+function inferMimeTypeForVisualRef(file: File, dataUrl?: string): string {
+  if (file.type?.trim()) return file.type;
+  const fromData = dataUrl ? mimeFromDataUrl(dataUrl) : undefined;
+  if (fromData) return fromData;
+  const n = file.name.toLowerCase();
+  if (/\.(jpe?g)$/.test(n)) return 'image/jpeg';
+  if (/\.png$/.test(n)) return 'image/png';
+  if (/\.webp$/.test(n)) return 'image/webp';
+  if (/\.gif$/.test(n)) return 'image/gif';
+  if (/\.(mp4|m4v)$/.test(n)) return 'video/mp4';
+  if (/\.webm$/.test(n)) return 'video/webm';
+  if (/\.mov$/.test(n)) return 'video/quicktime';
+  return 'image/jpeg';
+}
+
+function effectiveVisualRefMime(r: Workshop2Phase1VisualReference): string {
+  const t = r.mimeType?.trim();
+  if (t) return t;
+  if (r.previewDataUrl) return mimeFromDataUrl(r.previewDataUrl) ?? '';
+  return '';
+}
+
+function TechPackAttachmentsBlock({
+  attachments,
+  onChange,
+}: {
+  attachments: Workshop2Phase1TechPackAttachment[];
+  onChange: (next: Workshop2Phase1TechPackAttachment[]) => void;
+}) {
+  const remaining = MAX_TECH_PACK_FILES - attachments.length;
+
+  const updateRevision = (id: string, revisionNote: string) => {
+    onChange(attachments.map((a) => (a.attachmentId === id ? { ...a, revisionNote } : a)));
+  };
+
+  const removeOne = (id: string) => {
+    onChange(attachments.filter((a) => a.attachmentId !== id));
+  };
+
+  const onPick = async (e: ChangeEvent<HTMLInputElement>) => {
+    const list = e.target.files;
+    e.target.value = '';
+    if (!list?.length) return;
+    let cur = [...attachments];
+    for (let i = 0; i < list.length && cur.length < MAX_TECH_PACK_FILES; i++) {
+      const file = list[i]!;
+      const previewDataUrl = await readFileAsDataUrlLimited(file);
+      cur.push({
+        attachmentId: newUuid(),
+        fileName: file.name,
+        fileSize: file.size,
+        mimeType: file.type || undefined,
+        previewDataUrl,
+      });
+    }
+    onChange(cur.slice(0, MAX_TECH_PACK_FILES));
+  };
+
+  return (
+    <div className="border-border-default space-y-2 rounded-md border bg-white p-2">
+      <p className="text-text-secondary text-[10px] font-semibold uppercase">Вложения</p>
+      {attachments.length > 0 ? (
+        <ul className="space-y-2">
+          {attachments.map((a) => (
+            <li
+              key={a.attachmentId}
+              className="border-border-subtle flex flex-col gap-2 rounded border p-2 sm:flex-row sm:items-start sm:justify-between"
+            >
+              <div className="min-w-0 flex-1 space-y-1">
+                <div className="text-text-primary truncate text-sm font-medium" title={a.fileName}>
+                  {a.fileName}
+                </div>
+                <p className="text-text-secondary text-[10px]">
+                  {a.fileSize != null ? `${Math.round(a.fileSize / 1024)} KB` : ''}
+                  {!a.previewDataUrl
+                    ? ' · без сохранения содержимого (слишком большой или ошибка чтения)'
+                    : ''}
+                </p>
+                <Input
+                  className="h-8 text-xs"
+                  placeholder="Ревизия файла (R1, v2…)"
+                  value={a.revisionNote ?? ''}
+                  onChange={(e) => updateRevision(a.attachmentId, e.target.value)}
+                />
+              </div>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="h-8 shrink-0 text-xs text-red-600"
+                onClick={() => removeOne(a.attachmentId)}
+              >
+                Удалить
+              </Button>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {remaining > 0 ? (
+        <div className="w-full min-w-0 space-y-1 py-2">
+          <div className="border-border-default flex h-9 w-full items-center rounded-md border bg-white px-2">
+            <Input
+              type="file"
+              multiple
+              className="file:text-text-primary h-9 min-h-9 w-full cursor-pointer border-0 bg-transparent px-0 py-0 text-sm leading-9 shadow-none file:mr-3 file:inline-flex file:h-9 file:items-center file:border-0 file:bg-transparent file:px-0 file:py-0 file:text-sm file:font-medium file:leading-9"
+              onChange={onPick}
+            />
+          </div>
+          <p className="text-text-secondary text-left text-[10px]">Слотов: {remaining}.</p>
+        </div>
+      ) : (
+        <p className="text-text-secondary text-[11px]">
+          Достигнут лимит {MAX_TECH_PACK_FILES} вложений.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function visualRefIsMediaPreview(r: Workshop2Phase1VisualReference): boolean {
+  if (!r.previewDataUrl) return false;
+  const mt = effectiveVisualRefMime(r).toLowerCase();
+  return mt.startsWith('image/') || mt.startsWith('video/');
+}
+
+function visualRefSameUser(a: string, b: string): boolean {
+  return a.trim().toLowerCase() === b.trim().toLowerCase();
+}
+
+/** Клик по img с object-contain: точка внутри нарисованного изображения (без полей letterbox). */
+function visualRefImageClickToFocusPx(
+  el: HTMLImageElement,
+  clientX: number,
+  clientY: number
+): { x: number; y: number } {
+  const rect = el.getBoundingClientRect();
+  let x = clientX - rect.left;
+  let y = clientY - rect.top;
+  const nw = el.naturalWidth;
+  const nh = el.naturalHeight;
+  if (nw <= 0 || nh <= 0) return { x, y };
+  const ew = el.clientWidth;
+  const eh = el.clientHeight;
+  const s = Math.min(ew / nw, eh / nh);
+  const dw = nw * s;
+  const dh = nh * s;
+  const ox = (ew - dw) / 2;
+  const oy = (eh - dh) / 2;
+  return {
+    x: Math.min(Math.max(x, ox), ox + dw),
+    y: Math.min(Math.max(y, oy), oy + dh),
+  };
+}
+
+const VISUAL_REF_TAKEAWAY_LABELS: Record<Workshop2VisualRefTakeawayAspect, string> = {
+  silhouette: 'Силуэт',
+  color: 'Цвет',
+  hardware: 'Фурнитура',
+  fit: 'Посадка',
+  fabric: 'Ткань',
+  mood: 'Mood',
+  other: 'Другое',
+};
+
+function VisualReferencesBlock({
+  items,
+  onChange,
+  currentUserLabel,
+  threadAuthorLabel,
+  canonicalMainPhotoRefId,
+  onSetCanonicalMainPhoto,
+}: {
+  items: Workshop2Phase1VisualReference[];
+  onChange: (next: Workshop2Phase1VisualReference[]) => void;
+  currentUserLabel: string;
+  /** Сообщения этого участника — слева; остальные — справа (как в мессенджере). */
+  threadAuthorLabel: string;
+  canonicalMainPhotoRefId?: string;
+  onSetCanonicalMainPhoto?: (refId: string | null) => void;
+}) {
+  const { toast } = useToast();
+  const [lightboxRefId, setLightboxRefId] = useState<string | null>(null);
+  const [lightboxZoom, setLightboxZoom] = useState(1);
+  /** Точка масштаба в координатах элемента img (px); null = центр. */
+  const [lightboxZoomFocusPx, setLightboxZoomFocusPx] = useState<{ x: number; y: number } | null>(
+    null
+  );
+  /** После включения лупы следующий клик по фото задаёт фокус увеличения. */
+  const [lightboxLoupeArmed, setLightboxLoupeArmed] = useState(false);
+  const [refViewMode, setRefViewMode] = useState<'compact' | 'board'>('board');
+  const [draftComment, setDraftComment] = useState('');
+  const [refEditorOpen, setRefEditorOpen] = useState(false);
+  const [refEditorId, setRefEditorId] = useState<string | null>(null);
+  const [refEditorTitle, setRefEditorTitle] = useState('');
+  const [refEditorDesc, setRefEditorDesc] = useState('');
+  const [refEditorUrl, setRefEditorUrl] = useState('');
+  const [refEditorTakeawayAspects, setRefEditorTakeawayAspects] = useState<
+    Workshop2VisualRefTakeawayAspect[]
+  >([]);
+  const [refEditorTakeawayNote, setRefEditorTakeawayNote] = useState('');
+  const refEditorFileInputRef = useRef<HTMLInputElement>(null);
+  /** Вся тёмная зона просмотра — колесо зума (ref после открытия диалога). */
+  const lightboxWheelAreaRef = useRef<HTMLDivElement>(null);
+
+  const mediaRefs = useMemo(() => items.filter(visualRefIsMediaPreview), [items]);
+  const openRefDiscussionCount = useMemo(() => {
+    let n = 0;
+    for (const r of items) {
+      const cs = r.comments ?? [];
+      if (cs.length > 0 && cs.some((c) => !c.resolved)) n++;
+    }
+    return n;
+  }, [items]);
+
+  const lightboxRef = lightboxRefId ? items.find((r) => r.refId === lightboxRefId) : undefined;
+  const lightboxMediaIndex = lightboxRefId
+    ? mediaRefs.findIndex((r) => r.refId === lightboxRefId)
+    : -1;
+
+  const openLightbox = useCallback((id: string, opts?: { zoom?: number; armLoupe?: boolean }) => {
+    setLightboxRefId(id);
+    setLightboxZoom(typeof opts?.zoom === 'number' ? opts.zoom : 1);
+    setLightboxZoomFocusPx(null);
+    setLightboxLoupeArmed(Boolean(opts?.armLoupe));
+  }, []);
+
+  const resetLightboxView = useCallback(() => {
+    setLightboxZoom(1);
+    setLightboxZoomFocusPx(null);
+    setLightboxLoupeArmed(false);
+  }, []);
+
+  useEffect(() => {
+    if (lightboxZoom <= 1) setLightboxZoomFocusPx(null);
+  }, [lightboxZoom]);
+
+  const lightboxIsImage = useMemo(() => {
+    if (!lightboxRef) return false;
+    if (!visualRefIsMediaPreview(lightboxRef)) return false;
+    return !effectiveVisualRefMime(lightboxRef).startsWith('video/');
+  }, [lightboxRef]);
+
+  useEffect(() => {
+    if (!lightboxIsImage || !lightboxRefId) return;
+    let cancelled = false;
+    let removeWheel: (() => void) | undefined;
+    let innerRaf = 0;
+    const outerRaf = requestAnimationFrame(() => {
+      innerRaf = requestAnimationFrame(() => {
+        if (cancelled) return;
+        const el = lightboxWheelAreaRef.current;
+        if (!el) return;
+        const onWheel = (e: WheelEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const zoomIn = e.deltaY < 0;
+          const step = 0.1 * (e.ctrlKey || e.metaKey ? 1.35 : 1);
+          setLightboxZoom((prev) => {
+            const next = zoomIn ? prev + step : prev - step;
+            return Math.min(5, Math.max(1, Math.round(next * 100) / 100));
+          });
+        };
+        el.addEventListener('wheel', onWheel, { passive: false });
+        removeWheel = () => el.removeEventListener('wheel', onWheel);
+      });
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(outerRaf);
+      if (innerRaf) cancelAnimationFrame(innerRaf);
+      removeWheel?.();
+    };
+  }, [lightboxIsImage, lightboxRefId]);
+
+  const update = (id: string, patch: Partial<Workshop2Phase1VisualReference>) => {
+    onChange(items.map((x) => (x.refId === id ? { ...x, ...patch } : x)));
+  };
+  const removeOne = (id: string) => {
+    onChange(items.filter((x) => x.refId !== id));
+    if (lightboxRefId === id) setLightboxRefId(null);
+  };
+
+  const swapRefOrder = useCallback(
+    (from: number, to: number) => {
+      if (to < 0 || to >= items.length || from === to) return;
+      const next = [...items];
+      const [row] = next.splice(from, 1);
+      next.splice(to, 0, row);
+      onChange(next);
+    },
+    [items, onChange]
+  );
+
+  const openRefEditorNew = () => {
+    if (items.length >= MAX_VISUAL_REFERENCES) {
+      toast({
+        title: 'Лимит референсов',
+        description: `Не больше ${MAX_VISUAL_REFERENCES} файлов на модель. Удалите лишнее или замените в карточке.`,
+        variant: 'destructive',
+      });
+      return;
+    }
+    setRefEditorId(null);
+    setRefEditorTitle('');
+    setRefEditorDesc('');
+    setRefEditorUrl('');
+    setRefEditorTakeawayAspects([]);
+    setRefEditorTakeawayNote('');
+    if (refEditorFileInputRef.current) refEditorFileInputRef.current.value = '';
+    setRefEditorOpen(true);
+  };
+
+  const openRefEditorEdit = (r: Workshop2Phase1VisualReference) => {
+    setRefEditorId(r.refId);
+    setRefEditorTitle(r.title ?? '');
+    setRefEditorDesc(r.description ?? '');
+    setRefEditorUrl(r.externalUrl ?? '');
+    setRefEditorTakeawayAspects([...(r.takeawayAspects ?? [])]);
+    setRefEditorTakeawayNote(r.takeawayNote ?? '');
+    if (refEditorFileInputRef.current) refEditorFileInputRef.current.value = '';
+    setRefEditorOpen(true);
+  };
+
+  const saveRefEditor = useCallback(async () => {
+    const file = refEditorFileInputRef.current?.files?.[0];
+    const id = refEditorId ?? newUuid();
+    const existing = refEditorId ? items.find((x) => x.refId === refEditorId) : undefined;
+
+    let previewDataUrl = existing?.previewDataUrl;
+    let mimeType = existing?.mimeType;
+    let fileName = existing?.fileName;
+
+    if (file) {
+      const ft = file.type?.trim() ?? '';
+      const looksImage =
+        ft.startsWith('image/') ||
+        (!ft && /\.(jpe?g|png|gif|webp|bmp|heic|avif)$/i.test(file.name));
+      const looksVideo =
+        ft.startsWith('video/') || (!ft && /\.(mp4|m4v|webm|mov|mkv|ogv)$/i.test(file.name));
+      if (!looksImage && !looksVideo) {
+        toast({
+          title: 'Неподдерживаемый тип',
+          description: 'Выберите файл изображения или видео.',
+          variant: 'destructive',
+        });
+        return;
+      }
+      const u = await readVisualRefFileAsDataUrl(file);
+      if (!u) {
+        toast({
+          title: 'Файл не сохранён',
+          description:
+            'Слишком большой объём для локального досье. Сожмите файл или выберите другой.',
+          variant: 'destructive',
+        });
+        return;
+      }
+      previewDataUrl = u;
+      mimeType = inferMimeTypeForVisualRef(file, u);
+      fileName = file.name;
+    }
+
+    const title = refEditorTitle.trim();
+    const description = refEditorDesc.trim() || undefined;
+    const externalUrl = refEditorUrl.trim() || undefined;
+
+    if (!previewDataUrl && !externalUrl && !title) {
+      toast({
+        title: 'Заполните референс',
+        description: 'Укажите название, ссылку или прикрепите фото/видео.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!refEditorId && items.length >= MAX_VISUAL_REFERENCES) {
+      toast({
+        title: 'Лимит референсов',
+        description: `Не больше ${MAX_VISUAL_REFERENCES} файлов на модель.`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    const takeawayAspects = refEditorTakeawayAspects.length
+      ? [...new Set(refEditorTakeawayAspects)]
+      : undefined;
+    const takeawayNote = refEditorTakeawayNote.trim() || undefined;
+
+    const nextRow: Workshop2Phase1VisualReference = {
+      refId: id,
+      title,
+      description,
+      externalUrl,
+      fileName,
+      mimeType,
+      previewDataUrl,
+      comments: existing?.comments,
+      takeawayAspects,
+      takeawayNote,
+    };
+
+    if (refEditorId) {
+      onChange(items.map((x) => (x.refId === id ? { ...x, ...nextRow } : x)));
+    } else {
+      onChange([...items, nextRow]);
+    }
+    setRefEditorOpen(false);
+  }, [
+    items,
+    onChange,
+    refEditorDesc,
+    refEditorId,
+    refEditorTakeawayAspects,
+    refEditorTakeawayNote,
+    refEditorTitle,
+    refEditorUrl,
+    toast,
+  ]);
+
+  const onFile = async (id: string, e: ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    e.target.value = '';
+    if (!f) return;
+    const ft = f.type?.trim() ?? '';
+    const ok =
+      ft.startsWith('image/') ||
+      ft.startsWith('video/') ||
+      (!ft && /\.(jpe?g|png|gif|webp|mp4|webm|mov|m4v|mkv)$/i.test(f.name));
+    if (!ok) return;
+    const previewDataUrl = await readVisualRefFileAsDataUrl(f);
+    if (!previewDataUrl) {
+      toast({
+        title: 'Файл не сохранён',
+        description: 'Слишком большой объём для локального досье.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    update(id, {
+      fileName: f.name,
+      mimeType: inferMimeTypeForVisualRef(f, previewDataUrl),
+      previewDataUrl,
+    });
+  };
+
+  const addComment = () => {
+    const t = draftComment.trim();
+    if (!lightboxRefId || !t) return;
+    const comment: Workshop2VisualRefComment = {
+      commentId: newUuid(),
+      by: currentUserLabel.slice(0, 256),
+      at: new Date().toISOString(),
+      text: t.slice(0, 4000),
+    };
+    onChange(
+      items.map((r) =>
+        r.refId === lightboxRefId ? { ...r, comments: [...(r.comments ?? []), comment] } : r
+      )
+    );
+    setDraftComment('');
+  };
+
+  const toggleReaction = (
+    refId: string,
+    commentId: string,
+    type: Workshop2VisualRefCommentReactionType
+  ) => {
+    const by = currentUserLabel.slice(0, 256);
+    onChange(
+      items.map((r) => {
+        if (r.refId !== refId) return r;
+        return {
+          ...r,
+          comments: (r.comments ?? []).map((c) => {
+            if (c.commentId !== commentId) return c;
+            const rel = [...(c.reactions ?? [])];
+            const idx = rel.findIndex((x) => visualRefSameUser(x.by, by));
+            if (idx >= 0 && rel[idx]!.type === type) {
+              rel.splice(idx, 1);
+              return { ...c, reactions: rel };
+            }
+            const next = rel.filter((x) => !visualRefSameUser(x.by, by));
+            next.push({ by, type });
+            return { ...c, reactions: next };
+          }),
+        };
+      })
+    );
+  };
+
+  const toggleCommentResolved = (refId: string, commentId: string) => {
+    onChange(
+      items.map((r) => {
+        if (r.refId !== refId) return r;
+        return {
+          ...r,
+          comments: (r.comments ?? []).map((c) =>
+            c.commentId === commentId ? { ...c, resolved: !c.resolved } : c
+          ),
+        };
+      })
+    );
+  };
+
+  const goPrevMedia = () => {
+    if (lightboxMediaIndex <= 0) return;
+    setLightboxRefId(mediaRefs[lightboxMediaIndex - 1]!.refId);
+    resetLightboxView();
+  };
+  const goNextMedia = () => {
+    if (lightboxMediaIndex < 0 || lightboxMediaIndex >= mediaRefs.length - 1) return;
+    setLightboxRefId(mediaRefs[lightboxMediaIndex + 1]!.refId);
+    resetLightboxView();
+  };
+
+  const sortedComments = useMemo(() => {
+    const list = [...(lightboxRef?.comments ?? [])];
+    list.sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
+    return list;
+  }, [lightboxRef?.comments]);
+
+  return (
+    <div className="border-border-default space-y-4 rounded-xl border bg-white p-4 shadow-sm">
+      <div className="flex items-start gap-3">
+        <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+          <LucideIcons.Images className="h-4 w-4 shrink-0" aria-hidden />
+        </div>
+        <div className="min-w-0 flex-1 space-y-1">
+          <h2 className="text-text-primary text-base font-semibold">Референсы</h2>
+          <p className="text-text-secondary text-sm leading-snug">
+            До {MAX_VISUAL_REFERENCES} файлов; в карточке — что берёте с рефа. Звезда — канон;
+            комментарии — в полноэкране.
+          </p>
+          {openRefDiscussionCount > 0 ? (
+            <p className="text-[11px] font-medium text-rose-700">
+              Открытых тредов по рефам: {openRefDiscussionCount} — закройте в просмотре или отметьте
+              resolved.
+            </p>
+          ) : null}
+        </div>
+      </div>
+
+      {items.length > 0 ? (
+        <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-3">
+          <span className="text-text-secondary text-[10px] font-semibold uppercase tracking-wide">
+            Вид сетки
+          </span>
+          <Button
+            type="button"
+            variant={refViewMode === 'board' ? 'secondary' : 'outline'}
+            size="sm"
+            className="h-8 gap-1.5 text-xs"
+            onClick={() => setRefViewMode('board')}
+          >
+            <LucideIcons.Columns2 className="h-3.5 w-3.5 shrink-0" aria-hidden />
+            Общий реф (2 в ряд)
+          </Button>
+          <Button
+            type="button"
+            variant={refViewMode === 'compact' ? 'secondary' : 'outline'}
+            size="sm"
+            className="h-8 gap-1.5 text-xs"
+            onClick={() => setRefViewMode('compact')}
+          >
+            <LucideIcons.LayoutGrid className="h-3.5 w-3.5 shrink-0" aria-hidden />
+            Компактно
+          </Button>
+        </div>
+      ) : null}
+
+      {items.length === 0 ? (
+        <div className="border-border-subtle space-y-2 border-t pt-3">
+          <p className="rounded-md border border-amber-200/90 bg-amber-50/85 px-3 py-2 text-[11px] leading-snug text-amber-950">
+            Без референсов не закрывается{' '}
+            <span className="font-semibold">обязательный контур визуала</span> и проверка «готово к
+            образцу» по этому блоку. Добавьте хотя бы одно превью или ссылку с пояснением, что
+            берёте с рефа.
+          </p>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-8 shrink-0 text-xs"
+            onClick={openRefEditorNew}
+          >
+            + Референс
+          </Button>
+        </div>
+      ) : null}
+
+      {items.length > 0 ? (
+        <div
+          className={cn(
+            'grid w-full min-w-0',
+            refViewMode === 'board' ? 'grid-cols-2 gap-3 sm:gap-4' : 'grid-cols-5 gap-1 sm:gap-1.5'
+          )}
+        >
+          {items.map((r, index) => {
+            const hasComments = (r.comments?.length ?? 0) > 0;
+            const tileAspect = refViewMode === 'board' ? 'aspect-[4/3]' : 'aspect-square';
+            if (visualRefIsMediaPreview(r)) {
+              const isVideo = effectiveVisualRefMime(r).startsWith('video/');
+              const isMainPhoto = Boolean(
+                canonicalMainPhotoRefId && canonicalMainPhotoRefId === r.refId
+              );
+              return (
+                <div key={r.refId} className="min-w-0">
+                  <div className="relative min-w-0">
+                    <button
+                      type="button"
+                      className={cn(
+                        'border-border-default ring-accent-primary/60 group relative w-full overflow-hidden rounded-md border bg-white shadow-sm outline-none transition hover:ring-2 focus-visible:ring-2',
+                        tileAspect,
+                        isMainPhoto && 'ring-2 ring-amber-400/80'
+                      )}
+                      onClick={() => openLightbox(r.refId)}
+                      aria-label={`Открыть референс: ${r.title || 'без названия'}`}
+                    >
+                      {isVideo ? (
+                        <video
+                          src={r.previewDataUrl!}
+                          className="h-full w-full object-cover transition group-hover:opacity-95"
+                          muted
+                          playsInline
+                          preload="metadata"
+                          aria-hidden
+                        />
+                      ) : (
+                        /* eslint-disable-next-line @next/next/no-img-element -- data URL из локального досье */
+                        <img
+                          src={r.previewDataUrl!}
+                          alt=""
+                          className="h-full w-full object-cover transition group-hover:opacity-95"
+                        />
+                      )}
+                      {isVideo ? (
+                        <span
+                          className="absolute left-1/2 top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-md"
+                          aria-hidden
+                        >
+                          <LucideIcons.Play
+                            className="h-4 w-4 translate-x-px"
+                            fill="currentColor"
+                          />
+                        </span>
+                      ) : null}
+                      {hasComments ? (
+                        <span
+                          className="text-accent-primary ring-accent-primary/30 absolute bottom-0.5 left-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-white/95 shadow-sm ring-1"
+                          title="Есть комментарии"
+                          aria-hidden
+                        >
+                          <LucideIcons.MessageCircle className="h-3 w-3" />
+                        </span>
+                      ) : null}
+                    </button>
+                    {onSetCanonicalMainPhoto && !isVideo ? (
+                      <button
+                        type="button"
+                        className="absolute left-6 top-0.5 z-10 flex h-5 w-5 items-center justify-center rounded bg-white/95 text-amber-600 shadow-sm ring-1 ring-amber-200/90 transition hover:bg-amber-50"
+                        title={isMainPhoto ? 'Снять «главное фото»' : 'Сделать главным фото модели'}
+                        aria-label={isMainPhoto ? 'Снять главное фото' : 'Главное фото модели'}
+                        aria-pressed={isMainPhoto}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          onSetCanonicalMainPhoto(isMainPhoto ? null : r.refId);
+                        }}
+                      >
+                        <LucideIcons.Star
+                          className={cn(
+                            'h-3.5 w-3.5',
+                            isMainPhoto && 'fill-amber-400 text-amber-600'
+                          )}
+                          aria-hidden
+                        />
+                      </button>
+                    ) : null}
+                    {!isVideo ? (
+                      <button
+                        type="button"
+                        className="text-accent-primary ring-accent-primary/30 hover:bg-accent-primary/10 absolute right-0.5 top-0.5 z-10 flex h-6 w-6 items-center justify-center rounded bg-white/95 shadow-sm ring-1 transition"
+                        title="Открыть окно: затем клик по фото для лупы"
+                        aria-label="Открыть просмотр с режимом лупы"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          openLightbox(r.refId, { armLoupe: true });
+                        }}
+                      >
+                        <LucideIcons.ZoomIn className="h-3.5 w-3.5" aria-hidden />
+                      </button>
+                    ) : null}
+                    <div className="absolute bottom-0.5 right-0.5 z-10 flex gap-0.5">
+                      <button
+                        type="button"
+                        className="text-text-secondary ring-border-default/80 hover:bg-bg-surface2 flex h-6 w-6 items-center justify-center rounded bg-white/95 shadow-sm ring-1 transition disabled:opacity-30"
+                        title="Сдвинуть раньше"
+                        aria-label="Сдвинуть раньше в списке"
+                        disabled={index <= 0}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          swapRefOrder(index, index - 1);
+                        }}
+                      >
+                        <LucideIcons.ChevronLeft className="h-3.5 w-3.5" aria-hidden />
+                      </button>
+                      <button
+                        type="button"
+                        className="text-text-secondary ring-border-default/80 hover:bg-bg-surface2 flex h-6 w-6 items-center justify-center rounded bg-white/95 shadow-sm ring-1 transition disabled:opacity-30"
+                        title="Сдвинуть позже"
+                        aria-label="Сдвинуть позже в списке"
+                        disabled={index >= items.length - 1}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          swapRefOrder(index, index + 1);
+                        }}
+                      >
+                        <LucideIcons.ChevronRight className="h-3.5 w-3.5" aria-hidden />
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      className="absolute left-0.5 top-0.5 z-10 flex h-5 w-5 items-center justify-center rounded bg-white/95 text-red-500 shadow-sm ring-1 ring-red-200/80 transition hover:bg-red-50 hover:text-red-700"
+                      title="Удалить референс"
+                      aria-label="Удалить референс"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        removeOne(r.refId);
+                      }}
+                    >
+                      <LucideIcons.X className="h-3 w-3" strokeWidth={2.5} aria-hidden />
+                    </button>
+                  </div>
+                  {(() => {
+                    const asp = (r.takeawayAspects ?? [])
+                      .map((a) => VISUAL_REF_TAKEAWAY_LABELS[a])
+                      .join(' · ');
+                    const note = r.takeawayNote?.trim() ?? '';
+                    if (!asp && !note) return null;
+                    return (
+                      <p
+                        className="text-text-secondary mt-1 line-clamp-2 text-[9px] leading-snug"
+                        title={note || asp}
+                      >
+                        {[asp, note].filter(Boolean).join(' — ')}
+                      </p>
+                    );
+                  })()}
+                </div>
+              );
+            }
+            return (
+              <div key={r.refId} className="relative min-w-0">
+                <button
+                  type="button"
+                  className={cn(
+                    'border-border-default bg-bg-surface2/90 ring-accent-primary/40 hover:bg-bg-surface2 flex w-full flex-col items-center justify-center gap-1 overflow-hidden rounded-md border border-dashed p-1 text-center outline-none transition hover:ring-2 focus-visible:ring-2',
+                    tileAspect
+                  )}
+                  onClick={() => openRefEditorEdit(r)}
+                  aria-label={`Редактировать референс: ${r.title || 'черновик'}`}
+                >
+                  <LucideIcons.ImageOff className="text-text-muted h-6 w-6 shrink-0" aria-hidden />
+                  <span className="text-text-secondary line-clamp-3 w-full text-[9px] font-medium leading-tight">
+                    {r.title?.trim() || r.externalUrl?.trim() || 'Добавьте файл или ссылку'}
+                  </span>
+                </button>
+                <div className="absolute bottom-0.5 right-0.5 z-10 flex gap-0.5">
+                  <button
+                    type="button"
+                    className="text-text-secondary ring-border-default/80 hover:bg-bg-surface2 flex h-6 w-6 items-center justify-center rounded bg-white/95 shadow-sm ring-1 transition disabled:opacity-30"
+                    title="Сдвинуть раньше"
+                    disabled={index <= 0}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      swapRefOrder(index, index - 1);
+                    }}
+                  >
+                    <LucideIcons.ChevronLeft className="h-3.5 w-3.5" aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    className="text-text-secondary ring-border-default/80 hover:bg-bg-surface2 flex h-6 w-6 items-center justify-center rounded bg-white/95 shadow-sm ring-1 transition disabled:opacity-30"
+                    title="Сдвинуть позже"
+                    disabled={index >= items.length - 1}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      swapRefOrder(index, index + 1);
+                    }}
+                  >
+                    <LucideIcons.ChevronRight className="h-3.5 w-3.5" aria-hidden />
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  className="absolute left-0.5 top-0.5 z-10 flex h-5 w-5 items-center justify-center rounded bg-white/95 text-red-500 shadow-sm ring-1 ring-red-200/80 transition hover:bg-red-50 hover:text-red-700"
+                  title="Удалить"
+                  aria-label="Удалить референс"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    removeOne(r.refId);
+                  }}
+                >
+                  <LucideIcons.X className="h-3 w-3" strokeWidth={2.5} aria-hidden />
+                </button>
+              </div>
+            );
+          })}
+          {items.length < MAX_VISUAL_REFERENCES ? (
+            <button
+              type="button"
+              className={cn(
+                'border-border-default bg-bg-surface2 text-text-secondary hover:bg-bg-surface2 flex min-h-0 w-full items-center justify-center rounded-md border border-dashed text-lg font-bold leading-none transition',
+                refViewMode === 'board'
+                  ? 'aspect-[4/3] max-h-[200px]'
+                  : 'aspect-square max-h-[120px]'
+              )}
+              onClick={openRefEditorNew}
+              title="Добавить референс"
+              aria-label="Добавить референс"
+            >
+              +
+            </button>
+          ) : null}
+        </div>
+      ) : null}
+
+      <Dialog
+        open={Boolean(lightboxRef && visualRefIsMediaPreview(lightboxRef))}
+        onOpenChange={(o) => {
+          if (!o) {
+            setLightboxRefId(null);
+            setLightboxZoom(1);
+            setLightboxZoomFocusPx(null);
+            setLightboxLoupeArmed(false);
+          }
+        }}
+      >
+        <DialogContent
+          className="flex max-h-[min(92vh,880px)] w-[min(96vw,720px)] max-w-none flex-col gap-0 overflow-hidden p-0 sm:rounded-xl"
+          aria-describedby={undefined}
+        >
+          {lightboxRef && lightboxRef.previewDataUrl && visualRefIsMediaPreview(lightboxRef) ? (
+            <>
+              <div
+                ref={lightboxWheelAreaRef}
+                className="relative flex min-h-0 flex-1 flex-col bg-black/90"
+              >
+                <button
+                  type="button"
+                  className="absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white transition hover:bg-black/70 disabled:opacity-25"
+                  onClick={goPrevMedia}
+                  disabled={lightboxMediaIndex <= 0}
+                  aria-label="Предыдущий файл"
+                >
+                  <LucideIcons.ChevronLeft className="h-6 w-6" />
+                </button>
+                <button
+                  type="button"
+                  className="absolute right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white transition hover:bg-black/70 disabled:opacity-25"
+                  onClick={goNextMedia}
+                  disabled={lightboxMediaIndex < 0 || lightboxMediaIndex >= mediaRefs.length - 1}
+                  aria-label="Следующий файл"
+                >
+                  <LucideIcons.ChevronRight className="h-6 w-6" />
+                </button>
+                {effectiveVisualRefMime(lightboxRef).startsWith('video/') ? (
+                  <div className="flex flex-1 items-center justify-center px-10 py-4">
+                    <video
+                      src={lightboxRef.previewDataUrl}
+                      controls
+                      playsInline
+                      className="max-h-[min(52vh,480px)] max-w-full object-contain"
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div className="absolute left-1/2 top-3 z-20 flex -translate-x-1/2 flex-wrap items-center justify-center gap-0.5 rounded-full border border-white/20 bg-black/70 px-1.5 py-1 shadow-lg sm:gap-1">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 shrink-0 text-white hover:bg-white/10 hover:text-white"
+                        title="Уменьшить (то же, что колесо вниз)"
+                        aria-label="Уменьшить масштаб"
+                        onClick={() =>
+                          setLightboxZoom((z) => Math.max(1, Math.round((z - 0.15) * 100) / 100))
+                        }
+                      >
+                        <LucideIcons.Minus className="h-4 w-4" aria-hidden />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 shrink-0 text-white hover:bg-white/10 hover:text-white"
+                        title="Увеличить (то же, что колесо вверх)"
+                        aria-label="Увеличить масштаб"
+                        onClick={() =>
+                          setLightboxZoom((z) => Math.min(5, Math.round((z + 0.15) * 100) / 100))
+                        }
+                      >
+                        <LucideIcons.Plus className="h-4 w-4" aria-hidden />
+                      </Button>
+                      <span className="mx-0.5 hidden h-5 w-px bg-white/25 sm:inline" aria-hidden />
+                      <Button
+                        type="button"
+                        variant={lightboxLoupeArmed ? 'secondary' : 'ghost'}
+                        size="icon"
+                        className={cn(
+                          'h-8 w-8 shrink-0 text-white hover:bg-white/10 hover:text-white',
+                          lightboxLoupeArmed &&
+                            'bg-amber-500/90 text-amber-950 hover:bg-amber-400 hover:text-amber-950'
+                        )}
+                        title="Лупа: клики по фото — точка увеличения. Повторное нажатие — снять режим и вернуть масштаб 100%"
+                        aria-label="Режим лупы"
+                        aria-pressed={lightboxLoupeArmed}
+                        onClick={() => {
+                          if (lightboxLoupeArmed) {
+                            setLightboxLoupeArmed(false);
+                            setLightboxZoom(1);
+                            setLightboxZoomFocusPx(null);
+                          } else {
+                            setLightboxLoupeArmed(true);
+                          }
+                        }}
+                      >
+                        <LucideIcons.ZoomIn className="h-4 w-4" aria-hidden />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 shrink-0 text-white hover:bg-white/10 hover:text-white"
+                        title="Сброс масштаба и лупы"
+                        aria-label="Сбросить масштаб"
+                        onClick={resetLightboxView}
+                      >
+                        <LucideIcons.Maximize2 className="h-4 w-4" aria-hidden />
+                      </Button>
+                    </div>
+                    {lightboxLoupeArmed ? (
+                      <p className="absolute left-1/2 top-[3.25rem] z-20 max-w-[min(92vw,28rem)] -translate-x-1/2 rounded-md bg-amber-500/95 px-3 py-1.5 text-center text-[11px] font-medium leading-snug text-amber-950 shadow-md">
+                        Клик по фото — откуда увеличивать. Крупнее / мельче — только кнопки − / +
+                        или колесо. Повторно иконка лупы — выключить режим и сбросить масштаб.
+                      </p>
+                    ) : (
+                      <p className="absolute left-1/2 top-[3.25rem] z-20 max-w-[min(92vw,26rem)] -translate-x-1/2 rounded-md bg-black/55 px-2.5 py-1.5 text-center text-[10px] leading-snug text-white/90">
+                        <span className="font-semibold text-white">Масштаб:</span> − / + или колесо
+                        по тёмной области. Лупа — точка увеличения по клику; снова лупа — сброс
+                        вида.
+                      </p>
+                    )}
+                    <div
+                      className={cn(
+                        'flex max-h-[min(58vh,560px)] min-h-[12rem] w-full flex-1 justify-center overflow-auto px-6 pb-4',
+                        lightboxLoupeArmed ? 'pt-24' : 'pt-16',
+                        lightboxLoupeArmed && 'cursor-crosshair'
+                      )}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element -- data URL из локального досье */}
+                      <img
+                        src={lightboxRef.previewDataUrl}
+                        alt=""
+                        role="presentation"
+                        className={cn(
+                          'max-h-[min(52vh,500px)] max-w-full select-none object-contain transition-transform duration-200 ease-out',
+                          lightboxLoupeArmed &&
+                            'cursor-crosshair ring-2 ring-amber-400/80 ring-offset-2 ring-offset-black/90'
+                        )}
+                        style={{
+                          transform: `scale(${lightboxZoom})`,
+                          transformOrigin: lightboxZoomFocusPx
+                            ? `${lightboxZoomFocusPx.x}px ${lightboxZoomFocusPx.y}px`
+                            : 'center center',
+                        }}
+                        onClick={(e) => {
+                          if (!lightboxLoupeArmed) return;
+                          e.preventDefault();
+                          const pt = visualRefImageClickToFocusPx(
+                            e.currentTarget,
+                            e.clientX,
+                            e.clientY
+                          );
+                          setLightboxZoomFocusPx(pt);
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className="border-border-default max-h-[40vh] space-y-3 overflow-y-auto border-t bg-white p-4">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <p className="text-text-secondary text-xs font-semibold">
+                    {lightboxMediaIndex + 1} / {mediaRefs.length}
+                  </p>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 text-xs text-red-600"
+                    onClick={() => removeOne(lightboxRef.refId)}
+                  >
+                    Удалить референс
+                  </Button>
+                </div>
+                <Input
+                  className="h-9 text-sm"
+                  placeholder="Название"
+                  value={lightboxRef.title}
+                  onChange={(e) => update(lightboxRef.refId, { title: e.target.value })}
+                />
+                <Textarea
+                  className="min-h-[56px] text-sm"
+                  placeholder="Что смотреть на референсе…"
+                  value={lightboxRef.description ?? ''}
+                  onChange={(e) => update(lightboxRef.refId, { description: e.target.value })}
+                />
+                <Input
+                  className="h-9 text-sm"
+                  type="url"
+                  placeholder="Ссылка https://…"
+                  value={lightboxRef.externalUrl ?? ''}
+                  onChange={(e) => update(lightboxRef.refId, { externalUrl: e.target.value })}
+                />
+                <div className="space-y-1">
+                  <Label className="text-text-secondary text-[10px]">Заменить файл</Label>
+                  <Input
+                    type="file"
+                    accept="image/*,video/*"
+                    className="h-9 cursor-pointer text-xs"
+                    onChange={(e) => void onFile(lightboxRef.refId, e)}
+                  />
+                </div>
+
+                <div className="border-border-subtle space-y-2 border-t pt-3">
+                  <p className="text-text-muted text-[10px] font-black uppercase tracking-wider">
+                    Обсуждение
+                  </p>
+                  <div className="border-border-subtle bg-bg-surface2/80 flex max-h-52 flex-col gap-2 overflow-y-auto rounded-lg border p-2">
+                    {sortedComments.length === 0 ? (
+                      <p className="text-text-secondary text-center text-[11px]">
+                        Пока нет сообщений.
+                      </p>
+                    ) : (
+                      sortedComments.map((c) => {
+                        const isAuthorSide = visualRefSameUser(c.by, threadAuthorLabel);
+                        const likes = (c.reactions ?? []).filter((x) => x.type === 'like').length;
+                        const dislikes = (c.reactions ?? []).filter(
+                          (x) => x.type === 'dislike'
+                        ).length;
+                        const mine = (c.reactions ?? []).find((x) =>
+                          visualRefSameUser(x.by, currentUserLabel)
+                        );
+                        return (
+                          <div
+                            key={c.commentId}
+                            className={cn(
+                              'flex w-full flex-col gap-1',
+                              isAuthorSide ? 'items-start' : 'items-end'
+                            )}
+                          >
+                            <div
+                              className={cn(
+                                'max-w-[88%] rounded-2xl px-3 py-2 text-[13px] leading-snug shadow-sm',
+                                isAuthorSide
+                                  ? 'text-text-primary ring-border-default rounded-tl-sm bg-white ring-1'
+                                  : 'bg-accent-primary rounded-tr-sm text-white'
+                              )}
+                            >
+                              <p>{c.text}</p>
+                              <p
+                                className={cn(
+                                  'mt-1 text-[10px]',
+                                  isAuthorSide ? 'text-text-secondary' : 'text-accent-primary/30'
+                                )}
+                              >
+                                {c.by} ·{' '}
+                                {new Date(c.at).toLocaleString('ru-RU', {
+                                  dateStyle: 'short',
+                                  timeStyle: 'short',
+                                })}
+                              </p>
+                            </div>
+                            <div
+                              className={cn(
+                                'flex flex-wrap items-center gap-1 px-1',
+                                isAuthorSide ? 'justify-start' : 'justify-end'
+                              )}
+                            >
+                              <button
+                                type="button"
+                                className={cn(
+                                  'inline-flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[10px] font-semibold',
+                                  mine?.type === 'like'
+                                    ? 'bg-emerald-100 text-emerald-800'
+                                    : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
+                                )}
+                                onClick={() =>
+                                  toggleReaction(lightboxRef.refId, c.commentId, 'like')
+                                }
+                              >
+                                <LucideIcons.ThumbsUp className="h-3 w-3" />
+                                {likes || ''}
+                              </button>
+                              <button
+                                type="button"
+                                className={cn(
+                                  'inline-flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[10px] font-semibold',
+                                  mine?.type === 'dislike'
+                                    ? 'bg-rose-100 text-rose-800'
+                                    : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
+                                )}
+                                onClick={() =>
+                                  toggleReaction(lightboxRef.refId, c.commentId, 'dislike')
+                                }
+                              >
+                                <LucideIcons.ThumbsDown className="h-3 w-3" />
+                                {dislikes || ''}
+                              </button>
+                              <button
+                                type="button"
+                                className={cn(
+                                  'inline-flex min-h-8 min-w-[4.5rem] items-center justify-center rounded-md px-2 py-1 text-[10px] font-semibold',
+                                  c.resolved
+                                    ? 'bg-emerald-100 text-emerald-900'
+                                    : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
+                                )}
+                                aria-pressed={c.resolved === true}
+                                onClick={() =>
+                                  toggleCommentResolved(lightboxRef.refId, c.commentId)
+                                }
+                              >
+                                {c.resolved ? 'Решено' : 'Открыто'}
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <Textarea
+                      className="min-h-[44px] flex-1 text-sm"
+                      placeholder="Сообщение…"
+                      value={draftComment}
+                      onChange={(e) => setDraftComment(e.target.value)}
+                    />
+                    <Button
+                      type="button"
+                      className="h-9 shrink-0 self-end text-xs"
+                      onClick={addComment}
+                    >
+                      Отправить
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : null}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={refEditorOpen}
+        onOpenChange={(o) => {
+          setRefEditorOpen(o);
+          if (!o) setRefEditorId(null);
+        }}
+      >
+        <DialogContent className="max-h-[min(90vh,640px)] w-[min(96vw,440px)] max-w-none gap-0 overflow-y-auto p-0 sm:rounded-xl">
+          <div className="border-border-subtle border-b p-4 sm:p-5">
+            <div className="flex items-start gap-3">
+              <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                <LucideIcons.Images className="h-4 w-4 shrink-0" aria-hidden />
+              </div>
+              <DialogHeader className="m-0 flex-1 space-y-1 p-0 text-left">
+                <DialogTitle>{refEditorId ? 'Референс' : 'Новый референс'}</DialogTitle>
+                <DialogDescription className="text-sm leading-snug">
+                  Название, пояснение и ссылка — по желанию; фото или видео дадут превью в сетке.
+                  Окно поверх страницы, как раньше.
+                </DialogDescription>
+              </DialogHeader>
+            </div>
+          </div>
+          <div className="space-y-3 p-4 sm:p-5">
+            <div className="space-y-1">
+              <Label htmlFor="w2-vref-editor-title" className="text-xs">
+                Краткое название
+              </Label>
+              <Input
+                id="w2-vref-editor-title"
+                className="h-9 text-sm"
+                placeholder="Например: референс посадки"
+                value={refEditorTitle}
+                onChange={(e) => setRefEditorTitle(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="w2-vref-editor-desc" className="text-xs">
+                Что смотреть на референсе
+              </Label>
+              <Textarea
+                id="w2-vref-editor-desc"
+                className="min-h-[72px] text-sm"
+                placeholder="Акценты силуэта, фактура, детали…"
+                value={refEditorDesc}
+                onChange={(e) => setRefEditorDesc(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="w2-vref-editor-url" className="text-xs">
+                Ссылка (необязательно)
+              </Label>
+              <Input
+                id="w2-vref-editor-url"
+                className="h-9 text-sm"
+                type="url"
+                inputMode="url"
+                placeholder="https://…"
+                value={refEditorUrl}
+                onChange={(e) => setRefEditorUrl(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-xs">Что берём с рефа</Label>
+              <div className="flex flex-wrap gap-2">
+                {(
+                  Object.keys(VISUAL_REF_TAKEAWAY_LABELS) as Workshop2VisualRefTakeawayAspect[]
+                ).map((aspect) => {
+                  const on = refEditorTakeawayAspects.includes(aspect);
+                  return (
+                    <label
+                      key={aspect}
+                      className={cn(
+                        'flex cursor-pointer items-center gap-1.5 rounded-md border px-2 py-1 text-[11px] transition',
+                        on
+                          ? 'border-accent-primary/30 bg-accent-primary/10 text-accent-primary'
+                          : 'border-border-default text-text-primary bg-white'
+                      )}
+                    >
+                      <input
+                        type="checkbox"
+                        className="border-border-default h-3.5 w-3.5 rounded"
+                        checked={on}
+                        onChange={() => {
+                          setRefEditorTakeawayAspects((prev) =>
+                            prev.includes(aspect)
+                              ? prev.filter((x) => x !== aspect)
+                              : [...prev, aspect]
+                          );
+                        }}
+                      />
+                      {VISUAL_REF_TAKEAWAY_LABELS[aspect]}
+                    </label>
+                  );
+                })}
+              </div>
+              <Textarea
+                className="min-h-[52px] text-sm"
+                placeholder="Уточнение решения (необязательно): например «только линия плеча»"
+                value={refEditorTakeawayNote}
+                onChange={(e) => setRefEditorTakeawayNote(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="w2-vref-editor-file" className="text-xs">
+                Файл фото или видео
+              </Label>
+              <Input
+                id="w2-vref-editor-file"
+                ref={refEditorFileInputRef}
+                type="file"
+                accept="image/*,video/*"
+                className="h-9 cursor-pointer text-xs"
+              />
+              {refEditorId ? (
+                <p className="text-text-secondary text-[10px]">
+                  Оставьте поле пустым, чтобы сохранить текущий файл.
+                </p>
+              ) : null}
+            </div>
+          </div>
+          <DialogFooter className="border-border-subtle border-t px-4 py-3 sm:px-5">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setRefEditorOpen(false)}
+            >
+              Отмена
+            </Button>
+            <Button type="button" size="sm" onClick={() => void saveRefEditor()}>
+              Сохранить
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+function SampleBaseSizeBlock({
+  attribute,
+  currentLeaf,
+  dossier,
+  setDossier,
+  setDossierInternal,
+  tzWriteDisabled,
+  onFreeTextSide,
+}: {
+  attribute: AttributeCatalogAttribute;
+  currentLeaf: HandbookCategoryLeaf;
+  dossier: Workshop2DossierPhase1;
+  setDossier: Dispatch<SetStateAction<Workshop2DossierPhase1>>;
+  setDossierInternal: Dispatch<SetStateAction<Workshop2DossierPhase1>>;
+  tzWriteDisabled: boolean;
+  onFreeTextSide: (attributeId: string, text: string) => void;
+}) {
+  const scaleRows = useMemo(() => getWorkshopSampleSizeScaleOptions(currentLeaf), [currentLeaf]);
+  const dimLabels = useMemo(() => getWorkshopDimensionLabels(currentLeaf), [currentLeaf]);
+  const effectiveScaleId =
+    dossier.sampleSizeScaleId ?? scaleRows[0]?.key ?? defaultSizeScaleIdForLeaf(currentLeaf);
+  const sizeParams = useMemo(
+    () => resolveSampleBaseSizeParametersForLeaf(attribute, currentLeaf, effectiveScaleId),
+    [attribute, currentLeaf, effectiveScaleId]
+  );
+
+  const sampleAssign = dossier.assignments.find(
+    (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+  );
+  const { hbs, ft } = partitionHandbookAndFree(sampleAssign);
+  const handbookParts = useMemo(
+    () =>
+      hbs.map((v) => ({
+        parameterId: v.parameterId!,
+        displayLabel: resolvedHandbookDisplayLabel(
+          'sampleBaseSize',
+          v.parameterId!,
+          v.displayLabel
+        ),
+      })),
+    [sampleAssign]
+  );
+  const freeStr = ft?.text ?? '';
+
+  const selectOptions = useMemo(() => {
+    const list = [...sizeParams];
+    for (const v of hbs) {
+      const pid = v.parameterId;
+      if (pid && !list.some((p) => p.parameterId === pid)) {
+        list.unshift({
+          parameterId: pid,
+          label: v.displayLabel || pid,
+          sortOrder: -1,
+        });
+      }
+    }
+    return [...list].sort((a, b) => a.sortOrder - b.sortOrder);
+  }, [sizeParams, hbs]);
+
+  const hiddenDimSet = useMemo(
+    () => new Set(dossier.sampleBaseHiddenDimensionKeys ?? []),
+    [dossier.sampleBaseHiddenDimensionKeys]
+  );
+  const visibleDimLabels = useMemo(
+    () => dimLabels.filter((d) => !hiddenDimSet.has(d)),
+    [dimLabels, hiddenDimSet]
+  );
+
+  const extras = dossier.sampleBaseExtraDimensions ?? [];
+
+  function dimValue(pid: string, label: string, rowIndex: number) {
+    return (
+      dossier.sampleBasePerSizeDimensions?.[pid]?.[label] ??
+      (rowIndex === 0 ? dossier.sampleBaseDimensionOverrides?.[label] : undefined) ??
+      ''
+    );
+  }
+
+  const rangeMode = !!dossier.sampleBaseDimensionRangeMode;
+  const rangeKeys = dossier.sampleBaseDimensionRangeKeys ?? [];
+  const rangeKeysSet = useMemo(() => new Set(rangeKeys), [rangeKeys]);
+
+  const dimensionKeysAll = useMemo(
+    () => [...visibleDimLabels, ...extras.map((ex) => `__extra:${ex.id}`)],
+    [visibleDimLabels, extras]
+  );
+
+  const dimsWithSuggestionRange = useMemo(
+    () =>
+      dimensionKeysAll.filter((key) =>
+        handbookParts.some((part, idx) =>
+          cellLooksLikeNumericRange(dimValue(part.parameterId, key, idx))
+        )
+      ),
+    [
+      dimensionKeysAll,
+      handbookParts,
+      dossier.sampleBasePerSizeDimensions,
+      dossier.sampleBaseDimensionOverrides,
+    ]
+  );
+
+  const moqCap = dossier.passportProductionBrief?.moqTargetMaxPieces;
+  const capActive = moqCap != null && Number.isFinite(moqCap) && moqCap >= 0;
+  const pieceQtyMap = dossier.sampleBasePerSizePieceQty ?? {};
+
+  const tablePieceSum = useMemo(
+    () =>
+      handbookParts.reduce((s, part) => {
+        const v = pieceQtyMap[part.parameterId];
+        if (typeof v === 'number' && Number.isFinite(v) && v > 0) return s + Math.floor(v);
+        return s;
+      }, 0),
+    [handbookParts, pieceQtyMap]
+  );
+
+  const maxPiecesForPid = (pid: string) => {
+    if (!capActive || moqCap == null) return undefined;
+    const others = handbookParts.reduce((s, part) => {
+      if (part.parameterId === pid) return s;
+      const v = pieceQtyMap[part.parameterId];
+      if (typeof v === 'number' && Number.isFinite(v) && v > 0) return s + Math.floor(v);
+      return s;
+    }, 0);
+    return Math.max(0, Math.floor(moqCap) - others);
+  };
+
+  const patchPieceQty = (pid: string, raw: string) => {
+    setDossier((p: Workshop2DossierPhase1) => {
+      const assign = p.assignments.find(
+        (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+      );
+      const { hbs } = partitionHandbookAndFree(assign);
+      const cap = p.passportProductionBrief?.moqTargetMaxPieces;
+      const digits = raw.replace(/\D/g, '');
+      let v = digits === '' ? 0 : Math.max(0, Math.floor(Number(digits)));
+      const prev = { ...(p.sampleBasePerSizePieceQty ?? {}) };
+      let others = 0;
+      for (const hb of hbs) {
+        const opid = hb.parameterId!;
+        if (opid === pid) continue;
+        const n = prev[opid];
+        if (typeof n === 'number' && Number.isFinite(n) && n > 0) others += Math.floor(n);
+      }
+      if (cap != null && Number.isFinite(cap) && cap >= 0) {
+        v = Math.min(v, Math.max(0, Math.floor(cap) - others));
+      }
+      const next = { ...prev };
+      if (v === 0) delete next[pid];
+      else next[pid] = v;
+      return {
+        ...p,
+        sampleBasePerSizePieceQty: Object.keys(next).length ? next : undefined,
+      };
+    });
+  };
+
+  const enableRangeForDimensionKey = (canon: string) => {
+    setDossier((p: Workshop2DossierPhase1) => {
+      const keys = [...new Set([...(p.sampleBaseDimensionRangeKeys ?? []), canon])];
+      const nextRanges = { ...(p.sampleBasePerSizeDimensionRanges ?? {}) };
+      const nextPer: Record<string, Record<string, string>> = {
+        ...(p.sampleBasePerSizeDimensions ?? {}),
+      };
+      for (let idx = 0; idx < handbookParts.length; idx++) {
+        const part = handbookParts[idx]!;
+        const pid = part.parameterId;
+        const raw =
+          p.sampleBasePerSizeDimensions?.[pid]?.[canon] ??
+          (idx === 0 ? p.sampleBaseDimensionOverrides?.[canon] : undefined) ??
+          '';
+        const parsed = parseDimensionValueToRange(String(raw));
+        const cell: Workshop2Phase1DimensionRangeCell = { min: parsed.min, max: parsed.max };
+        nextRanges[pid] = { ...(nextRanges[pid] ?? {}), [canon]: cell };
+        nextPer[pid] = {
+          ...(nextPer[pid] ?? {}),
+          [canon]: formatRangeToDimensionCell(cell.min, cell.max),
+        };
+      }
+      return {
+        ...p,
+        sampleBaseDimensionRangeKeys: keys,
+        sampleBasePerSizeDimensionRanges: nextRanges,
+        sampleBasePerSizeDimensions: Object.keys(nextPer).length ? nextPer : undefined,
+      };
+    });
+  };
+
+  const disableRangeForDimensionKey = (canon: string) => {
+    setDossier((p: Workshop2DossierPhase1) => {
+      const keys = (p.sampleBaseDimensionRangeKeys ?? []).filter((k) => k !== canon);
+      const nextRanges: Record<string, Record<string, Workshop2Phase1DimensionRangeCell>> = {
+        ...(p.sampleBasePerSizeDimensionRanges ?? {}),
+      };
+      const nextPer: Record<string, Record<string, string>> = {
+        ...(p.sampleBasePerSizeDimensions ?? {}),
+      };
+      for (const part of handbookParts) {
+        const pid = part.parameterId;
+        const cell = nextRanges[pid]?.[canon];
+        if (cell) {
+          nextPer[pid] = {
+            ...(nextPer[pid] ?? {}),
+            [canon]: formatRangeToDimensionCell(cell.min, cell.max),
+          };
+        }
+        if (nextRanges[pid]) {
+          const { [canon]: _removed, ...rest } = nextRanges[pid]!;
+          if (Object.keys(rest).length) nextRanges[pid] = rest;
+          else delete nextRanges[pid];
+        }
+      }
+      return {
+        ...p,
+        sampleBaseDimensionRangeKeys: keys.length ? keys : undefined,
+        sampleBasePerSizeDimensionRanges: Object.keys(nextRanges).length ? nextRanges : undefined,
+        sampleBasePerSizeDimensions: Object.keys(nextPer).length ? nextPer : undefined,
+      };
+    });
+  };
+
+  const addAllSuggestedRangeDimensions = () => {
+    setDossier((p: Workshop2DossierPhase1) => {
+      let next = p;
+      for (const k of dimsWithSuggestionRange) {
+        const curKeys = new Set(next.sampleBaseDimensionRangeKeys ?? []);
+        if (curKeys.has(k)) continue;
+        const keys = [...curKeys, k];
+        const nextRanges = { ...(next.sampleBasePerSizeDimensionRanges ?? {}) };
+        const nextPer: Record<string, Record<string, string>> = {
+          ...(next.sampleBasePerSizeDimensions ?? {}),
+        };
+        for (let idx = 0; idx < handbookParts.length; idx++) {
+          const part = handbookParts[idx]!;
+          const pid = part.parameterId;
+          const raw =
+            next.sampleBasePerSizeDimensions?.[pid]?.[k] ??
+            (idx === 0 ? next.sampleBaseDimensionOverrides?.[k] : undefined) ??
+            '';
+          const parsed = parseDimensionValueToRange(String(raw));
+          const cell: Workshop2Phase1DimensionRangeCell = { min: parsed.min, max: parsed.max };
+          nextRanges[pid] = { ...(nextRanges[pid] ?? {}), [k]: cell };
+          nextPer[pid] = {
+            ...(nextPer[pid] ?? {}),
+            [k]: formatRangeToDimensionCell(cell.min, cell.max),
+          };
+        }
+        next = {
+          ...next,
+          sampleBaseDimensionRangeKeys: keys,
+          sampleBasePerSizeDimensionRanges: nextRanges,
+          sampleBasePerSizeDimensions: Object.keys(nextPer).length ? nextPer : undefined,
+        };
+      }
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    if (tzWriteDisabled) return;
+    setDossierInternal((prev: Workshop2DossierPhase1) => {
+      const hidden = new Set(prev.sampleBaseHiddenDimensionKeys ?? []);
+      const a = prev.assignments.find(
+        (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+      );
+      const { hbs: list } = partitionHandbookAndFree(a);
+      if (!list.length) return prev;
+      let nextPer = { ...prev.sampleBasePerSizeDimensions };
+      let changed = false;
+      for (const v of list) {
+        const pid = v.parameterId!;
+        const sug = getSuggestedDimensionCmForParameterId(pid, dimLabels);
+        if (!sug) continue;
+        const row = { ...(nextPer[pid] ?? {}) };
+        let rowTouch = false;
+        for (const [k, val] of Object.entries(sug)) {
+          if (hidden.has(k)) continue;
+          if (!row[k]) {
+            row[k] = val;
+            rowTouch = true;
+          }
+        }
+        if (rowTouch) {
+          nextPer[pid] = row;
+          changed = true;
+        }
+      }
+      return changed ? { ...prev, sampleBasePerSizeDimensions: nextPer } : prev;
+    });
+  }, [dossier.assignments, dimLabels, tzWriteDisabled]);
+
+  useEffect(() => {
+    if (tzWriteDisabled) return;
+    if (currentLeaf.l1Name !== 'Сумки') return;
+    setDossierInternal((prev: Workshop2DossierPhase1) => {
+      const bagA = prev.assignments.find(
+        (x) => x.kind === 'canonical' && x.attributeId === 'bag-type'
+      );
+      const btPid = bagA?.values.find(
+        (v) => v.valueSource === 'handbook_parameter' && v.parameterId
+      )?.parameterId;
+      const sug = getSuggestedBagDimensionsForBagTypeParameterId(btPid);
+      if (!sug || !Object.keys(sug).length) return prev;
+      const hidden = new Set(prev.sampleBaseHiddenDimensionKeys ?? []);
+      const a = prev.assignments.find(
+        (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+      );
+      const { hbs: list } = partitionHandbookAndFree(a);
+      if (!list.length) return prev;
+      let nextPer = { ...prev.sampleBasePerSizeDimensions };
+      let changed = false;
+      for (const v of list) {
+        const pid = v.parameterId!;
+        const row = { ...(nextPer[pid] ?? {}) };
+        let rowTouch = false;
+        for (const [k, val] of Object.entries(sug)) {
+          if (!dimLabels.includes(k)) continue;
+          if (hidden.has(k)) continue;
+          if (!row[k]) {
+            row[k] = val;
+            rowTouch = true;
+          }
+        }
+        if (rowTouch) {
+          nextPer[pid] = row;
+          changed = true;
+        }
+      }
+      return changed ? { ...prev, sampleBasePerSizeDimensions: nextPer } : prev;
+    });
+  }, [currentLeaf.l1Name, dossier.assignments, dimLabels, tzWriteDisabled]);
+
+  const selectCls =
+    'h-9 min-w-0 rounded-md border border-border-default bg-white px-2 text-sm text-text-primary';
+
+  const extraDimStorageKey = (id: string) => `__extra:${id}`;
+
+  const addExtraDimension = () => {
+    setDossier((p: Workshop2DossierPhase1) => ({
+      ...p,
+      sampleBaseExtraDimensions: [
+        ...(p.sampleBaseExtraDimensions ?? []),
+        { id: newUuid(), label: '' },
+      ],
+    }));
+  };
+
+  const removeExtraDimension = (id: string) => {
+    const storageKey = extraDimStorageKey(id);
+    setDossier((p: Workshop2DossierPhase1) => {
+      const raw = p.sampleBasePerSizeDimensions;
+      const nextExtras = (p.sampleBaseExtraDimensions ?? []).filter((x) => x.id !== id);
+      const nextRangeKeys = (p.sampleBaseDimensionRangeKeys ?? []).filter((k) => k !== storageKey);
+      const nextRangesRaw = { ...(p.sampleBasePerSizeDimensionRanges ?? {}) };
+      for (const pid of Object.keys(nextRangesRaw)) {
+        const rec = nextRangesRaw[pid];
+        if (!rec?.[storageKey]) continue;
+        const { [storageKey]: _r, ...restR } = rec;
+        if (Object.keys(restR).length) nextRangesRaw[pid] = restR;
+        else delete nextRangesRaw[pid];
+      }
+      if (!raw) {
+        return {
+          ...p,
+          sampleBaseExtraDimensions: nextExtras.length ? nextExtras : undefined,
+          sampleBaseDimensionRangeKeys: nextRangeKeys.length ? nextRangeKeys : undefined,
+          sampleBasePerSizeDimensionRanges: Object.keys(nextRangesRaw).length
+            ? nextRangesRaw
+            : undefined,
+        };
+      }
+      const nextPer: Record<string, Record<string, string>> = {};
+      for (const [pid, rec] of Object.entries(raw) as [string, Record<string, string>][]) {
+        const copy = { ...rec };
+        delete copy[storageKey];
+        nextPer[pid] = copy;
+      }
+      return {
+        ...p,
+        sampleBaseExtraDimensions: nextExtras.length ? nextExtras : undefined,
+        sampleBasePerSizeDimensions: Object.keys(nextPer).length ? nextPer : undefined,
+        sampleBaseDimensionRangeKeys: nextRangeKeys.length ? nextRangeKeys : undefined,
+        sampleBasePerSizeDimensionRanges: Object.keys(nextRangesRaw).length
+          ? nextRangesRaw
+          : undefined,
+      };
+    });
+  };
+
+  const removeStandardDimension = (canonKey: string) => {
+    setDossier((p: Workshop2DossierPhase1) => {
+      const nextHidden = [...new Set([...(p.sampleBaseHiddenDimensionKeys ?? []), canonKey])];
+      const raw = p.sampleBasePerSizeDimensions;
+      const nextOv = { ...(p.sampleBaseDimensionLabelOverrides ?? {}) };
+      delete nextOv[canonKey];
+      const nextRangeKeys = (p.sampleBaseDimensionRangeKeys ?? []).filter((k) => k !== canonKey);
+      const nextRangesRaw = { ...(p.sampleBasePerSizeDimensionRanges ?? {}) };
+      for (const pid of Object.keys(nextRangesRaw)) {
+        const rec = nextRangesRaw[pid];
+        if (!rec?.[canonKey]) continue;
+        const { [canonKey]: _r, ...restR } = rec;
+        if (Object.keys(restR).length) nextRangesRaw[pid] = restR;
+        else delete nextRangesRaw[pid];
+      }
+      if (!raw) {
+        return {
+          ...p,
+          sampleBaseHiddenDimensionKeys: nextHidden,
+          sampleBaseDimensionLabelOverrides: Object.keys(nextOv).length > 0 ? nextOv : undefined,
+          sampleBaseDimensionRangeKeys: nextRangeKeys.length ? nextRangeKeys : undefined,
+          sampleBasePerSizeDimensionRanges: Object.keys(nextRangesRaw).length
+            ? nextRangesRaw
+            : undefined,
+        };
+      }
+      const nextPer: Record<string, Record<string, string>> = {};
+      for (const [pid, rec] of Object.entries(raw) as [string, Record<string, string>][]) {
+        const copy = { ...rec };
+        delete copy[canonKey];
+        nextPer[pid] = copy;
+      }
+      return {
+        ...p,
+        sampleBaseHiddenDimensionKeys: nextHidden,
+        sampleBaseDimensionLabelOverrides: Object.keys(nextOv).length > 0 ? nextOv : undefined,
+        sampleBasePerSizeDimensions: Object.keys(nextPer).length ? nextPer : undefined,
+        sampleBaseDimensionRangeKeys: nextRangeKeys.length ? nextRangeKeys : undefined,
+        sampleBasePerSizeDimensionRanges: Object.keys(nextRangesRaw).length
+          ? nextRangesRaw
+          : undefined,
+      };
+    });
+  };
+
+  const setStandardLabelOverride = (canonKey: string, display: string) => {
+    setDossier((p: Workshop2DossierPhase1) => {
+      const next = { ...(p.sampleBaseDimensionLabelOverrides ?? {}) };
+      const t = display.trim();
+      if (!t || t === canonKey) delete next[canonKey];
+      else next[canonKey] = t;
+      return {
+        ...p,
+        sampleBaseDimensionLabelOverrides: Object.keys(next).length ? next : undefined,
+      };
+    });
+  };
+
+  const optList = selectOptions.map((p) => ({ parameterId: p.parameterId, label: p.label }));
+
+  const sizeLineForPart = (part: { parameterId: string; displayLabel: string }) =>
+    selectOptions.find((o) => o.parameterId === part.parameterId)?.label ?? part.displayLabel;
+
+  const dimensionKeyLabel = (k: string) => {
+    if (k.startsWith('__extra:')) {
+      const id = k.slice('__extra:'.length);
+      return extras.find((x) => x.id === id)?.label?.trim() || 'Доп. мерка';
+    }
+    return dossier.sampleBaseDimensionLabelOverrides?.[k] ?? k;
+  };
+
+  function rangeForCell(pid: string, canon: string, rowIndex: number) {
+    const stored = dossier.sampleBasePerSizeDimensionRanges?.[pid]?.[canon];
+    if (stored) {
+      return {
+        min: stored.min,
+        max: stored.max,
+        nominal: stored.nominal ?? '',
+      };
+    }
+    const parsed = parseDimensionValueToRange(dimValue(pid, canon, rowIndex));
+    return { ...parsed, nominal: '' };
+  }
+
+  const patchRangeCell = (
+    pid: string,
+    canon: string,
+    field: 'min' | 'max' | 'nominal',
+    v: string
+  ) => {
+    setDossier((p: Workshop2DossierPhase1) => {
+      const rowIndex = handbookParts.findIndex((x) => x.parameterId === pid);
+      const curFlat =
+        p.sampleBasePerSizeDimensions?.[pid]?.[canon] ??
+        (rowIndex === 0 ? p.sampleBaseDimensionOverrides?.[canon] : undefined) ??
+        '';
+      const existing = p.sampleBasePerSizeDimensionRanges?.[pid]?.[canon];
+      const base = existing ?? parseDimensionValueToRange(String(curFlat));
+      const next: Workshop2Phase1DimensionRangeCell = {
+        min: field === 'min' ? v : base.min,
+        max: field === 'max' ? v : base.max,
+      };
+      if (field === 'nominal') {
+        const t = v.trim();
+        if (t) next.nominal = t;
+      } else if (existing?.nominal?.trim()) {
+        next.nominal = existing.nominal;
+      }
+      return {
+        ...p,
+        sampleBasePerSizeDimensionRanges: {
+          ...p.sampleBasePerSizeDimensionRanges,
+          [pid]: {
+            ...(p.sampleBasePerSizeDimensionRanges?.[pid] ?? {}),
+            [canon]: next,
+          },
+        },
+        sampleBasePerSizeDimensions: {
+          ...p.sampleBasePerSizeDimensions,
+          [pid]: {
+            ...(p.sampleBasePerSizeDimensions?.[pid] ?? {}),
+            [canon]: formatRangeToDimensionCell(next.min, next.max),
+          },
+        },
+      };
+    });
+  };
+
+  const fillSuggestionsForPart = (part: { parameterId: string; displayLabel: string }) => {
+    const suggested = getSuggestedDimensionCmForParameterId(part.parameterId, visibleDimLabels);
+    if (!suggested) return;
+    setDossier((p: Workshop2DossierPhase1) => {
+      const nextPer = { ...(p.sampleBasePerSizeDimensions ?? {}) };
+      nextPer[part.parameterId] = { ...(nextPer[part.parameterId] ?? {}), ...suggested };
+      return { ...p, sampleBasePerSizeDimensions: nextPer };
+    });
+  };
+
+  const fillAllSuggestions = () => {
+    setDossier((p: Workshop2DossierPhase1) => {
+      const nextPer = { ...(p.sampleBasePerSizeDimensions ?? {}) };
+      for (const part of handbookParts) {
+        const suggested = getSuggestedDimensionCmForParameterId(part.parameterId, visibleDimLabels);
+        if (suggested) {
+          nextPer[part.parameterId] = { ...(nextPer[part.parameterId] ?? {}), ...suggested };
+        }
+      }
+      return { ...p, sampleBasePerSizeDimensions: nextPer };
+    });
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:gap-3">
+        <div className="min-w-0 flex-1 space-y-1">
+          <Label className="text-text-muted text-[10px] font-bold uppercase">Шкала размеров</Label>
+          <select
+            className={cn(selectCls, 'h-9 w-full')}
+            value={effectiveScaleId}
+            onChange={(e) => {
+              const sid = e.target.value;
+              setDossier((prev: Workshop2DossierPhase1) => {
+                const next: Workshop2DossierPhase1 = { ...prev, sampleSizeScaleId: sid };
+                const params = resolveSampleBaseSizeParametersForLeaf(attribute, currentLeaf, sid);
+                const allow = new Set(params.map((p) => p.parameterId));
+                const a = prev.assignments.find(
+                  (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+                );
+                const { hbs: hbList, ft: ftt } = partitionHandbookAndFree(a);
+                if (!hbList.length) return next;
+                const keep = hbList.filter((hb) => hb.parameterId && allow.has(hb.parameterId));
+                if (keep.length === hbList.length) return next;
+                const parts = keep.map((v) => ({
+                  parameterId: v.parameterId!,
+                  displayLabel: v.displayLabel ?? '',
+                }));
+                const cap = next.passportProductionBrief?.moqTargetMaxPieces;
+                const capped =
+                  cap != null && Number.isFinite(cap) && cap >= 0
+                    ? parts.slice(0, Math.floor(cap))
+                    : parts;
+                return syncSampleBaseSizePartsAndPruneDims(next, capped, ftt?.text ?? '');
+              });
+            }}
+          >
+            {scaleRows.length ? (
+              scaleRows.map((r) => (
+                <option key={r.key} value={r.key}>
+                  {r.label}
+                </option>
+              ))
+            ) : (
+              <option value={defaultSizeScaleIdForLeaf(currentLeaf)}>—</option>
+            )}
+          </select>
+        </div>
+        <div className="min-w-0 flex-1 space-y-1">
+          <Label className="text-text-muted text-[10px] font-bold uppercase">
+            Свой размер (через запятую)
+          </Label>
+          <Input
+            className="h-9 w-full min-w-0 text-sm"
+            value={freeStr}
+            onChange={(e) => onFreeTextSide(attribute.attributeId, e.target.value)}
+            placeholder={attribute.uiPlaceholder ?? 'S, M, L...'}
+          />
+        </div>
+      </div>
+
+      <div className="space-y-1.5">
+        <Label className="text-text-muted text-[10px] font-bold uppercase">
+          Выбор из справочника
+        </Label>
+        <HandbookMultiSelectPopover
+          options={optList}
+          parts={handbookParts}
+          catalogAttributeId="sampleBaseSize"
+          maxSelections={capActive ? moqCap : undefined}
+          onPartsChange={(nextParts) => {
+            setDossier((prev: Workshop2DossierPhase1) => {
+              const a = prev.assignments.find(
+                (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+              );
+              const ftText = partitionHandbookAndFree(a).ft?.text ?? '';
+              const cap = prev.passportProductionBrief?.moqTargetMaxPieces;
+              const trimmed =
+                cap != null && Number.isFinite(cap) && cap >= 0
+                  ? nextParts.slice(0, Math.floor(cap))
+                  : nextParts;
+              return syncSampleBaseSizePartsAndPruneDims(prev, trimmed, ftText);
+            });
+          }}
+        />
+      </div>
+
+      {handbookParts.length > 0 ? (
+        <p className="border-border-subtle bg-bg-surface2/90 text-text-secondary rounded-lg border px-3 py-2 text-[11px] leading-snug">
+          Нужны мерки вне стандартного справочника (объём капюшона, шаг плеча бренда, длина по
+          боковому шву и т.п.)? В таблице ниже нажмите «+» справа от заголовков — добавьте колонку,
+          задайте подпись и заполните значения по размерам. Лишние стандартные мерки можно скрыть
+          крестиком на колонке.
+        </p>
+      ) : null}
+
+      {handbookParts.length > 0 && (visibleDimLabels.length > 0 || extras.length > 0) ? (
+        <div className="border-border-default min-w-0 max-w-full rounded-xl border bg-white p-1 shadow-sm">
+          {capActive && tablePieceSum > moqCap! ? (
+            <p className="mx-1 mb-2 rounded-md border border-amber-200 bg-amber-50/90 px-2 py-1.5 text-[11px] text-amber-900">
+              Сумма «Кол-во, шт» ({tablePieceSum}) больше количества образцов в паспорте ({moqCap}).
+              Уменьшите количества или увеличьте лимит.
+            </p>
+          ) : null}
+          <div className="border-border-subtle bg-bg-surface2/90 text-text-primary mb-3 flex flex-wrap items-center justify-between gap-3 rounded-lg border p-3 text-xs">
+            <label className="text-text-primary flex cursor-pointer items-center gap-2 font-medium">
+              <Checkbox
+                checked={rangeMode}
+                onCheckedChange={(v) =>
+                  setDossier((p: Workshop2DossierPhase1) => ({
+                    ...p,
+                    sampleBaseDimensionRangeMode: v === true ? true : undefined,
+                  }))
+                }
+              />
+              <span className="text-[10px] font-bold uppercase tracking-widest">
+                Диапазоны (мин–макс)
+              </span>
+            </label>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="border-accent-primary/20 text-accent-primary hover:bg-accent-primary/10 h-7 bg-white text-[10px] shadow-sm"
+                onClick={fillAllSuggestions}
+              >
+                <LucideIcons.Sparkles className="mr-1 h-3 w-3" />
+                Заполнить по справочнику (EU)
+              </Button>
+              {rangeMode && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-7 shrink-0 bg-white text-[10px] shadow-sm"
+                  disabled={dimsWithSuggestionRange.every((k) => rangeKeysSet.has(k))}
+                  onClick={() => addAllSuggestedRangeDimensions()}
+                >
+                  <LucideIcons.Sparkles className="text-accent-primary mr-1 h-3 w-3" />
+                  Все мерки с «число–число»
+                </Button>
+              )}
+            </div>
+          </div>
+          <div className="max-w-full overflow-x-auto pb-1">
+            <div className="min-w-max space-y-3 px-2">
+              <div className="border-border-subtle flex flex-nowrap items-end gap-x-2 gap-y-2 border-b pb-2">
+                <div className="min-w-[5rem] max-w-[9rem] shrink-0 pb-2" aria-hidden>
+                  <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                    Размер
+                  </span>
+                </div>
+                {visibleDimLabels.map((canon) => {
+                  const display = dossier.sampleBaseDimensionLabelOverrides?.[canon] ?? canon;
+                  const colRange = rangeMode && rangeKeysSet.has(canon);
+                  return (
+                    <div
+                      key={`hdr-${canon}`}
+                      className={cn('relative shrink-0', colRange ? 'w-[8.25rem]' : 'w-[5rem]')}
+                    >
+                      <button
+                        type="button"
+                        className="absolute -right-1 -top-1 z-[1] flex h-5 w-5 items-center justify-center rounded text-base leading-none text-red-600 hover:bg-red-50"
+                        aria-label={`Удалить колонку «${canon}»`}
+                        onClick={() => removeStandardDimension(canon)}
+                      >
+                        ×
+                      </button>
+                      <Input
+                        className="text-text-secondary h-8 w-full px-1 pr-4 text-[9px] font-medium leading-tight"
+                        value={display}
+                        onChange={(e) => setStandardLabelOverride(canon, e.target.value)}
+                        aria-label="Подпись мерки"
+                      />
+                      {rangeMode ? (
+                        <label className="mt-1 flex cursor-pointer items-center gap-1">
+                          <Checkbox
+                            checked={rangeKeysSet.has(canon)}
+                            onCheckedChange={(c) => {
+                              if (c === true) enableRangeForDimensionKey(canon);
+                              else disableRangeForDimensionKey(canon);
+                            }}
+                            className="h-3 w-3"
+                          />
+                          <span className="text-text-secondary text-[8px] leading-none">
+                            мин–макс
+                          </span>
+                        </label>
+                      ) : null}
+                    </div>
+                  );
+                })}
+                {extras.map((ex) => {
+                  const ek = extraDimStorageKey(ex.id);
+                  const colRange = rangeMode && rangeKeysSet.has(ek);
+                  return (
+                    <div
+                      key={ex.id}
+                      className={cn('relative shrink-0', colRange ? 'w-[8.25rem]' : 'w-[5.5rem]')}
+                    >
+                      <button
+                        type="button"
+                        className="absolute -right-1 -top-1 z-[1] flex h-5 w-5 items-center justify-center rounded text-base leading-none text-red-600 hover:bg-red-50"
+                        aria-label="Удалить мерку"
+                        onClick={() => removeExtraDimension(ex.id)}
+                      >
+                        ×
+                      </button>
+                      <Input
+                        className="text-text-secondary h-8 w-full px-1 pr-4 text-[9px] font-medium leading-tight"
+                        value={ex.label}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          setDossier((p: Workshop2DossierPhase1) => ({
+                            ...p,
+                            sampleBaseExtraDimensions: (p.sampleBaseExtraDimensions ?? []).map(
+                              (x) => (x.id === ex.id ? { ...x, label: v } : x)
+                            ),
+                          }));
+                        }}
+                        aria-label="Подпись мерки"
+                      />
+                      {rangeMode ? (
+                        <label className="mt-1 flex cursor-pointer items-center gap-1">
+                          <Checkbox
+                            checked={rangeKeysSet.has(ek)}
+                            onCheckedChange={(c) => {
+                              if (c === true) enableRangeForDimensionKey(ek);
+                              else disableRangeForDimensionKey(ek);
+                            }}
+                            className="h-3 w-3"
+                          />
+                          <span className="text-text-secondary text-[8px] leading-none">
+                            мин–макс
+                          </span>
+                        </label>
+                      ) : null}
+                    </div>
+                  );
+                })}
+                <div className="w-[4.5rem] shrink-0 pb-2">
+                  <span className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+                    Кол-во, шт
+                  </span>
+                </div>
+                <div className="w-9 shrink-0" aria-hidden />
+              </div>
+              {handbookParts.map((part, idx) => (
+                <div
+                  key={part.parameterId}
+                  className="border-border-subtle flex flex-nowrap items-center gap-x-2 gap-y-2 border-b pb-3 last:border-0 last:pb-0"
+                  aria-label={sizeLineForPart(part)}
+                >
+                  <div className="flex min-h-9 min-w-[4.5rem] max-w-[9rem] shrink-0 items-center">
+                    <span className="text-text-primary text-sm font-medium leading-snug">
+                      {sizeLineForPart(part)}
+                    </span>
+                  </div>
+                  {visibleDimLabels.map((canon) => {
+                    const aria = dossier.sampleBaseDimensionLabelOverrides?.[canon] ?? canon;
+                    const useRange = rangeMode && rangeKeysSet.has(canon);
+                    const rc = rangeForCell(part.parameterId, canon, idx);
+                    return (
+                      <div
+                        key={`${part.parameterId}-${canon}`}
+                        className={cn('shrink-0', useRange ? 'w-[8.25rem]' : 'w-[5rem]')}
+                      >
+                        {useRange ? (
+                          <div className="flex flex-col gap-0.5">
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="decimal"
+                              placeholder="мин"
+                              title={`${aria} — мин`}
+                              aria-label={`${aria}, мин`}
+                              value={rc.min}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, canon, 'min', e.target.value)
+                              }
+                            />
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="decimal"
+                              placeholder="макс"
+                              title={`${aria} — макс`}
+                              aria-label={`${aria}, макс`}
+                              value={rc.max}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, canon, 'max', e.target.value)
+                              }
+                            />
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="text"
+                              placeholder="номинал"
+                              title={`${aria} — номинал для артикула`}
+                              aria-label={`${aria}, номинал для артикула`}
+                              value={rc.nominal}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, canon, 'nominal', e.target.value)
+                              }
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="text-text-secondary h-6 px-1 text-[9px]"
+                              disabled={!midpointNominalSuggestion(rc.min, rc.max)}
+                              onClick={() => {
+                                const m = midpointNominalSuggestion(rc.min, rc.max);
+                                if (m) patchRangeCell(part.parameterId, canon, 'nominal', m);
+                              }}
+                            >
+                              середина
+                            </Button>
+                          </div>
+                        ) : (
+                          <Input
+                            className="h-9 px-2 text-xs"
+                            inputMode="decimal"
+                            placeholder="см"
+                            title={aria}
+                            aria-label={aria}
+                            value={dimValue(part.parameterId, canon, idx)}
+                            onChange={(e) => {
+                              const v = e.target.value;
+                              setDossier((p: Workshop2DossierPhase1) => ({
+                                ...p,
+                                sampleBasePerSizeDimensions: {
+                                  ...p.sampleBasePerSizeDimensions,
+                                  [part.parameterId]: {
+                                    ...(p.sampleBasePerSizeDimensions?.[part.parameterId] ?? {}),
+                                    [canon]: v,
+                                  },
+                                },
+                              }));
+                            }}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+                  {extras.map((ex) => {
+                    const ek = extraDimStorageKey(ex.id);
+                    const useRange = rangeMode && rangeKeysSet.has(ek);
+                    const rc = rangeForCell(part.parameterId, ek, idx);
+                    const ariaEx = ex.label.trim() || 'Доп. мерка';
+                    return (
+                      <div
+                        key={`${part.parameterId}-${ex.id}`}
+                        className={cn('shrink-0', useRange ? 'w-[8.25rem]' : 'w-[5.5rem]')}
+                      >
+                        {useRange ? (
+                          <div className="flex flex-col gap-0.5">
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="decimal"
+                              placeholder="мин"
+                              aria-label={`${ariaEx}, мин`}
+                              value={rc.min}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, ek, 'min', e.target.value)
+                              }
+                            />
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="decimal"
+                              placeholder="макс"
+                              aria-label={`${ariaEx}, макс`}
+                              value={rc.max}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, ek, 'max', e.target.value)
+                              }
+                            />
+                            <Input
+                              className="h-8 px-1.5 text-[10px]"
+                              inputMode="text"
+                              placeholder="номинал"
+                              aria-label={`${ariaEx}, номинал для артикула`}
+                              value={rc.nominal}
+                              onChange={(e) =>
+                                patchRangeCell(part.parameterId, ek, 'nominal', e.target.value)
+                              }
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="text-text-secondary h-6 px-1 text-[9px]"
+                              disabled={!midpointNominalSuggestion(rc.min, rc.max)}
+                              onClick={() => {
+                                const m = midpointNominalSuggestion(rc.min, rc.max);
+                                if (m) patchRangeCell(part.parameterId, ek, 'nominal', m);
+                              }}
+                            >
+                              середина
+                            </Button>
+                          </div>
+                        ) : (
+                          <Input
+                            className="h-9 px-2 text-xs"
+                            inputMode="decimal"
+                            placeholder="см"
+                            aria-label={ariaEx}
+                            value={dimValue(part.parameterId, ek, idx)}
+                            onChange={(e) => {
+                              const v = e.target.value;
+                              setDossier((p: Workshop2DossierPhase1) => ({
+                                ...p,
+                                sampleBasePerSizeDimensions: {
+                                  ...p.sampleBasePerSizeDimensions,
+                                  [part.parameterId]: {
+                                    ...(p.sampleBasePerSizeDimensions?.[part.parameterId] ?? {}),
+                                    [ek]: v,
+                                  },
+                                },
+                              }));
+                            }}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+                  <div className="w-[4.5rem] shrink-0">
+                    <Input
+                      className="h-9 px-1.5 text-center text-xs"
+                      inputMode="numeric"
+                      placeholder="—"
+                      aria-label={`Количество шт, ${sizeLineForPart(part)}`}
+                      title={
+                        capActive
+                          ? `Максимум для этой строки: ${maxPiecesForPid(part.parameterId) ?? 0}`
+                          : 'Лимит задаётся в паспорте: «Лимит шт по размерам»'
+                      }
+                      value={
+                        pieceQtyMap[part.parameterId] != null && pieceQtyMap[part.parameterId]! > 0
+                          ? String(pieceQtyMap[part.parameterId])
+                          : ''
+                      }
+                      onChange={(e) => patchPieceQty(part.parameterId, e.target.value)}
+                      min={0}
+                      max={maxPiecesForPid(part.parameterId)}
+                    />
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-9 w-9 shrink-0 p-0 text-lg font-medium leading-none"
+                    onClick={addExtraDimension}
+                    aria-label="Добавить мерку"
+                  >
+                    +
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function AttributeRowEditor({
+  attribute,
+  dossier,
+  allowMultiHandbook,
+  onSetHandbookParameters,
+  onFreeTextSide,
+  patchColor,
+}: {
+  attribute: AttributeCatalogAttribute;
+  dossier: Workshop2DossierPhase1;
+  allowMultiHandbook: boolean;
+  onSetHandbookParameters: (
+    attributeId: string,
+    parts: { parameterId: string; displayLabel: string }[]
+  ) => void;
+  onFreeTextSide: (attributeId: string, text: string) => void;
+  patchColor?: (u: {
+    handbook?: { parameterId: string; displayLabel: string } | null;
+    freeText?: string;
+  }) => void;
+}) {
+  const handbookParts = useMemo(() => {
+    const assign = dossier.assignments.find(
+      (x) => x.kind === 'canonical' && x.attributeId === attribute.attributeId
+    );
+    const { hbs: list } = partitionHandbookAndFree(assign);
+    const aid = attribute.attributeId;
+    return list.map((v) => ({
+      parameterId: v.parameterId!,
+      displayLabel: resolvedHandbookDisplayLabel(aid, v.parameterId!, v.displayLabel),
+    }));
+  }, [dossier.assignments, attribute.attributeId]);
+
+  const sortedParams = useMemo(
+    () => [...attribute.parameters].sort((x, y) => x.sortOrder - y.sortOrder),
+    [attribute.parameters]
+  );
+
+  const selectOptions = useMemo(() => {
+    const assign = dossier.assignments.find(
+      (x) => x.kind === 'canonical' && x.attributeId === attribute.attributeId
+    );
+    const { hbs: hbList } = partitionHandbookAndFree(assign);
+    const list = [...sortedParams];
+    for (const v of hbList) {
+      const pid = v.parameterId;
+      if (pid && !list.some((p) => p.parameterId === pid)) {
+        list.unshift({
+          parameterId: pid,
+          label: v.displayLabel || pid,
+          sortOrder: -1,
+        });
+      }
+    }
+    return list;
+  }, [sortedParams, dossier.assignments, attribute.attributeId]);
+
+  if (attribute.attributeId === 'color' && patchColor) {
+    return <ColorAttributeRow attribute={attribute} dossier={dossier} patchColor={patchColor} />;
+  }
+
+  const a = dossier.assignments.find(
+    (x) => x.kind === 'canonical' && x.attributeId === attribute.attributeId
+  );
+  const { hbs, ft } = partitionHandbookAndFree(a);
+  const freeStr = ft?.text ?? '';
+
+  if (attribute.type === 'text') {
+    return (
+      <Input
+        className="h-9 w-full min-w-0 text-sm"
+        value={freeStr}
+        onChange={(e) => onFreeTextSide(attribute.attributeId, e.target.value)}
+        placeholder={attribute.uiPlaceholder ?? 'Свой текст'}
+      />
+    );
+  }
+
+  if (allowMultiHandbook) {
+    const optList = selectOptions.map((p) => ({ parameterId: p.parameterId, label: p.label }));
+    return (
+      <div className="grid gap-2 sm:grid-cols-2 sm:items-start sm:gap-3">
+        <HandbookMultiSelectPopover
+          options={optList}
+          parts={handbookParts}
+          catalogAttributeId={attribute.attributeId}
+          onPartsChange={(parts) => onSetHandbookParameters(attribute.attributeId, parts)}
+        />
+        <Input
+          className="h-9 min-w-0 text-sm"
+          value={freeStr}
+          onChange={(e) => onFreeTextSide(attribute.attributeId, e.target.value)}
+          placeholder={attribute.uiPlaceholder ?? 'Свой текст'}
+        />
+      </div>
+    );
+  }
+
+  const currentPid = hbs[0]?.parameterId ?? '';
+
+  return (
+    <div className="grid gap-2 sm:grid-cols-2 sm:items-start">
+      <select
+        className="border-border-default text-text-primary h-9 w-full min-w-0 rounded-md border bg-white px-2 text-sm"
+        value={currentPid}
+        onChange={(e) => {
+          const pid = e.target.value;
+          const p = attribute.parameters.find((x) => x.parameterId === pid);
+          onSetHandbookParameters(
+            attribute.attributeId,
+            pid && p ? [{ parameterId: pid, displayLabel: p.label }] : []
+          );
+        }}
+      >
+        <option value="">Не выбрано из справочника</option>
+        {selectOptions.map((p) => (
+          <option key={p.parameterId} value={p.parameterId}>
+            {p.label}
+          </option>
+        ))}
+      </select>
+      <Input
+        className="h-9 min-w-0 text-sm"
+        value={freeStr}
+        onChange={(e) => onFreeTextSide(attribute.attributeId, e.target.value)}
+        placeholder={attribute.uiPlaceholder ?? 'Свой текст'}
+      />
+    </div>
+  );
+}
+
+function ColorAttributeRow({
+  attribute,
+  dossier,
+  patchColor,
+  embedded = false,
+  paletteCrossNeedles,
+}: {
+  attribute: AttributeCatalogAttribute;
+  dossier: Workshop2DossierPhase1;
+  patchColor: (u: {
+    handbook?: { parameterId: string; displayLabel: string } | null;
+    freeText?: string;
+  }) => void;
+  /** Внутри блока «Цвет» паспорта — без внешней рамки. */
+  embedded?: boolean;
+  /** Сузить палитру по токенам из основной группы и референса (паспорт). */
+  paletteCrossNeedles?: string[];
+}) {
+  const a = dossier.assignments.find(
+    (x) => x.kind === 'canonical' && x.attributeId === attribute.attributeId
+  );
+  const { hb, ft } = partitionValues(a);
+  const currentPid = hb?.parameterId ?? '';
+  const freeStr = ft?.text ?? '';
+
+  const sorted = useMemo(
+    () => [...attribute.parameters].sort((x, y) => x.sortOrder - y.sortOrder),
+    [attribute.parameters]
+  );
+
+  const [gradA, setGradA] = useState('#6366f1');
+  const [gradB, setGradB] = useState('#ec4899');
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [palFilter, setPalFilter] = useState('');
+  const [ignorePaletteCross, setIgnorePaletteCross] = useState(false);
+
+  useEffect(() => {
+    const p = sorted.find((x) => x.parameterId === currentPid);
+    if (p?.colorHex) {
+      setGradA(p.colorHex);
+      setGradB(p.colorHex);
+      return;
+    }
+    if (p?.gradientCss) {
+      const pair = extractTwoHexesFromCss(p.gradientCss);
+      if (pair) {
+        setGradA(pair.a);
+        setGradB(pair.b);
+        return;
+      }
+    }
+    const t = freeStr.trim();
+    if (t.startsWith('linear-gradient')) {
+      const pair = extractTwoHexesFromCss(t);
+      if (pair) {
+        setGradA(pair.a);
+        setGradB(pair.b);
+      }
+    }
+  }, [currentPid, freeStr, sorted]);
+
+  const hexFromText = extractHex6(freeStr);
+  const colorInputValue = hexFromText ?? gradA;
+
+  const mergeFreeWithHex = (hex: string) => {
+    setGradA(hex);
+    setGradB(hex);
+    const without = freeStr
+      .replace(/#([0-9A-Fa-f]{6})\b/gi, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    patchColor({ freeText: without ? `${hex} · ${without}` : hex });
+  };
+
+  const previewCss = freeStr.trim().startsWith('linear-gradient')
+    ? freeStr.trim()
+    : `linear-gradient(90deg, ${gradA}, ${gradB})`;
+
+  const pickHandbook = (pid: string, label: string) => {
+    if (pid && label)
+      patchColor({ handbook: { parameterId: pid, displayLabel: label }, freeText: '' });
+    else patchColor({ handbook: null, freeText: '' });
+  };
+
+  const current = sorted.find((x) => x.parameterId === currentPid);
+  const needle = palFilter.trim().toLowerCase();
+  const activeCross =
+    !ignorePaletteCross && paletteCrossNeedles && paletteCrossNeedles.length > 0
+      ? paletteCrossNeedles
+      : [];
+  const filteredPalette = sorted.filter((p) => {
+    const lbNorm = normalizeRuColorMatch(p.label);
+    const byName = !needle || lbNorm.includes(normalizeRuColorMatch(needle));
+    const byCross =
+      activeCross.length === 0 || activeCross.some((n) => n.length >= 2 && lbNorm.includes(n));
+    return byName && byCross;
+  });
+
+  const summaryLabel = (() => {
+    if (currentPid && current) return current.label;
+    const t = freeStr.trim();
+    if (t.startsWith('linear-gradient')) return 'Свой градиент (сохранён)';
+    if (extractHex6(freeStr)) return 'Свой оттенок / текст';
+    return 'Выберите цвет из палитры';
+  })();
+
+  const summarySwatchStyle: CSSProperties = (() => {
+    if (current?.colorHex) return { backgroundColor: current.colorHex };
+    if (current?.gradientCss) return { background: current.gradientCss };
+    const t = freeStr.trim();
+    if (t.startsWith('linear-gradient')) return { background: t };
+    const hx = extractHex6(freeStr);
+    if (hx) return { backgroundColor: hx };
+    return { background: previewCss };
+  })();
+
+  const onFreeTextChange = (raw: string) => {
+    patchColor({ freeText: raw });
+    const t = raw.trim();
+    if (!t.startsWith('linear-gradient')) {
+      const hx = extractHex6(raw);
+      if (hx) {
+        setGradA(hx);
+        setGradB(hx);
+      }
+    }
+  };
+
+  /** Единый размер «квадратов»: как прежний блок «Свой оттенок» (h-4), +50% → h-6/w-6. */
+  const colorWellClass =
+    'h-6 w-6 shrink-0 cursor-pointer rounded-md border border-border-default bg-white p-0 box-border';
+
+  /** Превью в квадрате «Свой оттенок»: сплошной или сохранённый linear-gradient из текста. */
+  const shadeSwatchStyle: CSSProperties = (() => {
+    const t = freeStr.trim();
+    if (t.startsWith('linear-gradient')) return { background: t };
+    return summarySwatchStyle;
+  })();
+
+  return (
+    <div
+      className={cn(
+        'space-y-3',
+        embedded
+          ? 'border-accent-primary/20 rounded-md border bg-white p-3'
+          : 'border-border-default bg-bg-surface2/30 rounded-lg border px-3 pb-5 pt-5'
+      )}
+    >
+      {/* sm+: заголовки в одной строке, строка контролов ниже — на одной высоте */}
+      <div
+        className={cn(
+          'grid grid-cols-1 gap-y-3 sm:grid-cols-2 sm:gap-x-3 sm:gap-y-3',
+          embedded ? 'mb-4' : 'mb-6'
+        )}
+      >
+        <p className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-accent-primary leading-tight')}>
+          Палитра и градиент
+        </p>
+        <Label
+          className={cn(
+            WORKSHOP_FIELD_LABEL_CLASS,
+            'text-accent-primary sm:border-accent-primary/20 leading-tight sm:border-l sm:pl-3'
+          )}
+        >
+          Свой оттенок
+        </Label>
+
+        <div className="border-accent-primary/20 min-w-0 overflow-hidden rounded-md border bg-white sm:self-start">
+          <button
+            type="button"
+            className="hover:bg-bg-surface2/80 flex h-9 w-full items-center gap-2 px-2 text-left text-sm"
+            onClick={() => setPaletteOpen((o) => !o)}
+          >
+            <span
+              className="border-border-default h-2.5 w-2.5 shrink-0 rounded-full border shadow-sm"
+              style={summarySwatchStyle}
+            />
+            <span className="text-text-primary min-w-0 flex-1 truncate font-medium leading-none">
+              {summaryLabel}
+            </span>
+            <span className="text-text-muted shrink-0 text-[10px]">{paletteOpen ? '▲' : '▼'}</span>
+          </button>
+          {paletteOpen ? (
+            <div className="border-accent-primary/20 bg-accent-primary/10 border-t p-2">
+              <Input
+                className="border-accent-primary/20 mb-2 h-9 text-sm"
+                placeholder="Фильтр по названию цвета…"
+                value={palFilter}
+                onChange={(e) => setPalFilter(e.target.value)}
+              />
+              {paletteCrossNeedles && paletteCrossNeedles.length > 0 ? (
+                <button
+                  type="button"
+                  className="text-accent-primary decoration-accent-primary/40 hover:text-accent-primary mb-2 text-left text-[10px] font-semibold underline underline-offset-2"
+                  onClick={() => setIgnorePaletteCross((v) => !v)}
+                >
+                  {ignorePaletteCross
+                    ? 'Сузить список по основной группе и референсу'
+                    : 'Показать всю палитру'}
+                </button>
+              ) : null}
+              <div className="divide-accent-primary/20 border-accent-primary/20 max-h-52 divide-y overflow-y-auto rounded-md border bg-white">
+                <button
+                  type="button"
+                  className="hover:bg-bg-surface2 flex h-9 w-full items-center gap-2 px-2 text-left text-sm"
+                  onClick={() => {
+                    pickHandbook('', '');
+                    setPaletteOpen(false);
+                    setPalFilter('');
+                  }}
+                >
+                  <span className="border-border-default bg-bg-surface2 h-2.5 w-2.5 shrink-0 rounded-full border border-dashed" />
+                  <span className="text-text-secondary leading-none">
+                    Не выбрано из справочника
+                  </span>
+                </button>
+                {filteredPalette.map((p) => (
+                  <button
+                    key={p.parameterId}
+                    type="button"
+                    className={cn(
+                      'hover:bg-bg-surface2 flex h-9 w-full items-center gap-2 px-2 text-left text-sm',
+                      currentPid === p.parameterId && 'bg-accent-primary/15'
+                    )}
+                    onClick={() => {
+                      pickHandbook(p.parameterId, p.label);
+                      setPaletteOpen(false);
+                      setPalFilter('');
+                    }}
+                  >
+                    <span
+                      className="border-border-default h-2.5 w-2.5 shrink-0 rounded-full border shadow-inner"
+                      style={
+                        p.colorHex
+                          ? { backgroundColor: p.colorHex }
+                          : p.gradientCss
+                            ? { background: p.gradientCss }
+                            : { background: 'linear-gradient(135deg, #e2e8f0, #94a3b8)' }
+                      }
+                    />
+                    <span className="min-w-0 flex-1 truncate leading-none">{p.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+
+        <div
+          className={cn(
+            'sm:border-accent-primary/20 flex min-w-0 items-center gap-2 sm:self-start sm:border-l sm:pl-3'
+          )}
+        >
+          <div
+            className="border-border-default relative h-9 w-9 shrink-0 overflow-hidden rounded-md border bg-white shadow-inner"
+            title="Превью: при сохранённом градиенте показывается полоса; клик — выбор сплошного цвета"
+          >
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={shadeSwatchStyle}
+              aria-hidden
+            />
+            <input
+              type="color"
+              value={colorInputValue}
+              onChange={(e) => mergeFreeWithHex(e.target.value)}
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+              aria-label="Выбор оттенка"
+            />
+          </div>
+          <Input
+            className="h-9 min-w-0 flex-1 text-sm"
+            value={freeStr}
+            onChange={(e) => onFreeTextChange(e.target.value)}
+            placeholder={attribute.uiPlaceholder ?? 'Пантон, RAL, комментарий к цвету…'}
+          />
+        </div>
+      </div>
+
+      <div
+        className={cn(
+          'space-y-2',
+          embedded
+            ? 'border-accent-primary/20 bg-accent-primary/10 border-t pt-4'
+            : 'border-accent-primary/20 bg-accent-primary/10 rounded-md border p-3 pt-5'
+        )}
+      >
+        <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-accent-primary')}>
+          Свой градиент
+        </Label>
+        <div className="flex flex-wrap items-center gap-2">
+          <input
+            type="color"
+            value={gradA}
+            onChange={(e) => setGradA(e.target.value)}
+            className={colorWellClass}
+            aria-label="Цвет начала градиента"
+          />
+          <span className="text-text-secondary text-[10px]">→</span>
+          <input
+            type="color"
+            value={gradB}
+            onChange={(e) => setGradB(e.target.value)}
+            className={colorWellClass}
+            aria-label="Цвет конца градиента"
+          />
+          <Button
+            type="button"
+            size="sm"
+            variant="secondary"
+            className="h-9 text-xs"
+            onClick={() =>
+              patchColor({
+                handbook: null,
+                freeText: `linear-gradient(90deg, ${gradA}, ${gradB})`,
+              })
+            }
+          >
+            Записать градиент в цвет
+          </Button>
+        </div>
+        <div
+          className="border-accent-primary/30 h-2.5 rounded border shadow-inner"
+          style={{ background: previewCss }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function WorkshopPassportColorBundle({
+  bundleRows,
+  dossier,
+  currentLeaf,
+  phase,
+  allowMultiHandbook,
+  patchColor,
+  showAttributeHintIcons = false,
+  onSetHandbookParameters,
+  onFreeTextSide,
+}: {
+  bundleRows: ResolvedPhase1AttributeRow[];
+  dossier: Workshop2DossierPhase1;
+  currentLeaf: HandbookCategoryLeaf;
+  phase: '1' | '2' | '3';
+  allowMultiHandbook: boolean;
+  patchColor: (u: {
+    handbook?: { parameterId: string; displayLabel: string } | null;
+    freeText?: string;
+  }) => void;
+  onSetHandbookParameters: (
+    attributeId: string,
+    parts: { parameterId: string; displayLabel: string }[]
+  ) => void;
+  onFreeTextSide: (attributeId: string, text: string) => void;
+  showAttributeHintIcons?: boolean;
+}) {
+  const primary = bundleRows.find((r) => r.attribute.attributeId === 'primaryColorFamilyOptions');
+  const refRow = bundleRows.find((r) => r.attribute.attributeId === 'colorReferenceSystemOptions');
+  const colorRow = bundleRows.find((r) => r.attribute.attributeId === 'color');
+
+  const attrRequired = (attr: AttributeCatalogAttribute) =>
+    (phase === '1' && attr.requiredForPhase1) || (phase === '2' && attr.requiredForPhase2);
+
+  const isMissingRequired = (attr: AttributeCatalogAttribute | undefined) => {
+    if (!attr || !attrRequired(attr)) return false;
+    const assignment = dossier.assignments.find((a) => a.attributeId === attr.attributeId);
+    return !canonicalPhaseAssignmentFilled(assignment, attr);
+  };
+
+  let anyShowReq = false;
+  let anyMissing = false;
+  for (const r of bundleRows) {
+    if (attrRequired(r.attribute)) {
+      anyShowReq = true;
+      if (isMissingRequired(r.attribute)) anyMissing = true;
+    }
+  }
+
+  const paletteCrossNeedles = useMemo(
+    () => collectColorBundlePaletteNeedles(dossier),
+    [dossier.assignments]
+  );
+
+  return (
+    <li
+      id="w2-passport-color-bundle"
+      className={cn(
+        'scroll-mt-24 space-y-3 transition-all',
+        anyShowReq && anyMissing && 'ring-2 ring-amber-200/90 ring-offset-1 ring-offset-white'
+      )}
+    >
+      {anyShowReq ? (
+        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0">
+          <span
+            className={cn(
+              anyMissing ? WORKSHOP_REQUIRED_BADGE_TODO_CLASS : WORKSHOP_REQUIRED_BADGE_DONE_CLASS,
+              anyMissing && 'animate-pulse'
+            )}
+          >
+            {anyMissing ? 'Заполните' : 'Обязательный'}
+          </span>
+        </div>
+      ) : null}
+      <div className="border-border-default space-y-4 rounded-md border bg-white p-3 shadow-sm">
+        {primary ? (
+          <div className="border-border-subtle bg-bg-surface2/40 space-y-2 rounded-md border p-3">
+            <div className="flex items-center gap-1">
+              <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-accent-primary')}>
+                {primary.attribute.name}
+              </Label>
+              {showAttributeHintIcons ? (
+                <WorkshopAttributeHintIcon attribute={primary.attribute} />
+              ) : null}
+            </div>
+            <AttributeRowEditor
+              attribute={{
+                ...primary.attribute,
+                parameters: resolveEffectiveParametersForLeaf(primary.attribute, currentLeaf),
+              }}
+              dossier={dossier}
+              allowMultiHandbook={allowMultiHandbook}
+              onSetHandbookParameters={onSetHandbookParameters}
+              onFreeTextSide={onFreeTextSide}
+            />
+          </div>
+        ) : null}
+        {refRow ? (
+          <div className="border-border-subtle bg-bg-surface2/40 space-y-2 rounded-md border p-3 pt-4">
+            <div className="flex items-center gap-1">
+              <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-accent-primary')}>
+                {refRow.attribute.name}
+              </Label>
+              {showAttributeHintIcons ? (
+                <WorkshopAttributeHintIcon attribute={refRow.attribute} />
+              ) : null}
+            </div>
+            <AttributeRowEditor
+              attribute={{
+                ...refRow.attribute,
+                parameters: resolveEffectiveParametersForLeaf(refRow.attribute, currentLeaf),
+              }}
+              dossier={dossier}
+              allowMultiHandbook={allowMultiHandbook}
+              onSetHandbookParameters={onSetHandbookParameters}
+              onFreeTextSide={onFreeTextSide}
+            />
+          </div>
+        ) : null}
+        {colorRow ? (
+          <div className="border-border-subtle space-y-2 border-t pt-4">
+            {showAttributeHintIcons ? (
+              <div className="flex items-center gap-1">
+                <span className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-accent-primary')}>
+                  {colorRow.attribute.name}
+                </span>
+                <WorkshopAttributeHintIcon attribute={colorRow.attribute} />
+              </div>
+            ) : null}
+            <ColorAttributeRow
+              attribute={{
+                ...colorRow.attribute,
+                parameters: resolveEffectiveParametersForLeaf(colorRow.attribute, currentLeaf),
+              }}
+              dossier={dossier}
+              patchColor={patchColor}
+              embedded
+              paletteCrossNeedles={paletteCrossNeedles}
+            />
+          </div>
+        ) : null}
+      </div>
+    </li>
   );
 }
