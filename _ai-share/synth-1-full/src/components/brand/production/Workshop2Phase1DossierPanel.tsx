@@ -218,6 +218,8 @@ import { CategorySketchSheetsBlock } from '@/components/brand/production/Categor
 import { CategorySubcategorySketchesTzBlock } from '@/components/brand/production/CategorySubcategorySketchesTzBlock';
 import { SketchViewModeToggle } from '@/components/brand/production/SketchViewModeToggle';
 import { Workshop2VisualsExcellenceBlock } from '@/components/brand/production/Workshop2VisualsExcellenceBlock';
+import { Workshop2DesignerManifestoBlock } from '@/components/brand/production/Workshop2DesignerManifestoBlock';
+import { Workshop2VisualsSketchMovedHint } from '@/components/brand/production/Workshop2VisualsSketchMovedHint';
 import { Workshop2VisualsTzStickySubnav } from '@/components/brand/production/Workshop2VisualsTzStickySubnav';
 import { Workshop2MaterialHubPanel } from '@/components/brand/production/Workshop2MaterialHubPanel';
 import { Workshop2DossierNineClosureSummary } from '@/components/brand/production/Workshop2DossierNineClosureSummary';
@@ -6402,79 +6404,19 @@ export function Workshop2Phase1DossierPanel({
               }
             />
           </div>
-          <div
-            id="w2-visuals-sketch-moved-hint"
-            className="border-accent-primary/30 bg-accent-primary/10 scroll-mt-24 rounded-xl border border-dashed p-4 shadow-sm"
-          >
-            <div className="flex flex-wrap items-start gap-3">
-              <div className="text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
-                <LucideIcons.Layers className="h-4 w-4 shrink-0" aria-hidden />
-              </div>
-              <div className="min-w-0 flex-1 space-y-1">
-                <p className="text-text-primary text-sm font-semibold">
-                  Скетч перенесён в контур ТЗ
-                </p>
-                <p className="text-text-secondary text-xs leading-snug">
-                  Редактор меток и листов — в «Конструкция» → разверните «Табель мер: хаб ТЗ» и
-                  прокрутите к блоку скетча (тот же якорь для переходов из материалов и «до 9»).
-                </p>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  className="mt-1 h-8 text-[11px]"
-                  onClick={() => jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)}
-                >
-                  Открыть конструкцию → скетч
-                </Button>
-              </div>
-            </div>
-          </div>
+          <Workshop2VisualsSketchMovedHint
+            onOpenSketch={() =>
+              jumpToTzSectionAnchor('construction', W2_VISUALS_SKETCH_ANCHOR_ID)
+            }
+          />
 
-          <div
-            id="w2-attr-brandNotes"
-            className="border-border-default space-y-4 rounded-xl border bg-white p-4 shadow-sm"
-          >
-            <div className="flex items-start gap-3">
-              <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-                <LucideIcons.Sparkles className="h-4 w-4 shrink-0" aria-hidden />
-              </div>
-              <div className="min-w-0 flex-1 space-y-1">
-                <h2 className="text-text-primary text-base font-semibold">Дизайнерский замысел</h2>
-                <p className="text-text-secondary text-sm leading-snug">
-                  Зафиксируйте образ для команды: что важно в силуэте, деталях и общем настроении —
-                  это подхватят посадка, производство и ОТК.
-                </p>
-              </div>
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="w2-brand-manifesto" className="sr-only">
-                Текст дизайнерского замысла
-              </Label>
-              <Textarea
-                id="w2-brand-manifesto"
-                className="min-h-[92px] text-sm"
-                placeholder="Какой образ нужно защитить в посадке, производстве и ОТК."
-                value={dossier.brandNotes ?? ''}
-                onChange={(e) =>
-                  setDossier((prev: Workshop2DossierPhase1) => ({
-                    ...prev,
-                    brandNotes: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="border-border-subtle flex flex-wrap items-center justify-end gap-2 border-t pt-3">
-              <Button
-                type="button"
-                className="h-9 px-3 text-xs font-semibold"
-                title="Записать досье в этом браузере (то же действие, что и «Сохранить» внизу страницы)."
-                onClick={saveDraft}
-              >
-                Сохранить
-              </Button>
-            </div>
-          </div>
+          <Workshop2DesignerManifestoBlock
+            brandNotes={dossier.brandNotes}
+            onBrandNotesChange={(value) =>
+              setDossier((prev: Workshop2DossierPhase1) => ({ ...prev, brandNotes: value }))
+            }
+            onSaveDraft={saveDraft}
+          />
         </div>
       );
     }
