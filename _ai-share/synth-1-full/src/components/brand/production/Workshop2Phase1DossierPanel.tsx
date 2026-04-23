@@ -223,6 +223,7 @@ import { Workshop2VisualsSketchMovedHint } from '@/components/brand/production/W
 import { Workshop2VisualsTzStickySubnav } from '@/components/brand/production/Workshop2VisualsTzStickySubnav';
 import { Workshop2MaterialHubPanel } from '@/components/brand/production/Workshop2MaterialHubPanel';
 import { Workshop2MaterialHubNineGapFooter } from '@/components/brand/production/Workshop2MaterialHubNineGapFooter';
+import { Workshop2PassportHubNineGapFooter } from '@/components/brand/production/Workshop2PassportHubNineGapFooter';
 import { Workshop2DossierNineClosureSummary } from '@/components/brand/production/Workshop2DossierNineClosureSummary';
 import { Workshop2NineGapBacklogStrip } from '@/components/brand/production/Workshop2NineGapBacklogStrip';
 import { Workshop2DossierSupplyChainDraftsPanel } from '@/components/brand/production/Workshop2DossierSupplyChainDraftsPanel';
@@ -5386,7 +5387,7 @@ export function Workshop2Phase1DossierPanel({
               matSketchBomGapRefs={matSketchBomGapRefs}
               nineGapTzGeneralSectionPct={sectionReadiness.general.pct}
               nineGapFooter={
-                <WorkshopNineGapRelatedFooterShell
+                <Workshop2PassportHubNineGapFooter
                   matSketchBomGapRefs={matSketchBomGapRefs}
                   onJumpMaterialHub={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
                   onJumpSketch={() =>
@@ -5395,78 +5396,8 @@ export function Workshop2Phase1DossierPanel({
                   onJumpMaterialMatTable={jumpToMaterialMatTable}
                   onJumpConstructionContour={jumpToConstructionContour}
                   onJumpQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
-                  hint="Опорные поля SKU и ветка L1–L3; визуал, BOM и конструкция наследуют тот же артикул."
-                >
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-7 text-[10px]"
-                    onClick={() => jumpToTzSectionAnchor('visuals', 'w2-visuals-hub')}
-                  >
-                    Визуал / эскиз
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-7 text-[10px]"
-                    onClick={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
-                  >
-                    Материалы и BOM
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-7 text-[10px]"
-                    onClick={() => jumpToTzSectionAnchor('construction', 'w2-measurements-fields')}
-                  >
-                    Мерки
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-7 text-[10px]"
-                    onClick={() => jumpToTzSectionAnchor('construction', 'w2-construction-hub')}
-                  >
-                    Конструкция
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-7 text-[10px]"
-                    onClick={() =>
-                      jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.audit)
-                    }
-                  >
-                    Аудит
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-7 text-[10px]"
-                    onClick={() =>
-                      jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.denseView)
-                    }
-                  >
-                    Режим ТЗ · w2view
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-7 text-[10px]"
-                    onClick={() =>
-                      jumpToTzSectionAnchor('general', W2_PASSPORT_SUBPAGE_ANCHORS.readOnly)
-                    }
-                  >
-                    Read-only
-                  </Button>
-                </WorkshopNineGapRelatedFooterShell>
+                  onDossierJump={jumpToTzSectionAnchor}
+                />
               }
               nineGapOnDossierJump={jumpToTzSectionAnchor}
             />
