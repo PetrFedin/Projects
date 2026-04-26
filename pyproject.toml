@@ -23,6 +23,7 @@ httpx = "^0.26.0"
 loguru = "^0.7.2"
 redis = "^5.0.1"
 numpy = "^1.26.0"
+aiosqlite = "^0.22.1"
 
 [tool.poetry.group.ml.dependencies]
 transformers = "^4.36.0"
