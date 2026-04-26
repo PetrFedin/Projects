@@ -25,6 +25,7 @@ redis = "^5.0.1"
 numpy = "^1.26.0"
 aiosqlite = "^0.22.1"
 email-validator = "^2.3.0"
+reportlab = "^4.4.10"
 
 [tool.poetry.group.ml.dependencies]
 transformers = "^4.36.0"
