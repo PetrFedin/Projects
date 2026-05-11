@@ -91,32 +91,39 @@ def _compute_marking_score(dashboard: Dict[str, Any]) -> tuple[int, List[str]]:
     return score, checklist
 
 
-async def get_organization_health_metrics(brand_id: str, db: AsyncSession) -> List[Dict[str, Any]]:
-    """
-    Aggregate health metrics from profile, dashboard, integrations.
-    Returns list of HealthMetric-shaped dicts for frontend (organization hub).
-    """
+async def _fetch_health_sources(
+    brand_id: str, db: AsyncSession
+) -> tuple[Dict[str, Any], Dict[str, Any], Dict[str, Any]]:
     from app.api.v1.endpoints.brand import (
         fetch_brand_profile_data,
         fetch_brand_dashboard_data,
         fetch_integrations_status_data,
     )
 
-    last_check = date.today().strftime("%d.%m.%Y")
-
     profile = await fetch_brand_profile_data(brand_id, db)
     dashboard = await fetch_brand_dashboard_data(brand_id, db)
     integrations = await fetch_integrations_status_data(brand_id)
+    return profile, dashboard, integrations
+
+
+def _build_health_metrics(
+    profile: Any,
+    dashboard: Any,
+    integrations: Any,
+    last_check: str,
+) -> List[Dict[str, Any]]:
+    dash = dashboard if isinstance(dashboard, dict) else {}
+    ints = integrations if isinstance(integrations, dict) else {}
 
     profile_score, profile_checklist, profile_missing, profile_tips = _compute_profile_score(profile)
-    int_score, int_checklist, int_missing, int_tips = _compute_integrations_score(integrations)
-    marking_score, marking_checklist = _compute_marking_score(dashboard)
+    int_score, int_checklist, int_missing, int_tips = _compute_integrations_score(ints)
+    marking_score, marking_checklist = _compute_marking_score(dash)
 
-    pc = dashboard.get("participantsCount")
+    pc = dash.get("participantsCount")
     team_count = pc if isinstance(pc, int) and pc >= 0 else 8
     team_score = 90 if team_count >= 5 else (75 if team_count >= 2 else (60 if team_count >= 1 else 40))
 
-    docs_pending = int(dashboard.get("documentsPendingSignature") or 0) if dashboard else 0
+    docs_pending = int(dash.get("documentsPendingSignature") or 0) if dash else 0
     docs_score = 75 if docs_pending > 0 else 85
 
     metrics: List[Dict[str, Any]] = [
@@ -163,8 +170,8 @@ async def get_organization_health_metrics(brand_id: str, db: AsyncSession) -> Li
             "label": "Интеграции",
             "score": int_score,
             "color": _color_from_score(int_score),
-            "desc": f"{sum(1 for v in (integrations or {}).values() if (v or {}).get('status') == 'ok')} активных"
-            if integrations
+            "desc": f"{sum(1 for v in ints.values() if (v or {}).get('status') == 'ok')} активных"
+            if ints
             else "Проверьте статус",
             "href": "/brand/integrations",
             "trend": 0,
@@ -175,7 +182,7 @@ async def get_organization_health_metrics(brand_id: str, db: AsyncSession) -> Li
             "label": "ЭДО и маркировка",
             "score": marking_score,
             "color": _color_from_score(marking_score),
-            "desc": "Честный ЗНАК, ЭДО" if dashboard.get("markingSyncStatus") == "ok" else "Проверьте маркировку",
+            "desc": "Честный ЗНАК, ЭДО" if dash.get("markingSyncStatus") == "ok" else "Проверьте маркировку",
             "href": "/brand/compliance",
             "trend": 0,
             "status": _status_from_score(marking_score),
@@ -213,3 +220,24 @@ async def get_organization_health_metrics(brand_id: str, db: AsyncSession) -> Li
         },
     ]
     return metrics
+
+
+async def get_organization_health_bundle(brand_id: str, db: AsyncSession) -> Dict[str, Any]:
+    """
+    Один проход по источникам: метрики + сырые объекты для хаба (без повторных GET profile/dashboard на фронте).
+    """
+    profile, dashboard, integrations = await _fetch_health_sources(brand_id, db)
+    last_check = date.today().strftime("%d.%m.%Y")
+    metrics = _build_health_metrics(profile, dashboard, integrations, last_check)
+    return {
+        "metrics": metrics,
+        "profile": profile,
+        "dashboard": dashboard,
+        "integrations": integrations,
+    }
+
+
+async def get_organization_health_metrics(brand_id: str, db: AsyncSession) -> List[Dict[str, Any]]:
+    """Только массив метрик (если нужен без снимка источников)."""
+    bundle = await get_organization_health_bundle(brand_id, db)
+    return bundle["metrics"]

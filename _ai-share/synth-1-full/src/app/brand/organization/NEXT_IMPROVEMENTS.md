@@ -4,14 +4,14 @@
 
 - Общий период (7 дней / 30 дней / Календарь) в шапке, справа от «Организация › Центр управления»
 - Один период управляет «Недавняя активность» и «Партнёрская экосистема»
-- Индекс здоровья: кнопка «Обновить», скелетон при загрузке; при успешном ответе **`GET /api/v1/organization/health/{brandId}`** (`GenericResponse.data` = массив метрик в формате `HealthMetric`) фронт берёт метрики оттуда (`useOrganizationHealth`). Если запрос пустой/ошибка — расчёт на клиенте из profile/dashboard/integrations.
+- Индекс здоровья: кнопка «Обновить», скелетон при загрузке; при успешном ответе **`GET /api/v1/organization/health/{brandId}`** (`GenericResponse.data` = **bundle**: `metrics` + сырые `profile` / `dashboard` / `integrations`) хаб делает **один** запрос — метрики и шапка из одного снимка (`useOrganizationHealth`). Старый контракт (`data` = только массив метрик) или сбой — fallback: отдельные GET profile/dashboard/integrations и при необходимости локальный расчёт метрик.
 - Шапка: название организации и юр.данные из API (profile); при ошибке загрузки профиля — сообщение и «Повторить»; при частичном сбое дашборда/интеграций — предупреждение и «Повторить»; участники/онлайн из dashboard (`participantsCount` и др.) или из `user.team`, иначе демо
 - Карточки модулей: целиком кликабельны, aria-label; подстановка `label`/`value`/`status` из `brand/dashboard.moduleStats` (демо полный набор; при активной орг. — участники из команды, **«На подписи» из ЭДО** `COUNT(EDODocument)` со статусами draft/sent, compliance по `markingSyncStatus`)
 - Партнёрская экосистема: блок «Партнёры по типам» / полоска роста из `dashboard.partnerEcosystem` (`growthByPeriod`, `countsPatchById`, при активной орг. ещё `businessProcessesPatchById` и `ecosystemBlocksPatchById` поверх `PARTNER_*` в page-data)
 - Блок «Требует внимания»: неактивные блоки одного размера (110px), «Детально» в раздел; «Устранить» снимает пункт через `useAttentionAlerts` и **persist в localStorage по brand id** (`attention-dismiss-storage.ts`); начальное состояние из `dashboard.attentionAlerts`
 - Недавняя активность: демо-события с `dayOffset` и `getRecentActivities(сегодня)` — даты в актуальном окне 7/30 дней
 - Рефакторинг UI обзора: секции вынесены в `_components/*`
-- Бэкенд: `/api/v1/brand/profile`, `/api/v1/brand/dashboard`, `/api/v1/brand/integrations`; **`/api/v1/organization/health/{brand_id}`** — агрегация метрик через `organization_health_service` (профиль и дашборд из БД, интеграции через `fetch_integrations_status_data`; имейте в виду дублирующие запросы при параллельной загрузке хаба и health).
+- Бэкенд: `/api/v1/brand/profile`, `/api/v1/brand/dashboard`, `/api/v1/brand/integrations`; **`/api/v1/organization/health/{brand_id}`** — один снимок метрик + источников через `get_organization_health_bundle` (`organization_health_service`), без дублирующих параллельных запросов на фронте при актуальном контракте.
 
 ---
 
@@ -92,14 +92,14 @@
 - **Сделано:** пока `healthLoading`, блоки «Партнёрская экосистема» и «Разделы организации» показывают полоски-карточки вместо статических данных из `page-data`; при подгрузке JS-чанка хаба — расширенный placeholder (шапка + полосы + скелетон модулей).
 - **Дальше:** при желании — скелетон для `OrganizationRoleReportsSection`, если там появится удалённый контент.
 
-### 10. ~~Organization health с бэкенда~~ (частично сделано)
+### 10. ~~Organization health с бэкенда~~ (снимок без дублей — сделано)
 
-**Контракт:** `GET /api/v1/organization/health/{brand_id}` → `GenericResponse.data`: массив словарей в форме метрик хаба (`label`, `score`, `color`, `href`, `status`, `details`, …). Реализация: `app/services/organization_health_service.py` вызывает `fetch_brand_profile_data` / `fetch_brand_dashboard_data` с **`AsyncSession`** и `fetch_integrations_status_data`; счёт «Активность команды» берёт `participantsCount` из дашборда (fallback 8 как демо).
+**Контракт:** `GET /api/v1/organization/health/{brand_id}` → `GenericResponse.data` — объект **`{ metrics, profile, dashboard, integrations }`**: `metrics` — массив в форме `HealthMetric`; остальное — те же полезные нагрузки, что отдельные brand-эндпоинты (один проход на бэкенде: `get_organization_health_bundle`). Обратная совместимость: если задеплоен только массив в `data`, фронт как раньше подтягивает три GET и подставляет метрики из массива.
 
-**Фронт:** `useOrganizationHealth` — если `data` непустой массив, это источник правды для блока индекса; иначе локальный расчёт (как раньше).
+**Фронт:** `useOrganizationHealth` — при bundle с непустым `metrics` заполняет индекс и шапку без параллельных profile/dashboard/integrations; иначе — три запроса и/или локальный расчёт метрик.
 
-**Дальше:** кэш/snapshot чтобы не трижды дергать профиль+дашборд при открытии хаба; доменные_scores для «Безопасность», «Документы», «Настройки» вместо статических заглушек.
+**Дальше:** при желании — клиентский кэш/stale-time между визитами; доменные scores для «Безопасность», «Документы», «Настройки» вместо статических заглушек.
 
 ---
 
-Рекомендуемый следующий шаг: **п.10** (кэш/snapshot запросов при открытии хаба), расширить **п.6**, **п.9** (скелетон отчётов по ролям при удалённых данных); operational **CRPT**-очередь в Python при контракте; SQL **`scripts/sql/inventory_sync_logs_organization_id.sql`** на живых БД.
+Рекомендуемый следующий шаг: расширить **п.6**, **п.9** (скелетон отчётов по ролям при удалённых данных); operational **CRPT**-очередь в Python при контракте; SQL **`scripts/sql/inventory_sync_logs_organization_id.sql`** на живых БД; клиентский кэш health между визитами при необходимости.

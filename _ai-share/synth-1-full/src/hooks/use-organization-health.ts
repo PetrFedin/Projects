@@ -88,9 +88,32 @@ function formatDate(d: Date) {
   return d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
+function unwrapGenericPayload(val: unknown): unknown {
+  if (val == null || typeof val !== 'object') return val;
+  if ('data' in val && (val as { data: unknown }).data !== undefined) {
+    return (val as { data: unknown }).data;
+  }
+  return val;
+}
+
+function isOrganizationHealthBundle(
+  payload: unknown
+): payload is {
+  metrics: unknown[];
+  profile?: unknown;
+  dashboard?: unknown;
+  integrations?: unknown;
+} {
+  return (
+    payload !== null &&
+    typeof payload === 'object' &&
+    Array.isArray((payload as { metrics?: unknown }).metrics)
+  );
+}
+
 /**
  * Хук: Индекс здоровья организации на основе реальных данных профиля.
- * Пробует API, при отсутствии данных вычисляет из profile + dashboard + integrations.
+ * Сначала один запрос health (bundle: метрики + profile/dashboard/integrations); при старом бэкенде или сбое — отдельные GET и расчёт на клиенте.
  */
 export function useOrganizationHealth() {
   const { user } = useAuth();
@@ -106,13 +129,32 @@ export function useOrganizationHealth() {
     setLoading(true);
     setError(null);
     try {
-      const [apiRes, profileRes, dashboardRes, integrationsRes] = await Promise.allSettled([
-        fastApiService.getOrganizationHealth(BRAND_ID),
+      let apiRaw: unknown = null;
+      try {
+        apiRaw = await fastApiService.getOrganizationHealth(BRAND_ID);
+      } catch {
+        apiRaw = null;
+      }
+
+      const payload = unwrapGenericPayload(apiRaw);
+      if (
+        isOrganizationHealthBundle(payload) &&
+        payload.metrics.length > 0
+      ) {
+        setApiHealthData(apiRaw);
+        setProfile((payload.profile ?? null) as any);
+        setDashboard((payload.dashboard ?? null) as any);
+        setIntegrations((payload.integrations ?? null) as any);
+        setPartialLoadWarning(null);
+        setError(null);
+        return;
+      }
+
+      const [profileRes, dashboardRes, integrationsRes] = await Promise.allSettled([
         fastApiService.getBrandProfile(BRAND_ID),
         fastApiService.getBrandDashboard(BRAND_ID),
         fastApiService.getIntegrationsStatus(BRAND_ID),
       ]);
-      const api = apiRes.status === 'fulfilled' ? apiRes.value : null;
       const profileResVal = profileRes.status === 'fulfilled' ? profileRes.value : null;
       const dashboardResVal = dashboardRes.status === 'fulfilled' ? dashboardRes.value : null;
       const integrationsResVal =
@@ -134,7 +176,7 @@ export function useOrganizationHealth() {
             : null
         );
       }
-      setApiHealthData(api);
+      setApiHealthData(apiRaw);
       const p =
         profileResVal && typeof profileResVal === 'object'
           ? ((profileResVal as any).data ?? profileResVal)
@@ -169,7 +211,18 @@ export function useOrganizationHealth() {
         ? ((apiHealthData as any)?.data ?? apiHealthData)
         : null;
 
-    // Backend: GET /api/v1/organization/health/{brandId} → { data: HealthMetric[] }
+    // Backend v2: { data: { metrics, profile, dashboard, integrations } }
+    if (
+      api &&
+      typeof api === 'object' &&
+      !Array.isArray(api) &&
+      Array.isArray((api as { metrics?: unknown }).metrics) &&
+      ((api as { metrics: unknown[] }).metrics.length ?? 0) > 0
+    ) {
+      return (api as { metrics: HealthMetric[] }).metrics;
+    }
+
+    // Старый контракт: { data: HealthMetric[] }
     if (Array.isArray(api) && api.length > 0) {
       return api as HealthMetric[];
     }
