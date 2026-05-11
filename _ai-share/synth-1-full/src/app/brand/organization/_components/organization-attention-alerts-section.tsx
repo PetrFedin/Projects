@@ -18,11 +18,52 @@ import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
 import { cn } from '@/lib/utils';
 import { SECTION_META, ALERT_BLOCK_META } from '../page-data';
 
+function ResolveAlertLink({
+  id,
+  detailHref,
+  className,
+  onDismiss,
+  stopPropagation,
+}: {
+  id: string;
+  detailHref: string;
+  className: string;
+  onDismiss?: (itemId: string) => void;
+  stopPropagation?: boolean;
+}) {
+  if (onDismiss) {
+    return (
+      <button
+        type="button"
+        className={className}
+        onClick={(e) => {
+          if (stopPropagation) e.stopPropagation();
+          onDismiss(id);
+        }}
+      >
+        Устранить
+      </button>
+    );
+  }
+  return (
+    <Link
+      href={detailHref}
+      className={className}
+      {...(stopPropagation ? { onClick: (e) => e.stopPropagation() } : {})}
+    >
+      Устранить
+    </Link>
+  );
+}
+
 export type OrganizationAttentionAlertsSectionProps = {
   globalHistory: HistoryEntry[];
   healthLoading: boolean;
   alerts: any;
   getBlockLabel?: (key: string) => string;
+  dismissCertificate?: (id: string) => void;
+  dismissProfile?: (id: string) => void;
+  dismissTask?: (id: string) => void;
 };
 
 export function OrganizationAttentionAlertsSection({
@@ -30,6 +71,9 @@ export function OrganizationAttentionAlertsSection({
   healthLoading,
   alerts,
   getBlockLabel,
+  dismissCertificate,
+  dismissProfile,
+  dismissTask,
 }: OrganizationAttentionAlertsSectionProps) {
   return (
     <>
@@ -127,13 +171,13 @@ export function OrganizationAttentionAlertsSection({
                                       <span className="shrink-0 font-bold text-amber-600">
                                         {c.daysLeft} дн.
                                       </span>
-                                      <Link
-                                        href={meta.detailHref}
+                                      <ResolveAlertLink
+                                        id={c.id}
+                                        detailHref={meta.detailHref}
                                         className="shrink-0 text-[8px] font-semibold text-amber-700 hover:underline"
-                                        onClick={(e) => e.stopPropagation()}
-                                      >
-                                        Устранить
-                                      </Link>
+                                        stopPropagation
+                                        onDismiss={dismissCertificate}
+                                      />
                                     </li>
                                   )
                                 )}
@@ -170,12 +214,12 @@ export function OrganizationAttentionAlertsSection({
                                     <span className="shrink-0 font-bold text-amber-600">
                                       {c.daysLeft} дн.
                                     </span>
-                                    <Link
-                                      href={meta.detailHref}
+                                    <ResolveAlertLink
+                                      id={c.id}
+                                      detailHref={meta.detailHref}
                                       className="shrink-0 text-[8px] font-semibold text-amber-700 hover:underline"
-                                    >
-                                      Устранить
-                                    </Link>
+                                      onDismiss={dismissCertificate}
+                                    />
                                   </li>
                                 )
                               )}
@@ -260,13 +304,13 @@ export function OrganizationAttentionAlertsSection({
                                       <span className="truncate" title={p.detail}>
                                         {p.name} — {p.detail}
                                       </span>
-                                      <Link
-                                        href={meta.detailHref}
+                                      <ResolveAlertLink
+                                        id={p.id}
+                                        detailHref={meta.detailHref}
                                         className="shrink-0 text-[8px] font-semibold text-rose-700 hover:underline"
-                                        onClick={(e) => e.stopPropagation()}
-                                      >
-                                        Устранить
-                                      </Link>
+                                        stopPropagation
+                                        onDismiss={dismissProfile}
+                                      />
                                     </li>
                                   )
                                 )}
@@ -302,12 +346,12 @@ export function OrganizationAttentionAlertsSection({
                                     <span className="truncate" title={p.detail}>
                                       {p.name} — {p.detail}
                                     </span>
-                                    <Link
-                                      href={meta.detailHref}
+                                    <ResolveAlertLink
+                                      id={p.id}
+                                      detailHref={meta.detailHref}
                                       className="shrink-0 text-[8px] font-semibold text-rose-700 hover:underline"
-                                    >
-                                      Устранить
-                                    </Link>
+                                      onDismiss={dismissProfile}
+                                    />
                                   </li>
                                 )
                               )}
@@ -518,13 +562,13 @@ export function OrganizationAttentionAlertsSection({
                                       <span className="truncate" title={t.priority}>
                                         {t.title}
                                       </span>
-                                      <Link
-                                        href={meta.detailHref}
+                                      <ResolveAlertLink
+                                        id={t.id}
+                                        detailHref={meta.detailHref}
                                         className="text-accent-primary shrink-0 text-[8px] font-semibold hover:underline"
-                                        onClick={(e) => e.stopPropagation()}
-                                      >
-                                        Устранить
-                                      </Link>
+                                        stopPropagation
+                                        onDismiss={dismissTask}
+                                      />
                                     </li>
                                   )
                                 )}
@@ -560,12 +604,12 @@ export function OrganizationAttentionAlertsSection({
                                     <span className="truncate" title={t.priority}>
                                       {t.title}
                                     </span>
-                                    <Link
-                                      href={meta.detailHref}
+                                    <ResolveAlertLink
+                                      id={t.id}
+                                      detailHref={meta.detailHref}
                                       className="text-accent-primary shrink-0 text-[8px] font-semibold hover:underline"
-                                    >
-                                      Устранить
-                                    </Link>
+                                      onDismiss={dismissTask}
+                                    />
                                   </li>
                                 )
                               )}

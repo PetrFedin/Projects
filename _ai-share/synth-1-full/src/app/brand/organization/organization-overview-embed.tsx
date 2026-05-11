@@ -79,7 +79,8 @@ export function OrganizationOverviewEmbed() {
   };
 
   const { toast } = useToast();
-  const { alerts, getHistory, getBlockLabel } = useAttentionAlerts();
+  const { alerts, getHistory, getBlockLabel, dismissCertificate, dismissProfile, dismissTask } =
+    useAttentionAlerts();
 
   const attentionHistory = (['certificates', 'profile', 'systems', 'tasks'] as const)
     .flatMap((id) => getHistory(id).map((e) => ({ ...e, blockLabel: getBlockLabel(id) })))
@@ -160,6 +161,9 @@ export function OrganizationOverviewEmbed() {
       toast={toast}
       alerts={alerts}
       getBlockLabel={(key) => getBlockLabel(key as BlockId)}
+      dismissCertificate={dismissCertificate}
+      dismissProfile={dismissProfile}
+      dismissTask={dismissTask}
       filteredActivities={filteredActivities}
       globalHistory={globalHistory}
       activityKey={activityKey}

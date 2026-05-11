@@ -36,6 +36,9 @@ export type OrganizationOverviewContentProps = {
   toast: any;
   alerts: any;
   getBlockLabel: (key: string) => string;
+  dismissCertificate: (id: string) => void;
+  dismissProfile: (id: string) => void;
+  dismissTask: (id: string) => void;
   filteredActivities: RecentActivity[];
   globalHistory: HistoryEntry[];
   activityKey: (a: RecentActivity) => string;
@@ -77,6 +80,9 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
     refetchHealth,
     alerts,
     getBlockLabel,
+    dismissCertificate,
+    dismissProfile,
+    dismissTask,
     participantsCount = 24,
     onlineCount = 8,
   } = props;
@@ -101,6 +107,9 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
         healthLoading={healthLoading}
         alerts={alerts}
         getBlockLabel={getBlockLabel}
+        dismissCertificate={dismissCertificate}
+        dismissProfile={dismissProfile}
+        dismissTask={dismissTask}
       />
 
       <OrganizationHealthActivityGrid
