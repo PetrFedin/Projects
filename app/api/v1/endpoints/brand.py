@@ -7,11 +7,12 @@ from copy import deepcopy
 from datetime import timedelta
 from typing import Any, Dict, Optional, Set
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api import deps
+from app.api.deps import UserRole, get_current_active_user
 from app.api.schemas.base import GenericResponse
 from app.core.datetime_util import utc_now
 from app.db.models.base import User, Organization, Order, Showroom, Linesheet
@@ -19,8 +20,26 @@ from app.db.models.intelligence import ChestnyZnakCode, EACCertificate, EDODocum
 from app.db.models.product import Assortment, CollectionDrop, Lookbook
 from app.integrations.hub_catalog import count_configured_integrations_for_hub
 from app.integrations.policy import integration_idle_response
+from app.services.organization_attention_dismiss import (
+    AttentionDismissMergeBody,
+    get_attention_dismiss_for_brand,
+    merge_attention_dismiss_for_brand,
+)
 
 router = APIRouter()
+
+
+def _require_brand_access(user: User, brand_id: str) -> None:
+    role = user.role
+    if isinstance(role, str):
+        try:
+            role = UserRole(role)
+        except ValueError:
+            role = None
+    if role == UserRole.PLATFORM_ADMIN:
+        return
+    if user.organization_id != brand_id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
 
 
 def _buyer_key_as_str(val: Any) -> Optional[str]:
@@ -583,6 +602,33 @@ async def fetch_integrations_status_data(brand_id: str) -> Dict[str, Any]:
         "payment": {"status": payment_status.get("status", "unknown"), "configured": payment.is_configured},
         "ozon": {"status": ozon_status.get("status", "unknown"), "configured": ozon.is_configured},
     }
+
+
+@router.get("/attention-dismiss/{brand_id}", response_model=GenericResponse[Dict[str, Any]])
+async def get_brand_attention_dismiss(
+    brand_id: str,
+    db: AsyncSession = Depends(deps.get_db),
+    current_user: User = Depends(get_current_active_user),
+) -> GenericResponse[Dict[str, Any]]:
+    """Dismissed alert ids for hub «Требует внимания» (merge with localStorage on client)."""
+    _require_brand_access(current_user, brand_id)
+    data = await get_attention_dismiss_for_brand(db, brand_id)
+    return GenericResponse(data=data)
+
+
+@router.patch("/attention-dismiss/{brand_id}", response_model=GenericResponse[Dict[str, Any]])
+async def patch_brand_attention_dismiss(
+    brand_id: str,
+    body: AttentionDismissMergeBody,
+    db: AsyncSession = Depends(deps.get_db),
+    current_user: User = Depends(get_current_active_user),
+) -> GenericResponse[Dict[str, Any]]:
+    """Union-merge ids (append-only per bucket)."""
+    _require_brand_access(current_user, brand_id)
+    merged = await merge_attention_dismiss_for_brand(db, brand_id, body)
+    if merged is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Organization not found")
+    return GenericResponse(data=merged)
 
 
 @router.get("/profile/{brand_id}", response_model=GenericResponse[Dict[str, Any]])

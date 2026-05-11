@@ -333,6 +333,14 @@ const MOCK_FALLBACKS: Record<string, any> = {
     znak: { status: 'ok' },
   },
   '/organization/health/': null,
+  '/brand/attention-dismiss/': {
+    data: {
+      v: 1 as const,
+      certificateIds: [] as string[],
+      profileIds: [] as string[],
+      taskIds: [] as string[],
+    },
+  },
   '/collections/drops': [
     {
       id: 1,
@@ -515,6 +523,16 @@ export const fastApiService = {
   getBrandProfile: (brandId: string) => fetchFromApi(`/brand/profile/${brandId}`),
   getBrandDashboard: (brandId: string) => fetchFromApi(`/brand/dashboard/${brandId}`),
   getIntegrationsStatus: (brandId: string) => fetchFromApi(`/brand/integrations/status/${brandId}`),
+  getAttentionDismiss: (brandId: string) =>
+    fetchFromApi(`/brand/attention-dismiss/${brandId}`).catch(() => null),
+  patchAttentionDismiss: (
+    brandId: string,
+    body: Partial<{ certificateIds: string[]; profileIds: string[]; taskIds: string[] }>
+  ) =>
+    fetchFromApi(`/brand/attention-dismiss/${brandId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+    }).catch(() => null),
   getOrganizationHealth: (brandId: string) =>
     fetchFromApi(`/organization/health/${brandId}`).catch(() => null),
   retryIntegration: (brandId: string, provider: string) =>

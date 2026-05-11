@@ -8,7 +8,7 @@
 - Шапка: название организации и юр.данные из API (profile); **ошибки и частичная загрузка** — сообщения и «Повторить»; пустой профиль не ломает UI (**Syntha HQ**); участники/онлайн из `brand/dashboard` (поля присутствия и зеркала) или из `user.team`, иначе демо
 - Карточки модулей: целиком кликабельны, aria-label; подстановка на основе `brand/dashboard.moduleStats` — **`/brand/team`**, **`/brand/documents`** (На подписи из **`EDODocument`** draft/sent), **`/brand/compliance`** по **`markingSyncStatus`**; **`/brand/integrations`** — **X/Y** через **`count_configured_integrations_for_hub`** (числитель — env-подключённые клиенты, знаменатель **13** = 6 проводных + 7 каталога в **`app/integrations/hub_catalog.py`**)
 - Партнёрская экосистема: блок «Партнёры по типам» / полоска роста из `dashboard.partnerEcosystem` (`growthByPeriod`, `countsPatchById`, при активной орг. ещё `businessProcessesPatchById` и `ecosystemBlocksPatchById` поверх `PARTNER_*` в page-data)
-- Блок «Требует внимания»: неактивные блоки одного размера (110px), «Детально» в раздел; «Устранить» снимает пункт через `useAttentionAlerts` и **persist в localStorage по brand id** (`attention-dismiss-storage.ts`); начальное состояние из `dashboard.attentionAlerts`
+- Блок «Требует внимания»: … начальное состояние из `dashboard.attentionAlerts`; **снимок dismiss** — union **localStorage** и **`organizations.attention_dismiss_json`** (GET при загрузке, PATCH при «Устранить»), контракт `AttentionDismissRecord` (`certificateIds` / `profileIds` / `taskIds`). SQL: **`scripts/sql/organization_attention_dismiss_json.sql`**
 - Недавняя активность: демо-события с `dayOffset` и `getRecentActivities(сегодня)` — даты в актуальном окне 7/30 дней
 - Рефакторинг UI обзора: секции вынесены в `_components/*`
 - Бэкенд: `/api/v1/brand/profile`, `/api/v1/brand/dashboard`, `/api/v1/brand/integrations`; **`/api/v1/organization/health/{brand_id}`** — один снимок метрик + источников через `get_organization_health_bundle` (`organization_health_service`), без дублирующих параллельных запросов на фронте при актуальном контракте.
@@ -36,11 +36,11 @@
 
 ## Приоритет 2 — данные с бэкенда
 
-### 4. ~~Алерты «Требует внимания» из API~~ (частично сделано)
+### 4. ~~Алерты «Требует внимания» из API~~ (сделано: локально + сервер)
 
-Инициализация из `brand/dashboard.attentionAlerts` после загрузки (`useAttentionAlerts`). **Dismiss:** «Устранить» по пунктам с id сохраняется в **localStorage** по ключу бренда (`profile.brand.id` или fallback `BRAND_ID` из `organization-config`) — см. `attention-dismiss-storage.ts`. После перезагрузки страницы скрытые id не показываются, пока API снова не пришлёт те же записи (тогда пользователь может скрыть снова).
+Инициализация из `brand/dashboard.attentionAlerts` (`useAttentionAlerts`). **Dismiss:** union-id по каждому бренду: **localStorage** (`attention-dismiss-storage.ts`) и **`GET/PATCH /api/v1/brand/attention-dismiss/{brand_id}`** (JWT + проверка `organization_id`; данные в колонке **`organizations.attention_dismiss_json`**, патч скрипт **`scripts/sql/organization_attention_dismiss_json.sql`**). При включённом FastAPI клиент при загрузке хаба мержит ответ сервера с локальным и сохраняет объединённый снимок; при dismiss дополнительно шлёт PATCH.
 
-Дальше: синхронизация dismiss с бэкендом для нескольких устройств; отдельные действия по строкам `integrationIssues` (сейчас без dismiss).
+**Дальше:** dismiss для строк **`integrationIssues`** (нужны стабильные id вместо голых строк); при желании — soft-reset записей администратором.
 
 ### 5. Brand/dashboard — реальные агрегаты
 
@@ -104,4 +104,4 @@
 
 ---
 
-Рекомендуемый следующий шаг: **п.4** (dismiss алертов на бэкенд); operational **CRPT**-очередь в Python при контракте; SQL **`scripts/sql/inventory_sync_logs_organization_id.sql`** на живых БД; клиентский кэш health между визитами; **`growthByPeriod`** из аналитики (**п.7**); реальный **online** при телеметрии.
+Рекомендуемый следующий шаг: **`growthByPeriod`** из аналитики (**п.7**); operational **CRPT**-очередь в Python при контракте; SQL на живых БД (**inventory_sync_logs**, **organization_attention_dismiss_json**); клиентский кэш health между визитами.

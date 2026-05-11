@@ -3,15 +3,22 @@
  * Блок активен когда items.length > 0. При dismiss — удаляем элемент, блок становится неактивным когда пусто.
  * activeSince — время, с которого блок активен (для отображения в углу).
  * historyByBlock — история действий по каждому блоку (появилось, устранено, изменено) + автор.
- * Dismiss для элементов с id сохраняется в localStorage по brandId (см. attention-dismiss-storage).
+ * Dismiss с id: localStorage + при USE_FASTAPI PATCH `/brand/attention-dismiss` и merge при загрузке из GET.
  */
 
 import { useState, useCallback, useEffect } from 'react';
 import {
   appendDismissedAlertId,
   applyAttentionDismissFilters,
+  attentionDismissRecordsEqual,
   loadAttentionDismiss,
+  mergeAttentionDismissRecords,
+  parseAttentionDismissFromApi,
+  saveAttentionDismiss,
+  type AttentionDismissRecord,
 } from './attention-dismiss-storage';
+import { USE_FASTAPI } from '@/lib/syntha-api-mode';
+import { fastApiService } from '@/lib/fastapi-service';
 
 export type HistoryEntry = {
   id: string;
@@ -219,10 +226,40 @@ export function useAttentionAlerts(opts?: UseAttentionAlertsOpts) {
     const normalized = normalizeAttentionAlertsPayload(raw);
     if (normalized === null) return;
     const bid = opts?.brandId;
-    const dismissed = bid ? loadAttentionDismiss(bid) : null;
-    const merged = applyAttentionDismissFilters(normalized, dismissed);
-    setAlerts(merged);
-    setHistoryByBlock(buildHistorySeed(merged));
+    if (!bid) {
+      setAlerts(normalized);
+      setHistoryByBlock(buildHistorySeed(normalized));
+      return;
+    }
+
+    let cancelled = false;
+    (async () => {
+      const local = loadAttentionDismiss(bid);
+      let serverRec: AttentionDismissRecord | null = null;
+      if (USE_FASTAPI) {
+        try {
+          const res = await fastApiService.getAttentionDismiss(bid);
+          const payload =
+            res && typeof res === 'object' && 'data' in res ? (res as { data: unknown }).data : res;
+          serverRec = parseAttentionDismissFromApi(payload);
+        } catch {
+          serverRec = null;
+        }
+      }
+      const merged = mergeAttentionDismissRecords(local, serverRec);
+      if (!cancelled && !attentionDismissRecordsEqual(local, merged)) {
+        saveAttentionDismiss(bid, merged);
+      }
+      if (!cancelled) {
+        const filtered = applyAttentionDismissFilters(normalized, merged);
+        setAlerts(filtered);
+        setHistoryByBlock(buildHistorySeed(filtered));
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [opts?.healthLoading, opts?.attentionAlertsFromDashboard, opts?.brandId]);
 
   const isBlockActive = useCallback(
@@ -274,7 +311,14 @@ export function useAttentionAlerts(opts?: UseAttentionAlertsOpts) {
       setHistoryByBlock((prev) =>
         addHistory(prev, 'certificates', 'dismissed', `Устранено: ${cert?.name ?? id}`, 'Вы')
       );
-      if (brandId) appendDismissedAlertId(brandId, 'certificateIds', id);
+      if (brandId) {
+        appendDismissedAlertId(brandId, 'certificateIds', id);
+        if (USE_FASTAPI) {
+          void fastApiService
+            .patchAttentionDismiss(brandId, { certificateIds: [id] })
+            .catch(() => {});
+        }
+      }
       setAlerts((prev) => ({
         ...prev,
         certificates: prev.certificates.filter((c) => c.id !== id),
@@ -289,7 +333,12 @@ export function useAttentionAlerts(opts?: UseAttentionAlertsOpts) {
       setHistoryByBlock((prev) =>
         addHistory(prev, 'profile', 'dismissed', `Устранено: ${p?.name ?? id}`, 'Вы')
       );
-      if (brandId) appendDismissedAlertId(brandId, 'profileIds', id);
+      if (brandId) {
+        appendDismissedAlertId(brandId, 'profileIds', id);
+        if (USE_FASTAPI) {
+          void fastApiService.patchAttentionDismiss(brandId, { profileIds: [id] }).catch(() => {});
+        }
+      }
       setAlerts((prev) => ({
         ...prev,
         profile: prev.profile.filter((p) => p.id !== id),
@@ -304,7 +353,12 @@ export function useAttentionAlerts(opts?: UseAttentionAlertsOpts) {
       setHistoryByBlock((prev) =>
         addHistory(prev, 'tasks', 'dismissed', `Устранено: ${t?.title ?? id}`, 'Вы')
       );
-      if (brandId) appendDismissedAlertId(brandId, 'taskIds', id);
+      if (brandId) {
+        appendDismissedAlertId(brandId, 'taskIds', id);
+        if (USE_FASTAPI) {
+          void fastApiService.patchAttentionDismiss(brandId, { taskIds: [id] }).catch(() => {});
+        }
+      }
       setAlerts((prev) => ({
         ...prev,
         tasks: prev.tasks.filter((t) => t.id !== id),

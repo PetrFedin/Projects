@@ -1,6 +1,6 @@
 /**
- * Persist dismissed «Требует внимания» items per brand (browser localStorage).
- * Server-side sync можно добавить позже тем же контрактом id-снимков.
+ * Persist dismissed «Требует внимания» items per brand (localStorage).
+ * Сервер: GET/PATCH `/api/v1/brand/attention-dismiss/{brandId}` — union с локальным снимком при загрузке.
  */
 
 const STORAGE_PREFIX = 'fashion-org-attention-dismiss:v1:';
@@ -21,6 +21,59 @@ export type AttentionDismissRecord = {
 
 export function emptyAttentionDismissRecord(): AttentionDismissRecord {
   return { v: 1, certificateIds: [], profileIds: [], taskIds: [] };
+}
+
+export function attentionDismissRecordsEqual(
+  a: AttentionDismissRecord | null | undefined,
+  b: AttentionDismissRecord | null | undefined
+): boolean {
+  const norm = (r: AttentionDismissRecord | null | undefined) => {
+    if (!r || r.v !== 1) return null;
+    const s = (xs: string[]) => [...xs].sort().join('\u0001');
+    return `${s(r.certificateIds)}\u0002${s(r.profileIds)}\u0002${s(r.taskIds)}`;
+  };
+  return norm(a) === norm(b);
+}
+
+/** GenericResponse.data из GET attention-dismiss */
+export function parseAttentionDismissFromApi(data: unknown): AttentionDismissRecord | null {
+  if (data == null || typeof data !== 'object') return null;
+  const o = data as Record<string, unknown>;
+  if (o.v !== 1) return null;
+  return {
+    v: 1,
+    certificateIds: Array.isArray(o.certificateIds)
+      ? o.certificateIds.filter((x): x is string => typeof x === 'string')
+      : [],
+    profileIds: Array.isArray(o.profileIds)
+      ? o.profileIds.filter((x): x is string => typeof x === 'string')
+      : [],
+    taskIds: Array.isArray(o.taskIds)
+      ? o.taskIds.filter((x): x is string => typeof x === 'string')
+      : [],
+  };
+}
+
+export function mergeAttentionDismissRecords(
+  a: AttentionDismissRecord | null | undefined,
+  b: AttentionDismissRecord | null | undefined
+): AttentionDismissRecord {
+  const out = emptyAttentionDismissRecord();
+  const mergeKey = (
+    k: keyof Pick<AttentionDismissRecord, 'certificateIds' | 'profileIds' | 'taskIds'>
+  ) => {
+    const set = new Set<string>();
+    for (const rec of [a, b]) {
+      rec?.[k]?.forEach((id) => {
+        if (typeof id === 'string' && id) set.add(id);
+      });
+    }
+    out[k] = Array.from(set).sort();
+  };
+  mergeKey('certificateIds');
+  mergeKey('profileIds');
+  mergeKey('taskIds');
+  return out;
 }
 
 function keyForBrand(brandId: string): string {

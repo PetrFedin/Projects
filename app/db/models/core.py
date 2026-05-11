@@ -26,6 +26,7 @@ class Organization(Base):
     type: Mapped[str] = mapped_column(String) # brand, buyer, distributor, factory
     is_active: Mapped[bool] = mapped_column(default=True)
     metadata_json: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
+    attention_dismiss_json: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now)
 
