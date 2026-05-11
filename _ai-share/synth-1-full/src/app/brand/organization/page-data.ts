@@ -745,6 +745,26 @@ export interface PartnerProcessItem {
   /** Текст кнопки: Добавить, Создать заказ и т.д. */
   addLabel?: string;
 }
+
+/** Поля процесса, которые может подменить partnerEcosystem.businessProcessesPatchById (без icon/color). */
+export type PartnerProcessApiPatch = Partial<
+  Pick<
+    PartnerProcessItem,
+    | 'label'
+    | 'href'
+    | 'count7d'
+    | 'count30d'
+    | 'changePct7d'
+    | 'changePct30d'
+    | 'sub'
+    | 'description'
+    | 'tips'
+    | 'detailMetrics'
+    | 'addHref'
+    | 'addLabel'
+  >
+>;
+
 export const PARTNER_BUSINESS_PROCESSES: PartnerProcessItem[] = [
   {
     id: 'b2b-orders',
@@ -866,6 +886,18 @@ export const PARTNER_BUSINESS_PROCESSES: PartnerProcessItem[] = [
     detailMetrics: [{ label: 'Активных аукционов', value: '0', href: '/brand/auctions' }],
   },
 ];
+
+export function mergePartnerBusinessProcessesWithPatches(
+  base: PartnerProcessItem[],
+  patchById: Record<string, PartnerProcessApiPatch> | undefined
+): PartnerProcessItem[] {
+  if (!patchById || Object.keys(patchById).length === 0) return base;
+  return base.map((item) => {
+    const p = patchById[item.id];
+    if (!p) return item;
+    return { ...item, ...p };
+  });
+}
 
 /** Короткие ссылки: где работать с партнёрами */
 export const PARTNER_WORK_LINKS = [
@@ -1161,22 +1193,6 @@ export function mergePartnerGrowthSlice(
   return { total, items };
 }
 
-/** Поддержка partnerEcosystem из ответа dashboard (unknown → безопасный доступ). */
-export function pickPartnerEcosystemPatches(partnerEcosystem: unknown): {
-  countsPatchById: Record<string, PartnerCountApiPatch> | undefined;
-  growthByPeriod: unknown;
-} {
-  if (!partnerEcosystem || typeof partnerEcosystem !== 'object')
-    return { countsPatchById: undefined, growthByPeriod: undefined };
-  const o = partnerEcosystem as Record<string, unknown>;
-  const rawPatches = o.countsPatchById;
-  const countsPatchById =
-    rawPatches && typeof rawPatches === 'object'
-      ? (rawPatches as Record<string, PartnerCountApiPatch>)
-      : undefined;
-  return { countsPatchById, growthByPeriod: o.growthByPeriod };
-}
-
 /** Подписи групп партнёров по роли в экосистеме */
 export const PARTNER_ROLE_LABELS: Record<'supply' | 'sales' | 'platform', string> = {
   supply: 'Цепочка поставок',
@@ -1294,6 +1310,28 @@ export interface PartnerEcosystemBlock {
   /** Текст кнопки: Добавить, Создать заказ и т.д. */
   addLabel?: string;
 }
+
+/** Поля блока экосистемы из partnerEcosystem.ecosystemBlocksPatchById (без icon/color). */
+export type PartnerEcosystemBlockApiPatch = Partial<
+  Pick<
+    PartnerEcosystemBlock,
+    | 'title'
+    | 'titleLines'
+    | 'description'
+    | 'href'
+    | 'changePct7d'
+    | 'changePct30d'
+    | 'metrics'
+    | 'metrics7d'
+    | 'metrics30d'
+    | 'alertCount'
+    | 'alertCount7d'
+    | 'alertCount30d'
+    | 'alertTooltip'
+    | 'addHref'
+    | 'addLabel'
+  >
+>;
 
 export const PARTNER_ECOSYSTEM_BLOCKS: PartnerEcosystemBlock[] = [
   {
@@ -1482,3 +1520,54 @@ export const PARTNER_ECOSYSTEM_BLOCKS: PartnerEcosystemBlock[] = [
     ],
   },
 ];
+
+export function mergePartnerEcosystemBlocksWithPatches(
+  base: PartnerEcosystemBlock[],
+  patchById: Record<string, PartnerEcosystemBlockApiPatch> | undefined
+): PartnerEcosystemBlock[] {
+  if (!patchById || Object.keys(patchById).length === 0) return base;
+  return base.map((item) => {
+    const p = patchById[item.id];
+    if (!p) return item;
+    return { ...item, ...p };
+  });
+}
+
+/** Поддержка partnerEcosystem из ответа dashboard (unknown → безопасный доступ). */
+export function pickPartnerEcosystemPatches(partnerEcosystem: unknown): {
+  countsPatchById: Record<string, PartnerCountApiPatch> | undefined;
+  growthByPeriod: unknown;
+  businessProcessesPatchById: Record<string, PartnerProcessApiPatch> | undefined;
+  ecosystemBlocksPatchById: Record<string, PartnerEcosystemBlockApiPatch> | undefined;
+} {
+  if (!partnerEcosystem || typeof partnerEcosystem !== 'object') {
+    return {
+      countsPatchById: undefined,
+      growthByPeriod: undefined,
+      businessProcessesPatchById: undefined,
+      ecosystemBlocksPatchById: undefined,
+    };
+  }
+  const o = partnerEcosystem as Record<string, unknown>;
+  const rawPatches = o.countsPatchById;
+  const countsPatchById =
+    rawPatches && typeof rawPatches === 'object'
+      ? (rawPatches as Record<string, PartnerCountApiPatch>)
+      : undefined;
+  const rawBp = o.businessProcessesPatchById;
+  const businessProcessesPatchById =
+    rawBp && typeof rawBp === 'object'
+      ? (rawBp as Record<string, PartnerProcessApiPatch>)
+      : undefined;
+  const rawEb = o.ecosystemBlocksPatchById;
+  const ecosystemBlocksPatchById =
+    rawEb && typeof rawEb === 'object'
+      ? (rawEb as Record<string, PartnerEcosystemBlockApiPatch>)
+      : undefined;
+  return {
+    countsPatchById,
+    growthByPeriod: o.growthByPeriod,
+    businessProcessesPatchById,
+    ecosystemBlocksPatchById,
+  };
+}

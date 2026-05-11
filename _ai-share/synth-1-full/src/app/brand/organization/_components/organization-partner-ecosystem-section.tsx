@@ -12,7 +12,9 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   SECTION_META,
+  mergePartnerBusinessProcessesWithPatches,
   mergePartnerCountsWithPatches,
+  mergePartnerEcosystemBlocksWithPatches,
   mergePartnerGrowthSlice,
   pickPartnerEcosystemPatches,
   PARTNER_BUSINESS_PROCESSES,
@@ -32,13 +34,19 @@ export function OrganizationPartnerEcosystemSection({
   partnerEcosystem,
 }: OrganizationPartnerEcosystemSectionProps) {
   const growthPeriodKey: '7d' | '30d' = modulesPeriodKey;
-  const { countsPatchById, growthByPeriod } = useMemo(
-    () => pickPartnerEcosystemPatches(partnerEcosystem),
-    [partnerEcosystem]
-  );
+  const { countsPatchById, growthByPeriod, businessProcessesPatchById, ecosystemBlocksPatchById } =
+    useMemo(() => pickPartnerEcosystemPatches(partnerEcosystem), [partnerEcosystem]);
   const partnerCounts = useMemo(
     () => mergePartnerCountsWithPatches(countsPatchById),
     [countsPatchById]
+  );
+  const partnerProcesses = useMemo(
+    () => mergePartnerBusinessProcessesWithPatches(PARTNER_BUSINESS_PROCESSES, businessProcessesPatchById),
+    [businessProcessesPatchById]
+  );
+  const ecosystemBlocks = useMemo(
+    () => mergePartnerEcosystemBlocksWithPatches(PARTNER_ECOSYSTEM_BLOCKS, ecosystemBlocksPatchById),
+    [ecosystemBlocksPatchById]
   );
   const growthDetail = useMemo(
     () => mergePartnerGrowthSlice(growthPeriodKey, growthByPeriod).items,
@@ -297,7 +305,7 @@ export function OrganizationPartnerEcosystemSection({
             Связь с процессами • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
           </p>
           <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
-            {PARTNER_BUSINESS_PROCESSES.map((p) => {
+            {partnerProcesses.map((p) => {
               const Icon = p.icon;
               const count = growthPeriodKey === '7d' ? p.count7d : p.count30d;
               const changePct = growthPeriodKey === '7d' ? p.changePct7d : p.changePct30d;
@@ -424,7 +432,7 @@ export function OrganizationPartnerEcosystemSection({
             Процессы и области • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
           </p>
           <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
-            {PARTNER_ECOSYSTEM_BLOCKS.map((b) => {
+            {ecosystemBlocks.map((b) => {
               const BlockIcon = b.icon;
               const blockMetrics =
                 growthPeriodKey === '7d' ? (b.metrics7d ?? b.metrics) : (b.metrics30d ?? b.metrics);

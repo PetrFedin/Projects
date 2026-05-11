@@ -4,6 +4,7 @@ MVP: DB-backed where models exist, fallback to demo data for investor showcase.
 """
 
 from copy import deepcopy
+from datetime import timedelta
 from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, Depends
@@ -12,8 +13,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api import deps
 from app.api.schemas.base import GenericResponse
+from app.core.datetime_util import utc_now
 from app.db.models.base import User, Organization, Order, Showroom, Linesheet
-from app.db.models.intelligence import ChestnyZnakCode, EACCertificate
+from app.db.models.intelligence import ChestnyZnakCode, EACCertificate, EDODocument
 from app.db.models.product import CollectionDrop, Lookbook
 from app.integrations.policy import integration_idle_response
 
@@ -103,11 +105,23 @@ def _build_partner_ecosystem(
     retailers_count: int,
     order_count: int,
     pending: int,
+    pending_confirmation: int,
+    po_confirmed: int,
+    shipped_count: int,
+    orders_7d: int,
+    orders_30d: int,
+    edo_pending: int,
+    edo_signed: int,
     has_org_activity: bool,
 ) -> Dict[str, Any]:
-    """growthByPeriod — как на фронте; countsPatchById подмешивается поверх PARTNER_COUNTS."""
+    """growthByPeriod — как на фронте; countsPatchById подмешивается поверх PARTNER_COUNTS.
+
+    businessProcessesPatchById / ecosystemBlocksPatchById — те же id, что PARTNER_* на фронте.
+    """
     growth = deepcopy(DEMO_PARTNER_GROWTH_BY_PERIOD)
     counts_patch: Dict[str, Dict[str, Any]] = {}
+    processes_patch: Dict[str, Dict[str, Any]] = {}
+    blocks_patch: Dict[str, Dict[str, Any]] = {}
     if has_org_activity:
         oc_cap = min(order_count, retailers_count)
         counts_patch["retailers"] = {
@@ -119,7 +133,75 @@ def _build_partner_ecosystem(
                 {"label": "В каталоге", "value": str(retailers_count), "href": "/brand/retailers"},
             ],
         }
-    return {"growthByPeriod": growth, "countsPatchById": counts_patch}
+        processes_patch["b2b-orders"] = {
+            "count7d": int(orders_7d),
+            "count30d": int(orders_30d),
+            "detailMetrics": [
+                {"label": "На подтверждении", "value": str(pending_confirmation), "href": "/brand/b2b-orders?status=pending"},
+                {"label": "В производстве", "value": str(po_confirmed), "href": "/brand/b2b-orders"},
+                {"label": "Отгружено", "value": str(shipped_count), "href": "/brand/b2b-orders"},
+            ],
+        }
+        processes_patch["documents"] = {
+            "detailMetrics": [
+                {"label": "На подпись", "value": str(edo_pending), "href": "/brand/documents?status=pending"},
+                {"label": "Истекают в 30 дн.", "value": "—", "href": "/brand/documents?expiring=30"},
+                {"label": "Подписано в ЭДО", "value": str(edo_signed), "href": "/brand/documents"},
+            ],
+        }
+        processes_patch["shipments"] = {
+            "detailMetrics": [
+                {"label": "В пути", "value": str(shipped_count), "href": "/brand/logistics"},
+                {"label": "К отгрузке", "value": str(po_confirmed), "href": "/brand/b2b-orders"},
+                {"label": "Задержки", "value": "0", "href": "/brand/logistics"},
+            ],
+        }
+
+        contracts_metrics = [
+            {"label": "На подпись", "value": str(edo_pending), "href": "/brand/documents?status=pending"},
+            {"label": "Истекают в 30 дн.", "value": "—", "href": "/brand/documents?expiring=30"},
+            {"label": "Подписано в ЭДО", "value": str(edo_signed), "href": "/brand/documents"},
+        ]
+        blocks_patch["contracts-docs"] = {
+            "alertCount": edo_pending,
+            "alertCount7d": edo_pending,
+            "alertCount30d": edo_pending,
+            "metrics": contracts_metrics,
+            "metrics7d": contracts_metrics,
+            "metrics30d": contracts_metrics,
+        }
+
+        lm = [
+            {"label": "В пути", "value": str(shipped_count), "href": "/brand/logistics"},
+            {"label": "К отгрузке", "value": str(po_confirmed), "href": "/brand/b2b-orders"},
+            {"label": "Задержки", "value": "0", "href": "/brand/logistics"},
+        ]
+        blocks_patch["logistics-shipments"] = {"metrics": lm, "metrics7d": lm, "metrics30d": lm}
+
+        blocks_patch["partner-analytics"] = {
+            "metrics": [
+                {"label": "Топ-10 партнёров", "value": str(retailers_count), "href": "/brand/retailers"},
+                {"label": "План/факт", "value": "—", "href": "/brand/retailers"},
+                {"label": "Рост за месяц", "value": "—", "href": "/brand/retailers"},
+            ],
+            "metrics7d": [
+                {"label": "Топ за 7 дн.", "value": str(retailers_count), "href": "/brand/retailers"},
+                {"label": "План/факт за 7 дн.", "value": "—", "href": "/brand/retailers"},
+                {"label": "Рост за 7 дн.", "value": "—", "href": "/brand/retailers"},
+            ],
+            "metrics30d": [
+                {"label": "Топ за 30 дн.", "value": str(retailers_count), "href": "/brand/retailers"},
+                {"label": "План/факт за 30 дн.", "value": "—", "href": "/brand/retailers"},
+                {"label": "Рост за 30 дн.", "value": "—", "href": "/brand/retailers"},
+            ],
+        }
+
+    out: Dict[str, Any] = {"growthByPeriod": growth, "countsPatchById": counts_patch}
+    if processes_patch:
+        out["businessProcessesPatchById"] = processes_patch
+    if blocks_patch:
+        out["ecosystemBlocksPatchById"] = blocks_patch
+    return out
 
 
 DEMO_PROFILE = {
@@ -175,6 +257,63 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
             )
         )
     ).scalar() or 0
+    pending_confirmation = (
+        await db.execute(
+            select(func.count(Order.id)).where(
+                Order.organization_id == brand_id,
+                Order.status == "pending",
+            )
+        )
+    ).scalar() or 0
+    shipped_count = (
+        await db.execute(
+            select(func.count(Order.id)).where(
+                Order.organization_id == brand_id,
+                Order.status == "shipped",
+            )
+        )
+    ).scalar() or 0
+    now = utc_now()
+    cut_7d = now - timedelta(days=7)
+    cut_30d = now - timedelta(days=30)
+    orders_7d = (
+        await db.execute(
+            select(func.count(Order.id)).where(
+                Order.organization_id == brand_id,
+                Order.created_at >= cut_7d,
+            )
+        )
+    ).scalar() or 0
+    orders_30d = (
+        await db.execute(
+            select(func.count(Order.id)).where(
+                Order.organization_id == brand_id,
+                Order.created_at >= cut_30d,
+            )
+        )
+    ).scalar() or 0
+    edo_pending = 0
+    edo_signed = 0
+    try:
+        edo_pending = (
+            await db.execute(
+                select(func.count(EDODocument.id)).where(
+                    EDODocument.organization_id == brand_id,
+                    EDODocument.status.in_(["draft", "sent"]),
+                )
+            )
+        ).scalar() or 0
+        edo_signed = (
+            await db.execute(
+                select(func.count(EDODocument.id)).where(
+                    EDODocument.organization_id == brand_id,
+                    EDODocument.status == "signed",
+                )
+            )
+        ).scalar() or 0
+    except Exception:
+        edo_pending = 0
+        edo_signed = 0
     # Showrooms
     showroom_count = (await db.execute(select(func.count(Showroom.id)).where(Showroom.organization_id == brand_id))).scalar() or 0
     try:
@@ -302,6 +441,13 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
             retailers_count=retailers_count,
             order_count=order_count,
             pending=pending,
+            pending_confirmation=pending_confirmation,
+            po_confirmed=po_confirmed,
+            shipped_count=shipped_count,
+            orders_7d=orders_7d,
+            orders_30d=orders_30d,
+            edo_pending=edo_pending,
+            edo_signed=edo_signed,
             has_org_activity=has_org_activity,
         ),
         "_source": "db" if order_count or showroom_count or member_count else "demo",

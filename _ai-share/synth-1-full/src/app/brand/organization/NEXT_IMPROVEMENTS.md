@@ -7,7 +7,7 @@
 - Индекс здоровья: кнопка «Обновить», скелетон при загрузке, данные из API (profile/dashboard/integrations); KPI brand/dashboard частично из БД (см. п.5)
 - Шапка: название организации и юр.данные из API (profile); при ошибке загрузки профиля — сообщение и «Повторить»; при частичном сбое дашборда/интеграций — предупреждение и «Повторить»; участники/онлайн из dashboard (`participantsCount` и др.) или из `user.team`, иначе демо
 - Карточки модулей: целиком кликабельны, aria-label; подстановка `label`/`value`/`status` из `brand/dashboard.moduleStats` (демо полный набор; при активной орг. — участники, «на подписи» из pending заказов, маркировка по `markingSyncStatus`)
-- Партнёрская экосистема: блок «Партнёры по типам» / полоска роста берёт данные из `dashboard.partnerEcosystem` (`growthByPeriod`, `countsPatchById` поверх `PARTNER_*` в page-data); при активной орг. патч карточки «Магазины» из `retailersCount`/orders
+- Партнёрская экосистема: блок «Партнёры по типам» / полоска роста из `dashboard.partnerEcosystem` (`growthByPeriod`, `countsPatchById`, при активной орг. ещё `businessProcessesPatchById` и `ecosystemBlocksPatchById` поверх `PARTNER_*` в page-data)
 - Блок «Требует внимания»: неактивные блоки одного размера (110px), «Детально» в раздел; «Устранить» снимает пункт через `useAttentionAlerts`; начальное состояние из `dashboard.attentionAlerts`
 - Недавняя активность: демо-события с `dayOffset` и `getRecentActivities(сегодня)` — даты в актуальном окне 7/30 дней
 - Рефакторинг UI обзора: секции вынесены в `_components/*`
@@ -59,7 +59,16 @@
 
 ### 7. ~~Партнёрская экосистема: данные по периоду~~ (частично сделано)
 
-Ответ `brand/dashboard.partnerEcosystem`: `growthByPeriod` (7d/30d, как мок на фронте) и `countsPatchById` по id карточки; пока реально патчится «Магазины» при `has_org_activity`. Блоки «Процессы», «Связь с процессами» — всё ещё статика из `page-data`.
+Ответ `brand/dashboard.partnerEcosystem`:
+
+| Поле | Поведение при `has_org_activity` |
+|------|-----------------------------------|
+| `growthByPeriod` | как демо-мок на фронте (пока без выравнивания с аналитикой) |
+| `countsPatchById` | патч карточки «Магазины» (`retailersCount`/orders) |
+| `businessProcessesPatchById` | `b2b-orders`, `documents`, `shipments`: счётчики заказов/ЭДО из БД |
+| `ecosystemBlocksPatchById` | `contracts-docs`, `logistics-shipments`, `partner-analytics`: метрики/алерты из тех же источников где возможно |
+
+Остальные процессы и блоки — заготовки из `page-data` до появления доменных агрегатов (возвраты, задачи, финансы).
 
 ---
 
@@ -80,4 +89,4 @@
 
 ---
 
-Рекомендуемый следующий шаг: **агрегаты dashboard из репозиториев** (п.5) или **расширить partnerEcosystem** на процессы/интеграции.
+Рекомендуемый следующий шаг: **persist dismiss алертов** (п.4), **health API или явный отказ** (п.10), **a11y/скелетоны** (п.8–9), или доработка п.5/п.6 под доменные счётчики.
