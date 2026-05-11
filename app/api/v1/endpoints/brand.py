@@ -62,16 +62,16 @@ DEMO_MODULE_STATS: Dict[str, Dict[str, str]] = {
 def _build_module_stats(
     *,
     participants_count: int,
-    pending_orders: int,
     marking_sync_status: str,
     has_org_activity: bool,
+    edo_pending: int,
 ) -> Dict[str, Dict[str, str]]:
     stats = deepcopy(DEMO_MODULE_STATS)
     stats["/brand/team"]["value"] = str(participants_count)
     if has_org_activity:
-        sig = min(max(int(pending_orders), 0), 99)
-        stats["/brand/documents"]["value"] = str(sig)
-        stats["/brand/documents"]["status"] = "warning" if sig > 0 else "success"
+        pending_sig = min(max(int(edo_pending), 0), 99)
+        stats["/brand/documents"]["value"] = str(pending_sig)
+        stats["/brand/documents"]["status"] = "warning" if pending_sig > 0 else "success"
         sync_ok = marking_sync_status == "ok"
         stats["/brand/compliance"]["value"] = "Настроено" if sync_ok else "Проверить"
         stats["/brand/compliance"]["status"] = "success" if sync_ok else "warning"
@@ -431,11 +431,12 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         "participantsCount": participants_count,
         "onlineCount": online_count,
         "attentionAlerts": attention_alerts,
+        "documentsPendingSignature": int(edo_pending),
         "moduleStats": _build_module_stats(
             participants_count=participants_count,
-            pending_orders=pending,
             marking_sync_status=marking_sync_status,
             has_org_activity=has_org_activity,
+            edo_pending=edo_pending,
         ),
         "partnerEcosystem": _build_partner_ecosystem(
             retailers_count=retailers_count,

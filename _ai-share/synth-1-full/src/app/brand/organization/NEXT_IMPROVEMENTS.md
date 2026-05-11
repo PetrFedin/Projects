@@ -6,7 +6,7 @@
 - Один период управляет «Недавняя активность» и «Партнёрская экосистема»
 - Индекс здоровья: кнопка «Обновить», скелетон при загрузке; при успешном ответе **`GET /api/v1/organization/health/{brandId}`** (`GenericResponse.data` = массив метрик в формате `HealthMetric`) фронт берёт метрики оттуда (`useOrganizationHealth`). Если запрос пустой/ошибка — расчёт на клиенте из profile/dashboard/integrations.
 - Шапка: название организации и юр.данные из API (profile); при ошибке загрузки профиля — сообщение и «Повторить»; при частичном сбое дашборда/интеграций — предупреждение и «Повторить»; участники/онлайн из dashboard (`participantsCount` и др.) или из `user.team`, иначе демо
-- Карточки модулей: целиком кликабельны, aria-label; подстановка `label`/`value`/`status` из `brand/dashboard.moduleStats` (демо полный набор; при активной орг. — участники, «на подписи» из pending заказов, маркировка по `markingSyncStatus`)
+- Карточки модулей: целиком кликабельны, aria-label; подстановка `label`/`value`/`status` из `brand/dashboard.moduleStats` (демо полный набор; при активной орг. — участники из команды, **«На подписи» из ЭДО** `COUNT(EDODocument)` со статусами draft/sent, compliance по `markingSyncStatus`)
 - Партнёрская экосистема: блок «Партнёры по типам» / полоска роста из `dashboard.partnerEcosystem` (`growthByPeriod`, `countsPatchById`, при активной орг. ещё `businessProcessesPatchById` и `ecosystemBlocksPatchById` поверх `PARTNER_*` в page-data)
 - Блок «Требует внимания»: неактивные блоки одного размера (110px), «Детально» в раздел; «Устранить» снимает пункт через `useAttentionAlerts` и **persist в localStorage по brand id** (`attention-dismiss-storage.ts`); начальное состояние из `dashboard.attentionAlerts`
 - Недавняя активность: демо-события с `dayOffset` и `getRecentActivities(сегодня)` — даты в актуальном окне 7/30 дней
@@ -57,8 +57,7 @@
 
 ### 6. Карточки модулей: цифры из API
 
-Сделано: `dashboard.moduleStats` (ключ = `href`) + `mergeNavigationCardsWithModuleStats` на фронте. Дальше — точнее считать профиль/интеграции и реальные документы «на подписи», не через proxy pending orders.
-
+Сделано: `dashboard.moduleStats` (ключ = `href`) + `mergeNavigationCardsWithModuleStats` на фронте. При активной организации карточка **`/brand/documents`** («На подписи») считается из **`EDODocument`** со статусами `draft`/`sent` (`documentsPendingSignature` в ответе дашборда для прозрачности). Дальше — интеграции «активно X/Y» из snapshot статусов без лишних health-check на каждый открытый хаб; профиль с метриками заполненности при расширении моделей.
 ### 7. ~~Партнёрская экосистема: данные по периоду~~ (частично сделано)
 
 Ответ `brand/dashboard.partnerEcosystem`:

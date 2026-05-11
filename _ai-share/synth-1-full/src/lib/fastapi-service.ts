@@ -324,6 +324,7 @@ const MOCK_FALLBACKS: Record<string, any> = {
     collectionsCount: 12,
     markingSyncStatus: 'ok',
     markingLastSync: '09:12',
+    documentsPendingSignature: 2,
   },
   '/brand/integrations/status/': {
     c1c: { status: 'ok' },

@@ -178,6 +178,10 @@ export function useOrganizationHealth() {
     const integrationsHealth = computeIntegrationsHealth(integrations);
     const markingHealth = computeMarkingHealth(dashboard);
 
+    const docPendingSig = Number((dashboard as any)?.documentsPendingSignature) || 0;
+    const docsAttention =
+      docPendingSig > 0 || Boolean(Number((dashboard as any)?.openB2bOrders));
+
     const teamCount = user?.team?.length ?? 0;
     const teamScore = teamCount >= 5 ? 90 : teamCount >= 2 ? 75 : teamCount >= 1 ? 60 : 40;
 
@@ -271,12 +275,12 @@ export function useOrganizationHealth() {
       },
       {
         label: 'Документы',
-        score: (dashboard as any)?.openB2bOrders ? 75 : 85,
+        score: docsAttention ? 75 : 85,
         color: 'bg-amber-500',
         desc: 'Договоры, счета',
         href: '/brand/documents',
         trend: 0,
-        status: 'warning',
+        status: docsAttention ? 'warning' : 'ok',
         details: { lastCheck, checklist: ['Проверьте раздел Документы'] },
       },
       {

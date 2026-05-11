@@ -116,7 +116,8 @@ async def get_organization_health_metrics(brand_id: str, db: AsyncSession) -> Li
     team_count = pc if isinstance(pc, int) and pc >= 0 else 8
     team_score = 90 if team_count >= 5 else (75 if team_count >= 2 else (60 if team_count >= 1 else 40))
 
-    docs_score = 75 if dashboard.get("openB2bOrders") else 85
+    docs_pending = int(dashboard.get("documentsPendingSignature") or 0) if dashboard else 0
+    docs_score = 75 if docs_pending > 0 else 85
 
     metrics: List[Dict[str, Any]] = [
         {
