@@ -26,6 +26,7 @@ const OrganizationOverviewContent = dynamic(
   }
 );
 import { PARTICIPANTS_COUNT, ONLINE_COUNT } from './organization-demo-data';
+import { BRAND_ID } from './organization-config';
 import type { ActivityPeriod } from './_components/organization-overview-lib';
 import type { ModuleStatPatch } from './page-data';
 
@@ -93,10 +94,16 @@ export function OrganizationOverviewEmbed() {
     dashboard,
   } = useOrganizationHealth();
 
+  const attentionBrandId = useMemo(() => {
+    const id = orgProfile?.brand?.id;
+    return typeof id === 'string' && id.trim() !== '' ? id : BRAND_ID;
+  }, [orgProfile?.brand?.id]);
+
   const { alerts, getHistory, getBlockLabel, dismissCertificate, dismissProfile, dismissTask } =
     useAttentionAlerts({
       attentionAlertsFromDashboard: dashboard?.attentionAlerts,
       healthLoading,
+      brandId: attentionBrandId,
     });
 
   const attentionHistory = useMemo(

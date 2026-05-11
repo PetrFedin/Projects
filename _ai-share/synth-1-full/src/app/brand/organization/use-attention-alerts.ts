@@ -3,10 +3,15 @@
  * Блок активен когда items.length > 0. При dismiss — удаляем элемент, блок становится неактивным когда пусто.
  * activeSince — время, с которого блок активен (для отображения в углу).
  * historyByBlock — история действий по каждому блоку (появилось, устранено, изменено) + автор.
- * API-интеграция — позже, сейчас локальный state.
+ * Dismiss для элементов с id сохраняется в localStorage по brandId (см. attention-dismiss-storage).
  */
 
 import { useState, useCallback, useEffect } from 'react';
+import {
+  appendDismissedAlertId,
+  applyAttentionDismissFilters,
+  loadAttentionDismiss,
+} from './attention-dismiss-storage';
 
 export type HistoryEntry = {
   id: string;
@@ -109,52 +114,116 @@ function addHistory(
   };
 }
 
-export function useAttentionAlerts() {
-  const [alerts, setAlerts] = useState<AttentionAlertsState>(getInitialAlertsState);
-  const [activeSince, setActiveSince] = useState<Partial<Record<BlockId, number>>>({});
-  const [historyByBlock, setHistoryByBlock] = useState<Record<BlockId, HistoryEntry[]>>(() => {
-    const init = getInitialAlertsState();
-    const h: Record<BlockId, HistoryEntry[]> = {} as any;
-    init.certificates.forEach((c) => {
-      if (!h.certificates) h.certificates = [];
-      h.certificates.push({
-        id: `h${++historyId}`,
-        action: 'appeared',
-        label: `Появилось: ${c.name}`,
-        author: 'Система',
-        timestamp: Date.now() - 86400000 * 2,
-      });
-    });
-    init.profile.forEach((p) => {
-      if (!h.profile) h.profile = [];
-      h.profile.push({
-        id: `h${++historyId}`,
-        action: 'appeared',
-        label: `Появилось: ${p.name}`,
-        author: 'Система',
-        timestamp: Date.now() - 86400000,
-      });
-    });
-    init.tasks.forEach((t) => {
-      if (!h.tasks) h.tasks = [];
-      h.tasks.push({
-        id: `h${++historyId}`,
-        action: 'appeared',
-        label: `Появилось: ${t.title}`,
-        author: 'Система',
-        timestamp: Date.now() - 3600000,
-      });
-    });
-    if (!h.systems) h.systems = [];
-    h.systems.push({
+/** Validates dashboard/API payload → состояние «Требует внимания». null если передано некорректно. */
+export function normalizeAttentionAlertsPayload(raw: unknown): AttentionAlertsState | null {
+  if (raw == null || typeof raw !== 'object') return null;
+  const o = raw as Record<string, unknown>;
+  const certsRaw = Array.isArray(o.certificates) ? o.certificates : [];
+  const certificates = certsRaw
+    .filter((x): x is Record<string, unknown> => x != null && typeof x === 'object')
+    .map((x) => ({
+      id: String(x.id ?? ''),
+      name: String(x.name ?? ''),
+      daysLeft: Number(Number.isFinite(Number(x.daysLeft)) ? x.daysLeft : 0),
+    }))
+    .filter((x) => x.id !== '' && x.name !== '');
+
+  const profileRaw = Array.isArray(o.profile) ? o.profile : [];
+  const profile = profileRaw
+    .filter((x): x is Record<string, unknown> => x != null && typeof x === 'object')
+    .map((x) => ({
+      id: String(x.id ?? ''),
+      name: String(x.name ?? ''),
+      detail: String(x.detail ?? ''),
+    }))
+    .filter((x) => x.id !== '' && x.name !== '');
+
+  const tasksRaw = Array.isArray(o.tasks) ? o.tasks : [];
+  const tasks = tasksRaw
+    .filter((x): x is Record<string, unknown> => x != null && typeof x === 'object')
+    .map((x) => ({
+      id: String(x.id ?? ''),
+      title: String(x.title ?? ''),
+      priority: String(x.priority ?? ''),
+    }))
+    .filter((x) => x.id !== '' && x.title !== '');
+
+  const integrationIssues = (
+    Array.isArray(o.integrationIssues) ? o.integrationIssues : []
+  ).filter((x): x is string => typeof x === 'string' && x.length > 0);
+
+  return { certificates, profile, tasks, integrationIssues };
+}
+
+function buildHistorySeed(init: AttentionAlertsState): Record<BlockId, HistoryEntry[]> {
+  const h: Record<BlockId, HistoryEntry[]> = {} as Record<BlockId, HistoryEntry[]>;
+  init.certificates.forEach((c) => {
+    if (!h.certificates) h.certificates = [];
+    h.certificates.push({
       id: `h${++historyId}`,
       action: 'appeared',
-      label: 'Системы в норме',
+      label: `Появилось: ${c.name}`,
       author: 'Система',
-      timestamp: Date.now() - 7200000,
+      timestamp: Date.now() - 86400000 * 2,
     });
-    return h;
   });
+  init.profile.forEach((p) => {
+    if (!h.profile) h.profile = [];
+    h.profile.push({
+      id: `h${++historyId}`,
+      action: 'appeared',
+      label: `Появилось: ${p.name}`,
+      author: 'Система',
+      timestamp: Date.now() - 86400000,
+    });
+  });
+  init.tasks.forEach((t) => {
+    if (!h.tasks) h.tasks = [];
+    h.tasks.push({
+      id: `h${++historyId}`,
+      action: 'appeared',
+      label: `Появилось: ${t.title}`,
+      author: 'Система',
+      timestamp: Date.now() - 3600000,
+    });
+  });
+  if (!h.systems) h.systems = [];
+  h.systems.push({
+    id: `h${++historyId}`,
+    action: 'appeared',
+    label: 'Системы в норме',
+    author: 'Система',
+    timestamp: Date.now() - 7200000,
+  });
+  return h;
+}
+
+export type UseAttentionAlertsOpts = {
+  attentionAlertsFromDashboard?: unknown;
+  healthLoading?: boolean;
+  /** Ключ persisted dismiss (profile.brand.id или BRAND_ID). */
+  brandId?: string;
+};
+
+export function useAttentionAlerts(opts?: UseAttentionAlertsOpts) {
+  const [alerts, setAlerts] = useState<AttentionAlertsState>(getInitialAlertsState);
+  const [activeSince, setActiveSince] = useState<Partial<Record<BlockId, number>>>({});
+  const [historyByBlock, setHistoryByBlock] = useState<Record<BlockId, HistoryEntry[]>>(() =>
+    buildHistorySeed(getInitialAlertsState())
+  );
+
+  useEffect(() => {
+    if (opts?.healthLoading) return;
+    const raw = opts?.attentionAlertsFromDashboard;
+    if (raw === undefined) return;
+    const normalized = normalizeAttentionAlertsPayload(raw);
+    if (normalized === null) return;
+    const bid = opts?.brandId;
+    const dismissed = bid ? loadAttentionDismiss(bid) : null;
+    const merged = applyAttentionDismissFilters(normalized, dismissed);
+    setAlerts(merged);
+    setHistoryByBlock(buildHistorySeed(merged));
+  }, [opts?.healthLoading, opts?.attentionAlertsFromDashboard, opts?.brandId]);
 
   const isBlockActive = useCallback(
     (id: BlockId) => {
@@ -197,18 +266,21 @@ export function useAttentionAlerts() {
     return () => clearInterval(t);
   }, []);
 
+  const brandId = opts?.brandId;
+
   const dismissCertificate = useCallback(
     (id: string) => {
       const cert = alerts.certificates.find((c) => c.id === id);
       setHistoryByBlock((prev) =>
         addHistory(prev, 'certificates', 'dismissed', `Устранено: ${cert?.name ?? id}`, 'Вы')
       );
+      if (brandId) appendDismissedAlertId(brandId, 'certificateIds', id);
       setAlerts((prev) => ({
         ...prev,
         certificates: prev.certificates.filter((c) => c.id !== id),
       }));
     },
-    [alerts.certificates]
+    [alerts.certificates, brandId]
   );
 
   const dismissProfile = useCallback(
@@ -217,12 +289,13 @@ export function useAttentionAlerts() {
       setHistoryByBlock((prev) =>
         addHistory(prev, 'profile', 'dismissed', `Устранено: ${p?.name ?? id}`, 'Вы')
       );
+      if (brandId) appendDismissedAlertId(brandId, 'profileIds', id);
       setAlerts((prev) => ({
         ...prev,
         profile: prev.profile.filter((p) => p.id !== id),
       }));
     },
-    [alerts.profile]
+    [alerts.profile, brandId]
   );
 
   const dismissTask = useCallback(
@@ -231,12 +304,13 @@ export function useAttentionAlerts() {
       setHistoryByBlock((prev) =>
         addHistory(prev, 'tasks', 'dismissed', `Устранено: ${t?.title ?? id}`, 'Вы')
       );
+      if (brandId) appendDismissedAlertId(brandId, 'taskIds', id);
       setAlerts((prev) => ({
         ...prev,
         tasks: prev.tasks.filter((t) => t.id !== id),
       }));
     },
-    [alerts.tasks]
+    [alerts.tasks, brandId]
   );
 
   const getActiveDuration = useCallback(
