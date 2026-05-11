@@ -25,8 +25,7 @@ const OrganizationOverviewContent = dynamic(
   }
 );
 import { PARTICIPANTS_COUNT, ONLINE_COUNT } from './organization-demo-data';
-
-type ActivityPeriod = '7d' | '30d' | { from: Date; to: Date };
+import type { ActivityPeriod } from './_components/organization-overview-lib';
 
 function toDateStr(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
