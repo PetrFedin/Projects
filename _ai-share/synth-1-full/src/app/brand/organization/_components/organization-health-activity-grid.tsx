@@ -351,7 +351,11 @@ export function OrganizationHealthActivityGrid({
             {/* Высота подобрана так, чтобы после отступа (mt-4) первая строка активности была на уровне «Полнота профиля» */}
             <div className="flex min-h-[3.25rem] shrink-0 flex-col justify-end">
               {/* Период задаётся только в Organization Hub выше (S3 — один контрол) */}
-              <div className="bg-bg-surface2 border-border-default mb-0 flex w-fit items-center gap-1 rounded-[4px] border p-0.5">
+              <div
+                role="radiogroup"
+                aria-label="Фильтр списка активности по участнику"
+                className="bg-bg-surface2 border-border-default mb-0 flex w-fit items-center gap-1 rounded-[4px] border p-0.5"
+              >
                 {ACTIVITY_PARTICIPANTS.map((p) => {
                   const Icon = p.Icon ?? Users;
                   const participantStyle: Record<string, { bg: string; text: string }> = {
@@ -368,9 +372,10 @@ export function OrganizationHealthActivityGrid({
                       <TooltipTrigger asChild>
                         <button
                           type="button"
+                          role="radio"
+                          aria-checked={activityParticipant === p.id}
                           onClick={() => setActivityParticipant(p.id)}
-                          aria-label={p.label}
-                          aria-pressed={activityParticipant === p.id}
+                          aria-label={`Участник: ${p.label}`}
                           className={cn(
                             'flex h-7 w-7 items-center justify-center rounded-[4px] transition-all',
                             activityParticipant === p.id
@@ -378,7 +383,7 @@ export function OrganizationHealthActivityGrid({
                               : cn(style.bg, style.text, 'hover:opacity-90')
                           )}
                         >
-                          <Icon className="h-3.5 w-3.5" />
+                          <Icon className="h-3.5 w-3.5" aria-hidden />
                         </button>
                       </TooltipTrigger>
                       <TooltipContent side="bottom" className="text-[10px] font-bold uppercase">

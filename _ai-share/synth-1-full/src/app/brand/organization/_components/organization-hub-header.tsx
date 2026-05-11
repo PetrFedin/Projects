@@ -277,7 +277,10 @@ export function OrganizationHubHeader({
             </div>
           </div>
           <div className="flex shrink-0 flex-wrap items-center gap-2">
-            <span className="text-text-muted text-[9px] font-bold uppercase">
+            <span
+              id="org-hub-period-heading"
+              className="text-text-muted text-[9px] font-bold uppercase"
+            >
               Период:
               {typeof activityPeriod === 'object' && (
                 <span className="text-text-secondary ml-1 font-normal normal-case">
@@ -286,29 +289,35 @@ export function OrganizationHubHeader({
               )}
             </span>
             <div className="bg-bg-surface2 border-border-default flex h-[26px] items-center gap-1 rounded-[4px] border p-0.5 shadow-sm">
-              {(['7d', '30d'] as const).map((p) => (
-                <button
-                  key={p}
-                  type="button"
-                  onClick={() => setActivityPeriod(p)}
-                  aria-label={p === '7d' ? 'Период: 7 дней' : 'Период: 30 дней'}
-                  aria-pressed={activityPeriod === p}
-                  className={cn(
-                    'flex h-[20px] min-h-[20px] items-center rounded-[2px] px-2.5 text-[9px] font-black uppercase tracking-widest transition-all',
-                    activityPeriod === p
-                      ? 'text-text-primary ring-border-default bg-white shadow-sm ring-1'
-                      : 'text-text-muted hover:text-text-secondary hover:bg-white/50'
-                  )}
-                >
-                  {p === '7d' ? '7 дней' : '30 дней'}
-                </button>
-              ))}
+              <div
+                role="radiogroup"
+                aria-labelledby="org-hub-period-heading"
+                className="flex items-center gap-1"
+              >
+                {(['7d', '30d'] as const).map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    role="radio"
+                    aria-checked={activityPeriod === p}
+                    onClick={() => setActivityPeriod(p)}
+                    aria-label={p === '7d' ? 'Период: 7 дней' : 'Период: 30 дней'}
+                    className={cn(
+                      'flex h-[20px] min-h-[20px] items-center rounded-[2px] px-2.5 text-[9px] font-black uppercase tracking-widest transition-all',
+                      activityPeriod === p
+                        ? 'text-text-primary ring-border-default bg-white shadow-sm ring-1'
+                        : 'text-text-muted hover:text-text-secondary hover:bg-white/50'
+                    )}
+                  >
+                    {p === '7d' ? '7 дней' : '30 дней'}
+                  </button>
+                ))}
+              </div>
               <Popover>
                 <PopoverTrigger asChild>
                   <button
                     type="button"
-                    aria-label="Выбрать период по календарю"
-                    aria-expanded={typeof activityPeriod === 'object'}
+                    aria-label="Произвольный период: открыть календарь"
                     className={cn(
                       'flex h-[20px] min-h-[20px] items-center gap-1 rounded-[2px] px-2.5 text-[9px] font-black uppercase tracking-widest transition-all',
                       typeof activityPeriod === 'object'
@@ -316,11 +325,12 @@ export function OrganizationHubHeader({
                         : 'text-text-muted hover:text-text-secondary hover:bg-white/50'
                     )}
                   >
-                    <CalendarIcon className="h-3 w-3" /> Календарь
+                    <CalendarIcon className="h-3 w-3" aria-hidden /> Календарь
                   </button>
                 </PopoverTrigger>
                 <PopoverContent
                   align="end"
+                  aria-label="Календарь: выбор диапазона дат для активности и модулей"
                   className="border-border-default w-auto rounded-xl p-0 shadow-xl"
                 >
                   <CalendarComponent
