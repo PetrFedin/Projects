@@ -4,14 +4,14 @@
 
 - Общий период (7 дней / 30 дней / Календарь) в шапке, справа от «Организация › Центр управления»
 - Один период управляет «Недавняя активность» и «Партнёрская экосистема»
-- Индекс здоровья: кнопка «Обновить», скелетон при загрузке, данные из API (profile/dashboard/integrations); KPI brand/dashboard частично из БД (см. п.5)
+- Индекс здоровья: кнопка «Обновить», скелетон при загрузке; при успешном ответе **`GET /api/v1/organization/health/{brandId}`** (`GenericResponse.data` = массив метрик в формате `HealthMetric`) фронт берёт метрики оттуда (`useOrganizationHealth`). Если запрос пустой/ошибка — расчёт на клиенте из profile/dashboard/integrations.
 - Шапка: название организации и юр.данные из API (profile); при ошибке загрузки профиля — сообщение и «Повторить»; при частичном сбое дашборда/интеграций — предупреждение и «Повторить»; участники/онлайн из dashboard (`participantsCount` и др.) или из `user.team`, иначе демо
 - Карточки модулей: целиком кликабельны, aria-label; подстановка `label`/`value`/`status` из `brand/dashboard.moduleStats` (демо полный набор; при активной орг. — участники, «на подписи» из pending заказов, маркировка по `markingSyncStatus`)
 - Партнёрская экосистема: блок «Партнёры по типам» / полоска роста из `dashboard.partnerEcosystem` (`growthByPeriod`, `countsPatchById`, при активной орг. ещё `businessProcessesPatchById` и `ecosystemBlocksPatchById` поверх `PARTNER_*` в page-data)
 - Блок «Требует внимания»: неактивные блоки одного размера (110px), «Детально» в раздел; «Устранить» снимает пункт через `useAttentionAlerts` и **persist в localStorage по brand id** (`attention-dismiss-storage.ts`); начальное состояние из `dashboard.attentionAlerts`
 - Недавняя активность: демо-события с `dayOffset` и `getRecentActivities(сегодня)` — даты в актуальном окне 7/30 дней
 - Рефакторинг UI обзора: секции вынесены в `_components/*`
-- Бэкенд: эндпоинты `/api/v1/brand/profile`, `/api/v1/brand/dashboard`, `/api/v1/brand/integrations`, `/api/v1/organization/health` (пока заглушки)
+- Бэкенд: `/api/v1/brand/profile`, `/api/v1/brand/dashboard`, `/api/v1/brand/integrations`; **`/api/v1/organization/health/{brand_id}`** — агрегация метрик через `organization_health_service` (профиль и дашборд из БД, интеграции через `fetch_integrations_status_data`; имейте в виду дублирующие запросы при параллельной загрузке хаба и health).
 
 ---
 
@@ -39,6 +39,7 @@
 Инициализация из `brand/dashboard.attentionAlerts` после загрузки (`useAttentionAlerts`). **Dismiss:** «Устранить» по пунктам с id сохраняется в **localStorage** по ключу бренда (`profile.brand.id` или fallback `BRAND_ID` из `organization-config`) — см. `attention-dismiss-storage.ts`. После перезагрузки страницы скрытые id не показываются, пока API снова не пришлёт те же записи (тогда пользователь может скрыть снова).
 
 Дальше: синхронизация dismiss с бэкендом для нескольких устройств; отдельные действия по строкам `integrationIssues` (сейчас без dismiss).
+
 ### 5. Brand/dashboard — реальные агрегаты
 
 **Частично:** в `app/api/v1/endpoints/brand.py` (`fetch_brand_dashboard_data`) сняты частые заглушки при «активной» организации (`orders` / `showrooms` / `members`):
@@ -84,10 +85,14 @@
 
 Там, где данные приходят с API (шапка при первом загрузке профиля, партнёрская экосистема при появлении API), добавить скелетоны вместо резкого появления контента.
 
-### 10. Organization health с бэкенда
+### 10. ~~Organization health с бэкенда~~ (частично сделано)
 
-Сейчас `/organization/health` возвращает `[]`, фронт сам считает метрики из profile/dashboard/integrations. Опционально: бэкенд считает агрегированные метрики и возвращает их в `data`, фронт использует при наличии.
+**Контракт:** `GET /api/v1/organization/health/{brand_id}` → `GenericResponse.data`: массив словарей в форме метрик хаба (`label`, `score`, `color`, `href`, `status`, `details`, …). Реализация: `app/services/organization_health_service.py` вызывает `fetch_brand_profile_data` / `fetch_brand_dashboard_data` с **`AsyncSession`** и `fetch_integrations_status_data`; счёт «Активность команды» берёт `participantsCount` из дашборда (fallback 8 как демо).
+
+**Фронт:** `useOrganizationHealth` — если `data` непустой массив, это источник правды для блока индекса; иначе локальный расчёт (как раньше).
+
+**Дальше:** кэш/snapshot чтобы не трижды дергать профиль+дашборд при открытии хаба; доменные_scores для «Безопасность», «Документы», «Настройки» вместо статических заглушек.
 
 ---
 
-Рекомендуемый следующий шаг: **п.10** (health API или явный client-only контракт), **п.8–9**, или доработка **п.5/п.6** под доменные счётчики.
+Рекомендуемый следующий шаг: **п.8–9** (a11y и скелетоны), **п.5/п.6** (доменные агрегаты и module stats без proxy), или кэширование health при загрузке хаба.

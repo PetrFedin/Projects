@@ -169,6 +169,7 @@ export function useOrganizationHealth() {
         ? ((apiHealthData as any)?.data ?? apiHealthData)
         : null;
 
+    // Backend: GET /api/v1/organization/health/{brandId} → { data: HealthMetric[] }
     if (Array.isArray(api) && api.length > 0) {
       return api as HealthMetric[];
     }

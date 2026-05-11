@@ -6,6 +6,8 @@ Computes health scores from profile, dashboard, and integrations data.
 from datetime import date
 from typing import Any, Dict, List
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 HEALTH_OK = 85
 HEALTH_WARNING = 60
 
@@ -89,10 +91,10 @@ def _compute_marking_score(dashboard: Dict[str, Any]) -> tuple[int, List[str]]:
     return score, checklist
 
 
-async def get_organization_health_metrics(brand_id: str) -> List[Dict[str, Any]]:
+async def get_organization_health_metrics(brand_id: str, db: AsyncSession) -> List[Dict[str, Any]]:
     """
     Aggregate health metrics from profile, dashboard, integrations.
-    Returns list of HealthMetric-shaped dicts for frontend.
+    Returns list of HealthMetric-shaped dicts for frontend (organization hub).
     """
     from app.api.v1.endpoints.brand import (
         fetch_brand_profile_data,
@@ -102,15 +104,16 @@ async def get_organization_health_metrics(brand_id: str) -> List[Dict[str, Any]]
 
     last_check = date.today().strftime("%d.%m.%Y")
 
-    profile = await fetch_brand_profile_data(brand_id)
-    dashboard = await fetch_brand_dashboard_data(brand_id)
+    profile = await fetch_brand_profile_data(brand_id, db)
+    dashboard = await fetch_brand_dashboard_data(brand_id, db)
     integrations = await fetch_integrations_status_data(brand_id)
 
     profile_score, profile_checklist, profile_missing, profile_tips = _compute_profile_score(profile)
     int_score, int_checklist, int_missing, int_tips = _compute_integrations_score(integrations)
     marking_score, marking_checklist = _compute_marking_score(dashboard)
 
-    team_count = 8  # TODO: from staff/team API
+    pc = dashboard.get("participantsCount")
+    team_count = pc if isinstance(pc, int) and pc >= 0 else 8
     team_score = 90 if team_count >= 5 else (75 if team_count >= 2 else (60 if team_count >= 1 else 40))
 
     docs_score = 75 if dashboard.get("openB2bOrders") else 85
@@ -159,7 +162,9 @@ async def get_organization_health_metrics(brand_id: str) -> List[Dict[str, Any]]
             "label": "Интеграции",
             "score": int_score,
             "color": _color_from_score(int_score),
-            "desc": f"{sum(1 for v in integrations.values() if (v or {}).get('status') == 'ok')} активных" if integrations else "Проверьте статус",
+            "desc": f"{sum(1 for v in (integrations or {}).values() if (v or {}).get('status') == 'ok')} активных"
+            if integrations
+            else "Проверьте статус",
             "href": "/brand/integrations",
             "trend": 0,
             "status": _status_from_score(int_score),
