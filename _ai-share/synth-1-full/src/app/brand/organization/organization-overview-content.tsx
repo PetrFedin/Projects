@@ -91,6 +91,8 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
     <>
       <OrganizationHubHeader
         healthLoading={healthLoading}
+        healthError={healthError}
+        onRetryHealth={refetchHealth}
         orgProfile={orgProfile}
         participantsCount={participantsCount}
         onlineCount={onlineCount}

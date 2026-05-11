@@ -20,6 +20,8 @@ import { formatActivityPeriod } from './organization-overview-lib';
 
 export type OrganizationHubHeaderProps = {
   healthLoading: boolean;
+  healthError?: Error | null;
+  onRetryHealth?: () => void;
   orgProfile: any;
   participantsCount: number;
   onlineCount: number;
@@ -31,6 +33,8 @@ export type OrganizationHubHeaderProps = {
 
 export function OrganizationHubHeader({
   healthLoading,
+  healthError,
+  onRetryHealth,
   orgProfile,
   participantsCount,
   onlineCount,
@@ -42,6 +46,25 @@ export function OrganizationHubHeader({
   return (
     <div className="border-border-subtle from-bg-surface2/50 rounded-2xl border bg-gradient-to-br to-white p-5 shadow-sm">
       <div className="flex flex-col gap-4">
+        {!healthLoading && healthError && onRetryHealth ? (
+          <div
+            role="alert"
+            className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-rose-200 bg-rose-50/90 px-3 py-2"
+          >
+            <p className="text-[10px] font-medium leading-snug text-rose-900">
+              {healthError.message || 'Не удалось загрузить данные организации'}
+            </p>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-7 shrink-0 border-rose-300 text-[9px] font-bold text-rose-900 hover:bg-rose-100"
+              onClick={onRetryHealth}
+            >
+              Повторить
+            </Button>
+          </div>
+        ) : null}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-accent-primary/15 text-accent-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
