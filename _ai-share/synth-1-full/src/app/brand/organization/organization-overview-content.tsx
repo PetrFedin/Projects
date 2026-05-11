@@ -109,7 +109,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
         setCustomRange={setCustomRange}
       />
 
-      <OrganizationRoleReportsSection />
+      <OrganizationRoleReportsSection healthLoading={healthLoading} />
 
       <OrganizationAttentionAlertsSection
         globalHistory={globalHistory}

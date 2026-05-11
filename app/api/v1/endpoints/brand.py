@@ -300,7 +300,8 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
     """
     Brand KPIs: real counts from DB (orders, showrooms, linesheets, team members).
     Fallback to demo values when tables are empty for investor demo.
-    Hub presence: participantsCount / onlineCount (online heuristic ~⅓ of team when DB has members).
+    Hub presence: participantsCount / onlineCount (+ aliases teamMembersCount, membersCount,
+    membersOnline). Online heuristic ~⅓ of team when DB has members.
     """
     # Orders
     order_count = (await db.execute(select(func.count(Order.id)).where(Order.organization_id == brand_id))).scalar() or 0
@@ -534,6 +535,10 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         "linesheetsCount": linesheet_count,
         "participantsCount": participants_count,
         "onlineCount": online_count,
+        # Алиасы под фронт (organizationPresence / шапка)
+        "teamMembersCount": participants_count,
+        "membersCount": participants_count,
+        "membersOnline": online_count,
         "attentionAlerts": attention_alerts,
         "documentsPendingSignature": int(edo_pending),
         "inventorySyncFailed30d": inventory_sync_failed_30d,

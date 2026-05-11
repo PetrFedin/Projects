@@ -49,3 +49,28 @@ export function OrgHubModulesStripSkeleton({ className }: { className?: string }
     </div>
   );
 }
+
+const ROLE_REPORTS_PANEL =
+  'rounded-xl border border-border-subtle bg-bg-surface shadow-sm';
+
+/** Пока грузится health/дашборд — заглушка под блок отчётов по ролям */
+export function OrgHubRoleReportsSkeleton({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(ROLE_REPORTS_PANEL, 'space-y-3 p-4', className)}
+      aria-busy="true"
+      aria-label="Загрузка блока отчётов по ролям"
+    >
+      <div className="bg-bg-surface2 h-3 w-full max-w-md animate-pulse rounded" aria-hidden />
+      <div className="flex flex-wrap gap-2">
+        {Array.from({ length: 9 }).map((_, j) => (
+          <div
+            key={j}
+            className="border-border-subtle bg-bg-surface2/80 h-8 w-[4.5rem] animate-pulse rounded-md border"
+            aria-hidden
+          />
+        ))}
+      </div>
+    </div>
+  );
+}

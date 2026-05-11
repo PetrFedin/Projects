@@ -11,12 +11,39 @@ import { cn } from '@/lib/utils';
 import { SectionBlock } from '@/components/brand/SectionBlock';
 import type { RoleReport } from './organization-overview-lib';
 import { ROLE_REPORTS } from './organization-overview-lib';
+import { OrgHubRoleReportsSkeleton } from './organization-hub-skeletons';
 
-export function OrganizationRoleReportsSection() {
+export type OrganizationRoleReportsSectionProps = {
+  /** Совместно с партнёрским блоком и модулями — без статики поверх неготовых данных */
+  healthLoading?: boolean;
+};
+
+export function OrganizationRoleReportsSection({
+  healthLoading = false,
+}: OrganizationRoleReportsSectionProps) {
   const { profile } = useAuth();
   const { businessMode } = useUIState();
   const [activeReportRole, setActiveReportRole] = useState<RoleReport | null>(null);
   const canSeeRoleReports = !!profile;
+
+  if (healthLoading) {
+    return (
+      <SectionBlock
+        title="Результаты бренда по ролям"
+        meta={{
+          description: 'Краткое описание результатов бренда с позиции CEO, CFO, COO и др.',
+          purpose:
+            'Для владельцев и пользователей, зарегистрированных под соответствующей ролью.',
+          functionality: ['Отчёт CEO', 'Отчёт CFO', 'Отчёт COO', 'и др.'],
+          importance: 7,
+        }}
+        accentColor="indigo"
+        className="min-w-0"
+      >
+        <OrgHubRoleReportsSkeleton />
+      </SectionBlock>
+    );
+  }
 
   if (!canSeeRoleReports) return null;
 
