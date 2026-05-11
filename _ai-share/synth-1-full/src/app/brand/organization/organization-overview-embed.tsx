@@ -9,6 +9,7 @@ import type { HistoryEntry } from '@/components/brand/SectionBlock';
 import { useOrganizationHealth } from '@/hooks/use-organization-health';
 import { useToast } from '@/hooks/use-toast';
 import { useAttentionAlerts } from './use-attention-alerts';
+import type { BlockId } from './use-attention-alerts';
 const OrganizationOverviewContent = dynamic(
   () =>
     import('./organization-overview-content').then((m) => ({
@@ -62,7 +63,6 @@ export function OrganizationOverviewEmbed() {
   const [openCommentFor, setOpenCommentFor] = useState<number | null>(null);
   const [commentText, setCommentText] = useState('');
   const [blockedActivities, setBlockedActivities] = useState<RecentActivity[]>([]);
-  const [alertHelpKey, setAlertHelpKey] = useState<string | null>(null);
 
   const activityKey = (a: RecentActivity) => `${a.user}|${a.action}|${a.time}|${a.dateStr}`;
   const isBlocked = (a: RecentActivity) =>
@@ -79,15 +79,7 @@ export function OrganizationOverviewEmbed() {
   };
 
   const { toast } = useToast();
-  const {
-    alerts,
-    getActiveDuration,
-    getHistory,
-    getBlockLabel,
-    dismissCertificate,
-    dismissProfile,
-    dismissTask,
-  } = useAttentionAlerts();
+  const { alerts, getHistory, getBlockLabel } = useAttentionAlerts();
 
   const attentionHistory = (['certificates', 'profile', 'systems', 'tasks'] as const)
     .flatMap((id) => getHistory(id).map((e) => ({ ...e, blockLabel: getBlockLabel(id) })))
@@ -122,14 +114,6 @@ export function OrganizationOverviewEmbed() {
       .slice(0, 50) as HistoryEntry[];
   }, [attentionHistory, filteredActivities]);
 
-  const formatHistoryTime = (ts: number) => {
-    const diff = Date.now() - ts;
-    if (diff < 60000) return 'только что';
-    if (diff < 3600000) return `${Math.floor(diff / 60000)} мин`;
-    if (diff < 86400000) return `${Math.floor(diff / 3600000)} ч`;
-    return `${Math.floor(diff / 86400000)} д`;
-  };
-
   const resolvedKey = searchParams?.get('resolved') ?? null;
   useEffect(() => {
     if (resolvedKey) {
@@ -146,7 +130,6 @@ export function OrganizationOverviewEmbed() {
     error: healthError,
     refetch: refetchHealth,
     profile: orgProfile,
-    dashboard: orgDashboard,
   } = useOrganizationHealth();
 
   const modulesPeriodKey = typeof activityPeriod === 'object' ? '30d' : activityPeriod;
@@ -155,7 +138,6 @@ export function OrganizationOverviewEmbed() {
     <OrganizationOverviewContent
       modulesPeriodKey={modulesPeriodKey}
       orgProfile={orgProfile}
-      orgDashboard={orgDashboard}
       healthMetrics={healthMetrics}
       overallHealth={overallHealth}
       lastCheck={lastCheck}
@@ -168,7 +150,6 @@ export function OrganizationOverviewEmbed() {
       setCustomRange={setCustomRange}
       activityParticipant={activityParticipant}
       setActivityParticipant={setActivityParticipant}
-      blockedActivities={blockedActivities}
       setBlockedActivities={setBlockedActivities}
       openBlockFor={openBlockFor}
       setOpenBlockFor={setOpenBlockFor}
@@ -176,24 +157,14 @@ export function OrganizationOverviewEmbed() {
       setOpenCommentFor={setOpenCommentFor}
       commentText={commentText}
       setCommentText={setCommentText}
-      alertHelpKey={alertHelpKey}
-      setAlertHelpKey={setAlertHelpKey}
       toast={toast}
       alerts={alerts}
-      getActiveDuration={getActiveDuration}
-      getHistory={getHistory}
-      getBlockLabel={getBlockLabel}
-      dismissCertificate={dismissCertificate}
-      dismissProfile={dismissProfile}
-      dismissTask={dismissTask}
-      attentionHistory={attentionHistory}
+      getBlockLabel={(key) => getBlockLabel(key as BlockId)}
       filteredActivities={filteredActivities}
       globalHistory={globalHistory}
-      formatHistoryTime={formatHistoryTime}
       activityKey={activityKey}
       isBlocked={isBlocked}
       getCorrectionHref={getCorrectionHref}
-      resolvedKey={resolvedKey}
       participantsCount={PARTICIPANTS_COUNT}
       onlineCount={ONLINE_COUNT}
     />

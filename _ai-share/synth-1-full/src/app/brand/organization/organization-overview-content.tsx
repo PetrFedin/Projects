@@ -14,7 +14,6 @@ import { OrganizationModulesSection } from './_components/organization-modules-s
 export type OrganizationOverviewContentProps = {
   modulesPeriodKey: '7d' | '30d';
   orgProfile: any;
-  orgDashboard: any;
   healthMetrics: any[];
   overallHealth: number;
   lastCheck: string;
@@ -27,7 +26,6 @@ export type OrganizationOverviewContentProps = {
   setCustomRange: (r: { from?: Date; to?: Date }) => void;
   activityParticipant: string;
   setActivityParticipant: (p: string) => void;
-  blockedActivities: RecentActivity[];
   setBlockedActivities: React.Dispatch<React.SetStateAction<RecentActivity[]>>;
   openBlockFor: number | null;
   setOpenBlockFor: (n: number | null) => void;
@@ -35,27 +33,16 @@ export type OrganizationOverviewContentProps = {
   setOpenCommentFor: (n: number | null) => void;
   commentText: string;
   setCommentText: (s: string) => void;
-  alertHelpKey: string | null;
-  setAlertHelpKey: (k: string | null) => void;
   toast: any;
   alerts: any;
-  getActiveDuration: any;
-  getHistory: any;
-  getBlockLabel: any;
-  dismissCertificate: any;
-  dismissProfile: any;
-  dismissTask: any;
-  attentionHistory: any[];
+  getBlockLabel: (key: string) => string;
   filteredActivities: RecentActivity[];
   globalHistory: HistoryEntry[];
-  formatHistoryTime: (ts: number) => string;
   activityKey: (a: RecentActivity) => string;
   isBlocked: (a: RecentActivity) => boolean;
   getCorrectionHref: (act: RecentActivity) => string;
-  resolvedKey: string | null;
   participantsCount?: number;
   onlineCount?: number;
-  [key: string]: unknown;
 };
 
 export function OrganizationOverviewContent(props: OrganizationOverviewContentProps) {
@@ -69,7 +56,6 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
     setCustomRange,
     activityParticipant,
     setActivityParticipant,
-    blockedActivities,
     openBlockFor,
     setOpenBlockFor,
     openCommentFor,
@@ -91,9 +77,6 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
     refetchHealth,
     alerts,
     getBlockLabel,
-    dismissCertificate,
-    dismissProfile,
-    dismissTask,
     participantsCount = 24,
     onlineCount = 8,
   } = props;
