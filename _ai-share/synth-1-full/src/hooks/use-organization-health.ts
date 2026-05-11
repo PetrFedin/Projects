@@ -100,6 +100,7 @@ export function useOrganizationHealth() {
   const [integrations, setIntegrations] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [partialLoadWarning, setPartialLoadWarning] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -116,12 +117,23 @@ export function useOrganizationHealth() {
       const dashboardResVal = dashboardRes.status === 'fulfilled' ? dashboardRes.value : null;
       const integrationsResVal =
         integrationsRes.status === 'fulfilled' ? integrationsRes.value : null;
-      if (profileRes.status === 'rejected')
+      if (profileRes.status === 'rejected') {
         setError(
           profileRes.reason instanceof Error
             ? profileRes.reason
             : new Error('Не удалось загрузить профиль')
         );
+        setPartialLoadWarning(null);
+      } else {
+        const warnParts: string[] = [];
+        if (dashboardRes.status === 'rejected') warnParts.push('дашборд');
+        if (integrationsRes.status === 'rejected') warnParts.push('интеграции');
+        setPartialLoadWarning(
+          warnParts.length > 0
+            ? `Не удалось загрузить: ${warnParts.join(', ')}. Данные могут быть неполными.`
+            : null
+        );
+      }
       setApiHealthData(api);
       const p =
         profileResVal && typeof profileResVal === 'object'
@@ -140,6 +152,7 @@ export function useOrganizationHealth() {
       setIntegrations(i);
     } catch (e) {
       setError(e instanceof Error ? e : new Error('Не удалось загрузить данные'));
+      setPartialLoadWarning(null);
     } finally {
       setLoading(false);
     }
@@ -284,15 +297,48 @@ export function useOrganizationHealth() {
   );
   const lastCheck = metrics[0]?.details?.lastCheck ?? formatDate(new Date());
 
+  const organizationPresence = useMemo(() => {
+    const d = dashboard && typeof dashboard === 'object' ? (dashboard as Record<string, unknown>) : null;
+    const fromDashboardParticipants =
+      typeof d?.participantsCount === 'number'
+        ? (d.participantsCount as number)
+        : typeof d?.teamMembersCount === 'number'
+          ? (d.teamMembersCount as number)
+          : typeof d?.membersCount === 'number'
+            ? (d.membersCount as number)
+            : undefined;
+    const fromDashboardOnline =
+      typeof d?.onlineCount === 'number'
+        ? (d.onlineCount as number)
+        : typeof d?.membersOnline === 'number'
+          ? (d.membersOnline as number)
+          : undefined;
+    const teamLen = Array.isArray(user?.team) ? user.team.length : undefined;
+    const participantsCount =
+      fromDashboardParticipants != null && fromDashboardParticipants >= 0
+        ? fromDashboardParticipants
+        : teamLen != null && teamLen > 0
+          ? teamLen
+          : undefined;
+    let onlineCount =
+      fromDashboardOnline != null && fromDashboardOnline >= 0 ? fromDashboardOnline : undefined;
+    if (onlineCount != null && participantsCount != null) {
+      onlineCount = Math.min(onlineCount, participantsCount);
+    }
+    return { participantsCount, onlineCount };
+  }, [dashboard, user?.team]);
+
   return {
     metrics,
     overallHealth,
     lastCheck,
     isLoading: loading,
     error,
+    partialLoadWarning,
     refetch: fetchData,
     profile,
     dashboard,
     integrations,
+    organizationPresence,
   };
 }

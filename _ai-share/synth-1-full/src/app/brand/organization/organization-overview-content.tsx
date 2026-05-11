@@ -46,6 +46,7 @@ export type OrganizationOverviewContentProps = {
   getCorrectionHref: (act: RecentActivity) => string;
   participantsCount?: number;
   onlineCount?: number;
+  partialLoadWarning?: string | null;
 };
 
 export function OrganizationOverviewContent(props: OrganizationOverviewContentProps) {
@@ -85,6 +86,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
     dismissTask,
     participantsCount = 24,
     onlineCount = 8,
+    partialLoadWarning,
   } = props;
 
   return (
@@ -92,6 +94,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
       <OrganizationHubHeader
         healthLoading={healthLoading}
         healthError={healthError}
+        partialLoadWarning={partialLoadWarning}
         onRetryHealth={refetchHealth}
         orgProfile={orgProfile}
         participantsCount={participantsCount}

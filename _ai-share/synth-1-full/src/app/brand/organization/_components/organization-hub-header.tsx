@@ -21,6 +21,7 @@ import { formatActivityPeriod } from './organization-overview-lib';
 export type OrganizationHubHeaderProps = {
   healthLoading: boolean;
   healthError?: Error | null;
+  partialLoadWarning?: string | null;
   onRetryHealth?: () => void;
   orgProfile: any;
   participantsCount: number;
@@ -34,6 +35,7 @@ export type OrganizationHubHeaderProps = {
 export function OrganizationHubHeader({
   healthLoading,
   healthError,
+  partialLoadWarning,
   onRetryHealth,
   orgProfile,
   participantsCount,
@@ -59,6 +61,23 @@ export function OrganizationHubHeader({
               variant="outline"
               size="sm"
               className="h-7 shrink-0 border-rose-300 text-[9px] font-bold text-rose-900 hover:bg-rose-100"
+              onClick={onRetryHealth}
+            >
+              Повторить
+            </Button>
+          </div>
+        ) : null}
+        {!healthLoading && !healthError && partialLoadWarning && onRetryHealth ? (
+          <div
+            role="status"
+            className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-amber-200 bg-amber-50/90 px-3 py-2"
+          >
+            <p className="text-[10px] font-medium leading-snug text-amber-950">{partialLoadWarning}</p>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-7 shrink-0 border-amber-300 text-[9px] font-bold text-amber-950 hover:bg-amber-100"
               onClick={onRetryHealth}
             >
               Повторить

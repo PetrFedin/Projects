@@ -131,7 +131,16 @@ export function OrganizationOverviewEmbed() {
     error: healthError,
     refetch: refetchHealth,
     profile: orgProfile,
+    partialLoadWarning,
+    organizationPresence,
   } = useOrganizationHealth();
+
+  const resolvedParticipants =
+    organizationPresence.participantsCount ?? PARTICIPANTS_COUNT;
+  const resolvedOnline = Math.min(
+    organizationPresence.onlineCount ?? ONLINE_COUNT,
+    resolvedParticipants
+  );
 
   const modulesPeriodKey = typeof activityPeriod === 'object' ? '30d' : activityPeriod;
 
@@ -169,8 +178,9 @@ export function OrganizationOverviewEmbed() {
       activityKey={activityKey}
       isBlocked={isBlocked}
       getCorrectionHref={getCorrectionHref}
-      participantsCount={PARTICIPANTS_COUNT}
-      onlineCount={ONLINE_COUNT}
+      participantsCount={resolvedParticipants}
+      onlineCount={resolvedOnline}
+      partialLoadWarning={partialLoadWarning}
     />
   );
 }
