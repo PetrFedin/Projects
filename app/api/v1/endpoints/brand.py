@@ -5,10 +5,10 @@ MVP: DB-backed where models exist, fallback to demo data for investor showcase.
 
 from copy import deepcopy
 from datetime import timedelta
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Set
 
 from fastapi import APIRouter, Depends
-from sqlalchemy import distinct, func, select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api import deps
@@ -16,10 +16,37 @@ from app.api.schemas.base import GenericResponse
 from app.core.datetime_util import utc_now
 from app.db.models.base import User, Organization, Order, Showroom, Linesheet
 from app.db.models.intelligence import ChestnyZnakCode, EACCertificate, EDODocument
-from app.db.models.product import CollectionDrop, Lookbook
+from app.db.models.product import Assortment, CollectionDrop, Lookbook
 from app.integrations.policy import integration_idle_response
 
 router = APIRouter()
+
+
+def _buyer_key_as_str(val: Any) -> Optional[str]:
+    if val is None:
+        return None
+    s = str(val).strip()
+    return s if s else None
+
+
+def _retailer_ids_from_assortment_json(raw: Any) -> Set[str]:
+    """Читает retailer_ids из JSON колонки Assortment (список id или dict с ключами ids/retailer_ids)."""
+    out: Set[str] = set()
+    if raw is None:
+        return out
+    if isinstance(raw, list):
+        for x in raw:
+            sid = _buyer_key_as_str(x)
+            if sid:
+                out.add(sid)
+        return out
+    if isinstance(raw, dict):
+        for key in ("ids", "retailer_ids", "retailers"):
+            nested = raw.get(key)
+            if nested is not None:
+                out |= _retailer_ids_from_assortment_json(nested)
+    return out
+
 
 # Контракт как у synth фронта (normalizeAttentionAlertsPayload): демо при пустой орг.
 DEMO_ATTENTION_ALERTS: Dict[str, Any] = {
@@ -336,19 +363,34 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         else max(1, min(round(member_count * 0.33), participants_count))
     )
 
-    # Distinct B2B контрагенты по заказам (buyer org / buyer id)
+    # Контрагенты B2B: DISTINCT buyer из заказов ∪ retailer_ids из Assortment (каталог дистров).
     buyer_key = func.coalesce(Order.buyer_organization_id, Order.buyer_id)
+    buyer_keys_normalized: Set[str] = set()
+    catalog_retailer_ids: Set[str] = set()
     try:
-        distinct_buyers = (
+        buyer_rows = (
             await db.execute(
-                select(func.count(distinct(buyer_key))).where(
+                select(buyer_key).distinct().where(
                     Order.organization_id == brand_id,
                     buyer_key.isnot(None),
                 )
             )
-        ).scalar() or 0
+        ).all()
+        for row in buyer_rows:
+            sid = _buyer_key_as_str(row[0])
+            if sid:
+                buyer_keys_normalized.add(sid)
+
+        ar_rows = (
+            await db.execute(select(Assortment.retailer_ids).where(Assortment.organization_id == brand_id))
+        ).all()
+        for (rj,) in ar_rows:
+            catalog_retailer_ids |= _retailer_ids_from_assortment_json(rj)
     except Exception:
-        distinct_buyers = 0
+        buyer_keys_normalized = set()
+        catalog_retailer_ids = set()
+
+    retailer_union_count = len(buyer_keys_normalized | catalog_retailer_ids)
 
     collections_count_db = 0
     try:
@@ -376,16 +418,16 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
     cz_count = 0
     cz_last = None
     try:
-        cz_count = (
+        cz_row = (
             await db.execute(
-                select(func.count(ChestnyZnakCode.id)).where(ChestnyZnakCode.organization_id == brand_id)
+                select(
+                    func.count(ChestnyZnakCode.id),
+                    func.max(func.coalesce(ChestnyZnakCode.applied_at, ChestnyZnakCode.created_at)),
+                ).where(ChestnyZnakCode.organization_id == brand_id)
             )
-        ).scalar() or 0
-        cz_last = (
-            await db.execute(
-                select(func.max(ChestnyZnakCode.created_at)).where(ChestnyZnakCode.organization_id == brand_id)
-            )
-        ).scalar()
+        ).one()
+        cz_count = int(cz_row[0] or 0)
+        cz_last = cz_row[1]
     except Exception:
         cz_count = 0
         cz_last = None
@@ -403,8 +445,8 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         marking_sync_status = "ok"
         marking_last_sync = "09:12"
 
-    if distinct_buyers > 0:
-        retailers_count = int(distinct_buyers)
+    if retailer_union_count > 0:
+        retailers_count = retailer_union_count
     elif has_org_activity:
         retailers_count = max(order_count, showroom_count, 1)
     else:

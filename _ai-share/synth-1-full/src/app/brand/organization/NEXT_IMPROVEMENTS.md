@@ -46,18 +46,19 @@
 
 | Поле | Источник в БД |
 |------|----------------|
-| `retailersCount` | `COUNT(DISTINCT coalesce(buyer_organization_id, buyer_id))` по `orders`; иначе `max(orders, showrooms, 1)` |
+| `retailersCount` | UNION DISTINCT buyer из `orders` (`buyer_organization_id` \| `buyer_id`) и retailer id из **`Assortment.retailer_ids`** по `organization_id`; иначе при активной орг. — `max(orders, showrooms, 1)`, демо — как раньше |
 | `collectionsCount` | `CollectionDrop` + `Lookbook` по `brand_id` |
 | `certsActive` | активные `EACCertificate` |
 | `poInProduction` | заказы со статусом `confirmed` |
 | `openB2bOrders` | только фактический pending (без «или 7» при активной орг.) |
-| `markingSyncStatus` / `markingLastSync` | `ChestnyZnakCode`; без записей при активной орг. — warning |
+| `markingSyncStatus` / `markingLastSync` | локальные **`ChestnyZnakCode`**: `COUNT`, последнее событие `max(coalesce(applied_at, created_at))`; без записей при активной орг. — warning |
 
-Дальше: ритейлеры из доменной модели ассортимента/дилеров; маркировка из operational CRPT/outbox, не только локальные коды.
+Дальше: operational CRPT/outbox и InventorySync по бренду (сейчас лог без `organization_id`); выравнивание retailer id с таблицей контрагентов при появлении модели.
 
 ### 6. Карточки модулей: цифры из API
 
 Сделано: `dashboard.moduleStats` (ключ = `href`) + `mergeNavigationCardsWithModuleStats` на фронте. При активной организации карточка **`/brand/documents`** («На подписи») считается из **`EDODocument`** со статусами `draft`/`sent` (`documentsPendingSignature` в ответе дашборда для прозрачности). Дальше — интеграции «активно X/Y» из snapshot статусов без лишних health-check на каждый открытый хаб; профиль с метриками заполненности при расширении моделей.
+
 ### 7. ~~Партнёрская экосистема: данные по периоду~~ (частично сделано)
 
 Ответ `brand/dashboard.partnerEcosystem`:
@@ -94,4 +95,4 @@
 
 ---
 
-Рекомендуемый следующий шаг: **п.8–9** (a11y и скелетоны), **п.5/п.6** (доменные агрегаты и module stats без proxy), или кэширование health при загрузке хаба.
+Рекомендуемый следующий шаг: **п.8–9** (a11y и скелетоны), углубление **п.6** (интеграции в module stats), или **CRPT/outbox** для п.5.
