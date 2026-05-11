@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import type { RecentActivity } from './page-data';
+import type { RecentActivity, ModuleStatPatch } from './page-data';
 import type { HistoryEntry } from '@/components/brand/SectionBlock';
 import type { ActivityPeriod } from './_components/organization-overview-lib';
 import { OrganizationHubHeader } from './_components/organization-hub-header';
@@ -47,6 +47,7 @@ export type OrganizationOverviewContentProps = {
   participantsCount?: number;
   onlineCount?: number;
   partialLoadWarning?: string | null;
+  moduleStatsByHref?: Record<string, ModuleStatPatch> | null;
 };
 
 export function OrganizationOverviewContent(props: OrganizationOverviewContentProps) {
@@ -87,6 +88,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
     participantsCount = 24,
     onlineCount = 8,
     partialLoadWarning,
+    moduleStatsByHref,
   } = props;
 
   return (
@@ -149,6 +151,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
         modulesPeriodKey={modulesPeriodKey}
         globalHistory={globalHistory}
         participantsCount={participantsCount}
+        moduleStatsByHref={moduleStatsByHref}
       />
     </>
   );

@@ -3,6 +3,7 @@ Brand-scoped endpoints for organization hub: profile, dashboard, integrations.
 MVP: DB-backed where models exist, fallback to demo data for investor showcase.
 """
 
+from copy import deepcopy
 from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, Depends
@@ -40,6 +41,38 @@ EMPTY_ATTENTION_ALERTS: Dict[str, Any] = {
     "tasks": [],
     "integrationIssues": [],
 }
+
+# Карточки «Разделы организации» на фронте (ключ = href). При активной орг. часть полей пересчитывается.
+DEMO_MODULE_STATS: Dict[str, Dict[str, str]] = {
+    "/brand": {"label": "Заполнено", "value": "92%", "status": "success"},
+    "/brand/team": {"label": "Участников", "value": "24", "status": "active"},
+    "/brand/documents": {"label": "На подписи", "value": "2", "status": "warning"},
+    "/brand/integrations": {"label": "Активно", "value": "3/13", "status": "warning"},
+    "/brand/subscription": {"label": "План", "value": "Elite", "status": "success"},
+    "/brand/security": {"label": "Оценка", "value": "88/100", "status": "success"},
+    "/brand/settings": {"label": "Конфигурация", "value": "OK", "status": "success"},
+    "/brand/compliance": {"label": "Статус", "value": "Настроено", "status": "success"},
+}
+
+
+def _build_module_stats(
+    *,
+    participants_count: int,
+    pending_orders: int,
+    marking_sync_status: str,
+    has_org_activity: bool,
+) -> Dict[str, Dict[str, str]]:
+    stats = deepcopy(DEMO_MODULE_STATS)
+    stats["/brand/team"]["value"] = str(participants_count)
+    if has_org_activity:
+        sig = min(max(int(pending_orders), 0), 99)
+        stats["/brand/documents"]["value"] = str(sig)
+        stats["/brand/documents"]["status"] = "warning" if sig > 0 else "success"
+        sync_ok = marking_sync_status == "ok"
+        stats["/brand/compliance"]["value"] = "Настроено" if sync_ok else "Проверить"
+        stats["/brand/compliance"]["status"] = "success" if sync_ok else "warning"
+    return stats
+
 
 DEMO_PROFILE = {
     "brand": {"name": "Syntha", "id": "demo"},
@@ -102,6 +135,7 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
 
     has_org_activity = bool(order_count or showroom_count or member_count)
     attention_alerts = EMPTY_ATTENTION_ALERTS if has_org_activity else DEMO_ATTENTION_ALERTS
+    marking_sync_status = "ok"
 
     return {
         "retailersCount": 24 if order_count == 0 else max(24, order_count),  # demo fallback
@@ -109,7 +143,7 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         "certsActive": 1,
         "poInProduction": 4,
         "collectionsCount": 12,
-        "markingSyncStatus": "ok",
+        "markingSyncStatus": marking_sync_status,
         "markingLastSync": "09:12",
         "ordersTotal": order_count,
         "showroomsCount": showroom_count,
@@ -117,6 +151,12 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         "participantsCount": participants_count,
         "onlineCount": online_count,
         "attentionAlerts": attention_alerts,
+        "moduleStats": _build_module_stats(
+            participants_count=participants_count,
+            pending_orders=pending,
+            marking_sync_status=marking_sync_status,
+            has_org_activity=has_org_activity,
+        ),
         "_source": "db" if order_count or showroom_count or member_count else "demo",
     }
 

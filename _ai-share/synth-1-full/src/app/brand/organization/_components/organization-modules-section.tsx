@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, HelpCircle, Plus } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -9,21 +9,28 @@ import { SectionBlock } from '@/components/brand/SectionBlock';
 import type { HistoryEntry } from '@/components/brand/SectionBlock';
 import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
 import { cn } from '@/lib/utils';
-import { SECTION_META, NAVIGATION_CARDS } from '../page-data';
+import { SECTION_META, mergeNavigationCardsWithModuleStats } from '../page-data';
+import type { ModuleStatPatch } from '../page-data';
 
 export type OrganizationModulesSectionProps = {
   modulesPeriodKey: '7d' | '30d';
   globalHistory: HistoryEntry[];
   participantsCount: number;
+  moduleStatsByHref?: Record<string, ModuleStatPatch> | null;
 };
 
 export function OrganizationModulesSection({
   modulesPeriodKey,
   globalHistory,
   participantsCount,
+  moduleStatsByHref,
 }: OrganizationModulesSectionProps) {
   const router = useRouter();
 
+  const navigationCards = useMemo(
+    () => mergeNavigationCardsWithModuleStats(moduleStatsByHref ?? undefined),
+    [moduleStatsByHref]
+  );
   return (
     <div id="sections-modules" className="scroll-mt-4">
       <SectionBlock
@@ -37,7 +44,7 @@ export function OrganizationModulesSection({
             {modulesPeriodKey === '7d' ? 'За 7 дн.' : 'За 30 дн.'}
           </p>
           <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
-            {NAVIGATION_CARDS.map((card) => {
+            {navigationCards.map((card) => {
               const changePct =
                 modulesPeriodKey === '7d' ? (card as any).changePct7d : (card as any).changePct30d;
               const addHref = (card as any).addHref;

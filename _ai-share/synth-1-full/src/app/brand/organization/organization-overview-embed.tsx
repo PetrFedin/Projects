@@ -27,6 +27,7 @@ const OrganizationOverviewContent = dynamic(
 );
 import { PARTICIPANTS_COUNT, ONLINE_COUNT } from './organization-demo-data';
 import type { ActivityPeriod } from './_components/organization-overview-lib';
+import type { ModuleStatPatch } from './page-data';
 
 function toDateStr(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -152,6 +153,11 @@ export function OrganizationOverviewEmbed() {
 
   const modulesPeriodKey = typeof activityPeriod === 'object' ? '30d' : activityPeriod;
 
+  const moduleStatsByHref = useMemo((): Record<string, ModuleStatPatch> | undefined => {
+    const raw = dashboard?.moduleStats;
+    return raw && typeof raw === 'object' ? (raw as Record<string, ModuleStatPatch>) : undefined;
+  }, [dashboard?.moduleStats]);
+
   return (
     <OrganizationOverviewContent
       modulesPeriodKey={modulesPeriodKey}
@@ -189,6 +195,7 @@ export function OrganizationOverviewEmbed() {
       participantsCount={resolvedParticipants}
       onlineCount={resolvedOnline}
       partialLoadWarning={partialLoadWarning}
+      moduleStatsByHref={moduleStatsByHref}
     />
   );
 }

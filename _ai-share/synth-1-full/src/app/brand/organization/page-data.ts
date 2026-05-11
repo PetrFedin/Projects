@@ -229,6 +229,50 @@ export const NAVIGATION_CARDS = [
   },
 ];
 
+export type NavigationCardStatStatus = 'success' | 'warning' | 'active';
+
+export type ModuleStatPatch = Partial<{
+  label: string;
+  value: string;
+  status: NavigationCardStatStatus;
+}>;
+
+/** Карточка раздела после возможной подстановки полей из API */
+export type NavigationModuleCard = {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  href: string;
+  color: string;
+  bg: string;
+  stats: { label: string; value: string; status: NavigationCardStatStatus };
+  changePct7d: number;
+  changePct30d: number;
+  addHref?: string;
+  addLabel?: string;
+};
+
+/** Подстановка label/value/status карточек модулей из ответа brand/dashboard (`moduleStats`). */
+export function mergeNavigationCardsWithModuleStats(
+  patchByHref: Record<string, ModuleStatPatch> | null | undefined
+): NavigationModuleCard[] {
+  if (!patchByHref || typeof patchByHref !== 'object')
+    return NAVIGATION_CARDS as unknown as NavigationModuleCard[];
+  return NAVIGATION_CARDS.map((card) => {
+    const p = patchByHref[card.href];
+    if (!p) return card as unknown as NavigationModuleCard;
+    return {
+      ...card,
+      stats: {
+        ...card.stats,
+        ...(p.label !== undefined ? { label: p.label } : {}),
+        ...(p.value !== undefined ? { value: p.value } : {}),
+        ...(p.status !== undefined ? { status: p.status } : {}),
+      },
+    };
+  }) as NavigationModuleCard[];
+}
+
 export type RecentActivity = {
   user: string;
   action: string;
