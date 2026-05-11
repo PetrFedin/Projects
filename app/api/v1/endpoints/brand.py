@@ -17,6 +17,7 @@ from app.core.datetime_util import utc_now
 from app.db.models.base import User, Organization, Order, Showroom, Linesheet
 from app.db.models.intelligence import ChestnyZnakCode, EACCertificate, EDODocument, InventorySyncLog
 from app.db.models.product import Assortment, CollectionDrop, Lookbook
+from app.integrations.hub_catalog import count_configured_integrations_for_hub
 from app.integrations.policy import integration_idle_response
 
 router = APIRouter()
@@ -84,24 +85,6 @@ DEMO_MODULE_STATS: Dict[str, Dict[str, str]] = {
     "/brand/settings": {"label": "Конфигурация", "value": "OK", "status": "success"},
     "/brand/compliance": {"label": "Статус", "value": "Настроено", "status": "success"},
 }
-
-
-def _integrations_configured_snapshot() -> tuple[int, int]:
-    """Сколько слотов интеграций имеют учётные данные — только свойства клиентов, без сетевых проверок."""
-    from app.integrations import CRPTClient, EDOClient, C1CClient, CDEKClient, PaymentClient
-    from app.integrations.marketplace.base import OzonConnector
-
-    connectors = [
-        C1CClient(),
-        CDEKClient(),
-        CRPTClient(),
-        EDOClient(),
-        PaymentClient(),
-        OzonConnector(),
-    ]
-    total = len(connectors)
-    n_ok = sum(1 for c in connectors if getattr(c, "is_configured", False))
-    return n_ok, total
 
 
 def _build_module_stats(
@@ -520,7 +503,7 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
             inventory_sync_failed_30d = 0
             inventory_sync_last_success_at = None
 
-    integ_n, integ_total = _integrations_configured_snapshot()
+    integ_n, integ_total = count_configured_integrations_for_hub()
 
     return {
         "retailersCount": retailers_count,
