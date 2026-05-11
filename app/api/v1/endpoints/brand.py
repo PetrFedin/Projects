@@ -46,8 +46,9 @@ async def fetch_brand_profile_data(brand_id: str, db: AsyncSession) -> Dict[str,
 
 async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[str, Any]:
     """
-    Brand KPIs: real counts from DB (orders, showrooms, linesheets).
+    Brand KPIs: real counts from DB (orders, showrooms, linesheets, team members).
     Fallback to demo values when tables are empty for investor demo.
+    Hub presence: participantsCount / onlineCount (online heuristic ~⅓ of team when DB has members).
     """
     # Orders
     order_count = (await db.execute(select(func.count(Order.id)).where(Order.organization_id == brand_id))).scalar() or 0
@@ -58,6 +59,21 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         linesheet_count = (await db.execute(select(func.count(Linesheet.id)).where(Linesheet.organization_id == brand_id))).scalar() or 0
     except Exception:
         linesheet_count = 0
+
+    member_count = (
+        await db.execute(
+            select(func.count(User.id)).where(
+                User.organization_id == brand_id,
+                User.is_active.is_(True),
+            )
+        )
+    ).scalar() or 0
+    participants_count = member_count if member_count > 0 else 24
+    online_count = (
+        8
+        if member_count == 0
+        else max(1, min(round(member_count * 0.33), participants_count))
+    )
 
     return {
         "retailersCount": 24 if order_count == 0 else max(24, order_count),  # demo fallback
@@ -70,7 +86,9 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         "ordersTotal": order_count,
         "showroomsCount": showroom_count,
         "linesheetsCount": linesheet_count,
-        "_source": "db" if order_count or showroom_count else "demo",
+        "participantsCount": participants_count,
+        "onlineCount": online_count,
+        "_source": "db" if order_count or showroom_count or member_count else "demo",
     }
 
 
