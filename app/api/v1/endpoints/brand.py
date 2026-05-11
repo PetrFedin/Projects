@@ -86,12 +86,32 @@ DEMO_MODULE_STATS: Dict[str, Dict[str, str]] = {
 }
 
 
+def _integrations_configured_snapshot() -> tuple[int, int]:
+    """Сколько слотов интеграций имеют учётные данные — только свойства клиентов, без сетевых проверок."""
+    from app.integrations import CRPTClient, EDOClient, C1CClient, CDEKClient, PaymentClient
+    from app.integrations.marketplace.base import OzonConnector
+
+    connectors = [
+        C1CClient(),
+        CDEKClient(),
+        CRPTClient(),
+        EDOClient(),
+        PaymentClient(),
+        OzonConnector(),
+    ]
+    total = len(connectors)
+    n_ok = sum(1 for c in connectors if getattr(c, "is_configured", False))
+    return n_ok, total
+
+
 def _build_module_stats(
     *,
     participants_count: int,
     marking_sync_status: str,
     has_org_activity: bool,
     edo_pending: int,
+    integrations_configured: int,
+    integrations_total: int,
 ) -> Dict[str, Dict[str, str]]:
     stats = deepcopy(DEMO_MODULE_STATS)
     stats["/brand/team"]["value"] = str(participants_count)
@@ -102,6 +122,15 @@ def _build_module_stats(
         sync_ok = marking_sync_status == "ok"
         stats["/brand/compliance"]["value"] = "Настроено" if sync_ok else "Проверить"
         stats["/brand/compliance"]["status"] = "success" if sync_ok else "warning"
+        total_i = max(int(integrations_total), 1)
+        n_i = min(max(int(integrations_configured), 0), total_i)
+        stats["/brand/integrations"]["value"] = f"{n_i}/{total_i}"
+        if n_i >= total_i:
+            stats["/brand/integrations"]["status"] = "success"
+        elif n_i > 0:
+            stats["/brand/integrations"]["status"] = "warning"
+        else:
+            stats["/brand/integrations"]["status"] = "warning"
     return stats
 
 
@@ -459,6 +488,8 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
     po_in_production_out = int(po_confirmed) if has_org_activity else 4
     collections_count_out = int(collections_count_db) if has_org_activity else 12
 
+    integ_n, integ_total = _integrations_configured_snapshot()
+
     return {
         "retailersCount": retailers_count,
         "openB2bOrders": open_b2b_orders,
@@ -479,6 +510,8 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
             marking_sync_status=marking_sync_status,
             has_org_activity=has_org_activity,
             edo_pending=edo_pending,
+            integrations_configured=integ_n,
+            integrations_total=integ_total,
         ),
         "partnerEcosystem": _build_partner_ecosystem(
             retailers_count=retailers_count,
