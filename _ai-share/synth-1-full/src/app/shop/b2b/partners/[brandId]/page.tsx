@@ -35,7 +35,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { mockB2BOrders } from '@/lib/order-data';
+import { listB2BOrdersForOperationalUi } from '@/lib/order/b2b-orders-list-read-model';
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { cn } from '@/lib/utils';
@@ -57,7 +57,7 @@ export default function PartnerDetailsPage({
     notFound();
   }
 
-  const brandOrders = mockB2BOrders.filter((o) =>
+  const brandOrders = listB2BOrdersForOperationalUi({ actorRole: 'retailer' }).filter((o) =>
     o.brand.toLowerCase().includes(brand.name.toLowerCase())
   );
 
@@ -136,6 +136,15 @@ export default function PartnerDetailsPage({
           </>
         }
       />
+
+      <p
+        className="text-text-muted border-border-default bg-bg-surface2/80 rounded-md border px-3 py-2 text-xs leading-snug"
+        data-testid="shop-b2b-partner-detail-demo-disclaimer"
+      >
+        <span className="text-text-primary font-semibold">Демо.</span> Карточка партнёра на смешанных данных: профиль
+        бренда из каталога-заглушки, заказы — демо read-model; коммерческие условия, контакты и документы — иллюстрация,
+        не юридически значимые. См. <code className="text-[10px]">CORE_OPERATING_CHAIN.md</code> §5.
+      </p>
 
       <Tabs defaultValue="overview">
         <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-h-9 w-full flex-wrap')}>

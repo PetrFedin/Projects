@@ -26,14 +26,14 @@
 
 **Артефакт для тикета:** ссылка на `PHASE-1-DECISION-6.1.md` + эпик по §3 того файла.
 
-### Шаг 2 — Базовая линия E2E перед новым тестом
+### Шаг 2 — Базовая линия E2E перед новым тестом **[выполнено]**
 
 ```bash
 cd synth-1-full
 npm run test:e2e:api
 ```
 
-Если красное — чинить до зелёного, иначе волна B неизмерима.
+Статус: `npm run test:e2e:api` — **OK (локально, зелёный полный прогон)**.
 
 ### Шаг 3 — Волна A3 (P0-ENTITY): очередь на read-model
 
@@ -41,11 +41,11 @@ npm run test:e2e:api
 
 | Область | Файл (ориентир) | Заметка |
 |---------|-----------------|--------|
-| Ритейл B2B orders (legacy путь) | `src/app/shop/b2b-orders/page.tsx` | Состояние из `mockB2BOrders` — выровнять с operational list или пометить «демо» |
-| Трекинг опта | `src/app/shop/b2b/tracking/page.tsx` | Мок для списка |
-| Партнёр / бренд | `src/app/shop/b2b/partners/[brandId]/page.tsx` | Фильтр заказов по моку |
-| Rollup финансов партнёра | `src/lib/b2b/partner-finance-rollup.ts` | `mockB2BOrders` |
-| Reorder / sellthrough | `src/lib/b2b/reorder-sellthrough.ts` | зависимость от мока |
+| Ритейл B2B orders (legacy путь) | `src/app/shop/b2b-orders/page.tsx` | **переведено:** `useShopB2BOperationalOrdersList`, без `mockB2BOrders` на странице |
+| Трекинг опта | `src/app/shop/b2b/tracking/page.tsx` | **переведено** на `listB2BOrdersForOperationalUi` (retailer) |
+| Партнёр / бренд | `src/app/shop/b2b/partners/[brandId]/page.tsx` | **переведено** на `listB2BOrdersForOperationalUi` (retailer) |
+| Rollup финансов партнёра | `src/lib/b2b/partner-finance-rollup.ts` | **прямой `mockB2BOrders` убран**; база через `getB2BOrdersBaseForUi` |
+| Reorder / sellthrough | `src/lib/b2b/reorder-sellthrough.ts` | **переведено** на `listB2BOrdersForOperationalUi` (retailer), без прямого `mockB2BOrders` |
 
 *Полный поиск:* `rg "mockB2BOrders" src/` — пополнять таблицу по мере рефакторинга.*
 
@@ -53,7 +53,7 @@ npm run test:e2e:api
 
 Список экранов с `placeholder-data` под `src/app` — **[`PHASE-1-DEMO-INVENTORY.md`](./PHASE-1-DEMO-INVENTORY.md)**. Дополнять при новых импортах.
 
-### Шаг 5 — DEMO2: два «якорных» дисклеймера **[выполнено]**
+### Шаг 5 — DEMO2: четыре опорных дисклеймера
 
 Паттерн как у `supplier-circular-demo-disclaimer` на `/factory/supplier/circular-hub`: явный текст + `data-testid`.
 
@@ -61,10 +61,17 @@ npm run test:e2e:api
 |-------|----------------|
 | `/brand/analytics` | `brand-analytics-demo-disclaimer` |
 | `/shop/b2b/tracking` | `shop-b2b-tracking-demo-disclaimer` |
+| `/shop/b2b/partners/[brandId]` | `shop-b2b-partner-detail-demo-disclaimer` |
+
+Ранее закрыто два якоря; карточка партнёра добавлена как высокорисковый экран (см. [`PHASE-1-DEMO-INVENTORY.md`](./PHASE-1-DEMO-INVENTORY.md)).
 
 ### Шаг 6 — После появления нового E2E
 
 Обновить [`CROSS_ROLE_FLOWS.md`](../../src/lib/data/CROSS_ROLE_FLOWS.md) **§5.4 / §5.6** по шаблону **§5.8** — иначе реестр тестов разъедется с репозиторием.
+
+### Шаг 7 — Канон визуала «ядро профиля» **[выполнено]**
+
+Зафиксировано: [`PROFILE-CORE-SECTIONS-VISUAL.md`](./PROFILE-CORE-SECTIONS-VISUAL.md).
 
 ---
 
@@ -79,8 +86,8 @@ npm run test:e2e:api
 ## 3. Критерий «спринт 1 закрыт»
 
 - [x] Решение §0 записано — [`PHASE-1-DECISION-6.1.md`](./PHASE-1-DECISION-6.1.md).
-- [ ] `test:e2e:api` зелёный на целевой ветке.
-- [ ] Либо начат перенос **одного** файла из таблицы A3 на operational/read-model, либо явная пометка «демо» + тикет на следующий спринт.
+- [x] `test:e2e:api` зелёный на целевой ветке.
+- [x] Либо начат перенос **одного** файла из таблицы A3 на operational/read-model, либо явная пометка «демо» + тикет на следующий спринт.
 - [x] Инвентаризация DEMO1 начата — [`PHASE-1-DEMO-INVENTORY.md`](./PHASE-1-DEMO-INVENTORY.md).
 
 ---
@@ -90,3 +97,9 @@ npm run test:e2e:api
 - Закрыть волну **B1–B2** по [`PHASE-1-PLAN.md`](./PHASE-1-PLAN.md).
 - DEMO2 на 2–3 экранах.
 - Ретро: перенос C/D на этап 2 или продолжение.
+
+---
+
+## 5. A3 (статус спринта)
+
+**A3 для текущего спринта закрыт:** `reorder-sellthrough`, `shop/b2b/reorder`, `shop/b2b/tracking`, `shop/b2b/partners/[brandId]`, `partner-finance-rollup` переведены с прямого `mockB2BOrders` на operational/read-model слой.

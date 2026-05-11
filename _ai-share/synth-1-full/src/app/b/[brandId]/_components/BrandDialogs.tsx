@@ -124,6 +124,7 @@ export function BrandDialogs(props: BrandDialogsProps) {
         brand={props.brand}
         currentTeamIdx={props.currentTeamIdx}
         setCurrentTeamIdx={props.setCurrentTeamIdx}
+        displayName={props.displayName}
       />
     </>
   );

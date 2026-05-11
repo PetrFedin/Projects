@@ -2,10 +2,9 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, X, Quote, MessageSquare, Instagram, Send } from 'lucide-react';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { cn } from '@/lib/utils';
 
 interface TeamDialogProps {
@@ -14,6 +13,8 @@ interface TeamDialogProps {
   brand: any;
   currentTeamIdx: number;
   setCurrentTeamIdx: React.Dispatch<React.SetStateAction<number>>;
+  /** Имя бренда для заголовка доступности (необязательно). */
+  displayName?: string;
 }
 
 export function TeamDialog({
@@ -22,16 +23,21 @@ export function TeamDialog({
   brand,
   currentTeamIdx,
   setCurrentTeamIdx,
+  displayName,
 }: TeamDialogProps) {
+  const brandLabel = displayName?.trim() || '';
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl border-0 bg-transparent p-0 shadow-none">
-        <VisuallyHidden>
-          <DialogTitle>Команда бренда</DialogTitle>
-        </VisuallyHidden>
+        <DialogTitle className="sr-only">
+          {brandLabel ? `Команда бренда ${brandLabel}` : 'Команда бренда'}
+        </DialogTitle>
+        <DialogDescription className="sr-only">
+          Информация о ключевых участниках команды и их ролях в развитии бренда
+        </DialogDescription>
         <div className="relative flex aspect-video w-full flex-col overflow-hidden rounded-xl bg-white shadow-2xl md:aspect-[16/9] md:flex-row">
           <div className="relative h-64 w-full overflow-hidden md:h-auto md:w-1/2">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               <motion.div
                 key={currentTeamIdx}
                 initial={{ opacity: 0, x: 20 }}
@@ -87,7 +93,7 @@ export function TeamDialog({
               </Button>
             </DialogPrimitive.Close>
 
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               <motion.div
                 key={currentTeamIdx}
                 initial={{ opacity: 0, y: 10 }}

@@ -39,8 +39,6 @@
 - `src/app/client/wardrobe/page.tsx`
 - `src/app/client/style-quiz/page.tsx`
 - `src/app/client/visual-search/page.tsx`
-- `src/app/u/_components/LoyaltyBrandsTab.tsx`
-
 ### B) Brand
 
 - `src/app/brand/page.tsx`
