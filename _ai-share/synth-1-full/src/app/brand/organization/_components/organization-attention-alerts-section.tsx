@@ -36,6 +36,7 @@ function ResolveAlertLink({
       <button
         type="button"
         className={className}
+        aria-label="Убрать напоминание из списка «Требует внимания»"
         onClick={(e) => {
           if (stopPropagation) e.stopPropagation();
           onDismiss(id);
@@ -121,6 +122,7 @@ export function OrganizationAttentionAlertsSection({
                             <div
                               role="button"
                               tabIndex={0}
+                              aria-label={`${getBlockLabel?.('certificates') ?? meta.title}. Открыть подробности, записей: ${alerts.certificates.length}`}
                               className="flex h-full cursor-pointer flex-col rounded-xl border border-amber-200 bg-amber-50/50 p-3 outline-none transition-colors hover:bg-amber-50/80 focus-visible:ring-2 focus-visible:ring-amber-300"
                               onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === ' ') {
@@ -144,7 +146,7 @@ export function OrganizationAttentionAlertsSection({
                                       <button
                                         type="button"
                                         className="text-text-muted rounded p-0.5 hover:bg-amber-100 hover:text-amber-600"
-                                        aria-label="Описание блока"
+                                        aria-label={`Описание: ${meta.title}`}
                                       >
                                         <HelpCircle className="h-3.5 w-3.5" />
                                       </button>
@@ -255,6 +257,7 @@ export function OrganizationAttentionAlertsSection({
                             <div
                               role="button"
                               tabIndex={0}
+                              aria-label={`${getBlockLabel?.('profile') ?? meta.title}. Открыть подробности, записей: ${alerts.profile.length}`}
                               className="flex h-full cursor-pointer flex-col rounded-xl border border-rose-200 bg-rose-50/50 p-3 outline-none transition-colors hover:bg-rose-50/80 focus-visible:ring-2 focus-visible:ring-rose-300"
                               onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === ' ') {
@@ -278,7 +281,7 @@ export function OrganizationAttentionAlertsSection({
                                       <button
                                         type="button"
                                         className="text-text-muted rounded p-0.5 hover:bg-rose-100 hover:text-rose-600"
-                                        aria-label="Описание блока"
+                                        aria-label={`Описание: ${meta.title}`}
                                       >
                                         <HelpCircle className="h-3.5 w-3.5" />
                                       </button>
@@ -387,6 +390,11 @@ export function OrganizationAttentionAlertsSection({
                           <div
                             role="button"
                             tabIndex={0}
+                            aria-label={
+                              ok
+                                ? `${getBlockLabel?.('systems') ?? meta.title}. Системы в норме. Открыть подробности`
+                                : `${getBlockLabel?.('systems') ?? meta.title}. Проблем: ${alerts.integrationIssues.length}. Открыть подробности`
+                            }
                             className={cn(
                               'flex h-full cursor-pointer flex-col rounded-xl border p-3 outline-none transition-colors focus-visible:ring-2',
                               ok
@@ -425,7 +433,7 @@ export function OrganizationAttentionAlertsSection({
                                     <button
                                       type="button"
                                       className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 rounded p-0.5"
-                                      aria-label="Описание блока"
+                                      aria-label={`Описание: ${meta.title}`}
                                     >
                                       <HelpCircle className="h-3.5 w-3.5" />
                                     </button>
@@ -513,6 +521,7 @@ export function OrganizationAttentionAlertsSection({
                             <div
                               role="button"
                               tabIndex={0}
+                              aria-label={`${getBlockLabel?.('tasks') ?? meta.title}. Открыть подробности, задач: ${alerts.tasks.length}`}
                               className="border-accent-primary/25 bg-accent-primary/10 hover:bg-accent-primary/10 focus-visible:ring-accent-primary/40 flex h-full cursor-pointer flex-col rounded-xl border p-3 outline-none transition-colors focus-visible:ring-2"
                               onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === ' ') {
@@ -536,7 +545,7 @@ export function OrganizationAttentionAlertsSection({
                                       <button
                                         type="button"
                                         className="text-text-muted hover:text-accent-primary hover:bg-accent-primary/15 rounded p-0.5"
-                                        aria-label="Описание блока"
+                                        aria-label={`Описание: ${meta.title}`}
                                       >
                                         <HelpCircle className="h-3.5 w-3.5" />
                                       </button>

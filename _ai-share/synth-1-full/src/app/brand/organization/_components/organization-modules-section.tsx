@@ -102,7 +102,11 @@ export function OrganizationModulesSection({
                       {card.stats.status === 'warning' && (
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <span className="flex h-5 min-w-5 cursor-help items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white">
+                            <span
+                              role="img"
+                              aria-label={`Требует внимания в разделе «${card.title}»: ${card.stats.label} ${card.title === 'Команда' ? participantsCount : card.stats.value}`}
+                              className="flex h-5 min-w-5 cursor-help items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white"
+                            >
                               {/^\d+$/.test(String(card.stats.value)) ? card.stats.value : '!'}
                             </span>
                           </TooltipTrigger>
@@ -117,7 +121,7 @@ export function OrganizationModulesSection({
                           <button
                             type="button"
                             className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 rounded p-0.5"
-                            aria-label="Описание раздела"
+                            aria-label={`Описание раздела «${card.title}»`}
                           >
                             <HelpCircle className="h-3.5 w-3.5" />
                           </button>
@@ -167,6 +171,7 @@ export function OrganizationModulesSection({
                       <button
                         type="button"
                         className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-left text-[9px] font-medium"
+                        aria-label={`${addLabel}, раздел «${card.title}»`}
                         onClick={(e) => {
                           e.stopPropagation();
                           router.push(addHref);

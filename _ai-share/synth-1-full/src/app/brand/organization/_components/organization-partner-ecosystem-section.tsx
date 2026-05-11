@@ -125,6 +125,7 @@ export function OrganizationPartnerEcosystemSection({
                       href={item.href}
                       className="group/link block min-w-0 flex-1"
                       title={item.description}
+                      aria-label={`${item.label}: ${item.value}`}
                     >
                       <p className="text-text-primary group-hover/link:text-accent-primary text-lg font-bold tabular-nums">
                         {item.value}
@@ -137,7 +138,15 @@ export function OrganizationPartnerEcosystemSection({
                       {(item.alertCount ?? 0) > 0 && (
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <span className="flex h-5 min-w-5 cursor-help items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white">
+                            <span
+                              role="img"
+                              aria-label={
+                                item.statusShort ||
+                                item.statusShort2 ||
+                                `Требуют внимания по «${item.label}»: ${item.alertCount}`
+                              }
+                              className="flex h-5 min-w-5 cursor-help items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white"
+                            >
                               {item.alertCount! > 99 ? '99+' : item.alertCount}
                             </span>
                           </TooltipTrigger>
@@ -154,7 +163,7 @@ export function OrganizationPartnerEcosystemSection({
                             <button
                               type="button"
                               className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 shrink-0 rounded p-0.5"
-                              aria-label="Подсказка"
+                              aria-label={`Подсказка: ${item.label}`}
                             >
                               <HelpCircle className="h-3.5 w-3.5" />
                             </button>
@@ -336,7 +345,12 @@ export function OrganizationPartnerEcosystemSection({
                     </div>
                   </div>
                   <div className="mt-2 flex items-start gap-1">
-                    <Link href={p.href} className="group/link block min-w-0 flex-1" title={p.description}>
+                    <Link
+                      href={p.href}
+                      className="group/link block min-w-0 flex-1"
+                      title={p.description}
+                      aria-label={`${p.label}: ${count}`}
+                    >
                       <p className="text-text-primary group-hover/link:text-accent-primary text-lg font-bold tabular-nums">
                         {count}
                       </p>
@@ -348,7 +362,7 @@ export function OrganizationPartnerEcosystemSection({
                           <button
                             type="button"
                             className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 shrink-0 rounded p-0.5"
-                            aria-label="Подсказка"
+                            aria-label={`Подсказка: ${p.label}`}
                           >
                             <HelpCircle className="h-3.5 w-3.5" />
                           </button>
@@ -492,7 +506,14 @@ export function OrganizationPartnerEcosystemSection({
                       {blockAlertCount > 0 && (
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <span className="flex h-5 min-w-5 cursor-help items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white">
+                            <span
+                              role="img"
+                              aria-label={
+                                b.alertTooltip ??
+                                `Требуют внимания в блоке «${b.titleLines ? b.titleLines.join(' ') : b.title}»: ${blockAlertCount}`
+                              }
+                              className="flex h-5 min-w-5 cursor-help items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white"
+                            >
                               {blockAlertCount > 99 ? '99+' : blockAlertCount}
                             </span>
                           </TooltipTrigger>
@@ -506,7 +527,7 @@ export function OrganizationPartnerEcosystemSection({
                           <button
                             type="button"
                             className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 shrink-0 rounded p-0.5"
-                            aria-label="Описание"
+                            aria-label={`Описание: ${b.titleLines ? b.titleLines.join(' ') : b.title}`}
                           >
                             <HelpCircle className="h-3.5 w-3.5" />
                           </button>
