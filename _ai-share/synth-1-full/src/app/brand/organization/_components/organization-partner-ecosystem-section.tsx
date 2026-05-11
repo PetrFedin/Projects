@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { ArrowRight, HelpCircle, Plus } from 'lucide-react';
 import { SectionBlock } from '@/components/brand/SectionBlock';
@@ -12,8 +12,9 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   SECTION_META,
-  PARTNER_COUNTS,
-  PARTNER_GROWTH_BY_PERIOD,
+  mergePartnerCountsWithPatches,
+  mergePartnerGrowthSlice,
+  pickPartnerEcosystemPatches,
   PARTNER_BUSINESS_PROCESSES,
   PARTNER_ECOSYSTEM_BLOCKS,
   PARTNER_ROLE_LABELS,
@@ -22,15 +23,27 @@ import {
 export type OrganizationPartnerEcosystemSectionProps = {
   modulesPeriodKey: '7d' | '30d';
   globalHistory: HistoryEntry[];
+  partnerEcosystem?: unknown;
 };
 
 export function OrganizationPartnerEcosystemSection({
   modulesPeriodKey,
   globalHistory,
+  partnerEcosystem,
 }: OrganizationPartnerEcosystemSectionProps) {
   const growthPeriodKey: '7d' | '30d' = modulesPeriodKey;
-  const growthData = PARTNER_GROWTH_BY_PERIOD[growthPeriodKey];
-  const growthDetail = growthData.items;
+  const { countsPatchById, growthByPeriod } = useMemo(
+    () => pickPartnerEcosystemPatches(partnerEcosystem),
+    [partnerEcosystem]
+  );
+  const partnerCounts = useMemo(
+    () => mergePartnerCountsWithPatches(countsPatchById),
+    [countsPatchById]
+  );
+  const growthDetail = useMemo(
+    () => mergePartnerGrowthSlice(growthPeriodKey, growthByPeriod).items,
+    [growthPeriodKey, growthByPeriod]
+  );
 
   return (
     <SectionBlock
@@ -45,7 +58,7 @@ export function OrganizationPartnerEcosystemSection({
             Партнёры по типам • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
           </p>
           <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
-            {PARTNER_COUNTS.map((item) => {
+            {partnerCounts.map((item) => {
               const Icon = item.icon;
               const hasProgress =
                 item.progressValue != null &&

@@ -48,6 +48,7 @@ export type OrganizationOverviewContentProps = {
   onlineCount?: number;
   partialLoadWarning?: string | null;
   moduleStatsByHref?: Record<string, ModuleStatPatch> | null;
+  partnerEcosystem?: unknown;
 };
 
 export function OrganizationOverviewContent(props: OrganizationOverviewContentProps) {
@@ -89,6 +90,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
     onlineCount = 8,
     partialLoadWarning,
     moduleStatsByHref,
+    partnerEcosystem,
   } = props;
 
   return (
@@ -145,7 +147,11 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
         toast={toast}
       />
 
-      <OrganizationPartnerEcosystemSection modulesPeriodKey={modulesPeriodKey} globalHistory={globalHistory} />
+      <OrganizationPartnerEcosystemSection
+        modulesPeriodKey={modulesPeriodKey}
+        globalHistory={globalHistory}
+        partnerEcosystem={partnerEcosystem}
+      />
 
       <OrganizationModulesSection
         modulesPeriodKey={modulesPeriodKey}

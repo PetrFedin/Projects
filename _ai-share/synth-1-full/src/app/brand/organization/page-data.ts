@@ -1101,6 +1101,82 @@ export const PARTNER_GROWTH_BY_PERIOD: Record<
   },
 };
 
+/** Полоска «рост по типам» из dashboard.partnerEcosystem.growthByPeriod */
+export type PartnerGrowthSlice = {
+  total: number;
+  items: { label: string; value: string; href: string }[];
+};
+
+/** Частичная замена полей карточки партнёра (ключ countsPatchById = PartnerCountItem.id) */
+export type PartnerCountApiPatch = Partial<
+  Pick<
+    PartnerCountItem,
+    | 'value'
+    | 'trend'
+    | 'trendDirection'
+    | 'trendLabel'
+    | 'subline'
+    | 'alertCount'
+    | 'progressValue'
+    | 'progressMax'
+    | 'statusShort'
+    | 'statusShort2'
+    | 'detailMetrics'
+  >
+>;
+
+export function mergePartnerCountsWithPatches(
+  patches: Record<string, PartnerCountApiPatch> | null | undefined
+): PartnerCountItem[] {
+  if (!patches || typeof patches !== 'object') return [...PARTNER_COUNTS];
+  return PARTNER_COUNTS.map((row) => {
+    const p = patches[row.id];
+    if (!p) return row;
+    return { ...row, ...p };
+  });
+}
+
+export function mergePartnerGrowthSlice(
+  periodKey: '7d' | '30d',
+  growthByPeriod: unknown
+): PartnerGrowthSlice {
+  const fallback = PARTNER_GROWTH_BY_PERIOD[periodKey];
+  if (!growthByPeriod || typeof growthByPeriod !== 'object') return fallback;
+  const slice = (growthByPeriod as Record<string, unknown>)[periodKey];
+  if (!slice || typeof slice !== 'object') return fallback;
+  const o = slice as Record<string, unknown>;
+  const total = Number(o.total);
+  const itemsRaw = o.items;
+  if (!Number.isFinite(total) || !Array.isArray(itemsRaw)) return fallback;
+  const items = itemsRaw
+    .filter((x): x is Record<string, unknown> => x != null && typeof x === 'object')
+    .map((x) => ({
+      label: String(x.label ?? ''),
+      value: String(x.value ?? ''),
+      href:
+        typeof x.href === 'string' && x.href.length > 0 ? x.href : '#',
+    }))
+    .filter((x) => x.label.length > 0 && x.value.length > 0);
+  if (items.length === 0) return fallback;
+  return { total, items };
+}
+
+/** Поддержка partnerEcosystem из ответа dashboard (unknown → безопасный доступ). */
+export function pickPartnerEcosystemPatches(partnerEcosystem: unknown): {
+  countsPatchById: Record<string, PartnerCountApiPatch> | undefined;
+  growthByPeriod: unknown;
+} {
+  if (!partnerEcosystem || typeof partnerEcosystem !== 'object')
+    return { countsPatchById: undefined, growthByPeriod: undefined };
+  const o = partnerEcosystem as Record<string, unknown>;
+  const rawPatches = o.countsPatchById;
+  const countsPatchById =
+    rawPatches && typeof rawPatches === 'object'
+      ? (rawPatches as Record<string, PartnerCountApiPatch>)
+      : undefined;
+  return { countsPatchById, growthByPeriod: o.growthByPeriod };
+}
+
 /** Подписи групп партнёров по роли в экосистеме */
 export const PARTNER_ROLE_LABELS: Record<'supply' | 'sales' | 'platform', string> = {
   supply: 'Цепочка поставок',

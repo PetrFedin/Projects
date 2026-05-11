@@ -196,6 +196,7 @@ export function OrganizationOverviewEmbed() {
       onlineCount={resolvedOnline}
       partialLoadWarning={partialLoadWarning}
       moduleStatsByHref={moduleStatsByHref}
+      partnerEcosystem={dashboard?.partnerEcosystem}
     />
   );
 }

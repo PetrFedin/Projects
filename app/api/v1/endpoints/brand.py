@@ -74,6 +74,52 @@ def _build_module_stats(
     return stats
 
 
+DEMO_PARTNER_GROWTH_BY_PERIOD: Dict[str, Dict[str, Any]] = {
+    "7d": {
+        "total": 8,
+        "items": [
+            {"label": "Производства", "value": "+1", "href": "/brand/factories"},
+            {"label": "Поставщики", "value": "+2", "href": "/brand/materials"},
+            {"label": "Магазины", "value": "+4", "href": "/brand/retailers"},
+            {"label": "Дистрибуторы", "value": "+1", "href": "/brand/distributors"},
+        ],
+    },
+    "30d": {
+        "total": 22,
+        "items": [
+            {"label": "Производства", "value": "+2", "href": "/brand/factories"},
+            {"label": "Поставщики", "value": "+5", "href": "/brand/materials"},
+            {"label": "Магазины", "value": "+12", "href": "/brand/retailers"},
+            {"label": "Дистрибуторы", "value": "+3", "href": "/brand/distributors"},
+        ],
+    },
+}
+
+
+def _build_partner_ecosystem(
+    *,
+    retailers_count: int,
+    order_count: int,
+    pending: int,
+    has_org_activity: bool,
+) -> Dict[str, Any]:
+    """growthByPeriod — как на фронте; countsPatchById подмешивается поверх PARTNER_COUNTS."""
+    growth = deepcopy(DEMO_PARTNER_GROWTH_BY_PERIOD)
+    counts_patch: Dict[str, Dict[str, Any]] = {}
+    if has_org_activity:
+        oc_cap = min(order_count, retailers_count)
+        counts_patch["retailers"] = {
+            "value": str(retailers_count),
+            "subline": (f"{oc_cap} с заказами за 30 дн." if oc_cap else "нет заказов за период"),
+            "detailMetrics": [
+                {"label": "С заказами за 30 дн.", "value": str(oc_cap), "href": "/brand/b2b-orders"},
+                {"label": "Открытых B2B", "value": str(pending), "href": "/brand/b2b-orders"},
+                {"label": "В каталоге", "value": str(retailers_count), "href": "/brand/retailers"},
+            ],
+        }
+    return {"growthByPeriod": growth, "countsPatchById": counts_patch}
+
+
 DEMO_PROFILE = {
     "brand": {"name": "Syntha", "id": "demo"},
     "legal": {"inn": "7707123456", "legal_name": "ООО «Синта Фэшн»"},
@@ -136,9 +182,10 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
     has_org_activity = bool(order_count or showroom_count or member_count)
     attention_alerts = EMPTY_ATTENTION_ALERTS if has_org_activity else DEMO_ATTENTION_ALERTS
     marking_sync_status = "ok"
+    retailers_count = 24 if order_count == 0 else max(24, order_count)
 
     return {
-        "retailersCount": 24 if order_count == 0 else max(24, order_count),  # demo fallback
+        "retailersCount": retailers_count,
         "openB2bOrders": pending or 7,
         "certsActive": 1,
         "poInProduction": 4,
@@ -155,6 +202,12 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
             participants_count=participants_count,
             pending_orders=pending,
             marking_sync_status=marking_sync_status,
+            has_org_activity=has_org_activity,
+        ),
+        "partnerEcosystem": _build_partner_ecosystem(
+            retailers_count=retailers_count,
+            order_count=order_count,
+            pending=pending,
             has_org_activity=has_org_activity,
         ),
         "_source": "db" if order_count or showroom_count or member_count else "demo",
