@@ -1,46 +1,11 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
+import { gotoResilient } from './goto-resilient';
 
 /** Next.js может добавить `?_rsc=…` к URL — сравниваем только pathname. */
 function pathnameEquals(expected: string) {
   const norm = (p: string) => (p.replace(/\/$/, '') || '/') as string;
   const want = norm(expected);
   return (url: URL) => norm(url.pathname) === want;
-}
-
-const GOTO_RETRIES = 3;
-const GOTO_RETRY_BACKOFF_MS = 3_000;
-const GOTO_TIMEOUT_MS = 60_000;
-
-function isTransientDevServerNavError(message: string): boolean {
-  return (
-    message.includes('ERR_EMPTY_RESPONSE') ||
-    message.includes('ERR_CONNECTION_REFUSED') ||
-    message.includes('ERR_CONNECTION_RESET') ||
-    message.includes('ERR_SOCKET_NOT_CONNECTED')
-  );
-}
-
-/** `next dev` под нагрузкой смока иногда отдаёт пустой ответ; повторяем goto (см. UNIFIED, troubleshooting). */
-async function gotoResilient(
-  page: Page,
-  url: string,
-  opts: { waitUntil?: 'load' | 'domcontentloaded'; timeout?: number } = {}
-): Promise<void> {
-  const waitUntil = opts.waitUntil ?? 'domcontentloaded';
-  const timeout = opts.timeout ?? GOTO_TIMEOUT_MS;
-  let last: Error | undefined;
-  for (let attempt = 0; attempt < GOTO_RETRIES; attempt++) {
-    try {
-      await page.goto(url, { waitUntil, timeout });
-      return;
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      last = e instanceof Error ? e : new Error(msg);
-      if (!isTransientDevServerNavError(msg) || attempt === GOTO_RETRIES - 1) throw last;
-      await new Promise((r) => setTimeout(r, GOTO_RETRY_BACKOFF_MS));
-    }
-  }
-  throw last;
 }
 
 /**
