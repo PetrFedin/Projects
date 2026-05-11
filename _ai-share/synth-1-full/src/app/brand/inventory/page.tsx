@@ -37,6 +37,7 @@ import { cn } from '@/lib/utils';
 import { fmtNumber, fmtMoney } from '@/lib/format';
 import { GismtMonitor } from '@/components/brand/gismt-monitor';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
+import { ROUTES } from '@/lib/routes';
 
 const initialInventory = allProducts.filter((p) => p.brand === 'Syntha');
 
@@ -80,7 +81,10 @@ export default function BrandInventoryPage() {
   }, [products, searchQuery, availability]);
 
   return (
-    <div className="container mx-auto max-w-5xl space-y-4 px-4 py-4 pb-24 duration-700 animate-in fade-in">
+    <div
+      className="container mx-auto max-w-5xl space-y-4 px-4 py-4 pb-24 duration-700 animate-in fade-in"
+      data-testid="brand-inventory-page"
+    >
       <SectionInfoCard
         title="Inventory Matrix"
         description="Остатки по SKU, видимость в каналах. Связь с Warehouse (склад), Production (приёмки) и B2B (заказы)."
@@ -110,6 +114,14 @@ export default function BrandInventoryPage() {
             <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
               <Link href="/brand/production">
                 <Factory className="mr-1 h-3 w-3" /> Production
+              </Link>
+            </Button>
+            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+              <Link
+                href={ROUTES.shop.inventory}
+                data-testid="brand-inventory-shop-stock-upload-link"
+              >
+                <Truck className="mr-1 h-3 w-3" /> Shop stock
               </Link>
             </Button>
           </>
