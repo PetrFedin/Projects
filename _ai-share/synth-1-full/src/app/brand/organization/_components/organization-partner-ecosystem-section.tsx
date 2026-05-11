@@ -21,17 +21,21 @@ import {
   PARTNER_ECOSYSTEM_BLOCKS,
   PARTNER_ROLE_LABELS,
 } from '../page-data';
+import { OrgHubCardStripSkeleton } from './organization-hub-skeletons';
 
 export type OrganizationPartnerEcosystemSectionProps = {
   modulesPeriodKey: '7d' | '30d';
   globalHistory: HistoryEntry[];
   partnerEcosystem?: unknown;
+  /** Пока грузится дашборд/профиль — не показываем статические карточки поверх пустых патчей */
+  dashboardLoading?: boolean;
 };
 
 export function OrganizationPartnerEcosystemSection({
   modulesPeriodKey,
   globalHistory,
   partnerEcosystem,
+  dashboardLoading,
 }: OrganizationPartnerEcosystemSectionProps) {
   const growthPeriodKey: '7d' | '30d' = modulesPeriodKey;
   const { countsPatchById, growthByPeriod, businessProcessesPatchById, ecosystemBlocksPatchById } =
@@ -62,6 +66,17 @@ export function OrganizationPartnerEcosystemSection({
     >
       <TooltipProvider delayDuration={200}>
         <div className={cn(registryFeedLayout.panelCardSoft, 'p-4 md:p-5')}>
+          {dashboardLoading ? (
+            <OrgHubCardStripSkeleton
+              busyLabel="Загрузка партнёрской экосистемы"
+              rows={[
+                { cards: 4, titleWidthClass: 'w-52' },
+                { cards: 4, titleWidthClass: 'w-56' },
+                { cards: 4, titleWidthClass: 'w-52' },
+              ]}
+            />
+          ) : (
+            <>
           <p className="text-text-muted mb-2 text-[9px] font-semibold uppercase tracking-wide">
             Партнёры по типам • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
           </p>
@@ -587,6 +602,8 @@ export function OrganizationPartnerEcosystemSection({
               );
             })}
           </div>
+            </>
+          )}
         </div>
       </TooltipProvider>
     </SectionBlock>

@@ -11,12 +11,14 @@ import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
 import { cn } from '@/lib/utils';
 import { SECTION_META, mergeNavigationCardsWithModuleStats } from '../page-data';
 import type { ModuleStatPatch } from '../page-data';
+import { OrgHubModulesStripSkeleton } from './organization-hub-skeletons';
 
 export type OrganizationModulesSectionProps = {
   modulesPeriodKey: '7d' | '30d';
   globalHistory: HistoryEntry[];
   participantsCount: number;
   moduleStatsByHref?: Record<string, ModuleStatPatch> | null;
+  dashboardLoading?: boolean;
 };
 
 export function OrganizationModulesSection({
@@ -24,6 +26,7 @@ export function OrganizationModulesSection({
   globalHistory,
   participantsCount,
   moduleStatsByHref,
+  dashboardLoading,
 }: OrganizationModulesSectionProps) {
   const router = useRouter();
 
@@ -40,6 +43,10 @@ export function OrganizationModulesSection({
         history={globalHistory}
       >
         <div className={cn(registryFeedLayout.panelCardSoft, 'p-4 md:p-5')}>
+          {dashboardLoading ? (
+            <OrgHubModulesStripSkeleton />
+          ) : (
+            <>
           <p className="text-text-muted mb-2 text-[9px] font-semibold uppercase tracking-wide">
             {modulesPeriodKey === '7d' ? 'За 7 дн.' : 'За 30 дн.'}
           </p>
@@ -186,6 +193,8 @@ export function OrganizationModulesSection({
               );
             })}
           </div>
+            </>
+          )}
         </div>
       </SectionBlock>
     </div>

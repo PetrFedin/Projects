@@ -10,6 +10,12 @@ import { useOrganizationHealth } from '@/hooks/use-organization-health';
 import { useToast } from '@/hooks/use-toast';
 import { useAttentionAlerts } from './use-attention-alerts';
 import type { BlockId } from './use-attention-alerts';
+import { OrgHubModulesStripSkeleton } from './_components/organization-hub-skeletons';
+import { PARTICIPANTS_COUNT, ONLINE_COUNT } from './organization-demo-data';
+import { BRAND_ID } from './organization-config';
+import type { ActivityPeriod } from './_components/organization-overview-lib';
+import type { ModuleStatPatch } from './page-data';
+
 const OrganizationOverviewContent = dynamic(
   () =>
     import('./organization-overview-content').then((m) => ({
@@ -19,16 +25,23 @@ const OrganizationOverviewContent = dynamic(
     ssr: false,
     loading: () => (
       <div
-        className="border-border-subtle bg-bg-surface2/80 min-h-[320px] animate-pulse rounded-xl border"
-        aria-hidden
-      />
+        className="space-y-4"
+        aria-busy="true"
+        aria-label="Загрузка центра управления"
+      >
+        <div
+          className="border-border-subtle from-bg-surface2/50 h-[140px] animate-pulse rounded-2xl border bg-gradient-to-br to-white shadow-sm"
+          aria-hidden
+        />
+        <div
+          className="border-border-subtle bg-bg-surface2/80 h-[120px] animate-pulse rounded-xl border"
+          aria-hidden
+        />
+        <OrgHubModulesStripSkeleton className="border-border-subtle rounded-xl border bg-white p-4 md:p-5 shadow-sm" />
+      </div>
     ),
   }
 );
-import { PARTICIPANTS_COUNT, ONLINE_COUNT } from './organization-demo-data';
-import { BRAND_ID } from './organization-config';
-import type { ActivityPeriod } from './_components/organization-overview-lib';
-import type { ModuleStatPatch } from './page-data';
 
 function toDateStr(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;

@@ -151,6 +151,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
         modulesPeriodKey={modulesPeriodKey}
         globalHistory={globalHistory}
         partnerEcosystem={partnerEcosystem}
+        dashboardLoading={healthLoading}
       />
 
       <OrganizationModulesSection
@@ -158,6 +159,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
         globalHistory={globalHistory}
         participantsCount={participantsCount}
         moduleStatsByHref={moduleStatsByHref}
+        dashboardLoading={healthLoading}
       />
     </>
   );
