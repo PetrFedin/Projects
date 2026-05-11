@@ -79,13 +79,33 @@ export function OrganizationOverviewEmbed() {
   };
 
   const { toast } = useToast();
-  const { alerts, getHistory, getBlockLabel, dismissCertificate, dismissProfile, dismissTask } =
-    useAttentionAlerts();
+  const {
+    metrics: healthMetrics,
+    overallHealth,
+    lastCheck,
+    isLoading: healthLoading,
+    error: healthError,
+    refetch: refetchHealth,
+    profile: orgProfile,
+    partialLoadWarning,
+    organizationPresence,
+    dashboard,
+  } = useOrganizationHealth();
 
-  const attentionHistory = (['certificates', 'profile', 'systems', 'tasks'] as const)
-    .flatMap((id) => getHistory(id).map((e) => ({ ...e, blockLabel: getBlockLabel(id) })))
-    .sort((a, b) => b.timestamp - a.timestamp)
-    .slice(0, 30);
+  const { alerts, getHistory, getBlockLabel, dismissCertificate, dismissProfile, dismissTask } =
+    useAttentionAlerts({
+      attentionAlertsFromDashboard: dashboard?.attentionAlerts,
+      healthLoading,
+    });
+
+  const attentionHistory = useMemo(
+    () =>
+      (['certificates', 'profile', 'systems', 'tasks'] as const)
+        .flatMap((id) => getHistory(id).map((e) => ({ ...e, blockLabel: getBlockLabel(id) })))
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .slice(0, 30),
+    [getHistory, getBlockLabel]
+  );
 
   const recentActivities = useMemo(() => getRecentActivities(new Date()), []);
   const filteredActivities = filterActivitiesByPeriod(recentActivities, activityPeriod).filter(
@@ -122,18 +142,6 @@ export function OrganizationOverviewEmbed() {
       router.replace(BRAND_PROFILE_ORG, { scroll: false });
     }
   }, [resolvedKey, router]);
-
-  const {
-    metrics: healthMetrics,
-    overallHealth,
-    lastCheck,
-    isLoading: healthLoading,
-    error: healthError,
-    refetch: refetchHealth,
-    profile: orgProfile,
-    partialLoadWarning,
-    organizationPresence,
-  } = useOrganizationHealth();
 
   const resolvedParticipants =
     organizationPresence.participantsCount ?? PARTICIPANTS_COUNT;

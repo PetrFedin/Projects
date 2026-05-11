@@ -16,6 +16,31 @@ from app.integrations.policy import integration_idle_response
 
 router = APIRouter()
 
+# Контракт как у synth фронта (normalizeAttentionAlertsPayload): демо при пустой орг.
+DEMO_ATTENTION_ALERTS: Dict[str, Any] = {
+    "certificates": [
+        {"id": "c1", "name": "ISO 9001:2015", "daysLeft": 14},
+        {"id": "c2", "name": "ISO 14001:2015", "daysLeft": 21},
+    ],
+    "profile": [
+        {"id": "p1", "name": "Brand DNA", "detail": "75% заполнено"},
+        {"id": "p2", "name": "Keywords", "detail": "Не указаны"},
+        {"id": "p3", "name": "Target Audience", "detail": "Не указана"},
+    ],
+    "tasks": [
+        {"id": "t1", "title": "Согласовать заказ ЦУМ", "priority": "высокий"},
+        {"id": "t2", "title": "Обновить размерную сетку", "priority": "средний"},
+    ],
+    "integrationIssues": [],
+}
+
+EMPTY_ATTENTION_ALERTS: Dict[str, Any] = {
+    "certificates": [],
+    "profile": [],
+    "tasks": [],
+    "integrationIssues": [],
+}
+
 DEMO_PROFILE = {
     "brand": {"name": "Syntha", "id": "demo"},
     "legal": {"inn": "7707123456", "legal_name": "ООО «Синта Фэшн»"},
@@ -75,6 +100,9 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         else max(1, min(round(member_count * 0.33), participants_count))
     )
 
+    has_org_activity = bool(order_count or showroom_count or member_count)
+    attention_alerts = EMPTY_ATTENTION_ALERTS if has_org_activity else DEMO_ATTENTION_ALERTS
+
     return {
         "retailersCount": 24 if order_count == 0 else max(24, order_count),  # demo fallback
         "openB2bOrders": pending or 7,
@@ -88,6 +116,7 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         "linesheetsCount": linesheet_count,
         "participantsCount": participants_count,
         "onlineCount": online_count,
+        "attentionAlerts": attention_alerts,
         "_source": "db" if order_count or showroom_count or member_count else "demo",
     }
 
