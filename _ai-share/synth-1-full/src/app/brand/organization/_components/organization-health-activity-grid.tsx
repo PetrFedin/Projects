@@ -21,7 +21,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { SectionBlock } from '@/components/brand/SectionBlock';
 import type { HistoryEntry } from '@/components/brand/SectionBlock';
 import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
@@ -368,28 +367,22 @@ export function OrganizationHealthActivityGrid({
                   };
                   const style = participantStyle[p.id] ?? participantStyle.all;
                   return (
-                    <Tooltip key={p.id}>
-                      <TooltipTrigger asChild>
-                        <button
-                          type="button"
-                          role="radio"
-                          aria-checked={activityParticipant === p.id}
-                          onClick={() => setActivityParticipant(p.id)}
-                          aria-label={`Участник: ${p.label}`}
-                          className={cn(
-                            'flex h-7 w-7 items-center justify-center rounded-[4px] transition-all',
-                            activityParticipant === p.id
-                              ? cn('ring-border-default bg-white shadow-sm ring-1', style.text)
-                              : cn(style.bg, style.text, 'hover:opacity-90')
-                          )}
-                        >
-                          <Icon className="h-3.5 w-3.5" aria-hidden />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom" className="text-[10px] font-bold uppercase">
-                        {p.label}
-                      </TooltipContent>
-                    </Tooltip>
+                    <button
+                      key={p.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={activityParticipant === p.id}
+                      onClick={() => setActivityParticipant(p.id)}
+                      aria-label={`Участник: ${p.label}`}
+                      className={cn(
+                        'flex h-7 w-7 items-center justify-center rounded-[4px] transition-all',
+                        activityParticipant === p.id
+                          ? cn('ring-border-default bg-white shadow-sm ring-1', style.text)
+                          : cn(style.bg, style.text, 'hover:opacity-90')
+                      )}
+                    >
+                      <Icon className="h-3.5 w-3.5" aria-hidden />
+                    </button>
                   );
                 })}
               </div>

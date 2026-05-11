@@ -117,7 +117,11 @@ export function OrganizationModulesSection({
                               {/^\d+$/.test(String(card.stats.value)) ? card.stats.value : '!'}
                             </span>
                           </TooltipTrigger>
-                          <TooltipContent side="top" className="max-w-[220px] text-xs">
+                          <TooltipContent
+                            side="top"
+                            aria-hidden
+                            className="max-w-[220px] text-xs"
+                          >
                             Требует внимания: {card.stats.label} {card.stats.value}. Откройте раздел для
                             устранения.
                           </TooltipContent>

@@ -165,7 +165,7 @@ export function OrganizationPartnerEcosystemSection({
                               {item.alertCount! > 99 ? '99+' : item.alertCount}
                             </span>
                           </TooltipTrigger>
-                          <TooltipContent side="top" className="max-w-[220px] text-xs">
+                          <TooltipContent side="top" aria-hidden className="max-w-[220px] text-xs">
                             {item.statusShort ||
                               item.statusShort2 ||
                               `Требуют внимания: ${item.alertCount}`}
@@ -532,7 +532,7 @@ export function OrganizationPartnerEcosystemSection({
                               {blockAlertCount > 99 ? '99+' : blockAlertCount}
                             </span>
                           </TooltipTrigger>
-                          <TooltipContent side="top" className="max-w-[220px] text-xs">
+                          <TooltipContent side="top" aria-hidden className="max-w-[220px] text-xs">
                             {b.alertTooltip ?? `Требуют внимания: ${blockAlertCount}`}
                           </TooltipContent>
                         </Tooltip>
