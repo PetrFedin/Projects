@@ -105,3 +105,9 @@
 ---
 
 Рекомендуемый следующий шаг: **`growthByPeriod`** из аналитики (**п.7**); operational **CRPT**-очередь в Python при контракте; SQL на живых БД (**inventory_sync_logs**, **organization_attention_dismiss_json**); клиентский кэш health между визитами.
+
+---
+
+## Фаза 2 — общий бэклог (чеклисты, правила агентов)
+
+Зафиксировано в **`docs/PLAN-phase2-repo-and-hub.md`**: гигиена репо, п.7 / п.4 (хвост), сплит топ-TSX, MOCK_FALLBACKS + демо, health-кэш, `raw-chunk-*`, SQL/CRPT; правила **узкого read** и **scope по каталогу** для ревью.
