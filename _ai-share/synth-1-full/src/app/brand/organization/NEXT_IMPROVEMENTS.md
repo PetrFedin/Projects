@@ -52,8 +52,14 @@
 | `poInProduction` | заказы со статусом `confirmed` |
 | `openB2bOrders` | только фактический pending (без «или 7» при активной орг.) |
 | `markingSyncStatus` / `markingLastSync` | локальные **`ChestnyZnakCode`**: `COUNT`, последнее событие `max(coalesce(applied_at, created_at))`; без записей при активной орг. — warning |
+| `inventorySyncFailed30d` | **`InventorySyncLog`** со статусом `failed`, `organization_id == brand_id`, за 30 дн.; без активной орг. — `0` |
+| `inventorySyncLastSuccessAt` | **`max(timestamp)`** успешных синков по `organization_id`; ISO datetime или `null` |
 
-Дальше: operational CRPT/outbox и InventorySync по бренду (сейчас лог без `organization_id`); выравнивание retailer id с таблицей контрагентов при появлении модели.
+**Inventory sync:** в модели **`InventorySyncLog`** добавлено поле **`organization_id`** (nullable, индекс). SQL-патч: `scripts/sql/inventory_sync_logs_organization_id.sql`. Репозиторий: **`get_latest_logs_for_organization`**.
+
+**CRPT / operational outbox (Python):** отдельная очередь операций ЧЗ не заведена — по-прежнему клиент **`CRPTClient`** и доменные события/outbox на стороне **`synth-1-full`** (см. `SOURCE_OF_TRUTH.md`, ops health). Следующий шаг при необходимости — таблица ретраев или зеркало статуса из шины.
+
+Дальше: выравнивание retailer id с таблицей контрагентов при появлении модели.
 
 ### 6. Карточки модулей: цифры из API
 
@@ -96,4 +102,4 @@
 
 ---
 
-Рекомендуемый следующий шаг: **CRPT/outbox** для п.5, добить **п.8** (таб-порядок / озвучка без дублей), расширить п.6 при появлении полного каталога интеграций.
+Рекомендуемый следующий шаг: добить **п.8** (таб-порядок / озвучка без дублей), расширить **п.6**, operational **CRPT**-очередь в Python при появлении контракта; применить SQL **`scripts/sql/inventory_sync_logs_organization_id.sql`** на окружениях с живой БД.

@@ -15,7 +15,7 @@ from app.api import deps
 from app.api.schemas.base import GenericResponse
 from app.core.datetime_util import utc_now
 from app.db.models.base import User, Organization, Order, Showroom, Linesheet
-from app.db.models.intelligence import ChestnyZnakCode, EACCertificate, EDODocument
+from app.db.models.intelligence import ChestnyZnakCode, EACCertificate, EDODocument, InventorySyncLog
 from app.db.models.product import Assortment, CollectionDrop, Lookbook
 from app.integrations.policy import integration_idle_response
 
@@ -488,6 +488,37 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
     po_in_production_out = int(po_confirmed) if has_org_activity else 4
     collections_count_out = int(collections_count_db) if has_org_activity else 12
 
+    inventory_sync_failed_30d = 0
+    inventory_sync_last_success_at: Optional[str] = None
+    if has_org_activity:
+        try:
+            cutoff_sync = utc_now() - timedelta(days=30)
+            inventory_sync_failed_30d = int(
+                (
+                    await db.execute(
+                        select(func.count(InventorySyncLog.id)).where(
+                            InventorySyncLog.organization_id == brand_id,
+                            InventorySyncLog.status == "failed",
+                            InventorySyncLog.timestamp >= cutoff_sync,
+                        )
+                    )
+                ).scalar()
+                or 0
+            )
+            last_ok = (
+                await db.execute(
+                    select(func.max(InventorySyncLog.timestamp)).where(
+                        InventorySyncLog.organization_id == brand_id,
+                        InventorySyncLog.status == "success",
+                    )
+                )
+            ).scalar()
+            if last_ok is not None:
+                inventory_sync_last_success_at = last_ok.isoformat()
+        except Exception:
+            inventory_sync_failed_30d = 0
+            inventory_sync_last_success_at = None
+
     integ_n, integ_total = _integrations_configured_snapshot()
 
     return {
@@ -505,6 +536,8 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         "onlineCount": online_count,
         "attentionAlerts": attention_alerts,
         "documentsPendingSignature": int(edo_pending),
+        "inventorySyncFailed30d": inventory_sync_failed_30d,
+        "inventorySyncLastSuccessAt": inventory_sync_last_success_at,
         "moduleStats": _build_module_stats(
             participants_count=participants_count,
             marking_sync_status=marking_sync_status,

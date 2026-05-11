@@ -61,6 +61,18 @@ class InventorySyncRepository(BaseRepository[InventorySyncLog]):
         result = await self.session.execute(query)
         return list(result.scalars().all())
 
+    async def get_latest_logs_for_organization(
+        self, organization_id: str, limit: int = 20
+    ) -> List[InventorySyncLog]:
+        query = (
+            select(self.model)
+            .where(self.model.organization_id == organization_id)
+            .order_by(self.model.timestamp.desc())
+            .limit(limit)
+        )
+        result = await self.session.execute(query)
+        return list(result.scalars().all())
+
 class ShiftRepository(BaseRepository[StaffShift]):
     def __init__(self, session: AsyncSession, current_user: Optional[User] = None):
         super().__init__(StaffShift, session, current_user)

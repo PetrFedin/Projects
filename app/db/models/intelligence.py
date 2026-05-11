@@ -161,6 +161,7 @@ class InventorySyncLog(Base):
     __tablename__ = "inventory_sync_logs"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    organization_id: Mapped[Optional[str]] = mapped_column(String, index=True, nullable=True)
     external_system: Mapped[str] = mapped_column(String) # Shopify, 1C
     sync_type: Mapped[str] = mapped_column(String) # full, delta
     items_synced_count: Mapped[int] = mapped_column(Integer)
