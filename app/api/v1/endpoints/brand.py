@@ -7,12 +7,14 @@ from copy import deepcopy
 from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, Depends
-from sqlalchemy import select, func
+from sqlalchemy import distinct, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api import deps
 from app.api.schemas.base import GenericResponse
 from app.db.models.base import User, Organization, Order, Showroom, Linesheet
+from app.db.models.intelligence import ChestnyZnakCode, EACCertificate
+from app.db.models.product import CollectionDrop, Lookbook
 from app.integrations.policy import integration_idle_response
 
 router = APIRouter()
@@ -148,6 +150,14 @@ async def fetch_brand_profile_data(brand_id: str, db: AsyncSession) -> Dict[str,
     return {**DEMO_PROFILE, "brand": {**DEMO_PROFILE["brand"], "id": brand_id}, "_source": "demo"}
 
 
+def _format_sync_time(dt: Any) -> str:
+    """HH:MM UTC для подписи маркировки на дашборде."""
+    try:
+        return dt.strftime("%H:%M")  # type: ignore[union-attr]
+    except Exception:
+        return "—"
+
+
 async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[str, Any]:
     """
     Brand KPIs: real counts from DB (orders, showrooms, linesheets, team members).
@@ -157,6 +167,14 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
     # Orders
     order_count = (await db.execute(select(func.count(Order.id)).where(Order.organization_id == brand_id))).scalar() or 0
     pending = (await db.execute(select(func.count(Order.id)).where(Order.organization_id == brand_id, Order.status.in_(["draft", "pending", "confirmed"])))).scalar() or 0
+    po_confirmed = (
+        await db.execute(
+            select(func.count(Order.id)).where(
+                Order.organization_id == brand_id,
+                Order.status == "confirmed",
+            )
+        )
+    ).scalar() or 0
     # Showrooms
     showroom_count = (await db.execute(select(func.count(Showroom.id)).where(Showroom.organization_id == brand_id))).scalar() or 0
     try:
@@ -179,19 +197,95 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         else max(1, min(round(member_count * 0.33), participants_count))
     )
 
+    # Distinct B2B контрагенты по заказам (buyer org / buyer id)
+    buyer_key = func.coalesce(Order.buyer_organization_id, Order.buyer_id)
+    try:
+        distinct_buyers = (
+            await db.execute(
+                select(func.count(distinct(buyer_key))).where(
+                    Order.organization_id == brand_id,
+                    buyer_key.isnot(None),
+                )
+            )
+        ).scalar() or 0
+    except Exception:
+        distinct_buyers = 0
+
+    collections_count_db = 0
+    try:
+        cd = (
+            await db.execute(select(func.count(CollectionDrop.id)).where(CollectionDrop.brand_id == brand_id))
+        ).scalar() or 0
+        lb = (await db.execute(select(func.count(Lookbook.id)).where(Lookbook.brand_id == brand_id))).scalar() or 0
+        collections_count_db = int(cd) + int(lb)
+    except Exception:
+        collections_count_db = 0
+
+    certs_active_db = 0
+    try:
+        certs_active_db = (
+            await db.execute(
+                select(func.count(EACCertificate.id)).where(
+                    EACCertificate.organization_id == brand_id,
+                    EACCertificate.status == "active",
+                )
+            )
+        ).scalar() or 0
+    except Exception:
+        certs_active_db = 0
+
+    cz_count = 0
+    cz_last = None
+    try:
+        cz_count = (
+            await db.execute(
+                select(func.count(ChestnyZnakCode.id)).where(ChestnyZnakCode.organization_id == brand_id)
+            )
+        ).scalar() or 0
+        cz_last = (
+            await db.execute(
+                select(func.max(ChestnyZnakCode.created_at)).where(ChestnyZnakCode.organization_id == brand_id)
+            )
+        ).scalar()
+    except Exception:
+        cz_count = 0
+        cz_last = None
+
     has_org_activity = bool(order_count or showroom_count or member_count)
     attention_alerts = EMPTY_ATTENTION_ALERTS if has_org_activity else DEMO_ATTENTION_ALERTS
-    marking_sync_status = "ok"
-    retailers_count = 24 if order_count == 0 else max(24, order_count)
+
+    if cz_count > 0 and cz_last is not None:
+        marking_sync_status = "ok"
+        marking_last_sync = _format_sync_time(cz_last)
+    elif has_org_activity:
+        marking_sync_status = "warning"
+        marking_last_sync = "—"
+    else:
+        marking_sync_status = "ok"
+        marking_last_sync = "09:12"
+
+    if distinct_buyers > 0:
+        retailers_count = int(distinct_buyers)
+    elif has_org_activity:
+        retailers_count = max(order_count, showroom_count, 1)
+    else:
+        retailers_count = 24 if order_count == 0 else max(24, order_count)
+
+    open_b2b_orders = pending if has_org_activity else (pending or 7)
+    certs_active_out = certs_active_db if has_org_activity else 1
+    if certs_active_out == 0 and not has_org_activity:
+        certs_active_out = 1
+    po_in_production_out = int(po_confirmed) if has_org_activity else 4
+    collections_count_out = int(collections_count_db) if has_org_activity else 12
 
     return {
         "retailersCount": retailers_count,
-        "openB2bOrders": pending or 7,
-        "certsActive": 1,
-        "poInProduction": 4,
-        "collectionsCount": 12,
+        "openB2bOrders": open_b2b_orders,
+        "certsActive": certs_active_out,
+        "poInProduction": po_in_production_out,
+        "collectionsCount": collections_count_out,
         "markingSyncStatus": marking_sync_status,
-        "markingLastSync": "09:12",
+        "markingLastSync": marking_last_sync,
         "ordersTotal": order_count,
         "showroomsCount": showroom_count,
         "linesheetsCount": linesheet_count,

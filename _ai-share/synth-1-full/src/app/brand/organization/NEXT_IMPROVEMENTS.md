@@ -4,7 +4,7 @@
 
 - Общий период (7 дней / 30 дней / Календарь) в шапке, справа от «Организация › Центр управления»
 - Один период управляет «Недавняя активность» и «Партнёрская экосистема»
-- Индекс здоровья: кнопка «Обновить», скелетон при загрузке, данные из API (profile/dashboard/integrations)
+- Индекс здоровья: кнопка «Обновить», скелетон при загрузке, данные из API (profile/dashboard/integrations); KPI brand/dashboard частично из БД (см. п.5)
 - Шапка: название организации и юр.данные из API (profile); при ошибке загрузки профиля — сообщение и «Повторить»; при частичном сбое дашборда/интеграций — предупреждение и «Повторить»; участники/онлайн из dashboard (`participantsCount` и др.) или из `user.team`, иначе демо
 - Карточки модулей: целиком кликабельны, aria-label; подстановка `label`/`value`/`status` из `brand/dashboard.moduleStats` (демо полный набор; при активной орг. — участники, «на подписи» из pending заказов, маркировка по `markingSyncStatus`)
 - Партнёрская экосистема: блок «Партнёры по типам» / полоска роста берёт данные из `dashboard.partnerEcosystem` (`growthByPeriod`, `countsPatchById` поверх `PARTNER_*` в page-data); при активной орг. патч карточки «Магазины» из `retailersCount`/orders
@@ -40,7 +40,18 @@
 
 ### 5. Brand/dashboard — реальные агрегаты
 
-В `app/api/v1/endpoints/brand.py` стоит TODO: подгружать profile/dashboard из БД по `organization_id`/`brand_id`, агрегировать retailersCount, openB2bOrders, markingSyncStatus и т.д. из репозиториев (orders, retailers, compliance).
+**Частично:** в `app/api/v1/endpoints/brand.py` (`fetch_brand_dashboard_data`) сняты частые заглушки при «активной» организации (`orders` / `showrooms` / `members`):
+
+| Поле | Источник в БД |
+|------|----------------|
+| `retailersCount` | `COUNT(DISTINCT coalesce(buyer_organization_id, buyer_id))` по `orders`; иначе `max(orders, showrooms, 1)` |
+| `collectionsCount` | `CollectionDrop` + `Lookbook` по `brand_id` |
+| `certsActive` | активные `EACCertificate` |
+| `poInProduction` | заказы со статусом `confirmed` |
+| `openB2bOrders` | только фактический pending (без «или 7» при активной орг.) |
+| `markingSyncStatus` / `markingLastSync` | `ChestnyZnakCode`; без записей при активной орг. — warning |
+
+Дальше: ритейлеры из доменной модели ассортимента/дилеров; маркировка из operational CRPT/outbox, не только локальные коды.
 
 ### 6. Карточки модулей: цифры из API
 
