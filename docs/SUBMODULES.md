@@ -2,11 +2,12 @@
 
 **Фронтенд Fashion OS (Next.js):** единственный код в репозитории — **`_ai-share/synth-1-full`** (см. **`docs/MIGRATION_FULL_CUTOVER.md`**). Отдельного субмодуля **`synth-1/`** в этом монорепо больше нет.
 
+**E2E и Playwright** живут только во **`_ai-share/synth-1-full`** (`playwright.config.ts`, `npm run test:e2e*`). Отдельного субмодуля **`pw-demo`** нет — дублирующий шаблон Playwright вынесен из монорепо.
+
 Файл **`.gitmodules`** задаёт:
 
 | Путь     | Remote |
 |----------|--------|
-| `pw-demo` | `https://github.com/PetrFedin/pw-demo.git` |
 | `tools/superpowers` | `https://github.com/obra/superpowers.git` ([Superpowers](https://github.com/obra/superpowers) — skills / методология для агентов) |
 
 Клон с субмодулями:
@@ -21,9 +22,9 @@ git submodule update --init --recursive
 
 Обновить указатели после коммитов в субмодуле: push в репозиторий субмодуля, затем коммит в корне с новым SHA.
 
-Сменить URL (форк, SSH), например для **pw-demo**:
+Сменить URL (форк, SSH), например для **superpowers**:
 
 ```bash
-git config submodule.pw-demo.url git@github.com:YOU/pw-demo.git
+git config submodule.tools/superpowers.url git@github.com:YOU/superpowers.git
 git submodule sync
 ```

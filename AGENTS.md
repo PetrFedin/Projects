@@ -1,6 +1,6 @@
 # Projects — инструкции для людей и AI-агентов
 
-Монорепозиторий: бэкенд (Python), фронт **только** в **`_ai-share/synth-1-full`**, субмодули **`pw-demo/`**, **`tools/superpowers`**.
+Монорепозиторий: бэкенд (Python), фронт и весь Next.js/Playwright **только** в **`_ai-share/synth-1-full`**, субмодуль **`tools/superpowers`** (методология агентов).
 
 ## Обязательный контур агента (Cursor)
 
@@ -8,7 +8,7 @@
 
 1. **GSD** — для крупных и неоднозначных задач: сначала карта/план/фазы через навыки в **`.cursor/skills/`** и **`.cursor/get-shit-done/`**, а не сразу большой дифф. Справка по командам: навык **`gsd-help`**.
 2. **Superpowers** — уточнение цели, план, TDD где уместно; локально см. **`tools/superpowers/`** ([obra/superpowers](https://github.com/obra/superpowers)). В IDE: **`/add-plugin superpowers`**.
-3. **MCP** — **`scripts/cursor-mcp-sync.py`** обновляет **`.cursor/mcp.json`** и **`~/.cursor/mcp.json`** (stdio + remote: Exa, Figma, Sentry, Linear, Semgrep при наличии CLI). Подробности: **`docs/CURSOR_AGENT_TOOLKIT.md`**.
+3. **MCP** — **`scripts/cursor-mcp-sync.py`** обновляет **`.cursor/mcp.json`** и **`~/.cursor/mcp.json`** (stdio + remote: Exa, Figma, Sentry, Linear, Semgrep при наличии CLI). Серверы **git** и **fetch** в конфиге вызываются через **`python3 -m mcp_server_*`** — нужны пакеты **`mcp-server-git`** и **`mcp-server-fetch`** (установка и вариант **`uvx`** — в **`docs/CURSOR_AGENT_TOOLKIT.md`**, раздел *Git / Fetch MCP*). Остальная настройка, agent-browser и OAuth для облачных MCP — там же.
 
 ## Документы
 
@@ -17,10 +17,13 @@
 | **`docs/CURSOR_AGENT_TOOLKIT.md`** | Установка, MCP, Superpowers, GSD, deep research |
 | **`docs/SUBMODULES.md`** | Субмодули и `git submodule update` |
 | **`docs/MIGRATION_FULL_CUTOVER.md`** | Канон full, отказ от субмодуля `synth-1/` |
+| **`scripts/sql/README.md`** | Ручные SQL-патчи (prod): `inventory_sync_logs`, `attention_dismiss_json` — индекс и связи с кодом |
 
 ## Фронтенд
 
-Разработка и CI — **`_ai-share/synth-1-full`** (см. **`_ai-share/synth-1-full/AGENTS.md`**).
+Разработка и CI — **`_ai-share/synth-1-full`** (см. **`_ai-share/synth-1-full/AGENTS.md`**). Из корня монорепо: **`npm run smoke`** — быстрый контрактный чек (`smoke:fast` во full); **`npm run lint`** — ESLint только с ошибками (`lint:errors`); **`npm run synth-1:clean`** — очистка `.next*` и кешей во full.
+
+**Запуск Next локально:** нужны **Node 20.x–23.x** (файл **`_ai-share/synth-1-full/.nvmrc`**, на Node **24+** dev/build завершатся с явным сообщением). Зависимости: **`npm run synth-1:install`** из корня или **`npm ci`** в **`_ai-share/synth-1-full`** (полный bootstrap: **`bash scripts/bootstrap-monorepo-dev.sh`**). Dev-сервер: **`npm run dev`** из корня монорепо → **http://localhost:3000** (или из каталога full то же самое).
 
 ## Bootstrap после clone
 
@@ -30,4 +33,4 @@ bash scripts/bootstrap-monorepo-dev.sh
 
 Скрипт bootstrap вызывает **`scripts/normalize-gsd-cursor-paths.sh`** и **`scripts/cursor-mcp-sync.py`**. После **`npx get-shit-done-cc@latest --local --cursor`** при появлении абсолютных путей в ссылках запустите normalize снова. Контроль: **`bash scripts/check-gsd-cursor-paths.sh`** (в CI — job **GSD portable paths**).
 
-GSD и субмодули (`pw-demo`, **`tools/superpowers`**) должны быть на месте; MCP — перегенерировать **`python3 scripts/cursor-mcp-sync.py`** и включить серверы в настройках Cursor.
+GSD и субмодуль **`tools/superpowers`** должны быть на месте; MCP — перегенерировать **`python3 scripts/cursor-mcp-sync.py`** и включить серверы в настройках Cursor.

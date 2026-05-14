@@ -7,9 +7,6 @@
     "**/dist": true,
     "**/*.db": true,
     "**/*.log": true,
-    "pw-demo/playwright-report": true,
-    "pw-demo/test-results": true,
-    "pw-demo/screenshots": true,
     "synth-1": true
   },
   "search.exclude": {
@@ -20,9 +17,6 @@
     "**/dist": true,
     "**/*.db": true,
     "**/*.log": true,
-    "pw-demo/playwright-report": true,
-    "pw-demo/test-results": true,
-    "pw-demo/screenshots": true,
     "synth-1": true
   },
   "files.watcherExclude": {
@@ -39,5 +33,34 @@
     "**/.eslintcache": true,
     "**/.venv/**": true,
     "synth-1/**": true
-  }
+  },
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [
+    {
+      "directory": "_ai-share/synth-1-full",
+      "changeProcessCWD": true
+    }
+  ],
+  "prettier.configPath": "_ai-share/synth-1-full/.prettierrc",
+  "prettier.ignorePath": "_ai-share/synth-1-full/.prettierignore",
+  "tailwindCSS.experimental.configFile": "_ai-share/synth-1-full/tailwind.config.ts",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "npm.autoDetect": "on"
 }

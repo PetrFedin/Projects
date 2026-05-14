@@ -10,12 +10,12 @@ brace_balance.txt
 .next/
 out/
 build/
+coverage/
+htmlcov/
 
-# pw-demo generated
-pw-demo/playwright-report/
-pw-demo/screenshots/
-pw-demo/scraped-data/
-pw-demo/test-results/
+# Next кастомные dist-dir (synth-1-full), не путать с корневым .next/
+_ai-share/synth-1-full/.next-codex/
+_ai-share/synth-1-full/.next-isolated/
 
 # Python
 __pycache__/
