@@ -53,6 +53,51 @@ function FitSessionCard({
   const [isAddingComment, setIsAddingComment] = useState(false);
   const [commentAnchor, setCommentAnchor] = useState('');
   const [commentText, setCommentText] = useState('');
+  
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const handleAnalyzeFit = async () => {
+    setIsAnalyzing(true);
+    try {
+      const res = await fetch('/api/brand/workshop2/fit-sessions/ai-analysis', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          // Mock photo URL for now since we don't have real photos in FitSession yet
+          photoUrls: ['data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAGBAQABPxA=']
+        })
+      });
+      
+      if (!res.ok) throw new Error('Failed to analyze fit');
+      
+      const data = await res.json();
+      if (data.aiFitAnalysis) {
+        void mergeBundle({
+          fitGold: {
+            ...fg,
+            sessions: fg.sessions?.map((s) => s.id === session.id ? {
+              ...s,
+              aiFitAnalysis: data.aiFitAnalysis
+            } : s)
+          }
+        });
+        toast({
+          title: 'Анализ завершен',
+          description: 'AI успешно проанализировал посадку.',
+          className: 'bg-emerald-50 border-emerald-200 text-emerald-900',
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: 'Ошибка анализа',
+        description: 'Не удалось выполнить AI анализ посадки.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
 
   const handleAddDelta = (e: React.FormEvent) => {
     e.preventDefault();
@@ -200,7 +245,56 @@ function FitSessionCard({
         <div className="rounded-lg bg-bg-surface2 p-3 border border-border-subtle">
           <div className="flex items-center justify-between mb-3">
             <p className="text-text-primary text-[11px] font-semibold tracking-wider">Замечания к посадке</p>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-6 text-[10px] bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100"
+              onClick={handleAnalyzeFit}
+              disabled={isAnalyzing}
+            >
+              {isAnalyzing ? (
+                <LucideIcons.Loader2 className="w-3 h-3 mr-1 animate-spin" />
+              ) : (
+                <LucideIcons.Sparkles className="w-3 h-3 mr-1" />
+              )}
+              Авто-анализ (AI)
+            </Button>
           </div>
+          
+          {session.aiFitAnalysis && (
+            <div className="mb-3 p-2.5 bg-purple-50 border border-purple-100 rounded-md">
+              <div className="flex items-center gap-1.5 mb-2">
+                <LucideIcons.Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                <span className="text-[11px] font-semibold text-purple-900">AI Анализ посадки</span>
+              </div>
+              
+              {session.aiFitAnalysis.wrinklesDetected && session.aiFitAnalysis.wrinklesDetected.length > 0 && (
+                <div className="mb-2">
+                  <span className="text-[10px] font-medium text-purple-800 block mb-1">Обнаруженные заломы:</span>
+                  <div className="flex flex-wrap gap-1">
+                    {session.aiFitAnalysis.wrinklesDetected.map((wrinkle, i) => (
+                      <Badge key={i} variant="outline" className="bg-white text-purple-700 border-purple-200 text-[9px]">
+                        {wrinkle}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {session.aiFitAnalysis.recommendations && session.aiFitAnalysis.recommendations.length > 0 && (
+                <div>
+                  <span className="text-[10px] font-medium text-purple-800 block mb-1">Рекомендации конструктору:</span>
+                  <ul className="list-disc pl-3 space-y-0.5">
+                    {session.aiFitAnalysis.recommendations.map((rec, i) => (
+                      <li key={i} className="text-[10px] text-purple-800">{rec}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
           {session.comments.length === 0 ? (
             <p className="text-text-secondary text-[11px] mb-2">Замечаний нет.</p>
           ) : (
