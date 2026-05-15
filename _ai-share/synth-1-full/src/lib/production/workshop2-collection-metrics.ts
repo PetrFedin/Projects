@@ -1,4 +1,5 @@
 import { COLLECTION_STEPS } from '@/lib/production/collection-steps-catalog';
+import { normalizeLocalSkuCode } from '@/lib/production/local-collection-inventory';
 import type { Workshop2TzSignoffStageId } from '@/lib/production/workshop2-dossier-phase1.types';
 import { isSkuStepDone, type CollectionSkuFlowDoc } from '@/lib/production/unified-sku-flow-store';
 
@@ -54,7 +55,8 @@ export type Workshop2ArticleMainTab =
   | 'plan'
   | 'release'
   | 'qc'
-  | 'stock';
+  | 'stock'
+  | 'vault';
 
 /**
  * Контур вкладки или плитки маршрута в карточке SKU: обзор и ТЗ — разработка;
@@ -78,6 +80,23 @@ export function workshop2PipelineLaneForTzSignoffStage(
 }
 
 export type Workshop2RunStatus = 'draft' | 'in_progress' | 'completed';
+
+/**
+ * Ключ строки в unified flow: обычно id артикула в разработке коллекции; при старых данных —
+ * запись могла быть заведена по нормализованному SKU.
+ */
+export function resolveWorkshop2ArticleFlowSkuKey(
+  doc: CollectionSkuFlowDoc,
+  row: { id: string; sku: string }
+): string {
+  if (doc.skus[row.id]) return row.id;
+  const trimmed = row.sku?.trim() ?? '';
+  const norm = normalizeLocalSkuCode(row.sku || '') || trimmed;
+  for (const k of [norm, trimmed].filter(Boolean)) {
+    if (doc.skus[k]) return k;
+  }
+  return row.id;
+}
 
 /** Число закрытых этапов, всего этапов и % по одному артикулу. */
 export function skuPipelineStepProgress(
