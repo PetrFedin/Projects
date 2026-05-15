@@ -57,7 +57,10 @@
 1. **AI Defect Detection:** Нейросеть (Vision AI) для поиска дефектов на фото (строчки, пятна, паттерны).
 2. **Интерактивный 3D-пиннинг брака:** Тепловая карта дефектов прямо на 3D-модели в терминале ОТК.
 3. **Supplier Scorecard:** Авто-рейтинг фабрик на основе статистики AQL.
-**Plans:** 0 plans
+**Plans:** 3 plans
+- [ ] 06-01-PLAN.md — AI Defect Detection (API endpoint & Genkit Flow)
+- [ ] 06-02-PLAN.md — Interactive SVG Pinning & AI Copilot in UI
+- [ ] 06-03-PLAN.md — Supplier Scorecard (AQL Recharts Widget)
 
 ### Phase 7: Умная Приёмка (Stock / Intake)
 **Goal:** Интеграция с B2B/ритейлом и гос. системами.
