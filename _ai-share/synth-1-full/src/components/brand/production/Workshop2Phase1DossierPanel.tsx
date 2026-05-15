@@ -7994,8 +7994,32 @@ export function Workshop2Phase1DossierPanel({
       </div>
     ) : null;
 
+  const showRollbackButton =
+    dossier.lifecycleState === 'sent_to_production' || dossier.lifecycleState === 'handoff_ready';
+
+  const handleRollbackToDevelopment = () => {
+    setDossier((prev) => ({
+      ...prev,
+      lifecycleState: 'draft',
+    }));
+    toast({ title: 'Откат в разработку', description: 'ТЗ возвращено в статус черновика.' });
+  };
+
   return (
     <div className="w-full min-w-0 space-y-6 text-left" data-w2-dossier-view={dossierViewProfile}>
+      {showRollbackButton && (
+        <div className="flex items-center justify-between rounded-xl border border-amber-200 bg-amber-50 p-4">
+          <div>
+            <h3 className="text-sm font-semibold text-amber-900">
+              Статус: {dossier.lifecycleState === 'sent_to_production' ? 'В производстве' : 'Готово к передаче'}
+            </h3>
+            <p className="text-xs text-amber-800">ТЗ заблокировано для изменений.</p>
+          </div>
+          <Button type="button" variant="outline" size="sm" onClick={handleRollbackToDevelopment} className="bg-white hover:bg-slate-50 text-slate-700">
+            Откатить в разработку
+          </Button>
+        </div>
+      )}
       {/* Horizontal Breadcrumb Bar — первичные секции для w2view + переход «до 9» (паспорт-dense) */}
       <div id={W2_PASSPORT_SUBPAGE_ANCHORS.denseView} className="scroll-mt-24">
         <div className="scrollbar-thin flex items-center gap-1 overflow-x-auto pb-1">
