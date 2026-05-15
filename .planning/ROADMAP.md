@@ -68,7 +68,13 @@
 1. **Smart Allocation:** AI-распределение партии (розница, e-com, B2B) по спросу.
 2. **Compliance Sync:** Генерация кодов маркировки (Честный ЗНАК) и таможенных деклараций на основе состава.
 3. **RFID Auto-Intake:** Массовое сканирование коробок и сверка с PO.
-**Plans:** 0 plans
+**Plans:** 4 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — Define core interfaces and test skeletons (Wave 0)
+- [ ] 07-02-PLAN.md — Implement Smart Allocation Engine (Wave 1)
+- [ ] 07-03-PLAN.md — Implement Compliance Sync (Wave 1)
+- [ ] 07-04-PLAN.md — Implement RFID Auto-Intake Client & Reconciliation (Wave 2)
 
 
 ## Backlog
