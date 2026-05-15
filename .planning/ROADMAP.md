@@ -17,7 +17,10 @@
 1. **B2B Vendor Connect:** API-заглушки или реальные запросы к каталогам поставщиков для Live Stock и Lead Time.
 2. **AI Auto-Replenishment:** Автоматические предложения по закупке сырья (с учетом wastage и MOQ) на основе плана заказа (PO).
 3. **DPP & Эко-след:** Калькулятор углеродного следа (CO2) и % переработанных материалов.
-**Plans:** 0 plans
+**Plans:** 3 plans
+- [ ] 02-01-PLAN.md — B2B Vendor Connect (Live Stock & Lead Time)
+- [ ] 02-02-PLAN.md — DPP & Eco-footprint (Углеродный след и вторсырьё)
+- [ ] 02-03-PLAN.md — AI Auto-Replenishment (Авто-пополнение сырья)
 
 ### Phase 3: Цифровая Примерка (Sample & Fit)
 **Goal:** Переход от текстовых правок к визуальному 3D/AI анализу.
