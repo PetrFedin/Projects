@@ -40,7 +40,7 @@ export function Workshop2PredictiveRiskPanel({ dossier, articleId }: { dossier?:
         throw new Error('Failed to fetch prediction');
       }
       
-      const data = await res.json();
+      const data = await res.json() as CapacityPrediction;
       setPrediction(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
