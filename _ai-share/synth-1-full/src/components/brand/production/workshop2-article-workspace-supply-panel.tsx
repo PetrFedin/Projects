@@ -183,6 +183,8 @@ export function Workshop2ArticleSupplyPanel({
                         status: 'draft' as const,
                         sourceNote: `${m.supplier || ''} ${m.article || ''}`.trim(),
                         costPerUnit: m.unitCostNet,
+                        supplyType: m.supplyType,
+                        substitutes: m.substitutes,
                       })),
                       ...trims.map((t: any) => ({
                         id: newRowId(),
@@ -192,6 +194,8 @@ export function Workshop2ArticleSupplyPanel({
                         status: 'draft' as const,
                         sourceNote: `${t.supplier || ''} ${t.article || ''}`.trim(),
                         costPerUnit: t.unitCostNet,
+                        supplyType: t.supplyType,
+                        substitutes: t.substitutes,
                       }))
                     ];
 
@@ -224,82 +228,123 @@ export function Workshop2ArticleSupplyPanel({
                 {supply.lines.map((line) => (
                   <li
                     key={line.id}
-                    className="border-border-subtle bg-white flex items-center gap-2 rounded-md border p-2 shadow-sm"
+                    className="border-border-subtle bg-white flex flex-col gap-2 rounded-md border p-2 shadow-sm"
                   >
-                    <div className="flex-1 flex items-center gap-2">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="flex-1 flex items-center gap-2">
+                        <Input
+                          className="h-8 flex-1 text-[11px]"
+                          value={line.label}
+                          onChange={(e) => {
+                            const label = e.target.value;
+                            void mergeBundle({
+                              supply: {
+                                ...supply,
+                                lines: supply.lines.map((l) => (l.id === line.id ? { ...l, label } : l)),
+                              },
+                            });
+                          }}
+                          placeholder="Материал / позиция"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 px-2 text-[10px] text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 shrink-0"
+                          title="Найти в Библиотеке материалов (/brand/materials)"
+                          onClick={() => {}}
+                        >
+                          <LucideIcons.Library className="h-3.5 w-3.5 mr-1" />
+                          Каталог
+                        </Button>
+                      </div>
                       <Input
-                        className="h-8 flex-1 text-[11px]"
-                        value={line.label}
+                        className="h-8 w-24 text-[11px]"
+                        value={line.qty != null ? String(line.qty) : ''}
                         onChange={(e) => {
-                          const label = e.target.value;
+                          const v = e.target.value.trim();
+                          const qty = v === '' ? undefined : Number(v);
                           void mergeBundle({
                             supply: {
                               ...supply,
-                              lines: supply.lines.map((l) => (l.id === line.id ? { ...l, label } : l)),
+                              lines: supply.lines.map((l) =>
+                                l.id === line.id
+                                  ? { ...l, qty: !Number.isNaN(qty) ? qty : undefined }
+                                  : l
+                              ),
                             },
                           });
                         }}
-                        placeholder="Материал / позиция"
+                        placeholder="Кол-во"
+                      />
+                      <Input
+                        className="h-8 w-16 text-[11px]"
+                        value={line.unit ?? ''}
+                        onChange={(e) => {
+                          const unit = e.target.value;
+                          void mergeBundle({
+                            supply: {
+                              ...supply,
+                              lines: supply.lines.map((l) => (l.id === line.id ? { ...l, unit } : l)),
+                            },
+                          });
+                        }}
+                        placeholder="Ед"
                       />
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="h-8 px-2 text-[10px] text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 shrink-0"
-                        title="Найти в Библиотеке материалов (/brand/materials)"
-                        onClick={() => {}}
+                        className="h-8 w-8 p-0 text-red-600"
+                        onClick={() =>
+                          void mergeBundle({
+                            supply: { ...supply, lines: supply.lines.filter((l) => l.id !== line.id) },
+                          })
+                        }
+                        title="Удалить строку"
                       >
-                        <LucideIcons.Library className="h-3.5 w-3.5 mr-1" />
-                        Каталог
+                        <LucideIcons.Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
-                    <Input
-                      className="h-8 w-24 text-[11px]"
-                      value={line.qty != null ? String(line.qty) : ''}
-                      onChange={(e) => {
-                        const v = e.target.value.trim();
-                        const qty = v === '' ? undefined : Number(v);
-                        void mergeBundle({
-                          supply: {
-                            ...supply,
-                            lines: supply.lines.map((l) =>
-                              l.id === line.id
-                                ? { ...l, qty: !Number.isNaN(qty) ? qty : undefined }
-                                : l
-                            ),
-                          },
-                        });
-                      }}
-                      placeholder="Кол-во"
-                    />
-                    <Input
-                      className="h-8 w-16 text-[11px]"
-                      value={line.unit ?? ''}
-                      onChange={(e) => {
-                        const unit = e.target.value;
-                        void mergeBundle({
-                          supply: {
-                            ...supply,
-                            lines: supply.lines.map((l) => (l.id === line.id ? { ...l, unit } : l)),
-                          },
-                        });
-                      }}
-                      placeholder="Ед"
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0 text-red-600"
-                      onClick={() =>
-                        void mergeBundle({
-                          supply: { ...supply, lines: supply.lines.filter((l) => l.id !== line.id) },
-                        })
-                      }
-                      title="Удалить строку"
-                    >
-                      <LucideIcons.Trash2 className="h-4 w-4" />
-                    </Button>
+                    <div className="flex items-center gap-3 w-full bg-slate-50 p-1.5 rounded border border-slate-100">
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <span className="text-[10px] font-medium text-slate-500">Сырье:</span>
+                        <select
+                          className="h-6 text-[10px] rounded border-slate-200 bg-white px-1"
+                          value={line.supplyType ?? 'factory'}
+                          onChange={(e) => {
+                            const supplyType = e.target.value as 'brand' | 'factory';
+                            void mergeBundle({
+                              supply: {
+                                ...supply,
+                                lines: supply.lines.map((l) => (l.id === line.id ? { ...l, supplyType } : l)),
+                              },
+                            });
+                          }}
+                        >
+                          <option value="factory">Фабрики</option>
+                          <option value="brand">Бренда (Давальческое)</option>
+                        </select>
+                      </div>
+                      <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                        <span className="text-[10px] font-medium text-slate-500 shrink-0">Альтернативы:</span>
+                        <Input
+                          className="h-6 text-[10px] flex-1 bg-white"
+                          value={line.substitutes?.map(s => typeof s === 'string' ? s : s.name).join(', ') ?? ''}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            const substitutes = val ? val.split(',').map(s => s.trim()).filter(Boolean) : undefined;
+                            void mergeBundle({
+                              supply: {
+                                ...supply,
+                                lines: supply.lines.map((l) => (l.id === line.id ? { ...l, substitutes } : l)),
+                              },
+                            });
+                          }}
+                          placeholder="Укажите артикулы через запятую"
+                        />
+                      </div>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -411,6 +456,8 @@ export function Workshop2ArticleSupplyPanel({
                     status: 'draft' as const,
                     sourceNote: `${m.supplier || ''} ${m.article || ''}`.trim(),
                     costPerUnit: m.unitCostNet,
+                    supplyType: m.supplyType,
+                    substitutes: m.substitutes,
                   })),
                   ...trims.map((t: any) => ({
                     id: newRowId(),
@@ -420,6 +467,8 @@ export function Workshop2ArticleSupplyPanel({
                     status: 'draft' as const,
                     sourceNote: `${t.supplier || ''} ${t.article || ''}`.trim(),
                     costPerUnit: t.unitCostNet,
+                    supplyType: t.supplyType,
+                    substitutes: t.substitutes,
                   }))
                 ];
                 
@@ -454,6 +503,8 @@ export function Workshop2ArticleSupplyPanel({
                     status: 'draft' as const,
                     sourceNote: `${m.supplier || ''} ${m.article || ''}`.trim(),
                     costPerUnit: m.unitCostNet,
+                    supplyType: m.supplyType,
+                    substitutes: m.substitutes,
                   })),
                   ...trims.map((t: any) => ({
                     id: newRowId(),
@@ -463,6 +514,8 @@ export function Workshop2ArticleSupplyPanel({
                     status: 'draft' as const,
                     sourceNote: `${t.supplier || ''} ${t.article || ''}`.trim(),
                     costPerUnit: t.unitCostNet,
+                    supplyType: t.supplyType,
+                    substitutes: t.substitutes,
                   }))
                 ];
                 
@@ -518,6 +571,11 @@ function VendorConnectSupplyLine({
             <div className="text-text-primary text-[11px] font-semibold truncate" title={line.label}>
               {line.label || 'Без названия'}
             </div>
+            {line.supplyType === 'brand' && (
+              <span className="bg-purple-50 text-purple-700 border border-purple-200 text-[9px] px-1.5 py-0.5 rounded font-medium shrink-0">
+                Давальческое
+              </span>
+            )}
             {line.vendorItemId && (
               <div className="flex items-center gap-1 shrink-0">
                 {isLoading ? (
@@ -575,6 +633,12 @@ function VendorConnectSupplyLine({
           }}
           placeholder="Поставщик / артикул поставщика"
         />
+        {line.substitutes && line.substitutes.length > 0 && (
+          <div className="text-[9px] text-slate-500 flex items-center gap-1">
+            <LucideIcons.ArrowRightLeft className="h-3 w-3" />
+            Альтернативы: <span className="font-medium text-slate-700">{line.substitutes.map(s => typeof s === 'string' ? s : s.name).join(', ')}</span>
+          </div>
+        )}
       </div>
 
       <div className="flex gap-2 items-end">

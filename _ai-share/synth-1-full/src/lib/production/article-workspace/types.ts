@@ -29,6 +29,8 @@ export type SupplySnapshot = {
     leadTimeDays?: number; // Added: Material lead time tracking
     vendorItemId?: string; // Added: B2B Vendor Connect mock
     sourceNote?: string;
+    supplyType?: 'brand' | 'factory';
+    substitutes?: (string | { id: string; name: string })[];
   }[];
   note?: string;
 };
