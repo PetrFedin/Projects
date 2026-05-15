@@ -22,6 +22,7 @@ import {
 } from '@/components/brand/production/workshop2-article-workspace-tab-panels-shared';
 import { Workshop2RoutingSheetPrint } from './workshop2-routing-sheet-print';
 import { Workshop2OperationMedia } from './workshop2-operation-media';
+import { Workshop2BottleneckDashboard } from './workshop2-bottleneck-dashboard';
 
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 
@@ -255,8 +256,10 @@ export function Workshop2ArticleReleasePanel({
             </Button>
           </EmptyState>
         ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+              <div className="space-y-4">
+                <Workshop2BottleneckDashboard operations={operations} />
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
                   <thead>
                     <tr className="border-border-subtle text-text-secondary border-b text-left">
                       <th className="pb-2 font-medium">Название</th>
@@ -407,6 +410,7 @@ export function Workshop2ArticleReleasePanel({
                     ))}
                   </tbody>
                 </table>
+              </div>
               </div>
             )}
             <Button
