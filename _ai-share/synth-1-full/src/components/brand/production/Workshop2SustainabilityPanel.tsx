@@ -18,11 +18,23 @@ export function Workshop2SustainabilityPanel({
   const handleGenerate = async () => {
     setLoading(true);
     try {
-      const materialLines = dossier.productionModel?.materialLines || [];
+      const lines = [
+        ...(dossier.productionModel?.materialLines || []).map((m: any) => ({
+          label: m.materialName || 'Материал без названия',
+          qty: m.yieldPerUnit,
+          unit: m.yieldUnit || 'ед.',
+        })),
+        ...(dossier.productionModel?.trimLines || []).map((t: any) => ({
+          label: t.name || 'Фурнитура без названия',
+          qty: t.quantity,
+          unit: 'шт',
+        })),
+      ];
+
       const res = await fetch('/api/brand/workshop2/dpp/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ materialLines }),
+        body: JSON.stringify({ lines }),
       });
       
       if (!res.ok) throw new Error('Generation failed');
