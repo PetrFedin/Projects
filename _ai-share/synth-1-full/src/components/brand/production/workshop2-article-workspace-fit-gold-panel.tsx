@@ -7,6 +7,14 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { Fit3DViewer } from '@/components/brand/production/fit-3d-viewer';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -254,6 +262,30 @@ function FitSessionCard({
           <LucideIcons.Tag className="h-3 w-3 mr-1.5 text-text-muted" />
           Сменить тип
         </Button>
+
+        {session.cadVersionId && (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 text-[11px] bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
+              >
+                <LucideIcons.Box className="h-3 w-3 mr-1.5" />
+                Посмотреть 3D
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl w-full h-[80vh] flex flex-col">
+              <DialogHeader>
+                <DialogTitle>3D Примерка — Сессия #{idx + 1}</DialogTitle>
+              </DialogHeader>
+              <div className="flex-1 min-h-0 bg-slate-50 rounded-md overflow-hidden border border-border-subtle">
+                <Fit3DViewer modelUrl="/models/placeholder.glb" />
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
         
         {session.status === 'approved' && (
           <AlertDialog>
