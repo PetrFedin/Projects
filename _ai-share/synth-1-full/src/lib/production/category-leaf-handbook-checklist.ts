@@ -10,6 +10,7 @@ import {
 } from './category-leaf-production';
 import { resolveHandbookLeafId } from './category-handbook-leaves';
 import type { ProductionDocumentKind } from './category-leaf-production-types';
+import { getCategoryProductionParamsForLeaf } from './workshop-size-handbook';
 
 export function productionDocumentKindLabelRu(kind: ProductionDocumentKind): string {
   const m: Record<ProductionDocumentKind, string> = {
@@ -36,6 +37,7 @@ export type LeafHandbookGuidance = {
   requiredAxisLabels: string[];
   commonAxisLabels: string[];
   attachmentChecklist: LeafHandbookAttachmentItem[];
+  productionParams?: ReturnType<typeof getCategoryProductionParamsForLeaf>;
 };
 
 export function getLeafHandbookGuidance(leaf: HandbookCategoryLeaf): LeafHandbookGuidance {
@@ -51,6 +53,7 @@ export function getLeafHandbookGuidance(leaf: HandbookCategoryLeaf): LeafHandboo
     requiredAxisLabels: requiredLabels,
     commonAxisLabels: commonLabels,
     attachmentChecklist,
+    productionParams: getCategoryProductionParamsForLeaf(leaf),
   };
 }
 
