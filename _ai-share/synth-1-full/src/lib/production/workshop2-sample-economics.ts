@@ -71,3 +71,16 @@ export function calculatePreliminaryCogs(
     totalCogs: materialCost + laborCost,
   };
 }
+
+export function calculateActualCogs(
+  dossier: Workshop2DossierPhase1,
+  laborRatePerMinute: number = 15
+): PredictiveCogsBreakdown & { logisticsCost: number; actualCogs: number } {
+  const prelim = calculatePreliminaryCogs(dossier, laborRatePerMinute);
+  const logisticsCost = dossier.productionModel?.logisticsCost || 0;
+  return {
+    ...prelim,
+    logisticsCost,
+    actualCogs: dossier.productionModel?.actualCogs ?? (prelim.totalCogs + logisticsCost),
+  };
+}

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
-import { calculatePreliminaryCogs } from '@/lib/production/workshop2-sample-economics';
+import { calculatePreliminaryCogs, calculateActualCogs } from '@/lib/production/workshop2-sample-economics';
 
 interface CapacityPrediction {
   predictedDays: number;
@@ -15,7 +15,7 @@ interface CapacityPrediction {
 }
 
 export function Workshop2PredictiveRiskPanel({ dossier, articleId }: { dossier?: Workshop2DossierPhase1, articleId?: string }) {
-  const cogs = dossier ? calculatePreliminaryCogs(dossier) : null;
+  const cogs = dossier ? calculateActualCogs(dossier) : null;
   const [loading, setLoading] = useState(false);
   const [prediction, setPrediction] = useState<CapacityPrediction | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -96,18 +96,31 @@ export function Workshop2PredictiveRiskPanel({ dossier, articleId }: { dossier?:
       </div>
       
       {cogs && (
-        <div className="mb-4 grid grid-cols-3 gap-4">
-          <div className="rounded-lg border border-border-subtle bg-slate-50 p-4">
-            <div className="text-xs text-text-secondary mb-1">Сырье и материалы</div>
-            <div className="text-lg font-semibold text-text-primary">{cogs.materialCost.toFixed(2)} ₽</div>
+        <div className="mb-4 space-y-4">
+          <div className="grid grid-cols-3 gap-4">
+            <div className="rounded-lg border border-border-subtle bg-slate-50 p-4">
+              <div className="text-xs text-text-secondary mb-1">Сырье и материалы</div>
+              <div className="text-lg font-semibold text-text-primary">{cogs.materialCost.toFixed(2)} ₽</div>
+            </div>
+            <div className="rounded-lg border border-border-subtle bg-slate-50 p-4">
+              <div className="text-xs text-text-secondary mb-1">Пошив (SASH × ставка)</div>
+              <div className="text-lg font-semibold text-text-primary">{cogs.laborCost.toFixed(2)} ₽</div>
+            </div>
+            <div className="rounded-lg border border-border-default bg-blue-50 p-4">
+              <div className="text-xs text-blue-600 mb-1 font-medium">Предварительная COGS</div>
+              <div className="text-xl font-bold text-blue-700">{cogs.totalCogs.toFixed(2)} ₽</div>
+            </div>
           </div>
-          <div className="rounded-lg border border-border-subtle bg-slate-50 p-4">
-            <div className="text-xs text-text-secondary mb-1">Пошив (SASH × ставка)</div>
-            <div className="text-lg font-semibold text-text-primary">{cogs.laborCost.toFixed(2)} ₽</div>
-          </div>
-          <div className="rounded-lg border border-border-default bg-blue-50 p-4">
-            <div className="text-xs text-blue-600 mb-1 font-medium">Предварительная COGS</div>
-            <div className="text-xl font-bold text-blue-700">{cogs.totalCogs.toFixed(2)} ₽</div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div className="rounded-lg border border-border-subtle bg-slate-50 p-4">
+              <div className="text-xs text-text-secondary mb-1">Фактическая логистика</div>
+              <div className="text-lg font-semibold text-text-primary">{cogs.logisticsCost.toFixed(2)} ₽</div>
+            </div>
+            <div className="rounded-lg border border-border-default bg-emerald-50 p-4">
+              <div className="text-xs text-emerald-600 mb-1 font-medium">Фактическая COGS (Actual)</div>
+              <div className="text-xl font-bold text-emerald-700">{cogs.actualCogs.toFixed(2)} ₽</div>
+            </div>
           </div>
         </div>
       )}
