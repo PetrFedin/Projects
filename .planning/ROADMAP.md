@@ -49,7 +49,10 @@
 1. **MES Barcoding (WIP):** Генерация маршрутных листов (QR/штрихкоды) для трекинга бандлов на планшетах.
 2. **Real-time Bottleneck Detection:** Дашборд "узких горлышек" на линии.
 3. **Видео-инструкции для швей:** Прикрепление коротких видео (GIF/MP4) к сложным узлам в маршруте.
-**Plans:** 0 plans
+**Plans:** 3 plans
+- [ ] 05-01-PLAN.md — MES Barcoding & Print Layout
+- [ ] 05-02-PLAN.md — Video Instructions Integration
+- [ ] 05-03-PLAN.md — Real-time Bottleneck Dashboard
 
 ### Phase 6: Интеллектуальный ОТК (Quality Control / QC)
 **Goal:** Автоматизация поиска брака и рейтинги фабрик.
