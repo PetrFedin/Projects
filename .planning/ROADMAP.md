@@ -18,7 +18,7 @@
 2. **AI Auto-Replenishment:** Автоматические предложения по закупке сырья (с учетом wastage и MOQ) на основе плана заказа (PO).
 3. **DPP & Эко-след:** Калькулятор углеродного следа (CO2) и % переработанных материалов.
 **Plans:** 3 plans
-- [ ] 02-01-PLAN.md — B2B Vendor Connect (Live Stock & Lead Time)
+- [x] 02-01-PLAN.md — B2B Vendor Connect (Live Stock & Lead Time)
 - [ ] 02-02-PLAN.md — DPP & Eco-footprint (Углеродный след и вторсырьё)
 - [ ] 02-03-PLAN.md — AI Auto-Replenishment (Авто-пополнение сырья)
 
