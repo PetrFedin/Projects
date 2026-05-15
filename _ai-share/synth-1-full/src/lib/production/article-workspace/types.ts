@@ -155,6 +155,7 @@ export type ProductionOperation = {
   costPerUnit: number;
   status: 'pending' | 'in_progress' | 'completed';
   assignedTo?: string;
+  mediaUrl?: string;
 };
 
 export type ReleaseSnapshot = {

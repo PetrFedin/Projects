@@ -21,6 +21,7 @@ import {
   newW2ArticleTabPanelRowId as newRowId,
 } from '@/components/brand/production/workshop2-article-workspace-tab-panels-shared';
 import { Workshop2RoutingSheetPrint } from './workshop2-routing-sheet-print';
+import { Workshop2OperationMedia } from './workshop2-operation-media';
 
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 
@@ -269,10 +270,11 @@ export function Workshop2ArticleReleasePanel({
                   <tbody className="divide-border-subtle divide-y">
                     {operations.map((op) => (
                       <tr key={op.id}>
-                        <td className="py-2 pr-2">
+                        <td className="py-2 pr-2 align-top">
                           <Input
-                            className="h-8 text-[11px] focus:bg-white"
+                            className="h-8 text-[11px] focus:bg-white mb-1"
                             value={op.name}
+                            placeholder="Название операции"
                             onChange={(e) => {
                               const name = e.target.value;
                               void mergeBundle({
@@ -285,8 +287,29 @@ export function Workshop2ArticleReleasePanel({
                               });
                             }}
                           />
+                          <Input
+                            className="h-8 text-[11px] focus:bg-white text-slate-500"
+                            value={op.mediaUrl || ''}
+                            placeholder="URL видео/GIF (опционально)"
+                            onChange={(e) => {
+                              const mediaUrl = e.target.value;
+                              void mergeBundle({
+                                release: {
+                                  ...rel,
+                                  operations: operations.map((o) =>
+                                    o.id === op.id ? { ...o, mediaUrl } : o
+                                  ),
+                                },
+                              });
+                            }}
+                          />
+                          {op.mediaUrl && (
+                            <div className="mt-2 w-32 h-20">
+                              <Workshop2OperationMedia mediaUrl={op.mediaUrl} className="w-full h-full object-cover" />
+                            </div>
+                          )}
                         </td>
-                        <td className="py-2 pr-2">
+                        <td className="py-2 pr-2 align-top">
                           <Input
                             className="h-8 w-20 text-[11px] focus:bg-white"
                             value={op.sash}
@@ -304,7 +327,7 @@ export function Workshop2ArticleReleasePanel({
                             }}
                           />
                         </td>
-                        <td className="py-2 pr-2">
+                        <td className="py-2 pr-2 align-top">
                           <Input
                             className="h-8 w-24 text-[11px] focus:bg-white"
                             value={op.machineSetupTime || ''}
@@ -322,7 +345,7 @@ export function Workshop2ArticleReleasePanel({
                             }}
                           />
                         </td>
-                        <td className="py-2 pr-2">
+                        <td className="py-2 pr-2 align-top">
                           <Input
                             className="h-8 w-24 text-[11px] focus:bg-white"
                             value={op.costPerUnit}
@@ -340,7 +363,7 @@ export function Workshop2ArticleReleasePanel({
                             }}
                           />
                         </td>
-                    <td className="py-2 pr-2">
+                    <td className="py-2 pr-2 align-top">
                           <select
                             className={cn(field, "h-8 text-[11px] font-medium focus:bg-white")}
                             value={op.status}
@@ -361,7 +384,7 @@ export function Workshop2ArticleReleasePanel({
                             <option value="completed">Готово</option>
                           </select>
                         </td>
-                    <td className="py-2 text-right">
+                    <td className="py-2 text-right align-top">
                       {op.status !== 'completed' ? (
                         <Button
                           variant="ghost"
