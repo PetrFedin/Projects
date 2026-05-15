@@ -27,6 +27,8 @@ progress:
 - Added AI Scan button to fetch bounding boxes from the detect API
 - Used Recharts to visualize the pass rates and top defect types
 - Integrated the scorecard widget directly into the QC Panel
+- Used Gemini 1.5 Flash via genkit to predict sample room capacity and risks.
+- Wired the Workshop2PredictiveRiskPanel to fetch data from the new endpoint and display it.
 
 ## Performance Metrics
 | Phase | Plan | Duration | Tasks | Files |
@@ -35,3 +37,4 @@ progress:
 | 06 | 01 | 5m | 2 | 2 |
 | 06 | 02 | 5m | 2 | 1 |
 | 06 | 03 | 5m | 3 | 3 |
+| 04 | 02 | 4m | 2 | 3 |
