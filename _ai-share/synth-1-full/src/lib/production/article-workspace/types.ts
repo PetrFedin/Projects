@@ -41,6 +41,14 @@ export type FitComment = {
   role?: 'designer' | 'technologist' | 'brand_manager';
 };
 
+export type CadVersion = {
+  id: string;
+  articleId: string;
+  versionNumber: number;
+  fileUrl: string;
+  createdAt: string;
+};
+
 export type FitSessionComment = {
   id: string;
   targetAnchor: string;
@@ -57,6 +65,11 @@ export type FitSession = {
   dateStr: string;
   measurementsDelta: Record<string, number>;
   comments: FitSessionComment[];
+  cadVersionId?: string | null;
+  aiFitAnalysis?: {
+    wrinklesDetected: string[];
+    recommendations: string[];
+  };
 };
 
 export type FitGoldSnapshot = {
