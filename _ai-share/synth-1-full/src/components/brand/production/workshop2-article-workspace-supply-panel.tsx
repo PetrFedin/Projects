@@ -2,6 +2,7 @@
 
 import { Fragment } from 'react';
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -33,9 +34,13 @@ export function Workshop2ArticleSupplyPanel({
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
   const [conflictDialogOpen, setConflictDialogOpen] = useState(false);
   const [isSuggesting, setIsSuggesting] = useState(false);
+  const [wastageAllowance, setWastageAllowance] = useState(5);
 
   const handleAiReplenish = async () => {
-    if (!supply?.lines?.length) return;
+    if (!bundle?.supply?.lines?.length) return;
+    const supply = bundle.supply;
+    const poQuantity = bundle.planPo?.purchaseOrders?.reduce((acc, po) => acc + Number(po.qty || 0), 0) || 0;
+
     setIsSuggesting(true);
     try {
       const res = await fetch('/api/b2b/replenishment/suggest', {
@@ -49,7 +54,8 @@ export function Workshop2ArticleSupplyPanel({
             unit: l.unit,
             costPerUnit: l.costPerUnit
           })),
-          plannedQuantity: 100
+          plannedQuantity: poQuantity,
+          wastageAllowance
         }),
       });
       if (!res.ok) throw new Error('API Error');
@@ -57,8 +63,7 @@ export function Workshop2ArticleSupplyPanel({
       
       const newLines = supply.lines.map(line => {
         const suggestion = data.suggestions?.find((s: any) => s.lineId === line.id);
-        // Заполняем qty из suggestion, если оно не было задано
-        if (suggestion && suggestion.suggestedQty > 0 && !line.qty) {
+        if (suggestion && suggestion.suggestedQty > 0) {
           return { ...line, qty: suggestion.suggestedQty };
         }
         return line;
@@ -75,7 +80,10 @@ export function Workshop2ArticleSupplyPanel({
   if (loading || !bundle) {
     return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   }
+  
   const supply = bundle.supply!;
+  const poQuantity = bundle.planPo?.purchaseOrders?.reduce((acc, po) => acc + Number(po.qty || 0), 0) || 0;
+
   const totalCost = supply.lines.reduce(
     (acc, line) => acc + (line.qty || 0) * (line.costPerUnit || 0),
     0
@@ -598,5 +606,187 @@ export function Workshop2ArticleSupplyPanel({
         </DialogContent>
       </Dialog>
     </Fragment>
+  );
+}
+
+function VendorConnectSupplyLine({
+  line,
+  supply,
+  mergeBundle,
+}: {
+  line: NonNullable<NonNullable<ReturnType<typeof useArticleWorkspace>['bundle']>['supply']>['lines'][0];
+  supply: NonNullable<NonNullable<ReturnType<typeof useArticleWorkspace>['bundle']>['supply']>;
+  mergeBundle: ReturnType<typeof useArticleWorkspace>['mergeBundle'];
+}) {
+  const { data: stockData, isLoading } = useQuery({
+    queryKey: ['vendor-stock', line.vendorItemId],
+    queryFn: async () => {
+      if (!line.vendorItemId) return null;
+      const res = await fetch(`/api/b2b/vendor/item/${line.vendorItemId}`);
+      if (!res.ok) throw new Error('Failed to fetch stock');
+      return res.json() as Promise<{ inStock: boolean; stockQty: number; leadTimeDays: number }>;
+    },
+    enabled: !!line.vendorItemId,
+    refetchInterval: 30000, // poll every 30s
+  });
+
+  return (
+    <li className="border-blue-100 bg-white grid gap-2 rounded-md border p-3 shadow-sm sm:grid-cols-[1.5fr_1fr_auto]">
+      <div className="min-w-0 space-y-2">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="text-text-primary text-[11px] font-semibold truncate" title={line.label}>
+              {line.label || 'Без названия'}
+            </div>
+            {line.vendorItemId && (
+              <div className="flex items-center gap-1 shrink-0">
+                {isLoading ? (
+                  <span className="text-[9px] text-slate-400 flex items-center gap-1">
+                    <LucideIcons.Loader2 className="h-3 w-3 animate-spin" /> проверяем...
+                  </span>
+                ) : stockData ? (
+                  stockData.inStock ? (
+                    <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] px-1.5 py-0.5 rounded flex items-center gap-1">
+                      <LucideIcons.CheckCircle2 className="h-3 w-3" />
+                      В наличии: {stockData.stockQty}
+                    </span>
+                  ) : (
+                    <span className="bg-rose-50 text-rose-700 border border-rose-200 text-[9px] px-1.5 py-0.5 rounded flex items-center gap-1">
+                      <LucideIcons.XCircle className="h-3 w-3" />
+                      Нет в наличии
+                    </span>
+                  )
+                ) : null}
+              </div>
+            )}
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-6 px-2 text-[9px] text-emerald-700 border-emerald-200 hover:bg-emerald-50 shrink-0"
+            title="Связать с системой RFQ / Бронирования"
+            onClick={() => {
+              // Dummy linking for mock
+              const dummyId = `VND-${Math.floor(Math.random() * 10000)}`;
+              void mergeBundle({
+                supply: {
+                  ...supply,
+                  lines: supply.lines.map((l) =>
+                    l.id === line.id ? { ...l, vendorItemId: dummyId } : l
+                  ),
+                },
+              });
+            }}
+          >
+            <LucideIcons.FileText className="h-3 w-3 mr-1" /> RFQ / Бронь
+          </Button>
+        </div>
+        <Input
+          className="h-7 text-[10px]"
+          value={line.sourceNote ?? ''}
+          onChange={(e) => {
+            const sourceNote = e.target.value;
+            void mergeBundle({
+              supply: {
+                ...supply,
+                lines: supply.lines.map((l) => (l.id === line.id ? { ...l, sourceNote } : l)),
+              },
+            });
+          }}
+          placeholder="Поставщик / артикул поставщика"
+        />
+      </div>
+
+      <div className="flex gap-2 items-end">
+        <div className="space-y-1 flex-1">
+          <label className="text-[9px] text-text-muted block">Цена за {line.unit || 'ед.'}</label>
+          <Input
+            className="h-7 text-[10px]"
+            value={line.costPerUnit != null ? String(line.costPerUnit) : ''}
+            onChange={(e) => {
+              const v = e.target.value.trim();
+              const costPerUnit = v === '' ? undefined : Number(v);
+              void mergeBundle({
+                supply: {
+                  ...supply,
+                  lines: supply.lines.map((l) =>
+                    l.id === line.id
+                      ? {
+                          ...l,
+                          costPerUnit: !Number.isNaN(costPerUnit) ? costPerUnit : undefined,
+                        }
+                      : l
+                  ),
+                },
+              });
+            }}
+            placeholder="Цена"
+          />
+        </div>
+        <div className="space-y-1 flex-1">
+          <label className="text-[9px] text-text-muted block">Срок (дни)</label>
+          <Input
+            className="h-7 text-[10px]"
+            value={
+              stockData?.leadTimeDays != null
+                ? String(stockData.leadTimeDays)
+                : line.leadTimeDays != null
+                  ? String(line.leadTimeDays)
+                  : ''
+            }
+            readOnly={!!stockData}
+            title={stockData ? 'Срок поставки синхронизирован с поставщиком' : ''}
+            onChange={(e) => {
+              if (stockData) return;
+              const v = e.target.value.trim();
+              const leadTimeDays = v === '' ? undefined : Number(v);
+              void mergeBundle({
+                supply: {
+                  ...supply,
+                  lines: supply.lines.map((l) =>
+                    l.id === line.id
+                      ? {
+                          ...l,
+                          leadTimeDays: !Number.isNaN(leadTimeDays) ? leadTimeDays : undefined,
+                        }
+                      : l
+                  ),
+                },
+              });
+            }}
+            placeholder="Дни"
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-1 items-end justify-end">
+        <select
+          className={cn(field, 'h-7 w-28 text-[10px]')}
+          value={line.status}
+          onChange={(e) => {
+            const status = e.target.value as (typeof supply.lines)[0]['status'];
+            void mergeBundle({
+              supply: {
+                ...supply,
+                lines: supply.lines.map((l) => (l.id === line.id ? { ...l, status } : l)),
+              },
+            });
+          }}
+        >
+          <option value="draft">черновик</option>
+          <option value="ordered">заказано</option>
+          <option value="in_transit">в пути</option>
+          <option value="at_factory">на фабрике</option>
+          <option value="reserved">бронь</option>
+          <option value="consumed">списано</option>
+        </select>
+        {((stockData?.leadTimeDays ?? line.leadTimeDays) ?? 0) > 14 &&
+          line.status === 'ordered' && (
+            <div className="flex items-center gap-1 text-[9px] font-black tracking-tighter text-rose-500 mt-1">
+              <LucideIcons.AlertTriangle className="h-2.5 w-2.5" /> Риск: долгий срок
+            </div>
+          )}
+      </div>
+    </li>
   );
 }
