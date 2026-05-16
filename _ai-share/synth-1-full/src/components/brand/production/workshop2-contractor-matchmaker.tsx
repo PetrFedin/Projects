@@ -22,9 +22,10 @@ export function Workshop2ContractorMatchmaker({ articleDescription }: Workshop2C
   useEffect(() => {
     fetch('/api/brand/sewing-contractors')
       .then((res) => res.json())
-      .then((payload: Workshop2SewingContractorsPayload) => {
-        if (payload?.partners) {
-          setContractors(payload.partners);
+      .then((payload: unknown) => {
+        const data = payload as Workshop2SewingContractorsPayload;
+        if (data?.partners) {
+          setContractors(data.partners);
         }
       })
       .catch((err) => console.error('Failed to fetch contractors', err));
@@ -43,7 +44,7 @@ export function Workshop2ContractorMatchmaker({ articleDescription }: Workshop2C
         throw new Error('Failed to run matchmaker');
       }
       
-      const data = await res.json();
+      const data = await res.json() as MatchContractorsOutput;
       setResult(data);
       toast({ title: 'Анализ завершен', description: 'Подобраны рекомендации подрядчиков.' });
     } catch (error) {

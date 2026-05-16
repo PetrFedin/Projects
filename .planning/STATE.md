@@ -16,12 +16,15 @@ progress:
 ## Current Position
 
 - **Phase:** 11
-- **Plan:** 02
+- **Plan:** 03
 - **Status:** Completed
-- **Stopped At:** Completed 11-02-PLAN.md
+- **Stopped At:** Completed 11-03-PLAN.md
 
 ## Decisions
 
+- Used Gemini 1.5 Flash for the matchmaking flow to balance speed and reasoning quality.
+- Passed the full list of available contractors to the AI prompt to allow it to evaluate and rank them based on the article's requirements.
+- Displayed the top 3 recommendations in a dedicated UI widget alongside the DFM check panel.
 - Created analyzeDfmFlow using Gemini 1.5 Flash
 - Added /api/brand/workshop2/ai/dfm-check endpoint
 - Built Workshop2DfmCheckPanel and embedded it in Workshop2ArticleWorkspace
@@ -63,6 +66,7 @@ progress:
 | 10 | 01 | 30m | 3 | 4 |
 | 11 | 01 | 5m | 2 | 4 |
 | 11 | 02 | 5m | 2 | 4 |
+| 11 | 03 | 15m | 2 | 4 |
 | 13 | 01 | 5m | 3 | 3 |
 | 13 | 02 | 5m | 3 | 4 |
 | 13 | 03 | 5m | 3 | 3 |
