@@ -2,29 +2,36 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Completed 10-01-PLAN.md
-last_updated: "2026-05-16T10:57:21.100Z"
+status: in_progress
+stopped_at: Completed 13-03-PLAN.md
+last_updated: "2026-05-16T11:10:00.000Z"
 progress:
   total_phases: 16
-  completed_phases: 12
+  completed_phases: 13
   total_plans: 32
-  completed_plans: 28
-  percent: 75
+  completed_plans: 31
+  percent: 85
 ---
 
 ## Current Position
 
-- **Phase:** 11
-- **Plan:** 01
+- **Phase:** 13
+- **Plan:** 03
 - **Status:** Completed
-- **Stopped At:** Completed 11-01-PLAN.md
+- **Stopped At:** Completed 13-03-PLAN.md
 
 ## Decisions
 
+- Used getOrCreateGlobalRuntime for mock persistence of contextual messages.
+- Replaced the toast notification with a Dialog containing the ContextualChatThread in the bidding panel.
+- Created a dedicated `/vendor` route group for the external portal.
+- Implemented a read-only tech pack view that explicitly omits pricing and cost fields.
+- Used mock data for the initial implementation of the dashboard and tech pack view.
+- Added new collaborative events (po_status_change, raw_material_delay, qc_result) to the default triggers.
+- Implemented a preferences UI for users to toggle email and push notifications.
+- Created a mock API endpoint to dispatch and test event triggers.
 - Extended SewingPlanPartnerRow with capabilities, machines, and materialsExpertise
 - Fetched contractor profiles in Subcontractor UI using useEffect
-
 - Implement basic CR mock creation and display.
 - Position CR UI within general passport view.
 - Position Rollback button at top of dossier panel.
@@ -51,3 +58,6 @@ progress:
 | 08 | 01 | 15m | 3 | 4 |
 | 10 | 01 | 30m | 3 | 4 |
 | 11 | 01 | 5m | 2 | 4 |
+| 13 | 01 | 5m | 3 | 3 |
+| 13 | 02 | 5m | 3 | 4 |
+| 13 | 03 | 5m | 3 | 3 |
