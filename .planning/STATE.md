@@ -4,23 +4,26 @@ milestone: v1.0
 milestone_name: milestone
 status: completed
 stopped_at: Completed 10-01-PLAN.md
-last_updated: "2026-05-16T02:00:00.000Z"
+last_updated: "2026-05-16T10:57:21.100Z"
 progress:
-  total_phases: 15
-  completed_phases: 10
-  total_plans: 24
-  completed_plans: 24
-  percent: 100
+  total_phases: 16
+  completed_phases: 12
+  total_plans: 32
+  completed_plans: 28
+  percent: 75
 ---
 
 ## Current Position
 
-- **Phase:** 10
+- **Phase:** 11
 - **Plan:** 01
 - **Status:** Completed
-- **Stopped At:** Completed 10-01-PLAN.md
+- **Stopped At:** Completed 11-01-PLAN.md
 
 ## Decisions
+
+- Extended SewingPlanPartnerRow with capabilities, machines, and materialsExpertise
+- Fetched contractor profiles in Subcontractor UI using useEffect
 
 - Implement basic CR mock creation and display.
 - Position CR UI within general passport view.
@@ -47,3 +50,4 @@ progress:
 | 04 | 02 | 4m | 2 | 3 |
 | 08 | 01 | 15m | 3 | 4 |
 | 10 | 01 | 30m | 3 | 4 |
+| 11 | 01 | 5m | 2 | 4 |

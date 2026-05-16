@@ -1,0 +1,1 @@
+- src/components/brand/production/workshop2-article-workspace-stock-panel.tsx has a syntax error (JSX element 'div' has no corresponding closing tag).
