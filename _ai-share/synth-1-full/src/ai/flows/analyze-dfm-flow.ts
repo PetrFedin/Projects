@@ -70,9 +70,9 @@ ${input.articleDescription}
       console.warn('DFM AI failed, using local fallback:', getUnknownErrorMessage(error, 'unknown'));
 
       return { 
-        complexityLevel: 'moderate',
+        complexityLevel: 'moderate' as const,
         issues: [{
-          severity: 'high',
+          severity: 'high' as const,
           title: 'Ошибка анализа',
           description: 'Не удалось выполнить DFM анализ из-за ошибки AI.',
           recommendation: 'Проверьте технологичность вручную.'
