@@ -138,6 +138,10 @@ Plans:
 1. **Contextual Threading:** Привязка веток чата к конкретному шву, строке BOM или точке на 3D-аватаре.
 2. **External Vendor Portal:** Ограниченный веб-доступ для фабрик и поставщиков (просмотр ТЗ, загрузка сертификатов, внесение предложений без доступа к экономике бренда).
 3. **Event Notification Hub:** Push/Email уведомления о смене статуса PO, задержках сырья или результатах ОТК.
+**Plans:** 3 plans
+- [ ] 13-01-PLAN.md — Contextual Threading Core
+- [ ] 13-02-PLAN.md — External Vendor Portal
+- [ ] 13-03-PLAN.md — Event Notification Hub
 
 
 ## Backlog
