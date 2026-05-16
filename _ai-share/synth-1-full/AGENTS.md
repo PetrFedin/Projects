@@ -17,7 +17,9 @@
 2. **Улучшение** — UX, типы, контракты, наблюдаемость в этом дереве.
 3. **Связи** — перекрёстные ссылки между кабинетами, `data-testid`, смоки/матрица **`UNIFIED_ECOSYSTEM_VERIFICATION.md`**.
 
-**Фаза 2 (репо, хаб, гиганты, демо):** чеклист в **`docs/PLAN-phase2-repo-and-hub.md`**, вход из **`src/app/brand/organization/NEXT_IMPROVEMENTS.md`**. Для агентов: узкий read; ревью фич — scope **`organization/`**, **`production/workshop2/`**; контракты API — коротко у хука/сервиса, без длинных дублей в markdown.
+**Фаза 2 (репо, хаб, гиганты, демо):** чеклист в **`../../docs/PLAN-repo-hub-phase2.md`** (корень монорепо), вход из **`src/app/brand/organization/NEXT_IMPROVEMENTS.md`**. SQL на прод (хаб / логи синхра): **`../../scripts/sql/README.md`**. Для агентов: узкий read; ревью фич — scope **`organization/`**, **`production/workshop2/`**; контракты API — коротко у хука/сервиса, без длинных дублей в markdown.
+
+**Режимы данных (кратко):** `NEXT_PUBLIC_USE_FASTAPI` → `USE_FASTAPI` (`src/lib/syntha-api-mode.ts`): при `true` — `authRepository` и часть клиентов ходят в FastAPI; иначе моки из `src/lib/repositories/mock/*` + `fastapi-service` mock-fallbacks где подключено. Dev path-login и демо-пароль: `src/lib/auth/dev-auth-bootstrap.ts`. Дашборд с захардкоженными суммами/«живыми» коллегами: `SYNTH_DASHBOARD_DEMO_MOCKS` там же — в production по умолчанию выкл, в dev вкл (`NEXT_PUBLIC_SYNTH_DASHBOARD_DEMO_MOCKS=false` отключает).
 
 ## Commands (/)
 
@@ -26,6 +28,8 @@
 **Локальный dev:** Node **20–23** (см. **`.nvmrc`**); **`npm ci`** или **`npm install`** в этом каталоге; затем **`npm run dev`** → **http://localhost:3000**. Из корня монорепо: **`npm run dev`** (прокси сюда) или **`npm run synth-1:install`**, если нет **`node_modules`**. При отсутствии зависимостей или неподдерживаемой версии Node скрипт **`scripts/ensure-supported-node.mjs`** завершится с подсказкой.
 
 **Контрактный smoke (без полного `verify`):** из корня монорепо **`npm run smoke`**, из каталога full **`npm run smoke:fast`** — границы integrations / клиент–AI и sanity domain-events.
+
+**IDE (монорепо):** при открытии **`Projects`** как корня в Cursor/VS Code используйте **`.vscode/extensions.json`** (рекомендованные расширения) и **`.vscode/settings.json`** + **`.vscode/tasks.json`** из корня репо — ESLint/Prettier/Tailwind смотрят в этот каталог (`eslint.config.mjs`, `.prettierrc`, `tailwind.config.ts`).
 
 ## Design System
 
@@ -65,6 +69,7 @@ Before UI/UX changes: read `STYLE_GUIDE.md` and `design-system/synth-1-fashion-o
 - Приёмка экосистемы: `docs/UNIFIED_ECOSYSTEM_VERIFICATION.md` (версионируйте в git корня `Projects`, порядок правок — раздел **«Сопровождение матрицы»** в файле) · автосмок матрицы (demo): **`npm run test:e2e:verification`** → **`e2e/unified-ecosystem-smoke.spec.ts`** (UI-матрица приёмки). Детальный перечень маршрутов и якорей см. в `e2e/README.md` и коде смока.
 - Дорожная карта Q1 / strict-контур / монорепо: `docs/roadmap/ENTERPRISE-Q1.md` · жёсткое подмножество типов/линта: **`npm run typecheck:order-subset`** / **`lint:order-subset`** (`tsconfig.strict-order.json` + `package.json`; B2B operational/v1, shop cart/orders/session, **`b2c-shop-request`** / **`shop-inventory-stock-upload-client`**, inventory **`GET|POST …/stock-upload`**, processes, realtime poll, auth guard, **`env-safety-warnings`**). Политика монорепо и канон full: **`Projects/docs/MIGRATION_FULL_CUTOVER.md`**, **`docs/CANONICAL_FULL.md`**. Корневой **`Projects/src/`** (если есть) не считать каноном.
 - W2 tech pack (S3, индекс Postgres, presign/complete/download, handoff, пилот с фабрикой): `docs/W2_TECHPACK_PILOT.md` · шаблон env: `env.w2-techpack.example` · `npm run w2:techpack:preflight` · GitHub: `docs/ci/W2_TECHPACK_PREFLIGHT_GITHUB.yml`
+- **Инвесторское демо (три столба, runbook):** `docs/INVESTOR_DEMO_RUNBOOK.md` — стратегия и фазы в `.planning/research/` (`FOCUS`, `GAP`, `PLAN`, `FINAL`). **Синхрон:** нумерация шагов и URL в runbook (**§5**) = чеклист **`PLAN_RESTRUCTURE_THREE_PILLARS.md` §7.7** (п.1–9); при смене **§7.7**, подписей или pre-flight — править runbook **в том же или парном PR**, в трекере — label **`docs-runbook`** (см. `PLAN` §9.3, `GAP` §9.1 п.6). После правок навигации spine — **`npm run validate:cabinet-nav`** во full. **Env spine:** `env.cabinet-nav.example` + `src/lib/cabinet-nav-env.ts` (`NEXT_PUBLIC_BRAND_NAV_INVESTOR_SPINE`, `NEXT_PUBLIC_SHOP_NAV_INVESTOR_SPINE`, `NEXT_PUBLIC_FACTORY_NAV_INVESTOR_SPINE`, `NEXT_PUBLIC_DISTRIBUTOR_NAV_INVESTOR_SPINE`, см. `PLAN` §8.4).
 - API envelopes vs legacy: `docs/api-response-contracts.md`; Zod-контракт operational orders: `src/lib/order/b2b-operational-orders-response.schema.ts`
 - B2B v1 **RBAC на API** (опционально `B2B_V1_API_ENFORCE_ROLES=1`, заголовок `x-syntha-api-actor-role`): `src/lib/auth/b2b-v1-api-guard.ts` + матрица `src/lib/rbac.ts`; клиент — **`withB2BV1ApiActorRoleHeaders`** (`src/lib/auth/b2b-v1-api-client-headers.ts`): порядок токена **`NEXT_PUBLIC_B2B_V1_API_ACTOR_ROLE`** → **`normalizeAuthRoles(profile, user)`** (хуки + `OperationalOrderNoteV1Panel`) → pathname (`/brand` → brand, `/shop` → sales_rep)
 - B2B **v1**: Article read `GET /api/b2b/v1/articles`, `GET /api/b2b/v1/articles/[articleId]` — `src/lib/article/v1/*`; Order **read** list/detail DTO: `GET /api/b2b/v1/operational-orders`, `GET /api/b2b/v1/operational-orders/[orderId]` — `src/lib/order/operational-order-dto.ts` (`wholesaleOrderId`); hooks сначала бьют в v1, fallback на legacy `/api/b2b/operational-orders*`. Order write: `PATCH …/operational-note` — `src/lib/order/v1/*`; UI: `useArticlesV1List`, `OperationalOrderNoteV1Panel`. **SoT vs projection (канон в репо):** `docs/B2B_AND_PRODUCTION_CORE_SPEC.md`, `docs/domain-model/event-matrix.md`, код выше — отдельные `docs/domain-model/order.md` / `article.md` добавлять только вместе с ADR при расширении канона.
@@ -93,7 +98,7 @@ Icons: Lucide only. No emojis. Use `cn()` for class merging. Responsive: 375/768
 
 ## PR и доменный канон
 
-- **Шаблон PR (монорепо):** **`/.github/pull_request_template.md`** — чеклист канона и метки **`ci-heavy`** / **`ci-visual`**.
+- **Шаблон PR (монорепо):** **`/.github/pull_request_template.md`** — чеклист канона и метки **`ci-heavy`** / **`ci-visual`**. В **`.github/workflows/synth-1-full-ci.yml`** после **`ci-fast`** всегда идёт job **`investor-spine-e2e`** (второй **`test:e2e:light`** с **`NEXT_PUBLIC_*_INVESTOR_SPINE=1`**); только этот прогон — **`investor-spine-e2e-dispatch.yml`**. В **`ci-fast`** также **`npm run validate:cabinet-nav`**.
 - **Правило merge:** изменение доменной логики (Order, Article, Inventory, Availability, контракты API, SoT) **без** обновления канона (`docs/domain-model/*`, `docs/B2B_AND_PRODUCTION_CORE_SPEC.md`, `TASK_QUEUE.md`, при наличии — `docs/*-boundaries-checklist.md`) — не мержим. Исключения только с явным ADR.
 - **E2E:** затронутый HTTP-маршрут или критичный UI-поток — добавить/обновить Playwright (см. `e2e/README.md`).
 - **Новый legacy-эндпоинт** — только с ADR или ссылкой на задачу на вывод из legacy; предпочтительно **v1** за одной BFF-точкой.

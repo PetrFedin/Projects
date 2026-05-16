@@ -375,7 +375,7 @@ export function WorkplaceSection() {
                 ref={containerRef}
                 className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-6"
               >
-                <AnimatePresence mode="wait">
+                <AnimatePresence>
                   <motion.div
                     key={activeTab}
                     initial={{ opacity: 0, x: 20 }}

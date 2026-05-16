@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
@@ -7,7 +8,21 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Fit3DViewer } from '@/components/brand/production/fit-3d-viewer';
+
+const Fit3DViewer = dynamic(
+  () =>
+    import('@/components/brand/production/fit-3d-viewer').then((m) => ({
+      default: m.Fit3DViewer,
+    })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="text-text-secondary flex min-h-[200px] items-center justify-center text-xs">
+        Загрузка 3D…
+      </div>
+    ),
+  }
+);
 import {
   Dialog,
   DialogContent,

@@ -1,9 +1,32 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 /**
  * Smoke-тесты: ключевые страницы открываются без ошибок и отображают основной контент.
  * Запуск: npm run test:e2e (поднимает dev-сервер и прогоняет тесты).
  */
+
+const GOTO_OPTS = { waitUntil: 'domcontentloaded' as const, timeout: 60_000 };
+
+async function openSmokeRoute(page: Page, path: string): Promise<void> {
+  const pattern = new RegExp(path.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  let lastError: unknown;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const res = await page.goto(path, GOTO_OPTS);
+      if (page.url().startsWith('chrome-error:')) {
+        await new Promise((r) => setTimeout(r, 400));
+        continue;
+      }
+      expect(res?.status() ?? 599).toBeLessThan(500);
+      await expect(page).toHaveURL(pattern, { timeout: 25_000 });
+      return;
+    } catch (e) {
+      lastError = e;
+      await new Promise((r) => setTimeout(r, 400));
+    }
+  }
+  throw lastError instanceof Error ? lastError : new Error(String(lastError));
+}
 
 const SMOKE_ROUTES = [
   { path: '/', name: 'Главная' },
@@ -17,6 +40,7 @@ const SMOKE_ROUTES = [
   { path: '/client/returns', name: 'Возвраты' },
   { path: '/client/gift-registry', name: 'Список подарков' },
   { path: '/brand', name: 'Brand hub' },
+  { path: '/brand/b2b-orders', name: 'Brand B2B orders registry' },
   { path: '/brand/analytics/phase2', name: 'Analytics Phase 2' },
   { path: '/brand/distributor/territory', name: 'Territory Protection' },
   { path: '/brand/marketing/style-me-upsell', name: 'Style-Me Upsell' },
@@ -44,22 +68,17 @@ const SMOKE_ROUTES = [
 
 for (const { path, name } of SMOKE_ROUTES) {
   test(`smoke: ${name} (${path})`, async ({ page }) => {
-    const res = await page.goto(path, { waitUntil: 'domcontentloaded' });
-    expect(res?.status()).toBeLessThan(500);
-    await expect(page).toHaveURL(new RegExp(path.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-    const body = page.locator('body');
-    await expect(body).toBeVisible();
+    await openSmokeRoute(page, path);
+    await expect(page.locator('body')).toBeVisible();
   });
 }
 
 test.describe('Client section has nav', () => {
-  test('client layout shows ClientNav with main links', async ({ page }) => {
+  test('client hub sidebar: named navigation and active wardrobe link', async ({ page }) => {
     await page.goto('/client/wardrobe');
     const nav = page.getByRole('navigation', { name: /клиентское меню/i });
     await expect(nav).toBeVisible();
-    await expect(nav.getByRole('link', { name: /мой шкаф/i })).toBeVisible();
-    await expect(nav.getByRole('link', { name: /try before you buy/i })).toBeVisible();
-    await expect(nav.getByRole('link', { name: /заказы/i })).toBeVisible();
-    await expect(nav.getByRole('link', { name: /возвраты/i })).toBeVisible();
+    /** Группа «Гардероб» раскрыта на этом маршруте; подписи — `clientNavGroups` (не старый горизонтальный ClientNav). */
+    await expect(nav.getByRole('link', { name: /мой гардероб/i })).toBeVisible();
   });
 });

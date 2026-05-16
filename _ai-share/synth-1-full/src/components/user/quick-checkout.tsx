@@ -10,8 +10,10 @@ import { useUIState } from '@/providers/ui-state';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { ordersRepository, paymentRepository, cartRepository } from '@/lib/repositories';
+import { getSewingIntentForOrder } from '@/lib/client/sewing-order-bridge';
 import Link from 'next/link';
 import type { CartItem } from '@/lib/types';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 
 export default function QuickCheckout({
   compact = false,
@@ -49,6 +51,8 @@ export default function QuickCheckout({
       // Confirm payment (mock - always succeeds)
       await paymentRepository.confirmPayment(paymentIntent.paymentIntentId);
 
+      const sewingSnap = getSewingIntentForOrder();
+
       // Create order
       const order = await ordersRepository.createOrder(user.uid, {
         userId: user.uid,
@@ -69,6 +73,7 @@ export default function QuickCheckout({
           postalCode: '101000',
           country: 'Россия',
         },
+        ...sewingSnap,
       });
 
       // Clear cart
@@ -82,10 +87,10 @@ export default function QuickCheckout({
       });
 
       router.push(`/orders/${order.id}`);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Ошибка',
-        description: error.message || 'Не удалось оформить заказ',
+        description: getUnknownErrorMessage(error, 'Не удалось оформить заказ'),
         variant: 'destructive',
       });
     } finally {

@@ -93,6 +93,7 @@ function ShopLayoutContent({ children }: { children: React.ReactNode }) {
                   </Badge>
                 </>
               }
+              showDemoMark
               trailing={<SearchBar />}
             />
             <CabinetHubSectionBar
@@ -101,7 +102,7 @@ function ShopLayoutContent({ children }: { children: React.ReactNode }) {
               sectionTitle={activeLink?.label || 'Дашборд'}
               trailing={
                 <>
-                  {profile?.alerts?.map((alert: any, idx: number) => (
+                  {(Array.isArray(profile?.alerts) ? profile.alerts : []).map((alert: any, idx: number) => (
                     <Badge
                       key={idx}
                       variant="outline"

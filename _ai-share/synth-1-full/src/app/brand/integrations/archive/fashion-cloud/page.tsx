@@ -1,7 +1,7 @@
 'use client';
 
 import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -18,8 +18,11 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { RegistryPageHeader } from '@/components/design-system';
-
-type Message = { type: 'success' | 'error'; text: string };
+import {
+  archiveMessageFromB2bShape,
+  useArchiveIntegrationAction,
+  type ArchiveIntegrationMessage,
+} from '@/hooks/use-archive-integration-action';
 
 type FashionCloudJsonResult = {
   success?: boolean;
@@ -30,23 +33,24 @@ type FashionCloudJsonResult = {
 };
 
 export default function BrandIntegrationsFashionCloudPage() {
+  const runArchiveAction = useArchiveIntegrationAction();
   const [orders, setOrders] = useState<
     Array<{ id: string; orderNumber?: string; status?: string }>
   >([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [drafts, setDrafts] = useState<Array<{ id: string; orderNumber?: string }>>([]);
   const [draftsLoading, setDraftsLoading] = useState(false);
-  const [stockMsg, setStockMsg] = useState<Message | null>(null);
+  const [stockMsg, setStockMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [stockLoading, setStockLoading] = useState(false);
-  const [catalogMsg, setCatalogMsg] = useState<Message | null>(null);
+  const [catalogMsg, setCatalogMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [catalogLoading, setCatalogLoading] = useState(false);
 
   const importOrders = async () => {
     setOrdersLoading(true);
     try {
       const res = await fetch('/api/b2b/fashion-cloud/orders?limit=20');
-      const data = (await res.ok) ? res.json() : [];
-      setOrders(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setOrders(Array.isArray(data) ? (data as typeof orders) : []);
     } catch {
       setOrders([]);
     } finally {
@@ -67,67 +71,58 @@ export default function BrandIntegrationsFashionCloudPage() {
     }
   };
 
-  const bulkUpsertStock = async () => {
-    setStockMsg(null);
-    setStockLoading(true);
-    try {
-      const res = await fetch('/api/b2b/fashion-cloud/stock-bulk', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          stock: [
-            { gtin: '04012345678901', quantity: 100 },
-            { gtin: '04012345678902', quantity: 50 },
-          ],
-        }),
-      });
-      const data = (await res.json()) as FashionCloudJsonResult;
-      if (data.success)
-        setStockMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
-      else setStockMsg({ type: 'error', text: data.errors?.join(', ') ?? data.error ?? 'Ошибка' });
-    } catch (e) {
-      setStockMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
-    } finally {
-      setStockLoading(false);
-    }
-  };
+  const bulkUpsertStock = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setStockMsg,
+      setLoading: setStockLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/fashion-cloud/stock-bulk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            stock: [
+              { gtin: '04012345678901', quantity: 100 },
+              { gtin: '04012345678902', quantity: 50 },
+            ],
+          }),
+        });
+        const data = (await res.json()) as FashionCloudJsonResult;
+        return archiveMessageFromB2bShape(data, { kind: 'processed' });
+      },
+    });
+  }, [runArchiveAction]);
 
-  const syncCatalog = async () => {
-    setCatalogMsg(null);
-    setCatalogLoading(true);
-    try {
-      const res = await fetch('/api/b2b/fashion-cloud/catalog-sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          products: [
-            {
-              id: 'demo-1',
-              gtin: '04012345678901',
-              name: 'Demo Product',
-              options: [
-                { name: 'color', value: 'black', sort: 0 },
-                { name: 'size', value: 'M', sort: 1 },
-              ],
-              media: [
-                { type: 'image', url: 'https://example.com/photo.jpg', alt: 'Front', sort: 0 },
-                { type: 'video', url: 'https://example.com/video.mp4', sort: 1 },
-              ],
-            },
-          ],
-        }),
-      });
-      const data = (await res.json()) as FashionCloudJsonResult;
-      if (data.success)
-        setCatalogMsg({ type: 'success', text: `Синхронизировано: ${data.synced ?? 0}` });
-      else
-        setCatalogMsg({ type: 'error', text: data.errors?.join(', ') ?? data.error ?? 'Ошибка' });
-    } catch (e) {
-      setCatalogMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
-    } finally {
-      setCatalogLoading(false);
-    }
-  };
+  const syncCatalog = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setCatalogMsg,
+      setLoading: setCatalogLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/fashion-cloud/catalog-sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            products: [
+              {
+                id: 'demo-1',
+                gtin: '04012345678901',
+                name: 'Demo Product',
+                options: [
+                  { name: 'color', value: 'black', sort: 0 },
+                  { name: 'size', value: 'M', sort: 1 },
+                ],
+                media: [
+                  { type: 'image', url: 'https://example.com/photo.jpg', alt: 'Front', sort: 0 },
+                  { type: 'video', url: 'https://example.com/video.mp4', sort: 1 },
+                ],
+              },
+            ],
+          }),
+        });
+        const data = (await res.json()) as FashionCloudJsonResult;
+        return archiveMessageFromB2bShape(data, { kind: 'synced' });
+      },
+    });
+  }, [runArchiveAction]);
 
   return (
     <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">

@@ -1,7 +1,7 @@
 'use client';
 
 import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,8 +22,10 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { RegistryPageHeader } from '@/components/design-system';
-
-type Message = { type: 'success' | 'error'; text: string };
+import {
+  useArchiveIntegrationAction,
+  type ArchiveIntegrationMessage,
+} from '@/hooks/use-archive-integration-action';
 
 type SparkQuoteCreateResult = {
   success?: boolean;
@@ -33,6 +35,7 @@ type SparkQuoteCreateResult = {
 };
 
 export default function BrandIntegrationsSparkLayerPage() {
+  const runArchiveAction = useArchiveIntegrationAction();
   const [products, setProducts] = useState<Array<{ id: string; sku?: string; name?: string }>>([]);
   const [productsLoading, setProductsLoading] = useState(false);
   const [customers, setCustomers] = useState<Array<{ id: string; email?: string; name?: string }>>(
@@ -47,7 +50,7 @@ export default function BrandIntegrationsSparkLayerPage() {
     Array<{ id: string; quoteNumber?: string; status?: string }>
   >([]);
   const [quotesLoading, setQuotesLoading] = useState(false);
-  const [quoteMsg, setQuoteMsg] = useState<Message | null>(null);
+  const [quoteMsg, setQuoteMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [quoteLoading, setQuoteLoading] = useState(false);
   const [rules, setRules] = useState<
     Array<{ id: string; priceListSlug?: string; minOrderTotal?: number }>
@@ -75,8 +78,8 @@ export default function BrandIntegrationsSparkLayerPage() {
     setCustomersLoading(true);
     try {
       const res = await fetch('/api/b2b/sparklayer/customers?limit=20');
-      const data = (await res.ok) ? res.json() : [];
-      setCustomers(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setCustomers(Array.isArray(data) ? (data as typeof customers) : []);
     } catch {
       setCustomers([]);
     } finally {
@@ -110,29 +113,31 @@ export default function BrandIntegrationsSparkLayerPage() {
     }
   };
 
-  const createQuote = async () => {
-    setQuoteMsg(null);
-    setQuoteLoading(true);
-    try {
-      const res = await fetch('/api/b2b/sparklayer/quotes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          customerId: 'demo-customer',
-          lines: [{ sku: 'DEMO-SKU-01', quantity: 10 }],
-          note: 'Demo quote',
-        }),
-      });
-      const data = (await res.json()) as SparkQuoteCreateResult;
-      if (data.success)
-        setQuoteMsg({ type: 'success', text: `КП создано: ${data.quoteId ?? data.quote?.id}` });
-      else setQuoteMsg({ type: 'error', text: data.error ?? 'Ошибка' });
-    } catch (e) {
-      setQuoteMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
-    } finally {
-      setQuoteLoading(false);
-    }
-  };
+  const createQuote = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setQuoteMsg,
+      setLoading: setQuoteLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/sparklayer/quotes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            customerId: 'demo-customer',
+            lines: [{ sku: 'DEMO-SKU-01', quantity: 10 }],
+            note: 'Demo quote',
+          }),
+        });
+        const data = (await res.json()) as SparkQuoteCreateResult;
+        if (!data.success) {
+          return { type: 'error' as const, text: data.error ?? 'Ошибка' };
+        }
+        return {
+          type: 'success' as const,
+          text: `КП создано: ${data.quoteId ?? data.quote?.id ?? ''}`,
+        };
+      },
+    });
+  }, [runArchiveAction]);
 
   const loadRules = async () => {
     setRulesLoading(true);

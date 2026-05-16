@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -16,8 +16,11 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { jsonAs } from '@/lib/json';
-
-type Message = { type: 'success' | 'error'; text: string };
+import {
+  archiveMessageFromB2bShape,
+  useArchiveIntegrationAction,
+  type ArchiveIntegrationMessage,
+} from '@/hooks/use-archive-integration-action';
 
 type NuorderActionResponse = {
   success?: boolean;
@@ -26,112 +29,99 @@ type NuorderActionResponse = {
 };
 
 export default function BrandIntegrationsNuorderPage() {
-  const [inventoryMsg, setInventoryMsg] = useState<Message | null>(null);
+  const runArchiveAction = useArchiveIntegrationAction();
+  const [inventoryMsg, setInventoryMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [inventoryLoading, setInventoryLoading] = useState(false);
-  const [shipmentMsg, setShipmentMsg] = useState<Message | null>(null);
+  const [shipmentMsg, setShipmentMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [shipmentLoading, setShipmentLoading] = useState(false);
   const [orderIdShipment, setOrderIdShipment] = useState('');
-  const [editMsg, setEditMsg] = useState<Message | null>(null);
+  const [editMsg, setEditMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [editLoading, setEditLoading] = useState(false);
   const [orderIdEdit, setOrderIdEdit] = useState('');
-  const [replenishmentMsg, setReplenishmentMsg] = useState<Message | null>(null);
+  const [replenishmentMsg, setReplenishmentMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [replenishmentLoading, setReplenishmentLoading] = useState(false);
 
-  const pushInventory = async () => {
-    setInventoryMsg(null);
-    setInventoryLoading(true);
-    try {
-      const res = await fetch('/api/b2b/nuorder/inventory', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          inventory: [{ sku: 'DEMO-SKU-01', qty: 50, pre_book_qty: 20, ats_qty: 30 }],
-          overwrite: false,
-        }),
-      });
-      const data = jsonAs<NuorderActionResponse>(await res.json());
-      if (data.success)
-        setInventoryMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
-      else setInventoryMsg({ type: 'error', text: data.error ?? 'Ошибка' });
-    } catch (e) {
-      setInventoryMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
-    } finally {
-      setInventoryLoading(false);
-    }
-  };
+  const pushInventory = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setInventoryMsg,
+      setLoading: setInventoryLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/nuorder/inventory', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            inventory: [{ sku: 'DEMO-SKU-01', qty: 50, pre_book_qty: 20, ats_qty: 30 }],
+            overwrite: false,
+          }),
+        });
+        const data = jsonAs<NuorderActionResponse>(await res.json());
+        return archiveMessageFromB2bShape(data, { kind: 'processed' });
+      },
+    });
+  }, [runArchiveAction]);
 
-  const sendShipment = async () => {
-    setShipmentMsg(null);
-    setShipmentLoading(true);
-    try {
-      const res = await fetch('/api/b2b/nuorder/shipment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          order_id: orderIdShipment || 'demo-order-id',
-          tracking_number: '1Z999AA10123456784',
-          carrier: 'UPS',
-          status: 'shipped',
-          shipped_at: new Date().toISOString(),
-        }),
-      });
-      const data = jsonAs<NuorderActionResponse>(await res.json());
-      if (data.success) setShipmentMsg({ type: 'success', text: 'Статус отгрузки отправлен' });
-      else setShipmentMsg({ type: 'error', text: data.error ?? 'Ошибка' });
-    } catch (e) {
-      setShipmentMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
-    } finally {
-      setShipmentLoading(false);
-    }
-  };
+  const sendShipment = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setShipmentMsg,
+      setLoading: setShipmentLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/nuorder/shipment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            order_id: orderIdShipment || 'demo-order-id',
+            tracking_number: '1Z999AA10123456784',
+            carrier: 'UPS',
+            status: 'shipped',
+            shipped_at: new Date().toISOString(),
+          }),
+        });
+        const data = jsonAs<NuorderActionResponse>(await res.json());
+        return archiveMessageFromB2bShape(data, {
+          kind: 'literal',
+          text: 'Статус отгрузки отправлен',
+        });
+      },
+    });
+  }, [runArchiveAction, orderIdShipment]);
 
-  const updateOrder = async () => {
-    setEditMsg(null);
-    setEditLoading(true);
-    try {
-      const res = await fetch('/api/b2b/nuorder/order-edit', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          order_id: orderIdEdit || 'demo-order-id',
-          lines: [{ sku: 'DEMO-SKU-01', qty: 10 }],
-          note: 'Amendment: quantity update',
-        }),
-      });
-      const data = jsonAs<NuorderActionResponse>(await res.json());
-      if (data.success) setEditMsg({ type: 'success', text: 'Заказ обновлён' });
-      else setEditMsg({ type: 'error', text: data.error ?? 'Ошибка' });
-    } catch (e) {
-      setEditMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
-    } finally {
-      setEditLoading(false);
-    }
-  };
+  const updateOrder = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setEditMsg,
+      setLoading: setEditLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/nuorder/order-edit', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            order_id: orderIdEdit || 'demo-order-id',
+            lines: [{ sku: 'DEMO-SKU-01', qty: 10 }],
+            note: 'Amendment: quantity update',
+          }),
+        });
+        const data = jsonAs<NuorderActionResponse>(await res.json());
+        return archiveMessageFromB2bShape(data, { kind: 'literal', text: 'Заказ обновлён' });
+      },
+    });
+  }, [runArchiveAction, orderIdEdit]);
 
-  const pushReplenishment = async () => {
-    setReplenishmentMsg(null);
-    setReplenishmentLoading(true);
-    try {
-      const res = await fetch('/api/b2b/nuorder/replenishment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: [{ sku: 'DEMO-SKU-01', qty_suggested: 25, min_qty: 10 }],
-        }),
-      });
-      const data = jsonAs<NuorderActionResponse>(await res.json());
-      if (data.success)
-        setReplenishmentMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
-      else setReplenishmentMsg({ type: 'error', text: data.error ?? 'Ошибка' });
-    } catch (e) {
-      setReplenishmentMsg({
-        type: 'error',
-        text: e instanceof Error ? e.message : 'Ошибка запроса',
-      });
-    } finally {
-      setReplenishmentLoading(false);
-    }
-  };
+  const pushReplenishment = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setReplenishmentMsg,
+      setLoading: setReplenishmentLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/nuorder/replenishment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: [{ sku: 'DEMO-SKU-01', qty_suggested: 25, min_qty: 10 }],
+          }),
+        });
+        const data = jsonAs<NuorderActionResponse>(await res.json());
+        return archiveMessageFromB2bShape(data, { kind: 'processed' });
+      },
+    });
+  }, [runArchiveAction]);
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">

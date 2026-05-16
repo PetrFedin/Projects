@@ -5,6 +5,8 @@ import { organizations } from '@/components/team/_fixtures/team-data';
 import { useUIState } from '@/providers/ui-state';
 import { useToast } from '@/hooks/use-toast';
 import { ROUTES } from '@/lib/routes';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
+import { SYNTH_MOCK_KNOWN_PASSWORD } from '@/lib/auth/dev-auth-bootstrap';
 
 export function useIdentitySwitch() {
   const { signIn, updateProfile } = useAuth();
@@ -35,13 +37,13 @@ export function useIdentitySwitch() {
       let newProfile;
       try {
         console.log('Attempting sign in for:', email);
-        newProfile = await signIn(email, 'password123');
+        newProfile = await signIn(email, SYNTH_MOCK_KNOWN_PASSWORD);
         if (!newProfile) throw new Error('SignIn returned empty profile');
         console.log('Sign in SUCCESS:', newProfile.displayName, newProfile.uid);
-      } catch (signInErr: any) {
+      } catch (signInErr: unknown) {
         console.error('Sign in FAILED:', signInErr);
         throw new Error(
-          `Ошибка входа для ${email}: ${signInErr.message || 'Неверный пароль или пользователь не найден'}`
+          `Ошибка входа для ${email}: ${getUnknownErrorMessage(signInErr, 'Неверный пароль или пользователь не найден')}`
         );
       }
 
@@ -55,7 +57,7 @@ export function useIdentitySwitch() {
               activeOrganizationId: organizationId,
               partnerName: org.name,
             });
-          } catch (updateErr: any) {
+          } catch (updateErr: unknown) {
             console.warn('Update profile failed, continuing with base profile:', updateErr);
           }
         } else {
@@ -99,11 +101,11 @@ export function useIdentitySwitch() {
       if (typeof window !== 'undefined') {
         window.location.assign(targetUrl);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Identity switch CRITICAL ERROR:', err);
       toast({
         title: 'Ошибка переключения',
-        description: err.message || 'Неизвестная ошибка',
+        description: getUnknownErrorMessage(err, 'Неизвестная ошибка'),
         variant: 'destructive',
       });
     }

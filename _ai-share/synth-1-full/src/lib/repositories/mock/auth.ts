@@ -4,6 +4,7 @@
  */
 
 import type { AuthRepository, UserProfile } from '../types';
+import { SYNTH_MOCK_KNOWN_PASSWORD } from '@/lib/auth/dev-auth-bootstrap';
 
 const STORAGE_KEY = 'syntha_auth_user';
 const USERS_STORAGE_KEY = 'syntha_users_v34'; // Complete overhaul of identity sync
@@ -39,7 +40,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'elena.petrova@example.com',
       {
         email: 'elena.petrova@example.com',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'client-elena-petrova-001',
           email: 'elena.petrova@example.com',
@@ -59,7 +60,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'admin@syntha.ai',
       {
         email: 'admin@syntha.ai',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'admin-001',
           email: 'admin@syntha.ai',
@@ -104,7 +105,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'dmitry@syntha.ai',
       {
         email: 'dmitry@syntha.ai',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'admin-002',
           email: 'dmitry@syntha.ai',
@@ -151,7 +152,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'brand@syntha.ai',
       {
         email: 'brand@syntha.ai',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'brand-001',
           email: 'brand@syntha.ai',
@@ -205,7 +206,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'artem@synthalab.com',
       {
         email: 'artem@synthalab.com',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'brand-002',
           email: 'artem@synthalab.com',
@@ -254,7 +255,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'nordic@syntha.ai',
       {
         email: 'nordic@syntha.ai',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'nordic-001',
           email: 'nordic@syntha.ai',
@@ -281,7 +282,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'silk@syntha.ai',
       {
         email: 'silk@syntha.ai',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'silk-001',
           email: 'silk@syntha.ai',
@@ -310,7 +311,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'factory@syntha.ai',
       {
         email: 'factory@syntha.ai',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'factory-001',
           email: 'factory@syntha.ai',
@@ -337,7 +338,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'southern@syntha.ai',
       {
         email: 'southern@syntha.ai',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'factory-002',
           email: 'southern@syntha.ai',
@@ -366,7 +367,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'supplier@syntha.ai',
       {
         email: 'supplier@syntha.ai',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'supplier-001',
           email: 'supplier@syntha.ai',
@@ -395,7 +396,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'dist@syntha.ai',
       {
         email: 'dist@syntha.ai',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'dist-001',
           email: 'dist@syntha.ai',
@@ -424,7 +425,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'shop@syntha.ai',
       {
         email: 'shop@syntha.ai',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'shop-001',
           email: 'shop@syntha.ai',
@@ -473,7 +474,7 @@ const getUsers = (): Map<string, { email: string; password: string; profile: Use
       'natalia@tsvetnoy.ru',
       {
         email: 'natalia@tsvetnoy.ru',
-        password: 'password123',
+        password: SYNTH_MOCK_KNOWN_PASSWORD,
         profile: {
           uid: 'shop-002',
           email: 'natalia@tsvetnoy.ru',

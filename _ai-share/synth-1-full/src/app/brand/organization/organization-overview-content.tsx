@@ -1,55 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import type { RecentActivity, ModuleStatPatch } from './page-data';
-import type { HistoryEntry } from '@/components/brand/SectionBlock';
-import type { ActivityPeriod } from './_components/organization-overview-lib';
 import { OrganizationHubHeader } from './_components/organization-hub-header';
 import { OrganizationAttentionAlertsSection } from './_components/organization-attention-alerts-section';
 import { OrganizationHealthActivityGrid } from './_components/organization-health-activity-grid';
 import { OrganizationPartnerEcosystemSection } from './_components/organization-partner-ecosystem-section';
 import { OrganizationRoleReportsSection } from './_components/organization-role-reports-section';
 import { OrganizationModulesSection } from './_components/organization-modules-section';
+import type { OrganizationOverviewContentProps } from './organization-overview-content-types';
 
-export type OrganizationOverviewContentProps = {
-  modulesPeriodKey: '7d' | '30d';
-  orgProfile: any;
-  healthMetrics: any[];
-  overallHealth: number;
-  lastCheck: string;
-  healthLoading: boolean;
-  healthError: Error | null;
-  refetchHealth: () => void;
-  activityPeriod: ActivityPeriod;
-  setActivityPeriod: (p: ActivityPeriod) => void;
-  customRange: { from?: Date; to?: Date };
-  setCustomRange: (r: { from?: Date; to?: Date }) => void;
-  activityParticipant: string;
-  setActivityParticipant: (p: string) => void;
-  setBlockedActivities: React.Dispatch<React.SetStateAction<RecentActivity[]>>;
-  openBlockFor: number | null;
-  setOpenBlockFor: (n: number | null) => void;
-  openCommentFor: number | null;
-  setOpenCommentFor: (n: number | null) => void;
-  commentText: string;
-  setCommentText: (s: string) => void;
-  toast: any;
-  alerts: any;
-  getBlockLabel: (key: string) => string;
-  dismissCertificate: (id: string) => void;
-  dismissProfile: (id: string) => void;
-  dismissTask: (id: string) => void;
-  filteredActivities: RecentActivity[];
-  globalHistory: HistoryEntry[];
-  activityKey: (a: RecentActivity) => string;
-  isBlocked: (a: RecentActivity) => boolean;
-  getCorrectionHref: (act: RecentActivity) => string;
-  participantsCount?: number;
-  onlineCount?: number;
-  partialLoadWarning?: string | null;
-  moduleStatsByHref?: Record<string, ModuleStatPatch> | null;
-  partnerEcosystem?: unknown;
-};
+export type { OrganizationOverviewContentProps } from './organization-overview-content-types';
 
 export function OrganizationOverviewContent(props: OrganizationOverviewContentProps) {
   const [openHealthDetailFor, setOpenHealthDetailFor] = useState<number | null>(null);
@@ -86,6 +46,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
     dismissCertificate,
     dismissProfile,
     dismissTask,
+    dismissIntegrationIssue,
     participantsCount = 24,
     onlineCount = 8,
     partialLoadWarning,
@@ -119,6 +80,7 @@ export function OrganizationOverviewContent(props: OrganizationOverviewContentPr
         dismissCertificate={dismissCertificate}
         dismissProfile={dismissProfile}
         dismissTask={dismissTask}
+        dismissIntegrationIssue={dismissIntegrationIssue}
       />
 
       <OrganizationHealthActivityGrid

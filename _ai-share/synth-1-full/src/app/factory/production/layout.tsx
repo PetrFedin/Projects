@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Factory, Store, Briefcase, ShoppingCart, Loader2, Warehouse } from 'lucide-react';
@@ -14,8 +14,13 @@ import { manufacturerNavGroups } from '@/lib/data/factory-navigation';
 import {
   FACTORY_MFR_ARCHIVE_GROUP_ORDER,
   FACTORY_MFR_CORE_GROUP_ORDER,
+  FACTORY_MFR_INVESTOR_SPINE_CORE_GROUP_ORDER,
   SYNTHA_SIDEBAR_CLUSTERS,
 } from '@/lib/data/syntha-nav-clusters';
+import {
+  applyFactoryManufacturerInvestorSpineClusterOverrides,
+  isFactoryNavInvestorSpineEnabled,
+} from '@/lib/cabinet-nav-env';
 import { HubSidebar } from '@/components/hub/HubSidebar';
 import { HubSidebarHeader } from '@/components/hub/HubSidebarHeader';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
@@ -67,6 +72,14 @@ function FactoryProductionLayoutContent({ children }: { children: React.ReactNod
     },
   ].filter((h) => canAccessHub(role, h.hub));
 
+  const adjustedManufacturerNavGroups = useMemo(
+    () => applyFactoryManufacturerInvestorSpineClusterOverrides(manufacturerNavGroups),
+    []
+  );
+  const factoryMfrCoreOrder = isFactoryNavInvestorSpineEnabled()
+    ? FACTORY_MFR_INVESTOR_SPINE_CORE_GROUP_ORDER
+    : FACTORY_MFR_CORE_GROUP_ORDER;
+
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
       <div className={cabinetHubLayout.loadingShell}>
@@ -92,7 +105,7 @@ function FactoryProductionLayoutContent({ children }: { children: React.ReactNod
   }
 
   const sectionLabel =
-    resolveCabinetActiveNavLink(pathname, manufacturerNavGroups)?.label ?? 'Дашборд';
+    resolveCabinetActiveNavLink(pathname, adjustedManufacturerNavGroups)?.label ?? 'Дашборд';
 
   return (
     <ErrorBoundary>
@@ -111,12 +124,12 @@ function FactoryProductionLayoutContent({ children }: { children: React.ReactNod
           />
           <div className="scrollbar-hide min-h-0 flex-1 overflow-y-auto">
             <HubSidebar
-              groups={manufacturerNavGroups}
+              groups={adjustedManufacturerNavGroups}
               basePath={ROUTES.factory.production}
               accentClass="text-emerald-600"
               activeBgClass="bg-emerald-600"
               sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
-              coreGroupOrder={FACTORY_MFR_CORE_GROUP_ORDER}
+              coreGroupOrder={factoryMfrCoreOrder}
               archiveGroupOrder={FACTORY_MFR_ARCHIVE_GROUP_ORDER}
             />
           </div>
@@ -141,13 +154,13 @@ function FactoryProductionLayoutContent({ children }: { children: React.ReactNod
             </div>
             <div className="min-h-0 flex-1 overflow-y-auto">
               <HubSidebar
-                groups={manufacturerNavGroups}
+                groups={adjustedManufacturerNavGroups}
                 basePath={ROUTES.factory.production}
                 accentClass="text-emerald-600"
                 activeBgClass="bg-emerald-600"
                 onNavigate={() => setSidebarOpen(false)}
                 sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
-                coreGroupOrder={FACTORY_MFR_CORE_GROUP_ORDER}
+                coreGroupOrder={factoryMfrCoreOrder}
                 archiveGroupOrder={FACTORY_MFR_ARCHIVE_GROUP_ORDER}
               />
             </div>
@@ -170,6 +183,7 @@ function FactoryProductionLayoutContent({ children }: { children: React.ReactNod
                   {cabinetRoleLabelRu(role)}
                 </Badge>
               }
+              showDemoMark
               trailing={
                 <nav className="flex flex-wrap items-center gap-2" aria-label="Переключение хабов">
                   {hubs.map((hub) => {

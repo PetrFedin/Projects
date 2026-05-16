@@ -189,7 +189,11 @@ function getDefaultAttributesForCategory(
   const { level1, level2, level3 } = category;
 
   const getRelevantOptions = (
-    optionsObject: Record<string, string[]> | { value: string; label: string }[] | undefined
+    optionsObject:
+      | Readonly<Record<string, readonly string[]>>
+      | Record<string, string[]>
+      | { value: string; label: string }[]
+      | undefined
   ): string[] => {
     if (!optionsObject) return [];
     if (Array.isArray(optionsObject) && typeof optionsObject[0] === 'object') {
@@ -202,9 +206,12 @@ function getDefaultAttributesForCategory(
       return [];
     }
 
-    if (level3 && optionsObject[level3]) return optionsObject[level3];
-    if (level2 && optionsObject[level2]) return optionsObject[level2];
-    if (level1 && optionsObject[level1]) return optionsObject[level1];
+    const pick = (key: string | undefined): readonly string[] | undefined =>
+      key ? optionsObject[key] : undefined;
+
+    if (level3 && pick(level3)) return [...pick(level3)!];
+    if (level2 && pick(level2)) return [...pick(level2)!];
+    if (level1 && pick(level1)) return [...pick(level1)!];
 
     // Fallback: If no specific category matches, don't select any options by default.
     return [];

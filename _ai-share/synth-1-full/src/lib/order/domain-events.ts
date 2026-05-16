@@ -1,6 +1,7 @@
 import { DomainEvent } from '../production/execution-linkage';
 import { DomainEventTypes } from './domain-event-catalog';
 import { logObservability } from '@/lib/logger';
+import { getUnknownErrorDetail } from '@/lib/unknown-error-message';
 
 export type { DomainEvent };
 
@@ -328,10 +329,12 @@ export type InventoryShopStockFileIngestedEvent = DomainEvent & {
  * [Phase 3] Добавлена поддержка RetryPolicy и Dead Letter Queue (DLQ).
  * [Phase 17] Добавлен Circuit Breaker и защита от утечек памяти (WeakRef mock).
  */
+type DomainEventHandler = (event: DomainEvent) => Promise<void> | void;
+
 class DomainEventBus {
   private static instance: DomainEventBus;
-  private subscribers: Map<string, ((event: any) => Promise<void> | void)[]> = new Map();
-  private dlq: Array<{ event: DomainEvent; error: any; failedAt: string }> = [];
+  private subscribers: Map<string, DomainEventHandler[]> = new Map();
+  private dlq: Array<{ event: DomainEvent; error: string; failedAt: string }> = [];
   private eventStore: Array<DomainEvent> = []; // [Phase 2 Prod] Simulated Persistent Store
   private readonly MAX_DLQ_SIZE = 1000; // Защита от OOM
   private readonly MAX_STORE_SIZE = 5000; // Защита от OOM
@@ -432,13 +435,14 @@ class DomainEventBus {
    * [Phase 45] Строгая валидация структуры события (Runtime Type Checking).
    * Предотвращает "отравление" шины некорректными данными.
    */
-  private validateEvent(event: any): boolean {
-    if (!event) return false;
-    if (typeof event.eventId !== 'string' || !event.eventId.trim()) return false;
-    if (typeof event.occurredAt !== 'string' || isNaN(Date.parse(event.occurredAt))) return false;
-    if (typeof event.aggregateId !== 'string' || !event.aggregateId.trim()) return false;
-    if (typeof event.aggregateType !== 'string' || !event.aggregateType.trim()) return false;
-    if (typeof event.payload !== 'object' || event.payload === null) return false;
+  private validateEvent(event: unknown): boolean {
+    if (!event || typeof event !== 'object') return false;
+    const e = event as Record<string, unknown>;
+    if (typeof e.eventId !== 'string' || !e.eventId.trim()) return false;
+    if (typeof e.occurredAt !== 'string' || Number.isNaN(Date.parse(e.occurredAt))) return false;
+    if (typeof e.aggregateId !== 'string' || !e.aggregateId.trim()) return false;
+    if (typeof e.aggregateType !== 'string' || !e.aggregateType.trim()) return false;
+    if (typeof e.payload !== 'object' || e.payload === null) return false;
     return true;
   }
 
@@ -491,13 +495,13 @@ class DomainEventBus {
   }
 
   private resolveEventType(event: DomainEvent): string {
-    return (event as any).type || event.aggregateType;
+    return event.type || event.aggregateType;
   }
 
   private collectHandlers(
     eventType: string,
     aggregateType: string
-  ): Array<(event: any) => Promise<void> | void> {
+  ): DomainEventHandler[] {
     const handlers = this.subscribers.get(eventType) || [];
     const aggregateHandlers = this.subscribers.get(aggregateType) || [];
     return [...handlers, ...aggregateHandlers];
@@ -541,11 +545,7 @@ class DomainEventBus {
     if (!allOk) {
       const first = rejected[0];
       const reason =
-        first && first.status === 'rejected'
-          ? first.reason instanceof Error
-            ? first.reason.message
-            : String(first.reason)
-          : 'Urgent handler failed';
+        first?.status === 'rejected' ? getUnknownErrorDetail(first.reason) : 'Urgent handler failed';
       this.addToDLQ(event, `Urgent publish failed: ${reason}`);
       this.logBusMetric('domain_event_bus.urgent_failed', {
         type: eventType,
@@ -639,7 +639,7 @@ class DomainEventBus {
 
           if (attempts >= maxRetries || this.circuitOpen) {
             this.debugLog('error', `[DomainEventBus] Event moved to DLQ: ${eventType}`);
-            this.addToDLQ(event, error instanceof Error ? error.message : String(error));
+            this.addToDLQ(event, getUnknownErrorDetail(error));
             anyHandlerFailed = true;
             break; // Stop retrying this handler
           } else {
@@ -721,7 +721,7 @@ class DomainEventBus {
     return this.eventStore;
   }
 
-  public subscribe(eventType: string, handler: (event: any) => Promise<void> | void): () => void {
+  public subscribe(eventType: string, handler: DomainEventHandler): () => void {
     const handlers = this.subscribers.get(eventType) || [];
     this.subscribers.set(eventType, [...handlers, handler]);
 

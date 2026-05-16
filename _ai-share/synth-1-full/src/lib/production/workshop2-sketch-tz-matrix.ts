@@ -136,7 +136,7 @@ export type VisualCatalogSketchLinkRow = Pick<
  */
 export function mergeSuggestedTzAttributeIdsForSketchType(
   t: Workshop2SketchAnnotationType | undefined,
-  visualsCatalogLinks: VisualCatalogSketchLinkRow[] | undefined
+  visualsCatalogLinks: readonly VisualCatalogSketchLinkRow[] | undefined
 ): string[] {
   const base = suggestedTzAttributeIdsForSketchType(t);
   if (!t || !visualsCatalogLinks?.length) return base;

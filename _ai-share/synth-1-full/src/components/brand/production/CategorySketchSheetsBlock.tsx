@@ -7,14 +7,19 @@ import {
   useState,
   type CSSProperties,
   type Dispatch,
+  type LegacyRef,
+  type ReactNode,
+  type Ref,
   type SetStateAction,
 } from 'react';
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
-import { CategorySketchTemplateSvg } from '@/lib/production/category-sketch-template';
 import {
   CategorySketchAnnotator,
   type CategorySketchAnnotatorContext,
+  type CategorySketchAnnotatorHandle,
 } from '@/components/brand/production/CategorySketchAnnotator';
+import { SketchCompareMiniBoard } from '@/components/brand/production/category-sketch-sheets-block-compare-mini-board';
+import { WORKFLOW_STATUS_LABEL } from '@/components/brand/production/category-sketch-sheets-block-constants';
 import type {
   Workshop2DossierPhase1,
   Workshop2Phase1CategorySketchAnnotation,
@@ -35,11 +40,11 @@ import {
   applySketchPinTemplateToSheet,
   createSketchPinTemplateRecord,
   resolveSketchPinTemplatePick,
-  sketchPinBelongsToLeaf,
 } from '@/lib/production/workshop2-sketch-pin-templates';
 import {
   appendImportedLegacySheets,
   createEmptySketchSheet,
+  defaultExtraSketchSheetTitle,
   duplicateSketchSheet,
   MAX_ANNOTATIONS_PER_SKETCH_SHEET,
   MAX_SKETCH_SHEETS,
@@ -67,56 +72,8 @@ import {
   Columns2,
   Copy,
   Layers,
-  Plus,
   Trash2,
 } from 'lucide-react';
-
-const WORKFLOW_STATUS_LABEL: Record<Workshop2SketchSheetWorkflowStatus, string> = {
-  draft: 'Черновик',
-  review: 'На согласовании',
-  approved: 'Утверждён',
-};
-
-function SketchCompareMiniBoard(props: {
-  sheet: Workshop2Phase1SketchSheet;
-  currentLeaf: HandbookCategoryLeaf;
-  sketchContext?: CategorySketchAnnotatorContext;
-  leafId: string;
-}) {
-  const pins = props.sheet.annotations.filter((a) => sketchPinBelongsToLeaf(a, props.leafId));
-  return (
-    <div className="border-border-default relative aspect-[4/3] w-full overflow-hidden rounded-lg border bg-white">
-      <div className="absolute inset-0">
-        {props.sheet.imageDataUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element -- data URL из досье
-          <img src={props.sheet.imageDataUrl} alt="" className="h-full w-full object-contain" />
-        ) : (
-          <CategorySketchTemplateSvg
-            leaf={props.currentLeaf}
-            sketchContext={props.sketchContext}
-            className="h-full w-full"
-          />
-        )}
-      </div>
-      {pins.map((a, idx) => (
-        <div
-          key={a.annotationId}
-          className={cn(
-            'absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white text-[10px] font-bold text-white shadow-md',
-            a.priority === 'critical'
-              ? 'bg-rose-600'
-              : a.stage === 'qc'
-                ? 'bg-amber-600'
-                : 'bg-teal-600'
-          )}
-          style={{ left: `${a.xPct}%`, top: `${a.yPct}%` }}
-        >
-          {idx + 1}
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function newUuid(): string {
   return crypto.randomUUID();
@@ -146,15 +103,22 @@ type Props = {
     activeSheetId: string;
     onActiveSheetChange: (sheetId: string) => void;
   };
+  /** Левая колонка «Общий + листы» (например W2SketchThumbRail), если родитель уже рисует её снаружи. */
+  sketchSheetsRail?: ReactNode;
+  /** Скрыть горизонтальный ряд мини-кнопок листов в карточке «Какой лист…» — выбор только из sketchSheetsRail. */
+  hideSheetThumbnailRail?: boolean;
   /** Варианты BOM ref из досье — см. CategorySketchAnnotator. */
-  bomLinePickOptions?: { value: string; label: string }[];
+  bomLinePickOptions?: readonly { value: string; label: string }[];
   /** Сквозная навигация с метки листа — как у master-скетча в досье. */
   onJumpToDossierSection?: (section: Workshop2TzPanelSectionId) => void;
   onNavigateRouteStage?: (stage: Workshop2TzSignoffStageId) => void;
   /** Подсветка полей каталога «Визуал» при выборе метки на скетче. */
-  visualCatalogAttributeIds?: string[];
-  visualCatalogSketchLinks?: VisualCatalogSketchLinkRow[];
+  visualCatalogAttributeIds?: readonly string[];
+  visualCatalogSketchLinks?: readonly VisualCatalogSketchLinkRow[];
   onVisualCatalogSuggestFromSketch?: (ids: string[]) => void;
+  /** Реф на редактор листа — кнопка «Открыть скетч» в шапке досье. */
+  /** Ref на активный листовый аннотатор (совместим с `useRef<T | null>`). */
+  sketchToolbarEditorRef?: Ref<CategorySketchAnnotatorHandle | null>;
 };
 
 export function CategorySketchSheetsBlock({
@@ -170,12 +134,15 @@ export function CategorySketchSheetsBlock({
   auditActor,
   sketchViewFloor,
   embeddedPicker,
+  sketchSheetsRail,
+  hideSheetThumbnailRail = false,
   bomLinePickOptions,
   onJumpToDossierSection,
   onNavigateRouteStage,
   visualCatalogAttributeIds,
   visualCatalogSketchLinks,
   onVisualCatalogSuggestFromSketch,
+  sketchToolbarEditorRef,
 }: Props) {
   const sheetChromeReadOnly = sketchViewFloor;
   const leafId = currentLeaf.leafId;
@@ -266,22 +233,6 @@ export function CategorySketchSheetsBlock({
     return parts.length ? parts.join(' · ') : undefined;
   }, [activeSheet]);
 
-  const [sceneListFilter, setSceneListFilter] = useState<string>('all');
-  const sceneFilterOptions = useMemo(() => {
-    const ids = new Set<string>();
-    for (const s of sheets) {
-      ids.add(s.sceneId?.trim() || '');
-    }
-    const keys = [...ids].filter(Boolean).sort();
-    return { keys, hasEmpty: ids.has('') };
-  }, [sheets]);
-
-  const sheetsForList = useMemo(() => {
-    if (sceneListFilter === 'all') return sheets;
-    if (sceneListFilter === '__empty__') return sheets.filter((s) => !s.sceneId?.trim());
-    return sheets.filter((s) => (s.sceneId?.trim() || '') === sceneListFilter);
-  }, [sheets, sceneListFilter]);
-
   const sceneMismatch = useMemo(() => {
     if (!activeSheet) return null;
     const mid = dossier.categorySketchSceneId?.trim();
@@ -294,14 +245,14 @@ export function CategorySketchSheetsBlock({
   }, [activeSheet, dossier.categorySketchSceneId, dossier.categorySketchSceneView]);
 
   useEffect(() => {
-    if (sheetsForList.length === 0) return;
+    if (sheets.length === 0) return;
     const current = embeddedPicker?.activeSheetId ?? activeSheetId;
-    if (!current || !sheetsForList.some((s) => s.sheetId === current)) {
-      const next = sheetsForList[0]!.sheetId;
+    if (!current || !sheets.some((s) => s.sheetId === current)) {
+      const next = sheets[0]!.sheetId;
       if (embeddedPicker) embeddedPicker.onActiveSheetChange(next);
       else setActiveSheetId(next);
     }
-  }, [sheetsForList, activeSheetId, embeddedPicker]);
+  }, [sheets, activeSheetId, embeddedPicker]);
 
   const orgSketchTemplatesForSheet = useMemo(
     () => readOrgSketchPinTemplatesSync(collectionId),
@@ -313,7 +264,7 @@ export function CategorySketchSheetsBlock({
     setDossier((p) => {
       const cur = normalizeSketchSheets(p.sketchSheets);
       if (cur.length >= MAX_SKETCH_SHEETS) return p;
-      const sheet = createEmptySketchSheet(`Лист ${cur.length + 1}`);
+      const sheet = createEmptySketchSheet(defaultExtraSketchSheetTitle(cur.length));
       newId = sheet.sheetId;
       return { ...p, sketchSheets: [...cur, sheet] };
     });
@@ -381,17 +332,17 @@ export function CategorySketchSheetsBlock({
 
   const goPrevSheet = useCallback(() => {
     if (!resolvedSheetId) return;
-    const idx = sheetsForList.findIndex((s) => s.sheetId === resolvedSheetId);
+    const idx = sheets.findIndex((s) => s.sheetId === resolvedSheetId);
     if (idx <= 0) return;
-    pickSheet(sheetsForList[idx - 1]!.sheetId);
-  }, [resolvedSheetId, sheetsForList, pickSheet]);
+    pickSheet(sheets[idx - 1]!.sheetId);
+  }, [resolvedSheetId, sheets, pickSheet]);
 
   const goNextSheet = useCallback(() => {
     if (!resolvedSheetId) return;
-    const idx = sheetsForList.findIndex((s) => s.sheetId === resolvedSheetId);
-    if (idx < 0 || idx >= sheetsForList.length - 1) return;
-    pickSheet(sheetsForList[idx + 1]!.sheetId);
-  }, [resolvedSheetId, sheetsForList, pickSheet]);
+    const idx = sheets.findIndex((s) => s.sheetId === resolvedSheetId);
+    if (idx < 0 || idx >= sheets.length - 1) return;
+    pickSheet(sheets[idx + 1]!.sheetId);
+  }, [resolvedSheetId, sheets, pickSheet]);
 
   const openCompareDialog = useCallback(() => {
     if (sheets.length < 2 || !resolvedSheetId) return;
@@ -532,7 +483,7 @@ export function CategorySketchSheetsBlock({
               disabled={sheetChromeReadOnly}
               onClick={addSheet}
             >
-              + Первый лист
+              + {defaultExtraSketchSheetTitle(0)}
             </Button>
           </div>
         </div>
@@ -543,14 +494,11 @@ export function CategorySketchSheetsBlock({
   const activeIndexAll = resolvedSheetId
     ? sheets.findIndex((s) => s.sheetId === resolvedSheetId)
     : -1;
-  const activeIndexInList = resolvedSheetId
-    ? sheetsForList.findIndex((s) => s.sheetId === resolvedSheetId)
-    : -1;
   const comparePeerSheet = comparePeerId
     ? sheets.find((s) => s.sheetId === comparePeerId)
     : undefined;
 
-  return (
+  const mainColumn = (
     <div className="space-y-4">
       {canImportLegacy ? (
         <details className="rounded-lg border border-amber-200 bg-amber-50/50">
@@ -574,15 +522,10 @@ export function CategorySketchSheetsBlock({
         </details>
       ) : null}
 
-      <div className="border-border-default rounded-xl border bg-white p-3 shadow-sm">
-        <p className="text-text-primary mb-1 text-xs font-semibold">Какой лист редактируем</p>
-        <p className="text-text-secondary mb-2 text-[11px] leading-snug">
-          ‹ › — лист в текущем списке; ↑↓ — порядок листов в досье. Название — поле рядом. Ниже
-          сразу доска; поля цеха и PLM — в свёрнутом блоке в конце.
-        </p>
+      <div className="border-border-default space-y-2 rounded-xl border bg-white p-3 shadow-sm">
         <div className="flex flex-wrap items-center gap-2">
           <div
-            className="border-border-default bg-bg-surface2 flex shrink-0 items-center gap-0.5 rounded-lg border p-0.5"
+            className="border-border-default bg-bg-surface2 flex h-9 shrink-0 items-center gap-0.5 rounded-lg border px-0.5"
             role="group"
             aria-label="Переключение листа"
           >
@@ -590,39 +533,54 @@ export function CategorySketchSheetsBlock({
               type="button"
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
-              disabled={activeIndexInList <= 0 || sheetsForList.length < 2}
+              className="h-9 w-9 shrink-0"
+              disabled={activeIndexAll <= 0 || sheets.length < 2}
               title="Предыдущий лист"
               onClick={goPrevSheet}
             >
               <ChevronLeft className="h-4 w-4" aria-hidden />
             </Button>
-            {sheetsForList.length > 0 ? (
-              <span className="text-text-secondary min-w-[2.75rem] px-1 text-center text-[10px] font-semibold tabular-nums">
-                {activeIndexInList >= 0 ? activeIndexInList + 1 : '—'} / {sheetsForList.length}
+            {sheets.length > 0 ? (
+              <span className="text-text-secondary flex h-9 min-w-[2.75rem] items-center justify-center px-1 text-center text-[10px] font-semibold tabular-nums">
+                {activeIndexAll >= 0 ? activeIndexAll + 1 : '—'} / {sheets.length}
               </span>
             ) : null}
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
-              disabled={activeIndexInList < 0 || activeIndexInList >= sheetsForList.length - 1}
+              className="h-9 w-9 shrink-0"
+              disabled={activeIndexAll < 0 || activeIndexAll >= sheets.length - 1}
               title="Следующий лист"
               onClick={goNextSheet}
             >
               <ChevronRight className="h-4 w-4" aria-hidden />
             </Button>
           </div>
+          {activeSheet ? (
+            <div className="min-w-0 max-w-[min(100%,20rem)] flex-1 basis-[10rem]">
+              <Label htmlFor="sketch-sheet-title-inline" className="sr-only">
+                Название листа
+              </Label>
+              <Input
+                id="sketch-sheet-title-inline"
+                className="h-9 text-xs"
+                value={activeSheet.title ?? ''}
+                placeholder="Название листа"
+                readOnly={sheetChromeReadOnly}
+                onChange={(e) => patchActive({ title: e.target.value })}
+              />
+            </div>
+          ) : null}
           <div
-            className="border-border-default bg-bg-surface2/80 flex shrink-0 items-center gap-0.5 rounded-lg border p-0.5"
+            className="border-border-default bg-bg-surface2/80 flex h-9 shrink-0 items-center gap-0.5 rounded-lg border px-0.5"
             title="Порядок листов в общем списке досье"
           >
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="h-8 w-8 shrink-0"
+              className="h-9 w-9 shrink-0"
               disabled={activeIndexAll <= 0 || sheetChromeReadOnly}
               aria-label="Выше в общем списке листов"
               onClick={() => moveActive(-1)}
@@ -633,7 +591,7 @@ export function CategorySketchSheetsBlock({
               type="button"
               variant="ghost"
               size="icon"
-              className="h-8 w-8 shrink-0"
+              className="h-9 w-9 shrink-0"
               disabled={
                 activeIndexAll < 0 || activeIndexAll >= sheets.length - 1 || sheetChromeReadOnly
               }
@@ -643,34 +601,19 @@ export function CategorySketchSheetsBlock({
               <ChevronDown className="h-4 w-4" />
             </Button>
           </div>
-          {activeSheet ? (
-            <div className="min-w-[10rem] max-w-[18rem] flex-1 basis-[12rem]">
-              <Label htmlFor="sketch-sheet-title-inline" className="sr-only">
-                Название листа
-              </Label>
-              <Input
-                id="sketch-sheet-title-inline"
-                className="h-8 text-xs"
-                value={activeSheet.title ?? ''}
-                placeholder="Название листа"
-                readOnly={sheetChromeReadOnly}
-                onChange={(e) => patchActive({ title: e.target.value })}
-              />
-            </div>
-          ) : null}
-          <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
-            {sheetsForList.map((s) => {
+          {!hideSheetThumbnailRail ? (
+            <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
+            {sheets.map((s) => {
               const n = s.annotations.filter((a) => a.categoryLeafId === leafId).length;
-              const label = (
-                s.title?.trim() || SKETCH_SHEET_VIEW_LABELS[s.viewKind ?? 'other']
-              ).slice(0, 28);
+              const idxAll = Math.max(0, sheets.findIndex((x) => x.sheetId === s.sheetId));
+              const label = (s.title?.trim() || defaultExtraSketchSheetTitle(idxAll)).slice(0, 28);
               return (
                 <button
                   key={s.sheetId}
                   type="button"
                   onClick={() => pickSheet(s.sheetId)}
                   className={cn(
-                    'inline-flex max-w-[180px] items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-left text-xs font-medium transition-colors',
+                    'inline-flex h-9 min-h-9 max-w-[180px] items-center gap-1.5 rounded-lg border px-2.5 text-left text-xs font-medium transition-colors',
                     s.sheetId === resolvedSheetId
                       ? 'border-accent-primary/40 bg-accent-primary/10 text-accent-primary shadow-sm'
                       : 'border-border-default bg-bg-surface2/80 text-text-primary hover:border-border-default hover:bg-white'
@@ -690,7 +633,8 @@ export function CategorySketchSheetsBlock({
                 </button>
               );
             })}
-          </div>
+            </div>
+          ) : null}
           <Button
             type="button"
             variant="outline"
@@ -703,68 +647,7 @@ export function CategorySketchSheetsBlock({
             <Trash2 className="h-4 w-4 shrink-0" aria-hidden />
             Удалить лист
           </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            className="h-9 gap-1.5 text-xs font-medium shadow-sm"
-            disabled={sheets.length >= MAX_SKETCH_SHEETS || sheetChromeReadOnly}
-            onClick={addSheet}
-          >
-            <Plus className="h-4 w-4" />
-            Новый лист
-          </Button>
         </div>
-        {sceneFilterOptions.keys.length > 0 || sceneFilterOptions.hasEmpty ? (
-          <details className="border-border-subtle bg-bg-surface2/80 mt-3 rounded-lg border text-[11px]">
-            <summary className="text-text-primary cursor-pointer list-none px-2 py-2 font-medium [&::-webkit-details-marker]:hidden">
-              Фильтр списка по ID сцены
-            </summary>
-            <div className="border-border-subtle flex flex-wrap gap-1.5 border-t px-2 py-2">
-              <button
-                type="button"
-                className={cn(
-                  'rounded-md border px-2 py-1 text-[11px]',
-                  sceneListFilter === 'all'
-                    ? 'border-accent-primary/30 bg-accent-primary/10 font-medium'
-                    : 'border-transparent bg-white'
-                )}
-                onClick={() => setSceneListFilter('all')}
-              >
-                Все листы
-              </button>
-              {sceneFilterOptions.keys.map((k) => (
-                <button
-                  key={k}
-                  type="button"
-                  className={cn(
-                    'rounded-md border px-2 py-1 font-mono text-[10px]',
-                    sceneListFilter === k
-                      ? 'border-accent-primary/30 bg-accent-primary/10 font-medium'
-                      : 'border-transparent bg-white'
-                  )}
-                  onClick={() => setSceneListFilter(k)}
-                >
-                  {k.length > 14 ? `${k.slice(0, 12)}…` : k}
-                </button>
-              ))}
-              {sceneFilterOptions.hasEmpty ? (
-                <button
-                  type="button"
-                  className={cn(
-                    'rounded-md border px-2 py-1 text-[11px]',
-                    sceneListFilter === '__empty__'
-                      ? 'border-accent-primary/30 bg-accent-primary/10 font-medium'
-                      : 'border-transparent bg-white'
-                  )}
-                  onClick={() => setSceneListFilter('__empty__')}
-                >
-                  Без id сцены
-                </button>
-              ) : null}
-            </div>
-          </details>
-        ) : null}
       </div>
 
       {activeSheet ? (
@@ -813,12 +696,8 @@ export function CategorySketchSheetsBlock({
           ) : null}
 
           <div className="border-border-default rounded-xl border bg-white p-3 shadow-sm">
-            <p className="text-text-primary mb-1 text-xs font-semibold">Доска листа</p>
-            <p className="text-text-secondary mb-3 text-[11px] leading-snug">
-              Подложка и метки — как на «Общий». Статус цеха, сцена, заметки и шаблоны — в свёрнутом
-              блоке ниже.
-            </p>
             <CategorySketchAnnotator
+              ref={sketchToolbarEditorRef as LegacyRef<CategorySketchAnnotatorHandle> | undefined}
               currentLeaf={currentLeaf}
               imageDataUrl={activeSheet.imageDataUrl}
               imageFileName={activeSheet.imageFileName}
@@ -846,11 +725,45 @@ export function CategorySketchSheetsBlock({
               categorySketchSceneId={dossier.categorySketchSceneId}
               categorySketchSceneView={dossier.categorySketchSceneView}
               sketchMesDefectCatalog={dossier.sketchMesDefectCatalog}
+              sketchMaterialCards={activeSheet.materialCards ?? []}
+              onSketchMaterialCardsChange={(next) => patchActive({ materialCards: next })}
               sheetStorage={{
                 annotations: activeSheet.annotations,
                 onAnnotationsChange: (next) => patchActive({ annotations: next }),
-                onImageChange: (url, name) =>
-                  patchActive({ imageDataUrl: url, imageFileName: name }),
+                onImageChange: (url?: string, name?: string) => {
+                  if (!url) {
+                    patchActive({ imageDataUrl: undefined, imageFileName: undefined });
+                    return;
+                  }
+                  const nextOrientation = activeSheet.boardOrientation ?? 'landscape';
+                  if (!activeSheet.imageDataUrl || sheetChromeReadOnly) {
+                    patchActive({
+                      imageDataUrl: url,
+                      imageFileName: name,
+                      boardOrientation: nextOrientation,
+                    });
+                    return;
+                  }
+                  let newId = '';
+                  setDossier((p) => {
+                    const cur = normalizeSketchSheets(p.sketchSheets);
+                    if (cur.length >= MAX_SKETCH_SHEETS) {
+                      return p;
+                    }
+                    const baseTitle = String(activeSheet.title ?? '').trim();
+                    const nextTitle = baseTitle || defaultExtraSketchSheetTitle(cur.length);
+                    const fresh = createEmptySketchSheet(nextTitle);
+                    newId = fresh.sheetId;
+                    const nextSheet: Workshop2Phase1SketchSheet = {
+                      ...fresh,
+                      imageDataUrl: url,
+                      imageFileName: name,
+                      boardOrientation: nextOrientation,
+                    };
+                    return { ...p, sketchSheets: [...cur, nextSheet] };
+                  });
+                  if (newId) pickSheet(newId);
+                },
               }}
               onJumpToDossierSection={onJumpToDossierSection}
               onNavigateRouteStage={onNavigateRouteStage}
@@ -860,20 +773,26 @@ export function CategorySketchSheetsBlock({
             />
           </div>
 
-          <details className="border-border-default bg-bg-surface2/60 rounded-xl border shadow-sm">
+          <details
+            key={`sheet-plm-${resolvedSheetId ?? 'none'}`}
+            className="border-border-default bg-bg-surface2/60 rounded-xl border shadow-sm"
+          >
             <summary className="text-text-primary cursor-pointer list-none px-3 py-2.5 text-xs font-semibold [&::-webkit-details-marker]:hidden">
               Поля листа для производства и PLM
-              <span className="text-text-secondary ml-2 font-normal">
-                {WORKFLOW_STATUS_LABEL[activeSheet.sheetWorkflowStatus ?? 'draft']}
-                {activeSheet.sceneId?.trim() ? (
-                  <span className="font-mono text-teal-700"> · сцена</span>
-                ) : null}
-              </span>
             </summary>
             <div className="border-border-default space-y-4 border-t bg-white p-3">
+              <p className="text-text-secondary text-[11px] leading-snug">
+                После загрузки подложки: укажите{' '}
+                <span className="text-text-primary font-medium">вид листа</span> и при необходимости{' '}
+                <span className="text-text-primary font-medium">ID сцены</span> (как в досье) — для
+                пакета PLM и сопоставления ракурсов;{' '}
+                <span className="text-text-primary font-medium">статус и чеклист</span> — перед
+                передачей в цех; <span className="text-text-primary font-medium">задача по виду</span>{' '}
+                — что проверить на этом скетче.
+              </p>
               <section className="space-y-3">
                 <h4 className="text-text-secondary text-[11px] font-semibold uppercase tracking-wide">
-                  Статус цеха, чеклист, сравнение
+                  Статус и чеклист перед цехом
                 </h4>
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
                   <div className="space-y-1">
@@ -981,12 +900,8 @@ export function CategorySketchSheetsBlock({
 
               <section className="border-border-subtle space-y-3 border-t pt-4">
                 <h4 className="text-text-secondary text-[11px] font-semibold uppercase tracking-wide">
-                  Вид, сцена, копирование
+                  Вид листа и сцена (PLM)
                 </h4>
-                <p className="text-text-secondary text-[11px]">
-                  Название листа задаётся в шапке переключателя; порядок в списке — кнопки ↑↓ рядом
-                  с ‹ ›.
-                </p>
                 <div className="grid gap-3 sm:grid-cols-[minmax(0,14rem)_1fr] sm:items-end">
                   <div className="space-y-1">
                     <Label className="text-text-secondary text-xs">Тип / вид (в сцене)</Label>
@@ -1071,7 +986,7 @@ export function CategorySketchSheetsBlock({
                     </Button>
                   </div>
                   <p className="text-text-secondary mt-2 text-[11px]">
-                    Общий id в досье:{' '}
+                    ID сцены в досье артикула:{' '}
                     <span className="text-text-primary font-mono">
                       {dossier.categorySketchSceneId ?? '—'}
                     </span>
@@ -1081,7 +996,7 @@ export function CategorySketchSheetsBlock({
 
               <section className="border-border-subtle space-y-3 border-t pt-4">
                 <h4 className="text-text-secondary text-[11px] font-semibold uppercase tracking-wide">
-                  Задача цеха, комментарий, видео
+                  Задача цеха по этому скетчу
                 </h4>
                 <div className="space-y-3">
                   <div className="grid gap-3 sm:grid-cols-2">
@@ -1126,10 +1041,6 @@ export function CategorySketchSheetsBlock({
                           })
                         }
                       />
-                      <p className="text-text-secondary text-[11px]">
-                        Локально только ссылка; загрузка файла — через API медиа (поле-задел в типах
-                        досье).
-                      </p>
                     </div>
                     <div className="space-y-1">
                       <Label className="text-text-secondary text-xs">Заметка к видео</Label>
@@ -1165,7 +1076,7 @@ export function CategorySketchSheetsBlock({
 
               <section className="border-border-subtle space-y-3 border-t pt-4">
                 <h4 className="text-text-secondary text-[11px] font-semibold uppercase tracking-wide">
-                  Шаблоны меток на лист
+                  Шаблоны меток (по скетчу)
                 </h4>
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                   <select
@@ -1268,7 +1179,10 @@ export function CategorySketchSheetsBlock({
                       .map((s) => (
                         <option key={s.sheetId} value={s.sheetId}>
                           {(
-                            s.title?.trim() || SKETCH_SHEET_VIEW_LABELS[s.viewKind ?? 'other']
+                            s.title?.trim() ||
+                            defaultExtraSketchSheetTitle(
+                              Math.max(0, sheets.findIndex((x) => x.sheetId === s.sheetId))
+                            )
                           ).slice(0, 48)}
                         </option>
                       ))}
@@ -1332,6 +1246,15 @@ export function CategorySketchSheetsBlock({
           ) : null}
         </DialogContent>
       </Dialog>
+    </div>
+  );
+
+  if (!sketchSheetsRail) return mainColumn;
+
+  return (
+    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-4">
+      <div className="shrink-0">{sketchSheetsRail}</div>
+      <div className="min-w-0 flex-1">{mainColumn}</div>
     </div>
   );
 }

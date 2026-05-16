@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useUserContext } from './useUserContext';
 import { useB2BState } from '@/providers/b2b-state';
+import { SYNTH_DASHBOARD_DEMO_MOCKS } from '@/lib/syntha-api-mode';
+import {
+  DASHBOARD_DEMO_LIVE_COLLABORATORS,
+  DASHBOARD_DEMO_PENDING_APPROVALS,
+  DASHBOARD_DEMO_TEAM_BUDGET,
+} from '@/lib/dashboard/dashboard-demo-fixtures';
 
 export interface LiveCollaborator {
   userId: string;
@@ -37,16 +43,14 @@ export interface RecentActivity {
 export function useCollaborativeOrder() {
   const [isLoading, setIsLoading] = useState(true);
 
-  const { user, currentOrg } = useUserContext();
-  const { b2bActivityLogs, b2bCart } = useB2BState();
+  const { currentOrg } = useUserContext();
+  const { b2bActivityLogs } = useB2BState();
 
   const [liveCollaborators, setLiveCollaborators] = useState<LiveCollaborator[]>([]);
   const [pendingApprovals, setPendingApprovals] = useState<PendingApproval[]>([]);
-  const [teamBudget, setTeamBudget] = useState<TeamBudget>({
-    allocated: 420000,
-    total: 650000,
-    remaining: 230000,
-  });
+  const [teamBudget, setTeamBudget] = useState<TeamBudget>(() =>
+    SYNTH_DASHBOARD_DEMO_MOCKS ? { ...DASHBOARD_DEMO_TEAM_BUDGET } : { allocated: 0, total: 0, remaining: 0 }
+  );
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
 
   useEffect(() => {
@@ -54,45 +58,14 @@ export function useCollaborativeOrder() {
       setIsLoading(true);
 
       try {
-        // Mock collaborators
-        setLiveCollaborators([
-          {
-            userId: 'user-1',
-            name: 'Maria Ivanova',
-            avatar: '/avatars/maria.jpg',
-            initials: 'MI',
-            status: 'active',
-            lastAction: 'добавила 5 SKU (2 мин назад)',
-            addedItems: 5,
-          },
-          {
-            userId: 'user-2',
-            name: 'Ivan Kozlov',
-            avatar: '/avatars/ivan.jpg',
-            initials: 'IK',
-            status: 'idle',
-            lastAction: 'изменил quantities (15 мин назад)',
-            addedItems: 0,
-          },
-        ]);
-
-        // Mock pending approvals
-        setPendingApprovals([
-          {
-            id: 'approval-1',
-            title: 'Nordic Wool FW26 Order',
-            requester: 'Elena Volkova',
-            timestamp: '10 мин назад',
-            itemCount: 12,
-          },
-          {
-            id: 'approval-2',
-            title: 'Syntha Lab SS26 Samples',
-            requester: 'Alexey Petrov',
-            timestamp: '1 ч назад',
-            itemCount: 5,
-          },
-        ]);
+        if (!SYNTH_DASHBOARD_DEMO_MOCKS) {
+          setLiveCollaborators([]);
+          setPendingApprovals([]);
+          setTeamBudget({ allocated: 0, total: 0, remaining: 0 });
+        } else {
+          setLiveCollaborators(DASHBOARD_DEMO_LIVE_COLLABORATORS.map((c) => ({ ...c })));
+          setPendingApprovals(DASHBOARD_DEMO_PENDING_APPROVALS.map((p) => ({ ...p })));
+        }
 
         // Convert activity logs to recent activity
         const activities: RecentActivity[] = b2bActivityLogs.slice(0, 5).map((log) => {

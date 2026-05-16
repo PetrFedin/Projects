@@ -9,8 +9,9 @@ import { Sparkles } from 'lucide-react';
 import type { CmsHomeConfig } from '@/data/cms.home.default';
 import { DEFAULT_HOME_CMS } from '@/data/cms.home.default';
 import { repo } from '@/lib/repo';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 
-function jsonPretty(v: any) {
+function jsonPretty(v: unknown) {
   return JSON.stringify(v, null, 2);
 }
 
@@ -35,8 +36,8 @@ export function HomeAdminPanel() {
       setCfg(saved);
       setRaw(jsonPretty(saved));
       setMsg('Сохранено в localStorage. Главная обновится мгновенно.');
-    } catch (e: any) {
-      setMsg(`Ошибка JSON: ${e?.message ?? 'unknown'}`);
+    } catch (e: unknown) {
+      setMsg(`Ошибка JSON: ${getUnknownErrorMessage(e, 'unknown')}`);
     }
   }
 

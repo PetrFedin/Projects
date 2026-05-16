@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -18,8 +18,11 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { jsonAs } from '@/lib/json';
-
-type Message = { type: 'success' | 'error'; text: string };
+import {
+  archiveMessageFromB2bShape,
+  useArchiveIntegrationAction,
+  type ArchiveIntegrationMessage,
+} from '@/hooks/use-archive-integration-action';
 
 type JoorActionResponse = {
   success?: boolean;
@@ -30,13 +33,14 @@ type JoorActionResponse = {
 };
 
 export default function BrandIntegrationsJoorPage() {
-  const [inventoryMsg, setInventoryMsg] = useState<Message | null>(null);
+  const runArchiveAction = useArchiveIntegrationAction();
+  const [inventoryMsg, setInventoryMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [inventoryLoading, setInventoryLoading] = useState(false);
   const [priceTypes, setPriceTypes] = useState<
     Array<{ id: string; name?: string; currency_code?: string }>
   >([]);
   const [priceTypesLoading, setPriceTypesLoading] = useState(false);
-  const [pricesMsg, setPricesMsg] = useState<Message | null>(null);
+  const [pricesMsg, setPricesMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [pricesLoading, setPricesLoading] = useState(false);
   const [orders, setOrders] = useState<
     Array<{
@@ -50,39 +54,35 @@ export default function BrandIntegrationsJoorPage() {
     }>
   >([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
-  const [stylesMsg, setStylesMsg] = useState<Message | null>(null);
+  const [stylesMsg, setStylesMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [stylesLoading, setStylesLoading] = useState(false);
-  const [customersMsg, setCustomersMsg] = useState<Message | null>(null);
+  const [customersMsg, setCustomersMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [customersLoading, setCustomersLoading] = useState(false);
 
-  const pushInventory = async () => {
-    setInventoryMsg(null);
-    setInventoryLoading(true);
-    try {
-      const res = await fetch('/api/b2b/joor/inventory', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: [
-            {
-              sku: 'DEMO-SKU-01',
-              quantity: 100,
-              availableDate: new Date().toISOString().slice(0, 10),
-            },
-          ],
-          overwrite: false,
-        }),
-      });
-      const data = jsonAs<JoorActionResponse>(await res.json());
-      if (data.success)
-        setInventoryMsg({ type: 'success', text: `Обработано: ${data.processed ?? 0}` });
-      else setInventoryMsg({ type: 'error', text: data.error ?? 'Ошибка' });
-    } catch (e) {
-      setInventoryMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
-    } finally {
-      setInventoryLoading(false);
-    }
-  };
+  const pushInventory = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setInventoryMsg,
+      setLoading: setInventoryLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/joor/inventory', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: [
+              {
+                sku: 'DEMO-SKU-01',
+                quantity: 100,
+                availableDate: new Date().toISOString().slice(0, 10),
+              },
+            ],
+            overwrite: false,
+          }),
+        });
+        const data = jsonAs<JoorActionResponse>(await res.json());
+        return archiveMessageFromB2bShape(data, { kind: 'processed' });
+      },
+    });
+  }, [runArchiveAction]);
 
   const loadPriceTypes = async () => {
     setPriceTypesLoading(true);
@@ -101,34 +101,31 @@ export default function BrandIntegrationsJoorPage() {
     }
   };
 
-  const upsertPrices = async () => {
-    setPricesMsg(null);
-    setPricesLoading(true);
-    try {
-      const res = await fetch('/api/b2b/joor/prices', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prices: [
-            {
-              sku_identifier: 'DEMO-SKU-01',
-              price_type_name: 'Wholesale',
-              price_type_currency_code: 'RUB',
-              wholesale_value: 5000,
-              retail_value: 9900,
-            },
-          ],
-        }),
-      });
-      const data = jsonAs<JoorActionResponse>(await res.json());
-      if (data.success) setPricesMsg({ type: 'success', text: `Обновлено: ${data.count ?? 0}` });
-      else setPricesMsg({ type: 'error', text: data.error ?? 'Ошибка' });
-    } catch (e) {
-      setPricesMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
-    } finally {
-      setPricesLoading(false);
-    }
-  };
+  const upsertPrices = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setPricesMsg,
+      setLoading: setPricesLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/joor/prices', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            prices: [
+              {
+                sku_identifier: 'DEMO-SKU-01',
+                price_type_name: 'Wholesale',
+                price_type_currency_code: 'RUB',
+                wholesale_value: 5000,
+                retail_value: 9900,
+              },
+            ],
+          }),
+        });
+        const data = jsonAs<JoorActionResponse>(await res.json());
+        return archiveMessageFromB2bShape(data, { kind: 'count', label: 'Обновлено' });
+      },
+    });
+  }, [runArchiveAction]);
 
   const importOrders = async () => {
     setOrdersLoading(true);
@@ -157,49 +154,41 @@ export default function BrandIntegrationsJoorPage() {
     }
   };
 
-  const syncStyles = async () => {
-    setStylesMsg(null);
-    setStylesLoading(true);
-    try {
-      const res = await fetch('/api/b2b/joor/sync-styles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          styles: [{ style_identifier: 'DEMO-STYLE-01', name: 'Demo Style' }],
-        }),
-      });
-      const data = jsonAs<JoorActionResponse>(await res.json());
-      if (data.success)
-        setStylesMsg({ type: 'success', text: `Синхронизировано: ${data.synced ?? 0}` });
-      else setStylesMsg({ type: 'error', text: data.error ?? 'Ошибка' });
-    } catch (e) {
-      setStylesMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
-    } finally {
-      setStylesLoading(false);
-    }
-  };
+  const syncStyles = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setStylesMsg,
+      setLoading: setStylesLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/joor/sync-styles', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            styles: [{ style_identifier: 'DEMO-STYLE-01', name: 'Demo Style' }],
+          }),
+        });
+        const data = jsonAs<JoorActionResponse>(await res.json());
+        return archiveMessageFromB2bShape(data, { kind: 'synced' });
+      },
+    });
+  }, [runArchiveAction]);
 
-  const syncCustomers = async () => {
-    setCustomersMsg(null);
-    setCustomersLoading(true);
-    try {
-      const res = await fetch('/api/b2b/joor/sync-customers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          customers: [{ name: 'Demo Partner', email: 'partner@example.com' }],
-        }),
-      });
-      const data = jsonAs<JoorActionResponse>(await res.json());
-      if (data.success)
-        setCustomersMsg({ type: 'success', text: `Синхронизировано: ${data.synced ?? 0}` });
-      else setCustomersMsg({ type: 'error', text: data.error ?? 'Ошибка' });
-    } catch (e) {
-      setCustomersMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
-    } finally {
-      setCustomersLoading(false);
-    }
-  };
+  const syncCustomers = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setCustomersMsg,
+      setLoading: setCustomersLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/joor/sync-customers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            customers: [{ name: 'Demo Partner', email: 'partner@example.com' }],
+          }),
+        });
+        const data = jsonAs<JoorActionResponse>(await res.json());
+        return archiveMessageFromB2bShape(data, { kind: 'synced' });
+      },
+    });
+  }, [runArchiveAction]);
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">

@@ -5,6 +5,7 @@ import {
   compositionLabelFiberRowsSumIsHundred,
 } from './workshop2-composition-label-constructor';
 import { normalizeSketchSheets } from './workshop2-sketch-sheets';
+import { runWorkshop2AiConflictChecks } from './workshop2-preflight-ai-conflict-registry';
 
 export type W2PreflightSeverity = 'blocker' | 'warning';
 
@@ -114,25 +115,18 @@ export function buildWorkshop2ProductionPreflightSnapshot(
   const fiberSum = compositionLabelConstructorFiberPercentSum(labelSpec);
   const fiberSumOk = compositionLabelFiberRowsSumIsHundred(labelSpec);
 
-  // AI Cross-check logic (Material vs Construction inconsistency)
-  const isHeavyNeedleMaterial = hasComposition && dossier.assignments.some(
-    a => a.attributeId === 'composition' && a.values.some(v => v.text?.toLowerCase().includes('шелк') || v.text?.toLowerCase().includes('шифон'))
-  );
-  const isHeavyConstruction = dossier.assignments.some(
-    a => (a.attributeId === 'seam_type' || a.attributeId === 'needle_type') && 
-         a.values.some(v => v.text?.toLowerCase().includes('толстая') || v.text?.toLowerCase().includes('деним') || v.text?.toLowerCase().includes('heavy'))
-  );
+  // AI Cross-check logic from registry
+  const l1Value = dossier.assignments.find((a) => a.attributeId === 'l1')?.values?.[0]?.displayLabel ?? '';
+  const l2Value = dossier.assignments.find((a) => a.attributeId === 'l2')?.values?.[0]?.displayLabel ?? '';
+  const l3Value = dossier.assignments.find((a) => a.attributeId === 'l3')?.values?.[0]?.displayLabel ?? '';
 
-  if (isHeavyNeedleMaterial && isHeavyConstruction) {
-    addIssue(issues, {
-      id: 'ai.inconsistency.material_construction',
-      severity: 'warning',
-      section: 'construction',
-      label: 'AI: Несоответствие материала и узлов',
-      detail: 'Выбран тонкий материал (шелк/шифон), но указаны узлы или иглы для плотных тканей. Проверьте настройки швов.',
-      anchor: 'construction',
-    });
-  }
+  const aiConflicts = runWorkshop2AiConflictChecks(dossier, {
+    l1Name: l1Value,
+    l2Name: l2Value,
+    l3Name: l3Value,
+  });
+
+  aiConflicts.forEach((c) => addIssue(issues, c));
 
   if (!hasSku) {
     addIssue(issues, {

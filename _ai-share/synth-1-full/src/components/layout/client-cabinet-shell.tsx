@@ -13,12 +13,11 @@ import type { UserProfile } from '@/lib/types';
 import { Progress } from '@/components/ui/progress';
 import { useRbac } from '@/hooks/useRbac';
 import { useAuth } from '@/providers/auth-provider';
-import { HUB_AUTH_FULLSCREEN_SPINNER } from '@/lib/syntha-api-mode';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { clientNavGroups } from '@/lib/data/client-navigation';
 import { HubSidebar } from '@/components/hub/HubSidebar';
 import { HubSidebarHeader } from '@/components/hub/HubSidebarHeader';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import {
   CabinetHubMain,
   CabinetHubSectionBar,
@@ -116,7 +115,8 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
     );
   }, [isAcademyHub, pathname, clientNuOrderHub]);
 
-  if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
+  /** Пока идёт dev auto-login / восстановление сессии, RBAC даёт «retailer» при пустых ролях — не показывать ложный «нет доступа» и не рендерить сайдбар без роли клиента. */
+  if (loading) {
     return (
       <div className={cabinetHubLayout.loadingShell}>
         <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
@@ -176,6 +176,7 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
             <HubSidebar
               groups={clientNavGroups}
               basePath={ROUTES.client.home}
+              ariaLabel="Клиентское меню"
               accentClass={clientNuOrderHub ? 'text-[#4a5fc8]' : 'text-accent-primary'}
               activeBgClass={clientNuOrderHub ? 'bg-[#4a5fc8]' : 'bg-accent-primary'}
             />
@@ -190,6 +191,7 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
               clientNuOrderHub && 'border-[#c5ccd6] bg-[#eef0f4]'
             )}
           >
+            <SheetTitle className="sr-only">Меню личного кабинета</SheetTitle>
             <div className="shrink-0 pb-0 pt-12">
               <HubSidebarHeader
                 href={ROUTES.client.profile}
@@ -222,6 +224,7 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
               <HubSidebar
                 groups={clientNavGroups}
                 basePath={ROUTES.client.home}
+                ariaLabel="Клиентское меню"
                 accentClass={clientNuOrderHub ? 'text-[#4a5fc8]' : 'text-accent-primary'}
                 activeBgClass={clientNuOrderHub ? 'bg-[#4a5fc8]' : 'bg-accent-primary'}
                 onNavigate={() => setSidebarOpen(false)}
@@ -247,6 +250,7 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
                   : 'bg-accent-primary text-white shadow-sm ring-1 ring-border-subtle'
               }
               title="Личный кабинет"
+              showDemoMark
             />
             {/*
               Путь: Личный кабинет › Аккаунт › текущий раздел (как в навигации продукта).

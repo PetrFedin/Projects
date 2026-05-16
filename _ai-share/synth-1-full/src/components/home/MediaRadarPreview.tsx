@@ -302,7 +302,7 @@ export function MediaRadarPreview() {
             </div>
 
             <div className="absolute bottom-4 left-4 right-4 flex h-12 flex-col justify-end">
-              <AnimatePresence mode="wait">
+              <AnimatePresence>
                 <motion.div
                   key={lastComment}
                   initial={{ x: -20, opacity: 0 }}

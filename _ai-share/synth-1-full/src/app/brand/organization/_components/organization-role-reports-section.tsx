@@ -61,7 +61,7 @@ export function OrganizationRoleReportsSection({
       className="min-w-0"
     >
       <div className={cn(registryFeedLayout.panelCardSoft, 'p-4')}>
-        <p className="text-text-secondary mb-3 text-[10px]">
+        <p className="mb-3 text-xs text-text-secondary">
           Выберите роль для просмотра сводки результатов бренда с её позиции:
         </p>
         <div className="flex flex-wrap gap-2">
@@ -73,10 +73,10 @@ export function OrganizationRoleReportsSection({
               key={role.id}
               variant="outline"
               size="sm"
-              className="border-border-default hover:border-accent-primary/30 hover:bg-accent-primary/10 h-8 gap-1.5 px-3 text-[9px] font-bold uppercase"
+              className="h-8 gap-1.5 border-border-default px-3 text-[9px] font-bold uppercase hover:border-accent-primary/30 hover:bg-accent-primary/10"
               onClick={() => setActiveReportRole(role.id)}
             >
-              <UserCircle className="h-3 w-3" /> {role.label}
+              <UserCircle className="size-3" /> {role.label}
             </Button>
           ))}
         </div>

@@ -6,7 +6,7 @@
  * Dismiss с id: localStorage + при USE_FASTAPI PATCH `/brand/attention-dismiss` и merge при загрузке из GET.
  */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, startTransition } from 'react';
 import {
   appendDismissedAlertId,
   applyAttentionDismissFilters,
@@ -17,6 +17,15 @@ import {
   saveAttentionDismiss,
   type AttentionDismissRecord,
 } from './attention-dismiss-storage';
+
+/** Стабильный id для legacy-строк в payload (до появления id с бэка). */
+function stableIntegrationIssueIdFromMessage(message: string): string {
+  let h = 5381;
+  for (let i = 0; i < message.length; i++) {
+    h = (h * 33 + message.charCodeAt(i)) >>> 0;
+  }
+  return `intg:auto:${h.toString(16)}`;
+}
 import { USE_FASTAPI } from '@/lib/syntha-api-mode';
 import { fastApiService } from '@/lib/fastapi-service';
 
@@ -32,12 +41,14 @@ export type CertificateAlert = { id: string; name: string; daysLeft: number };
 export type ProfileAlert = { id: string; name: string; detail: string };
 export type TaskAlert = { id: string; title: string; priority: string };
 
+export type IntegrationIssueAlert = { id: string; message: string };
+
 export type AttentionAlertsState = {
   certificates: CertificateAlert[];
   profile: ProfileAlert[];
   tasks: TaskAlert[];
   /** Пусто = системы в норме (зелёный блок). Непусто = сбои. */
-  integrationIssues: string[];
+  integrationIssues: IntegrationIssueAlert[];
 };
 
 import { getInitialAlertsState } from './organization-demo-data';
@@ -155,9 +166,21 @@ export function normalizeAttentionAlertsPayload(raw: unknown): AttentionAlertsSt
     }))
     .filter((x) => x.id !== '' && x.title !== '');
 
-  const integrationIssues = (
-    Array.isArray(o.integrationIssues) ? o.integrationIssues : []
-  ).filter((x): x is string => typeof x === 'string' && x.length > 0);
+  const rawIssues = Array.isArray(o.integrationIssues) ? o.integrationIssues : [];
+  const integrationIssues: IntegrationIssueAlert[] = [];
+  for (const x of rawIssues) {
+    if (typeof x === 'string' && x.trim()) {
+      const message = x.trim();
+      integrationIssues.push({ id: stableIntegrationIssueIdFromMessage(message), message });
+      continue;
+    }
+    if (x != null && typeof x === 'object') {
+      const rec = x as Record<string, unknown>;
+      const id = String(rec.id ?? '').trim();
+      const message = String(rec.message ?? rec.text ?? '').trim();
+      if (id && message) integrationIssues.push({ id, message });
+    }
+  }
 
   return { certificates, profile, tasks, integrationIssues };
 }
@@ -227,8 +250,10 @@ export function useAttentionAlerts(opts?: UseAttentionAlertsOpts) {
     if (normalized === null) return;
     const bid = opts?.brandId;
     if (!bid) {
-      setAlerts(normalized);
-      setHistoryByBlock(buildHistorySeed(normalized));
+      startTransition(() => {
+        setAlerts(normalized);
+        setHistoryByBlock(buildHistorySeed(normalized));
+      });
       return;
     }
 
@@ -252,8 +277,10 @@ export function useAttentionAlerts(opts?: UseAttentionAlertsOpts) {
       }
       if (!cancelled) {
         const filtered = applyAttentionDismissFilters(normalized, merged);
-        setAlerts(filtered);
-        setHistoryByBlock(buildHistorySeed(filtered));
+        startTransition(() => {
+          setAlerts(filtered);
+          setHistoryByBlock(buildHistorySeed(filtered));
+        });
       }
     })();
 
@@ -280,15 +307,17 @@ export function useAttentionAlerts(opts?: UseAttentionAlertsOpts) {
     if (alerts.profile.length > 0) active.push('profile');
     if (alerts.integrationIssues.length === 0) active.push('systems');
     if (alerts.tasks.length > 0) active.push('tasks');
-    setActiveSince((prev) => {
-      const next = { ...prev };
-      active.forEach((id) => {
-        if (next[id] == null) next[id] = now;
+    startTransition(() => {
+      setActiveSince((prev) => {
+        const next = { ...prev };
+        active.forEach((id) => {
+          if (next[id] == null) next[id] = now;
+        });
+        (['certificates', 'profile', 'systems', 'tasks'] as BlockId[]).forEach((id) => {
+          if (!active.includes(id)) delete next[id];
+        });
+        return next;
       });
-      (['certificates', 'profile', 'systems', 'tasks'] as BlockId[]).forEach((id) => {
-        if (!active.includes(id)) delete next[id];
-      });
-      return next;
     });
   }, [
     alerts.certificates.length,
@@ -367,6 +396,28 @@ export function useAttentionAlerts(opts?: UseAttentionAlertsOpts) {
     [alerts.tasks, brandId]
   );
 
+  const dismissIntegrationIssue = useCallback(
+    (id: string) => {
+      const row = alerts.integrationIssues.find((x) => x.id === id);
+      setHistoryByBlock((prev) =>
+        addHistory(prev, 'systems', 'dismissed', `Устранено: ${row?.message ?? id}`, 'Вы')
+      );
+      if (brandId) {
+        appendDismissedAlertId(brandId, 'integrationIssueIds', id);
+        if (USE_FASTAPI) {
+          void fastApiService
+            .patchAttentionDismiss(brandId, { integrationIssueIds: [id] })
+            .catch(() => {});
+        }
+      }
+      setAlerts((prev) => ({
+        ...prev,
+        integrationIssues: prev.integrationIssues.filter((x) => x.id !== id),
+      }));
+    },
+    [alerts.integrationIssues, brandId]
+  );
+
   const getActiveDuration = useCallback(
     (id: BlockId) => {
       const since = activeSince[id];
@@ -393,5 +444,6 @@ export function useAttentionAlerts(opts?: UseAttentionAlertsOpts) {
     dismissCertificate,
     dismissProfile,
     dismissTask,
+    dismissIntegrationIssue,
   };
 }

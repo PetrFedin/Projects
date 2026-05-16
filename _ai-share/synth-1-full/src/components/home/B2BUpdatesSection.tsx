@@ -132,7 +132,7 @@ export function B2BUpdatesSection() {
     <section className="section-spacing bg-transparent pb-20">
       <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             {activeAds.map((ad, idx) => (
               <motion.div
                 key={ad.id}

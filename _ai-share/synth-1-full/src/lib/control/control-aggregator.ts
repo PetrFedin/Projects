@@ -4,8 +4,8 @@ import { ProductionCommitment } from '../production/execution-linkage';
 import { CollectionAggregate, calculateCollectionReadiness } from '../article/collection-aggregate';
 import { SampleAggregate, isSampleReady } from '../article/sample-aggregate';
 import { calculateArticleReadiness } from '../article/article-readiness';
-import { InventoryGrain, calculateATP } from '../logic/inventory-ledger';
-import { triggerSmartSwap } from '../logic/stock-allocation';
+import { InventoryGrain, calculateATP } from '../logic/inventory-ledger-core';
+import { triggerSmartSwap } from '../logic/stock-allocation-smart-swap';
 
 import { CONTROL_REASON_CODES, ControlReasonCode } from './reason-codes';
 

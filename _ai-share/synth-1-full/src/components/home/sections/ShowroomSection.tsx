@@ -87,7 +87,7 @@ export function ShowroomSection({
                 id="showroom-scroll"
                 className="custom-scrollbar flex min-h-[400px] snap-x snap-mandatory gap-3 overflow-x-auto overflow-y-hidden scroll-smooth pb-6"
               >
-                <AnimatePresence mode="wait">
+                <AnimatePresence>
                   <motion.div
                     key={`${showroomTab}-${showroomViewMode}`}
                     initial={{ opacity: 0 }}
@@ -116,7 +116,7 @@ export function ShowroomSection({
 
             {/* Showroom Banner Section */}
             <Card className="bg-text-primary group/banner relative mt-6 flex min-h-[300px] w-full items-center overflow-hidden rounded-xl border-none shadow-2xl">
-              <AnimatePresence mode="wait">
+              <AnimatePresence>
                 <motion.div
                   key={showroomTab}
                   initial={{ opacity: 0 }}
@@ -193,7 +193,7 @@ export function ShowroomSection({
                   </motion.div>
                 </div>
 
-                <AnimatePresence mode="wait">
+                <AnimatePresence>
                   <motion.div
                     key={showroomTab}
                     initial={{ opacity: 0, x: 20 }}

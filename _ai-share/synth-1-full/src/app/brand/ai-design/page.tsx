@@ -31,7 +31,7 @@ import {
 import { DesignPrompt, DesignIteration } from '@/lib/types/ai-design';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
-import { generateDesignVariants } from '@/ai/flows/design-assistant';
+import { designVariantsClient } from '@/lib/ai-client/api';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const AiToolsContent = dynamic(() => import('@/app/brand/ai-tools/page'), { ssr: false });
@@ -71,7 +71,7 @@ export default function AIDesignAssistantPage() {
   const handleGenerate = async () => {
     setIsGenerating(true);
     try {
-      const results = await generateDesignVariants({
+      const results = await designVariantsClient({
         brandId: 'brand-123',
         prompt: {
           id: 'p-new',

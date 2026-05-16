@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, Suspense } from 'react';
 import Image from 'next/image';
 import { useUIState } from '@/providers/ui-state';
 import { useAuth } from '@/providers/auth-provider';
+import { SYNTH_MOCK_KNOWN_PASSWORD } from '@/lib/auth/dev-auth-bootstrap';
 import { useUserActivity } from '@/hooks/use-user-activity';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
@@ -187,12 +188,12 @@ function UserProfileContent() {
               // Users will be initialized in getUsers()
             }
           }
-          await signIn('elena.petrova@example.com', 'password123');
+          await signIn('elena.petrova@example.com', SYNTH_MOCK_KNOWN_PASSWORD);
         } catch (error) {
           console.error('Auto-login failed:', error);
           // Retry after a short delay
           setTimeout(() => {
-            signIn('elena.petrova@example.com', 'password123').catch(console.error);
+            signIn('elena.petrova@example.com', SYNTH_MOCK_KNOWN_PASSWORD).catch(console.error);
           }, 1000);
         }
       };
@@ -204,7 +205,7 @@ function UserProfileContent() {
           if (typeof window !== 'undefined') {
             localStorage.removeItem('syntha_auth_user');
           }
-          await signIn('elena.petrova@example.com', 'password123');
+          await signIn('elena.petrova@example.com', SYNTH_MOCK_KNOWN_PASSWORD);
         } catch (error) {
           console.error('Switch user failed:', error);
         }

@@ -1,5 +1,11 @@
 'use client';
 
+/**
+ * Кабинет интеграций. Слоты, попадающие в **X/Y** на карточке «Интеграции» хаба организации, должны
+ * совпадать с каноном в **`app/integrations/hub_catalog.py`** (`WIRED_SLOT_IDS` + `CATALOG_ONLY_SLOT_IDS`)
+ * и с **`count_configured_integrations_for_hub`** в `fetch_brand_dashboard_data` (см. `NEXT_IMPROVEMENTS.md`).
+ */
+
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

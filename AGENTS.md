@@ -9,6 +9,7 @@
 1. **GSD** — для крупных и неоднозначных задач: сначала карта/план/фазы через навыки в **`.cursor/skills/`** и **`.cursor/get-shit-done/`**, а не сразу большой дифф. Справка по командам: навык **`gsd-help`**.
 2. **Superpowers** — уточнение цели, план, TDD где уместно; локально см. **`tools/superpowers/`** ([obra/superpowers](https://github.com/obra/superpowers)). В IDE: **`/add-plugin superpowers`**.
 3. **MCP** — **`scripts/cursor-mcp-sync.py`** обновляет **`.cursor/mcp.json`** и **`~/.cursor/mcp.json`** (stdio + remote: Exa, Figma, Sentry, Linear, Semgrep при наличии CLI). Серверы **git** и **fetch** в конфиге вызываются через **`python3 -m mcp_server_*`** — нужны пакеты **`mcp-server-git`** и **`mcp-server-fetch`** (установка и вариант **`uvx`** — в **`docs/CURSOR_AGENT_TOOLKIT.md`**, раздел *Git / Fetch MCP*). Остальная настройка, agent-browser и OAuth для облачных MCP — там же.
+4. **Стек контекста (rules / skills / intel / артефакты)** — правило **`.cursor/rules/agent-context-stack.mdc`** (в т.ч. **§5–6**: уроки без повторов, проактивные улучшения только от канона); краткий навык **`projects-context-stack`**. Intel: **`intel.enabled`** в **`.planning/config.json`**, индекс после **`/gsd-intel refresh`** в **`.planning/intel/`** (см. **`README.md`** там). После смысловых фаз — **`/gsd-extract_learnings`**.
 
 ## Документы
 
@@ -22,6 +23,8 @@
 ## Фронтенд
 
 Разработка и CI — **`_ai-share/synth-1-full`** (см. **`_ai-share/synth-1-full/AGENTS.md`**). Из корня монорепо: **`npm run smoke`** — быстрый контрактный чек (`smoke:fast` во full); **`npm run lint`** — ESLint только с ошибками (`lint:errors`); **`npm run synth-1:clean`** — очистка `.next*` и кешей во full.
+
+**Cursor / VS Code (корень воркспейса = `Projects`):** рекомендуемые расширения — **`.vscode/extensions.json`** (после clone: **Install Recommended Extensions**). Настройки ESLint / Prettier / Tailwind привязаны к **`_ai-share/synth-1-full`** — **`.vscode/settings.json`**. Быстрые задачи без поиска по NPM-панели — **`.vscode/tasks.json`** (**Run Task** → `synth-1-full: …`). **Error Lens:** для движка VS Code **1.105.x** в Cursor ставьте VSIX **≤ 3.26.0** (см. Open VSX); **3.27+** требуют **1.107+**.
 
 **Запуск Next локально:** нужны **Node 20.x–23.x** (файл **`_ai-share/synth-1-full/.nvmrc`**, на Node **24+** dev/build завершатся с явным сообщением). Зависимости: **`npm run synth-1:install`** из корня или **`npm ci`** в **`_ai-share/synth-1-full`** (полный bootstrap: **`bash scripts/bootstrap-monorepo-dev.sh`**). Dev-сервер: **`npm run dev`** из корня монорепо → **http://localhost:3000** (или из каталога full то же самое).
 

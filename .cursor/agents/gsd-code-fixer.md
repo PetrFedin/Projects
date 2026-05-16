@@ -402,6 +402,7 @@ Status values:
 
 ### {finding_id}: {title}
 
+**Status:** {fixed | fixed: requires human verification}
 **Files modified:** `file1`, `file2`
 **Commit:** {hash}
 **Applied fix:** {brief description of what was changed}

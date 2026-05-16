@@ -34,8 +34,8 @@ export default function BrandIntegrationsZedonkPage() {
     setOrdersLoading(true);
     try {
       const res = await fetch('/api/b2b/zedonk/orders?limit=20');
-      const data = (await res.ok) ? res.json() : [];
-      setOrders(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setOrders(Array.isArray(data) ? (data as typeof orders) : []);
     } catch {
       setOrders([]);
     } finally {
@@ -47,8 +47,8 @@ export default function BrandIntegrationsZedonkPage() {
     setBrandsLoading(true);
     try {
       const res = await fetch('/api/b2b/zedonk/brands');
-      const data = (await res.ok) ? res.json() : [];
-      setBrands(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setBrands(Array.isArray(data) ? (data as typeof brands) : []);
     } catch {
       setBrands([]);
     } finally {
@@ -60,8 +60,8 @@ export default function BrandIntegrationsZedonkPage() {
     setConsolidatedLoading(true);
     try {
       const res = await fetch('/api/b2b/zedonk/consolidated-orders?limit=20');
-      const data = (await res.ok) ? res.json() : [];
-      setConsolidated(Array.isArray(data) ? data : []);
+      const data = res.ok ? await res.json() : [];
+      setConsolidated(Array.isArray(data) ? (data as typeof consolidated) : []);
     } catch {
       setConsolidated([]);
     } finally {

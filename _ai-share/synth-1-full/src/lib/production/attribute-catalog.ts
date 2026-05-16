@@ -10,6 +10,7 @@ import type {
 import type { HandbookCategoryLeaf } from './category-handbook-leaves';
 import { findHandbookLeafById } from './category-handbook-leaves';
 import { inferExtraAttributeIdsForHandbookPath } from './handbook-attribute-infer';
+import { workshop2PolicySuppressesAttribute } from './workshop2-attribute-policy';
 import {
   defaultWorkshopSampleSizeScaleKey,
   getWorkshopParametersForSampleScale,
@@ -57,11 +58,17 @@ type RawCatalogDossierSection = NonNullable<AttributeCatalogAttribute['dossierSe
 
 function normalizeCatalogDossierSectionNav(
   raw: string | undefined
-): 'general' | 'visuals' | 'material' | 'construction' | undefined {
+): 'general' | 'visuals' | 'material' | 'construction' | 'assignment' | undefined {
   if (!raw) return undefined;
   if (raw === 'measurements') return 'construction';
   if (raw === 'packaging') return 'material';
-  if (raw === 'general' || raw === 'visuals' || raw === 'material' || raw === 'construction')
+  if (
+    raw === 'general' ||
+    raw === 'visuals' ||
+    raw === 'material' ||
+    raw === 'construction' ||
+    raw === 'assignment'
+  )
     return raw;
   return undefined;
 }
@@ -69,7 +76,7 @@ function normalizeCatalogDossierSectionNav(
 /** Секция навигации ТЗ; устаревшие measurements/packaging из JSON каталога сводятся к construction/material. */
 export function getAttributeDossierSection(
   attributeId: string
-): 'general' | 'visuals' | 'material' | 'construction' | undefined {
+): 'general' | 'visuals' | 'material' | 'construction' | 'assignment' | undefined {
   const attr = attrById.get(attributeId);
   if (!attr) return undefined;
   const raw = (attr.dossierSection ?? GROUP_TO_DOSSIER_SECTION[attr.groupId]) as
@@ -97,14 +104,14 @@ export function getWorkshop2ConstructionTabMergedGroupIds(): ReadonlySet<string>
   return out;
 }
 
-/** Заголовок объединённой полосы на конструкции: L2 [· L3] · материалы · конструкция. */
+/** Заголовок объединённой полосы на конструкции: L2 [· L3] без служебных слов «материалы / конструкция». */
 export function workshop2ConstructionMergedStackTitle(
   leaf: Pick<HandbookCategoryLeaf, 'l2Name' | 'l3Name'>
 ): string {
   const l2 = (leaf.l2Name ?? '').trim() || 'Категория';
   const l3 = (leaf.l3Name ?? '').trim();
   const head = l3 && l3 !== l2 ? `${l2} · ${l3}` : l2;
-  return `${head} · материалы · конструкция`;
+  return head;
 }
 
 /**
@@ -123,6 +130,17 @@ export function resolveAttributeIdsForLeaf(leafId: string, phase: number = 1): s
     if (!a || seen.has(id)) continue;
     if (a.retiredFromWorkshop) continue;
     if (!attributeInWorkflowPhase(a, phase)) continue;
+    if (
+      workshop2PolicySuppressesAttribute(id, {
+        leafId,
+        l1Name: hb?.l1Name,
+        l2Name: hb?.l2Name,
+        l3Name: hb?.l3Name,
+        phase: phase as 1 | 2 | 3,
+        source: 'catalog',
+      })
+    )
+      continue;
     seen.add(id);
     out.push(id);
   }
@@ -183,8 +201,8 @@ export function resolveEffectiveParametersForLeaf(
  * Ключ шкалы «базовый размер» из справочника производства + сетки габаритов
  * (`workshop-size-handbook`), а не устаревший apparel/footwear из JSON каталога.
  */
-export function defaultSizeScaleIdForLeaf(leaf: HandbookCategoryLeaf | undefined): string {
-  return defaultWorkshopSampleSizeScaleKey(leaf);
+export function defaultSizeScaleIdForLeaf(leaf: HandbookCategoryLeaf | undefined, isUnisex?: boolean): string {
+  return defaultWorkshopSampleSizeScaleKey(leaf, isUnisex);
 }
 
 export function getSizeScaleIdsSorted(): { scaleId: string; label: string }[] {
@@ -206,11 +224,12 @@ export function resolveParameterIdsForSizeScale(scaleId: string): string[] {
 export function resolveSampleBaseSizeParametersForLeaf(
   attribute: AttributeCatalogAttribute,
   leaf: HandbookCategoryLeaf | undefined,
-  sizeScaleId: string | undefined
+  sizeScaleId: string | undefined,
+  isUnisex?: boolean
 ): AttributeCatalogParameter[] {
   const effective = resolveEffectiveParametersForLeaf(attribute, leaf);
-  const key = sizeScaleId ?? defaultWorkshopSampleSizeScaleKey(leaf);
-  const workshop = getWorkshopParametersForSampleScale(leaf, key);
+  const key = sizeScaleId ?? defaultWorkshopSampleSizeScaleKey(leaf, isUnisex);
+  const workshop = getWorkshopParametersForSampleScale(leaf, key, isUnisex);
   if (workshop.length) return workshop;
   const legacyScaleId = key.includes('::') ? 'apparel-alpha' : key;
   const scaleIds = resolveParameterIdsForSizeScale(legacyScaleId);

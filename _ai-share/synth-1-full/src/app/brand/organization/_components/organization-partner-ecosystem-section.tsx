@@ -10,17 +10,19 @@ import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { mergePartnerGrowthSlice } from '../organization-partner-growth';
+import { mergePartnerCountsWithPatches } from '../organization-partner-counts';
 import {
-  SECTION_META,
-  mergePartnerBusinessProcessesWithPatches,
-  mergePartnerCountsWithPatches,
-  mergePartnerEcosystemBlocksWithPatches,
-  mergePartnerGrowthSlice,
-  pickPartnerEcosystemPatches,
   PARTNER_BUSINESS_PROCESSES,
+  mergePartnerBusinessProcessesWithPatches,
+} from '../organization-partner-processes';
+import {
   PARTNER_ECOSYSTEM_BLOCKS,
-  PARTNER_ROLE_LABELS,
-} from '../page-data';
+  mergePartnerEcosystemBlocksWithPatches,
+} from '../organization-partner-ecosystem-blocks';
+import { PARTNER_ROLE_LABELS } from '../organization-partner-role-meta';
+import { SECTION_META } from '../organization-section-meta';
+import { pickPartnerEcosystemPatches } from '../organization-partner-ecosystem-patches';
 import { OrgHubCardStripSkeleton } from './organization-hub-skeletons';
 
 export type OrganizationPartnerEcosystemSectionProps = {
@@ -77,7 +79,7 @@ export function OrganizationPartnerEcosystemSection({
             />
           ) : (
             <>
-          <p className="text-text-muted mb-2 text-[9px] font-semibold uppercase tracking-wide">
+          <p className="mb-2 text-[9px] font-semibold uppercase tracking-wide text-text-muted">
             Партнёры по типам • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
           </p>
           <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
@@ -111,7 +113,7 @@ export function OrganizationPartnerEcosystemSection({
                     'relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border p-3 transition-colors',
                     (item.alertCount ?? 0) > 0
                       ? 'border-rose-200 bg-rose-50/50'
-                      : 'border-border-default hover:border-border-default bg-white'
+                      : 'border-border-default bg-white hover:border-border-default'
                   )}
                 >
                   {changePct != null && (
@@ -128,11 +130,11 @@ export function OrganizationPartnerEcosystemSection({
                   <div className="flex items-start justify-between gap-2">
                     <div
                       className={cn(
-                        'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white',
+                        'flex size-9 shrink-0 items-center justify-center rounded-lg text-white',
                         item.color
                       )}
                     >
-                      <Icon className="h-4 w-4" />
+                      <Icon className="size-4" />
                     </div>
                   </div>
                   <div className="mt-2 flex items-start gap-1">
@@ -142,10 +144,10 @@ export function OrganizationPartnerEcosystemSection({
                       title={item.description}
                       aria-label={`${item.label}: ${item.value}`}
                     >
-                      <p className="text-text-primary group-hover/link:text-accent-primary text-lg font-bold tabular-nums">
+                      <p className="text-lg font-bold tabular-nums text-text-primary group-hover/link:text-accent-primary">
                         {item.value}
                       </p>
-                      <p className="text-text-secondary text-[9px] font-semibold uppercase">
+                      <p className="text-[9px] font-semibold uppercase text-text-secondary">
                         {item.label}
                       </p>
                     </Link>
@@ -177,10 +179,10 @@ export function OrganizationPartnerEcosystemSection({
                           <PopoverTrigger asChild>
                             <button
                               type="button"
-                              className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 shrink-0 rounded p-0.5"
+                              className="shrink-0 rounded p-0.5 text-text-muted hover:bg-bg-surface2 hover:text-text-secondary"
                               aria-label={`Подсказка: ${item.label}`}
                             >
-                              <HelpCircle className="h-3.5 w-3.5" />
+                              <HelpCircle className="size-3.5" />
                             </button>
                           </PopoverTrigger>
                           <PopoverContent
@@ -190,12 +192,12 @@ export function OrganizationPartnerEcosystemSection({
                             onOpenAutoFocus={(e) => e.preventDefault()}
                           >
                             {item.description && (
-                              <p className="text-text-secondary mb-2 text-[10px] leading-relaxed">
+                              <p className="mb-2 text-xs leading-relaxed text-text-secondary">
                                 {item.description}
                               </p>
                             )}
                             {item.tips && item.tips.length > 0 && (
-                              <ul className="text-text-secondary list-inside list-disc space-y-0.5 text-[9px]">
+                              <ul className="list-inside list-disc space-y-0.5 text-[9px] text-text-secondary">
                                 {item.tips.map((t, i) => (
                                   <li key={i}>{t}</li>
                                 ))}
@@ -207,12 +209,12 @@ export function OrganizationPartnerEcosystemSection({
                     </div>
                   </div>
                   {item.roleInChain && (
-                    <p className="text-text-muted mt-0.5 text-[8px]">
+                    <p className="mt-0.5 text-[8px] text-text-muted">
                       {PARTNER_ROLE_LABELS[item.roleInChain]}
                     </p>
                   )}
                   {item.subline && (
-                    <p className="text-text-secondary mt-1 line-clamp-1 text-[9px]">{item.subline}</p>
+                    <p className="mt-1 line-clamp-1 text-[9px] text-text-secondary">{item.subline}</p>
                   )}
                   {item.businessProcesses && item.businessProcesses.length > 0 && (
                     <div className="mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
@@ -221,7 +223,7 @@ export function OrganizationPartnerEcosystemSection({
                           key={bp.href}
                           href={bp.href}
                           onClick={(e) => e.stopPropagation()}
-                          className="text-accent-primary text-[8px] hover:underline"
+                          className="text-[8px] text-accent-primary hover:underline"
                         >
                           {bp.label}
                         </Link>
@@ -232,12 +234,12 @@ export function OrganizationPartnerEcosystemSection({
                     (item.statusHref2 ? (
                       <Link
                         href={item.statusHref2}
-                        className="text-accent-primary mt-1 line-clamp-1 text-[9px] font-medium hover:underline"
+                        className="mt-1 line-clamp-1 text-[9px] font-medium text-accent-primary hover:underline"
                       >
                         {item.statusShort2} →
                       </Link>
                     ) : (
-                      <p className="text-text-secondary mt-1 line-clamp-1 text-[9px]">
+                      <p className="mt-1 line-clamp-1 text-[9px] text-text-secondary">
                         {item.statusShort2}
                       </p>
                     ))}
@@ -246,7 +248,7 @@ export function OrganizationPartnerEcosystemSection({
                       <Link
                         href={item.statusHref}
                         className={cn(
-                          'text-accent-primary line-clamp-1 text-[9px] font-medium hover:underline',
+                          'line-clamp-1 text-[9px] font-medium text-accent-primary hover:underline',
                           item.statusShort2 ? 'mt-0.5' : 'mt-1'
                         )}
                       >
@@ -255,7 +257,7 @@ export function OrganizationPartnerEcosystemSection({
                     ) : (
                       <p
                         className={cn(
-                          'text-text-secondary line-clamp-1 text-[9px]',
+                          'line-clamp-1 text-[9px] text-text-secondary',
                           item.statusShort2 ? 'mt-0.5' : 'mt-1'
                         )}
                       >
@@ -270,7 +272,7 @@ export function OrganizationPartnerEcosystemSection({
                             key={m.label}
                             href={m.href}
                             onClick={(e) => e.stopPropagation()}
-                            className="text-text-secondary hover:text-accent-primary flex justify-between text-[9px]"
+                            className="flex justify-between text-[9px] text-text-secondary hover:text-accent-primary"
                           >
                             <span className="truncate">{m.label}</span>
                             <span className="ml-1 shrink-0 font-semibold tabular-nums">
@@ -280,7 +282,7 @@ export function OrganizationPartnerEcosystemSection({
                         ) : (
                           <div
                             key={m.label}
-                            className="text-text-secondary flex justify-between text-[9px]"
+                            className="flex justify-between text-[9px] text-text-secondary"
                           >
                             <span className="truncate">{m.label}</span>
                             <span className="ml-1 shrink-0 font-semibold tabular-nums">
@@ -295,28 +297,28 @@ export function OrganizationPartnerEcosystemSection({
                     <div className="mt-2">
                       <Progress
                         value={progressPct}
-                        className="bg-bg-surface2 h-1.5"
+                        className="h-1.5 bg-bg-surface2"
                         indicatorClassName="bg-amber-500"
                       />
-                      <p className="text-text-muted mt-0.5 text-[8px]">
+                      <p className="mt-0.5 text-[8px] text-text-muted">
                         активно {item.progressValue}/{item.progressMax}
                       </p>
                     </div>
                   )}
-                  <div className="border-border-subtle mt-auto flex items-center justify-between gap-2 border-t pt-3">
+                  <div className="mt-auto flex items-center justify-between gap-2 border-t border-border-subtle pt-3">
                     <Link
                       href={item.href}
-                      className="text-accent-primary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-semibold"
+                      className="flex items-center gap-0.5 text-[9px] font-semibold text-accent-primary hover:text-accent-primary"
                     >
                       Открыть раздел
-                      <ArrowRight className="h-3 w-3" />
+                      <ArrowRight className="size-3" />
                     </Link>
                     <Link
                       href={item.addHref}
                       onClick={(e) => e.stopPropagation()}
-                      className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-medium"
+                      className="flex items-center gap-0.5 text-[9px] font-medium text-text-secondary hover:text-accent-primary"
                     >
-                      <Plus className="h-3 w-3" />
+                      <Plus className="size-3" />
                       {item.addLabel}
                     </Link>
                   </div>
@@ -325,7 +327,7 @@ export function OrganizationPartnerEcosystemSection({
             })}
           </div>
 
-          <p className="text-text-muted mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide">
+          <p className="mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide text-text-muted">
             Связь с процессами • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
           </p>
           <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
@@ -336,7 +338,7 @@ export function OrganizationPartnerEcosystemSection({
               return (
                 <div
                   key={p.id}
-                  className="border-border-default hover:border-border-default relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border bg-white p-3 transition-colors"
+                  className="relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border border-border-default bg-white p-3 transition-colors hover:border-border-default"
                 >
                   {changePct != null && (
                     <p
@@ -352,11 +354,11 @@ export function OrganizationPartnerEcosystemSection({
                   <div className="flex items-start justify-between gap-2">
                     <div
                       className={cn(
-                        'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white',
+                        'flex size-9 shrink-0 items-center justify-center rounded-lg text-white',
                         p.color
                       )}
                     >
-                      <Icon className="h-4 w-4" />
+                      <Icon className="size-4" />
                     </div>
                   </div>
                   <div className="mt-2 flex items-start gap-1">
@@ -366,20 +368,20 @@ export function OrganizationPartnerEcosystemSection({
                       title={p.description}
                       aria-label={`${p.label}: ${count}`}
                     >
-                      <p className="text-text-primary group-hover/link:text-accent-primary text-lg font-bold tabular-nums">
+                      <p className="text-lg font-bold tabular-nums text-text-primary group-hover/link:text-accent-primary">
                         {count}
                       </p>
-                      <p className="text-text-secondary text-[9px] font-semibold uppercase">{p.label}</p>
+                      <p className="text-[9px] font-semibold uppercase text-text-secondary">{p.label}</p>
                     </Link>
                     {(p.description || (p.tips && p.tips.length > 0)) && (
                       <Popover modal={false}>
                         <PopoverTrigger asChild>
                           <button
                             type="button"
-                            className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 shrink-0 rounded p-0.5"
+                            className="shrink-0 rounded p-0.5 text-text-muted hover:bg-bg-surface2 hover:text-text-secondary"
                             aria-label={`Подсказка: ${p.label}`}
                           >
-                            <HelpCircle className="h-3.5 w-3.5" />
+                            <HelpCircle className="size-3.5" />
                           </button>
                         </PopoverTrigger>
                         <PopoverContent
@@ -388,12 +390,12 @@ export function OrganizationPartnerEcosystemSection({
                           className="z-[200] w-64 rounded-xl p-3 text-left"
                         >
                           {p.description && (
-                            <p className="text-text-secondary mb-2 text-[10px] leading-relaxed">
+                            <p className="mb-2 text-xs leading-relaxed text-text-secondary">
                               {p.description}
                             </p>
                           )}
                           {p.tips && p.tips.length > 0 && (
-                            <ul className="text-text-secondary list-inside list-disc space-y-0.5 text-[9px]">
+                            <ul className="list-inside list-disc space-y-0.5 text-[9px] text-text-secondary">
                               {p.tips.map((t, i) => (
                                 <li key={i}>{t}</li>
                               ))}
@@ -403,7 +405,7 @@ export function OrganizationPartnerEcosystemSection({
                       </Popover>
                     )}
                   </div>
-                  <p className="text-text-secondary mt-1 line-clamp-1 text-[9px]">{p.sub}</p>
+                  <p className="mt-1 line-clamp-1 text-[9px] text-text-secondary">{p.sub}</p>
                   {p.detailMetrics && p.detailMetrics.length > 0 && (
                     <div className="mt-2 space-y-0.5">
                       {p.detailMetrics.slice(0, 3).map((m) =>
@@ -412,7 +414,7 @@ export function OrganizationPartnerEcosystemSection({
                             key={m.label}
                             href={m.href}
                             onClick={(e) => e.stopPropagation()}
-                            className="text-text-secondary hover:text-accent-primary flex justify-between text-[9px]"
+                            className="flex justify-between text-[9px] text-text-secondary hover:text-accent-primary"
                           >
                             <span className="truncate">{m.label}</span>
                             <span className="ml-1 shrink-0 font-semibold tabular-nums">
@@ -422,7 +424,7 @@ export function OrganizationPartnerEcosystemSection({
                         ) : (
                           <div
                             key={m.label}
-                            className="text-text-secondary flex justify-between text-[9px]"
+                            className="flex justify-between text-[9px] text-text-secondary"
                           >
                             <span className="truncate">{m.label}</span>
                             <span className="ml-1 shrink-0 font-semibold tabular-nums">
@@ -433,21 +435,21 @@ export function OrganizationPartnerEcosystemSection({
                       )}
                     </div>
                   )}
-                  <div className="border-border-subtle mt-auto flex items-center justify-between gap-2 border-t pt-3">
+                  <div className="mt-auto flex items-center justify-between gap-2 border-t border-border-subtle pt-3">
                     <Link
                       href={p.href}
-                      className="text-accent-primary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-semibold"
+                      className="flex items-center gap-0.5 text-[9px] font-semibold text-accent-primary hover:text-accent-primary"
                     >
                       Открыть раздел
-                      <ArrowRight className="h-3 w-3" />
+                      <ArrowRight className="size-3" />
                     </Link>
                     {p.addHref && p.addLabel && (
                       <Link
                         href={p.addHref}
                         onClick={(e) => e.stopPropagation()}
-                        className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-medium"
+                        className="flex items-center gap-0.5 text-[9px] font-medium text-text-secondary hover:text-accent-primary"
                       >
-                        <Plus className="h-3 w-3" />
+                        <Plus className="size-3" />
                         {p.addLabel}
                       </Link>
                     )}
@@ -457,7 +459,7 @@ export function OrganizationPartnerEcosystemSection({
             })}
           </div>
 
-          <p className="text-text-muted mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide">
+          <p className="mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide text-text-muted">
             Процессы и области • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
           </p>
           <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
@@ -479,7 +481,7 @@ export function OrganizationPartnerEcosystemSection({
                     'relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border p-3 text-left transition-colors',
                     blockAlertCount > 0
                       ? 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/50'
-                      : 'border-border-default hover:border-border-default hover:bg-bg-surface2/80 bg-white'
+                      : 'border-border-default bg-white hover:border-border-default hover:bg-bg-surface2/80'
                   )}
                 >
                   {changePct != null && (
@@ -496,17 +498,17 @@ export function OrganizationPartnerEcosystemSection({
                   <div className="flex items-start justify-between gap-2">
                     <div
                       className={cn(
-                        'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white',
+                        'flex size-9 shrink-0 items-center justify-center rounded-lg text-white',
                         b.color
                       )}
                     >
-                      <BlockIcon className="h-4 w-4" />
+                      <BlockIcon className="size-4" />
                     </div>
                   </div>
                   <div className="mb-1.5 mt-2 flex items-start justify-between gap-2">
                     <Link
                       href={b.href}
-                      className="text-text-primary hover:text-accent-primary min-w-0 flex-1 text-[11px] font-bold uppercase leading-tight tracking-tight"
+                      className="min-w-0 flex-1 text-sm font-bold uppercase leading-tight tracking-tight text-text-primary hover:text-accent-primary"
                     >
                       {b.titleLines ? (
                         <>
@@ -541,10 +543,10 @@ export function OrganizationPartnerEcosystemSection({
                         <PopoverTrigger asChild>
                           <button
                             type="button"
-                            className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 shrink-0 rounded p-0.5"
+                            className="shrink-0 rounded p-0.5 text-text-muted hover:bg-bg-surface2 hover:text-text-secondary"
                             aria-label={`Описание: ${b.titleLines ? b.titleLines.join(' ') : b.title}`}
                           >
-                            <HelpCircle className="h-3.5 w-3.5" />
+                            <HelpCircle className="size-3.5" />
                           </button>
                         </PopoverTrigger>
                         <PopoverContent
@@ -552,7 +554,7 @@ export function OrganizationPartnerEcosystemSection({
                           side="bottom"
                           className="z-[200] w-64 rounded-xl p-3 text-left"
                         >
-                          <p className="text-text-secondary text-[10px] leading-relaxed">{b.description}</p>
+                          <p className="text-xs leading-relaxed text-text-secondary">{b.description}</p>
                         </PopoverContent>
                       </Popover>
                     </div>
@@ -563,7 +565,7 @@ export function OrganizationPartnerEcosystemSection({
                         {m.href ? (
                           <Link
                             href={m.href}
-                            className="text-text-secondary hover:text-accent-primary flex justify-between text-[9px]"
+                            className="flex justify-between text-[9px] text-text-secondary hover:text-accent-primary"
                           >
                             <span className="truncate">{m.label}</span>
                             <span className="ml-1 shrink-0 font-semibold tabular-nums">
@@ -571,7 +573,7 @@ export function OrganizationPartnerEcosystemSection({
                             </span>
                           </Link>
                         ) : (
-                          <div className="text-text-secondary flex justify-between text-[9px]">
+                          <div className="flex justify-between text-[9px] text-text-secondary">
                             <span className="truncate">{m.label}</span>
                             <span className="ml-1 shrink-0 font-semibold tabular-nums">{m.value}</span>
                           </div>
@@ -579,21 +581,21 @@ export function OrganizationPartnerEcosystemSection({
                       </li>
                     ))}
                   </ul>
-                  <div className="border-border-subtle mt-auto flex items-center justify-between gap-2 border-t pt-3">
+                  <div className="mt-auto flex items-center justify-between gap-2 border-t border-border-subtle pt-3">
                     <Link
                       href={b.href}
-                      className="text-accent-primary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-semibold"
+                      className="flex items-center gap-0.5 text-[9px] font-semibold text-accent-primary hover:text-accent-primary"
                     >
                       Открыть раздел
-                      <ArrowRight className="h-3 w-3" />
+                      <ArrowRight className="size-3" />
                     </Link>
                     {b.addHref && b.addLabel && (
                       <Link
                         href={b.addHref}
                         onClick={(e) => e.stopPropagation()}
-                        className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-medium"
+                        className="flex items-center gap-0.5 text-[9px] font-medium text-text-secondary hover:text-accent-primary"
                       >
-                        <Plus className="h-3 w-3" />
+                        <Plus className="size-3" />
                         {b.addLabel}
                       </Link>
                     )}

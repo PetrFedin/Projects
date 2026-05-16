@@ -1,6 +1,6 @@
 /**
  * Собранные URL для вторичных кнопок на карточках хаба коллекции (`CollectionWorkshopStageChain`).
- * Собираются в `app/brand/production/page.tsx` с учётом `collectionId`.
+ * Собираются в `app/brand/production/production-page-collection-hub-hrefs.ts` с учётом `collectionId`.
  */
 export type CollectionChainDeepLinkHrefs = {
   productionGantt: string;

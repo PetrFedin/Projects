@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Briefcase, Store, Factory, ShoppingCart, Loader2, Warehouse } from 'lucide-react';
@@ -15,11 +15,16 @@ import { distributorNavGroups } from '@/lib/data/distributor-navigation';
 import {
   DISTRIBUTOR_ARCHIVE_GROUP_ORDER,
   DISTRIBUTOR_CORE_GROUP_ORDER,
+  DISTRIBUTOR_INVESTOR_SPINE_CORE_GROUP_ORDER,
   SYNTHA_SIDEBAR_CLUSTERS,
 } from '@/lib/data/syntha-nav-clusters';
+import {
+  applyDistributorInvestorSpineClusterOverrides,
+  isDistributorNavInvestorSpineEnabled,
+} from '@/lib/cabinet-nav-env';
 import { HubSidebar } from '@/components/hub/HubSidebar';
 import { HubSidebarHeader } from '@/components/hub/HubSidebarHeader';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import {
   CabinetHubMain,
   CabinetHubSectionBar,
@@ -60,6 +65,14 @@ export default function DistributorLayout({ children }: { children: React.ReactN
     },
   ].filter((h) => canAccessHub(role, h.hub));
 
+  const adjustedDistributorNavGroups = useMemo(
+    () => applyDistributorInvestorSpineClusterOverrides(distributorNavGroups),
+    []
+  );
+  const distributorCoreOrder = isDistributorNavInvestorSpineEnabled()
+    ? DISTRIBUTOR_INVESTOR_SPINE_CORE_GROUP_ORDER
+    : DISTRIBUTOR_CORE_GROUP_ORDER;
+
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
       <div className={cabinetHubLayout.loadingShell}>
@@ -83,7 +96,7 @@ export default function DistributorLayout({ children }: { children: React.ReactN
   }
 
   const sectionLabel =
-    resolveCabinetActiveNavLink(pathname, distributorNavGroups)?.label ?? 'Дашборд';
+    resolveCabinetActiveNavLink(pathname, adjustedDistributorNavGroups)?.label ?? 'Дашборд';
 
   return (
     <ErrorBoundary>
@@ -99,12 +112,12 @@ export default function DistributorLayout({ children }: { children: React.ReactN
           />
           <div className="scrollbar-hide min-h-0 flex-1 overflow-y-auto">
             <HubSidebar
-              groups={distributorNavGroups}
+              groups={adjustedDistributorNavGroups}
               basePath={ROUTES.distributor.home}
               accentClass="text-amber-600"
               activeBgClass="bg-amber-600"
               sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
-              coreGroupOrder={DISTRIBUTOR_CORE_GROUP_ORDER}
+              coreGroupOrder={distributorCoreOrder}
               archiveGroupOrder={DISTRIBUTOR_ARCHIVE_GROUP_ORDER}
             />
           </div>
@@ -112,6 +125,7 @@ export default function DistributorLayout({ children }: { children: React.ReactN
 
         <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
           <SheetContent side="left" className="flex w-72 flex-col gap-0 p-0">
+            <SheetTitle className="sr-only">Меню кабинета дистрибьютора</SheetTitle>
             <div className="shrink-0 pb-0 pt-12">
               <HubSidebarHeader
                 href={ROUTES.distributor.home}
@@ -129,13 +143,13 @@ export default function DistributorLayout({ children }: { children: React.ReactN
             </div>
             <div className="min-h-0 flex-1 overflow-y-auto">
               <HubSidebar
-                groups={distributorNavGroups}
+                groups={adjustedDistributorNavGroups}
                 basePath={ROUTES.distributor.home}
                 accentClass="text-amber-600"
                 activeBgClass="bg-amber-600"
                 onNavigate={() => setSidebarOpen(false)}
                 sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
-                coreGroupOrder={DISTRIBUTOR_CORE_GROUP_ORDER}
+                coreGroupOrder={distributorCoreOrder}
                 archiveGroupOrder={DISTRIBUTOR_ARCHIVE_GROUP_ORDER}
               />
             </div>
@@ -158,6 +172,7 @@ export default function DistributorLayout({ children }: { children: React.ReactN
                   {cabinetRoleLabelRu(role)}
                 </Badge>
               }
+              showDemoMark
               trailing={
                 <nav className="flex flex-wrap items-center gap-2" aria-label="Переключение хабов">
                   {hubs.map((hub) => {

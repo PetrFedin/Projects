@@ -19,35 +19,10 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
 import { cn } from '@/lib/utils';
 import { RegistryPageHeader } from '@/components/design-system';
-
-/** Полная статистика продаж в Маркетруме и Аутлете платформы. */
-const MOCK_MARKETROOM = {
-  revenue: '380 000 ₽',
-  revenueChange: 12.4,
-  orders: 156,
-  ordersChange: 8,
-  units: 412,
-  avgCheck: '2 436 ₽',
-  topProducts: [
-    { name: 'Куртка CTP-26-001', revenue: '48 200 ₽', units: 18 },
-    { name: 'Брюки CTP-26-012', revenue: '42 100 ₽', units: 22 },
-    { name: 'Свитшот CTP-26-005', revenue: '38 900 ₽', units: 28 },
-  ],
-};
-
-const MOCK_OUTLET = {
-  revenue: '120 000 ₽',
-  revenueChange: -5.2,
-  orders: 89,
-  ordersChange: 2,
-  units: 198,
-  avgCheck: '1 348 ₽',
-  topProducts: [
-    { name: 'SS25 Остатки — Свитшот', revenue: '22 400 ₽', units: 32 },
-    { name: 'SS25 Остатки — Брюки', revenue: '18 900 ₽', units: 21 },
-    { name: 'Аксессуары уценка', revenue: '15 200 ₽', units: 44 },
-  ],
-};
+import {
+  PLATFORM_SALES_DEMO_MARKETROOM,
+  PLATFORM_SALES_DEMO_OUTLET,
+} from '@/lib/brand/analytics/platform-sales-demo-fixtures';
 
 export default function PlatformSalesPage() {
   const [period, setPeriod] = useState('30d');
@@ -99,31 +74,31 @@ export default function PlatformSalesPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-text-secondary text-xs">Выручка</p>
-                <p className="text-accent-primary text-xl font-black">{MOCK_MARKETROOM.revenue}</p>
+                <p className="text-accent-primary text-xl font-black">{PLATFORM_SALES_DEMO_MARKETROOM.revenue}</p>
                 <p
                   className={cn(
                     'text-xs font-medium',
-                    MOCK_MARKETROOM.revenueChange >= 0 ? 'text-emerald-600' : 'text-rose-600'
+                    PLATFORM_SALES_DEMO_MARKETROOM.revenueChange >= 0 ? 'text-emerald-600' : 'text-rose-600'
                   )}
                 >
-                  {MOCK_MARKETROOM.revenueChange >= 0 ? '+' : ''}
-                  {MOCK_MARKETROOM.revenueChange}% к пред. периоду
+                  {PLATFORM_SALES_DEMO_MARKETROOM.revenueChange >= 0 ? '+' : ''}
+                  {PLATFORM_SALES_DEMO_MARKETROOM.revenueChange}% к пред. периоду
                 </p>
               </div>
               <div>
                 <p className="text-text-secondary text-xs">Заказы</p>
-                <p className="text-xl font-black">{MOCK_MARKETROOM.orders}</p>
+                <p className="text-xl font-black">{PLATFORM_SALES_DEMO_MARKETROOM.orders}</p>
                 <p className="text-text-secondary text-xs">
-                  +{MOCK_MARKETROOM.ordersChange} заказов
+                  +{PLATFORM_SALES_DEMO_MARKETROOM.ordersChange} заказов
                 </p>
               </div>
               <div>
                 <p className="text-text-secondary text-xs">Единиц</p>
-                <p className="text-xl font-black">{MOCK_MARKETROOM.units}</p>
+                <p className="text-xl font-black">{PLATFORM_SALES_DEMO_MARKETROOM.units}</p>
               </div>
               <div>
                 <p className="text-text-secondary text-xs">Средний чек</p>
-                <p className="text-xl font-black">{MOCK_MARKETROOM.avgCheck}</p>
+                <p className="text-xl font-black">{PLATFORM_SALES_DEMO_MARKETROOM.avgCheck}</p>
               </div>
             </div>
             <div>
@@ -131,7 +106,7 @@ export default function PlatformSalesPage() {
                 Топ товаров (Маркетрум)
               </p>
               <ul className="space-y-2">
-                {MOCK_MARKETROOM.topProducts.map((p, i) => (
+                {PLATFORM_SALES_DEMO_MARKETROOM.topProducts.map((p, i) => (
                   <li key={i} className="flex justify-between text-sm">
                     <span className="truncate pr-2">{p.name}</span>
                     <span className="shrink-0 font-semibold">
@@ -155,35 +130,35 @@ export default function PlatformSalesPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-text-secondary text-xs">Выручка</p>
-                <p className="text-xl font-black text-amber-700">{MOCK_OUTLET.revenue}</p>
+                <p className="text-xl font-black text-amber-700">{PLATFORM_SALES_DEMO_OUTLET.revenue}</p>
                 <p
                   className={cn(
                     'text-xs font-medium',
-                    MOCK_OUTLET.revenueChange >= 0 ? 'text-emerald-600' : 'text-rose-600'
+                    PLATFORM_SALES_DEMO_OUTLET.revenueChange >= 0 ? 'text-emerald-600' : 'text-rose-600'
                   )}
                 >
-                  {MOCK_OUTLET.revenueChange >= 0 ? '+' : ''}
-                  {MOCK_OUTLET.revenueChange}% к пред. периоду
+                  {PLATFORM_SALES_DEMO_OUTLET.revenueChange >= 0 ? '+' : ''}
+                  {PLATFORM_SALES_DEMO_OUTLET.revenueChange}% к пред. периоду
                 </p>
               </div>
               <div>
                 <p className="text-text-secondary text-xs">Заказы</p>
-                <p className="text-xl font-black">{MOCK_OUTLET.orders}</p>
-                <p className="text-text-secondary text-xs">+{MOCK_OUTLET.ordersChange} заказов</p>
+                <p className="text-xl font-black">{PLATFORM_SALES_DEMO_OUTLET.orders}</p>
+                <p className="text-text-secondary text-xs">+{PLATFORM_SALES_DEMO_OUTLET.ordersChange} заказов</p>
               </div>
               <div>
                 <p className="text-text-secondary text-xs">Единиц</p>
-                <p className="text-xl font-black">{MOCK_OUTLET.units}</p>
+                <p className="text-xl font-black">{PLATFORM_SALES_DEMO_OUTLET.units}</p>
               </div>
               <div>
                 <p className="text-text-secondary text-xs">Средний чек</p>
-                <p className="text-xl font-black">{MOCK_OUTLET.avgCheck}</p>
+                <p className="text-xl font-black">{PLATFORM_SALES_DEMO_OUTLET.avgCheck}</p>
               </div>
             </div>
             <div>
               <p className="text-text-secondary mb-2 text-xs font-medium">Топ товаров (Аутлет)</p>
               <ul className="space-y-2">
-                {MOCK_OUTLET.topProducts.map((p, i) => (
+                {PLATFORM_SALES_DEMO_OUTLET.topProducts.map((p, i) => (
                   <li key={i} className="flex justify-between text-sm">
                     <span className="truncate pr-2">{p.name}</span>
                     <span className="shrink-0 font-semibold">
@@ -210,7 +185,7 @@ export default function PlatformSalesPage() {
               </div>
               <div>
                 <p className="text-text-secondary text-xs">Маркетрум</p>
-                <p className="text-lg font-black">{MOCK_MARKETROOM.revenue}</p>
+                <p className="text-lg font-black">{PLATFORM_SALES_DEMO_MARKETROOM.revenue}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -219,7 +194,7 @@ export default function PlatformSalesPage() {
               </div>
               <div>
                 <p className="text-text-secondary text-xs">Аутлет</p>
-                <p className="text-lg font-black">{MOCK_OUTLET.revenue}</p>
+                <p className="text-lg font-black">{PLATFORM_SALES_DEMO_OUTLET.revenue}</p>
               </div>
             </div>
             <div className="border-border-default flex items-center gap-3 border-l pl-4">

@@ -1,0 +1,33 @@
+# Ручной прогон Playwright light со всеми NEXT_PUBLIC_*_INVESTOR_SPINE=1 (без полного synth-1-full-ci).
+# Actions → investor spine e2e dispatch → Run workflow.
+name: investor spine e2e (dispatch)
+
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: _ai-share/synth-1-full
+
+jobs:
+  e2e-light-investor-env:
+    name: e2e light (investor spine env)
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      NEXT_TELEMETRY_DISABLED: '1'
+      NEXT_PUBLIC_USE_B2C_SHOP_API: 'true'
+      NEXT_PUBLIC_BRAND_NAV_INVESTOR_SPINE: '1'
+      NEXT_PUBLIC_SHOP_NAV_INVESTOR_SPINE: '1'
+      NEXT_PUBLIC_FACTORY_NAV_INVESTOR_SPINE: '1'
+      NEXT_PUBLIC_DISTRIBUTOR_NAV_INVESTOR_SPINE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+      - run: npm ci
+      - run: npx playwright install chromium --with-deps
+      - run: npm run test:e2e:light

@@ -1,6 +1,7 @@
 'use server';
 
 import { ai, withTokenAudit, truncateInput } from '@/ai/genkit';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 import { z } from 'zod';
 
 const OptimizeBlogTextInputSchema = z.object({
@@ -63,9 +64,9 @@ const optimizeBlogTextFlow = ai.defineFlow(
       const { output } = await prompt(optimizedInput);
       if (!output) throw new Error('AI failed to generate a response');
       return output;
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Fallback logic if API Key is missing or other provider errors occur
-      console.warn('AI Provider failed, using local heuristic engine:', error.message);
+      console.warn('AI Provider failed, using local heuristic engine:', getUnknownErrorMessage(error, 'unknown'));
 
       const text = input.text;
 

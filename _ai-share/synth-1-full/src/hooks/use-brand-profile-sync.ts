@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { fastApiService } from '@/lib/fastapi-service';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 
 const DEFAULT_BRAND_ID = 'syntha-1';
 
@@ -29,7 +30,7 @@ export function useBrandProfileSync(brandId = DEFAULT_BRAND_ID) {
       setState({ loading: false, error: null, lastSynced: new Date() });
       return { success: true };
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Ошибка синхронизации';
+      const message = getUnknownErrorMessage(err, 'Ошибка синхронизации');
       setState((s) => ({ ...s, loading: false, error: message }));
       return { success: false, error: message };
     }
@@ -43,8 +44,10 @@ export function useBrandProfileSync(brandId = DEFAULT_BRAND_ID) {
         setState((s) => ({ ...s, loading: false, lastSynced: new Date() }));
         return { success: true };
       } catch (err) {
-        const message =
-          err instanceof Error ? err.message : `Не удалось переподключить ${provider}`;
+        const message = getUnknownErrorMessage(
+          err,
+          `Не удалось переподключить ${provider}`
+        );
         setState((s) => ({ ...s, loading: false, error: message }));
         return { success: false, error: message };
       }

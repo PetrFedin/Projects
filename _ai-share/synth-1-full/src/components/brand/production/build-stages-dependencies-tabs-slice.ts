@@ -1,0 +1,66 @@
+import type { StagesDependenciesTabContentBuildArgs } from '@/components/brand/production/stages-dependencies-tab-content-build-args';
+import type { Workshop2StagesDependenciesSlicePanelProps } from '@/components/brand/production/Workshop2StagesDependenciesSlicePanel';
+
+export function buildStagesDependenciesTabsSliceProps(
+  ctx: StagesDependenciesTabContentBuildArgs
+): Workshop2StagesDependenciesSlicePanelProps {
+  const {
+    slicePinned,
+    setSlicePinned,
+    sliceOpen,
+    setSliceOpen,
+    sliceExpanded,
+    focusArticle,
+    mergeCollectionQuery,
+    collectionQuery,
+    floorHref,
+    mergeModuleHref,
+    clearAllFacets,
+    pickerQ,
+    setPickerQ,
+    facetBundle,
+    audienceFacetChoices,
+    seasonFacetChoices,
+    l1FacetChoices,
+    l2FacetChoices,
+    l3FacetChoices,
+    fabFacetChoices,
+    toggleFacetValue,
+    articlesForPickerList,
+    steps,
+    resolvedFocusId,
+    expandedPickDetailIds,
+    togglePickDetailRow,
+    setFocusSku,
+  } = ctx;
+
+  return {
+    slicePinned,
+    onSlicePinnedChange: setSlicePinned,
+    sliceOpen,
+    onSliceOpenChange: setSliceOpen,
+    sliceExpanded,
+    focusArticle,
+    mergeCollectionQuery,
+    collectionQuery,
+    floorHref,
+    mergeModuleHref,
+    onClearAllFacets: clearAllFacets,
+    pickerQ,
+    onPickerQChange: setPickerQ,
+    facetBundle,
+    audienceFacetChoices,
+    seasonFacetChoices,
+    l1FacetChoices,
+    l2FacetChoices,
+    l3FacetChoices,
+    fabFacetChoices,
+    onToggleFacetValue: toggleFacetValue,
+    articlesForPickerList,
+    steps,
+    resolvedFocusId,
+    expandedPickDetailIds,
+    onTogglePickDetailRow: togglePickDetailRow,
+    onSetFocusSku: setFocusSku,
+  };
+}

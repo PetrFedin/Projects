@@ -9,8 +9,11 @@ import { SectionBlock } from '@/components/brand/SectionBlock';
 import type { HistoryEntry } from '@/components/brand/SectionBlock';
 import { registryFeedLayout } from '@/lib/ui/registry-feed-layout';
 import { cn } from '@/lib/utils';
-import { SECTION_META, mergeNavigationCardsWithModuleStats } from '../page-data';
-import type { ModuleStatPatch } from '../page-data';
+import {
+  mergeNavigationCardsWithModuleStats,
+  type ModuleStatPatch,
+} from '../organization-navigation-cards';
+import { SECTION_META } from '../organization-section-meta';
 import { OrgHubModulesStripSkeleton } from './organization-hub-skeletons';
 
 export type OrganizationModulesSectionProps = {
@@ -47,15 +50,15 @@ export function OrganizationModulesSection({
             <OrgHubModulesStripSkeleton />
           ) : (
             <>
-          <p className="text-text-muted mb-2 text-[9px] font-semibold uppercase tracking-wide">
+          <p className="mb-2 text-[9px] font-semibold uppercase tracking-wide text-text-muted">
             {modulesPeriodKey === '7d' ? 'За 7 дн.' : 'За 30 дн.'}
           </p>
           <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
             {navigationCards.map((card) => {
               const changePct =
-                modulesPeriodKey === '7d' ? (card as any).changePct7d : (card as any).changePct30d;
-              const addHref = (card as any).addHref;
-              const addLabel = (card as any).addLabel;
+                modulesPeriodKey === '7d' ? card.changePct7d : card.changePct30d;
+              const addHref = card.addHref;
+              const addLabel = card.addLabel;
               const CardIcon = card.icon;
               return (
                 <div
@@ -74,7 +77,7 @@ export function OrganizationModulesSection({
                     'relative flex min-h-[280px] w-[200px] shrink-0 cursor-pointer flex-col rounded-xl border p-3 text-left transition-colors',
                     card.stats.status === 'warning'
                       ? 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/50'
-                      : 'border-border-default hover:border-border-default hover:bg-bg-surface2/80 bg-white'
+                      : 'border-border-default bg-white hover:border-border-default hover:bg-bg-surface2/80'
                   )}
                 >
                   {changePct != null && (
@@ -91,15 +94,15 @@ export function OrganizationModulesSection({
                   <div className="flex items-start justify-between gap-2">
                     <div
                       className={cn(
-                        'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white',
+                        'flex size-9 shrink-0 items-center justify-center rounded-lg text-white',
                         card.bg.replace('-50', '-500')
                       )}
                     >
-                      <CardIcon className="h-4 w-4" />
+                      <CardIcon className="size-4" />
                     </div>
                   </div>
                   <div className="mt-2 flex items-start justify-between gap-2">
-                    <h3 className="text-text-primary min-w-0 flex-1 text-[11px] font-bold uppercase leading-tight tracking-tight">
+                    <h3 className="min-w-0 flex-1 text-sm font-bold uppercase leading-tight tracking-tight text-text-primary">
                       {card.title}
                     </h3>
                     <div
@@ -131,10 +134,10 @@ export function OrganizationModulesSection({
                         <PopoverTrigger asChild>
                           <button
                             type="button"
-                            className="text-text-muted hover:text-text-secondary hover:bg-bg-surface2 rounded p-0.5"
+                            className="rounded p-0.5 text-text-muted hover:bg-bg-surface2 hover:text-text-secondary"
                             aria-label={`Описание раздела «${card.title}»`}
                           >
-                            <HelpCircle className="h-3.5 w-3.5" />
+                            <HelpCircle className="size-3.5" />
                           </button>
                         </PopoverTrigger>
                         <PopoverContent
@@ -142,7 +145,7 @@ export function OrganizationModulesSection({
                           side="bottom"
                           className="z-[200] w-64 rounded-xl p-3 text-left"
                         >
-                          <p className="text-text-secondary text-[10px] leading-relaxed">
+                          <p className="text-xs leading-relaxed text-text-secondary">
                             {card.description}
                           </p>
                         </PopoverContent>
@@ -150,7 +153,7 @@ export function OrganizationModulesSection({
                     </div>
                   </div>
                   <div className="mt-2 space-y-0.5">
-                    <div className="text-text-secondary flex justify-between text-[9px]">
+                    <div className="flex justify-between text-[9px] text-text-secondary">
                       <span className="truncate">{card.stats.label}</span>
                       <span
                         className={cn(
@@ -166,29 +169,29 @@ export function OrganizationModulesSection({
                       </span>
                     </div>
                   </div>
-                  <div className="border-border-subtle mt-auto flex items-center justify-between gap-2 border-t pt-3">
+                  <div className="mt-auto flex items-center justify-between gap-2 border-t border-border-subtle pt-3">
                     <button
                       type="button"
-                      className="text-accent-primary hover:text-accent-primary flex items-center gap-0.5 text-left text-[9px] font-semibold"
+                      className="flex items-center gap-0.5 text-left text-[9px] font-semibold text-accent-primary hover:text-accent-primary"
                       onClick={(e) => {
                         e.stopPropagation();
                         router.push(card.href);
                       }}
                     >
                       Открыть раздел
-                      <ArrowRight className="h-3 w-3 shrink-0" />
+                      <ArrowRight className="size-3 shrink-0" />
                     </button>
                     {addHref && addLabel ? (
                       <button
                         type="button"
-                        className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-left text-[9px] font-medium"
+                        className="flex items-center gap-0.5 text-left text-[9px] font-medium text-text-secondary hover:text-accent-primary"
                         aria-label={`${addLabel}, раздел «${card.title}»`}
                         onClick={(e) => {
                           e.stopPropagation();
                           router.push(addHref);
                         }}
                       >
-                        <Plus className="h-3 w-3 shrink-0" />
+                        <Plus className="size-3 shrink-0" />
                         {addLabel}
                       </button>
                     ) : null}

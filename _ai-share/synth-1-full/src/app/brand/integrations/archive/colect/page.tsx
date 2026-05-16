@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,8 +15,11 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { jsonAs } from '@/lib/json';
-
-type Message = { type: 'success' | 'error'; text: string };
+import {
+  archiveMessageFromB2bShape,
+  useArchiveIntegrationAction,
+  type ArchiveIntegrationMessage,
+} from '@/hooks/use-archive-integration-action';
 
 type ColectAddResponse = { success?: boolean; error?: string };
 
@@ -28,12 +31,13 @@ type ColectLookbookStructure = {
 };
 
 export default function BrandIntegrationsColectPage() {
+  const runArchiveAction = useArchiveIntegrationAction();
   const [lookbookId, setLookbookId] = useState('demo-lookbook');
   const [structure, setStructure] = useState<ColectLookbookStructure | null>(null);
   const [structureLoading, setStructureLoading] = useState(false);
   const [content, setContent] = useState<unknown[]>([]);
   const [contentLoading, setContentLoading] = useState(false);
-  const [addToOrderMsg, setAddToOrderMsg] = useState<Message | null>(null);
+  const [addToOrderMsg, setAddToOrderMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [addToOrderLoading, setAddToOrderLoading] = useState(false);
 
   const loadStructure = async () => {
@@ -64,28 +68,25 @@ export default function BrandIntegrationsColectPage() {
     }
   };
 
-  const addToOrder = async () => {
-    setAddToOrderMsg(null);
-    setAddToOrderLoading(true);
-    try {
-      const res = await fetch('/api/b2b/colect/add-to-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          lookbookId,
-          keyLookId: 'demo-key-look',
-          skus: [{ sku: 'DEMO-SKU-01', quantity: 2 }],
-        }),
-      });
-      const data = jsonAs<ColectAddResponse>(await res.json());
-      if (data.success) setAddToOrderMsg({ type: 'success', text: 'Добавлено в заказ' });
-      else setAddToOrderMsg({ type: 'error', text: data.error ?? 'Ошибка' });
-    } catch (e) {
-      setAddToOrderMsg({ type: 'error', text: e instanceof Error ? e.message : 'Ошибка запроса' });
-    } finally {
-      setAddToOrderLoading(false);
-    }
-  };
+  const addToOrder = useCallback(async () => {
+    await runArchiveAction({
+      setMsg: setAddToOrderMsg,
+      setLoading: setAddToOrderLoading,
+      work: async () => {
+        const res = await fetch('/api/b2b/colect/add-to-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            lookbookId,
+            keyLookId: 'demo-key-look',
+            skus: [{ sku: 'DEMO-SKU-01', quantity: 2 }],
+          }),
+        });
+        const data = jsonAs<ColectAddResponse>(await res.json());
+        return archiveMessageFromB2bShape(data, { kind: 'literal', text: 'Добавлено в заказ' });
+      },
+    });
+  }, [runArchiveAction, lookbookId]);
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-6 pb-24">

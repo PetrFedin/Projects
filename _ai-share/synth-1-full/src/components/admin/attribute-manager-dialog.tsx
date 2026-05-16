@@ -53,7 +53,11 @@ export function AttributeManagerDialog({
   };
 
   const getFullOptionsList = (
-    optionsObject: Record<string, string[]> | string[] | ComboboxOptions
+    optionsObject:
+      | Readonly<Record<string, readonly string[]>>
+      | Record<string, string[]>
+      | string[]
+      | ComboboxOptions
   ): ComboboxOptions => {
     if (Array.isArray(optionsObject)) {
       if (optionsObject.length === 0) return [];
@@ -67,9 +71,9 @@ export function AttributeManagerDialog({
       return [];
     }
     const allOptions = new Set<string>();
-    Object.values(optionsObject).forEach((arr) => {
-      arr.forEach((opt) => allOptions.add(opt));
-    });
+    for (const arr of Object.values(optionsObject)) {
+      for (const opt of arr) allOptions.add(opt);
+    }
     return Array.from(allOptions)
       .sort()
       .map((opt) => ({ value: opt, label: opt }));

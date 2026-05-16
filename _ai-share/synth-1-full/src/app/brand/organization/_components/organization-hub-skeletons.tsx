@@ -23,7 +23,7 @@ export function OrgHubCardStripSkeleton({
         <React.Fragment key={i}>
           {i > 0 ? <div className="mt-6" aria-hidden /> : null}
           <div
-            className={cn('bg-bg-surface2 mb-2 h-3 animate-pulse rounded', row.titleWidthClass)}
+            className={cn('mb-2 h-3 animate-pulse rounded bg-bg-surface2', row.titleWidthClass)}
             aria-hidden
           />
           <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
@@ -40,7 +40,7 @@ export function OrgHubCardStripSkeleton({
 export function OrgHubModulesStripSkeleton({ className }: { className?: string }) {
   return (
     <div className={cn(className)} aria-busy="true" aria-label="Загрузка разделов организации">
-      <div className="bg-bg-surface2 mb-2 h-3 w-24 animate-pulse rounded" aria-hidden />
+      <div className="mb-2 h-3 w-24 animate-pulse rounded bg-bg-surface2" aria-hidden />
       <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
         {Array.from({ length: 5 }).map((_, j) => (
           <div key={j} className={CARD_CLASS} aria-hidden />
@@ -61,12 +61,12 @@ export function OrgHubRoleReportsSkeleton({ className }: { className?: string })
       aria-busy="true"
       aria-label="Загрузка блока отчётов по ролям"
     >
-      <div className="bg-bg-surface2 h-3 w-full max-w-md animate-pulse rounded" aria-hidden />
+      <div className="h-3 w-full max-w-md animate-pulse rounded bg-bg-surface2" aria-hidden />
       <div className="flex flex-wrap gap-2">
         {Array.from({ length: 9 }).map((_, j) => (
           <div
             key={j}
-            className="border-border-subtle bg-bg-surface2/80 h-8 w-[4.5rem] animate-pulse rounded-md border"
+            className="h-8 w-[4.5rem] animate-pulse rounded-md border border-border-subtle bg-bg-surface2/80"
             aria-hidden
           />
         ))}

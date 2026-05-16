@@ -28,8 +28,8 @@ export const INITIAL_TASKS = [
   { id: 't2', title: 'Обновить размерную сетку', priority: 'средний' },
 ] as const;
 
-/** Сбои интеграций (пусто = системы в норме) */
-export const INITIAL_INTEGRATION_ISSUES: string[] = [];
+/** Сбои интеграций (пусто = системы в норме); в API — `{ id, message }[]`, legacy — строки. */
+export const INITIAL_INTEGRATION_ISSUES: readonly { id: string; message: string }[] = [];
 
 /** Начальное состояние алертов для useAttentionAlerts */
 export function getInitialAlertsState() {

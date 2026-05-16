@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '@/providers/auth-provider';
 import { ordersRepository } from '@/lib/repositories';
 import type { Order } from '@/lib/types';
+import { ensureErrorFromUnknown } from '@/lib/unknown-error-message';
 
 interface OrderStats {
   totalSpent: number;
@@ -37,7 +38,7 @@ export function useUserOrders() {
         setOrders(userOrders);
       } catch (err) {
         console.error('Failed to load orders:', err);
-        setError(err instanceof Error ? err : new Error('Failed to load orders'));
+        setError(ensureErrorFromUnknown(err, 'Failed to load orders'));
       } finally {
         setLoading(false);
       }
@@ -84,7 +85,7 @@ export function useUserOrders() {
       setOrders(userOrders);
     } catch (err) {
       console.error('Failed to refresh orders:', err);
-      setError(err instanceof Error ? err : new Error('Failed to refresh orders'));
+      setError(ensureErrorFromUnknown(err, 'Failed to refresh orders'));
     } finally {
       setLoading(false);
     }

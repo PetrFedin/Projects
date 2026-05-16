@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Factory, Store, Briefcase, ShoppingCart, Loader2, Warehouse } from 'lucide-react';
@@ -14,8 +14,13 @@ import { supplierNavGroups } from '@/lib/data/factory-navigation';
 import {
   FACTORY_SUP_ARCHIVE_GROUP_ORDER,
   FACTORY_SUP_CORE_GROUP_ORDER,
+  FACTORY_SUP_INVESTOR_SPINE_CORE_GROUP_ORDER,
   SYNTHA_SIDEBAR_CLUSTERS,
 } from '@/lib/data/syntha-nav-clusters';
+import {
+  applyFactorySupplierInvestorSpineClusterOverrides,
+  isFactoryNavInvestorSpineEnabled,
+} from '@/lib/cabinet-nav-env';
 import { HubSidebar } from '@/components/hub/HubSidebar';
 import { HubSidebarHeader } from '@/components/hub/HubSidebarHeader';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
@@ -60,6 +65,14 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
     },
   ].filter((h) => canAccessHub(role, h.hub));
 
+  const adjustedSupplierNavGroups = useMemo(
+    () => applyFactorySupplierInvestorSpineClusterOverrides(supplierNavGroups),
+    []
+  );
+  const factorySupCoreOrder = isFactoryNavInvestorSpineEnabled()
+    ? FACTORY_SUP_INVESTOR_SPINE_CORE_GROUP_ORDER
+    : FACTORY_SUP_CORE_GROUP_ORDER;
+
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
       <div className={cabinetHubLayout.loadingShell}>
@@ -82,7 +95,7 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
     );
   }
 
-  const sectionLabel = resolveCabinetActiveNavLink(pathname, supplierNavGroups)?.label ?? 'Дашборд';
+  const sectionLabel = resolveCabinetActiveNavLink(pathname, adjustedSupplierNavGroups)?.label ?? 'Дашборд';
 
   return (
     <ErrorBoundary>
@@ -98,12 +111,12 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
           />
           <div className="scrollbar-hide min-h-0 flex-1 overflow-y-auto">
             <HubSidebar
-              groups={supplierNavGroups}
+              groups={adjustedSupplierNavGroups}
               basePath={ROUTES.factory.supplier}
               accentClass="text-emerald-600"
               activeBgClass="bg-emerald-600"
               sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
-              coreGroupOrder={FACTORY_SUP_CORE_GROUP_ORDER}
+              coreGroupOrder={factorySupCoreOrder}
               archiveGroupOrder={FACTORY_SUP_ARCHIVE_GROUP_ORDER}
             />
           </div>
@@ -128,13 +141,13 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
             </div>
             <div className="min-h-0 flex-1 overflow-y-auto">
               <HubSidebar
-                groups={supplierNavGroups}
+                groups={adjustedSupplierNavGroups}
                 basePath={ROUTES.factory.supplier}
                 accentClass="text-emerald-600"
                 activeBgClass="bg-emerald-600"
                 onNavigate={() => setSidebarOpen(false)}
                 sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
-                coreGroupOrder={FACTORY_SUP_CORE_GROUP_ORDER}
+                coreGroupOrder={factorySupCoreOrder}
                 archiveGroupOrder={FACTORY_SUP_ARCHIVE_GROUP_ORDER}
               />
             </div>
@@ -157,6 +170,7 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
                   {cabinetRoleLabelRu(role)}
                 </Badge>
               }
+              showDemoMark
               trailing={
                 <nav className="flex flex-wrap items-center gap-2" aria-label="Переключение хабов">
                   {hubs.map((hub) => {

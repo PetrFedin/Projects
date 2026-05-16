@@ -1,6 +1,9 @@
 /**
- * Типы гранул стока и расчёты ATP/VMI без зависимости от domain-event-factories (client-safe для control-aggregator).
+ * [Phase 2 — Inventory / Warehouse / Logistics architecture]
+ * Чистые типы и расчёт ATP — без импорта domain-event-factories / server-only
+ * (безопасно для клиентских бандлов: control-center и др.).
  */
+
 export type StockState =
   | 'on_hand' // физически на складе, доступно
   | 'reserved' // зарезервировано под заказ

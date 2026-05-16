@@ -7,8 +7,9 @@
 - Индекс здоровья: кнопка «Обновить», скелетон при загрузке; при успешном ответе **`GET /api/v1/organization/health/{brandId}`** (`GenericResponse.data` = **bundle**: `metrics` + сырые `profile` / `dashboard` / `integrations`) хаб делает **один** запрос — метрики и шапка из одного снимка (`useOrganizationHealth`). Старый контракт (`data` = только массив метрик) или сбой — fallback: отдельные GET profile/dashboard/integrations и при необходимости локальный расчёт метрик.
 - Шапка: название организации и юр.данные из API (profile); **ошибки и частичная загрузка** — сообщения и «Повторить»; пустой профиль не ломает UI (**Syntha HQ**); участники/онлайн из `brand/dashboard` (поля присутствия и зеркала) или из `user.team`, иначе демо
 - Карточки модулей: целиком кликабельны, aria-label; подстановка на основе `brand/dashboard.moduleStats` — **`/brand/team`**, **`/brand/documents`** (На подписи из **`EDODocument`** draft/sent), **`/brand/compliance`** по **`markingSyncStatus`**; **`/brand/integrations`** — **X/Y** через **`count_configured_integrations_for_hub`** (числитель — env-подключённые клиенты, знаменатель **13** = 6 проводных + 7 каталога в **`app/integrations/hub_catalog.py`**)
-- Партнёрская экосистема: блок «Партнёры по типам» / полоска роста из `dashboard.partnerEcosystem` (`growthByPeriod`, `countsPatchById`, при активной орг. ещё `businessProcessesPatchById` и `ecosystemBlocksPatchById` поверх `PARTNER_*` в page-data)
-- Блок «Требует внимания»: … начальное состояние из `dashboard.attentionAlerts`; **снимок dismiss** — union **localStorage** и **`organizations.attention_dismiss_json`** (GET при загрузке, PATCH при «Устранить»), контракт `AttentionDismissRecord` (`certificateIds` / `profileIds` / `taskIds`). SQL: **`scripts/sql/organization_attention_dismiss_json.sql`**
+- Партнёрская экосистема: блок «Партнёры по типам» / полоска роста из `dashboard.partnerEcosystem` (`growthByPeriod`, `countsPatchById`, при активной орг. ещё `businessProcessesPatchById` и `ecosystemBlocksPatchById` поверх `PARTNER_*` в page-data); при **`has_org_activity`** **`growthByPeriod`** считается на бэке из тех же счётчиков, что патчи процессов (не демо-полоска); демо **`PARTNER_GROWTH_BY_PERIOD`** + **`mergePartnerGrowthSlice`** вынесены в **`organization-partner-growth.ts`** (реэкспорт из `page-data` для совместимости)
+- Доп. вынесение из `page-data` (узкий read / меньше контекста): **`organization-partner-counts.ts`**, **`organization-partner-processes.ts`**, **`organization-partner-ecosystem-blocks.ts`**, **`organization-partner-ecosystem-patches.ts`** (`pickPartnerEcosystemPatches`), **`organization-partner-role-meta.ts`**, **`organization-org-hub-static.ts`**, **`organization-section-meta.ts`**, **`organization-navigation-cards.ts`**, **`organization-recent-activity.ts`**, **`organization-health-metrics-demo.ts`**; **`page-data.ts`** — только barrel; тип **`HealthMetric`** (в т.ч. **`scoreSource`**) — в **`src/lib/brand/organization-types.ts`**, хук **`useOrganizationHealth`** импортирует тип оттуда
+- Блок «Требует внимания»: … начальное состояние из `dashboard.attentionAlerts`; **снимок dismiss** — union **localStorage** и **`organizations.attention_dismiss_json`** (GET при загрузке, PATCH при «Устранить»), контракт `AttentionDismissRecord` (`certificateIds` / `profileIds` / `taskIds` / **`integrationIssueIds`**). SQL: **`scripts/sql/organization_attention_dismiss_json.sql`**
 - Недавняя активность: демо-события с `dayOffset` и `getRecentActivities(сегодня)` — даты в актуальном окне 7/30 дней
 - Рефакторинг UI обзора: секции вынесены в `_components/*`
 - Бэкенд: `/api/v1/brand/profile`, `/api/v1/brand/dashboard`, `/api/v1/brand/integrations`; **`/api/v1/organization/health/{brand_id}`** — один снимок метрик + источников через `get_organization_health_bundle` (`organization_health_service`), без дублирующих параллельных запросов на фронте при актуальном контракте.
@@ -40,7 +41,7 @@
 
 Инициализация из `brand/dashboard.attentionAlerts` (`useAttentionAlerts`). **Dismiss:** union-id по каждому бренду: **localStorage** (`attention-dismiss-storage.ts`) и **`GET/PATCH /api/v1/brand/attention-dismiss/{brand_id}`** (JWT + проверка `organization_id`; данные в колонке **`organizations.attention_dismiss_json`**, патч скрипт **`scripts/sql/organization_attention_dismiss_json.sql`**). При включённом FastAPI клиент при загрузке хаба мержит ответ сервера с локальным и сохраняет объединённый снимок; при dismiss дополнительно шлёт PATCH.
 
-**Дальше:** dismiss для строк **`integrationIssues`** (нужны стабильные id вместо голых строк); при желании — soft-reset записей администратором.
+**Сделано (хвост п.4):** **`integrationIssues`** — элементы **`{ id, message }`** (legacy-строки в payload → стабильный **`intg:auto:…`**); dismiss как у cert/profile/task (**`integrationIssueIds`** в PATCH + «Устранить» в UI). **Дальше по желанию:** отдавать id с бэка при сборке алертов из интеграций; soft-reset dismiss администратором.
 
 ### 5. Brand/dashboard — реальные агрегаты
 
@@ -57,7 +58,7 @@
 | `inventorySyncFailed30d` | **`InventorySyncLog`** со статусом `failed`, `organization_id == brand_id`, за 30 дн.; без активной орг. — `0` |
 | `inventorySyncLastSuccessAt` | **`max(timestamp)`** успешных синков по `organization_id`; ISO datetime или `null` |
 
-**Inventory sync:** в модели **`InventorySyncLog`** добавлено поле **`organization_id`** (nullable, индекс). SQL-патч: `scripts/sql/inventory_sync_logs_organization_id.sql`. Репозиторий: **`get_latest_logs_for_organization`**.
+**Inventory sync:** в модели **`InventorySyncLog`** добавлено поле **`organization_id`** (nullable, индекс). SQL-патчи и порядок: корневой **`scripts/sql/README.md`**. Репозиторий: **`get_latest_logs_for_organization`**.
 
 **CRPT / operational outbox (Python):** отдельная очередь операций ЧЗ не заведена — по-прежнему клиент **`CRPTClient`** и доменные события/outbox на стороне **`synth-1-full`** (см. `SOURCE_OF_TRUTH.md`, ops health). Следующий шаг при необходимости — таблица ретраев или зеркало статуса из шины.
 
@@ -67,13 +68,13 @@
 
 Сделано: `dashboard.moduleStats` (ключ = `href`) + `mergeNavigationCardsWithModuleStats` на фронте. При активной организации карточка **`/brand/documents`** («На подписи») считается из **`EDODocument`** со статусами `draft`/`sent` (`documentsPendingSignature` в ответе дашборда для прозрачности). Карточка **`/brand/integrations`**: **X/Y** — числитель по **`is_configured`** у шести проводных клиентов (как в `/integrations/status`), знаменатель **13**: те же 6 + **7** слотов каталога из UI (`hub_catalog.CATALOG_ONLY_*`). Дальше — по мере появления клиентов переносить слоты из «только каталог» в wired; профиль с метриками заполненности при расширении моделей.
 
-### 7. ~~Партнёрская экосистема: данные по периоду~~ (частично сделано)
+### 7. ~~Партнёрская экосистема: данные по периоду~~ (сделано: рост из счётчиков)
 
 Ответ `brand/dashboard.partnerEcosystem`:
 
 | Поле | Поведение при `has_org_activity` |
 |------|-----------------------------------|
-| `growthByPeriod` | как демо-мок на фронте (пока без выравнивания с аналитикой) |
+| `growthByPeriod` | агрегаты 7d/30d из **`orders_*`**, **`pending*`**, **`po_confirmed`**, **`shipped_count`**, **`retailers_count`**, **`edo_signed`** (тот же слой данных, что патчи процессов; без отдельной таблицы истории) |
 | `countsPatchById` | патч карточки «Магазины» (`retailersCount`/orders) |
 | `businessProcessesPatchById` | `b2b-orders`, `documents`, `shipments`: счётчики заказов/ЭДО из БД |
 | `ecosystemBlocksPatchById` | `contracts-docs`, `logistics-shipments`, `partner-analytics`: метрики/алерты из тех же источников где возможно |
@@ -100,14 +101,14 @@
 
 **Фронт:** `useOrganizationHealth` — при bundle с непустым `metrics` заполняет индекс и шапку без параллельных profile/dashboard/integrations; иначе — три запроса и/или локальный расчёт метрик.
 
-**Дальше:** при желании — клиентский кэш/stale-time между визитами; доменные scores для «Безопасность», «Документы», «Настройки» вместо статических заглушек.
+**Сделано (хвост п.10):** `useOrganizationHealth` — **stale-кэш 120s** + **`refetch()` принудительно обновляет снимок**; метрики с **`scoreSource`** (подписка — **placeholder**, не в **overallHealth**); «Безопасность» / «Документы» / «Настройки» — из **dashboard/profile** на бэке (`organization_health_service`) и тем же смыслом в клиентском fallback. Мок **`/brand/dashboard/`** в **`lib/api/mock-fallbacks.ts`** выровнен с контрактом (**`_source`**, присутствие, **inventory sync**, пустые **attentionAlerts**).
 
 ---
 
-Рекомендуемый следующий шаг: **`growthByPeriod`** из аналитики (**п.7**); operational **CRPT**-очередь в Python при контракте; SQL на живых БД (**inventory_sync_logs**, **organization_attention_dismiss_json**); клиентский кэш health между визитами.
+Рекомендуемый следующий шаг: operational **CRPT**-очередь в Python при контракте; SQL на живых БД (**inventory_sync_logs**, **organization_attention_dismiss_json**); сплит топ-TSX; `raw-chunk-*` / типы по волне из плана фазы 2.
 
 ---
 
 ## Фаза 2 — общий бэклог (чеклисты, правила агентов)
 
-Зафиксировано в **`docs/PLAN-phase2-repo-and-hub.md`**: гигиена репо, п.7 / п.4 (хвост), сплит топ-TSX, MOCK_FALLBACKS + демо, health-кэш, `raw-chunk-*`, SQL/CRPT; правила **узкого read** и **scope по каталогу** для ревью.
+Зафиксировано в **`docs/PLAN-phase2-repo-and-hub.md`**: гигиена репо, ~~п.7~~ / ~~п.4 (хвост)~~, сплит топ-TSX, ~~MOCK вынесен~~ / ~~health-кэш + scoreSource~~, `raw-chunk-*`, SQL/CRPT; правила **узкого read** и **scope по каталогу** для ревью.

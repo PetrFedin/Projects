@@ -138,6 +138,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   {cabinetRoleLabelRu(role)}
                 </Badge>
               }
+              showDemoMark
             />
             <CabinetHubSectionBar
               accentClassName="bg-amber-500"

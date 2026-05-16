@@ -246,3 +246,20 @@ export function buildBrandProductionStagesHref(
   const q = applyBrandProductionStagesSearch(currentSearch, { floorTab: 'stages', ...patch });
   return q ? `${pathname}?${q}` : pathname;
 }
+
+/** Для индикатора на TabsTrigger «Этапы и зависимости» */
+export function stagesTabHasActiveFilters(
+  params: Pick<URLSearchParams, 'get'> | null | undefined
+): boolean {
+  if (!params) return false;
+  if (params.get('stagesAudience')) return true;
+  if (params.get('stagesSeason')) return true;
+  if (params.get('stagesL1')) return true;
+  if (params.get('stagesL2')) return true;
+  if (params.get('stagesL3')) return true;
+  if (params.get('stagesFab')) return true;
+  if (params.get(STAGES_CHAIN_FOCUS_PARAM)) return true;
+  if (params.get(STAGES_MATRIX_PHASE_PARAM)) return true;
+  if (params.get(STAGES_MATRIX_Q_PARAM)?.trim()) return true;
+  return false;
+}

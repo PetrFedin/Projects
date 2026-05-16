@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useUserContext } from './useUserContext';
-import { useB2BState } from '@/providers/b2b-state';
+import { SYNTH_DASHBOARD_DEMO_MOCKS } from '@/lib/syntha-api-mode';
+import {
+  DASHBOARD_DEMO_CREDIT_LINE,
+  DASHBOARD_DEMO_OUTSTANDING_INVOICES,
+  DASHBOARD_DEMO_PAYMENT_METHODS,
+} from '@/lib/dashboard/dashboard-demo-fixtures';
 
 export interface CreditLine {
   available: number;
@@ -29,40 +34,14 @@ export function usePaymentData() {
   const [isLoading, setIsLoading] = useState(true);
 
   const { currentOrg } = useUserContext();
-  const { b2bDocuments } = useB2BState();
 
-  const [creditLine, setCreditLine] = useState<CreditLine>({
-    available: 2400000,
-    limit: 5000000,
-    used: 2600000,
-  });
+  const [creditLine, setCreditLine] = useState<CreditLine>(() =>
+    SYNTH_DASHBOARD_DEMO_MOCKS ? { ...DASHBOARD_DEMO_CREDIT_LINE } : { available: 0, limit: 0, used: 0 }
+  );
 
-  const [paymentMethods] = useState<PaymentMethod[]>([
-    {
-      id: 'net30',
-      name: 'Отсрочка 30 дней',
-      dueDate: '20 мар',
-      badge: 'Стандарт',
-    },
-    {
-      id: 'bnpl',
-      name: 'Рассрочка / кредит (банк-партнёр РФ)',
-      badge: 'по программе банка',
-      badgeColor: 'bg-emerald-100 text-emerald-700',
-    },
-    {
-      id: 'escrow',
-      name: 'Эскроу',
-      badge: 'Защита сделки',
-      badgeColor: 'bg-blue-100 text-blue-700',
-    },
-    {
-      id: 'factoring',
-      name: 'Факторинг',
-      badge: 'Финансирование под дебиторку',
-      badgeColor: 'bg-purple-100 text-purple-700',
-    },
-  ]);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(() =>
+    SYNTH_DASHBOARD_DEMO_MOCKS ? [...DASHBOARD_DEMO_PAYMENT_METHODS] : []
+  );
 
   const [outstandingInvoices, setOutstandingInvoices] = useState<OutstandingInvoice[]>([]);
 
@@ -71,25 +50,13 @@ export function usePaymentData() {
       setIsLoading(true);
 
       try {
-        // Mock invoices
-        setOutstandingInvoices([
-          {
-            id: 'inv-1',
-            number: 'INV-8821',
-            amount: 420000,
-            daysUntilDue: 5,
-            daysOverdue: 0,
-            isOverdue: false,
-          },
-          {
-            id: 'inv-2',
-            number: 'INV-8790',
-            amount: 890000,
-            daysUntilDue: 0,
-            daysOverdue: 2,
-            isOverdue: true,
-          },
-        ]);
+        if (!SYNTH_DASHBOARD_DEMO_MOCKS) {
+          setCreditLine({ available: 0, limit: 0, used: 0 });
+          setPaymentMethods([]);
+          setOutstandingInvoices([]);
+        } else {
+          setOutstandingInvoices(DASHBOARD_DEMO_OUTSTANDING_INVOICES.map((r) => ({ ...r })));
+        }
 
         await new Promise((resolve) => setTimeout(resolve, 300));
       } catch (error) {

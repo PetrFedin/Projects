@@ -43,9 +43,9 @@ export function Workshop2PassportHubNineGapFooter({
         variant="outline"
         size="sm"
         className="h-7 text-[10px]"
-        onClick={() => onDossierJump('visuals', 'w2-visuals-hub')}
+        onClick={() => onDossierJump('general', 'w2-passport-design-intent')}
       >
-        Визуал / эскиз
+        Образ в паспорте
       </Button>
       <Button
         type="button"
@@ -54,7 +54,7 @@ export function Workshop2PassportHubNineGapFooter({
         className="h-7 text-[10px]"
         onClick={() => onDossierJump('material', 'w2-material-hub')}
       >
-        Материалы и BOM
+        Материалы
       </Button>
       <Button
         type="button"

@@ -27,7 +27,7 @@ import {
   Calculator,
 } from 'lucide-react';
 import { PlannedSKU, SKUDemandForecast } from '@/lib/types/analytics';
-import { simulateCollectionDemand } from '@/ai/flows/sku-planner';
+import { skuSimulationClient } from '@/lib/ai-client/api';
 import { cn } from '@/lib/utils';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 
@@ -78,7 +78,7 @@ export default function SmartPlanningPage() {
   const runSimulation = async () => {
     setIsSimulating(true);
     try {
-      const results = await simulateCollectionDemand({
+      const results = await skuSimulationClient({
         brandId: 'brand-123',
         plannedItems,
       });

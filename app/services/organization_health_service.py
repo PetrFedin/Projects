@@ -91,6 +91,48 @@ def _compute_marking_score(dashboard: Dict[str, Any]) -> tuple[int, List[str]]:
     return score, checklist
 
 
+def _compute_security_score(dashboard: Dict[str, Any]) -> tuple[int, List[str]]:
+    """Те же поля дашборда, что хаб (маркировка, сбои inventory sync)."""
+    if not dashboard:
+        return 62, ["Нет снимка дашборда"]
+    inv_fail = int(dashboard.get("inventorySyncFailed30d") or 0)
+    mark = dashboard.get("markingSyncStatus")
+    score = 88
+    checklist: List[str] = ["Аудит 2FA/API вне health bundle"]
+    if mark == "error":
+        score -= 28
+        checklist.append("Маркировка: ошибка")
+    elif mark == "warning":
+        score -= 12
+        checklist.append("Маркировка: проверить")
+    if inv_fail > 0:
+        score -= min(35, 7 * min(inv_fail, 5))
+        checklist.append(f"Сбоев синхронизации остатков (30д): {inv_fail}")
+    score = max(38, min(100, int(score)))
+    return score, checklist
+
+
+def _compute_settings_score(profile: Any) -> tuple[int, List[str]]:
+    """Прокси до модели настроек — заполненность юр. блока профиля."""
+    if not profile or not isinstance(profile, dict):
+        return 52, ["Нет профиля"]
+    legal = profile.get("legal") or {}
+    if not isinstance(legal, dict):
+        return 52, ["Юр. блок пуст"]
+    has_inn = bool(legal.get("inn"))
+    has_ln = bool(legal.get("legal_name"))
+    score = 52 + (18 if has_inn else 0) + (18 if has_ln else 0)
+    score = min(95, score)
+    checklist: List[str] = []
+    if has_inn:
+        checklist.append("ИНН в профиле")
+    if has_ln:
+        checklist.append("Юр. наименование")
+    if not checklist:
+        checklist.append("Заполните юр. блок в профиле")
+    return score, checklist
+
+
 async def _fetch_health_sources(
     brand_id: str, db: AsyncSession
 ) -> tuple[Dict[str, Any], Dict[str, Any], Dict[str, Any]]:
@@ -118,13 +160,31 @@ def _build_health_metrics(
     profile_score, profile_checklist, profile_missing, profile_tips = _compute_profile_score(profile)
     int_score, int_checklist, int_missing, int_tips = _compute_integrations_score(ints)
     marking_score, marking_checklist = _compute_marking_score(dash)
+    security_score, security_checklist = _compute_security_score(dash)
+    settings_score, settings_checklist = _compute_settings_score(profile)
 
     pc = dash.get("participantsCount")
-    team_count = pc if isinstance(pc, int) and pc >= 0 else 8
+    src = str(dash.get("_source") or "")
+    if isinstance(pc, int) and pc >= 0:
+        team_count = pc
+    elif src in ("", "demo"):
+        team_count = 8
+    else:
+        team_count = 0
     team_score = 90 if team_count >= 5 else (75 if team_count >= 2 else (60 if team_count >= 1 else 40))
 
     docs_pending = int(dash.get("documentsPendingSignature") or 0) if dash else 0
-    docs_score = 75 if docs_pending > 0 else 85
+    open_b2b = int(dash.get("openB2bOrders") or 0) if dash else 0
+    docs_score = 88
+    if docs_pending > 0:
+        docs_score = max(42, 88 - min(40, 15 * min(docs_pending, 3)))
+    if open_b2b > 8:
+        docs_score -= min(22, open_b2b // 4)
+    docs_score = max(35, min(100, docs_score))
+    docs_checklist = [
+        f"На подписи (ЭДО): {docs_pending}" if docs_pending else "Нет черновиков на подпись",
+        f"Открытых B2B: {open_b2b}" if open_b2b else "Открытых B2B нет",
+    ]
 
     metrics: List[Dict[str, Any]] = [
         {
@@ -135,6 +195,7 @@ def _build_health_metrics(
             "href": "/brand",
             "trend": 0,
             "status": _status_from_score(profile_score),
+            "scoreSource": "data",
             "details": {
                 "lastCheck": last_check,
                 "checklist": profile_checklist,
@@ -144,13 +205,14 @@ def _build_health_metrics(
         },
         {
             "label": "Безопасность",
-            "score": 88,
-            "color": "bg-emerald-500",
-            "desc": "2FA, API-ключи",
+            "score": security_score,
+            "color": _color_from_score(security_score),
+            "desc": "По сигналам дашборда (маркировка, синхр. остатков)",
             "href": "/brand/security",
             "trend": 0,
-            "status": "ok",
-            "details": {"lastCheck": last_check, "checklist": ["2FA", "API-ключи", "Сессии"]},
+            "status": _status_from_score(security_score),
+            "scoreSource": "data",
+            "details": {"lastCheck": last_check, "checklist": security_checklist},
         },
         {
             "label": "Активность команды",
@@ -160,6 +222,7 @@ def _build_health_metrics(
             "href": "/brand/team",
             "trend": 0,
             "status": _status_from_score(team_score),
+            "scoreSource": "data",
             "details": {
                 "lastCheck": last_check,
                 "checklist": [f"{team_count} в команде"] if team_count else [],
@@ -176,6 +239,7 @@ def _build_health_metrics(
             "href": "/brand/integrations",
             "trend": 0,
             "status": _status_from_score(int_score),
+            "scoreSource": "data",
             "details": {"lastCheck": last_check, "checklist": int_checklist, "missing": int_missing, "tips": int_tips},
         },
         {
@@ -186,37 +250,45 @@ def _build_health_metrics(
             "href": "/brand/compliance",
             "trend": 0,
             "status": _status_from_score(marking_score),
+            "scoreSource": "data",
             "details": {"lastCheck": last_check, "checklist": marking_checklist},
         },
         {
             "label": "Подписка",
-            "score": 100,
-            "color": "bg-emerald-500",
-            "desc": "Тариф активен",
+            "score": 70,
+            "color": "bg-amber-500",
+            "desc": "Нет данных плана в API",
             "href": "/brand/subscription",
             "trend": 0,
-            "status": "ok",
-            "details": {"lastCheck": last_check, "checklist": ["Подписка активна"]},
+            "status": "warning",
+            "scoreSource": "placeholder",
+            "details": {
+                "lastCheck": last_check,
+                "checklist": ["Тариф не подключён к health bundle"],
+                "tips": "См. раздел Подписка",
+            },
         },
         {
             "label": "Документы",
             "score": docs_score,
-            "color": "bg-amber-500",
-            "desc": "Договоры, счета",
+            "color": _color_from_score(docs_score),
+            "desc": "ЭДО и открытые B2B",
             "href": "/brand/documents",
             "trend": 0,
-            "status": "warning",
-            "details": {"lastCheck": last_check, "checklist": ["Проверьте раздел Документы"]},
+            "status": _status_from_score(docs_score),
+            "scoreSource": "data",
+            "details": {"lastCheck": last_check, "checklist": docs_checklist},
         },
         {
             "label": "Настройки",
-            "score": 78,
-            "color": "bg-amber-500",
-            "desc": "Конфигурация",
+            "score": settings_score,
+            "color": _color_from_score(settings_score),
+            "desc": "По юр. блоку профиля (прокси до модели настроек)",
             "href": "/brand/settings",
             "trend": 0,
-            "status": "warning",
-            "details": {"lastCheck": last_check, "checklist": ["Часовой пояс", "Валюта", "Webhooks"]},
+            "status": _status_from_score(settings_score),
+            "scoreSource": "data",
+            "details": {"lastCheck": last_check, "checklist": settings_checklist},
         },
     ]
     return metrics

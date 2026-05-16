@@ -9,6 +9,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -109,7 +110,6 @@ export interface CollectionCreateWizardProps {
     budget?: { materials: number; sewing: number; logistics: number }
   ) => void;
   existingCollections?: Array<{ id: string; name: string }>;
-  allSkus?: Array<{ id: string; name: string; collection: string }>;
   duplicateFrom?: {
     id: string;
     name: string;
@@ -130,7 +130,6 @@ export function CollectionCreateWizard({
   onCreated,
   onApiError,
   existingCollections = [],
-  allSkus = [],
   duplicateFrom,
 }: CollectionCreateWizardProps) {
   const [step, setStep] = useState(1);
@@ -261,7 +260,7 @@ export function CollectionCreateWizard({
             });
           } catch (err) {
             onApiError?.(
-              `Не удалось создать Drop: ${err instanceof Error ? err.message : 'ошибка API'}`
+              `Не удалось создать Drop: ${getUnknownErrorMessage(err, 'ошибка API')}`
             );
           }
         }
@@ -276,7 +275,7 @@ export function CollectionCreateWizard({
           });
         } catch (err) {
           onApiError?.(
-            `Не удалось сохранить палитру: ${err instanceof Error ? err.message : 'ошибка API'}`
+            `Не удалось сохранить палитру: ${getUnknownErrorMessage(err, 'ошибка API')}`
           );
         }
       }
@@ -296,7 +295,7 @@ export function CollectionCreateWizard({
           });
         } catch (err) {
           onApiError?.(
-            `Не удалось сохранить бюджет: ${err instanceof Error ? err.message : 'ошибка API'}`
+            `Не удалось сохранить бюджет: ${getUnknownErrorMessage(err, 'ошибка API')}`
           );
         }
       }

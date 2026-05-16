@@ -9,6 +9,7 @@ import { QueryProvider } from '@/providers/query-provider';
 import { UIStateProvider } from '@/providers/ui-state';
 import { B2BStateProvider } from '@/providers/b2b-state';
 import { AuthProvider } from '@/providers/auth-provider';
+import { DevSessionBanner } from '@/components/layout/dev-session-banner';
 import { NotificationsProvider } from '@/providers/notifications-provider';
 import { BrandCenterProvider } from '@/providers/brand-center-state';
 
@@ -27,12 +28,21 @@ export const viewport = {
 };
 
 /** Design system: design-system/synth-1-fashion-os/MASTER.md — fonts applied automatically */
-const firaSans = Fira_Sans({
+/** next/font требует литералы в `subsets`; выбор dev/prod — через два экземпляра (см. ниже). */
+const firaSansLatin = Fira_Sans({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-body',
+});
+const firaSansLatinCyrillic = Fira_Sans({
   weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
   variable: '--font-body',
 });
+const firaSans =
+  process.env.NODE_ENV === 'development' ? firaSansLatin : firaSansLatinCyrillic;
 
 const firaCode = Fira_Code({
   weight: ['400', '500', '600', '700'],
@@ -41,12 +51,20 @@ const firaCode = Fira_Code({
   variable: '--font-code',
 });
 
-const playfair = Playfair_Display({
+const playfairLatin = Playfair_Display({
+  weight: ['600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-logo',
+});
+const playfairLatinCyrillic = Playfair_Display({
   weight: ['600', '700'],
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
   variable: '--font-logo',
 });
+const playfair =
+  process.env.NODE_ENV === 'development' ? playfairLatin : playfairLatinCyrillic;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -56,6 +74,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${firaSans.variable} ${firaCode.variable} ${playfair.variable}`}
     >
       <body className={firaSans.className}>
+        {/* Dev: ранний reload при ChunkLoadError — клиентский чанк layout может не загрузиться до монтирования ChunkLoadRecovery. */}
+        {process.env.NODE_ENV === 'development' ? (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+(function(){
+  var KEY='syntha-chunk-reload-ts';
+  function reasonText(r){
+    if(r==null)return'';
+    if(typeof r==='string')return r;
+    try{if(typeof r.message==='string')return r.message;}catch(x){}
+    if(r&&r.name==='ChunkLoadError')return String(r.message||'');
+    return '';
+  }
+  function hot(msg){return String(msg||'').indexOf('ChunkLoad')!==-1||String(msg||'').indexOf('Loading chunk')!==-1;}
+  function once(){
+    var n=Date.now(),p=0;try{p=Number(sessionStorage.getItem(KEY))||0;}catch(e){}
+    if(p&&n-p<4000)return;
+    try{sessionStorage.setItem(KEY,String(n));}catch(e){}
+    location.reload();
+  }
+  window.addEventListener('unhandledrejection',function(e){
+    var m=reasonText(e.reason);
+    if(hot(m)){try{e.preventDefault();}catch(x){}once();}
+  });
+  window.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&t.src&&t.src.indexOf('/_next/static/chunks/')!==-1)once();},true);
+})();`,
+            }}
+          />
+        ) : null}
         <ChunkLoadRecovery />
         <style
           dangerouslySetInnerHTML={{
@@ -87,6 +135,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <QueryProvider>
           <AuthProvider>
+            <DevSessionBanner />
             <UIStateProvider>
               <B2BStateProvider>
                 <BrandCenterProvider>

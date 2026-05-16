@@ -80,3 +80,63 @@ export function compareRevisionSnapshots(
     changed,
   };
 }
+
+export type SketchRevisionOverlayPoint = {
+  annotationId: string;
+  xPct: number;
+  yPct: number;
+  kind: 'added' | 'removed' | 'changed';
+};
+
+/** Точки для оверлея diff двух снимков (координаты из актуального снапшота по виду изменения). */
+export function buildSketchRevisionCompareOverlayPoints(
+  snapA: Workshop2SketchRevisionSnapshot,
+  snapB: Workshop2SketchRevisionSnapshot,
+  revisionDiff: SketchRevisionCompareResult
+): SketchRevisionOverlayPoint[] {
+  const mapA = new Map(snapA.annotations.map((x) => [x.annotationId, x]));
+  const mapB = new Map(snapB.annotations.map((x) => [x.annotationId, x]));
+  const points: SketchRevisionOverlayPoint[] = [];
+  for (const id of revisionDiff.addedIds) {
+    const p = mapB.get(id);
+    if (p) points.push({ annotationId: id, xPct: p.xPct, yPct: p.yPct, kind: 'added' });
+  }
+  for (const id of revisionDiff.removedIds) {
+    const p = mapA.get(id);
+    if (p) points.push({ annotationId: id, xPct: p.xPct, yPct: p.yPct, kind: 'removed' });
+  }
+  for (const row of revisionDiff.changed) {
+    const p = mapB.get(row.annotationId) ?? mapA.get(row.annotationId);
+    if (p) points.push({ annotationId: row.annotationId, xPct: p.xPct, yPct: p.yPct, kind: 'changed' });
+  }
+  return points;
+}
+
+export type SketchRevisionCompareBundle = {
+  revisionDiff: SketchRevisionCompareResult | null;
+  revisionDiffOverlayPins: SketchRevisionOverlayPoint[];
+  revisionDiffChangedIdSet: Set<string>;
+};
+
+/** Сравнение двух выбранных снимков + точки оверлея и множество id для фильтра «только изменённые». */
+export function computeSketchRevisionCompareBundle(
+  snapA: Workshop2SketchRevisionSnapshot | undefined,
+  snapB: Workshop2SketchRevisionSnapshot | undefined,
+  compareIdA: string,
+  compareIdB: string
+): SketchRevisionCompareBundle {
+  if (!snapA || !snapB || compareIdA === compareIdB) {
+    return {
+      revisionDiff: null,
+      revisionDiffOverlayPins: [],
+      revisionDiffChangedIdSet: new Set(),
+    };
+  }
+  const revisionDiff = compareRevisionSnapshots(snapA, snapB);
+  const revisionDiffOverlayPins = buildSketchRevisionCompareOverlayPoints(snapA, snapB, revisionDiff);
+  return {
+    revisionDiff,
+    revisionDiffOverlayPins,
+    revisionDiffChangedIdSet: new Set(revisionDiffOverlayPins.map((x) => x.annotationId)),
+  };
+}

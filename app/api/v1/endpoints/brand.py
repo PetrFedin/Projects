@@ -157,6 +157,84 @@ DEMO_PARTNER_GROWTH_BY_PERIOD: Dict[str, Dict[str, Any]] = {
     },
 }
 
+# Орг. в БД без активности — нули в полоске роста (не инвесторское демо).
+EMPTY_PARTNER_GROWTH_BY_PERIOD: Dict[str, Dict[str, Any]] = {
+    "7d": {
+        "total": 0,
+        "items": [
+            {"label": "Производства", "value": "0", "href": "/brand/factories"},
+            {"label": "Поставщики", "value": "0", "href": "/brand/materials"},
+            {"label": "Магазины", "value": "0", "href": "/brand/retailers"},
+            {"label": "Дистрибуторы", "value": "0", "href": "/brand/distributors"},
+        ],
+    },
+    "30d": {
+        "total": 0,
+        "items": [
+            {"label": "Производства", "value": "0", "href": "/brand/factories"},
+            {"label": "Поставщики", "value": "0", "href": "/brand/materials"},
+            {"label": "Магазины", "value": "0", "href": "/brand/retailers"},
+            {"label": "Дистрибуторы", "value": "0", "href": "/brand/distributors"},
+        ],
+    },
+}
+
+
+def _format_growth_delta(n: int) -> str:
+    n = int(max(-99, min(99, n)))
+    if n == 0:
+        return "0"
+    return f"+{n}" if n > 0 else str(n)
+
+
+def _partner_growth_from_counters(
+    *,
+    orders_7d: int,
+    orders_30d: int,
+    pending: int,
+    pending_confirmation: int,
+    po_confirmed: int,
+    shipped_count: int,
+    retailers_count: int,
+    edo_signed: int,
+) -> Dict[str, Any]:
+    """Полоска «рост по типам» из тех же счётчиков, что карточки экосистемы (без отдельной таблицы истории)."""
+
+    def clamp(val: int, hi: int = 99) -> int:
+        return max(0, min(int(val), hi))
+
+    extra_30 = max(0, int(orders_30d) - int(orders_7d))
+    g_fact_7 = clamp(po_confirmed // 10 + shipped_count // 20, 20)
+    g_supp_7 = clamp(pending_confirmation // 3 + pending // 8, 20)
+    g_shop_7 = clamp(orders_7d, 99)
+    g_dist_7 = clamp(extra_30 // 4 + retailers_count // 25, 20)
+    total_7 = max(1, g_fact_7 + g_supp_7 + g_shop_7 + g_dist_7)
+    slice_7d = {
+        "total": total_7,
+        "items": [
+            {"label": "Производства", "value": _format_growth_delta(g_fact_7), "href": "/brand/factories"},
+            {"label": "Поставщики", "value": _format_growth_delta(g_supp_7), "href": "/brand/materials"},
+            {"label": "Магазины", "value": _format_growth_delta(g_shop_7), "href": "/brand/retailers"},
+            {"label": "Дистрибуторы", "value": _format_growth_delta(g_dist_7), "href": "/brand/distributors"},
+        ],
+    }
+
+    g_fact_30 = clamp(po_confirmed // 4 + shipped_count // 8, 30)
+    g_supp_30 = clamp(pending_confirmation // 2 + pending // 4, 30)
+    g_shop_30 = clamp(orders_30d, 99)
+    g_dist_30 = clamp(extra_30 // 2 + edo_signed // 40, 30)
+    total_30 = max(1, g_fact_30 + g_supp_30 + g_shop_30 + g_dist_30)
+    slice_30d = {
+        "total": total_30,
+        "items": [
+            {"label": "Производства", "value": _format_growth_delta(g_fact_30), "href": "/brand/factories"},
+            {"label": "Поставщики", "value": _format_growth_delta(g_supp_30), "href": "/brand/materials"},
+            {"label": "Магазины", "value": _format_growth_delta(g_shop_30), "href": "/brand/retailers"},
+            {"label": "Дистрибуторы", "value": _format_growth_delta(g_dist_30), "href": "/brand/distributors"},
+        ],
+    }
+    return {"7d": slice_7d, "30d": slice_30d}
+
 
 def _build_partner_ecosystem(
     *,
@@ -176,7 +254,20 @@ def _build_partner_ecosystem(
 
     businessProcessesPatchById / ecosystemBlocksPatchById — те же id, что PARTNER_* на фронте.
     """
-    growth = deepcopy(DEMO_PARTNER_GROWTH_BY_PERIOD)
+    growth: Dict[str, Any] = (
+        _partner_growth_from_counters(
+            orders_7d=orders_7d,
+            orders_30d=orders_30d,
+            pending=pending,
+            pending_confirmation=pending_confirmation,
+            po_confirmed=po_confirmed,
+            shipped_count=shipped_count,
+            retailers_count=retailers_count,
+            edo_signed=edo_signed,
+        )
+        if has_org_activity
+        else deepcopy(DEMO_PARTNER_GROWTH_BY_PERIOD)
+    )
     counts_patch: Dict[str, Dict[str, Any]] = {}
     processes_patch: Dict[str, Dict[str, Any]] = {}
     blocks_patch: Dict[str, Dict[str, Any]] = {}
@@ -301,10 +392,15 @@ def _format_sync_time(dt: Any) -> str:
 async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[str, Any]:
     """
     Brand KPIs: real counts from DB (orders, showrooms, linesheets, team members).
-    Fallback to demo values when tables are empty for investor demo.
-    Hub presence: participantsCount / onlineCount (+ aliases teamMembersCount, membersCount,
-    membersOnline). Online heuristic ~⅓ of team when DB has members.
+    Если строки **Organization** нет — инвесторское демо (`_source`: **demo**, алерты как в DEMO).
+    Если орг. в БД, но нет заказов/шоурумов/активных участников — честные нули и пустые алерты
+    (`_source`: **org_empty**). При активности — **`_source`: db**.
+    Hub presence: participantsCount / onlineCount (+ aliases). Онлайн ~⅓ команды только когда в БД есть участники.
     """
+    org_in_db = (
+        await db.execute(select(Organization.id).where(Organization.id == brand_id))
+    ).scalar_one_or_none() is not None
+
     # Orders
     order_count = (await db.execute(select(func.count(Order.id)).where(Order.organization_id == brand_id))).scalar() or 0
     pending = (await db.execute(select(func.count(Order.id)).where(Order.organization_id == brand_id, Order.status.in_(["draft", "pending", "confirmed"])))).scalar() or 0
@@ -388,12 +484,20 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
             )
         )
     ).scalar() or 0
-    participants_count = member_count if member_count > 0 else 24
-    online_count = (
-        8
-        if member_count == 0
-        else max(1, min(round(member_count * 0.33), participants_count))
-    )
+    if org_in_db:
+        participants_count = member_count
+    else:
+        participants_count = member_count if member_count > 0 else 24
+    if not org_in_db:
+        online_count = (
+            8
+            if member_count == 0
+            else max(1, min(round(member_count * 0.33), participants_count))
+        )
+    elif member_count == 0:
+        online_count = 0
+    else:
+        online_count = max(1, min(round(member_count * 0.33), participants_count))
 
     # Контрагенты B2B: DISTINCT buyer из заказов ∪ retailer_ids из Assortment (каталог дистров).
     buyer_key = func.coalesce(Order.buyer_organization_id, Order.buyer_id)
@@ -465,7 +569,7 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         cz_last = None
 
     has_org_activity = bool(order_count or showroom_count or member_count)
-    attention_alerts = EMPTY_ATTENTION_ALERTS if has_org_activity else DEMO_ATTENTION_ALERTS
+    attention_alerts = EMPTY_ATTENTION_ALERTS if org_in_db else DEMO_ATTENTION_ALERTS
 
     if cz_count > 0 and cz_last is not None:
         marking_sync_status = "ok"
@@ -481,15 +585,20 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
         retailers_count = retailer_union_count
     elif has_org_activity:
         retailers_count = max(order_count, showroom_count, 1)
+    elif org_in_db:
+        retailers_count = 0
     else:
         retailers_count = 24 if order_count == 0 else max(24, order_count)
 
-    open_b2b_orders = pending if has_org_activity else (pending or 7)
-    certs_active_out = certs_active_db if has_org_activity else 1
-    if certs_active_out == 0 and not has_org_activity:
+    open_b2b_orders = pending if (has_org_activity or org_in_db) else (pending or 7)
+    if org_in_db or has_org_activity:
+        certs_active_out = certs_active_db
+    else:
         certs_active_out = 1
-    po_in_production_out = int(po_confirmed) if has_org_activity else 4
-    collections_count_out = int(collections_count_db) if has_org_activity else 12
+    if certs_active_out == 0 and not org_in_db and not has_org_activity:
+        certs_active_out = 1
+    po_in_production_out = int(po_confirmed) if (has_org_activity or org_in_db) else 4
+    collections_count_out = int(collections_count_db) if (has_org_activity or org_in_db) else 12
 
     inventory_sync_failed_30d = 0
     inventory_sync_last_success_at: Optional[str] = None
@@ -524,6 +633,42 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
 
     integ_n, integ_total = count_configured_integrations_for_hub()
 
+    if has_org_activity:
+        partner_ecosystem = _build_partner_ecosystem(
+            retailers_count=retailers_count,
+            order_count=order_count,
+            pending=pending,
+            pending_confirmation=pending_confirmation,
+            po_confirmed=po_confirmed,
+            shipped_count=shipped_count,
+            orders_7d=orders_7d,
+            orders_30d=orders_30d,
+            edo_pending=edo_pending,
+            edo_signed=edo_signed,
+            has_org_activity=True,
+        )
+    elif org_in_db:
+        partner_ecosystem = {
+            "growthByPeriod": deepcopy(EMPTY_PARTNER_GROWTH_BY_PERIOD),
+            "countsPatchById": {},
+        }
+    else:
+        partner_ecosystem = _build_partner_ecosystem(
+            retailers_count=retailers_count,
+            order_count=order_count,
+            pending=pending,
+            pending_confirmation=pending_confirmation,
+            po_confirmed=po_confirmed,
+            shipped_count=shipped_count,
+            orders_7d=orders_7d,
+            orders_30d=orders_30d,
+            edo_pending=edo_pending,
+            edo_signed=edo_signed,
+            has_org_activity=False,
+        )
+
+    dash_source = "demo" if not org_in_db else ("db" if has_org_activity else "org_empty")
+
     return {
         "retailersCount": retailers_count,
         "openB2bOrders": open_b2b_orders,
@@ -553,20 +698,8 @@ async def fetch_brand_dashboard_data(brand_id: str, db: AsyncSession) -> Dict[st
             integrations_configured=integ_n,
             integrations_total=integ_total,
         ),
-        "partnerEcosystem": _build_partner_ecosystem(
-            retailers_count=retailers_count,
-            order_count=order_count,
-            pending=pending,
-            pending_confirmation=pending_confirmation,
-            po_confirmed=po_confirmed,
-            shipped_count=shipped_count,
-            orders_7d=orders_7d,
-            orders_30d=orders_30d,
-            edo_pending=edo_pending,
-            edo_signed=edo_signed,
-            has_org_activity=has_org_activity,
-        ),
-        "_source": "db" if order_count or showroom_count or member_count else "demo",
+        "partnerEcosystem": partner_ecosystem,
+        "_source": dash_source,
     }
 
 

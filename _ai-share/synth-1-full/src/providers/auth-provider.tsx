@@ -2,12 +2,22 @@
 
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import type { UserProfile } from '@/lib/types';
+import type { FastApiSessionProfile } from '@/lib/fastapi-session-profile';
 import { authRepository } from '@/lib/repositories';
 import { USE_FASTAPI } from '@/lib/syntha-api-mode';
+import {
+  EMAIL_TO_SYNTH_ROLE,
+  isSynthDevAutoLoginEnabled,
+  markSynthDevAutoLoginSession,
+  clearSynthDevAutoLoginSession,
+  resolvePathBasedDevSignInEmail,
+  SYNTH_MOCK_KNOWN_PASSWORD,
+} from '@/lib/auth/dev-auth-bootstrap';
+import { getUnknownErrorName } from '@/lib/unknown-error-message';
 
 interface AuthContextType {
   user: UserProfile | null;
-  profile: any | null; // FastAPI profile data
+  profile: FastApiSessionProfile | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<UserProfile>;
   signUp: (email: string, password: string, displayName: string) => Promise<UserProfile>;
@@ -19,22 +29,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [profile, setProfile] = useState<any | null>(null);
+  const [profile, setProfile] = useState<FastApiSessionProfile | null>(null);
   /** Пока идёт восстановление сессии / dev auto-login — RouteGuard не кидает на «/». */
   const [loading, setLoading] = useState(true);
 
-  const emailToRole: Record<string, string> = {
-    'admin@syntha.ai': 'admin',
-    'brand@syntha.ai': 'brand',
-    'shop@syntha.ai': 'shop',
-    'dist@syntha.ai': 'distributor',
-    'factory@syntha.ai': 'manufacturer',
-    'supplier@syntha.ai': 'supplier',
-    'elena.petrova@example.com': 'client',
-  };
-
   const setSyntheticProfile = useCallback((email: string) => {
-    const role = emailToRole[email.toLowerCase()];
+    const role = EMAIL_TO_SYNTH_ROLE[email.toLowerCase()];
     if (role) {
       setProfile({ user: { role, roles: [role] }, alerts: [], navigation: [] });
     }
@@ -62,12 +62,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (response.ok) {
         const data = (await response.json()) as { data?: unknown };
         if (data?.data) {
-          setProfile(data.data);
+          setProfile(data.data as FastApiSessionProfile);
           return;
         }
       }
-    } catch (err: any) {
-      if (err?.name !== 'AbortError') console.warn('Failed to fetch FastAPI profile:', err);
+    } catch (err: unknown) {
+      if (getUnknownErrorName(err) !== 'AbortError') console.warn('Failed to fetch FastAPI profile:', err);
     }
     if (email) setSyntheticProfile(email);
   }, [setSyntheticProfile]);
@@ -89,7 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     (async () => {
       try {
-        let user = await authRepository.getCurrentUser();
+        const user = await authRepository.getCurrentUser();
         if (!mounted) return;
         setUser(user);
         const token = typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : null;
@@ -100,20 +100,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } else if (typeof window !== 'undefined') {
           const path = window.location.pathname;
           const search = window.location.search || '';
-          const isSupplier = search.includes('role=supplier');
-          const email =
-            path.startsWith('/admin') ? 'admin@syntha.ai'
-            : path.startsWith('/brand') ? 'brand@syntha.ai'
-            : path.startsWith('/distributor') ? 'dist@syntha.ai'
-            : path.startsWith('/factory') ? (isSupplier ? 'supplier@syntha.ai' : 'factory@syntha.ai')
-            : path.startsWith('/client') ? 'elena.petrova@example.com'
-            : path.startsWith('/shop') ? 'shop@syntha.ai'
-            : null;
+          const email = isSynthDevAutoLoginEnabled() ? resolvePathBasedDevSignInEmail(path, search) : null;
           if (email) {
             try {
-              const u = await authRepository.signIn(email, 'password123');
+              const u = await authRepository.signIn(email, SYNTH_MOCK_KNOWN_PASSWORD);
               if (mounted) {
                 setUser(u);
+                markSynthDevAutoLoginSession();
                 await fetchFastApiProfile(email);
               }
             } catch {
@@ -170,7 +163,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await authRepository.signOut();
     setUser(null);
     setProfile(null);
-    if (typeof window !== 'undefined') localStorage.removeItem('syntha_last_email');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('syntha_last_email');
+      clearSynthDevAutoLoginSession();
+    }
   }, []);
 
   const updateProfile = useCallback(async (patch: Partial<UserProfile>) => {

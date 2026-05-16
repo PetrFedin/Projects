@@ -3,6 +3,13 @@
  * Use reportError for errors; sends to Sentry when @sentry/nextjs is initialized (DSN set).
  */
 
+import {
+  coerceUnknownToError,
+  getUnknownErrorDetail,
+  getUnknownErrorMessage,
+  getUnknownErrorStack,
+} from '@/lib/unknown-error-message';
+
 export interface LogContext {
   endpoint?: string;
   status?: number;
@@ -10,11 +17,13 @@ export interface LogContext {
 }
 
 function sendToSentry(error: Error | string | unknown, context?: LogContext): void {
+  if (process.env.NODE_ENV !== 'production') return;
+  if (typeof window === 'undefined') return;
   try {
     // Dynamic import so logger stays usable when Sentry is not configured
     void import('@sentry/nextjs')
       .then((Sentry) => {
-        const err = error instanceof Error ? error : new Error(String(error ?? 'Unknown error'));
+        const err = coerceUnknownToError(error);
         Sentry.captureException(err, {
           extra:
             context && Object.fromEntries(Object.entries(context).filter(([, v]) => v != null)),
@@ -32,20 +41,24 @@ export function reportError(error: Error | string | unknown, context?: LogContex
   const msg =
     typeof error === 'string'
       ? error
-      : error instanceof Error
-        ? error.message
-        : error && typeof error === 'object' && 'message' in error
-          ? String((error as { message?: unknown }).message)
-          : error != null
-            ? String(error)
-            : 'Unknown error';
+      : getUnknownErrorMessage(
+          error,
+          error == null ? 'Unknown error' : getUnknownErrorDetail(error)
+        );
+  const stack = getUnknownErrorStack(error);
   const toLog: Record<string, unknown> = {
     message: msg || 'Unknown error',
-    ...(error instanceof Error && error.stack && { stack: error.stack }),
+    ...(stack ? { stack } : {}),
     ...(context && Object.fromEntries(Object.entries(context).filter(([, v]) => v != null))),
   };
   if (process.env.NODE_ENV === 'development') {
-    console.error('[reportError]', JSON.stringify(toLog, null, 2));
+    const isChunkLoad = msg.includes('Loading chunk') || msg.includes('ChunkLoadError');
+    if (isChunkLoad) {
+      // Chunk errors are usually recoverable in dev after HMR/cache cleanup.
+      console.warn('[reportError][chunk]', msg);
+    } else {
+      console.error('[reportError]', JSON.stringify(toLog, null, 2));
+    }
   }
   sendToSentry(error, context);
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Fragment,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -10,25 +9,10 @@ import {
   useState,
 } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import {
-  ChevronDown,
-  CircleAlert,
-  ClipboardList,
-  FileText,
-  History,
-  MessageSquare,
-  Paperclip,
-  Pencil,
-  Pin,
-  Plus,
-  Search,
-  SquareSplitHorizontal,
-  Trash2,
-  Upload,
-} from 'lucide-react';
+import { History, MessageSquare, Pencil, Plus, Trash2, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -40,234 +24,16 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Progress } from '@/components/ui/progress';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { EmptyState, FilterToolbar, PageHeader } from '@/components/design-system';
-import { Breadcrumb } from '@/components/ui/breadcrumb';
-import { COLLECTION_STEPS } from '@/lib/production/collection-steps-catalog';
+import { EmptyState } from '@/components/design-system';
+import { Workshop2ArticleFlatHub } from '@/components/brand/production/Workshop2ArticleFlatHub';
+import { WORKSHOP2_SYSTEM_COLLECTION_ID } from '@/lib/production/local-collection-inventory';
 import { COLLECTION_DEV_HUB_TITLE_RU } from '@/lib/production/collection-development-labels';
-import {
-  WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX,
-  WORKSHOP2_PIPELINE_STEP_IDS,
-  workshop2PipelineLaneForStepId,
-  workshop2PipelineLaneLabelRu,
-  type Workshop2RunStatus,
-} from '@/lib/production/workshop2-collection-metrics';
-import {
-  aggregateSkuDoneCount,
-  getSkuCurrentProcessStepId,
-  type CollectionSkuFlowDoc,
-} from '@/lib/production/unified-sku-flow-store';
+import { type CollectionSkuFlowDoc } from '@/lib/production/unified-sku-flow-store';
 import { deriveStagesArticleFacets } from '@/lib/production/stages-tab-facets';
-
-/** Все этапы not_started → можно удалить черновик; иначе — в работе (done / in_progress / …). */
-function workshop2ArticleStageBucket(
-  doc: CollectionSkuFlowDoc,
-  skuId: string,
-  stepIds: readonly string[]
-): 'not_started' | 'in_flight' {
-  const entry = doc.skus[skuId];
-  for (const sid of stepIds) {
-    const st = entry?.stages[sid]?.status ?? 'not_started';
-    if (st !== 'not_started') return 'in_flight';
-  }
-  return 'not_started';
-}
-
-function parseWorkshop2BulkPaste(raw: string): { sku: string; name?: string }[] {
-  const lines = raw
-    .split(/\r?\n/)
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0);
-  const out: { sku: string; name?: string }[] = [];
-  const seen = new Set<string>();
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]!;
-    let parts: string[];
-    if (line.includes('\t')) parts = line.split('\t');
-    else if (line.includes(';')) parts = line.split(';');
-    else if (line.includes(',')) parts = line.split(',');
-    else parts = [line];
-    const skuRaw = parts[0]?.trim().replace(/^["']|["']$/g, '') ?? '';
-    if (!skuRaw) continue;
-    if (i === 0 && /^sku$/i.test(skuRaw)) continue;
-    const nameExtra =
-      parts
-        .slice(1)
-        .map((p) => p.trim().replace(/^["']|["']$/g, ''))
-        .filter(Boolean)
-        .join(' · ') || undefined;
-    const norm = normalizeLocalSkuCode(skuRaw) || skuRaw.toUpperCase().replace(/\s+/g, '-');
-    const dedupKey = norm.toLowerCase();
-    if (seen.has(dedupKey)) continue;
-    seen.add(dedupKey);
-    out.push({ sku: norm, ...(nameExtra ? { name: nameExtra } : {}) });
-  }
-  return out;
-}
-
-function formatWorkshop2ArticleRowDateTime(iso: string): string {
-  try {
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return iso;
-    return d.toLocaleString('ru-RU', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
-  } catch {
-    return iso;
-  }
-}
-
-function workshop2ArticleDeletable(
-  doc: CollectionSkuFlowDoc,
-  skuId: string,
-  stepIds: readonly string[],
-  prog: { done: number }
-): boolean {
-  if (prog.done > 0) return false;
-  if (!doc.skus[skuId]) return true;
-  return workshop2ArticleStageBucket(doc, skuId, stepIds) === 'not_started';
-}
-
-function Workshop2ArticleDateFlip({
-  addedAtIso,
-  updatedAtIso,
-}: {
-  addedAtIso?: string;
-  updatedAtIso?: string;
-}) {
-  const [phase, setPhase] = useState(0);
-  useEffect(() => {
-    const canFlip =
-      addedAtIso &&
-      updatedAtIso &&
-      updatedAtIso !== addedAtIso &&
-      updatedAtIso.localeCompare(addedAtIso) > 0;
-    if (!canFlip) return;
-    const id = window.setInterval(() => setPhase((p) => p + 1), 30_000);
-    return () => clearInterval(id);
-  }, [addedAtIso, updatedAtIso]);
-
-  if (!addedAtIso) {
-    return <span className="text-text-muted text-[9px]">Нет даты в разработке коллекции</span>;
-  }
-  const canFlip =
-    updatedAtIso && updatedAtIso !== addedAtIso && updatedAtIso.localeCompare(addedAtIso) > 0;
-  const showUpdated = canFlip && phase % 2 === 1;
-  if (showUpdated && updatedAtIso) {
-    return (
-      <span className="text-text-secondary block text-[9px] leading-tight">
-        <span className="text-text-muted">Изменён</span>
-        <span className="text-text-primary block font-medium tabular-nums">
-          {formatWorkshop2ArticleRowDateTime(updatedAtIso)}
-        </span>
-      </span>
-    );
-  }
-  return (
-    <span className="text-text-secondary block text-[9px] leading-tight">
-      <span className="text-text-muted">Добавлен</span>
-      <span className="text-text-primary block font-medium tabular-nums">
-        {formatWorkshop2ArticleRowDateTime(addedAtIso)}
-      </span>
-    </span>
-  );
-}
-
-function isoToDatetimeLocalValue(iso: string | undefined): string {
-  if (!iso) return '';
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return '';
-  const p = (n: number) => String(n).padStart(2, '0');
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
-}
-
-function filterWorkshop2CollectionsForGrid(
-  cols: Workshop2CollectionListItem[],
-  selectedCollectionIds: ReadonlySet<string>,
-  selectedSkus: ReadonlySet<string>
-): Workshop2CollectionListItem[] {
-  return cols.filter((col) => {
-    if (selectedCollectionIds.size > 0 && !selectedCollectionIds.has(col.id)) {
-      return false;
-    }
-    if (selectedSkus.size > 0) {
-      const skuSet = new Set(
-        col.articleRows.map((r) => normalizeLocalSkuCode(r.sku) || r.sku.trim()).filter(Boolean)
-      );
-      let hit = false;
-      for (const s of selectedSkus) {
-        if (skuSet.has(s)) {
-          hit = true;
-          break;
-        }
-      }
-      if (!hit) return false;
-    }
-    return true;
-  });
-}
-
-function runGlobalWorkshop2Search(
-  query: string,
-  collections: Workshop2CollectionListItem[]
-): { collectionId: string; collectionName: string; field: string; snippet: string }[] {
-  const q = query.trim().toLowerCase();
-  if (q.length < 2) return [];
-  const out: { collectionId: string; collectionName: string; field: string; snippet: string }[] =
-    [];
-  const push = (collectionId: string, collectionName: string, field: string, snippet: string) => {
-    out.push({ collectionId, collectionName, field, snippet });
-  };
-  for (const col of collections) {
-    if (col.displayName.toLowerCase().includes(q)) {
-      push(col.id, col.displayName, 'Название коллекции', col.displayName);
-    }
-    if (col.id.toLowerCase().includes(q)) {
-      push(col.id, col.displayName, 'Код коллекции', col.id);
-    }
-    for (const row of col.articleRows) {
-      if (row.sku.toLowerCase().includes(q)) {
-        push(col.id, col.displayName, 'SKU', row.sku);
-      }
-      if (row.name.toLowerCase().includes(q)) {
-        push(col.id, col.displayName, 'Название артикула', row.name);
-      }
-      if (row.commentPreview?.toLowerCase().includes(q)) {
-        push(col.id, col.displayName, 'Комментарий', row.commentPreview ?? '');
-      }
-      if (row.audienceLabel.toLowerCase().includes(q)) {
-        push(col.id, col.displayName, 'Аудитория', row.audienceLabel);
-      }
-      if (
-        row.internalArticleCode &&
-        typeof row.internalArticleCode === 'string' &&
-        row.internalArticleCode.toLowerCase().includes(q)
-      ) {
-        push(col.id, col.displayName, 'Внутр. артикул', row.internalArticleCode);
-      }
-    }
-  }
-  const seen = new Set<string>();
-  return out.filter((r) => {
-    const k = `${r.collectionId}|${r.field}|${r.snippet}`;
-    if (seen.has(k)) return false;
-    seen.add(k);
-    return true;
-  });
-}
-
 import {
   WORKSHOP2_ART_PARAM,
   WORKSHOP2_COL_PARAM,
@@ -282,7 +48,6 @@ import {
   loadWorkshop2Activity,
 } from '@/lib/production/workshop2-activity-log';
 import {
-  isWorkshop2InternalArticleCodeValid,
   normalizeLocalSkuCode,
   type LocalOrderLine,
   type UserCollectionRow,
@@ -296,231 +61,43 @@ import {
   type Workshop2EditArticlePayload,
 } from '@/components/brand/production/Workshop2CreateArticleDialog';
 import { findHandbookLeafById, getHandbookCategoryLeaves } from '@/lib/production/category-catalog';
-import type { Workshop2TzSignatoryBindings } from '@/lib/production/workshop2-dossier-phase1.types';
-import { loadWorkshop2Phase1DossierMap } from '@/lib/production/workshop2-phase1-dossier-storage';
+import { appendWorkshop2TzDossierEditLog } from '@/lib/production/workshop2-dossier-activity-log';
 import {
-  summarizeCollectionDossierRollup,
-  type CollectionDossierRollup,
-} from '@/lib/production/workshop2-collection-dossier-analytics';
+  emptyWorkshop2DossierPhase1,
+  getWorkshop2Phase1Dossier,
+  setWorkshop2Phase1Dossier,
+} from '@/lib/production/workshop2-phase1-dossier-storage';
 import { useToast } from '@/hooks/use-toast';
+import {
+  WORKSHOP2_AUDIENCE_FILTER_TITLE,
+  WORKSHOP2_CAT_L1_FILTER_TITLE,
+  WORKSHOP2_CAT_L2_FILTER_TITLE,
+  WORKSHOP2_CAT_L3_FILTER_TITLE,
+  WORKSHOP2_TAB_CONTENT_PAGE_SUBTITLE,
+  WORKSHOP2_TARGET_CHANNEL_SUGGESTIONS,
+} from '@/components/brand/production/workshop2-tab-content-constants';
+import type {
+  Workshop2ArticleRow,
+  Workshop2CollectionListItem,
+  Workshop2CollectionMetrics,
+  Workshop2CreateMeta,
+} from '@/components/brand/production/workshop2-tab-content-model';
+import { Workshop2TabContentArticlesPanel } from '@/components/brand/production/workshop2-tab-content-articles-panel';
+import { Workshop2TabContentCollectionGridCards } from '@/components/brand/production/workshop2-tab-content-collection-grid-cards';
+import {
+  buildWorkshop2TabContentDossierRollupByCollectionId,
+  filterWorkshop2CollectionsForGrid,
+  isoToDatetimeLocalValue,
+  parseWorkshop2BulkPaste,
+  runGlobalWorkshop2Search,
+} from '@/components/brand/production/workshop2-tab-content-utils';
 
-export type Workshop2ArticleRow = {
-  id: string;
-  /** Внутренний 6-значный номер (100000+), см. local-collection-inventory. */
-  internalArticleCode?: string;
-  sku: string;
-  name: string;
-  audienceLabel: string;
-  categoryL1: string;
-  categoryL2: string;
-  categoryL3: string;
-  season: string;
-  articleOrigin?: 'new' | 'base';
-  attachmentCount?: number;
-  commentPreview?: string;
-  /** Полный текст комментария (workshopComment). */
-  workshopComment?: string;
-  /** ISO добавления в разработку коллекции (для сортировки). */
-  addedAtIso?: string;
-  /** ISO последнего изменения в разработке коллекции (после смены состава и т.п.). */
-  updatedAtIso?: string;
-  /** Кто добавил строку в разработку коллекции (если есть). */
-  createdInWorkshop2By?: string;
-  /** Первое изображение из вложений строки (data URL) — для превью в фильтрах. */
-  articleThumbDataUrl?: string;
-  /** Лист справочника категорий (для формы редактирования). */
-  categoryLeafId?: string;
-  workshopAttachments?: { name: string; dataUrl: string }[];
-  /** Подписанты ТЗ с строки инвентаря (как при создании артикула). */
-  workshopTzSignatoryBindings?: Workshop2TzSignatoryBindings;
-};
-
-export type Workshop2CreateMeta = {
-  id: string;
-  name: string;
-  createdAt: string;
-  createdBy: string;
-};
-
-export type Workshop2CollectionMetrics = {
-  status: Workshop2RunStatus;
-  progressPct: number;
-  articleCount: number;
-};
-
-export type Workshop2CollectionListItem = {
-  id: string;
-  displayName: string;
-  articleRows: Workshop2ArticleRow[];
-  kind: 'ss27' | 'user';
-  /** Data URL обложки из localStorage. */
-  coverDataUrl?: string;
-  /** Блоки даты/времени на карточке (без обрезки многоточием). */
-  cardTimestamps?: {
-    createdCaption: string;
-    createdValue: string;
-    updatedCaption?: string;
-    updatedValue?: string;
-  };
-  /** Гвоздик: закреплена вверху списка активных. */
-  pinned: boolean;
-  /** Цвет метки панели артикулов (пользовательские коллекции). */
-  panelAccentHex?: string;
-  /** Описание коллекции (пользовательские). */
-  description?: string;
-  /** Заметка для команды (пользовательские). */
-  teamNote?: string;
-  /** Для SS27: доп. поля из workshop2Ss27Meta (форма редактирования карточки). */
-  targetSeason?: string;
-  targetChannel?: string;
-  dropDeadlineIso?: string;
-};
-
-const READINESS_HELP =
-  'Показатель заполнения этапов по подборке: число завершённых пар «артикул × этап» (done/skipped) к общему числу таких пар. Диапазон 0–100%. На мини-шкале слева — разработка и ТЗ (в каталоге — в т.ч. tech-pack и gate-all-stakeholders), справа — от supply-path: сэмплы и выпуск (в досье артикула те же контуры: обзор/ТЗ vs снабжение и далее).';
-
-/** Подсказки для поля «Канал»; можно ввести любой свой текст. */
-const WORKSHOP2_TARGET_CHANNEL_SUGGESTIONS = [
-  'Retail',
-  'E-com / D2C',
-  'Опт',
-  'Маркетплейсы',
-  'Showroom',
-  'B2B',
-] as const;
-
-const WORKSHOP2_AUDIENCE_FILTER_TITLE =
-  'Аудитория: сегмент из справочника CATEGORY_HANDBOOK (как у артикула на вкладке «Этапы»).';
-const WORKSHOP2_CAT_L1_FILTER_TITLE =
-  'Уровень 1: первая ветка категории под выбранной аудиторией (aud.categories в справочнике).';
-const WORKSHOP2_CAT_L2_FILTER_TITLE = 'Уровень 2: следующий уровень ветки категории.';
-const WORKSHOP2_CAT_L3_FILTER_TITLE =
-  'Уровень 3: подкатегория / терминальный уровень ветки перед листом справочника.';
-
-const COLLECTION_STEP_BY_ID = new Map(COLLECTION_STEPS.map((s) => [s.id, s] as const));
-
-function collectionCoverMonogram(id: string): string {
-  const alnum = id.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
-  return alnum.slice(0, 2) || '—';
-}
-
-function ArticleFacetsInline({ row }: { row: Workshop2ArticleRow }) {
-  const sep = (
-    <span className="text-text-muted mx-1.5 shrink-0" aria-hidden>
-      ·
-    </span>
-  );
-  return (
-    <div className="text-text-secondary w-full max-w-full overflow-x-auto text-[10px] [scrollbar-width:thin]">
-      <p className="inline-block min-w-0 whitespace-nowrap">
-        <span>Аудитория: {row.audienceLabel}</span>
-        {sep}
-        <span>Ур. 1: {row.categoryL1}</span>
-        {sep}
-        <span>Ур. 2: {row.categoryL2}</span>
-        {sep}
-        <span>Ур. 3: {row.categoryL3}</span>
-        {sep}
-        <span className="text-text-primary font-semibold">Сезон: {row.season}</span>
-      </p>
-    </div>
-  );
-}
-
-function workshop2StatusBadgeClass(s: Workshop2RunStatus): string {
-  if (s === 'draft') return 'border-border-default text-text-secondary bg-bg-surface2/80';
-  if (s === 'completed') return 'border-emerald-200 text-emerald-800 bg-emerald-50/80';
-  return 'border-amber-200 text-amber-800 bg-amber-50/50';
-}
-
-function workshop2StatusLabel(s: Workshop2RunStatus): string {
-  if (s === 'draft') return 'Черновик';
-  if (s === 'completed') return 'Завершена';
-  return 'В работе';
-}
-
-/** После HMR или старого кода в state может быть строка вместо Set — приводим к Set. */
-function ensureFacetSelectionSet(v: unknown): Set<string> {
-  if (v instanceof Set) return new Set(v);
-  if (Array.isArray(v)) return new Set(v.map((x) => String(x)));
-  if (typeof v === 'string' && v.trim() && v !== '__all__') return new Set([v.trim()]);
-  return new Set();
-}
-
-/** Мультивыбор значения фасета: пустой набор = «все»; иначе строка проходит, если её значение в наборе (OR внутри фасета). */
-function Workshop2ArticleFacetPopover({
-  label,
-  title,
-  options,
-  selected,
-  onSelectedChange,
-  triggerId,
-}: {
-  label: string;
-  title: string;
-  options: string[];
-  selected: ReadonlySet<string> | unknown;
-  onSelectedChange: (next: Set<string>) => void;
-  triggerId: string;
-}) {
-  const [open, setOpen] = useState(false);
-  const sel = ensureFacetSelectionSet(selected);
-  const summary = sel.size === 0 ? 'Все' : sel.size === 1 ? [...sel][0]! : `Выбрано: ${sel.size}`;
-
-  const toggle = (opt: string) => {
-    const n = new Set(sel);
-    if (n.has(opt)) n.delete(opt);
-    else n.add(opt);
-    onSelectedChange(n);
-  };
-
-  return (
-    <div className="flex shrink-0 flex-col gap-0.5">
-      <span className="text-text-secondary whitespace-nowrap text-[9px] font-semibold uppercase tracking-wide">
-        {label}
-      </span>
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            type="button"
-            variant="outline"
-            id={triggerId}
-            className="text-text-primary h-9 w-[6.75rem] max-w-[10rem] justify-between gap-1 px-1.5 text-left text-[10px] font-semibold sm:w-[7.75rem]"
-            title={title}
-          >
-            <span className="truncate">{summary}</span>
-            <ChevronDown className="text-text-secondary h-3.5 w-3.5 shrink-0" aria-hidden />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-[min(100vw-2rem,18rem)] p-0" align="start">
-          <div className="max-h-64 space-y-1 overflow-y-auto p-2">
-            {options.length === 0 ? (
-              <p className="text-text-secondary px-2 py-2 text-[11px]">Нет значений.</p>
-            ) : (
-              options.map((o, idx) => {
-                const checkId = `${triggerId}-opt-${idx}`;
-                return (
-                  <label
-                    key={o}
-                    className="hover:bg-bg-surface2 flex cursor-pointer items-start gap-2 rounded-md py-1.5 pl-1 pr-2"
-                  >
-                    <Checkbox
-                      id={checkId}
-                      checked={sel.has(o)}
-                      onCheckedChange={() => toggle(o)}
-                      className="mt-0.5 shrink-0"
-                    />
-                    <span className="text-text-primary min-w-0 text-[11px] leading-snug">{o}</span>
-                  </label>
-                );
-              })
-            )}
-          </div>
-        </PopoverContent>
-      </Popover>
-    </div>
-  );
-}
+export type {
+  Workshop2ArticleRow,
+  Workshop2CollectionListItem,
+  Workshop2CollectionMetrics,
+  Workshop2CreateMeta,
+} from '@/components/brand/production/workshop2-tab-content-model';
 
 type Props = {
   /** Базовый путь без query, напр. `/brand/production/workshop2`. */
@@ -530,7 +107,8 @@ type Props = {
   metricsByCollectionId: Record<string, Workshop2CollectionMetrics>;
   getArticlePipelineProgress: (
     collectionId: string,
-    articleId: string
+    articleId: string,
+    skuForFlowKey?: string
   ) => { done: number; total: number; pct: number };
   getSkuFlowDoc: (collectionId: string) => CollectionSkuFlowDoc;
   onCreateCollection: (
@@ -557,7 +135,7 @@ type Props = {
   /** Описание и заметка для демо-коллекции SS27. */
   onUpdateSs27Meta: (patch: Workshop2Ss27MetaPatch) => boolean;
   articlePickerLines: LocalOrderLine[];
-  onCommitWorkshop2Article: (collectionId: string, commit: Workshop2ArticleCommit) => boolean;
+  onCommitWorkshop2Article: (collectionId: string, commit: Workshop2ArticleCommit) => string | false;
   onBulkAddWorkshop2Articles: (
     collectionId: string,
     rows: { sku: string; name?: string }[]
@@ -572,9 +150,6 @@ type Props = {
   /** Подсветка и скролл к строке после создания артикула. */
   highlightArticleId?: string | null;
 };
-
-const PAGE_SUBTITLE =
-  'Коллекция → разработка артикула (обзор, ТЗ) → сэмплы и выпуск образца. На мини-шкале: слева разработка и согласование ТЗ (в т.ч. gate-all-stakeholders в матрице этапов), справа — от якоря supply-path в каталоге; в досье SKU те же контуры. Серия и опт — на поле цеха и в B2B, не здесь.';
 
 export function Workshop2TabContent({
   basePath,
@@ -604,7 +179,8 @@ export function Workshop2TabContent({
 
   const w2col = searchParams.get(WORKSHOP2_COL_PARAM) ?? '';
   const legacyW2Art = searchParams.get(WORKSHOP2_ART_PARAM) ?? '';
-  const listTab = searchParams.get(WORKSHOP2_TAB_PARAM) === 'archive' ? 'archive' : 'active';
+  /** Вкладка «Архив» на хабе разработки отключена — только артикулы в работе. */
+  const listTab = 'active' as const;
 
   const collectionsForLookup = useMemo(
     () => [...activeCollections, ...archivedCollections],
@@ -612,16 +188,16 @@ export function Workshop2TabContent({
   );
 
   const { toast } = useToast();
+  const [mounted, setMounted] = useState(false);
 
-  const dossierRollupByCollectionId = useMemo((): Record<string, CollectionDossierRollup> => {
-    if (typeof window === 'undefined') return {};
-    const map = loadWorkshop2Phase1DossierMap();
-    const out: Record<string, CollectionDossierRollup> = {};
-    for (const col of collectionsForLookup) {
-      out[col.id] = summarizeCollectionDossierRollup(map, col.id, col.articleRows);
-    }
-    return out;
-  }, [collectionsForLookup]);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const dossierRollupByCollectionId = useMemo(() => {
+    if (!mounted || typeof window === 'undefined') return {};
+    return buildWorkshop2TabContentDossierRollupByCollectionId(collectionsForLookup);
+  }, [collectionsForLookup, mounted]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -632,11 +208,12 @@ export function Workshop2TabContent({
     }
     if (listTab !== 'active') return;
     if (activeCollections.length === 0) return;
-    const map = loadWorkshop2Phase1DossierMap();
+    const rollups = buildWorkshop2TabContentDossierRollupByCollectionId(activeCollections);
     let overdue = 0;
     let weak = 0;
     for (const col of activeCollections) {
-      const r = summarizeCollectionDossierRollup(map, col.id, col.articleRows);
+      const r = rollups[col.id];
+      if (!r) continue;
       overdue += r.overdueSlaCount;
       weak += r.weakApprovalsCount;
     }
@@ -686,21 +263,11 @@ export function Workshop2TabContent({
     [basePath, router, searchParams]
   );
 
-  const setListTab = useCallback(
-    (tab: 'active' | 'archive') => {
-      replaceQuery((p) => {
-        if (tab === 'archive') {
-          p.set(WORKSHOP2_TAB_PARAM, 'archive');
-          p.delete(WORKSHOP2_COL_PARAM);
-          p.delete(WORKSHOP2_ART_PARAM);
-          p.delete(WORKSHOP2_STEP_PARAM);
-        } else {
-          p.delete(WORKSHOP2_TAB_PARAM);
-        }
-      });
-    },
-    [replaceQuery]
-  );
+  useEffect(() => {
+    if (searchParams.get(WORKSHOP2_TAB_PARAM) === 'archive') {
+      replaceQuery((p) => p.delete(WORKSHOP2_TAB_PARAM));
+    }
+  }, [searchParams, replaceQuery]);
 
   const selectCollection = useCallback(
     (collectionId: string) => {
@@ -762,6 +329,15 @@ export function Workshop2TabContent({
     id: string;
     displayName: string;
   } | null>(null);
+
+  const openCreateArticle = useCallback(() => {
+    const col = collectionsForLookup.find((c) => c.id === WORKSHOP2_SYSTEM_COLLECTION_ID);
+    setArticleDialogCol({
+      id: WORKSHOP2_SYSTEM_COLLECTION_ID,
+      displayName: col?.displayName ?? 'SS27',
+    });
+  }, [collectionsForLookup]);
+
   const [articleSkuFilter, setArticleSkuFilter] = useState('');
   const [archiveConfirm, setArchiveConfirm] = useState<{
     id: string;
@@ -832,6 +408,36 @@ export function Workshop2TabContent({
   const [articleEditTarget, setArticleEditTarget] = useState<
     (Workshop2EditArticlePayload & { collectionId: string; displayName: string }) | null
   >(null);
+  const openArticleEditFromHub = useCallback(
+    (collectionId: string, row: Workshop2ArticleRow) => {
+      setArticleDialogCol(null);
+      const leafFromRow = row.categoryLeafId?.trim();
+      const validLeaf =
+        leafFromRow && findHandbookLeafById(leafFromRow)
+          ? leafFromRow
+          : (getHandbookCategoryLeaves()[0]?.leafId ?? '');
+      const col = collectionsForLookup.find((c) => c.id === collectionId);
+      setArticleEditTarget({
+        collectionId,
+        displayName: col?.displayName?.trim() || collectionId,
+        articleId: row.id,
+        sku: row.sku,
+        name: row.name,
+        comment: row.workshopComment ?? '',
+        categoryLeafId: validLeaf,
+        workshopAttachments: row.workshopAttachments?.length
+          ? row.workshopAttachments.map((a) => ({ ...a }))
+          : [],
+        workshopTags: row.workshopTags?.length ? [...row.workshopTags] : undefined,
+        workshopLineSeason: row.workshopLineSeason?.trim() ?? '',
+      });
+    },
+    [collectionsForLookup]
+  );
+  /** Сетка карточек: все артикулы / только в работе / только разработанные (100% этапов). */
+  const [articleHubStatusFilter, setArticleHubStatusFilter] = useState<
+    'all' | 'in_work' | 'done'
+  >('all');
   const articleRowRefs = useRef<Map<string, HTMLLIElement>>(new Map());
 
   const collectionsForCurrentTab = listTab === 'active' ? activeCollections : archivedCollections;
@@ -1266,678 +872,6 @@ export function Workshop2TabContent({
     }
   }, [articleNotesTarget, collectionsForLookup, createdByLabel, onPatchWorkshop2ArticleLine]);
 
-  const renderArticlesPanel = (cols: Workshop2CollectionListItem[]) => {
-    const open = w2col ? cols.find((c) => c.id === w2col) : undefined;
-    if (!open) return null;
-    const rowsSorted = [...open.articleRows].sort((a, b) => {
-      if (articleListSort === 'sku') {
-        return a.sku.localeCompare(b.sku, 'ru', { sensitivity: 'base' });
-      }
-      const ta = a.addedAtIso ? new Date(a.addedAtIso).getTime() : 0;
-      const tb = b.addedAtIso ? new Date(b.addedAtIso).getTime() : 0;
-      return tb - ta;
-    });
-    const uniqSorted = (vals: string[]) =>
-      [...new Set(vals)].sort((a, b) => a.localeCompare(b, 'ru'));
-    const audienceOpts = uniqSorted(
-      open.articleRows.map((r) => r.audienceLabel?.trim()).filter((v): v is string => Boolean(v))
-    );
-    const l1Opts = uniqSorted(
-      open.articleRows.map((r) => r.categoryL1?.trim()).filter((v): v is string => Boolean(v))
-    );
-    const l2Opts = uniqSorted(
-      open.articleRows.map((r) => r.categoryL2?.trim()).filter((v): v is string => Boolean(v))
-    );
-    const l3Opts = uniqSorted(
-      open.articleRows.map((r) => r.categoryL3?.trim()).filter((v): v is string => Boolean(v))
-    );
-    const facAud = ensureFacetSelectionSet(articleFacetAudience);
-    const facL1 = ensureFacetSelectionSet(articleFacetL1);
-    const facL2 = ensureFacetSelectionSet(articleFacetL2);
-    const facL3 = ensureFacetSelectionSet(articleFacetL3);
-    const facetFiltered = rowsSorted.filter((r) => {
-      const aud = r.audienceLabel.trim();
-      const l1 = r.categoryL1.trim();
-      const l2 = r.categoryL2.trim();
-      const l3 = r.categoryL3.trim();
-      if (facAud.size > 0 && !facAud.has(aud)) return false;
-      if (facL1.size > 0 && !facL1.has(l1)) return false;
-      if (facL2.size > 0 && !facL2.has(l2)) return false;
-      if (facL3.size > 0 && !facL3.has(l3)) return false;
-      return true;
-    });
-    const q = articleSkuFilter.trim().toLowerCase();
-    const filteredRows =
-      q.length > 0
-        ? facetFiltered.filter(
-            (r) =>
-              r.sku.toLowerCase().includes(q) ||
-              r.name.toLowerCase().includes(q) ||
-              r.commentPreview?.toLowerCase().includes(q)
-          )
-        : facetFiltered;
-    const panelMetrics = metricsByCollectionId[open.id] ?? {
-      status: 'draft' as const,
-      progressPct: 0,
-      articleCount: 0,
-    };
-    const flowDoc = getSkuFlowDoc(open.id);
-    const articleIds = rowsSorted.map((r) => r.id);
-    return (
-      <div className="mt-4 w-full min-w-0">
-        <Card
-          className={cn(
-            'border-accent-primary/20 w-full bg-white',
-            open.panelAccentHex ? 'border-l-[5px]' : ''
-          )}
-          style={open.panelAccentHex ? { borderLeftColor: open.panelAccentHex } : undefined}
-        >
-          <CardHeader className="space-y-0 pb-2">
-            <div className="flex min-w-0 flex-col gap-2">
-              <div className="min-w-0">
-                <CardTitle className="text-sm uppercase tracking-tight">
-                  Артикулы · {open.displayName}
-                </CardTitle>
-                <CardDescription className="text-xs">
-                  Слева — разработка и ТЗ по каталогу, справа — сэмплы и выпуск. Клик по столбцу
-                  подсвечивает артикулы, у которых по матрице открыт этот этап.
-                </CardDescription>
-              </div>
-              <div
-                className="flex w-full min-w-0 flex-nowrap items-end gap-x-2 gap-y-2 overflow-x-auto overscroll-x-contain pb-0.5 [-webkit-overflow-scrolling:touch]"
-                onPointerDown={(e) => e.stopPropagation()}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Workshop2ArticleFacetPopover
-                  label="Аудитория"
-                  title={WORKSHOP2_AUDIENCE_FILTER_TITLE}
-                  options={audienceOpts}
-                  selected={articleFacetAudience}
-                  onSelectedChange={setArticleFacetAudience}
-                  triggerId={`w2-art-aud-${open.id}`}
-                />
-                <Workshop2ArticleFacetPopover
-                  label="Ур. 1"
-                  title={WORKSHOP2_CAT_L1_FILTER_TITLE}
-                  options={l1Opts}
-                  selected={articleFacetL1}
-                  onSelectedChange={setArticleFacetL1}
-                  triggerId={`w2-art-l1-${open.id}`}
-                />
-                <div className="flex shrink-0 flex-nowrap items-end gap-x-2">
-                  <Workshop2ArticleFacetPopover
-                    label="Ур. 2"
-                    title={WORKSHOP2_CAT_L2_FILTER_TITLE}
-                    options={l2Opts}
-                    selected={articleFacetL2}
-                    onSelectedChange={setArticleFacetL2}
-                    triggerId={`w2-art-l2-${open.id}`}
-                  />
-                  <Workshop2ArticleFacetPopover
-                    label="Ур. 3"
-                    title={WORKSHOP2_CAT_L3_FILTER_TITLE}
-                    options={l3Opts}
-                    selected={articleFacetL3}
-                    onSelectedChange={setArticleFacetL3}
-                    triggerId={`w2-art-l3-${open.id}`}
-                  />
-                </div>
-                <div className="flex shrink-0 flex-col justify-end gap-0.5">
-                  <span
-                    className="text-text-secondary flex h-[0.875rem] items-end whitespace-nowrap text-[9px] font-semibold uppercase leading-none tracking-wide"
-                    aria-hidden
-                  >
-                    {'\u00a0'}
-                  </span>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="text-text-primary h-9 shrink-0 whitespace-nowrap px-2 text-[9px] font-bold uppercase"
-                    onClick={() => {
-                      setArticleFacetAudience(new Set());
-                      setArticleFacetL1(new Set());
-                      setArticleFacetL2(new Set());
-                      setArticleFacetL3(new Set());
-                    }}
-                  >
-                    Сбросить фильтр
-                  </Button>
-                </div>
-                <div className="flex shrink-0 flex-col gap-0.5">
-                  <Label
-                    htmlFor={`w2-art-sort-${open.id}`}
-                    className="text-text-secondary whitespace-nowrap text-[9px] font-semibold uppercase tracking-wide"
-                  >
-                    Сортировка
-                  </Label>
-                  <select
-                    id={`w2-art-sort-${open.id}`}
-                    value={articleListSort}
-                    onChange={(e) =>
-                      setArticleListSort(e.target.value === 'added' ? 'added' : 'sku')
-                    }
-                    className="border-border-default text-text-primary h-9 w-[6.75rem] cursor-pointer rounded-md border bg-white px-1.5 text-[10px] font-semibold sm:w-[7.5rem]"
-                  >
-                    <option value="sku">SKU A→Я</option>
-                    <option value="added">Дата добавления</option>
-                  </select>
-                </div>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-9 shrink-0 gap-1 text-[10px] font-bold uppercase"
-                  onClick={() => {
-                    setBulkCol({ id: open.id, displayName: open.displayName });
-                    setBulkText('');
-                    setBulkOpen(true);
-                  }}
-                >
-                  <Upload className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                  Массово
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
-                  className="h-9 shrink-0 whitespace-nowrap text-[10px] font-bold uppercase"
-                  onClick={() => {
-                    setArticleEditTarget(null);
-                    setArticleDialogCol({ id: open.id, displayName: open.displayName });
-                  }}
-                >
-                  Создать артикул
-                </Button>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="w-full min-w-0 space-y-3">
-            {nextStepsCollectionId === open.id ? (
-              <div
-                className="rounded-lg border border-emerald-200 bg-emerald-50/90 px-3 py-2.5 text-[11px] text-emerald-950"
-                role="status"
-              >
-                <p className="mb-1.5 text-[12px] font-bold">Что дальше</p>
-                <ul className="mb-2 list-disc space-y-0.5 pl-4">
-                  <li>Добавьте первый артикул (кнопка выше).</li>
-                  <li>При желании загрузите обложку карточки коллекции в списке слева.</li>
-                  <li>Закрепите подборку гвоздиком, если она главная сейчас.</li>
-                </ul>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="secondary"
-                  className="h-7 text-[10px]"
-                  onClick={() => setNextStepsCollectionId(null)}
-                >
-                  Понятно, скрыть
-                </Button>
-              </div>
-            ) : null}
-            <div className="border-accent-primary/20 bg-accent-primary/10 w-full min-w-0 space-y-2 rounded-lg border px-3 py-2.5">
-              <div className="flex w-full min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-                <span className="text-text-primary shrink-0 text-[11px] font-semibold">
-                  Общая готовность
-                </span>
-                <span className="text-accent-primary shrink-0 text-lg font-black tabular-nums leading-none">
-                  {panelMetrics.progressPct}%
-                </span>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button
-                      type="button"
-                      className="text-text-muted hover:text-accent-primary focus-visible:ring-accent-primary shrink-0 rounded-full p-0.5 focus:outline-none focus-visible:ring-2"
-                      aria-label="Как считается готовность"
-                    >
-                      <CircleAlert className="h-4 w-4" aria-hidden />
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent side="left" className="max-w-[260px] text-[11px] leading-snug">
-                    {READINESS_HELP}
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-              {rowsSorted.length === 0 ? null : (
-                <div className="border-accent-primary/20 w-full min-w-0 overflow-x-auto rounded-md border bg-white/80 p-1.5">
-                  <div className="flex min-w-max items-end gap-px">
-                    {WORKSHOP2_PIPELINE_STEP_IDS.map((sid, idx) => {
-                      const step = COLLECTION_STEP_BY_ID.get(sid);
-                      const n = articleIds.length;
-                      const done = aggregateSkuDoneCount(flowDoc, articleIds, sid);
-                      const fillPct = n ? Math.round((done / n) * 100) : 0;
-                      const active = articlePanelStageFilter === sid;
-                      const split = WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX;
-                      const showLaneSep =
-                        idx === split &&
-                        split > 0 &&
-                        split < WORKSHOP2_PIPELINE_STEP_IDS.length;
-                      const laneHint =
-                        idx < split ? 'Разработка и ТЗ' : 'Сэмплы и выпуск';
-                      return (
-                        <Fragment key={sid}>
-                          {showLaneSep ? (
-                            <div
-                              className="flex h-11 w-1 shrink-0 flex-col items-center justify-end px-0.5"
-                              role="separator"
-                              aria-orientation="vertical"
-                              aria-label="Разработка и ТЗ · сэмплы и выпуск"
-                            >
-                              <div className="bg-border-default h-9 w-px" />
-                            </div>
-                          ) : null}
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <button
-                                type="button"
-                                className={cn(
-                                  'flex h-11 w-8 shrink-0 flex-col items-stretch justify-end rounded-sm border px-0.5 pb-0.5 transition-colors',
-                                  active
-                                    ? 'border-accent-primary bg-accent-primary/15 shadow-sm'
-                                    : 'border-border-default/90 hover:border-border-default hover:bg-bg-surface2 bg-white'
-                                )}
-                                aria-pressed={active}
-                                aria-label={`${step?.title ?? sid}: закрыли этап ${done} из ${n}`}
-                                onClick={() =>
-                                  setArticlePanelStageFilter((prev) => (prev === sid ? null : sid))
-                                }
-                              >
-                                <div className="bg-border-subtle/90 relative mx-auto mt-1 flex h-7 w-5 flex-1 overflow-hidden rounded-sm">
-                                  <div
-                                    className="bg-accent-primary absolute bottom-0 left-0 right-0 transition-all"
-                                    style={{ height: `${fillPct}%` }}
-                                  />
-                                </div>
-                                <span className="text-text-secondary text-center text-[8px] font-bold tabular-nums">
-                                  {idx + 1}
-                                </span>
-                              </button>
-                            </TooltipTrigger>
-                            <TooltipContent
-                              side="top"
-                              className="max-w-[260px] text-[11px] leading-snug"
-                            >
-                              <p className="font-semibold">{step?.title ?? sid}</p>
-                              <p className="text-text-secondary">{laneHint}</p>
-                              <p className="text-text-secondary">
-                                Закрыли этап: {done}/{n} арт.
-                              </p>
-                              <p className="text-text-secondary mt-1">
-                                Повторный клик снимает подсветку строк.
-                              </p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </Fragment>
-                      );
-                    })}
-                  </div>
-                  {WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX > 0 &&
-                  WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX <
-                    WORKSHOP2_PIPELINE_STEP_IDS.length ? (
-                    <div className="text-text-muted mt-1.5 flex w-full min-w-0 flex-wrap justify-between gap-x-2 gap-y-0.5 text-[9px] leading-tight">
-                      <span>
-                        Разработка: этапы 1–{WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX}
-                      </span>
-                      <span className="text-right">
-                        Сэмплы и выпуск: этапы{' '}
-                        {WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX + 1}–
-                        {WORKSHOP2_PIPELINE_STEP_IDS.length}
-                      </span>
-                    </div>
-                  ) : null}
-                </div>
-              )}
-              {articlePanelStageFilter ? (
-                <p className="text-accent-primary/90 text-[10px]">
-                  Подсветка ·{' '}
-                  {workshop2PipelineLaneForStepId(articlePanelStageFilter) === 'development'
-                    ? 'контур разработки'
-                    : 'контур сэмплов'}
-                  : артикулы, у которых по матрице текущий открытый этап — «
-                  {COLLECTION_STEP_BY_ID.get(articlePanelStageFilter)?.title ??
-                    articlePanelStageFilter}
-                  ».
-                </p>
-              ) : null}
-            </div>
-
-            {rowsSorted.length >= 10 ? (
-              <div className="relative">
-                <Search
-                  className="text-text-muted pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2"
-                  aria-hidden
-                />
-                <Input
-                  value={articleSkuFilter}
-                  onChange={(e) => setArticleSkuFilter(e.target.value)}
-                  placeholder="Поиск по SKU, названию…"
-                  className="h-9 pl-8 text-xs"
-                  aria-label="Поиск по списку артикулов"
-                />
-              </div>
-            ) : null}
-
-            {rowsSorted.length === 0 ? (
-              <p className="text-text-secondary py-4 text-center text-sm">
-                В подборке пока нет артикулов.
-              </p>
-            ) : filteredRows.length === 0 ? (
-              <p className="text-text-secondary py-4 text-center text-sm">
-                {facetFiltered.length === 0 && rowsSorted.length > 0
-                  ? 'Нет артикулов по выбранным фильтрам аудитории и категорий.'
-                  : 'Ничего не найдено.'}
-              </p>
-            ) : (
-              <ul className="divide-border-subtle border-border-subtle divide-y overflow-hidden rounded-xl border">
-                {filteredRows.map((row) => {
-                  const prog = getArticlePipelineProgress(open.id, row.id);
-                  const stagesIdle = prog.total > 0 && prog.done === 0;
-                  const isHighlight = highlightArticleId === row.id;
-                  const currentStepId = getSkuCurrentProcessStepId(
-                    flowDoc,
-                    row.id,
-                    WORKSHOP2_PIPELINE_STEP_IDS
-                  );
-                  const stageHighlight =
-                    articlePanelStageFilter !== null && currentStepId === articlePanelStageFilter;
-                  const stageBucket = workshop2ArticleStageBucket(
-                    flowDoc,
-                    row.id,
-                    WORKSHOP2_PIPELINE_STEP_IDS
-                  );
-                  const deletable = workshop2ArticleDeletable(
-                    flowDoc,
-                    row.id,
-                    WORKSHOP2_PIPELINE_STEP_IDS,
-                    prog
-                  );
-                  const pipelineLane = workshop2PipelineLaneForStepId(currentStepId);
-                  const openArticleAriaLabel = (() => {
-                    const base = row.name?.trim()
-                      ? `Открыть артикул ${row.sku}, ${row.name.trim()}`
-                      : `Открыть артикул ${row.sku}`;
-                    if (prog.total === 0) return `${base}. Этапы по матрице не заданы.`;
-                    return `${base}. Готовность по этапам ${prog.pct}%, ${prog.done} из ${prog.total}. Текущий контур: ${workshop2PipelineLaneLabelRu(pipelineLane)}.`;
-                  })();
-                  return (
-                    <li
-                      key={row.id}
-                      ref={(node) => {
-                        if (node) articleRowRefs.current.set(row.id, node);
-                        else articleRowRefs.current.delete(row.id);
-                      }}
-                      className="flex min-w-0 flex-row items-stretch gap-2"
-                    >
-                      <button
-                        type="button"
-                        aria-label={openArticleAriaLabel}
-                        className={cn(
-                          'flex min-h-0 min-w-0 flex-1 flex-row items-stretch justify-between gap-2 overflow-hidden px-4 py-3 text-left transition-colors',
-                          'hover:bg-accent-primary/10 active:bg-accent-primary/15',
-                          isHighlight && 'bg-amber-50/90 ring-2 ring-inset ring-amber-200/90',
-                          stageHighlight &&
-                            'bg-accent-primary/10 ring-accent-primary/40 ring-2 ring-inset'
-                        )}
-                        onClick={() => openArticle(open.id, row)}
-                      >
-                        <div className="min-w-0 flex-1 space-y-1">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <p className="text-text-primary font-mono text-[12px] font-bold">
-                              {row.sku}
-                            </p>
-                            {isWorkshop2InternalArticleCodeValid(row.internalArticleCode) ? (
-                              <span className="border-border-default text-text-secondary rounded border bg-white px-1.5 py-0.5 font-mono text-[10px] font-semibold tabular-nums">
-                                id {row.internalArticleCode}
-                              </span>
-                            ) : null}
-                            {row.articleOrigin === 'new' ? (
-                              <Badge
-                                variant="secondary"
-                                className="h-5 border-emerald-200 bg-emerald-100 px-1.5 text-[8px] font-black uppercase text-emerald-900"
-                              >
-                                New
-                              </Badge>
-                            ) : row.articleOrigin === 'base' ? (
-                              <Badge
-                                variant="outline"
-                                className="border-border-default text-text-primary h-5 px-1.5 text-[8px] font-black uppercase"
-                              >
-                                Base
-                              </Badge>
-                            ) : null}
-                            {stageBucket === 'not_started' ? (
-                              <Badge
-                                variant="secondary"
-                                className="bg-bg-surface2 text-text-primary border-border-default h-5 px-1.5 text-[8px] font-semibold normal-case"
-                              >
-                                Ещё не начат
-                              </Badge>
-                            ) : (
-                              <Badge
-                                variant="secondary"
-                                className="h-5 border-amber-200 bg-amber-50 px-1.5 text-[8px] font-semibold normal-case text-amber-900"
-                              >
-                                В работе
-                              </Badge>
-                            )}
-                            {prog.total > 0 ? (
-                              <Badge
-                                variant="outline"
-                                title="По матрице этапов: текущий открытый этап — контур разработки (до supply-path) или сэмплов (от supply-path)"
-                                className={cn(
-                                  'h-5 px-1.5 text-[8px] font-bold normal-case',
-                                  pipelineLane === 'development'
-                                    ? 'border-indigo-200 bg-indigo-50 text-indigo-950'
-                                    : 'border-teal-200 bg-teal-50 text-teal-950'
-                                )}
-                              >
-                                {workshop2PipelineLaneLabelRu(pipelineLane)}
-                              </Badge>
-                            ) : null}
-                            {row.attachmentCount ? (
-                              <span
-                                className="text-text-secondary inline-flex items-center gap-0.5 text-[9px]"
-                                title={`Вложений: ${row.attachmentCount}`}
-                              >
-                                <Paperclip className="h-3 w-3 shrink-0" aria-hidden />
-                                <span className="tabular-nums">{row.attachmentCount}</span>
-                              </span>
-                            ) : null}
-                          </div>
-                          <ArticleFacetsInline row={row} />
-                          <div className="border-border-subtle/90 mt-0.5 w-full border-t pt-1.5 min-[400px]:hidden">
-                            <Workshop2ArticleDateFlip
-                              addedAtIso={row.addedAtIso}
-                              updatedAtIso={row.updatedAtIso}
-                            />
-                          </div>
-                        </div>
-                        <div className="border-border-subtle hidden w-[6.75rem] shrink-0 flex-col justify-center border-l px-2 text-right min-[400px]:flex">
-                          <Workshop2ArticleDateFlip
-                            addedAtIso={row.addedAtIso}
-                            updatedAtIso={row.updatedAtIso}
-                          />
-                        </div>
-                        <div className="border-border-subtle flex w-[7.5rem] min-w-[7rem] shrink-0 flex-col items-end justify-center gap-1.5 border-l pl-2 pr-1">
-                          {prog.total === 0 ? (
-                            <span className="text-text-secondary w-full break-words text-right text-[9px] font-semibold leading-tight">
-                              Нет этапов
-                            </span>
-                          ) : stagesIdle ? (
-                            <span className="text-text-secondary w-full break-words text-right text-[9px] font-semibold leading-tight">
-                              Этапы не начаты
-                            </span>
-                          ) : (
-                            <span className="text-accent-primary text-lg font-black tabular-nums leading-none">
-                              {prog.pct}%
-                            </span>
-                          )}
-                          <Progress
-                            value={prog.pct}
-                            className="h-1.5 w-full"
-                            aria-label={
-                              prog.total === 0
-                                ? 'Прогресс по этапам не задан'
-                                : `Закрыто этапов по матрице коллекции: ${prog.done} из ${prog.total}, ${prog.pct}%`
-                            }
-                          />
-                          <span className="text-text-muted text-right text-[8px] uppercase leading-tight tracking-tighter">
-                            Этапы {prog.done}/{prog.total}
-                          </span>
-                        </div>
-                      </button>
-                      <div className="border-border-subtle bg-bg-surface2/80 relative z-[1] flex w-[6rem] min-w-[6rem] shrink-0 flex-col gap-1 border-l py-2 pl-2 pr-1">
-                        <div className="flex flex-row items-center justify-end gap-0.5">
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            className="text-text-secondary hover:text-accent-primary h-7 min-h-7 w-7 min-w-7 shrink-0 p-0"
-                            aria-label="Заметки по артикулу"
-                            title="Заметки по артикулу (локально в браузере)"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              setArticleNotesTarget({
-                                collectionId: open.id,
-                                articleId: row.id,
-                                sku: row.sku,
-                                draft: row.workshopComment ?? '',
-                              });
-                            }}
-                          >
-                            <MessageSquare className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                          </Button>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon"
-                                className="text-text-secondary hover:text-accent-primary h-7 min-h-7 w-7 min-w-7 shrink-0 p-0"
-                                aria-label="Редактировать артикул"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setArticleDialogCol(null);
-                                  const leafFromRow = row.categoryLeafId?.trim();
-                                  const validLeaf =
-                                    leafFromRow && findHandbookLeafById(leafFromRow)
-                                      ? leafFromRow
-                                      : (getHandbookCategoryLeaves()[0]?.leafId ?? '');
-                                  setArticleEditTarget({
-                                    collectionId: open.id,
-                                    displayName: open.displayName,
-                                    articleId: row.id,
-                                    sku: row.sku,
-                                    name: row.name,
-                                    comment: row.workshopComment ?? '',
-                                    categoryLeafId: validLeaf,
-                                    workshopAttachments: row.workshopAttachments?.length
-                                      ? row.workshopAttachments.map((a) => ({ ...a }))
-                                      : [],
-                                  });
-                                }}
-                              >
-                                <Pencil className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent side="left" className="max-w-[200px] text-[11px]">
-                              Как при «Создать артикул»: название, категория, комментарий, файлы
-                            </TooltipContent>
-                          </Tooltip>
-                          {deletable ? (
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-7 min-h-7 w-7 min-w-7 shrink-0 p-0 text-red-600 hover:bg-red-50 hover:text-red-800"
-                                  aria-label={`Удалить артикул ${row.sku} из подборки`}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    if (
-                                      !globalThis.confirm(
-                                        `Удалить артикул ${row.sku} из подборки? Данные исчезнут из этого браузера.`
-                                      )
-                                    ) {
-                                      return;
-                                    }
-                                    appendWorkshop2Activity(
-                                      `Удалён артикул ${row.sku} · коллекция «${open.displayName}»`,
-                                      createdByLabel
-                                    );
-                                    onRemoveWorkshop2Article(open.id, row.id);
-                                  }}
-                                >
-                                  <Trash2 className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent side="left" className="text-[11px]">
-                                Удалить из подборки
-                              </TooltipContent>
-                            </Tooltip>
-                          ) : null}
-                        </div>
-                        {!deletable ? (
-                          <div className="border-border-subtle/80 flex flex-col gap-1 border-t pt-1">
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button
-                                  type="button"
-                                  variant="secondary"
-                                  size="sm"
-                                  className="h-8 gap-0.5 px-1 text-[8px] font-bold uppercase leading-tight"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    appendWorkshop2Activity(
-                                      `Запрос деления задач · ${row.sku} · «${open.displayName}»`,
-                                      createdByLabel
-                                    );
-                                  }}
-                                >
-                                  <SquareSplitHorizontal className="h-3 w-3 shrink-0" aria-hidden />
-                                  Деление
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent side="left" className="max-w-[200px] text-[11px]">
-                                Зафиксировано в истории. Разбиение задач по этапам подключим в
-                                модуле изделия.
-                              </TooltipContent>
-                            </Tooltip>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              className="text-text-secondary hover:text-text-primary h-7 px-1 text-[8px] font-semibold"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setArchiveConfirm({
-                                  id: open.id,
-                                  displayName: open.displayName,
-                                  isSs27: open.kind === 'ss27',
-                                });
-                              }}
-                            >
-                              Архив коллекции
-                            </Button>
-                          </div>
-                        ) : null}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-    );
-  };
-
   const renderCollectionGrid = (cols: Workshop2CollectionListItem[], tab: 'active' | 'archive') => {
     const filteredCols = filterWorkshop2CollectionsForGrid(
       cols,
@@ -1947,540 +881,68 @@ export function Workshop2TabContent({
 
     return (
       <div className="w-full min-w-0">
-        <div className="grid w-full min-w-0 grid-cols-1 items-stretch gap-4 min-[520px]:grid-cols-2 lg:grid-cols-4">
-          {filteredCols.map((col) => {
-            const metrics = metricsByCollectionId[col.id] ?? {
-              status: 'draft' as const,
-              progressPct: 0,
-              articleCount: 0,
-            };
-            const listOpen = w2col === col.id;
-            const fullCardTitle = `${col.displayName} · ${col.id}`;
-            return (
-              <div key={col.id} className="flex h-full min-h-0 w-full min-w-0 flex-col">
-                <Card
-                  className={cn(
-                    'relative mx-auto flex h-full min-h-[18rem] w-full max-w-[21rem] flex-col overflow-hidden border-2 transition-all min-[520px]:mx-0 min-[520px]:max-w-full',
-                    'focus-within:ring-accent-primary/50 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2',
-                    listOpen
-                      ? 'border-accent-primary/40 bg-accent-primary/10 ring-accent-primary/30 shadow-md ring-2 ring-offset-1'
-                      : 'border-border-subtle'
-                  )}
-                >
-                  {col.kind === 'user' || col.kind === 'ss27' || tab === 'active' ? (
-                    <div
-                      className="absolute left-1 top-1 z-[4] flex max-w-[calc(100%-0.75rem)] flex-wrap items-center gap-0.5"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {col.kind === 'user' || col.kind === 'ss27' ? (
-                        <Popover
-                          modal={false}
-                          open={openCollDescId === col.id}
-                          onOpenChange={(o) => {
-                            if (o) {
-                              setOpenCollDescId(col.id);
-                              if (col.kind === 'ss27') setCollDescDraft(col.description ?? '');
-                            } else {
-                              setOpenCollDescId(null);
-                            }
-                          }}
-                        >
-                          <PopoverTrigger asChild>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              className="border-border-default/80 h-6 w-6 shrink-0 rounded-md border bg-white/95 shadow-sm hover:bg-white"
-                              aria-label="Описание коллекции"
-                              title="Описание коллекции"
-                            >
-                              <FileText className="text-text-secondary h-3 w-3" aria-hidden />
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            className="w-[min(100vw-2rem,18rem)] p-3 text-[11px]"
-                            align="start"
-                            side="bottom"
-                            sideOffset={6}
-                            onCloseAutoFocus={(e) => e.preventDefault()}
-                          >
-                            <p className="text-text-primary mb-1.5 font-semibold">Описание</p>
-                            {col.kind === 'user' ? (
-                              <>
-                                <p className="text-text-secondary whitespace-pre-wrap break-words text-[12px] leading-relaxed">
-                                  {col.description?.trim()
-                                    ? col.description.trim()
-                                    : 'Не заполнено.'}
-                                </p>
-                                <Button
-                                  type="button"
-                                  variant="link"
-                                  className="mt-2 h-auto p-0 text-[11px]"
-                                  onClick={() => {
-                                    setOpenCollDescId(null);
-                                    openUserCollectionEdit(col);
-                                  }}
-                                >
-                                  Изменить в форме
-                                </Button>
-                              </>
-                            ) : (
-                              <>
-                                <Label htmlFor={`w2-ss27-desc-${col.id}`} className="sr-only">
-                                  Текст описания
-                                </Label>
-                                <Textarea
-                                  id={`w2-ss27-desc-${col.id}`}
-                                  value={collDescDraft}
-                                  onChange={(e) => setCollDescDraft(e.target.value)}
-                                  rows={4}
-                                  placeholder="Кратко о подборке…"
-                                  className="mt-1 resize-none text-xs"
-                                  aria-label="Описание подборки SS27"
-                                />
-                                <div className="mt-2 flex justify-end gap-2">
-                                  <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    className="h-8 text-[11px]"
-                                    onClick={() => setOpenCollDescId(null)}
-                                  >
-                                    Отмена
-                                  </Button>
-                                  <Button
-                                    type="button"
-                                    size="sm"
-                                    className="h-8 text-[11px]"
-                                    onClick={() => {
-                                      if (
-                                        onUpdateSs27Meta({
-                                          description: collDescDraft.trim(),
-                                        })
-                                      ) {
-                                        appendWorkshop2Activity(
-                                          `Описание подборки «${col.displayName}» (${col.id})`,
-                                          createdByLabel
-                                        );
-                                        setOpenCollDescId(null);
-                                      }
-                                    }}
-                                  >
-                                    Сохранить
-                                  </Button>
-                                </div>
-                              </>
-                            )}
-                          </PopoverContent>
-                        </Popover>
-                      ) : null}
-                      {col.kind === 'user' || col.kind === 'ss27' ? (
-                        <Popover
-                          open={openCollNoteId === col.id}
-                          onOpenChange={(o) => {
-                            if (o) {
-                              setCollNoteDraft(col.teamNote ?? '');
-                              setOpenCollNoteId(col.id);
-                            } else {
-                              setOpenCollNoteId(null);
-                            }
-                          }}
-                        >
-                          <PopoverTrigger asChild>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              className="border-border-default/80 h-6 w-6 shrink-0 rounded-md border bg-white/95 shadow-sm hover:bg-white"
-                              aria-label="Заметка для команды"
-                              title="Заметка для команды"
-                            >
-                              <MessageSquare className="text-text-secondary h-3 w-3" aria-hidden />
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            className="w-[min(100vw-2rem,20rem)] p-3"
-                            align="start"
-                            side="bottom"
-                            sideOffset={6}
-                          >
-                            <p className="text-text-primary mb-1.5 text-[11px] font-semibold">
-                              Заметка для команды
-                            </p>
-                            <Textarea
-                              value={collNoteDraft}
-                              onChange={(e) => setCollNoteDraft(e.target.value)}
-                              rows={4}
-                              placeholder="Контекст, ссылки, кто отвечает…"
-                              className="resize-none text-xs"
-                              aria-label="Текст заметки"
-                            />
-                            <div className="mt-2 flex justify-end gap-2">
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="sm"
-                                className="h-8 text-[11px]"
-                                onClick={() => setOpenCollNoteId(null)}
-                              >
-                                Отмена
-                              </Button>
-                              <Button
-                                type="button"
-                                size="sm"
-                                className="h-8 text-[11px]"
-                                onClick={() => {
-                                  if (col.kind === 'user') {
-                                    const row = getUserCollectionRow(col.id);
-                                    if (!row) return;
-                                    if (
-                                      onUpdateUserCollection(col.id, {
-                                        name: row.name,
-                                        teamNote: collNoteDraft.trim(),
-                                      })
-                                    ) {
-                                      appendWorkshop2Activity(
-                                        `Заметка коллекции «${col.displayName}» (${col.id})`,
-                                        createdByLabel
-                                      );
-                                      setOpenCollNoteId(null);
-                                    }
-                                  } else if (col.kind === 'ss27') {
-                                    if (
-                                      onUpdateSs27Meta({
-                                        teamNote: collNoteDraft.trim(),
-                                      })
-                                    ) {
-                                      appendWorkshop2Activity(
-                                        `Заметка подборки «${col.displayName}» (${col.id})`,
-                                        createdByLabel
-                                      );
-                                      setOpenCollNoteId(null);
-                                    }
-                                  }
-                                }}
-                              >
-                                Сохранить
-                              </Button>
-                            </div>
-                          </PopoverContent>
-                        </Popover>
-                      ) : null}
-                      {col.kind === 'user' || col.kind === 'ss27' ? (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              className="border-border-default/80 h-6 w-6 shrink-0 rounded-md border bg-white/95 shadow-sm hover:bg-white"
-                              aria-label="Редактировать коллекцию"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                if (col.kind === 'user') {
-                                  openUserCollectionEdit(col);
-                                } else {
-                                  openSs27CollectionCardEdit(col);
-                                }
-                              }}
-                            >
-                              <Pencil className="text-text-secondary h-3 w-3" aria-hidden />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent side="bottom" className="max-w-[220px] text-[11px]">
-                            Редактировать название, обложку и поля коллекции
-                          </TooltipContent>
-                        </Tooltip>
-                      ) : null}
-                      {tab === 'active' ? (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              type="button"
-                              variant={col.pinned ? 'secondary' : 'ghost'}
-                              size="icon"
-                              className={cn(
-                                'h-6 w-6 shrink-0 rounded-md border bg-white/95 shadow-sm hover:bg-white',
-                                col.pinned
-                                  ? 'border-accent-primary/30 bg-accent-primary/10'
-                                  : 'border-border-default/80'
-                              )}
-                              aria-pressed={col.pinned}
-                              aria-label={
-                                col.pinned ? 'Снять закрепление' : 'Закрепить первой в списке'
-                              }
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onToggleCollectionPin(col.id, !col.pinned);
-                              }}
-                            >
-                              <Pin
-                                className={cn(
-                                  'h-3 w-3 motion-safe:transition-opacity',
-                                  col.pinned
-                                    ? 'text-accent-primary fill-accent-primary/40 motion-safe:animate-pulse'
-                                    : 'text-text-muted'
-                                )}
-                                aria-hidden
-                              />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent
-                            side="bottom"
-                            className="max-w-[260px] text-[11px] leading-snug"
-                          >
-                            {col.pinned
-                              ? 'Снять гвоздик: карточка остаётся здесь. Новая коллекция или другой гвоздик окажутся выше.'
-                              : 'Закрепить: перенести на первое место. Кто нажат последним — тот сверху.'}
-                          </TooltipContent>
-                        </Tooltip>
-                      ) : null}
-                    </div>
-                  ) : null}
-                  {col.coverDataUrl ? (
-                    <div className="border-border-subtle bg-bg-surface2 relative aspect-[16/10] w-full shrink-0 border-b">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={col.coverDataUrl}
-                        alt=""
-                        className="absolute inset-0 h-full w-full object-cover"
-                      />
-                    </div>
-                  ) : (
-                    <div
-                      className="border-border-subtle from-bg-surface2 via-accent-primary/10 to-border-subtle relative flex aspect-[16/10] w-full shrink-0 items-center justify-center border-b bg-gradient-to-br"
-                      aria-hidden
-                    >
-                      <span className="text-accent-primary/25 font-mono text-2xl font-black tracking-tight">
-                        {collectionCoverMonogram(col.id)}
-                      </span>
-                    </div>
-                  )}
-                  <Badge
-                    variant="outline"
-                    className={cn(
-                      'absolute right-2 top-2 z-[1] max-w-[min(10rem,calc(100%-4rem))] truncate text-[9px] font-bold',
-                      workshop2StatusBadgeClass(metrics.status)
-                    )}
-                  >
-                    {metrics.articleCount === 0
-                      ? workshop2StatusLabel('draft')
-                      : workshop2StatusLabel(metrics.status)}
-                  </Badge>
-                  <CardHeader
-                    className={cn(
-                      'flex min-h-0 flex-1 flex-col gap-2 px-1.5 pb-2 pt-9 text-left sm:gap-2.5',
-                      (col.kind === 'user' || col.kind === 'ss27') && 'pr-[1.375rem] sm:pr-6',
-                      (col.kind === 'user' || col.kind === 'ss27') &&
-                        tab === 'active' &&
-                        'pl-[3.25rem]',
-                      (col.kind === 'user' || col.kind === 'ss27') && tab === 'archive' && 'pl-9',
-                      col.kind !== 'user' && col.kind !== 'ss27' && 'pr-6 sm:pr-8'
-                    )}
-                  >
-                    <div className="flex min-h-[5.5rem] min-w-0 flex-1 flex-col justify-center gap-1">
-                      <div className="flex min-w-0 items-start gap-1">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <CardTitle
-                              className="text-text-primary line-clamp-2 min-w-0 cursor-default text-left text-sm font-bold leading-snug"
-                              title={fullCardTitle}
-                            >
-                              {col.displayName}
-                            </CardTitle>
-                          </TooltipTrigger>
-                          <TooltipContent
-                            side="bottom"
-                            className="max-w-[280px] text-[11px] leading-snug"
-                          >
-                            <p className="font-semibold">{col.displayName}</p>
-                            <p className="text-text-secondary mt-1 font-mono text-[10px]">
-                              {col.id}
-                            </p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <p className="text-text-secondary flex w-full min-w-0 flex-col gap-0.5 text-[10px] leading-tight">
-                            <span className="text-text-muted shrink-0">Код коллекции</span>
-                            <span
-                              className="text-text-secondary min-w-0 truncate font-mono"
-                              title={col.id}
-                            >
-                              {col.id}
-                            </span>
-                          </p>
-                        </TooltipTrigger>
-                        <TooltipContent side="bottom" className="max-w-[320px]">
-                          <span className="break-all font-mono text-[11px]">{col.id}</span>
-                        </TooltipContent>
-                      </Tooltip>
-                      <div className="w-full min-w-0 max-w-full space-y-0.5 pt-0.5">
-                        {col.cardTimestamps ? (
-                          <>
-                            <p
-                              className="text-text-primary break-words text-[10px] leading-snug"
-                              title={`${col.cardTimestamps.createdCaption} ${col.cardTimestamps.createdValue}`}
-                            >
-                              <span className="text-text-muted">
-                                {col.cardTimestamps.createdCaption}
-                              </span>{' '}
-                              <span className="font-medium tabular-nums">
-                                {col.cardTimestamps.createdValue}
-                              </span>
-                            </p>
-                            {col.cardTimestamps.updatedCaption &&
-                            col.cardTimestamps.updatedValue ? (
-                              <p
-                                className="text-text-primary break-words text-[10px] leading-snug"
-                                title={`${col.cardTimestamps.updatedCaption} ${col.cardTimestamps.updatedValue}`}
-                              >
-                                <span className="text-text-muted">
-                                  {col.cardTimestamps.updatedCaption}
-                                </span>{' '}
-                                <span className="font-medium tabular-nums">
-                                  {col.cardTimestamps.updatedValue}
-                                </span>
-                              </p>
-                            ) : null}
-                          </>
-                        ) : (
-                          <span
-                            className="block select-none text-[10px] leading-snug text-transparent"
-                            aria-hidden
-                          >
-                            —
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="text-text-secondary flex w-full min-w-0 shrink-0 flex-col gap-2 text-[11px]">
-                      {metrics.articleCount > 0 ? (
-                        <p className="shrink-0 leading-snug">Артикулов: {metrics.articleCount}</p>
-                      ) : null}
-                      <div className="flex min-h-[2.875rem] flex-col justify-end">
-                        {metrics.articleCount === 0 ? (
-                          <p className="text-text-secondary text-[10px] leading-snug">
-                            Нет артикулов.
-                          </p>
-                        ) : listOpen ? (
-                          <span className="block min-h-[2rem]" aria-hidden />
-                        ) : (
-                          <Fragment>
-                            <div className="text-text-secondary flex w-full min-w-0 flex-row flex-nowrap items-center gap-2 text-[10px]">
-                              <span className="text-text-primary shrink-0 whitespace-nowrap font-semibold">
-                                Общая готовность
-                              </span>
-                              <Progress
-                                value={metrics.progressPct}
-                                className="h-2.5 min-w-0 flex-1 basis-0"
-                                aria-label={`Общая готовность подборки по всем артикулам и этапам: ${metrics.progressPct}%`}
-                              />
-                              <div className="flex shrink-0 items-center gap-0.5">
-                                <span className="text-accent-primary whitespace-nowrap text-base font-black tabular-nums">
-                                  {metrics.progressPct}%
-                                </span>
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <button
-                                      type="button"
-                                      className="text-text-muted hover:text-accent-primary focus-visible:ring-accent-primary rounded-full p-0.5 focus:outline-none focus-visible:ring-2"
-                                      aria-label="Как считается готовность"
-                                    >
-                                      <CircleAlert className="h-3.5 w-3.5" aria-hidden />
-                                    </button>
-                                  </TooltipTrigger>
-                                  <TooltipContent
-                                    side="left"
-                                    className="max-w-[260px] text-[11px] leading-snug"
-                                  >
-                                    {READINESS_HELP}
-                                  </TooltipContent>
-                                </Tooltip>
-                              </div>
-                            </div>
-                            {(() => {
-                              const rollup = dossierRollupByCollectionId[col.id];
-                              if (!rollup || rollup.withDossierCount === 0) return null;
-                              return (
-                                <p className="text-text-secondary mt-1 text-[9px] leading-snug">
-                                  <span className="text-text-secondary font-semibold">
-                                    ТЗ (local):
-                                  </span>{' '}
-                                  ~{rollup.avgTzPct}% · образец {rollup.readyForSampleCount}/
-                                  {rollup.withDossierCount}
-                                  {rollup.bomPinCount > 0 ? (
-                                    <span className="text-teal-700">
-                                      {' '}
-                                      · BOM ref: {rollup.bomPinCount}
-                                    </span>
-                                  ) : null}
-                                  {rollup.overdueSlaCount > 0 ? (
-                                    <span className="font-semibold text-rose-600">
-                                      {' '}
-                                      · SLA просрочено: {rollup.overdueSlaCount}
-                                    </span>
-                                  ) : null}
-                                  {rollup.weakApprovalsCount > 0 ? (
-                                    <span className="text-amber-800">
-                                      {' '}
-                                      · без подписей: {rollup.weakApprovalsCount} арт.
-                                    </span>
-                                  ) : null}
-                                </p>
-                              );
-                            })()}
-                          </Fragment>
-                        )}
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="mt-auto flex min-h-[4.75rem] shrink-0 flex-col items-center justify-end gap-1.5 px-1.5 pb-2.5 pt-0 sm:pb-3">
-                    <Button
-                      type="button"
-                      variant={listOpen ? 'secondary' : 'default'}
-                      size="sm"
-                      className="h-7 min-w-[9rem] max-w-[85%] px-4 text-[9px] font-black uppercase tracking-wide"
-                      onClick={() => selectCollection(col.id)}
-                    >
-                      {listOpen ? 'Свернуть список' : 'Выбрать коллекцию'}
-                    </Button>
-                    <div className="flex min-h-[1.375rem] w-full flex-col items-center justify-center">
-                      {tab === 'active' ? (
-                        <Button
-                          type="button"
-                          variant="link"
-                          className="text-text-muted hover:text-text-secondary h-auto px-2 py-0 text-[9px] font-normal no-underline"
-                          onClick={() =>
-                            setArchiveConfirm({
-                              id: col.id,
-                              displayName: col.displayName,
-                              isSs27: col.kind === 'ss27',
-                            })
-                          }
-                        >
-                          Убрать в архив
-                        </Button>
-                      ) : (
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          className="text-accent-primary hover:text-accent-primary h-6 px-2 text-[9px]"
-                          onClick={() => restoreOne(col.id)}
-                        >
-                          Восстановить
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            );
-          })}
-        </div>
-        {renderArticlesPanel(cols)}
+        <Workshop2TabContentCollectionGridCards
+          tab={tab}
+          filteredCols={filteredCols}
+          w2col={w2col}
+          metricsByCollectionId={metricsByCollectionId}
+          dossierRollupByCollectionId={dossierRollupByCollectionId}
+          openCollDescId={openCollDescId}
+          setOpenCollDescId={setOpenCollDescId}
+          collDescDraft={collDescDraft}
+          setCollDescDraft={setCollDescDraft}
+          openCollNoteId={openCollNoteId}
+          setOpenCollNoteId={setOpenCollNoteId}
+          collNoteDraft={collNoteDraft}
+          setCollNoteDraft={setCollNoteDraft}
+          onUpdateSs27Meta={onUpdateSs27Meta}
+          appendWorkshop2Activity={appendWorkshop2Activity}
+          createdByLabel={createdByLabel}
+          getUserCollectionRow={getUserCollectionRow}
+          onUpdateUserCollection={onUpdateUserCollection}
+          openUserCollectionEdit={openUserCollectionEdit}
+          openSs27CollectionCardEdit={openSs27CollectionCardEdit}
+          onToggleCollectionPin={onToggleCollectionPin}
+          selectCollection={selectCollection}
+          setArchiveConfirm={setArchiveConfirm}
+          restoreOne={restoreOne}
+        />
+        <Workshop2TabContentArticlesPanel
+          cols={cols}
+          w2col={w2col}
+          metricsByCollectionId={metricsByCollectionId}
+          getSkuFlowDoc={getSkuFlowDoc}
+          getArticlePipelineProgress={getArticlePipelineProgress}
+          articleListSort={articleListSort}
+          setArticleListSort={setArticleListSort}
+          articleFacetAudience={articleFacetAudience}
+          setArticleFacetAudience={setArticleFacetAudience}
+          articleFacetL1={articleFacetL1}
+          setArticleFacetL1={setArticleFacetL1}
+          articleFacetL2={articleFacetL2}
+          setArticleFacetL2={setArticleFacetL2}
+          articleFacetL3={articleFacetL3}
+          setArticleFacetL3={setArticleFacetL3}
+          articleSkuFilter={articleSkuFilter}
+          setArticleSkuFilter={setArticleSkuFilter}
+          articlePanelStageFilter={articlePanelStageFilter}
+          setArticlePanelStageFilter={setArticlePanelStageFilter}
+          nextStepsCollectionId={nextStepsCollectionId}
+          setNextStepsCollectionId={setNextStepsCollectionId}
+          highlightArticleId={highlightArticleId}
+          articleRowRefs={articleRowRefs}
+          openArticle={openArticle}
+          setBulkCol={setBulkCol}
+          setBulkText={setBulkText}
+          setBulkOpen={setBulkOpen}
+          setArticleDialogCol={setArticleDialogCol}
+          setArticleEditTarget={setArticleEditTarget}
+          setArticleNotesTarget={setArticleNotesTarget}
+          appendWorkshop2Activity={appendWorkshop2Activity}
+          createdByLabel={createdByLabel}
+          onRemoveWorkshop2Article={onRemoveWorkshop2Article}
+          setArchiveConfirm={setArchiveConfirm}
+        />
       </div>
     );
   };
@@ -2488,419 +950,89 @@ export function Workshop2TabContent({
   return (
     <TooltipProvider delayDuration={200}>
       <div className="space-y-5">
-        <PageHeader
-          title={COLLECTION_DEV_HUB_TITLE_RU}
-          titleAddon={
-            <>
-              <span className="sr-only">Контуры на шкале коллекции:</span>
-              <Badge
-                variant="outline"
-                title="Левая часть мини-шкалы (каталог: до supply-path, в т.ч. gate-all-stakeholders) и вкладки обзор/ТЗ в карточке артикула"
-                className="h-6 border-indigo-200 bg-indigo-50 px-2 text-[10px] font-bold uppercase tracking-wide text-indigo-950"
-              >
-                Разработка
-              </Badge>
-              <span className="text-slate-400 text-xs font-medium" aria-hidden>
-                →
-              </span>
-              <Badge
-                variant="outline"
-                title="Правая часть мини-шкалы (от якоря supply-path в каталоге) — снабжение и далее в карточке артикула"
-                className="h-6 border-teal-200 bg-teal-50 px-2 text-[10px] font-bold uppercase tracking-wide text-teal-950"
-              >
-                Сэмплы
-              </Badge>
-            </>
-          }
-          description={PAGE_SUBTITLE}
-          className="border-border-default/80 mb-0 border-b pb-4"
-          actions={
-            <div className="flex flex-wrap items-center justify-end gap-2">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-9 w-9 shrink-0"
-                    aria-label="История действий"
-                    onClick={() => {
-                      setHistoryEntries(loadWorkshop2Activity());
-                      setHistoryOpen(true);
-                    }}
-                  >
-                    <History className="h-4 w-4" aria-hidden />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">История</TooltipContent>
-              </Tooltip>
-              {listTab === 'active' ? (
-                <Button
-                  type="button"
-                  size="sm"
-                  className="h-9 gap-1.5 text-[10px] font-black uppercase"
-                  onClick={() => setCreateOpen(true)}
-                >
-                  <Plus className="h-4 w-4" aria-hidden />
-                  Создать коллекцию
-                </Button>
-              ) : (
-                <span className="text-text-secondary max-w-[14rem] text-[10px] leading-snug">
-                  Архив хранится в этом браузере.
-                </span>
-              )}
-            </div>
-          }
-        />
-
-        {w2col && activeCollection ? (
-          <div className="space-y-1">
-            <Breadcrumb
-              items={[
-                { label: COLLECTION_DEV_HUB_TITLE_RU, href: basePath },
-                {
-                  label: `Коллекция · ${activeCollection.displayName}`,
-                  title: activeCollection.displayName,
-                },
-              ]}
-              className="text-text-secondary flex-wrap gap-x-1 gap-y-0.5 text-[11px] leading-tight"
-            />
-            <p className="text-text-muted text-[10px] leading-snug">
-              Откройте артикул: слева в карточке SKU — обзор и ТЗ (согласования как в gate-all-stakeholders), справа — от
-              supply-path снабжение и выпуск (как на мини-шкале). Серия и опт — на поле цеха и в B2B.
-            </p>
+        <div className="border-border-default/80 flex flex-col gap-3 border-b pb-4">
+          <div className="min-w-0 space-y-1">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              {COLLECTION_DEV_HUB_TITLE_RU}
+            </h1>
+            <p className="max-w-2xl text-sm text-slate-600">{WORKSHOP2_TAB_CONTENT_PAGE_SUBTITLE}</p>
           </div>
-        ) : null}
-
-        <details className="border-border-default bg-bg-surface2/80 group rounded-lg border shadow-sm">
-          <summary className="text-text-primary flex cursor-pointer list-none items-center gap-2 px-3 py-2.5 text-left text-xs font-semibold [&::-webkit-details-marker]:hidden">
-            <ClipboardList className="text-accent-primary h-4 w-4 shrink-0" aria-hidden />
-            <span>Пилот разработки коллекции — чеклист и обратная связь</span>
-            <ChevronDown className="text-text-muted ml-auto h-4 w-4 shrink-0 transition group-open:rotate-180" />
-          </summary>
-          <div className="border-border-default text-text-primary space-y-3 border-t bg-white px-3 py-3 text-[11px] leading-snug">
-            <ol className="list-decimal space-y-1.5 pl-4">
-              <li>Создайте коллекцию и добавьте SKU — данные остаются в этом браузере.</li>
-              <li>Откройте артикул → ТЗ: заполните паспорт, SLA по ролям и материалы (BOM).</li>
-              <li>Поставьте метки на скетче; при необходимости привяжите ref к строке из досье.</li>
-              <li>Согласуйте цифровые подписи и скачайте PDF handoff для передачи в цех.</li>
-              <li>
-                Зафиксируйте замечания по пилоту — письмом или в переписке с командой продукта.
-              </li>
-            </ol>
-            <a
-              className="text-accent-primary inline-flex items-center gap-1 font-semibold hover:underline"
-              href={`mailto:?subject=${encodeURIComponent('Пилот разработки коллекции — обратная связь')}&body=${encodeURIComponent('Коллекция / SKU:\n\nЧто сработало:\n\nЧто мешает:\n')}`}
+          <div className="flex flex-wrap items-center gap-2 pt-1">
+            <span className="text-text-secondary mr-1 text-xs font-medium">Показать:</span>
+            <Button
+              type="button"
+              size="sm"
+              variant={articleHubStatusFilter === 'all' ? 'default' : 'outline'}
+              className="h-9 min-w-[8.5rem] text-[10px] font-semibold"
+              onClick={() => setArticleHubStatusFilter('all')}
+              aria-pressed={articleHubStatusFilter === 'all'}
             >
-              Открыть шаблон письма (mailto)
-            </a>
-          </div>
-        </details>
-
-        <Tabs
-          value={listTab}
-          onValueChange={(v) => {
-            const t = v as 'active' | 'archive';
-            if (t !== listTab) {
-              appendWorkshop2Activity(
-                t === 'archive' ? 'Вкладка: Архив' : 'Вкладка: Активные',
-                createdByLabel
-              );
-            }
-            setListTab(t);
-          }}
-          className="w-full"
-        >
-          <div className="flex flex-wrap items-center gap-3">
-            {/* cabinetSurface v1 */}
-            <TabsList className={cn(cabinetSurface.tabsList, 'w-fit flex-wrap')}>
-              <TabsTrigger
-                value="active"
-                className={cn(
-                  cabinetSurface.tabsTrigger,
-                  'h-8 text-xs font-semibold normal-case tracking-normal'
-                )}
-              >
-                Активные
-              </TabsTrigger>
-              <TabsTrigger
-                value="archive"
-                className={cn(
-                  cabinetSurface.tabsTrigger,
-                  'h-8 text-xs font-semibold normal-case tracking-normal'
-                )}
-              >
-                Архив
-              </TabsTrigger>
-            </TabsList>
-          </div>
-
-          <FilterToolbar className="border-border-default bg-bg-surface2/70 mt-3 p-2 sm:p-2.5">
-            <div className="flex w-full min-w-0 flex-wrap items-end gap-x-2 gap-y-2 sm:gap-x-2.5">
-              <div className="grid w-[min(100%,11.5rem)] min-w-0 shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
-                <span className="text-text-secondary text-[8px] font-semibold uppercase leading-none tracking-wide">
-                  Фильтр по коллекции
-                </span>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      title="Подборки на этой вкладке. Остаются только карточки выбранных коллекций."
-                      className="h-9 w-full justify-between gap-1.5 px-2.5 text-left text-xs font-normal"
-                    >
-                      <span className="text-text-primary truncate">
-                        {collectionOptionsForGridFilter.length === 0
-                          ? 'Нет коллекций'
-                          : gridSelectedCollectionIds.size === 0
-                            ? 'Коллекции…'
-                            : `Выбрано: ${gridSelectedCollectionIds.size}`}
-                      </span>
-                      <ChevronDown
-                        className="text-text-secondary h-3.5 w-3.5 shrink-0"
-                        aria-hidden
-                      />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[min(100vw-2rem,26rem)] p-0" align="start">
-                    {collectionOptionsForGridFilter.length === 0 ? (
-                      <p className="text-text-secondary p-3 text-[11px]">
-                        Нет коллекций на этой вкладке.
-                      </p>
-                    ) : (
-                      <div className="max-h-64 space-y-1 overflow-y-auto p-2">
-                        {collectionOptionsForGridFilter.map((opt, idx) => {
-                          const checkId = `w2-grid-col-${opt.id}-${idx}`;
-                          return (
-                            <div
-                              key={opt.id}
-                              className="hover:bg-bg-surface2 flex w-full min-w-0 items-start gap-2 rounded-md py-1.5 pl-1 pr-0.5"
-                            >
-                              <Checkbox
-                                id={checkId}
-                                checked={gridSelectedCollectionIds.has(opt.id)}
-                                onCheckedChange={() => {
-                                  setGridSelectedCollectionIds((prev) => {
-                                    const n = new Set(prev);
-                                    if (n.has(opt.id)) n.delete(opt.id);
-                                    else n.add(opt.id);
-                                    return n;
-                                  });
-                                }}
-                                className="mt-0.5 shrink-0"
-                              />
-                              <label
-                                htmlFor={checkId}
-                                className="min-w-0 flex-1 cursor-pointer text-left leading-snug"
-                              >
-                                <span className="text-text-primary block text-[11px] font-medium">
-                                  {opt.displayName}
-                                </span>
-                                <span className="text-text-secondary mt-0.5 block font-mono text-[9px]">
-                                  {opt.id}
-                                </span>
-                              </label>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </PopoverContent>
-                </Popover>
-              </div>
-              <div className="grid w-[min(100%,11.5rem)] min-w-0 shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
-                <span className="text-text-secondary text-[8px] font-semibold uppercase leading-none tracking-wide">
-                  Фильтр по артикулу
-                </span>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      title="Список из каталога заказа и локальных подборок. Остаются карточки коллекций, где есть выбранный артикул."
-                      className="h-9 w-full justify-between gap-1.5 px-2.5 text-left text-xs font-normal"
-                    >
-                      <span className="text-text-primary truncate">
-                        {skuCatalogForFilters.length === 0
-                          ? 'Нет в каталоге'
-                          : gridSelectedSkus.size === 0
-                            ? 'Артикулы…'
-                            : `Выбрано: ${gridSelectedSkus.size}`}
-                      </span>
-                      <ChevronDown
-                        className="text-text-secondary h-3.5 w-3.5 shrink-0"
-                        aria-hidden
-                      />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[min(100vw-2rem,26rem)] p-0" align="start">
-                    {skuCatalogForFilters.length === 0 ? (
-                      <p className="text-text-secondary p-3 text-[11px]">
-                        В каталоге заказа пока нет артикулов для фильтра.
-                      </p>
-                    ) : (
-                      <div className="max-h-64 space-y-1 overflow-y-auto p-2">
-                        {skuCatalogForFilters.map((row, idx) => {
-                          const facetLine = [
-                            row.audienceLabel?.trim() || '—',
-                            `L1 ${row.categoryL1?.trim() || '—'}`,
-                            `L2 ${row.categoryL2?.trim() || '—'}`,
-                            `L3 ${row.categoryL3?.trim() || '—'}`,
-                          ].join(' · ');
-                          const checkId = `w2-grid-sku-${idx}`;
-                          return (
-                            <Tooltip key={row.skuNorm}>
-                              <TooltipTrigger asChild>
-                                <div className="hover:bg-bg-surface2 flex w-full min-w-0 cursor-default items-start gap-2 rounded-md py-1.5 pl-1 pr-0.5">
-                                  <Checkbox
-                                    id={checkId}
-                                    checked={gridSelectedSkus.has(row.skuNorm)}
-                                    onCheckedChange={() => {
-                                      setGridSelectedSkus((prev) => {
-                                        const n = new Set(prev);
-                                        if (n.has(row.skuNorm)) n.delete(row.skuNorm);
-                                        else n.add(row.skuNorm);
-                                        return n;
-                                      });
-                                    }}
-                                    className="mt-0.5 shrink-0"
-                                  />
-                                  <label
-                                    htmlFor={checkId}
-                                    className="min-w-0 flex-1 cursor-pointer text-left leading-snug"
-                                  >
-                                    <span className="text-text-primary block font-mono text-[11px] font-medium">
-                                      {row.skuLabel}
-                                    </span>
-                                    <span className="text-text-secondary mt-0.5 block text-[9px]">
-                                      {facetLine}
-                                    </span>
-                                  </label>
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent
-                                side="right"
-                                className="border-border-default max-w-[min(92vw,260px)] bg-white p-2 shadow-lg"
-                              >
-                                {row.thumb ? (
-                                  <div className="space-y-1.5">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                      src={row.thumb}
-                                      alt={row.skuLabel}
-                                      className="max-h-44 w-full max-w-[220px] rounded-md object-contain"
-                                    />
-                                    <p className="text-text-primary font-mono text-[10px] font-medium">
-                                      {row.skuLabel}
-                                    </p>
-                                    <p className="text-text-secondary text-[9px] leading-snug">
-                                      {facetLine}
-                                    </p>
-                                  </div>
-                                ) : (
-                                  <div className="max-w-[220px] space-y-1">
-                                    <p className="text-text-secondary text-[11px]">
-                                      Нет фото во вложениях позиции
-                                    </p>
-                                    <p className="text-text-secondary font-mono text-[9px]">
-                                      {row.skuLabel}
-                                    </p>
-                                    <p className="text-text-secondary text-[9px] leading-snug">
-                                      {facetLine}
-                                    </p>
-                                  </div>
-                                )}
-                              </TooltipContent>
-                            </Tooltip>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </PopoverContent>
-                </Popover>
-              </div>
-              <div className="grid w-[min(100%,11.5rem)] min-w-0 shrink-0 gap-0.5 sm:w-[min(100%,12.5rem)]">
-                <span className="text-text-secondary text-[8px] font-semibold uppercase leading-none tracking-wide">
-                  Поиск по странице
-                </span>
+              Все
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant={articleHubStatusFilter === 'in_work' ? 'default' : 'outline'}
+              className="h-9 min-w-[8.5rem] text-[10px] font-semibold"
+              onClick={() => setArticleHubStatusFilter('in_work')}
+              aria-pressed={articleHubStatusFilter === 'in_work'}
+            >
+              В работе
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant={articleHubStatusFilter === 'done' ? 'default' : 'outline'}
+              className="h-9 min-w-[8.5rem] text-[10px] font-semibold"
+              onClick={() => setArticleHubStatusFilter('done')}
+              aria-pressed={articleHubStatusFilter === 'done'}
+            >
+              Разработано
+            </Button>
+            <span
+              className="bg-border-default/80 mx-0.5 hidden h-6 w-px shrink-0 sm:inline-block"
+              aria-hidden
+            />
+            <Tooltip>
+              <TooltipTrigger asChild>
                 <Button
                   type="button"
                   variant="outline"
-                  className="h-9 w-full gap-1.5 text-xs font-normal"
+                  size="icon"
+                  className="h-9 w-9 shrink-0"
+                  aria-label="История действий"
                   onClick={() => {
-                    setGlobalSearchQuery('');
-                    setGlobalSearchOpen(true);
+                    setHistoryEntries(loadWorkshop2Activity());
+                    setHistoryOpen(true);
                   }}
                 >
-                  <Search className="text-text-secondary h-3.5 w-3.5 shrink-0" aria-hidden />
-                  Найти…
+                  <History className="h-4 w-4" aria-hidden />
                 </Button>
-              </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="h-9 shrink-0 px-3 text-[10px] font-semibold"
-                onClick={() => {
-                  setGridSelectedCollectionIds(new Set());
-                  setGridSelectedSkus(new Set());
-                }}
-              >
-                Сбросить фильтры
-              </Button>
-              <div className="border-border-default/60 flex h-9 min-w-0 flex-1 basis-full items-center justify-end border-t pt-2 sm:basis-auto sm:border-0 sm:pt-0">
-                <p className="text-text-secondary whitespace-nowrap text-right text-[10px]">
-                  Показано{' '}
-                  <span className="text-text-primary font-semibold tabular-nums">
-                    {filteredCollectionsCount}/{collectionsForCurrentTab.length}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </FilterToolbar>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">История</TooltipContent>
+            </Tooltip>
+            <Button
+              type="button"
+              size="sm"
+              className="h-9 gap-1.5 text-[10px] font-black uppercase"
+              onClick={openCreateArticle}
+            >
+              <Plus className="h-4 w-4" aria-hidden />
+              Создать артикул
+            </Button>
+          </div>
+        </div>
 
-          <TabsContent value="active" className="mt-4">
-            {activeCollections.length === 0 ? (
-              <EmptyState
-                title="Нет активных коллекций"
-                description="Создайте подборку или восстановите запись из архива."
-              >
-                <Button
-                  type="button"
-                  size="sm"
-                  className="h-9 gap-1.5 text-[10px] font-black uppercase"
-                  onClick={() => setCreateOpen(true)}
-                >
-                  <Plus className="h-4 w-4" aria-hidden />
-                  Создать коллекцию
-                </Button>
-              </EmptyState>
-            ) : (
-              renderCollectionGrid(activeCollections, 'active')
-            )}
-          </TabsContent>
-
-          <TabsContent value="archive" className="mt-4">
-            {archivedCollections.length === 0 ? (
-              <EmptyState
-                title="В архиве пусто"
-                description="Переключитесь на активные коллекции или восстановите запись."
-              >
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="text-[10px] font-semibold"
-                  onClick={() => setListTab('active')}
-                >
-                  К активным
-                </Button>
-              </EmptyState>
-            ) : (
-              renderCollectionGrid(archivedCollections, 'archive')
-            )}
-          </TabsContent>
-        </Tabs>
+        <div className="mt-4 w-full">
+          <Workshop2ArticleFlatHub
+            collections={collectionsForLookup}
+            getSkuFlowDoc={getSkuFlowDoc}
+            onOpenArticle={openArticle}
+            onEditArticle={openArticleEditFromHub}
+            onCreateArticle={openCreateArticle}
+            articleStatusFilter={articleHubStatusFilter}
+          />
+        </div>
 
         <Dialog open={globalSearchOpen} onOpenChange={setGlobalSearchOpen}>
           <DialogContent
@@ -3537,7 +1669,7 @@ export function Workshop2TabContent({
                   setBulkCol(null);
                 }}
               >
-                Добавить в коллекцию
+                Добавить в подборку
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -3584,8 +1716,7 @@ export function Workshop2TabContent({
             <DialogHeader>
               <DialogTitle>История</DialogTitle>
               <DialogDescription id="w2-history-desc">
-                Создания, архив, восстановления, открытия списков и артикулов — локально в браузере.
-                У старых записей автор может быть не указан.
+                События в разделе «Разработка» (подборки, артикулы, архив). Локально в браузере.
               </DialogDescription>
             </DialogHeader>
             <div className="grid shrink-0 gap-2 sm:grid-cols-2">
@@ -3696,7 +1827,13 @@ export function Workshop2TabContent({
             articleDialogCol?.displayName ?? articleEditTarget?.displayName ?? ''
           }
           pickerLines={articlePickerLines}
-          onCommit={onCommitWorkshop2Article}
+          onCommit={(colId, commit) => {
+            const r = onCommitWorkshop2Article(colId, commit);
+            if (typeof r === 'string') {
+              router.push(workshop2ArticlePath(colId, r));
+            }
+            return r;
+          }}
           editArticle={
             articleEditTarget
               ? {
@@ -3706,17 +1843,37 @@ export function Workshop2TabContent({
                   comment: articleEditTarget.comment,
                   categoryLeafId: articleEditTarget.categoryLeafId,
                   workshopAttachments: articleEditTarget.workshopAttachments,
+                  workshopTags: articleEditTarget.workshopTags,
+                  workshopLineSeason: articleEditTarget.workshopLineSeason,
                 }
               : null
           }
-          onSaveEdit={(collectionId, articleId, data) =>
-            onPatchWorkshop2ArticleLine(collectionId, articleId, {
+          onSaveEdit={(collectionId, articleId, data) => {
+            const prevSku =
+              articleEditTarget?.articleId === articleId ? articleEditTarget.sku : '';
+            const ok = onPatchWorkshop2ArticleLine(collectionId, articleId, {
+              sku: data.sku,
               name: data.name,
               workshopComment: data.workshopComment,
               categoryLeafId: data.categoryLeafId,
               workshopAttachments: data.workshopAttachments,
-            })
-          }
+              workshopTags: data.workshopTags,
+              workshopLineSeason: data.workshopLineSeason,
+            });
+            if (ok && prevSku) {
+              const nNext = normalizeLocalSkuCode(data.sku);
+              const nPrev = normalizeLocalSkuCode(prevSku);
+              if (nNext && nNext !== nPrev) {
+                const d = getWorkshop2Phase1Dossier(collectionId, articleId) ?? emptyWorkshop2DossierPhase1();
+                setWorkshop2Phase1Dossier(
+                  collectionId,
+                  articleId,
+                  appendWorkshop2TzDossierEditLog(d, createdByLabel, [`SKU артикула: ${data.sku.trim()}`])
+                );
+              }
+            }
+            return ok;
+          }}
           activityActorLabel={createdByLabel}
         />
       </div>

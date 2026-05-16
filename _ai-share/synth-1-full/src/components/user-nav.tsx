@@ -26,6 +26,7 @@ import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { organizations } from '@/components/team/_fixtures/team-data';
 import { ROUTES } from '@/lib/routes';
+import { SYNTH_MOCK_KNOWN_PASSWORD } from '@/lib/auth/dev-auth-bootstrap';
 
 export default function UserNav() {
   const { user, profile, loading, signOut, updateProfile, signIn } = useAuth();
@@ -33,17 +34,17 @@ export default function UserNav() {
   const router = useRouter();
   const [profileAvatar, setProfileAvatar] = useState<string | null>(null);
 
-  const activeOrg = profile?.user?.organization_id || user?.activeOrganizationId;
-  const partnerName = profile?.user?.full_name || user?.displayName;
+  const activeOrg = (profile?.user as any)?.organization_id || user?.activeOrganizationId;
+  const partnerName = (profile?.user as any)?.full_name || user?.displayName;
 
   const isB2B =
-    profile?.navigation?.length > 0 ||
+    ((profile?.navigation as any[])?.length || 0) > 0 ||
     user?.roles?.some((r) =>
       ['admin', 'brand', 'distributor', 'supplier', 'manufacturer', 'shop'].includes(r)
     ) ||
     user?.email?.endsWith('@syntha.ai');
 
-  const currentRole = profile?.user?.role || user?.roles?.[0];
+  const currentRole = ((profile?.user as any)?.role as string) || (user?.roles?.[0] as string);
 
   /** Главная страница кабинета по роли (не только brand). */
   const hubPathForRole = (role?: string): string => {
@@ -138,7 +139,7 @@ export default function UserNav() {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('syntha_profile_avatar');
         }
-        newProfile = await signIn(member.email, 'password123');
+        newProfile = await signIn(member.email, SYNTH_MOCK_KNOWN_PASSWORD);
       } else {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('syntha_profile_avatar');
@@ -186,7 +187,7 @@ export default function UserNav() {
         setProfileAvatar(null);
       }
 
-      await signIn(brandEmail, 'password123');
+      await signIn(brandEmail, SYNTH_MOCK_KNOWN_PASSWORD);
       const brandParam = brandEmail === 'nordic@syntha.ai' ? 'nordic' : 'syntha';
       window.location.href = `/brand?brand=${brandParam}`;
 
@@ -246,7 +247,7 @@ export default function UserNav() {
 
   const handleSignInGuest = async () => {
     try {
-      await signIn('elena.petrova@example.com', 'password123');
+      await signIn('elena.petrova@example.com', SYNTH_MOCK_KNOWN_PASSWORD);
       startTransition(() => router.push('/client/me'));
       toast({ title: 'Вы вошли', description: 'Открыт личный кабинет' });
     } catch {
@@ -340,13 +341,13 @@ export default function UserNav() {
               </div>
             )}
 
-            {profile?.navigation?.length > 0 && (
+            {((profile?.navigation as any[])?.length || 0) > 0 && (
               <div className="border-border-subtle border-b p-1">
                 <p className="text-text-muted mb-1 px-2 py-1 text-[7px] font-black uppercase tracking-widest">
                   БЫСТРЫЙ ПЕРЕХОД
                 </p>
                 <div className="grid grid-cols-2 gap-0.5">
-                  {profile.navigation.slice(0, 4).map((nav: any) => (
+                  {(profile?.navigation as any[])?.slice(0, 4).map((nav: any) => (
                     <DropdownMenuItem
                       key={nav.path}
                       className="hover:bg-bg-surface2 cursor-pointer rounded-[1px] py-1.5"

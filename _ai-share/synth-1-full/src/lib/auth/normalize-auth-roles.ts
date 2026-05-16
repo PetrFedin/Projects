@@ -1,6 +1,6 @@
 import type { UserProfile } from '@/lib/types';
 
-/** Минимальный контракт профиля Hub API (см. `AuthProvider` / synthetic profile). */
+/** Минимальный контракт профиля Hub API (см. `AuthProvider` / `dev-auth-bootstrap` synthetic profile). */
 type HubLike = {
   user?: { role?: string; roles?: string[] };
 };

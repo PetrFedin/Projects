@@ -1,5 +1,8 @@
 node_modules
+# канон только в корне synth-1-full; дубликат в src ломает установку зависимостей
+src/package.json
 .next
+.next-codex
 .next-isolated
 out
 .firebase
@@ -40,6 +43,8 @@ data/domain-event-outbox.json
 data/b2b-operational-notes.json
 data/b2b-operational-status.json
 data/b2b-working-order-versions.json
+data/sewing-order-intents.json
+data/sewing-intent-task-queue.jsonl
 
 # персистентность процессов (dev / PROCESS_PERSISTENCE)
 .data/

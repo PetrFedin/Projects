@@ -3,6 +3,13 @@
 
 Числитель — только подключённые через env клиенты (без сетевых health-check).
 Знаменатель — все проводные коннекторы плюс позиции каталога из кабинета (роадмап), см. brand integrations UI.
+
+Связи (менять вместе):
+- ``app.api.v1.endpoints.brand.fetch_brand_dashboard_data`` → ``count_configured_integrations_for_hub``.
+- Фронт: ``_ai-share/synth-1-full/src/app/brand/integrations/page.tsx`` (списки интеграций), хаб:
+  ``_ai-share/synth-1-full/src/app/brand/organization/NEXT_IMPROVEMENTS.md`` (раздел про 13 слотов).
+
+``len(WIRED_SLOT_IDS)`` и ``wired_connector_instances()`` — один порядок и длина; иначе ``RuntimeError`` в счётчике.
 """
 
 from __future__ import annotations

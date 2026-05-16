@@ -1,0 +1,18 @@
+{
+  "model_profile": "balanced",
+  "commit_docs": true,
+  "granularity": "standard",
+  "parallelization": true,
+  "context_window_tokens": 200000,
+  "workflow": {
+    "research": true,
+    "plan_check": true,
+    "verifier": true,
+    "nyquist_validation": true,
+    "use_worktrees": false,
+    "auto_advance": false
+  },
+  "intel": {
+    "enabled": true
+  }
+}

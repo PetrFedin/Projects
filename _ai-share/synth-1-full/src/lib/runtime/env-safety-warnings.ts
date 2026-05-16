@@ -11,7 +11,13 @@ export function logEnvSafetyWarningsOnce(): void {
 
   if (process.env.NODE_ENV !== 'production') return;
 
-  const demoKeys = ['NEXT_PUBLIC_DEMO_MODE', 'NEXT_PUBLIC_ALLOW_MOCK_AUTH'];
+  const demoKeys = [
+    'NEXT_PUBLIC_DEMO_MODE',
+    'NEXT_PUBLIC_ALLOW_MOCK_AUTH',
+    'NEXT_PUBLIC_SYNTH_DEV_AUTO_LOGIN',
+    'NEXT_PUBLIC_SYNTH_DEV_PASSWORD',
+    'NEXT_PUBLIC_SYNTH_DASHBOARD_DEMO_MOCKS',
+  ];
   for (const key of demoKeys) {
     if (process.env[key] === 'true') {
       // eslint-disable-next-line no-console

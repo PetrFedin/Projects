@@ -24,7 +24,7 @@ import {
   RefreshCw,
   LogIn,
 } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useState, useEffect } from 'react';
 import { useUIState } from '@/providers/ui-state';
 import { cn } from '@/lib/utils';
@@ -147,6 +147,20 @@ export default function Header() {
 
   const navLinks = getDynamicNavLinks();
 
+  /** B2B top nav and left sidebar both include ROUTES.catalog — dedupe so React keys stay unique. */
+  const mobileSheetNavLinks = (() => {
+    const merged = [...navLinks, ...leftSidebarNavLinks].filter(
+      (l): l is { href: string; label: string } =>
+        'href' in l && typeof (l as { href: string }).href === 'string'
+    );
+    const seen = new Set<string>();
+    return merged.filter((l) => {
+      if (seen.has(l.href)) return false;
+      seen.add(l.href);
+      return true;
+    });
+  })();
+
   const handleLogin = async (email: string, roleKey: string, organizationId?: string) => {
     await handleIdentitySwitch(email, roleKey, organizationId);
   };
@@ -196,6 +210,7 @@ export default function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="flex w-[300px] flex-col sm:w-[400px]">
+            <SheetTitle className="sr-only">Главное меню</SheetTitle>
             <div className="mt-4 flex w-fit items-center gap-1 rounded-xl border border-slate-800 bg-slate-900 p-1">
               <Button
                 variant="ghost"
@@ -227,12 +242,7 @@ export default function Header() {
               </Button>
             </div>
             <nav className="mt-8 flex flex-1 flex-col gap-3">
-              {[...navLinks, ...leftSidebarNavLinks]
-                .filter(
-                  (l): l is { href: string; label: string } =>
-                    'href' in l && typeof l.href === 'string'
-                )
-                .map((link) => {
+              {mobileSheetNavLinks.map((link) => {
                   const liveHere = link.href === '/live' && liveBroadcastOn;
                   return (
                     <Link

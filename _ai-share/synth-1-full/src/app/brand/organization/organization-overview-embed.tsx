@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, startTransition } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { getRecentActivities } from './page-data';
-import type { RecentActivity } from './page-data';
+import type { ModuleStatPatch } from './organization-navigation-cards';
+import { getRecentActivities, type RecentActivity } from './organization-recent-activity';
 import type { HistoryEntry } from '@/components/brand/SectionBlock';
 import { useOrganizationHealth } from '@/hooks/use-organization-health';
 import { useToast } from '@/hooks/use-toast';
@@ -14,7 +14,6 @@ import { OrgHubModulesStripSkeleton } from './_components/organization-hub-skele
 import { PARTICIPANTS_COUNT, ONLINE_COUNT } from './organization-demo-data';
 import { BRAND_ID } from './organization-config';
 import type { ActivityPeriod } from './_components/organization-overview-lib';
-import type { ModuleStatPatch } from './page-data';
 
 const OrganizationOverviewContent = dynamic(
   () =>
@@ -30,14 +29,14 @@ const OrganizationOverviewContent = dynamic(
         aria-label="Загрузка центра управления"
       >
         <div
-          className="border-border-subtle from-bg-surface2/50 h-[140px] animate-pulse rounded-2xl border bg-gradient-to-br to-white shadow-sm"
+          className="h-[140px] animate-pulse rounded-2xl border border-border-subtle bg-gradient-to-br from-bg-surface2/50 to-white shadow-sm"
           aria-hidden
         />
         <div
-          className="border-border-subtle bg-bg-surface2/80 h-[120px] animate-pulse rounded-xl border"
+          className="h-[120px] animate-pulse rounded-xl border border-border-subtle bg-bg-surface2/80"
           aria-hidden
         />
-        <OrgHubModulesStripSkeleton className="border-border-subtle rounded-xl border bg-white p-4 md:p-5 shadow-sm" />
+        <OrgHubModulesStripSkeleton className="rounded-xl border border-border-subtle bg-white p-4 shadow-sm md:p-5" />
       </div>
     ),
   }
@@ -112,12 +111,19 @@ export function OrganizationOverviewEmbed() {
     return typeof id === 'string' && id.trim() !== '' ? id : BRAND_ID;
   }, [orgProfile?.brand?.id]);
 
-  const { alerts, getHistory, getBlockLabel, dismissCertificate, dismissProfile, dismissTask } =
-    useAttentionAlerts({
-      attentionAlertsFromDashboard: dashboard?.attentionAlerts,
-      healthLoading,
-      brandId: attentionBrandId,
-    });
+  const {
+    alerts,
+    getHistory,
+    getBlockLabel,
+    dismissCertificate,
+    dismissProfile,
+    dismissTask,
+    dismissIntegrationIssue,
+  } = useAttentionAlerts({
+    attentionAlertsFromDashboard: dashboard?.attentionAlerts,
+    healthLoading,
+    brandId: attentionBrandId,
+  });
 
   const attentionHistory = useMemo(
     () =>
@@ -159,7 +165,9 @@ export function OrganizationOverviewEmbed() {
   const resolvedKey = searchParams?.get('resolved') ?? null;
   useEffect(() => {
     if (resolvedKey) {
-      setBlockedActivities((prev) => prev.filter((b) => activityKey(b) !== resolvedKey));
+      startTransition(() => {
+        setBlockedActivities((prev) => prev.filter((b) => activityKey(b) !== resolvedKey));
+      });
       router.replace(BRAND_PROFILE_ORG, { scroll: false });
     }
   }, [resolvedKey, router]);
@@ -207,6 +215,7 @@ export function OrganizationOverviewEmbed() {
       dismissCertificate={dismissCertificate}
       dismissProfile={dismissProfile}
       dismissTask={dismissTask}
+      dismissIntegrationIssue={dismissIntegrationIssue}
       filteredActivities={filteredActivities}
       globalHistory={globalHistory}
       activityKey={activityKey}

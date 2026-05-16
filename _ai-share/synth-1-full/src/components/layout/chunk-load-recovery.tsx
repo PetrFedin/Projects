@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { formatUnknownErrorForLog } from '@/lib/unknown-error-message';
 
 const STORAGE_KEY = 'syntha-chunk-reload-ts';
 
@@ -17,20 +18,8 @@ export function ChunkLoadRecovery() {
 
     const sleep = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
-    const rejectionReasonText = (reason: unknown): string => {
-      if (reason == null) return '';
-      if (typeof reason === 'string') return reason;
-      if (reason instanceof Error) return `${reason.name}: ${reason.message}`;
-      if (typeof reason === 'object') {
-        const o = reason as { message?: unknown; name?: unknown };
-        if (typeof o.message === 'string') return o.message;
-        if (typeof o.name === 'string' && o.name === 'ChunkLoadError') return String(o.message ?? '');
-      }
-      return '';
-    };
-
     const extractChunkUrl = (value: unknown): string | null => {
-      const msg = rejectionReasonText(value);
+      const msg = formatUnknownErrorForLog(value);
       const timeout = msg.match(/\(timeout:\s*(https?:\/\/[^)]+)\)/i);
       if (timeout?.[1]) return timeout[1];
       const err = msg.match(/error:\s*(https?:\/\/[^\s)]+)/i);
@@ -115,17 +104,17 @@ export function ChunkLoadRecovery() {
     };
 
     const onRejection = (e: PromiseRejectionEvent) => {
-      const msg = rejectionReasonText(e.reason);
+      const msg = formatUnknownErrorForLog(e.reason);
       if (!isChunkRelatedMessage(msg)) return;
       e.preventDefault();
       safeReload(extractChunkUrl(e.reason));
     };
 
     const onWindowError = (e: ErrorEvent) => {
-      const msg = `${e.message ?? ''} ${(e as ErrorEvent & { filename?: string }).filename ?? ''}`;
+      const fn = (e as ErrorEvent & { filename?: string }).filename ?? '';
+      const msg = `${formatUnknownErrorForLog(e.error) || (e.message ?? '')} ${fn}`.trim();
       if (!isChunkRelatedMessage(msg)) return;
-      const fn = (e as ErrorEvent & { filename?: string }).filename;
-      if (fn?.includes('/_next/static/chunks/')) {
+      if (fn.includes('/_next/static/chunks/')) {
         safeReload(fn);
         return;
       }

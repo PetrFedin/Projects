@@ -1,6 +1,6 @@
 import type { AuthRepository, UserProfile } from '../types';
 import { mockAuthRepository } from '../mock/auth';
-import { fastApiService } from '../../fastapi-service';
+import { getUnknownErrorName } from '@/lib/unknown-error-message';
 
 export class FastApiAuthRepository implements AuthRepository {
   private listeners: Set<(user: UserProfile | null) => void> = new Set();
@@ -52,8 +52,8 @@ export class FastApiAuthRepository implements AuthRepository {
         }
         console.log('FastAPI login success, token stored');
       }
-    } catch (err: any) {
-      if (err?.name === 'AbortError') {
+    } catch (err: unknown) {
+      if (getUnknownErrorName(err) === 'AbortError') {
         console.warn('FastAPI login timeout, using mock auth');
       } else {
         console.warn('FastAPI backend unreachable or login failed, using mock auth only', err);

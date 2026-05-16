@@ -10,6 +10,7 @@
 import { ai, withTokenAudit, truncateInput } from '@/ai/genkit';
 import { getProductDetails } from '@/ai/tools/get-product-details';
 import { searchProducts } from '@/ai/tools/search-products';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 import { z } from 'zod';
 
 const GenerateChatResponseInputSchema = z.object({
@@ -94,8 +95,8 @@ const generateChatResponseFlow = ai.defineFlow(
       const { output } = await prompt(input);
       if (!output) throw new Error('AI failed to generate a response');
       return output;
-    } catch (error: any) {
-      console.warn('Stylist AI failed, using local fallback:', error.message);
+    } catch (error: unknown) {
+      console.warn('Stylist AI failed, using local fallback:', getUnknownErrorMessage(error, 'unknown'));
 
       const query = input.query.toLowerCase();
       let response =

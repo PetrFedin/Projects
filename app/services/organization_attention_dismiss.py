@@ -16,6 +16,7 @@ ATTENTION_DISMISS_EMPTY: Dict[str, Any] = {
     "certificateIds": [],
     "profileIds": [],
     "taskIds": [],
+    "integrationIssueIds": [],
 }
 
 
@@ -25,6 +26,7 @@ class AttentionDismissMergeBody(BaseModel):
     certificate_ids: Optional[List[str]] = Field(default=None, alias="certificateIds")
     profile_ids: Optional[List[str]] = Field(default=None, alias="profileIds")
     task_ids: Optional[List[str]] = Field(default=None, alias="taskIds")
+    integration_issue_ids: Optional[List[str]] = Field(default=None, alias="integrationIssueIds")
 
 
 def _normalize_record(raw: Any) -> Dict[str, Any]:
@@ -33,7 +35,7 @@ def _normalize_record(raw: Any) -> Dict[str, Any]:
     if raw.get("v") != 1:
         return dict(ATTENTION_DISMISS_EMPTY)
     out = dict(ATTENTION_DISMISS_EMPTY)
-    for key in ("certificateIds", "profileIds", "taskIds"):
+    for key in ("certificateIds", "profileIds", "taskIds", "integrationIssueIds"):
         arr = raw.get(key)
         if isinstance(arr, list):
             out[key] = sorted({str(x) for x in arr if isinstance(x, str) and x.strip()})
@@ -69,6 +71,7 @@ async def merge_attention_dismiss_for_brand(
     cur["certificateIds"] = _merge_ids(cur["certificateIds"], body.certificate_ids)
     cur["profileIds"] = _merge_ids(cur["profileIds"], body.profile_ids)
     cur["taskIds"] = _merge_ids(cur["taskIds"], body.task_ids)
+    cur["integrationIssueIds"] = _merge_ids(cur["integrationIssueIds"], body.integration_issue_ids)
     org.attention_dismiss_json = cur
     flag_modified(org, "attention_dismiss_json")
     await db.commit()

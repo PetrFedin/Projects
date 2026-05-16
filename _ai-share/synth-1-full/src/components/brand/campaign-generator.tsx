@@ -51,7 +51,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import type { Product } from '@/lib/types';
-import { generateCampaignCreative } from '@/ai/flows/generate-campaign-creative';
+import { campaignCreativeClient } from '@/lib/ai-client/api';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
@@ -102,22 +102,31 @@ export default function CampaignGenerator({ products }: { products: Product[] })
     }
 
     try {
-      // Simulate AI process
-      setTimeout(async () => {
-        const result = await generateCampaignCreative({
-          productName: product.name,
-          productPrice: `₽${product.price.toLocaleString('ru-RU')}`,
-          productImageDataUri: product.images[0].url,
-          prompt: `${values.prompt} in ${values.style} style`,
-        });
-
-        if (result.creativeImageUrl) {
-          setGeneratedImage(result.creativeImageUrl);
-          setShowAnalytics(true);
-          toast({ title: 'Креатив успешно сгенерирован!' });
-        }
+      const imageUrl = product.images?.[0]?.url?.trim();
+      if (!imageUrl) {
+        toast({ variant: 'destructive', title: 'Нет изображения товара для генерации' });
         setIsGenerating(false);
-      }, 2000);
+        return;
+      }
+
+      const result = await campaignCreativeClient({
+        productName: product.name,
+        productPrice: `₽${product.price.toLocaleString('ru-RU')}`,
+        productImageDataUri: imageUrl,
+        prompt: `${values.prompt} in ${values.style} style`,
+      });
+
+      if (result.creativeImageUrl) {
+        setGeneratedImage(result.creativeImageUrl);
+        setShowAnalytics(true);
+        toast({ title: 'Креатив успешно сгенерирован!' });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Пустой ответ',
+          description: 'Сервер не вернул изображение креатива.',
+        });
+      }
     } catch (error) {
       console.error('Ошибка генерации кампании:', error);
       toast({
@@ -125,6 +134,7 @@ export default function CampaignGenerator({ products }: { products: Product[] })
         title: 'Ошибка генерации',
         description: 'Не удалось создать креатив. Пожалуйста, попробуйте снова.',
       });
+    } finally {
       setIsGenerating(false);
     }
   }

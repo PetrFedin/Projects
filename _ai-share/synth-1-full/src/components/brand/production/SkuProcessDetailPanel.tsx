@@ -4,18 +4,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { CollectionStep } from '@/lib/production/collection-steps-catalog';
 import type { ProductionFloorTabId } from '@/lib/production/floor-flow';
-import type {
-  CollectionSkuFlowDoc,
-  MatrixStepStatus,
-  SkuStageDetail,
-} from '@/lib/production/unified-sku-flow-store';
+import type { CollectionSkuFlowDoc, SkuStageDetail } from '@/lib/production/unified-sku-flow-store';
 import {
   evaluateStageDataFill,
   STAGE_FILL_EDIT_TAB_LABELS,
   type StageFillEditTab,
-  type StageFillEvaluationItem,
 } from '@/lib/production/stage-data-fill-spec';
-import { STAGES_SKU_PANEL_TAB_VALUES, type StagesSkuPanelTab } from '@/lib/production/stages-url';
+import type { StagesSkuPanelTab } from '@/lib/production/stages-url';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { Button } from '@/components/ui/button';
@@ -40,118 +35,22 @@ import {
 } from '@/components/ui/dialog';
 import { ExternalLink, LayoutPanelLeft, Lock, Plus, Send, Trash2 } from 'lucide-react';
 import { subscribeUnifiedSkuFlowSaved } from '@/lib/production/sku-flow-sync';
-
-const STAGE_FILL_TAB_ORDER = [...STAGES_SKU_PANEL_TAB_VALUES] as StageFillEditTab[];
-
-function catalogStepIndex(steps: readonly { id: string }[], stepId: string): number {
-  return steps.findIndex((s) => s.id === stepId);
-}
-
-/** Необязательные / с отложенной фиксацией / «не начато не блокирует» — можно вести контекст параллельно основному контуру. */
-function stepAllowsParallelContext(step: CollectionStep): boolean {
-  if (!step.mandatory) return true;
-  if (step.canSkipForNow) return true;
-  if (step.relaxesWhenNotStarted) return true;
-  return false;
-}
-
-function skuStepExpandable(
-  step: CollectionStep,
-  row: SkuStageDetail,
-  stepIdx: number,
-  curIdx: number
-): boolean {
-  const s = row.status;
-  const isFuture = stepIdx > curIdx;
-  const isPast = stepIdx < curIdx;
-  const isCurrent = stepIdx === curIdx;
-
-  if (s === 'done' || s === 'skipped') return true;
-  if (s === 'in_progress' || s === 'blocked') return true;
-  if (isPast) return true;
-  if (isCurrent) return true;
-  if (isFuture && stepAllowsParallelContext(step)) return true;
-  return false;
-}
-
-/** Ссылка в модуль этапа: пройдено, в работе / блок, текущий или прошлый узел каталога, либо параллельный допустимый этап. */
-function skuStepShowWorkLink(
-  step: CollectionStep,
-  row: SkuStageDetail,
-  stepIdx: number,
-  curIdx: number
-): boolean {
-  const s = row.status;
-  const isPast = stepIdx < curIdx;
-  const isCurrent = stepIdx === curIdx;
-  const isFuture = stepIdx > curIdx;
-
-  if (s === 'done' || s === 'skipped' || s === 'in_progress' || s === 'blocked') return true;
-  if (isPast || isCurrent) return true;
-  if (isFuture && stepAllowsParallelContext(step)) return true;
-  return false;
-}
-
-/** Как buildTransitionUrl в матрице/доске; для collectionScoped — только контекст коллекции (без stagesSku). */
-function workTabHrefForStep(
-  step: CollectionStep,
-  mergeModuleHref: (href: string, stepId: string, articleId?: string) => string,
-  floorHref: (tab: ProductionFloorTabId) => string,
-  mergeCollectionQuery?: (href: string, collectionQuery: string) => string,
-  collectionQuery?: string
-): string | null {
-  const collectionScoped =
-    Boolean(step.collectionScopedModuleNav) &&
-    mergeCollectionQuery &&
-    collectionQuery !== undefined;
-  if (collectionScoped) {
-    if (step.productionFloorTab)
-      return mergeCollectionQuery(floorHref(step.productionFloorTab), collectionQuery);
-    if (step.href) return mergeCollectionQuery(step.href, collectionQuery);
-    return null;
-  }
-  if (step.productionFloorTab) return mergeModuleHref(floorHref(step.productionFloorTab), step.id);
-  if (step.href) return mergeModuleHref(step.href, step.id);
-  return null;
-}
-
-function crossLinkHrefForStep(
-  step: CollectionStep,
-  href: string,
-  mergeModuleHref: (href: string, stepId: string, articleId?: string) => string,
-  mergeCollectionQuery?: (href: string, collectionQuery: string) => string,
-  collectionQuery?: string
-): string {
-  const collectionScoped =
-    Boolean(step.collectionScopedModuleNav) &&
-    mergeCollectionQuery &&
-    collectionQuery !== undefined;
-  if (collectionScoped) return mergeCollectionQuery(href, collectionQuery);
-  return mergeModuleHref(href, step.id);
-}
-
-const STATUS_OPTS: { v: MatrixStepStatus | 'blocked' | 'skipped'; l: string }[] = [
-  { v: 'not_started', l: 'Не начато' },
-  { v: 'in_progress', l: 'В работе' },
-  { v: 'done', l: 'Готово' },
-  { v: 'blocked', l: 'Заблокировано' },
-  { v: 'skipped', l: 'Пропуск' },
-];
+import {
+  catalogStepIndex,
+  chunkSkuBoardRows,
+  crossLinkHrefForStep,
+  skuStepExpandable,
+  skuStepShowWorkLink,
+  SKU_BOARD_COL_HEADER,
+  SKU_BOARD_STAGES_PER_ROW,
+  sortStageFillEvaluationItems,
+  STAGE_FILL_TAB_ORDER,
+  STATUS_OPTS,
+  workTabHrefForStep,
+} from '@/components/brand/production/sku-process-detail-panel-helpers';
 
 type DetailSection = 'process' | 'people' | 'costs' | 'outputs';
 type StageDialogTab = DetailSection | 'history' | 'files';
-
-/** Как на «Доске этапов» (оперативка): 4 колонки в ряд. */
-const SKU_BOARD_STAGES_PER_ROW = 4;
-
-/** Совпадает с шапкой колонки доски в StagesDependenciesTabContent */
-const SKU_BOARD_COL_HEADER = 'min-h-[92px]';
-
-function chunkSkuBoardRows<T>(arr: readonly T[], size: number): T[][] {
-  const out: T[][] = [];
-  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size) as T[]);
-  return out;
-}
 
 function StageDataFillBar({ percent, className }: { percent: number; className?: string }) {
   return (
@@ -726,18 +625,6 @@ function StageDetailEditorSection({
     default:
       return null;
   }
-}
-
-function sortStageFillEvaluationItems(
-  items: readonly StageFillEvaluationItem[]
-): StageFillEvaluationItem[] {
-  const rank = (it: StageFillEvaluationItem) => {
-    if (it.required && !it.filled) return 0;
-    if (it.required && it.filled) return 1;
-    if (!it.required && !it.filled) return 2;
-    return 3;
-  };
-  return [...items].sort((a, b) => rank(a) - rank(b));
 }
 
 function SkuStageDetailDialog({

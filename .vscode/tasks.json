@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "synth-1-full: smoke (contracts)",
+      "type": "shell",
+      "command": "npm run smoke --prefix _ai-share/synth-1-full",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: lint (errors only)",
+      "type": "shell",
+      "command": "npm run lint --prefix _ai-share/synth-1-full",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: typecheck (order subset)",
+      "type": "shell",
+      "command": "npm run typecheck:order-subset --prefix _ai-share/synth-1-full",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: e2e light",
+      "type": "shell",
+      "command": "npm run test:e2e:light --prefix _ai-share/synth-1-full",
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -3,8 +3,17 @@ import { useAuth } from '@/providers/auth-provider';
 import { useUIState } from '@/providers/ui-state';
 import { useUserOrders } from './use-user-orders';
 import { useUserActivity } from './use-user-activity';
-import { subDays, subMonths, subWeeks, startOfDay, endOfDay, isWithinInterval } from 'date-fns';
-import type { Order, Product } from '@/lib/types';
+import { subMonths, isWithinInterval } from 'date-fns';
+import type {
+  CartItem,
+  Lookboard,
+  Order,
+  SubscriptionPlan,
+  WishlistItem,
+} from '@/lib/types';
+
+/** Fields read from auth user for loyalty-related insights (extend here if logic grows). */
+type UserLoyaltyInsightSource = Readonly<{ loyaltyPlan?: SubscriptionPlan }>;
 
 export interface Insight {
   id: string;
@@ -88,13 +97,13 @@ export function useUserInsights() {
     allInsights.push(...generateWarningsAndOpportunities(orders, activity, user));
 
     // 6. Достижения и вехи
-    allInsights.push(...generateMilestones(orderStats, activity, user));
+    allInsights.push(...generateMilestones(orderStats, activity));
 
     return allInsights.sort((a, b) => {
       const priorityOrder = { high: 3, medium: 2, low: 1 };
       return priorityOrder[b.priority] - priorityOrder[a.priority];
     });
-  }, [user, orders, orderStats, activity, wishlist.length, cart.length, lookboards.length]);
+  }, [user, orders, orderStats, activity, wishlist, cart, lookboards]);
 
   const behaviorPatterns: BehaviorPattern[] = useMemo(() => {
     if (!user || orders.length === 0) return [];
@@ -134,9 +143,10 @@ export function useUserInsights() {
     const preds: Prediction[] = [];
 
     // Прогноз следующей покупки
+    const at = new Date();
     const avgDaysBetween = calculateAvgDaysBetweenOrders(orders);
-    const lastOrderDate = new Date(orders[0]?.createdAt || Date.now());
-    const daysSinceLastOrder = (Date.now() - lastOrderDate.getTime()) / (1000 * 60 * 60 * 24);
+    const lastOrderDate = new Date(orders[0]?.createdAt || at);
+    const daysSinceLastOrder = (at.getTime() - lastOrderDate.getTime()) / (1000 * 60 * 60 * 24);
     const predictedNextPurchase = new Date(
       lastOrderDate.getTime() + avgDaysBetween * 24 * 60 * 60 * 1000
     );
@@ -324,9 +334,9 @@ function analyzePurchasePatterns(
 
 function analyzeActivityPatterns(
   activity: ReturnType<typeof useUserActivity>,
-  wishlist: any[],
-  cart: any[],
-  lookboards: any[]
+  wishlist: WishlistItem[],
+  cart: CartItem[],
+  lookboards: Lookboard[]
 ): Insight[] {
   const insights: Insight[] = [];
 
@@ -368,7 +378,7 @@ function analyzeActivityPatterns(
 
 function analyzeTrends(
   orders: Order[],
-  stats: ReturnType<typeof useUserOrders>['stats']
+  _stats: ReturnType<typeof useUserOrders>['stats']
 ): Insight[] {
   const insights: Insight[] = [];
 
@@ -400,8 +410,8 @@ function analyzeTrends(
 function generateRecommendations(
   orders: Order[],
   activity: ReturnType<typeof useUserActivity>,
-  wishlist: any[],
-  cart: any[]
+  _wishlist: WishlistItem[],
+  _cart: CartItem[]
 ): Insight[] {
   const insights: Insight[] = [];
 
@@ -440,7 +450,7 @@ function generateRecommendations(
 function generateWarningsAndOpportunities(
   orders: Order[],
   activity: ReturnType<typeof useUserActivity>,
-  user: any
+  user: UserLoyaltyInsightSource
 ): Insight[] {
   const insights: Insight[] = [];
 
@@ -482,8 +492,7 @@ function generateWarningsAndOpportunities(
 
 function generateMilestones(
   stats: ReturnType<typeof useUserOrders>['stats'],
-  activity: ReturnType<typeof useUserActivity>,
-  user: any
+  _activity: ReturnType<typeof useUserActivity>
 ): Insight[] {
   const insights: Insight[] = [];
 
@@ -562,7 +571,7 @@ function analyzeCategoryPreferences(
     .sort((a, b) => b.count - a.count);
 }
 
-function analyzePriceSensitivity(orders: Order[]): string {
+function _analyzePriceSensitivity(orders: Order[]): string {
   if (orders.length === 0) return 'Средняя';
 
   const avgPrice = orders.reduce((sum, o) => sum + o.total, 0) / orders.length;
@@ -575,7 +584,7 @@ function analyzePriceSensitivity(orders: Order[]): string {
   return 'Средняя';
 }
 
-function analyzeSeasonality(orders: Order[]): { peakSeason: string; description: string } {
+function _analyzeSeasonality(orders: Order[]): { peakSeason: string; description: string } {
   // Упрощенный анализ - можно улучшить
   const monthCounts = new Map<number, number>();
 
@@ -598,7 +607,7 @@ function analyzeSeasonality(orders: Order[]): { peakSeason: string; description:
   };
 }
 
-function analyzeBrandLoyalty(orders: Order[]): string {
+function _analyzeBrandLoyalty(orders: Order[]): string {
   if (orders.length === 0) return 'Средняя';
 
   const brandCounts = new Map<string, number>();

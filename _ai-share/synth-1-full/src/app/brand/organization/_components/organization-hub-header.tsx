@@ -17,13 +17,14 @@ import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
 import type { ActivityPeriod } from './organization-overview-lib';
 import { formatActivityPeriod } from './organization-overview-lib';
+import type { OrgOverviewProfileView } from '@/lib/brand/organization-types';
 
 export type OrganizationHubHeaderProps = {
   healthLoading: boolean;
   healthError?: Error | null;
   partialLoadWarning?: string | null;
   onRetryHealth?: () => void;
-  orgProfile: any;
+  orgProfile: OrgOverviewProfileView | null;
   participantsCount: number;
   onlineCount: number;
   activityPeriod: ActivityPeriod;
@@ -46,14 +47,14 @@ export function OrganizationHubHeader({
   setCustomRange,
 }: OrganizationHubHeaderProps) {
   return (
-    <div className="border-border-subtle from-bg-surface2/50 rounded-2xl border bg-gradient-to-br to-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-border-subtle bg-gradient-to-br from-bg-surface2/50 to-white p-5 shadow-sm">
       <div className="flex flex-col gap-4">
         {!healthLoading && healthError && onRetryHealth ? (
           <div
             role="alert"
             className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-rose-200 bg-rose-50/90 px-3 py-2"
           >
-            <p className="text-[10px] font-medium leading-snug text-rose-900">
+            <p className="text-xs font-medium leading-snug text-rose-900">
               {healthError.message || 'Не удалось загрузить данные организации'}
             </p>
             <Button
@@ -72,7 +73,7 @@ export function OrganizationHubHeader({
             role="status"
             className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-amber-200 bg-amber-50/90 px-3 py-2"
           >
-            <p className="text-[10px] font-medium leading-snug text-amber-950">{partialLoadWarning}</p>
+            <p className="text-xs font-medium leading-snug text-amber-950">{partialLoadWarning}</p>
             <Button
               type="button"
               variant="outline"
@@ -86,8 +87,8 @@ export function OrganizationHubHeader({
         ) : null}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
-            <div className="bg-accent-primary/15 text-accent-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
-              <LayoutDashboard className="h-5 w-5" />
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent-primary/15 text-accent-primary">
+              <LayoutDashboard className="size-5" />
             </div>
             <Badge variant="outline" className="text-[9px]">
               Organization Hub
@@ -96,49 +97,49 @@ export function OrganizationHubHeader({
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             {healthLoading ? (
               <>
-                <div className="bg-bg-surface2 h-6 w-32 animate-pulse rounded" aria-hidden />
-                <span className="text-text-muted hidden sm:inline">•</span>
-                <div className="bg-bg-surface2 h-6 w-16 animate-pulse rounded" aria-hidden />
-                <span className="text-text-muted hidden sm:inline">•</span>
-                <div className="bg-bg-surface2 h-6 w-24 animate-pulse rounded" aria-hidden />
-                <span className="text-text-muted hidden sm:inline">•</span>
-                <div className="bg-bg-surface2 h-6 w-20 animate-pulse rounded" aria-hidden />
+                <div className="h-6 w-32 animate-pulse rounded bg-bg-surface2" aria-hidden />
+                <span className="hidden text-text-muted sm:inline">•</span>
+                <div className="h-6 w-16 animate-pulse rounded bg-bg-surface2" aria-hidden />
+                <span className="hidden text-text-muted sm:inline">•</span>
+                <div className="h-6 w-24 animate-pulse rounded bg-bg-surface2" aria-hidden />
+                <span className="hidden text-text-muted sm:inline">•</span>
+                <div className="h-6 w-20 animate-pulse rounded bg-bg-surface2" aria-hidden />
               </>
             ) : (
               <>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button
-                      className="text-text-secondary hover:text-accent-primary hover:bg-accent-primary/10 -mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-[10px] font-black transition-colors"
+                      className="-mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-xs font-black text-text-secondary transition-colors hover:bg-accent-primary/10 hover:text-accent-primary"
                       aria-label="Профиль организации"
                     >
-                      <Building2 className="h-3 w-3" />
+                      <Building2 className="size-3" />
                       {orgProfile?.brand?.name ?? 'Syntha HQ'}
                     </button>
                   </PopoverTrigger>
                   <PopoverContent
                     align="end"
-                    className="border-border-default w-72 rounded-xl p-4 shadow-xl"
+                    className="w-72 rounded-xl border-border-default p-4 shadow-xl"
                   >
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
-                        <div className="bg-accent-primary/15 flex h-8 w-8 items-center justify-center rounded-lg">
-                          <Building2 className="text-accent-primary h-4 w-4" />
+                        <div className="flex size-8 items-center justify-center rounded-lg bg-accent-primary/15">
+                          <Building2 className="size-4 text-accent-primary" />
                         </div>
                         <div>
-                          <h4 className="text-text-primary text-[10px] font-black uppercase">
+                          <h4 className="text-xs font-black uppercase text-text-primary">
                             {orgProfile?.brand?.name ?? 'Syntha HQ'}
                           </h4>
-                          <p className="text-text-secondary text-[8px]">Организация</p>
+                          <p className="text-[8px] text-text-secondary">Организация</p>
                         </div>
                       </div>
-                      <div className="text-text-secondary space-y-1.5 text-[9px]">
+                      <div className="space-y-1.5 text-[9px] text-text-secondary">
                         <p>
-                          <span className="text-text-secondary font-bold">Юр. лицо:</span>{' '}
+                          <span className="font-bold text-text-secondary">Юр. лицо:</span>{' '}
                           {orgProfile?.legal?.legal_name ?? 'ООО «Синта Фэшн»'}
                         </p>
                         <p>
-                          <span className="text-text-secondary font-bold">ИНН:</span>{' '}
+                          <span className="font-bold text-text-secondary">ИНН:</span>{' '}
                           {orgProfile?.legal?.inn ?? '7701234567'}
                         </p>
                       </div>
@@ -152,13 +153,13 @@ export function OrganizationHubHeader({
                           href={ROUTES.brand.home}
                           className="flex items-center justify-center gap-1.5"
                         >
-                          Профиль бренда <ExternalLink className="h-3 w-3" />
+                          Профиль бренда <ExternalLink className="size-3" />
                         </Link>
                       </Button>
                     </div>
                   </PopoverContent>
                 </Popover>
-                <span className="text-text-muted hidden sm:inline">•</span>
+                <span className="hidden text-text-muted sm:inline">•</span>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button
@@ -175,13 +176,13 @@ export function OrganizationHubHeader({
                   </PopoverTrigger>
                   <PopoverContent
                     align="end"
-                    className="border-border-default w-72 rounded-xl p-4 shadow-xl"
+                    className="w-72 rounded-xl border-border-default p-4 shadow-xl"
                   >
                     <div className="space-y-3">
-                      <h4 className="text-text-primary text-[10px] font-black uppercase">
+                      <h4 className="text-xs font-black uppercase text-text-primary">
                         Elite Plan
                       </h4>
-                      <p className="text-text-secondary text-[8px]">Подписка</p>
+                      <p className="text-[8px] text-text-secondary">Подписка</p>
                       <Button
                         asChild
                         size="sm"
@@ -192,28 +193,28 @@ export function OrganizationHubHeader({
                           href={ROUTES.brand.subscription}
                           className="flex items-center justify-center gap-1.5"
                         >
-                          Подписка и биллинг <ExternalLink className="h-3 w-3" />
+                          Подписка и биллинг <ExternalLink className="size-3" />
                         </Link>
                       </Button>
                     </div>
                   </PopoverContent>
                 </Popover>
-                <span className="text-text-muted hidden sm:inline">•</span>
+                <span className="hidden text-text-muted sm:inline">•</span>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button
-                      className="text-text-secondary hover:text-accent-primary hover:bg-accent-primary/10 -mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-[10px] font-black"
+                      className="-mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-xs font-black text-text-secondary hover:bg-accent-primary/10 hover:text-accent-primary"
                       aria-label={`Команда: ${participantsCount} участников`}
                     >
-                      <Users className="h-3 w-3" /> {participantsCount} участников
+                      <Users className="size-3" /> {participantsCount} участников
                     </button>
                   </PopoverTrigger>
                   <PopoverContent
                     align="end"
-                    className="border-border-default w-72 rounded-xl p-4 shadow-xl"
+                    className="w-72 rounded-xl border-border-default p-4 shadow-xl"
                   >
-                    <h4 className="text-text-primary text-[10px] font-black uppercase">Команда</h4>
-                    <p className="text-text-secondary text-[8px]">{participantsCount} участников</p>
+                    <h4 className="text-xs font-black uppercase text-text-primary">Команда</h4>
+                    <p className="text-[8px] text-text-secondary">{participantsCount} участников</p>
                     <Button
                       asChild
                       size="sm"
@@ -224,30 +225,30 @@ export function OrganizationHubHeader({
                         href={ROUTES.brand.team}
                         className="flex items-center justify-center gap-1.5"
                       >
-                        Команда и активность <ExternalLink className="h-3 w-3" />
+                        Команда и активность <ExternalLink className="size-3" />
                       </Link>
                     </Button>
                   </PopoverContent>
                 </Popover>
-                <span className="text-text-muted hidden sm:inline">•</span>
+                <span className="hidden text-text-muted sm:inline">•</span>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button
-                      className="-mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-[10px] font-black text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700"
+                      className="-mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-xs font-black text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700"
                       aria-label={`Сейчас онлайн: ${onlineCount} из ${participantsCount}`}
                     >
-                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />{' '}
+                      <span className="size-1.5 animate-pulse rounded-full bg-emerald-500" />{' '}
                       {onlineCount} онлайн
                     </button>
                   </PopoverTrigger>
                   <PopoverContent
                     align="end"
-                    className="border-border-default w-72 rounded-xl p-4 shadow-xl"
+                    className="w-72 rounded-xl border-border-default p-4 shadow-xl"
                   >
-                    <h4 className="text-text-primary text-[10px] font-black uppercase">
+                    <h4 className="text-xs font-black uppercase text-text-primary">
                       Сейчас онлайн
                     </h4>
-                    <p className="text-text-secondary text-[8px]">
+                    <p className="text-[8px] text-text-secondary">
                       {onlineCount} из {participantsCount} в системе
                     </p>
                   </PopoverContent>
@@ -259,16 +260,16 @@ export function OrganizationHubHeader({
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-0.5">
             <div className="flex items-center gap-2">
-              <div className="bg-accent-primary h-3.5 w-1 shrink-0 rounded-full" />
-              <h2 className="text-text-muted text-[10px] font-black uppercase tracking-widest">
+              <div className="h-3.5 w-1 shrink-0 rounded-full bg-accent-primary" />
+              <h2 className="text-xs font-black uppercase tracking-widest text-text-muted">
                 Организация
               </h2>
             </div>
-            <h3 className="text-text-primary text-sm font-black uppercase">Центр управления</h3>
-            <div className="text-text-muted flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest">
+            <h3 className="text-sm font-black uppercase text-text-primary">Центр управления</h3>
+            <div className="flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-text-muted">
               <Link
                 href={ROUTES.brand.strategyOverview}
-                className="hover:text-accent-primary transition-colors"
+                className="transition-colors hover:text-accent-primary"
               >
                 Обзор
               </Link>
@@ -279,16 +280,16 @@ export function OrganizationHubHeader({
           <div className="flex shrink-0 flex-wrap items-center gap-2">
             <span
               id="org-hub-period-heading"
-              className="text-text-muted text-[9px] font-bold uppercase"
+              className="text-[9px] font-bold uppercase text-text-muted"
             >
               Период:
               {typeof activityPeriod === 'object' && (
-                <span className="text-text-secondary ml-1 font-normal normal-case">
+                <span className="ml-1 font-normal normal-case text-text-secondary">
                   {formatActivityPeriod(activityPeriod)}
                 </span>
               )}
             </span>
-            <div className="bg-bg-surface2 border-border-default flex h-[26px] items-center gap-1 rounded-[4px] border p-0.5 shadow-sm">
+            <div className="flex h-[26px] items-center gap-1 rounded-md border border-border-default bg-bg-surface2 p-0.5 shadow-sm">
               <div
                 role="radiogroup"
                 aria-labelledby="org-hub-period-heading"
@@ -303,10 +304,10 @@ export function OrganizationHubHeader({
                     onClick={() => setActivityPeriod(p)}
                     aria-label={p === '7d' ? 'Период: 7 дней' : 'Период: 30 дней'}
                     className={cn(
-                      'flex h-[20px] min-h-[20px] items-center rounded-[2px] px-2.5 text-[9px] font-black uppercase tracking-widest transition-all',
+                      'flex h-[20px] min-h-[20px] items-center rounded-sm px-2.5 text-[9px] font-black uppercase tracking-widest transition-all',
                       activityPeriod === p
-                        ? 'text-text-primary ring-border-default bg-white shadow-sm ring-1'
-                        : 'text-text-muted hover:text-text-secondary hover:bg-white/50'
+                        ? 'bg-white text-text-primary shadow-sm ring-1 ring-border-default'
+                        : 'text-text-muted hover:bg-white/50 hover:text-text-secondary'
                     )}
                   >
                     {p === '7d' ? '7 дней' : '30 дней'}
@@ -319,19 +320,19 @@ export function OrganizationHubHeader({
                     type="button"
                     aria-label="Произвольный период: открыть календарь"
                     className={cn(
-                      'flex h-[20px] min-h-[20px] items-center gap-1 rounded-[2px] px-2.5 text-[9px] font-black uppercase tracking-widest transition-all',
+                      'flex h-[20px] min-h-[20px] items-center gap-1 rounded-sm px-2.5 text-[9px] font-black uppercase tracking-widest transition-all',
                       typeof activityPeriod === 'object'
-                        ? 'text-text-primary ring-border-default bg-white shadow-sm ring-1'
-                        : 'text-text-muted hover:text-text-secondary hover:bg-white/50'
+                        ? 'bg-white text-text-primary shadow-sm ring-1 ring-border-default'
+                        : 'text-text-muted hover:bg-white/50 hover:text-text-secondary'
                     )}
                   >
-                    <CalendarIcon className="h-3 w-3" aria-hidden /> Календарь
+                    <CalendarIcon className="size-3" aria-hidden /> Календарь
                   </button>
                 </PopoverTrigger>
                 <PopoverContent
                   align="end"
                   aria-label="Календарь: выбор диапазона дат для активности и модулей"
-                  className="border-border-default w-auto rounded-xl p-0 shadow-xl"
+                  className="w-auto rounded-xl border-border-default p-0 shadow-xl"
                 >
                   <CalendarComponent
                     mode="range"

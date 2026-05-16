@@ -281,7 +281,7 @@ export default function WeeklyLooks({
         </div>
       )}
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {activeTab === 'top' ? (
           <motion.div
             key="winner"
@@ -547,6 +547,8 @@ export default function WeeklyLooks({
                     src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=2000"
                     alt="Challenge Rewards"
                     fill
+                    priority
+                    sizes="(max-width: 1280px) 100vw, 1280px"
                     className="object-cover"
                   />
                 </div>

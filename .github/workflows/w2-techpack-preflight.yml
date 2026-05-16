@@ -1,0 +1,45 @@
+name: w2-techpack preflight
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - '_ai-share/synth-1-full/scripts/w2-techpack-preflight.mjs'
+      - '_ai-share/synth-1-full/scripts/apply-w2-techpack-index.mjs'
+      - '_ai-share/synth-1-full/env.w2-techpack.example'
+    branches: [ main, master ]
+
+defaults:
+  run:
+    working-directory: _ai-share/synth-1-full
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Preflight strict
+        env:
+          W2_METRICS_S3_BUCKET: ${{ secrets.W2_METRICS_S3_BUCKET }}
+          W2_METRICS_S3_REGION: ${{ secrets.W2_METRICS_S3_REGION }}
+          W2_METRICS_S3_ACCESS_KEY_ID: ${{ secrets.W2_METRICS_S3_ACCESS_KEY_ID }}
+          W2_METRICS_S3_SECRET_ACCESS_KEY: ${{ secrets.W2_METRICS_S3_SECRET_ACCESS_KEY }}
+          W2_METRICS_S3_PREFIX: ${{ secrets.W2_METRICS_S3_PREFIX }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          W2_TECHPACK_API_SECRET: ${{ secrets.W2_TECHPACK_API_SECRET }}
+          W2_TECHPACK_FACTORY_READ_SECRET: ${{ secrets.W2_TECHPACK_FACTORY_READ_SECRET }}
+          W2_TECHPACK_ALLOW_SAME_ORIGIN_BROWSER: ${{ secrets.W2_TECHPACK_ALLOW_SAME_ORIGIN_BROWSER }}
+          W2_TECHPACK_REMOTE: '1'
+          NODE_ENV: production
+        run: |
+          if [ -z "$W2_METRICS_S3_BUCKET" ] || [ -z "$DATABASE_URL" ] || [ -z "$W2_TECHPACK_API_SECRET" ]; then
+            echo "Skip: add repository secrets (W2_METRICS_*, DATABASE_URL, W2_TECHPACK_API_SECRET)"
+            exit 0
+          fi
+          npm run w2:techpack:preflight:strict

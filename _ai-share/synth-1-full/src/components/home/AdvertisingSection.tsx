@@ -121,7 +121,7 @@ export function AdvertisingSection() {
     <section className="group/section relative overflow-hidden bg-white pb-3 pt-6">
       <div className="container relative mx-auto px-4">
         <div className="group/card relative flex h-[500px] items-center overflow-hidden rounded-xl border border-slate-100 bg-[#fcfcfc] shadow-2xl shadow-slate-200/50">
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             <motion.div
               key={currentAdIndex}
               initial={{ opacity: 0 }}
@@ -133,7 +133,8 @@ export function AdvertisingSection() {
               <img
                 src={currentAd.imageUrl}
                 alt={currentAd.title}
-                className="duration-[30s] h-full w-full object-cover transition-transform group-hover/card:scale-105"
+                style={{ transitionDuration: '30s' }}
+                className="h-full w-full object-cover transition-transform group-hover/card:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
             </motion.div>

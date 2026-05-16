@@ -7,6 +7,15 @@ import { History, User, Clock, Loader2, ChevronRight } from 'lucide-react';
 import { fastApiService } from '@/lib/fastapi-service';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/providers/auth-provider';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
+
+type AuditTrailEntry = {
+  id: string;
+  action: string;
+  created_at: string;
+  user_id: string;
+  changes_json?: Record<string, unknown> | null;
+};
 
 export default function AuditTrailList({
   entityType,
@@ -15,7 +24,7 @@ export default function AuditTrailList({
   entityType: string;
   entityId: string;
 }) {
-  const [auditLog, setAuditLog] = useState<any[]>([]);
+  const [auditLog, setAuditLog] = useState<AuditTrailEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { profile, loading: authLoading } = useAuth();
 
@@ -32,10 +41,10 @@ export default function AuditTrailList({
         setIsLoading(true);
         const response = await fastApiService.getAuditTrail(entityType, entityId);
         const data = response.data || [];
-        setAuditLog(Array.isArray(data) ? data : []);
-      } catch (error: any) {
+        setAuditLog(Array.isArray(data) ? (data as AuditTrailEntry[]) : []);
+      } catch (error: unknown) {
         console.error('Failed to load audit trail:', error);
-        if (error.message?.includes('Not authenticated')) {
+        if (getUnknownErrorMessage(error, '').includes('Not authenticated')) {
           setAuditLog([]);
         }
       } finally {
@@ -67,7 +76,7 @@ export default function AuditTrailList({
         </div>
       ) : auditLog.length > 0 ? (
         <div className="border-border-subtle relative ml-4 space-y-4 border-l-2 pl-8">
-          {auditLog.map((entry, i) => (
+          {auditLog.map((entry) => (
             <div key={entry.id} className="relative">
               <div className="border-accent-primary absolute -left-[41px] top-0 z-10 h-5 w-5 rounded-full border-4 bg-white shadow-sm" />
               <div className="space-y-2">

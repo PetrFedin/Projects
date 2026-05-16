@@ -15,11 +15,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Lock, Mail } from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
+import { SYNTH_MOCK_KNOWN_PASSWORD } from '@/lib/auth/dev-auth-bootstrap';
 import Link from 'next/link';
 
 const loginSchema = z.object({
@@ -60,7 +62,7 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: 'test@example.com',
-      password: 'password123',
+      password: SYNTH_MOCK_KNOWN_PASSWORD,
     },
   });
 
@@ -84,7 +86,7 @@ export default function LoginPage() {
     } catch (error) {
       toast({
         title: 'Ошибка входа',
-        description: error instanceof Error ? error.message : 'Неверный email или пароль',
+        description: getUnknownErrorMessage(error, 'Неверный email или пароль'),
         variant: 'destructive',
       });
     }
@@ -101,7 +103,7 @@ export default function LoginPage() {
     } catch (error) {
       toast({
         title: 'Ошибка регистрации',
-        description: error instanceof Error ? error.message : 'Не удалось зарегистрироваться',
+        description: getUnknownErrorMessage(error, 'Не удалось зарегистрироваться'),
         variant: 'destructive',
       });
     }

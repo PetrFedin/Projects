@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { AiVoiceAssistant } from '@/components/admin/voice-assistant';
 import { GlobalPulse } from '@/components/global/global-pulse';
 import { cn } from '@/lib/utils';
+import { isBrandNavInvestorSpineEnabled, applyBrandInvestorSpineClusterOverrides } from '@/lib/cabinet-nav-env';
 import { BRAND_SIDEBAR_W, cabinetHubLayout, cabinetSidebarLayout } from '@/lib/ui/cabinet-surface';
 import {
   brandNavGroups,
@@ -16,8 +17,12 @@ import {
   getSecondaryNavItems,
 } from '@/lib/data/brand-navigation';
 import { canSeeNavGroup } from '@/lib/data/profile-page-features';
+import {
+  getWorkshop2ArticleBreadcrumbLabel,
+  subscribeWorkshop2ArticleBreadcrumb,
+} from '@/lib/production/w2-article-breadcrumb-override';
 import { useRbac } from '@/hooks/useRbac';
-import { Store, Activity, FileText, Briefcase, Rocket } from 'lucide-react';
+import { Store, Activity, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { fastApiService } from '@/lib/fastapi-service';
 import { USE_FASTAPI } from '@/lib/syntha-api-mode';
@@ -51,7 +56,7 @@ import { SearchBar } from '@/components/search/SearchBar';
 import { BrandSidebar } from '@/components/brand/BrandSidebar';
 import { SidebarOrgHeader } from '@/components/brand/SidebarOrgHeader';
 import { SidebarWidget } from '@/components/brand/SidebarWidget';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { BrandSectionActionsProvider } from '@/providers/brand-section-actions';
 import { BrandSectionHeaderBlock } from '@/components/brand/BrandSectionHeaderBlock';
 import { ProductionDataBootstrap } from '@/providers/production-data-bootstrap';
@@ -61,11 +66,10 @@ import {
   CabinetHubMain,
   CabinetHubSectionBar,
   CabinetHubTitleRow,
+  type BreadcrumbItem,
 } from '@/components/layout/cabinet-hub-chrome';
-import { cabinetRoleLabelRu } from '@/lib/ui/cabinet-role-labels';
-
-export const navGroups = brandNavGroups;
-export const allNavLinks = allBrandNavLinks;
+const navGroups = brandNavGroups;
+const allNavLinks = allBrandNavLinks;
 
 /** Плоская ссылка навигации для сопоставления с pathname (хлебные крошки, «Недавние»). */
 type BrandFlatNavLink = {
@@ -155,6 +159,29 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
   const activeTab = getCurrentTab();
   const activeLinkForRecent = brandFlatNavLinks.find((l) => l.value === activeTab);
   const hubPath = (pathname || '').replace(/\/$/, '');
+  const w2ArticlePath = /^\/brand\/production\/workshop2\/c\/[^/]+\/a\/[^/]+/.test(hubPath);
+  const [w2ArticleBreadcrumb, setW2ArticleBreadcrumb] = useState<string | null>(null);
+  useEffect(() => {
+    if (!w2ArticlePath) {
+      setW2ArticleBreadcrumb(null);
+      return;
+    }
+    const up = () => setW2ArticleBreadcrumb(getWorkshop2ArticleBreadcrumbLabel());
+    up();
+    return subscribeWorkshop2ArticleBreadcrumb(up);
+  }, [w2ArticlePath, hubPath]);
+  const hubBreadcrumbRow = useMemo((): BreadcrumbItem[] | null => {
+    if (w2ArticlePath) {
+      const base: BreadcrumbItem[] = [
+        'Аккаунт',
+        'Кабинет бренда',
+        { label: 'Разработка', href: '/brand/production/workshop2' },
+      ];
+      if (w2ArticleBreadcrumb) base.push(w2ArticleBreadcrumb);
+      return base;
+    }
+    return null;
+  }, [w2ArticlePath, w2ArticleBreadcrumb]);
   const hubBreadcrumbLeaf =
     hubPath === '/brand' || hubPath === '/brand/profile' ? 'Профиль' : activeLinkForRecent?.label || 'Раздел';
   React.useEffect(() => {
@@ -175,6 +202,11 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
     }
   }, [pathname, activeTab, addRecent]);
   const { businessMode, setBusinessMode } = useUIState();
+
+  /** Кабинет бренда в этом контуре — только B2B; переключатель скрыт. */
+  React.useEffect(() => {
+    setBusinessMode('b2b');
+  }, [setBusinessMode]);
   const { loading: authLoading } = useAuth();
   const [serverKpis, setServerKpis] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
@@ -435,13 +467,22 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
   }, [kpiData.length]);
 
   const { role, can } = useRbac();
-  const filteredFull = navGroups
-    .filter(
-      (group) =>
-        (group as { scope?: string }).scope === 'shared' ||
-        (group as { scope?: string }).scope === businessMode
-    )
-    .filter((group) => canSeeNavGroup(role, group.id, can));
+  const filteredFull = useMemo(() => {
+    let groupsToFilter = navGroups;
+
+    if (isBrandNavInvestorSpineEnabled()) {
+      groupsToFilter = applyBrandInvestorSpineClusterOverrides(navGroups);
+    }
+
+    return groupsToFilter
+      .filter(
+        (group) =>
+          (group as { scope?: string }).scope === 'shared' ||
+          (group as { scope?: string }).scope === businessMode
+      )
+      .filter((group) => canSeeNavGroup(role, group.id, can));
+  }, [navGroups, businessMode, role, can]);
+
   const filteredNavGroups = getPrimaryNavGroups(filteredFull, () => true);
   const secondaryNavItems = getSecondaryNavItems(filteredFull, () => true);
 
@@ -502,9 +543,9 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
               <SidebarOrgHeader />
             </div>
             <div className="border-border-subtle shrink-0 border-b px-3 pb-2">
-              <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">
+              <SheetTitle className="text-text-muted text-[9px] font-black uppercase tracking-widest">
                 Навигация
-              </p>
+              </SheetTitle>
             </div>
             <div className="min-h-0 flex-1 overflow-y-auto">
               <BrandSidebar
@@ -520,9 +561,9 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
 
         {/* Основная область */}
         <div className={cn('min-w-0 flex-1', cabinetSidebarLayout.mainPaddingLeftBrand)}>
-          {profile?.navigation && Array.isArray(profile.navigation) && (
-            <GlobalHubNav navigation={profile.navigation} />
-          )}
+          {profile?.navigation && Array.isArray(profile.navigation) ? (
+            <GlobalHubNav navigation={profile.navigation as any[]} />
+          ) : null}
           <BrandSectionActionsProvider>
             <CabinetHubMain className="space-y-2 pt-2">
               <CabinetHubTitleRow
@@ -531,19 +572,6 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                 hubIcon={Store}
                 iconTileClassName="bg-text-primary text-text-inverse shadow-xl shadow-black/15 ring-1 ring-border-subtle"
                 title="Бренд-центр"
-                badges={
-                  <>
-                    <Badge className="bg-accent-primary/10 text-accent-primary hover:bg-accent-primary/15 hidden shrink-0 rounded-sm border-none px-2 py-0.5 text-[8px] font-black tracking-widest sm:inline-flex">
-                      Центр управления
-                    </Badge>
-                    <Badge
-                      variant="outline"
-                      className="border-border-subtle text-text-secondary shrink-0 text-[8px] font-bold"
-                    >
-                      {cabinetRoleLabelRu(role)}
-                    </Badge>
-                  </>
-                }
                 trailing={
                   <div className="flex w-full min-w-0 shrink-0 flex-wrap items-center justify-end gap-2 sm:w-auto">
                     {/* Live Intelligence + переключающиеся KPI — одна линия до поиска */}
@@ -560,7 +588,7 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                             BRAND_SIDEBAR_W
                           )}
                         >
-                          <AnimatePresence mode="wait">
+                          <AnimatePresence>
                             <motion.div
                               key={currentKpiIndex}
                               initial={{ y: 20, opacity: 0 }}
@@ -808,42 +836,23 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                       </DropdownMenu>
                     </div>
                     <SearchBar />
-                    {/* Mode Switcher */}
-                    <div className="border-border-subtle bg-bg-surface2 flex items-center rounded-md border p-0.5 shadow-inner">
-                      <button
-                        onClick={() => setBusinessMode('b2b')}
-                        className={cn(
-                          'flex items-center gap-2 rounded-sm px-4 py-2 text-[11px] font-black uppercase tracking-widest transition-all duration-300',
-                          businessMode === 'b2b'
-                            ? 'bg-bg-surface text-accent-primary ring-border-subtle shadow-md ring-1'
-                            : 'text-text-muted hover:text-text-secondary'
-                        )}
-                      >
-                        <Briefcase className="size-3.5" /> Режим B2B
-                      </button>
-                      <button
-                        onClick={() => setBusinessMode('b2c')}
-                        className={cn(
-                          'flex items-center gap-2 rounded-sm px-4 py-2 text-[11px] font-black uppercase tracking-widest transition-all duration-300',
-                          businessMode === 'b2c'
-                            ? 'bg-bg-surface ring-border-subtle text-rose-600 shadow-md ring-1'
-                            : 'text-text-muted hover:text-text-secondary'
-                        )}
-                      >
-                        <Rocket className="size-3.5" /> Режим B2C
-                      </button>
-                    </div>
                   </div>
                 }
               />
 
               <CabinetHubSectionBar
                 accentClassName="bg-accent-primary"
-                breadcrumbItems={['Аккаунт', 'Кабинет бренда', hubBreadcrumbLeaf]}
-                sectionTitle={hubBreadcrumbLeaf}
+                breadcrumbItems={
+                  hubBreadcrumbRow ?? (['Аккаунт', 'Кабинет бренда', hubBreadcrumbLeaf] as const)
+                }
+                sectionTitle={
+                  (pathname || '').startsWith('/brand/production/workshop2')
+                    ? undefined
+                    : hubBreadcrumbLeaf
+                }
                 trailing={
                   <>
-                    {profile?.alerts?.map((alert: any, idx: number) => (
+                    {(Array.isArray(profile?.alerts) ? profile.alerts : []).map((alert: any, idx: number) => (
                       <Badge
                         key={idx}
                         variant="outline"
