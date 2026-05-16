@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,6 +23,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import type { Workshop2SewingContractorsPayload, SewingPlanPartnerRow } from '@/lib/production/workshop2-sewing-plan-reference-types';
 
 const SUB_DEFAULT: { v: 1; orders: SubcontractOrder[] } = {
   v: 1,
@@ -65,6 +67,18 @@ const statusLabels: Record<SubcontractOrder['status'], string> = {
 export default function SubcontractorPage() {
   const { toast } = useToast();
   const { data, setData, save, hydrated } = useFloorTabDraftState('subcontractor', SUB_DEFAULT);
+  const [contractors, setContractors] = useState<SewingPlanPartnerRow[]>([]);
+
+  useEffect(() => {
+    fetch('/api/brand/sewing-contractors')
+      .then((res) => res.json())
+      .then((payload: Workshop2SewingContractorsPayload) => {
+        if (payload?.partners) {
+          setContractors(payload.partners);
+        }
+      })
+      .catch((err) => console.error('Failed to fetch contractors', err));
+  }, []);
 
   const setOrder = (index: number, patch: Partial<SubcontractOrder>) => {
     setData((prev) => {
@@ -120,14 +134,24 @@ export default function SubcontractorPage() {
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
-            {data.orders.map((o, i) => (
+            {data.orders.map((o, i) => {
+              const contractor = contractors.find((c) => c.label === o.subcontractorName || c.id === o.subcontractorId);
+              return (
               <li
                 key={o.id}
                 className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
               >
                 <div>
-                  <p className="font-medium">{o.subcontractorName}</p>
-                  <p className="text-text-secondary text-xs">
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium">{o.subcontractorName}</p>
+                    {contractor?.capabilities?.map((cap) => (
+                      <Badge key={cap} variant="secondary" className="text-[10px] h-5 px-1.5">{cap}</Badge>
+                    ))}
+                    {contractor?.machines?.map((mac) => (
+                      <Badge key={mac} variant="outline" className="text-[10px] h-5 px-1.5">{mac}</Badge>
+                    ))}
+                  </div>
+                  <p className="text-text-secondary text-xs mt-1">
                     {o.workTypeLabel} · <AcronymWithTooltip abbr="PO" /> {o.orderId} · {o.quantity}{' '}
                     {o.unit}
                   </p>
@@ -151,7 +175,7 @@ export default function SubcontractorPage() {
                   </SelectContent>
                 </Select>
               </li>
-            ))}
+            )})}
           </ul>
         </CardContent>
       </Card>
