@@ -1,0 +1,222 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PhysicalTestLog, TestCategory } from "@/lib/types/material-testing";
+import { CheckCircle2, XCircle, Plus, FlaskConical } from "lucide-react";
+
+interface Workshop2MaterialTestingLogsPanelProps {
+  materialId: string;
+}
+
+export function Workshop2MaterialTestingLogsPanel({ materialId }: Workshop2MaterialTestingLogsPanelProps) {
+  const [logs, setLogs] = useState<PhysicalTestLog[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isAdding, setIsAdding] = useState(false);
+  
+  // Form state
+  const [category, setCategory] = useState<TestCategory>("shrinkage");
+  const [resultValue, setResultValue] = useState("");
+  const [isPass, setIsPass] = useState<"true" | "false">("true");
+  const [notes, setNotes] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    fetchLogs();
+  }, [materialId]);
+
+  const fetchLogs = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`/api/brand/workshop2/materials/testing?materialId=${materialId}`);
+      if (!response.ok) throw new Error("Failed to fetch testing logs");
+      const data = await response.json();
+      setLogs(data.testingLogs);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!resultValue.trim()) return;
+
+    try {
+      setIsSubmitting(true);
+      const response = await fetch("/api/brand/workshop2/materials/testing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          materialId,
+          testCategory: category,
+          resultValue,
+          isPass: isPass === "true",
+          notes: notes.trim() || undefined,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to add test log");
+      
+      const data = await response.json();
+      setLogs([data.testingLog, ...logs]);
+      
+      // Reset form
+      setResultValue("");
+      setNotes("");
+      setIsAdding(false);
+    } catch (err) {
+      console.error("Error adding test log:", err);
+      // Could add toast notification here
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Physical Testing</CardTitle>
+          <CardDescription>Loading test logs...</CardDescription>
+        </CardHeader>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Physical Testing</CardTitle>
+          <CardDescription className="text-red-500">{error}</CardDescription>
+        </CardHeader>
+      </Card>
+    );
+  }
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle className="flex items-center gap-2">
+            <FlaskConical className="w-5 h-5" />
+            Physical Testing
+          </CardTitle>
+          <CardDescription>Log and review material quality tests.</CardDescription>
+        </div>
+        <Button onClick={() => setIsAdding(!isAdding)} variant={isAdding ? "outline" : "default"} size="sm">
+          {isAdding ? "Cancel" : <><Plus className="w-4 h-4 mr-1" /> Log Test</>}
+        </Button>
+      </CardHeader>
+      <CardContent>
+        {isAdding && (
+          <form onSubmit={handleSubmit} className="bg-muted/50 p-4 rounded-lg mb-6 space-y-4 border">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="category">Test Category</Label>
+                <Select value={category} onValueChange={(v) => setCategory(v as TestCategory)}>
+                  <SelectTrigger id="category">
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="shrinkage">Shrinkage</SelectItem>
+                    <SelectItem value="pilling">Pilling</SelectItem>
+                    <SelectItem value="colorfastness">Colorfastness</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="result">Result Value</Label>
+                <Input 
+                  id="result" 
+                  value={resultValue} 
+                  onChange={(e) => setResultValue(e.target.value)} 
+                  placeholder="e.g., -2% warp, Grade 4"
+                  required
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="status">Pass / Fail</Label>
+                <Select value={isPass} onValueChange={(v: "true" | "false") => setIsPass(v)}>
+                  <SelectTrigger id="status">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="true">Pass</SelectItem>
+                    <SelectItem value="false">Fail</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="notes">Notes (Optional)</Label>
+              <Textarea 
+                id="notes" 
+                value={notes} 
+                onChange={(e) => setNotes(e.target.value)} 
+                placeholder="Additional details about the test..."
+                rows={2}
+              />
+            </div>
+            
+            <Button type="submit" disabled={isSubmitting || !resultValue.trim()}>
+              {isSubmitting ? "Saving..." : "Save Test Log"}
+            </Button>
+          </form>
+        )}
+
+        {logs.length === 0 ? (
+          <div className="text-center py-8 text-muted-foreground border rounded-lg border-dashed">
+            No physical tests logged yet.
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {logs.map((log) => (
+              <div key={log.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg bg-card">
+                <div className="space-y-1 mb-2 sm:mb-0">
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium capitalize">{log.testCategory}</span>
+                    {log.isPass ? (
+                      <Badge className="bg-green-500/10 text-green-600 hover:bg-green-500/20 border-green-200">
+                        <CheckCircle2 className="w-3 h-3 mr-1" /> Pass
+                      </Badge>
+                    ) : (
+                      <Badge variant="destructive" className="bg-red-500/10 text-red-600 hover:bg-red-500/20 border-red-200">
+                        <XCircle className="w-3 h-3 mr-1" /> Fail
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="text-sm">
+                    <span className="text-muted-foreground">Result:</span> {log.resultValue}
+                  </div>
+                  {log.notes && (
+                    <div className="text-sm text-muted-foreground italic">
+                      "{log.notes}"
+                    </div>
+                  )}
+                </div>
+                <div className="text-xs text-muted-foreground sm:text-right">
+                  {new Date(log.testedAt).toLocaleDateString()}
+                  <br />
+                  {new Date(log.testedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
