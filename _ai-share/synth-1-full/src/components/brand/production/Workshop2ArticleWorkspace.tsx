@@ -96,6 +96,7 @@ import {
   type Workshop2ArticleWorkspaceMainTab,
 } from '@/components/brand/production/Workshop2ArticleWorkspaceTabPanels';
 import { Workshop2DfmCheckPanel } from '@/components/brand/production/workshop2-dfm-check-panel';
+import { Workshop2ContractorMatchmaker } from '@/components/brand/production/workshop2-contractor-matchmaker';
 import { PassportTzExtraAssigneeCard, W2PassportTzStagesPick } from '@/components/brand/production/workshop2-article-workspace-passport-tz-widgets';
 import { useWorkshop2TzDueNotifications } from '@/hooks/use-workshop2-tz-due-notifications';
 import { useRbac } from '@/hooks/useRbac';
@@ -1441,10 +1442,15 @@ function Workshop2ArticleWorkspaceScreen({
                 </p>
               </div>
               <div className="border-border-subtle col-span-1 border-t pt-3 sm:col-span-2">
-                <Workshop2DfmCheckPanel 
-                  articleDescription={`Артикул: ${article.sku}\nНазвание: ${articleDisplayName}\nКатегория: ${categoryPath}`}
-                  photoUrl={passportVisualSlides[passportVisualIndex]?.src}
-                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Workshop2DfmCheckPanel 
+                    articleDescription={`Артикул: ${article.sku}\nНазвание: ${articleDisplayName}\nКатегория: ${categoryPath}`}
+                    photoUrl={passportVisualSlides[passportVisualIndex]?.src}
+                  />
+                  <Workshop2ContractorMatchmaker 
+                    articleDescription={`Артикул: ${article.sku}\nНазвание: ${articleDisplayName}\nКатегория: ${categoryPath}`}
+                  />
+                </div>
                 <div className="flex flex-wrap items-center gap-3 mt-4">
                   <Button
                     type="button"
