@@ -67,8 +67,8 @@ export function getLaunchReadiness(product: Product): LaunchReadinessV1 {
 
 export type LaunchReadinessRow = { sku: string; score: number; detail: LaunchReadinessV1 };
 
-/** Rows for assortment-health-logic (readiness vs attribute completeness). */
-export function buildLaunchReadinessRows(products: Product[]): LaunchReadinessRow[] {
+/** Детальные строки (stockReadiness + LaunchReadinessV1) для отчётов и drill-down. */
+export function buildLaunchReadinessDetailRows(products: Product[]): LaunchReadinessRow[] {
   return products.map((p) => {
     const detail = getLaunchReadiness(p);
     return { sku: p.sku, score: detail.stockReadiness, detail };
