@@ -112,6 +112,12 @@ PY
     cat "$BODY_FILE"
   } > "$MANUAL_FILE"
   echo "Скопируй title/body из: $MANUAL_FILE"
+  echo ""
+  echo "Title: $TITLE"
+  if [[ "$(uname -s)" == "Darwin" ]] && command -v pbcopy >/dev/null 2>&1; then
+    cat "$BODY_FILE" | pbcopy
+    echo "Body PR скопирован в буфер обмена (pbcopy) — вставь на GitHub после title."
+  fi
   exit 1
 fi
 

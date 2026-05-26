@@ -20,6 +20,7 @@ bash scripts/dev-perf-review-files.sh main HEAD   # focus paths для review
 gh auth login
 # или: export GITHUB_TOKEN=ghp_…
 bash scripts/create-dev-perf-pr.sh
+# без auth: откроет compare + body в буфер (pbcopy на macOS)
 ```
 
 Compare: https://github.com/PetrFedin/Projects/compare/main...feat/dev-perf-optimization?expand=1
