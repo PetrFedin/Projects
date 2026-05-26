@@ -683,3 +683,8 @@ export const useUIState = () => {
   if (context === undefined) throw new Error('useUIState must be used within a UIStateProvider');
   return context;
 };
+
+/** Без throw — для ClientLayout chrome на light cabinets (Header без UIStateProvider). */
+export function useUIStateOptional() {
+  return useContext(UIStateContext);
+}

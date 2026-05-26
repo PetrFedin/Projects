@@ -26,6 +26,15 @@ describe('root layout provider wiring', () => {
     expect(src).not.toMatch(/<AuthProvider>/);
   });
 
+  it('RealtimeIntegrationsLayout skips WebSocket on light cabinets (no NotificationsProvider)', () => {
+    const src = fs.readFileSync(
+      path.join(process.cwd(), 'src/components/layout/RealtimeIntegrationsLayout.tsx'),
+      'utf8'
+    );
+    expect(src).toContain('shouldMountB2BStateProvider');
+    expect(src).toContain('usePathname');
+  });
+
   it('AuthProviderGate lazy-loads auth chunk on public idle', () => {
     const src = fs.readFileSync(
       path.join(process.cwd(), 'src/components/layout/AuthProviderGate.tsx'),

@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/providers/auth-provider';
 import { organizations } from '@/components/team/_fixtures/team-data';
-import { useUIState } from '@/providers/ui-state';
+import { useUIStateOptional } from '@/providers/ui-state';
 import { useToast } from '@/hooks/use-toast';
 import { ROUTES } from '@/lib/routes';
 import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
@@ -10,8 +10,12 @@ import { SYNTH_MOCK_KNOWN_PASSWORD } from '@/lib/auth/dev-auth-bootstrap';
 
 export function useIdentitySwitch() {
   const { signIn, updateProfile } = useAuth();
-  const { setViewRole, setIsFlowMapOpen, setIsCalendarOpen, setIsMediaRadarOpen, setIsConstellationOpen } =
-    useUIState();
+  const ui = useUIStateOptional();
+  const setViewRole = ui?.setViewRole ?? (() => {});
+  const setIsFlowMapOpen = ui?.setIsFlowMapOpen ?? (() => {});
+  const setIsCalendarOpen = ui?.setIsCalendarOpen ?? (() => {});
+  const setIsMediaRadarOpen = ui?.setIsMediaRadarOpen ?? (() => {});
+  const setIsConstellationOpen = ui?.setIsConstellationOpen ?? (() => {});
   const { toast } = useToast();
   const handleIdentitySwitch = async (email: string, roleKey: string, organizationId?: string) => {
     try {

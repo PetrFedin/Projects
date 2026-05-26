@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useState, useEffect } from 'react';
-import { useUIState } from '@/providers/ui-state';
+import { useUIStateOptional } from '@/providers/ui-state';
 import { cn } from '@/lib/utils';
 import { leftSidebarNavLinks } from './left-sidebar-nav';
 import { usePathname, useRouter } from 'next/navigation';
@@ -69,20 +69,19 @@ function LiveOnAirIndicator() {
 
 export default function Header() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const {
-    toggleCart,
-    toggleWishlist,
-    togglePreOrder,
-    cart,
-    wishlistCollections,
-    preOrders,
-    viewRole,
-    setViewRole,
-    isFlowMapOpen,
-    isCalendarOpen,
-    isMediaRadarOpen,
-    isConstellationOpen,
-  } = useUIState();
+  const ui = useUIStateOptional();
+  const toggleCart = ui?.toggleCart ?? (() => {});
+  const toggleWishlist = ui?.toggleWishlist ?? (() => {});
+  const togglePreOrder = ui?.togglePreOrder ?? (() => {});
+  const cart = ui?.cart ?? [];
+  const wishlistCollections = ui?.wishlistCollections ?? [];
+  const preOrders = ui?.preOrders ?? [];
+  const viewRole = ui?.viewRole ?? 'client';
+  const setViewRole = ui?.setViewRole ?? (() => {});
+  const isFlowMapOpen = ui?.isFlowMapOpen ?? false;
+  const isCalendarOpen = ui?.isCalendarOpen ?? false;
+  const isMediaRadarOpen = ui?.isMediaRadarOpen ?? false;
+  const isConstellationOpen = ui?.isConstellationOpen ?? false;
   const { user, signIn, updateProfile } = useAuth();
   const { handleIdentitySwitch } = useIdentitySwitch();
   const pathname = usePathname();
