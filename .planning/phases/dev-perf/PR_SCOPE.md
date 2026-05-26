@@ -2,7 +2,7 @@
 
 ## Размер ветки
 
-`feat/dev-perf-optimization` ≈ **198 commits** ahead of `main`.
+`feat/dev-perf-optimization` ≈ **201 commits** ahead of `main`.
 
 Ветка включает **Workshop 2 / Phase 11–13** (matchmaker, DFM, B2B) **и** серию dev-perf (~22 коммита сверху). Это **не** чистый perf-only diff.
 
