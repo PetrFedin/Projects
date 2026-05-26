@@ -26,9 +26,18 @@ echo "=== Push ==="
 git push -u origin HEAD
 
 echo "=== PR ==="
-gh pr create \
-  --title "perf(dev): route-gated providers, dev:fast, bench tooling" \
-  --body-file .planning/phases/dev-perf/PR_BODY.md \
-  || echo "PR may already exist — gh pr view"
+PR_TITLE="perf(dev): route-gated providers, dev:fast, bench tooling"
+PR_BODY_FILE=".planning/phases/dev-perf/PR_BODY.md"
+PR_WEB_URL="https://github.com/PetrFedin/Projects/compare/main...${BRANCH}?expand=1"
+
+if command -v gh >/dev/null 2>&1; then
+  gh pr create --title "$PR_TITLE" --body-file "$PR_BODY_FILE" \
+    || echo "PR may already exist — gh pr view"
+else
+  echo "gh CLI не найден. Создайте PR вручную:"
+  echo "  $PR_WEB_URL"
+  echo "  Title: $PR_TITLE"
+  echo "  Body:  $PR_BODY_FILE"
+fi
 
 echo "Done. CI: check:contracts:ci (incl. test:layout:gates)"

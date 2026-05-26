@@ -126,6 +126,29 @@ export const FACTORY_SUP_ARCHIVE_GROUP_ORDER: readonly string[] = [
   'analytics',
 ];
 
+/**
+ * Узкий spine для investor demo: порядок групп в `syntha-cores`
+ * после `apply*InvestorSpineClusterOverrides` в `cabinet-nav-env.ts`.
+ */
+export const DISTRIBUTOR_INVESTOR_SPINE_CORE_GROUP_ORDER: readonly string[] = [
+  'comms',
+  'b2b',
+  'logistics',
+];
+
+export const FACTORY_MFR_INVESTOR_SPINE_CORE_GROUP_ORDER: readonly string[] = [
+  'comms',
+  'production',
+  'logistics',
+];
+
+export const FACTORY_SUP_INVESTOR_SPINE_CORE_GROUP_ORDER: readonly string[] = [
+  'team',
+  'comms',
+  'pim',
+  'logistics',
+];
+
 export function sortNavGroupsByOrder<T extends { id: string }>(
   groups: T[],
   order: readonly string[]
