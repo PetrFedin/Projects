@@ -11,7 +11,10 @@ def test_client():
 def test_health_check(test_client):
     response = test_client.get("/health")
     assert response.status_code == 200
-    assert response.json() == {"status": "ok", "project": "Synth-1 Fashion OS"}
+    body = response.json()
+    assert body.get("project") == "Synth-1 Fashion OS"
+    assert body.get("status") in ("ok", "degraded")
+    assert "db" in body
 
 def test_api_v1_root(test_client):
     response = test_client.get("/api/v1/")

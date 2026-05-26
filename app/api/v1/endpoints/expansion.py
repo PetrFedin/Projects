@@ -2,6 +2,7 @@ from typing import List, Dict, Any
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.deps import get_db, get_current_active_user
+from app.db.models.base import User
 from app.services.expansion_service import ExpansionService
 from pydantic import BaseModel
 

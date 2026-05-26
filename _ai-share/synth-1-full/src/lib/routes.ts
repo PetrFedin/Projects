@@ -258,6 +258,7 @@ export const ROUTES = {
     mediaVideoSpecs: '/brand/media/video-specs',
     blog: '/brand/blog',
     live: '/brand/live',
+    reviews: '/brand/reviews',
     /** LIVE process: хаб поэтапных схем */
     processLiveHub: '/brand/process/live',
     /** LIVE process по разделам (индивидуальные поэтапные схемы) */

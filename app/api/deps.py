@@ -26,7 +26,7 @@ class UserRole(str, Enum):
     STORE_MANAGER = "store_manager"
 
 reusable_oauth2 = OAuth2PasswordBearer(
-    tokenUrl=f"{settings.API_V1_STR}/login/access-token"
+    tokenUrl=f"{settings.API_V1_STR}/auth/login/access-token",
 )
 
 async def get_db() -> Generator:

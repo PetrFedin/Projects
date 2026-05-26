@@ -8,8 +8,7 @@ async def test_auth_signup(client: AsyncClient):
         "password": "securepassword",
         "full_name": "Lead Architect"
     }
-    # Note: Using params because the endpoint was defined with individual args
-    response = await client.post("/api/v1/auth/signup", params=payload)
+    response = await client.post("/api/v1/auth/signup", data=payload)
     assert response.status_code == 200
     assert response.json()["email"] == "architect@synth1.com"
 

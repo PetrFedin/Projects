@@ -38,6 +38,8 @@ export interface CalendarEvent {
   ownerRole: UserRole;
   ownerName: string;
   calendarId: string;
+  /** scheduled — по умолчанию; cancelled — отменено, остаётся в истории */
+  status?: 'scheduled' | 'cancelled';
   title: string;
   description?: string;
   layer: Layer;
@@ -45,6 +47,8 @@ export interface CalendarEvent {
   type: EventType;
   startAt: string; // ISO
   endAt: string; // ISO
+  /** Напоминание за N минут до начала (демо: подсказка в карточке) */
+  reminderMinutesBefore?: number;
   isMystery?: boolean;
   isSpam?: boolean;
   isActuallySpam?: boolean;

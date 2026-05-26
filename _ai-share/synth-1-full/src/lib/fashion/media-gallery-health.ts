@@ -21,7 +21,8 @@ export function galleryHealthToCsv(
   const h = ['sku', 'slug', 'gallery_score', 'issues'];
   const lines = [h.join(',')];
   for (const r of rows) {
-    lines.push([r.sku, r.slug, String(r.score), `"${r.issues.join('|')}"`].join(','));
+    const issueList = Array.isArray(r.issues) ? r.issues : [r.issues];
+    lines.push([r.sku, r.slug, String(r.score), `"${issueList.join('|')}"`].join(','));
   }
   return lines.join('\n');
 }

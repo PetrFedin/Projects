@@ -1,7 +1,7 @@
 from datetime import timedelta
 from app.core.datetime_util import utc_now
 from typing import Any
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, Form, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.api import deps
@@ -67,9 +67,9 @@ async def test_token(current_user: UserModel = Depends(deps.get_current_user)) -
 async def create_user_signup(
     *,
     db: AsyncSession = Depends(deps.get_db),
-    password: str,
-    email: str,
-    full_name: str = None,
+    password: str = Form(...),
+    email: str = Form(...),
+    full_name: str | None = Form(None),
 ) -> Any:
     # Mock: real registration would persist to DB, hash password, send verification
     new_user = UserModel(

@@ -47,11 +47,15 @@ function loadRules(): VolumeDiscountRule[] {
   }
 }
 
-/** Правила объёмных скидок по бренду. Мок: одно правило по умолчанию. */
-export function getVolumeDiscountRules(brandId?: string): VolumeDiscountRule[] {
+/** Правила объёмных скидок по бренду и группе клиентов. Мок: одно правило по умолчанию. */
+export function getVolumeDiscountRules(brandId?: string, customerGroupId?: CustomerGroupId): VolumeDiscountRule[] {
   const stored = loadRules();
   if (stored.length > 0) {
-    return brandId ? stored.filter((r) => !r.brandId || r.brandId === brandId) : stored;
+    let list = brandId ? stored.filter((r) => !r.brandId || r.brandId === brandId) : stored;
+    if (customerGroupId) {
+      list = list.filter((r) => !r.customerGroupIds?.length || r.customerGroupIds.includes(customerGroupId));
+    }
+    return list;
   }
   return [
     {

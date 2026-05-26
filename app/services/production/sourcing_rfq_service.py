@@ -1,4 +1,5 @@
 """Suppliers, material orders, RFQ, offers, contracts, scorecards."""
+from datetime import datetime
 from typing import List, Dict, Any, Optional
 from app.core.datetime_util import utc_now
 from sqlalchemy import select, update

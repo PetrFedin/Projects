@@ -19,7 +19,7 @@ import { RegistryPageHeader } from '@/components/design-system';
 export default function KnowledgeArticlePage() {
   const params = useParams();
   const router = useRouter();
-  const id = params.id as string;
+  const id = (params?.id as string | undefined) ?? '';
   const article = getKnowledgeArticle(id);
 
   if (!article) {

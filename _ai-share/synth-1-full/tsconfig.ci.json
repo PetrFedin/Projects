@@ -1,0 +1,31 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/providers/*": ["./src/providers/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/ai/*": ["./src/ai/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "lib/**/*.ts",
+    "src/lib/routes.ts",
+    "src/lib/products.ts",
+    "src/lib/repositories/**/*.ts",
+    "src/lib/repo/searchRepo.ts",
+    "src/lib/repo/aiStylistRepo.ts",
+    "src/lib/websocket-service.ts",
+    "src/lib/server/workshop2-dossier-metrics-archive.ts",
+    "src/lib/fashion/**/*.ts",
+    "src/lib/production/**/*.ts",
+    "src/lib/logic/**/*.ts",
+    "src/lib/types/**/*.ts",
+    "src/lib/b2b-features/**/*.ts",
+    "src/lib/communications/**/*.ts"
+  ],
+  "exclude": ["node_modules", ".next", "backup_duplicates"]
+}

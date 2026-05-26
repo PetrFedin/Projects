@@ -3,7 +3,8 @@
  * Uses localStorage for persistence, ready to be replaced with Firestore
  */
 
-import type { CartRepository, CartItem } from '../types';
+import type { CartRepository } from '../types';
+import type { CartItem } from '../../types';
 import { cartLineKey } from '@/lib/cart-outfit-utils';
 
 const getStorageKey = (userId: string) => `syntha_cart_${userId}`;

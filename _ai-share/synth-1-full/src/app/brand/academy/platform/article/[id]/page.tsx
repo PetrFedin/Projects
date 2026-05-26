@@ -17,7 +17,7 @@ import { RegistryPageHeader } from '@/components/design-system';
 export default function PlatformArticleDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const id = params.id as string;
+  const id = (params?.id as string | undefined) ?? '';
   const article = getPlatformArticleById(id);
 
   const formatDate = (d: string) => {

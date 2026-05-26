@@ -49,7 +49,7 @@ const ROLE_LABELS: Record<string, string> = {
 export default function PlatformCourseDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const id = params.id as string;
+  const id = (params?.id as string | undefined) ?? '';
   const course = getCourseById(id);
 
   const [learningStarted, setLearningStarted] = React.useState(false);
