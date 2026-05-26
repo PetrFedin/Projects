@@ -10,7 +10,8 @@ import { TooltipProvider } from '../ui/tooltip';
 import { LeftSidebarNav } from './left-sidebar-nav';
 import { OfflineBanner } from '@/components/brand/production/OfflineBanner';
 import { RegisterServiceWorker } from '@/components/pwa/RegisterServiceWorker';
-import { NuqsProvider } from '@/components/providers/nuqs-provider';
+import { NuqsProviderGate } from '@/components/layout/NuqsProviderGate';
+import { RunwayAnalyticsGate } from '@/components/layout/RunwayAnalyticsGate';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
@@ -41,11 +42,12 @@ export default function ClientLayout({
   const isCabinet = pathname && CABINET_ROUTES.some((r) => pathname.startsWith(r));
 
   return (
-    <NuqsProvider>
+    <NuqsProviderGate>
       <ThemeProvider>
         <TooltipProvider>
           <RouteGuard>
             <RegisterServiceWorker />
+            <RunwayAnalyticsGate />
             <div className="relative flex min-h-screen flex-col">
               <OfflineBanner />
               <GlobalPodcastPlayer />
@@ -66,6 +68,6 @@ export default function ClientLayout({
           </RouteGuard>
         </TooltipProvider>
       </ThemeProvider>
-    </NuqsProvider>
+    </NuqsProviderGate>
   );
 }
