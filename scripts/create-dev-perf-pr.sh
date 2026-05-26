@@ -3,6 +3,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
+export ROOT
 
 if [[ -x "/Applications/Xcode.app/Contents/Developer/usr/bin/git" ]]; then
   export PATH="/Applications/Xcode.app/Contents/Developer/usr/bin:$PATH"
@@ -12,6 +13,7 @@ BRANCH="${1:-feat/dev-perf-optimization}"
 BASE="${2:-main}"
 TITLE="perf(dev): route-gated providers, dev:fast, bench tooling"
 BODY_FILE=".planning/phases/dev-perf/PR_BODY.md"
+export TITLE BODY_FILE BRANCH BASE
 COMPARE_URL="https://github.com/PetrFedin/Projects/compare/${BASE}...${BRANCH}?expand=1"
 
 GH_BIN=""
@@ -49,8 +51,54 @@ fi
 
 GH="${GH_BIN:-gh}"
 if ! "$GH" auth status >/dev/null 2>&1; then
+  if [[ -n "${GITHUB_TOKEN:-}" ]]; then
+    echo "gh не авторизован — пробуем GITHUB_TOKEN + REST API…"
+    python3 <<'PY'
+import json
+import os
+import urllib.error
+import urllib.request
+
+root = os.environ["ROOT"]
+body_file = os.path.join(root, os.environ["BODY_FILE"])
+with open(body_file, encoding="utf-8") as fh:
+    body = fh.read()
+
+payload = json.dumps(
+    {
+        "title": os.environ["TITLE"],
+        "head": os.environ["BRANCH"],
+        "base": os.environ["BASE"],
+        "body": body,
+    }
+).encode("utf-8")
+
+req = urllib.request.Request(
+    "https://api.github.com/repos/PetrFedin/Projects/pulls",
+    data=payload,
+    headers={
+        "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json",
+        "User-Agent": "dev-perf-pr-script",
+    },
+    method="POST",
+)
+
+try:
+    with urllib.request.urlopen(req) as resp:
+        data = json.load(resp)
+        print("PR создан:", data.get("html_url", data))
+except urllib.error.HTTPError as err:
+    print(err.read().decode("utf-8", errors="replace"))
+    raise SystemExit(1)
+PY
+    exit 0
+  fi
+
   echo "GitHub CLI не авторизован. Выполните:"
   echo "  $GH auth login"
+  echo "  # или export GITHUB_TOKEN=ghp_… && bash scripts/create-dev-perf-pr.sh"
   echo ""
   echo "Или PR вручную: $COMPARE_URL"
   if [[ "$(uname -s)" == "Darwin" ]] && command -v open >/dev/null 2>&1; then

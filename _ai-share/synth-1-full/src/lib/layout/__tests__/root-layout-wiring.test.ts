@@ -25,4 +25,14 @@ describe('root layout provider wiring', () => {
     expect(src).toContain('AuthProviderGate');
     expect(src).not.toMatch(/<AuthProvider>/);
   });
+
+  it('AuthProviderGate lazy-loads auth chunk on public idle', () => {
+    const src = fs.readFileSync(
+      path.join(process.cwd(), 'src/components/layout/AuthProviderGate.tsx'),
+      'utf8'
+    );
+    expect(src).toContain('scheduleIdleMount');
+    expect(src).toContain('interactive={stubInteractive}');
+    expect(src).toContain('onForceLoad={forceLoadProvider}');
+  });
 });
