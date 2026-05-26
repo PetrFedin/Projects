@@ -25,6 +25,8 @@ bash scripts/create-dev-perf-pr.sh
 
 Compare: https://github.com/PetrFedin/Projects/compare/main...feat/dev-perf-optimization?expand=1
 
+**Перед merge PR:** ~102 conflicts с `main` — см. `MERGE_CONFLICTS.md`, `bash scripts/check-dev-perf-merge-conflicts.sh`
+
 Body: `.planning/phases/dev-perf/PR_BODY.md`
 
 ## CI (блокеры merge)

@@ -29,6 +29,14 @@ echo ""
 echo "=== Static (CI parity) ==="
 npm run verify:dev-perf
 
+echo ""
+echo "=== Merge dry-run vs main ==="
+if bash scripts/check-dev-perf-merge-conflicts.sh; then
+  echo "Merge with main: clean"
+else
+  echo "⚠ conflicts with main — см. .planning/phases/dev-perf/MERGE_CONFLICTS.md"
+fi
+
 if [[ "$RUN_E2E" == true ]]; then
   echo ""
   echo "=== E2E light (CI merge gate) ==="
