@@ -4,13 +4,7 @@ import { useUIStateOptional } from '@/providers/ui-state';
 import { useUserOrders } from './use-user-orders';
 import { useUserActivity } from './use-user-activity';
 import { subMonths, isWithinInterval } from 'date-fns';
-import type {
-  CartItem,
-  Lookboard,
-  Order,
-  SubscriptionPlan,
-  WishlistItem,
-} from '@/lib/types';
+import type { CartItem, Lookboard, Order, SubscriptionPlan, WishlistItem } from '@/lib/types';
 
 /** Fields read from auth user for loyalty-related insights (extend here if logic grows). */
 type UserLoyaltyInsightSource = Readonly<{ loyaltyPlan?: SubscriptionPlan }>;

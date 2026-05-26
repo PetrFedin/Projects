@@ -6,7 +6,10 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { CategoryHandbookSnapshot, HandbookCategoryLeaf } from '../src/lib/production/category-handbook-snapshot-builder';
+import type {
+  CategoryHandbookSnapshot,
+  HandbookCategoryLeaf,
+} from '../src/lib/production/category-handbook-snapshot-builder';
 import { getLeafHandbookGuidance } from '../src/lib/production/category-leaf-handbook-checklist';
 import { LEAF_PRODUCTION_PROFILE_OVERRIDES } from '../src/lib/production/category-leaf-production-overrides';
 import { taxonomyAliasForwardMap } from '../src/lib/production/category-taxonomy-aliases';
