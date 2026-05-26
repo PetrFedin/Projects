@@ -30,5 +30,22 @@ npm run test:e2e:home            # если есть home-specific e2e
 
 - [x] `/` — RSC `initialProducts` + client seed (без fetch `/data/products.json` до idle, если seed есть)
 - [x] `/` — RSC `initialCms` (Phase 4)
-- [ ] `dev:bench:routes` для `/` не хуже baseline ±10%
-- [ ] Bundle report приложен к фазе — `npm run analyze:bundle` (needs `npm i -D @next/bundle-analyzer` in full)
+- [x] `dev:bench:routes` для `/` — **55ms** warm (2026-05-26), hubs **9/9** 200
+- [x] `build:isolated` — PASS (2026-05-27); `@next/bundle-analyzer` добавлен
+- [ ] `analyze:bundle` HTML client report — локально OOM; top routes по First Load JS ниже
+
+## Bundle baseline (build:isolated, 2026-05-27)
+
+Shared First Load JS: **107 kB** (chunks `31684` 46 kB, `4bd1b696` 53.2 kB)
+
+Top routes by First Load JS:
+
+| Route | First Load |
+|-------|------------|
+| `/u` | 891 kB |
+| `/client/me` | 889 kB |
+| `/brand/media` | 805 kB |
+| `/client/me/wardrobe` | 771 kB |
+| `/search` | 619 kB |
+
+Dev bench hubs (dev:fast): `/` 55–174ms, cabinets 43–106ms — см. VERIFICATION.md.
