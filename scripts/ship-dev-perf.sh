@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# После sudo xcodebuild -license: коммиты + push + PR dev-perf.
+# После sudo xcodebuild -license: push + PR dev-perf (коммиты уже в ветке).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
@@ -14,30 +14,16 @@ if ! git rev-parse --git-dir >/dev/null 2>&1; then
 fi
 
 BRANCH="${1:-feat/dev-perf-optimization}"
-if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
-  git checkout "$BRANCH"
-else
-  git checkout -b "$BRANCH"
-fi
+git checkout "$BRANCH"
+git pull origin "$BRANCH" 2>/dev/null || true
 
-bash scripts/commit-home-dev-optimization.sh
+echo "=== Pre-PR static ==="
+npm run pre-pr:dev-perf
 
 echo "=== Push ==="
 git push -u origin HEAD
 
 echo "=== PR ==="
-PR_TITLE="perf(dev): route-gated providers, dev:fast, bench tooling"
-PR_BODY_FILE=".planning/phases/dev-perf/PR_BODY.md"
-PR_WEB_URL="https://github.com/PetrFedin/Projects/compare/main...${BRANCH}?expand=1"
+bash scripts/create-dev-perf-pr.sh "$BRANCH" main
 
-if command -v gh >/dev/null 2>&1; then
-  gh pr create --title "$PR_TITLE" --body-file "$PR_BODY_FILE" \
-    || echo "PR may already exist — gh pr view"
-else
-  echo "gh CLI не найден. Создайте PR вручную:"
-  echo "  $PR_WEB_URL"
-  echo "  Title: $PR_TITLE"
-  echo "  Body:  $PR_BODY_FILE"
-fi
-
-echo "Done. CI: check:contracts:ci (incl. test:layout:gates)"
+echo "Done. CI: check:contracts:ci (36 layout gates). Scope: .planning/phases/dev-perf/PR_SCOPE.md"
