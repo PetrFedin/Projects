@@ -2,16 +2,7 @@ import './globals.css';
 import 'yet-another-react-lightbox/styles.css';
 import type { Metadata } from 'next';
 import { Fira_Sans, Fira_Code, Playfair_Display } from 'next/font/google';
-import ClientLayout from '@/components/layout/client-layout';
-import { ChunkLoadRecovery } from '@/components/layout/chunk-load-recovery';
-import { RealtimeIntegrationsLayout } from '@/components/layout/RealtimeIntegrationsLayout';
-import { QueryProvider } from '@/providers/query-provider';
-import { UIStateProvider } from '@/providers/ui-state';
-import { B2BStateProvider } from '@/providers/b2b-state';
-import { AuthProvider } from '@/providers/auth-provider';
-import { DevSessionBanner } from '@/components/layout/dev-session-banner';
-import { NotificationsProvider } from '@/providers/notifications-provider';
-import { BrandCenterProvider } from '@/providers/brand-center-state';
+import { RootClientProviders } from '@/components/layout/RootClientProviders';
 
 export const metadata: Metadata = {
   title: 'Syntha',
@@ -104,7 +95,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }}
           />
         ) : null}
-        <ChunkLoadRecovery />
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -133,22 +123,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `,
           }}
         />
-        <QueryProvider>
-          <AuthProvider>
-            <DevSessionBanner />
-            <UIStateProvider>
-              <B2BStateProvider>
-                <BrandCenterProvider>
-                  <NotificationsProvider>
-                    <RealtimeIntegrationsLayout>
-                      <ClientLayout>{children}</ClientLayout>
-                    </RealtimeIntegrationsLayout>
-                  </NotificationsProvider>
-                </BrandCenterProvider>
-              </B2BStateProvider>
-            </UIStateProvider>
-          </AuthProvider>
-        </QueryProvider>
+        <RootClientProviders>{children}</RootClientProviders>
       </body>
     </html>
   );

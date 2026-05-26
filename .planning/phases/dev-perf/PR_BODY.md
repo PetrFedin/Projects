@@ -1,7 +1,7 @@
 ## Summary
 
 - **dev:fast / dev:fast:clean** — Turbopack, skip enterprise bootstrap, fonts off in dev.
-- **Route-gated providers** — B2B, UI state, notifications, React Query (brand only); hub `/shop` keeps B2B for `useUserContext`.
+- **Route-gated providers** — wired via **`RootClientProviders`** in `app/layout.tsx` (B2B, UI state, notifications, React Query brand-only, BrandCenter brand-only); hub `/shop` keeps B2B for `useUserContext`.
 - **Home** — lazy sections, CMS/products cache, **`GET /api/home/cms`**, RSC `initialCms` на `/`.
 - **Bench tooling** — `dev:bench:ci` (9 hubs strict), `dev:bench:routes` (38 smoke URLs), shared `.next` conflict guards.
 - **E2E** — smoke retries on 500, hydration shell wait.
@@ -9,7 +9,7 @@
 
 ## Test plan
 
-- [x] `npm run verify:dev-perf` — layout gates **22/22**
+- [x] `npm run verify:dev-perf` — layout gates **24/24**
 - [x] `npm run test:e2e:light` — 36/36
 - [x] `npm run dev:bench:ci` — 9/9, exit 0 (strict)
 - [x] `npm run dev:bench:routes` — 38/38 после **одного** `dev:fast:clean` (не подряд с ci bench)

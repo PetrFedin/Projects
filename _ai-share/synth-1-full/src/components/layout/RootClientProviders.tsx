@@ -1,6 +1,7 @@
 'use client';
 
 import ClientLayout from '@/components/layout/client-layout';
+import { BrandCenterProviderGate } from '@/components/layout/BrandCenterProviderGate';
 import { DevOnlyChromeGate } from '@/components/layout/DevOnlyChromeGate';
 import { RealtimeIntegrationsLayout } from '@/components/layout/RealtimeIntegrationsLayout';
 import { QueryProviderGate } from '@/components/layout/QueryProviderGate';
@@ -16,15 +17,17 @@ export function RootClientProviders({ children }: { children: React.ReactNode })
       <DevOnlyChromeGate />
       <QueryProviderGate>
         <AuthProvider>
-          <UIStateProviderGate>
-            <B2BStateProviderGate>
-              <NotificationsProviderGate>
-                <RealtimeIntegrationsLayout>
-                  <ClientLayout>{children}</ClientLayout>
-                </RealtimeIntegrationsLayout>
-              </NotificationsProviderGate>
-            </B2BStateProviderGate>
-          </UIStateProviderGate>
+          <BrandCenterProviderGate>
+            <UIStateProviderGate>
+              <B2BStateProviderGate>
+                <NotificationsProviderGate>
+                  <RealtimeIntegrationsLayout>
+                    <ClientLayout>{children}</ClientLayout>
+                  </RealtimeIntegrationsLayout>
+                </NotificationsProviderGate>
+              </B2BStateProviderGate>
+            </UIStateProviderGate>
+          </BrandCenterProviderGate>
         </AuthProvider>
       </QueryProviderGate>
     </>
