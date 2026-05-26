@@ -5,7 +5,7 @@
 | Команда | Результат | Примечание |
 |---------|-----------|------------|
 | `npm run verify:dev-perf` | **PASS** | layout gates **27** + contracts (post RootClientProviders wiring) |
-| `npm run test:e2e:light` | **36/36**, exit 0 | ~10 min, webpack :3123 |
+| `npm run test:e2e:cabinet-hubs` | partial local | 7 hubs; readiness `/` fix; полный прогон — CI |
 | `npm run test:e2e:verification` | **5/5**, exit 0 | локально; в CI: **unified ecosystem e2e (dispatch)** или `ci-heavy` |
 | `npm run dev:bench:ci` | **9/9**, exit 0 | после JSON_OUT fix; strict ≤3000ms |
 | `npm run dev:bench:routes` | **38/38**, exit 0 | один `dev:fast:clean`, не подряд с ci bench |

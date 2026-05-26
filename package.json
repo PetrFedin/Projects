@@ -21,6 +21,7 @@
     "nav:sync-path-index": "npm run nav:sync-path-index --prefix _ai-share/synth-1-full",
     "dev:e2e": "npm run dev:e2e --prefix _ai-share/synth-1-full",
     "test:e2e:light": "npm run test:e2e:light --prefix _ai-share/synth-1-full",
+    "test:e2e:cabinet-hubs": "npm run test:e2e:cabinet-hubs --prefix _ai-share/synth-1-full",
     "test:e2e:verification": "npm run test:e2e:verification --prefix _ai-share/synth-1-full",
     "test:e2e:home": "npm run test:e2e:home --prefix _ai-share/synth-1-full",
     "test:e2e": "npm run test:e2e --prefix _ai-share/synth-1-full",
