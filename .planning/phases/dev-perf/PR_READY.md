@@ -10,7 +10,7 @@ git pull origin feat/dev-perf-optimization
 # Workshop2 WIP ломает verify (ai-client-boundary) — не смешивать с PR:
 git status _ai-share/synth-1-full   # должен быть clean или только dev-perf файлы
 
-npm run verify:dev-perf             # PASS: contracts + 35 layout gates
+npm run verify:dev-perf             # PASS: contracts + 36 layout gates
 ```
 
 ## Создать PR
@@ -29,7 +29,7 @@ Body: `.planning/phases/dev-perf/PR_BODY.md`
 
 | Check | Ожидание |
 |-------|----------|
-| `check:contracts:ci` | PASS (incl. `test:layout:gates` 35) |
+| `check:contracts:ci` | PASS (incl. `test:layout:gates` 36 + package guard) |
 | `test:e2e:light` | 36/36 |
 | Review | `RootClientProviders`, `AuthProviderGate`, `/shop` B2B hub |
 
