@@ -103,3 +103,25 @@ bash scripts/install-cursor-user-mcp.sh
 **Git / Fetch MCP:** пакеты `@modelcontextprotocol/server-git` и `server-fetch` **сняты с npm**; используются PyPI-пакеты **`mcp-server-git`** и **`mcp-server-fetch`** (`pip3 install --user …`). Конфиг в репозитории уже переведён на `python3 -m mcp_server_git` / `mcp_server_fetch`. Альтернатива upstream: `uvx mcp-server-git` / `uvx mcp-server-fetch`.
 
 Если Cursor не подхватывает проектный MCP, проверьте настройки: использование **Project MCP** и путь к корню воркспейса **`Projects`**.
+
+## 6. Быстрый Next dev (synth-1-full)
+
+Канон: **`_ai-share/synth-1-full`**. Корень воркспейса Cursor = **`Projects`**.
+
+| Команда (из корня) | Назначение |
+|--------------------|------------|
+| `npm run dev:fast:clean` | Daily dev: Turbopack, skip enterprise bootstrap, убивает e2e **:3123**, clean `.next` |
+| `npm run verify:dev-perf` | Статика ~3s: `smoke` (= `check:contracts:ci` + layout gates) |
+| `npm run test:e2e:light` | E2E smoke 36 маршрутов (~7 min); pre/post kill **:3123** |
+| `npm run test:e2e:verification` | Unified ecosystem smoke (~210s/test serial); корень: та же команда |
+| `npm run dev:bench:routes` | 38 URL, нужен живой dev на **:3000** |
+| `npm run dev:bench:ci` | 9 хабов, strict: fail при &gt;3000 ms или 5xx |
+| `npm run stop:stale-dev` | Убить забытый e2e **:3123** (и **:3010**) |
+
+**Не параллелить** `dev:fast` (:3000) и `test:e2e:*` (:3123) — один каталог **`.next`**. После e2e: `dev:fast:clean` → bench. Перед **`test:e2e:verification`** после turbopack: скрипт **`prepare-e2e-webpack-dev.sh`** (в npm script) чистит `.next`.
+
+**Bench:** не гонять `dev:bench:ci` и `dev:bench:routes` подряд на одном turbopack без `dev:fast:clean` — каскад 500. Manual checklist: один clean → `dev:bench:ci` **или** `dev:bench:routes`.
+
+Коммиты серии (после `sudo xcodebuild -license`): `bash scripts/commit-home-dev-optimization.sh`. Push + PR: `bash scripts/ship-dev-perf.sh [branch]`. Список файлов без git: `bash scripts/commit-home-dev-optimization.sh --list-files`.
+
+Подробнее: **`AGENTS.md`**, **`_ai-share/synth-1-full/AGENTS.md`**.

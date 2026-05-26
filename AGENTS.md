@@ -26,7 +26,9 @@
 
 **Cursor / VS Code (корень воркспейса = `Projects`):** рекомендуемые расширения — **`.vscode/extensions.json`** (после clone: **Install Recommended Extensions**). Настройки ESLint / Prettier / Tailwind привязаны к **`_ai-share/synth-1-full`** — **`.vscode/settings.json`**. Быстрые задачи без поиска по NPM-панели — **`.vscode/tasks.json`** (**Run Task** → `synth-1-full: …`). **Error Lens:** для движка VS Code **1.105.x** в Cursor ставьте VSIX **≤ 3.26.0** (см. Open VSX); **3.27+** требуют **1.107+**.
 
-**Запуск Next локально:** нужны **Node 20.x–23.x** (файл **`_ai-share/synth-1-full/.nvmrc`**, на Node **24+** dev/build завершатся с явным сообщением). Зависимости: **`npm run synth-1:install`** из корня или **`npm ci`** в **`_ai-share/synth-1-full`** (полный bootstrap: **`bash scripts/bootstrap-monorepo-dev.sh`**). Dev-сервер: **`npm run dev`** из корня монорепо → **http://localhost:3000** (или из каталога full то же самое).
+**Запуск Next локально:** Node **20.x–23.x** (`_ai-share/synth-1-full/.nvmrc`). Dev: **`npm run dev:fast`** / **`npm run dev:fast:clean`** (clean убивает e2e :3123). **Не параллелить** `dev:fast` и **`test:e2e:*`** — общий `.next`. Верификация dev-perf: **`npm run verify:dev-perf`** (= `smoke`, layout gates в `check:contracts:ci`); полный цикл — **`test:e2e:light`** → **`dev:fast:clean`** → **`dev:bench:routes`**. Застрял :3123 — **`npm run stop:stale-dev`**. После nav — **`npm run nav:sync-path-index`**.
+
+**Git на macOS:** если `git` пишет про Xcode license — **`sudo xcodebuild -license`**, затем **`bash scripts/commit-home-dev-optimization.sh`**. Застрял e2e dev / битый `.next`: **`npm run stop:stale-dev`** (убивает :3123) или **`SYNTHA_STOP_MAIN_DEV=1 npm run stop:stale-dev`**.
 
 ## Bootstrap после clone
 
