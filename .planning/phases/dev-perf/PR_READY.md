@@ -30,7 +30,7 @@ Body: `.planning/phases/dev-perf/PR_BODY.md`
 | Check | Ожидание |
 |-------|----------|
 | `check:contracts:ci` | PASS (incl. `test:layout:gates` 36 + package guard) |
-| `test:e2e:light` | 36/36 |
+| `test:e2e:light` | 36/36 (CI); локально OOM `Killed: 9` — не блокер |
 | Review | `RootClientProviders`, `AuthProviderGate`, `/shop` B2B hub |
 
 ## После merge

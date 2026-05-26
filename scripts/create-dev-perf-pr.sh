@@ -104,6 +104,14 @@ PY
   if [[ "$(uname -s)" == "Darwin" ]] && command -v open >/dev/null 2>&1; then
     open "$COMPARE_URL" || true
   fi
+  MANUAL_FILE=".planning/phases/dev-perf/PR_MANUAL_PASTE.txt"
+  {
+    echo "Title: $TITLE"
+    echo ""
+    echo "--- Body (from $BODY_FILE) ---"
+    cat "$BODY_FILE"
+  } > "$MANUAL_FILE"
+  echo "Скопируй title/body из: $MANUAL_FILE"
   exit 1
 fi
 

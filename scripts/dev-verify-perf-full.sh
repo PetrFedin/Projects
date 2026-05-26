@@ -26,6 +26,10 @@ cat <<'EOF'
 EOF
 
 echo ""
-echo "=== Phase 3: PR ==="
+echo "=== PR ==="
 echo "  bash scripts/create-dev-perf-pr.sh"
 echo "  # или compare: https://github.com/PetrFedin/Projects/compare/main...feat/dev-perf-optimization?expand=1"
+echo ""
+echo "=== Pre-PR (one command) ==="
+echo "  npm run pre-pr:dev-perf        # static only"
+echo "  npm run pre-pr:dev-perf:e2e    # + e2e:light (CI gate; локально может OOM)"
