@@ -10,9 +10,8 @@ import { TooltipProvider } from '../ui/tooltip';
 import { LeftSidebarNav } from './left-sidebar-nav';
 import { OfflineBanner } from '@/components/brand/production/OfflineBanner';
 import { RegisterServiceWorker } from '@/components/pwa/RegisterServiceWorker';
-import { NuqsProviderGate } from '@/components/layout/NuqsProviderGate';
-import { RunwayAnalyticsGate } from '@/components/layout/RunwayAnalyticsGate';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { RunwayAnalyticsGate } from '@/components/layout/RunwayAnalyticsGate';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
 import GlobalPodcastPlayer from './global-podcast-player';
@@ -42,32 +41,30 @@ export default function ClientLayout({
   const isCabinet = pathname && CABINET_ROUTES.some((r) => pathname.startsWith(r));
 
   return (
-    <NuqsProviderGate>
-      <ThemeProvider>
-        <TooltipProvider>
-          <RouteGuard>
-            <RegisterServiceWorker />
-            <RunwayAnalyticsGate />
-            <div className="relative flex min-h-screen flex-col">
-              <OfflineBanner />
-              <GlobalPodcastPlayer />
-              {/* Верхняя панель показывается везде, включая кабинеты */}
-              <Header />
-              {/* Иначе fixed z-[100] перекрывает собственный сайдбар кабинета (бренд z-30) и «съедает» клики слева. */}
-              {!isCabinet ? <LeftSidebarNav /> : null}
-              <main className={cn('flex-1', isCabinet ? '' : 'pb-32')}>{children}</main>
-              {!isCabinet && <Footer />}
-              <CartSheet />
-              <WishlistSheet />
-              <PreOrderSheet />
-              <AiStylist />
-              <ComparisonPanel />
-              <RolePanel />
-              <Toaster />
-            </div>
-          </RouteGuard>
-        </TooltipProvider>
-      </ThemeProvider>
-    </NuqsProviderGate>
+    <ThemeProvider>
+      <TooltipProvider>
+        <RouteGuard>
+          <RegisterServiceWorker />
+          <RunwayAnalyticsGate />
+          <div className="relative flex min-h-screen flex-col">
+            <OfflineBanner />
+            <GlobalPodcastPlayer />
+            {/* Верхняя панель показывается везде, включая кабинеты */}
+            <Header />
+            {/* Иначе fixed z-[100] перекрывает собственный сайдбар кабинета (бренд z-30) и «съедает» клики слева. */}
+            {!isCabinet ? <LeftSidebarNav /> : null}
+            <main className={cn('flex-1', isCabinet ? '' : 'pb-32')}>{children}</main>
+            {!isCabinet && <Footer />}
+            <CartSheet />
+            <WishlistSheet />
+            <PreOrderSheet />
+            <AiStylist />
+            <ComparisonPanel />
+            <RolePanel />
+            <Toaster />
+          </div>
+        </RouteGuard>
+      </TooltipProvider>
+    </ThemeProvider>
   );
 }

@@ -5,7 +5,7 @@
 - **Home** — lazy sections, CMS/products cache, **`GET /api/home/cms`**, RSC `initialCms` на `/`.
 - **Bench tooling** — `dev:bench:ci` (9 hubs strict), `dev:bench:routes` (38 smoke URLs), shared `.next` conflict guards.
 - **E2E** — smoke retries on 500, hydration shell wait.
-- **Follow-up in branch:** `NuqsProviderGate`, `RunwayAnalyticsGate` wired in `client-layout.tsx`, preflight `lsof` LISTEN fix, **`GET /api/home/cms`**, `test:layout:gates` в `check:contracts:ci`.
+- **Follow-up in branch:** removed dead `nuqs` dep (custom `useQueryState`), `RunwayAnalyticsGate` on public shell, **`GET /api/home/cms`**, `test:layout:gates` в `check:contracts:ci`.
 
 ## Test plan
 

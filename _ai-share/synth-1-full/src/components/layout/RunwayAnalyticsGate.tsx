@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { RunwayAnalyticsProvider } from '@/components/layout/ClientLayoutLazyParts';
-import { shouldMountNuqsProvider } from '@/lib/layout/nuqs-provider-route';
+import { isPublicShellPathname } from '@/lib/layout/public-shell-route';
 
 /** Runway analytics — после idle на public shell, не блокирует first paint. */
 export function RunwayAnalyticsGate() {
   const pathname = usePathname();
-  const isPublicShell = shouldMountNuqsProvider(pathname);
+  const isPublicShell = isPublicShellPathname(pathname);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

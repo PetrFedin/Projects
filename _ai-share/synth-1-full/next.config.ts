@@ -42,7 +42,6 @@ const nextConfig: NextConfig = {
       'date-fns',
       'recharts',
       'framer-motion',
-      'nuqs',
       'react-resizable-panels',
     ],
   },
