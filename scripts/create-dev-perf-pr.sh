@@ -53,6 +53,9 @@ if ! "$GH" auth status >/dev/null 2>&1; then
   echo "  $GH auth login"
   echo ""
   echo "Или PR вручную: $COMPARE_URL"
+  if [[ "$(uname -s)" == "Darwin" ]] && command -v open >/dev/null 2>&1; then
+    open "$COMPARE_URL" || true
+  fi
   exit 1
 fi
 

@@ -9,6 +9,7 @@ import {
   SHOP_INVENTORY_CROSS_CABINET_ROLES,
   userRolesAllowShopInventoryCrossCabinet,
 } from '@/lib/auth/shop-inventory-cross-cabinet';
+import { isRouteGuardPublicPath } from '@/lib/auth/route-guard-public-path';
 import { ROUTES } from '@/lib/routes';
 
 /** Roles allowed for each route prefix. Profile keys: admin, brand, shop, retailer, distributor, manufacturer, supplier, client */
@@ -83,16 +84,7 @@ export function RouteGuard({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (loading) return;
     // Allow unauthenticated for public routes
-    const isPublic =
-      pathname === '/' ||
-      pathname.startsWith('/b/') ||
-      pathname.startsWith('/terms') ||
-      pathname.startsWith('/privacy') ||
-      pathname.startsWith('/login') ||
-      pathname.startsWith('/auth') ||
-      pathname.startsWith('/o/') ||
-      pathname.startsWith('/s/');
-    if (isPublic) return;
+    if (isRouteGuardPublicPath(pathname)) return;
     /** Кросс-кабинет (demo): из brand inventory → stock-sync; не открываем весь `/shop` для brand */
     if (
       isShopInventoryCrossCabinetPath(pathname) &&

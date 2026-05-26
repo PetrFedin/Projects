@@ -22,5 +22,7 @@ describe('root layout provider wiring', () => {
     expect(src).toContain('QueryProviderGate');
     expect(src).toContain('NotificationsProviderGate');
     expect(src).toContain('BrandCenterProviderGate');
+    expect(src).toContain('AuthProviderGate');
+    expect(src).not.toMatch(/<AuthProvider>/);
   });
 });

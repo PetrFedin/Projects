@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
+import { AuthContext, type AuthContextType } from '@/lib/auth/auth-context';
 import { usePathname } from 'next/navigation';
 import type { UserProfile } from '@/lib/types';
 import type { FastApiSessionProfile } from '@/lib/fastapi-session-profile';
@@ -17,18 +18,6 @@ import {
   SYNTH_MOCK_KNOWN_PASSWORD,
 } from '@/lib/auth/dev-auth-bootstrap';
 import { getUnknownErrorName } from '@/lib/unknown-error-message';
-
-interface AuthContextType {
-  user: UserProfile | null;
-  profile: FastApiSessionProfile | null;
-  loading: boolean;
-  signIn: (email: string, password: string) => Promise<UserProfile>;
-  signUp: (email: string, password: string, displayName: string) => Promise<UserProfile>;
-  signOut: () => Promise<void>;
-  updateProfile: (patch: Partial<UserProfile>) => Promise<UserProfile>;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -206,11 +195,5 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-}
+export { useAuth } from '@/lib/auth/auth-context';
 

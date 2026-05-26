@@ -8,6 +8,7 @@
     "verify": "npm run verify --prefix _ai-share/synth-1-full",
     "smoke": "npm run smoke:fast --prefix _ai-share/synth-1-full",
     "verify:dev-perf": "bash scripts/dev-verify-perf.sh",
+    "verify:dev-perf:full": "bash scripts/dev-verify-perf-full.sh",
     "stop:stale-dev": "bash scripts/stop-stale-next-dev.sh",
     "lint": "npm run lint:errors --prefix _ai-share/synth-1-full",
     "synth-1:clean": "npm run clean --prefix _ai-share/synth-1-full",
