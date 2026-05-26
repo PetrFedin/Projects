@@ -33,6 +33,7 @@ npm run test:e2e:verification          # ✅ 5/5 (~2 min после prepare; 1 f
 ## Ops
 
 - Не параллелить `:3000` (dev:fast / workshop2) и `:3123` (e2e).
+- Playwright readiness: `/` (не workshop2 health); PG signoff — `PLAYWRIGHT_E2E_READY_URL=.../api/workshop2/health`.
 - После e2e → `dev:fast:clean` перед bench.
 - Turbopack ENOENT → clean restart, не патчить код.
 

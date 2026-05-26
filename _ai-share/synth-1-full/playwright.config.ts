@@ -2,7 +2,14 @@ import os from 'node:os';
 import { defineConfig, devices } from '@playwright/test';
 
 /** Отдельный порт, чтобы E2E не конфликтовали с обычным `npm run dev` на :3000. */
-const E2E_BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:3123';
+const E2E_PORT = process.env.PLAYWRIGHT_E2E_PORT ?? '3123';
+const E2E_BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${E2E_PORT}`;
+/**
+ * Playwright webServer readiness. Default `/` — layout/B2B smoke без workshop2 PG.
+ * Workshop2 PG signoff: `PLAYWRIGHT_E2E_READY_URL=http://127.0.0.1:3123/api/workshop2/health`.
+ */
+const E2E_READY_URL =
+  process.env.PLAYWRIGHT_E2E_READY_URL ?? `${E2E_BASE_URL.replace(/\/$/, '')}/`;
 
 /** Локально без лимита Playwright берёт много воркеров → параллельный hammer одного `next dev` и редкие `chrome-error://chromewebdata/`. */
 const LOCAL_E2E_WORKERS = Math.min(4, Math.max(1, os.cpus().length));
@@ -19,12 +26,13 @@ function resolvePlaywrightWorkers(): number | undefined {
 
 export default defineConfig({
   testDir: './e2e',
+  globalSetup: './e2e/global-setup.ts',
   /** См. `unified-ecosystem-smoke` serial (**210s**); холодный `next dev` + upload. */
   timeout: 210_000,
   fullyParallel: !process.env.CI,
   forbidOnly: !!process.env.CI,
   /** CI: single retry only for cold `next dev`; prefer test isolation over increasing this. */
-  retries: process.env.CI ? 1 : 0,
+  retries: process.env.CI ? 1 : 1,
   workers: resolvePlaywrightWorkers(),
   reporter: process.env.CI ? [['html'], ['github']] : [['html']],
   use: {
@@ -52,9 +60,12 @@ export default defineConfig({
   webServer: process.env.PLAYWRIGHT_SKIP_WEBSERVER
     ? undefined
     : {
-        command: 'npm run dev:e2e',
-        url: E2E_BASE_URL,
+        command:
+          'env -u npm_config_prefix node scripts/ensure-supported-node.mjs && env -u npm_config_prefix node scripts/kill-e2e-port.cjs && env -u npm_config_prefix E2E_CLEAR_CACHE=1 E2E=true NEXT_PUBLIC_E2E=true NEXT_PUBLIC_DISABLE_FONTS=1 SYNTH_SKIP_ENTERPRISE_BOOTSTRAP=1 NEXT_DIST_DIR=.next-e2e WORKSHOP2_MARKET=ru WORKSHOP2_EDO_PROVIDER=mock WORKSHOP2_EDO_MOCK_STAGING=true NODE_OPTIONS=--max-old-space-size=8192 npm run dev:e2e',
+        url: E2E_READY_URL,
         reuseExistingServer: !process.env.CI,
-        timeout: 240_000,
+        timeout: 360_000,
+        stdout: 'pipe',
+        stderr: 'pipe',
       },
 });
