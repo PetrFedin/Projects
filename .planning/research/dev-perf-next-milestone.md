@@ -15,7 +15,7 @@
 
 | Provider | Gate | Notes |
 |----------|------|-------|
-| `AuthProvider` | none | **RouteGuard** uses `useAuth` globally |
+| `AuthProvider` | deferred bootstrap | public shell: `loading=false` + idle restore; cabinets eager |
 | `QueryProviderGate` | `/brand/*` | done |
 | `B2BStateProviderGate` | public, brand, hub `/shop`, `/shop/b2b/*` | done |
 | `UIStateProviderGate` | brand, b2b shop, settings, client me/wishlist | done |

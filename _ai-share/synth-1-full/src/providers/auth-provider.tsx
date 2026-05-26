@@ -1,10 +1,13 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import type { UserProfile } from '@/lib/types';
 import type { FastApiSessionProfile } from '@/lib/fastapi-session-profile';
 import { authRepository } from '@/lib/repositories';
 import { USE_FASTAPI } from '@/lib/syntha-api-mode';
+import { shouldEagerAuthBootstrap } from '@/lib/auth/auth-bootstrap-route';
+import { scheduleIdleMount } from '@/lib/wait-for-idle';
 import {
   EMAIL_TO_SYNTH_ROLE,
   isSynthDevAutoLoginEnabled,
@@ -28,10 +31,12 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [profile, setProfile] = useState<FastApiSessionProfile | null>(null);
   /** Пока идёт восстановление сессии / dev auto-login — RouteGuard не кидает на «/». */
   const [loading, setLoading] = useState(true);
+  const bootstrapStartedRef = useRef(false);
 
   const setSyntheticProfile = useCallback((email: string) => {
     const role = EMAIL_TO_SYNTH_ROLE[email.toLowerCase()];
@@ -74,73 +79,92 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
-    const safetyMs = 12000;
-    const safetyTimer =
-      typeof window !== 'undefined'
-        ? window.setTimeout(() => {
-            if (mounted) setLoading(false);
-          }, safetyMs)
-        : undefined;
+    let safetyTimer: ReturnType<typeof setTimeout> | undefined;
+    let idleCancel: (() => void) | undefined;
+    let unsubscribe: (() => void) | undefined;
 
     const endBootstrap = () => {
       if (safetyTimer) clearTimeout(safetyTimer);
       if (mounted) setLoading(false);
     };
 
-    (async () => {
-      try {
-        const user = await authRepository.getCurrentUser();
+    const runBootstrap = () => {
+      if (bootstrapStartedRef.current) return;
+      bootstrapStartedRef.current = true;
+
+      safetyTimer =
+        typeof window !== 'undefined'
+          ? window.setTimeout(() => {
+              if (mounted) setLoading(false);
+            }, 12000)
+          : undefined;
+
+      (async () => {
+        try {
+          const user = await authRepository.getCurrentUser();
+          if (!mounted) return;
+          setUser(user);
+          const token = typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : null;
+
+          if (user && token) {
+            const email = (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
+            await fetchFastApiProfile(email ?? undefined);
+          } else if (typeof window !== 'undefined') {
+            const path = window.location.pathname;
+            const search = window.location.search || '';
+            const email = isSynthDevAutoLoginEnabled() ? resolvePathBasedDevSignInEmail(path, search) : null;
+            if (email) {
+              try {
+                const u = await authRepository.signIn(email, SYNTH_MOCK_KNOWN_PASSWORD);
+                if (mounted) {
+                  setUser(u);
+                  markSynthDevAutoLoginSession();
+                  await fetchFastApiProfile(email);
+                }
+              } catch {
+                /* dev auto-login */
+              }
+            } else if (user) {
+              const email2 = (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
+              await fetchFastApiProfile(email2 ?? undefined);
+            }
+          }
+        } catch {
+          /* ignore */
+        } finally {
+          endBootstrap();
+        }
+      })();
+
+      unsubscribe = authRepository.onAuthStateChanged((user) => {
         if (!mounted) return;
         setUser(user);
-        const token = typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : null;
-
-        if (user && token) {
+        if (user) {
           const email = (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
-          await fetchFastApiProfile(email ?? undefined);
-        } else if (typeof window !== 'undefined') {
-          const path = window.location.pathname;
-          const search = window.location.search || '';
-          const email = isSynthDevAutoLoginEnabled() ? resolvePathBasedDevSignInEmail(path, search) : null;
-          if (email) {
-            try {
-              const u = await authRepository.signIn(email, SYNTH_MOCK_KNOWN_PASSWORD);
-              if (mounted) {
-                setUser(u);
-                markSynthDevAutoLoginSession();
-                await fetchFastApiProfile(email);
-              }
-            } catch {
-              /* dev auto-login */
-            }
-          } else if (user) {
-            const email2 = (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
-            await fetchFastApiProfile(email2 ?? undefined);
-          }
+          void fetchFastApiProfile(email ?? undefined);
+        } else {
+          setProfile(null);
         }
-      } catch {
-        /* ignore */
-      } finally {
-        endBootstrap();
-      }
-    })();
+      });
+    };
 
-    const unsubscribe = authRepository.onAuthStateChanged((user) => {
-      if (!mounted) return;
-      setUser(user);
-      if (user) {
-        const email = (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
-        void fetchFastApiProfile(email ?? undefined);
-      } else {
-        setProfile(null);
-      }
-    });
+    const search = typeof window !== 'undefined' ? window.location.search : '';
+    const eager = shouldEagerAuthBootstrap(pathname, search);
+
+    if (eager) {
+      runBootstrap();
+    } else {
+      setLoading(false);
+      idleCancel = scheduleIdleMount(runBootstrap, 3500, 2000);
+    }
 
     return () => {
       mounted = false;
       if (safetyTimer) clearTimeout(safetyTimer);
-      unsubscribe();
+      idleCancel?.();
+      unsubscribe?.();
     };
-  }, [fetchFastApiProfile]);
+  }, [fetchFastApiProfile, pathname]);
 
   const signIn = useCallback(async (email: string, password: string) => {
     const userProfile = await authRepository.signIn(email, password);

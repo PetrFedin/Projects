@@ -9,7 +9,7 @@
 
 ## Test plan
 
-- [x] `npm run verify:dev-perf` — layout gates **27/27** (incl. root layout wiring)
+- [x] `npm run verify:dev-perf` — layout gates **29/29** (incl. auth bootstrap defer)
 - [x] `npm run test:e2e:light` — 36/36
 - [x] `npm run dev:bench:ci` — 9/9, exit 0 (strict)
 - [x] `npm run dev:bench:routes` — 38/38 после **одного** `dev:fast:clean` (не подряд с ci bench)
