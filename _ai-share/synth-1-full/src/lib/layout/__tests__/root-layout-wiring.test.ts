@@ -35,4 +35,11 @@ describe('root layout provider wiring', () => {
     expect(src).toContain('interactive={stubInteractive}');
     expect(src).toContain('onForceLoad={forceLoadProvider}');
   });
+
+  it('app/page.tsx passes RSC CMS + products baselines', () => {
+    const src = fs.readFileSync(path.join(process.cwd(), 'src/app/page.tsx'), 'utf8');
+    expect(src).toContain('getHomeCmsServerBaseline');
+    expect(src).toContain('getHomeProductsServerBaseline');
+    expect(src).toContain('initialProducts');
+  });
 });

@@ -4,7 +4,7 @@
 
 | Команда | Результат | Примечание |
 |---------|-----------|------------|
-| `npm run verify:dev-perf` | **PASS** | layout gates **32** + contracts (post AuthProviderGate) |
+| `npm run verify:dev-perf` | **PASS** | layout gates **36** + contracts + layout-gates-package guard |
 
 ## Фаза 1 — regression (historical)
 
