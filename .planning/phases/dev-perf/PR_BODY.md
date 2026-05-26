@@ -10,7 +10,7 @@
 ## Test plan
 
 - [x] `npm run verify:dev-perf` — layout gates **36/36** + package guard
-- [x] `npm run test:e2e:light` — 36/36
+- [x] `npm run test:e2e:light` — 36/36 (CI; локально OOM)
 - [x] `npm run dev:bench:ci` — 9/9, exit 0 (strict)
 - [x] `npm run dev:bench:routes` — 38/38 после **одного** `dev:fast:clean` (не подряд с ci bench)
 - [x] `npm run test:e2e:verification` — 5/5 (unified ecosystem); CI: **unified-ecosystem-e2e-dispatch.yml**
@@ -31,6 +31,7 @@ Manual bench (release checklist): `npm run dev:bench:ci` — см. AGENTS.md.
 
 ## Review focus
 
+- **Scope:** ~198 commits incl. Workshop 2 — см. `.planning/phases/dev-perf/PR_SCOPE.md`
 - Provider gates + tests (`src/lib/layout/*-route.ts`)
 - `/shop` hub B2B mount (retail subroutes skip)
 - `syntha-nav-clusters` exports, shop navigation data

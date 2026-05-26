@@ -134,6 +134,21 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+function withOptionalBundleAnalyzer(config: NextConfig): NextConfig {
+  if (process.env.ANALYZE !== 'true') return config;
+  try {
+    // Optional devDependency — см. npm run analyze:bundle
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const bundleAnalyzer = require('@next/bundle-analyzer') as (opts: {
+      enabled: boolean;
+    }) => (cfg: NextConfig) => NextConfig;
+    return bundleAnalyzer({ enabled: true })(config);
+  } catch {
+    console.warn('[analyze] @next/bundle-analyzer not installed — run: npm i -D @next/bundle-analyzer');
+    return config;
+  }
+}
+
+export default withOptionalBundleAnalyzer(nextConfig);
 
     
