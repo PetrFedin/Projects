@@ -28,7 +28,7 @@ fi
 cd "$ROOT"
 
 echo "=== Commit 1: dev infra ==="
-git add \
+(git add \
   _ai-share/synth-1-full/package.json \
   _ai-share/synth-1-full/next.config.ts \
   _ai-share/synth-1-full/src/lib/runtime/dev-bootstrap-flags.ts \
@@ -44,7 +44,7 @@ git add \
   scripts/dev-verify-perf.sh \
   scripts/stop-stale-next-dev.sh \
   scripts/ship-dev-perf.sh \
-  scripts/commit-home-dev-optimization.sh 2>/dev/null || true
+  scripts/commit-home-dev-optimization.sh) || true
 git commit -m "$(cat <<'EOF'
 feat(dev): dev:fast + skip enterprise bootstrap + turbopack fonts alias
 
@@ -54,11 +54,13 @@ EOF
 )" || echo "(commit 1: nothing to commit or already committed)"
 
 echo "=== Commit 2: home split ==="
-git add _ai-share/synth-1-full/src/app/page.tsx \
+(git add _ai-share/synth-1-full/src/app/page.tsx \
   _ai-share/synth-1-full/src/components/home/ \
   _ai-share/synth-1-full/src/components/home/lib/ \
   _ai-share/synth-1-full/src/components/home/hooks/ \
-  _ai-share/synth-1-full/src/components/home/context/ 2>/dev/null || true
+  _ai-share/synth-1-full/src/components/home/context/ \
+  _ai-share/synth-1-full/src/lib/home/ \
+  _ai-share/synth-1-full/src/app/api/home/) || true
 git commit -m "$(cat <<'EOF'
 perf(home): lazy gates, CMS/products split, prefetch catalog
 
@@ -68,12 +70,12 @@ EOF
 )" || echo "(commit 2: nothing to commit)"
 
 echo "=== Commit 3: lint + smoke + workshop types ==="
-git add \
+(git add \
   _ai-share/synth-1-full/src/app/factory/FactoryLayoutLazyChrome.tsx \
   _ai-share/synth-1-full/src/app/factory/FactoryProductionSidebarChrome.tsx \
   _ai-share/synth-1-full/src/app/factory/FactoryProductionMobileSidebarSheet.tsx \
   _ai-share/synth-1-full/src/components/brand/production/workshop2-*.tsx \
-  _ai-share/synth-1-full/src/components/runway/RunwayCompleteLook.tsx \
+  _ai-share/synth-1-full/src/components/product/scroll-switcher/RunwayCompleteLook.tsx \
   _ai-share/synth-1-full/src/lib/production/workshop2-*-types.ts \
   _ai-share/synth-1-full/src/lib/production/workshop2-matchmaker-persist.ts \
   _ai-share/synth-1-full/src/components/hub/HubSidebar.tsx \
@@ -83,7 +85,8 @@ git add \
   _ai-share/synth-1-full/scripts/prepare-e2e-webpack-dev.sh \
   _ai-share/synth-1-full/scripts/ci/list-tracked-ts-files.mjs \
   _ai-share/synth-1-full/scripts/ci/*-boundary-guard.mjs \
-  _ai-share/synth-1-full/src/**/__tests__/runway-analytics-provider.test.tsx 2>/dev/null || true
+  _ai-share/synth-1-full/src/**/__tests__/runway-analytics-provider.test.tsx \
+  _ai-share/synth-1-full/scripts/prepare-e2e-webpack-dev.sh) || true
 git commit -m "$(cat <<'EOF'
 fix(lint): workshop hooks, factory sidebar paths, AI flow types
 
@@ -95,17 +98,14 @@ EOF
 )" || echo "(commit 3: nothing to commit)"
 
 echo "=== Commit 4: provider gates + bench + cabinet chrome ==="
-git add \
-  _ai-share/synth-1-full/src/lib/layout/b2b-state-route.ts \
-  _ai-share/synth-1-full/src/lib/layout/ui-state-route.ts \
-  _ai-share/synth-1-full/src/lib/layout/__tests__/b2b-state-route.test.ts \
-  _ai-share/synth-1-full/src/lib/layout/__tests__/ui-state-route.test.ts \
-  _ai-share/synth-1-full/src/lib/data/syntha-nav-clusters.ts \
-  _ai-share/synth-1-full/src/lib/data/shop-navigation-data.ts \
-  _ai-share/synth-1-full/src/lib/layout/query-provider-route.ts \
-  _ai-share/synth-1-full/src/lib/layout/nuqs-provider-route.ts \
-  _ai-share/synth-1-full/src/lib/layout/__tests__/query-provider-route.test.ts \
-  _ai-share/synth-1-full/src/lib/layout/__tests__/nuqs-provider-route.test.ts \
+(git add \
+  _ai-share/synth-1-full/src/components/layout/B2BStateProviderGate.tsx \
+  _ai-share/synth-1-full/src/components/layout/B2BStateProviderSync.tsx \
+  _ai-share/synth-1-full/src/components/layout/UIStateProviderGate.tsx \
+  _ai-share/synth-1-full/src/components/layout/UIStateProviderSync.tsx \
+  _ai-share/synth-1-full/src/components/layout/NotificationsProviderGate.tsx \
+  _ai-share/synth-1-full/src/components/layout/NotificationsProviderSync.tsx \
+  _ai-share/synth-1-full/src/lib/layout/ \
   _ai-share/synth-1-full/src/components/layout/QueryProviderGate.tsx \
   _ai-share/synth-1-full/src/components/layout/NuqsProviderGate.tsx \
   _ai-share/synth-1-full/src/components/layout/RunwayAnalyticsGate.tsx \
@@ -115,23 +115,25 @@ git add \
   _ai-share/synth-1-full/src/components/layout/DevOnlyChromeGate.tsx \
   _ai-share/synth-1-full/src/components/layout/dev-only-chrome.tsx \
   _ai-share/synth-1-full/src/components/layout/RootClientProviders.tsx \
-  _ai-share/synth-1-full/src/components/home/lib/home-cms-config-cache.ts \
-  _ai-share/synth-1-full/src/lib/home/get-home-cms-server.ts \
-  _ai-share/synth-1-full/src/app/api/home/cms/route.ts \
-  _ai-share/synth-1-full/src/components/home/hooks/use-home-shell-prefetch.ts \
-  _ai-share/synth-1-full/src/components/home/lib/__tests__/home-cms-config-cache.test.ts \
   _ai-share/synth-1-full/scripts/dev-route-benchmark.mjs \
   _ai-share/synth-1-full/scripts/check-shared-next-conflict.cjs \
+  _ai-share/synth-1-full/scripts/prepare-e2e-webpack-dev.sh \
   _ai-share/synth-1-full/src/app/brand/BrandLayoutLazyChrome.tsx \
   _ai-share/synth-1-full/src/components/shop/ShopSidebar.tsx \
   _ai-share/synth-1-full/src/app/admin/AdminLayoutLazyChrome.tsx \
   _ai-share/synth-1-full/src/app/distributor/DistributorLayoutLazyChrome.tsx \
-  _ai-share/synth-1-full/src/app/client/ClientCabinetSidebarPanel.tsx \
+  _ai-share/synth-1-full/src/components/layout/ClientCabinetSidebarPanel.tsx \
   _ai-share/synth-1-full/e2e/smoke.spec.ts \
   _ai-share/synth-1-full/package.json \
   _ai-share/synth-1-full/AGENTS.md \
   package.json \
-  scripts/commit-home-dev-optimization.sh 2>/dev/null || true
+  scripts/commit-home-dev-optimization.sh \
+  scripts/ship-dev-perf.sh \
+  docs/CURSOR_AGENT_TOOLKIT.md \
+  .planning/phases/dev-perf/PR_BODY.md \
+  .planning/phases/dev-perf/VERIFICATION.md \
+  .planning/phases/dev-perf/SHIP_CHECKLIST.md \
+  .planning/research/dev-perf-next-milestone.md) || true
 git commit -m "$(cat <<'EOF'
 perf(layout): route-gated B2B/UI providers + dev route benchmark
 
