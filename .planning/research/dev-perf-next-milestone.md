@@ -36,13 +36,13 @@
 
 ## 4d investor-spine / unified-ecosystem CI
 
-- Local: `npm run test:e2e:verification` (unified-ecosystem-smoke.spec.ts, serial 210s).
-- CI: path filter in `.github/workflows/ci.yml` — not default PR job.
-- Stabilization: cold `/shop` compile after brand navigation — already 60s timeout in spec.
+- Local: `npm run test:e2e:verification` (unified-ecosystem-smoke.spec.ts, serial ~210s).
+- CI manual: **`.github/workflows/unified-ecosystem-e2e-dispatch.yml`** (`workflow_dispatch`, только verification).
+- CI heavy: `synth-1-full-ci.yml` job **`ci-heavy`** (weekly + label `ci-heavy` + dispatch) — verification + API e2e.
 
 ## Recommended PR order
 
 1. Merge dev-perf (gates + bench + home) — this series.
 2. NuqsProviderGate + RunwayAnalyticsGate — can ship with (1) or tiny follow-up.
 3. Server CMS API — separate ADR + phase.
-4. CI: add `test:e2e:verification` to nightly or manual workflow_dispatch.
+4. CI: **`unified-ecosystem-e2e-dispatch.yml`** для ручного прогона; nightly — `ci-heavy` schedule в `synth-1-full-ci.yml`.

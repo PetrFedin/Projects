@@ -6,7 +6,7 @@
 |---------|-----------|------------|
 | `npm run verify:dev-perf` | **PASS** | layout gates **22** + contracts |
 | `npm run test:e2e:light` | **36/36**, exit 0 | ~10 min, webpack :3123 |
-| `npm run test:e2e:verification` | **5/5**, exit 0 | `prepare-e2e-webpack-dev.sh` обязателен после turbopack |
+| `npm run test:e2e:verification` | **5/5**, exit 0 | локально; в CI: **unified ecosystem e2e (dispatch)** или `ci-heavy` |
 | `npm run dev:bench:ci` | **9/9**, exit 0 | после JSON_OUT fix; strict ≤3000ms |
 | `npm run dev:bench:routes` | **38/38**, exit 0 | один `dev:fast:clean`, не подряд с ci bench |
 | `npm run smoke` | **PASS** | |
@@ -22,7 +22,7 @@
 ## Фаза 0 — git / ship
 
 - **Git:** обход без `sudo xcodebuild -license` — `PATH=/Applications/Xcode.app/Contents/Developer/usr/bin:$PATH`.
-- **4 коммита** на `feat/dev-perf-optimization`, push `109075c5` — см. `SHIP_CHECKLIST.md`.
+- **7 коммитов** на `feat/dev-perf-optimization` — см. `SHIP_CHECKLIST.md`.
 - **PR:** вручную — https://github.com/PetrFedin/Projects/pull/new/feat/dev-perf-optimization (`PR_BODY.md`).
 
 ## Фаза 3 — CI bench

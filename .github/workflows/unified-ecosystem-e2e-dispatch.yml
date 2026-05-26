@@ -1,0 +1,32 @@
+# Ручной прогон unified ecosystem smoke (~5 сценариев, serial).
+# Actions → unified ecosystem e2e (dispatch) → Run workflow.
+# Не тянет ci-fast/ci-heavy целиком — только test:e2e:verification (prepare-e2e-webpack-dev в npm script).
+name: unified ecosystem e2e (dispatch)
+
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: _ai-share/synth-1-full
+
+jobs:
+  e2e-unified-verification:
+    name: test:e2e:verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CI: true
+      NEXT_TELEMETRY_DISABLED: '1'
+      NEXT_PUBLIC_USE_B2C_SHOP_API: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+      - run: npm ci
+      - run: npx playwright install chromium --with-deps
+      - name: Unified ecosystem verification
+        run: npm run test:e2e:verification

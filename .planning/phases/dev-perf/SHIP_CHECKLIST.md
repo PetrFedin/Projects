@@ -15,7 +15,7 @@ bash scripts/ship-dev-perf.sh feat/dev-perf-optimization
 bash scripts/ship-dev-perf.sh feat/dev-perf-optimization
 ```
 
-4 коммита → push → PR (`PR_BODY.md`).
+7 коммитов → push → PR (`PR_BODY.md`). Скрипт PR: `bash scripts/create-dev-perf-pr.sh`.
 
 ## Верификация перед merge
 

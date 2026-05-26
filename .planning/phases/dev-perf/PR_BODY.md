@@ -13,7 +13,7 @@
 - [x] `npm run test:e2e:light` — 36/36
 - [x] `npm run dev:bench:ci` — 9/9, exit 0 (strict)
 - [x] `npm run dev:bench:routes` — 38/38 после **одного** `dev:fast:clean` (не подряд с ci bench)
-- [x] `npm run test:e2e:verification` — 5/5 (unified ecosystem, 1 flaky)
+- [x] `npm run test:e2e:verification` — 5/5 (unified ecosystem); CI: **unified-ecosystem-e2e-dispatch.yml**
 - [x] `npm run smoke`
 
 ## Breaking / ops rules
