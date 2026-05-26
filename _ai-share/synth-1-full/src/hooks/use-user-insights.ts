@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAuth } from '@/providers/auth-provider';
-import { useUIState } from '@/providers/ui-state';
+import { useUIStateOptional } from '@/providers/ui-state';
 import { useUserOrders } from './use-user-orders';
 import { useUserActivity } from './use-user-activity';
 import { subMonths, isWithinInterval } from 'date-fns';
@@ -70,7 +70,10 @@ export interface Trend {
  */
 export function useUserInsights() {
   const { user } = useAuth();
-  const { wishlist, cart, lookboards } = useUIState();
+  const ui = useUIStateOptional();
+  const wishlist = ui?.wishlist ?? [];
+  const cart = ui?.cart ?? [];
+  const lookboards = ui?.lookboards ?? [];
   const { orders, stats: orderStats } = useUserOrders();
   const activity = useUserActivity();
 

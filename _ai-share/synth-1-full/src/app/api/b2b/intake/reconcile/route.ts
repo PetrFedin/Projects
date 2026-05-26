@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { reconcilePO } from '../../../../lib/b2b/intake/rfid-reconciliation-logic';
+import { reconcilePO } from '@/lib/b2b/intake/rfid-reconciliation-logic';
 
 const reconcilePayloadSchema = z.object({
   purchaseOrderId: z.string(),

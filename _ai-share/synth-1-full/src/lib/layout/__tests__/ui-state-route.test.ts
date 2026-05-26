@@ -12,6 +12,8 @@ describe('shouldMountUIStateProvider', () => {
     expect(shouldMountUIStateProvider('/factory/supplier/orders')).toBe(false);
     expect(shouldMountUIStateProvider('/distributor/inventory')).toBe(false);
     expect(shouldMountUIStateProvider('/admin/users')).toBe(false);
+    expect(shouldMountUIStateProvider('/admin/calendar')).toBe(true);
+    expect(shouldMountUIStateProvider('/factory/production/calendar')).toBe(true);
     expect(shouldMountUIStateProvider('/shop/analytics')).toBe(false);
     expect(shouldMountUIStateProvider('/shop/b2b/orders')).toBe(true);
 

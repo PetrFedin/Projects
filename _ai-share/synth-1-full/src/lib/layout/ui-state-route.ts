@@ -38,6 +38,11 @@ export function shouldMountUIStateProvider(pathname: string | null | undefined):
 
   if (normalized.startsWith('/brand')) return true;
 
+  /** Calendar pages (StyleCalendar → useUserInsights) on light cabinets. */
+  if (normalized.endsWith('/calendar') || normalized.includes('/calendar/')) {
+    return true;
+  }
+
   if (UI_STATE_SKIP_CABINET_PREFIXES.some((p) => matchesPrefix(normalized, p))) {
     return false;
   }
