@@ -11,6 +11,7 @@ git pull origin feat/dev-perf-optimization
 git status _ai-share/synth-1-full   # должен быть clean или только dev-perf файлы
 
 npm run verify:dev-perf             # PASS: contracts + 36 layout gates
+bash scripts/dev-perf-review-files.sh main HEAD   # focus paths для review
 ```
 
 ## Создать PR

@@ -11,6 +11,7 @@
     "verify:dev-perf:full": "bash scripts/dev-verify-perf-full.sh",
     "pre-pr:dev-perf": "bash scripts/pre-pr-dev-perf.sh",
     "pre-pr:dev-perf:e2e": "bash scripts/pre-pr-dev-perf.sh --e2e",
+    "dev-perf:review-files": "bash scripts/dev-perf-review-files.sh main HEAD",
     "analyze:bundle": "npm run analyze:bundle --prefix _ai-share/synth-1-full",
     "stop:stale-dev": "bash scripts/stop-stale-next-dev.sh",
     "lint": "npm run lint:errors --prefix _ai-share/synth-1-full",
