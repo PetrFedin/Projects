@@ -112,6 +112,9 @@ bash scripts/install-cursor-user-mcp.sh
 |--------------------|------------|
 | `npm run dev:fast:clean` | Daily dev: Turbopack, skip enterprise bootstrap, убивает e2e **:3123**, clean `.next` |
 | `npm run verify:dev-perf` | Статика ~3s: `smoke` (= `check:contracts:ci` + layout gates) |
+| `npm run pre-pr:dev-perf` | Pre-PR: verify + подсказки PR (без e2e) |
+| `npm run pre-pr:dev-perf:e2e` | + `test:e2e:light` (локально может OOM — CI источник правды) |
+| `npm run analyze:bundle` | Production build + bundle report (`npm i -D @next/bundle-analyzer` во full) |
 | `npm run test:e2e:light` | E2E smoke 36 маршрутов (~7 min); pre/post kill **:3123** |
 | `npm run test:e2e:verification` | Unified ecosystem smoke (~210s/test serial); CI: Actions → **unified ecosystem e2e (dispatch)** |
 | `npm run dev:bench:routes` | 38 URL, нужен живой dev на **:3000** |
@@ -122,6 +125,6 @@ bash scripts/install-cursor-user-mcp.sh
 
 **Bench:** не гонять `dev:bench:ci` и `dev:bench:routes` подряд на одном turbopack без `dev:fast:clean` — каскад 500. Manual checklist: один clean → `dev:bench:ci` **или** `dev:bench:routes`.
 
-Коммиты серии (после `sudo xcodebuild -license`): `bash scripts/commit-home-dev-optimization.sh`. Push + PR: `bash scripts/ship-dev-perf.sh [branch]`. Список файлов без git: `bash scripts/commit-home-dev-optimization.sh --list-files`.
+Коммиты серии (после `sudo xcodebuild -license`): `bash scripts/commit-home-dev-optimization.sh`. Push + PR: `bash scripts/ship-dev-perf.sh [branch]` или **`bash scripts/create-dev-perf-pr.sh`**. Pre-PR: **`npm run pre-pr:dev-perf`**. Review paths: **`bash scripts/dev-perf-review-files.sh`**. Scope ветки (~198 commits): **`.planning/phases/dev-perf/PR_SCOPE.md`**. Список файлов без git: `bash scripts/commit-home-dev-optimization.sh --list-files`.
 
 Подробнее: **`AGENTS.md`**, **`_ai-share/synth-1-full/AGENTS.md`**.
