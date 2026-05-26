@@ -6,7 +6,10 @@ export async function registerNodeRuntimeInstrumentation(): Promise<void> {
 
   // Keep build workers side-effect free; start background systems only on server runtime.
   if (!isBuildPhase) {
-    const { bootstrapEnterpriseEcosystem } = await import('@/lib/core/bootstrap');
-    bootstrapEnterpriseEcosystem();
+    const { shouldSkipEnterpriseBootstrap } = await import('@/lib/runtime/dev-bootstrap-flags');
+    if (!shouldSkipEnterpriseBootstrap()) {
+      const { bootstrapEnterpriseEcosystem } = await import('@/lib/core/bootstrap');
+      bootstrapEnterpriseEcosystem();
+    }
   }
 }

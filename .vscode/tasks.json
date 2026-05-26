@@ -26,9 +26,105 @@
       "problemMatcher": []
     },
     {
+      "label": "synth-1-full: dev (fast — clean + Turbopack)",
+      "type": "shell",
+      "command": "npm run dev:fast:clean",
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: dev (fast — Turbopack)",
+      "type": "shell",
+      "command": "npm run dev:fast",
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: dev (webpack)",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: clean .next cache",
+      "type": "shell",
+      "command": "npm run synth-1:clean",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: nav sync path-index",
+      "type": "shell",
+      "command": "npm run nav:sync-path-index",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: dev bench (cabinet hubs)",
+      "type": "shell",
+      "command": "npm run dev:bench:hubs",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: dev bench (all smoke routes)",
+      "type": "shell",
+      "command": "npm run dev:bench:routes",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: e2e home only",
+      "type": "shell",
+      "command": "npm run test:e2e:home",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: dev bench CI (hubs, strict)",
+      "type": "shell",
+      "command": "npm run dev:bench:ci",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "monorepo: stop stale next dev (:3123)",
+      "type": "shell",
+      "command": "npm run stop:stale-dev",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: verify dev-perf (static)",
+      "type": "shell",
+      "command": "npm run verify:dev-perf",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
       "label": "synth-1-full: e2e light",
       "type": "shell",
-      "command": "npm run test:e2e:light --prefix _ai-share/synth-1-full",
+      "command": "npm run test:e2e:light",
       "group": "test",
       "presentation": { "reveal": "always", "panel": "dedicated" },
       "problemMatcher": []

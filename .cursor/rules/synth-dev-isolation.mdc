@@ -1,0 +1,26 @@
+---
+description: Next dev :3000 vs e2e :3123 — общий .next, dev:fast, bench, verify
+globs:
+  - _ai-share/synth-1-full/**
+alwaysApply: false
+---
+
+# synth-1-full — изоляция dev / e2e
+
+## Жёсткие правила
+
+1. **Не запускать** `dev:fast` / `dev:fast:clean` и **`test:e2e:*`** одновременно — общий **`.next`** → ENOENT, turbopack runtime, каскад 500.
+2. **`dev:fast:clean`** перед bench и после e2e; убивает **:3123** (`kill-e2e-port`).
+3. **`npm run stop:stale-dev`** — если e2e webServer «завис» на :3123.
+4. Bench только при одном dev на **:3000**; preflight в `dev-route-benchmark.mjs` + `check-shared-next-conflict.cjs`.
+
+## Команды (корень Projects)
+
+- `npm run verify:dev-perf` — статика (CI: `check:contracts:ci`)
+- `npm run test:e2e:light` → `dev:fast:clean` → `dev:bench:routes`
+
+## Provider gates
+
+- Hub **`/shop`** монтирует **`B2BStateProvider`** (`useUserContext` на shop hub).
+- **`/shop/b2b/*`** — B2B + UIState; retail **`/shop/*`** (кроме hub) — без тяжёлых провайдеров.
+- **`QueryProvider`** — lazy только **`/brand/*`** (`QueryProviderGate`).

@@ -27,7 +27,48 @@
 
 **Локальный dev:** Node **20–23** (см. **`.nvmrc`**); **`npm ci`** или **`npm install`** в этом каталоге; затем **`npm run dev`** → **http://localhost:3000**. Из корня монорепо: **`npm run dev`** (прокси сюда) или **`npm run synth-1:install`**, если нет **`node_modules`**. При отсутствии зависимостей или неподдерживаемой версии Node скрипт **`scripts/ensure-supported-node.mjs`** завершится с подсказкой.
 
-**Контрактный smoke (без полного `verify`):** из корня монорепо **`npm run smoke`**, из каталога full **`npm run smoke:fast`** — границы integrations / клиент–AI и sanity domain-events.
+**Быстрый dev (`dev:fast`):** **`npm run dev:fast`** / **`npm run dev:fast:clean`** (Turbopack + skip enterprise bootstrap + disable fonts). При ENOENT/ChunkLoadError — **`npm run synth-1:clean`** или **`dev:fast:clean`**; не держать два dev на :3000.
+
+**Code-splitting (dev cold compile):** root layout **без** глобального `yet-another-react-lightbox/styles.css` (компонент Lightbox в коде не используется). Таблица:
+
+| Зона | Lazy-модули |
+|------|-------------|
+| **`client-layout`** | `Header`, `Footer`, `LeftSidebarNav`, B2C sheets, analytics, PWA SW — **не монтируются на cabinet routes**; **`RolePanelGate`** после idle |
+| **realtime** | `WebSocketProvider` — только если `NEXT_PUBLIC_WS_URL`; polling feed — только public shell; оба — только с `NotificationsProviderGate` |
+| **notifications** | `NotificationsProviderGate` — тот же scope, что B2B (не на light cabinets) |
+| **B2B state** | `B2BStateProviderGate` — **не** на factory/distributor/client/admin/academy/wallet/**shop retail**; только `/shop/b2b/*`, `/brand/*`, public |
+| **UI state** | `UIStateProviderGate` — brand + `/shop/b2b/*` всегда; retail `/shop/*` только settings; factory/distributor/admin — только `*/settings`; client — me/wishlist/outfits; academy/wallet — нет |
+| **`/`** | **Home split** — см. таблицу ниже; `HomePageLazySections`, 4 contexts mid-fold, CMS/products вне shell |
+| **cabinet desktop sidebar** | **`CabinetDesktopOnly`** + **`*DesktopSidebarGate`** — sidebar chunks не на mobile |
+| **`/brand/*`** | **`BrandDesktopSidebarGate`** + idle **`SidebarOrgHeaderGate`** + secondary chrome |
+| **`/brand/academy/*`** | lazy **`BrandAcademyLayoutShell`** |
+| **`/vendor/*`** | **`VendorDesktopSidebarGate`** + mobile nav bar + lazy **`VendorLayoutShell`** |
+| **`/shop/*`** | **`ShopDesktopSidebarGate`** + lazy mobile Sheet + path-index |
+| **factory / distributor / admin** | **`*DesktopSidebarGate`** + idle **`HubSidebarHeaderGate`** + lazy mobile Sheet |
+| **`/admin/*`** | `AdminLayoutSidebarPanel` + path-index |
+| **distributor / factory** | `*LayoutSidebarPanel` + path-index |
+| **client cabinet** | **`ClientDesktopSidebarGate`** + lazy mobile Sheet; **`RolePanelGate`** (idle) |
+| **header** | `HeaderLazyParts` (SearchBar, UserNav, ecosystem menu) |
+| **query (react-query)** | `QueryProviderGate` — lazy chunk только **`/brand/*`** |
+| **dev-only chrome** | `DevOnlyChromeGate` — chunk recovery + session banner, idle + один dynamic |
+
+**Главная (`/`):** **`HomePageLazySections.tsx`** — 4 lazy boundaries (`HomeStickyNavBlock`, `HomeAdminHubGate`, `HomeMidFoldStack`, `HomeBelowFoldGate`); shell **`HomePageClientShell`** (memo) + **`HomeCmsProvider`**.
+
+| Слой | Паттерн | Файлы / hooks |
+|------|---------|----------------|
+| **Shell** | UI-state only, без CMS/products state | `HomePageClient.tsx`, `HomePageClientShell` |
+| **CMS data** | Split context + singleton cache; shell prefetch | `home-cms-config-cache.ts`, `useHomeShellPrefetch`, `HomeCmsContext.tsx` |
+| **Products data** | Prefetch + singleton cache; hook только в mid-fold | `home-products-catalog.ts`, `useHomeShellPrefetch`, `useHomeProducts` |
+| **Sticky nav** | Idle advertising + role panels (B2B vs client) | `HomeAdvertisingSectionGate`, `HomeStickyNavB2BPanel`, `HomeStickyNavClientPanel` |
+| **Mid-fold** | 4 contexts (linesheet, brands tab, look dialog, showcase) + IO/idle gates | `HomeShowroomMidFoldContext.tsx`, `HomeMidFoldDataLayer`, `ShowroomSectionGate` |
+| **Below-fold** | IO sentinel + staggered section gates + idle glow | `HomeBelowFoldGate`, `HomeBelowFoldSectionGate`, `HomeMouseGlowGate` |
+| **B2B dialogs** | Context + on-demand chunks | `HomeB2BDialogsContext.tsx`, `HomeLookDetailsDialogHost` |
+
+**Embed runway:** **`ProductScrollSwitcher`** — dynamic в embed page.
+
+**Контрактный smoke (без полного `verify`):** из корня монорепо **`npm run smoke`**, из каталога full **`npm run smoke:fast`**. E2E: **`npm run test:e2e:home`** / **`test:e2e:light`**.
+
+**Скорость разделов (dev audit):** **`npm run dev:fast:clean`** (убивает :3123 e2e + clean `.next`) → **`npm run dev:bench:routes`**. Preflight: **`check-shared-next-conflict.cjs`**; bench ждёт **2× GET /** с паузой 2.5 s. **`test:e2e:light`** — preflight :3000, post-run kill :3123. Повтор хвоста: `DEV_BENCH_PATHS=...`. Не параллелить e2e и dev:fast. Hub **`/shop`** → `B2BStateProvider`.
 
 **IDE (монорепо):** при открытии **`Projects`** как корня в Cursor/VS Code используйте **`.vscode/extensions.json`** (рекомендованные расширения) и **`.vscode/settings.json`** + **`.vscode/tasks.json`** из корня репо — ESLint/Prettier/Tailwind смотрят в этот каталог (`eslint.config.mjs`, `.prettierrc`, `tailwind.config.ts`).
 
@@ -88,7 +129,7 @@ Before UI/UX changes: read `STYLE_GUIDE.md` and `design-system/synth-1-fashion-o
 
 Icons: Lucide only. No emojis. Use `cn()` for class merging. Responsive: 375/768/1024. Drawers: vaul. Container queries: @container.
 
-**Локальная проверка (зелёный минимум):** `npm run verify` — **`typecheck:order-subset`** + **Jest** (~сотни тестов, строгий контур order/B2B и др.). Дополнительно: `npm run verify:lint` (ESLint, долго). Репо-гварды: `npm run verify:repo` (= `check:contracts:ci`; сейчас может падать на известном долге `ai-client-boundary`). Полный залп: `npm run verify:all` (contracts + tsc + lint + Jest). Полный `tsc` по всему `src/`: `npm run typecheck` (может отличаться от `verify` из-за несвязанных файлов). E2E: `npm run test:e2e:light` / см. `package.json`.
+**Локальная проверка (зелёный минимум):** `npm run verify` — **`typecheck:order-subset`** + **Jest** (~сотни тестов, строгий контур order/B2B и др.). Дополнительно: `npm run verify:lint` (ESLint, долго). Репо-гварды: `npm run verify:repo` (= `check:contracts:ci`, incl. **`test:layout:gates`** — B2B/UI provider routes). Корень монорепо: **`npm run verify:dev-perf`** (= `npm run smoke`). Полный залп: `npm run verify:all` (contracts + tsc + lint + Jest). Полный `tsc` по всему `src/`: `npm run typecheck` (может отличаться от `verify` из-за несвязанных файлов). E2E: `npm run test:e2e:home` / `npm run test:e2e:light` — см. `package.json`.
 
 **HTTP:** исходящие `fetch` — через `fetchWithHttpDeadline` из `@/lib/http/http-fetch-deadline` (слияние с `init.signal`). Для лимита ≠ 20s передайте третий аргумент `deadlineMs` (например FastAPI-клиент 25s, архив W2 PUT 120s). Service Worker: `public/sw.js`.
 
