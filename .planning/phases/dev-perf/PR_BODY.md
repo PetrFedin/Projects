@@ -9,7 +9,7 @@
 
 ## Test plan
 
-- [x] `npm run verify:dev-perf` — layout gates **32/32** (incl. auth lazy gate wiring)
+- [x] `npm run verify:dev-perf` — layout gates **35/35** (incl. RSC products baseline)
 - [x] `npm run test:e2e:light` — 36/36
 - [x] `npm run dev:bench:ci` — 9/9, exit 0 (strict)
 - [x] `npm run dev:bench:routes` — 38/38 после **одного** `dev:fast:clean` (не подряд с ci bench)

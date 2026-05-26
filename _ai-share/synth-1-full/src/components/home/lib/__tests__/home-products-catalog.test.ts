@@ -3,6 +3,8 @@ import {
   loadHomeProductsCatalog,
   prefetchHomeProductsCatalog,
   resetHomeProductsCatalogCache,
+  seedHomeProductsCatalog,
+  readHomeProductsCatalogCache,
 } from '@/components/home/lib/home-products-catalog';
 
 const mockProducts = [{ id: 'p1', slug: 'test' }] as Product[];
@@ -41,5 +43,13 @@ describe('home-products-catalog', () => {
     await loadHomeProductsCatalog();
     await loadHomeProductsCatalog();
     expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('seedHomeProductsCatalog skips client fetch', async () => {
+    seedHomeProductsCatalog(mockProducts);
+    expect(readHomeProductsCatalogCache()).toEqual(mockProducts);
+    const loaded = await loadHomeProductsCatalog();
+    expect(loaded).toEqual(mockProducts);
+    expect(global.fetch).not.toHaveBeenCalled();
   });
 });

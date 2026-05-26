@@ -6,6 +6,8 @@ import { useUIState } from '@/providers/ui-state';
 import { HomeB2BDialogsProvider } from '@/components/home/context/HomeB2BDialogsContext';
 import { HomeCmsProvider } from '@/components/home/context/HomeCmsContext';
 import { useHomeShellPrefetch } from '@/components/home/hooks/use-home-shell-prefetch';
+import { useSeedHomeProductsCatalog } from '@/components/home/hooks/use-home-products';
+import type { Product } from '@/lib/types';
 
 import {
   HomeStickyNavBlock,
@@ -57,9 +59,14 @@ const HomePageClientShell = memo(function HomePageClientShell() {
 
 export const HomePageClient = memo(function HomePageClient({
   initialCms,
+  initialProducts,
 }: {
   initialCms?: CmsHomeConfig;
+  /** RSC baseline — без client fetch `/data/products.json` на first paint. */
+  initialProducts?: Product[];
 }) {
+  useSeedHomeProductsCatalog(initialProducts);
+
   return (
     <HomeCmsProvider initialCms={initialCms}>
       <HomePageClientShell />

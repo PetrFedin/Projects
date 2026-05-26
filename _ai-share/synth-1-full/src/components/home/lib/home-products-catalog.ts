@@ -5,6 +5,17 @@ const PRODUCTS_JSON_PATH = '/data/products.json';
 let cachedProducts: Product[] | undefined;
 let inflight: Promise<Product[]> | null = null;
 
+/** RSC baseline / tests — пропуск client fetch на first paint. */
+export function seedHomeProductsCatalog(products: Product[]): void {
+  cachedProducts = Array.isArray(products) ? products : [];
+  inflight = null;
+}
+
+/** Проверка, что каталог уже прогрет (RSC seed или prefetch). */
+export function readHomeProductsCatalogCache(): Product[] | undefined {
+  return cachedProducts;
+}
+
 /** Singleton load — dedupe fetch между prefetch и useHomeProducts. */
 export async function loadHomeProductsCatalog(): Promise<Product[]> {
   if (cachedProducts !== undefined) return cachedProducts;

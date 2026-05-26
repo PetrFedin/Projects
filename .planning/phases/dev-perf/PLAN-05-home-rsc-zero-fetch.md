@@ -28,6 +28,7 @@ npm run test:e2e:home            # если есть home-specific e2e
 
 ## Success criteria
 
-- `/` без network tab fetch для CMS/products до hydration (override localStorage — исключение).
-- `dev:bench:routes` для `/` не хуже baseline ±10%.
-- Bundle report приложен к фазе.
+- [x] `/` — RSC `initialProducts` + client seed (без fetch `/data/products.json` до idle, если seed есть)
+- [x] `/` — RSC `initialCms` (Phase 4)
+- [ ] `dev:bench:routes` для `/` не хуже baseline ±10%
+- [ ] Bundle report приложен к фазе

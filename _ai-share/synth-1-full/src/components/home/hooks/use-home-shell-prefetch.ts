@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { scheduleIdleMount } from '@/lib/wait-for-idle';
 import { HOME_ROLES_NEEDING_PRODUCTS } from '@/components/home/hooks/home-data-roles';
-import { prefetchHomeProductsCatalog } from '@/components/home/lib/home-products-catalog';
+import { prefetchHomeProductsCatalog, readHomeProductsCatalogCache } from '@/components/home/lib/home-products-catalog';
 import { prefetchHomeCmsConfig } from '@/components/home/lib/home-cms-config-cache';
 
 type UseHomeShellPrefetchOptions = {
@@ -25,7 +25,7 @@ export function useHomeShellPrefetch({
     const cancelIdle = scheduleIdleMount(
       () => {
         prefetchHomeCmsConfig();
-        if (HOME_ROLES_NEEDING_PRODUCTS.has(viewRole)) {
+        if (HOME_ROLES_NEEDING_PRODUCTS.has(viewRole) && readHomeProductsCatalogCache() === undefined) {
           prefetchHomeProductsCatalog();
         }
       },
