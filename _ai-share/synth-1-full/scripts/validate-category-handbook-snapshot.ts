@@ -76,9 +76,12 @@ for (const key of Object.keys(LEAF_PRODUCTION_PROFILE_OVERRIDES)) {
 }
 
 const tzKeys = new Set(Object.keys(TZ_LEAF_EXTRA_REQUIREMENTS));
-if (tzKeys.size !== leaves.length) {
+const uniqueTzKeysInLeaves = new Set(
+  leaves.map((leaf) => tzLeafKey(leaf.l1Name, leaf.l2Name, leaf.l3Name))
+);
+if (tzKeys.size !== uniqueTzKeysInLeaves.size) {
   fail(
-    `TZ_LEAF_EXTRA_REQUIREMENTS: ожидалось ${leaves.length} ключей, в файле ${tzKeys.size} (перегенерируйте gen:tz-leaf-requirements)`
+    `TZ_LEAF_EXTRA_REQUIREMENTS: ожидалось ${uniqueTzKeysInLeaves.size} ключей, в файле ${tzKeys.size} (перегенерируйте gen:tz-leaf-requirements)`
   );
 }
 for (const leaf of leaves) {
