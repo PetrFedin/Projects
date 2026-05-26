@@ -5,6 +5,16 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 cd "$ROOT"
+
+if git -C "$ROOT/_ai-share/synth-1-full" diff --quiet HEAD -- 2>/dev/null; then
+  :
+else
+  echo "⚠ dirty tree in synth-1-full — verify может падать (workshop2 WIP, ai-client-boundary)."
+  echo "  Для PR: git stash или отдельная ветка. См. .planning/phases/dev-perf/PR_READY.md"
+  echo ""
+fi
+
+cd "$ROOT"
 echo "=== npm run smoke (check:contracts:ci + layout gates) ==="
 npm run smoke
 

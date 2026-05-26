@@ -1,6 +1,12 @@
 # Dev-perf verification (2026-05-26)
 
-## Фаза 1 — regression
+## Latest static verify
+
+| Команда | Результат | Примечание |
+|---------|-----------|------------|
+| `npm run verify:dev-perf` | **PASS** | layout gates **32** + contracts (post AuthProviderGate) |
+
+## Фаза 1 — regression (historical)
 
 | Команда | Результат | Примечание |
 |---------|-----------|------------|
@@ -40,4 +46,4 @@
 | 4b RolePanelGate idle | уже было |
 | 4c server CMS prefetch | **`GET /api/home/cms`** + RSC `initialCms` на `/` ✅ |
 | 4d investor-spine e2e в CI | `test:e2e:verification` есть локально; CI path-filter only |
-| AuthProvider lazy | blocked: RouteGuard |
+| AuthProvider lazy | **done** — `AuthProviderGate` + interactive stub; RouteGuard uses shared public paths |

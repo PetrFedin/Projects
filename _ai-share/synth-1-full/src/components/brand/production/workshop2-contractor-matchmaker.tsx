@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Loader2, Sparkles, Factory } from 'lucide-react';
-import type { MatchContractorsOutput } from '@/ai/flows/match-contractors-flow';
+import type { MatchContractorsOutput } from '@/lib/production/workshop2-match-contractors-types';
 import type { Workshop2SewingContractorsPayload, SewingPlanPartnerRow } from '@/lib/production/workshop2-sewing-plan-reference-types';
 import { useToast } from '@/hooks/use-toast';
 
