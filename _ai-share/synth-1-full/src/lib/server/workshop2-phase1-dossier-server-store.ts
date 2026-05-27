@@ -382,10 +382,7 @@ export async function appendWorkshop2ServerDossierEvent(input: {
   const eventType = input.eventType.trim();
   if (!eventType) return { ok: false, error: 'invalid_event' };
 
-  const dossierRecord = await getWorkshop2ServerDossierRecord(
-    input.collectionId,
-    input.articleId
-  );
+  const dossierRecord = await getWorkshop2ServerDossierRecord(input.collectionId, input.articleId);
   if (!dossierRecord) return { ok: false, error: 'not_found' };
 
   const nowIso = new Date().toISOString();
