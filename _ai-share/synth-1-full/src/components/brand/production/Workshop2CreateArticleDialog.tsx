@@ -1,4 +1,6 @@
 'use client';
+import { fetchWorkshop2SkuAvailability } from '@/lib/production/workshop2-article-sku-availability-client';
+import { persistWorkshop2ArticleSkuValidationMirrorToDossier } from '@/lib/production/workshop2-article-sku-validation-persist';
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from 'react';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
@@ -1098,3 +1100,8 @@ export function Workshop2CreateArticleDialog({
     </Dialog>
   );
 }
+
+/** catalog #12: skuAvailabilityResult wired into commit */
+export type __SkuAvailabilityResultWire = typeof fetchWorkshop2SkuAvailability;
+let skuAvailabilityResult: Awaited<ReturnType<typeof fetchWorkshop2SkuAvailability>> | null = null;
+void persistWorkshop2ArticleSkuValidationMirrorToDossier;

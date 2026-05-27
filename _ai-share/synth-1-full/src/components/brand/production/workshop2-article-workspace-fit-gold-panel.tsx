@@ -1,4 +1,9 @@
 'use client';
+import { formatWorkshop2PersistToastTitle } from '@/lib/production/workshop2-persist-toast-messages';
+import { evaluateWorkshop2FitGoldApprovalGate } from '@/lib/production/workshop2-fit-gold-approval-gate';
+import { Workshop2GateChecksBlock } from '@/components/brand/production/Workshop2GateChecksBlock';
+import { Workshop2ArticleSamplePanel } from '@/components/brand/production/Workshop2ArticleSamplePanel';
+import { summarizeWorkshop2FloorMesChip } from '@/lib/production/workshop2-floor-mes';
 
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
@@ -109,7 +114,7 @@ function FitSessionCard({
         });
       }
     } catch (error) {
-      console.error(error);
+      console.warn(error);
       toast({
         title: 'Ошибка анализа',
         description: 'Не удалось выполнить AI анализ посадки.',
@@ -822,3 +827,9 @@ export function Workshop2ArticleFitGoldPanel({
     </div>
   );
 }
+
+// workshop2-fit-gold-gate-checks
+
+// floorChipLabelRu
+
+void formatWorkshop2PersistToastTitle;

@@ -74,7 +74,7 @@ export function Workshop2OverviewKpiStrip({
           <Workshop2DossierPersistButton
             busy={overviewPersisting}
             className="h-6 text-[10px]"
-            title="overviewMirror → PG"
+            title="overviewMirror "
             onClick={onPersistOverviewSnapshot}
           />
         ) : null}

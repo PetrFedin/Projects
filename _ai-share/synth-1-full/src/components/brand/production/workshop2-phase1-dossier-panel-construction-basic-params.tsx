@@ -1,4 +1,5 @@
 'use client';
+import { workshop2DevWarn } from '@/lib/production/workshop2-dev-log';
 
 import { Fragment, useState, type ReactNode } from 'react';
 import * as LucideIcons from 'lucide-react';
@@ -300,7 +301,7 @@ export function Workshop2DossierConstructionBasicParamsBlock({
                         }
                       }
                     } catch (error) {
-                      console.error('Failed to calculate tolerances', error);
+                      workshop2DevWarn('component', 'Failed to calculate tolerances', error);
                     } finally {
                       setTolerancesLoading(false);
                       setTolerancesOpen(false);
@@ -470,7 +471,7 @@ export function Workshop2DossierConstructionBasicParamsBlock({
                         const result = await parseCadFile(file);
                         setCadResult(result);
                       } catch (error) {
-                        console.error('Failed to parse CAD file', error);
+                        workshop2DevWarn('component', 'Failed to parse CAD file', error);
                       } finally {
                         setCadParserLoading(false);
                       }

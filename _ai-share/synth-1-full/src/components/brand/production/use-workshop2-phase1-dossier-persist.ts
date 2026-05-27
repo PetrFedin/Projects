@@ -2,6 +2,7 @@
 
 import {
   useCallback,
+  useEffect,
   useRef,
   type Dispatch,
   type MutableRefObject,
@@ -15,13 +16,59 @@ import {
   recordW2DossierPersistFailure,
   recordW2DossierPersistSuccess,
 } from '@/lib/production/workshop2-dossier-session-metrics';
+import {
+  postWorkshop2Event,
+  saveWorkshop2DossierToApi,
+} from '@/lib/production/workshop2-api-client';
+import {
+  evaluateWorkshop2DossierSaveHonesty,
+  workshop2DossierStoreModeMessageRu,
+} from '@/lib/production/workshop2-dossier-store-mode';
+import {
+  getWorkshop2ServerDossierVersion,
+  notifyWorkshop2VersionConflict,
+  setWorkshop2ServerDossierVersion,
+} from '@/lib/production/workshop2-dossier-version-sync';
+import type { Workshop2EventType } from '@/lib/production/workshop2-event-bridge';
 import { setWorkshop2Phase1Dossier } from '@/lib/production/workshop2-phase1-dossier-storage';
+import { computeWorkshop2BomCostingRollup } from '@/lib/production/workshop2-bom-costing';
+import { syncWorkshop2CostingRubMirrorOnDossier } from '@/lib/production/workshop2-dossier-costing-rub';
+import {
+  bumpWorkshop2VaultSnapshot,
+  workshop2EventBridge,
+} from '@/lib/production/workshop2-event-bridge';
+import { syncTaMilestonesForDossier } from '@/lib/production/workshop2-ta-templates';
+import { syncWorkshop2RoutingStepsOnDossier } from '@/lib/production/workshop2-routing-steps';
+import {
+  resolveDossierLifecycleState,
+  calculateDossierReadiness,
+} from '@/lib/production/dossier-readiness-engine';
 
 type ToastFn = (opts: {
   title: string;
   description?: string;
   variant?: 'default' | 'destructive';
 }) => void;
+
+const PERSIST_DEBOUNCE_MS = 400;
+
+function mirrorWorkshop2EventToApi(
+  collectionId: string,
+  articleId: string,
+  type: Workshop2EventType,
+  payload: { by?: string; meta?: Record<string, unknown>; at?: string }
+): void {
+  void postWorkshop2Event({
+    collectionId,
+    articleId,
+    eventType: type,
+    eventPayload: {
+      at: payload.at ?? new Date().toISOString(),
+      ...(payload.by ? { by: payload.by } : {}),
+      ...(payload.meta ?? {}),
+    },
+  }).catch(() => undefined);
+}
 
 export type UseWorkshop2Phase1DossierPersistInput = {
   collectionId: string;
@@ -34,14 +81,51 @@ export type UseWorkshop2Phase1DossierPersistInput = {
   setDossierMetricsTick: Dispatch<SetStateAction<number>>;
   setSaveError: Dispatch<SetStateAction<string | null>>;
   setSavedHint: Dispatch<SetStateAction<string | null>>;
+  onVersionConflict?: (payload: { currentVersion: number; conflictFieldsRu?: string[] }) => void;
 };
 
 export type UseWorkshop2Phase1DossierPersistResult = {
-  persist: (next: Workshop2DossierPhase1, opts?: { freezeUpdatedAt?: boolean }) => void;
+  persist: (
+    next: Workshop2DossierPhase1,
+    opts?: { freezeUpdatedAt?: boolean; skipServerSync?: boolean }
+  ) => void;
   lastPersistedDossierRef: MutableRefObject<Workshop2DossierPhase1 | null>;
 };
 
-/** Сохранение досье в localStorage, метрики, подсказки и throttled toast об успехе. */
+function enrichDossierBeforePersist(
+  stamped: Workshop2DossierPhase1,
+  prev: Workshop2DossierPhase1 | null
+): Workshop2DossierPhase1 {
+  let next = syncTaMilestonesForDossier(stamped);
+  next = syncWorkshop2RoutingStepsOnDossier(next);
+  const rollup = computeWorkshop2BomCostingRollup(next);
+  next = {
+    ...next,
+    bomCostingSnapshot: {
+      computedAt: new Date().toISOString(),
+      materialsTotal: rollup.materialsTotal,
+      trimsTotal: rollup.trimsTotal,
+      operationsTotal: rollup.operationsTotal,
+      estimatedFob: rollup.estimatedFob,
+      currency: rollup.currency,
+      targetFob: rollup.targetFob,
+      deltaBand: rollup.deltaBand,
+      deltaPct: rollup.deltaPct,
+    },
+  };
+  if (!prev || prev.updatedAt !== next.updatedAt) {
+    next = bumpWorkshop2VaultSnapshot(next, next.updatedBy);
+  }
+  next = syncWorkshop2CostingRubMirrorOnDossier(next);
+  const readiness = calculateDossierReadiness(next, null);
+  next = {
+    ...next,
+    lifecycleState: resolveDossierLifecycleState(next, readiness),
+  };
+  return next;
+}
+
+/** Сохранение досье: API primary + honest file_persist_only footer suppression. */
 export function useWorkshop2Phase1DossierPersist(
   input: UseWorkshop2Phase1DossierPersistInput
 ): UseWorkshop2Phase1DossierPersistResult {
@@ -56,13 +140,23 @@ export function useWorkshop2Phase1DossierPersist(
     setDossierMetricsTick,
     setSaveError,
     setSavedHint,
+    onVersionConflict,
   } = input;
 
   const lastPersistedDossierRef = useRef<Workshop2DossierPhase1 | null>(null);
   const lastPersistSuccessToastAtRef = useRef(0);
+  const serverDossierVersionRef = useRef<number | null>(getWorkshop2ServerDossierVersion());
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingPersistRef = useRef<{
+    next: Workshop2DossierPhase1;
+    opts?: { freezeUpdatedAt?: boolean; skipServerSync?: boolean };
+  } | null>(null);
 
-  const persist = useCallback(
-    (next: Workshop2DossierPhase1, opts?: { freezeUpdatedAt?: boolean }) => {
+  const persistImmediate = useCallback(
+    async (
+      next: Workshop2DossierPhase1,
+      opts?: { freezeUpdatedAt?: boolean; skipServerSync?: boolean }
+    ) => {
       if (tzWriteDisabled) {
         toast({
           title: 'Только просмотр',
@@ -71,30 +165,113 @@ export function useWorkshop2Phase1DossierPersist(
         });
         return;
       }
-      const stamped = stampPhase1DossierForPersist(
+      const stampedRaw = stampPhase1DossierForPersist(
         next,
         opts,
         updatedByLabel,
         lastPersistedDossierRef.current
       );
+      const prevLifecycle = lastPersistedDossierRef.current?.lifecycleState;
+      const stamped = enrichDossierBeforePersist(stampedRaw, lastPersistedDossierRef.current);
       lastPersistedDossierRef.current = stamped;
-      const savedOk = setWorkshop2Phase1Dossier(collectionId, articleId, stamped);
       setDossierInternal(stamped);
-      if (!savedOk) {
+
+      let apiSynced = false;
+      let apiOffline = false;
+      let filePersistOnly = false;
+      let saveMessageRu: string | undefined;
+      if (!opts?.skipServerSync) {
+        const apiSave = await saveWorkshop2DossierToApi({
+          collectionId,
+          articleId,
+          dossier: stamped,
+          baseVersion: serverDossierVersionRef.current ?? undefined,
+        });
+        const honesty = evaluateWorkshop2DossierSaveHonesty({
+          apiOk: apiSave.ok,
+          storeMode: apiSave.ok ? apiSave.data.storeMode : undefined,
+          reason: apiSave.ok ? undefined : apiSave.reason,
+        });
+        saveMessageRu = apiSave.ok
+          ? (apiSave.data.messageRu ?? honesty.messageRu)
+          : honesty.messageRu;
+        filePersistOnly = honesty.filePersistOnly;
+        if (apiSave.ok) {
+          serverDossierVersionRef.current = apiSave.data.version;
+          setWorkshop2ServerDossierVersion(apiSave.data.version);
+          apiSynced = true;
+        } else if (apiSave.reason === 'version_conflict') {
+          const cv = apiSave.currentVersion ?? serverDossierVersionRef.current ?? 0;
+          serverDossierVersionRef.current = cv;
+          notifyWorkshop2VersionConflict(cv);
+          onVersionConflict?.({
+            currentVersion: cv,
+            conflictFieldsRu: apiSave.conflictFieldsRu,
+          });
+          setSaveError(
+            `Конфликт версий: досье изменено другим пользователем (сервер v${cv}). Используйте модальное окно для обновления.`
+          );
+          return;
+        } else if (apiSave.reason === 'network_or_server_error') {
+          apiOffline = true;
+        } else {
+          console.warn('[workshop2-persist] API save:', apiSave.reason, collectionId, articleId);
+        }
+      }
+
+      const savedOk =
+        apiSynced || apiOffline
+          ? setWorkshop2Phase1Dossier(collectionId, articleId, stamped)
+          : false;
+
+      const emitAt = new Date().toISOString();
+      workshop2EventBridge.emit('DOSSIER_SAVED', {
+        collectionId,
+        articleId,
+        dossier: stamped,
+        by: updatedByLabel,
+        at: emitAt,
+        meta: { vaultVersion: stamped.vaultSnapshotVersion },
+      });
+      mirrorWorkshop2EventToApi(collectionId, articleId, 'DOSSIER_SAVED', {
+        by: updatedByLabel,
+        at: emitAt,
+        meta: { vaultVersion: stamped.vaultSnapshotVersion },
+      });
+
+      if (prevLifecycle !== stamped.lifecycleState && stamped.lifecycleState) {
+        workshop2EventBridge.emit('DOSSIER_STATUS_CHANGED', {
+          collectionId,
+          articleId,
+          dossier: stamped,
+          by: updatedByLabel,
+          at: emitAt,
+          meta: { from: prevLifecycle, to: stamped.lifecycleState },
+        });
+      }
+
+      if (!savedOk && !apiSynced) {
         recordW2DossierPersistFailure(collectionId, articleId);
         setDossierMetricsTick((n) => n + 1);
         flushW2DossierMetricsToServer(collectionId, articleId, w2DossierMetricsCtx);
-        setSaveError(
-          'Не удалось сохранить в localStorage (квота или приватный режим). Сожмите фото в референсах/скетче или вынесите в ссылки.'
-        );
+        setSaveError('Не удалось сохранить на сервер. Проверьте WORKSHOP2_DATABASE_URL и сеть.');
         toast({
           title: 'Сохранение не записано',
-          description: 'Браузер отклонил запись — уменьшите объём вложений в досье.',
+          description: 'PostgreSQL/API недоступен — настройте backend или повторите позже.',
           variant: 'destructive',
         });
         return;
       }
-      setSaveError(null);
+
+      setSaveError(
+        filePersistOnly
+          ? null
+          : apiSynced && !savedOk
+            ? 'Сервер сохранил досье, но localStorage недоступен. Продолжайте работу онлайн.'
+            : apiOffline
+              ? 'Офлайн-кэш (localStorage)'
+              : null
+      );
       recordW2DossierPersistSuccess(collectionId, articleId);
       setDossierMetricsTick((n) => n + 1);
       flushW2DossierMetricsToServer(collectionId, articleId, w2DossierMetricsCtx);
@@ -102,11 +279,21 @@ export function useWorkshop2Phase1DossierPersist(
       if (toastAt - lastPersistSuccessToastAtRef.current >= 3500) {
         lastPersistSuccessToastAtRef.current = toastAt;
         toast({
-          title: 'Черновик сохранён',
-          description: 'Запись в браузере на этом устройстве.',
+          title: filePersistOnly
+            ? 'Файловый сервер (PG off)'
+            : apiSynced
+              ? 'Сохранено на сервере'
+              : 'Черновик в кэше',
+          description: filePersistOnly
+            ? (saveMessageRu ??
+              'PostgreSQL недоступен — запись на файловом сервере (не PG primary).')
+            : apiSynced
+              ? workshop2DossierStoreModeMessageRu('server_postgres')
+              : 'Сеть недоступна — запись только в localStorage.',
+          variant: filePersistOnly ? 'destructive' : 'default',
         });
       }
-      setSavedHint('Черновик сохранён');
+      setSavedHint(filePersistOnly ? 'Файл (PG off)' : apiSynced ? 'На сервере' : 'Офлайн-кэш');
       window.setTimeout(() => setSavedHint(null), 4000);
     },
     [
@@ -120,8 +307,45 @@ export function useWorkshop2Phase1DossierPersist(
       setDossierMetricsTick,
       setSaveError,
       setSavedHint,
+      onVersionConflict,
     ]
   );
+
+  const persist = useCallback(
+    (
+      next: Workshop2DossierPhase1,
+      opts?: { freezeUpdatedAt?: boolean; skipServerSync?: boolean }
+    ) => {
+      if (opts?.freezeUpdatedAt) {
+        if (debounceTimerRef.current) {
+          clearTimeout(debounceTimerRef.current);
+          debounceTimerRef.current = null;
+        }
+        pendingPersistRef.current = null;
+        persistImmediate(next, opts);
+        return;
+      }
+      pendingPersistRef.current = { next, opts };
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = setTimeout(() => {
+        const pending = pendingPersistRef.current;
+        pendingPersistRef.current = null;
+        debounceTimerRef.current = null;
+        if (pending) void persistImmediate(pending.next, pending.opts);
+      }, PERSIST_DEBOUNCE_MS);
+    },
+    [persistImmediate]
+  );
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+        const pending = pendingPersistRef.current;
+        if (pending) void persistImmediate(pending.next, pending.opts);
+      }
+    };
+  }, [persistImmediate]);
 
   return { persist, lastPersistedDossierRef };
 }

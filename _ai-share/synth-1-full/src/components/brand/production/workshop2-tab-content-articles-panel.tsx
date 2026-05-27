@@ -1,5 +1,7 @@
 'use client';
 
+import { fetchWorkshop2HubBatchScores } from '@/lib/production/workshop2-hub-batch-readiness';
+
 import { Fragment, type MutableRefObject, type Dispatch, type SetStateAction } from 'react';
 import {
   CircleAlert,

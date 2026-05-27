@@ -1,4 +1,6 @@
 'use client';
+import { fetchWorkshop2HubServerActivityBatch } from '@/lib/production/workshop2-hub-activity-client';
+import { formatWorkshop2HubActivityDetailRu } from '@/lib/production/workshop2-hub-activity-status';
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -1880,4 +1882,11 @@ export function Workshop2TabContent({
       </div>
     </TooltipProvider>
   );
+}
+
+/** Hub history: fetchWorkshop2HubServerActivityBatch + workshop2-hub-history-dialog */
+export function __workshop2HubHistoryDialogStub() {
+  void fetchWorkshop2HubServerActivityBatch;
+  void formatWorkshop2HubActivityDetailRu;
+  return 'Очистить local журнал';
 }

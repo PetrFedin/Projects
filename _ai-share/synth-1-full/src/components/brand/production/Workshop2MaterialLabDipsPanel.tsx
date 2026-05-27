@@ -1,4 +1,5 @@
 'use client';
+import { workshop2DevWarn } from '@/lib/production/workshop2-dev-log';
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -55,7 +56,7 @@ export function Workshop2MaterialLabDipsPanel({ materialId }: Workshop2MaterialL
         throw new Error('Failed to update status');
       }
     } catch (err) {
-      console.error('Error updating lab dip:', err);
+      workshop2DevWarn('component', 'Error updating lab dip:', err);
       // Revert on failure
       setLabDips(previousDips);
     }

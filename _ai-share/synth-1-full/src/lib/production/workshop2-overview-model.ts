@@ -141,11 +141,20 @@ export type Workshop2OverviewPrimaryAction = {
   dossierSection?: DossierSection;
 };
 
+export type Workshop2OverviewReadinessSnapshot = {
+  tzOverallPct: number;
+  readyForHandoff: boolean;
+  blockerCount: number;
+  warningCount: number;
+  source: 'dossier_readiness';
+};
+
 export type Workshop2OverviewModel = {
   decisionItems: Workshop2OverviewDecisionItem[];
   routeStages: Workshop2OverviewRouteStage[];
   topBlockers: Workshop2OverviewBlocker[];
   primaryAction: Workshop2OverviewPrimaryAction;
+  readinessSnapshot: Workshop2OverviewReadinessSnapshot;
 };
 
 /** Подпись этапа без повтора роли, если она уже в названии (напр. «Снабжение · Закупка» и владелец «Закупка»). */
@@ -570,6 +579,8 @@ export function buildWorkshop2OverviewModel(args: {
   dossier: Workshop2DossierPhase1 | null;
   leaf: HandbookCategoryLeaf | undefined | null;
   bundle: Workshop2OverviewBundleSnapshot | null;
+  collectionId?: string;
+  articleId?: string;
 }): Workshop2OverviewModel {
   const { dossier, leaf, bundle } = args;
   const dossierReadiness = calculateDossierReadiness(dossier, leaf);
@@ -583,11 +594,19 @@ export function buildWorkshop2OverviewModel(args: {
   }));
   const warnings = dossierReadiness.summary.warnings;
   const decisionItems = buildDecisionItems(dossier);
+  const topBlockers = buildTopBlockers(warnings, routeStages);
 
   return {
     decisionItems,
     routeStages,
-    topBlockers: buildTopBlockers(warnings, routeStages),
+    topBlockers,
     primaryAction: buildPrimaryAction(warnings, bundle, decisionItems),
+    readinessSnapshot: {
+      tzOverallPct: dossierReadiness.overall.pct,
+      readyForHandoff: dossierReadiness.overall.readyForHandoff,
+      blockerCount: topBlockers.length,
+      warningCount: Math.max(0, warnings.length),
+      source: 'dossier_readiness',
+    },
   };
 }

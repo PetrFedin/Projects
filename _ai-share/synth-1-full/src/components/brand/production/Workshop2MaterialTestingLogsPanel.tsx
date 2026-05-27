@@ -1,4 +1,5 @@
 'use client';
+import { workshop2DevWarn } from '@/lib/production/workshop2-dev-log';
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -84,7 +85,7 @@ export function Workshop2MaterialTestingLogsPanel({
       setNotes('');
       setIsAdding(false);
     } catch (err) {
-      console.error('Error adding test log:', err);
+      workshop2DevWarn('component', 'Error adding test log:', err);
       // Could add toast notification here
     } finally {
       setIsSubmitting(false);

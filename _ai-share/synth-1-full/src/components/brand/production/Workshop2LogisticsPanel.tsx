@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+'use client';
+
+import { useCallback, useMemo, useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -14,8 +16,19 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
-import { PanelShell } from '@/components/brand/production/workshop2-article-workspace-tab-panels-shell';
-
+import {
+  Workshop2OperationalMetaChips,
+  Workshop2OperationalPanelChrome,
+  Workshop2OperationalPanelShell,
+  Workshop2OperationalPgMirrorChip,
+} from '@/components/brand/production/workshop2-operational-panel-chrome';
+import { Workshop2DossierPersistButton } from '@/components/brand/production/Workshop2DossierPersistButton';
+import {
+  persistWorkshop2LogisticsShipmentMirrorToDossier,
+  summarizeWorkshop2LogisticsPanelTrackingUi,
+} from '@/lib/production/workshop2-logistics-dossier-persist';
+import { useToast } from '@/hooks/use-toast';
+import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 const STEPS = [
   { id: 'factory', label: 'Производство (Бишкек)', icon: Factory },
   { id: 'truck_load', label: 'Погрузка (Фура)', icon: Truck },
@@ -58,6 +71,20 @@ export function Workshop2LogisticsPanel({
 } = {}) {
   const { dataMode } = useArticleWorkspace();
   const [currentStepIndex, setCurrentStepIndex] = useState(2);
+  const trackingUi = useMemo(
+    () =>
+      summarizeWorkshop2LogisticsPanelTrackingUi({
+        dossier,
+        hasActiveShipment: Boolean(dossier?.logisticsShipmentMirror?.shipmentCount),
+      }),
+    [dossier]
+  );
+  const logisticsPgMirror = useMemo(() => {
+    const mirror = dossier?.logisticsShipmentMirror;
+    if (!mirror?.mirroredAt)
+      return { label: 'Logistics: не в PG', tone: 'slate' as const, title: mirror?.hintRu };
+    return { label: 'Logistics: PG', tone: 'emerald' as const, title: mirror.hintRu };
+  }, [dossier]);
 
   return (
     <div className="border-border-default rounded-xl border bg-white p-4 shadow-sm">
@@ -95,12 +122,11 @@ export function Workshop2LogisticsPanel({
           <span className="text-text-primary border-border-subtle max-w-full rounded border bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
             <span className="text-text-muted font-bold">Гот.</span> · В пути
           </span>
-          <Badge
-            variant="outline"
-            className="flex items-center gap-1 border-blue-200 bg-blue-50 px-2 py-0.5 text-[10px] text-blue-700 shadow-sm"
-          >
-            <Activity className="h-3 w-3 animate-pulse" />
-            Трекинг активен
+          <span data-testid="workshop2-logistics-pg-chip">
+            <Workshop2OperationalPgMirrorChip {...logisticsPgMirror} />
+          </span>
+          <Badge variant="outline" className="text-[10px]">
+            {trackingUi.statusLabelRu}
           </Badge>
           <span className="text-text-muted ml-auto text-[10px]">Обновлено: 10 мин назад</span>
         </div>

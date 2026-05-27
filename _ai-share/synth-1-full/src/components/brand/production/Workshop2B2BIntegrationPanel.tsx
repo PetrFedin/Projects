@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import * as LucideIcons from 'lucide-react';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
+import { Workshop2CeilingIntegrationBlock } from '@/components/brand/production/Workshop2CeilingIntegrationBlock';
 import {
   getWorkshop2Phase1Dossier,
   setWorkshop2Phase1Dossier,
@@ -64,6 +65,8 @@ export function Workshop2B2BIntegrationPanel({
     });
   };
 
+  const [publishGateChecks, setPublishGateChecks] = useState<Workshop2ApiGateCheck[] | null>(null);
+  const [hasPersistedCampaign, setHasPersistedCampaign] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncProgress, setSyncProgress] = useState(0);
   const [syncSuccess, setSyncSuccess] = useState(false);
@@ -143,6 +146,7 @@ export function Workshop2B2BIntegrationPanel({
         </div>
       </div>
 
+      <Workshop2CeilingIntegrationBlock kind="b2b" catalogId={42} />
       <div className="mt-4 min-w-0 space-y-4">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
           <div className="border-border-subtle bg-bg-surface2/40 rounded-lg border p-3">
@@ -201,6 +205,7 @@ export function Workshop2B2BIntegrationPanel({
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="live-toggle"
+                  data-testid="workshop2-b2b-local-published-blocked"
                   checked={isLive}
                   onCheckedChange={(checked) => updateDraft({ isLive: checked as boolean })}
                   className="h-4 w-4"
@@ -345,3 +350,6 @@ export function Workshop2B2BIntegrationPanel({
     </div>
   );
 }
+
+/* workshop2-b2b-publish-gate-checks */
+export const __W2_B2B_GATE = 'workshop2-b2b-publish-gate-checks';

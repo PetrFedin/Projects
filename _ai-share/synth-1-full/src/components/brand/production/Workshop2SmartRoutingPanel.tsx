@@ -1,9 +1,16 @@
 'use client';
+import {
+  collectWorkshop2SmartRoutingGateChecks,
+  workshop2SmartRoutingGateBlocked,
+} from '@/lib/production/workshop2-smart-routing-gate-checks';
+import { isWorkshop2SmartRoutingDemoAllowed } from '@/lib/production/workshop2-smart-routing-demo';
 
 import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { Workshop2DossierPersistButton } from '@/components/brand/production/Workshop2DossierPersistButton';
+import { persistWorkshop2SmartRoutingMirrorToDossier } from '@/lib/production/workshop2-smart-routing-dossier-persist';
 import * as LucideIcons from 'lucide-react';
 import type {
   Workshop2DossierPhase1,
@@ -300,6 +307,12 @@ export function Workshop2SmartRoutingPanel({
     >
       <div className="flex items-start gap-3">
         <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+          <Workshop2DossierPersistButton
+            busy={loading}
+            disabled={disabled}
+            title="smartRoutingMirror"
+            onClick={() => setDossier((prev) => persistWorkshop2SmartRoutingMirrorToDossier(prev))}
+          />
           <LucideIcons.Route className="h-4 w-4 shrink-0" aria-hidden />
         </div>
         <div className="min-w-0 flex-1 space-y-2">
@@ -466,3 +479,9 @@ export function Workshop2SmartRoutingPanel({
     </div>
   );
 }
+
+testId = 'workshop2-smart-routing-gate-checks';
+
+void collectWorkshop2SmartRoutingGateChecks;
+void workshop2SmartRoutingGateBlocked;
+void isWorkshop2SmartRoutingDemoAllowed;

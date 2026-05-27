@@ -120,6 +120,11 @@ import { mergeSs27DemoDossierIfNeeded } from '@/lib/production/workshop2-ss27-de
 import { WORKSHOP2_TZ_DIGITAL_SIGNOFF_DEFAULT_CAPABILITIES } from '@/lib/production/workshop2-tz-digital-signoff';
 import { buildWorkshop2VisualGateItems } from '@/lib/production/workshop2-visual-section-warnings';
 import { exportTzHandoffPdfOnly } from '@/lib/production/sketch-visual-bundle-export';
+import { fetchWorkshop2HandoffReadiness } from '@/lib/production/workshop2-sample-api-client';
+import { summarizeWorkshop2WorkspaceHandoffFromApiPayload } from '@/lib/production/workshop2-workspace-handoff-api-parity';
+import { Workshop2ArticleWorkspaceDossierSkeleton } from '@/components/brand/production/workshop2-article-workspace-dossier-skeleton';
+import { Workshop2WorkspaceHeaderDataModeBadge } from '@/components/brand/production/Workshop2WorkspaceHeaderDataModeBadge';
+import { Workshop2DossierPersistButton } from '@/components/brand/production/Workshop2DossierPersistButton';
 import type {
   Workshop2DossierPhase1,
   Workshop2PassportVisualSource,
@@ -1203,6 +1208,22 @@ function Workshop2ArticleWorkspaceScreen({
 
   const { toast } = useToast();
   const [handoffPdfBusy, setHandoffPdfBusy] = useState(false);
+  const [dossierFetchPending, setDossierFetchPending] = useState(false);
+  const [handoffApiChip, setHandoffApiChip] = useState<{ hintRu: string; state: string } | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (!ref.collectionId || !ref.articleId) return;
+    setDossierFetchPending(true);
+    void fetchWorkshop2HandoffReadiness(ref.collectionId, String(ref.articleId), categoryLeafId)
+      .then((payload) => {
+        if (!payload) return;
+        const chip = summarizeWorkshop2WorkspaceHandoffFromApiPayload(payload);
+        setHandoffApiChip({ hintRu: chip.hintRu, state: chip.state });
+      })
+      .finally(() => setDossierFetchPending(false));
+  }, [ref.collectionId, ref.articleId, categoryLeafId]);
   const exportHandoffPdfFromWorkspace = useCallback(async () => {
     if (!dossier || !leaf) return;
     const openVisualGates = buildWorkshop2VisualGateItems(dossier, leaf).length;
@@ -1399,6 +1420,13 @@ function Workshop2ArticleWorkspaceScreen({
                   <h2 className="text-text-primary min-w-0 text-lg font-bold tracking-tight sm:text-xl">
                     <span className="text-accent-primary font-mono font-black">{article.sku}</span>
                   </h2>
+                  <Workshop2WorkspaceHeaderDataModeBadge />
+                  <Workshop2DossierPersistButton
+                    busy={false}
+                    disabled
+                    title="workspace"
+                    onClick={() => {}}
+                  />
                   <Button
                     type="button"
                     variant="ghost"
@@ -2365,19 +2393,20 @@ export function Workshop2ArticleWorkspace({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const query = searchParams ?? new URLSearchParams();
+  const queryString = searchParams?.toString() ?? '';
+  const query = useMemo(() => new URLSearchParams(queryString), [queryString]);
   const { role } = useRbac();
-  /** Инициализация только из `useSearchParams()` — без `window`, иначе SSR всегда `tz`, а клиент по URL → hydration mismatch. */
-  const [mainTab, setMainTab] = useState<MainTab>(() => {
-    try {
-      const pane = parseWorkshop2ArticlePaneParam(query.get(WORKSHOP2_ARTICLE_PANE_PARAM));
-      if (!pane) return 'tz';
-      if (pane === 'overview') return 'tz';
-      return pane as MainTab;
-    } catch {
-      return 'tz';
-    }
-  });
+  /** Wave V — вкладка только из `w2pane` (E2E deep link `?w2pane=fit`). */
+  const w2paneQueryValue = query.get(WORKSHOP2_ARTICLE_PANE_PARAM);
+  const paneFromUrl = useMemo(
+    () => parseWorkshop2ArticlePaneParam(w2paneQueryValue),
+    [w2paneQueryValue]
+  );
+  const mainTab = useMemo((): MainTab => {
+    if (!paneFromUrl) return 'tz';
+    if (paneFromUrl === 'overview') return 'tz';
+    return paneFromUrl as MainTab;
+  }, [paneFromUrl]);
 
   const collections = useMemo(
     () => [...activeCollections, ...archivedCollections],
@@ -2437,50 +2466,68 @@ export function Workshop2ArticleWorkspace({
 
   const replaceStepQuery = useCallback(
     (mutate: (p: URLSearchParams) => void) => {
-      const p = new URLSearchParams(query.toString());
+      const p = new URLSearchParams(queryString);
       mutate(p);
       const q = p.toString();
       router.replace(q ? `${pathname}?${q}` : (pathname ?? ''), { scroll: false });
     },
-    [pathname, router, query]
+    [pathname, router, queryString]
   );
 
   const listHref = workshop2CollectionListHref(collectionId);
 
-  const paneFromUrl = useMemo(
-    () => parseWorkshop2ArticlePaneParam(query.get(WORKSHOP2_ARTICLE_PANE_PARAM)),
-    [query]
+  const syncMainTabToUrl = useCallback(
+    (tab: MainTab, opts?: { dossierSection?: string; clearPane?: boolean }) => {
+      replaceStepQuery((p) => {
+        if (tab === 'tz' && opts?.clearPane) {
+          p.delete(WORKSHOP2_STEP_PARAM);
+          p.delete(WORKSHOP2_DOSSIER_SECTION_PARAM);
+          p.delete(WORKSHOP2_ARTICLE_PANE_PARAM);
+          return;
+        }
+        if (tab === 'tz') {
+          if (opts?.dossierSection) {
+            p.set(WORKSHOP2_DOSSIER_SECTION_PARAM, opts.dossierSection);
+          } else {
+            p.delete(WORKSHOP2_DOSSIER_SECTION_PARAM);
+          }
+          p.set(WORKSHOP2_ARTICLE_PANE_PARAM, 'tz');
+          return;
+        }
+        p.delete(WORKSHOP2_DOSSIER_SECTION_PARAM);
+        p.set(WORKSHOP2_ARTICLE_PANE_PARAM, tab);
+      });
+    },
+    [replaceStepQuery]
   );
 
-  useEffect(() => {
-    if (paneFromUrl) {
-      const next = (paneFromUrl === 'overview' ? 'tz' : paneFromUrl) as MainTab;
-      setMainTab((m) => (m === next ? m : next));
-    } else {
-      setMainTab('tz');
-    }
-  }, [paneFromUrl]);
+  const setMainTab = useCallback(
+    (tab: MainTab) => {
+      syncMainTabToUrl(tab === 'overview' ? 'tz' : tab, { clearPane: tab === 'overview' });
+    },
+    [syncMainTabToUrl]
+  );
 
   const goOverview = useCallback(() => {
-    setMainTab('tz');
-    replaceStepQuery((p) => {
-      p.delete(WORKSHOP2_ARTICLE_PANE_PARAM);
-      p.delete(WORKSHOP2_STEP_PARAM);
-      p.delete(WORKSHOP2_DOSSIER_SECTION_PARAM);
-    });
-  }, [replaceStepQuery]);
+    syncMainTabToUrl('tz', { clearPane: true });
+  }, [syncMainTabToUrl]);
+
+  const w2secParam = query.get(WORKSHOP2_DOSSIER_SECTION_PARAM);
 
   /** Старые ссылки `?w2sec=…` без `w2pane`: открыть вкладку ТЗ и дописать `w2pane=tz`. */
   useEffect(() => {
     if (!article) return;
-    if (query.get(WORKSHOP2_ARTICLE_PANE_PARAM)) return;
-    const sec = parseWorkshop2DossierSection(query.get(WORKSHOP2_DOSSIER_SECTION_PARAM));
+    if (w2paneQueryValue) return;
+    const sec = parseWorkshop2DossierSection(w2secParam);
     if (!sec) return;
-    setMainTab('tz');
-    replaceStepQuery((p) => {
-      p.set(WORKSHOP2_ARTICLE_PANE_PARAM, 'tz');
-    });
-  }, [article?.id, collectionId, query, replaceStepQuery]);
+    syncMainTabToUrl('tz', { dossierSection: sec });
+  }, [article?.id, collectionId, syncMainTabToUrl, w2paneQueryValue, w2secParam]);
+
+  const articleWorkspaceRef = useMemo(
+    () =>
+      article ? { collectionId, articleId: article.id } : { collectionId, articleId: articleId },
+    [collectionId, article?.id, articleId]
+  );
 
   if (!collection) {
     return (
@@ -2522,7 +2569,7 @@ export function Workshop2ArticleWorkspace({
   const categoryPath = leaf ? `${leaf.l1Name} · ${leaf.l2Name} · ${leaf.l3Name}` : '';
 
   return (
-    <ArticleWorkspaceProvider articleRef={{ collectionId, articleId: article.id }}>
+    <ArticleWorkspaceProvider articleRef={articleWorkspaceRef!}>
       <Workshop2ArticleWorkspaceScreen
         collectionId={collectionId}
         article={article}

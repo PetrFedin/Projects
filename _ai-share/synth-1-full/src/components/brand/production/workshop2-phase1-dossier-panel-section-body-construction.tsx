@@ -2,6 +2,7 @@
 
 import type { Dispatch, ReactNode, RefObject, SetStateAction } from 'react';
 import { Button } from '@/components/ui/button';
+import { Workshop2DossierPersistButton } from '@/components/brand/production/Workshop2DossierPersistButton';
 import type { CategorySketchAnnotatorHandle } from '@/components/brand/production/CategorySketchAnnotator';
 import { Workshop2DossierPanelSectionTzSignoffBridge } from '@/components/brand/production/workshop2-phase1-dossier-panel-section-tz-signoff-bridge';
 import { Workshop2DossierConstructionBasicParamsBlock } from '@/components/brand/production/workshop2-phase1-dossier-panel-construction-basic-params';

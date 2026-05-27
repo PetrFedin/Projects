@@ -3,6 +3,7 @@
 import type { Dispatch, SetStateAction } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Workshop2DossierPersistButton } from '@/components/brand/production/Workshop2DossierPersistButton';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { WORKSHOP_HINT_TOOLTIP_CLASS } from '@/components/brand/production/workshop2-phase1-dossier-panel-ui-constants';

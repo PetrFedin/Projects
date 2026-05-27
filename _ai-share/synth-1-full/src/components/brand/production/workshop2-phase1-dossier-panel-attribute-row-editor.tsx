@@ -1,4 +1,5 @@
 'use client';
+import { workshop2DevWarn } from '@/lib/production/workshop2-dev-log';
 
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import * as LucideIcons from 'lucide-react';
@@ -548,7 +549,7 @@ export function ColorAttributeRow({
                         patchColor({ freeText: `${data.hex} · ${data.label}` });
                       }
                     } catch (error) {
-                      console.error('Failed to resolve pantone color', error);
+                      workshop2DevWarn('component', 'Failed to resolve pantone color', error);
                     } finally {
                       setAiColorLoading(false);
                       setAiColorOpen(false);

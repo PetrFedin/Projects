@@ -122,7 +122,7 @@ export function Workshop2AssignmentHandoffStatusCollapsible({
         <Workshop2DossierPersistButton
           busy={handoffMirrorBusy}
           onClick={onPersistHandoff}
-          title="factoryHandoffBundleMirror → PG"
+          title="factoryHandoffBundleMirror "
         />
       </div>
     </details>

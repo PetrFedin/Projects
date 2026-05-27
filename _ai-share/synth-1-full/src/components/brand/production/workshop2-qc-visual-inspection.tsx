@@ -1,4 +1,5 @@
 'use client';
+import { workshop2DevWarn } from '@/lib/production/workshop2-dev-log';
 
 import { useState, useRef, MouseEvent } from 'react';
 import * as LucideIcons from 'lucide-react';
@@ -85,7 +86,7 @@ export function Workshop2QcVisualInspection({ imageUrl }: { imageUrl?: string | 
         setPins((prev) => [...prev, ...aiPins]);
       }
     } catch (err) {
-      console.error('AI Scan failed', err);
+      workshop2DevWarn('component', 'AI Scan failed', err);
     } finally {
       setIsAiScanning(false);
     }

@@ -11,6 +11,8 @@ export const WORKSHOP2_DOSSIER_SECTION_PARAM = 'w2sec';
  * Режим просмотра ТЗ по роли (`full` = без параметра). См. `parseWorkshop2DossierViewParam`.
  */
 export const WORKSHOP2_DOSSIER_VIEW_PARAM = 'w2view';
+/** Плотность макета ТЗ: `full` (default) | `dense`. */
+export const WORKSHOP2_DOSSIER_LAYOUT_PARAM = 'w2layout';
 
 /**
  * Вкладка карточки артикула: обзор, ТЗ или этап маршрута. Не путать с `w2tab` списка коллекций (`active` / `archive`).
@@ -26,11 +28,27 @@ const W2_ARTICLE_PANE_VALUES = new Set<string>([
   'release',
   'qc',
   'stock',
+  'vault',
+  /** legacy alias → vault panel (SS27 UAT deep links). */
+  'documents',
+  /** legacy alias → plan tab (sample-order section). */
+  'sample',
+  /** legacy alias → plan tab (nesting section). */
+  'nesting',
 ]);
+
+/** Scroll hash для legacy `w2pane` (sample/nesting → plan sections). */
+export function resolveWorkshop2ArticlePaneScrollHash(raw: string | null): string | undefined {
+  if (raw === 'sample') return W2_ARTICLE_SECTION_DOM.planPo;
+  if (raw === 'nesting') return W2_ARTICLE_SECTION_DOM.planNest;
+  return undefined;
+}
 
 /** `null` — параметра нет или значение неизвестно. */
 export function parseWorkshop2ArticlePaneParam(raw: string | null): string | null {
   if (!raw || !W2_ARTICLE_PANE_VALUES.has(raw)) return null;
+  if (raw === 'documents') return 'vault';
+  if (raw === 'sample' || raw === 'nesting') return 'plan';
   return raw;
 }
 
@@ -45,6 +63,7 @@ export const W2_ARTICLE_SECTION_DOM = {
   stock: 'w2article-section-stock',
 } as const;
 
+import { WORKSHOP2_RELEASE_SUB_PARAM } from '@/lib/production/workshop2-release-sub-param';
 import { isWorkshop2InternalArticleCodeValid } from '@/lib/production/local-collection-inventory';
 import { SKETCH_FLOOR_QUERY_PARAM } from '@/lib/production/sketch-floor-url';
 
@@ -70,6 +89,8 @@ export function workshop2ArticlePath(collectionId: string, articleId: string): s
 export type Workshop2ArticleHrefQuery = {
   /** `w2view`: режим просмотра ТЗ по роли (factory, designer, …). */
   w2view?: string;
+  /** `w2layout`: full | dense — плотность макета ТЗ. */
+  w2layout?: string;
   /** Режим пола скетча — только просмотр (`sketchFloor=1`). */
   sketchFloor?: boolean;
   w2step?: '1' | '2' | '3';
@@ -77,6 +98,8 @@ export type Workshop2ArticleHrefQuery = {
   w2sec?: string;
   /** `w2pane`: вкладка карточки артикула. */
   w2pane?: string;
+  /** `w2relsub`: подвкладка release — route | operations | order | floor | logistics | timeline. */
+  w2relsub?: string;
   /** Fragment без `#`. */
   hash?: string;
 };
@@ -87,10 +110,12 @@ export function workshop2ArticleHrefQueryToSearchParams(
 ): URLSearchParams {
   const sp = new URLSearchParams();
   if (query.w2view) sp.set(WORKSHOP2_DOSSIER_VIEW_PARAM, query.w2view);
+  if (query.w2layout) sp.set(WORKSHOP2_DOSSIER_LAYOUT_PARAM, query.w2layout);
   if (query.sketchFloor) sp.set(SKETCH_FLOOR_QUERY_PARAM, '1');
   if (query.w2step) sp.set(WORKSHOP2_STEP_PARAM, query.w2step);
   if (query.w2sec) sp.set(WORKSHOP2_DOSSIER_SECTION_PARAM, query.w2sec);
   if (query.w2pane) sp.set(WORKSHOP2_ARTICLE_PANE_PARAM, query.w2pane);
+  if (query.w2relsub) sp.set(WORKSHOP2_RELEASE_SUB_PARAM, query.w2relsub);
   return sp;
 }
 

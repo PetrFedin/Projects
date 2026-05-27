@@ -79,7 +79,7 @@ export function Workshop2ArticleRelatedSectionsStrip({
           <Workshop2DossierPersistButton
             busy={relatedMirrorBusy}
             className="h-6 text-[10px]"
-            title="relatedSectionsMirror → PG"
+            title="relatedSectionsMirror "
             onClick={onPersistRelatedMirror}
           />
         ) : null}

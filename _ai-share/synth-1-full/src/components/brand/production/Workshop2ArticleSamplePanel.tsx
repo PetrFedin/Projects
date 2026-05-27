@@ -534,7 +534,7 @@ export function Workshop2ArticleSamplePanel({
               variant="secondary"
               className="h-8"
               testId="workshop2-floor-sync-from-tab"
-              title="sampleFloorSyncMirror → PG"
+              title="sampleFloorSyncMirror "
               onClick={() => {
                 const st = activeOrder.status;
                 void handleFloorSync(

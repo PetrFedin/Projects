@@ -18,7 +18,6 @@ export const W2_PASSPORT_TZ_STAGE_DEFS: { id: Workshop2TzSignoffStageId; label: 
 export const W2_PASSPORT_TZ_STAGE_ORDER: Workshop2TzSignoffStageId[] =
   W2_PASSPORT_TZ_STAGE_DEFS.map((d) => d.id);
 
-/** Кто может снять цифровые подписи подтверждений ТЗ (сравнение без регистра). Дополняется текущим пользователем сессии. */
 export const WORKSHOP2_DEFAULT_TZ_SIGNOFF_REVOKERS: readonly string[] = [
   'Генеральный директор',
   'Руководитель бренда',
@@ -28,16 +27,18 @@ export const WORKSHOP2_DEFAULT_TZ_SIGNOFF_REVOKERS: readonly string[] = [
 
 export const W2_DOSSIER_SECTION_IDS: readonly DossierSection[] = [
   'general',
-  'construction',
+  'visuals',
   'material',
+  'construction',
   'assignment',
+  'sample_intake',
 ];
 
 export function parseWorkshop2DossierSection(raw: string | null): DossierSection | null {
   if (!raw) return null;
-  if (raw === 'visuals') return 'construction';
   if (raw === 'measurements') return 'construction';
   if (raw === 'packaging') return 'material';
+  if (raw === 'time-and-action' || raw === 'time_and_action') return null;
   return W2_DOSSIER_SECTION_IDS.includes(raw as DossierSection) ? (raw as DossierSection) : null;
 }
 
@@ -46,14 +47,12 @@ export const W2_PULSE_SECTION_LABEL_RU: Record<DossierSection, string> = {
   visuals: 'Визуал',
   material: 'Материалы',
   construction: 'Конструкция',
-  assignment: 'Задание',
   measurements: 'Мерки',
   packaging: 'Упаковка',
   sample_intake: 'Приёмка сэмпла',
-  b2b_sales: 'B2B/Продажи',
+  assignment: 'Задание',
 };
 
-/** Иконки этапов маршрута — тот же размер контейнера, что у «Следующий шаг» / обзорных карточек. */
 export const W2_ROUTE_STAGE_TILE_ICONS: Record<
   Workshop2OverviewTab,
   ComponentType<{ className?: string }>
@@ -71,11 +70,7 @@ export const W2_ROUTE_STAGE_TILE_ICONS: Record<
 export const W2_OVERVIEW_DECISION_ROW_MIN = 'min-h-[3.25rem]';
 export const W2_OVERVIEW_KPI_TILE_INTERACTIVE =
   'h-full min-h-0 cursor-pointer outline-none transition-[border-color,box-shadow,background-color,transform] duration-150 hover:border-accent-primary/30 hover:bg-white hover:shadow-md active:scale-[0.99] focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2';
-
-/** Как у кнопки «Следующее >» в футере ТЗ (раздел паспорт / шаги). */
 export const W2_TZ_PASSPORT_CONTINUE_BTN_CLASS = 'h-9 gap-1.5 px-3 text-xs font-medium';
-
-/** Вторичные «Открыть» на обзоре (блокеры, риски, диалоги). */
 export const W2_OVERVIEW_OPEN_BTN_CLASS = 'h-8 shrink-0 px-3 text-xs font-medium';
 
 export const W2_DECISION_SNAPSHOT_ICONS: Record<
@@ -87,16 +82,14 @@ export const W2_DECISION_SNAPSHOT_ICONS: Record<
   material: LucideIcons.Layers,
   measurements: LucideIcons.Ruler,
   construction: LucideIcons.Shirt,
-  assignment: LucideIcons.ClipboardList,
   packaging: LucideIcons.Tags,
   sample_intake: LucideIcons.ClipboardCheck,
-  b2b_sales: LucideIcons.Store,
+  assignment: LucideIcons.FileCheck,
 };
 
 export const W2_ROUTE_HELP_INFO_BTN_CLASS =
   'relative z-10 shrink-0 rounded-full p-0.5 text-text-muted transition-colors hover:bg-white/80 hover:text-accent-primary';
 
-/** Левый акцент плиток по контуру разработки коллекции (согласовано с карточкой «Статус маршрута»). */
 export const W2_PIPELINE_LANE_TILE_BORDER: Record<Workshop2PipelineLane, string> = {
   development: 'border-l-[3px] border-l-indigo-200',
   samples: 'border-l-[3px] border-l-teal-300',

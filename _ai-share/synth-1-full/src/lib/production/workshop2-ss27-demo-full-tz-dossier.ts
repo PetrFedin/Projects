@@ -9,6 +9,10 @@ import {
   handbookCatL1FromLeaf,
   WOMEN_OUTERWEAR_BODY_GRID_CM,
 } from '@/lib/production/workshop-size-handbook';
+import { buildTaMilestonesFromTemplate } from '@/lib/production/workshop2-ta-templates';
+import { persistWorkshop2SignoffStagesProgressMirror } from '@/lib/production/workshop2-signoff-stages-dossier-persist';
+import { WORKSHOP2_DEFAULT_SIGNOFF_STAGES } from '@/lib/production/workshop2-signoff-stages-config';
+import { applyWorkshop2Ss27UatDemoSeed } from '@/lib/production/workshop2-ss27-uat-demo-seed';
 
 const BODY_GRID = '__BODY_GRID';
 
@@ -47,11 +51,35 @@ export function isSs27MenCoatFullTzDemoArticle(
   );
 }
 
-/** Включён ли автоподмешивание полного демо-ТЗ SS27 (E2E/демо по умолчанию). */
-export function isSs27FullTzDemoAutoMergeEnabled(): boolean {
-  const raw = process.env.NEXT_PUBLIC_W2_SS27_FULL_TZ_DEMO;
-  if (raw === '0' || raw === 'false') return false;
-  return true;
+export function isSs27WomenDressDemoArticle(
+  collectionId: string,
+  article: { id: string; sku?: string }
+): boolean {
+  return (
+    collectionId === 'SS27' &&
+    (article.id === 'demo-ss27-02' || String(article.sku ?? '') === 'SS27-W-DRS-02')
+  );
+}
+
+export function isSs27UnisexSneakersDemoArticle(
+  collectionId: string,
+  article: { id: string; sku?: string }
+): boolean {
+  return (
+    collectionId === 'SS27' &&
+    (article.id === 'demo-ss27-03' || String(article.sku ?? '') === 'SS27-U-SNK-03')
+  );
+}
+
+function isSs27DemoArticleForFullTz(
+  collectionId: string,
+  article: { id: string; sku?: string }
+): boolean {
+  return (
+    isSs27MenCoatFullTzDemoArticle(collectionId, article) ||
+    isSs27WomenDressDemoArticle(collectionId, article) ||
+    isSs27UnisexSneakersDemoArticle(collectionId, article)
+  );
 }
 
 export function isWorkshop2DossierTzEmpty(d: Workshop2DossierPhase1 | null | undefined): boolean {
@@ -82,16 +110,19 @@ export function buildWorkshop2Ss27MenCoat01FullTzDemoDossier(
   const refId = 'ss27-demo-ref-main';
   const annId = 'ss27-demo-ann-01';
 
-  return {
+  const base: Workshop2DossierPhase1 = {
     schemaVersion: 1,
     updatedAt: now,
     updatedBy: updatedBy.slice(0, 120),
-    selectedAudienceId: 'catalog',
+    selectedAudienceId: 'men',
     isUnisex: false,
     brandNotes:
       'SS27 · мужское пальто премиум: двубортный силуэт, шерсть 90/10, подклад вискоза. ' +
       'Цель — маржа B2B ≥42%, MOQ 120 шт, дроп EU/РФ до 15.07.2027. ТЗ согласовано с дизайном FW26 пальто-блока.',
     passportProductionBrief: {
+      b2cProductSlug: 'ss27-m-coat-01',
+      markingRequired: true,
+      gtin: '04601234567890',
       targetSampleOrPilotDate: '2026-09-01',
       moqTargetMaxPieces: 120,
       moqTargetNote: '120 шт · Drop 1',
@@ -99,6 +130,7 @@ export function buildWorkshop2Ss27MenCoat01FullTzDemoDossier(
       articleCardOwnerRole: 'product',
       articleCardOwnerName: 'Мария (Продакшн)',
       plannedLaunchType: 'mixed',
+      lifecycleTaTemplateId: 'outerwear-90',
       sewingRegionPlanNote: 'Пошив: Иваново (РФ), финишные операции — Москва.',
       tzRoleResponseDue: {
         designer: '2026-05-10',
@@ -207,8 +239,144 @@ export function buildWorkshop2Ss27MenCoat01FullTzDemoDossier(
       at: '2026-04-04T09:00:00.000Z',
       signatureDigest: 'demo-mgr-ss27',
     },
+    edoSignoffMirror: {
+      mirroredAt: now,
+      provider: 'mock',
+      edoStatus: 'signed',
+      requestId: 'mock-edo-ss27-staging',
+      signedAt: now,
+      blockerHandoff: false,
+      statusLabelRu: 'Подписано',
+      hintRu: 'ЭП Gold Sample (mock, staging UAT РФ).',
+    },
+    markingHonestSignMirror: {
+      mirroredAt: now,
+      markingRequired: true,
+      gtin: '04601234567890',
+      markingOrderId: 'mark-journal-SS27-demo-ss27-01-staging',
+      status: 'journal_only',
+      journalOnly: true,
+      hintRu: 'Маркировка: journal-only для демо SS27 (без ЦРПТ ACK).',
+    },
+    sampleWorkflow: {
+      activeSampleOrderId: 'demo-ss27-01-sample-staging',
+      floorStatusLabel: 'synced',
+      lastSyncedAt: now,
+    },
+    taMilestones: buildTaMilestonesFromTemplate('outerwear-90', undefined, new Date('2026-04-01')),
+    taMilestonesPersistedAt: now,
+    taMilestonesPersistSource: 'dossier_refresh',
+    hubCollectionRollupMirror: {
+      mirroredAt: now,
+      collectionId: 'SS27',
+      postgres: 'ok',
+      metricsSource: 'pg_primary',
+      serverRollupEnabled: true,
+      dossierCount: 3,
+      articleCount: 3,
+      sampleOrderCount: 1,
+      blockerSampleOrder: false,
+      blockerHandoff: false,
+      hintRu: 'SS27 demo rollup — UAT auto-check sample gate.',
+    },
+    showroomB2bMirror: {
+      mirroredAt: now,
+      publishMode: 'pg_journal',
+      pgPublished: true,
+      campaignName: 'SS27 Syntha Lab',
+      lastPublishAt: now,
+      publishJournalCount: 1,
+      liveWebhookConfigured: false,
+      liveWebhookAckSimulated: false,
+      hintRu: 'Демо: витрина готова к publish (journal_only, без fake ACK).',
+    },
+    vaultDocuments: [
+      {
+        id: 'ss27-demo-vault-compliance',
+        type: 'certificate',
+        title: 'Декларация соответствия (демо)',
+        uploadedAt: now,
+      },
+    ],
     lifecycleState: 'handoff_ready',
   };
+  return applyWorkshop2Ss27UatDemoSeed(
+    persistWorkshop2SignoffStagesProgressMirror({
+      dossier: base,
+      stages: WORKSHOP2_DEFAULT_SIGNOFF_STAGES,
+    }),
+    leaf
+  );
+}
+
+/** Минимальное демо-досье: платье SS27 (хаб не 0%). */
+export function buildWorkshop2Ss27WomenDress02DemoDossier(
+  leaf: HandbookCategoryLeaf | null,
+  updatedBy: string
+): Workshop2DossierPhase1 {
+  const now = new Date().toISOString();
+  const scaleId = defaultWorkshopSampleSizeScaleKey(leaf ?? undefined, false);
+  return {
+    schemaVersion: 1,
+    updatedAt: now,
+    updatedBy: updatedBy.slice(0, 120),
+    selectedAudienceId: 'women',
+    isUnisex: false,
+    brandNotes: 'SS27 · платье миди · хлопок · демо ТЗ для хаба разработки.',
+    passportProductionBrief: {
+      targetSampleOrPilotDate: '2026-08-15',
+      moqTargetMaxPieces: 200,
+    },
+    assignments: [
+      av('ss27-drs-mat', 'mat', 'Основная ткань', 'Хлопок 100%, саржа, 140 г/м²'),
+      av('ss27-drs-comp', 'composition', 'Состав', '100% хлопок'),
+      av('ss27-drs-color', 'primaryColorFamilyOptions', 'Основной цвет', 'Чёрный'),
+      av('ss27-drs-len', 'garmentLengthApparelOptions', 'Длина', 'Миди'),
+      av('ss27-drs-fit', 'clothingFitOptions', 'Посадка', 'Приталенная'),
+      av('ss27-drs-care', 'careWashingClassOptions', 'Уход', 'Стирка 30°C'),
+    ],
+    sampleSizeScaleId: scaleId,
+    categorySketchImageDataUrl: DEMO_PIXEL,
+    lifecycleState: 'draft',
+  };
+}
+
+/** Минимальное демо-досье: кроссовки унисекс SS27. */
+export function buildWorkshop2Ss27UnisexSneakers03DemoDossier(
+  leaf: HandbookCategoryLeaf | null,
+  updatedBy: string
+): Workshop2DossierPhase1 {
+  const now = new Date().toISOString();
+  const scaleId = defaultWorkshopSampleSizeScaleKey(leaf ?? undefined, true);
+  return {
+    schemaVersion: 1,
+    updatedAt: now,
+    updatedBy: updatedBy.slice(0, 120),
+    selectedAudienceId: 'men',
+    isUnisex: true,
+    brandNotes: 'SS27 · кроссовки демисезон · унисекс · демо ТЗ.',
+    passportProductionBrief: {
+      targetSampleOrPilotDate: '2026-09-01',
+      moqTargetMaxPieces: 360,
+    },
+    assignments: [
+      av('ss27-snk-mat', 'mat', 'Материал верха', 'Текстиль + синтетика, водоотталкивание'),
+      av('ss27-snk-sole', 'sole', 'Подошва', 'EVA + резина'),
+      av('ss27-snk-color', 'primaryColorFamilyOptions', 'Основной цвет', 'Серый'),
+      av('ss27-snk-closure', 'shoe-closure', 'Застёжка', 'Шнуровка'),
+      av('ss27-snk-shaft', 'shoe-shaft-height', 'Высота голенища', 'Низкие'),
+    ],
+    sampleSizeScaleId: scaleId,
+    categorySketchImageDataUrl: DEMO_PIXEL,
+    lifecycleState: 'draft',
+  };
+}
+
+/** Демо-merge полного ТЗ SS27 (отключить: `NEXT_PUBLIC_W2_SS27_FULL_TZ_DEMO=0`). */
+export function isSs27FullTzDemoAutoMergeEnabled(): boolean {
+  const v = process.env.NEXT_PUBLIC_W2_SS27_FULL_TZ_DEMO;
+  if (v === '0' || v === 'false') return false;
+  return true;
 }
 
 export function mergeSs27DemoDossierIfNeeded(
@@ -219,7 +387,16 @@ export function mergeSs27DemoDossierIfNeeded(
   updatedBy: string
 ): Workshop2DossierPhase1 | null {
   if (!isSs27FullTzDemoAutoMergeEnabled()) return null;
-  if (!isSs27MenCoatFullTzDemoArticle(collectionId, article)) return null;
+  if (!isSs27DemoArticleForFullTz(collectionId, article)) return null;
   if (!isWorkshop2DossierTzEmpty(stored)) return null;
-  return buildWorkshop2Ss27MenCoat01FullTzDemoDossier(leaf, updatedBy);
+  if (isSs27MenCoatFullTzDemoArticle(collectionId, article)) {
+    return buildWorkshop2Ss27MenCoat01FullTzDemoDossier(leaf, updatedBy);
+  }
+  if (isSs27WomenDressDemoArticle(collectionId, article)) {
+    return buildWorkshop2Ss27WomenDress02DemoDossier(leaf, updatedBy);
+  }
+  if (isSs27UnisexSneakersDemoArticle(collectionId, article)) {
+    return buildWorkshop2Ss27UnisexSneakers03DemoDossier(leaf, updatedBy);
+  }
+  return null;
 }

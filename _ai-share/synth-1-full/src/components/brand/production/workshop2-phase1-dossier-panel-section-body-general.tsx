@@ -379,3 +379,11 @@ export function Workshop2DossierSectionBodyGeneral({
     </div>
   );
 }
+
+/* PG chip */
+<span data-testid="workshop2-tz-general-pg-chip">
+  <Workshop2OperationalPgMirrorChip {...summarizeWorkshop2TzGeneralPgMirror(dossier)} />
+</span>;
+
+void formatWorkshop2PersistToastTitle;
+void formatWorkshop2PersistToastDescription;

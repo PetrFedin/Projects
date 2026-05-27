@@ -35,6 +35,15 @@ import {
   pushGradingRulesToSampleDimensions,
   workshop2SampleBaseSizeRowParts,
 } from '@/lib/production/workshop2-grading-from-sample-base';
+import { summarizeWorkshop2GradingPanelDisplayFromMirror } from '@/lib/production/workshop2-grading-status';
+import { summarizeWorkshop2GradingApplyPgMirror } from '@/lib/production/workshop2-operational-pg-mirror-status';
+import {
+  Workshop2OperationalMetaChips,
+  Workshop2OperationalPanelChrome,
+  Workshop2OperationalPanelShell,
+  Workshop2OperationalPgMirrorChip,
+} from '@/components/brand/production/workshop2-operational-panel-chrome';
+import { formatWorkshop2BomNodesReadinessChip } from '@/lib/production/workshop2-bom-nodes-status';
 
 const generateId = () => globalThis.crypto.randomUUID();
 
@@ -760,352 +769,372 @@ export function Workshop2GradingMatrixPanel({
     });
   };
 
+  const gradingLiveStatus = useMemo(
+    () => ({
+      ruleCount: rules.length,
+      sizeCount: sizes.length,
+      frozenRuleCount: rules.filter((r) => r.gradingFrozen).length,
+      hasSampleScale: Boolean(dossier.sampleSizeScaleId),
+      measurementPointCount: measurementPoints.length,
+      state: rules.length ? 'partial' : 'empty',
+    }),
+    [rules.length, sizes.length, rules, dossier.sampleSizeScaleId, measurementPoints.length]
+  );
+  const gradingDisplay = useMemo(
+    () =>
+      summarizeWorkshop2GradingPanelDisplayFromMirror({
+        dossier,
+        live: gradingLiveStatus,
+      }),
+    [dossier, gradingLiveStatus]
+  );
+  const gradingPgMirror = useMemo(() => summarizeWorkshop2GradingApplyPgMirror(dossier), [dossier]);
+  const gradingChip = formatWorkshop2BomNodesReadinessChip({
+    nodeCount: gradingDisplay.sizeCount,
+    materialLineCount: gradingDisplay.ruleCount,
+    trimLineCount: 0,
+    orphanMaterialLineCount: 0,
+    linesMissingYield: 0,
+    estimatedFob: 0,
+    deltaBand: 'no_target',
+    state:
+      gradingDisplay.state === 'ready'
+        ? 'ready'
+        : gradingDisplay.state === 'empty'
+          ? 'empty'
+          : 'partial',
+    hintRu: gradingDisplay.hintRu,
+  });
+  const gradingMeta = {
+    summary: gradingDisplay.hintRu ?? 'Градация',
+    readiness: gradingChip.readiness,
+    readinessTitle: gradingChip.readinessTitle,
+    blockers: gradingDisplay.mirrorBlockers?.length
+      ? gradingDisplay.mirrorBlockers
+      : scaleSyncBlocked
+        ? ['Линейка из справочника не применена — см. действия ниже']
+        : undefined,
+    nextAction: gradingDisplay.nextActionRu,
+  };
+
   const dynamicStrLabel = dynamicSizes?.join(', ') ?? '';
 
   return (
-    <div className="border-border-default space-y-6 rounded-xl border bg-white p-4 shadow-sm">
-      {/* 1. Основной заголовок и описание блока */}
-      <div className="flex items-start gap-3">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100/50 text-indigo-600">
-          <LucideIcons.Scaling className="h-4 w-4 shrink-0" aria-hidden />
-        </div>
-        <div className="min-w-0 flex-1 space-y-1">
-          <h2 className="text-text-primary text-base font-semibold">
-            Умная генерация и проверка градаций
-          </h2>
-          <p className="text-text-secondary text-xs leading-snug">
-            Приросты по размерам в одной линейке с табелем мер по размерам выше: при совпадении
-            шкалы данные подставляются автоматически; здесь можно править табель и экспортировать в
-            производство.
-          </p>
-        </div>
-      </div>
-
-      {/* 2. Слот для выбора размеров и диапазонов (Workshop2SampleBaseSizeBlock) */}
-      {sizeTableSlot && (
-        <div className="border-border-subtle bg-bg-surface2/30 space-y-4 rounded-lg border border-dashed p-4">
-          <div className="flex items-start gap-3">
-            <div className="min-w-0 flex-1 space-y-1">
-              <h3 className="text-text-primary text-sm font-semibold leading-none">
-                Табель мер по размерам
-              </h3>
-              <p className="text-text-secondary text-[11px] leading-snug">
-                Укажите базовый размер и диапазоны мерок (см, допуски) для производства. Задайте
-                основные и дополнительные точки измерения.
-              </p>
-            </div>
-          </div>
-          <div className="pt-1">{sizeTableSlot}</div>
-        </div>
-      )}
-
-      {/* 3. Кнопки управления и сама таблица градации */}
-      <div className="border-border-subtle space-y-4 border-t pt-6">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="min-w-0 flex-1 space-y-1">
-            <h3 className="text-text-primary text-sm font-semibold leading-none">
-              Матрица градации и приращений
-            </h3>
-            <p className="text-text-secondary text-[11px] leading-snug">
-              Задайте автоматический шаг или ручные приращения (± см) для каждого размера
-              относительно базы.
-            </p>
-          </div>
-          <div className="flex shrink-0 gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleAutoGenerate}
-              disabled={disabled || rules.length === 0}
-              className="h-8 gap-1.5 border-indigo-200 text-[11px] text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700"
-            >
-              <LucideIcons.Wand2 className="h-3.5 w-3.5" />
-              Авто-градация
-            </Button>
-            <Button
-              variant="default"
-              size="sm"
-              onClick={handle3DBodyScanGenerate}
-              disabled={disabled || rules.length === 0}
-              className="h-8 gap-1.5 border-transparent bg-indigo-600 text-[11px] text-white hover:bg-indigo-700"
-            >
-              <LucideIcons.ScanLine className="h-3.5 w-3.5" />
-              Авто по 3D-скану
-            </Button>
-          </div>
-        </div>
-
-        {scaleSyncBlocked && dynamicSizes ? (
-          <div className="flex flex-col gap-2 rounded-lg border border-amber-200 bg-amber-50/80 px-3 py-2 text-[11px] leading-snug text-amber-950">
-            <div className="flex items-start gap-2">
-              <LucideIcons.AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-              <div className="min-w-0">
-                <p className="font-semibold">Смена линейки размеров не применена</p>
-                <p className="mt-0.5 text-amber-900/90">
-                  В таблице есть ваши правки. Новая линейка из справочника:{' '}
-                  <span className="font-mono text-[10px]">{dynamicStrLabel}</span>. Сохранены
-                  текущие колонки и приращения. Чтобы перейти на новую линейку, сбросьте градацию
-                  (правила будут очищены).
+    <Workshop2OperationalPanelShell className="scroll-mt-24 space-y-6" id="w2-grading-matrix">
+      <Workshop2OperationalPanelChrome
+        icon={LucideIcons.Scaling}
+        title="Умная генерация и проверка градаций"
+        description="Приросты по размерам в одной линейке с табелем мер по размерам выше."
+        meta={<Workshop2OperationalMetaChips {...gradingMeta} />}
+        actions={
+          <span data-testid="workshop2-grading-pg-chip">
+            <Workshop2OperationalPgMirrorChip {...gradingPgMirror} />
+          </span>
+        }
+      />
+      <div className="border-border-default space-y-6 rounded-xl border bg-white p-4 shadow-sm">
+        {/* 2. Слот для выбора размеров и диапазонов (Workshop2SampleBaseSizeBlock) */}
+        {sizeTableSlot && (
+          <div className="border-border-subtle bg-bg-surface2/30 space-y-4 rounded-lg border border-dashed p-4">
+            <div className="flex items-start gap-3">
+              <div className="min-w-0 flex-1 space-y-1">
+                <h3 className="text-text-primary text-sm font-semibold leading-none">
+                  Табель мер по размерам
+                </h3>
+                <p className="text-text-secondary text-[11px] leading-snug">
+                  Укажите базовый размер и диапазоны мерок (см, допуски) для производства. Задайте
+                  основные и дополнительные точки измерения.
                 </p>
               </div>
             </div>
-            <div className="flex flex-wrap gap-2 pl-6">
+            <div className="pt-1">{sizeTableSlot}</div>
+          </div>
+        )}
+
+        {/* 3. Кнопки управления и сама таблица градации */}
+        <div className="border-border-subtle space-y-4 border-t pt-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="min-w-0 flex-1 space-y-1">
+              <h3 className="text-text-primary text-sm font-semibold leading-none">
+                Матрица градации и приращений
+              </h3>
+              <p className="text-text-secondary text-[11px] leading-snug">
+                Задайте автоматический шаг или ручные приращения (± см) для каждого размера
+                относительно базы.
+              </p>
+            </div>
+            <div className="flex shrink-0 gap-2">
               <Button
-                type="button"
-                size="sm"
                 variant="outline"
-                className="h-7 border-amber-300 bg-white text-[10px]"
-                disabled={disabled}
-                onClick={applyHandbookSizeColumns}
+                size="sm"
+                onClick={handleAutoGenerate}
+                disabled={disabled || rules.length === 0}
+                className="h-8 gap-1.5 border-indigo-200 text-[11px] text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700"
               >
-                Применить линейку из справочника (сбросить правила)
+                <LucideIcons.Wand2 className="h-3.5 w-3.5" />
+                Авто-градация
+              </Button>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={handle3DBodyScanGenerate}
+                disabled={disabled || rules.length === 0}
+                className="h-8 gap-1.5 border-transparent bg-indigo-600 text-[11px] text-white hover:bg-indigo-700"
+              >
+                <LucideIcons.ScanLine className="h-3.5 w-3.5" />
+                Авто по 3D-скану
               </Button>
             </div>
           </div>
-        ) : null}
 
-        <div className="overflow-x-auto rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="min-w-[12rem] max-w-[min(28rem,42vw)] whitespace-normal text-left align-bottom">
-                  Точка измерения
-                </TableHead>
-                <TableHead className="w-11 px-0.5 pb-2 text-center align-bottom">
-                  <span
-                    className="text-text-muted text-[9px] font-bold uppercase tracking-wide"
-                    title="Зафиксировать строку: не меняется из табеля и не перезаписывается авто-градацией"
-                  >
-                    Фикс
-                  </span>
-                </TableHead>
-                <TableHead className="w-[120px] pb-2 text-center align-bottom">
-                  <div className="flex flex-col items-center gap-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600">
-                      Авто-шаг
-                    </span>
-                    <span className="text-text-muted text-[9px]">+/- см ко всем</span>
-                  </div>
-                </TableHead>
-                {sizes.map((size, idx) => {
-                  const isBase = size === effectiveBaseSizeLabel;
-                  return (
-                    <TableHead
-                      key={size}
-                      className="min-w-[120px] px-2 pb-2 text-center align-bottom"
-                    >
-                      <div className="flex h-full w-full flex-col items-center justify-end gap-1.5">
-                        <div className="flex items-center gap-1">
-                          <span
-                            className={cn(
-                              'font-semibold',
-                              isBase ? 'text-red-600' : 'text-text-primary'
-                            )}
-                          >
-                            {size}
-                          </span>
-                          {isBase && (
-                            <span className="text-[9px] font-bold uppercase tracking-tighter text-red-500">
-                              (база)
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-1 rounded border border-slate-100 bg-slate-50 px-1 py-0.5">
-                          <button
-                            type="button"
-                            onClick={() => moveColumn(idx, 'left')}
-                            disabled={idx === 0 || disabled}
-                            className="p-0.5 text-slate-400 transition-colors hover:text-slate-700 disabled:opacity-30 disabled:hover:text-slate-400"
-                            title="Сдвинуть влево"
-                          >
-                            <LucideIcons.ChevronLeft className="h-3.5 w-3.5" />
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => moveColumn(idx, 'right')}
-                            disabled={idx === sizes.length - 1 || disabled}
-                            className="p-0.5 text-slate-400 transition-colors hover:text-slate-700 disabled:opacity-30 disabled:hover:text-slate-400"
-                            title="Сдвинуть вправо"
-                          >
-                            <LucideIcons.ChevronRight className="h-3.5 w-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    </TableHead>
-                  );
-                })}
-                <TableHead className="w-[50px] pb-2 pr-4 text-right align-bottom"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {rules.length === 0 ? (
+          <div className="overflow-x-auto rounded-md border">
+            <Table>
+              <TableHeader>
                 <TableRow>
-                  <TableCell
-                    colSpan={sizes.length + 4}
-                    className="text-text-muted py-8 text-center"
-                  >
-                    Нет правил градации. Нажмите «Авто-градация» или добавьте строки вручную.
-                  </TableCell>
+                  <TableHead className="min-w-[12rem] max-w-[min(28rem,42vw)] whitespace-normal text-left align-bottom">
+                    Точка измерения
+                  </TableHead>
+                  <TableHead className="w-11 px-0.5 pb-2 text-center align-bottom">
+                    <span
+                      className="text-text-muted text-[9px] font-bold uppercase tracking-wide"
+                      title="Зафиксировать строку: не меняется из табеля и не перезаписывается авто-градацией"
+                    >
+                      Фикс
+                    </span>
+                  </TableHead>
+                  <TableHead className="w-[120px] pb-2 text-center align-bottom">
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600">
+                        Авто-шаг
+                      </span>
+                      <span className="text-text-muted text-[9px]">+/- см ко всем</span>
+                    </div>
+                  </TableHead>
+                  {sizes.map((size, idx) => {
+                    const isBase = size === effectiveBaseSizeLabel;
+                    return (
+                      <TableHead
+                        key={size}
+                        className="min-w-[120px] px-2 pb-2 text-center align-bottom"
+                      >
+                        <div className="flex h-full w-full flex-col items-center justify-end gap-1.5">
+                          <div className="flex items-center gap-1">
+                            <span
+                              className={cn(
+                                'font-semibold',
+                                isBase ? 'text-red-600' : 'text-text-primary'
+                              )}
+                            >
+                              {size}
+                            </span>
+                            {isBase && (
+                              <span className="text-[9px] font-bold uppercase tracking-tighter text-red-500">
+                                (база)
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-1 rounded border border-slate-100 bg-slate-50 px-1 py-0.5">
+                            <button
+                              type="button"
+                              onClick={() => moveColumn(idx, 'left')}
+                              disabled={idx === 0 || disabled}
+                              className="p-0.5 text-slate-400 transition-colors hover:text-slate-700 disabled:opacity-30 disabled:hover:text-slate-400"
+                              title="Сдвинуть влево"
+                            >
+                              <LucideIcons.ChevronLeft className="h-3.5 w-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => moveColumn(idx, 'right')}
+                              disabled={idx === sizes.length - 1 || disabled}
+                              className="p-0.5 text-slate-400 transition-colors hover:text-slate-700 disabled:opacity-30 disabled:hover:text-slate-400"
+                              title="Сдвинуть вправо"
+                            >
+                              <LucideIcons.ChevronRight className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      </TableHead>
+                    );
+                  })}
+                  <TableHead className="w-[50px] pb-2 pr-4 text-right align-bottom"></TableHead>
                 </TableRow>
-              ) : (
-                rules.map((rule) => {
-                  const maxAbsolute = Math.max(
-                    ...sizes.map((s) => rule.baseMeasurement + (rule.increments[s] || 0)),
-                    rule.baseMeasurement,
-                    1
-                  );
-                  const frozen = Boolean(rule.gradingFrozen);
+              </TableHeader>
+              <TableBody>
+                {rules.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={sizes.length + 4}
+                      className="text-text-muted py-8 text-center"
+                    >
+                      Нет правил градации. Нажмите «Авто-градация» или добавьте строки вручную.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  rules.map((rule) => {
+                    const maxAbsolute = Math.max(
+                      ...sizes.map((s) => rule.baseMeasurement + (rule.increments[s] || 0)),
+                      rule.baseMeasurement,
+                      1
+                    );
+                    const frozen = Boolean(rule.gradingFrozen);
 
-                  return (
-                    <TableRow key={rule.id}>
-                      <TableCell className="min-w-[12rem] max-w-[min(28rem,42vw)] pt-2 align-top">
-                        <Input
-                          value={rule.pointName}
-                          title={rule.pointName}
-                          onChange={(e) => updateRow(rule.id, 'pointName', e.target.value)}
-                          disabled={disabled || frozen}
-                          className="hover:border-border-default focus:border-accent-primary focus:bg-bg-surface h-auto min-h-8 w-full min-w-0 whitespace-normal border-transparent bg-transparent py-1.5 text-xs font-medium leading-snug transition-all"
-                          placeholder="Название точки"
-                        />
-                      </TableCell>
-                      <TableCell className="w-11 px-1 pt-2 align-top">
-                        <div className="flex justify-center pt-1">
-                          <Checkbox
-                            checked={frozen}
-                            onCheckedChange={() => toggleGradingFrozen(rule.id)}
-                            disabled={disabled}
-                            className="h-4 w-4 border-slate-300 data-[state=checked]:border-amber-600 data-[state=checked]:bg-amber-600"
-                            title="Зафиксировать параметр"
-                            aria-label="Зафиксировать строку градации"
-                          />
-                        </div>
-                      </TableCell>
-                      <TableCell className="px-2 pt-2 align-top">
-                        <div className="flex flex-col items-center gap-1">
+                    return (
+                      <TableRow key={rule.id}>
+                        <TableCell className="min-w-[12rem] max-w-[min(28rem,42vw)] pt-2 align-top">
                           <Input
-                            type="number"
-                            step="0.1"
-                            value={rule.gradingStep ?? ''}
-                            onChange={(e) => updateStep(rule.id, parseFloat(e.target.value) || 0)}
+                            value={rule.pointName}
+                            title={rule.pointName}
+                            onChange={(e) => updateRow(rule.id, 'pointName', e.target.value)}
                             disabled={disabled || frozen}
-                            className="h-8 w-20 border-indigo-100 bg-indigo-50/30 text-center text-xs font-bold text-indigo-600 focus:border-indigo-300"
-                            placeholder="0.0"
+                            className="hover:border-border-default focus:border-accent-primary focus:bg-bg-surface h-auto min-h-8 w-full min-w-0 whitespace-normal border-transparent bg-transparent py-1.5 text-xs font-medium leading-snug transition-all"
+                            placeholder="Название точки"
                           />
-                        </div>
-                      </TableCell>
-                      {sizes.map((size) => {
-                        const isBase = size === effectiveBaseSizeLabel;
-                        const inc = rule.increments[size] || 0;
-                        const absolute = rule.baseMeasurement + inc;
-                        const widthPct = Math.min(100, Math.max(0, (absolute / maxAbsolute) * 100));
+                        </TableCell>
+                        <TableCell className="w-11 px-1 pt-2 align-top">
+                          <div className="flex justify-center pt-1">
+                            <Checkbox
+                              checked={frozen}
+                              onCheckedChange={() => toggleGradingFrozen(rule.id)}
+                              disabled={disabled}
+                              className="h-4 w-4 border-slate-300 data-[state=checked]:border-amber-600 data-[state=checked]:bg-amber-600"
+                              title="Зафиксировать параметр"
+                              aria-label="Зафиксировать строку градации"
+                            />
+                          </div>
+                        </TableCell>
+                        <TableCell className="px-2 pt-2 align-top">
+                          <div className="flex flex-col items-center gap-1">
+                            <Input
+                              type="number"
+                              step="0.1"
+                              value={rule.gradingStep ?? ''}
+                              onChange={(e) => updateStep(rule.id, parseFloat(e.target.value) || 0)}
+                              disabled={disabled || frozen}
+                              className="h-8 w-20 border-indigo-100 bg-indigo-50/30 text-center text-xs font-bold text-indigo-600 focus:border-indigo-300"
+                              placeholder="0.0"
+                            />
+                          </div>
+                        </TableCell>
+                        {sizes.map((size) => {
+                          const isBase = size === effectiveBaseSizeLabel;
+                          const inc = rule.increments[size] || 0;
+                          const absolute = rule.baseMeasurement + inc;
+                          const widthPct = Math.min(
+                            100,
+                            Math.max(0, (absolute / maxAbsolute) * 100)
+                          );
 
-                        return (
-                          <TableCell
-                            key={size}
-                            className={cn('p-2 text-center align-top', isBase && 'bg-red-50/30')}
-                          >
-                            <div className="flex w-full flex-col items-center gap-1.5">
-                              {isBase ? (
+                          return (
+                            <TableCell
+                              key={size}
+                              className={cn('p-2 text-center align-top', isBase && 'bg-red-50/30')}
+                            >
+                              <div className="flex w-full flex-col items-center gap-1.5">
+                                {isBase ? (
+                                  <Input
+                                    type="number"
+                                    value={rule.baseMeasurement || ''}
+                                    onChange={(e) =>
+                                      updateRow(
+                                        rule.id,
+                                        'baseMeasurement',
+                                        parseFloat(e.target.value) || 0
+                                      )
+                                    }
+                                    disabled={disabled || frozen}
+                                    className="h-7 w-20 border-red-200 bg-white text-center text-xs font-bold text-red-600"
+                                  />
+                                ) : (
+                                  <span className="text-text-primary flex h-7 items-center text-xs font-semibold">
+                                    {Number(absolute.toFixed(2))}
+                                  </span>
+                                )}
                                 <Input
                                   type="number"
-                                  value={rule.baseMeasurement || ''}
+                                  value={inc}
                                   onChange={(e) =>
-                                    updateRow(
-                                      rule.id,
-                                      'baseMeasurement',
-                                      parseFloat(e.target.value) || 0
-                                    )
+                                    updateIncrement(rule.id, size, parseFloat(e.target.value) || 0)
                                   }
-                                  disabled={disabled || frozen}
-                                  className="h-7 w-20 border-red-200 bg-white text-center text-xs font-bold text-red-600"
-                                />
-                              ) : (
-                                <span className="text-text-primary flex h-7 items-center text-xs font-semibold">
-                                  {Number(absolute.toFixed(2))}
-                                </span>
-                              )}
-                              <Input
-                                type="number"
-                                value={inc}
-                                onChange={(e) =>
-                                  updateIncrement(rule.id, size, parseFloat(e.target.value) || 0)
-                                }
-                                disabled={disabled || isBase || frozen}
-                                className={cn(
-                                  'h-6 w-16 text-center text-[10px]',
-                                  isBase ? 'invisible opacity-0' : 'border-slate-200 bg-slate-50'
-                                )}
-                              />
-                              <div className="mt-1 flex h-1.5 w-full items-center justify-start overflow-hidden rounded-full bg-slate-100">
-                                <div
+                                  disabled={disabled || isBase || frozen}
                                   className={cn(
-                                    'h-full rounded-full transition-all duration-500 ease-out',
-                                    isBase ? 'bg-red-500' : 'bg-indigo-500'
+                                    'h-6 w-16 text-center text-[10px]',
+                                    isBase ? 'invisible opacity-0' : 'border-slate-200 bg-slate-50'
                                   )}
-                                  style={{ width: `${widthPct}%` }}
                                 />
+                                <div className="mt-1 flex h-1.5 w-full items-center justify-start overflow-hidden rounded-full bg-slate-100">
+                                  <div
+                                    className={cn(
+                                      'h-full rounded-full transition-all duration-500 ease-out',
+                                      isBase ? 'bg-red-500' : 'bg-indigo-500'
+                                    )}
+                                    style={{ width: `${widthPct}%` }}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                          </TableCell>
-                        );
-                      })}
-                      <TableCell className="pr-4 pt-2 text-right align-top">
-                        <div className="flex justify-end">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-muted-foreground hover:bg-red-50 hover:text-red-600"
-                            onClick={() => removeRow(rule.id)}
-                            disabled={disabled || frozen}
-                          >
-                            <LucideIcons.Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-              )}
-            </TableBody>
-          </Table>
+                            </TableCell>
+                          );
+                        })}
+                        <TableCell className="pr-4 pt-2 text-right align-top">
+                          <div className="flex justify-end">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-muted-foreground hover:bg-red-50 hover:text-red-600"
+                              onClick={() => removeRow(rule.id)}
+                              disabled={disabled || frozen}
+                            >
+                              <LucideIcons.Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={addRow}
+            disabled={disabled}
+            className="shrink-0 gap-1.5 text-xs text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700"
+          >
+            <LucideIcons.Plus className="h-3.5 w-3.5" />
+            Добавить точку измерения
+          </Button>
+          {measurementPointSuggestions.length > 0 ? (
+            <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
+              <span className="text-text-muted shrink-0 text-[10px]">из справочника:</span>
+              {measurementPointSuggestions.map((s) => (
+                <Button
+                  key={s.key}
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={disabled}
+                  className="h-7 max-w-full truncate border-slate-200 bg-white px-2 text-[10px] font-medium text-slate-600 hover:border-indigo-200 hover:text-indigo-700"
+                  title={
+                    s.kind === 'restore'
+                      ? 'Вернуть колонку из справочника'
+                      : 'Добавить мерку из пресета'
+                  }
+                  onClick={() => addMeasurementPointFromSuggestion(s.label, s.kind)}
+                >
+                  + {s.label}
+                </Button>
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
-
-      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={addRow}
-          disabled={disabled}
-          className="shrink-0 gap-1.5 text-xs text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700"
-        >
-          <LucideIcons.Plus className="h-3.5 w-3.5" />
-          Добавить точку измерения
-        </Button>
-        {measurementPointSuggestions.length > 0 ? (
-          <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
-            <span className="text-text-muted shrink-0 text-[10px]">из справочника:</span>
-            {measurementPointSuggestions.map((s) => (
-              <Button
-                key={s.key}
-                type="button"
-                variant="outline"
-                size="sm"
-                disabled={disabled}
-                className="h-7 max-w-full truncate border-slate-200 bg-white px-2 text-[10px] font-medium text-slate-600 hover:border-indigo-200 hover:text-indigo-700"
-                title={
-                  s.kind === 'restore'
-                    ? 'Вернуть колонку из справочника'
-                    : 'Добавить мерку из пресета'
-                }
-                onClick={() => addMeasurementPointFromSuggestion(s.label, s.kind)}
-              >
-                + {s.label}
-              </Button>
-            ))}
-          </div>
-        ) : null}
-      </div>
-    </div>
+    </Workshop2OperationalPanelShell>
   );
 }
+
+void WORKSHOP2_SURFACE_BANNER_OUTLINE_ACTION_CLASS;

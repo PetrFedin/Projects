@@ -175,7 +175,7 @@ export function Workshop2ConstructionCadViewerPanel({
               busy={mirrorBusy}
               variant="secondary"
               className="h-7 text-[10px]"
-              title="cadVaultLinkMirror → PG"
+              title="cadVaultLinkMirror "
               onClick={() => {
                 setMirrorBusy(true);
                 void postWorkshop2CadVaultMirrorSync(collectionId, articleUrlSegment).then(

@@ -12,6 +12,7 @@ export const WORKSHOP2_DOMAIN_EVENT_TYPES = [
   'supply.garment_dye.created',
   'qc.mes_defect.ingested',
   'b2b.marketplace_order.received',
+  'b2b.inbound_order.received',
   'b2b.order.status_changed',
   'fit.comment.added',
   'supply.vendor_bid.received',

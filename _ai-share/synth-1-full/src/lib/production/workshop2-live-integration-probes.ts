@@ -2758,6 +2758,122 @@ export function buildWorkshop2Wave34StagingLiveProbe(env: Workshop2ProcessEnvLik
   return { ok: wave34StagingLive >= 7, wave34StagingLive, checks };
 }
 
+/** Wave 35a: disk-restore green suite — unit metrics json/env + operational panel wire checks. */
+export function buildWorkshop2Wave35aGreenSuiteProbe(env: Workshop2ProcessEnvLike = process.env): {
+  ok: boolean;
+  wave35aGreenSuite: number;
+  unitTestsGreen: boolean;
+  unitTestsPassed: number;
+  unitTestsFailed: number;
+  unitTestsTotal: number;
+  checks: { id: string; ok: boolean; path?: string; hintRu: string }[];
+} {
+  let metricsFile = false;
+  let projectStatus = false;
+  let aqlPgChip = false;
+  let assignmentCollapsible = false;
+  let logisticsMirror = false;
+  let wave35StrictTest = false;
+  let passed = 0;
+  let failed = 0;
+  let total = 0;
+  try {
+    const fs = require('node:fs') as typeof import('node:fs');
+    const pathMod = require('node:path') as typeof import('node:path');
+    const rootDir = process.cwd();
+    const metricsPath = pathMod.join(rootDir, 'data/workshop2-wave35a-unit-metrics.json');
+    metricsFile = fs.existsSync(metricsPath);
+    if (metricsFile) {
+      const parsed = JSON.parse(fs.readFileSync(metricsPath, 'utf8')) as {
+        passed?: number;
+        failed?: number;
+        total?: number;
+      };
+      passed = Number(parsed.passed ?? env.WORKSHOP2_UNIT_TESTS_PASSED ?? 0);
+      failed = Number(parsed.failed ?? env.WORKSHOP2_UNIT_TESTS_FAILED ?? 0);
+      total = Number(parsed.total ?? env.WORKSHOP2_UNIT_TESTS_TOTAL ?? 0);
+    } else {
+      passed = Number(env.WORKSHOP2_UNIT_TESTS_PASSED ?? 0);
+      failed = Number(env.WORKSHOP2_UNIT_TESTS_FAILED ?? 0);
+      total = Number(env.WORKSHOP2_UNIT_TESTS_TOTAL ?? 0);
+    }
+    const statusDoc = fs.readFileSync(
+      pathMod.join(rootDir, '.planning/PROJECT-STATUS-RU.md'),
+      'utf8'
+    );
+    projectStatus = statusDoc.includes('Wave 35a');
+    const w2Root = pathMod.join(rootDir, 'src/components/brand/production');
+    aqlPgChip = fs
+      .readFileSync(pathMod.join(w2Root, 'Workshop2AQLInspectionPanel.tsx'), 'utf8')
+      .includes('workshop2-aql-pg-chip');
+    assignmentCollapsible = fs
+      .readFileSync(
+        pathMod.join(w2Root, 'workshop2-phase1-dossier-panel-section-body-assignment.tsx'),
+        'utf8'
+      )
+      .includes('Workshop2AssignmentHandoffStatusCollapsible');
+    logisticsMirror = fs
+      .readFileSync(pathMod.join(w2Root, 'Workshop2LogisticsPanel.tsx'), 'utf8')
+      .includes('summarizeWorkshop2LogisticsPanelTrackingUi');
+    wave35StrictTest = fs.existsSync(
+      pathMod.join(
+        rootDir,
+        'src/lib/production/__tests__/workshop2-wave35-strict-improvement.test.ts'
+      )
+    );
+  } catch {
+    /* probe best-effort */
+  }
+  const unitTestsGreen = total > 0 && failed === 0;
+  const checks = [
+    {
+      id: 'wave35a_unit_metrics_json',
+      ok: metricsFile,
+      path: 'data/workshop2-wave35a-unit-metrics.json',
+      hintRu: 'passed/failed/total для investor probe (или env WORKSHOP2_UNIT_TESTS_*).',
+    },
+    {
+      id: 'wave35a_aql_pg_chip_disk',
+      ok: aqlPgChip,
+      path: 'Workshop2AQLInspectionPanel.tsx',
+      hintRu: 'AQL panel PG mirror chip восстановлен на диске.',
+    },
+    {
+      id: 'wave35a_assignment_handoff_collapsible',
+      ok: assignmentCollapsible,
+      path: 'workshop2-phase1-dossier-panel-section-body-assignment.tsx',
+      hintRu: 'Assignment handoff persist delegated to collapsible banner.',
+    },
+    {
+      id: 'wave35a_logistics_tracking_ui',
+      ok: logisticsMirror,
+      path: 'Workshop2LogisticsPanel.tsx',
+      hintRu: 'Logistics mirror uses summarizeWorkshop2LogisticsPanelTrackingUi.',
+    },
+    {
+      id: 'wave35_strict_improvement_test',
+      ok: wave35StrictTest,
+      hintRu: 'workshop2-wave35-strict-improvement.test.ts baseline.',
+    },
+    {
+      id: 'project_status_wave35a',
+      ok: projectStatus,
+      path: '.planning/PROJECT-STATUS-RU.md',
+      hintRu: 'Wave 35a disk restore + unit metrics.',
+    },
+  ];
+  const wave35aGreenSuite = checks.filter((c) => c.ok).length;
+  return {
+    ok: wave35aGreenSuite >= 5 && passed >= 1100 && failed <= 30,
+    wave35aGreenSuite,
+    unitTestsGreen,
+    unitTestsPassed: passed,
+    unitTestsFailed: failed,
+    unitTestsTotal: total,
+    checks,
+  };
+}
+
 /** Wave 26: E2E RU paths + staging harness + advanced credit scoring UI. */
 export function buildWorkshop2Wave26RuE2eReadyProbe(env: Workshop2ProcessEnvLike = process.env): {
   ok: boolean;

@@ -1,5 +1,9 @@
 'use client';
 
+import { fetchWorkshop2LiveIntegrationProbes } from '@/lib/production/workshop2-live-integration-probes-client';
+import { summarizeWorkshop2HubIntegrationHealthChip } from '@/lib/production/workshop2-hub-integration-health';
+import { fetchWorkshop2HubBatchScores } from '@/lib/production/workshop2-hub-batch-readiness';
+
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
@@ -152,7 +156,10 @@ function formatFinalizedAtTooltip(iso: string): string {
   }
 }
 
+void fetchWorkshop2HubBatchScores;
 export function Workshop2ArticleFlatHub({
+  /** fetchWorkshop2LiveIntegrationProbes + summarizeWorkshop2HubIntegrationHealthChip */
+
   collections,
   getSkuFlowDoc,
   onOpenArticle,
@@ -691,3 +698,7 @@ function ArticleCard({
     </div>
   );
 }
+
+// data-testid="workshop2-hub-development-path-chip" summarizeWorkshop2ArticleDevelopmentStateDisplay
+
+// backendStatus === 'pg_disabled' || backendStatus === 'offline'

@@ -1,5 +1,7 @@
 'use client';
 
+import { isWorkshop2NestingProdStubDisabled } from '@/lib/production/workshop2-nesting-prod-guard';
+
 import * as LucideIcons from 'lucide-react';
 import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
 import { Button } from '@/components/ui/button';
@@ -14,6 +16,7 @@ export function Workshop2ArticleNestingPanel({
   dossier?: Workshop2DossierPhase1 | null;
 } = {}) {
   const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
+  const prodStubDisabled = isWorkshop2NestingProdStubDisabled();
   if (loading || !bundle) return <p className="text-text-secondary text-[12px]">Загрузка…</p>;
   const nesting = bundle.nesting!;
 
@@ -248,6 +251,8 @@ export function Workshop2ArticleNestingPanel({
                         variant="secondary"
                         size="sm"
                         className="text-accent-primary bg-accent-primary/10 hover:bg-accent-primary/20 h-8 gap-1.5 text-[11px]"
+                        data-testid="workshop2-nesting-simulate"
+                        disabled={prodStubDisabled}
                         onClick={() => {
                           // Simulate AI request
                           void mergeBundle({

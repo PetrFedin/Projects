@@ -1,61 +1,150 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Leaf, QrCode } from 'lucide-react';
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { Workshop2DossierPersistButton } from '@/components/brand/production/Workshop2DossierPersistButton';
 import { useToast } from '@/hooks/use-toast';
+import { persistWorkshop2SustainabilityLcaToDossier } from '@/lib/production/workshop2-sustainability-lca-persist';
+import {
+  evaluateWorkshop2SustainabilityCarbonRollup,
+  persistWorkshop2SustainabilityCarbonRollupToDossier,
+} from '@/lib/production/workshop2-sustainability-carbon-rollup';
+import { putWorkshop2Wave20DossierPatch } from '@/lib/production/workshop2-wave20-persist-client';
+import { Leaf } from 'lucide-react';
+import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
+import {
+  buildWorkshop2DppExportBlock,
+  extractWorkshop2DppMaterialsFromDossier,
+} from '@/lib/production/workshop2-dpp-export';
+import {
+  collectWorkshop2SustainabilityExportChecks,
+  workshop2SustainabilityExportBlocked,
+} from '@/lib/production/workshop2-sustainability-export-checks';
+import {
+  evaluateWorkshop2CarbonRollupPersistHonestyGate,
+  summarizeWorkshop2CarbonRollupPersistHonesty,
+} from '@/lib/production/workshop2-sustainability-carbon-rollup-honesty';
+import { Workshop2GateChecksBlock } from '@/components/brand/production/Workshop2GateChecksBlock';
+import type { Workshop2ApiGateCheck } from '@/lib/production/workshop2-api-gate-messages';
+import { Workshop2DppDossierExportBlock } from '@/components/brand/production/Workshop2DppDossierExportBlock';
+import { Workshop2SurfaceStatusBanner } from '@/components/brand/production/Workshop2SurfaceStatusBanner';
+import { Workshop2CeilingIntegrationBlock } from '@/components/brand/production/Workshop2CeilingIntegrationBlock';
+import { buildWorkshop2ApiRequestHeaders } from '@/lib/production/workshop2-api-client-headers';
+import { fetchWorkshop2LiveIntegrationProbes } from '@/lib/production/workshop2-live-integration-probes-client';
+import { summarizeWorkshop2SustainabilityStatus } from '@/lib/production/workshop2-sustainability-status';
 
-export function Workshop2SustainabilityPanel({ dossier }: { dossier: Workshop2DossierPhase1 }) {
+/**
+ * Эко-показатели из досье (BOM + бирка) — тот же расчёт, что DPP export.
+ * Без отдельного bundle.dpp и без фейкового публичного URL реестра.
+ */
+export function Workshop2SustainabilityPanel({
+  dossier,
+  onDossierChange,
+}: {
+  dossier: Workshop2DossierPhase1;
+  onDossierChange?: (next: Workshop2DossierPhase1) => void;
+}) {
+  const { ref } = useArticleWorkspace();
   const { toast } = useToast();
-  const [metrics, setMetrics] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
+  const [persisting, setPersisting] = useState(false);
+  const [rollupBusy, setRollupBusy] = useState(false);
+  const [stagingBusy, setStagingBusy] = useState(false);
+  const [lcaLiveConfigured, setLcaLiveConfigured] = useState(false);
+  const [exportGateChecks, setExportGateChecks] = useState<Workshop2ApiGateCheck[] | null>(null);
 
-  const handleGenerate = async () => {
-    setLoading(true);
+  useEffect(() => {
+    void fetchWorkshop2LiveIntegrationProbes().then((r) => {
+      if (r?.probes) setLcaLiveConfigured(r.probes.sustainability);
+    });
+  }, []);
+
+  const block = useMemo(
+    () =>
+      buildWorkshop2DppExportBlock({
+        dossier,
+        collectionId: ref.collectionId,
+        articleId: String(ref.articleId),
+      }),
+    [dossier, ref.articleId, ref.collectionId]
+  );
+
+  const materials = useMemo(() => extractWorkshop2DppMaterialsFromDossier(dossier), [dossier]);
+  const hasBomSource = materials.length > 0;
+  const carbonRollup = useMemo(
+    () =>
+      evaluateWorkshop2SustainabilityCarbonRollup({
+        dossier,
+        collectionId: ref.collectionId,
+        articleId: String(ref.articleId),
+      }),
+    [dossier, ref.articleId, ref.collectionId]
+  );
+
+  const sustainabilityStatus = useMemo(
+    () =>
+      summarizeWorkshop2SustainabilityStatus({
+        dossier,
+        collectionId: ref.collectionId,
+        articleId: String(ref.articleId),
+      }),
+    [dossier, ref.articleId, ref.collectionId]
+  );
+
+  const sustainabilityExportChecks = useMemo(() => {
+    const base = collectWorkshop2SustainabilityExportChecks({
+      dossier,
+      collectionId: ref.collectionId,
+      articleId: String(ref.articleId),
+    });
+    const carbonHonesty = evaluateWorkshop2CarbonRollupPersistHonestyGate({
+      dossier,
+      collectionId: ref.collectionId,
+      articleId: String(ref.articleId),
+    });
+    return carbonHonesty ? [...base, carbonHonesty] : base;
+  }, [dossier, ref.articleId, ref.collectionId]);
+  const sustainabilityExportBlocked = workshop2SustainabilityExportBlocked(
+    sustainabilityExportChecks
+  );
+
+  const carbonRollupHonesty = useMemo(
+    () =>
+      summarizeWorkshop2CarbonRollupPersistHonesty({
+        dossier,
+        collectionId: ref.collectionId,
+        articleId: String(ref.articleId),
+      }),
+    [dossier, ref.articleId, ref.collectionId]
+  );
+
+  const persistLca = useCallback(async () => {
+    setPersisting(true);
     try {
-      const lines = [
-        ...(dossier.productionModel?.materialLines || []).map((m: any) => ({
-          label: m.materialName || 'Материал без названия',
-          qty: m.yieldPerUnit,
-          unit: m.yieldUnit || 'ед.',
-        })),
-        ...(dossier.productionModel?.trimLines || []).map((t: any) => ({
-          label: t.name || 'Фурнитура без названия',
-          qty: t.quantity,
-          unit: 'шт',
-        })),
-      ];
-
-      const res = await fetch('/api/brand/workshop2/dpp/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lines }),
+      const res = await putWorkshop2Wave20DossierPatch({
+        collectionId: ref.collectionId,
+        articleId: String(ref.articleId),
+        base: dossier,
+        apply: (d) =>
+          persistWorkshop2SustainabilityLcaToDossier(d, {
+            collectionId: ref.collectionId,
+            articleId: String(ref.articleId),
+          }),
+        field: 'sustainability_lca_snapshot',
+        updatedByLabel: 'sustainability-panel',
       });
-
-      if (!res.ok) throw new Error('Generation failed');
-      const data = await res.json();
-      setMetrics(data);
+      if (res.ok) onDossierChange?.(res.dossier);
       toast({
-        title: 'DPP сформирован',
-        description:
-          'Для этого сэмпла паспортизация включена. В реальном пайплайне здесь формируется DPP.',
+        title: res.ok ? 'LCA в PG' : 'Локально',
+        description: res.ok
+          ? 'Эко/LCA snapshot записан в досье (export-tz gate).'
+          : `Сервер: ${res.reason ?? 'offline'}`,
+        variant: res.ok ? 'default' : 'destructive',
       });
-    } catch (e) {
-      if (typeof window !== 'undefined') {
-        const toast = (window as any).__toast__;
-        if (toast) {
-          toast({
-            title: 'Ошибка',
-            description: 'Не удалось сгенерировать DPP.',
-            variant: 'destructive',
-          });
-        }
-      }
     } finally {
-      setLoading(false);
+      setPersisting(false);
     }
-  };
+  }, [dossier, onDossierChange, ref.articleId, ref.collectionId, toast]);
 
   return (
     <div className="border-border-default mt-4 rounded-xl border bg-white p-4 shadow-sm">
@@ -65,93 +154,222 @@ export function Workshop2SustainabilityPanel({ dossier }: { dossier: Workshop2Do
             <Leaf className="h-4 w-4 shrink-0" aria-hidden />
           </div>
           <div className="min-w-0 flex-1 space-y-1">
-            <h2 className="text-text-primary text-base font-semibold">
-              Цифровой паспорт продукта (DPP)
-            </h2>
+            <h2 className="text-text-primary text-base font-semibold">Эко-след и DPP (из ТЗ)</h2>
             <p className="text-text-secondary text-[11px] leading-snug">
-              Формирование цифрового паспорта (Digital Product Passport) с расчётом экологического
-              следа на основе выбранных материалов из BOM.
+              Показатели из BOM и полей паспорта/бирки — те же данные, что JSON-LD в
+              export-tz-bundle. EU registry write-back не подключён.
             </p>
           </div>
         </div>
+        <Workshop2DossierPersistButton
+          busy={rollupBusy}
+          disabled={!hasBomSource}
+          className="h-8 shrink-0 text-[11px]"
+          title="Heuristic BOM carbon rollup + threshold warnings "
+          onClick={() => {
+            void (async () => {
+              setRollupBusy(true);
+              try {
+                const res = await putWorkshop2Wave20DossierPatch({
+                  collectionId: ref.collectionId,
+                  articleId: String(ref.articleId),
+                  base: dossier,
+                  apply: (d) =>
+                    persistWorkshop2SustainabilityCarbonRollupToDossier(d, {
+                      collectionId: ref.collectionId,
+                      articleId: String(ref.articleId),
+                    }),
+                  field: 'sustainability_carbon_rollup',
+                  updatedByLabel: 'sustainability-panel',
+                });
+                if (res.ok) onDossierChange?.(res.dossier);
+                toast({
+                  title: res.ok ? 'Carbon rollup в PG' : 'Локально',
+                  description: res.ok ? carbonRollup.hintRu : (res.reason ?? 'offline'),
+                  variant: res.ok ? 'default' : 'destructive',
+                });
+              } finally {
+                setRollupBusy(false);
+              }
+            })();
+          }}
+        />
+        <Workshop2DossierPersistButton
+          busy={persisting}
+          disabled={!hasBomSource}
+          className="h-8 shrink-0 text-[11px]"
+          title="sustainabilityLcaSnapshot "
+          onClick={() => void persistLca()}
+        />
       </div>
-      <div className="space-y-4">
-        {!metrics ? (
-          <div className="flex gap-2">
-            <Button
-              onClick={handleGenerate}
-              disabled={loading}
-              variant="outline"
-              size="sm"
-              className="h-8 border-emerald-200 text-[11px] text-emerald-700 hover:bg-emerald-50"
-            >
-              {loading ? 'Формирование...' : 'Сгенерировать DPP и Эко-след'}
-            </Button>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-6 md:flex-row">
-            <div className="border-border-subtle bg-bg-surface2/40 flex w-full items-center justify-center rounded-lg border border-dashed p-6 md:w-1/3">
-              <div className="flex flex-col items-center gap-2 text-center">
-                <QrCode className="text-text-primary mb-2 h-16 w-16" />
-                <span className="text-text-secondary text-[11px] font-medium">
-                  Отсканируйте QR для просмотра
-                </span>
-                <span className="text-text-muted border-border-subtle rounded border bg-white px-2 py-0.5 font-mono text-[10px]">
-                  ID: {metrics.passportId}
-                </span>
-                <a
-                  href={`https://dpp.brand.com/article/${metrics.passportId}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-accent-primary mt-1 break-all text-[10px] font-medium hover:underline"
-                >
-                  https://dpp.brand.com/article/{metrics.passportId}
-                </a>
-              </div>
-            </div>
+      {dossier.sustainabilityCarbonRollupMirror?.thresholdWarnings?.length ? (
+        <ul className="mb-2 list-disc rounded border border-amber-200 bg-amber-50 px-2 py-1 pl-4 text-[10px] text-amber-900">
+          {dossier.sustainabilityCarbonRollupMirror.thresholdWarnings.map((w) => (
+            <li key={w}>{w}</li>
+          ))}
+        </ul>
+      ) : carbonRollup.thresholdWarnings.length > 0 ? (
+        <p className="mb-2 text-[10px] text-amber-800">{carbonRollup.thresholdWarnings[0]}</p>
+      ) : null}
+      {!carbonRollupHonesty.persisted && carbonRollupHonesty.computed ? (
+        <p className="mb-2 rounded border border-amber-200 bg-amber-50 px-2 py-1 text-[10px] text-amber-900">
+          {carbonRollupHonesty.hintRu}
+        </p>
+      ) : null}
+      {dossier.sustainabilityLcaSnapshot?.snapshotAt ? (
+        <p className="text-text-muted mb-2 font-mono text-[10px]">
+          PG LCA ·{' '}
+          {new Date(dossier.sustainabilityLcaSnapshot.snapshotAt).toLocaleString('ru-RU', {
+            dateStyle: 'short',
+            timeStyle: 'short',
+          })}
+        </p>
+      ) : null}
 
-            <div className="flex-1 space-y-3">
-              <h4 className="text-text-primary text-[11px] font-semibold uppercase tracking-wider">
-                Сводка экологических показателей
-              </h4>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div className="border-border-subtle flex flex-col justify-between rounded-lg border bg-white p-3 shadow-sm">
-                  <div className="text-text-muted mb-1 text-[10px] font-semibold">
-                    Углеродный след (Carbon)
-                  </div>
-                  <div className="text-text-primary text-base font-bold">
-                    {metrics.carbonFootprint} kg CO₂e
-                  </div>
-                </div>
-                <div className="border-border-subtle flex flex-col justify-between rounded-lg border bg-white p-3 shadow-sm">
-                  <div className="text-text-muted mb-1 text-[10px] font-semibold">
-                    Расход воды (Water)
-                  </div>
-                  <div className="text-text-primary text-base font-bold">
-                    {metrics.waterUsage} L
-                  </div>
-                </div>
-                <div className="border-border-subtle flex flex-col justify-between rounded-lg border bg-white p-3 shadow-sm">
-                  <div className="text-text-muted mb-1 text-[10px] font-semibold">
-                    Вторсырьё (Recycled)
-                  </div>
-                  <div className="text-text-primary text-base font-bold">
-                    {metrics.recycledContentPct}%
-                  </div>
-                </div>
-                <div className="flex flex-col justify-between rounded-lg border border-emerald-100 bg-emerald-50 p-3 shadow-sm">
-                  <div className="mb-1 text-[10px] font-semibold text-emerald-800">
-                    Эко-рейтинг (Eco Score)
-                  </div>
-                  <div className="text-base font-bold text-emerald-700">
-                    {metrics.ecoScore} / 100
-                  </div>
-                </div>
-              </div>
-            </div>
+      <Workshop2CeilingIntegrationBlock
+        catalogId={53}
+        kind="sustainability"
+        partnerAckId={dossier.sustainabilityStagingMirror?.partnerAckId ?? null}
+        stagingContractMode={dossier.sustainabilityStagingMirror?.stagingContractMode}
+        stagingBusy={stagingBusy}
+        onStagingAttempt={async () => {
+          if (sustainabilityExportBlocked) {
+            setExportGateChecks(sustainabilityExportChecks);
+            toast({
+              title: 'LCA staging fail-closed',
+              description: sustainabilityExportChecks.find((c) => c.severity === 'blocker')
+                ?.messageRu,
+              variant: 'destructive',
+            });
+            return;
+          }
+          setStagingBusy(true);
+          try {
+            const res = await fetch(
+              `/api/workshop2/articles/${encodeURIComponent(ref.collectionId)}/${encodeURIComponent(String(ref.articleId))}/sustainability/lca-staging`,
+              { method: 'POST', headers: buildWorkshop2ApiRequestHeaders() }
+            );
+            const json = (await res.json()) as {
+              ok?: boolean;
+              error?: string;
+              messageRu?: string;
+              checks?: unknown;
+            };
+            if (!json.ok) {
+              setExportGateChecks(
+                Array.isArray(json.checks)
+                  ? (json.checks as Workshop2ApiGateCheck[])
+                  : sustainabilityExportChecks
+              );
+            } else {
+              setExportGateChecks(null);
+            }
+            toast({
+              title: json.ok ? 'LCA staging' : 'LCA staging fail-closed',
+              description: json.ok
+                ? 'Journal в досье.'
+                : (json.messageRu ?? json.error ?? `HTTP ${res.status}`),
+              variant: json.ok ? 'default' : 'destructive',
+            });
+          } finally {
+            setStagingBusy(false);
+          }
+        }}
+      />
+      <Workshop2SurfaceStatusBanner
+        hintRu={sustainabilityStatus.hintRu}
+        detailRu={
+          hasBomSource
+            ? `Eco ${sustainabilityStatus.ecoScore}/100 · вторсырьё ${sustainabilityStatus.recycledContentPct}%`
+            : undefined
+        }
+        tone={sustainabilityStatus.state === 'ready' ? 'emerald' : 'amber'}
+      />
+
+      {!hasBomSource ? (
+        <p className="mb-3 rounded-md border border-amber-200 bg-amber-50/80 px-2 py-1.5 text-[11px] text-amber-800">
+          Заполните материалы в ТЗ → материалы или состав на бирке.
+        </p>
+      ) : null}
+
+      <div className="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="border-border-subtle rounded-lg border bg-white p-3 shadow-sm">
+          <div className="text-text-muted mb-1 text-[10px] font-semibold">Углеродный след</div>
+          <div className="text-text-primary text-base font-bold">
+            {block.metrics.carbonFootprint} kg CO₂e
           </div>
-        )}
+        </div>
+        <div className="border-border-subtle rounded-lg border bg-white p-3 shadow-sm">
+          <div className="text-text-muted mb-1 text-[10px] font-semibold">Вода</div>
+          <div className="text-text-primary text-base font-bold">{block.metrics.waterUsage} L</div>
+        </div>
+        <div className="border-border-subtle rounded-lg border bg-white p-3 shadow-sm">
+          <div className="text-text-muted mb-1 text-[10px] font-semibold">Вторсырьё</div>
+          <div className="text-text-primary text-base font-bold">
+            {block.metrics.recycledContentPct}%
+          </div>
+        </div>
+        <div className="rounded-lg border border-emerald-100 bg-emerald-50 p-3 shadow-sm">
+          <div className="mb-1 text-[10px] font-semibold text-emerald-800">Эко-балл</div>
+          <div className="text-base font-bold text-emerald-700">{block.metrics.ecoScore} / 100</div>
+        </div>
       </div>
+
+      <p className="text-text-muted mb-2 font-mono text-[10px]">
+        Черновик паспорта: {block.passportId}
+      </p>
+
+      <div className="mb-2 flex flex-wrap gap-2">
+        {(exportGateChecks?.length ?? sustainabilityExportChecks.length) ? (
+          <Workshop2GateChecksBlock
+            checks={exportGateChecks ?? sustainabilityExportChecks}
+            title="Sustainability export gate — полный список проверок"
+            testId="workshop2-sustainability-export-gate-checks"
+            className="mb-2 w-full"
+            collectionId={ref.collectionId}
+            articleUrlSegment={String(ref.articleId)}
+          />
+        ) : null}
+        <Button
+          type="button"
+          variant="secondary"
+          size="sm"
+          className="h-7 text-[10px]"
+          disabled={!lcaLiveConfigured || sustainabilityExportBlocked}
+          title={
+            sustainabilityExportBlocked
+              ? 'Export gate: заполните BOM и LCA snapshot'
+              : !lcaLiveConfigured
+                ? 'WORKSHOP2_LCA_API_URL / CERTIFIED_LCA_FEED не задан — write-back в EU registry недоступен'
+                : 'Live LCA feed подключён'
+          }
+          onClick={() => {
+            if (!lcaLiveConfigured || sustainabilityExportBlocked) {
+              setExportGateChecks(sustainabilityExportChecks);
+              toast({
+                title: 'Registry write-back fail-closed',
+                description:
+                  sustainabilityExportChecks.find((c) => c.severity === 'blocker')?.messageRu ??
+                  'WORKSHOP2_LCA_API_URL не задан — HTTP 503 на staging API.',
+                variant: 'destructive',
+              });
+              return;
+            }
+            toast({
+              title: 'Registry write-back',
+              description: 'Используйте настроенный LCA API endpoint (production).',
+            });
+          }}
+        >
+          Опубликовать в EU registry (live)
+        </Button>
+      </div>
+
+      <Workshop2DppDossierExportBlock
+        dossier={dossier}
+        collectionId={ref.collectionId}
+        articleId={String(ref.articleId)}
+      />
     </div>
   );
 }

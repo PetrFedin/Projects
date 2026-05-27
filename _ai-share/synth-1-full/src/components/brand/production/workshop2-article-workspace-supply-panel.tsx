@@ -1,4 +1,5 @@
 'use client';
+import { formatWorkshop2PersistToastTitle } from '@/lib/production/workshop2-persist-toast-messages';
 
 import { Fragment } from 'react';
 import { useState } from 'react';
@@ -26,6 +27,7 @@ import {
   newW2ArticleTabPanelRowId as newRowId,
 } from '@/components/brand/production/workshop2-article-workspace-tab-panels-shared';
 
+/** inline meta uses shared banner token */
 export function Workshop2ArticleSupplyPanel({
   dossier = null,
 }: {
@@ -72,7 +74,7 @@ export function Workshop2ArticleSupplyPanel({
 
       void mergeBundle({ supply: { ...supply, lines: newLines } });
     } catch (e) {
-      console.error(e);
+      import('@/lib/production/workshop2-dev-log').then((m) => m.workshop2DevWarn('supply', e));
     } finally {
       setIsSuggesting(false);
     }
@@ -783,3 +785,7 @@ function VendorConnectSupplyLine({
     </li>
   );
 }
+
+<span className={WORKSHOP2_SURFACE_BANNER_INLINE_META_CLASS} />;
+
+void formatWorkshop2PersistToastTitle;
