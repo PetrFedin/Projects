@@ -39,7 +39,7 @@ jobs:
           pip install poetry
           poetry config virtualenvs.create true
           poetry install --no-interaction --without ml --with dev
-          poetry run pip install 'aiosqlite>=0.20.0'
+          poetry run pip install 'aiosqlite>=0.20.0' 'email-validator>=2.0.0' 'reportlab>=4.0.0'
 
       - name: Pytest (smoke + unit)
         run: poetry run python -m pytest tests/smoke tests/unit -q --tb=short
