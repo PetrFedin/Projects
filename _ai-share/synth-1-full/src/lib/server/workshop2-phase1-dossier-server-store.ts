@@ -27,6 +27,7 @@ export type Workshop2ServerDossierEventRecord = {
   eventType: string;
   eventPayload: Record<string, unknown>;
   createdAt: string;
+  createdBy?: string;
 };
 
 export type Workshop2ServerDossierVersionRecord = {
@@ -364,6 +365,79 @@ export async function listWorkshop2DossierEvents(input: {
   }));
   const filtered = typeFilter ? rows.filter((r) => r.eventType === typeFilter) : rows;
   return filtered.slice(0, limit);
+}
+
+/** Append-only audit event (PG) или synthetic id в file-fallback. */
+export async function appendWorkshop2ServerDossierEvent(input: {
+  collectionId: string;
+  articleId: string;
+  eventType: string;
+  eventPayload?: Record<string, unknown>;
+  organizationId?: string;
+  createdBy?: string;
+}): Promise<
+  | { ok: true; record: Workshop2ServerDossierEventRecord }
+  | { ok: false; error: 'not_found' | 'invalid_event' }
+> {
+  const eventType = input.eventType.trim();
+  if (!eventType) return { ok: false, error: 'invalid_event' };
+
+  const dossierRecord = await getWorkshop2ServerDossierRecord(
+    input.collectionId,
+    input.articleId
+  );
+  if (!dossierRecord) return { ok: false, error: 'not_found' };
+
+  const nowIso = new Date().toISOString();
+  const eventPayload: Record<string, unknown> = {
+    ...(input.eventPayload ?? {}),
+    ...(input.createdBy ? { createdBy: input.createdBy } : {}),
+    ...(input.organizationId ? { organizationId: input.organizationId } : {}),
+  };
+
+  if (USE_POSTGRES) {
+    await ensurePgReady();
+    const res = await getPgPool().query<{ id: number; created_at: Date }>(
+      `INSERT INTO workshop2_dossier_events (collection_id, article_id, version, event_type, event_payload)
+       VALUES ($1, $2, $3, $4, $5::jsonb)
+       RETURNING id, created_at`,
+      [
+        input.collectionId,
+        input.articleId,
+        dossierRecord.version,
+        eventType,
+        JSON.stringify({ updatedAt: nowIso, ...eventPayload }),
+      ]
+    );
+    const row = res.rows[0]!;
+    return {
+      ok: true,
+      record: {
+        id: String(row.id),
+        collectionId: input.collectionId,
+        articleId: input.articleId,
+        version: dossierRecord.version,
+        eventType,
+        eventPayload,
+        createdAt: row.created_at.toISOString(),
+        createdBy: input.createdBy,
+      },
+    };
+  }
+
+  return {
+    ok: true,
+    record: {
+      id: `file-evt-${Date.now()}`,
+      collectionId: input.collectionId,
+      articleId: input.articleId,
+      version: dossierRecord.version,
+      eventType,
+      eventPayload,
+      createdAt: nowIso,
+      createdBy: input.createdBy,
+    },
+  };
 }
 
 export async function listWorkshop2DossierVersions(input: {

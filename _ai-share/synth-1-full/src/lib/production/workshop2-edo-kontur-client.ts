@@ -77,9 +77,12 @@ export function buildWorkshop2KonturDiadocDocumentRequest(input: {
 
 export function resolveWorkshop2KonturEdoConfigured(
   env: Record<string, string | undefined> = process.env
-): { configured: boolean; baseUrl: string | null } {
+): { configured: boolean; baseUrl: string | null; tokenSet: boolean } {
   const baseUrl = resolveWorkshop2KonturEdoBaseUrl(env) ?? null;
-  return { configured: Boolean(baseUrl), baseUrl };
+  const tokenSet = Boolean(
+    String(env.WORKSHOP2_KONTUR_DIADOC_TOKEN ?? env.WORKSHOP2_KONTUR_EDO_TOKEN ?? '').trim()
+  );
+  return { configured: Boolean(baseUrl), baseUrl, tokenSet };
 }
 
 /** Честный 503 когда kontur выбран, но URL не задан. */
@@ -273,4 +276,113 @@ export function buildWorkshop2KonturEdoSetupWizardSteps(
       hintRu: 'После env: POST edo-request → poll edo-status до «Подписано» в кабинете Diadoc.',
     },
   ];
+}
+
+/** Детерминированный префикс journal id для ЭДО harness (Wave 37). */
+export function buildWorkshop2KonturEdoJournalId(input: {
+  collectionId: string;
+  articleId: string;
+  suffix?: string;
+}): string {
+  const suffix = input.suffix ?? String(Date.now());
+  return `edo-journal-${input.collectionId}-${input.articleId}-${suffix}`;
+}
+
+/** Тело 503 для API — alias `buildWorkshop2KonturEdoNotConfiguredResponse`. */
+export function buildWorkshop2KonturEdoNotConfiguredBody(): {
+  status: 503;
+  body: ReturnType<typeof buildWorkshop2KonturEdoNotConfiguredResponse>['body'];
+} {
+  const nc = buildWorkshop2KonturEdoNotConfiguredResponse();
+  return { status: nc.status, body: nc.body };
+}
+
+export type Workshop2KonturEdoSendResult = {
+  configured: boolean;
+  ok: boolean;
+  journalId: string;
+  httpStatus: number;
+  requestId?: string | null;
+  messageRu?: string;
+};
+
+/** Wave 37: structured send — fail-closed без URL/token; live HTTP когда env задан. */
+export async function sendWorkshop2KonturEdoDocument(input: {
+  collectionId: string;
+  articleId: string;
+  actor: string;
+  env?: Record<string, string | undefined>;
+  fetchImpl?: typeof fetch;
+}): Promise<Workshop2KonturEdoSendResult> {
+  const env = input.env ?? process.env;
+  const journalId = buildWorkshop2KonturEdoJournalId({
+    collectionId: input.collectionId,
+    articleId: input.articleId,
+  });
+  const { configured, baseUrl, tokenSet } = resolveWorkshop2KonturEdoConfigured(env);
+  if (!configured || !baseUrl || !tokenSet) {
+    const nc = buildWorkshop2KonturEdoNotConfiguredResponse();
+    return {
+      configured: false,
+      ok: false,
+      journalId,
+      httpStatus: 503,
+      messageRu: nc.body.messageRu,
+    };
+  }
+
+  const fetchFn = input.fetchImpl ?? (typeof fetch === 'function' ? fetch : undefined);
+  if (!fetchFn) {
+    return {
+      configured: true,
+      ok: false,
+      journalId,
+      httpStatus: 503,
+      messageRu: 'HTTP fetch недоступен в окружении',
+    };
+  }
+
+  const token = String(
+    env.WORKSHOP2_KONTUR_DIADOC_TOKEN ?? env.WORKSHOP2_KONTUR_EDO_TOKEN ?? ''
+  ).trim();
+  const document = buildWorkshop2KonturDiadocDocumentRequest(input);
+
+  try {
+    const res = await fetchFn(`${baseUrl.replace(/\/$/, '')}/documents/send`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(document),
+      signal: AbortSignal.timeout(12_000),
+    });
+    if (!res.ok) {
+      return {
+        configured: true,
+        ok: false,
+        journalId,
+        httpStatus: res.status,
+        messageRu: `Kontur HTTP ${res.status}`,
+      };
+    }
+    const json = (await res.json()) as { requestId?: string; id?: string };
+    return {
+      configured: true,
+      ok: true,
+      journalId,
+      httpStatus: res.status,
+      requestId: json.requestId ?? json.id ?? null,
+      messageRu: 'Документ отправлен в Kontur Diadoc',
+    };
+  } catch (e) {
+    return {
+      configured: true,
+      ok: false,
+      journalId,
+      httpStatus: 503,
+      messageRu: e instanceof Error ? e.message : 'Kontur unreachable',
+    };
+  }
 }

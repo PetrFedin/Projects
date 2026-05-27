@@ -72,3 +72,13 @@ export const W2_CONSTRUCTION_SKETCHES_DEFER_ID = 'w2-construction-sketches' as c
 
 /** Не id каталога: блок «Лекала и фабричный CAD» — «Позже» в localStorage w2. */
 export const W2_CONSTRUCTION_CAD_DEFER_ID = 'w2-construction-cad' as const;
+
+/** Синтетические ключи «Позже» для полей паспорта / brief (не id каталога). */
+export const W2_BRIEF_DEFER_BRAND_NOTES = 'w2-brief-brand-notes' as const;
+export const W2_BRIEF_DEFER_TARGET_RETAIL_PRICE = 'w2-brief-target-retail-price' as const;
+export const W2_BRIEF_DEFER_TARGET_MARGIN_PCT = 'w2-brief-target-margin-pct' as const;
+export const W2_BRIEF_DEFER_TARGET_FOB = 'w2-brief-target-fob' as const;
+export const W2_BRIEF_DEFER_PACKAGING_NOTE = 'w2-brief-packaging-note' as const;
+export const W2_BRIEF_DEFER_WEIGHT_DIMS = 'w2-brief-weight-dims' as const;
+export const W2_BRIEF_DEFER_LIFECYCLE_TA = 'w2-brief-lifecycle-ta' as const;
+export const W2_BRIEF_DEFER_PRODUCTION_STRATEGY = 'w2-brief-production-strategy' as const;

@@ -26,6 +26,7 @@ import {
   inventoryB2b2cAllocationCompletedPayloadSchema,
   storeEslPriceUpdatedPayloadSchema,
   systemGlobalAnomalyDetectedPayloadSchema,
+  storeSewingIntentCommittedPayloadSchema,
   type OrderConfirmedPayload,
   type OrderPartialCancelledPayload,
   type OrderShippedPayload,
@@ -452,6 +453,21 @@ export async function publishStoreEslPriceUpdated(params: {
     aggregateType: 'store',
     version: params.version,
     type: DomainEventTypes.store.eslPriceUpdated,
+    payload: params.payload,
+  });
+}
+
+export async function publishStoreSewingIntentCommitted(params: {
+  aggregateId: string;
+  version: number;
+  payload: unknown;
+}): Promise<void> {
+  return publishTyped(storeSewingIntentCommittedPayloadSchema, {
+    eventIdPrefix: 'evt-sew-intent',
+    aggregateId: params.aggregateId,
+    aggregateType: 'store',
+    version: params.version,
+    type: DomainEventTypes.store.sewingIntentCommitted,
     payload: params.payload,
   });
 }

@@ -198,6 +198,20 @@ export const storeEslPriceUpdatedPayloadSchema = z.object({
   oldPrice: z.number().finite(),
 });
 
+export const storeSewingIntentCommittedPayloadSchema = z.object({
+  handbookLeafId: z.string().min(1),
+  pathLabel: z.string().min(1),
+  l1Name: z.string(),
+  l2Name: z.string(),
+  l3Name: z.string(),
+  isApparelSewing: z.boolean(),
+  subjectKind: z.enum(['user', 'device']),
+  subjectId: z.string().min(1),
+  source: z.string().min(1),
+  measures: z.record(z.unknown()).optional(),
+  categoryHandbookSchemaVersion: z.string().optional(),
+});
+
 export const systemGlobalAnomalyDetectedPayloadSchema = z.object({
   targetEventId: z.string().min(1),
   targetEventType: z.string().min(1),

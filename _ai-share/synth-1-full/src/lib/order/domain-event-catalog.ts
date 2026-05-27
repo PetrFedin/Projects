@@ -47,6 +47,7 @@ export const DomainEventTypes = {
   },
   store: {
     eslPriceUpdated: 'store.esl_price_updated',
+    sewingIntentCommitted: 'store.sewing_intent_committed',
   },
   system: {
     globalAnomalyDetected: 'system.global_anomaly_detected',
