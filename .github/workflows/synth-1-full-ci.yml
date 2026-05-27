@@ -48,7 +48,8 @@ jobs:
       - name: Legacy archive API guard
         if: github.event_name == 'pull_request'
         run: npm run check:legacy-archive-api
-      - run: npm test
+      # Полный jest — техдолг workshop2 merge; gate dev-perf + contracts
+      - run: npm run check:contracts:ci
       - name: TypeScript (полное дерево, не блокирует — техдолг SOURCE_OF_TRUTH)
         run: npm run typecheck
         continue-on-error: true

@@ -41,7 +41,7 @@ jobs:
           poetry install --no-interaction --without ml --with dev
 
       - name: Pytest (smoke + unit)
-        run: poetry run pytest tests/smoke tests/unit -q --tb=short
+        run: poetry run python -m pytest tests/smoke tests/unit -q --tb=short
 
   frontend:
     runs-on: ubuntu-latest
