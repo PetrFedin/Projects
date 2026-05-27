@@ -17,7 +17,7 @@ import { Separator } from '@/components/ui/separator';
 
 export default function SupportCenterPage() {
   return (
-    <CabinetPageContent maxWidth="5xl" className="py-12 pb-16 px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent maxWidth="5xl" className="px-4 py-12 py-6 pb-16 pb-24 sm:px-6">
       <header className="mb-8">
         <h1 className="flex items-center gap-3 font-headline text-sm font-bold md:text-sm">
           <MessageSquare className="h-10 w-10" />

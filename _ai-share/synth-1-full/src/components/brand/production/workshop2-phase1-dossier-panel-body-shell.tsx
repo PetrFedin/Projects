@@ -32,9 +32,15 @@ export type Workshop2Phase1DossierPanelBodyShellProps = {
   tzWriteDisabled: boolean;
   onSwitchDossierViewToFull: () => void;
   isPhase1: boolean;
-  jumpToTzSectionAnchor: ComponentProps<typeof Workshop2DossierViewProfileQuickAside>['jumpToTzSectionAnchor'];
-  jumpToConstructionContour: ComponentProps<typeof Workshop2DossierViewProfileQuickAside>['jumpToConstructionContour'];
-  jumpToSketchLineRefs: ComponentProps<typeof Workshop2DossierViewProfileQuickAside>['jumpToSketchLineRefs'];
+  jumpToTzSectionAnchor: ComponentProps<
+    typeof Workshop2DossierViewProfileQuickAside
+  >['jumpToTzSectionAnchor'];
+  jumpToConstructionContour: ComponentProps<
+    typeof Workshop2DossierViewProfileQuickAside
+  >['jumpToConstructionContour'];
+  jumpToSketchLineRefs: ComponentProps<
+    typeof Workshop2DossierViewProfileQuickAside
+  >['jumpToSketchLineRefs'];
   asideHasContent: boolean;
   showTzRightAside: boolean;
   dossierMainColumnFlash: boolean;
@@ -82,12 +88,12 @@ export function Workshop2Phase1DossierPanelBodyShell({
 }: Workshop2Phase1DossierPanelBodyShellProps) {
   return (
     <>
-      <div className="bg-slate-50/50 rounded-xl border border-slate-200 p-4 mb-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="mb-4 rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-semibold text-slate-900">Техническое задание</h2>
-              <span className="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-medium border border-slate-200">
+              <span className="rounded-full border border-slate-200 bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600">
                 Ответственный: Конструктор / Технолог
               </span>
             </div>
@@ -171,7 +177,9 @@ export function Workshop2Phase1DossierPanelBodyShell({
           <Workshop2SketchPinLibraryDialog {...sketchPinLibrary} />
         </div>
 
-        {showTzRightAside && rightAside ? <Workshop2DossierTzRightAsidePanel {...rightAside} /> : null}
+        {showTzRightAside && rightAside ? (
+          <Workshop2DossierTzRightAsidePanel {...rightAside} />
+        ) : null}
       </div>
     </>
   );

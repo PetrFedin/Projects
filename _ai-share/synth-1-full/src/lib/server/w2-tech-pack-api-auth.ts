@@ -39,7 +39,10 @@ export function w2TechPackFactoryReadSecret(): string | null {
 }
 
 export function w2TechPackAuthDisabled(): boolean {
-  return process.env.W2_TECHPACK_AUTH_DISABLED === '1' || process.env.W2_TECHPACK_AUTH_DISABLED === 'true';
+  return (
+    process.env.W2_TECHPACK_AUTH_DISABLED === '1' ||
+    process.env.W2_TECHPACK_AUTH_DISABLED === 'true'
+  );
 }
 
 export function w2TechPackWriteAuthRequiredInProd(): boolean {
@@ -57,7 +60,9 @@ function bearerAndKey(req: NextRequest): { bearer: string; xKey: string } {
 /**
  * Presign, complete, индекс (brand write).
  */
-export function verifyW2TechPackWriteRequest(req: NextRequest): { ok: true } | { ok: false; status: number; error: string } {
+export function verifyW2TechPackWriteRequest(
+  req: NextRequest
+): { ok: true } | { ok: false; status: number; error: string } {
   if (w2TechPackAuthDisabled()) return { ok: true };
   if (process.env.NODE_ENV !== 'production' && !w2TechPackApiWriteSecret()) return { ok: true };
   const want = w2TechPackApiWriteSecret();
@@ -80,7 +85,9 @@ export function verifyW2TechPackWriteRequest(req: NextRequest): { ok: true } | {
 /**
  * Presigned GET / download.
  */
-export function verifyW2TechPackReadRequest(req: NextRequest): { ok: true } | { ok: false; status: number; error: string } {
+export function verifyW2TechPackReadRequest(
+  req: NextRequest
+): { ok: true } | { ok: false; status: number; error: string } {
   if (w2TechPackAuthDisabled()) return { ok: true };
   if (process.env.NODE_ENV !== 'production' && !w2TechPackFactoryReadSecret()) return { ok: true };
   const want = w2TechPackFactoryReadSecret();

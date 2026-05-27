@@ -13,16 +13,21 @@ const CapacityRequestSchema = z.object({
 const CapacityResponseSchema = z.object({
   predictedDays: z.number().describe('Predicted duration in days for sample creation'),
   riskLevel: z.enum(['Low', 'Medium', 'High']).describe('Risk level of delay'),
-  rationale: z.string().describe('Short explanation of the prediction based on tech pack complexity and room load'),
+  rationale: z
+    .string()
+    .describe('Short explanation of the prediction based on tech pack complexity and room load'),
 });
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const parsed = CapacityRequestSchema.safeParse(body);
-    
+
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid request body', details: parsed.error.format() }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid request body', details: parsed.error.format() },
+        { status: 400 }
+      );
     }
 
     const { techPackNotes, sampleRoomLoad } = parsed.data;

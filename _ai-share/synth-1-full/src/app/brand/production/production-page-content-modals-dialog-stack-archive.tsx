@@ -1,16 +1,9 @@
 'use client';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ProductionArchiveHub } from '@/components/brand/production-archive-hub';
 
-function archiveUserRole(
-  prodRole: string | undefined
-): 'admin' | 'brand' | 'manufacturer' {
+function archiveUserRole(prodRole: string | undefined): 'admin' | 'brand' | 'manufacturer' {
   if (prodRole === 'manufacturer') return 'manufacturer';
   if (prodRole === 'admin') return 'admin';
   return 'brand';

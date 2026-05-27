@@ -55,8 +55,8 @@ export function buildDisplayedCollectionArticles(
     }
     if (filters.articleSortBy === 'drop') {
       return (
-        dropOrder.indexOf(a.deliveryWindowId || '') -
-          dropOrder.indexOf(b.deliveryWindowId || '') || a.sku.localeCompare(b.sku)
+        dropOrder.indexOf(a.deliveryWindowId || '') - dropOrder.indexOf(b.deliveryWindowId || '') ||
+        a.sku.localeCompare(b.sku)
       );
     }
     return b.forecastRevenue - a.forecastRevenue;
@@ -157,7 +157,8 @@ export function buildCollectionChecklist(
         href: `${ROUTES.brand.productionTechPackStyle('new')}${collectionQuery}`,
         done: false,
       });
-    } else items.push({ id: 'tp', label: 'Tech Pack по всем артикулам готов', count: 0, done: true });
+    } else
+      items.push({ id: 'tp', label: 'Tech Pack по всем артикулам готов', count: 0, done: true });
     if (noSamples > 0)
       items.push({
         id: 'sm',

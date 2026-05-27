@@ -42,17 +42,20 @@ export function useBrandProductionLocalInventory() {
     saveLocalCollectionInventory(localInventory);
   }, [localInventory]);
 
-  const pushUserCollection = useCallback((rawId: string, displayName: string) => {
-    const idRef = { current: '' };
-    setLocalInventory((prev) => {
-      const { inventory, id } = registerUserCollection(prev, rawId, displayName);
-      idRef.current = id;
-      return inventory;
-    });
-    queueMicrotask(() => {
-      router.push(`/brand/production?collectionId=${encodeURIComponent(idRef.current)}`);
-    });
-  }, [router]);
+  const pushUserCollection = useCallback(
+    (rawId: string, displayName: string) => {
+      const idRef = { current: '' };
+      setLocalInventory((prev) => {
+        const { inventory, id } = registerUserCollection(prev, rawId, displayName);
+        idRef.current = id;
+        return inventory;
+      });
+      queueMicrotask(() => {
+        router.push(`/brand/production?collectionId=${encodeURIComponent(idRef.current)}`);
+      });
+    },
+    [router]
+  );
 
   const exportLocalInventory = useCallback(() => {
     if (typeof document === 'undefined') return;

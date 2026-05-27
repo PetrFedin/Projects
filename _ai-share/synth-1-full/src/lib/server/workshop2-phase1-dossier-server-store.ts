@@ -149,7 +149,9 @@ export async function __clearWorkshop2ServerDossierStoreForTests() {
   if (USE_POSTGRES) {
     await ensurePgReady();
     if (pgPool) {
-      await pgPool.query('TRUNCATE TABLE workshop2_dossier_events, workshop2_dossier_versions, workshop2_dossiers, workshop2_dossier_snapshots RESTART IDENTITY');
+      await pgPool.query(
+        'TRUNCATE TABLE workshop2_dossier_events, workshop2_dossier_versions, workshop2_dossiers, workshop2_dossier_snapshots RESTART IDENTITY'
+      );
     }
   }
   DOSSIER_STORE.clear();
@@ -205,7 +207,11 @@ export async function getWorkshop2FinalExportSnapshotRecord(input: {
   }
   const record = await getWorkshop2ServerDossierRecord(input.collectionId, input.articleId);
   if (!record) return null;
-  return (record.dossier.finalExportSnapshotRecords ?? []).find((s) => s.snapshotId === input.snapshotId) ?? null;
+  return (
+    (record.dossier.finalExportSnapshotRecords ?? []).find(
+      (s) => s.snapshotId === input.snapshotId
+    ) ?? null
+  );
 }
 
 export async function listWorkshop2FinalExportSnapshotMetas(input: {
@@ -270,7 +276,10 @@ export async function getWorkshop2FinalExportSnapshotMeta(input: {
   }
   const record = await getWorkshop2ServerDossierRecord(input.collectionId, input.articleId);
   if (!record) return null;
-  return (record.dossier.finalExportSnapshots ?? []).find((s) => s.snapshotId === input.snapshotId) ?? null;
+  return (
+    (record.dossier.finalExportSnapshots ?? []).find((s) => s.snapshotId === input.snapshotId) ??
+    null
+  );
 }
 
 export async function listWorkshop2DossierEvents(input: {
@@ -474,7 +483,10 @@ async function putWorkshop2ServerDossierRecordToPg(input: {
     eventPayload?: Record<string, unknown>;
     finalExportSnapshotRecord?: Workshop2FinalExportSnapshotRecord;
   };
-}): Promise<{ ok: true; record: Workshop2ServerDossierRecord } | { ok: false; error: 'version_conflict'; currentVersion: number }> {
+}): Promise<
+  | { ok: true; record: Workshop2ServerDossierRecord }
+  | { ok: false; error: 'version_conflict'; currentVersion: number }
+> {
   await ensurePgReady();
   const client = await getPgPool().connect();
   try {
@@ -501,7 +513,12 @@ async function putWorkshop2ServerDossierRecordToPg(input: {
         input.txMeta?.eventPayload
       );
       if (input.txMeta?.finalExportSnapshotRecord) {
-        await writePgSnapshotRecord(client, next.collectionId, next.articleId, input.txMeta.finalExportSnapshotRecord);
+        await writePgSnapshotRecord(
+          client,
+          next.collectionId,
+          next.articleId,
+          input.txMeta.finalExportSnapshotRecord
+        );
       }
       await client.query('COMMIT');
       return { ok: true, record: next };
@@ -526,7 +543,12 @@ async function putWorkshop2ServerDossierRecordToPg(input: {
       input.txMeta?.eventPayload
     );
     if (input.txMeta?.finalExportSnapshotRecord) {
-      await writePgSnapshotRecord(client, next.collectionId, next.articleId, input.txMeta.finalExportSnapshotRecord);
+      await writePgSnapshotRecord(
+        client,
+        next.collectionId,
+        next.articleId,
+        input.txMeta.finalExportSnapshotRecord
+      );
     }
     await client.query('COMMIT');
     return { ok: true, record: next };
@@ -572,7 +594,13 @@ async function writePgVersionedRecord(
      VALUES ($1, $2, $3, $4, $5::jsonb)
      ON CONFLICT (collection_id, article_id)
      DO UPDATE SET version = EXCLUDED.version, updated_at = EXCLUDED.updated_at, dossier_json = EXCLUDED.dossier_json`,
-    [record.collectionId, record.articleId, record.version, record.updatedAt, JSON.stringify(record.dossier)]
+    [
+      record.collectionId,
+      record.articleId,
+      record.version,
+      record.updatedAt,
+      JSON.stringify(record.dossier),
+    ]
   );
   await client.query(
     `INSERT INTO workshop2_dossier_versions (collection_id, article_id, version, dossier_json)

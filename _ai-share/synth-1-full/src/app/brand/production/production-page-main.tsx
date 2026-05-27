@@ -3,10 +3,7 @@
 import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/providers/auth-provider';
-import {
-  getProductionRole,
-  PRODUCTION_PERMISSIONS,
-} from '@/lib/production-permissions';
+import { getProductionRole, PRODUCTION_PERMISSIONS } from '@/lib/production-permissions';
 import { cn } from '@/lib/utils';
 import { ProductionPageMainRoot } from '@/app/brand/production/production-page-main-root';
 import { ProductionPageMainLazyContent } from '@/app/brand/production/production-page-main-lazy-content';
@@ -17,7 +14,10 @@ import {
 import { useProductionPageMainDerived } from '@/app/brand/production/use-production-page-main-derived';
 import { useProductionPageMainPageState } from '@/app/brand/production/use-production-page-main-page-state';
 import { useProductionPageMainHandlers } from '@/app/brand/production/use-production-page-main-handlers';
-import { SAMPLE_STAGES, STAGE_LABELS } from '@/app/brand/production/production-page-main-sample-stages';
+import {
+  SAMPLE_STAGES,
+  STAGE_LABELS,
+} from '@/app/brand/production/production-page-main-sample-stages';
 import {
   assembleProductionPageMainBodyPropParts,
   buildProductionPageMainBodyProps,

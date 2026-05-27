@@ -64,7 +64,10 @@ const financeTabTriggerClass = cn(
 export default function BrandFinancePage() {
   const [tab, setTab] = useState('factoring');
   return (
-    <CabinetPageContent maxWidth="5xl" className="space-y-4 duration-700 animate-in fade-in px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent
+      maxWidth="5xl"
+      className="space-y-4 px-4 py-6 pb-24 duration-700 animate-in fade-in sm:px-6"
+    >
       {/* Control Panel: Executive Style */}
       <div className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-3 md:flex-row md:items-center">
         <div className="flex items-center gap-2">

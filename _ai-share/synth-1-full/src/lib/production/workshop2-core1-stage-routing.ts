@@ -10,14 +10,8 @@ import {
   getTransitiveDependsOnStepIds,
 } from '@/lib/production/collection-steps-catalog';
 import type { Workshop2ArticleMainTab } from '@/lib/production/workshop2-collection-metrics';
-import {
-  W2_ARTICLE_SECTION_DOM,
-  workshop2ArticleHref,
-} from '@/lib/production/workshop2-url';
-import {
-  isSkuStepDone,
-  type CollectionSkuFlowDoc,
-} from '@/lib/production/unified-sku-flow-store';
+import { W2_ARTICLE_SECTION_DOM, workshop2ArticleHref } from '@/lib/production/workshop2-url';
+import { isSkuStepDone, type CollectionSkuFlowDoc } from '@/lib/production/unified-sku-flow-store';
 
 /** Этап каталога «площадка и сроки серии» — граница handoff из разработки/семплов в серийное производство. */
 export const PRODUCTION_WINDOW_CATALOG_STEP_ID = 'production-window' as const;
@@ -160,7 +154,9 @@ export const WORKSHOP2_CATALOG_STEP_ROUTING: readonly Workshop2CatalogStepRoutin
   }
   for (const id of catalogIds) {
     if (!routingIds.has(id)) {
-      throw new Error(`workshop2-core1: add WORKSHOP2_CATALOG_STEP_ROUTING row for catalog step "${id}"`);
+      throw new Error(
+        `workshop2-core1: add WORKSHOP2_CATALOG_STEP_ROUTING row for catalog step "${id}"`
+      );
     }
   }
   for (const id of routingIds) {
@@ -220,18 +216,10 @@ export function getSeriesHandoffPrerequisiteStepIds(): readonly string[] {
 }
 
 /** Этапы-предпосылки серии, по которым у артикула ещё нет done/skipped в unified flow. */
-export function getSeriesHandoffMissingSteps(
-  doc: CollectionSkuFlowDoc,
-  skuId: string
-): string[] {
-  return getSeriesHandoffPrerequisiteStepIds().filter(
-    (id) => !isSkuStepDone(doc, skuId, id)
-  );
+export function getSeriesHandoffMissingSteps(doc: CollectionSkuFlowDoc, skuId: string): string[] {
+  return getSeriesHandoffPrerequisiteStepIds().filter((id) => !isSkuStepDone(doc, skuId, id));
 }
 
-export function isSeriesHandoffReadyForSku(
-  doc: CollectionSkuFlowDoc,
-  skuId: string
-): boolean {
+export function isSeriesHandoffReadyForSku(doc: CollectionSkuFlowDoc, skuId: string): boolean {
   return getSeriesHandoffMissingSteps(doc, skuId).length === 0;
 }

@@ -1,8 +1,15 @@
 import { useCallback } from 'react';
-import type { Workshop2FactoryHandoffChannel, Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2FactoryHandoffChannel,
+  Workshop2DossierPhase1,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import { commitWorkshop2HandoffOnServer } from '@/lib/production/workshop2-server-handoff-client';
 
-type ToastFn = (args: { title: string; description?: string; variant?: 'default' | 'destructive' }) => void;
+type ToastFn = (args: {
+  title: string;
+  description?: string;
+  variant?: 'default' | 'destructive';
+}) => void;
 
 export function useWorkshop2HandoffCommit(input: {
   collectionId: string;
@@ -36,7 +43,9 @@ export function useWorkshop2HandoffCommit(input: {
             committed.reason === 'preflight_blocked'
               ? 'Server-check: production pre-flight не пройден. Закройте блокеры.'
               : committed.reason === 'global_gate_blocked'
-                ? `Server-check: исправьте минимум ТЗ перед handoff: ${(committed.sectionErrors ?? [])
+                ? `Server-check: исправьте минимум ТЗ перед handoff: ${(
+                    committed.sectionErrors ?? []
+                  )
                     .slice(0, 2)
                     .join(' ')}`
                 : 'Не удалось зафиксировать передачу на сервере. Повторите попытку.',

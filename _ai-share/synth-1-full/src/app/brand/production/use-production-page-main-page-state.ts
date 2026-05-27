@@ -64,14 +64,14 @@ export function useProductionPageMainPageState(prodRole: ProductionRole) {
   const [materialsList, setMaterialsList] = useState<any[]>(() => [...INITIAL_MATERIALS_LIST]);
   const [sfcOperations, setSfcOperations] = useState<any[]>(() => [...INITIAL_SFC_OPERATIONS]);
   const [calendarEvents, setCalendarEvents] = useState<any[]>(() => [...INITIAL_CALENDAR_EVENTS]);
-  const [productionLosses, setProductionLosses] = useState<any[]>(() => [...INITIAL_PRODUCTION_LOSSES]);
+  const [productionLosses, setProductionLosses] = useState<any[]>(() => [
+    ...INITIAL_PRODUCTION_LOSSES,
+  ]);
   const [productionOrders] = useState<any[]>(() => [...INITIAL_PRODUCTION_ORDERS]);
   const [sampleStatuses, setSampleStatuses] = useState<any[]>(() => [...INITIAL_SAMPLE_STATUSES]);
   const [auditLog] = useState<any[]>(() => [...INITIAL_AUDIT_LOG]);
   const [requisitions, setRequisitions] = useState<any[]>(() => [...INITIAL_REQUISITIONS]);
-  const [productionDocuments] = useState<any[]>(() => [
-    ...INITIAL_PRODUCTION_DOCUMENTS,
-  ]);
+  const [productionDocuments] = useState<any[]>(() => [...INITIAL_PRODUCTION_DOCUMENTS]);
   const [activeChatCollection, setActiveChatCollection] = useState<string | null>(null);
   const [notificationsList] = useState(() => [...INITIAL_NOTIFICATIONS_LIST]);
   const [chatMessages, setChatMessages] = useState<any[]>(() => [...INITIAL_CHAT_MESSAGES]);

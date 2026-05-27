@@ -88,12 +88,13 @@ RU-CHU|Чукотский автономный округ
 RU-YAN|Ямало-Ненецкий автономный округ
 RU-YAR|Ярославская область`;
 
-export const RF_FEDERAL_SUBJECT_OPTIONS: readonly RfFederalSubjectOption[] = RF_FEDERAL_SUBJECT_RAW.trim()
-  .split('\n')
-  .map((line) => {
-    const sep = line.indexOf('|');
-    const iso31662 = line.slice(0, sep);
-    const name = line.slice(sep + 1);
-    return { iso31662, name };
-  })
-  .sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+export const RF_FEDERAL_SUBJECT_OPTIONS: readonly RfFederalSubjectOption[] =
+  RF_FEDERAL_SUBJECT_RAW.trim()
+    .split('\n')
+    .map((line) => {
+      const sep = line.indexOf('|');
+      const iso31662 = line.slice(0, sep);
+      const name = line.slice(sep + 1);
+      return { iso31662, name };
+    })
+    .sort((a, b) => a.name.localeCompare(b.name, 'ru'));

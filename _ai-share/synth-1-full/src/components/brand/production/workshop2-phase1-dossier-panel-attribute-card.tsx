@@ -129,8 +129,7 @@ export function Workshop2DossierAttributeCard({
     />
   );
   const suppressCatalogInlineDescriptions =
-    (activeSection === 'general' &&
-      (groupLabel === 'Паспорт' || groupLabel === 'Доп. атрибуты')) ||
+    (activeSection === 'general' && (groupLabel === 'Паспорт' || groupLabel === 'Доп. атрибуты')) ||
     (activeSection === 'material' &&
       currentLeaf.l2Name === 'Верхняя одежда' &&
       groupLabel === WORKSHOP_MERGED_OUTERWEAR_MATERIAL_TAB_LABEL) ||
@@ -292,16 +291,17 @@ export function Workshop2DossierAttributeCard({
       frame === 'card' &&
       attribute.attributeId !== 'sampleBaseSize' &&
       (variant === 'base' ||
-        (activeSection === 'construction' && W2_VISUAL_QUAD_ATTR_IDS.has(attribute.attributeId))) ? (
+        (activeSection === 'construction' &&
+          W2_VISUAL_QUAD_ATTR_IDS.has(attribute.attributeId))) ? (
         <div className="flex shrink-0 items-center gap-1 pl-1">
-          <label 
+          <label
             className="text-text-muted hover:text-text-primary flex cursor-pointer items-center gap-1.5 whitespace-nowrap text-[10px] font-semibold"
             title="Отложенное заполнение сохраняется только в браузере (для команды бренда)"
           >
             <Checkbox
               checked={deferredAttrIds.has(attribute.attributeId)}
               onCheckedChange={() => toggleDeferAttribute(attribute.attributeId)}
-              className="h-3.5 w-3.5 shrink-0 border-border-default"
+              className="border-border-default h-3.5 w-3.5 shrink-0"
               aria-label={
                 deferredAttrIds.has(attribute.attributeId)
                   ? 'Снять отложенное заполнение'
@@ -312,7 +312,7 @@ export function Workshop2DossierAttributeCard({
           </label>
           <button
             type="button"
-            className="text-text-muted hover:text-text-primary h-8 px-1.5 text-[10px] font-semibold flex items-center"
+            className="text-text-muted hover:text-text-primary flex h-8 items-center px-1.5 text-[10px] font-semibold"
             onClick={() => openAttrComments(attribute.attributeId)}
           >
             Комментарий

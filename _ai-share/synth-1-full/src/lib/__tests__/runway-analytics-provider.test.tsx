@@ -5,15 +5,7 @@ import { render } from '@testing-library/react';
 
 jest.mock('next/script', () => ({
   __esModule: true,
-  default: ({
-    id,
-    src,
-    children,
-  }: {
-    id?: string;
-    src?: string;
-    children?: string;
-  }) => (
+  default: ({ id, src, children }: { id?: string; src?: string; children?: string }) => (
     <div id={id} data-src={src} data-testid="next-script-mock">
       {children}
     </div>

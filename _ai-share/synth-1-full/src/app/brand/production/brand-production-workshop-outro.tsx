@@ -10,9 +10,7 @@ export function BrandProductionWorkshopOutro(props: { opsFloorHref: string }) {
     <>
       <div className="flex flex-wrap gap-2">
         <Button variant="outline" size="sm" className="text-xs" asChild>
-          <Link href={props.opsFloorHref}>
-            Операции: PO, BOM, QC, аудит (вкладка «Операции»)
-          </Link>
+          <Link href={props.opsFloorHref}>Операции: PO, BOM, QC, аудит (вкладка «Операции»)</Link>
         </Button>
       </div>
       <RelatedModulesBlock

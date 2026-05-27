@@ -62,7 +62,7 @@ function LiveOnAirIndicator() {
       <span className="absolute inline-flex h-2 w-2 animate-live-signal rounded-full border border-slate-400/55" />
       <span className="absolute inline-flex h-2 w-2 animate-live-signal rounded-full border border-slate-400/40 [animation-delay:0.66s]" />
       <span className="absolute inline-flex h-2 w-2 animate-live-signal rounded-full border border-slate-400/35 [animation-delay:1.33s]" />
-      <span className="relative z-[1] h-1.5 w-1.5 rounded-full bg-slate-900 shadow-sm animate-pulse-live" />
+      <span className="relative z-[1] h-1.5 w-1.5 animate-pulse-live rounded-full bg-slate-900 shadow-sm" />
     </span>
   );
 }
@@ -242,22 +242,22 @@ export default function Header() {
             </div>
             <nav className="mt-8 flex flex-1 flex-col gap-3">
               {mobileSheetNavLinks.map((link) => {
-                  const liveHere = link.href === '/live' && liveBroadcastOn;
-                  return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setIsSheetOpen(false)}
-                      className={cn(
-                        'flex items-center px-2 py-1 text-sm font-medium text-foreground hover:text-accent',
-                        liveHere && 'gap-1'
-                      )}
-                    >
-                      {liveHere && <LiveOnAirIndicator />}
-                      {link.label}
-                    </Link>
-                  );
-                })}
+                const liveHere = link.href === '/live' && liveBroadcastOn;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsSheetOpen(false)}
+                    className={cn(
+                      'flex items-center px-2 py-1 text-sm font-medium text-foreground hover:text-accent',
+                      liveHere && 'gap-1'
+                    )}
+                  >
+                    {liveHere && <LiveOnAirIndicator />}
+                    {link.label}
+                  </Link>
+                );
+              })}
             </nav>
           </SheetContent>
         </Sheet>

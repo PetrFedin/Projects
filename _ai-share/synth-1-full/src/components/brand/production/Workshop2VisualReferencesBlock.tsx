@@ -78,7 +78,9 @@ export function Workshop2VisualReferencesBlock({
   }, [items]);
 
   const lightboxRef = lightboxRefId ? items.find((r) => r.refId === lightboxRefId) : undefined;
-  const lightboxMediaIndex = lightboxRefId ? mediaRefs.findIndex((r) => r.refId === lightboxRefId) : -1;
+  const lightboxMediaIndex = lightboxRefId
+    ? mediaRefs.findIndex((r) => r.refId === lightboxRefId)
+    : -1;
 
   const openLightbox = useCallback((id: string, opts?: { zoom?: number; armLoupe?: boolean }) => {
     setLightboxRefId(id);

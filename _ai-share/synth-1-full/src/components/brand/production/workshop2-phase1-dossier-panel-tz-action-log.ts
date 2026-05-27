@@ -12,10 +12,7 @@ export function normTzActorLabel(s: string): string {
   return s.trim().toLowerCase();
 }
 
-export function canRevokeTzSignoff(
-  actorLabel: string,
-  revokerLabels: readonly string[]
-): boolean {
+export function canRevokeTzSignoff(actorLabel: string, revokerLabels: readonly string[]): boolean {
   const a = normTzActorLabel(actorLabel);
   if (!a) return false;
   return revokerLabels.some((r) => normTzActorLabel(r) === a);

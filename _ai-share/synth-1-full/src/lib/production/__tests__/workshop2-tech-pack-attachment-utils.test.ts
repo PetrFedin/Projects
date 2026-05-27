@@ -50,7 +50,10 @@ describe('workshop2-tech-pack-attachment-utils', () => {
       )
     ).toBe(true);
     expect(
-      techPackAttachmentHasZipSourceBytes({ attachmentId: id, fileName: 'x.dxf', byteStorage: 'idb' }, {})
+      techPackAttachmentHasZipSourceBytes(
+        { attachmentId: id, fileName: 'x.dxf', byteStorage: 'idb' },
+        {}
+      )
     ).toBe(true);
     expect(
       techPackAttachmentHasZipSourceBytes(
@@ -59,7 +62,10 @@ describe('workshop2-tech-pack-attachment-utils', () => {
       )
     ).toBe(true);
     expect(
-      techPackAttachmentHasZipSourceBytes({ attachmentId: id, fileName: 'x.dxf', byteStorage: 'session' }, {})
+      techPackAttachmentHasZipSourceBytes(
+        { attachmentId: id, fileName: 'x.dxf', byteStorage: 'session' },
+        {}
+      )
     ).toBe(false);
   });
 });

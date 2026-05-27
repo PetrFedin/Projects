@@ -22,11 +22,8 @@ const W2_TZ_SECTION_BASE_SIGNER_ROLES: Record<
   b2b_sales: ['manager'],
 };
 
-const EXTRA_ROLES_ON_SECTIONS: ReadonlySet<Workshop2TzSignoffSectionKey> = new Set<Workshop2TzSignoffSectionKey>([
-  'general',
-  'material',
-  'assignment',
-]);
+const EXTRA_ROLES_ON_SECTIONS: ReadonlySet<Workshop2TzSignoffSectionKey> =
+  new Set<Workshop2TzSignoffSectionKey>(['general', 'material', 'assignment']);
 
 export function w2TzDossierSectionShowsSignerBaseRole(
   section: Workshop2TzSignoffSectionKey,
@@ -35,6 +32,8 @@ export function w2TzDossierSectionShowsSignerBaseRole(
   return W2_TZ_SECTION_BASE_SIGNER_ROLES[section].includes(role);
 }
 
-export function w2TzDossierSectionShowsExtraSignerRow(section: Workshop2TzSignoffSectionKey): boolean {
+export function w2TzDossierSectionShowsExtraSignerRow(
+  section: Workshop2TzSignoffSectionKey
+): boolean {
   return EXTRA_ROLES_ON_SECTIONS.has(section);
 }

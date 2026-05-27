@@ -8,7 +8,10 @@ const AdvertisingSection = dynamic(
     import('@/components/home/AdvertisingSection').then((m) => ({
       default: m.AdvertisingSection,
     })),
-  { ssr: false, loading: () => <div className="min-h-[120px] animate-pulse bg-muted/30" aria-hidden /> }
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[120px] animate-pulse bg-muted/30" aria-hidden />,
+  }
 );
 
 /** Hero advertising — framer-motion chunk после idle (не блокирует sticky nav shell). */

@@ -31,11 +31,7 @@ import {
   CabinetHubTitleRow,
 } from '@/components/layout/cabinet-hub-chrome';
 import { cabinetRoleLabelRu } from '@/lib/ui/cabinet-role-labels';
-import {
-  cabinetHubLayout,
-  cabinetSidebarLayout,
-  cabinetSurface,
-} from '@/lib/ui/cabinet-surface';
+import { cabinetHubLayout, cabinetSidebarLayout, cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { resolveCabinetActiveNavLink } from '@/lib/ui/cabinet-nav-active';
 import { ROUTES } from '@/lib/routes';
 
@@ -76,7 +72,7 @@ export default function DistributorLayout({ children }: { children: React.ReactN
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
       <div className={cabinetHubLayout.loadingShell}>
-        <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
+        <Loader2 className="size-8 animate-spin text-muted-foreground" aria-hidden />
       </div>
     );
   }
@@ -101,7 +97,9 @@ export default function DistributorLayout({ children }: { children: React.ReactN
   return (
     <ErrorBoundary>
       <div className={cabinetHubLayout.rootShell}>
-        <aside className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}>
+        <aside
+          className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}
+        >
           <HubSidebarHeader
             href={ROUTES.distributor.home}
             icon={Briefcase}

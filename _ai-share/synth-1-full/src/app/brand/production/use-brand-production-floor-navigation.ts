@@ -16,7 +16,10 @@ export const BRAND_PRODUCTION_ARTICLE_CONTEXT_REQUIRED_HINT =
 export function useBrandProductionFloorNavigation(args: {
   articleContextValid: boolean;
   pathname: string;
-  router: { replace: (href: string, options?: { scroll?: boolean }) => void; push: (href: string) => void };
+  router: {
+    replace: (href: string, options?: { scroll?: boolean }) => void;
+    push: (href: string) => void;
+  };
   searchParams: ReadonlyURLSearchParams;
   setTabState: Dispatch<SetStateAction<ProductionFloorTabId>>;
 }) {

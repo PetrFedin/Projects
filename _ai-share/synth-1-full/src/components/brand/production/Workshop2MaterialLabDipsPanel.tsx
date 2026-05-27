@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { LabDip, LabDipStatus } from "@/lib/types/material-engineering";
-import { CheckCircle2, XCircle, Clock, Image as ImageIcon } from "lucide-react";
-import Image from "next/image";
+import { useEffect, useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { LabDip, LabDipStatus } from '@/lib/types/material-engineering';
+import { CheckCircle2, XCircle, Clock, Image as ImageIcon } from 'lucide-react';
+import Image from 'next/image';
 
 interface Workshop2MaterialLabDipsPanelProps {
   materialId: string;
@@ -21,12 +21,14 @@ export function Workshop2MaterialLabDipsPanel({ materialId }: Workshop2MaterialL
     const fetchLabDips = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`/api/brand/workshop2/materials/lab-dips?materialId=${materialId}`);
-        if (!response.ok) throw new Error("Failed to fetch lab dips");
+        const response = await fetch(
+          `/api/brand/workshop2/materials/lab-dips?materialId=${materialId}`
+        );
+        if (!response.ok) throw new Error('Failed to fetch lab dips');
         const data = await response.json();
         setLabDips(data.labDips);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
+        setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
         setIsLoading(false);
       }
@@ -43,17 +45,17 @@ export function Workshop2MaterialLabDipsPanel({ materialId }: Workshop2MaterialL
     );
 
     try {
-      const response = await fetch("/api/brand/workshop2/materials/lab-dips", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/brand/workshop2/materials/lab-dips', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, status: newStatus }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to update status");
+        throw new Error('Failed to update status');
       }
     } catch (err) {
-      console.error("Error updating lab dip:", err);
+      console.error('Error updating lab dip:', err);
       // Revert on failure
       setLabDips(previousDips);
     }
@@ -61,12 +63,24 @@ export function Workshop2MaterialLabDipsPanel({ materialId }: Workshop2MaterialL
 
   const getStatusBadge = (status: LabDipStatus) => {
     switch (status) {
-      case "approved":
-        return <Badge className="bg-green-500 hover:bg-green-600"><CheckCircle2 className="w-3 h-3 mr-1" /> Approved</Badge>;
-      case "rejected":
-        return <Badge variant="destructive"><XCircle className="w-3 h-3 mr-1" /> Rejected</Badge>;
-      case "pending":
-        return <Badge variant="secondary"><Clock className="w-3 h-3 mr-1" /> Pending</Badge>;
+      case 'approved':
+        return (
+          <Badge className="bg-green-500 hover:bg-green-600">
+            <CheckCircle2 className="mr-1 h-3 w-3" /> Approved
+          </Badge>
+        );
+      case 'rejected':
+        return (
+          <Badge variant="destructive">
+            <XCircle className="mr-1 h-3 w-3" /> Rejected
+          </Badge>
+        );
+      case 'pending':
+        return (
+          <Badge variant="secondary">
+            <Clock className="mr-1 h-3 w-3" /> Pending
+          </Badge>
+        );
     }
   };
 
@@ -96,18 +110,20 @@ export function Workshop2MaterialLabDipsPanel({ materialId }: Workshop2MaterialL
     <Card>
       <CardHeader>
         <CardTitle>Lab Dips & Strike-offs</CardTitle>
-        <CardDescription>Review and approve color and print samples for this material.</CardDescription>
+        <CardDescription>
+          Review and approve color and print samples for this material.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         {labDips.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
+          <div className="py-8 text-center text-muted-foreground">
             No lab dips or strike-offs submitted yet.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {labDips.map((dip) => (
               <Card key={dip.id} className="overflow-hidden">
-                <div className="aspect-video relative bg-muted flex items-center justify-center">
+                <div className="relative flex aspect-video items-center justify-center bg-muted">
                   {dip.imageUrl ? (
                     <Image
                       src={dip.imageUrl}
@@ -116,38 +132,37 @@ export function Workshop2MaterialLabDipsPanel({ materialId }: Workshop2MaterialL
                       className="object-cover"
                     />
                   ) : (
-                    <ImageIcon className="w-12 h-12 text-muted-foreground/50" />
+                    <ImageIcon className="h-12 w-12 text-muted-foreground/50" />
                   )}
-                  <div className="absolute top-2 right-2">
-                    {getStatusBadge(dip.status)}
-                  </div>
-                  <div className="absolute top-2 left-2">
-                    <Badge variant="outline" className="bg-background/80 backdrop-blur-sm capitalize">
-                      {dip.type.replace("-", " ")}
+                  <div className="absolute right-2 top-2">{getStatusBadge(dip.status)}</div>
+                  <div className="absolute left-2 top-2">
+                    <Badge
+                      variant="outline"
+                      className="bg-background/80 capitalize backdrop-blur-sm"
+                    >
+                      {dip.type.replace('-', ' ')}
                     </Badge>
                   </div>
                 </div>
                 <CardContent className="p-4">
-                  <div className="text-sm text-muted-foreground mb-2">
+                  <div className="mb-2 text-sm text-muted-foreground">
                     Submitted: {new Date(dip.submittedAt).toLocaleDateString()}
                   </div>
-                  {dip.notes && (
-                    <p className="text-sm mb-4">{dip.notes}</p>
-                  )}
-                  
-                  {dip.status === "pending" && (
-                    <div className="flex gap-2 mt-4">
-                      <Button 
-                        className="flex-1" 
+                  {dip.notes && <p className="mb-4 text-sm">{dip.notes}</p>}
+
+                  {dip.status === 'pending' && (
+                    <div className="mt-4 flex gap-2">
+                      <Button
+                        className="flex-1"
                         variant="default"
-                        onClick={() => handleStatusUpdate(dip.id, "approved")}
+                        onClick={() => handleStatusUpdate(dip.id, 'approved')}
                       >
                         Approve
                       </Button>
-                      <Button 
-                        className="flex-1" 
+                      <Button
+                        className="flex-1"
                         variant="destructive"
-                        onClick={() => handleStatusUpdate(dip.id, "rejected")}
+                        onClick={() => handleStatusUpdate(dip.id, 'rejected')}
                       >
                         Reject
                       </Button>

@@ -33,9 +33,7 @@ export function ProductionPageContentTabLogisticsBody({
             onClick={() => setLogisticsView?.(v)}
             className={cn(
               'rounded-xl px-4 py-2 text-[10px] font-bold uppercase transition-all',
-              logisticsView === v
-                ? 'text-accent-primary bg-white shadow-sm'
-                : 'text-text-secondary'
+              logisticsView === v ? 'text-accent-primary bg-white shadow-sm' : 'text-text-secondary'
             )}
           >
             {v === 'cargo' && 'Груз'}

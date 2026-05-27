@@ -109,8 +109,7 @@ export function useWorkshop2Phase1DossierAudienceAndAttributeRows(input: {
   );
 
   const rowsToShow = useMemo(
-    () =>
-      filterWorkshop2CatalogRowsForPhaseUi(baseRows, 1, leafRowPolicy, linkedMatComposition),
+    () => filterWorkshop2CatalogRowsForPhaseUi(baseRows, 1, leafRowPolicy, linkedMatComposition),
     [baseRows, leafRowPolicy, linkedMatComposition]
   );
 

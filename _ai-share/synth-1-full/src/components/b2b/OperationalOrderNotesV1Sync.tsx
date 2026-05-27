@@ -38,13 +38,10 @@ export function OperationalOrderNotesV1Sync({
     if (!orderId) return;
     setLoading(true);
     try {
-      const res = await fetch(
-        `/api/b2b/v1/operational-orders/${encodeURIComponent(orderId)}`,
-        {
-          headers: { ...b2bV1SynthaActorRoleHeaders(actorRole) },
-          cache: 'no-store',
-        }
-      );
+      const res = await fetch(`/api/b2b/v1/operational-orders/${encodeURIComponent(orderId)}`, {
+        headers: { ...b2bV1SynthaActorRoleHeaders(actorRole) },
+        cache: 'no-store',
+      });
       const raw: unknown = await res.json();
       const parsed = parseOperationalOrderV1DetailResponse(raw);
       if (!parsed.success) {
@@ -160,15 +157,10 @@ export function OperationalOrderNotesV1Sync({
       </Card>
 
       {variant === 'brand' ? (
-        <Card
-          className={cn(
-            o.panel,
-            'border-l-[3px] border-l-amber-600/70 shadow-none'
-          )}
-        >
+        <Card className={cn(o.panel, 'border-l-[3px] border-l-amber-600/70 shadow-none')}>
           <CardHeader className="border-border-default/60 border-b pb-3">
             <CardTitle className="text-text-primary flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.18em]">
-              <Lock className="text-amber-700/90 size-3.5" aria-hidden />
+              <Lock className="size-3.5 text-amber-700/90" aria-hidden />
               <StickyNote className="text-text-muted size-3.5" aria-hidden />
               Внутренние заметки бренда
             </CardTitle>

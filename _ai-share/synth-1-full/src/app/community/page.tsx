@@ -12,7 +12,10 @@ export default function CommunityPage() {
 
   if (viewRole === 'b2b') {
     return (
-      <CabinetPageContent maxWidth="5xl" className="space-y-6 py-12 pb-16 duration-300 animate-in fade-in px-4 py-6 pb-24 sm:px-6">
+      <CabinetPageContent
+        maxWidth="5xl"
+        className="space-y-6 px-4 py-12 py-6 pb-16 pb-24 duration-300 animate-in fade-in sm:px-6"
+      >
         <header className="mb-12 space-y-2 text-center">
           <h1 className="text-text-primary text-sm font-black uppercase tracking-tighter md:text-sm">
             B2B Networking
@@ -27,7 +30,7 @@ export default function CommunityPage() {
   }
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="pb-16 px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent maxWidth="5xl" className="px-4 py-6 pb-16 pb-24 sm:px-6">
       <header className="mb-8 text-center">
         <h1 className="font-headline text-sm font-bold md:text-sm">Лента сообщества</h1>
         <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground">

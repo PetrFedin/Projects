@@ -69,8 +69,8 @@ export function Workshop2DossierTzRightAsidePanel({
               <div className="min-w-0 space-y-1">
                 <h2 className="text-text-primary text-base font-semibold">Подтверждения ТЗ</h2>
                 <p className="text-text-secondary text-xs leading-snug">
-                  Цифровые подписи ролей (дизайнер, технолог, менеджер и доп. строки из паспорта). Снять
-                  подпись могут только руководители из списка отзыва. Нужно право{' '}
+                  Цифровые подписи ролей (дизайнер, технолог, менеджер и доп. строки из паспорта).
+                  Снять подпись могут только руководители из списка отзыва. Нужно право{' '}
                   <code className="text-[10px]">production:edit</code> (
                   <Link
                     href={ROUTES.brand.teamPermissions}
@@ -82,7 +82,9 @@ export function Workshop2DossierTzRightAsidePanel({
                 </p>
               </div>
             </div>
-            {!allTzDigitalSignoffsDone && !activeSectionSignGateMeets && tzDigitalSignoffRows.length > 0 ? (
+            {!allTzDigitalSignoffsDone &&
+            !activeSectionSignGateMeets &&
+            tzDigitalSignoffRows.length > 0 ? (
               <p
                 className="rounded-md border border-amber-200/90 bg-amber-50/80 px-2.5 py-1.5 text-[10px] font-medium leading-snug text-amber-950"
                 role="status"
@@ -93,8 +95,8 @@ export function Workshop2DossierTzRightAsidePanel({
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {tzDigitalSignoffRows.length === 0 ? (
                 <p className="border-border-subtle bg-bg-surface2/60 text-text-secondary col-span-full rounded-md border px-3 py-2 text-[11px] sm:col-span-2">
-                  В паспорте нет участников на этапе «ТЗ»: отметьте этап у ролей и закрепите исполнителей в
-                  «Ответственные за подпись ТЗ».
+                  В паспорте нет участников на этапе «ТЗ»: отметьте этап у ролей и закрепите
+                  исполнителей в «Ответственные за подпись ТЗ».
                 </p>
               ) : (
                 tzDigitalSignoffRowsGated.map((row) => (

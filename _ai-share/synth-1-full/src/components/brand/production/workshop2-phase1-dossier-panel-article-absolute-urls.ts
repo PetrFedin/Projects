@@ -1,8 +1,5 @@
 import { W2_VISUALS_SKETCH_ANCHOR_ID } from '@/lib/production/workshop2-material-bom-sketch-strip';
-import {
-  workshop2ArticleHref,
-  workshop2ArticleUrlSegment,
-} from '@/lib/production/workshop2-url';
+import { workshop2ArticleHref, workshop2ArticleUrlSegment } from '@/lib/production/workshop2-url';
 
 /** Абсолютный URL шаринга блока визуала ТЗ (секция signoff visuals). */
 export function buildWorkshop2VisualsTzSignoffShareAbsoluteUrl(opts: {

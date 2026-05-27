@@ -8,7 +8,10 @@ export function getOrCreateClientDeviceId(): string {
   try {
     const e = localStorage.getItem(KEY);
     if (e && e.length > 8) return e;
-    const id = typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : `dev-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
+    const id =
+      typeof crypto !== 'undefined' && 'randomUUID' in crypto
+        ? crypto.randomUUID()
+        : `dev-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
     localStorage.setItem(KEY, id);
     return id;
   } catch {

@@ -13,7 +13,9 @@ function node(
   return { id, kind, label, isRequired, sortOrder, status: 'empty' };
 }
 
-export function buildDefaultProductionModelForL3(l3Label: string | undefined): Workshop2ProductionModel {
+export function buildDefaultProductionModelForL3(
+  l3Label: string | undefined
+): Workshop2ProductionModel {
   const l3 = (l3Label ?? '').toLowerCase();
   let nodes: Workshop2ProductionNode[];
 

@@ -36,7 +36,7 @@ export const TermTooltip: React.FC<TooltipProps> = ({ term, children }) => {
         <span className="absolute bottom-full left-1/2 z-50 mb-2 w-64 -translate-x-1/2 rounded bg-gray-900 px-3 py-2 text-xs text-white shadow-lg">
           {definition}
           {/* Arrow */}
-          <span className="absolute top-full left-1/2 -mt-1 -ml-1 border-4 border-transparent border-t-gray-900" />
+          <span className="absolute left-1/2 top-full -ml-1 -mt-1 border-4 border-transparent border-t-gray-900" />
         </span>
       )}
     </span>

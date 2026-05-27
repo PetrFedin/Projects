@@ -45,7 +45,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'invalid_body' }, { status: 400 });
   }
   const actorResolved = resolveWorkshop2ServerActor(req, actorLabel);
-  if (!actorResolved.ok) return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
+  if (!actorResolved.ok)
+    return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
   const actor = actorResolved.actor;
   if (!actorHasAnyRole(actor, ['production:edit', 'w2:lifecycle_transition'])) {
     return NextResponse.json({ ok: false, error: 'forbidden_actor_role' }, { status: 403 });
@@ -73,7 +74,12 @@ export async function POST(req: NextRequest) {
   const gateCheck = validateLifecycleTargetByGate(record.dossier, b.targetState);
   if (!gateCheck.ok) {
     return NextResponse.json(
-      { ok: false, error: 'lifecycle_gate_blocked', reasonCode: gateCheck.reasonCode, detail: gateCheck.detail },
+      {
+        ok: false,
+        error: 'lifecycle_gate_blocked',
+        reasonCode: gateCheck.reasonCode,
+        detail: gateCheck.detail,
+      },
       { status: 409 }
     );
   }

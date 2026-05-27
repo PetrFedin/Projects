@@ -21,7 +21,13 @@ export function isAllowedTechPackContentTypeForRemote(ct: string): boolean {
   const t = (ct || '').split(';')[0]!.trim().toLowerCase();
   if (ALLOWED_CT.has(t)) return true;
   if (t.startsWith('text/') || t.startsWith('image/') || t.startsWith('application/')) {
-    if (t.includes('pdf') || t.includes('dxf') || t.includes('dwg') || t.includes('postscript') || t.includes('zip')) {
+    if (
+      t.includes('pdf') ||
+      t.includes('dxf') ||
+      t.includes('dwg') ||
+      t.includes('postscript') ||
+      t.includes('zip')
+    ) {
       return true;
     }
   }

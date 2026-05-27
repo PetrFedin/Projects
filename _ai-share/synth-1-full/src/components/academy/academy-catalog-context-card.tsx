@@ -32,7 +32,9 @@ export function AcademyCatalogContextCard({ course }: AcademyCatalogContextCardP
       <CardHeader className="pb-2">
         <div className="flex flex-wrap items-center gap-2">
           <Shield className="text-accent-primary size-4 shrink-0" aria-hidden />
-          <CardTitle className="text-text-primary text-base font-semibold">Контекст каталога</CardTitle>
+          <CardTitle className="text-text-primary text-base font-semibold">
+            Контекст каталога
+          </CardTitle>
         </div>
       </CardHeader>
       <CardContent className="space-y-4 pt-0">
@@ -95,12 +97,17 @@ export function AcademyCatalogContextCard({ course }: AcademyCatalogContextCardP
         {workspace ? (
           <p className="text-text-muted text-xs">
             Студия автора:{' '}
-            <Link href={workspace.href} className="font-medium text-primary underline-offset-4 hover:underline">
+            <Link
+              href={workspace.href}
+              className="font-medium text-primary underline-offset-4 hover:underline"
+            >
               {workspace.label}
             </Link>
           </p>
         ) : (
-          <p className="text-text-muted text-xs">Платформенный курс Syntha — модерация не требуется.</p>
+          <p className="text-text-muted text-xs">
+            Платформенный курс Syntha — модерация не требуется.
+          </p>
         )}
       </CardContent>
     </Card>

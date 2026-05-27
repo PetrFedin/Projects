@@ -44,7 +44,9 @@ export function syncSampleBaseSizePartsForLeaf(
   const scale = prev.sampleSizeScaleId ?? defaultSizeScaleIdForLeaf(currentLeaf);
   const params = resolveSampleBaseSizeParametersForLeaf(attr, currentLeaf, scale);
   const allow = new Set(params.map((p) => p.parameterId));
-  const a = prev.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize');
+  const a = prev.assignments.find(
+    (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+  );
   if (!a) return prev;
   const { hbs, ft } = partitionHandbookAndFree(a);
   if (!hbs.length) return prev;

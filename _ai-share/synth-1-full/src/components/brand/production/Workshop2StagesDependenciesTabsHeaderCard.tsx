@@ -60,8 +60,8 @@ export function Workshop2StagesDependenciesTabsHeaderCard(
               <p className="text-text-secondary mb-2 text-[10px] leading-snug">
                 Полный путь «от идеи к полке» — тот же порядок, что в{' '}
                 <strong className="text-text-primary">матрице этапов</strong> и в графе{' '}
-                <code className="bg-bg-surface2 rounded px-1">dependsOn</code> (блокировки следующего
-                шага считаются по зависимостям, а не по номеру в списке ниже).
+                <code className="bg-bg-surface2 rounded px-1">dependsOn</code> (блокировки
+                следующего шага считаются по зависимостям, а не по номеру в списке ниже).
               </p>
               <ol className="text-text-secondary border-border-subtle bg-bg-surface2/80 max-h-52 list-decimal space-y-0.5 overflow-y-auto rounded-md border p-2 pl-4 text-[10px]">
                 {getCollectionBrandNarrativeTitles().map((t, i) => (
@@ -72,16 +72,14 @@ export function Workshop2StagesDependenciesTabsHeaderCard(
             <StagesHelpWhyBlock title="Гайд бренда (дорожная карта)">
               <p className="text-text-secondary mb-2 text-[10px] leading-snug">
                 Тот же набор этапов в логике{' '}
-                <strong className="text-text-primary">
-                  презентаций и планирования с командой
-                </strong>{' '}
+                <strong className="text-text-primary">презентаций и планирования с командой</strong>{' '}
                 (семплы и закупка до формального согласования образа и ТЗ; комплектация B2B в
                 повестке рядом со складом). Для{' '}
                 <strong className="text-text-primary">статусов и «что блокирует что»</strong>{' '}
                 ориентируйтесь на список выше и матрицу — там порядок строк = исполнение и{' '}
-                <code className="bg-bg-surface2 rounded px-1">dependsOn</code> (например семплы после
-                Tech Pack и поставки в цех; на серии — nesting → выпуск → ОТК → склад → комплектация
-                → отгрузка).
+                <code className="bg-bg-surface2 rounded px-1">dependsOn</code> (например семплы
+                после Tech Pack и поставки в цех; на серии — nesting → выпуск → ОТК → склад →
+                комплектация → отгрузка).
               </p>
               <ol className="text-text-secondary border-accent-primary/20 bg-accent-primary/10 max-h-52 list-decimal space-y-0.5 overflow-y-auto rounded-md border p-2 pl-4 text-[10px]">
                 {getCollectionBrandGuideTitles().map((t, i) => (
@@ -96,8 +94,8 @@ export function Workshop2StagesDependenciesTabsHeaderCard(
             </p>
             <p>
               <strong className="text-text-primary">Схема зависимостей</strong> (5 узлов в строке,
-              змейка, без горизонтального скролла): числа — по пулу среза; клик по узлу сужает доску и
-              матрицу до SKU с этапом на этом узле (повторный клик — сброс).
+              змейка, без горизонтального скролла): числа — по пулу среза; клик по узлу сужает доску
+              и матрицу до SKU с этапом на этом узле (повторный клик — сброс).
             </p>
             <div>
               <p className="text-text-primary mb-1.5 font-semibold">Параметры в URL</p>
@@ -111,12 +109,16 @@ export function Workshop2StagesDependenciesTabsHeaderCard(
                     stagesSeason
                   </code>
                   ,{' '}
-                  <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">stagesL1</code>
-                  –
-                  <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">L3</code>,{' '}
-                  <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">stagesFab</code>{' '}
-                  — срез (несколько значений через запятую, OR внутри оси; между осями — AND). Значения
-                  в URL кодируются через <code className="text-[10px]">encodeURIComponent</code>.
+                  <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
+                    stagesL1
+                  </code>
+                  –<code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">L3</code>,{' '}
+                  <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
+                    stagesFab
+                  </code>{' '}
+                  — срез (несколько значений через запятую, OR внутри оси; между осями — AND).
+                  Значения в URL кодируются через{' '}
+                  <code className="text-[10px]">encodeURIComponent</code>.
                 </li>
                 <li>
                   <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
@@ -134,11 +136,13 @@ export function Workshop2StagesDependenciesTabsHeaderCard(
                   <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
                     stagesMatrixSku
                   </code>{' '}
-                  — устаревший deep link: при открытии переносит на вкладку «По артикулам» с выбранным
-                  SKU и удаляется из URL
+                  — устаревший deep link: при открытии переносит на вкладку «По артикулам» с
+                  выбранным SKU и удаляется из URL
                 </li>
                 <li>
-                  <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">stagesSub</code>{' '}
+                  <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
+                    stagesSub
+                  </code>{' '}
                   — внутренняя вкладка (оперативка / процесс / по артикулам)
                 </li>
                 <li>
@@ -158,8 +162,8 @@ export function Workshop2StagesDependenciesTabsHeaderCard(
                   <code className="bg-bg-surface2 text-text-primary rounded px-1 py-0.5">
                     stagesMatrixQ
                   </code>{' '}
-                  — текстовый фильтр строк матрицы (подстрока в названии, фазе, id или зоне); до ~120
-                  символов
+                  — текстовый фильтр строк матрицы (подстрока в названии, фазе, id или зоне); до
+                  ~120 символов
                 </li>
               </ul>
             </div>
@@ -177,18 +181,19 @@ export function Workshop2StagesDependenciesTabsHeaderCard(
               aria-hidden
             />
             <span className="whitespace-nowrap">Оперативка</span>
-            {contextFilterActive && filterBadgeSub === 'ops' ? <StagesContextFilterPulseIcon /> : null}
+            {contextFilterActive && filterBadgeSub === 'ops' ? (
+              <StagesContextFilterPulseIcon />
+            ) : null}
           </TabsTrigger>
           <TabsTrigger
             value="process"
             title="Схема зависимостей и матрица статусов по этапам"
             className={cn(cabinetSurface.tabsTrigger, 'h-auto gap-1.5 px-2.5 py-2 tracking-wider')}
           >
-            <ListTree
-              className="pointer-events-none h-3.5 w-3.5 shrink-0 opacity-70"
-              aria-hidden
-            />
-            <span className="max-w-[10rem] leading-tight sm:whitespace-nowrap">Процесс и правила</span>
+            <ListTree className="pointer-events-none h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden />
+            <span className="max-w-[10rem] leading-tight sm:whitespace-nowrap">
+              Процесс и правила
+            </span>
             {contextFilterActive && filterBadgeSub === 'process' ? (
               <StagesContextFilterPulseIcon />
             ) : null}
@@ -198,12 +203,11 @@ export function Workshop2StagesDependenciesTabsHeaderCard(
             title="Карточка одного SKU: чеклисты этапов и кнопки «в модуль»"
             className={cn(cabinetSurface.tabsTrigger, 'h-auto gap-1.5 px-2.5 py-2 tracking-wider')}
           >
-            <Package
-              className="pointer-events-none h-3.5 w-3.5 shrink-0 opacity-70"
-              aria-hidden
-            />
+            <Package className="pointer-events-none h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden />
             <span className="whitespace-nowrap">По артикулам</span>
-            {contextFilterActive && filterBadgeSub === 'sku' ? <StagesContextFilterPulseIcon /> : null}
+            {contextFilterActive && filterBadgeSub === 'sku' ? (
+              <StagesContextFilterPulseIcon />
+            ) : null}
           </TabsTrigger>
         </TabsList>
         <p className="text-text-secondary mt-2 text-[10px] leading-snug">

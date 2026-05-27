@@ -6,7 +6,12 @@ import type { CmsHomeConfig } from '@/data/cms.home.default';
 
 const HomeLiveStrip = dynamic(
   () => import('@/components/cms/HomeLiveStrip').then((m) => ({ default: m.HomeLiveStrip })),
-  { ssr: false, loading: () => <div className="min-h-[200px] animate-pulse rounded-xl bg-muted/40" aria-hidden /> }
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-[200px] animate-pulse rounded-xl bg-muted/40" aria-hidden />
+    ),
+  }
 );
 
 type HomeMediaLiveSectionProps = {

@@ -14,7 +14,7 @@ import { COLOR_PALETTE } from '@/lib/color-palette';
 
 export default function ColorsPage() {
   return (
-    <CabinetPageContent maxWidth="5xl" className="pb-16 px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent maxWidth="5xl" className="px-4 py-6 pb-16 pb-24 sm:px-6">
       <header className="mb-8">
         <h1 className="font-headline text-sm font-bold md:text-base">Палитра цветов</h1>
         <p className="mt-2 text-sm text-muted-foreground">

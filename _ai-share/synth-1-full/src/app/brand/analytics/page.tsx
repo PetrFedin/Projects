@@ -86,8 +86,8 @@ export default function AnalyticsPage() {
         className="text-text-muted border-border-default bg-bg-surface2/80 rounded-md border px-3 py-2 text-xs leading-snug"
         data-testid="brand-analytics-demo-disclaimer"
       >
-        <span className="text-text-primary font-semibold">Демо.</span> Метрики и отчёты на мок-данных; не
-        финансовая отчётность и не интеграция с OMS. См. реестр ядра:{' '}
+        <span className="text-text-primary font-semibold">Демо.</span> Метрики и отчёты на
+        мок-данных; не финансовая отчётность и не интеграция с OMS. См. реестр ядра:{' '}
         <code className="text-[10px]">CORE_OPERATING_CHAIN.md</code> §5.
       </p>
       {/* Control Panel — без повтора заголовка раздела (шапка из layout) */}

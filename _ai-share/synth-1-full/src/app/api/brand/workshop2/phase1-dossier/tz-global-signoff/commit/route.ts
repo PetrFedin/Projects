@@ -41,19 +41,18 @@ function addLog(
   rowKey: GlobalRowKey,
   roleTitle?: string
 ): Workshop2DossierPhase1 {
-  const action: Workshop2TzActionLogPayload =
-    rowKey.startsWith('extra:')
-      ? {
-          type: 'tz_extra_signoff',
-          rowId: rowKey.slice('extra:'.length),
-          roleTitle: roleTitle?.trim() || 'Роль',
-          set: true,
-        }
-      : {
-          type: 'tz_global_signoff',
-          role: rowKey as 'designer' | 'technologist' | 'manager',
-          set: true,
-        };
+  const action: Workshop2TzActionLogPayload = rowKey.startsWith('extra:')
+    ? {
+        type: 'tz_extra_signoff',
+        rowId: rowKey.slice('extra:'.length),
+        roleTitle: roleTitle?.trim() || 'Роль',
+        set: true,
+      }
+    : {
+        type: 'tz_global_signoff',
+        role: rowKey as 'designer' | 'technologist' | 'manager',
+        set: true,
+      };
   const entry: Workshop2TzActionLogEntry = {
     entryId: makeId(),
     at: nowIso(),
@@ -101,7 +100,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'invalid_body' }, { status: 400 });
   }
   const actorResolved = resolveWorkshop2ServerActor(req, signerLabel, signerOrganization);
-  if (!actorResolved.ok) return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
+  if (!actorResolved.ok)
+    return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
   const actor = actorResolved.actor;
   if (!actorHasAnyRole(actor, ['production:edit', 'w2:global_signoff'])) {
     return NextResponse.json({ ok: false, error: 'forbidden_actor_role' }, { status: 403 });
@@ -124,15 +124,26 @@ export async function POST(req: NextRequest) {
   if (rowKey === 'designer') {
     const designated = cur.tzSignatoryBindings?.designerDisplayLabel?.trim() ?? '';
     if (designated && !workshopTzSignerAllowed(actor.actorLabel, designated)) {
-      return NextResponse.json({ ok: false, error: 'signer_not_allowed_designer' }, { status: 409 });
+      return NextResponse.json(
+        { ok: false, error: 'signer_not_allowed_designer' },
+        { status: 409 }
+      );
     }
   } else if (rowKey === 'technologist') {
     const designated = cur.tzSignatoryBindings?.technologistDisplayLabel?.trim() ?? '';
     if (designated && !workshopTzSignerAllowed(actor.actorLabel, designated)) {
-      return NextResponse.json({ ok: false, error: 'signer_not_allowed_technologist' }, { status: 409 });
+      return NextResponse.json(
+        { ok: false, error: 'signer_not_allowed_technologist' },
+        { status: 409 }
+      );
     }
-    if (technologistEarlyStagesRequired(cur.tzSignatoryBindings?.technologistSignStages).length > 0) {
-      return NextResponse.json({ ok: false, error: 'technologist_early_stages_required' }, { status: 409 });
+    if (
+      technologistEarlyStagesRequired(cur.tzSignatoryBindings?.technologistSignStages).length > 0
+    ) {
+      return NextResponse.json(
+        { ok: false, error: 'technologist_early_stages_required' },
+        { status: 409 }
+      );
     }
   } else if (rowKey === 'manager') {
     const designated = cur.tzSignatoryBindings?.managerDisplayLabel?.trim() ?? '';
@@ -165,7 +176,13 @@ export async function POST(req: NextRequest) {
   };
   let next: Workshop2DossierPhase1;
   if (rowKey === 'designer') {
-    next = { ...cur, updatedAt: at, updatedBy: actor.actorLabel, isVerifiedByDesigner: true, designerSignoff: meta };
+    next = {
+      ...cur,
+      updatedAt: at,
+      updatedBy: actor.actorLabel,
+      isVerifiedByDesigner: true,
+      designerSignoff: meta,
+    };
   } else if (rowKey === 'technologist') {
     next = {
       ...cur,
@@ -175,7 +192,13 @@ export async function POST(req: NextRequest) {
       technologistSignoff: meta,
     };
   } else if (rowKey === 'manager') {
-    next = { ...cur, updatedAt: at, updatedBy: actor.actorLabel, isVerifiedByManager: true, managerSignoff: meta };
+    next = {
+      ...cur,
+      updatedAt: at,
+      updatedBy: actor.actorLabel,
+      isVerifiedByManager: true,
+      managerSignoff: meta,
+    };
   } else {
     const rowId = rowKey.slice('extra:'.length);
     next = {

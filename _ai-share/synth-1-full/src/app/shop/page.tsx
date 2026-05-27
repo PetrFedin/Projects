@@ -132,7 +132,11 @@ export default function ShopHubPage() {
   );
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="space-y-10 px-4 py-6 pb-24 sm:px-6" data-testid={tid.page('shop-retail-dashboard')}>
+    <CabinetPageContent
+      maxWidth="5xl"
+      className="space-y-10 px-4 py-6 pb-24 sm:px-6"
+      data-testid={tid.page('shop-retail-dashboard')}
+    >
       <ShopCabinetSectionHeader showBack={false} />
       <HubTodayPanel
         e2eVariant="shop"

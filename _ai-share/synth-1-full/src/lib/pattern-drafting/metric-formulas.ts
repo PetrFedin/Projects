@@ -39,7 +39,10 @@ export function quarterWaistSuppressionMm(
 }
 
 /** Длина дуги проймы (мм) — грубая оценка по прямоуг. и глубине. */
-export function estimateArmholeCurveLengthMm(shoulderX: number, underarm: { x: number; y: number }): number {
+export function estimateArmholeCurveLengthMm(
+  shoulderX: number,
+  underarm: { x: number; y: number }
+): number {
   const dx = Math.max(0, underarm.x - shoulderX);
   const dy = underarm.y;
   return 1.12 * (Math.PI * 0.5) * Math.hypot(dx, dy);

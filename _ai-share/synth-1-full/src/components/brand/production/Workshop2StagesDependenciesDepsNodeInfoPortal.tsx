@@ -83,8 +83,8 @@ export function Workshop2StagesDependenciesDepsNodeInfoPortal(
         </div>
         {articles.length === 0 ? (
           <p className="text-text-secondary text-[10px] leading-snug">
-            На этом узле нет артикулов текущего перечня — сначала завершите предшественников в матрице
-            (статусы) или расширьте срез. Тогда здесь появятся SKU и пошаговые подсказки.
+            На этом узле нет артикулов текущего перечня — сначала завершите предшественников в
+            матрице (статусы) или расширьте срез. Тогда здесь появятся SKU и пошаговые подсказки.
           </p>
         ) : (
           <ul className="border-border-subtle space-y-2 border-t pt-3">

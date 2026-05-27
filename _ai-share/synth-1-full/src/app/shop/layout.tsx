@@ -47,7 +47,9 @@ function ShopLayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <ErrorBoundary>
       <div className={cabinetHubLayout.rootShell}>
-        <aside className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}>
+        <aside
+          className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}
+        >
           <ShopSidebarHeader />
           <div className="scrollbar-hide min-h-0 flex-1 overflow-y-auto">
             <ShopSidebar groups={sidebarGroups} />
@@ -102,22 +104,26 @@ function ShopLayoutContent({ children }: { children: React.ReactNode }) {
               sectionTitle={activeLink?.label || 'Дашборд'}
               trailing={
                 <>
-                  {(Array.isArray(profile?.alerts) ? profile.alerts : []).map((alert: any, idx: number) => (
-                    <Badge
-                      key={idx}
-                      variant="outline"
-                      className="h-7 animate-pulse border-rose-100 bg-rose-50/30 px-2 text-[7px] font-black uppercase tracking-widest text-rose-600"
-                    >
-                      {alert.message}
-                    </Badge>
-                  ))}
+                  {(Array.isArray(profile?.alerts) ? profile.alerts : []).map(
+                    (alert: any, idx: number) => (
+                      <Badge
+                        key={idx}
+                        variant="outline"
+                        className="h-7 animate-pulse border-rose-100 bg-rose-50/30 px-2 text-[7px] font-black uppercase tracking-widest text-rose-600"
+                      >
+                        {alert.message}
+                      </Badge>
+                    )
+                  )}
                 </>
               }
             />
 
             <main className={cabinetHubLayout.mainInner}>
               <ErrorBoundary>
-                <Suspense fallback={<div className={cabinetHubLayout.suspenseFallback} aria-busy />}>
+                <Suspense
+                  fallback={<div className={cabinetHubLayout.suspenseFallback} aria-busy />}
+                >
                   {children}
                 </Suspense>
               </ErrorBoundary>

@@ -2,7 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import * as LucideIcons from 'lucide-react';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from 'recharts';
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import { WidgetContainer } from '@/components/design-system/widget-container';
 
 interface ScorecardData {
@@ -46,16 +56,26 @@ export function SupplierQcScorecard({ supplierId }: { supplierId: string }) {
 
   if (loading) {
     return (
-      <WidgetContainer title="Рейтинг производителя" icon={<LucideIcons.BarChart2 className="w-4 h-4 text-text-muted" />}>
-        <div className="h-48 flex items-center justify-center text-text-secondary text-sm">Загрузка рейтинга...</div>
+      <WidgetContainer
+        title="Рейтинг производителя"
+        icon={<LucideIcons.BarChart2 className="text-text-muted h-4 w-4" />}
+      >
+        <div className="text-text-secondary flex h-48 items-center justify-center text-sm">
+          Загрузка рейтинга...
+        </div>
       </WidgetContainer>
     );
   }
 
   if (!data) {
     return (
-      <WidgetContainer title="Рейтинг производителя" icon={<LucideIcons.BarChart2 className="w-4 h-4 text-text-muted" />}>
-        <div className="h-48 flex items-center justify-center text-text-secondary text-sm">Данные недоступны</div>
+      <WidgetContainer
+        title="Рейтинг производителя"
+        icon={<LucideIcons.BarChart2 className="text-text-muted h-4 w-4" />}
+      >
+        <div className="text-text-secondary flex h-48 items-center justify-center text-sm">
+          Данные недоступны
+        </div>
       </WidgetContainer>
     );
   }
@@ -67,18 +87,21 @@ export function SupplierQcScorecard({ supplierId }: { supplierId: string }) {
   ];
 
   return (
-    <WidgetContainer title="Рейтинг производителя (AQL)" icon={<LucideIcons.BarChart2 className="w-4 h-4 text-accent-primary" />}>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+    <WidgetContainer
+      title="Рейтинг производителя (AQL)"
+      icon={<LucideIcons.BarChart2 className="text-accent-primary h-4 w-4" />}
+    >
+      <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-3">
         {/* Metric Pass Rate */}
-        <div className="flex flex-col justify-center items-center p-4 bg-slate-50 rounded-xl border border-slate-100">
-          <p className="text-text-secondary text-sm font-medium mb-1">Pass Rate</p>
-          <div className="text-4xl font-bold text-text-primary">{data.passRate.toFixed(1)}%</div>
-          <p className="text-text-muted text-xs mt-2">{data.totalBatches} партий проверено</p>
+        <div className="flex flex-col items-center justify-center rounded-xl border border-slate-100 bg-slate-50 p-4">
+          <p className="text-text-secondary mb-1 text-sm font-medium">Pass Rate</p>
+          <div className="text-text-primary text-4xl font-bold">{data.passRate.toFixed(1)}%</div>
+          <p className="text-text-muted mt-2 text-xs">{data.totalBatches} партий проверено</p>
         </div>
 
         {/* Pie Chart */}
-        <div className="h-40 flex flex-col items-center">
-          <p className="text-text-secondary text-xs font-semibold mb-2">Статус партий</p>
+        <div className="flex h-40 flex-col items-center">
+          <p className="text-text-secondary mb-2 text-xs font-semibold">Статус партий</p>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -94,7 +117,12 @@ export function SupplierQcScorecard({ supplierId }: { supplierId: string }) {
                 ))}
               </Pie>
               <Tooltip
-                contentStyle={{ fontSize: '11px', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}
+                contentStyle={{
+                  fontSize: '11px',
+                  borderRadius: '8px',
+                  border: '1px solid #e2e8f0',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+                }}
                 itemStyle={{ color: '#0f172a' }}
               />
             </PieChart>
@@ -102,14 +130,30 @@ export function SupplierQcScorecard({ supplierId }: { supplierId: string }) {
         </div>
 
         {/* Bar Chart - Top Defects */}
-        <div className="h-40 flex flex-col items-center">
-          <p className="text-text-secondary text-xs font-semibold mb-2">Частые дефекты</p>
+        <div className="flex h-40 flex-col items-center">
+          <p className="text-text-secondary mb-2 text-xs font-semibold">Частые дефекты</p>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data.defectTypes} layout="vertical" margin={{ top: 0, right: 0, left: 10, bottom: 0 }}>
+            <BarChart
+              data={data.defectTypes}
+              layout="vertical"
+              margin={{ top: 0, right: 0, left: 10, bottom: 0 }}
+            >
               <XAxis type="number" hide />
-              <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748b' }} width={60} />
+              <YAxis
+                dataKey="name"
+                type="category"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 10, fill: '#64748b' }}
+                width={60}
+              />
               <Tooltip
-                contentStyle={{ fontSize: '11px', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}
+                contentStyle={{
+                  fontSize: '11px',
+                  borderRadius: '8px',
+                  border: '1px solid #e2e8f0',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+                }}
                 cursor={{ fill: '#f1f5f9' }}
               />
               <Bar dataKey="value" fill="#94a3b8" radius={[0, 4, 4, 0]} barSize={12} />

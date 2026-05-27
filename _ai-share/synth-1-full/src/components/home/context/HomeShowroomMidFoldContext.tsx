@@ -57,9 +57,7 @@ export type HomeShowroomShowcaseContextValue = {
 const HomeShowroomLookDialogContext = createContext<HomeShowroomLookDialogContextValue | null>(
   null
 );
-const HomeShowroomLinesheetContext = createContext<HomeShowroomLinesheetContextValue | null>(
-  null
-);
+const HomeShowroomLinesheetContext = createContext<HomeShowroomLinesheetContextValue | null>(null);
 const HomeShowroomBrandsContext = createContext<HomeShowroomBrandsContextValue | null>(null);
 const HomeShowroomShowcaseContext = createContext<HomeShowroomShowcaseContextValue | null>(null);
 

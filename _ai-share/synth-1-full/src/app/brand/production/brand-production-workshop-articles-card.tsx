@@ -7,7 +7,9 @@ import type { BrandProductionWorkshopArticlesCardProps } from '@/app/brand/produ
 
 export type { WorkshopArticlesProgressSummary } from '@/app/brand/production/brand-production-workshop-articles-card-types';
 
-export function BrandProductionWorkshopArticlesCard(props: BrandProductionWorkshopArticlesCardProps) {
+export function BrandProductionWorkshopArticlesCard(
+  props: BrandProductionWorkshopArticlesCardProps
+) {
   const {
     collectionLabel,
     collectionQuery,

@@ -13,7 +13,10 @@ export type ProductionFlowGate = {
 };
 
 /** Заглушка: полный доступ для всех ролей до появления бэкенда политик. */
-export function getProductionStepGate(_role: UserRole | undefined, _stepId: string): ProductionFlowGate {
+export function getProductionStepGate(
+  _role: UserRole | undefined,
+  _stepId: string
+): ProductionFlowGate {
   return {
     stepId: _stepId,
     canView: true,

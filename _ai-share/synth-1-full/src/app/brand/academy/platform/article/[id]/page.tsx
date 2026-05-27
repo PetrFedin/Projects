@@ -34,7 +34,10 @@ export default function PlatformArticleDetailPage() {
 
   if (!article) {
     return (
-      <CabinetPageContent maxWidth="full" className="from-bg-surface2/80 to-bg-surface w-full space-y-6 bg-gradient-to-b pb-16">
+      <CabinetPageContent
+        maxWidth="full"
+        className="from-bg-surface2/80 to-bg-surface w-full space-y-6 bg-gradient-to-b pb-16"
+      >
         <RegistryPageHeader
           title="Статья не найдена"
           leadPlain="Материал отсутствует в демо-данных платформы."
@@ -73,7 +76,10 @@ export default function PlatformArticleDetailPage() {
     .join(' ');
 
   return (
-    <CabinetPageContent maxWidth="full" className="from-bg-surface2/80 to-bg-surface w-full space-y-8 bg-gradient-to-b pb-16">
+    <CabinetPageContent
+      maxWidth="full"
+      className="from-bg-surface2/80 to-bg-surface w-full space-y-8 bg-gradient-to-b pb-16"
+    >
       <RegistryPageHeader
         title={article.title}
         leadPlain={leadPlain}

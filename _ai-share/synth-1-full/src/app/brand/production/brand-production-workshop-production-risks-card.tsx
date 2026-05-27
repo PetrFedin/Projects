@@ -48,11 +48,7 @@ export function BrandProductionWorkshopProductionRisksCard(props: {
           <p className="text-emerald-700">
             Утверждено: <strong>{milestonesSummary.approved}</strong>
           </p>
-          <p
-            className={
-              milestonesSummary.pending > 0 ? 'text-amber-700' : 'text-text-secondary'
-            }
-          >
+          <p className={milestonesSummary.pending > 0 ? 'text-amber-700' : 'text-text-secondary'}>
             Ожидает: <strong>{milestonesSummary.pending}</strong>
           </p>
         </div>
@@ -65,9 +61,7 @@ export function BrandProductionWorkshopProductionRisksCard(props: {
             Выполнено: <strong>{subcontractSummary.completed}</strong>
           </p>
           <p
-            className={
-              subcontractSummary.inProgress > 0 ? 'text-amber-700' : 'text-text-secondary'
-            }
+            className={subcontractSummary.inProgress > 0 ? 'text-amber-700' : 'text-text-secondary'}
           >
             В работе: <strong>{subcontractSummary.inProgress}</strong>
           </p>

@@ -87,7 +87,9 @@ export function Workshop2CompositionLabelDraftMockup({
   const wMm = parseFloat(String(s.labelWidthMm ?? '').replace(',', '.'));
   const hMm = parseFloat(String(s.labelHeightMm ?? '').replace(',', '.'));
   const ratio =
-    Number.isFinite(wMm) && Number.isFinite(hMm) && wMm > 0 && hMm > 0 ? `${(hMm / wMm) * 100}%` : '56.25%';
+    Number.isFinite(wMm) && Number.isFinite(hMm) && wMm > 0 && hMm > 0
+      ? `${(hMm / wMm) * 100}%`
+      : '56.25%';
 
   const bodyPt = parseFloat(String(s.typographyBodyPt ?? '9').replace(',', '.'));
   const fontPx = Number.isFinite(bodyPt) ? `${Math.max(6, bodyPt) * 1.33}px` : '11px';
@@ -115,10 +117,7 @@ export function Workshop2CompositionLabelDraftMockup({
       style={{ paddingBottom: ratio }}
     >
       {s.showTrimMarksOnDraft ? (
-        <div
-          className="pointer-events-none absolute inset-0 z-[15] text-neutral-400"
-          aria-hidden
-        >
+        <div className="pointer-events-none absolute inset-0 z-[15] text-neutral-400" aria-hidden>
           <span className="absolute left-0.5 top-0.5 block h-2 w-2 border-l-2 border-t-2 border-current" />
           <span className="absolute right-0.5 top-0.5 block h-2 w-2 border-r-2 border-t-2 border-current" />
           <span className="absolute bottom-0.5 left-0.5 block h-2 w-2 border-b-2 border-l-2 border-current" />
@@ -192,7 +191,7 @@ export function Workshop2CompositionLabelDraftMockup({
                         height={20}
                         loading="lazy"
                         decoding="async"
-                        className="h-5 w-5 object-contain grayscale contrast-125"
+                        className="h-5 w-5 object-contain contrast-125 grayscale"
                       />
                     ) : (
                       <span className="text-[8px] font-medium text-neutral-700">{abbr}</span>
@@ -317,8 +316,8 @@ export function Workshop2CompositionLabelDraftMockup({
             <div className="mb-1.5 space-y-0.5">
               <p className="text-text-primary text-xs font-medium">Оборот</p>
               <p className="text-text-secondary text-xs leading-snug">
-                Только поле «Текст для оборота»: доп. уход, состав подкладки, EAC, юр. строки второй стороны
-                (редактирование — в форме выше, не на макете).
+                Только поле «Текст для оборота»: доп. уход, состав подкладки, EAC, юр. строки второй
+                стороны (редактирование — в форме выше, не на макете).
               </p>
             </div>
             <div
@@ -334,8 +333,8 @@ export function Workshop2CompositionLabelDraftMockup({
       </div>
       {(s.labelWidthMm ?? '').trim() || (s.labelHeightMm ?? '').trim() ? (
         <p className="text-text-muted mt-1 text-[10px]">
-          Габариты {printOnReverse ? 'каждой стороны' : 'макета'}: {(s.labelWidthMm ?? '').trim() || '—'} ×{' '}
-          {(s.labelHeightMm ?? '').trim() || '—'} мм
+          Габариты {printOnReverse ? 'каждой стороны' : 'макета'}:{' '}
+          {(s.labelWidthMm ?? '').trim() || '—'} × {(s.labelHeightMm ?? '').trim() || '—'} мм
         </p>
       ) : null}
     </div>

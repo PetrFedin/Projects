@@ -3,11 +3,11 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const { materialLines } = (await req.json()) as any;
-    
+
     // Mock calculating sustainability
     let carbonSum = 0;
     let waterSum = 0;
-    
+
     (materialLines || []).forEach((line: any) => {
       // randomly assign per line for mock
       carbonSum += 2.5 + Math.random() * 5;

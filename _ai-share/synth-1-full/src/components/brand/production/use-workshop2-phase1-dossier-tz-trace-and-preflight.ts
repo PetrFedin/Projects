@@ -4,7 +4,10 @@ import { useMemo } from 'react';
 import { buildWorkshop2ProductionPreflightSnapshot } from '@/lib/production/workshop2-production-preflight';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2TzGateCommentLike } from '@/lib/production/workshop2-tz-gates';
-import { buildWorkshop2TzPreflightReport, buildWorkshop2TzTraceRows } from '@/lib/production/workshop2-tz-trace';
+import {
+  buildWorkshop2TzPreflightReport,
+  buildWorkshop2TzTraceRows,
+} from '@/lib/production/workshop2-tz-trace';
 import type { Workshop2AttrComment } from '@/components/brand/production/workshop2-phase1-dossier-panel-attr-comments-dialog';
 
 type CommentsMap = Record<string, Workshop2AttrComment[]>;

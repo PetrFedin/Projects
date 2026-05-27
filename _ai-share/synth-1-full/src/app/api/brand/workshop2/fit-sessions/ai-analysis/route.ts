@@ -11,7 +11,7 @@ export const POST = observeApiRoute(async (req) => {
   try {
     const body = await req.json();
     const parsed = RequestSchema.safeParse(body);
-    
+
     if (!parsed.success) {
       return NextResponse.json(
         { error: 'Invalid request body', details: parsed.error.format() },
@@ -22,17 +22,15 @@ export const POST = observeApiRoute(async (req) => {
     const { photoUrls } = parsed.data;
 
     // TODO: T-03-01 Tampering mitigation: validate URLs belong to trusted domains/S3
-    const trustedUrls = photoUrls.filter(url => 
-      url.startsWith('data:image/') || 
-      url.includes('s3.amazonaws.com') || 
-      url.includes('synth-platform.com')
+    const trustedUrls = photoUrls.filter(
+      (url) =>
+        url.startsWith('data:image/') ||
+        url.includes('s3.amazonaws.com') ||
+        url.includes('synth-platform.com')
     );
 
     if (trustedUrls.length === 0) {
-      return NextResponse.json(
-        { error: 'No trusted photo URLs provided' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'No trusted photo URLs provided' }, { status: 400 });
     }
 
     const result = await analyzeFitPhotos({ photoUrls: trustedUrls, userId: 'api-user' });

@@ -17,7 +17,10 @@ export default function BrandB2BBuyerApplicationsPage() {
   const links = getRelatedLinks('buyer-onboarding').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent
+      maxWidth="full"
+      className="w-full space-y-6 pb-16 duration-700 animate-in fade-in"
+    >
       <RegistryPageHeader
         title="Анкета онбординга"
         leadPlain="Сбор данных о магазине при регистрации (Brandboom): гео, формат, оборот, категории."

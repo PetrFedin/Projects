@@ -4,11 +4,7 @@
  */
 
 import type { CreditLine, PaymentMethod, OutstandingInvoice } from '@/hooks/usePaymentData';
-import type {
-  LiveCollaborator,
-  PendingApproval,
-  TeamBudget,
-} from '@/hooks/useCollaborativeOrder';
+import type { LiveCollaborator, PendingApproval, TeamBudget } from '@/hooks/useCollaborativeOrder';
 
 export const DASHBOARD_DEMO_CREDIT_LINE: CreditLine = {
   available: 2_400_000,

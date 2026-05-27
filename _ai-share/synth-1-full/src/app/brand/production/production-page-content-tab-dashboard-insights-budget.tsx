@@ -30,8 +30,7 @@ export function ProductionPageContentTabDashboardInsightsBudget({
               {overBudgets
                 .map(
                   (b: any) =>
-                    collections?.find((c: any) => c.id === b.collectionId)?.name ||
-                    b.collectionId
+                    collections?.find((c: any) => c.id === b.collectionId)?.name || b.collectionId
                 )
                 .join(', ')}
             </p>

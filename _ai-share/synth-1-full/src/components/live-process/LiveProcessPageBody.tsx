@@ -213,7 +213,7 @@ export function LiveProcessPageBody({
 
   if (!definition && !defResolved) {
     return (
-      <div className="text-muted-foreground container mx-auto max-w-4xl px-4 py-10 text-sm">
+      <div className="container mx-auto max-w-4xl px-4 py-10 text-sm text-muted-foreground">
         Загрузка схемы процесса…
       </div>
     );
@@ -372,8 +372,8 @@ export function LiveProcessPageBody({
           <CardTitle className="text-sm uppercase tracking-tight">Прогресс по этапам</CardTitle>
           <CardDescription>
             Ответственные, даты, доступы и обсуждения по каждому этапу. Прогресс — в браузере
-            (localStorage); схема этапов после «Сохранить» в редакторе — в `.data/workflow-store.json` на
-            сервере (см. API `/api/processes`).
+            (localStorage); схема этапов после «Сохранить» в редакторе — в
+            `.data/workflow-store.json` на сервере (см. API `/api/processes`).
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">

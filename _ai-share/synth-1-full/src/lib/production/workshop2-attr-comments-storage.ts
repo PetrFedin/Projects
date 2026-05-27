@@ -49,7 +49,10 @@ export function saveW2AttrCommentsMap(
 ): boolean {
   if (typeof window === 'undefined') return true;
   try {
-    window.localStorage.setItem(w2AttrCommentsStorageKey(collectionId, articleId), JSON.stringify(map));
+    window.localStorage.setItem(
+      w2AttrCommentsStorageKey(collectionId, articleId),
+      JSON.stringify(map)
+    );
     return true;
   } catch {
     return false;

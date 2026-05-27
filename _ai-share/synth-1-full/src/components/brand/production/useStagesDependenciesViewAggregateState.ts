@@ -27,7 +27,8 @@ export function useStagesDependenciesViewAggregateState(args: {
   productionProfileId: ProductionFlowProfileId;
   setUnifiedDoc: Dispatch<SetStateAction<CollectionSkuFlowDoc>>;
 }) {
-  const { flowDoc, steps, focusArticle, chainFocusStepId, productionProfileId, setUnifiedDoc } = args;
+  const { flowDoc, steps, focusArticle, chainFocusStepId, productionProfileId, setUnifiedDoc } =
+    args;
 
   const viewArticles = useMemo(() => {
     if (!focusArticle) return [];

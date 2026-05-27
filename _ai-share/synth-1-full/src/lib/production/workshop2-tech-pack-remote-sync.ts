@@ -17,7 +17,10 @@ function w2TechPackWriteAuthHeaders(): Record<string, string> {
 
 export async function fetchW2TechPackRemoteEnabled(): Promise<boolean> {
   try {
-    const r = await fetch('/api/brand/workshop2/tech-pack/remote', { method: 'GET', cache: 'no-store' });
+    const r = await fetch('/api/brand/workshop2/tech-pack/remote', {
+      method: 'GET',
+      cache: 'no-store',
+    });
     if (!r.ok) return false;
     const d = (await r.json()) as { enabled?: boolean };
     return Boolean(d.enabled);
@@ -73,7 +76,10 @@ export async function syncW2TechPackAttachmentToRemote(opts: {
   const f = new File([blob], a.fileName, {
     type: a.mimeType || blob.type || 'application/octet-stream',
   });
-  const mimeType = (a.mimeType && a.mimeType.trim()) || inferMimeTypeForTechPackFile(f) || 'application/octet-stream';
+  const mimeType =
+    (a.mimeType && a.mimeType.trim()) ||
+    inferMimeTypeForTechPackFile(f) ||
+    'application/octet-stream';
 
   const pres = await fetch('/api/brand/workshop2/tech-pack/presign', {
     method: 'POST',

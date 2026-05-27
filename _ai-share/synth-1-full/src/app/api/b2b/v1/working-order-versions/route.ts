@@ -63,7 +63,10 @@ export async function PUT(req: NextRequest) {
       { status: 400, headers: { 'x-request-id': requestId } }
     );
   }
-  const raw = typeof body === 'object' && body !== null ? (body as { versions?: unknown }).versions : undefined;
+  const raw =
+    typeof body === 'object' && body !== null
+      ? (body as { versions?: unknown }).versions
+      : undefined;
   if (!Array.isArray(raw)) {
     return NextResponse.json(
       {

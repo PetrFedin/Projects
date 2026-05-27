@@ -48,9 +48,11 @@ export const W2_ARTICLE_MAIN_TAB_STRIP: readonly {
   },
 ] as const;
 
-export function w2ArticleMainTabMeta(
-  tab: Workshop2ArticleMainTab
-): { title: string; blurb: string; raciLine: string } {
+export function w2ArticleMainTabMeta(tab: Workshop2ArticleMainTab): {
+  title: string;
+  blurb: string;
+  raciLine: string;
+} {
   if (tab === 'overview') {
     return w2ArticleMainTabMeta('tz');
   }

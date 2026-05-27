@@ -90,7 +90,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'invalid_body' }, { status: 400 });
   }
   const actorResolved = resolveWorkshop2ServerActor(req, signerLabel, signerOrganization);
-  if (!actorResolved.ok) return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
+  if (!actorResolved.ok)
+    return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
   const actor = actorResolved.actor;
   if (!actorHasAnyRole(actor, ['production:edit', 'w2:signoff'])) {
     return NextResponse.json({ ok: false, error: 'forbidden_actor_role' }, { status: 403 });
@@ -114,7 +115,7 @@ export async function POST(req: NextRequest) {
 
   const gate = buildWorkshop2TzGateSnapshot(current);
   const sectionErrors =
-    b.section === 'assignment' ? [] : (gate.sectionMinimumErrors as any)?.[b.section] ?? [];
+    b.section === 'assignment' ? [] : ((gate.sectionMinimumErrors as any)?.[b.section] ?? []);
   if (sectionErrors.length > 0) {
     return NextResponse.json(
       { ok: false, error: 'section_gate_blocked', section: b.section, sectionErrors },

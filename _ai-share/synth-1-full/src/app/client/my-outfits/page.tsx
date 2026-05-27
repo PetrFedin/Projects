@@ -59,9 +59,7 @@ export default function ClientMyOutfitsPage() {
 
   return (
     <CabinetPageContent maxWidth="3xl">
-      <ClientCabinetSectionHeader
-        description="Сохранённые наборы из корзины: сумма в каталоге и в текущей корзине."
-      />
+      <ClientCabinetSectionHeader description="Сохранённые наборы из корзины: сумма в каталоге и в текущей корзине." />
 
       {rows.length === 0 ? (
         <Card className="border-border-subtle">

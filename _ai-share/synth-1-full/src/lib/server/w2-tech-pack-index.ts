@@ -18,7 +18,9 @@ import {
 
 export type { W2TechPackIndexRow };
 
-export async function upsertW2TechPackIndex(row: Omit<W2TechPackIndexRow, 'updatedAt'> & { updatedAt?: string }): Promise<void> {
+export async function upsertW2TechPackIndex(
+  row: Omit<W2TechPackIndexRow, 'updatedAt'> & { updatedAt?: string }
+): Promise<void> {
   if (w2TechPackIndexPgEnabled()) {
     try {
       await pgUpsert(row);

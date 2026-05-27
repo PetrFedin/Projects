@@ -16,13 +16,15 @@ export async function parseCadFile(file: File): Promise<CadParseResult> {
   // Simulate parsing delay
   await new Promise((resolve) => setTimeout(resolve, 1500));
 
-  const generatedMaterialId1 = typeof crypto !== 'undefined' ? crypto.randomUUID() : `mat-${Date.now()}-1`;
-  const generatedMaterialId2 = typeof crypto !== 'undefined' ? crypto.randomUUID() : `mat-${Date.now()}-2`;
+  const generatedMaterialId1 =
+    typeof crypto !== 'undefined' ? crypto.randomUUID() : `mat-${Date.now()}-1`;
+  const generatedMaterialId2 =
+    typeof crypto !== 'undefined' ? crypto.randomUUID() : `mat-${Date.now()}-2`;
 
   return {
     patterns: [
       { id: 'p1', name: 'Front Panel', areaM2: 0.45 },
-      { id: 'p2', name: 'Back Panel', areaM2: 0.50 },
+      { id: 'p2', name: 'Back Panel', areaM2: 0.5 },
       { id: 'p3', name: 'Sleeve Left', areaM2: 0.25 },
       { id: 'p4', name: 'Sleeve Right', areaM2: 0.25 },
     ],

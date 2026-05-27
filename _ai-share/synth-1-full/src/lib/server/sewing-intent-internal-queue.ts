@@ -17,7 +17,12 @@ export async function appendSewingIntentInternalTask(
   record: SewingOrderIntentServerRecordV1
 ): Promise<void> {
   const file = pathFromEnv();
-  const line = JSON.stringify({ type: 'sewing_intent_committed' as const, at: new Date().toISOString(), record }) + '\n';
+  const line =
+    JSON.stringify({
+      type: 'sewing_intent_committed' as const,
+      at: new Date().toISOString(),
+      record,
+    }) + '\n';
   try {
     await mkdir(dirname(file), { recursive: true });
     await appendFile(file, line, { encoding: 'utf8' });

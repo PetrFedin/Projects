@@ -361,7 +361,10 @@ export default function LoyaltyPage() {
 
   return (
     <div className="bg-secondary/30 duration-300 animate-in fade-in">
-      <CabinetPageContent maxWidth="5xl" className="space-y-6 py-4 pb-16 md:py-24 px-4 py-6 pb-24 sm:px-6">
+      <CabinetPageContent
+        maxWidth="5xl"
+        className="space-y-6 px-4 py-4 py-6 pb-16 pb-24 sm:px-6 md:py-24"
+      >
         <header className="text-center">
           <h1 className="font-headline text-sm font-bold md:text-sm">
             Программа лояльности Syntha

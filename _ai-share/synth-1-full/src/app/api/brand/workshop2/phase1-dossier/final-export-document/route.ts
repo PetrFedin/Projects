@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { buildWorkshop2FinalTzSpecDocumentHtml, type Workshop2FinalTzSpecExportContext } from '@/lib/production/workshop2-final-tz-spec-export';
+import {
+  buildWorkshop2FinalTzSpecDocumentHtml,
+  type Workshop2FinalTzSpecExportContext,
+} from '@/lib/production/workshop2-final-tz-spec-export';
 import { findHandbookLeafById } from '@/lib/production/category-handbook-leaves';
 import {
   getWorkshop2FinalExportSnapshotRecord,
@@ -32,7 +35,8 @@ export async function POST(req: NextRequest) {
   const snap = await getWorkshop2FinalExportSnapshotRecord({ collectionId, articleId, snapshotId });
   if (!snap) return NextResponse.json({ ok: false, error: 'snapshot_not_found' }, { status: 404 });
   const cx = snap.exportContextSnapshot as Partial<Workshop2FinalTzSpecExportContext> | undefined;
-  if (!cx) return NextResponse.json({ ok: false, error: 'snapshot_context_missing' }, { status: 409 });
+  if (!cx)
+    return NextResponse.json({ ok: false, error: 'snapshot_context_missing' }, { status: 409 });
   const categoryLeafId = String(cx.categoryLeafId ?? '').trim();
   const ctx: Workshop2FinalTzSpecExportContext = {
     articleSku: String(cx.articleSku ?? '').trim(),
@@ -41,7 +45,7 @@ export async function POST(req: NextRequest) {
     l2Name: String(cx.l2Name ?? '').trim(),
     tzPhase: (cx.tzPhase === '2' || cx.tzPhase === '3' ? cx.tzPhase : '1') as '1' | '2' | '3',
     categoryLeafId,
-    measurementsLeaf: categoryLeafId ? findHandbookLeafById(categoryLeafId) ?? null : null,
+    measurementsLeaf: categoryLeafId ? (findHandbookLeafById(categoryLeafId) ?? null) : null,
     preflightOk: Boolean(cx.preflightOk),
     preflightIssueCount: Number(cx.preflightIssueCount ?? 0),
     sectionSignoffsFull: Number(cx.sectionSignoffsFull ?? 0),

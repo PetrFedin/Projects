@@ -66,8 +66,7 @@ export function ProductStaffClientelingBlock({ product }: { product: Product }) 
         size="sm"
         className="mt-2 flex h-8 w-full items-center justify-center gap-2 border-sky-200 text-[8px] font-black uppercase text-sky-700 hover:bg-sky-50"
       >
-        <ShoppingBag className="h-3 w-3" /> История покупок{' '}
-        <ArrowRight className="h-2.5 w-2.5" />
+        <ShoppingBag className="h-3 w-3" /> История покупок <ArrowRight className="h-2.5 w-2.5" />
       </Button>
     </Card>
   );

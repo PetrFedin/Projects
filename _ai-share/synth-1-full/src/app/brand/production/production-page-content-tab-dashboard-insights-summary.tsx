@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ProductionSectionHeader } from '@/app/brand/production/production-page-content-chrome';
 
 export function ProductionPageContentTabDashboardInsightsSummary({

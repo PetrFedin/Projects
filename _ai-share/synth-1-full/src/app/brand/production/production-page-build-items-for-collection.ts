@@ -27,8 +27,5 @@ export function buildItemsForCollection({
   if (!collectionIdFromQuery) {
     return [...initialOrderItems, ...(articlesByCollection['__default__'] ?? [])];
   }
-  return [
-    ...initialOrderItems.filter((item) => item.season === collectionIdFromQuery),
-    ...extras,
-  ];
+  return [...initialOrderItems.filter((item) => item.season === collectionIdFromQuery), ...extras];
 }

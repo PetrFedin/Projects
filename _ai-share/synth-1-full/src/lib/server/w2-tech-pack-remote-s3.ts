@@ -1,4 +1,9 @@
-import { GetObjectCommand, HeadObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  GetObjectCommand,
+  HeadObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 import { isW2MetricsS3NativeConfigured } from '@/lib/server/workshop2-metrics-s3-archive';
@@ -12,9 +17,12 @@ export function w2TechPackRemoteUploadServerConfigured(): boolean {
 
 export { MAX_W2_TECHPACK_BYTES };
 
-function s3ClientAndBucket():
-  | { client: S3Client; bucket: string; region: string; prefix: string }
-  | null {
+function s3ClientAndBucket(): {
+  client: S3Client;
+  bucket: string;
+  region: string;
+  prefix: string;
+} | null {
   if (!w2TechPackRemoteUploadServerConfigured()) return null;
   const bucket = process.env.W2_METRICS_S3_BUCKET!.trim();
   const region = process.env.W2_METRICS_S3_REGION!.trim();
@@ -39,7 +47,10 @@ export function buildTechPackObjectKey(opts: {
   fileName: string;
 }): string {
   const base = objectStoragePrefixOrThrow();
-  const safe = (opts.fileName || 'file.bin').replace(/[\\/]+/g, '-').replace(/\.\./g, '.').slice(0, 180);
+  const safe = (opts.fileName || 'file.bin')
+    .replace(/[\\/]+/g, '-')
+    .replace(/\.\./g, '.')
+    .slice(0, 180);
   const col = encodeURIComponent(String(opts.collectionId).trim() || 'col');
   const art = encodeURIComponent(String(opts.articleId).trim() || 'art');
   const h = (opts.contentSha256Hex || '').toLowerCase().replace(/[^a-f0-9]/g, '');
@@ -59,7 +70,11 @@ export async function presignW2TechPackPutObject(opts: {
 }): Promise<{ uploadUrl: string; objectKey: string; method: 'PUT' }> {
   const env = s3ClientAndBucket();
   if (!env) throw new Error('s3_unavailable');
-  if (!Number.isFinite(opts.sizeBytes) || opts.sizeBytes < 1 || opts.sizeBytes > MAX_W2_TECHPACK_BYTES) {
+  if (
+    !Number.isFinite(opts.sizeBytes) ||
+    opts.sizeBytes < 1 ||
+    opts.sizeBytes > MAX_W2_TECHPACK_BYTES
+  ) {
     throw new Error('size_rejected');
   }
   const objectKey = buildTechPackObjectKey({
@@ -86,7 +101,9 @@ export async function presignW2TechPackGetObject(objectKey: string): Promise<{
   const env = s3ClientAndBucket();
   if (!env) throw new Error('s3_unavailable');
   const command = new GetObjectCommand({ Bucket: env.bucket, Key: objectKey });
-  const downloadUrl = await getSignedUrl(env.client, command, { expiresIn: W2_TECHPACK_GET_PRESIGN_TTL_SEC });
+  const downloadUrl = await getSignedUrl(env.client, command, {
+    expiresIn: W2_TECHPACK_GET_PRESIGN_TTL_SEC,
+  });
   return { downloadUrl, expiresIn: W2_TECHPACK_GET_PRESIGN_TTL_SEC };
 }
 
@@ -111,7 +128,10 @@ export async function headW2TechPackObject(objectKey: string): Promise<{
   }
 }
 
-export async function readW2TechPackObjectHead(objectKey: string, max = 32): Promise<Uint8Array | null> {
+export async function readW2TechPackObjectHead(
+  objectKey: string,
+  max = 32
+): Promise<Uint8Array | null> {
   const env = s3ClientAndBucket();
   if (!env) return null;
   try {

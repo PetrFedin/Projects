@@ -61,7 +61,11 @@ export function CollectionProgressPanel({
               stageStatus[s.key] ?? (i < 2 ? 'completed' : i === 2 ? 'active' : 'locked');
             const locked = status === 'locked';
             const statusPhrase =
-              status === 'completed' ? 'завершено' : status === 'active' ? 'в работе' : 'заблокировано';
+              status === 'completed'
+                ? 'завершено'
+                : status === 'active'
+                  ? 'в работе'
+                  : 'заблокировано';
             const navDisabled = locked || !onNavigate;
             return (
               <button

@@ -38,14 +38,8 @@ export function UserCabinetLayout({
   children,
 }: UserCabinetLayoutProps) {
   return (
-    <CabinetPageContent
-      maxWidth="full"
-      className={cn('space-y-3 px-0 py-2 pb-16', className)}
-    >
-      <div
-        className={clientMeNuOrderShell.canvas}
-        data-testid="client-me-nuorder-shell"
-      >
+    <CabinetPageContent maxWidth="full" className={cn('space-y-3 px-0 py-2 pb-16', className)}>
+      <div className={clientMeNuOrderShell.canvas} data-testid="client-me-nuorder-shell">
         <RegistryPageHeader
           className={clientMeNuOrderShell.headerRow}
           title={title}

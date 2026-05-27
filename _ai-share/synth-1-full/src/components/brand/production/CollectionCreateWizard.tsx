@@ -259,9 +259,7 @@ export function CollectionCreateWizard({
               sku_list_json: form.selectedSkuIds.length ? { sku_ids: form.selectedSkuIds } : {},
             });
           } catch (err) {
-            onApiError?.(
-              `Не удалось создать Drop: ${getUnknownErrorMessage(err, 'ошибка API')}`
-            );
+            onApiError?.(`Не удалось создать Drop: ${getUnknownErrorMessage(err, 'ошибка API')}`);
           }
         }
       }
@@ -294,9 +292,7 @@ export function CollectionCreateWizard({
             target_units: targetUnits,
           });
         } catch (err) {
-          onApiError?.(
-            `Не удалось сохранить бюджет: ${getUnknownErrorMessage(err, 'ошибка API')}`
-          );
+          onApiError?.(`Не удалось сохранить бюджет: ${getUnknownErrorMessage(err, 'ошибка API')}`);
         }
       }
 

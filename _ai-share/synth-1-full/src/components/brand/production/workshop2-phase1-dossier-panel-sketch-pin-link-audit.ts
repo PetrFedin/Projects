@@ -18,7 +18,9 @@ export function buildWorkshop2SketchPinLinkAudit(opts: {
   dossierViewProfile: Workshop2DossierViewProfile;
 }): Workshop2SketchPinLinkAuditItem[] {
   const { leafId, dossier, showVisualSketchLinkFieldsNav, dossierViewProfile } = opts;
-  const master = (dossier.categorySketchAnnotations ?? []).filter((a) => a.categoryLeafId === leafId);
+  const master = (dossier.categorySketchAnnotations ?? []).filter(
+    (a) => a.categoryLeafId === leafId
+  );
   const sh = normalizeSketchSheets(dossier.sketchSheets);
   const sheetPins = sh.flatMap((s) => s.annotations.filter((a) => a.categoryLeafId === leafId));
   const slots = dossier.subcategorySketchSlots ?? [];

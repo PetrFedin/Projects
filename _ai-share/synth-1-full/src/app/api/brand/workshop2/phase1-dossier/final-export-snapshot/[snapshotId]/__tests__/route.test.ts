@@ -33,7 +33,9 @@ describe('GET /api/brand/workshop2/phase1-dossier/final-export-snapshot/[snapsho
     const req = new Request(
       `http://localhost/api/brand/workshop2/phase1-dossier/final-export-snapshot/${postJson.snapshotId}?collectionId=c1&articleId=a1`
     );
-    const res = await getOne(req as never, { params: Promise.resolve({ snapshotId: postJson.snapshotId }) });
+    const res = await getOne(req as never, {
+      params: Promise.resolve({ snapshotId: postJson.snapshotId }),
+    });
     expect(res.status).toBe(200);
     const json = (await res.json()) as { ok: boolean; snapshot?: { snapshotId?: string } };
     expect(json.ok).toBe(true);

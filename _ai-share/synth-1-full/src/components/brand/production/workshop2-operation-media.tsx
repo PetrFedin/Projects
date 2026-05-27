@@ -14,10 +14,10 @@ export function Workshop2OperationMedia({ mediaUrl, className }: Workshop2Operat
     // Fallback for unknown media, but plan expects MP4/GIF handling primarily
     // We can render an img for non-video formats or GIF
     return (
-      <img 
-        src={mediaUrl} 
-        alt="Operation instruction" 
-        className={`object-cover rounded-md border border-gray-200 ${className || ''}`}
+      <img
+        src={mediaUrl}
+        alt="Operation instruction"
+        className={`rounded-md border border-gray-200 object-cover ${className || ''}`}
       />
     );
   }
@@ -25,7 +25,7 @@ export function Workshop2OperationMedia({ mediaUrl, className }: Workshop2Operat
   return (
     <video
       src={mediaUrl}
-      className={`object-cover rounded-md border border-gray-200 ${className || ''}`}
+      className={`rounded-md border border-gray-200 object-cover ${className || ''}`}
       autoPlay
       loop
       muted

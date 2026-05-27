@@ -55,21 +55,21 @@ export class MockLooksRepo implements LooksRepo {
       const converted: LookPost[] = savedLooks.slice(0, 10).map((l: unknown, idx) => {
         const sl = l as SavedLookSeed;
         return {
-        id: `user-${sl.id ?? idx}`,
-        title: sl.title ?? 'Saved Look',
-        author: 'you@local',
-        createdAtISO: new Date().toISOString(),
-        tags: ['ai-stylist'],
-        items: (sl.items ?? []).map((it: any) => ({
-          title: it?.title ?? 'Item',
-          brand: it?.brand ?? 'Brand',
-          price: it?.price ?? 0,
-          image:
-            it?.image ?? 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=800',
-        })),
-        likes: 0,
-        views: Math.floor(50 + idx * 13),
-      };
+          id: `user-${sl.id ?? idx}`,
+          title: sl.title ?? 'Saved Look',
+          author: 'you@local',
+          createdAtISO: new Date().toISOString(),
+          tags: ['ai-stylist'],
+          items: (sl.items ?? []).map((it: any) => ({
+            title: it?.title ?? 'Item',
+            brand: it?.brand ?? 'Brand',
+            price: it?.price ?? 0,
+            image:
+              it?.image ?? 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=800',
+          })),
+          likes: 0,
+          views: Math.floor(50 + idx * 13),
+        };
       });
 
       const merged = [...converted.filter((x) => !ids.has(x.id)), ...current];

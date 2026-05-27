@@ -257,19 +257,31 @@ export default function BrandB2BOrdersListPage() {
         <TabsContent value="po" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'po' && <PoContent />}
         </TabsContent>
-        <TabsContent value="shipments" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+        <TabsContent
+          value="shipments"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+        >
           {tab === 'shipments' && <ShipmentsContent />}
         </TabsContent>
         <TabsContent value="approval" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'approval' && <ApprovalContent />}
         </TabsContent>
-        <TabsContent value="amendments" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+        <TabsContent
+          value="amendments"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+        >
           {tab === 'amendments' && <OrderAmendmentsContent />}
         </TabsContent>
-        <TabsContent value="orders-live" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+        <TabsContent
+          value="orders-live"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+        >
           {tab === 'orders-live' && <B2BOrdersLiveContent />}
         </TabsContent>
-        <TabsContent value="approval-live" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+        <TabsContent
+          value="approval-live"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+        >
           {tab === 'approval-live' && <ApprovalLiveContent />}
         </TabsContent>
       </Tabs>

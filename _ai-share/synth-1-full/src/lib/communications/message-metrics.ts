@@ -15,9 +15,8 @@ export function unreadCountForChatMessages(
   currentUserId: string
 ): number {
   if (!messages?.length) return 0;
-  return messages.filter(
-    (m) => isOthersMessage(m, currentUserId) && !isMessageRead(chatId, m.id)
-  ).length;
+  return messages.filter((m) => isOthersMessage(m, currentUserId) && !isMessageRead(chatId, m.id))
+    .length;
 }
 
 export function buildUnreadCountByChat(

@@ -6,7 +6,11 @@ import { persistWorkshop2DossierWithMerge } from '@/lib/production/workshop2-dos
 import { flushW2DossierMetricsToServer } from '@/lib/production/workshop2-dossier-metrics-ingest';
 import { recordW2DossierPersistSuccess } from '@/lib/production/workshop2-dossier-session-metrics';
 
-type ToastFn = (args: { title: string; description?: string; variant?: 'default' | 'destructive' }) => void;
+type ToastFn = (args: {
+  title: string;
+  description?: string;
+  variant?: 'default' | 'destructive';
+}) => void;
 
 export function useWorkshop2ServerDossierSync(input: {
   collectionId: string;
@@ -78,7 +82,9 @@ export function useWorkshop2ServerDossierSync(input: {
         const critical = persist.manualReviewCriticalFields ?? [];
         if (critical.length > 0) {
           onManualReviewRequired?.({ criticalFields: critical, localDossier: stamped });
-          setSaveError(`Авто-merge выполнен, но нужен ручной аудит критичных полей: ${critical.join(', ')}`);
+          setSaveError(
+            `Авто-merge выполнен, но нужен ручной аудит критичных полей: ${critical.join(', ')}`
+          );
           toast({
             title: 'Конфликт синхронизирован (нужен аудит)',
             description: `Проверьте критичные поля: ${critical.slice(0, 3).join(', ')}.`,

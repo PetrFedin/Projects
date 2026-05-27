@@ -7,7 +7,11 @@ import {
   w2TechPackRemoteUploadServerConfigured,
 } from '@/lib/server/w2-tech-pack-remote-s3';
 import { getUnknownErrorDetail } from '@/lib/unknown-error-message';
-import { assertTechPackSizeOk, roughMatchDeclaredMime, isAllowedTechPackContentTypeForRemote } from '@/lib/server/tech-pack-upload-sanity';
+import {
+  assertTechPackSizeOk,
+  roughMatchDeclaredMime,
+  isAllowedTechPackContentTypeForRemote,
+} from '@/lib/server/tech-pack-upload-sanity';
 import { logW2TechPackOps } from '@/lib/server/w2-tech-pack-ops-telemetry';
 import { verifyW2TechPackWriteRequest } from '@/lib/server/w2-tech-pack-api-auth';
 import { upsertW2TechPackIndex } from '@/lib/server/w2-tech-pack-index';
@@ -38,9 +42,12 @@ export async function POST(req: NextRequest) {
   const uploadedBy = String(b.uploadedBy ?? '')
     .trim()
     .slice(0, 200);
-  const packageRevision = b.packageRevision != null ? String(b.packageRevision).trim().slice(0, 120) : null;
+  const packageRevision =
+    b.packageRevision != null ? String(b.packageRevision).trim().slice(0, 120) : null;
   const fileName = String(b.fileName ?? 'file.bin');
-  const contentType = String(b.contentType ?? 'application/octet-stream').split(';')[0]!.trim();
+  const contentType = String(b.contentType ?? 'application/octet-stream')
+    .split(';')[0]!
+    .trim();
   const sizeBytes = Number(b.sizeBytes);
   const contentSha256Hex = String(b.contentSha256Hex ?? '')
     .toLowerCase()
@@ -69,25 +76,26 @@ export async function POST(req: NextRequest) {
   }
 
   // Если это большой ZIP файл, инициируем фоновый Job
-  if (contentType === 'application/zip' && sizeBytes > 10 * 1024 * 1024) { // Больше 10 MB
+  if (contentType === 'application/zip' && sizeBytes > 10 * 1024 * 1024) {
+    // Больше 10 MB
     const jobId = `job_${globalThis.crypto.randomUUID()}`;
-    
+
     await upsertW2TechPackJob({ jobId, status: 'processing', progress: 0 });
-    
+
     // Запускаем асинхронную функцию, которая не блокирует ответ
     void (async () => {
       try {
         // Шаг 1: Сжатие фото
         await upsertW2TechPackJob({ jobId, status: 'processing', progress: 40 });
-        await new Promise(r => setTimeout(r, 2000));
-        
+        await new Promise((r) => setTimeout(r, 2000));
+
         // Шаг 2: Генерация PDF
         await upsertW2TechPackJob({ jobId, status: 'processing', progress: 70 });
-        await new Promise(r => setTimeout(r, 2000));
-        
+        await new Promise((r) => setTimeout(r, 2000));
+
         // Шаг 3: Загрузка на S3
         await upsertW2TechPackJob({ jobId, status: 'processing', progress: 95 });
-        
+
         const head = await headW2TechPackObject(objectKey);
         if (!head || head.contentLength !== sizeBytes) {
           throw new Error('S3 upload validation failed');
@@ -106,17 +114,28 @@ export async function POST(req: NextRequest) {
           handoffStatus: 'none',
           packageRevision: packageRevision || null,
         });
-        
-        logW2TechPackOps('complete_ok_async', { objectKey, sizeBytes, eTag: head.eTag, attachmentId, jobId });
-        
-        await upsertW2TechPackJob({ jobId, status: 'completed', progress: 100, resultUrl: objectKey });
+
+        logW2TechPackOps('complete_ok_async', {
+          objectKey,
+          sizeBytes,
+          eTag: head.eTag,
+          attachmentId,
+          jobId,
+        });
+
+        await upsertW2TechPackJob({
+          jobId,
+          status: 'completed',
+          progress: 100,
+          resultUrl: objectKey,
+        });
       } catch (e) {
         const errorDetail = getUnknownErrorDetail(e);
         logW2TechPackOps('complete_job_err', { objectKey, error: errorDetail });
         await upsertW2TechPackJob({ jobId, status: 'error', progress: 0, errorDetail });
       }
     });
-    
+
     // Возвращаем jobId клиенту
     return NextResponse.json({ ok: true, jobId, message: 'Processing started in background' });
   }

@@ -61,8 +61,8 @@ export function Workshop2CompositionLabelDraftBlockEditors({
         <>
           <p className="text-text-primary text-xs font-medium">Правка блоков по отдельности</p>
           <p className="text-text-muted text-xs leading-snug">
-            Те же поля, что на шагах 1–2: правки здесь сразу попадают в черновик (если не включён полностью ручной
-            текст ниже).
+            Те же поля, что на шагах 1–2: правки здесь сразу попадают в черновик (если не включён
+            полностью ручной текст ниже).
           </p>
         </>
       ) : null}

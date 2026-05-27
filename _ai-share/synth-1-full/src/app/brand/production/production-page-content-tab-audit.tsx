@@ -10,13 +10,7 @@ import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 type CnFn = (...args: (string | boolean | undefined | null)[]) => string;
 
-export function ProductionPageContentTabAudit({
-  p,
-  cn,
-}: {
-  p: Record<string, unknown>;
-  cn: CnFn;
-}) {
+export function ProductionPageContentTabAudit({ p, cn }: { p: Record<string, unknown>; cn: CnFn }) {
   return (
     <TabsContent value="audit" className={cabinetSurface.cabinetProfileTabPanel}>
       <ProductionSectionHeader title="Аудит" barColor="bg-text-secondary" />

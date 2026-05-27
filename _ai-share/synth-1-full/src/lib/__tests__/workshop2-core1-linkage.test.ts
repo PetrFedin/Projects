@@ -32,7 +32,9 @@ function docWithPoOutput(skuId: string, ref: string): CollectionSkuFlowDoc {
 describe('workshop2-core1-linkage', () => {
   it('extracts po output refs', () => {
     const d = docWithPoOutput('a1', 'PO-100');
-    expect(getSkuStageOutputRefsForKind(d, 'a1', 'po', CORE1_FLOW_OUTPUT_KIND_PO)).toEqual(['PO-100']);
+    expect(getSkuStageOutputRefsForKind(d, 'a1', 'po', CORE1_FLOW_OUTPUT_KIND_PO)).toEqual([
+      'PO-100',
+    ]);
   });
 
   it('aligns matrix ref with bundle PO id', () => {

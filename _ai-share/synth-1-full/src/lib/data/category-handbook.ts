@@ -47,7 +47,6 @@ export const GLOBAL_ATTRIBUTES: CategoryAttribute[] = [
   },
 ];
 
-
 export const CATEGORY_HANDBOOK: Audience[] = [
   {
     id: 'catalog',

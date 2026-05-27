@@ -41,14 +41,14 @@ export function CommunicationsOperationalStrip({
     <div
       className={cn(
         o.panel,
-        'flex flex-col gap-2 border-border-default/80 px-3 py-2.5 shadow-none',
+        'border-border-default/80 flex flex-col gap-2 px-3 py-2.5 shadow-none',
         className
       )}
       data-testid="communications-operational-strip"
     >
       <p className="text-text-muted text-[9px] leading-snug">
-        Надстройка: чат и календарь — для сроков и договорённостей; объёмы заказа, ТЗ и документы остаются в B2B и
-        производстве.
+        Надстройка: чат и календарь — для сроков и договорённостей; объёмы заказа, ТЗ и документы
+        остаются в B2B и производстве.
       </p>
       <div className="flex flex-wrap items-center gap-x-1 gap-y-2">
         <span className="text-text-muted mr-1 text-[9px] font-black uppercase tracking-[0.18em]">
@@ -58,7 +58,7 @@ export function CommunicationsOperationalStrip({
           <Link
             key={item.href}
             href={item.href}
-            className="text-text-primary hover:bg-bg-surface2 border-border-subtle rounded-md border px-2.5 py-1 text-[10px] font-semibold transition-colors hover:text-accent-primary"
+            className="text-text-primary hover:bg-bg-surface2 border-border-subtle hover:text-accent-primary rounded-md border px-2.5 py-1 text-[10px] font-semibold transition-colors"
           >
             {item.label}
           </Link>

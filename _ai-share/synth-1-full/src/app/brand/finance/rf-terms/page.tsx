@@ -16,7 +16,10 @@ export default function BrandFinanceRfTermsPage() {
   const netTermsLinks = getRelatedLinks('net-terms').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent
+      maxWidth="full"
+      className="w-full space-y-6 pb-16 duration-700 animate-in fade-in"
+    >
       <RegistryPageHeader
         title="Условия для РФ (Net terms, скидки)"
         leadPlain="Отсрочка платежа 30/60 дней для оптовиков (Faire), автоскидка на первый заказ, НДС."

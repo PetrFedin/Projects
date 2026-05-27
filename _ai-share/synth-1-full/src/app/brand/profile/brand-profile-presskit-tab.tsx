@@ -128,19 +128,19 @@ export function BrandProfilePresskitTab({
 
   return (
     <TabsContent value="presskit" className={tabPanelClassName}>
-      <div className="space-y-1 border-b border-border-subtle pb-4">
-        <h2 className="text-base font-semibold text-text-primary">Press Kit и медиа</h2>
-        <p className="text-sm text-text-secondary">
+      <div className="border-border-subtle space-y-1 border-b pb-4">
+        <h2 className="text-text-primary text-base font-semibold">Press Kit и медиа</h2>
+        <p className="text-text-secondary text-sm">
           Материалы для витрины, каталога и партнёров; рассылки и выгрузки.
         </p>
       </div>
-      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-border-default bg-muted/30 p-3">
-        <span className="text-sm font-medium text-text-secondary">Инструменты:</span>
+      <div className="border-border-default flex flex-wrap items-center gap-2 rounded-xl border bg-muted/30 p-3">
+        <span className="text-text-secondary text-sm font-medium">Инструменты:</span>
         <Button
           asChild
           variant="outline"
           size="sm"
-          className="h-9 gap-1.5 rounded-lg border-border-default text-xs font-medium"
+          className="border-border-default h-9 gap-1.5 rounded-lg text-xs font-medium"
         >
           <Link href={ROUTES.brand.media}>
             <ImageIcon className="size-3.5" /> DAM-активы
@@ -150,7 +150,7 @@ export function BrandProfilePresskitTab({
           asChild
           variant="outline"
           size="sm"
-          className="h-9 gap-1.5 rounded-lg border-border-default text-xs font-medium"
+          className="border-border-default h-9 gap-1.5 rounded-lg text-xs font-medium"
         >
           <Link href={ROUTES.brand.marketingContentFactory}>
             <Sparkles className="size-3.5" /> Content Factory
@@ -160,7 +160,7 @@ export function BrandProfilePresskitTab({
           asChild
           variant="outline"
           size="sm"
-          className="h-9 gap-1.5 rounded-lg border-border-default text-xs font-medium"
+          className="border-border-default h-9 gap-1.5 rounded-lg text-xs font-medium"
         >
           <Link href={ROUTES.brand.aiTools}>
             <Bot className="size-3.5" /> AI Creator
@@ -168,12 +168,12 @@ export function BrandProfilePresskitTab({
         </Button>
       </div>
       <div className="space-y-4">
-        <div className="flex flex-col gap-4 border-b border-border-subtle pb-4 lg:flex-row lg:items-start lg:justify-between">
+        <div className="border-border-subtle flex flex-col gap-4 border-b pb-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-1">
-            <h3 className="text-sm font-semibold text-text-primary">Медиа-материалы</h3>
-            <p className="max-w-xl text-sm text-text-secondary">
-              Назначение: публичная витрина, каталог, работа с партнёрами. Рассылки приходят в профили
-              партнёров.
+            <h3 className="text-text-primary text-sm font-semibold">Медиа-материалы</h3>
+            <p className="text-text-secondary max-w-xl text-sm">
+              Назначение: публичная витрина, каталог, работа с партнёрами. Рассылки приходят в
+              профили партнёров.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -205,7 +205,7 @@ export function BrandProfilePresskitTab({
             </Button>
             <Button
               size="sm"
-              className="h-9 gap-2 rounded-lg bg-text-primary px-3 text-xs font-medium text-white shadow-sm hover:bg-accent-primary"
+              className="bg-text-primary hover:bg-accent-primary h-9 gap-2 rounded-lg px-3 text-xs font-medium text-white shadow-sm"
               onClick={() => {
                 exportBrandProfilePDF();
                 toast({
@@ -227,19 +227,19 @@ export function BrandProfilePresskitTab({
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-x-4 gap-y-2 rounded-lg border border-border-default bg-bg-surface2 p-3 text-xs text-text-secondary">
-          <span className="font-semibold text-text-primary">Назначение:</span>
+        <div className="border-border-default bg-bg-surface2 text-text-secondary flex flex-wrap gap-x-4 gap-y-2 rounded-lg border p-3 text-xs">
+          <span className="text-text-primary font-semibold">Назначение:</span>
           <span className="flex items-center gap-1">
-            <Globe className="size-3 text-state-success" /> Публичное — Live
+            <Globe className="text-state-success size-3" /> Публичное — Live
           </span>
           <span className="flex items-center gap-1">
             <Lock className="size-3 text-amber-600" /> Внутреннее — дистрибуторы, магазины
           </span>
           <span className="flex items-center gap-1">
-            <Store className="size-3 text-accent-primary" /> Каталог, шоурум
+            <Store className="text-accent-primary size-3" /> Каталог, шоурум
           </span>
           <span className="flex items-center gap-1">
-            <UserPlus className="size-3 text-text-secondary" /> Индивидуально — настройки по
+            <UserPlus className="text-text-secondary size-3" /> Индивидуально — настройки по
             партнёру
           </span>
         </div>
@@ -252,7 +252,7 @@ export function BrandProfilePresskitTab({
             return (
               <Card
                 key={asset.id}
-                className="group flex cursor-pointer items-start gap-3 rounded-xl border border-border-default bg-white p-4 shadow-sm transition-all hover:border-accent-soft hover:shadow-md md:p-5"
+                className="border-border-default hover:border-accent-soft group flex cursor-pointer items-start gap-3 rounded-xl border bg-white p-4 shadow-sm transition-all hover:shadow-md md:p-5"
                 onClick={() => {
                   setMediaViewerType(asset.id);
                   setMediaViewerOpen(true);
@@ -269,15 +269,15 @@ export function BrandProfilePresskitTab({
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="mb-1 flex items-start justify-between gap-2">
-                    <h4 className="truncate text-base font-semibold tracking-tight text-text-primary">
+                    <h4 className="text-text-primary truncate text-base font-semibold tracking-tight">
                       {asset.title}
                     </h4>
-                    <span className="shrink-0 text-xs font-medium text-text-secondary">
+                    <span className="text-text-secondary shrink-0 text-xs font-medium">
                       {activeCount} активн.
                       {archivedCount > 0 ? ` · ${archivedCount} в архиве` : ''}
                     </span>
                   </div>
-                  <p className="mb-2 truncate text-sm text-text-secondary">{asset.desc}</p>
+                  <p className="text-text-secondary mb-2 truncate text-sm">{asset.desc}</p>
                   <div className="mb-2 flex flex-wrap gap-1.5">
                     {asset.usage.includes('public') && (
                       <Badge
@@ -324,7 +324,7 @@ export function BrandProfilePresskitTab({
                       </Badge>
                     )}
                   </div>
-                  <span className="inline-flex items-center gap-1 text-xs font-medium text-accent-primary group-hover:text-accent-hover">
+                  <span className="text-accent-primary group-hover:text-accent-hover inline-flex items-center gap-1 text-xs font-medium">
                     Открыть <ChevronRight className="size-3.5" />
                   </span>
                 </div>
@@ -346,23 +346,23 @@ export function BrandProfilePresskitTab({
       </div>
 
       <div className="mt-8 space-y-3">
-        <div className="border-b border-border-subtle pb-3">
-          <h3 className="text-sm font-semibold text-text-primary">История бренда</h3>
+        <div className="border-border-subtle border-b pb-3">
+          <h3 className="text-text-primary text-sm font-semibold">История бренда</h3>
         </div>
-        <Card className="rounded-xl border border-border-default bg-gradient-to-br from-bg-surface2 to-accent-soft p-4 shadow-sm md:p-5">
+        <Card className="border-border-default from-bg-surface2 to-accent-soft rounded-xl border bg-gradient-to-br p-4 shadow-sm md:p-5">
           <div className="space-y-4">
             {isEditing ? (
               <Textarea
                 defaultValue="Syntha — российский бренд технологичной одежды, основанный в 2022 году. Мы создаем функциональный гардероб для жизни в мегаполисе, объединяя традиционное мастерство с инновационными материалами. Наша философия — Cyber-Heritage."
-                className="min-h-[100px] rounded-lg border-border-default bg-white p-3 text-sm font-medium text-text-secondary"
+                className="border-border-default text-text-secondary min-h-[100px] rounded-lg bg-white p-3 text-sm font-medium"
               />
             ) : (
-              <p className="text-sm font-medium italic leading-relaxed text-text-secondary">
+              <p className="text-text-secondary text-sm font-medium italic leading-relaxed">
                 {`"Syntha — российский бренд технологичной одежды, основанный в 2022 году. Мы создаем функциональный гардероб для жизни в мегаполисе, объединяя традиционное мастерство с инновационными материалами. Наша философия — Cyber-Heritage."`}
               </p>
             )}
 
-            <div className="grid grid-cols-2 gap-3 border-t border-border-default/60 pt-4 md:grid-cols-4">
+            <div className="border-border-default/60 grid grid-cols-2 gap-3 border-t pt-4 md:grid-cols-4">
               {[
                 { label: 'Основан', value: brand.foundedYear },
                 { label: 'Страна', value: brand.countryOfOrigin },
@@ -373,22 +373,22 @@ export function BrandProfilePresskitTab({
                 { label: 'Категория', value: 'Luxury Tech' },
               ].map((stat, i) => (
                 <div key={i} className="space-y-0.5">
-                  <p className="text-xs font-medium text-text-secondary">{stat.label}</p>
-                  <p className="text-sm font-semibold tracking-tight text-text-primary">
+                  <p className="text-text-secondary text-xs font-medium">{stat.label}</p>
+                  <p className="text-text-primary text-sm font-semibold tracking-tight">
                     {stat.value}
                   </p>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-3 border-t border-border-default/60 pt-4">
-              <div className="flex items-center gap-2 rounded-lg border border-border-default bg-white p-2 px-3 shadow-sm">
-                <Mail className="size-3.5 text-accent-primary" />
-                <span className="text-sm font-medium text-text-primary">press@syntha.ru</span>
+            <div className="border-border-default/60 flex flex-wrap gap-3 border-t pt-4">
+              <div className="border-border-default flex items-center gap-2 rounded-lg border bg-white p-2 px-3 shadow-sm">
+                <Mail className="text-accent-primary size-3.5" />
+                <span className="text-text-primary text-sm font-medium">press@syntha.ru</span>
               </div>
-              <div className="flex items-center gap-2 rounded-lg border border-border-default bg-white p-2 px-3 shadow-sm">
-                <Phone className="size-3.5 text-accent-primary" />
-                <span className="text-sm font-medium text-text-primary">+7 (495) 123-45-67</span>
+              <div className="border-border-default flex items-center gap-2 rounded-lg border bg-white p-2 px-3 shadow-sm">
+                <Phone className="text-accent-primary size-3.5" />
+                <span className="text-text-primary text-sm font-medium">+7 (495) 123-45-67</span>
               </div>
             </div>
           </div>

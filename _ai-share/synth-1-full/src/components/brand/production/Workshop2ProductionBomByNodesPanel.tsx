@@ -65,7 +65,7 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
   }
 
   function addNode(): void {
-    const next: typeof model.nodes[number] = {
+    const next: (typeof model.nodes)[number] = {
       id: uid('node'),
       kind: 'other',
       label: 'Новый узел',
@@ -94,7 +94,8 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
         <div className="min-w-0 flex-1 space-y-1">
           <h2 className="text-text-primary text-base font-semibold">BOM по узлам изделия</h2>
           <p className="text-text-secondary text-[11px] leading-snug">
-            Привязка материалов и фурнитуры к конкретному узлу, чтобы цех понимал точное расположение.
+            Привязка материалов и фурнитуры к конкретному узлу, чтобы цех понимал точное
+            расположение.
           </p>
         </div>
       </div>
@@ -114,10 +115,13 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
             const materials = model.materialLines.filter((m) => m.nodeId === node.id);
             const trims = model.trimLines.filter((m) => m.nodeId === node.id);
             return (
-              <div key={node.id} className="border-border-subtle bg-bg-surface2/30 rounded-lg border p-3">
+              <div
+                key={node.id}
+                className="border-border-subtle bg-bg-surface2/30 rounded-lg border p-3"
+              >
                 <div className="mb-3 flex items-center justify-between gap-2">
                   <Input
-                    className="h-8 w-48 text-sm font-semibold bg-transparent border-transparent px-1 hover:border-border-default focus:border-border-default focus:bg-white transition-colors"
+                    className="hover:border-border-default focus:border-border-default h-8 w-48 border-transparent bg-transparent px-1 text-sm font-semibold transition-colors focus:bg-white"
                     value={node.label}
                     disabled={disabled}
                     onChange={(e) => updateNodeLabel(node.id, e.target.value)}
@@ -150,8 +154,11 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                   {materials.map((m) => {
                     const cost = (m.yieldPerUnit || 0) * (m.landedCost || m.unitCostNet || 0);
                     return (
-                      <div key={m.id} className="flex flex-col gap-2 border-b border-border-subtle/50 pb-3 mb-2 last:border-0 last:pb-0 last:mb-0">
-                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2">
+                      <div
+                        key={m.id}
+                        className="border-border-subtle/50 mb-2 flex flex-col gap-2 border-b pb-3 last:mb-0 last:border-0 last:pb-0"
+                      >
+                        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
                           <Input
                             className="h-8 flex-[2] text-xs font-medium"
                             placeholder="Материал (название)"
@@ -164,7 +171,9 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                             placeholder="Состав"
                             value={m.compositionText ?? ''}
                             disabled={disabled}
-                            onChange={(e) => updateMaterial(m.id, { compositionText: e.target.value })}
+                            onChange={(e) =>
+                              updateMaterial(m.id, { compositionText: e.target.value })
+                            }
                           />
                           <Input
                             className="h-8 w-20 shrink-0 text-xs"
@@ -187,7 +196,7 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                           />
                           <button
                             type="button"
-                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-border-subtle text-red-600 hover:bg-red-50"
+                            className="border-border-subtle flex h-8 w-8 shrink-0 items-center justify-center rounded border text-red-600 hover:bg-red-50"
                             disabled={disabled}
                             title="Удалить материал"
                             onClick={() =>
@@ -201,11 +210,13 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                           </button>
                         </div>
 
-                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 bg-slate-50 p-2 rounded-md border border-slate-100">
-                          <span className="text-[10px] font-bold text-slate-500 uppercase mr-1">Расчет:</span>
-                          <div className="flex items-center gap-1 border border-border-subtle rounded px-1 w-32 shrink-0 bg-white">
+                        <div className="flex flex-wrap items-center gap-2 rounded-md border border-slate-100 bg-slate-50 p-2 sm:flex-nowrap">
+                          <span className="mr-1 text-[10px] font-bold uppercase text-slate-500">
+                            Расчет:
+                          </span>
+                          <div className="border-border-subtle flex w-32 shrink-0 items-center gap-1 rounded border bg-white px-1">
                             <input
-                              className="h-7 w-12 text-xs bg-transparent focus:outline-none"
+                              className="h-7 w-12 bg-transparent text-xs focus:outline-none"
                               placeholder="Расход"
                               type="number"
                               step="0.01"
@@ -219,7 +230,7 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                             />
                             <span className="text-text-muted text-[10px]">/</span>
                             <input
-                              className="h-7 w-10 text-xs bg-transparent focus:outline-none"
+                              className="h-7 w-10 bg-transparent text-xs focus:outline-none"
                               placeholder="Ед."
                               value={m.yieldUnit ?? ''}
                               disabled={disabled}
@@ -227,9 +238,9 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                             />
                           </div>
 
-                          <div className="flex items-center gap-1 border border-border-subtle rounded px-1.5 w-24 shrink-0 bg-white">
+                          <div className="border-border-subtle flex w-24 shrink-0 items-center gap-1 rounded border bg-white px-1.5">
                             <input
-                              className="h-7 w-14 text-xs bg-transparent focus:outline-none"
+                              className="h-7 w-14 bg-transparent text-xs focus:outline-none"
                               placeholder="Цена (Net)"
                               type="number"
                               step="0.01"
@@ -243,9 +254,9 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                             />
                           </div>
 
-                          <div className="flex items-center gap-1 border border-border-subtle rounded px-1.5 w-24 shrink-0 bg-white">
+                          <div className="border-border-subtle flex w-24 shrink-0 items-center gap-1 rounded border bg-white px-1.5">
                             <input
-                              className="h-7 w-14 text-xs bg-transparent focus:outline-none"
+                              className="h-7 w-14 bg-transparent text-xs focus:outline-none"
                               placeholder="Landed"
                               type="number"
                               step="0.01"
@@ -258,32 +269,35 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                               }
                             />
                           </div>
-                          
+
                           <input
-                            className="h-7 w-12 border border-border-subtle rounded px-1.5 text-xs bg-white shrink-0"
+                            className="border-border-subtle h-7 w-12 shrink-0 rounded border bg-white px-1.5 text-xs"
                             placeholder="Валюта"
                             value={m.currency ?? ''}
                             disabled={disabled}
                             onChange={(e) => updateMaterial(m.id, { currency: e.target.value })}
                           />
 
-                          <div className="flex items-center justify-end min-w-[4rem] px-2 text-[11px] font-semibold text-emerald-700">
-                            {cost > 0 ? `Σ ${(cost).toFixed(2)} ${m.currency || 'USD'}` : '—'}
+                          <div className="flex min-w-[4rem] items-center justify-end px-2 text-[11px] font-semibold text-emerald-700">
+                            {cost > 0 ? `Σ ${cost.toFixed(2)} ${m.currency || 'USD'}` : '—'}
                           </div>
 
                           <Button
                             type="button"
                             variant="secondary"
                             size="sm"
-                            className="h-7 text-[10px] ml-auto bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border-indigo-200"
+                            className="ml-auto h-7 border-indigo-200 bg-indigo-50 text-[10px] text-indigo-700 hover:bg-indigo-100"
                             disabled={disabled}
                             onClick={() => {
                               const newYield = (m.yieldPerUnit || 1) * 0.85;
                               updateMaterial(m.id, { yieldPerUnit: Number(newYield.toFixed(3)) });
-                              toast({ title: 'Yield Optimizer', description: `AI-оптимизация раскладки: расход снижен до ${newYield.toFixed(3)}.` });
+                              toast({
+                                title: 'Yield Optimizer',
+                                description: `AI-оптимизация раскладки: расход снижен до ${newYield.toFixed(3)}.`,
+                              });
                             }}
                           >
-                            <LucideIcons.Wand2 className="w-3 h-3 mr-1" />
+                            <LucideIcons.Wand2 className="mr-1 h-3 w-3" />
                             Оптимизировать
                           </Button>
                         </div>
@@ -292,14 +306,19 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                   })}
                 </div>
 
-                {materials.length > 0 && trims.length > 0 && <div className="h-px bg-border-subtle/50 my-3" />}
+                {materials.length > 0 && trims.length > 0 && (
+                  <div className="bg-border-subtle/50 my-3 h-px" />
+                )}
 
-                <div className="grid gap-2 mt-3">
+                <div className="mt-3 grid gap-2">
                   {trims.map((t) => {
                     const cost = (t.quantity || 0) * (t.unitCostNet || 0);
                     return (
-                      <div key={t.id} className="flex flex-col gap-2 border-b border-border-subtle/50 pb-3 mb-2 last:border-0 last:pb-0 last:mb-0">
-                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2">
+                      <div
+                        key={t.id}
+                        className="border-border-subtle/50 mb-2 flex flex-col gap-2 border-b pb-3 last:mb-0 last:border-0 last:pb-0"
+                      >
+                        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
                           <Input
                             className="h-8 flex-[2] text-xs font-medium"
                             placeholder="Фурнитура (название)"
@@ -330,7 +349,7 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                           />
                           <button
                             type="button"
-                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-border-subtle text-red-600 hover:bg-red-50"
+                            className="border-border-subtle flex h-8 w-8 shrink-0 items-center justify-center rounded border text-red-600 hover:bg-red-50"
                             disabled={disabled}
                             title="Удалить фурнитуру"
                             onClick={() =>
@@ -344,12 +363,14 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                           </button>
                         </div>
 
-                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 bg-slate-50 p-2 rounded-md border border-slate-100">
-                          <span className="text-[10px] font-bold text-slate-500 uppercase mr-1">Расчет:</span>
-                          <div className="flex items-center gap-1 border border-border-subtle rounded px-1.5 w-24 shrink-0 bg-white">
+                        <div className="flex flex-wrap items-center gap-2 rounded-md border border-slate-100 bg-slate-50 p-2 sm:flex-nowrap">
+                          <span className="mr-1 text-[10px] font-bold uppercase text-slate-500">
+                            Расчет:
+                          </span>
+                          <div className="border-border-subtle flex w-24 shrink-0 items-center gap-1 rounded border bg-white px-1.5">
                             <span className="text-text-muted text-[10px]">Кол-во</span>
                             <input
-                              className="h-7 w-10 text-xs text-right bg-transparent focus:outline-none"
+                              className="h-7 w-10 bg-transparent text-right text-xs focus:outline-none"
                               placeholder="0"
                               type="number"
                               value={t.quantity ?? ''}
@@ -361,9 +382,9 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                               }
                             />
                           </div>
-                          <div className="flex items-center gap-1 border border-border-subtle rounded px-1.5 w-28 shrink-0 bg-white">
+                          <div className="border-border-subtle flex w-28 shrink-0 items-center gap-1 rounded border bg-white px-1.5">
                             <input
-                              className="h-7 w-16 text-xs bg-transparent focus:outline-none"
+                              className="h-7 w-16 bg-transparent text-xs focus:outline-none"
                               placeholder="Цена/ед"
                               type="number"
                               step="0.01"
@@ -377,8 +398,8 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                             />
                             <span className="text-text-muted text-[10px]">₽</span>
                           </div>
-                          <div className="flex items-center justify-end min-w-[4rem] px-2 text-[11px] font-semibold text-emerald-700">
-                            {cost > 0 ? `Σ ${(cost).toFixed(2)} ₽` : '—'}
+                          <div className="flex min-w-[4rem] items-center justify-end px-2 text-[11px] font-semibold text-emerald-700">
+                            {cost > 0 ? `Σ ${cost.toFixed(2)} ₽` : '—'}
                           </div>
                         </div>
                       </div>

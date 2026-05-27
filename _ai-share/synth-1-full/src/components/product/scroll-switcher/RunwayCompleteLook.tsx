@@ -8,11 +8,7 @@ import {
   RUNWAY_LOOK_VIRTUALIZE_THRESHOLD,
 } from '@/lib/scroll-switcher-constants';
 import { Button } from '@/components/ui/button';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useRunwayLookCart } from '@/hooks/useRunwayLookCart';
 import { useToast } from '@/hooks/use-toast';
 import { t } from '@/lib/runway/runway-i18n';
@@ -43,13 +39,18 @@ function LookItemAddButton({
   sectionIndex?: number;
   catalogProducts?: Product[];
 }) {
-  const { addLookItem, resolveProduct, lookProductRequiresSize, resolveLookProductSizes, pendingSlug } =
-    useRunwayLookCart({
-      catalogProducts,
-      parentProductSlug,
-      sectionIndex,
-      surface: 'pdp',
-    });
+  const {
+    addLookItem,
+    resolveProduct,
+    lookProductRequiresSize,
+    resolveLookProductSizes,
+    pendingSlug,
+  } = useRunwayLookCart({
+    catalogProducts,
+    parentProductSlug,
+    sectionIndex,
+    surface: 'pdp',
+  });
   const [sizes, setSizes] = useState<string[]>([]);
   const [needsSize, setNeedsSize] = useState(false);
   const [open, setOpen] = useState(false);
@@ -100,7 +101,9 @@ function LookItemAddButton({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-40 p-2" align="end" onClick={(e) => e.stopPropagation()}>
-          <p className="mb-2 text-[10px] font-medium text-muted-foreground">{t('runway.selectSize')}</p>
+          <p className="mb-2 text-[10px] font-medium text-muted-foreground">
+            {t('runway.selectSize')}
+          </p>
           <div className="flex flex-wrap gap-1">
             {sizes.map((size) => (
               <Button
@@ -251,71 +254,74 @@ export function RunwayCompleteLook({
         </button>
         {expanded ? (
           <>
-        <div className="mb-1.5 mt-2 flex justify-end">
-          <Button
-            type="button"
-            size="sm"
-            variant="default"
-            className="h-7 gap-1 px-2.5 text-[10px]"
-            disabled={isAddingAll}
-            data-runway-look-add-all
-            onClick={() => void handleAddAllLook()}
-          >
-            {isAddingAll ? (
-              <Loader2 className="h-3 w-3 animate-spin" />
-            ) : (
-              <ShoppingBag className="h-3 w-3" />
-            )}
-            {t('runway.completeLook.addAll')}
-          </Button>
-        </div>
-        <div
-          ref={scrollRef}
-          onScroll={updateMetrics}
-          className="flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {shouldVirtualize && leadingSpacer > 0 ? (
-            <div aria-hidden style={{ minWidth: leadingSpacer, width: leadingSpacer }} />
-          ) : null}
-          {visibleItems.map((item) => (
-            <div
-              key={item.slug}
-              className="group flex shrink-0 items-center gap-1.5 rounded-lg border border-border/60 bg-card/80 p-1.5 transition-colors hover:border-primary/50 hover:bg-card"
-              style={{ minWidth: RUNWAY_LOOK_ITEM_WIDTH_PX + 24, width: RUNWAY_LOOK_ITEM_WIDTH_PX + 24 }}
-              data-runway-look-item={item.slug}
-            >
-              <Link
-                href={`/products/${item.slug}`}
-                className="flex min-w-0 flex-1 items-center gap-2"
+            <div className="mb-1.5 mt-2 flex justify-end">
+              <Button
+                type="button"
+                size="sm"
+                variant="default"
+                className="h-7 gap-1 px-2.5 text-[10px]"
+                disabled={isAddingAll}
+                data-runway-look-add-all
+                onClick={() => void handleAddAllLook()}
               >
-                <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-muted">
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.name}
-                    fill
-                    className="object-cover transition-transform group-hover:scale-105"
-                    sizes="40px"
+                {isAddingAll ? (
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                ) : (
+                  <ShoppingBag className="h-3 w-3" />
+                )}
+                {t('runway.completeLook.addAll')}
+              </Button>
+            </div>
+            <div
+              ref={scrollRef}
+              onScroll={updateMetrics}
+              className="flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {shouldVirtualize && leadingSpacer > 0 ? (
+                <div aria-hidden style={{ minWidth: leadingSpacer, width: leadingSpacer }} />
+              ) : null}
+              {visibleItems.map((item) => (
+                <div
+                  key={item.slug}
+                  className="group flex shrink-0 items-center gap-1.5 rounded-lg border border-border/60 bg-card/80 p-1.5 transition-colors hover:border-primary/50 hover:bg-card"
+                  style={{
+                    minWidth: RUNWAY_LOOK_ITEM_WIDTH_PX + 24,
+                    width: RUNWAY_LOOK_ITEM_WIDTH_PX + 24,
+                  }}
+                  data-runway-look-item={item.slug}
+                >
+                  <Link
+                    href={`/products/${item.slug}`}
+                    className="flex min-w-0 flex-1 items-center gap-2"
+                  >
+                    <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-muted">
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.name}
+                        fill
+                        className="object-cover transition-transform group-hover:scale-105"
+                        sizes="40px"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-[11px] font-medium leading-tight">{item.name}</p>
+                      <p className="text-[10px] tabular-nums text-primary">
+                        {item.price.toLocaleString('ru-RU')} ₽
+                      </p>
+                    </div>
+                  </Link>
+                  <LookItemAddButton
+                    item={item}
+                    parentProductSlug={parentProductSlug}
+                    sectionIndex={sectionIndex}
+                    catalogProducts={catalogProducts}
                   />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-[11px] font-medium leading-tight">{item.name}</p>
-                  <p className="text-[10px] tabular-nums text-primary">
-                    {item.price.toLocaleString('ru-RU')} ₽
-                  </p>
-                </div>
-              </Link>
-              <LookItemAddButton
-                item={item}
-                parentProductSlug={parentProductSlug}
-                sectionIndex={sectionIndex}
-                catalogProducts={catalogProducts}
-              />
+              ))}
+              {shouldVirtualize && trailingSpacer > 0 ? (
+                <div aria-hidden style={{ minWidth: trailingSpacer, width: trailingSpacer }} />
+              ) : null}
             </div>
-          ))}
-          {shouldVirtualize && trailingSpacer > 0 ? (
-            <div aria-hidden style={{ minWidth: trailingSpacer, width: trailingSpacer }} />
-          ) : null}
-        </div>
           </>
         ) : null}
       </div>

@@ -64,9 +64,7 @@ export function ProductionPageContentTabSamples({
               time: c.time,
             })
           )}
-          tracking={
-            displaySampleStatuses?.find((s: any) => s.skuId === selectedSkuId)?.tracking
-          }
+          tracking={displaySampleStatuses?.find((s: any) => s.skuId === selectedSkuId)?.tracking}
           onAddComment={(text) =>
             setSampleComments?.((prev: any) => ({
               ...prev,

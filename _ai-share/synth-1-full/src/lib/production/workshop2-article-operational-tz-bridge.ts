@@ -1,4 +1,7 @@
-import { calculateDossierReadiness, type DossierSection } from '@/lib/production/dossier-readiness-engine';
+import {
+  calculateDossierReadiness,
+  type DossierSection,
+} from '@/lib/production/dossier-readiness-engine';
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 
@@ -34,8 +37,7 @@ const TAB_CONTRACT: Record<Workshop2OperationalPipelineTab, string> = {
   qc: 'Канон: требования из материалов и конструкции. Здесь — партии, AQL и фиксация брака.',
   stock:
     'Канон: приёмка сэмпла и упаковка в ТЗ. Здесь — складские движения, остатки и факт прихода.',
-  vault:
-    'Канон: паспорт и реквизиты. Здесь — финансовые и юридические документы.',
+  vault: 'Канон: паспорт и реквизиты. Здесь — финансовые и юридические документы.',
 };
 
 function avgPct(
@@ -64,9 +66,7 @@ export function buildWorkshop2OperationalTzBridge(
       overallLine:
         'Досье ТЗ в этой сессии не загружено — откройте вкладку «Техническое задание» и сохраните карточку.',
       focusPctLabel: '—',
-      blockerLines: [
-        'Нет локального досье: проверьте, что артикул открыт после сохранения ТЗ.',
-      ],
+      blockerLines: ['Нет локального досье: проверьте, что артикул открыт после сохранения ТЗ.'],
     };
   }
 

@@ -79,8 +79,8 @@ export function SewingCategoryBar(p: Props) {
             </CardTitle>
             <p className="mt-1 text-xs text-muted-foreground">
               Ур.1–3 из справочника Syntha (category-handbook, «Каталог»). Один и тот же{' '}
-              <span className="font-medium">leafId</span>, что в MES. Ориентиры ease/деталей — только
-              для одежды; крой утверждает бренд.
+              <span className="font-medium">leafId</span>, что в MES. Ориентиры ease/деталей —
+              только для одежды; крой утверждает бренд.
             </p>
           </div>
           <Badge
@@ -99,11 +99,10 @@ export function SewingCategoryBar(p: Props) {
             aria-live="polite"
             className="relative w-full rounded-lg border border-slate-200 bg-slate-50 p-4 pl-10 text-slate-800"
           >
-            <Info
-              className="absolute left-3 top-4 h-4 w-4 text-slate-500"
-              aria-hidden
-            />
-            <p className="text-sm font-medium leading-none tracking-tight">{m.nonApparelBannerTitle}</p>
+            <Info className="absolute left-3 top-4 h-4 w-4 text-slate-500" aria-hidden />
+            <p className="text-sm font-medium leading-none tracking-tight">
+              {m.nonApparelBannerTitle}
+            </p>
             <p className="mt-2 text-xs leading-relaxed text-slate-600">{m.nonApparelBannerBody}</p>
           </div>
         )}
@@ -181,8 +180,7 @@ export function SewingCategoryBar(p: Props) {
                 className="h-7 text-xs"
                 onClick={copyNote}
               >
-                <Copy className="mr-1 h-3 w-3" />
-                В буфер для бренда
+                <Copy className="mr-1 h-3 w-3" />В буфер для бренда
               </Button>
               {[preset.primary, ...preset.alternates]
                 .filter((g, i, a) => a.indexOf(g) === i)

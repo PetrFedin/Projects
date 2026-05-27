@@ -143,9 +143,7 @@ export function useWorkshop2Phase1DossierPulseSlotLayoutEffect(p: {
         visualShareAbsoluteUrl={visualsShareAbsoluteUrl}
         sketchFloorInUrl={sketchViewFloor}
         tzPhase={currentPhase}
-        onJumpToPassportSection={() =>
-          jumpToTzSectionAnchorFromPulse('general', 'w2-passport-hub')
-        }
+        onJumpToPassportSection={() => jumpToTzSectionAnchorFromPulse('general', 'w2-passport-hub')}
         onJumpToMaterialSection={() =>
           jumpToTzSectionAnchorFromPulse('material', 'w2-material-hub')
         }
@@ -176,16 +174,17 @@ export function useWorkshop2Phase1DossierPulseSlotLayoutEffect(p: {
         }}
         onOpenVisualSketch={openSketchFromMaterialHubForPulse}
         tzWriteDisabled={tzWriteDisabled}
-        onJumpToPassportSection={() =>
-          jumpToTzSectionAnchorFromPulse('general', 'w2-passport-hub')
-        }
+        onJumpToPassportSection={() => jumpToTzSectionAnchorFromPulse('general', 'w2-passport-hub')}
         onJumpToVisualSection={() =>
           jumpToTzSectionAnchorFromPulse('general', 'w2-passport-design-intent')
         }
         articleScopedKey={`${collectionId}:${articleId}`}
         materialComplianceChecklist={dossier.materialComplianceChecklist ?? {}}
         onMaterialComplianceChecklistChange={(next) =>
-          setDossier((prev: Workshop2DossierPhase1) => ({ ...prev, materialComplianceChecklist: next }))
+          setDossier((prev: Workshop2DossierPhase1) => ({
+            ...prev,
+            materialComplianceChecklist: next,
+          }))
         }
         dossierViewProfile={dossierViewProfile}
         sketchLinkedBomRefs={sketchBomRefsUnion}
@@ -217,7 +216,7 @@ export function useWorkshop2Phase1DossierPulseSlotLayoutEffect(p: {
     pulseSlotRef.current.renderTzMinimalControls =
       currentPhase === '1' || currentPhase === '2'
         ? () => (
-            <div className="border-border-subtle space-y-2 rounded-lg border bg-bg-surface2/40 px-3 py-2">
+            <div className="border-border-subtle bg-bg-surface2/40 space-y-2 rounded-lg border px-3 py-2">
               <p className="text-text-primary text-[11px] font-semibold">Минимум шага (фазы 1–2)</p>
               <p className="text-text-muted text-[10px] leading-snug">
                 Показывать только обязательные поля и скрывать «Позже» там, где это поддерживается.
@@ -228,7 +227,7 @@ export function useWorkshop2Phase1DossierPulseSlotLayoutEffect(p: {
                   return (
                     <div
                       key={key}
-                      className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border-subtle/70 bg-white/80 px-2 py-1.5"
+                      className="border-border-subtle/70 flex flex-wrap items-center justify-between gap-2 rounded-md border bg-white/80 px-2 py-1.5"
                     >
                       <span className="text-text-secondary text-[10px] font-medium">{label}</span>
                       <Button

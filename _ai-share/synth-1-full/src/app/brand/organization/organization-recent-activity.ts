@@ -2,15 +2,7 @@
  * Демо-лента «Недавняя активность», участники фильтра, команда для метрик здоровья.
  */
 
-import {
-  Building2,
-  Users,
-  Zap,
-  ShieldCheck,
-  CreditCard,
-  UserCircle2,
-  Cpu,
-} from 'lucide-react';
+import { Building2, Users, Zap, ShieldCheck, CreditCard, UserCircle2, Cpu } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export type RecentActivity = {

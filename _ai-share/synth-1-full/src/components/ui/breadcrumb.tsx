@@ -6,9 +6,7 @@ import { ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 function crumbClass(withTitle?: string): string {
-  return cn(
-    withTitle ? 'min-w-0 max-w-[min(100%,20rem)] truncate' : undefined
-  );
+  return cn(withTitle ? 'min-w-0 max-w-[min(100%,20rem)] truncate' : undefined);
 }
 
 export type BreadcrumbItem = {
@@ -41,10 +39,7 @@ export function Breadcrumb({ items, className }: { items: BreadcrumbItem[]; clas
           ) : (
             <span
               title={item.title}
-              className={cn(
-                'text-text-primary font-medium',
-                crumbClass(item.title)
-              )}
+              className={cn('text-text-primary font-medium', crumbClass(item.title))}
             >
               {item.label}
             </span>

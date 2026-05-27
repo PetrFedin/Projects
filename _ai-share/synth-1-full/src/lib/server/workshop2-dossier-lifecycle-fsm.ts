@@ -4,15 +4,19 @@ import type {
   Workshop2DossierRevision,
 } from '@/lib/production/workshop2-dossier-phase1.types';
 
-const VALID_TRANSITIONS: Record<Workshop2DossierLifecycleState, Workshop2DossierLifecycleState[]> = {
-  draft: ['handoff_ready'],
-  handoff_ready: ['sent_to_production', 'draft'],
-  sent_to_production: ['accepted', 'rework_requested'],
-  accepted: [],
-  rework_requested: ['draft'],
-};
+const VALID_TRANSITIONS: Record<Workshop2DossierLifecycleState, Workshop2DossierLifecycleState[]> =
+  {
+    draft: ['handoff_ready'],
+    handoff_ready: ['sent_to_production', 'draft'],
+    sent_to_production: ['accepted', 'rework_requested'],
+    accepted: [],
+    rework_requested: ['draft'],
+  };
 
-function canTransition(from: Workshop2DossierLifecycleState, to: Workshop2DossierLifecycleState): boolean {
+function canTransition(
+  from: Workshop2DossierLifecycleState,
+  to: Workshop2DossierLifecycleState
+): boolean {
   return VALID_TRANSITIONS[from]?.includes(to) ?? false;
 }
 

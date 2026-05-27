@@ -40,7 +40,12 @@ export function Workshop2DossierPanelFooterActions({
       <div className="flex w-full flex-wrap items-center gap-y-2">
         <div className="flex shrink-0 flex-wrap items-center gap-2">
           {onBack ? (
-            <Button type="button" variant="outline" onClick={onBack} className="h-9 gap-1.5 px-3 text-xs">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onBack}
+              className="h-9 gap-1.5 px-3 text-xs"
+            >
               <LucideIcons.ChevronLeft className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
               Назад
             </Button>
@@ -55,7 +60,12 @@ export function Workshop2DossierPanelFooterActions({
               {isPhase3 ? 'Шаг 2' : 'Шаг 1'}
             </Button>
           ) : null}
-          <Button type="button" variant="secondary" onClick={saveDraft} className="h-9 gap-1.5 px-3 text-xs">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={saveDraft}
+            className="h-9 gap-1.5 px-3 text-xs"
+          >
             Сохранить
           </Button>
         </div>

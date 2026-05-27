@@ -30,11 +30,7 @@ import {
   CabinetHubTitleRow,
 } from '@/components/layout/cabinet-hub-chrome';
 import { cn } from '@/lib/utils';
-import {
-  cabinetHubLayout,
-  cabinetSidebarLayout,
-  cabinetSurface,
-} from '@/lib/ui/cabinet-surface';
+import { cabinetHubLayout, cabinetSidebarLayout, cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { resolveCabinetActiveNavLink } from '@/lib/ui/cabinet-nav-active';
 import { cabinetRoleLabelRu } from '@/lib/ui/cabinet-role-labels';
 import { ROUTES } from '@/lib/routes';
@@ -76,7 +72,7 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
       <div className={cabinetHubLayout.loadingShell}>
-        <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
+        <Loader2 className="size-8 animate-spin text-muted-foreground" aria-hidden />
       </div>
     );
   }
@@ -95,12 +91,15 @@ function SupplierLayoutContent({ children }: { children: React.ReactNode }) {
     );
   }
 
-  const sectionLabel = resolveCabinetActiveNavLink(pathname, adjustedSupplierNavGroups)?.label ?? 'Дашборд';
+  const sectionLabel =
+    resolveCabinetActiveNavLink(pathname, adjustedSupplierNavGroups)?.label ?? 'Дашборд';
 
   return (
     <ErrorBoundary>
       <div className={cabinetHubLayout.rootShell}>
-        <aside className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}>
+        <aside
+          className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}
+        >
           <HubSidebarHeader
             href={ROUTES.factory.supplier}
             icon={Warehouse}
@@ -214,7 +213,7 @@ export default function SupplierLayout({ children }: { children: React.ReactNode
             'text-text-muted flex flex-col gap-3 text-xs font-medium uppercase tracking-widest'
           )}
         >
-          <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
+          <Loader2 className="size-8 animate-spin text-muted-foreground" aria-hidden />
           Загрузка…
         </div>
       }

@@ -64,14 +64,11 @@ export function enrollCourses(courseIds: string[]): void {
 }
 
 export function resolveCourseTitleForAcademy(courseId: string): string {
-  return (
-    getCourseByIdForClient(courseId)?.title ?? getCourseById(courseId)?.title ?? courseId
-  );
+  return getCourseByIdForClient(courseId)?.title ?? getCourseById(courseId)?.title ?? courseId;
 }
 
 export function buildAcademyChatsForCourse(courseId: string, courseTitle: string): Chat[] {
-  const short =
-    courseTitle.length > 48 ? `${courseTitle.slice(0, 46).trim()}…` : courseTitle;
+  const short = courseTitle.length > 48 ? `${courseTitle.slice(0, 46).trim()}…` : courseTitle;
   const staffId = academyStaffChatId(courseId);
   const cohortId = academyCohortChatId(courseId);
   const now = new Date();

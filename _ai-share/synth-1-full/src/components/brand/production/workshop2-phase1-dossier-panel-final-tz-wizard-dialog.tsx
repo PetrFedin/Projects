@@ -53,14 +53,14 @@ export function Workshop2FinalTzWizardDialog({
           {step === 0 ? (
             <div className="space-y-3 text-sm">
               <p className="text-text-secondary text-xs leading-snug">
-                Один последовательный HTML по артикулу: паспорт, визуал, материалы, конструкция, вложения,
-                подписи секций, передача. Для печати в PDF используйте системный диалог — кириллица
-                сохраняется.
+                Один последовательный HTML по артикулу: паспорт, визуал, материалы, конструкция,
+                вложения, подписи секций, передача. Для печати в PDF используйте системный диалог —
+                кириллица сохраняется.
               </p>
               <p className="text-text-muted text-[11px] leading-snug">
-                Про <strong className="text-text-primary">канон tech pack на S3</strong> и отличие от
-                предпросмотра HTML — одна подсказка в блоке «Фиксация пакета для фабрики» на вкладке
-                «Задание» (после закрытия мастера).
+                Про <strong className="text-text-primary">канон tech pack на S3</strong> и отличие
+                от предпросмотра HTML — одна подсказка в блоке «Фиксация пакета для фабрики» на
+                вкладке «Задание» (после закрытия мастера).
               </p>
               <div>
                 <p className="text-text-primary mb-1 text-xs font-semibold">Оглавление</p>
@@ -74,23 +74,44 @@ export function Workshop2FinalTzWizardDialog({
                 </ol>
               </div>
               <div className="mt-4 border-t pt-4">
-                <p className="text-text-primary mb-2 text-xs font-semibold">Язык экспорта (Bilingual Bundle)</p>
+                <p className="text-text-primary mb-2 text-xs font-semibold">
+                  Язык экспорта (Bilingual Bundle)
+                </p>
                 <div className="flex items-center gap-4">
-                  <label className="flex items-center gap-1.5 text-xs cursor-pointer">
-                    <input type="radio" name="exportLang" value="ru" checked={exportLanguage === 'ru'} onChange={() => onExportLanguageChange('ru')} />
+                  <label className="flex cursor-pointer items-center gap-1.5 text-xs">
+                    <input
+                      type="radio"
+                      name="exportLang"
+                      value="ru"
+                      checked={exportLanguage === 'ru'}
+                      onChange={() => onExportLanguageChange('ru')}
+                    />
                     <span>Русский</span>
                   </label>
-                  <label className="flex items-center gap-1.5 text-xs cursor-pointer">
-                    <input type="radio" name="exportLang" value="ru_en" checked={exportLanguage === 'ru_en'} onChange={() => onExportLanguageChange('ru_en')} />
+                  <label className="flex cursor-pointer items-center gap-1.5 text-xs">
+                    <input
+                      type="radio"
+                      name="exportLang"
+                      value="ru_en"
+                      checked={exportLanguage === 'ru_en'}
+                      onChange={() => onExportLanguageChange('ru_en')}
+                    />
                     <span>Русский + Английский</span>
                   </label>
-                  <label className="flex items-center gap-1.5 text-xs cursor-pointer">
-                    <input type="radio" name="exportLang" value="ru_zh" checked={exportLanguage === 'ru_zh'} onChange={() => onExportLanguageChange('ru_zh')} />
+                  <label className="flex cursor-pointer items-center gap-1.5 text-xs">
+                    <input
+                      type="radio"
+                      name="exportLang"
+                      value="ru_zh"
+                      checked={exportLanguage === 'ru_zh'}
+                      onChange={() => onExportLanguageChange('ru_zh')}
+                    />
                     <span>Русский + Китайский</span>
                   </label>
                 </div>
                 <p className="text-text-muted mt-2 text-[10px] leading-snug">
-                  В двуязычном режиме все заголовки и ключевые термины будут продублированы (переведены на выбранный язык).
+                  В двуязычном режиме все заголовки и ключевые термины будут продублированы
+                  (переведены на выбранный язык).
                 </p>
               </div>
             </div>
@@ -108,8 +129,8 @@ export function Workshop2FinalTzWizardDialog({
           {step === 2 ? (
             <div className="space-y-3 text-sm">
               <p className="text-text-secondary text-xs leading-snug">
-                Скачайте HTML или откройте печать и сохраните как PDF. При праве редактирования производства
-                метка последнего экспорта и запись в журнале ТЗ сохраняются в досье.
+                Скачайте HTML или откройте печать и сохраните как PDF. При праве редактирования
+                производства метка последнего экспорта и запись в журнале ТЗ сохраняются в досье.
               </p>
               <div className="flex flex-wrap gap-2 pt-2">
                 <Tooltip>

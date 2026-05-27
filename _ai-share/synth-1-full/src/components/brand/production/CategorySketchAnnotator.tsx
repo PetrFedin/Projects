@@ -1,6 +1,5 @@
 'use client';
 
-
 import {
   forwardRef,
   useCallback,
@@ -141,8 +140,7 @@ type SketchWorkflowMode = 'setup' | 'review' | 'floor';
 export const CategorySketchAnnotator = forwardRef<
   CategorySketchAnnotatorHandle,
   CategorySketchAnnotatorProps
->(
-  function CategorySketchAnnotator(props, ref) {
+>(function CategorySketchAnnotator(props, ref) {
   const {
     currentLeaf,
     imageDataUrl,
@@ -402,42 +400,45 @@ export const CategorySketchAnnotator = forwardRef<
     URL.revokeObjectURL(url);
   }, [currentLeaf.leafId]);
 
-  const applyDemoAiReference = useCallback(async (customPrompt?: string) => {
-    setDemoRefBusy(true);
-    try {
-      const res = await requestCatalogImageGeneration({
-        prompt: (customPrompt?.trim() || demoCatalogImagePrompt).slice(0, 900),
-        imageType: 'model',
-      });
-      if (!res.imageUrl) return;
-      const imgRes = await fetch(res.imageUrl);
-      const blob = await imgRes.blob();
-      const dataUrl = await new Promise<string>((resolve, reject) => {
-        const r = new FileReader();
-        r.onload = () => resolve(String(r.result ?? ''));
-        r.onerror = () => reject(new Error('read'));
-        r.readAsDataURL(blob);
-      });
-      if (dataUrl.length > MAX_IMAGE_CHARS) {
-        window.alert('Изображение слишком большое для сохранения в досье.');
-        return;
-      }
-      if (sheetStorage) {
-        sheetStorage.onImageChange(dataUrl, 'ai-demo-model-reference.jpg');
-      } else {
-        onPatch({
-          categorySketchImageDataUrl: dataUrl,
-          categorySketchImageFileName: 'ai-demo-model-reference.jpg',
+  const applyDemoAiReference = useCallback(
+    async (customPrompt?: string) => {
+      setDemoRefBusy(true);
+      try {
+        const res = await requestCatalogImageGeneration({
+          prompt: (customPrompt?.trim() || demoCatalogImagePrompt).slice(0, 900),
+          imageType: 'model',
         });
+        if (!res.imageUrl) return;
+        const imgRes = await fetch(res.imageUrl);
+        const blob = await imgRes.blob();
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const r = new FileReader();
+          r.onload = () => resolve(String(r.result ?? ''));
+          r.onerror = () => reject(new Error('read'));
+          r.readAsDataURL(blob);
+        });
+        if (dataUrl.length > MAX_IMAGE_CHARS) {
+          window.alert('Изображение слишком большое для сохранения в досье.');
+          return;
+        }
+        if (sheetStorage) {
+          sheetStorage.onImageChange(dataUrl, 'ai-demo-model-reference.jpg');
+        } else {
+          onPatch({
+            categorySketchImageDataUrl: dataUrl,
+            categorySketchImageFileName: 'ai-demo-model-reference.jpg',
+          });
+        }
+      } catch {
+        window.alert(
+          'Не удалось загрузить демо-изображение. Проверьте сеть или вставьте файл вручную.'
+        );
+      } finally {
+        setDemoRefBusy(false);
       }
-    } catch {
-      window.alert(
-        'Не удалось загрузить демо-изображение. Проверьте сеть или вставьте файл вручную.'
-      );
-    } finally {
-      setDemoRefBusy(false);
-    }
-  }, [demoCatalogImagePrompt, onPatch, sheetStorage]);
+    },
+    [demoCatalogImagePrompt, onPatch, sheetStorage]
+  );
 
   const leafId = currentLeaf.leafId;
 
@@ -731,10 +732,14 @@ export const CategorySketchAnnotator = forwardRef<
   }, [pinsOnLeaf]);
 
   const nextIncompletePinId = useMemo(() => {
-    const incomplete = pinsOnLeaf.filter((a) => collectCategorySketchPinValidationIssues(a).length > 0);
+    const incomplete = pinsOnLeaf.filter(
+      (a) => collectCategorySketchPinValidationIssues(a).length > 0
+    );
     if (incomplete.length === 0) return null;
     if (!activeAnn) return incomplete[0]!.annotationId;
-    const activeIncompleteIdx = incomplete.findIndex((a) => a.annotationId === activeAnn.annotationId);
+    const activeIncompleteIdx = incomplete.findIndex(
+      (a) => a.annotationId === activeAnn.annotationId
+    );
     if (activeIncompleteIdx < 0) return incomplete[0]!.annotationId;
     return incomplete[(activeIncompleteIdx + 1) % incomplete.length]!.annotationId;
   }, [activeAnn, pinsOnLeaf]);
@@ -878,7 +883,9 @@ export const CategorySketchAnnotator = forwardRef<
   const updateMaterialCard = useCallback(
     (
       id: string,
-      patch: Partial<Workshop2SketchMaterialCard> | ((c: Workshop2SketchMaterialCard) => Partial<Workshop2SketchMaterialCard>)
+      patch:
+        | Partial<Workshop2SketchMaterialCard>
+        | ((c: Workshop2SketchMaterialCard) => Partial<Workshop2SketchMaterialCard>)
     ) => {
       if (readOnly || !onSketchMaterialCardsChange) return;
       setMaterialCards(
@@ -999,15 +1006,21 @@ export const CategorySketchAnnotator = forwardRef<
       if (e.key === 'ArrowUp') dy = -step;
       if (e.key === 'ArrowDown') dy = step;
       if (activeMaterialCardId && !activeId && !placeMode && !materialCardPlaceMode) {
-      if (!dx && !dy) return;
-      e.preventDefault();
+        if (!dx && !dy) return;
+        e.preventDefault();
         updateMaterialCard(activeMaterialCardId, (cur) => ({
-        xPct: Math.min(98, Math.max(2, cur.xPct + dx)),
-        yPct: Math.min(98, Math.max(2, cur.yPct + dy)),
-      }));
+          xPct: Math.min(98, Math.max(2, cur.xPct + dx)),
+          yPct: Math.min(98, Math.max(2, cur.yPct + dy)),
+        }));
         return;
       }
-      if (!activeId || placeMode || materialCardPlaceMode || dimensionLinePlaceMode || dimensionLineExtendMode)
+      if (
+        !activeId ||
+        placeMode ||
+        materialCardPlaceMode ||
+        dimensionLinePlaceMode ||
+        dimensionLineExtendMode
+      )
         return;
       if (!dx && !dy) return;
       e.preventDefault();
@@ -1436,46 +1449,46 @@ export const CategorySketchAnnotator = forwardRef<
       >
         <div className="min-w-0 space-y-3">
           {!isFloorMode ? (
-          <CategorySketchAnnotatorEditorLeftToolbar
-            readOnly={readOnly}
-            sheetStorage={sheetStorage}
-            pinsOnLeafCount={pinsOnLeaf.length}
-            pinsHasActiveAnnotation={Boolean(
-              activeId && pinsOnLeaf.some((a) => a.annotationId === activeId)
-            )}
-            activeId={activeId}
-            materialCardsEnabled={materialCardsEnabled}
-            nextPinPreset={nextPinPreset}
-            setNextPinPreset={setNextPinPreset}
-            placeMode={placeMode}
-            setPlaceMode={setPlaceMode}
-            materialCardPlaceMode={materialCardPlaceMode}
-            setMaterialCardPlaceMode={setMaterialCardPlaceMode}
-            dimensionLinePlaceMode={dimensionLinePlaceMode}
-            setDimensionLinePlaceMode={setDimensionLinePlaceMode}
-            dimensionLineStartDraft={dimensionLineStartDraft}
-            setDimensionLineStartDraft={setDimensionLineStartDraft}
-            dimensionLineExtendMode={dimensionLineExtendMode}
-            setDimensionLineExtendMode={setDimensionLineExtendMode}
-            nextAnnotationType={nextAnnotationType}
-            setNextAnnotationType={setNextAnnotationType}
-            applyLastPinStyleToNext={applyLastPinStyleToNext}
-            filterPinVisual={filterPinVisual}
-            setFilterPinVisual={setFilterPinVisual}
-            filterType={filterType}
-            setFilterType={setFilterType}
-            filterStage={filterStage}
-            setFilterStage={setFilterStage}
-            pinVisualCounts={pinVisualCounts}
-            hiddenByFilters={hiddenByFilters}
-            hotspotPresets={hotspotPresets}
-            addPresetAnnotation={addPresetAnnotation}
-            pinTextSnippets={pinTextSnippets}
-            applyPinTextSnippet={applyPinTextSnippet}
-            onSavePinTemplateToDossier={onSavePinTemplateToDossier}
-            onSavePinTemplateToOrg={onSavePinTemplateToOrg}
-          />
-                ) : null}
+            <CategorySketchAnnotatorEditorLeftToolbar
+              readOnly={readOnly}
+              sheetStorage={sheetStorage}
+              pinsOnLeafCount={pinsOnLeaf.length}
+              pinsHasActiveAnnotation={Boolean(
+                activeId && pinsOnLeaf.some((a) => a.annotationId === activeId)
+              )}
+              activeId={activeId}
+              materialCardsEnabled={materialCardsEnabled}
+              nextPinPreset={nextPinPreset}
+              setNextPinPreset={setNextPinPreset}
+              placeMode={placeMode}
+              setPlaceMode={setPlaceMode}
+              materialCardPlaceMode={materialCardPlaceMode}
+              setMaterialCardPlaceMode={setMaterialCardPlaceMode}
+              dimensionLinePlaceMode={dimensionLinePlaceMode}
+              setDimensionLinePlaceMode={setDimensionLinePlaceMode}
+              dimensionLineStartDraft={dimensionLineStartDraft}
+              setDimensionLineStartDraft={setDimensionLineStartDraft}
+              dimensionLineExtendMode={dimensionLineExtendMode}
+              setDimensionLineExtendMode={setDimensionLineExtendMode}
+              nextAnnotationType={nextAnnotationType}
+              setNextAnnotationType={setNextAnnotationType}
+              applyLastPinStyleToNext={applyLastPinStyleToNext}
+              filterPinVisual={filterPinVisual}
+              setFilterPinVisual={setFilterPinVisual}
+              filterType={filterType}
+              setFilterType={setFilterType}
+              filterStage={filterStage}
+              setFilterStage={setFilterStage}
+              pinVisualCounts={pinVisualCounts}
+              hiddenByFilters={hiddenByFilters}
+              hotspotPresets={hotspotPresets}
+              addPresetAnnotation={addPresetAnnotation}
+              pinTextSnippets={pinTextSnippets}
+              applyPinTextSnippet={applyPinTextSnippet}
+              onSavePinTemplateToDossier={onSavePinTemplateToDossier}
+              onSavePinTemplateToOrg={onSavePinTemplateToOrg}
+            />
+          ) : null}
 
           <CategorySketchAnnotatorEditorBoardSubstrate
             boardRef={boardRef}
@@ -1485,7 +1498,7 @@ export const CategorySketchAnnotator = forwardRef<
             sheetStorage={sheetStorage}
             imageDataUrl={imageDataUrl}
             currentLeaf={currentLeaf}
-                      sketchContext={sketchContext}
+            sketchContext={sketchContext}
             compareOverlayDataUrl={compareOverlayDataUrl}
             compareOpacity={compareOpacity}
             compareOffsetXPct={compareOffsetXPct}
@@ -1513,8 +1526,8 @@ export const CategorySketchAnnotator = forwardRef<
             setActiveId={setActiveId}
             activeId={activeId}
             visibleIds={visibleIds}
-                        attributeOptions={attributeOptions}
-                        taskSlotLabelById={taskSlotLabelById}
+            attributeOptions={attributeOptions}
+            taskSlotLabelById={taskSlotLabelById}
             onBoardClick={onBoardClick}
             onPickMaterialCardImage={onPickMaterialCardImage}
           />
@@ -1575,47 +1588,45 @@ export const CategorySketchAnnotator = forwardRef<
             exportBusy={exportBusy}
             onExportPng={handleExportPng}
             onPrintA4={() => {
-                        const norm = dataAnnotations
-                          .filter((a) => sketchPinBelongsToLeaf(a, leafId))
-                          .map(normalizeAnnotation);
-                        void (async () => {
-                          await openSketchA4Print({
-                            title: exportFileNameStem?.trim() || currentLeaf.pathLabel || 'Скетч',
-                            sku: (articleSku ?? exportFileNameStem ?? '—').trim(),
-                            pathLabel: currentLeaf.pathLabel,
-                            imageDataUrl: imageDataUrl ?? undefined,
-                            annotations: norm,
-                            leafId,
-                            pageUrl:
-                              typeof window !== 'undefined' ? window.location.href : undefined,
-                            sceneCaption: printSceneCaption?.trim() || masterPrintSceneCaption,
-                          });
-                        })();
-                      }}
+              const norm = dataAnnotations
+                .filter((a) => sketchPinBelongsToLeaf(a, leafId))
+                .map(normalizeAnnotation);
+              void (async () => {
+                await openSketchA4Print({
+                  title: exportFileNameStem?.trim() || currentLeaf.pathLabel || 'Скетч',
+                  sku: (articleSku ?? exportFileNameStem ?? '—').trim(),
+                  pathLabel: currentLeaf.pathLabel,
+                  imageDataUrl: imageDataUrl ?? undefined,
+                  annotations: norm,
+                  leafId,
+                  pageUrl: typeof window !== 'undefined' ? window.location.href : undefined,
+                  sceneCaption: printSceneCaption?.trim() || masterPrintSceneCaption,
+                });
+              })();
+            }}
             onPrintHandoffPackage={() => {
-                        const norm = dataAnnotations
-                          .filter((a) => sketchPinBelongsToLeaf(a, leafId))
-                          .map(normalizeAnnotation);
-                        void (async () => {
-                          await openSketchHandoffPackagePrint({
-                            title: exportFileNameStem?.trim() || currentLeaf.pathLabel || 'Скетч',
-                            sku: (articleSku ?? exportFileNameStem ?? '—').trim(),
-                            pathLabel: currentLeaf.pathLabel,
-                            revisionLabel: categorySketchRevisionLabel,
-                            freezeUntilDate: categorySketchFreezeUntilDate,
-                            productionApproved: categorySketchProductionApproved,
-                            compliance,
-                            imageDataUrl: imageDataUrl ?? undefined,
-                            annotations: norm,
-                            leafId,
-                            pageUrl:
-                              typeof window !== 'undefined' ? window.location.href : undefined,
-                            sceneCaption: printSceneCaption?.trim() || masterPrintSceneCaption,
-                            includePlmAppendix: true,
-                            threadExcerptLines: 2,
-                          });
-                        })();
-                      }}
+              const norm = dataAnnotations
+                .filter((a) => sketchPinBelongsToLeaf(a, leafId))
+                .map(normalizeAnnotation);
+              void (async () => {
+                await openSketchHandoffPackagePrint({
+                  title: exportFileNameStem?.trim() || currentLeaf.pathLabel || 'Скетч',
+                  sku: (articleSku ?? exportFileNameStem ?? '—').trim(),
+                  pathLabel: currentLeaf.pathLabel,
+                  revisionLabel: categorySketchRevisionLabel,
+                  freezeUntilDate: categorySketchFreezeUntilDate,
+                  productionApproved: categorySketchProductionApproved,
+                  compliance,
+                  imageDataUrl: imageDataUrl ?? undefined,
+                  annotations: norm,
+                  leafId,
+                  pageUrl: typeof window !== 'undefined' ? window.location.href : undefined,
+                  sceneCaption: printSceneCaption?.trim() || masterPrintSceneCaption,
+                  includePlmAppendix: true,
+                  threadExcerptLines: 2,
+                });
+              })();
+            }}
             onAppendPropagatedDrafts={handleAppendPropagatedDrafts}
             onCriticalCsv={handleCriticalCsv}
             onMesQualityCsv={handleMesQualityCsv}
@@ -1647,7 +1658,7 @@ export const CategorySketchAnnotator = forwardRef<
             <CategorySketchAnnotatorEditorActivePinForm
               activeAnn={activeAnn}
               activeAnnIdx={activeAnnIdx}
-                readOnly={readOnly}
+              readOnly={readOnly}
               updateAnnotation={updateAnnotation}
               removeAnn={removeAnn}
               onPickProofPhoto={onPickProofPhoto}
@@ -1668,7 +1679,7 @@ export const CategorySketchAnnotator = forwardRef<
               auditActor={auditActor}
               articleSku={articleSku}
               pathLabel={currentLeaf.pathLabel}
-                sketchPageUrl={sketchPageUrl}
+              sketchPageUrl={sketchPageUrl}
               activePinAuditTrail={activePinAuditTrail}
             />
           )}
@@ -1709,7 +1720,6 @@ export const CategorySketchAnnotator = forwardRef<
           </ul>
         </details>
       ) : null}
-
     </div>
   );
 
@@ -1728,8 +1738,8 @@ export const CategorySketchAnnotator = forwardRef<
         externalPreviewSketchToolbar={externalPreviewSketchToolbar}
         dataAnnotations={dataAnnotations}
         leafId={leafId}
-                    attributeOptions={attributeOptions}
-                    taskSlotLabelById={taskSlotLabelById}
+        attributeOptions={attributeOptions}
+        taskSlotLabelById={taskSlotLabelById}
         onPinBadgeClick={(id) => {
           setActiveId(id);
           if (canOpenSketchEditor) setEditorOpen(true);

@@ -6,9 +6,7 @@ import { Factory, Warehouse } from 'lucide-react';
 export { Factory as FactoryProductionHubIcon, Warehouse as FactorySupplierHubIcon };
 
 function SidebarSkeleton() {
-  return (
-    <div className="mx-3 my-4 h-24 animate-pulse rounded-md bg-muted/40" aria-hidden />
-  );
+  return <div className="mx-3 my-4 h-24 animate-pulse rounded-md bg-muted/40" aria-hidden />;
 }
 
 export const FactoryProductionLayoutSidebarPanel = dynamic(

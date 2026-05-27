@@ -1,4 +1,8 @@
-import type { PatternDart, PatternPiece, SewingPatternDraftOptions } from '@/lib/pattern-drafting/sewing-pattern.types';
+import type {
+  PatternDart,
+  PatternPiece,
+  SewingPatternDraftOptions,
+} from '@/lib/pattern-drafting/sewing-pattern.types';
 import { cmToMm, clamp, toMm } from '@/lib/pattern-drafting/sewing-units';
 import {
   armholeDepthMm,
@@ -9,9 +13,10 @@ import { sampleQuadraticBezier } from '@/lib/pattern-geometry/curve-samples';
 import type { Vec2 } from '@/lib/pattern-geometry/vec2';
 
 /** Лиф, спинка: уже переда, чуть ниже/уже плечо, «вогнутая» пройма. */
-export function draftBodiceBackMetric(
-  options: SewingPatternDraftOptions
-): { piece: PatternPiece; log: { key: string; value: string; unit?: string }[] } {
+export function draftBodiceBackMetric(options: SewingPatternDraftOptions): {
+  piece: PatternPiece;
+  log: { key: string; value: string; unit?: string }[];
+} {
   const m = toMm({ ...options.measures, unit: options.measures.unit });
   const eB = cmToMm(options.ease.bust);
   const eW = cmToMm(options.ease.waist);

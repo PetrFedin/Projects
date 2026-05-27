@@ -15,9 +15,7 @@ import {
   type Workshop2DossierSectionRowsExtra,
   type Workshop2DossierSectionRowsSharedBundle,
 } from '@/components/brand/production/workshop2-phase1-dossier-panel-section-rows';
-import type {
-  Workshop2DossierAttributeCardContextProps,
-} from '@/components/brand/production/workshop2-phase1-dossier-panel-attribute-card';
+import type { Workshop2DossierAttributeCardContextProps } from '@/components/brand/production/workshop2-phase1-dossier-panel-attribute-card';
 import { Workshop2DossierAttributeCard } from '@/components/brand/production/workshop2-phase1-dossier-panel-attribute-card';
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
 import type { DossierSection } from '@/lib/production/dossier-readiness-engine';
@@ -172,7 +170,9 @@ export type Workshop2DossierSectionBodyConstructionProps = {
   tzBlockersFooter: ReactNode;
 };
 
-export function Workshop2DossierSectionBodyConstruction(props: Workshop2DossierSectionBodyConstructionProps) {
+export function Workshop2DossierSectionBodyConstruction(
+  props: Workshop2DossierSectionBodyConstructionProps
+) {
   const { toast } = useToast();
   const {
     sectionReadinessUi,
@@ -276,8 +276,8 @@ export function Workshop2DossierSectionBodyConstruction(props: Workshop2DossierS
           role="status"
           className="border-border-default bg-bg-surface2/90 text-text-primary rounded-md border px-3 py-2 text-[11px] leading-snug"
         >
-          <span className="font-semibold">Режим цеха:</span> ориентируйтесь на канон-скетч и эталон подложки.
-          Печать/QR — в «Дополнительно», общий пакет — в «Задание».
+          <span className="font-semibold">Режим цеха:</span> ориентируйтесь на канон-скетч и эталон
+          подложки. Печать/QR — в «Дополнительно», общий пакет — в «Задание».
         </div>
       );
     }
@@ -287,8 +287,8 @@ export function Workshop2DossierSectionBodyConstruction(props: Workshop2DossierS
           role="status"
           className="rounded-md border border-amber-200 bg-amber-50/90 px-3 py-2 text-[11px] leading-snug text-amber-950"
         >
-          <span className="font-semibold">{sketchPinLinkAudit.length} меток</span> — не хватает обязательных
-          привязок к ТЗ; исправьте связи перед передачей.
+          <span className="font-semibold">{sketchPinLinkAudit.length} меток</span> — не хватает
+          обязательных привязок к ТЗ; исправьте связи перед передачей.
         </div>
       );
     }
@@ -359,7 +359,7 @@ export function Workshop2DossierSectionBodyConstruction(props: Workshop2DossierS
   ) : null;
 
   return (
-    <div id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.hub} className="scroll-mt-24 flex flex-col gap-4">
+    <div id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.hub} className="flex scroll-mt-24 flex-col gap-4">
       <Workshop2DossierConstructionBasicParamsBlock
         l2Name={currentLeaf.l2Name}
         categoryLeafId={currentLeaf.leafId}
@@ -394,7 +394,9 @@ export function Workshop2DossierSectionBodyConstruction(props: Workshop2DossierS
           dossier={dossier}
           currentLeaf={currentLeaf}
           handbookWarnings={[]}
-          onJumpToTzAnchor={(section, anchorId) => onNavigateToTab?.('tz', { dossierSection: section, scrollDomId: anchorId })}
+          onJumpToTzAnchor={(section, anchorId) =>
+            onNavigateToTab?.('tz', { dossierSection: section, scrollDomId: anchorId })
+          }
           constructionSectionPct={sectionReadinessUi.construction?.pct ?? 0}
         />
       </div>
@@ -439,22 +441,33 @@ export function Workshop2DossierSectionBodyConstruction(props: Workshop2DossierS
           // Имитируем заполнение мерок из CAD файла
           setDossier((p) => {
             const l1 = currentLeaf?.l1Name?.toLowerCase() || '';
-            const isShoes = currentLeaf?.leafId?.startsWith('catalog-shoes') || l1.includes('обувь') || l1.includes('shoes') || l1.includes('footwear');
-            const isBags = currentLeaf?.leafId?.startsWith('catalog-bags') || l1.includes('сумки') || l1.includes('bags');
+            const isShoes =
+              currentLeaf?.leafId?.startsWith('catalog-shoes') ||
+              l1.includes('обувь') ||
+              l1.includes('shoes') ||
+              l1.includes('footwear');
+            const isBags =
+              currentLeaf?.leafId?.startsWith('catalog-bags') ||
+              l1.includes('сумки') ||
+              l1.includes('bags');
             const newExtras = [...(p.sampleBaseExtraDimensions ?? [])];
-            
+
             // Добавляем тестовые мерки в зависимости от категории
-            if (isShoes && !newExtras.some(e => e.label === 'Толщина подошвы (CAD)')) {
+            if (isShoes && !newExtras.some((e) => e.label === 'Толщина подошвы (CAD)')) {
               newExtras.push({ id: crypto.randomUUID(), label: 'Толщина подошвы (CAD)' });
-            } else if (isBags && !newExtras.some(e => e.label === 'Длина ремешка (CAD)')) {
+            } else if (isBags && !newExtras.some((e) => e.label === 'Длина ремешка (CAD)')) {
               newExtras.push({ id: crypto.randomUUID(), label: 'Длина ремешка (CAD)' });
-            } else if (!isShoes && !isBags && !newExtras.some(e => e.label === 'Ширина плеча (CAD)')) {
+            } else if (
+              !isShoes &&
+              !isBags &&
+              !newExtras.some((e) => e.label === 'Ширина плеча (CAD)')
+            ) {
               newExtras.push({ id: crypto.randomUUID(), label: 'Ширина плеча (CAD)' });
             }
 
             return {
               ...p,
-              sampleBaseExtraDimensions: newExtras
+              sampleBaseExtraDimensions: newExtras,
             };
           });
         }}
@@ -462,7 +475,7 @@ export function Workshop2DossierSectionBodyConstruction(props: Workshop2DossierS
 
       <div
         id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.contour}
-        className="scroll-mt-24 h-px w-full shrink-0 overflow-hidden opacity-0"
+        className="h-px w-full shrink-0 scroll-mt-24 overflow-hidden opacity-0"
         aria-hidden="true"
       />
 
@@ -470,11 +483,12 @@ export function Workshop2DossierSectionBodyConstruction(props: Workshop2DossierS
         id={W2_VISUALS_SKETCH_ANCHOR_ID}
         className="border-border-default order-20 scroll-mt-24 space-y-3 rounded-xl border bg-white p-3 shadow-sm"
       >
-        <div className="text-text-secondary border-border-subtle space-y-1 rounded-lg border border-dashed bg-bg-surface2/40 px-3 py-2 text-[11px] leading-snug">
+        <div className="text-text-secondary border-border-subtle bg-bg-surface2/40 space-y-1 rounded-lg border border-dashed px-3 py-2 text-[11px] leading-snug">
           <p className="text-text-primary font-semibold">Скетч и визуальный контур модели</p>
           <p>
-            Мастер-лист, листы вида, пины к атрибутам и BOM: здесь фиксируется геометрия и примечания для цеха.
-            Заполнение связано с блоком лекал/CAD выше — при смене каталога проверьте метки и критичные пины.
+            Мастер-лист, листы вида, пины к атрибутам и BOM: здесь фиксируется геометрия и
+            примечания для цеха. Заполнение связано с блоком лекал/CAD выше — при смене каталога
+            проверьте метки и критичные пины.
           </p>
         </div>
         {isPhase1 ? (
@@ -514,7 +528,9 @@ export function Workshop2DossierSectionBodyConstruction(props: Workshop2DossierS
             selectedAudienceLabel={selectedAudienceLabel}
             onNavigateWorkspaceTab={onNavigateToTab}
             onJumpToTzPanelSection={(sec) => onSelectTzSection(sec)}
-            onNavigateSketchRouteStage={(st) => onNavigateToTab?.(SKETCH_ROUTE_STAGE_TO_WORKSPACE_TAB[st])}
+            onNavigateSketchRouteStage={(st) =>
+              onNavigateToTab?.(SKETCH_ROUTE_STAGE_TO_WORKSPACE_TAB[st])
+            }
             setDossier={setDossier}
             skuDraft={skuDraft}
             nameDraft={nameDraft}
@@ -557,7 +573,9 @@ export function Workshop2DossierSectionBodyConstruction(props: Workshop2DossierS
             selectedAudienceLabel={selectedAudienceLabel}
             onNavigateWorkspaceTab={onNavigateToTab}
             onJumpToTzPanelSection={(sec) => onSelectTzSection(sec)}
-            onNavigateSketchRouteStage={(st) => onNavigateToTab?.(SKETCH_ROUTE_STAGE_TO_WORKSPACE_TAB[st])}
+            onNavigateSketchRouteStage={(st) =>
+              onNavigateToTab?.(SKETCH_ROUTE_STAGE_TO_WORKSPACE_TAB[st])
+            }
             appendSketchSheetFromUpload={appendSketchSheetFromUpload}
             skuDraft={skuDraft}
             nameDraft={nameDraft}
@@ -619,8 +637,8 @@ export function Workshop2DossierSectionBodyConstruction(props: Workshop2DossierS
         omitBrandNotifyUi
       />
       <div className="flex flex-col" aria-hidden="true">
-        <div id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.export} className="scroll-mt-24 h-px w-full" />
-        <div id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.signoff} className="scroll-mt-24 h-px w-full" />
+        <div id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.export} className="h-px w-full scroll-mt-24" />
+        <div id={W2_CONSTRUCTION_SUBPAGE_ANCHORS.signoff} className="h-px w-full scroll-mt-24" />
       </div>
     </div>
   );

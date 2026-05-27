@@ -61,18 +61,14 @@ function applyOperationalStatusOverlay<T extends { wholesaleOrderId: string; sta
 
 export function toV1DetailDto(order: B2BOrder) {
   const saved = getOperationalNotesRecord(order.order);
-  const orderNotes =
-    saved !== undefined ? saved.note : mockOrderDetailJoors.orderNotes;
+  const orderNotes = saved !== undefined ? saved.note : mockOrderDetailJoors.orderNotes;
   const internalNotes = saved?.internalNote;
-  const lineItems =
-    getSnapshotLineItemsForOrder(order.order) ?? demoOperationalDetailLineItems();
+  const lineItems = getSnapshotLineItemsForOrder(order.order) ?? demoOperationalDetailLineItems();
   return applyOperationalStatusOverlay(
     toOperationalOrderDetailDto(order, lineItems, orderNotes, internalNotes)
   );
 }
 
 export function toV1ListDto(orders: B2BOrder[]) {
-  return orders.map((o) =>
-    applyOperationalStatusOverlay(toOperationalOrderListRowDto(o))
-  );
+  return orders.map((o) => applyOperationalStatusOverlay(toOperationalOrderListRowDto(o)));
 }

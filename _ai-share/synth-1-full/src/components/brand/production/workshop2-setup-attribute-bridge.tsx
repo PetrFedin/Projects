@@ -13,14 +13,14 @@ export function Workshop2SetupAttributeBridge() {
       <CardHeader>
         <CardTitle className="text-base">Связи info-pick ↔ catalog</CardTitle>
         <CardDescription className="text-xs">
-          Read-only мост из <code className="text-[11px]">workshop2-attribute-id-aliases.ts</code> — для
-          сверки readiness и сиротских assignments.
+          Read-only мост из <code className="text-[11px]">workshop2-attribute-id-aliases.ts</code> —
+          для сверки readiness и сиротских assignments.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="max-h-64 overflow-auto rounded-md border">
           <table className="w-full text-left text-[11px]">
-            <thead className="bg-slate-50 text-slate-600 sticky top-0">
+            <thead className="sticky top-0 bg-slate-50 text-slate-600">
               <tr>
                 <th className="px-2 py-1.5 font-semibold">info-pick id</th>
                 <th className="px-2 py-1.5 font-semibold">catalog id</th>

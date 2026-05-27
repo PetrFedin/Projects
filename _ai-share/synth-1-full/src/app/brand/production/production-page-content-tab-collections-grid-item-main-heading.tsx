@@ -1,7 +1,11 @@
 'use client';
 
 /** Заголовок карточки коллекции в сетке (название + подпись типа). */
-export function ProductionPageContentTabCollectionsGridItemMainHeading({ c }: { c: Record<string, unknown> }) {
+export function ProductionPageContentTabCollectionsGridItemMainHeading({
+  c,
+}: {
+  c: Record<string, unknown>;
+}) {
   return (
     <>
       <h3 className="text-text-primary group-hover:text-accent-primary text-lg font-black uppercase tracking-tight transition-colors">

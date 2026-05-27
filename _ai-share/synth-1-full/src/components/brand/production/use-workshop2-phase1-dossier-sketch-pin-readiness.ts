@@ -30,7 +30,9 @@ export function useWorkshop2Phase1DossierSketchPinReadiness(input: {
   } = input;
 
   const sketchWorkspaceStats = useMemo(() => {
-    const masterPins = (categorySketchAnnotations ?? []).filter((a) => a.categoryLeafId === leafId).length;
+    const masterPins = (categorySketchAnnotations ?? []).filter(
+      (a) => a.categoryLeafId === leafId
+    ).length;
     const sh = normalizeSketchSheets(sketchSheets);
     const sheetCount = sh.length;
     const sheetPins = sh.reduce(

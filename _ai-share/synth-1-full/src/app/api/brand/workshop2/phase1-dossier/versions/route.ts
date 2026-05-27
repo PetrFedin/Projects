@@ -7,7 +7,8 @@ import {
 
 export async function GET(req: NextRequest) {
   const actorResolved = resolveWorkshop2ServerActor(req);
-  if (!actorResolved.ok) return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
+  if (!actorResolved.ok)
+    return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
   const actor = actorResolved.actor;
   if (!actorHasAnyRole(actor, ['production:edit', 'w2:audit_read', 'w2:versions_read'])) {
     return NextResponse.json({ ok: false, error: 'forbidden_actor_role' }, { status: 403 });

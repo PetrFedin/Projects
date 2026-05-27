@@ -237,12 +237,12 @@ export function ProfileHeader({ user }: { user: any }) {
                 src={currentAvatar || user.photoURL || DEFAULT_PROFILE_PHOTO}
                 className="object-cover"
               />
-              <AvatarFallback className="bg-bg-surface2 text-base font-black text-text-muted md:text-sm">
+              <AvatarFallback className="bg-bg-surface2 text-text-muted text-base font-black md:text-sm">
                 {user.displayName?.charAt(0) || 'U'}
               </AvatarFallback>
             </Avatar>
             {photos.length > 1 && (
-              <div className="absolute -bottom-1 -right-1 flex h-4 items-center justify-center rounded-full border-2 border-white bg-accent-primary px-1.5 text-[8px] font-bold text-text-inverse shadow-lg">
+              <div className="bg-accent-primary text-text-inverse absolute -bottom-1 -right-1 flex h-4 items-center justify-center rounded-full border-2 border-white px-1.5 text-[8px] font-bold shadow-lg">
                 {photos.length}
               </div>
             )}
@@ -274,7 +274,7 @@ export function ProfileHeader({ user }: { user: any }) {
                   <PopoverContent
                     align="start"
                     sideOffset={6}
-                    className="w-72 overflow-hidden rounded-xl border border-border-subtle bg-bg-surface p-0 shadow-2xl"
+                    className="border-border-subtle bg-bg-surface w-72 overflow-hidden rounded-xl border p-0 shadow-2xl"
                     onPointerEnter={openPlan}
                     onPointerLeave={scheduleClosePlan}
                     onOpenAutoFocus={(e) => e.preventDefault()}
@@ -283,7 +283,7 @@ export function ProfileHeader({ user }: { user: any }) {
                     <div className="bg-slate-900 p-4 text-white">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0 space-y-0.5">
-                          <div className="text-[10px] font-bold uppercase leading-none tracking-widest text-accent-primary">
+                          <div className="text-accent-primary text-[10px] font-bold uppercase leading-none tracking-widest">
                             Subscription Profile
                           </div>
                           <div className="text-base font-bold uppercase tracking-tight">
@@ -296,7 +296,7 @@ export function ProfileHeader({ user }: { user: any }) {
                         <Button
                           size="sm"
                           asChild
-                          className="h-7 rounded-lg border-none bg-bg-surface px-3 text-[9px] font-bold uppercase text-text-primary shadow-lg transition-all hover:bg-accent-soft"
+                          className="bg-bg-surface text-text-primary hover:bg-accent-soft h-7 rounded-lg border-none px-3 text-[9px] font-bold uppercase shadow-lg transition-all"
                         >
                           <Link href="/loyalty?renew=1">Renew</Link>
                         </Button>
@@ -305,22 +305,24 @@ export function ProfileHeader({ user }: { user: any }) {
 
                     <div className="space-y-3 p-4">
                       {offer && (
-                        <div className="space-y-2.5 rounded-xl border border-border-subtle bg-accent-soft/30 p-3">
+                        <div className="border-border-subtle bg-accent-soft/30 space-y-2.5 rounded-xl border p-3">
                           {offer.type === 'promo' && (
                             <>
-                              <div className="text-[9px] font-bold uppercase leading-none tracking-widest text-text-muted">
+                              <div className="text-text-muted text-[9px] font-bold uppercase leading-none tracking-widest">
                                 Renewal Incentive:{' '}
-                                <span className="text-accent-primary">-{offer.discountPercent}%</span>
+                                <span className="text-accent-primary">
+                                  -{offer.discountPercent}%
+                                </span>
                               </div>
                               <div className="flex items-center gap-1.5">
-                                <div className="flex-1 rounded-lg border border-border-subtle bg-bg-surface px-2.5 py-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-text-primary shadow-sm">
+                                <div className="border-border-subtle bg-bg-surface text-text-primary flex-1 rounded-lg border px-2.5 py-1.5 font-mono text-[11px] font-bold uppercase tracking-wider shadow-sm">
                                   {offer.code}
                                 </div>
                                 <Button
                                   type="button"
                                   variant="ghost"
                                   size="icon"
-                                  className="h-8 w-8 rounded-lg border border-border-subtle text-accent-primary hover:bg-accent-soft"
+                                  className="border-border-subtle text-accent-primary hover:bg-accent-soft h-8 w-8 rounded-lg border"
                                   onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
@@ -331,7 +333,7 @@ export function ProfileHeader({ user }: { user: any }) {
                                 </Button>
                               </div>
                               {offer.expiresAt && (
-                                <div className="text-[8px] font-bold uppercase tracking-[0.15em] text-text-muted opacity-60">
+                                <div className="text-text-muted text-[8px] font-bold uppercase tracking-[0.15em] opacity-60">
                                   Validity:{' '}
                                   {format(new Date(offer.expiresAt), 'dd MMM yyyy', { locale: ru })}
                                 </div>
@@ -341,14 +343,14 @@ export function ProfileHeader({ user }: { user: any }) {
 
                           {offer.type === 'email' && (
                             <>
-                              <div className="text-[9px] font-bold uppercase tracking-widest text-text-muted">
+                              <div className="text-text-muted text-[9px] font-bold uppercase tracking-widest">
                                 Unique strategic offer available
                               </div>
                               <Button
                                 variant="outline"
                                 size="sm"
                                 asChild
-                                className="h-8 w-full rounded-lg border-border-subtle text-[9px] font-bold uppercase text-accent-primary hover:bg-accent-soft"
+                                className="border-border-subtle text-accent-primary hover:bg-accent-soft h-8 w-full rounded-lg text-[9px] font-bold uppercase"
                               >
                                 <Link href="/u/offers/renewal">
                                   <Mail className="mr-1.5 h-3.5 w-3.5" /> Предложение

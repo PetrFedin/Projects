@@ -29,7 +29,9 @@ describe('loadWorkshop2PassportSewingSources', () => {
 
     const out = await loadWorkshop2PassportSewingSources(fetchMock as unknown as typeof fetch);
     expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(String(fetchMock.mock.calls[0]?.[0] ?? '')).toContain('/api/brand/sewing-plan-reference');
+    expect(String(fetchMock.mock.calls[0]?.[0] ?? '')).toContain(
+      '/api/brand/sewing-plan-reference'
+    );
     expect(String(fetchMock.mock.calls[1]?.[0] ?? '')).toContain('/api/brand/sewing-contractors');
     expect(out.refPayload?.rfSubjects.length).toBe(1);
     expect(out.contractorsPayload?.partners.length).toBe(1);

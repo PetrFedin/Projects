@@ -6,14 +6,7 @@ import { Button } from '@/components/ui/button';
 import type { CollectionArticle } from '@/app/brand/production/production-page-types';
 import { COLLECTION_STEPS } from '@/lib/production/collection-steps-catalog';
 import { ROUTES } from '@/lib/routes';
-import {
-  CheckCircle2,
-  CircleDot,
-  ClipboardCheck,
-  FileText,
-  Package,
-  Truck,
-} from 'lucide-react';
+import { CheckCircle2, CircleDot, ClipboardCheck, FileText, Package, Truck } from 'lucide-react';
 
 export function BrandProductionWorkshopArticlesCardTable(props: {
   collectionQuery: string;
@@ -66,7 +59,9 @@ export function BrandProductionWorkshopArticlesCardTable(props: {
                 className="border-border-subtle hover:bg-bg-surface2/80 border-b transition-colors"
               >
                 <td className="py-3 pr-4">
-                  <span className="text-text-primary font-mono text-[11px] font-bold">{art.sku}</span>
+                  <span className="text-text-primary font-mono text-[11px] font-bold">
+                    {art.sku}
+                  </span>
                 </td>
                 <td className="py-3 pr-4">
                   <span className="text-text-primary text-[11px] font-medium">{art.season}</span>
@@ -87,7 +82,8 @@ export function BrandProductionWorkshopArticlesCardTable(props: {
                   </Badge>
                 </td>
                 <td className="text-text-primary py-3 pr-4 text-[11px]">
-                  {art.forecastQty.toLocaleString('ru-RU')} шт · {(art.forecastRevenue / 1000).toFixed(0)}k ₽
+                  {art.forecastQty.toLocaleString('ru-RU')} шт ·{' '}
+                  {(art.forecastRevenue / 1000).toFixed(0)}k ₽
                 </td>
                 <td className="py-3 pr-2 text-center">
                   {art.techPackDone ? (
@@ -145,7 +141,9 @@ export function BrandProductionWorkshopArticlesCardTable(props: {
                       className="h-6 px-2 text-[9px]"
                       title="Tech Pack"
                     >
-                      <Link href={`/brand/production/tech-pack/${art.sku || art.id}${collectionQuery}`}>
+                      <Link
+                        href={`/brand/production/tech-pack/${art.sku || art.id}${collectionQuery}`}
+                      >
                         <FileText className="h-3 w-3" />
                       </Link>
                     </Button>
@@ -162,7 +160,13 @@ export function BrandProductionWorkshopArticlesCardTable(props: {
                         <Package className="h-3 w-3" />
                       </Link>
                     </Button>
-                    <Button asChild variant="ghost" size="sm" className="h-6 px-2 text-[9px]" title="PO">
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 text-[9px]"
+                      title="PO"
+                    >
                       <Link href={ganttHref}>
                         <ClipboardCheck className="h-3 w-3" />
                       </Link>

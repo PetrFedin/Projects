@@ -2,7 +2,10 @@ import { NextResponse } from 'next/server';
 import { getCategoryHandbookSnapshot } from '@/lib/production/category-handbook-leaves';
 import { readJsonBody } from '@/lib/http/read-json-body';
 import { resolveOrRejectHandbookCatalogLeafId } from '@/lib/validation/handbook-leaf-id';
-import { putSewingOrderIntentRecord, resolveLatestRecord } from '@/lib/server/sewing-order-intent-store';
+import {
+  putSewingOrderIntentRecord,
+  resolveLatestRecord,
+} from '@/lib/server/sewing-order-intent-store';
 import { forwardSewingIntentToWebhook } from '@/lib/server/sewing-intent-webhook';
 import { appendSewingIntentInternalTask } from '@/lib/server/sewing-intent-internal-queue';
 import { rateLimitAllow, requestClientKey } from '@/lib/server/simple-rate-limit';
@@ -41,9 +44,7 @@ export async function GET(request: Request) {
  * POST — валидация `handbookLeafId`, опционально персист + доменное событие + webhook.
  */
 export async function POST(request: Request) {
-  if (
-    !rateLimitAllow(requestClientKey(request, 'sewing-intent'), 40, 60_000)
-  ) {
+  if (!rateLimitAllow(requestClientKey(request, 'sewing-intent'), 40, 60_000)) {
     return NextResponse.json({ ok: false as const, error: 'rate_limited' }, { status: 429 });
   }
   try {
@@ -58,10 +59,7 @@ export async function POST(request: Request) {
 
     const deviceId = String(body.deviceId ?? '').trim();
     if (deviceId.length < 4) {
-      return NextResponse.json(
-        { ok: false as const, error: 'missing_deviceId' },
-        { status: 400 }
-      );
+      return NextResponse.json({ ok: false as const, error: 'missing_deviceId' }, { status: 400 });
     }
 
     const userId = body.userId?.trim() || null;
@@ -70,7 +68,10 @@ export async function POST(request: Request) {
     const resolved = resolveOrRejectHandbookCatalogLeafId(String(body.handbookLeafId ?? ''));
     if (!resolved.ok) {
       return NextResponse.json(
-        { ok: false as const, error: resolved.reason === 'empty' ? 'missing_handbookLeafId' : 'unknown_leaf' },
+        {
+          ok: false as const,
+          error: resolved.reason === 'empty' ? 'missing_handbookLeafId' : 'unknown_leaf',
+        },
         { status: 400 }
       );
     }
@@ -91,8 +92,8 @@ export async function POST(request: Request) {
     const now = new Date().toISOString();
 
     const subject = userId
-      ? ({ kind: 'user' as const, id: userId })
-      : ({ kind: 'device' as const, id: deviceId });
+      ? { kind: 'user' as const, id: userId }
+      : { kind: 'device' as const, id: deviceId };
 
     const record: SewingOrderIntentServerRecordV1 = {
       v: 1,

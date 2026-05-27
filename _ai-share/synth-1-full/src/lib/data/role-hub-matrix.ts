@@ -80,10 +80,7 @@ export const COVERAGE_PHASE_ORDER: readonly CoveragePhaseId[] = [
   'comms',
 ] as const;
 
-export const COVERAGE_PHASE_META: Record<
-  CoveragePhaseId,
-  { label: string; hint: string }
-> = {
+export const COVERAGE_PHASE_META: Record<CoveragePhaseId, { label: string; hint: string }> = {
   entry: {
     label: 'Вход и обзор',
     hint: 'Дашборд и точка входа в кабинет',
@@ -398,8 +395,7 @@ export const ROLE_HUB_MATRIX: RoleHubRow[] = [
   {
     id: 'production',
     coveragePhase: 'production_quality',
-    area:
-      'Производство: цех, операции, фабрики, планирование; сырьё и фурнитура от поставщиков; каталог материалов; TDS, медиа, образцы и соответствие',
+    area: 'Производство: цех, операции, фабрики, планирование; сырьё и фурнитура от поставщиков; каталог материалов; TDS, медиа, образцы и соответствие',
     clustersByRole: {
       admin: [],
       brand: ['Производство'],

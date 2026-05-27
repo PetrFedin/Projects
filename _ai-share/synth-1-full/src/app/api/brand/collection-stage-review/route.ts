@@ -50,7 +50,14 @@ export async function POST(req: NextRequest) {
     ? body.channels.filter((x): x is 'tasks' | 'messages' => x === 'tasks' || x === 'messages')
     : [];
 
-  if (!collectionKey || !collectionIdLabel || !stepId || !stepTitle || !actorLabel || channels.length === 0) {
+  if (
+    !collectionKey ||
+    !collectionIdLabel ||
+    !stepId ||
+    !stepTitle ||
+    !actorLabel ||
+    channels.length === 0
+  ) {
     return NextResponse.json({ ok: false, error: 'invalid_body' }, { status: 400 });
   }
 

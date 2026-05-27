@@ -112,13 +112,15 @@ function CompositionLabelStepShell({
       <CollapsibleTrigger asChild>
         <button
           type="button"
-          className="border-border-subtle hover:bg-bg-surface2/40 flex w-full min-h-9 items-start gap-2 border-b px-3 py-2.5 text-left transition-colors"
+          className="border-border-subtle hover:bg-bg-surface2/40 flex min-h-9 w-full items-start gap-2 border-b px-3 py-2.5 text-left transition-colors"
         >
           <span className="text-accent-primary bg-accent-primary/10 mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold tabular-nums">
             {stepNum}
           </span>
           <span className="min-w-0 flex-1">
-            <span className="text-text-primary block text-xs font-semibold leading-tight">{title}</span>
+            <span className="text-text-primary block text-xs font-semibold leading-tight">
+              {title}
+            </span>
             {subtitle ? (
               <span className="text-text-muted mt-0.5 line-clamp-2 block text-[10px] font-normal leading-snug">
                 {subtitle}
@@ -127,7 +129,7 @@ function CompositionLabelStepShell({
           </span>
           {showAttentionDot ? (
             <span
-              className="bg-red-500 mt-1.5 h-2 w-2 shrink-0 rounded-full"
+              className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-red-500"
               title="Требуется внимание по ТЗ или обязательным полям"
               aria-hidden
             />
@@ -143,7 +145,7 @@ function CompositionLabelStepShell({
           />
         </button>
       </CollapsibleTrigger>
-      <CollapsibleContent className="border-border-subtle/80 border-l-[3px] border-l-accent-primary/25 bg-bg-surface2/20 px-3 pb-3 pl-4 pt-3">
+      <CollapsibleContent className="border-border-subtle/80 border-l-accent-primary/25 bg-bg-surface2/20 border-l-[3px] px-3 pb-3 pl-4 pt-3">
         <div className="space-y-3">{children}</div>
       </CollapsibleContent>
     </Collapsible>
@@ -255,7 +257,7 @@ export function Workshop2CompositionLabelSpecBlock({
     <div
       id={W2_MATERIAL_SUBPAGE_ANCHORS.compositionLabel}
       className={cn(
-        'scroll-mt-24 space-y-3 rounded-lg border border-border-subtle bg-white/80 p-3',
+        'border-border-subtle scroll-mt-24 space-y-3 rounded-lg border bg-white/80 p-3',
         className
       )}
     >
@@ -264,9 +266,12 @@ export function Workshop2CompositionLabelSpecBlock({
           <LucideIcons.Tag className="h-4 w-4 shrink-0" aria-hidden />
         </div>
         <div className="min-w-0 flex-1 space-y-1">
-          <h2 className="text-text-primary text-base font-semibold">Бирка состава и ухода (составник)</h2>
+          <h2 className="text-text-primary text-base font-semibold">
+            Бирка состава и ухода (составник)
+          </h2>
           <p className="text-text-secondary w-full min-w-0 text-[11px] leading-snug">
-            Формирование составника в 4 шага: от габаритов и состава до печати и макета. Обязательные для ТЗ шаги отмечены красным. Внизу — PDF и задание цеху.
+            Формирование составника в 4 шага: от габаритов и состава до печати и макета.
+            Обязательные для ТЗ шаги отмечены красным. Внизу — PDF и задание цеху.
           </p>
           <div className="flex flex-wrap items-center gap-1.5 pt-1">
             <span
@@ -315,9 +320,7 @@ export function Workshop2CompositionLabelSpecBlock({
         role="group"
         aria-label="Шаги мастера составника"
       >
-        <p className="text-text-muted text-[10px] font-semibold">
-          Шаги 1–4
-        </p>
+        <p className="text-text-muted text-[10px] font-semibold">Шаги 1–4</p>
 
         <CompositionLabelStepShell
           stepNum={1}

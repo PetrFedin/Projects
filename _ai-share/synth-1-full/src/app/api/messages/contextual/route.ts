@@ -26,9 +26,7 @@ export async function GET(request: NextRequest) {
   }
 
   const store = getMessagesStore();
-  const messages = store.filter(
-    (m) => m.contextType === contextType && m.contextId === contextId
-  );
+  const messages = store.filter((m) => m.contextType === contextType && m.contextId === contextId);
 
   return NextResponse.json({ messages });
 }
@@ -43,7 +41,7 @@ export async function POST(request: NextRequest) {
     }
 
     const store = getMessagesStore();
-    
+
     // Sanitize message to prevent basic XSS (as per threat model T-13-01)
     const sanitizedMessage = message.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 

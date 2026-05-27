@@ -1,4 +1,7 @@
-import { findHandbookLeafById, resolveHandbookLeafId } from '@/lib/production/category-handbook-leaves';
+import {
+  findHandbookLeafById,
+  resolveHandbookLeafId,
+} from '@/lib/production/category-handbook-leaves';
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
 
 /**
@@ -9,7 +12,9 @@ export function isValidHandbookCatalogLeafId(leafId: string): boolean {
   return Boolean(findHandbookLeafById(leafId.trim()));
 }
 
-export function resolveOrRejectHandbookCatalogLeafId(leafId: string):
+export function resolveOrRejectHandbookCatalogLeafId(
+  leafId: string
+):
   | { ok: true; leaf: HandbookCategoryLeaf; canonicalId: string }
   | { ok: false; reason: 'empty' | 'unknown' } {
   const t = leafId?.trim() ?? '';

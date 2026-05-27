@@ -29,22 +29,28 @@ describe('workshop2-grading-linear', () => {
   });
 
   it('serializeWorkshopGradingSnapshot is stable for order of object keys in increments', () => {
-    const a = serializeWorkshopGradingSnapshot(['M', 'L'], [
-      {
-        id: '1',
-        pointName: 'A',
-        baseMeasurement: 1,
-        increments: { L: 1, M: 0 },
-      },
-    ]);
-    const b = serializeWorkshopGradingSnapshot(['M', 'L'], [
-      {
-        id: '1',
-        pointName: 'A',
-        baseMeasurement: 1,
-        increments: { M: 0, L: 1 },
-      },
-    ]);
+    const a = serializeWorkshopGradingSnapshot(
+      ['M', 'L'],
+      [
+        {
+          id: '1',
+          pointName: 'A',
+          baseMeasurement: 1,
+          increments: { L: 1, M: 0 },
+        },
+      ]
+    );
+    const b = serializeWorkshopGradingSnapshot(
+      ['M', 'L'],
+      [
+        {
+          id: '1',
+          pointName: 'A',
+          baseMeasurement: 1,
+          increments: { M: 0, L: 1 },
+        },
+      ]
+    );
     expect(a).toBe(b);
   });
 });

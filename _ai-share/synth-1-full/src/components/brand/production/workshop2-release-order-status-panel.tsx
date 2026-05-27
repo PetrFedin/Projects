@@ -6,7 +6,10 @@ import { AlertCircle, Package, RefreshCw } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import type { Workshop2SampleOrderDto } from '@/lib/production/workshop2-sample-api-client';
-import { postWorkshop2SampleOrderMovementApi, postWorkshop2SampleOrderTransitionApi } from '@/lib/production/workshop2-sample-api-client';
+import {
+  postWorkshop2SampleOrderMovementApi,
+  postWorkshop2SampleOrderTransitionApi,
+} from '@/lib/production/workshop2-sample-api-client';
 import {
   labelWorkshop2SampleMovementStatusRu,
   labelWorkshop2SampleOrderStatusRu,
@@ -164,7 +167,9 @@ export function Workshop2ReleaseOrderStatusPanel({
           <div>
             <dt className="text-text-muted">Статус заказа</dt>
             <dd>
-              <Badge variant="outline">{labelWorkshop2SampleOrderStatusRu(activeOrder.status)}</Badge>
+              <Badge variant="outline">
+                {labelWorkshop2SampleOrderStatusRu(activeOrder.status)}
+              </Badge>
             </dd>
           </div>
           <div>
@@ -201,10 +206,7 @@ export function Workshop2ReleaseOrderStatusPanel({
       </p>
 
       {dossier?.sseRealtimeMirror ? (
-        <p
-          className="text-text-muted text-[10px]"
-          data-testid="workshop2-release-order-sse-mirror"
-        >
+        <p className="text-text-muted text-[10px]" data-testid="workshop2-release-order-sse-mirror">
           Realtime: {dossier.sseRealtimeMirror.transport}
           {dossier.sseRealtimeMirror.transport === 'sse'
             ? ' · обновление без 30 с poll'
@@ -237,7 +239,9 @@ export function Workshop2ReleaseOrderStatusPanel({
             onClick={() => void handleAdvanceTransition()}
             data-testid="workshop2-release-order-advance-status"
           >
-            {transitionBusy ? 'Переход…' : `Перевести в «${labelWorkshop2SampleOrderStatusRu(nextOrderStatus)}»`}
+            {transitionBusy
+              ? 'Переход…'
+              : `Перевести в «${labelWorkshop2SampleOrderStatusRu(nextOrderStatus)}»`}
           </Button>
         </div>
       ) : null}
@@ -252,8 +256,12 @@ export function Workshop2ReleaseOrderStatusPanel({
           onClick={() => void handleAdvanceMovement()}
           data-testid="workshop2-release-order-advance-movement"
         >
-          <RefreshCw className={movementBusy ? 'mr-1 h-3.5 w-3.5 animate-spin' : 'mr-1 h-3.5 w-3.5'} />
-          {movementBusy ? 'Обновление…' : `Обновить movement → ${labelWorkshop2SampleMovementStatusRu(nextMovement)}`}
+          <RefreshCw
+            className={movementBusy ? 'mr-1 h-3.5 w-3.5 animate-spin' : 'mr-1 h-3.5 w-3.5'}
+          />
+          {movementBusy
+            ? 'Обновление…'
+            : `Обновить movement → ${labelWorkshop2SampleMovementStatusRu(nextMovement)}`}
         </Button>
       ) : null}
 

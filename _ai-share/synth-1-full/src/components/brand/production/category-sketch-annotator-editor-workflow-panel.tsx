@@ -101,7 +101,8 @@ export function CategorySketchAnnotatorEditorWorkflowPanel({
             Полных: <strong>{sketchHealth.complete}</strong> / {pinsOnLeafCount}
           </span>
           <span>
-            Критичных не закрыто: <strong className="text-rose-700">{sketchHealth.criticalOpen}</strong>
+            Критичных не закрыто:{' '}
+            <strong className="text-rose-700">{sketchHealth.criticalOpen}</strong>
           </span>
           <span>Без текста: {sketchHealth.noText}</span>
           <span>Без BOM ref: {sketchHealth.noBom}</span>

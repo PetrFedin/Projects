@@ -11,11 +11,13 @@ import type { PlatformRole } from '@/lib/rbac';
 /** Кабинет бренда (`brand`) или shop/distributor (`shop` → API header, fallback как `retailer` в read-model). */
 export type OperationalOrdersListActor = 'brand' | 'shop';
 
-const ACTOR_HEADERS: Record<OperationalOrdersListActor, ReturnType<typeof b2bV1SynthaActorRoleHeaders>> =
-  {
-    brand: b2bV1SynthaActorRoleHeaders('brand'),
-    shop: b2bV1SynthaActorRoleHeaders('shop'),
-  };
+const ACTOR_HEADERS: Record<
+  OperationalOrdersListActor,
+  ReturnType<typeof b2bV1SynthaActorRoleHeaders>
+> = {
+  brand: b2bV1SynthaActorRoleHeaders('brand'),
+  shop: b2bV1SynthaActorRoleHeaders('shop'),
+};
 
 function readModelRole(actor: OperationalOrdersListActor): PlatformRole {
   return actor === 'shop' ? 'retailer' : 'brand';

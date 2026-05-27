@@ -150,7 +150,10 @@ export default function BrandMediaPage() {
                 Live
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="media" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+            <TabsContent
+              value="media"
+              className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+            >
               <Tabs defaultValue="dam" onValueChange={setActiveTab} className="w-full">
                 {/* cabinetSurface v1 */}
                 <TabsList className={cn(cabinetSurface.tabsList, 'mb-8 flex-wrap')}>
@@ -447,7 +450,10 @@ export default function BrandMediaPage() {
                 </TabsContent>
               </Tabs>
             </TabsContent>
-            <TabsContent value="content-hub" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+            <TabsContent
+              value="content-hub"
+              className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+            >
               {tab === 'content-hub' && <ContentHubContent />}
             </TabsContent>
             <TabsContent value="cms" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>

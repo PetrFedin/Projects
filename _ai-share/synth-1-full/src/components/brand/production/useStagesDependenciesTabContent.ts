@@ -4,7 +4,10 @@ import { type Dispatch, type SetStateAction } from 'react';
 import { type CollectionStep } from '@/lib/production/collection-steps-catalog';
 import type { ProductionFloorTabId } from '@/lib/production/floor-flow';
 import { type CollectionSkuFlowDoc } from '@/lib/production/unified-sku-flow-store';
-import type { StagesLocalInventoryToolsInput, StagesTabArticle } from '@/components/brand/production/stages-dependencies-tab-content-helpers';
+import type {
+  StagesLocalInventoryToolsInput,
+  StagesTabArticle,
+} from '@/components/brand/production/stages-dependencies-tab-content-helpers';
 import type { UseStagesDependenciesTabContentResult } from '@/components/brand/production/build-stages-dependencies-tab-content-result';
 import { collectStagesDependenciesTabBuildArgs } from '@/components/brand/production/collect-stages-dependencies-tab-build-args';
 import { buildStagesDependenciesTabContentResult } from '@/components/brand/production/build-stages-dependencies-tab-content-result';

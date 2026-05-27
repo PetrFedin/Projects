@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { presignW2TechPackGetObject, w2TechPackRemoteUploadServerConfigured } from '@/lib/server/w2-tech-pack-remote-s3';
+import {
+  presignW2TechPackGetObject,
+  w2TechPackRemoteUploadServerConfigured,
+} from '@/lib/server/w2-tech-pack-remote-s3';
 import { logW2TechPackOps } from '@/lib/server/w2-tech-pack-ops-telemetry';
 import { verifyW2TechPackReadRequest } from '@/lib/server/w2-tech-pack-api-auth';
 import { getW2TechPackIndex } from '@/lib/server/w2-tech-pack-index';

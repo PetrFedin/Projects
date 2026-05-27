@@ -5,9 +5,7 @@ import dynamic from 'next/dynamic';
 /** Shared skeleton for home lazy entry points. */
 function sectionSkeleton(minHeight: string) {
   return function SectionSkeleton() {
-    return (
-      <div className={`${minHeight} animate-pulse rounded-xl bg-muted/40`} aria-hidden />
-    );
+    return <div className={`${minHeight} animate-pulse rounded-xl bg-muted/40`} aria-hidden />;
   };
 }
 

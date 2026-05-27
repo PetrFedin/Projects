@@ -7,8 +7,24 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { RefreshCw, Key, Link as LinkIcon, CheckCircle2, Activity, Terminal, ArrowRightLeft, Plus, Trash2 } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  RefreshCw,
+  Key,
+  Link as LinkIcon,
+  CheckCircle2,
+  Activity,
+  Terminal,
+  ArrowRightLeft,
+  Plus,
+  Trash2,
+} from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
 
@@ -29,9 +45,9 @@ export function Workshop2FactoryERPIntegrationPanel({
   const [notifyOnUpdate, setNotifyOnUpdate] = useState(true);
   const [notifyOnApproval, setNotifyOnApproval] = useState(true);
   const [lastSync, setLastSync] = useState<string | null>('Недавно');
-  
+
   const [pingStatus, setPingStatus] = useState<'idle' | 'pinging' | 'success' | 'error'>('idle');
-  
+
   const [mappings, setMappings] = useState([
     { id: 1, plmField: 'article_id', erpField: 'StyleNumber' },
     { id: 2, plmField: 'color_code', erpField: 'ColorCode' },
@@ -89,7 +105,7 @@ export function Workshop2FactoryERPIntegrationPanel({
   };
 
   const removeMapping = (id: number) => {
-    setMappings(mappings.filter(m => m.id !== id));
+    setMappings(mappings.filter((m) => m.id !== id));
   };
 
   return (
@@ -101,46 +117,48 @@ export function Workshop2FactoryERPIntegrationPanel({
           </div>
           <div className="min-w-0 flex-1 space-y-1">
             <div className="flex items-center gap-2">
-              <h2 className="text-text-primary text-base font-semibold">Интеграция с ERP Фабрики (API)</h2>
-              <span className="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-medium">
+              <h2 className="text-text-primary text-base font-semibold">
+                Интеграция с ERP Фабрики (API)
+              </h2>
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600">
                 Ответственный: IT / Производство
               </span>
             </div>
             <p className="text-text-secondary text-xs leading-snug">
-              Настройка автоматической синхронизации данных (ТЗ, BOM, лекала) с информационной системой производственной площадки.
+              Настройка автоматической синхронизации данных (ТЗ, BOM, лекала) с информационной
+              системой производственной площадки.
             </p>
           </div>
         </div>
-        <span
-          className="border-border-default bg-bg-surface2 text-text-secondary shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px]"
-        >
+        <span className="border-border-default bg-bg-surface2 text-text-secondary shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px]">
           {dataMode === 'http' ? 'API' : 'local'}
         </span>
       </div>
 
-      <div className="border-border-subtle flex flex-col gap-1.5 border-t border-dotted pt-2.5 mt-4">
+      <div className="border-border-subtle mt-4 flex flex-col gap-1.5 border-t border-dotted pt-2.5">
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="bg-bg-surface2/70 text-text-primary max-w-full rounded border border-border-subtle px-2 py-1 text-[10px] leading-snug">
+          <span className="bg-bg-surface2/70 text-text-primary border-border-subtle max-w-full rounded border px-2 py-1 text-[10px] leading-snug">
             <span className="text-text-muted font-bold">Суть</span> · Синхронизация данных
           </span>
-          <span className="text-text-primary max-w-full rounded border border-border-subtle bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
+          <span className="text-text-primary border-border-subtle max-w-full rounded border bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
             <span className="text-text-muted font-bold">Гот.</span> · Подключено
           </span>
           {lastSync && (
-            <span className="text-text-muted ml-auto text-[10px]">Последняя синхронизация: {lastSync}</span>
+            <span className="text-text-muted ml-auto text-[10px]">
+              Последняя синхронизация: {lastSync}
+            </span>
           )}
         </div>
       </div>
 
-      <div className="min-w-0 space-y-4 mt-4">
-        <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x border border-border-subtle rounded-lg">
-          
+      <div className="mt-4 min-w-0 space-y-4">
+        <div className="border-border-subtle grid grid-cols-1 divide-y rounded-lg border lg:grid-cols-12 lg:divide-x lg:divide-y-0">
           {/* Left Column: API & Webhooks */}
-          <div className="lg:col-span-5 p-6 space-y-8">
+          <div className="space-y-8 p-6 lg:col-span-5">
             {/* API Key Section */}
             <div className="space-y-3">
-              <h4 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
-                <Key className="w-4 h-4 text-slate-500" />
+              <h4 className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                <Key className="h-4 w-4 text-slate-500" />
                 API-аутентификация
               </h4>
               <div className="space-y-2">
@@ -149,13 +167,13 @@ export function Workshop2FactoryERPIntegrationPanel({
                     readOnly
                     value={apiKey || ''}
                     placeholder="API-ключ еще не сгенерирован"
-                    className="font-mono text-sm bg-slate-50 border-slate-200"
+                    className="border-slate-200 bg-slate-50 font-mono text-sm"
                   />
                 </div>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="sm"
-                  onClick={handleGenerateApiKey} 
+                  onClick={handleGenerateApiKey}
                   disabled={loading}
                   className="w-full"
                 >
@@ -163,46 +181,64 @@ export function Workshop2FactoryERPIntegrationPanel({
                 </Button>
               </div>
               <p className="text-xs text-slate-500">
-                Используйте этот ключ для аутентификации запросов от ERP-системы фабрики для выгрузки спецификаций (BOM) и ТЗ.
+                Используйте этот ключ для аутентификации запросов от ERP-системы фабрики для
+                выгрузки спецификаций (BOM) и ТЗ.
               </p>
             </div>
 
             {/* Webhooks Section */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
-                  <LinkIcon className="w-4 h-4 text-slate-500" />
+                <h4 className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                  <LinkIcon className="h-4 w-4 text-slate-500" />
                   Настройки Webhook
                 </h4>
-                
+
                 {/* Ping Status */}
                 <div className="flex items-center gap-2">
                   {pingStatus === 'idle' && (
-                    <Button variant="ghost" size="sm" className="h-6 text-xs px-2" onClick={handlePing}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 text-xs"
+                      onClick={handlePing}
+                    >
                       Пинг сервера
                     </Button>
                   )}
                   {pingStatus === 'pinging' && (
-                    <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 text-[10px]">
-                      <Activity className="w-3 h-3 mr-1 animate-pulse" /> Выполняется пинг...
+                    <Badge
+                      variant="outline"
+                      className="border-blue-200 bg-blue-50 text-[10px] text-blue-700"
+                    >
+                      <Activity className="mr-1 h-3 w-3 animate-pulse" /> Выполняется пинг...
                     </Badge>
                   )}
                   {pingStatus === 'success' && (
-                    <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200 text-[10px]">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></div> 200 OK
+                    <Badge
+                      variant="outline"
+                      className="border-emerald-200 bg-emerald-50 text-[10px] text-emerald-700"
+                    >
+                      <div className="mr-1.5 h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500"></div>{' '}
+                      200 OK
                     </Badge>
                   )}
                   {pingStatus === 'error' && (
-                    <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 text-[10px]">
-                      <div className="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5"></div> 500 Ошибка
+                    <Badge
+                      variant="outline"
+                      className="border-red-200 bg-red-50 text-[10px] text-red-700"
+                    >
+                      <div className="mr-1.5 h-1.5 w-1.5 rounded-full bg-red-500"></div> 500 Ошибка
                     </Badge>
                   )}
                 </div>
               </div>
-              
+
               <div className="space-y-3">
                 <div className="space-y-1.5">
-                  <Label htmlFor="webhook-url" className="text-xs">Целевой URL</Label>
+                  <Label htmlFor="webhook-url" className="text-xs">
+                    Целевой URL
+                  </Label>
                   <Input
                     id="webhook-url"
                     placeholder="https://erp.factory.com/api/webhooks/techpack"
@@ -212,33 +248,41 @@ export function Workshop2FactoryERPIntegrationPanel({
                   />
                 </div>
 
-                <div className="space-y-2 pt-2 bg-slate-50 p-3 rounded-md border">
-                  <Label className="text-xs font-semibold tracking-wider text-slate-500">События для отправки</Label>
+                <div className="space-y-2 rounded-md border bg-slate-50 p-3 pt-2">
+                  <Label className="text-xs font-semibold tracking-wider text-slate-500">
+                    События для отправки
+                  </Label>
                   <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="notify-update" 
+                    <Checkbox
+                      id="notify-update"
                       checked={notifyOnUpdate}
                       onCheckedChange={(checked) => setNotifyOnUpdate(checked as boolean)}
                     />
-                    <label htmlFor="notify-update" className="text-sm font-medium leading-none cursor-pointer">
+                    <label
+                      htmlFor="notify-update"
+                      className="cursor-pointer text-sm font-medium leading-none"
+                    >
                       techpack.updated
                     </label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="notify-approval" 
+                    <Checkbox
+                      id="notify-approval"
                       checked={notifyOnApproval}
                       onCheckedChange={(checked) => setNotifyOnApproval(checked as boolean)}
                     />
-                    <label htmlFor="notify-approval" className="text-sm font-medium leading-none cursor-pointer">
+                    <label
+                      htmlFor="notify-approval"
+                      className="cursor-pointer text-sm font-medium leading-none"
+                    >
                       techpack.approved
                     </label>
                   </div>
                 </div>
 
-                <Button 
-                  className="w-full" 
-                  onClick={handleSaveWebhooks} 
+                <Button
+                  className="w-full"
+                  onClick={handleSaveWebhooks}
                   disabled={loading || !webhookUrl}
                 >
                   Сохранить настройки Webhook
@@ -248,30 +292,35 @@ export function Workshop2FactoryERPIntegrationPanel({
           </div>
 
           {/* Right Column: Payload Mapping (DevOps Style) */}
-          <div className="lg:col-span-7 bg-slate-950 text-slate-300 p-6 flex flex-col">
-            <div className="flex items-center justify-between mb-6">
-              <h4 className="text-sm font-medium text-white flex items-center gap-2">
-                <ArrowRightLeft className="w-4 h-4 text-blue-400" />
+          <div className="flex flex-col bg-slate-950 p-6 text-slate-300 lg:col-span-7">
+            <div className="mb-6 flex items-center justify-between">
+              <h4 className="flex items-center gap-2 text-sm font-medium text-white">
+                <ArrowRightLeft className="h-4 w-4 text-blue-400" />
                 Настройка полей для экспорта (Mapping)
               </h4>
-              <Button variant="outline" size="sm" onClick={addMapping} className="h-7 text-xs bg-slate-800 border-slate-700 text-slate-200 hover:bg-slate-700 hover:text-white">
-                <Plus className="w-3 h-3 mr-1" /> Добавить поле
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={addMapping}
+                className="h-7 border-slate-700 bg-slate-800 text-xs text-slate-200 hover:bg-slate-700 hover:text-white"
+              >
+                <Plus className="mr-1 h-3 w-3" /> Добавить поле
               </Button>
             </div>
 
-            <div className="space-y-3 flex-1">
-              <div className="grid grid-cols-12 gap-2 text-xs font-semibold text-slate-500 tracking-wider mb-2 px-1">
+            <div className="flex-1 space-y-3">
+              <div className="mb-2 grid grid-cols-12 gap-2 px-1 text-xs font-semibold tracking-wider text-slate-500">
                 <div className="col-span-5">Поле Syntha PLM</div>
                 <div className="col-span-2 text-center"></div>
                 <div className="col-span-4">Поле ERP фабрики</div>
                 <div className="col-span-1"></div>
               </div>
-              
+
               {mappings.map((mapping, index) => (
-                <div key={mapping.id} className="grid grid-cols-12 gap-2 items-center group">
+                <div key={mapping.id} className="group grid grid-cols-12 items-center gap-2">
                   <div className="col-span-5">
                     <Select defaultValue={mapping.plmField}>
-                      <SelectTrigger className="h-8 bg-slate-900 border-slate-800 text-slate-300 text-xs font-mono">
+                      <SelectTrigger className="h-8 border-slate-800 bg-slate-900 font-mono text-xs text-slate-300">
                         <SelectValue placeholder="Выберите поле PLM" />
                       </SelectTrigger>
                       <SelectContent>
@@ -284,33 +333,35 @@ export function Workshop2FactoryERPIntegrationPanel({
                     </Select>
                   </div>
                   <div className="col-span-2 flex justify-center text-slate-600">
-                    <ArrowRightLeft className="w-4 h-4" />
+                    <ArrowRightLeft className="h-4 w-4" />
                   </div>
                   <div className="col-span-4">
-                    <Input 
+                    <Input
                       defaultValue={mapping.erpField}
                       placeholder="Название поля ERP"
-                      className="h-8 bg-slate-900 border-slate-800 text-green-400 text-xs font-mono placeholder:text-slate-700"
+                      className="h-8 border-slate-800 bg-slate-900 font-mono text-xs text-green-400 placeholder:text-slate-700"
                     />
                   </div>
                   <div className="col-span-1 flex justify-end">
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className="h-8 w-8 text-slate-500 hover:text-red-400 hover:bg-slate-800 opacity-0 group-hover:opacity-100 transition-opacity"
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-slate-500 opacity-0 transition-opacity hover:bg-slate-800 hover:text-red-400 group-hover:opacity-100"
                       onClick={() => removeMapping(mapping.id)}
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-8 bg-slate-900 rounded-md p-4 border border-slate-800">
-              <div className="text-xs font-semibold text-slate-500 mb-2 tracking-wider">Превью нагрузки (Payload Preview)</div>
-              <pre className="text-[11px] font-mono text-blue-300 overflow-x-auto">
-{`{
+            <div className="mt-8 rounded-md border border-slate-800 bg-slate-900 p-4">
+              <div className="mb-2 text-xs font-semibold tracking-wider text-slate-500">
+                Превью нагрузки (Payload Preview)
+              </div>
+              <pre className="overflow-x-auto font-mono text-[11px] text-blue-300">
+                {`{
   "event": "techpack.updated",
   "timestamp": "2026-05-14T12:00:00.000Z",
   "data": {
@@ -321,20 +372,19 @@ export function Workshop2FactoryERPIntegrationPanel({
 }`}
               </pre>
             </div>
-            
+
             <div className="mt-4 flex justify-end">
-              <Button 
-                variant="default" 
-                className="bg-blue-600 hover:bg-blue-700 text-white"
+              <Button
+                variant="default"
+                className="bg-blue-600 text-white hover:bg-blue-700"
                 onClick={handleManualSync}
                 disabled={loading}
               >
-                <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
                 Отправить тестовый запрос
               </Button>
             </div>
           </div>
-          
         </div>
       </div>
     </div>

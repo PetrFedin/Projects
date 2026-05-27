@@ -1,6 +1,12 @@
 'use client';
 
-import { useCallback, useRef, type Dispatch, type MutableRefObject, type SetStateAction } from 'react';
+import {
+  useCallback,
+  useRef,
+  type Dispatch,
+  type MutableRefObject,
+  type SetStateAction,
+} from 'react';
 import { stampPhase1DossierForPersist } from '@/components/brand/production/workshop2-phase1-dossier-panel-stamp-for-persist';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2DossierMetricsFlushContext } from '@/lib/production/workshop2-dossier-metrics-ingest';

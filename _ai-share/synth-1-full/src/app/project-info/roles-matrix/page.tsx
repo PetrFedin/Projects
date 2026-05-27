@@ -52,8 +52,7 @@ export default function RolesMatrixPage() {
             href="/project-info"
             className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900"
           >
-            <ArrowLeft className="h-4 w-4" />
-            О проекте
+            <ArrowLeft className="h-4 w-4" />О проекте
           </Link>
         </div>
 
@@ -68,9 +67,10 @@ export default function RolesMatrixPage() {
             <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600">
               <strong className="font-semibold text-slate-800">Столбцы</strong> — профили кабинетов
               участников (бренд, магазин, дистрибьютор, производство, поставщик); профиль платформы
-              Syntha HQ здесь не выводится. <strong className="font-semibold text-slate-800">Строки</strong>{' '}
-              — разделы сайдбара (справочник) или темы покрытия (матрица ниже). В ячейке: значок ● / ◑ /
-              — и привязанные к теме кластеры меню. Если к теме не привязан ни один кластер для роли, в
+              Syntha HQ здесь не выводится.{' '}
+              <strong className="font-semibold text-slate-800">Строки</strong> — разделы сайдбара
+              (справочник) или темы покрытия (матрица ниже). В ячейке: значок ● / ◑ / — и
+              привязанные к теме кластеры меню. Если к теме не привязан ни один кластер для роли, в
               ячейке только «—» без ●/◑.
             </p>
           </div>
@@ -106,7 +106,7 @@ export default function RolesMatrixPage() {
                       className="min-w-[11rem] px-3 py-3 align-bottom text-xs font-black uppercase leading-tight text-slate-900"
                     >
                       <span className="block">{col.label}</span>
-                      <span className="mt-1 block font-normal normal-case text-[10px] font-semibold text-slate-500">
+                      <span className="mt-1 block text-[10px] font-normal font-semibold normal-case text-slate-500">
                         {col.hint}
                       </span>
                     </th>
@@ -117,10 +117,7 @@ export default function RolesMatrixPage() {
                 {Array.from({ length: SIDEBAR_ROW_COUNT }).map((_, i) => (
                   <tr
                     key={i}
-                    className={cn(
-                      'border-b border-slate-100',
-                      i % 2 === 1 && 'bg-slate-50/60'
-                    )}
+                    className={cn('border-b border-slate-100', i % 2 === 1 && 'bg-slate-50/60')}
                   >
                     <td
                       className={cn(
@@ -162,8 +159,8 @@ export default function RolesMatrixPage() {
             Предложения по унификации названий кластеров
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-amber-950/80">
-            Черновик для согласования: что привести к одной логике в сайдбарах (не влияет на навигацию до
-            рефакторинга).
+            Черновик для согласования: что привести к одной логике в сайдбарах (не влияет на
+            навигацию до рефакторинга).
           </p>
           <div className="mt-6 space-y-5">
             {CABINET_SIDEBAR_NAMING_PROPOSALS.map((p) => (

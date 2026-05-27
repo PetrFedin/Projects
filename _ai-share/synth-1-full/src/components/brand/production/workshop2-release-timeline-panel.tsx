@@ -48,15 +48,19 @@ export function Workshop2ReleaseTimelinePanel({
 
       <div className="flex flex-wrap gap-1.5">
         <Badge variant="outline" className="text-[9px]">
-          {planFact.source === 'dossier' ? 'досье' : planFact.source === 'bundle' ? 'bundle' : 'пусто'}
+          {planFact.source === 'dossier'
+            ? 'досье'
+            : planFact.source === 'bundle'
+              ? 'bundle'
+              : 'пусто'}
         </Badge>
         {planFact.overdueCount > 0 ? (
-          <Badge className="bg-rose-100 text-rose-900 text-[9px] hover:bg-rose-100">
+          <Badge className="bg-rose-100 text-[9px] text-rose-900 hover:bg-rose-100">
             просрочено {planFact.overdueCount}
           </Badge>
         ) : null}
         {planFact.delayedCount > 0 ? (
-          <Badge className="bg-amber-100 text-amber-900 text-[9px] hover:bg-amber-100">
+          <Badge className="bg-amber-100 text-[9px] text-amber-900 hover:bg-amber-100">
             задержка {planFact.delayedCount}
           </Badge>
         ) : null}
@@ -82,7 +86,9 @@ export function Workshop2ReleaseTimelinePanel({
       <p className="text-text-secondary text-[10px]">{planFact.planFactLabelRu}</p>
 
       {planFact.rows.length === 0 ? (
-        <p className="text-text-muted text-sm">Вех T&amp;A не заданы — добавьте на вкладке «План».</p>
+        <p className="text-text-muted text-sm">
+          Вех T&amp;A не заданы — добавьте на вкладке «План».
+        </p>
       ) : (
         <ol className="max-h-52 space-y-1.5 overflow-y-auto text-[11px]">
           {planFact.rows.slice(0, 14).map((m) => (
@@ -90,8 +96,8 @@ export function Workshop2ReleaseTimelinePanel({
               key={m.id}
               className="flex flex-wrap items-center justify-between gap-2 rounded border border-slate-100 px-2 py-1"
             >
-              <span className="font-medium min-w-0 flex-1 truncate">{m.title}</span>
-              <span className="text-text-muted flex flex-wrap items-center gap-1.5 shrink-0">
+              <span className="min-w-0 flex-1 truncate font-medium">{m.title}</span>
+              <span className="text-text-muted flex shrink-0 flex-wrap items-center gap-1.5">
                 {m.targetDate ? <span>план {m.targetDate}</span> : null}
                 {m.actualDate ? (
                   <span className="text-emerald-700">факт {m.actualDate}</span>
@@ -125,7 +131,7 @@ export function Workshop2ReleaseTimelinePanel({
             download
             data-testid="workshop2-release-timeline-export-csv"
           >
-            <Download className="mr-1 h-3 w-3 inline" />
+            <Download className="mr-1 inline h-3 w-3" />
             Экспорт CSV
           </a>
         </Button>
@@ -135,7 +141,7 @@ export function Workshop2ReleaseTimelinePanel({
             target="_blank"
             rel="noopener noreferrer"
           >
-            <TrendingUp className="mr-1 h-3 w-3 inline" />
+            <TrendingUp className="mr-1 inline h-3 w-3" />
             Analytics API
           </Link>
         </Button>

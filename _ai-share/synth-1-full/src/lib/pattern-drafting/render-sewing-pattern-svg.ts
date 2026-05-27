@@ -1,4 +1,8 @@
-import type { PatternPiece, SewingPatternDraftOptions, SewingPatternResult } from '@/lib/pattern-drafting/sewing-pattern.types';
+import type {
+  PatternPiece,
+  SewingPatternDraftOptions,
+  SewingPatternResult,
+} from '@/lib/pattern-drafting/sewing-pattern.types';
 import { escapeSvgText } from '@/lib/pattern-geometry/escape-svg';
 import { offsetClosedPolygon, V2, type Vec2 } from '@/lib/pattern-geometry/vec2';
 
@@ -14,11 +18,7 @@ function pointsToPathD(pts: readonly Vec2[], close: boolean): string {
   return d;
 }
 
-function mergeBbox(
-  min: Vec2,
-  max: Vec2,
-  pts: readonly Vec2[]
-): { min: Vec2; max: Vec2 } {
+function mergeBbox(min: Vec2, max: Vec2, pts: readonly Vec2[]): { min: Vec2; max: Vec2 } {
   let a = { ...min };
   let b = { ...max };
   for (const p of pts) {

@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 type CnFn = (...args: (string | boolean | undefined | null)[]) => string;
 

@@ -95,8 +95,7 @@ export function ProductB2BTechPackBlock({ product }: { product: Product }) {
         variant="ghost"
         className="mt-4 flex h-8 w-full items-center justify-center gap-2 border border-slate-200 text-[8px] font-black uppercase text-slate-600 hover:bg-slate-100"
       >
-        <Download className="h-3 w-3" /> PDF спецификация{' '}
-        <ChevronRight className="h-3 w-3" />
+        <Download className="h-3 w-3" /> PDF спецификация <ChevronRight className="h-3 w-3" />
       </Button>
     </Card>
   );

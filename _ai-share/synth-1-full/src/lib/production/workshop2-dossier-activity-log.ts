@@ -21,6 +21,17 @@ const STRIP_KEYS = new Set([
   'sectionSignoffs',
 ]);
 
+/** Сравнение тела досье без журнала/мета — для guard перед setState в workspace hydrate. */
+export function areWorkshop2DossierPersistBodiesEqual(
+  before: Workshop2DossierPhase1,
+  after: Workshop2DossierPhase1
+): boolean {
+  return (
+    stableStringify(stripDossierForPersistDiff(before)) ===
+    stableStringify(stripDossierForPersistDiff(after))
+  );
+}
+
 /** Убираем журнал, мета сохранения и подписи — они логируются отдельными записями. */
 export function stripDossierForPersistDiff(d: Workshop2DossierPhase1): Record<string, unknown> {
   const out: Record<string, unknown> = {};
@@ -177,4 +188,33 @@ export function summarizeWorkshop2PersistDiff(
   }
 
   return out;
+}
+
+/** Детали diff атрибутов для журнала persist (alias `summarizeWorkshop2PersistDiff`). */
+export function summarizeWorkshop2PersistAttrDiffDetails(
+  before: Workshop2DossierPhase1,
+  after: Workshop2DossierPhase1
+): string[] {
+  return summarizeWorkshop2PersistDiff(before, after);
+}
+
+export function appendWorkshop2TzDossierEditLog(
+  dossier: Workshop2DossierPhase1,
+  actorLabel: string,
+  details: string[]
+): Workshop2DossierPhase1 {
+  if (details.length === 0) return dossier;
+  const entry: import('@/lib/production/workshop2-dossier-phase1.types').Workshop2TzActionLogEntry = {
+    entryId: crypto.randomUUID(),
+    at: new Date().toISOString(),
+    by: actorLabel,
+    action: {
+      type: 'dossier_edit',
+      summaries: details,
+    },
+  };
+  return {
+    ...dossier,
+    tzActionLog: [entry, ...(dossier.tzActionLog ?? [])],
+  };
 }

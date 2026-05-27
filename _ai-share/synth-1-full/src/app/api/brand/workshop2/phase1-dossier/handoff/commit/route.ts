@@ -67,7 +67,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'invalid_body' }, { status: 400 });
   }
   const actorResolved = resolveWorkshop2ServerActor(req, actorLabel);
-  if (!actorResolved.ok) return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
+  if (!actorResolved.ok)
+    return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
   const actor = actorResolved.actor;
   if (!actorHasAnyRole(actor, ['production:edit', 'w2:handoff_commit'])) {
     return NextResponse.json({ ok: false, error: 'forbidden_actor_role' }, { status: 403 });
@@ -76,9 +77,15 @@ export async function POST(req: NextRequest) {
   if (!record) return NextResponse.json({ ok: false, error: 'not_found' }, { status: 404 });
   const cur = record.dossier;
   const gate = buildWorkshop2TzGateSnapshot(cur);
-  const minErr = [...(gate.sectionMinimumErrors.material ?? []), ...(gate.sectionMinimumErrors.construction ?? [])];
+  const minErr = [
+    ...(gate.sectionMinimumErrors.material ?? []),
+    ...(gate.sectionMinimumErrors.construction ?? []),
+  ];
   if (minErr.length > 0) {
-    return NextResponse.json({ ok: false, error: 'global_gate_blocked', sectionErrors: minErr }, { status: 409 });
+    return NextResponse.json(
+      { ok: false, error: 'global_gate_blocked', sectionErrors: minErr },
+      { status: 409 }
+    );
   }
   const preflight = buildWorkshop2TzPreflightReport(cur);
   if (!preflight.ok) {
@@ -86,7 +93,9 @@ export async function POST(req: NextRequest) {
   }
   const attachments = cur.techPackAttachments ?? [];
   const verifiedTechPackAuditAtSend = attachments
-    .filter((a) => attachmentIds.includes(a.attachmentId) && a.canonicalSource === 'object_store_verified')
+    .filter(
+      (a) => attachmentIds.includes(a.attachmentId) && a.canonicalSource === 'object_store_verified'
+    )
     .map((a) => ({
       attachmentId: a.attachmentId,
       remoteObjectKey: a.remoteObjectKey?.trim() || undefined,
@@ -140,16 +149,33 @@ export async function POST(req: NextRequest) {
     );
     if (!toReady.ok) {
       return NextResponse.json(
-        { ok: false, error: toReady.error, reasonCode: toReady.reasonCode, fromState: toReady.fromState, toState: toReady.toState },
+        {
+          ok: false,
+          error: toReady.error,
+          reasonCode: toReady.reasonCode,
+          fromState: toReady.fromState,
+          toState: toReady.toState,
+        },
         { status: 409 }
       );
     }
     next = toReady.dossier;
   }
-  const toSent = applyLifecycleTransition(next, 'sent_to_production', lifecycleActor, 'Handoff committed');
+  const toSent = applyLifecycleTransition(
+    next,
+    'sent_to_production',
+    lifecycleActor,
+    'Handoff committed'
+  );
   if (!toSent.ok) {
     return NextResponse.json(
-      { ok: false, error: toSent.error, reasonCode: toSent.reasonCode, fromState: toSent.fromState, toState: toSent.toState },
+      {
+        ok: false,
+        error: toSent.error,
+        reasonCode: toSent.reasonCode,
+        fromState: toSent.fromState,
+        toState: toSent.toState,
+      },
       { status: 409 }
     );
   }

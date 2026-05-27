@@ -7,7 +7,8 @@ type BranchSlotLevel = 1 | 2 | 3;
 
 /** Уровень ветки в подкатегорийном скетче + раскрытие блока деталей; синх с LS и сменой листа каталога. */
 export function useWorkshop2Phase1DossierBranchSlotSketchUi(leafId: string) {
-  const [subcategorySketchActiveLevel, setSubcategorySketchActiveLevel] = useState<BranchSlotLevel>(3);
+  const [subcategorySketchActiveLevel, setSubcategorySketchActiveLevel] =
+    useState<BranchSlotLevel>(3);
   const [branchLevelsDetailsOpen, setBranchLevelsDetailsOpen] = useState(false);
 
   useEffect(() => {

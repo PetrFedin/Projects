@@ -1,7 +1,14 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState, type ComponentType, type ReactNode } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentType,
+  type ReactNode,
+} from 'react';
 import { shouldEagerAuthBootstrap } from '@/lib/auth/auth-bootstrap-route';
 import { scheduleIdleMount } from '@/lib/wait-for-idle';
 import { AuthProviderStub } from '@/providers/auth-provider-stub';

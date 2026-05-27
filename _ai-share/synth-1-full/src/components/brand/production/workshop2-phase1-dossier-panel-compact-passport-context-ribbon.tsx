@@ -27,11 +27,15 @@ export function Workshop2DossierCompactPassportContextRibbon({
       className="border-accent-primary/20 bg-accent-primary/10 text-text-primary rounded-lg border px-3 py-2 text-[11px] shadow-sm"
     >
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-        <span className="text-accent-primary font-semibold tabular-nums">SKU: {skuDraft.trim() || '—'}</span>
+        <span className="text-accent-primary font-semibold tabular-nums">
+          SKU: {skuDraft.trim() || '—'}
+        </span>
         <span className="text-text-muted" aria-hidden>
           ·
         </span>
-        <span className="text-text-primary font-mono text-[10px]">{internalArticleCodeDisplay}</span>
+        <span className="text-text-primary font-mono text-[10px]">
+          {internalArticleCodeDisplay}
+        </span>
         {(nameDraft || '').trim() ? (
           <>
             <span className="text-text-muted" aria-hidden>
@@ -66,7 +70,9 @@ export function Workshop2DossierCompactPassportContextRibbon({
           type="button"
           variant="link"
           className="text-accent-primary h-auto min-h-0 p-0 text-[10px] font-semibold"
-          onClick={() => jumpToTzSectionAnchor('construction', W2_TZ_SECTION_SIGNOFF_VISUALS_ANCHOR)}
+          onClick={() =>
+            jumpToTzSectionAnchor('construction', W2_TZ_SECTION_SIGNOFF_VISUALS_ANCHOR)
+          }
         >
           Канон
         </Button>

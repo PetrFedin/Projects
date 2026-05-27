@@ -112,7 +112,8 @@ export function Workshop2DossierConstructionSketchPhase23Panel({
         <div className="min-w-0 flex-1 space-y-1">
           <h2 className="text-text-primary text-base font-semibold">Скетч по категории</h2>
           <p className="text-text-secondary text-sm leading-snug">
-            Один силуэт на выбранную ветку каталога: отметьте узлы на скетче, привяжите метки к полям ТЗ.
+            Один силуэт на выбранную ветку каталога: отметьте узлы на скетче, привяжите метки к
+            полям ТЗ.
           </p>
           <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:flex-wrap sm:items-stretch">
             <div className="flex flex-wrap items-center gap-2">
@@ -171,14 +172,16 @@ export function Workshop2DossierConstructionSketchPhase23Panel({
                 <div className="border-border-subtle bg-bg-surface2/80 border-b px-4 py-3">
                   <p className="text-text-primary text-sm font-semibold">Панель над скетчем</p>
                   <p className="text-text-secondary mt-1 text-xs leading-snug">
-                    Те же смыслы, что и в фазе 1: режим ТЗ/цех, ссылка для цеха, библиотека и выгрузки.
+                    Те же смыслы, что и в фазе 1: режим ТЗ/цех, ссылка для цеха, библиотека и
+                    выгрузки.
                   </p>
                 </div>
                 <div className="text-text-primary space-y-4 p-4 text-xs leading-relaxed">
                   <section>
                     <p className="text-text-primary font-semibold">Режим · ТЗ / Цех</p>
                     <p className="text-text-secondary mt-1">
-                      ТЗ — правки меток; цех — только просмотр крупных номеров. Ссылка цеха копирует URL с{' '}
+                      ТЗ — правки меток; цех — только просмотр крупных номеров. Ссылка цеха копирует
+                      URL с{' '}
                       <code className="bg-bg-surface2 rounded px-1 py-0.5 font-mono text-[10px]">
                         ?sketchFloor=1
                       </code>
@@ -188,8 +191,8 @@ export function Workshop2DossierConstructionSketchPhase23Panel({
                   <section>
                     <p className="text-text-primary font-semibold">Снимки и шаблоны</p>
                     <p className="text-text-secondary mt-1">
-                      Открывает библиотеку шаблонов и эталонов. Снимок меток и ZIP — быстрый экспорт без
-                      меню «Ещё».
+                      Открывает библиотеку шаблонов и эталонов. Снимок меток и ZIP — быстрый экспорт
+                      без меню «Ещё».
                     </p>
                   </section>
                 </div>
@@ -295,8 +298,12 @@ export function Workshop2DossierConstructionSketchPhase23Panel({
         articleSku={skuDraft}
         viewMode={sketchEditsLocked ? 'floor' : 'edit'}
         subcategorySketchSlots={dossier.subcategorySketchSlots ?? []}
-        categorySketchCompareOverlayDataUrl={dossier.categorySketchCompareOverlayDataUrl ?? undefined}
-        categorySketchCompareOverlayFileName={dossier.categorySketchCompareOverlayFileName ?? undefined}
+        categorySketchCompareOverlayDataUrl={
+          dossier.categorySketchCompareOverlayDataUrl ?? undefined
+        }
+        categorySketchCompareOverlayFileName={
+          dossier.categorySketchCompareOverlayFileName ?? undefined
+        }
         categorySketchCompareOverlayOpacityPct={dossier.categorySketchCompareOverlayOpacityPct}
         categorySketchCompareOverlayScalePct={dossier.categorySketchCompareOverlayScalePct}
         categorySketchCompareOffsetXPct={dossier.categorySketchCompareOffsetXPct}
@@ -331,22 +338,19 @@ export function Workshop2DossierConstructionSketchPhase23Panel({
             });
             const snap = next.categorySketchRevisionSnapshots?.at(-1);
             const pinCount = snap?.annotations.length ?? 0;
-            const audit = mergeSketchMasterAuditLog(
-              next.sketchMasterAnnotationAuditLog ?? [],
-              [
-                {
-                  entryId:
-                    typeof crypto !== 'undefined' && crypto.randomUUID
-                      ? crypto.randomUUID()
-                      : `e-${Date.now()}`,
-                  at: new Date().toISOString(),
-                  by: updatedByLabel,
-                  annotationId: '__plm_snapshot__',
-                  action: 'revision_snapshot',
-                  summary: `Архив PLM: снимок «${p.categorySketchRevisionLabel ?? 'snapshot'}», ${pinCount} мет.`,
-                },
-              ]
-            );
+            const audit = mergeSketchMasterAuditLog(next.sketchMasterAnnotationAuditLog ?? [], [
+              {
+                entryId:
+                  typeof crypto !== 'undefined' && crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : `e-${Date.now()}`,
+                at: new Date().toISOString(),
+                by: updatedByLabel,
+                annotationId: '__plm_snapshot__',
+                action: 'revision_snapshot',
+                summary: `Архив PLM: снимок «${p.categorySketchRevisionLabel ?? 'snapshot'}», ${pinCount} мет.`,
+              },
+            ]);
             return { ...next, sketchMasterAnnotationAuditLog: audit };
           });
         }}

@@ -60,7 +60,6 @@ export const nuOrderDeskShell = {
   clientCabinetAccentHex: '#4a5fc8',
 
   /** Плитка иконки хаба и вертикальный акцент у `CabinetHubSectionBar`. */
-  clientCabinetHubIconTile:
-    'bg-[#4a5fc8] text-white shadow-sm ring-1 ring-[#94a3b8]/40',
+  clientCabinetHubIconTile: 'bg-[#4a5fc8] text-white shadow-sm ring-1 ring-[#94a3b8]/40',
   clientCabinetHubAccentRail: 'bg-[#4a5fc8]',
 } as const;

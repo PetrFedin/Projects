@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { AuditRowWithDetail } from '@/components/brand/production/ProductionSectionEnhancements';
 
 function auditDetailString(a: {

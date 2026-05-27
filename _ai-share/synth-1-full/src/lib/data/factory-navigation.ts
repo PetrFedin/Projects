@@ -71,7 +71,13 @@ export const manufacturerNavGroups = [
         icon: Calendar,
         description: 'Задачи, заказы и этапы производства на одной шкале.',
       },
-      { href: ROUTES.brand.messages, value: 'messages', label: 'Сообщения', icon: MessageSquare, description: 'Коммуникация' },
+      {
+        href: ROUTES.brand.messages,
+        value: 'messages',
+        label: 'Сообщения',
+        icon: MessageSquare,
+        description: 'Коммуникация',
+      },
     ],
   },
   {
@@ -154,9 +160,27 @@ export const manufacturerNavGroups = [
     icon: Layers,
     clusterId: 'archive' as const,
     links: [
-      { href: ROUTES.brand.materials, value: 'materials', label: 'Каталог материалов', icon: Layers, description: 'Материалы' },
-      { href: ROUTES.brand.materialsReservation, value: 'reservation', label: 'Резервирование', icon: Package, description: 'Резерв материалов' },
-      { href: ROUTES.brand.vmi, value: 'vmi', label: 'VMI', icon: Truck, description: 'Vendor Managed Inventory' },
+      {
+        href: ROUTES.brand.materials,
+        value: 'materials',
+        label: 'Каталог материалов',
+        icon: Layers,
+        description: 'Материалы',
+      },
+      {
+        href: ROUTES.brand.materialsReservation,
+        value: 'reservation',
+        label: 'Резервирование',
+        icon: Package,
+        description: 'Резерв материалов',
+      },
+      {
+        href: ROUTES.brand.vmi,
+        value: 'vmi',
+        label: 'VMI',
+        icon: Truck,
+        description: 'Vendor Managed Inventory',
+      },
     ],
   },
   {
@@ -165,11 +189,41 @@ export const manufacturerNavGroups = [
     icon: FileCheck,
     clusterId: 'archive' as const,
     links: [
-      { href: ROUTES.brand.compliance, value: 'compliance', label: 'Контроль качества', icon: FileCheck, description: 'Соответствие и стандарты' },
-      { href: ROUTES.brand.productionQcApp, value: 'qc-app', label: 'QC App', icon: Zap, description: 'Мобильное приложение QC' },
-      { href: ROUTES.brand.productionGoldSample, value: 'gold-sample', label: 'Золотой образец', icon: FileCheck, description: 'Эталон качества' },
-      { href: ROUTES.brand.productionFitComments, value: 'fit-comments', label: 'Комментарии по посадке', icon: FileText, description: 'Фиды по фиту' },
-      { href: ROUTES.brand.productionMilestonesVideo, value: 'milestones-video', label: 'Видео этапов', icon: Package, description: 'Документирование' },
+      {
+        href: ROUTES.brand.compliance,
+        value: 'compliance',
+        label: 'Контроль качества',
+        icon: FileCheck,
+        description: 'Соответствие и стандарты',
+      },
+      {
+        href: ROUTES.brand.productionQcApp,
+        value: 'qc-app',
+        label: 'QC App',
+        icon: Zap,
+        description: 'Мобильное приложение QC',
+      },
+      {
+        href: ROUTES.brand.productionGoldSample,
+        value: 'gold-sample',
+        label: 'Золотой образец',
+        icon: FileCheck,
+        description: 'Эталон качества',
+      },
+      {
+        href: ROUTES.brand.productionFitComments,
+        value: 'fit-comments',
+        label: 'Комментарии по посадке',
+        icon: FileText,
+        description: 'Фиды по фиту',
+      },
+      {
+        href: ROUTES.brand.productionMilestonesVideo,
+        value: 'milestones-video',
+        label: 'Видео этапов',
+        icon: Package,
+        description: 'Документирование',
+      },
     ],
   },
   {
@@ -177,7 +231,15 @@ export const manufacturerNavGroups = [
     label: 'Аналитика',
     icon: BarChart2,
     clusterId: 'archive' as const,
-    links: [{ href: ROUTES.brand.analytics, value: 'analytics', label: 'Аналитика', icon: BarChart2, description: 'Отчёты' }],
+    links: [
+      {
+        href: ROUTES.brand.analytics,
+        value: 'analytics',
+        label: 'Аналитика',
+        icon: BarChart2,
+        description: 'Отчёты',
+      },
+    ],
   },
 ];
 
@@ -226,7 +288,13 @@ export const supplierNavGroups = [
         icon: Calendar,
         description: 'Задачи, заказы и поставки — одна временная шкала.',
       },
-      { href: ROUTES.brand.messages, value: 'messages', label: 'Сообщения', icon: MessageSquare, description: 'Коммуникация' },
+      {
+        href: ROUTES.brand.messages,
+        value: 'messages',
+        label: 'Сообщения',
+        icon: MessageSquare,
+        description: 'Коммуникация',
+      },
     ],
   },
   {
@@ -305,7 +373,13 @@ export const supplierNavGroups = [
     icon: BarChart2,
     clusterId: 'archive' as const,
     links: [
-      { href: ROUTES.brand.analytics, value: 'analytics', label: 'Аналитика', icon: BarChart2, description: 'Отчёты' },
+      {
+        href: ROUTES.brand.analytics,
+        value: 'analytics',
+        label: 'Аналитика',
+        icon: BarChart2,
+        description: 'Отчёты',
+      },
     ],
   },
 ];

@@ -32,8 +32,7 @@ const firaSansLatinCyrillic = Fira_Sans({
   display: 'swap',
   variable: '--font-body',
 });
-const firaSans =
-  process.env.NODE_ENV === 'development' ? firaSansLatin : firaSansLatinCyrillic;
+const firaSans = process.env.NODE_ENV === 'development' ? firaSansLatin : firaSansLatinCyrillic;
 
 const firaCode = Fira_Code({
   weight: ['400', '500', '600', '700'],
@@ -54,8 +53,7 @@ const playfairLatinCyrillic = Playfair_Display({
   display: 'swap',
   variable: '--font-logo',
 });
-const playfair =
-  process.env.NODE_ENV === 'development' ? playfairLatin : playfairLatinCyrillic;
+const playfair = process.env.NODE_ENV === 'development' ? playfairLatin : playfairLatinCyrillic;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -31,13 +31,13 @@ export function Workshop2ArticleWorkspaceVaultPanel({
   const getIconForType = (type: string) => {
     switch (type) {
       case 'contract':
-        return <FileSignature className="w-5 h-5 text-indigo-500" />;
+        return <FileSignature className="h-5 w-5 text-indigo-500" />;
       case 'invoice':
-        return <Receipt className="w-5 h-5 text-emerald-500" />;
+        return <Receipt className="h-5 w-5 text-emerald-500" />;
       case 'certificate':
-        return <FileText className="w-5 h-5 text-amber-500" />;
+        return <FileText className="h-5 w-5 text-amber-500" />;
       default:
-        return <FileText className="w-5 h-5 text-slate-500" />;
+        return <FileText className="h-5 w-5 text-slate-500" />;
     }
   };
 
@@ -59,16 +59,18 @@ export function Workshop2ArticleWorkspaceVaultPanel({
       <CardHeader className="border-b border-slate-100 bg-slate-50/50 pb-4">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-lg font-bold text-slate-800">Единое хранилище (Vault)</CardTitle>
-            <CardDescription className="text-sm mt-1">
+            <CardTitle className="text-lg font-bold text-slate-800">
+              Единое хранилище (Vault)
+            </CardTitle>
+            <CardDescription className="mt-1 text-sm">
               Договоры, инвойсы, сертификаты и другие финансовые и юридические документы артикула.
             </CardDescription>
           </div>
           <Button onClick={handleUploadMock} disabled={isUploading} size="sm" className="gap-1.5">
             {isUploading ? (
-              <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
             ) : (
-              <Upload className="w-4 h-4" />
+              <Upload className="h-4 w-4" />
             )}
             Загрузить документ
           </Button>
@@ -76,47 +78,57 @@ export function Workshop2ArticleWorkspaceVaultPanel({
       </CardHeader>
       <CardContent className="pt-6">
         {docs.length === 0 ? (
-          <div className="text-center py-12 px-4 border-2 border-dashed border-slate-200 rounded-lg bg-slate-50/50">
-            <div className="mx-auto w-12 h-12 bg-white rounded-full flex items-center justify-center border border-slate-200 shadow-sm mb-3">
-              <FileText className="w-5 h-5 text-slate-400" />
+          <div className="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50/50 px-4 py-12 text-center">
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm">
+              <FileText className="h-5 w-5 text-slate-400" />
             </div>
-            <h3 className="text-sm font-semibold text-slate-700 mb-1">Нет загруженных документов</h3>
-            <p className="text-xs text-slate-500 mb-4 max-w-[280px] mx-auto">
+            <h3 className="mb-1 text-sm font-semibold text-slate-700">
+              Нет загруженных документов
+            </h3>
+            <p className="mx-auto mb-4 max-w-[280px] text-xs text-slate-500">
               Загрузите сканы договоров, спецификаций или инвойсов, связанных с этим артикулом.
             </p>
             <Button variant="outline" size="sm" onClick={handleUploadMock} disabled={isUploading}>
-              <Plus className="w-4 h-4 mr-1.5" />
+              <Plus className="mr-1.5 h-4 w-4" />
               Добавить первый документ
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {docs.map((doc) => (
-              <div key={doc.id} className="border border-slate-200 rounded-lg p-4 flex flex-col hover:border-slate-300 transition-colors bg-white">
-                <div className="flex items-start justify-between mb-3">
+              <div
+                key={doc.id}
+                className="flex flex-col rounded-lg border border-slate-200 bg-white p-4 transition-colors hover:border-slate-300"
+              >
+                <div className="mb-3 flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-100 bg-slate-50">
                       {getIconForType(doc.type)}
                     </div>
                     <div>
-                      <h4 className="text-sm font-semibold text-slate-800 line-clamp-1" title={doc.title}>
+                      <h4
+                        className="line-clamp-1 text-sm font-semibold text-slate-800"
+                        title={doc.title}
+                      >
                         {doc.title}
                       </h4>
-                      <p className="text-[11px] text-slate-500 font-medium">
+                      <p className="text-[11px] font-medium text-slate-500">
                         {getLabelForType(doc.type)}
                       </p>
                     </div>
                   </div>
                 </div>
-                
+
                 {doc.amount !== undefined ? (
-                  <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <div className="mt-auto flex items-center justify-between border-t border-slate-100 pt-3">
                     <span className="text-xs text-slate-500">Сумма:</span>
-                    <span className="text-sm font-semibold text-slate-800">{doc.amount.toLocaleString('ru-RU')} ₽</span>
+                    <span className="text-sm font-semibold text-slate-800">
+                      {doc.amount.toLocaleString('ru-RU')} ₽
+                    </span>
                   </div>
                 ) : (
-                  <div className="mt-auto pt-3 border-t border-slate-100">
-                    <span className="text-xs text-slate-400 italic">Сумма не указана</span>
+                  <div className="mt-auto border-t border-slate-100 pt-3">
+                    <span className="text-xs italic text-slate-400">Сумма не указана</span>
                   </div>
                 )}
               </div>

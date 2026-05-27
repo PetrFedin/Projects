@@ -172,9 +172,7 @@ export function validateBomConstructionNodeIntegrity(
   return issues;
 }
 
-export function cnodeBomIssueMessagesForSectionGate(
-  issues: W2BomCnodeIssue[]
-): string[] {
+export function cnodeBomIssueMessagesForSectionGate(issues: W2BomCnodeIssue[]): string[] {
   return issues.map((i) => i.messageRu);
 }
 
@@ -212,8 +210,6 @@ export function validateRegisteredBomRefsHaveConstructionPin(
   return issues;
 }
 
-export function materialWithoutNodeMessagesForGate(
-  issues: W2MaterialWithoutNodeIssue[]
-): string[] {
+export function materialWithoutNodeMessagesForGate(issues: W2MaterialWithoutNodeIssue[]): string[] {
   return issues.map((i) => i.messageRu);
 }

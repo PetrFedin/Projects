@@ -5,7 +5,14 @@
 
 export type NotificationChannel = 'email' | 'push';
 
-export type TriggerType = 'sla_overdue' | 'new_qc' | 'po_amendment' | 'deadline' | 'po_status_change' | 'raw_material_delay' | 'qc_result';
+export type TriggerType =
+  | 'sla_overdue'
+  | 'new_qc'
+  | 'po_amendment'
+  | 'deadline'
+  | 'po_status_change'
+  | 'raw_material_delay'
+  | 'qc_result';
 
 export interface TriggerConfig {
   id: TriggerType;

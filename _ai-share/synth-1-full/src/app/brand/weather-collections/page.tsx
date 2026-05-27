@@ -24,9 +24,7 @@ export default function WeatherCollectionsPage() {
     fetch('/api/ai/weather')
       .then((r) => r.json())
       .then((d: unknown) => {
-        setWeather(
-          d as { temperature: number; precipitation: number; weatherCode: number }
-        );
+        setWeather(d as { temperature: number; precipitation: number; weatherCode: number });
         setLoading(false);
       })
       .catch(() => {

@@ -460,7 +460,10 @@ export default function MarginAnalysisPage() {
     const newScenario: SavedScenario = {
       id: `scenario-${Date.now()}`,
       name: scenarioName,
-      edits: JSON.parse(JSON.stringify(editedProducts)) as Record<string, Partial<ProductWithAnalytics>>,
+      edits: JSON.parse(JSON.stringify(editedProducts)) as Record<
+        string,
+        Partial<ProductWithAnalytics>
+      >,
     };
     setSavedScenarios([...savedScenarios, newScenario]);
     setActiveScenarioId(newScenario.id);

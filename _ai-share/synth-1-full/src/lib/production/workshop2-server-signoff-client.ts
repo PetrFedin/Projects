@@ -1,4 +1,7 @@
-import type { Workshop2DossierPhase1, Workshop2TzSignoffSectionKey } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2TzSignoffSectionKey,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 
 export async function commitWorkshop2SectionSignoffOnServer(input: {
   collectionId: string;
@@ -42,7 +45,10 @@ export async function commitWorkshop2SectionSignoffOnServer(input: {
     ) {
       return { ok: false, reason: 'invalid_server_response' };
     }
-    return { ok: true, data: { version: json.version, updatedAt: json.updatedAt, dossier: json.dossier } };
+    return {
+      ok: true,
+      data: { version: json.version, updatedAt: json.updatedAt, dossier: json.dossier },
+    };
   } catch {
     return { ok: false, reason: 'network_or_server_error' };
   }

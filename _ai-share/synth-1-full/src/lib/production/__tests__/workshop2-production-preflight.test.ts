@@ -2,10 +2,16 @@ import {
   buildWorkshop2ProductionPreflightSnapshot,
   getW2ProductionPreflightScoreBand,
 } from '@/lib/production/workshop2-production-preflight';
-import type { Workshop2DossierPhase1, Workshop2Phase1AttributeAssignment } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2Phase1AttributeAssignment,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import { emptyWorkshop2DossierPhase1 } from '@/lib/production/workshop2-phase1-dossier-storage';
 
-function canonicalAssignment(attributeId: string, displayLabel: string): Workshop2Phase1AttributeAssignment {
+function canonicalAssignment(
+  attributeId: string,
+  displayLabel: string
+): Workshop2Phase1AttributeAssignment {
   return {
     assignmentId: `a-${attributeId}`,
     kind: 'canonical',

@@ -84,8 +84,9 @@ export default function AcademyLayout({ children }: { children: React.ReactNode 
   const isPlatformShell =
     pathname.startsWith('/brand/academy/platform') ||
     pathname.startsWith('/brand/academy/organization-studio');
-  const platformSwitcherActive =
-    pathname.startsWith('/brand/academy/organization-studio') ? 'organization' : 'platform';
+  const platformSwitcherActive = pathname.startsWith('/brand/academy/organization-studio')
+    ? 'organization'
+    : 'platform';
   const courses = getBrandCourses();
   const inProgressCount = courses.filter((c) => c.status === 'in_progress').length;
   const completedCount = courses.filter((c) => c.status === 'completed').length;

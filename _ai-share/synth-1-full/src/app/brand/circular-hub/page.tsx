@@ -53,7 +53,10 @@ export default function CircularEconomyHubPage() {
   );
 
   return (
-    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent
+      maxWidth="full"
+      className="w-full space-y-6 pb-16 duration-700 animate-in fade-in"
+    >
       <RegistryPageHeader
         title="Circular Hub"
         leadPlain="Sustainability P3: остатки тканей и материалов, верификация, ESG. Доступно 2 450 кг · углеродный след −12% CO₂."

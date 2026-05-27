@@ -14,8 +14,14 @@ export function ProductionPageContentTabDocumentsFilters({
   cn: CnFn;
 }) {
   const px = p as Record<string, any>;
-  const { docFilter, setDocFilter, productionDocuments, handleAction, setDocStatusFilter, docStatusFilter } =
-    px;
+  const {
+    docFilter,
+    setDocFilter,
+    productionDocuments,
+    handleAction,
+    setDocStatusFilter,
+    docStatusFilter,
+  } = px;
 
   return (
     <>

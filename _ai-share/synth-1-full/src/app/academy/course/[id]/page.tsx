@@ -81,7 +81,12 @@ export default function ClientAcademyCoursePage() {
     <TooltipProvider>
       <div className={nuOrderDeskShell.canvas}>
         <div className="mb-4 flex flex-wrap items-center gap-2">
-          <Button variant="ghost" size="sm" className="h-7 gap-1 px-2 text-[11px] font-semibold" asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 gap-1 px-2 text-[11px] font-semibold"
+            asChild
+          >
             <Link href={ROUTES.academyPlatform}>
               <ArrowLeft className="size-3.5" aria-hidden />
               Академия
@@ -106,13 +111,18 @@ export default function ClientAcademyCoursePage() {
               priority
               unoptimized
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" aria-hidden />
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"
+              aria-hidden
+            />
             <div className="absolute bottom-3 left-3 right-3 flex flex-wrap items-end justify-between gap-2">
               <Badge className="border-0 bg-white/95 px-2 py-0.5 text-[11px] font-medium text-[#1a2433] shadow-sm">
                 {categoryRu[course.category] ?? course.category}
               </Badge>
               {course.isNew ? (
-                <Badge className="border-0 bg-emerald-600 px-2 py-0.5 text-[11px] text-white">Новое</Badge>
+                <Badge className="border-0 bg-emerald-600 px-2 py-0.5 text-[11px] text-white">
+                  Новое
+                </Badge>
               ) : null}
             </div>
           </div>
@@ -249,7 +259,9 @@ export default function ClientAcademyCoursePage() {
                       >
                         {p.title}
                       </Link>
-                      <p className="mt-0.5 text-[11px] text-[#6b7788]">{p.totalDuration} · {p.outcome}</p>
+                      <p className="mt-0.5 text-[11px] text-[#6b7788]">
+                        {p.totalDuration} · {p.outcome}
+                      </p>
                     </li>
                   ))}
                 </ul>
@@ -289,13 +301,23 @@ export default function ClientAcademyCoursePage() {
               {learningStarted ? (
                 <div className="flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
                   <span className="text-[12px] font-medium text-[#1a2433]">Чаты по курсу</span>
-                  <Button asChild variant="outline" size="sm" className="h-9 gap-1.5 rounded-sm border-[#c5ccd6] text-[12px]">
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className="h-9 gap-1.5 rounded-sm border-[#c5ccd6] text-[12px]"
+                  >
                     <Link href={ROUTES.shop.messagesChat(academyStaffChatId(id))}>
                       <MessageCircle className="size-3.5" aria-hidden />
                       Куратор
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="sm" className="h-9 gap-1.5 rounded-sm border-[#c5ccd6] text-[12px]">
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className="h-9 gap-1.5 rounded-sm border-[#c5ccd6] text-[12px]"
+                  >
                     <Link href={ROUTES.shop.messagesChat(academyCohortChatId(id))}>
                       <Users className="size-3.5" aria-hidden />
                       Группа участников

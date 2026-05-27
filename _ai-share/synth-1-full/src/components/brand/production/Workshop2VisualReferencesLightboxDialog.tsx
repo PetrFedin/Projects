@@ -71,7 +71,11 @@ export function Workshop2VisualReferencesLightboxDialog({
   onRemoveOne: (id: string) => void;
   onUpdate: (id: string, patch: Partial<Workshop2Phase1VisualReference>) => void;
   onFile: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
-  onToggleReaction: (refId: string, commentId: string, type: Workshop2VisualRefCommentReactionType) => void;
+  onToggleReaction: (
+    refId: string,
+    commentId: string,
+    type: Workshop2VisualRefCommentReactionType
+  ) => void;
   onToggleCommentResolved: (refId: string, commentId: string) => void;
   onDraftCommentChange: (value: string) => void;
   onAddComment: () => void;
@@ -268,12 +272,16 @@ export function Workshop2VisualReferencesLightboxDialog({
                 </p>
                 <div className="border-border-subtle bg-bg-surface2/80 flex max-h-52 flex-col gap-2 overflow-y-auto rounded-lg border p-2">
                   {sortedComments.length === 0 ? (
-                    <p className="text-text-secondary text-center text-[11px]">Пока нет сообщений.</p>
+                    <p className="text-text-secondary text-center text-[11px]">
+                      Пока нет сообщений.
+                    </p>
                   ) : (
                     sortedComments.map((c) => {
                       const isAuthorSide = visualRefSameUser(c.by, threadAuthorLabel);
                       const likes = (c.reactions ?? []).filter((x) => x.type === 'like').length;
-                      const dislikes = (c.reactions ?? []).filter((x) => x.type === 'dislike').length;
+                      const dislikes = (c.reactions ?? []).filter(
+                        (x) => x.type === 'dislike'
+                      ).length;
                       const mine = (c.reactions ?? []).find((x) =>
                         visualRefSameUser(x.by, currentUserLabel)
                       );
@@ -321,7 +329,9 @@ export function Workshop2VisualReferencesLightboxDialog({
                                   ? 'bg-emerald-100 text-emerald-800'
                                   : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
                               )}
-                              onClick={() => onToggleReaction(lightboxRef.refId, c.commentId, 'like')}
+                              onClick={() =>
+                                onToggleReaction(lightboxRef.refId, c.commentId, 'like')
+                              }
                             >
                               <LucideIcons.ThumbsUp className="h-3 w-3" />
                               {likes || ''}
@@ -350,7 +360,9 @@ export function Workshop2VisualReferencesLightboxDialog({
                                   : 'bg-bg-surface2 text-text-secondary hover:bg-bg-surface2'
                               )}
                               aria-pressed={c.resolved === true}
-                              onClick={() => onToggleCommentResolved(lightboxRef.refId, c.commentId)}
+                              onClick={() =>
+                                onToggleCommentResolved(lightboxRef.refId, c.commentId)
+                              }
                             >
                               {c.resolved ? 'Решено' : 'Открыто'}
                             </button>

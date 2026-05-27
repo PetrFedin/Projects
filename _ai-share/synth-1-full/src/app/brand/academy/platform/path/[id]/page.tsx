@@ -16,7 +16,15 @@ import { ACADEMY_CTA_PRIMARY, ACADEMY_CTA_SECONDARY } from '@/lib/ui/academy-cta
 import { cn } from '@/lib/utils';
 import { academyLevelLabels, getLearningPathById } from '@/lib/education-data';
 import { getCourseByIdForClient, getLearningPathByIdForClient } from '@/lib/academy-catalog';
-import { ArrowLeft, Archive, Clock, Award, ChevronRight, PlayCircle, ListOrdered } from 'lucide-react';
+import {
+  ArrowLeft,
+  Archive,
+  Clock,
+  Award,
+  ChevronRight,
+  PlayCircle,
+  ListOrdered,
+} from 'lucide-react';
 import { RegistryPageHeader } from '@/components/design-system';
 
 export default function PlatformPathDetailPage() {
@@ -32,7 +40,10 @@ export default function PlatformPathDetailPage() {
         ? 'Программа в архиве и скрыта с клиентской витрины /academy.'
         : 'Нет программы с таким id или не все курсы доступны в клиентском каталоге (модерация).';
     return (
-      <CabinetPageContent maxWidth="full" className="from-bg-surface2/80 to-bg-surface w-full space-y-6 bg-gradient-to-b pb-16">
+      <CabinetPageContent
+        maxWidth="full"
+        className="from-bg-surface2/80 to-bg-surface w-full space-y-6 bg-gradient-to-b pb-16"
+      >
         <RegistryPageHeader
           title="Траектория не найдена"
           leadPlain={lead}
@@ -66,7 +77,10 @@ export default function PlatformPathDetailPage() {
   const firstCourseId = path.courses[0];
 
   return (
-    <CabinetPageContent maxWidth="full" className="from-bg-surface2/80 to-bg-surface w-full space-y-8 bg-gradient-to-b pb-16">
+    <CabinetPageContent
+      maxWidth="full"
+      className="from-bg-surface2/80 to-bg-surface w-full space-y-8 bg-gradient-to-b pb-16"
+    >
       <RegistryPageHeader
         title={path.title}
         leadPlain={leadPlain}
@@ -85,8 +99,9 @@ export default function PlatformPathDetailPage() {
           <Alert className="border-amber-200/80 bg-amber-50/90 text-foreground">
             <Archive className="size-4 text-amber-800" aria-hidden />
             <AlertTitle>Архив программы</AlertTitle>
-            <AlertDescription className="text-muted-foreground text-sm">
-              На клиентской витрине программа отмечена как архивная; новые зачисления не оформляются.
+            <AlertDescription className="text-sm text-muted-foreground">
+              На клиентской витрине программа отмечена как архивная; новые зачисления не
+              оформляются.
             </AlertDescription>
           </Alert>
         ) : null}
@@ -106,19 +121,29 @@ export default function PlatformPathDetailPage() {
               </Badge>
             ) : null}
             {path.format ? (
-              <Badge variant="outline" className="max-w-full truncate text-[11px] font-normal" title={path.format}>
+              <Badge
+                variant="outline"
+                className="max-w-full truncate text-[11px] font-normal"
+                title={path.format}
+              >
                 {path.format}
               </Badge>
             ) : null}
           </div>
           {path.audience ? (
-            <p className="text-text-muted text-[11px] font-bold uppercase tracking-widest">{path.audience}</p>
+            <p className="text-text-muted text-[11px] font-bold uppercase tracking-widest">
+              {path.audience}
+            </p>
           ) : null}
           <div className="border-border-default/70 bg-bg-surface2/50 flex items-start gap-3 rounded-xl border p-4">
             <Award className="text-accent-primary mt-0.5 h-5 w-5 shrink-0" aria-hidden />
             <div className="min-w-0">
-              <p className="text-text-muted text-[10px] font-bold uppercase tracking-wide">Итог программы</p>
-              <p className="text-text-primary mt-1 text-sm font-semibold leading-snug">{path.outcome}</p>
+              <p className="text-text-muted text-[10px] font-bold uppercase tracking-wide">
+                Итог программы
+              </p>
+              <p className="text-text-primary mt-1 text-sm font-semibold leading-snug">
+                {path.outcome}
+              </p>
             </div>
           </div>
         </div>
@@ -134,7 +159,9 @@ export default function PlatformPathDetailPage() {
 
         <div>
           <h2 className="text-text-primary mb-1 font-semibold">Шаги программы</h2>
-          <p className="text-text-secondary mb-4 text-sm">Проходите по порядку — каждый курс ведёт к следующему блоку компетенций.</p>
+          <p className="text-text-secondary mb-4 text-sm">
+            Проходите по порядку — каждый курс ведёт к следующему блоку компетенций.
+          </p>
           <ul className="relative space-y-0">
             {pathCourses.map((course, i) => (
               <li key={course.id} className="relative pb-6 last:pb-0">
@@ -170,7 +197,9 @@ export default function PlatformPathDetailPage() {
                           <p className="text-text-muted mb-0.5 text-[10px] font-bold uppercase tracking-wide">
                             Шаг {i + 1}
                           </p>
-                          <h3 className="text-text-primary line-clamp-2 font-semibold">{course.title}</h3>
+                          <h3 className="text-text-primary line-clamp-2 font-semibold">
+                            {course.title}
+                          </h3>
                           <p className="text-text-secondary mt-0.5 text-sm">{course.duration}</p>
                         </div>
                         <ChevronRight className="text-text-muted h-5 w-5 shrink-0" aria-hidden />

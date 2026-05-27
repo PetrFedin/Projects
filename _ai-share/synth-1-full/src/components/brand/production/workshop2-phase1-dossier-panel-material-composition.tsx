@@ -32,7 +32,11 @@ function MaterialHandbookPicker({
   return (
     <div className="ms-auto min-w-0 max-w-md space-y-2">
       <div className="flex justify-end">
-        <Button type="button" className="h-9 px-3 text-xs font-semibold" onClick={() => setOpen((v) => !v)}>
+        <Button
+          type="button"
+          className="h-9 px-3 text-xs font-semibold"
+          onClick={() => setOpen((v) => !v)}
+        >
           {open ? 'Скрыть справочник' : 'Добавить'}
         </Button>
       </div>
@@ -130,7 +134,7 @@ export function MaterialCompositionBlock({
     };
     const selectedRows = sortedParams.filter((p) => selected.has(p.parameterId));
     return (
-      <div id="w2-material-composition" className="scroll-mt-20 w-full min-w-0 space-y-3">
+      <div id="w2-material-composition" className="w-full min-w-0 scroll-mt-20 space-y-3">
         {showMaterialRequiredHint ? (
           <p className="text-[11px] font-medium text-amber-700">Выберите материал.</p>
         ) : null}
@@ -212,7 +216,7 @@ export function MaterialCompositionBlock({
   const selectedRows = rows;
 
   return (
-    <div id="w2-material-composition" className="scroll-mt-20 w-full min-w-0 space-y-3">
+    <div id="w2-material-composition" className="w-full min-w-0 scroll-mt-20 space-y-3">
       {showMaterialRequiredHint ? (
         <p className="text-[11px] font-medium text-amber-700">Выберите материал.</p>
       ) : null}

@@ -1,6 +1,5 @@
 'use client';
 
-
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
@@ -147,7 +146,12 @@ export default function BrandSettingsPage() {
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="space-y-4">
         <div className="w-fit rounded-xl border border-slate-200 bg-slate-100 p-1 shadow-inner">
-          <TabsList className={cn(cabinetSurface.tabsList, 'h-8 gap-1 bg-transparent p-0 border-0 shadow-none')}>
+          <TabsList
+            className={cn(
+              cabinetSurface.tabsList,
+              'h-8 gap-1 border-0 bg-transparent p-0 shadow-none'
+            )}
+          >
             <TabsTrigger
               value="general"
               className="h-6 gap-1.5 rounded-lg px-4 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"
@@ -405,7 +409,12 @@ export default function BrandSettingsPage() {
                     value={pulseMode}
                     onValueChange={(val) => setPulseMode(val as any)}
                   >
-                    <TabsList className={cn(cabinetSurface.tabsList, 'h-7 gap-1 bg-transparent p-0 border-0 shadow-none')}>
+                    <TabsList
+                      className={cn(
+                        cabinetSurface.tabsList,
+                        'h-7 gap-1 border-0 bg-transparent p-0 shadow-none'
+                      )}
+                    >
                       <TabsTrigger
                         value="ticker"
                         className="h-5 gap-1.5 rounded-lg px-3 text-[9px] font-bold uppercase tracking-widest transition-all data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm"

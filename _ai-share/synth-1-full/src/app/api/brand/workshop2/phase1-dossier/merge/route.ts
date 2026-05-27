@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { Workshop2DossierPhase1, Workshop2DossierSignoffMeta } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2DossierSignoffMeta,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import {
   getWorkshop2ServerDossierRecord,
   putWorkshop2ServerDossierRecord,
@@ -22,7 +25,10 @@ const CRITICAL_MERGE_FIELDS: readonly (keyof Workshop2DossierPhase1)[] = [
 ];
 
 function hasOwnValue<T extends object>(obj: T, key: keyof T): boolean {
-  return Object.prototype.hasOwnProperty.call(obj, key) && (obj as Record<string, unknown>)[key as string] !== undefined;
+  return (
+    Object.prototype.hasOwnProperty.call(obj, key) &&
+    (obj as Record<string, unknown>)[key as string] !== undefined
+  );
 }
 
 function buildMergeReport(
@@ -63,7 +69,10 @@ function mergeUniqueBy<T>(items: T[], key: (v: T) => string): T[] {
   return [...out.values()];
 }
 
-function autoMergeDossier(serverDossier: Workshop2DossierPhase1, localDossier: Workshop2DossierPhase1) {
+function autoMergeDossier(
+  serverDossier: Workshop2DossierPhase1,
+  localDossier: Workshop2DossierPhase1
+) {
   const merged: Workshop2DossierPhase1 = {
     ...serverDossier,
     ...localDossier,
@@ -73,20 +82,38 @@ function autoMergeDossier(serverDossier: Workshop2DossierPhase1, localDossier: W
       general: {
         ...(serverDossier.sectionSignoffs?.general ?? {}),
         ...(localDossier.sectionSignoffs?.general ?? {}),
-        brand: newerMeta(serverDossier.sectionSignoffs?.general?.brand, localDossier.sectionSignoffs?.general?.brand),
-        tech: newerMeta(serverDossier.sectionSignoffs?.general?.tech, localDossier.sectionSignoffs?.general?.tech),
+        brand: newerMeta(
+          serverDossier.sectionSignoffs?.general?.brand,
+          localDossier.sectionSignoffs?.general?.brand
+        ),
+        tech: newerMeta(
+          serverDossier.sectionSignoffs?.general?.tech,
+          localDossier.sectionSignoffs?.general?.tech
+        ),
       },
       visuals: {
         ...(serverDossier.sectionSignoffs?.visuals ?? {}),
         ...(localDossier.sectionSignoffs?.visuals ?? {}),
-        brand: newerMeta(serverDossier.sectionSignoffs?.visuals?.brand, localDossier.sectionSignoffs?.visuals?.brand),
-        tech: newerMeta(serverDossier.sectionSignoffs?.visuals?.tech, localDossier.sectionSignoffs?.visuals?.tech),
+        brand: newerMeta(
+          serverDossier.sectionSignoffs?.visuals?.brand,
+          localDossier.sectionSignoffs?.visuals?.brand
+        ),
+        tech: newerMeta(
+          serverDossier.sectionSignoffs?.visuals?.tech,
+          localDossier.sectionSignoffs?.visuals?.tech
+        ),
       },
       material: {
         ...(serverDossier.sectionSignoffs?.material ?? {}),
         ...(localDossier.sectionSignoffs?.material ?? {}),
-        brand: newerMeta(serverDossier.sectionSignoffs?.material?.brand, localDossier.sectionSignoffs?.material?.brand),
-        tech: newerMeta(serverDossier.sectionSignoffs?.material?.tech, localDossier.sectionSignoffs?.material?.tech),
+        brand: newerMeta(
+          serverDossier.sectionSignoffs?.material?.brand,
+          localDossier.sectionSignoffs?.material?.brand
+        ),
+        tech: newerMeta(
+          serverDossier.sectionSignoffs?.material?.tech,
+          localDossier.sectionSignoffs?.material?.tech
+        ),
       },
       construction: {
         ...(serverDossier.sectionSignoffs?.construction ?? {}),
@@ -102,10 +129,16 @@ function autoMergeDossier(serverDossier: Workshop2DossierPhase1, localDossier: W
       },
     },
     techPackFactoryHandoffs: mergeUniqueBy(
-      [...(serverDossier.techPackFactoryHandoffs ?? []), ...(localDossier.techPackFactoryHandoffs ?? [])],
+      [
+        ...(serverDossier.techPackFactoryHandoffs ?? []),
+        ...(localDossier.techPackFactoryHandoffs ?? []),
+      ],
       (h) => h.handoffId
     ),
-    tzActionLog: mergeUniqueBy([...(serverDossier.tzActionLog ?? []), ...(localDossier.tzActionLog ?? [])], (e) => e.entryId)
+    tzActionLog: mergeUniqueBy(
+      [...(serverDossier.tzActionLog ?? []), ...(localDossier.tzActionLog ?? [])],
+      (e) => e.entryId
+    )
       .sort((a, b) => (b.at ?? '').localeCompare(a.at ?? ''))
       .slice(0, 120),
     updatedAt: localDossier.updatedAt ?? serverDossier.updatedAt,
@@ -136,8 +169,12 @@ export async function POST(req: NextRequest) {
   if (!collectionId || !articleId || !localDossier || !Array.isArray(localDossier.assignments)) {
     return NextResponse.json({ ok: false, error: 'invalid_body' }, { status: 400 });
   }
-  const actorResolved = resolveWorkshop2ServerActor(req, String(b.actorLabel ?? '').trim() || 'system');
-  if (!actorResolved.ok) return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
+  const actorResolved = resolveWorkshop2ServerActor(
+    req,
+    String(b.actorLabel ?? '').trim() || 'system'
+  );
+  if (!actorResolved.ok)
+    return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
   const actor = actorResolved.actor;
   if (!actorHasAnyRole(actor, ['production:edit', 'w2:merge'])) {
     return NextResponse.json({ ok: false, error: 'forbidden_actor_role' }, { status: 403 });

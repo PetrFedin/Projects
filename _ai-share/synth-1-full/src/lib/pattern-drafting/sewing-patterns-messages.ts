@@ -5,10 +5,13 @@ export const sewingPatternsMessages = {
   nonApparelBannerTitle: 'Крой не применяется',
   nonApparelBannerBody:
     'Учебный контур и лекала в этом сценарии рассчитаны на одежду. Для сумок, обуви и иных невещевых веток инструмент показывает только путь в каталоге; чертёж и пресеты кроя к ним не привязаны.',
-  nonApparelPathOnlyHint: 'Путь категории — для согласования; пресеты кроя и деталей кроя здесь не показываются.',
+  nonApparelPathOnlyHint:
+    'Путь категории — для согласования; пресеты кроя и деталей кроя здесь не показываются.',
   formDimmedNote: 'Мерки и опции чертежа — для ветки «Одежда».',
-  formDescriptionApparel: 'См, дюймы через точку. Рост влияет на FWL. Категория (шаг 1) подставила ease; правьте вручную.',
-  formDescriptionNonApparel: 'Мерки из профиля читаются в любом случае, но визуал кроя ниже — только для одежды. Переключите ур.1 на «Одежда», чтобы снова настроить чертёж.',
+  formDescriptionApparel:
+    'См, дюймы через точку. Рост влияет на FWL. Категория (шаг 1) подставила ease; правьте вручную.',
+  formDescriptionNonApparel:
+    'Мерки из профиля читаются в любом случае, но визуал кроя ниже — только для одежды. Переключите ур.1 на «Одежда», чтобы снова настроить чертёж.',
   copyCategorySnapshot: 'Скопировано',
   copyCategoryDescription: 'Снимок пути в буфере (для бренда/заказа).',
   commitIntentButton: 'Зафиксировать на сервере',
@@ -21,11 +24,13 @@ export const sewingPatternsMessages = {
   nonApparelMetricsEmpty: 'Сметрика по деталям — только при выборе ветки «Одежда».',
   commitIntentSuccessWithSchema: (pathLabel: string, schemaVersion: number, generatedAt: string) =>
     `${pathLabel} — leafId согласован (category-handbook v${String(schemaVersion)}, снимок ${generatedAt.slice(0, 10)}).`,
-  commitIntentSuccessSimple: (pathLabel: string) => `${pathLabel} — leafId проверен по снимку справочника.`,
+  commitIntentSuccessSimple: (pathLabel: string) =>
+    `${pathLabel} — leafId проверен по снимку справочника.`,
   commitIntentErrorAborted: 'Запрос отменён (новая проверка или уход со страницы).',
   commitIntentErrorNetwork: 'Сеть недоступна. Повторите позже.',
   commitIntentErrorRateLimited: 'Слишком много запросов. Подождите до минуты и попробуйте снова.',
-  commitIntentErrorCode: (code: string) => `Код: ${code}. Проверьте категорию или обновите страницу.`,
+  commitIntentErrorCode: (code: string) =>
+    `Код: ${code}. Проверьте категорию или обновите страницу.`,
   profileMismatchHint:
     'Мерки в полях отличаются от сохранённого профиля (профиль мерок). Можно подтянуть значения из профиля.',
   applyFromProfileButton: 'Как в профиле',
@@ -57,13 +62,11 @@ export const sewingPatternsMessages = {
   funnelStep1: 'Категория',
   funnelStep2: 'Мерки',
   funnelStep3: 'Деталь и просмотр',
-  commitIntentHint:
-    'Категория + мерки — на сервере сверяются с category-handbook (анти-спуф).',
+  commitIntentHint: 'Категория + мерки — на сервере сверяются с category-handbook (анти-спуф).',
   previewFileDescription: (widthMm: number, heightMm: number, fileName: string) =>
     `Холст: ${widthMm.toFixed(0)}×${heightMm.toFixed(0)} u. Файл: ${fileName}`,
   metricsBlockTitle: 'Сметрика',
-  metricsBlockDescription:
-    'Черновик по выбранной детали: для сопоставления с брендом и таблицей.',
+  metricsBlockDescription: 'Черновик по выбранной детали: для сопоставления с брендом и таблицей.',
   /** Бейдж на превью: отделяет учебный SVG от production-кроя. */
   educationalDraftBadge: 'Учебный чертёж',
   /** Заголовок шага 3 с холстом. */

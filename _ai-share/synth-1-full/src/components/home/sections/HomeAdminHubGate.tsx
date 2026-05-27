@@ -24,7 +24,9 @@ type HomeAdminHubGateProps = {
 };
 
 /** Admin hub — chunk только для admin role. */
-export const HomeAdminHubGate = memo(function HomeAdminHubGate({ viewRole }: HomeAdminHubGateProps) {
+export const HomeAdminHubGate = memo(function HomeAdminHubGate({
+  viewRole,
+}: HomeAdminHubGateProps) {
   if (viewRole !== 'admin') return null;
   return <HomeAdminHubSection viewRole={viewRole} />;
 });

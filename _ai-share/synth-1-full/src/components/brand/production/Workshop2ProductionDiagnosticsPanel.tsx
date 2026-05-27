@@ -19,23 +19,27 @@ export function Workshop2ProductionDiagnosticsPanel({
       <div className="mb-4 flex items-center justify-between">
         <div>
           <div className="text-sm font-semibold">Готовность ТЗ</div>
-          <div className="text-text-secondary text-xs mt-0.5">Производственный pre-flight</div>
+          <div className="text-text-secondary mt-0.5 text-xs">Производственный pre-flight</div>
         </div>
         <div className="text-right">
           <div className="text-base font-bold">{snapshot.score}/100</div>
-          <div className="text-xs text-text-secondary">
+          <div className="text-text-secondary text-xs">
             {snapshot.canSendToFactory ? 'Готово' : 'Есть блокеры'}
           </div>
         </div>
       </div>
 
       <div className="mb-4 grid grid-cols-2 gap-3 text-sm">
-        <div className="rounded-lg border border-border-subtle bg-bg-surface p-3 text-center">
-          <div className="font-bold text-red-600 text-lg leading-none mb-1">{snapshot.blockers.length}</div>
+        <div className="border-border-subtle bg-bg-surface rounded-lg border p-3 text-center">
+          <div className="mb-1 text-lg font-bold leading-none text-red-600">
+            {snapshot.blockers.length}
+          </div>
           <div className="text-text-secondary text-xs">Блокеров</div>
         </div>
-        <div className="rounded-lg border border-border-subtle bg-bg-surface p-3 text-center">
-          <div className="font-bold text-amber-600 text-lg leading-none mb-1">{snapshot.warnings.length}</div>
+        <div className="border-border-subtle bg-bg-surface rounded-lg border p-3 text-center">
+          <div className="mb-1 text-lg font-bold leading-none text-amber-600">
+            {snapshot.warnings.length}
+          </div>
           <div className="text-text-secondary text-xs">Предупр.</div>
         </div>
       </div>
@@ -51,7 +55,7 @@ export function Workshop2ProductionDiagnosticsPanel({
                   : 'rounded-md border border-amber-200 bg-amber-50 p-3 text-xs'
               }
             >
-              <div className="font-semibold text-text-primary mb-1">{issue.label}</div>
+              <div className="text-text-primary mb-1 font-semibold">{issue.label}</div>
               <div className="text-text-secondary">{issue.detail}</div>
             </div>
           ))}

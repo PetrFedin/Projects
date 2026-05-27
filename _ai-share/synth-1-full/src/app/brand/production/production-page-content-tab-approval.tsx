@@ -10,23 +10,23 @@ import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 export function ProductionPageContentTabApproval() {
   return (
-<TabsContent value="approval" className={cabinetSurface.cabinetProfileTabPanel}>
-  <ProductionSectionHeader title="Утверждения" barColor="bg-emerald-600" />
-  <SectionInfoCard
-    title="Утверждения"
-    description="Принятие сэмплов перед созданием PO. Статусы: ожидает, на проверке, утверждён/отклонён. Маршрут согласования, комментарии и причина отклонения — для прозрачности решений."
-    icon={ShieldCheck}
-    iconBg="bg-emerald-100"
-    iconColor="text-emerald-600"
-    badges={
-      <>
-        <Badge variant="outline" className="text-[9px]">
-          Сэмплы → PO
-        </Badge>
-      </>
-    }
-  />
-  <ApprovalWorkflow />
-</TabsContent>
+    <TabsContent value="approval" className={cabinetSurface.cabinetProfileTabPanel}>
+      <ProductionSectionHeader title="Утверждения" barColor="bg-emerald-600" />
+      <SectionInfoCard
+        title="Утверждения"
+        description="Принятие сэмплов перед созданием PO. Статусы: ожидает, на проверке, утверждён/отклонён. Маршрут согласования, комментарии и причина отклонения — для прозрачности решений."
+        icon={ShieldCheck}
+        iconBg="bg-emerald-100"
+        iconColor="text-emerald-600"
+        badges={
+          <>
+            <Badge variant="outline" className="text-[9px]">
+              Сэмплы → PO
+            </Badge>
+          </>
+        }
+      />
+      <ApprovalWorkflow />
+    </TabsContent>
   );
 }

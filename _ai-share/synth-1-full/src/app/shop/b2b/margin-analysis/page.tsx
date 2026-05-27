@@ -14,7 +14,11 @@ import { BarChart3, Calculator, PieChart } from 'lucide-react';
 /** Единый хаб среза «Маржа»: калькулятор, отчётность, landed cost и перекрёстные ссылки на аналитику. */
 export default function B2bMarginAnalysisHubPage() {
   return (
-    <CabinetPageContent maxWidth="4xl" className="space-y-6" data-testid="page-shop-b2b-margin-analysis">
+    <CabinetPageContent
+      maxWidth="4xl"
+      className="space-y-6"
+      data-testid="page-shop-b2b-margin-analysis"
+    >
       <ShopB2bContentHeader lead="Срез «Маржа»: инструменты и отчёты по закупке и рознице в одном месте." />
       <ShopAnalyticsSegmentErpStrip />
 

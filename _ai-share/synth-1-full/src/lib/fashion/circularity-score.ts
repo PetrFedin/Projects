@@ -5,7 +5,10 @@ function compositionSearchText(product: Product): string {
   const c = product.composition;
   if (!c) return '';
   if (typeof c === 'string') return c.toLowerCase();
-  return c.map((x) => x.material).join(' ').toLowerCase();
+  return c
+    .map((x) => x.material)
+    .join(' ')
+    .toLowerCase();
 }
 
 /** Расчёт цикличности изделия (материалы, переработка, CO₂). */

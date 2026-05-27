@@ -84,7 +84,7 @@ export function ShopB2bPlatformExportCard() {
             Отправить
           </Button>
         </div>
-        {error ? <p className="text-destructive text-sm">{error}</p> : null}
+        {error ? <p className="text-sm text-destructive">{error}</p> : null}
         {exportJobId && resolvedOrderId ? (
           <div
             data-testid="shop-b2b-platform-export-result"
@@ -94,7 +94,7 @@ export function ShopB2bPlatformExportCard() {
               <span className="text-text-muted">exportJobId:</span> {exportJobId}
             </p>
             <p className="mt-1">{resolvedOrderId}</p>
-            <p className="text-muted-foreground mt-2">Готово.</p>
+            <p className="mt-2 text-muted-foreground">Готово.</p>
           </div>
         ) : null}
       </CardContent>

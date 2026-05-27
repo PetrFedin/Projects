@@ -627,7 +627,9 @@ export default function BrandMessagesPro() {
                             const file = e.target.files?.[0];
                             if (!file) return;
                             const line = `[вложение: ${file.name}]`;
-                            setComposerText((prev) => (prev.trim() ? `${prev.trim()}\n${line}` : line));
+                            setComposerText((prev) =>
+                              prev.trim() ? `${prev.trim()}\n${line}` : line
+                            );
                             toast({
                               title: 'Файл добавлен в черновик',
                               description: file.name,

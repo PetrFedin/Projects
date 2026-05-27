@@ -11,9 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  compositionLabelConstructorFiberPercentSum,
-} from '@/lib/production/workshop2-composition-label-constructor';
+import { compositionLabelConstructorFiberPercentSum } from '@/lib/production/workshop2-composition-label-constructor';
 import { W2_COMPOSITION_LABEL_FIBER_CATALOG } from '@/lib/production/workshop2-composition-label-spec-constants';
 import type {
   Workshop2CompositionLabelFiberRow,
@@ -28,7 +26,9 @@ function patchSpec(
   return { ...(prev ?? {}), ...patch };
 }
 
-function normalizeRows(rows: Workshop2CompositionLabelFiberRow[] | undefined): Workshop2CompositionLabelFiberRow[] {
+function normalizeRows(
+  rows: Workshop2CompositionLabelFiberRow[] | undefined
+): Workshop2CompositionLabelFiberRow[] {
   const r = rows?.length ? [...rows] : [{ fiberId: '', percent: 0 }];
   return r.length ? r : [{ fiberId: '', percent: 0 }];
 }
@@ -64,28 +64,40 @@ export function Workshop2CompositionLabelFiberConstructorBlock({
     <div className={shell}>
       <div className="flex flex-wrap items-center justify-between gap-2">
         {embedded ? (
-          <p className="text-text-secondary text-[11px]">Волокна и доли, сумма 100% для ворот и PDF.</p>
+          <p className="text-text-secondary text-[11px]">
+            Волокна и доли, сумма 100% для ворот и PDF.
+          </p>
         ) : (
           <div className="min-w-0 flex-1 space-y-1">
-            <h3 className="text-text-primary text-base font-semibold">Бирка состава и ухода (составник)</h3>
+            <h3 className="text-text-primary text-base font-semibold">
+              Бирка состава и ухода (составник)
+            </h3>
             <p className="text-text-secondary text-[11px] leading-snug">
-              Укажите состав. Сумма долей должна равняться 100% для прохождения ворот ТЗ и генерации PDF.
+              Укажите состав. Сумма долей должна равняться 100% для прохождения ворот ТЗ и генерации
+              PDF.
             </p>
           </div>
         )}
         <span
           className={cn(
-            'text-xs font-medium tabular-nums ml-auto',
-            sumAlert ? 'text-red-600' : Math.abs(sum - 100) < 0.05 && sum > 0 ? 'text-emerald-700' : 'text-text-secondary'
+            'ml-auto text-xs font-medium tabular-nums',
+            sumAlert
+              ? 'text-red-600'
+              : Math.abs(sum - 100) < 0.05 && sum > 0
+                ? 'text-emerald-700'
+                : 'text-text-secondary'
           )}
         >
           Σ = {Math.round(sum * 100) / 100}%
           {sum > 0 ? (Math.abs(sum - 100) < 0.05 ? ' ✓' : ' ≠ 100%') : ''}
         </span>
       </div>
-      <div className="space-y-2 mt-4">
+      <div className="mt-4 space-y-2">
         {rows.map((row, idx) => (
-          <div key={idx} className="grid gap-2 sm:grid-cols-[1fr_88px_auto] sm:items-end border-b border-border-subtle/50 pb-2 mb-2 last:border-0 last:pb-0 last:mb-0">
+          <div
+            key={idx}
+            className="border-border-subtle/50 mb-2 grid gap-2 border-b pb-2 last:mb-0 last:border-0 last:pb-0 sm:grid-cols-[1fr_88px_auto] sm:items-end"
+          >
             <div className="space-y-1">
               <Label className="text-xs font-medium">Волокно</Label>
               <Select

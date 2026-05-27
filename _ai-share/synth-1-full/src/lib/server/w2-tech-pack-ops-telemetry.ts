@@ -7,7 +7,8 @@ type W2TechPackOpsPayload = Record<string, string | number | boolean | undefined
 function shouldSentryW2TechpackOps(event: string): boolean {
   if (process.env.NODE_ENV !== 'production') return false;
   return (
-    /_err$|_mismatch|_miss|_unauthorized|_not_found|index_upsert_err/.test(event) || event === 'complete_not_found'
+    /_err$|_mismatch|_miss|_unauthorized|_not_found|index_upsert_err/.test(event) ||
+    event === 'complete_not_found'
   );
 }
 
@@ -20,7 +21,11 @@ export function logW2TechPackOps(event: string, payload?: W2TechPackOpsPayload):
   });
   console.log(line);
   const logPath = process.env.W2_TECHPACK_OPS_LOG_PATH?.trim();
-  if (logPath && typeof process !== 'undefined' && (process as NodeJS.Process & { versions?: { node?: string } }).versions?.node) {
+  if (
+    logPath &&
+    typeof process !== 'undefined' &&
+    (process as NodeJS.Process & { versions?: { node?: string } }).versions?.node
+  ) {
     void import('node:fs/promises')
       .then((fs) => fs.appendFile(logPath, `${line}\n`, 'utf8'))
       .catch(() => {

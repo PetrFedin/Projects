@@ -10,17 +10,12 @@ export function isLiveEventOnAir(ev: CmsLive, now = Date.now()): boolean {
   if (ev.isOnAir === true) return true;
   const start = new Date(ev.startsAtISO).getTime();
   if (Number.isNaN(start)) return false;
-  const end = ev.endsAtISO
-    ? new Date(ev.endsAtISO).getTime()
-    : start + DEFAULT_SLOT_MS;
+  const end = ev.endsAtISO ? new Date(ev.endsAtISO).getTime() : start + DEFAULT_SLOT_MS;
   return now >= start && now < end;
 }
 
 export function hasActiveLiveBroadcast(events: CmsLive[], now = Date.now()): boolean {
-  if (
-    typeof process !== 'undefined' &&
-    process.env.NEXT_PUBLIC_FORCE_LIVE_NAV === '1'
-  ) {
+  if (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_FORCE_LIVE_NAV === '1') {
     return true;
   }
   return events.some((e) => isLiveEventOnAir(e, now));

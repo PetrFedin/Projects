@@ -39,7 +39,9 @@ export function useBrandProductionWorkshopFloorTabPanelProps(args: {
   articleFilterDrop: string;
   setArticleFilterDrop: Dispatch<SetStateAction<string>>;
   articleSortBy: BrandProductionWorkshopFloorTabPanelProps['articleSortBy'];
-  setArticleSortBy: Dispatch<SetStateAction<BrandProductionWorkshopFloorTabPanelProps['articleSortBy']>>;
+  setArticleSortBy: Dispatch<
+    SetStateAction<BrandProductionWorkshopFloorTabPanelProps['articleSortBy']>
+  >;
   articleFocusNeedsAttention: boolean;
   onExportArticlesCsv: () => void;
   onOpenArticleProductionHub: (articleId: string) => void;

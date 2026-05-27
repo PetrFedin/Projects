@@ -1,4 +1,7 @@
-import { buildSewingPattern, defaultSewingDraftOptions } from '@/lib/pattern-drafting/build-sewing-pattern';
+import {
+  buildSewingPattern,
+  defaultSewingDraftOptions,
+} from '@/lib/pattern-drafting/build-sewing-pattern';
 import type {
   SewingPatternDartToggles,
   SewingPatternDemoResult,

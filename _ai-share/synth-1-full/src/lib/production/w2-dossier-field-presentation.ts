@@ -66,7 +66,10 @@ function firstFreeTextTrimmed(assignment: Workshop2Phase1AttributeAssignment | u
 }
 
 /** Длина/формат цифр в свободном вводе для `type: number` (EAN, ТН ВЭД и т.д.). */
-export function numberFreeTextValidForField(attr: AttributeCatalogAttribute, digits: string): boolean {
+export function numberFreeTextValidForField(
+  attr: AttributeCatalogAttribute,
+  digits: string
+): boolean {
   if (!/^\d+$/.test(digits)) return false;
   const id = attr.attributeId.toLowerCase();
   if (

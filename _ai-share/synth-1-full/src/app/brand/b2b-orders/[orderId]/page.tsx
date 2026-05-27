@@ -687,9 +687,7 @@ export default function B2BOrderDetailsPage({ params: paramsPromise }: { params:
               </CardFooter>
             </Card>
             <OrderChat />
-            <B2bPriorityWorkflowPanel
-              groups={getBrandB2bOrderPriorityGroups(orderItems[0]?.id)}
-            />
+            <B2bPriorityWorkflowPanel groups={getBrandB2bOrderPriorityGroups(orderItems[0]?.id)} />
             <B2bPriorityWorkflowPanel
               title="Процесс заказа: чат → календарь → материалы"
               lead="Планирование и переговоры ведите в наших сообщениях и календаре; коллекции и обучение — рядом с реестром заказов."

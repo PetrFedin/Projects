@@ -44,8 +44,7 @@ export function Workshop2DossierSecondaryTzSectionCallout({
         <span className="font-semibold">Вторичный раздел</span> для режима «
         {WORKSHOP2_DOSSIER_VIEW_OPTIONS.find((o) => o.value === dossierViewProfile)?.label ??
           dossierViewProfile}
-        ». Первичные:{' '}
-        {dossierNavPrimarySections.map((s) => SECTION_LABEL_BY_ID[s.id]).join(', ')}.
+        ». Первичные: {dossierNavPrimarySections.map((s) => SECTION_LABEL_BY_ID[s.id]).join(', ')}.
       </p>
       {first ? (
         <Button

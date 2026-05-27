@@ -96,7 +96,10 @@ const generateChatResponseFlow = ai.defineFlow(
       if (!output) throw new Error('AI failed to generate a response');
       return output;
     } catch (error: unknown) {
-      console.warn('Stylist AI failed, using local fallback:', getUnknownErrorMessage(error, 'unknown'));
+      console.warn(
+        'Stylist AI failed, using local fallback:',
+        getUnknownErrorMessage(error, 'unknown')
+      );
 
       const query = input.query.toLowerCase();
       let response =

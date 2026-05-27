@@ -45,10 +45,7 @@ export function Workshop2HubProductionRollupWidget({ collectionId, articleScope 
       params.set('collectionId', collectionId.trim());
     }
     if (articleScope?.length && !collectionId?.trim()) {
-      params.set(
-        'articles',
-        articleScope.map((a) => `${a.collectionId}:${a.articleId}`).join(',')
-      );
+      params.set('articles', articleScope.map((a) => `${a.collectionId}:${a.articleId}`).join(','));
     }
     void fetch(`/api/workshop2/hub/production-rollup?${params.toString()}`, {
       headers: buildWorkshop2ApiRequestHeaders(),
@@ -77,7 +74,7 @@ export function Workshop2HubProductionRollupWidget({ collectionId, articleScope 
 
   return (
     <div
-      className="rounded-lg border border-indigo-100 bg-indigo-50/40 px-3 py-2.5 space-y-2"
+      className="space-y-2 rounded-lg border border-indigo-100 bg-indigo-50/40 px-3 py-2.5"
       data-testid="workshop2-hub-production-rollup"
     >
       <p className="text-text-primary flex items-center gap-1.5 text-[11px] font-semibold">
@@ -118,9 +115,7 @@ export function Workshop2HubProductionRollupWidget({ collectionId, articleScope 
               ))
             )}
           </div>
-          {rollup.hintRu ? (
-            <p className="text-text-muted text-[9px]">{rollup.hintRu}</p>
-          ) : null}
+          {rollup.hintRu ? <p className="text-text-muted text-[9px]">{rollup.hintRu}</p> : null}
         </>
       ) : (
         <p className="text-text-muted text-[10px]">Rollup недоступен (PG / auth).</p>

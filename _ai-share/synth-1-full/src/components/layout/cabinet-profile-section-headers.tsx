@@ -12,7 +12,10 @@ import { getBrandSectionMeta } from '@/lib/data/brand-navigation';
 import { getClientSectionFallback } from '@/lib/data/client-section-fallbacks';
 import { normalizePath, resolveCabinetActiveNavLink } from '@/lib/ui/cabinet-nav-active';
 import { ROUTES } from '@/lib/routes';
-import { CabinetModulePageHeader, type CabinetModulePageHeaderProps } from './cabinet-module-page-header';
+import {
+  CabinetModulePageHeader,
+  type CabinetModulePageHeaderProps,
+} from './cabinet-module-page-header';
 
 function useCabinetBack(fallbackHref: string) {
   const router = useRouter();
@@ -143,11 +146,7 @@ export function BrandCabinetSectionHeader(
   const showBack = overrides.showBack !== false;
 
   const meta = getBrandSectionMeta(overrides.pathnameOverride ?? pathname, searchString);
-  const title =
-    overrides.title ??
-    meta?.subsectionLabel ??
-    meta?.sectionLabel ??
-    'Бренд';
+  const title = overrides.title ?? meta?.subsectionLabel ?? meta?.sectionLabel ?? 'Бренд';
   const description = overrides.description ?? meta?.description;
   const Icon = overrides.icon ?? meta?.icon;
 

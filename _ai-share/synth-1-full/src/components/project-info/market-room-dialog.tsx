@@ -40,7 +40,11 @@ const techStackData = [
     api: '➕ BI-интеграция (Power BI, GDS)',
   },
   { level: 'Чаты / коммуникация', self: '✅ Telegram Bot API, email-интеграция', api: '—' },
-  { level: 'Платежи и контракты', self: '➕ ЮKassa / СБП / банк + Stripe при экспорте; ЭП Контур/СБИС/Госключ', api: '✅ внешние SDK' },
+  {
+    level: 'Платежи и контракты',
+    self: '➕ ЮKassa / СБП / банк + Stripe при экспорте; ЭП Контур/СБИС/Госключ',
+    api: '✅ внешние SDK',
+  },
   { level: 'AI-рекомендации брендов', self: '✅ простая ML-модель на embeddings', api: '—' },
   { level: 'ERP/CRM связь', self: '➕ CSV / API-коннектор', api: '✅ SAP / 1C / Odoo' },
 ];

@@ -417,7 +417,11 @@ export const shopNavGroups = [
         subsections: [
           { href: ROUTES.shop.b2bTenders, label: 'Тендеры', value: 'tenders' },
           { href: ROUTES.shop.b2bRfq, label: 'Запрос цен', value: 'rfq' },
-          { href: ROUTES.shop.b2bSupplierDiscovery, label: 'Поставщики', value: 'supplier-discovery' },
+          {
+            href: ROUTES.shop.b2bSupplierDiscovery,
+            label: 'Поставщики',
+            value: 'supplier-discovery',
+          },
         ],
       },
       {

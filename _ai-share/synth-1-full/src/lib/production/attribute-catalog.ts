@@ -201,7 +201,10 @@ export function resolveEffectiveParametersForLeaf(
  * Ключ шкалы «базовый размер» из справочника производства + сетки габаритов
  * (`workshop-size-handbook`), а не устаревший apparel/footwear из JSON каталога.
  */
-export function defaultSizeScaleIdForLeaf(leaf: HandbookCategoryLeaf | undefined, isUnisex?: boolean): string {
+export function defaultSizeScaleIdForLeaf(
+  leaf: HandbookCategoryLeaf | undefined,
+  isUnisex?: boolean
+): string {
   return defaultWorkshopSampleSizeScaleKey(leaf, isUnisex);
 }
 

@@ -22,8 +22,7 @@ export function ProductionPageContentTabSamplesBodyFilters({
   cn: CnFn;
 }) {
   const px = p as Record<string, any>;
-  const { sampleSearchQuery, setSampleSearchQuery, sampleStageFilter, setSampleStageFilter } =
-    px;
+  const { sampleSearchQuery, setSampleSearchQuery, sampleStageFilter, setSampleStageFilter } = px;
 
   return (
     <div className="mb-3 flex flex-wrap gap-2">

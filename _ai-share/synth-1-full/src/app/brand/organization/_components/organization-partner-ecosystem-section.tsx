@@ -47,11 +47,16 @@ export function OrganizationPartnerEcosystemSection({
     [countsPatchById]
   );
   const partnerProcesses = useMemo(
-    () => mergePartnerBusinessProcessesWithPatches(PARTNER_BUSINESS_PROCESSES, businessProcessesPatchById),
+    () =>
+      mergePartnerBusinessProcessesWithPatches(
+        PARTNER_BUSINESS_PROCESSES,
+        businessProcessesPatchById
+      ),
     [businessProcessesPatchById]
   );
   const ecosystemBlocks = useMemo(
-    () => mergePartnerEcosystemBlocksWithPatches(PARTNER_ECOSYSTEM_BLOCKS, ecosystemBlocksPatchById),
+    () =>
+      mergePartnerEcosystemBlocksWithPatches(PARTNER_ECOSYSTEM_BLOCKS, ecosystemBlocksPatchById),
     [ecosystemBlocksPatchById]
   );
   const growthDetail = useMemo(
@@ -79,531 +84,547 @@ export function OrganizationPartnerEcosystemSection({
             />
           ) : (
             <>
-          <p className="mb-2 text-[9px] font-semibold uppercase tracking-wide text-text-muted">
-            Партнёры по типам • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
-          </p>
-          <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
-            {partnerCounts.map((item) => {
-              const Icon = item.icon;
-              const hasProgress =
-                item.progressValue != null &&
-                item.progressMax != null &&
-                item.progressMax > 0;
-              const progressPct = hasProgress
-                ? Math.round((item.progressValue! / item.progressMax!) * 100)
-                : 0;
-              const periodGrowth = growthDetail.find(
-                (d: { label: string; value: string; href: string }) => d.label === item.label
-              );
-              const trendStr = periodGrowth?.value ?? item.trend ?? '';
-              const trendNum = trendStr ? parseInt(trendStr.replace(/\D/g, ''), 10) : 0;
-              const currentNum = item.value.includes('/')
-                ? parseInt(item.value.split('/')[0], 10)
-                : parseInt(item.value, 10);
-              const previousNum = Number.isNaN(currentNum)
-                ? 0
-                : Math.max(0, currentNum - (trendStr.startsWith('-') ? -trendNum : trendNum));
-              const changePct =
-                trendNum && previousNum > 0 ? Math.round((trendNum / previousNum) * 100) : null;
-              const trendUp = trendStr ? !trendStr.startsWith('-') : false;
-              return (
-                <div
-                  key={item.id}
-                  className={cn(
-                    'relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border p-3 transition-colors',
-                    (item.alertCount ?? 0) > 0
-                      ? 'border-rose-200 bg-rose-50/50'
-                      : 'border-border-default bg-white hover:border-border-default'
-                  )}
-                >
-                  {changePct != null && (
-                    <p
-                      className={cn(
-                        'absolute right-2 top-2 text-[9px] font-bold tabular-nums',
-                        trendUp ? 'text-emerald-600' : 'text-rose-600'
-                      )}
-                    >
-                      {trendUp ? '+' : ''}
-                      {changePct}%
-                    </p>
-                  )}
-                  <div className="flex items-start justify-between gap-2">
+              <p className="text-text-muted mb-2 text-[9px] font-semibold uppercase tracking-wide">
+                Партнёры по типам • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
+              </p>
+              <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
+                {partnerCounts.map((item) => {
+                  const Icon = item.icon;
+                  const hasProgress =
+                    item.progressValue != null && item.progressMax != null && item.progressMax > 0;
+                  const progressPct = hasProgress
+                    ? Math.round((item.progressValue! / item.progressMax!) * 100)
+                    : 0;
+                  const periodGrowth = growthDetail.find(
+                    (d: { label: string; value: string; href: string }) => d.label === item.label
+                  );
+                  const trendStr = periodGrowth?.value ?? item.trend ?? '';
+                  const trendNum = trendStr ? parseInt(trendStr.replace(/\D/g, ''), 10) : 0;
+                  const currentNum = item.value.includes('/')
+                    ? parseInt(item.value.split('/')[0], 10)
+                    : parseInt(item.value, 10);
+                  const previousNum = Number.isNaN(currentNum)
+                    ? 0
+                    : Math.max(0, currentNum - (trendStr.startsWith('-') ? -trendNum : trendNum));
+                  const changePct =
+                    trendNum && previousNum > 0 ? Math.round((trendNum / previousNum) * 100) : null;
+                  const trendUp = trendStr ? !trendStr.startsWith('-') : false;
+                  return (
                     <div
+                      key={item.id}
                       className={cn(
-                        'flex size-9 shrink-0 items-center justify-center rounded-lg text-white',
-                        item.color
+                        'relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border p-3 transition-colors',
+                        (item.alertCount ?? 0) > 0
+                          ? 'border-rose-200 bg-rose-50/50'
+                          : 'border-border-default hover:border-border-default bg-white'
                       )}
                     >
-                      <Icon className="size-4" />
-                    </div>
-                  </div>
-                  <div className="mt-2 flex items-start gap-1">
-                    <Link
-                      href={item.href}
-                      className="group/link block min-w-0 flex-1"
-                      title={item.description}
-                      aria-label={`${item.label}: ${item.value}`}
-                    >
-                      <p className="text-lg font-bold tabular-nums text-text-primary group-hover/link:text-accent-primary">
-                        {item.value}
-                      </p>
-                      <p className="text-[9px] font-semibold uppercase text-text-secondary">
-                        {item.label}
-                      </p>
-                    </Link>
-                    <div className="flex shrink-0 items-center gap-1">
-                      {(item.alertCount ?? 0) > 0 && (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <span
-                              role="img"
-                              aria-label={
-                                item.statusShort ||
-                                item.statusShort2 ||
-                                `Требуют внимания по «${item.label}»: ${item.alertCount}`
-                              }
-                              className="flex h-5 min-w-5 cursor-help items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white"
-                            >
-                              {item.alertCount! > 99 ? '99+' : item.alertCount}
-                            </span>
-                          </TooltipTrigger>
-                          <TooltipContent side="top" aria-hidden className="max-w-[220px] text-xs">
-                            {item.statusShort ||
-                              item.statusShort2 ||
-                              `Требуют внимания: ${item.alertCount}`}
-                          </TooltipContent>
-                        </Tooltip>
+                      {changePct != null && (
+                        <p
+                          className={cn(
+                            'absolute right-2 top-2 text-[9px] font-bold tabular-nums',
+                            trendUp ? 'text-emerald-600' : 'text-rose-600'
+                          )}
+                        >
+                          {trendUp ? '+' : ''}
+                          {changePct}%
+                        </p>
                       )}
-                      {(item.description || (item.tips && item.tips.length > 0)) && (
-                        <Popover modal={false}>
-                          <PopoverTrigger asChild>
-                            <button
-                              type="button"
-                              className="shrink-0 rounded p-0.5 text-text-muted hover:bg-bg-surface2 hover:text-text-secondary"
-                              aria-label={`Подсказка: ${item.label}`}
-                            >
-                              <HelpCircle className="size-3.5" />
-                            </button>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            align="end"
-                            side="bottom"
-                            className="z-[200] w-64 rounded-xl p-3 text-left"
-                            onOpenAutoFocus={(e) => e.preventDefault()}
-                          >
-                            {item.description && (
-                              <p className="mb-2 text-xs leading-relaxed text-text-secondary">
-                                {item.description}
-                              </p>
-                            )}
-                            {item.tips && item.tips.length > 0 && (
-                              <ul className="list-inside list-disc space-y-0.5 text-[9px] text-text-secondary">
-                                {item.tips.map((t, i) => (
-                                  <li key={i}>{t}</li>
-                                ))}
-                              </ul>
-                            )}
-                          </PopoverContent>
-                        </Popover>
-                      )}
-                    </div>
-                  </div>
-                  {item.roleInChain && (
-                    <p className="mt-0.5 text-[8px] text-text-muted">
-                      {PARTNER_ROLE_LABELS[item.roleInChain]}
-                    </p>
-                  )}
-                  {item.subline && (
-                    <p className="mt-1 line-clamp-1 text-[9px] text-text-secondary">{item.subline}</p>
-                  )}
-                  {item.businessProcesses && item.businessProcesses.length > 0 && (
-                    <div className="mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
-                      {item.businessProcesses.map((bp) => (
+                      <div className="flex items-start justify-between gap-2">
+                        <div
+                          className={cn(
+                            'flex size-9 shrink-0 items-center justify-center rounded-lg text-white',
+                            item.color
+                          )}
+                        >
+                          <Icon className="size-4" />
+                        </div>
+                      </div>
+                      <div className="mt-2 flex items-start gap-1">
                         <Link
-                          key={bp.href}
-                          href={bp.href}
-                          onClick={(e) => e.stopPropagation()}
-                          className="text-[8px] text-accent-primary hover:underline"
+                          href={item.href}
+                          className="group/link block min-w-0 flex-1"
+                          title={item.description}
+                          aria-label={`${item.label}: ${item.value}`}
                         >
-                          {bp.label}
+                          <p className="text-text-primary group-hover/link:text-accent-primary text-lg font-bold tabular-nums">
+                            {item.value}
+                          </p>
+                          <p className="text-text-secondary text-[9px] font-semibold uppercase">
+                            {item.label}
+                          </p>
                         </Link>
-                      ))}
-                    </div>
-                  )}
-                  {item.statusShort2 &&
-                    (item.statusHref2 ? (
-                      <Link
-                        href={item.statusHref2}
-                        className="mt-1 line-clamp-1 text-[9px] font-medium text-accent-primary hover:underline"
-                      >
-                        {item.statusShort2} →
-                      </Link>
-                    ) : (
-                      <p className="mt-1 line-clamp-1 text-[9px] text-text-secondary">
-                        {item.statusShort2}
-                      </p>
-                    ))}
-                  {item.statusShort &&
-                    (item.statusHref ? (
-                      <Link
-                        href={item.statusHref}
-                        className={cn(
-                          'line-clamp-1 text-[9px] font-medium text-accent-primary hover:underline',
-                          item.statusShort2 ? 'mt-0.5' : 'mt-1'
-                        )}
-                      >
-                        {item.statusShort} →
-                      </Link>
-                    ) : (
-                      <p
-                        className={cn(
-                          'line-clamp-1 text-[9px] text-text-secondary',
-                          item.statusShort2 ? 'mt-0.5' : 'mt-1'
-                        )}
-                      >
-                        {item.statusShort}
-                      </p>
-                    ))}
-                  {item.detailMetrics && item.detailMetrics.length > 0 && (
-                    <div className="mt-2 space-y-0.5">
-                      {item.detailMetrics.slice(0, 3).map((m) =>
-                        m.href ? (
-                          <Link
-                            key={m.label}
-                            href={m.href}
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex justify-between text-[9px] text-text-secondary hover:text-accent-primary"
-                          >
-                            <span className="truncate">{m.label}</span>
-                            <span className="ml-1 shrink-0 font-semibold tabular-nums">
-                              {m.value} →
-                            </span>
-                          </Link>
-                        ) : (
-                          <div
-                            key={m.label}
-                            className="flex justify-between text-[9px] text-text-secondary"
-                          >
-                            <span className="truncate">{m.label}</span>
-                            <span className="ml-1 shrink-0 font-semibold tabular-nums">
-                              {m.value}
-                            </span>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  )}
-                  {hasProgress && (
-                    <div className="mt-2">
-                      <Progress
-                        value={progressPct}
-                        className="h-1.5 bg-bg-surface2"
-                        indicatorClassName="bg-amber-500"
-                      />
-                      <p className="mt-0.5 text-[8px] text-text-muted">
-                        активно {item.progressValue}/{item.progressMax}
-                      </p>
-                    </div>
-                  )}
-                  <div className="mt-auto flex items-center justify-between gap-2 border-t border-border-subtle pt-3">
-                    <Link
-                      href={item.href}
-                      className="flex items-center gap-0.5 text-[9px] font-semibold text-accent-primary hover:text-accent-primary"
-                    >
-                      Открыть раздел
-                      <ArrowRight className="size-3" />
-                    </Link>
-                    <Link
-                      href={item.addHref}
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex items-center gap-0.5 text-[9px] font-medium text-text-secondary hover:text-accent-primary"
-                    >
-                      <Plus className="size-3" />
-                      {item.addLabel}
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <p className="mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide text-text-muted">
-            Связь с процессами • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
-          </p>
-          <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
-            {partnerProcesses.map((p) => {
-              const Icon = p.icon;
-              const count = growthPeriodKey === '7d' ? p.count7d : p.count30d;
-              const changePct = growthPeriodKey === '7d' ? p.changePct7d : p.changePct30d;
-              return (
-                <div
-                  key={p.id}
-                  className="relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border border-border-default bg-white p-3 transition-colors hover:border-border-default"
-                >
-                  {changePct != null && (
-                    <p
-                      className={cn(
-                        'absolute right-2 top-2 text-[9px] font-bold tabular-nums',
-                        changePct >= 0 ? 'text-emerald-600' : 'text-rose-600'
-                      )}
-                    >
-                      {changePct >= 0 ? '+' : ''}
-                      {changePct}%
-                    </p>
-                  )}
-                  <div className="flex items-start justify-between gap-2">
-                    <div
-                      className={cn(
-                        'flex size-9 shrink-0 items-center justify-center rounded-lg text-white',
-                        p.color
-                      )}
-                    >
-                      <Icon className="size-4" />
-                    </div>
-                  </div>
-                  <div className="mt-2 flex items-start gap-1">
-                    <Link
-                      href={p.href}
-                      className="group/link block min-w-0 flex-1"
-                      title={p.description}
-                      aria-label={`${p.label}: ${count}`}
-                    >
-                      <p className="text-lg font-bold tabular-nums text-text-primary group-hover/link:text-accent-primary">
-                        {count}
-                      </p>
-                      <p className="text-[9px] font-semibold uppercase text-text-secondary">{p.label}</p>
-                    </Link>
-                    {(p.description || (p.tips && p.tips.length > 0)) && (
-                      <Popover modal={false}>
-                        <PopoverTrigger asChild>
-                          <button
-                            type="button"
-                            className="shrink-0 rounded p-0.5 text-text-muted hover:bg-bg-surface2 hover:text-text-secondary"
-                            aria-label={`Подсказка: ${p.label}`}
-                          >
-                            <HelpCircle className="size-3.5" />
-                          </button>
-                        </PopoverTrigger>
-                        <PopoverContent
-                          align="end"
-                          side="bottom"
-                          className="z-[200] w-64 rounded-xl p-3 text-left"
-                        >
-                          {p.description && (
-                            <p className="mb-2 text-xs leading-relaxed text-text-secondary">
-                              {p.description}
-                            </p>
+                        <div className="flex shrink-0 items-center gap-1">
+                          {(item.alertCount ?? 0) > 0 && (
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span
+                                  role="img"
+                                  aria-label={
+                                    item.statusShort ||
+                                    item.statusShort2 ||
+                                    `Требуют внимания по «${item.label}»: ${item.alertCount}`
+                                  }
+                                  className="flex h-5 min-w-5 cursor-help items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white"
+                                >
+                                  {item.alertCount! > 99 ? '99+' : item.alertCount}
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent
+                                side="top"
+                                aria-hidden
+                                className="max-w-[220px] text-xs"
+                              >
+                                {item.statusShort ||
+                                  item.statusShort2 ||
+                                  `Требуют внимания: ${item.alertCount}`}
+                              </TooltipContent>
+                            </Tooltip>
                           )}
-                          {p.tips && p.tips.length > 0 && (
-                            <ul className="list-inside list-disc space-y-0.5 text-[9px] text-text-secondary">
-                              {p.tips.map((t, i) => (
-                                <li key={i}>{t}</li>
-                              ))}
-                            </ul>
+                          {(item.description || (item.tips && item.tips.length > 0)) && (
+                            <Popover modal={false}>
+                              <PopoverTrigger asChild>
+                                <button
+                                  type="button"
+                                  className="text-text-muted hover:bg-bg-surface2 hover:text-text-secondary shrink-0 rounded p-0.5"
+                                  aria-label={`Подсказка: ${item.label}`}
+                                >
+                                  <HelpCircle className="size-3.5" />
+                                </button>
+                              </PopoverTrigger>
+                              <PopoverContent
+                                align="end"
+                                side="bottom"
+                                className="z-[200] w-64 rounded-xl p-3 text-left"
+                                onOpenAutoFocus={(e) => e.preventDefault()}
+                              >
+                                {item.description && (
+                                  <p className="text-text-secondary mb-2 text-xs leading-relaxed">
+                                    {item.description}
+                                  </p>
+                                )}
+                                {item.tips && item.tips.length > 0 && (
+                                  <ul className="text-text-secondary list-inside list-disc space-y-0.5 text-[9px]">
+                                    {item.tips.map((t, i) => (
+                                      <li key={i}>{t}</li>
+                                    ))}
+                                  </ul>
+                                )}
+                              </PopoverContent>
+                            </Popover>
                           )}
-                        </PopoverContent>
-                      </Popover>
-                    )}
-                  </div>
-                  <p className="mt-1 line-clamp-1 text-[9px] text-text-secondary">{p.sub}</p>
-                  {p.detailMetrics && p.detailMetrics.length > 0 && (
-                    <div className="mt-2 space-y-0.5">
-                      {p.detailMetrics.slice(0, 3).map((m) =>
-                        m.href ? (
-                          <Link
-                            key={m.label}
-                            href={m.href}
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex justify-between text-[9px] text-text-secondary hover:text-accent-primary"
-                          >
-                            <span className="truncate">{m.label}</span>
-                            <span className="ml-1 shrink-0 font-semibold tabular-nums">
-                              {m.value} →
-                            </span>
-                          </Link>
-                        ) : (
-                          <div
-                            key={m.label}
-                            className="flex justify-between text-[9px] text-text-secondary"
-                          >
-                            <span className="truncate">{m.label}</span>
-                            <span className="ml-1 shrink-0 font-semibold tabular-nums">
-                              {m.value}
-                            </span>
-                          </div>
-                        )
+                        </div>
+                      </div>
+                      {item.roleInChain && (
+                        <p className="text-text-muted mt-0.5 text-[8px]">
+                          {PARTNER_ROLE_LABELS[item.roleInChain]}
+                        </p>
                       )}
-                    </div>
-                  )}
-                  <div className="mt-auto flex items-center justify-between gap-2 border-t border-border-subtle pt-3">
-                    <Link
-                      href={p.href}
-                      className="flex items-center gap-0.5 text-[9px] font-semibold text-accent-primary hover:text-accent-primary"
-                    >
-                      Открыть раздел
-                      <ArrowRight className="size-3" />
-                    </Link>
-                    {p.addHref && p.addLabel && (
-                      <Link
-                        href={p.addHref}
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-0.5 text-[9px] font-medium text-text-secondary hover:text-accent-primary"
-                      >
-                        <Plus className="size-3" />
-                        {p.addLabel}
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <p className="mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide text-text-muted">
-            Процессы и области • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
-          </p>
-          <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
-            {ecosystemBlocks.map((b) => {
-              const BlockIcon = b.icon;
-              const blockMetrics =
-                growthPeriodKey === '7d' ? (b.metrics7d ?? b.metrics) : (b.metrics30d ?? b.metrics);
-              const blockAlertCount =
-                growthPeriodKey === '7d'
-                  ? (b.alertCount7d ?? b.alertCount ?? 0)
-                  : (b.alertCount30d ?? b.alertCount ?? 0);
-              const changePct = growthPeriodKey === '7d' ? b.changePct7d : b.changePct30d;
-              return (
-                <div
-                  key={b.id}
-                  role="article"
-                  aria-label={b.titleLines ? b.titleLines.join(' ') : b.title}
-                  className={cn(
-                    'relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border p-3 text-left transition-colors',
-                    blockAlertCount > 0
-                      ? 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/50'
-                      : 'border-border-default bg-white hover:border-border-default hover:bg-bg-surface2/80'
-                  )}
-                >
-                  {changePct != null && (
-                    <p
-                      className={cn(
-                        'absolute right-2 top-2 text-[9px] font-bold tabular-nums',
-                        changePct >= 0 ? 'text-emerald-600' : 'text-rose-600'
+                      {item.subline && (
+                        <p className="text-text-secondary mt-1 line-clamp-1 text-[9px]">
+                          {item.subline}
+                        </p>
                       )}
-                    >
-                      {changePct >= 0 ? '+' : ''}
-                      {changePct}%
-                    </p>
-                  )}
-                  <div className="flex items-start justify-between gap-2">
-                    <div
-                      className={cn(
-                        'flex size-9 shrink-0 items-center justify-center rounded-lg text-white',
-                        b.color
-                      )}
-                    >
-                      <BlockIcon className="size-4" />
-                    </div>
-                  </div>
-                  <div className="mb-1.5 mt-2 flex items-start justify-between gap-2">
-                    <Link
-                      href={b.href}
-                      className="min-w-0 flex-1 text-sm font-bold uppercase leading-tight tracking-tight text-text-primary hover:text-accent-primary"
-                    >
-                      {b.titleLines ? (
-                        <>
-                          <span>{b.titleLines[0]}</span>
-                          <span className="block">{b.titleLines[1]}</span>
-                        </>
-                      ) : (
-                        b.title
-                      )}
-                    </Link>
-                    <div className="flex shrink-0 items-center gap-1">
-                      {blockAlertCount > 0 && (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <span
-                              role="img"
-                              aria-label={
-                                b.alertTooltip ??
-                                `Требуют внимания в блоке «${b.titleLines ? b.titleLines.join(' ') : b.title}»: ${blockAlertCount}`
-                              }
-                              className="flex h-5 min-w-5 cursor-help items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white"
+                      {item.businessProcesses && item.businessProcesses.length > 0 && (
+                        <div className="mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
+                          {item.businessProcesses.map((bp) => (
+                            <Link
+                              key={bp.href}
+                              href={bp.href}
+                              onClick={(e) => e.stopPropagation()}
+                              className="text-accent-primary text-[8px] hover:underline"
                             >
-                              {blockAlertCount > 99 ? '99+' : blockAlertCount}
-                            </span>
-                          </TooltipTrigger>
-                          <TooltipContent side="top" aria-hidden className="max-w-[220px] text-xs">
-                            {b.alertTooltip ?? `Требуют внимания: ${blockAlertCount}`}
-                          </TooltipContent>
-                        </Tooltip>
+                              {bp.label}
+                            </Link>
+                          ))}
+                        </div>
                       )}
-                      <Popover modal={false}>
-                        <PopoverTrigger asChild>
-                          <button
-                            type="button"
-                            className="shrink-0 rounded p-0.5 text-text-muted hover:bg-bg-surface2 hover:text-text-secondary"
-                            aria-label={`Описание: ${b.titleLines ? b.titleLines.join(' ') : b.title}`}
-                          >
-                            <HelpCircle className="size-3.5" />
-                          </button>
-                        </PopoverTrigger>
-                        <PopoverContent
-                          align="end"
-                          side="bottom"
-                          className="z-[200] w-64 rounded-xl p-3 text-left"
-                        >
-                          <p className="text-xs leading-relaxed text-text-secondary">{b.description}</p>
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                  </div>
-                  <ul className="mt-1 space-y-0.5">
-                    {blockMetrics.slice(0, 3).map((m) => (
-                      <li key={m.label}>
-                        {m.href ? (
+                      {item.statusShort2 &&
+                        (item.statusHref2 ? (
                           <Link
-                            href={m.href}
-                            className="flex justify-between text-[9px] text-text-secondary hover:text-accent-primary"
+                            href={item.statusHref2}
+                            className="text-accent-primary mt-1 line-clamp-1 text-[9px] font-medium hover:underline"
                           >
-                            <span className="truncate">{m.label}</span>
-                            <span className="ml-1 shrink-0 font-semibold tabular-nums">
-                              {m.value} →
-                            </span>
+                            {item.statusShort2} →
                           </Link>
                         ) : (
-                          <div className="flex justify-between text-[9px] text-text-secondary">
-                            <span className="truncate">{m.label}</span>
-                            <span className="ml-1 shrink-0 font-semibold tabular-nums">{m.value}</span>
-                          </div>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-auto flex items-center justify-between gap-2 border-t border-border-subtle pt-3">
-                    <Link
-                      href={b.href}
-                      className="flex items-center gap-0.5 text-[9px] font-semibold text-accent-primary hover:text-accent-primary"
+                          <p className="text-text-secondary mt-1 line-clamp-1 text-[9px]">
+                            {item.statusShort2}
+                          </p>
+                        ))}
+                      {item.statusShort &&
+                        (item.statusHref ? (
+                          <Link
+                            href={item.statusHref}
+                            className={cn(
+                              'text-accent-primary line-clamp-1 text-[9px] font-medium hover:underline',
+                              item.statusShort2 ? 'mt-0.5' : 'mt-1'
+                            )}
+                          >
+                            {item.statusShort} →
+                          </Link>
+                        ) : (
+                          <p
+                            className={cn(
+                              'text-text-secondary line-clamp-1 text-[9px]',
+                              item.statusShort2 ? 'mt-0.5' : 'mt-1'
+                            )}
+                          >
+                            {item.statusShort}
+                          </p>
+                        ))}
+                      {item.detailMetrics && item.detailMetrics.length > 0 && (
+                        <div className="mt-2 space-y-0.5">
+                          {item.detailMetrics.slice(0, 3).map((m) =>
+                            m.href ? (
+                              <Link
+                                key={m.label}
+                                href={m.href}
+                                onClick={(e) => e.stopPropagation()}
+                                className="text-text-secondary hover:text-accent-primary flex justify-between text-[9px]"
+                              >
+                                <span className="truncate">{m.label}</span>
+                                <span className="ml-1 shrink-0 font-semibold tabular-nums">
+                                  {m.value} →
+                                </span>
+                              </Link>
+                            ) : (
+                              <div
+                                key={m.label}
+                                className="text-text-secondary flex justify-between text-[9px]"
+                              >
+                                <span className="truncate">{m.label}</span>
+                                <span className="ml-1 shrink-0 font-semibold tabular-nums">
+                                  {m.value}
+                                </span>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      )}
+                      {hasProgress && (
+                        <div className="mt-2">
+                          <Progress
+                            value={progressPct}
+                            className="bg-bg-surface2 h-1.5"
+                            indicatorClassName="bg-amber-500"
+                          />
+                          <p className="text-text-muted mt-0.5 text-[8px]">
+                            активно {item.progressValue}/{item.progressMax}
+                          </p>
+                        </div>
+                      )}
+                      <div className="border-border-subtle mt-auto flex items-center justify-between gap-2 border-t pt-3">
+                        <Link
+                          href={item.href}
+                          className="text-accent-primary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-semibold"
+                        >
+                          Открыть раздел
+                          <ArrowRight className="size-3" />
+                        </Link>
+                        <Link
+                          href={item.addHref}
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-medium"
+                        >
+                          <Plus className="size-3" />
+                          {item.addLabel}
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <p className="text-text-muted mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide">
+                Связь с процессами • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
+              </p>
+              <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
+                {partnerProcesses.map((p) => {
+                  const Icon = p.icon;
+                  const count = growthPeriodKey === '7d' ? p.count7d : p.count30d;
+                  const changePct = growthPeriodKey === '7d' ? p.changePct7d : p.changePct30d;
+                  return (
+                    <div
+                      key={p.id}
+                      className="border-border-default hover:border-border-default relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border bg-white p-3 transition-colors"
                     >
-                      Открыть раздел
-                      <ArrowRight className="size-3" />
-                    </Link>
-                    {b.addHref && b.addLabel && (
-                      <Link
-                        href={b.addHref}
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-0.5 text-[9px] font-medium text-text-secondary hover:text-accent-primary"
-                      >
-                        <Plus className="size-3" />
-                        {b.addLabel}
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                      {changePct != null && (
+                        <p
+                          className={cn(
+                            'absolute right-2 top-2 text-[9px] font-bold tabular-nums',
+                            changePct >= 0 ? 'text-emerald-600' : 'text-rose-600'
+                          )}
+                        >
+                          {changePct >= 0 ? '+' : ''}
+                          {changePct}%
+                        </p>
+                      )}
+                      <div className="flex items-start justify-between gap-2">
+                        <div
+                          className={cn(
+                            'flex size-9 shrink-0 items-center justify-center rounded-lg text-white',
+                            p.color
+                          )}
+                        >
+                          <Icon className="size-4" />
+                        </div>
+                      </div>
+                      <div className="mt-2 flex items-start gap-1">
+                        <Link
+                          href={p.href}
+                          className="group/link block min-w-0 flex-1"
+                          title={p.description}
+                          aria-label={`${p.label}: ${count}`}
+                        >
+                          <p className="text-text-primary group-hover/link:text-accent-primary text-lg font-bold tabular-nums">
+                            {count}
+                          </p>
+                          <p className="text-text-secondary text-[9px] font-semibold uppercase">
+                            {p.label}
+                          </p>
+                        </Link>
+                        {(p.description || (p.tips && p.tips.length > 0)) && (
+                          <Popover modal={false}>
+                            <PopoverTrigger asChild>
+                              <button
+                                type="button"
+                                className="text-text-muted hover:bg-bg-surface2 hover:text-text-secondary shrink-0 rounded p-0.5"
+                                aria-label={`Подсказка: ${p.label}`}
+                              >
+                                <HelpCircle className="size-3.5" />
+                              </button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              align="end"
+                              side="bottom"
+                              className="z-[200] w-64 rounded-xl p-3 text-left"
+                            >
+                              {p.description && (
+                                <p className="text-text-secondary mb-2 text-xs leading-relaxed">
+                                  {p.description}
+                                </p>
+                              )}
+                              {p.tips && p.tips.length > 0 && (
+                                <ul className="text-text-secondary list-inside list-disc space-y-0.5 text-[9px]">
+                                  {p.tips.map((t, i) => (
+                                    <li key={i}>{t}</li>
+                                  ))}
+                                </ul>
+                              )}
+                            </PopoverContent>
+                          </Popover>
+                        )}
+                      </div>
+                      <p className="text-text-secondary mt-1 line-clamp-1 text-[9px]">{p.sub}</p>
+                      {p.detailMetrics && p.detailMetrics.length > 0 && (
+                        <div className="mt-2 space-y-0.5">
+                          {p.detailMetrics.slice(0, 3).map((m) =>
+                            m.href ? (
+                              <Link
+                                key={m.label}
+                                href={m.href}
+                                onClick={(e) => e.stopPropagation()}
+                                className="text-text-secondary hover:text-accent-primary flex justify-between text-[9px]"
+                              >
+                                <span className="truncate">{m.label}</span>
+                                <span className="ml-1 shrink-0 font-semibold tabular-nums">
+                                  {m.value} →
+                                </span>
+                              </Link>
+                            ) : (
+                              <div
+                                key={m.label}
+                                className="text-text-secondary flex justify-between text-[9px]"
+                              >
+                                <span className="truncate">{m.label}</span>
+                                <span className="ml-1 shrink-0 font-semibold tabular-nums">
+                                  {m.value}
+                                </span>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      )}
+                      <div className="border-border-subtle mt-auto flex items-center justify-between gap-2 border-t pt-3">
+                        <Link
+                          href={p.href}
+                          className="text-accent-primary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-semibold"
+                        >
+                          Открыть раздел
+                          <ArrowRight className="size-3" />
+                        </Link>
+                        {p.addHref && p.addLabel && (
+                          <Link
+                            href={p.addHref}
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-medium"
+                          >
+                            <Plus className="size-3" />
+                            {p.addLabel}
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <p className="text-text-muted mb-2 mt-6 text-[9px] font-semibold uppercase tracking-wide">
+                Процессы и области • за {growthPeriodKey === '7d' ? '7 дн.' : '30 дн.'}
+              </p>
+              <div className="flex flex-nowrap gap-3 overflow-x-auto pb-1">
+                {ecosystemBlocks.map((b) => {
+                  const BlockIcon = b.icon;
+                  const blockMetrics =
+                    growthPeriodKey === '7d'
+                      ? (b.metrics7d ?? b.metrics)
+                      : (b.metrics30d ?? b.metrics);
+                  const blockAlertCount =
+                    growthPeriodKey === '7d'
+                      ? (b.alertCount7d ?? b.alertCount ?? 0)
+                      : (b.alertCount30d ?? b.alertCount ?? 0);
+                  const changePct = growthPeriodKey === '7d' ? b.changePct7d : b.changePct30d;
+                  return (
+                    <div
+                      key={b.id}
+                      role="article"
+                      aria-label={b.titleLines ? b.titleLines.join(' ') : b.title}
+                      className={cn(
+                        'relative flex min-h-[280px] w-[200px] shrink-0 flex-col rounded-xl border p-3 text-left transition-colors',
+                        blockAlertCount > 0
+                          ? 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/50'
+                          : 'border-border-default hover:border-border-default hover:bg-bg-surface2/80 bg-white'
+                      )}
+                    >
+                      {changePct != null && (
+                        <p
+                          className={cn(
+                            'absolute right-2 top-2 text-[9px] font-bold tabular-nums',
+                            changePct >= 0 ? 'text-emerald-600' : 'text-rose-600'
+                          )}
+                        >
+                          {changePct >= 0 ? '+' : ''}
+                          {changePct}%
+                        </p>
+                      )}
+                      <div className="flex items-start justify-between gap-2">
+                        <div
+                          className={cn(
+                            'flex size-9 shrink-0 items-center justify-center rounded-lg text-white',
+                            b.color
+                          )}
+                        >
+                          <BlockIcon className="size-4" />
+                        </div>
+                      </div>
+                      <div className="mb-1.5 mt-2 flex items-start justify-between gap-2">
+                        <Link
+                          href={b.href}
+                          className="text-text-primary hover:text-accent-primary min-w-0 flex-1 text-sm font-bold uppercase leading-tight tracking-tight"
+                        >
+                          {b.titleLines ? (
+                            <>
+                              <span>{b.titleLines[0]}</span>
+                              <span className="block">{b.titleLines[1]}</span>
+                            </>
+                          ) : (
+                            b.title
+                          )}
+                        </Link>
+                        <div className="flex shrink-0 items-center gap-1">
+                          {blockAlertCount > 0 && (
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span
+                                  role="img"
+                                  aria-label={
+                                    b.alertTooltip ??
+                                    `Требуют внимания в блоке «${b.titleLines ? b.titleLines.join(' ') : b.title}»: ${blockAlertCount}`
+                                  }
+                                  className="flex h-5 min-w-5 cursor-help items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white"
+                                >
+                                  {blockAlertCount > 99 ? '99+' : blockAlertCount}
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent
+                                side="top"
+                                aria-hidden
+                                className="max-w-[220px] text-xs"
+                              >
+                                {b.alertTooltip ?? `Требуют внимания: ${blockAlertCount}`}
+                              </TooltipContent>
+                            </Tooltip>
+                          )}
+                          <Popover modal={false}>
+                            <PopoverTrigger asChild>
+                              <button
+                                type="button"
+                                className="text-text-muted hover:bg-bg-surface2 hover:text-text-secondary shrink-0 rounded p-0.5"
+                                aria-label={`Описание: ${b.titleLines ? b.titleLines.join(' ') : b.title}`}
+                              >
+                                <HelpCircle className="size-3.5" />
+                              </button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              align="end"
+                              side="bottom"
+                              className="z-[200] w-64 rounded-xl p-3 text-left"
+                            >
+                              <p className="text-text-secondary text-xs leading-relaxed">
+                                {b.description}
+                              </p>
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+                      </div>
+                      <ul className="mt-1 space-y-0.5">
+                        {blockMetrics.slice(0, 3).map((m) => (
+                          <li key={m.label}>
+                            {m.href ? (
+                              <Link
+                                href={m.href}
+                                className="text-text-secondary hover:text-accent-primary flex justify-between text-[9px]"
+                              >
+                                <span className="truncate">{m.label}</span>
+                                <span className="ml-1 shrink-0 font-semibold tabular-nums">
+                                  {m.value} →
+                                </span>
+                              </Link>
+                            ) : (
+                              <div className="text-text-secondary flex justify-between text-[9px]">
+                                <span className="truncate">{m.label}</span>
+                                <span className="ml-1 shrink-0 font-semibold tabular-nums">
+                                  {m.value}
+                                </span>
+                              </div>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="border-border-subtle mt-auto flex items-center justify-between gap-2 border-t pt-3">
+                        <Link
+                          href={b.href}
+                          className="text-accent-primary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-semibold"
+                        >
+                          Открыть раздел
+                          <ArrowRight className="size-3" />
+                        </Link>
+                        {b.addHref && b.addLabel && (
+                          <Link
+                            href={b.addHref}
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-text-secondary hover:text-accent-primary flex items-center gap-0.5 text-[9px] font-medium"
+                          >
+                            <Plus className="size-3" />
+                            {b.addLabel}
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </>
           )}
         </div>

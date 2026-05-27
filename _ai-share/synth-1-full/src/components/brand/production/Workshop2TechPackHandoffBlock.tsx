@@ -159,10 +159,7 @@ export function Workshop2TechPackHandoffBlock({
     if (aIds.length === 0) return;
     const hid = newId();
     const verifiedTechPackAuditAtSend = attachments
-      .filter(
-        (a) =>
-          aIds.includes(a.attachmentId) && a.canonicalSource === 'object_store_verified'
-      )
+      .filter((a) => aIds.includes(a.attachmentId) && a.canonicalSource === 'object_store_verified')
       .map((a) => ({
         attachmentId: a.attachmentId,
         remoteObjectKey: a.remoteObjectKey?.trim() || undefined,
@@ -198,7 +195,8 @@ export function Workshop2TechPackHandoffBlock({
     const act: Workshop2TzActionLogPayload = {
       type: 'tech_pack_handoff',
       handoffId: hid,
-      detail: `Передача пакета (${row.packageRevisionLabel}, ${CHANNELS.find((c) => c.id === channel)?.label}): вложений ${aIds.length}. ${windowNote.trim() ? `Окно/сроки: ${windowNote.trim()}.` : ''}`.trim(),
+      detail:
+        `Передача пакета (${row.packageRevisionLabel}, ${CHANNELS.find((c) => c.id === channel)?.label}): вложений ${aIds.length}. ${windowNote.trim() ? `Окно/сроки: ${windowNote.trim()}.` : ''}`.trim(),
     };
     onPulse(act);
   }, [
@@ -264,7 +262,7 @@ export function Workshop2TechPackHandoffBlock({
     ? tzWriteDisabled
       ? W2_TZ_HINT_PRODUCTION_EDIT
       : !handoffMarksUnlocked
-        ? handoffLockReason ?? W2_TZ_HINT_FOUR_SECTION_SIGNOFFS
+        ? (handoffLockReason ?? W2_TZ_HINT_FOUR_SECTION_SIGNOFFS)
         : brandDispatched
           ? 'Уже отмечено как «бренд передал» для этой попытки. Сбросьте отметки ниже, если нужно заново.'
           : 'Заполните наименование бренда и ФИО передающего.'
@@ -280,7 +278,7 @@ export function Workshop2TechPackHandoffBlock({
     ? tzWriteDisabled
       ? W2_TZ_HINT_PRODUCTION_EDIT
       : !handoffMarksUnlocked
-        ? handoffLockReason ?? W2_TZ_HINT_FOUR_SECTION_SIGNOFFS
+        ? (handoffLockReason ?? W2_TZ_HINT_FOUR_SECTION_SIGNOFFS)
         : factoryReceived
           ? 'Уже отмечено как «производство получило». Сбросьте отметки ниже, если нужно заново.'
           : 'Заполните организацию и ФИО на стороне производства.'
@@ -310,7 +308,7 @@ export function Workshop2TechPackHandoffBlock({
     ? tzWriteDisabled
       ? W2_TZ_HINT_PRODUCTION_EDIT
       : !handoffMarksUnlocked
-        ? handoffLockReason ?? W2_TZ_HINT_FOUR_SECTION_SIGNOFFS
+        ? (handoffLockReason ?? W2_TZ_HINT_FOUR_SECTION_SIGNOFFS)
         : !brandDispatched
           ? 'Сначала отметьте «Бренд: передано».'
           : !factoryReceived
@@ -418,9 +416,7 @@ export function Workshop2TechPackHandoffBlock({
                   value={brandDispatcherOrg}
                   onChange={(e) => setBrandDispatcherOrg(e.target.value)}
                   placeholder="Наименование бренда"
-                  disabled={
-                    tzWriteDisabled || !handoffMarksUnlocked || Boolean(brandDispatched)
-                  }
+                  disabled={tzWriteDisabled || !handoffMarksUnlocked || Boolean(brandDispatched)}
                 />
                 <Input
                   className="h-8 text-xs"
@@ -456,9 +452,7 @@ export function Workshop2TechPackHandoffBlock({
                   value={factoryReceiverOrg}
                   onChange={(e) => setFactoryReceiverOrg(e.target.value)}
                   placeholder="Наименование организации"
-                  disabled={
-                    tzWriteDisabled || !handoffMarksUnlocked || Boolean(factoryReceived)
-                  }
+                  disabled={tzWriteDisabled || !handoffMarksUnlocked || Boolean(factoryReceived)}
                 />
                 <Input
                   className="h-8 text-xs"
@@ -489,14 +483,15 @@ export function Workshop2TechPackHandoffBlock({
               </div>
             </div>
             {handoffMarksUnlocked ? (
-              <details className="rounded-md border border-border-subtle/80 bg-bg-surface2/40 px-2 py-1.5">
+              <details className="border-border-subtle/80 bg-bg-surface2/40 rounded-md border px-2 py-1.5">
                 <summary className="text-text-secondary cursor-pointer list-none text-[10px] font-semibold [&::-webkit-details-marker]:hidden">
                   Детали черновика передачи
                 </summary>
                 <div className="text-text-secondary mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[10px]">
                   {brandDispatched ? (
                     <span>
-                      Бренд: {new Date(brandDispatched.at).toLocaleString('ru-RU')} · {brandDispatched.by}
+                      Бренд: {new Date(brandDispatched.at).toLocaleString('ru-RU')} ·{' '}
+                      {brandDispatched.by}
                     </span>
                   ) : (
                     <span>Бренд: не отмечен</span>
@@ -515,9 +510,9 @@ export function Workshop2TechPackHandoffBlock({
             ) : null}
             {draftMarksIdle && hasVisibleHandoffHistory ? (
               <p className="text-text-muted text-[9px] leading-snug">
-                Строка выше — только про{' '}
-                <span className="font-medium">следующую</span> попытку передачи. После фиксации
-                пакета отметки сбрасываются; уже сохранённые передачи перечислены ниже (R1…).
+                Строка выше — только про <span className="font-medium">следующую</span> попытку
+                передачи. После фиксации пакета отметки сбрасываются; уже сохранённые передачи
+                перечислены ниже (R1…).
               </p>
             ) : null}
             {!tzWriteDisabled && handoffMarksUnlocked && (brandDispatched || factoryReceived) ? (
@@ -576,7 +571,10 @@ export function Workshop2TechPackHandoffBlock({
           <ul className="max-h-32 space-y-1 overflow-y-auto pr-1">
             {attachments.map((a) => (
               <li key={a.attachmentId} className="flex items-center gap-2 text-[11px]">
-                <HandoffDisabledWrap disabled={tzWriteDisabled} hint={tzWriteDisabled ? W2_TZ_HINT_PRODUCTION_EDIT : null}>
+                <HandoffDisabledWrap
+                  disabled={tzWriteDisabled}
+                  hint={tzWriteDisabled ? W2_TZ_HINT_PRODUCTION_EDIT : null}
+                >
                   <Checkbox
                     checked={Boolean(picked[a.attachmentId])}
                     disabled={tzWriteDisabled}
@@ -607,8 +605,8 @@ export function Workshop2TechPackHandoffBlock({
         <div className="space-y-2 border-t border-dashed pt-2">
           <p className="text-text-primary text-[10px] font-semibold">История передач</p>
           <p className="text-text-muted text-[9px] leading-snug">
-            «Бренд передал» / «Производство приняло» здесь — из записи ревизии пакета (архив), а не из
-            неактивных кнопок выше.
+            «Бренд передал» / «Производство приняло» здесь — из записи ревизии пакета (архив), а не
+            из неактивных кнопок выше.
           </p>
           <ul className="space-y-3">
             {visibleHistoryList.map((h) => (

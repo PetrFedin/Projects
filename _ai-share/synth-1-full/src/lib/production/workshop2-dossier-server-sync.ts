@@ -5,7 +5,12 @@ import {
 } from '@/lib/production/workshop2-server-dossier-client';
 
 export type Workshop2PersistWithMergeResult =
-  | { ok: true; version: number; mergedDossier?: Workshop2DossierPhase1; manualReviewCriticalFields?: string[] }
+  | {
+      ok: true;
+      version: number;
+      mergedDossier?: Workshop2DossierPhase1;
+      manualReviewCriticalFields?: string[];
+    }
   | { ok: false; reason: 'save_failed' | 'merge_failed'; detail?: string };
 
 export async function persistWorkshop2DossierWithMerge(input: {

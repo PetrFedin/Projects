@@ -149,7 +149,8 @@ export function MarketIntelligenceWidget() {
           <div className="rounded-lg border border-purple-100 bg-purple-50 p-3">
             <p className="text-[10px] font-medium italic text-purple-900">
               💡 <strong>Инсайт AI:</strong> по скорости предзаказов и трендам коллекция может
-              обогнать отраслевой STR на {predictedSellthrough.yours - predictedSellthrough.industry}
+              обогнать отраслевой STR на{' '}
+              {predictedSellthrough.yours - predictedSellthrough.industry}
               %. Имеет смысл поднять стартовые объёмы по топ-3 SKU.
             </p>
           </div>

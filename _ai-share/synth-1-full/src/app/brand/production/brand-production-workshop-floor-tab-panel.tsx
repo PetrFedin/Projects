@@ -73,7 +73,9 @@ export type BrandProductionWorkshopFloorTabPanelProps = {
   hasRisks: boolean;
 };
 
-export function BrandProductionWorkshopFloorTabPanel(props: BrandProductionWorkshopFloorTabPanelProps) {
+export function BrandProductionWorkshopFloorTabPanel(
+  props: BrandProductionWorkshopFloorTabPanelProps
+) {
   const {
     articleContextValid,
     stagesSkuContextLine,
@@ -163,7 +165,9 @@ export function BrandProductionWorkshopFloorTabPanel(props: BrandProductionWorks
       {collectionArticlesCount > 0 && needsAttentionCount > 0 ? (
         <BrandProductionWorkshopAttentionSummary
           needsAttentionCount={needsAttentionCount}
-          withoutTechPackCount={articlesProgressSummary.total - articlesProgressSummary.withTechPack}
+          withoutTechPackCount={
+            articlesProgressSummary.total - articlesProgressSummary.withTechPack
+          }
           withoutPoCount={articlesProgressSummary.total - articlesProgressSummary.withPo}
           onNeedsAttentionClick={onNeedsAttentionClick}
         />

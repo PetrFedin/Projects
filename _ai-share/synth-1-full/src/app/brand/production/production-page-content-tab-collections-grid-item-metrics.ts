@@ -20,12 +20,8 @@ export function computeCollectionGridItemMetrics(
   px: Record<string, any>,
   c: any
 ): CollectionGridItemMetrics {
-  const {
-    selectedCollectionIds,
-    filteredSkus,
-    filteredProductionOrders,
-    filteredSampleStatuses,
-  } = px;
+  const { selectedCollectionIds, filteredSkus, filteredProductionOrders, filteredSampleStatuses } =
+    px;
 
   const ordersForColl = (filteredProductionOrders || []).filter((o: any) => o.collection === c.id);
   const samplesForColl = (filteredSampleStatuses || []).filter((s: any) => s.collection === c.id);
@@ -42,12 +38,9 @@ export function computeCollectionGridItemMetrics(
   const collSamplePending = samplesForColl.filter(
     (s: any) => s.status === 'in_review' || s.status === 'waiting'
   ).length;
-  const collFactories = [
-    ...new Set(
-      ordersForColl
-        .map((o: any) => o.factory)
-    ),
-  ].filter(Boolean) as string[];
+  const collFactories = [...new Set(ordersForColl.map((o: any) => o.factory))].filter(
+    Boolean
+  ) as string[];
   const stageStatus = {
     design: 'completed' as const,
     tz: 'completed' as const,

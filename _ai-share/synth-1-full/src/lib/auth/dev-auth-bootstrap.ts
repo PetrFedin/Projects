@@ -33,7 +33,8 @@ export function resolvePathBasedDevSignInEmail(pathname: string, search: string)
   if (pathname.startsWith('/admin')) return 'admin@syntha.ai';
   if (pathname.startsWith('/brand')) return 'brand@syntha.ai';
   if (pathname.startsWith('/distributor')) return 'dist@syntha.ai';
-  if (pathname.startsWith('/factory')) return isSupplier ? 'supplier@syntha.ai' : 'factory@syntha.ai';
+  if (pathname.startsWith('/factory'))
+    return isSupplier ? 'supplier@syntha.ai' : 'factory@syntha.ai';
   if (pathname.startsWith('/client')) return 'elena.petrova@example.com';
   if (pathname.startsWith('/shop')) return 'shop@syntha.ai';
   return null;

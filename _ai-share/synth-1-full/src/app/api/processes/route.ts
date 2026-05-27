@@ -5,7 +5,10 @@
  */
 import { NextResponse } from 'next/server';
 import { readJsonBody } from '@/lib/http/read-json-body';
-import { mergeAllProcessDefinitionsForApi, upsertDefinition } from '@/lib/server/process-workflow-store';
+import {
+  mergeAllProcessDefinitionsForApi,
+  upsertDefinition,
+} from '@/lib/server/process-workflow-store';
 import { PROCESS_TEMPLATES } from '@/lib/live-process/process-templates';
 import type { LiveProcessDefinition } from '@/lib/live-process/types';
 

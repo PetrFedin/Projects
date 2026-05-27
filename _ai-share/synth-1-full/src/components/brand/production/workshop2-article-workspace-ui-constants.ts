@@ -15,9 +15,8 @@ export const W2_PASSPORT_TZ_STAGE_DEFS: { id: Workshop2TzSignoffStageId; label: 
   { id: 'qc', label: 'ОТК' },
 ];
 
-export const W2_PASSPORT_TZ_STAGE_ORDER: Workshop2TzSignoffStageId[] = W2_PASSPORT_TZ_STAGE_DEFS.map(
-  (d) => d.id
-);
+export const W2_PASSPORT_TZ_STAGE_ORDER: Workshop2TzSignoffStageId[] =
+  W2_PASSPORT_TZ_STAGE_DEFS.map((d) => d.id);
 
 /** Кто может снять цифровые подписи подтверждений ТЗ (сравнение без регистра). Дополняется текущим пользователем сессии. */
 export const WORKSHOP2_DEFAULT_TZ_SIGNOFF_REVOKERS: readonly string[] = [
@@ -79,7 +78,10 @@ export const W2_TZ_PASSPORT_CONTINUE_BTN_CLASS = 'h-9 gap-1.5 px-3 text-xs font-
 /** Вторичные «Открыть» на обзоре (блокеры, риски, диалоги). */
 export const W2_OVERVIEW_OPEN_BTN_CLASS = 'h-8 shrink-0 px-3 text-xs font-medium';
 
-export const W2_DECISION_SNAPSHOT_ICONS: Record<DossierSection, ComponentType<{ className?: string }>> = {
+export const W2_DECISION_SNAPSHOT_ICONS: Record<
+  DossierSection,
+  ComponentType<{ className?: string }>
+> = {
   general: LucideIcons.Users,
   visuals: LucideIcons.Sparkles,
   material: LucideIcons.Layers,

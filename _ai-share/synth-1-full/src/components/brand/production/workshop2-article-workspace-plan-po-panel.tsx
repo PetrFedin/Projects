@@ -37,7 +37,7 @@ export function Workshop2ArticlePlanPoPanel({
           <div className="min-w-0 flex-1 space-y-1">
             <div className="flex items-center gap-2">
               <h2 className="text-text-primary text-base font-semibold">План · заказ (PO)</h2>
-              <span className="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-medium">
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600">
                 Ответственный: Менеджер по производству
               </span>
             </div>
@@ -46,19 +46,18 @@ export function Workshop2ArticlePlanPoPanel({
             </p>
           </div>
         </div>
-        <span
-          className="border-border-default bg-bg-surface2 text-text-secondary shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px]"
-        >
+        <span className="border-border-default bg-bg-surface2 text-text-secondary shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px]">
           {dataMode === 'http' ? 'API' : 'local'}
         </span>
       </div>
-      
-      <div className="border-border-subtle flex flex-col gap-1.5 border-t border-dotted pt-2.5 mt-4">
+
+      <div className="border-border-subtle mt-4 flex flex-col gap-1.5 border-t border-dotted pt-2.5">
         <div className="flex flex-wrap gap-1.5">
-          <span className="bg-bg-surface2/70 text-text-primary max-w-full rounded border border-border-subtle px-2 py-1 text-[10px] leading-snug">
-            <span className="text-text-muted font-bold">Суть</span> · Строк PO: {plan.purchaseOrders.length}
+          <span className="bg-bg-surface2/70 text-text-primary border-border-subtle max-w-full rounded border px-2 py-1 text-[10px] leading-snug">
+            <span className="text-text-muted font-bold">Суть</span> · Строк PO:{' '}
+            {plan.purchaseOrders.length}
           </span>
-          <span className="text-text-primary max-w-full rounded border border-border-subtle bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
+          <span className="text-text-primary border-border-subtle max-w-full rounded border bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
             <span className="text-text-muted font-bold">Гот.</span> ·{' '}
             {plan.purchaseOrders.length === 0
               ? 'Нет строк PO'
@@ -69,11 +68,11 @@ export function Workshop2ArticlePlanPoPanel({
         </div>
       </div>
 
-      <div className="min-w-0 space-y-4 mt-4">
+      <div className="mt-4 min-w-0 space-y-4">
         <div className="space-y-4">
           <div className="flex items-center justify-between border-b pb-2">
-            <p className="text-text-primary text-sm font-semibold flex items-center gap-1.5">
-              <LucideIcons.Package className="w-4 h-4 text-slate-400" />
+            <p className="text-text-primary flex items-center gap-1.5 text-sm font-semibold">
+              <LucideIcons.Package className="h-4 w-4 text-slate-400" />
               Размещение (PO)
             </p>
             <Button
@@ -97,7 +96,7 @@ export function Workshop2ArticlePlanPoPanel({
               Добавить партию
             </Button>
           </div>
-          
+
           {plan.purchaseOrders.length === 0 ? (
             <EmptyState
               title="Нет строк PO"
@@ -162,7 +161,7 @@ export function Workshop2ArticlePlanPoPanel({
                       />
                     </div>
                   </div>
-                      <div className="flex flex-col gap-2 justify-between">
+                  <div className="flex flex-col justify-between gap-2">
                     <select
                       className={cn(field, 'h-8 text-[11px] focus:bg-white')}
                       value={po.status}
@@ -188,7 +187,7 @@ export function Workshop2ArticlePlanPoPanel({
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-text-muted hover:bg-red-50 hover:text-red-500 shrink-0 self-end"
+                        className="text-text-muted h-8 w-8 shrink-0 self-end hover:bg-red-50 hover:text-red-500"
                         onClick={() => {
                           void mergeBundle({
                             planPo: {
@@ -206,7 +205,7 @@ export function Workshop2ArticlePlanPoPanel({
               ))}
             </ul>
           )}
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-subtle">
+          <div className="border-border-subtle mt-4 flex items-center justify-between border-t pt-4">
             <Button
               type="button"
               variant="outline"
@@ -229,7 +228,7 @@ export function Workshop2ArticlePlanPoPanel({
             <Button
               type="button"
               size="sm"
-              className="h-8 gap-1.5 text-xs bg-emerald-600 hover:bg-emerald-700 text-white"
+              className="h-8 gap-1.5 bg-emerald-600 text-xs text-white hover:bg-emerald-700"
             >
               <LucideIcons.CheckCircle2 className="h-3 w-3" /> Утвердить план
             </Button>
@@ -238,12 +237,13 @@ export function Workshop2ArticlePlanPoPanel({
       </div>
 
       {articleId && (
-        <Workshop2DossierSectionBodyTimeAndAction articleId={articleId} dossier={dossier || undefined} />
+        <Workshop2DossierSectionBodyTimeAndAction
+          articleId={articleId}
+          dossier={dossier || undefined}
+        />
       )}
 
-      {dossier && (
-        <Workshop2B2BIntegrationPanel dossier={dossier} articleId={articleId} />
-      )}
+      {dossier && <Workshop2B2BIntegrationPanel dossier={dossier} articleId={articleId} />}
     </div>
   );
 }

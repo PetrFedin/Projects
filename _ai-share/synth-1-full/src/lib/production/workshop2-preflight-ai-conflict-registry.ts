@@ -35,8 +35,7 @@ export const W2_PREFLIGHT_AI_CONFLICTS: W2AiConflictRule[] = [
         (a) =>
           a.attributeId === 'composition' &&
           a.values.some(
-            (v) =>
-              v.text?.toLowerCase().includes('шелк') || v.text?.toLowerCase().includes('шифон')
+            (v) => v.text?.toLowerCase().includes('шелк') || v.text?.toLowerCase().includes('шифон')
           )
       );
       const hasHeavySeam = d.assignments.some(
@@ -54,8 +53,7 @@ export const W2_PREFLIGHT_AI_CONFLICTS: W2AiConflictRule[] = [
     severity: 'warning',
     section: 'construction',
     label: 'AI: Легкая ткань + грубый шов',
-    detail:
-      'Выбран тонкий материал (шелк/шифон), но указаны узлы/иглы для плотных тканей.',
+    detail: 'Выбран тонкий материал (шелк/шифон), но указаны узлы/иглы для плотных тканей.',
     anchor: 'construction',
   },
   {
@@ -64,8 +62,7 @@ export const W2_PREFLIGHT_AI_CONFLICTS: W2AiConflictRule[] = [
     checkConflict: (d) => {
       const isWinter = d.assignments.some(
         (a) =>
-          a.attributeId === 'season' &&
-          a.values.some((v) => v.text?.toLowerCase().includes('зим'))
+          a.attributeId === 'season' && a.values.some((v) => v.text?.toLowerCase().includes('зим'))
       );
       const hasNoInsulation = !d.assignments.some(
         (a) => a.attributeId === 'insulationMaterialOptions' && a.values.length > 0
@@ -75,8 +72,7 @@ export const W2_PREFLIGHT_AI_CONFLICTS: W2AiConflictRule[] = [
     severity: 'warning',
     section: 'materials',
     label: 'AI: Зимняя обувь без утеплителя',
-    detail:
-      'Для зимнего сезона не указан материал утеплителя в спецификации материалов обуви.',
+    detail: 'Для зимнего сезона не указан материал утеплителя в спецификации материалов обуви.',
     anchor: 'materials',
   },
   {
@@ -109,18 +105,14 @@ export const W2_PREFLIGHT_AI_CONFLICTS: W2AiConflictRule[] = [
         (a) =>
           (a.attributeId === 'primaryColorFamilyOptions' || a.attributeId === 'color') &&
           a.values.some(
-            (v) =>
-              v.text?.toLowerCase().includes('бел') ||
-              v.text?.toLowerCase().includes('светл')
+            (v) => v.text?.toLowerCase().includes('бел') || v.text?.toLowerCase().includes('светл')
           )
       );
       const isDarkLining = d.assignments.some(
         (a) =>
           a.attributeId === 'liningOptionsByCategory' &&
           a.values.some(
-            (v) =>
-              v.text?.toLowerCase().includes('черн') ||
-              v.text?.toLowerCase().includes('темн')
+            (v) => v.text?.toLowerCase().includes('черн') || v.text?.toLowerCase().includes('темн')
           )
       );
       return isWhiteMain && isDarkLining;
@@ -140,8 +132,7 @@ export const W2_PREFLIGHT_AI_CONFLICTS: W2AiConflictRule[] = [
           a.attributeId === 'composition' &&
           a.values.some(
             (v) =>
-              v.text?.toLowerCase().includes('кожа') ||
-              v.text?.toLowerCase().includes('leather')
+              v.text?.toLowerCase().includes('кожа') || v.text?.toLowerCase().includes('leather')
           )
       );
       const isMachineWashable = d.assignments.some(
@@ -180,9 +171,7 @@ export function runWorkshop2AiConflictChecks(
     if (rule.targetL1 && rule.targetL1.length > 0) {
       if (
         !normalizedLeaf ||
-        !rule.targetL1.some((l1) =>
-          normalizedLeaf.l1.toLowerCase().includes(l1.toLowerCase())
-        )
+        !rule.targetL1.some((l1) => normalizedLeaf.l1.toLowerCase().includes(l1.toLowerCase()))
       ) {
         continue;
       }
@@ -190,9 +179,7 @@ export function runWorkshop2AiConflictChecks(
     if (rule.targetL2 && rule.targetL2.length > 0) {
       if (
         !normalizedLeaf ||
-        !rule.targetL2.some((l2) =>
-          normalizedLeaf.l2.toLowerCase().includes(l2.toLowerCase())
-        )
+        !rule.targetL2.some((l2) => normalizedLeaf.l2.toLowerCase().includes(l2.toLowerCase()))
       ) {
         continue;
       }
@@ -200,9 +187,7 @@ export function runWorkshop2AiConflictChecks(
     if (rule.targetL3 && rule.targetL3.length > 0) {
       if (
         !normalizedLeaf ||
-        !rule.targetL3.some((l3) =>
-          normalizedLeaf.l3.toLowerCase().includes(l3.toLowerCase())
-        )
+        !rule.targetL3.some((l3) => normalizedLeaf.l3.toLowerCase().includes(l3.toLowerCase()))
       ) {
         continue;
       }

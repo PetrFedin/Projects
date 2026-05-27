@@ -1,9 +1,9 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-export const LabDipTypeSchema = z.enum(["lab-dip", "strike-off"]);
+export const LabDipTypeSchema = z.enum(['lab-dip', 'strike-off']);
 export type LabDipType = z.infer<typeof LabDipTypeSchema>;
 
-export const LabDipStatusSchema = z.enum(["pending", "approved", "rejected"]);
+export const LabDipStatusSchema = z.enum(['pending', 'approved', 'rejected']);
 export type LabDipStatus = z.infer<typeof LabDipStatusSchema>;
 
 export const LabDipSchema = z.object({

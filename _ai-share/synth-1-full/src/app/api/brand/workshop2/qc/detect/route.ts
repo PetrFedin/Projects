@@ -14,7 +14,10 @@ async function detectDefectsHandler(request: Request) {
     const parsed = RequestSchema.safeParse(json);
 
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid payload', details: parsed.error.issues }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid payload', details: parsed.error.issues },
+        { status: 400 }
+      );
     }
 
     // Limit base64 length to prevent DoS (approx 10MB payload)
@@ -27,7 +30,10 @@ async function detectDefectsHandler(request: Request) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('AI Detect Error:', getUnknownErrorMessage(error, 'Unknown error during AI defect detection'));
+    console.error(
+      'AI Detect Error:',
+      getUnknownErrorMessage(error, 'Unknown error during AI defect detection')
+    );
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

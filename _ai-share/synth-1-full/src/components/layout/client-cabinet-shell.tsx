@@ -82,7 +82,7 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
     const accentNum = clientNuOrderHub ? 'text-[#4a5fc8]' : 'text-accent-primary';
     const accentBar = clientNuOrderHub ? 'bg-[#4a5fc8]' : 'bg-accent-primary';
     return (
-      <div className="rounded-md border border-border-subtle/90 bg-bg-surface2/60 px-2.5 py-2 shadow-sm">
+      <div className="border-border-subtle/90 bg-bg-surface2/60 rounded-md border px-2.5 py-2 shadow-sm">
         <div className="space-y-2">
           <div className="min-w-0">
             <p className="text-text-muted text-[10px] font-medium leading-tight">Активность</p>
@@ -93,9 +93,9 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
               <span className="text-text-muted text-[10px] font-normal tabular-nums">/ 100</span>
             </p>
           </div>
-          <div className="min-w-0 border-t border-border-subtle/70 pt-2">
+          <div className="border-border-subtle/70 min-w-0 border-t pt-2">
             <p className="text-text-muted text-[10px] font-medium leading-tight">Рейтинг</p>
-            <p className="text-text-primary mt-0.5 text-[11px] font-semibold leading-tight tabular-nums">
+            <p className="text-text-primary mt-0.5 text-[11px] font-semibold tabular-nums leading-tight">
               {activity.rankAmongClients.toLocaleString('ru-RU')}
               <span className="text-text-muted text-[10px] font-normal"> / </span>
               <span className="text-text-muted text-[10px] font-normal tabular-nums">
@@ -107,7 +107,7 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
         <div className="pointer-events-none mt-2" aria-hidden>
           <Progress
             value={activity.activityScore}
-            className="h-1 rounded-full bg-border-subtle/90"
+            className="bg-border-subtle/90 h-1 rounded-full"
             indicatorClassName={cn('rounded-full', accentBar)}
           />
         </div>
@@ -119,7 +119,7 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
   if (loading) {
     return (
       <div className={cabinetHubLayout.loadingShell}>
-        <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
+        <Loader2 className="size-8 animate-spin text-muted-foreground" aria-hidden />
       </div>
     );
   }
@@ -138,8 +138,7 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
     );
   }
 
-  const sectionLabel =
-    resolveCabinetActiveNavLink(pathname, clientNavGroups)?.label ?? 'Главная';
+  const sectionLabel = resolveCabinetActiveNavLink(pathname, clientNavGroups)?.label ?? 'Главная';
 
   return (
     <ErrorBoundary>
@@ -150,7 +149,9 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
         )}
         data-client-cabinet-nuorder={clientNuOrderHub ? 'true' : undefined}
       >
-        <aside className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}>
+        <aside
+          className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}
+        >
           <HubSidebarHeader
             href={ROUTES.client.profile}
             icon={User}
@@ -236,8 +237,9 @@ export function ClientCabinetShell({ children }: { children: React.ReactNode }) 
         <div className={cn('min-w-0 flex-1', cabinetSidebarLayout.mainPaddingLeftStandard)}>
           <CabinetHubMain
             className={cn(
-              'space-y-2 pt-2 !px-2 lg:!px-3',
-              clientNuOrderHub && 'rounded-sm border border-[#c5ccd6]/70 bg-[#eceff3] lg:rounded-tl-none'
+              'space-y-2 !px-2 pt-2 lg:!px-3',
+              clientNuOrderHub &&
+                'rounded-sm border border-[#c5ccd6]/70 bg-[#eceff3] lg:rounded-tl-none'
             )}
           >
             <CabinetHubTitleRow

@@ -48,7 +48,9 @@ export type WorkshopTzSectionReadinessOptions = {
 };
 
 /** Атрибуты секции general, не входящие в обязательную готовность без флага `includeCommerceFieldsInGeneralReadiness`. */
-export const W2_WORKSHOP_TZ_GENERAL_COMMERCE_OPTIONAL_ATTR_IDS = ['customsValueIncotermsNote'] as const;
+export const W2_WORKSHOP_TZ_GENERAL_COMMERCE_OPTIONAL_ATTR_IDS = [
+  'customsValueIncotermsNote',
+] as const;
 
 /** Ручной маппинг attributeId → секция навигации ТЗ (поверх каталога и groupId). */
 export const WORKSHOP_TZ_ATTR_SECTION_MAP: Record<string, DossierSection> = {
@@ -265,7 +267,9 @@ export function calculateWorkshopTzSectionCompletion(
     const doneSku = dossier.assignments.some((a) => a.attributeId === 'sku' && a.values.length > 0)
       ? 1
       : 0;
-    const doneName = dossier.assignments.some((a) => a.attributeId === 'name' && a.values.length > 0)
+    const doneName = dossier.assignments.some(
+      (a) => a.attributeId === 'name' && a.values.length > 0
+    )
       ? 1
       : 0;
     const done = doneRows + doneSku + doneName;
@@ -298,7 +302,9 @@ export function calculateWorkshopTzSectionCompletion(
     const baseTotal = sectionRows.length || 1;
     const baseDone = sectionRows.filter((r) => workshop2TzCatalogRowFilled(dossier, r)).length;
 
-    const matCanon = dossier.assignments.find((a) => a.kind === 'canonical' && a.attributeId === 'mat');
+    const matCanon = dossier.assignments.find(
+      (a) => a.kind === 'canonical' && a.attributeId === 'mat'
+    );
     const slotMat = Boolean(
       matCanon?.values?.some((v) => (v.displayLabel?.trim() || v.text?.trim() || '').length > 0)
     );
@@ -307,8 +313,9 @@ export function calculateWorkshopTzSectionCompletion(
       (a) => a.kind === 'canonical' && a.attributeId === 'composition'
     );
     const compTexts =
-      compCanon?.values.map((v) => v.text?.trim()).filter((t): t is string => Boolean(t && t.length)) ??
-      [];
+      compCanon?.values
+        .map((v) => v.text?.trim())
+        .filter((t): t is string => Boolean(t && t.length)) ?? [];
     const compTotal = w2ParseCompositionPctFromTexts(compTexts);
     const slotComposition =
       Boolean(compCanon?.values?.length) &&

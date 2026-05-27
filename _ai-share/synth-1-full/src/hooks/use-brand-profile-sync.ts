@@ -44,10 +44,7 @@ export function useBrandProfileSync(brandId = DEFAULT_BRAND_ID) {
         setState((s) => ({ ...s, loading: false, lastSynced: new Date() }));
         return { success: true };
       } catch (err) {
-        const message = getUnknownErrorMessage(
-          err,
-          `Не удалось переподключить ${provider}`
-        );
+        const message = getUnknownErrorMessage(err, `Не удалось переподключить ${provider}`);
         setState((s) => ({ ...s, loading: false, error: message }));
         return { success: false, error: message };
       }

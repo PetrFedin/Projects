@@ -29,13 +29,7 @@ const HomeBelowFoldReady = memo(function HomeBelowFoldReady({
 }: HomeBelowFoldReadyProps) {
   const live = useHomeCmsLive();
 
-  return (
-    <HomeBelowFoldStack
-      viewRole={viewRole}
-      isDropsUnlocked={isDropsUnlocked}
-      live={live}
-    />
-  );
+  return <HomeBelowFoldStack viewRole={viewRole} isDropsUnlocked={isDropsUnlocked} live={live} />;
 });
 
 type HomeBelowFoldGateProps = HomeBelowFoldReadyProps;

@@ -21,7 +21,9 @@ describe('workshop2-composition-label-layout', () => {
   });
 
   it('ensure sorts by zIndex', () => {
-    const sorted = ensureCompositionLabelLayoutElements(buildDefaultCompositionLabelLayoutElements());
+    const sorted = ensureCompositionLabelLayoutElements(
+      buildDefaultCompositionLabelLayoutElements()
+    );
     expect(sorted.map((e) => e.kind)).toEqual(['text', 'careStrip', 'logo']);
   });
 

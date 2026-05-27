@@ -498,10 +498,7 @@ class DomainEventBus {
     return event.type || event.aggregateType;
   }
 
-  private collectHandlers(
-    eventType: string,
-    aggregateType: string
-  ): DomainEventHandler[] {
+  private collectHandlers(eventType: string, aggregateType: string): DomainEventHandler[] {
     const handlers = this.subscribers.get(eventType) || [];
     const aggregateHandlers = this.subscribers.get(aggregateType) || [];
     return [...handlers, ...aggregateHandlers];
@@ -545,7 +542,9 @@ class DomainEventBus {
     if (!allOk) {
       const first = rejected[0];
       const reason =
-        first?.status === 'rejected' ? getUnknownErrorDetail(first.reason) : 'Urgent handler failed';
+        first?.status === 'rejected'
+          ? getUnknownErrorDetail(first.reason)
+          : 'Urgent handler failed';
       this.addToDLQ(event, `Urgent publish failed: ${reason}`);
       this.logBusMetric('domain_event_bus.urgent_failed', {
         type: eventType,

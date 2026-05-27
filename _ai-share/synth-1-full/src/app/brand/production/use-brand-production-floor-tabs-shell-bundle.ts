@@ -116,13 +116,14 @@ export function useBrandProductionFloorTabsShellBundle(
 ): BrandProductionFloorTabsShellBundleResult {
   const stagesFilterOn = stagesTabHasActiveFilters(args.searchParams);
 
-  const { setTab, openArticleProductionHub, productionFullPageUrl } = useBrandProductionFloorNavigation({
-    articleContextValid: args.articleContextValid,
-    pathname: args.pathname,
-    router: args.router,
-    searchParams: args.searchParams,
-    setTabState: args.setTabState,
-  });
+  const { setTab, openArticleProductionHub, productionFullPageUrl } =
+    useBrandProductionFloorNavigation({
+      articleContextValid: args.articleContextValid,
+      pathname: args.pathname,
+      router: args.router,
+      searchParams: args.searchParams,
+      setTabState: args.setTabState,
+    });
 
   const exportUnifiedFlowJson = useBrandProductionExportUnifiedFlowJson({
     unifiedDoc: args.unifiedDoc,

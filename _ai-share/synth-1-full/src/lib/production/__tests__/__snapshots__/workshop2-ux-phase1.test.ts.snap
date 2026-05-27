@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`workshop2 ux phase1 — chip render helpers buildWorkshop2FitPanelMeta snapshot 1`] = `
+{
+  "nextAction": "Fit3D: настройте URL",
+  "readiness": "CAD не привязан",
+  "summary": "Нет сессий примерки — добавьте proto/SMS/PPS для дельт и AI.",
+}
+`;
+
+exports[`workshop2 ux phase1 — chip render helpers buildWorkshop2HubToolbarChips snapshot 1`] = `
+[
+  {
+    "hintRu": "1 артикул(ов) без досье в кэше — откройте workspace для синхронизации.",
+    "id": "list",
+    "label": "Артикулы 12",
+    "tone": "amber",
+  },
+  {
+    "hintRu": "Фильтр: 8/20 · ТЗ ≥ 70%.",
+    "id": "filter",
+    "label": "Фильтр · расширенный",
+    "tone": "amber",
+  },
+]
+`;
+
+exports[`workshop2 ux phase1 — chip render helpers buildWorkshop2SamplePanelMeta snapshot 1`] = `
+{
+  "nextAction": "Создайте заказ образца или утвердите эталон",
+  "readiness": "Эталон в ожидании — создайте заказ образца для трассировки linkedSampleOrderId.",
+  "summary": "В Vault нужно минимум 1 файл(ов) с storage_path (сейчас 0).",
+}
+`;
+
+exports[`workshop2 ux phase1 — chip render helpers buildWorkshop2SupplyPanelMeta snapshot 1`] = `
+{
+  "blockers": [
+    "BOM пуст",
+  ],
+  "nextAction": "Заполните BOM и lab dip перед образцом",
+  "readiness": "Календарь T&A пуст — задайте taMilestones в досье или на вкладке «План заказа». · Lab dip",
+  "summary": "Строк снабжения нет — синхронизируйте из BOM или добавьте вручную.",
+}
+`;
+
+exports[`workshop2 ux phase1 — chip render helpers buildWorkshop2VaultPanelChips snapshot 1`] = `
+[
+  {
+    "detailRu": "Документов 0 · storage_path 0",
+    "hintRu": "Vault пуст — для handoff нужен минимум 1 файл с storage_path (S3).",
+    "id": "vault",
+    "label": "Vault",
+    "tone": "amber",
+  },
+  {
+    "detailRu": "Ссылок 3",
+    "hintRu": "Индекс: vault, ZIP ТЗ и handoff — загрузите файлы в Vault для полного пакета.",
+    "id": "index",
+    "label": "Индекс",
+    "tone": "amber",
+  },
+  {
+    "hintRu": "ZIP соберёт досье JSON; vault и BOM пусты — пакет для цеха будет минимальным.",
+    "id": "tz-zip",
+    "label": "ZIP ТЗ",
+    "tone": "amber",
+  },
+]
+`;
+
+exports[`workshop2 ux phase1 — chip render helpers buildWorkshop2WorkspaceStatusChips snapshot 1`] = `
+[
+  {
+    "hintRu": "Роль «designer»: скрыто 6 вкладок; порядок фиксирован (настройка по роли — roadmap).",
+    "id": "tabs",
+    "label": "Вкладки 2/8",
+    "tone": "amber",
+  },
+  {
+    "detailRu": "Блокеров 0 · предупреждений 0",
+    "hintRu": "Нет досье — пульс и % ТЗ недоступны.",
+    "id": "pulse",
+    "label": "ТЗ 0% · Пульс 0",
+    "tone": "amber",
+  },
+]
+`;

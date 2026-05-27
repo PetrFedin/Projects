@@ -107,7 +107,8 @@ export function Workshop2CompositionLabelTypographyControls({
             onValueChange={(v) =>
               onChange(
                 patchSpec(s, {
-                  typographyFontPreset: v === 'unset' ? '' : (v as Workshop2CompositionLabelFontPreset),
+                  typographyFontPreset:
+                    v === 'unset' ? '' : (v as Workshop2CompositionLabelFontPreset),
                 })
               )
             }

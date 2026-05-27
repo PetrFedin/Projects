@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  Factory,
-  Truck,
-  ShieldCheck,
-  Wallet,
-  AlertCircle,
-  Activity,
-} from 'lucide-react';
+import { Factory, Truck, ShieldCheck, Wallet, AlertCircle, Activity } from 'lucide-react';
 
 export const KPI_STATS = [
   {

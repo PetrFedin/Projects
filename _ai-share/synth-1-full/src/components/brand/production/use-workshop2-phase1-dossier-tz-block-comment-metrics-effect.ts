@@ -18,6 +18,8 @@ export function useWorkshop2Phase1DossierTzBlockCommentMetricsEffect(p: {
 
   useEffect(() => {
     if (!onTzBlockCommentMetrics || !tzBlockCommentMetricKeys?.length) return;
-    onTzBlockCommentMetrics(computeW2TzBlockCommentMetrics(attrCommentsById, tzBlockCommentMetricKeys));
+    onTzBlockCommentMetrics(
+      computeW2TzBlockCommentMetrics(attrCommentsById, tzBlockCommentMetricKeys)
+    );
   }, [attrCommentsById, onTzBlockCommentMetrics, tzBlockCommentMetricKeys]);
 }

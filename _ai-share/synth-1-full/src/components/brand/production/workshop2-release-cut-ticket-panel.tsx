@@ -7,7 +7,10 @@ import { Button } from '@/components/ui/button';
 import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
 import { useToast } from '@/hooks/use-toast';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
-import { postWorkshop2Event, saveWorkshop2DossierToApi } from '@/lib/production/workshop2-api-client';
+import {
+  postWorkshop2Event,
+  saveWorkshop2DossierToApi,
+} from '@/lib/production/workshop2-api-client';
 import {
   appendWorkshop2CutTicket,
   advanceWorkshop2CutTicketStatus,
@@ -42,7 +45,10 @@ export function Workshop2ReleaseCutTicketPanel({
   const cid = collectionId ?? ref.collectionId;
   const aid = articleId ?? String(ref.articleId);
 
-  const persistDossier = async (next: Workshop2DossierPhase1, prev: Workshop2DossierPhase1 | null) => {
+  const persistDossier = async (
+    next: Workshop2DossierPhase1,
+    prev: Workshop2DossierPhase1 | null
+  ) => {
     if (!cid || !aid) return;
     setBusy(true);
     try {
@@ -164,13 +170,11 @@ export function Workshop2ReleaseCutTicketPanel({
       </div>
 
       <div className="rounded-md border border-slate-100 bg-slate-50/80 p-2">
-        <p className="text-text-muted mb-1 text-[10px] font-semibold uppercase">
-          Статусная машина
-        </p>
+        <p className="text-text-muted mb-1 text-[10px] font-semibold uppercase">Статусная машина</p>
         <ol className="flex flex-wrap gap-1 text-[10px]">
           {listWorkshop2CutTicketStatusOrder().map((st, i) => (
             <li key={st} className="flex items-center gap-1">
-              <span className="rounded bg-white px-1.5 py-0.5 border">
+              <span className="rounded border bg-white px-1.5 py-0.5">
                 {labelWorkshop2CutTicketStatusRu(st)}
               </span>
               {i < listWorkshop2CutTicketStatusOrder().length - 1 ? (
@@ -188,7 +192,7 @@ export function Workshop2ReleaseCutTicketPanel({
           {tickets.map((t) => {
             const nextSt = getNextWorkshop2CutTicketStatus(t.status);
             return (
-              <li key={t.id} className="rounded border px-2 py-1.5 space-y-1.5">
+              <li key={t.id} className="space-y-1.5 rounded border px-2 py-1.5">
                 <div>
                   <span className="font-mono font-semibold">{t.ticketNo}</span>
                   {' · '}

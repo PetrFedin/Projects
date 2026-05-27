@@ -16,15 +16,15 @@
 
 Условные обозначения: **●** первичный кабинет действия; **◐** видит/отвечает; **—** не в ядре сценария.
 
-| Поток | Бренд | Магазин | Дистрибутор | Производство | Поставщик |
-|-------|-------|---------|-------------|--------------|-----------|
-| **Чаты / треды** по заказу, коллекции, спору | ● Лента и контекст в сообщениях | ◐ Тот же тред при участии байера | ◐ При подключении к сети | ◐ PO/QC-треды | ◐ RFQ/поставка материалов |
-| **Задачи / дедлайны** (календарь) | ● Слои коллекции, производство, compliance | ◐ События закупки, отгрузки | ◐ Оптовые слоты | ◐ Этапы цеха | ◐ Поставки сырья |
-| **B2B заказ** (создание → подтверждение) | ● Заказы B2B, правила, ассортимент | ● Создание/черновики (ритейл) | ● Те же маршруты опта при роли дистрибутора | ◐ Не дублируем отдельной группой «Заказы» в factory — исполнение через PO в производстве | — |
-| **Передача в производство** (B2B → PO / выпуск) | ● Производство, матрица SKU (внутри модуля) | ◐ Статус через заказ | ◐ Аналогично | ● Операции, PO, цех | — |
-| **Материалы / RFQ** | ● Поставщики, RFQ, склад | — | — | ◐ Резерв/снятие | ● Каталог, RFQ, VMI |
-| **Логистика / отгрузка** | ● Центр логистики, склад, КИЗ | ◐ Трекинг в опте | ◐ Карта поставок | ◐ Отгрузка партий | ◐ Поставка на фабрику |
-| **Комплаенс / маркировка** | ● Склад, документооборот, привязка к заказу | ◐ Если затрагивает выдачу в точке | ◐ Цепочка опта | ◐ Партии | ◐ Сертификаты материала |
+| Поток                                           | Бренд                                       | Магазин                           | Дистрибутор                                 | Производство                                                                             | Поставщик                 |
+| ----------------------------------------------- | ------------------------------------------- | --------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------- |
+| **Чаты / треды** по заказу, коллекции, спору    | ● Лента и контекст в сообщениях             | ◐ Тот же тред при участии байера  | ◐ При подключении к сети                    | ◐ PO/QC-треды                                                                            | ◐ RFQ/поставка материалов |
+| **Задачи / дедлайны** (календарь)               | ● Слои коллекции, производство, compliance  | ◐ События закупки, отгрузки       | ◐ Оптовые слоты                             | ◐ Этапы цеха                                                                             | ◐ Поставки сырья          |
+| **B2B заказ** (создание → подтверждение)        | ● Заказы B2B, правила, ассортимент          | ● Создание/черновики (ритейл)     | ● Те же маршруты опта при роли дистрибутора | ◐ Не дублируем отдельной группой «Заказы» в factory — исполнение через PO в производстве | —                         |
+| **Передача в производство** (B2B → PO / выпуск) | ● Производство, матрица SKU (внутри модуля) | ◐ Статус через заказ              | ◐ Аналогично                                | ● Операции, PO, цех                                                                      | —                         |
+| **Материалы / RFQ**                             | ● Поставщики, RFQ, склад                    | —                                 | —                                           | ◐ Резерв/снятие                                                                          | ● Каталог, RFQ, VMI       |
+| **Логистика / отгрузка**                        | ● Центр логистики, склад, КИЗ               | ◐ Трекинг в опте                  | ◐ Карта поставок                            | ◐ Отгрузка партий                                                                        | ◐ Поставка на фабрику     |
+| **Комплаенс / маркировка**                      | ● Склад, документооборот, привязка к заказу | ◐ Если затрагивает выдачу в точке | ◐ Цепочка опта                              | ◐ Партии                                                                                 | ◐ Сертификаты материала   |
 
 ## 3. Ожидаемое поведение при правках (контракт разработки)
 
@@ -55,15 +55,15 @@
 
 ### 5.1. Уровни и границы ответственности
 
-| Уровень | Что гарантирует | Чего не гарантирует |
-|---------|-----------------|---------------------|
-| **Документы** (`CROSS_ROLE_FLOWS.md`, `CABINET-INTERACTION-ARCHITECTURE.md`) | Согласованность смысла, матрица ролей, правила правок | Исполнение в браузере, побочные эффекты API |
-| **Статика навигации** | Инварианты `comms`, матрица роль↔хаб (`validate:cabinet-nav`) | Поведение экранов после перехода |
-| **Контрактные guard-ы** (`npm run check:contracts`, см. `SOURCE_OF_TRUTH.md`) | Границы модулей, health-контракт ops (при настроенном URL) | Полный пользовательский сценарий |
-| **Jest** (`test:contracts:b2b` и смежные `**/__tests__/**`) | Outbox, шина событий, разбор health, PATCH↔GET для API в изоляции | Рендер React, cookie-сессии, кросс-кабинет в одном прогоне браузера |
-| **Playwright `test:e2e:api`** | HTTP-контракты, узкий UI (create-order export), сегменты навигации, загрузка хабов | Не каждая кнопка каждого экрана; не каждый тип `DomainEvent` у «второй» роли |
-| **Playwright `test:e2e:verification`** | Демо-сквозняк инвентаря Brand↔Shop, ссылки, upload CSV | Не PO/RFQ/мульти-тенант чат |
-| **Будущие E2E** (строки с «—» в §5.6) | «Действие в кабинете A → событие/outbox → отражение в B» | Пока вносить в таблицу §5.6 по мере появления `test('…')` |
+| Уровень                                                                       | Что гарантирует                                                                    | Чего не гарантирует                                                          |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| **Документы** (`CROSS_ROLE_FLOWS.md`, `CABINET-INTERACTION-ARCHITECTURE.md`)  | Согласованность смысла, матрица ролей, правила правок                              | Исполнение в браузере, побочные эффекты API                                  |
+| **Статика навигации**                                                         | Инварианты `comms`, матрица роль↔хаб (`validate:cabinet-nav`)                      | Поведение экранов после перехода                                             |
+| **Контрактные guard-ы** (`npm run check:contracts`, см. `SOURCE_OF_TRUTH.md`) | Границы модулей, health-контракт ops (при настроенном URL)                         | Полный пользовательский сценарий                                             |
+| **Jest** (`test:contracts:b2b` и смежные `**/__tests__/**`)                   | Outbox, шина событий, разбор health, PATCH↔GET для API в изоляции                  | Рендер React, cookie-сессии, кросс-кабинет в одном прогоне браузера          |
+| **Playwright `test:e2e:api`**                                                 | HTTP-контракты, узкий UI (create-order export), сегменты навигации, загрузка хабов | Не каждая кнопка каждого экрана; не каждый тип `DomainEvent` у «второй» роли |
+| **Playwright `test:e2e:verification`**                                        | Демо-сквозняк инвентаря Brand↔Shop, ссылки, upload CSV                             | Не PO/RFQ/мульти-тенант чат                                                  |
+| **Будущие E2E** (строки с «—» в §5.6)                                         | «Действие в кабинете A → событие/outbox → отражение в B»                           | Пока вносить в таблицу §5.6 по мере появления `test('…')`                    |
 
 **Проверка «корректировка → изменение в рантайме»** в текущем коде реализована так:
 
@@ -78,9 +78,9 @@
 
 ### 5.2. Статика и навигация
 
-| Команда | Назначение |
-|---------|------------|
-| `npm run validate:cabinet-nav` | матрица ролей + `comms` + `syntha-core-groups` + **`validate:cabinet-nav-hrefs`** (относительные пути, без пустых href) |
+| Команда                                          | Назначение                                                                                                                        |
+| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run validate:cabinet-nav`                   | матрица ролей + `comms` + `syntha-core-groups` + **`validate:cabinet-nav-hrefs`** (относительные пути, без пустых href)           |
 | `npm run check:contracts` / `check:contracts:ci` | Легаси API, границы интеграций/AI, parity health-runner, опционально live-probe `domain-events` health (см. `SOURCE_OF_TRUTH.md`) |
 
 ### 5.3. Jest: домен, outbox, health (агрегат `npm run test:contracts:b2b`)
@@ -104,42 +104,42 @@
 
 Сервер: **`npm run dev:e2e`** (`127.0.0.1:3123`). Для health нужен **`DOMAIN_EVENT_HEALTH_SECRET`** (в скрипте задан `e2e-domain-health-secret`).
 
-| № | Файл | `test.describe` | Точное имя `test('…')` | Что проверяет |
-|---|------|-------------------|-------------------------|---------------|
-| 1 | `e2e/domain-events-health-api.spec.ts` | `Domain events ops health API` | `GET /api/ops/domain-events/health requires auth and returns contract payload` | 401 без Bearer; 200 с секретом; заголовки `x-request-id`, `x-domain-events-health-contract-version: v1`; JSON: `contractVersion`, `ok`, `status`, `summaryCode`, `summary`, массивы `alerts`/`degradedReasons`/`recommendations`, `thresholds`, **`bus`**, **`outbox`**, `requestId` |
-| 2 | `e2e/processes-workflow-api.spec.ts` | `Workflow processes API` | `GET /api/processes returns non-empty merged list` | Список процессов (merged), непустой |
-| 2 | ↑ | ↑ | `POST custom process → GET → PUT → GET roundtrip` | **POST 201** custom → **GET** → **PUT** → **GET** (имя обновлено) |
-| 3 | `e2e/b2b-operational-orders-api.spec.ts` | `B2B operational orders API` | `GET /api/b2b/operational-orders → jsonOk, meta, непустой список` | Список операционных заказов |
-| 3 | ↑ | ↑ | `Tenant/Owner filtering: Brand sees only its orders` | Изоляция тенанта Brand |
-| 3 | ↑ | ↑ | `Tenant/Owner filtering: Shop sees only its orders` | Изоляция тенанта Shop |
-| 3 | ↑ | ↑ | `GET /api/b2b/operational-orders/:id → jsonOk + order (id from list)` | Чтение по id |
-| 3 | ↑ | ↑ | `GET /api/b2b/operational-orders/unknown → 404 jsonError` | Ошибка 404 |
-| 3 | ↑ | ↑ | `GET /api/b2b/v1/operational-orders → wholesaleOrderId + apiVersion` | Версионированный список |
-| 3 | ↑ | ↑ | `GET /api/b2b/v1/operational-orders/:id → detail DTO (id from list)` | Версионированное чтение |
-| 3 | ↑ | ↑ | `PATCH v1 operational-note → сохранение и отражение в GET detail` | **Мутация + повторное чтение** |
-| 3 | ↑ | ↑ | `PATCH v1 internalNote → отражение в GET detail (internalNotes)` | **Мутация внутренней заметки** |
-| 4 | `e2e/b2b-integrations-dashboard-api.spec.ts` | `B2B integrations dashboard API` | `GET /api/b2b/integrations/dashboard → integrations + catalog + assembledAt` | Дашборд интеграций |
-| 4 | ↑ | ↑ | `GET /api/b2b/integrations/dashboard?brandId=demo → brandId в catalog` | Фильтр brandId |
-| 5 | `e2e/b2b-export-order-api.spec.ts` | `B2B export-order API` | `POST platform export and idempotent replay share exportJobId` | Идемпотентность, стабильный `exportJobId` |
-| 5 | ↑ | ↑ | `POST export-order/retry after simulateReject can accept` | Повтор после отказа |
-| 6 | `e2e/b2b-create-order-platform-export-ui.spec.ts` | `B2B create-order platform export UI` | `platform export card shows exportJobId after submit` | UI: заполнение `shop-b2b-platform-export-order-id`, клик **`shop-b2b-platform-export-submit`**, ожидание **`POST /api/b2b/export-order`**, проверка **`shop-b2b-platform-export-result`** (текст `exportJobId`, заказ) |
-| 7 | `e2e/b2b-catalog.spec.ts` | `B2B Catalog` | `catalog loads and search filters products` | Загрузка каталога B2B |
-| 8 | `e2e/production.spec.ts` | `Production` | `production page loads` | `/factory/production` без 5xx |
-| 8 | ↑ | ↑ | `production page has content` | Контент страницы |
-| 9 | `e2e/shop-erp-analytics-strip.spec.ts` | `Shop ERP sync API + analytics segment strip` | `GET /api/shop/erp-sync-status returns JSON with lastSuccessAt` | Контракт ERP; опционально поле **`domainOutboxPending`** |
-| 9 | ↑ | ↑ | `segment nav visible on retail and B2B analytics URLs` | Видимость **`shop-analytics-segment-nav`** и ссылок-сегментов на множестве URL (`data-testid` перечислены в исходнике) |
-| 9 | ↑ | ↑ | `operational B2B: ERP strip + cross-links on orders, tracking, claims, replenishment` | Навигационные кресты ритейл↔B2B на экранах заказов/трекинга/претензий/пополнения |
+| №   | Файл                                              | `test.describe`                               | Точное имя `test('…')`                                                                | Что проверяет                                                                                                                                                                                                                                                                        |
+| --- | ------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | `e2e/domain-events-health-api.spec.ts`            | `Domain events ops health API`                | `GET /api/ops/domain-events/health requires auth and returns contract payload`        | 401 без Bearer; 200 с секретом; заголовки `x-request-id`, `x-domain-events-health-contract-version: v1`; JSON: `contractVersion`, `ok`, `status`, `summaryCode`, `summary`, массивы `alerts`/`degradedReasons`/`recommendations`, `thresholds`, **`bus`**, **`outbox`**, `requestId` |
+| 2   | `e2e/processes-workflow-api.spec.ts`              | `Workflow processes API`                      | `GET /api/processes returns non-empty merged list`                                    | Список процессов (merged), непустой                                                                                                                                                                                                                                                  |
+| 2   | ↑                                                 | ↑                                             | `POST custom process → GET → PUT → GET roundtrip`                                     | **POST 201** custom → **GET** → **PUT** → **GET** (имя обновлено)                                                                                                                                                                                                                    |
+| 3   | `e2e/b2b-operational-orders-api.spec.ts`          | `B2B operational orders API`                  | `GET /api/b2b/operational-orders → jsonOk, meta, непустой список`                     | Список операционных заказов                                                                                                                                                                                                                                                          |
+| 3   | ↑                                                 | ↑                                             | `Tenant/Owner filtering: Brand sees only its orders`                                  | Изоляция тенанта Brand                                                                                                                                                                                                                                                               |
+| 3   | ↑                                                 | ↑                                             | `Tenant/Owner filtering: Shop sees only its orders`                                   | Изоляция тенанта Shop                                                                                                                                                                                                                                                                |
+| 3   | ↑                                                 | ↑                                             | `GET /api/b2b/operational-orders/:id → jsonOk + order (id from list)`                 | Чтение по id                                                                                                                                                                                                                                                                         |
+| 3   | ↑                                                 | ↑                                             | `GET /api/b2b/operational-orders/unknown → 404 jsonError`                             | Ошибка 404                                                                                                                                                                                                                                                                           |
+| 3   | ↑                                                 | ↑                                             | `GET /api/b2b/v1/operational-orders → wholesaleOrderId + apiVersion`                  | Версионированный список                                                                                                                                                                                                                                                              |
+| 3   | ↑                                                 | ↑                                             | `GET /api/b2b/v1/operational-orders/:id → detail DTO (id from list)`                  | Версионированное чтение                                                                                                                                                                                                                                                              |
+| 3   | ↑                                                 | ↑                                             | `PATCH v1 operational-note → сохранение и отражение в GET detail`                     | **Мутация + повторное чтение**                                                                                                                                                                                                                                                       |
+| 3   | ↑                                                 | ↑                                             | `PATCH v1 internalNote → отражение в GET detail (internalNotes)`                      | **Мутация внутренней заметки**                                                                                                                                                                                                                                                       |
+| 4   | `e2e/b2b-integrations-dashboard-api.spec.ts`      | `B2B integrations dashboard API`              | `GET /api/b2b/integrations/dashboard → integrations + catalog + assembledAt`          | Дашборд интеграций                                                                                                                                                                                                                                                                   |
+| 4   | ↑                                                 | ↑                                             | `GET /api/b2b/integrations/dashboard?brandId=demo → brandId в catalog`                | Фильтр brandId                                                                                                                                                                                                                                                                       |
+| 5   | `e2e/b2b-export-order-api.spec.ts`                | `B2B export-order API`                        | `POST platform export and idempotent replay share exportJobId`                        | Идемпотентность, стабильный `exportJobId`                                                                                                                                                                                                                                            |
+| 5   | ↑                                                 | ↑                                             | `POST export-order/retry after simulateReject can accept`                             | Повтор после отказа                                                                                                                                                                                                                                                                  |
+| 6   | `e2e/b2b-create-order-platform-export-ui.spec.ts` | `B2B create-order platform export UI`         | `platform export card shows exportJobId after submit`                                 | UI: заполнение `shop-b2b-platform-export-order-id`, клик **`shop-b2b-platform-export-submit`**, ожидание **`POST /api/b2b/export-order`**, проверка **`shop-b2b-platform-export-result`** (текст `exportJobId`, заказ)                                                               |
+| 7   | `e2e/b2b-catalog.spec.ts`                         | `B2B Catalog`                                 | `catalog loads and search filters products`                                           | Загрузка каталога B2B                                                                                                                                                                                                                                                                |
+| 8   | `e2e/production.spec.ts`                          | `Production`                                  | `production page loads`                                                               | `/factory/production` без 5xx                                                                                                                                                                                                                                                        |
+| 8   | ↑                                                 | ↑                                             | `production page has content`                                                         | Контент страницы                                                                                                                                                                                                                                                                     |
+| 9   | `e2e/shop-erp-analytics-strip.spec.ts`            | `Shop ERP sync API + analytics segment strip` | `GET /api/shop/erp-sync-status returns JSON with lastSuccessAt`                       | Контракт ERP; опционально поле **`domainOutboxPending`**                                                                                                                                                                                                                             |
+| 9   | ↑                                                 | ↑                                             | `segment nav visible on retail and B2B analytics URLs`                                | Видимость **`shop-analytics-segment-nav`** и ссылок-сегментов на множестве URL (`data-testid` перечислены в исходнике)                                                                                                                                                               |
+| 9   | ↑                                                 | ↑                                             | `operational B2B: ERP strip + cross-links on orders, tracking, claims, replenishment` | Навигационные кресты ритейл↔B2B на экранах заказов/трекинга/претензий/пополнения                                                                                                                                                                                                     |
 
 **Имена тестов** в первой колонке «Точное имя» можно копировать в PR как **идентификатор сценария**; при добавлении нового теста — добавить строку в эту таблицу.
 
 ### 5.5. Другие npm-цели Playwright (вне `test:e2e:api`)
 
-| Скрипт | Файлы | Назначение |
-|--------|-------|------------|
+| Скрипт                          | Файлы                                 | Назначение                                                                                                         |
+| ------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `npm run test:e2e:verification` | `e2e/unified-ecosystem-smoke.spec.ts` | Демо-сквозняк: инвентарь Brand↔Shop (serial), ритейл+аналитика, оболочки `/brand/logistics`, `/brand/integrations` |
-| `npm run test:e2e:cabinet-hubs` | `e2e/cabinet-hubs-smoke.spec.ts` | Для каждого пути из `CABINET_HUBS`: ответ не 5xx, URL, видимость `main` |
-| `npm run test:e2e:light` | `e2e/smoke.spec.ts` | Короткий smoke страниц |
-| `npm run test:e2e` | все `e2e/*.spec.ts` (полный набор) | Полный прогон |
+| `npm run test:e2e:cabinet-hubs` | `e2e/cabinet-hubs-smoke.spec.ts`      | Для каждого пути из `CABINET_HUBS`: ответ не 5xx, URL, видимость `main`                                            |
+| `npm run test:e2e:light`        | `e2e/smoke.spec.ts`                   | Короткий smoke страниц                                                                                             |
+| `npm run test:e2e`              | все `e2e/*.spec.ts` (полный набор)    | Полный прогон                                                                                                      |
 
 **`cabinet-hubs-smoke`**: генерируемые имена `cabinet hub: <name> (<path>)` для путей `/admin`, `/shop`, `/brand`, `/client`, `/distributor`, `/factory/production`, `/factory/supplier`.
 
@@ -152,33 +152,33 @@
 
 ### 5.6. Таксономия действий UI и уровень проверки «изменение зафиксировано»
 
-| Класс действия | Примеры в продукте | Как доказать изменение в рантайме | Сейчас в репозитории |
-|----------------|-------------------|-----------------------------------|----------------------|
-| **Submit / RPC** | Отправка формы, `POST` export | `waitForResponse` + assert тела/виджета результата | `b2b-create-order-platform-export-ui`, `b2b-export-order-api` |
-| **Статус заказа (бренд → общий read-model)** | `PATCH` v1 `/operational-orders/:id/status` (только brand), GET list/detail у shop | `PATCH` → `GET` detail/list с тем же `status` | `b2b-operational-orders-api` — `PATCH v1 status (brand) → GET detail+list (shop) show same status` |
-| **Сохранение поля (API)** | Operational note, internal note | `PATCH` → `GET` того же ресурса | `b2b-operational-orders-api` (два PATCH-теста) |
-| **Переход по связи** | Ссылка Brand→Shop инвентарь | `waitForURL` / assert `href` + видимость целевой страницы | `unified-ecosystem-smoke`, `shop-erp-analytics-strip` (сегменты) |
-| **Переключение среза аналитики** | Тот же layout, другой `data-testid` ссылки | Видимость полосы `shop-analytics-segment-nav` + пар ссылок | `shop-erp-analytics-strip` |
-| **Загрузка файла** | CSV остатков | `setInputFiles` + `waitForResponse` POST + assert текста «последний принятый файл» | `unified-ecosystem-smoke` (`Shop inventory shell`) |
-| **Состояние шины / outbox** | Нет UI-кнопки; снимок для ops | Контракт JSON health | `domain-events-health-api` + Jest |
-| **Схема LIVE-процесса (бренд)** | Редактор этапов на `/brand/process/.../live` | `PUT /api/processes/:id` → тот же контент в `GET` после сохранения (и персистенция в файле на одном инстансе) | API-уровень: **`processes-workflow-api`** (`POST`→`GET`→`PUT`→`GET`); UI-редактор без отдельного Playwright |
-| **Чат / тред / календарь по контексту** | События в `comms` | Сквозной сценарий с двумя сессиями | **—** (нет выделенного Playwright в `test:e2e:api`) |
-| **PO / выпуск на фабрике** | Смена статуса PO | Событие + второй актор | **—** |
-| **RFQ поставщика** | Ответ на RFQ | Отражение у бренда | **—** |
+| Класс действия                               | Примеры в продукте                                                                 | Как доказать изменение в рантайме                                                                             | Сейчас в репозитории                                                                                        |
+| -------------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Submit / RPC**                             | Отправка формы, `POST` export                                                      | `waitForResponse` + assert тела/виджета результата                                                            | `b2b-create-order-platform-export-ui`, `b2b-export-order-api`                                               |
+| **Статус заказа (бренд → общий read-model)** | `PATCH` v1 `/operational-orders/:id/status` (только brand), GET list/detail у shop | `PATCH` → `GET` detail/list с тем же `status`                                                                 | `b2b-operational-orders-api` — `PATCH v1 status (brand) → GET detail+list (shop) show same status`          |
+| **Сохранение поля (API)**                    | Operational note, internal note                                                    | `PATCH` → `GET` того же ресурса                                                                               | `b2b-operational-orders-api` (два PATCH-теста)                                                              |
+| **Переход по связи**                         | Ссылка Brand→Shop инвентарь                                                        | `waitForURL` / assert `href` + видимость целевой страницы                                                     | `unified-ecosystem-smoke`, `shop-erp-analytics-strip` (сегменты)                                            |
+| **Переключение среза аналитики**             | Тот же layout, другой `data-testid` ссылки                                         | Видимость полосы `shop-analytics-segment-nav` + пар ссылок                                                    | `shop-erp-analytics-strip`                                                                                  |
+| **Загрузка файла**                           | CSV остатков                                                                       | `setInputFiles` + `waitForResponse` POST + assert текста «последний принятый файл»                            | `unified-ecosystem-smoke` (`Shop inventory shell`)                                                          |
+| **Состояние шины / outbox**                  | Нет UI-кнопки; снимок для ops                                                      | Контракт JSON health                                                                                          | `domain-events-health-api` + Jest                                                                           |
+| **Схема LIVE-процесса (бренд)**              | Редактор этапов на `/brand/process/.../live`                                       | `PUT /api/processes/:id` → тот же контент в `GET` после сохранения (и персистенция в файле на одном инстансе) | API-уровень: **`processes-workflow-api`** (`POST`→`GET`→`PUT`→`GET`); UI-редактор без отдельного Playwright |
+| **Чат / тред / календарь по контексту**      | События в `comms`                                                                  | Сквозной сценарий с двумя сессиями                                                                            | **—** (нет выделенного Playwright в `test:e2e:api`)                                                         |
+| **PO / выпуск на фабрике**                   | Смена статуса PO                                                                   | Событие + второй актор                                                                                        | **—**                                                                                                       |
+| **RFQ поставщика**                           | Ответ на RFQ                                                                       | Отражение у бренда                                                                                            | **—**                                                                                                       |
 
 Строки с **—** — кандидаты на будущие идентификаторы `test('…')`; при добавлении теста внести **файл + полное имя теста** в §5.4 или подтаблицу ниже.
 
 ### 5.7. Матрица: строка §2 ↔ автотесты ↔ пробел
 
-| Строка §2 (поток) | Покрытие сейчас | Пробел / следующий шаг |
-|-------------------|-----------------|-------------------------|
-| Чаты / треды | — | E2E с двумя контекстами или контракт API сообщений |
-| Задачи / дедлайны (календарь) | — | Событие `calendar` + отображение у второй роли |
+| Строка §2 (поток)                    | Покрытие сейчас                                                                                                                                      | Пробел / следующий шаг                                                                                                              |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Чаты / треды                         | —                                                                                                                                                    | E2E с двумя контекстами или контракт API сообщений                                                                                  |
+| Задачи / дедлайны (календарь)        | —                                                                                                                                                    | Событие `calendar` + отображение у второй роли                                                                                      |
 | B2B заказ (создание → подтверждение) | operational orders list/detail, export API/UI, catalog; **PATCH v1 status** (бренд) → тот же статус в GET у ритейлера (`b2b-operational-orders-api`) | Полное зеркалирование в **UI** второй стороны без API — по-прежнему пробел; сквозная проверка статуса на уровне **HTTP v1** закрыта |
-| Передача в производство | — | PO create + событие + экран фабрики |
-| Материалы / RFQ | — | RFQ flow |
-| Логистика / отгрузка | unified smoke (ссылки), ERP strip | Трекинг номера отправления кросс-роль |
-| Комплаенс / маркировка | — | КИЗ/сертификат цепочка |
+| Передача в производство              | —                                                                                                                                                    | PO create + событие + экран фабрики                                                                                                 |
+| Материалы / RFQ                      | —                                                                                                                                                    | RFQ flow                                                                                                                            |
+| Логистика / отгрузка                 | unified smoke (ссылки), ERP strip                                                                                                                    | Трекинг номера отправления кросс-роль                                                                                               |
+| Комплаенс / маркировка               | —                                                                                                                                                    | КИЗ/сертификат цепочка                                                                                                              |
 
 ### 5.8. Шаблон записи нового тестового id в PR
 

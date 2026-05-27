@@ -53,9 +53,7 @@ export function Workshop2DossierAssignmentSendPanel({
     sketchReady: boolean;
     techPackCount: number;
     techPackWithBytes: number;
-    lastHandoff:
-      | null
-      | { brandDispatchedAt?: string | null; factoryReceivedAt?: string | null };
+    lastHandoff: null | { brandDispatchedAt?: string | null; factoryReceivedAt?: string | null };
     openCriticalCommentsCount: number;
     /** Первый незакрытый пункт чеклиста отправки (если есть) — для баннера «Задание». */
     firstUnmet?: { id: string; label: string } | null;
@@ -94,7 +92,7 @@ export function Workshop2DossierAssignmentSendPanel({
       className="border-border-default scroll-mt-24 space-y-4 rounded-xl border bg-white p-4 shadow-sm"
     >
       <div className="border-border-default flex flex-wrap items-start gap-3 border-b pb-4">
-        <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-accent-primary/15 shadow-sm">
+        <div className="bg-accent-primary/10 text-accent-primary border-accent-primary/15 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border shadow-sm">
           <LucideIcons.Send className="h-4 w-4 shrink-0" aria-hidden />
         </div>
         <div className="min-w-0 flex-1 space-y-2">
@@ -103,7 +101,7 @@ export function Workshop2DossierAssignmentSendPanel({
             Финальная цепочка: ворота, pre-flight, handoff и «Итоговое ТЗ».
           </p>
           {includeCompositionLabelInFactoryAssignment ? (
-            <div className="border-emerald-400/80 bg-emerald-50/80 text-emerald-950 rounded-lg border px-3 py-2 text-[11px] leading-snug mt-2">
+            <div className="mt-2 rounded-lg border border-emerald-400/80 bg-emerald-50/80 px-3 py-2 text-[11px] leading-snug text-emerald-950">
               <strong>Составник включён в задание цеха.</strong> Полный макет и текст — во вкладке
               «Материалы», якорь «Бирка».
             </div>
@@ -111,27 +109,28 @@ export function Workshop2DossierAssignmentSendPanel({
         </div>
       </div>
 
-      <div className="rounded-lg border border-slate-200/90 bg-slate-50/90 px-3 py-2.5 text-[11px] leading-relaxed text-text-secondary">
+      <div className="text-text-secondary rounded-lg border border-slate-200/90 bg-slate-50/90 px-3 py-2.5 text-[11px] leading-relaxed">
         <p className="text-text-primary mb-1.5 text-xs font-semibold">Для менеджера: по шагам</p>
         <ol className="list-decimal space-y-1 pl-4">
           <li>
-            Раскройте ниже «Чеклист и диагностика передачи» и доведите пункты до зелёных отметок (скетч,
-            ZIP, подписи 4 секций, передача, комментарии).
+            Раскройте ниже «Чеклист и диагностика передачи» и доведите пункты до зелёных отметок
+            (скетч, ZIP, подписи 4 секций, передача, комментарии).
           </li>
           <li>
-            Нажмите кнопку «Мастер „Итоговое ТЗ“» выше — сформируйте файл; запись попадёт в журнал артикула.
+            Нажмите кнопку «Мастер „Итоговое ТЗ“» выше — сформируйте файл; запись попадёт в журнал
+            артикула.
           </li>
           <li>В блоке передачи ниже отметьте «бренд передал» и «цех принял».</li>
           <li>
-            Непонятно, что мешает: кнопка «Пульс артикула» в шапке карточки или «Открыть проблемный блок»
-            здесь — они ведут к той же диагностике.
+            Непонятно, что мешает: кнопка «Пульс артикула» в шапке карточки или «Открыть проблемный
+            блок» здесь — они ведут к той же диагностике.
           </li>
         </ol>
       </div>
 
       <div className="space-y-3">
-        <div className="border-border-default rounded-lg border bg-bg-surface2/40">
-          <div className="text-text-primary flex items-center gap-2 px-3 py-2.5 text-left border-b border-border-default">
+        <div className="border-border-default bg-bg-surface2/40 rounded-lg border">
+          <div className="text-text-primary border-border-default flex items-center gap-2 border-b px-3 py-2.5 text-left">
             <span className="text-[11px] font-semibold">Детали отправки и экспорт</span>
             <span className="text-text-secondary ml-auto text-[10px] tabular-nums">
               {assignmentChain.checklistReady ? 'чеклист ок' : 'чеклист открыт'} ·{' '}
@@ -164,9 +163,9 @@ export function Workshop2DossierAssignmentSendPanel({
                         <p className="text-text-primary mb-1.5 font-medium">Как устроено</p>
                         <p>
                           Сначала закройте чеклист и pre-flight. Затем сформируйте «Итоговое ТЗ»
-                          (единый HTML/PDF в фиксированном порядке разделов). После этого зафиксируйте
-                          handoff: «бренд передал» и «цех принял»; экспорт автоматически попадёт в
-                          журнал.
+                          (единый HTML/PDF в фиксированном порядке разделов). После этого
+                          зафиксируйте handoff: «бренд передал» и «цех принял»; экспорт
+                          автоматически попадёт в журнал.
                         </p>
                       </PopoverContent>
                     </Popover>
@@ -238,9 +237,9 @@ export function Workshop2DossierAssignmentSendPanel({
                     <TooltipContent side="top" className={WORKSHOP_HINT_TOOLTIP_CLASS}>
                       <p className="max-w-xs text-xs">
                         Три шага: структура документа → предпросмотр HTML → скачивание или печать в
-                        PDF. Итоговый файл — семантическая вёрстка (заголовки h1–h4, списки, таблицы,
-                        pre для BOM), единые отступы и шрифт system-ui; печать через браузер «Сохранить
-                        как PDF».
+                        PDF. Итоговый файл — семантическая вёрстка (заголовки h1–h4, списки,
+                        таблицы, pre для BOM), единые отступы и шрифт system-ui; печать через
+                        браузер «Сохранить как PDF».
                         {tzWriteDisabled
                           ? ' Запись экспорта в досье и журнал — только с правом «Редактировать производство».'
                           : ''}
@@ -261,8 +260,9 @@ export function Workshop2DossierAssignmentSendPanel({
               Последний production export: {lastProductionExportBadge.statusLabel}
             </div>
             <div>
-              score {lastProductionExportBadge.score}/100 · блокеры {lastProductionExportBadge.blockers} ·
-              предупреждения {lastProductionExportBadge.warnings}
+              score {lastProductionExportBadge.score}/100 · блокеры{' '}
+              {lastProductionExportBadge.blockers} · предупреждения{' '}
+              {lastProductionExportBadge.warnings}
             </div>
             <div className="opacity-80">Обновлено: {lastProductionExportBadge.at}</div>
           </div>
@@ -287,16 +287,14 @@ export function Workshop2DossierAssignmentSendPanel({
           </summary>
           <div className="border-border-default/80 space-y-3 border-t p-3">
             <div className="space-y-1">
-              <p className="text-text-primary text-[10px] font-semibold">
-                Чеклист передачи в цех
-              </p>
+              <p className="text-text-primary text-[10px] font-semibold">Чеклист передачи в цех</p>
               <ul className="text-text-secondary space-y-1 text-[11px] leading-snug">
                 <li className="flex gap-2">
                   <span className="shrink-0" aria-hidden>
                     {factorySendHubPreview.sketchReady ? (
-                      <LucideIcons.CircleCheck className="text-emerald-600 h-3.5 w-3.5" />
+                      <LucideIcons.CircleCheck className="h-3.5 w-3.5 text-emerald-600" />
                     ) : (
-                      <LucideIcons.CircleDashed className="text-amber-600 h-3.5 w-3.5" />
+                      <LucideIcons.CircleDashed className="h-3.5 w-3.5 text-amber-600" />
                     )}
                   </span>
                   <span>
@@ -311,9 +309,9 @@ export function Workshop2DossierAssignmentSendPanel({
                     {factorySendHubPreview.techPackCount > 0 &&
                     factorySendHubPreview.techPackWithBytes ===
                       factorySendHubPreview.techPackCount ? (
-                      <LucideIcons.CircleCheck className="text-emerald-600 h-3.5 w-3.5" />
+                      <LucideIcons.CircleCheck className="h-3.5 w-3.5 text-emerald-600" />
                     ) : factorySendHubPreview.techPackWithBytes > 0 ? (
-                      <LucideIcons.CircleAlert className="text-amber-600 h-3.5 w-3.5" />
+                      <LucideIcons.CircleAlert className="h-3.5 w-3.5 text-amber-600" />
                     ) : (
                       <LucideIcons.CircleDashed className="text-text-secondary/70 h-3.5 w-3.5" />
                     )}
@@ -328,9 +326,9 @@ export function Workshop2DossierAssignmentSendPanel({
                 <li className="flex gap-2">
                   <span className="shrink-0" aria-hidden>
                     {factorySendHubPreview.sectionSignoffsFull >= 4 ? (
-                      <LucideIcons.CircleCheck className="text-emerald-600 h-3.5 w-3.5" />
+                      <LucideIcons.CircleCheck className="h-3.5 w-3.5 text-emerald-600" />
                     ) : factorySendHubPreview.sectionSignoffsFull > 0 ? (
-                      <LucideIcons.CircleAlert className="text-amber-600 h-3.5 w-3.5" />
+                      <LucideIcons.CircleAlert className="h-3.5 w-3.5 text-amber-600" />
                     ) : (
                       <LucideIcons.CircleDashed className="text-text-secondary/70 h-3.5 w-3.5" />
                     )}
@@ -345,7 +343,7 @@ export function Workshop2DossierAssignmentSendPanel({
                   <span className="shrink-0" aria-hidden>
                     {factorySendHubPreview.lastHandoff?.brandDispatchedAt &&
                     factorySendHubPreview.lastHandoff?.factoryReceivedAt ? (
-                      <LucideIcons.CircleCheck className="text-emerald-600 h-3.5 w-3.5" />
+                      <LucideIcons.CircleCheck className="h-3.5 w-3.5 text-emerald-600" />
                     ) : (
                       <LucideIcons.CircleDashed className="text-text-secondary/70 h-3.5 w-3.5" />
                     )}
@@ -367,9 +365,9 @@ export function Workshop2DossierAssignmentSendPanel({
                 <li className="flex gap-2">
                   <span className="shrink-0" aria-hidden>
                     {factorySendHubPreview.openCriticalCommentsCount === 0 ? (
-                      <LucideIcons.CircleCheck className="text-emerald-600 h-3.5 w-3.5" />
+                      <LucideIcons.CircleCheck className="h-3.5 w-3.5 text-emerald-600" />
                     ) : (
-                      <LucideIcons.CircleAlert className="text-amber-600 h-3.5 w-3.5" />
+                      <LucideIcons.CircleAlert className="h-3.5 w-3.5 text-amber-600" />
                     )}
                   </span>
                   <span>
@@ -383,9 +381,9 @@ export function Workshop2DossierAssignmentSendPanel({
                   <li className="flex gap-2">
                     <span className="shrink-0" aria-hidden>
                       {factorySendSketchPinReadiness.open === 0 ? (
-                        <LucideIcons.CircleCheck className="text-emerald-600 h-3.5 w-3.5" />
+                        <LucideIcons.CircleCheck className="h-3.5 w-3.5 text-emerald-600" />
                       ) : (
-                        <LucideIcons.CircleAlert className="text-amber-600 h-3.5 w-3.5" />
+                        <LucideIcons.CircleAlert className="h-3.5 w-3.5 text-amber-600" />
                       )}
                     </span>
                     <span>
@@ -397,7 +395,7 @@ export function Workshop2DossierAssignmentSendPanel({
                   </li>
                 ) : null}
               </ul>
-              <details className="group/pf mt-2 rounded-md border border-dashed border-border-default/80 bg-white/60">
+              <details className="group/pf border-border-default/80 mt-2 rounded-md border border-dashed bg-white/60">
                 <summary className="text-text-primary flex cursor-pointer list-none items-center gap-2 px-2.5 py-2 text-left text-[10px] font-semibold [&::-webkit-details-marker]:hidden">
                   <LucideIcons.ChevronDown
                     className="text-text-muted h-3.5 w-3.5 shrink-0 transition-transform group-open/pf:rotate-180"
@@ -422,7 +420,7 @@ export function Workshop2DossierAssignmentSendPanel({
                   )}
                 </div>
               </details>
-              <details className="group/pf2 mt-2 rounded-md border border-dashed border-border-default/80 bg-white/60">
+              <details className="group/pf2 border-border-default/80 mt-2 rounded-md border border-dashed bg-white/60">
                 <summary className="text-text-primary flex cursor-pointer list-none items-center gap-2 px-2.5 py-2 text-left text-[10px] font-semibold [&::-webkit-details-marker]:hidden">
                   <LucideIcons.ChevronDown
                     className="text-text-muted h-3.5 w-3.5 shrink-0 transition-transform group-open/pf2:rotate-180"
@@ -462,7 +460,7 @@ export function Workshop2DossierAssignmentSendPanel({
                   ) : null}
                 </div>
               </details>
-              <details className="group/tr mt-2 rounded-md border border-dashed border-border-default/80 bg-white/60">
+              <details className="group/tr border-border-default/80 mt-2 rounded-md border border-dashed bg-white/60">
                 <summary className="text-text-primary flex cursor-pointer list-none items-center gap-2 px-2.5 py-2 text-left text-[10px] font-semibold [&::-webkit-details-marker]:hidden">
                   <LucideIcons.ChevronDown
                     className="text-text-muted h-3.5 w-3.5 shrink-0 transition-transform group-open/tr:rotate-180"
@@ -488,7 +486,7 @@ export function Workshop2DossierAssignmentSendPanel({
                   </ul>
                 </div>
               </details>
-              <details className="group/roles mt-2 rounded-md border border-dashed border-border-default/80 bg-white/60">
+              <details className="group/roles border-border-default/80 mt-2 rounded-md border border-dashed bg-white/60">
                 <summary className="text-text-primary flex cursor-pointer list-none items-center gap-2 px-2.5 py-2 text-left text-[10px] font-semibold [&::-webkit-details-marker]:hidden">
                   <LucideIcons.ChevronDown
                     className="text-text-muted h-3.5 w-3.5 shrink-0 transition-transform group-open/roles:rotate-180"
@@ -496,7 +494,7 @@ export function Workshop2DossierAssignmentSendPanel({
                   />
                   Роли и порядок (подробнее)
                 </summary>
-                <div className="border-border-default/60 space-y-2 border-t px-2.5 pb-2.5 pt-1.5 text-[9px] leading-snug text-text-secondary">
+                <div className="border-border-default/60 text-text-secondary space-y-2 border-t px-2.5 pb-2.5 pt-1.5 text-[9px] leading-snug">
                   <p className="text-text-primary font-semibold">До отметок ✓ в цепочке выше</p>
                   <ol className="list-decimal space-y-1 pl-4">
                     <li>Чеклист и pre-flight на этой вкладке без блокеров.</li>
@@ -504,7 +502,9 @@ export function Workshop2DossierAssignmentSendPanel({
                       Четыре секции ТЗ — заполнение и пары подписей бренд + технолог (блок
                       «Подтверждение секции» на каждой вкладке).
                     </li>
-                    <li>Мастер «Итоговое ТЗ» и при необходимости повторный экспорт после правок.</li>
+                    <li>
+                      Мастер «Итоговое ТЗ» и при необходимости повторный экспорт после правок.
+                    </li>
                     <li>Handoff: вложения CAD, отметки «бренд передал» и «цех получил».</li>
                   </ol>
                   <p>
@@ -516,17 +516,17 @@ export function Workshop2DossierAssignmentSendPanel({
                     «Конструкция» — BOM, мерки, CAD/ZIP; подписи этих секций.
                   </p>
                   <p>
-                    <strong className="text-text-primary">Менеджер:</strong> «Паспорт» и «Задание»
-                    — карточка, pre-flight, координация handoff.
+                    <strong className="text-text-primary">Менеджер:</strong> «Паспорт» и «Задание» —
+                    карточка, pre-flight, координация handoff.
                   </p>
                   <p className="border-border-default/80 text-text-secondary border-t pt-2">
-                    Скачать HTML / печать в PDF доступны с доступом к экрану; запись экспорта в досье
-                    и журнал — только при праве{' '}
+                    Скачать HTML / печать в PDF доступны с доступом к экрану; запись экспорта в
+                    досье и журнал — только при праве{' '}
                     <code className="text-[9px]">production:edit</code>.
                   </p>
                 </div>
               </details>
-              <div className="text-text-secondary mt-2 flex flex-wrap gap-x-3 gap-y-1 border-t border-dashed border-border-default/80 pt-2 text-[10px]">
+              <div className="text-text-secondary border-border-default/80 mt-2 flex flex-wrap gap-x-3 gap-y-1 border-t border-dashed pt-2 text-[10px]">
                 <button
                   type="button"
                   className="text-accent-primary font-medium underline-offset-2 hover:underline"
@@ -548,7 +548,7 @@ export function Workshop2DossierAssignmentSendPanel({
 
         {sketchPinLinkAudit.length > 0 ? (
           <div
-            className="border-border-default bg-amber-50/80 space-y-1.5 rounded-lg border border-amber-200/90 p-2.5"
+            className="border-border-default space-y-1.5 rounded-lg border border-amber-200/90 bg-amber-50/80 p-2.5"
             role="region"
             aria-label="Метки с неполными привязками"
           >
@@ -560,7 +560,7 @@ export function Workshop2DossierAssignmentSendPanel({
                 <li key={row.id} className="text-[11px] leading-snug text-amber-950">
                   <button
                     type="button"
-                    className="text-left font-medium text-accent-primary underline-offset-2 hover:underline"
+                    className="text-accent-primary text-left font-medium underline-offset-2 hover:underline"
                     onClick={() => onSketchPinFocus(row.id)}
                   >
                     Открыть на доске
@@ -591,7 +591,7 @@ export function Workshop2DossierAssignmentSendPanel({
           </label>
           <textarea
             id="w2-collab-merge"
-            className="border-input bg-background min-h-[48px] w-full rounded-md border px-2 py-1.5 text-[11px]"
+            className="min-h-[48px] w-full rounded-md border border-input bg-background px-2 py-1.5 text-[11px]"
             placeholder="Кто что перезаписал, какая ревизия принята…"
             value={collaborationMergeNote}
             disabled={tzWriteDisabled}

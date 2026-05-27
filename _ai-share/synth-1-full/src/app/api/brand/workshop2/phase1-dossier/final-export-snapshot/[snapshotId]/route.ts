@@ -4,10 +4,7 @@ import {
   getWorkshop2ServerDossierRecord,
 } from '@/lib/server/workshop2-phase1-dossier-server-store';
 
-export async function GET(
-  req: NextRequest,
-  ctx: { params: Promise<{ snapshotId: string }> }
-) {
+export async function GET(req: NextRequest, ctx: { params: Promise<{ snapshotId: string }> }) {
   const { snapshotId: rawSnapshotId } = await ctx.params;
   const snapshotId = String(rawSnapshotId ?? '').trim();
   const u = new URL(req.url);
@@ -23,6 +20,7 @@ export async function GET(
     articleId,
     snapshotId,
   });
-  if (!snapshot) return NextResponse.json({ ok: false, error: 'snapshot_not_found' }, { status: 404 });
+  if (!snapshot)
+    return NextResponse.json({ ok: false, error: 'snapshot_not_found' }, { status: 404 });
   return NextResponse.json({ ok: true, snapshot });
 }

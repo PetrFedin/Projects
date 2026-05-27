@@ -19,7 +19,9 @@ import { workshop2TzSectionSignoffRequiredSides } from '@/lib/production/worksho
  * Сторона «подтверждена» в UI и воротах: ФИО, время и `signatureDigest` (фиксация кликом «Подтвердить»).
  * Записи только с by/at без дайджеста — устаревший формат, не показываем как «Подтверждено».
  */
-export function workshop2TzSignoffMetaIsCommitted(m: Workshop2DossierSignoffMeta | undefined): boolean {
+export function workshop2TzSignoffMetaIsCommitted(
+  m: Workshop2DossierSignoffMeta | undefined
+): boolean {
   const by = m?.by?.trim() ?? '';
   const at = m?.at?.trim() ?? '';
   const dig = m?.signatureDigest?.trim() ?? '';
@@ -61,9 +63,7 @@ export function isWorkshop2TzSectionFullySignedWithPassport(
     const meta: Workshop2DossierSignoffMeta | undefined = row?.[side];
     if (!workshop2TzSignoffMetaIsCommitted(meta)) return false;
     if (side === 'brand') {
-      if (
-        !workshop2TzSectionSignoffMetaPassportAligned(meta, brandName || undefined, !brandName)
-      ) {
+      if (!workshop2TzSectionSignoffMetaPassportAligned(meta, brandName || undefined, !brandName)) {
         return false;
       }
     }

@@ -444,7 +444,9 @@ export function StylistPanel({ viewRole = 'client' }: { viewRole?: 'client' | 'b
     if (typeof window === 'undefined') return preferences;
     try {
       const likedIds = JSON.parse(localStorage.getItem('syntha_liked_tags') ?? '[]') as string[];
-      const dislikedIds = JSON.parse(localStorage.getItem('syntha_disliked_tags') ?? '[]') as string[];
+      const dislikedIds = JSON.parse(
+        localStorage.getItem('syntha_disliked_tags') ?? '[]'
+      ) as string[];
       return {
         ...preferences,
         likedTags: likedIds, // Здесь ID товаров используются как суррогат тегов для скоринга

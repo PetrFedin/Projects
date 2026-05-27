@@ -1,7 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { loadStagesPanelsSession, saveStagesPanelsSession } from '@/lib/production/stages-panels-session';
+import {
+  loadStagesPanelsSession,
+  saveStagesPanelsSession,
+} from '@/lib/production/stages-panels-session';
 
 export type StagesCollapsiblePanelsState = {
   depsOpen: boolean;

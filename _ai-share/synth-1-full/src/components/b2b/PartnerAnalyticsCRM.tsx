@@ -40,31 +40,35 @@ export function PartnerAnalyticsCRM() {
   const [activeTab, setActiveTab] = useState<'network' | 'sales' | 'integrations'>('network');
 
   const displayPartners = useMemo(() => {
-    return b2bConnections.map((conn): {
-      id: string;
-      name: string;
-      score: number;
-      engagement: string;
-      inquiries: number;
-      conversion: string;
-      growth: string;
-      risk: string;
-      pos: string;
-    } => {
-      const profile = retailerProfiles[conn.retailerId];
-      // Enrich with mock analytics data
-      return {
-        id: conn.retailerId,
-        name: profile?.name || 'Unknown Retailer',
-        score: profile?.tier === 'VIP' ? 98 : profile?.tier === 'Gold' ? 92 : 85,
-        engagement: conn.status === 'active' ? 'High' : 'Pending',
-        inquiries: Math.floor(Math.random() * 50),
-        conversion: '18%',
-        growth: '+12%',
-        risk: 'Low',
-        pos: '1C / Bitrix24',
-      };
-    });
+    return b2bConnections.map(
+      (
+        conn
+      ): {
+        id: string;
+        name: string;
+        score: number;
+        engagement: string;
+        inquiries: number;
+        conversion: string;
+        growth: string;
+        risk: string;
+        pos: string;
+      } => {
+        const profile = retailerProfiles[conn.retailerId];
+        // Enrich with mock analytics data
+        return {
+          id: conn.retailerId,
+          name: profile?.name || 'Unknown Retailer',
+          score: profile?.tier === 'VIP' ? 98 : profile?.tier === 'Gold' ? 92 : 85,
+          engagement: conn.status === 'active' ? 'High' : 'Pending',
+          inquiries: Math.floor(Math.random() * 50),
+          conversion: '18%',
+          growth: '+12%',
+          risk: 'Low',
+          pos: '1C / Bitrix24',
+        };
+      }
+    );
   }, [b2bConnections, retailerProfiles]);
 
   const renderSalesIntelligence = () => (

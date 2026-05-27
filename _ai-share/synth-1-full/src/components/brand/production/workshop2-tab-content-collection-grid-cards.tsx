@@ -143,9 +143,7 @@ export function Workshop2TabContentCollectionGridCards({
                         {col.kind === 'user' ? (
                           <>
                             <p className="text-text-secondary whitespace-pre-wrap break-words text-[12px] leading-relaxed">
-                              {col.description?.trim()
-                                ? col.description.trim()
-                                : 'Не заполнено.'}
+                              {col.description?.trim() ? col.description.trim() : 'Не заполнено.'}
                             </p>
                             <Button
                               type="button"
@@ -407,7 +405,9 @@ export function Workshop2TabContentCollectionGridCards({
                 className={cn(
                   'flex min-h-0 flex-1 flex-col gap-2 px-1.5 pb-2 pt-9 text-left sm:gap-2.5',
                   (col.kind === 'user' || col.kind === 'ss27') && 'pr-[1.375rem] sm:pr-6',
-                  (col.kind === 'user' || col.kind === 'ss27') && tab === 'active' && 'pl-[3.25rem]',
+                  (col.kind === 'user' || col.kind === 'ss27') &&
+                    tab === 'active' &&
+                    'pl-[3.25rem]',
                   (col.kind === 'user' || col.kind === 'ss27') && tab === 'archive' && 'pl-9',
                   col.kind !== 'user' && col.kind !== 'ss27' && 'pr-6 sm:pr-8'
                 )}

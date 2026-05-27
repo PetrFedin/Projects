@@ -21,7 +21,11 @@ export default function B2BCheckoutPage() {
   );
 
   return (
-    <CabinetPageContent maxWidth="2xl" className="space-y-6" data-testid={tid.page('shop-b2b-checkout')}>
+    <CabinetPageContent
+      maxWidth="2xl"
+      className="space-y-6"
+      data-testid={tid.page('shop-b2b-checkout')}
+    >
       <ShopB2bContentHeader lead="Product Customization: логотипы и мокапы при оформлении (RepSpark)." />
       <ShopAnalyticsSegmentErpStrip />
 

@@ -1,6 +1,13 @@
 'use client';
 
-import type { ChangeEvent, Dispatch, LegacyRef, MouseEvent, RefObject, SetStateAction } from 'react';
+import type {
+  ChangeEvent,
+  Dispatch,
+  LegacyRef,
+  MouseEvent,
+  RefObject,
+  SetStateAction,
+} from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
@@ -132,10 +139,12 @@ export function CategorySketchAnnotatorEditorBoardSubstrate({
             Только изменения
           </Button>
           <span className="inline-flex items-center gap-1">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />+{revisionDiff.addedIds.length}
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />+
+            {revisionDiff.addedIds.length}
           </span>
           <span className="inline-flex items-center gap-1">
-            <span className="h-2.5 w-2.5 rounded-full bg-rose-500" />−{revisionDiff.removedIds.length}
+            <span className="h-2.5 w-2.5 rounded-full bg-rose-500" />−
+            {revisionDiff.removedIds.length}
           </span>
           <span className="inline-flex items-center gap-1">
             <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />~{revisionDiff.changed.length}
@@ -181,8 +190,8 @@ export function CategorySketchAnnotatorEditorBoardSubstrate({
             </div>
           ) : dimensionLineExtendMode ? (
             <div className="pointer-events-none absolute inset-x-3 top-3 z-10 rounded-md border border-violet-200 bg-white/95 px-2.5 py-1.5 text-xs font-medium text-violet-950 shadow-sm">
-              Метка #{activeAnnIdx >= 0 ? activeAnnIdx + 1 : '—'}: один клик по подложке — конец линии
-              размера (начало — центр выбранной метки). Подпись и значение — справа.
+              Метка #{activeAnnIdx >= 0 ? activeAnnIdx + 1 : '—'}: один клик по подложке — конец
+              линии размера (начало — центр выбранной метки). Подпись и значение — справа.
             </div>
           ) : dimensionLinePlaceMode ? (
             <div className="pointer-events-none absolute inset-x-3 top-3 z-10 rounded-md border border-indigo-200 bg-white/95 px-2.5 py-1.5 text-xs font-medium text-indigo-950 shadow-sm">
@@ -192,11 +201,14 @@ export function CategorySketchAnnotatorEditorBoardSubstrate({
             </div>
           ) : placeMode ? (
             <div className="pointer-events-none absolute inset-x-3 top-3 z-10 rounded-md border border-teal-200 bg-white/90 px-2.5 py-1.5 text-xs font-medium text-teal-900 shadow-sm">
-              Кружок: <span className="font-bold">{NEXT_PIN_PRESET_LABEL[nextPinPreset]}</span>. Кликните по
-              картинке.
+              Кружок: <span className="font-bold">{NEXT_PIN_PRESET_LABEL[nextPinPreset]}</span>.
+              Кликните по картинке.
             </div>
           ) : null}
-          <div ref={templateLayerRef as LegacyRef<HTMLDivElement>} className="absolute inset-0 size-full">
+          <div
+            ref={templateLayerRef as LegacyRef<HTMLDivElement>}
+            className="absolute inset-0 size-full"
+          >
             {imageDataUrl ? (
               // eslint-disable-next-line @next/next/no-img-element -- data URL из досье
               <img src={imageDataUrl} alt="Подложка скетча" className="size-full object-contain" />
@@ -292,7 +304,11 @@ export function CategorySketchAnnotatorEditorBoardSubstrate({
               >
                 {card.imageDataUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element -- data URL
-                  <img src={card.imageDataUrl} alt="" className="aspect-square w-full object-cover" />
+                  <img
+                    src={card.imageDataUrl}
+                    alt=""
+                    className="aspect-square w-full object-cover"
+                  />
                 ) : (
                   <div className="flex aspect-square w-full flex-col items-center justify-center gap-0.5 bg-zinc-100 px-1 text-center">
                     <Layers className="size-5 text-zinc-400" aria-hidden />
@@ -325,7 +341,8 @@ export function CategorySketchAnnotatorEditorBoardSubstrate({
                         ? 'border-amber-500 shadow-[0_0_0_1px_rgba(217,119,6,0.35)]'
                         : 'border-zinc-400',
                     activeId === a.annotationId && 'ring-2 ring-zinc-900 ring-offset-1',
-                    !visibleIds.has(a.annotationId) && 'ring-dashed opacity-55 ring-1 ring-slate-400'
+                    !visibleIds.has(a.annotationId) &&
+                      'ring-dashed opacity-55 ring-1 ring-slate-400'
                   )}
                   style={{ left: `${a.xPct}%`, top: `${a.yPct}%` }}
                   onClick={(ev) => {

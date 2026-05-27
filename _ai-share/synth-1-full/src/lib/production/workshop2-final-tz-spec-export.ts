@@ -79,31 +79,32 @@ function sanitizeFilePart(s: string): string {
 
 function getBilingualHeader(ruText: string, lang?: 'ru' | 'ru_en' | 'ru_zh'): string {
   if (!lang || lang === 'ru') return escHtml(ruText);
-  
+
   const dictEn: Record<string, string> = {
-    'Паспорт': 'Passport / General',
-    'Визуал': 'Visuals',
-    'Материалы': 'Materials / BOM',
-    'Конструкция': 'Construction',
+    Паспорт: 'Passport / General',
+    Визуал: 'Visuals',
+    Материалы: 'Materials / BOM',
+    Конструкция: 'Construction',
     'Вложения tech pack': 'Tech Pack Attachments',
     'Подписи секций и передача': 'Signoffs & Handoff',
     'Комментарии для фабрики': 'Factory Comments',
-    'Бриф': 'Brief',
-    'Поля каталога по секциям (заполнено / не заполнено)': 'Catalog Fields by Section (Filled / Empty)',
+    Бриф: 'Brief',
+    'Поля каталога по секциям (заполнено / не заполнено)':
+      'Catalog Fields by Section (Filled / Empty)',
     'Ключевые поля (порядок в досье, сокращённо)': 'Key Fields',
     'Визуал и Конструкция': 'Visuals & Construction',
     'Базовый размер и мерки': 'Base Size & Measurements',
   };
-  
+
   const dictZh: Record<string, string> = {
-    'Паспорт': '护照 / 基本信息 (Passport)',
-    'Визуал': '视觉 / 图片 (Visuals)',
-    'Материалы': '材料 / 物料清单 (Materials)',
-    'Конструкция': '结构 (Construction)',
+    Паспорт: '护照 / 基本信息 (Passport)',
+    Визуал: '视觉 / 图片 (Visuals)',
+    Материалы: '材料 / 物料清单 (Materials)',
+    Конструкция: '结构 (Construction)',
     'Вложения tech pack': '技术包附件 (Attachments)',
     'Подписи секций и передача': '签名与交接 (Signoffs)',
     'Комментарии для фабрики': '工厂备注 (Factory Comments)',
-    'Бриф': '简报 (Brief)',
+    Бриф: '简报 (Brief)',
     'Поля каталога по секциям (заполнено / не заполнено)': '按部分分类的目录字段 (Catalog Fields)',
     'Ключевые поля (порядок в досье, сокращённо)': '关键字段 (Key Fields)',
     'Визуал и Конструкция': '视觉与结构 (Visuals & Construction)',
@@ -111,10 +112,14 @@ function getBilingualHeader(ruText: string, lang?: 'ru' | 'ru_en' | 'ru_zh'): st
   };
 
   if (lang === 'ru_en') {
-    return dictEn[ruText] ? `${escHtml(ruText)} <span class="muted font-normal">/ ${escHtml(dictEn[ruText])}</span>` : escHtml(ruText);
+    return dictEn[ruText]
+      ? `${escHtml(ruText)} <span class="muted font-normal">/ ${escHtml(dictEn[ruText])}</span>`
+      : escHtml(ruText);
   }
   if (lang === 'ru_zh') {
-    return dictZh[ruText] ? `${escHtml(ruText)} <span class="muted font-normal">/ ${escHtml(dictZh[ruText])}</span>` : escHtml(ruText);
+    return dictZh[ruText]
+      ? `${escHtml(ruText)} <span class="muted font-normal">/ ${escHtml(dictZh[ruText])}</span>`
+      : escHtml(ruText);
   }
   return escHtml(ruText);
 }
@@ -126,7 +131,11 @@ const FINAL_TZ_SECTION_ORDER: {
 }[] = [
   { anchor: 'sec-passport', title: 'Паспорт', description: 'SKU, бриф, ключевые поля карточки' },
   { anchor: 'sec-material', title: 'Материалы', description: 'Материал, состав, связки BOM' },
-  { anchor: 'sec-construction', title: 'Конструкция', description: 'Референсы, скетч, CAD / ZIP, мерки при необходимости' },
+  {
+    anchor: 'sec-construction',
+    title: 'Конструкция',
+    description: 'Референсы, скетч, CAD / ZIP, мерки при необходимости',
+  },
   { anchor: 'sec-attachments', title: 'Вложения tech pack', description: 'Файлы пакета' },
   {
     anchor: 'sec-approvals',
@@ -207,7 +216,9 @@ export function buildCompositionLabelSpecExportHtml(
     items.push(`<li><strong>Примечания технолога:</strong> ${escHtml(notes)}</li>`);
   }
   if (s.includeInFactoryAssignment) {
-    items.push('<li><strong>В задание цеха:</strong> да (составник отдельным пунктом пакета).</li>');
+    items.push(
+      '<li><strong>В задание цеха:</strong> да (составник отдельным пунктом пакета).</li>'
+    );
   }
   if (s.showTrimBleedInDraft) {
     items.push('<li>В черновике UI: показывать контур припусков / габаритов печати.</li>');
@@ -218,7 +229,13 @@ export function buildCompositionLabelSpecExportHtml(
   const sheet = (s.sheetLayout ?? '').trim();
   if (sheet) {
     const sheetRu =
-      sheet === 'single' ? 'один сегмент' : sheet === 'two_sheets' ? 'два листа' : sheet === 'three_sheets' ? 'три листа' : sheet;
+      sheet === 'single'
+        ? 'один сегмент'
+        : sheet === 'two_sheets'
+          ? 'два листа'
+          : sheet === 'three_sheets'
+            ? 'три листа'
+            : sheet;
     items.push(`<li><strong>Раскладка по листам:</strong> ${escHtml(sheetRu)}</li>`);
   }
   const lay = (s.layoutPlacementNotes ?? '').trim();
@@ -264,7 +281,9 @@ export function buildCompositionLabelSpecExportHtml(
   }
   const fiberCtor = buildCompositionLabelConstructorFiberLines(s);
   if (fiberCtor.length) {
-    items.push(`<li><strong>Состав (конструктор волокна):</strong> ${escHtml(fiberCtor.join('; '))}</li>`);
+    items.push(
+      `<li><strong>Состав (конструктор волокна):</strong> ${escHtml(fiberCtor.join('; '))}</li>`
+    );
   }
   const ctorLang = s.constructorDisplayLanguage;
   if (ctorLang && ctorLang !== 'ru') {
@@ -291,7 +310,9 @@ export function buildCompositionLabelSpecExportHtml(
   return `<h3 id="sec-composition-label">Бирка состава и ухода (составник)</h3><ul>${items.join('')}</ul>`;
 }
 
-export function resolveRowsForFinalTzExport(ctx: Workshop2FinalTzSpecExportContext): ResolvedPhase1AttributeRow[] {
+export function resolveRowsForFinalTzExport(
+  ctx: Workshop2FinalTzSpecExportContext
+): ResolvedPhase1AttributeRow[] {
   const leafId = ctx.categoryLeafId;
   const leaf = findHandbookLeafById(leafId);
   const tz = ctx.tzPhase;
@@ -430,7 +451,9 @@ function buildCatalogFieldsSnapshotHtml(
       continue;
     }
     if (rows.length === 0) {
-      parts.push(`<h4>${escHtml(secLabel)}</h4><p class="muted">Нет полей каталога в выборке для секции.</p>`);
+      parts.push(
+        `<h4>${escHtml(secLabel)}</h4><p class="muted">Нет полей каталога в выборке для секции.</p>`
+      );
       continue;
     }
     const slice = rows.slice(0, maxPerSection);
@@ -502,16 +525,13 @@ function buildFinalTzGateCheckHtml(dossier: Workshop2DossierPhase1): string {
     .map(
       (ln) =>
         `<tr><td>${escHtml(ln.label)}</td><td>${
-          ln.ok
-            ? '<span class="gate-ok">OK</span>'
-            : '<span class="gate-no">нет</span>'
+          ln.ok ? '<span class="gate-ok">OK</span>' : '<span class="gate-no">нет</span>'
         }</td><td class="muted">${escHtml(ln.detail)}</td></tr>`
     )
     .join('');
-  const sectionErrs = (['general', 'material', 'construction'] as const)
-    .flatMap((section) =>
-      (snap.sectionMinimumErrors[section] ?? []).map((detail) => ({ section, detail }))
-    );
+  const sectionErrs = (['general', 'material', 'construction'] as const).flatMap((section) =>
+    (snap.sectionMinimumErrors[section] ?? []).map((detail) => ({ section, detail }))
+  );
   const sectionErrorsHtml = sectionErrs.length
     ? `<h4>Ошибки минимального стандарта (machine-code)</h4><ul>${sectionErrs
         .map(({ section, detail }) => {
@@ -536,34 +556,44 @@ function buildProductionModelExportHtml(dossier: Workshop2DossierPhase1): string
       return `<tr>
         <td>${escHtml(node.label)}</td>
         <td>${escHtml(node.description || (node.notApplicable ? 'Нет в модели' : '—'))}</td>
-        <td>${materials
-          .map((m) =>
-            escHtml(
-              [
-                m.materialName, 
-                m.compositionText, 
-                m.percentage != null ? `${m.percentage}%` : '',
-                m.yieldPerUnit ? `расход: ${m.yieldPerUnit} ${m.yieldUnit || 'м'}` : ''
-              ]
-                .filter(Boolean)
-                .join(' · ')
+        <td>${
+          materials
+            .map((m) =>
+              escHtml(
+                [
+                  m.materialName,
+                  m.compositionText,
+                  m.percentage != null ? `${m.percentage}%` : '',
+                  m.yieldPerUnit ? `расход: ${m.yieldPerUnit} ${m.yieldUnit || 'м'}` : '',
+                ]
+                  .filter(Boolean)
+                  .join(' · ')
+              )
             )
-          )
-          .join('<br>') || '—'}</td>
-        <td>${trims
-          .map((t) =>
-            escHtml(
-              [t.name, t.size, t.quantity != null ? `${t.quantity} шт` : '', t.placement]
-                .filter(Boolean)
-                .join(' · ')
+            .join('<br>') || '—'
+        }</td>
+        <td>${
+          trims
+            .map((t) =>
+              escHtml(
+                [t.name, t.size, t.quantity != null ? `${t.quantity} шт` : '', t.placement]
+                  .filter(Boolean)
+                  .join(' · ')
+              )
             )
-          )
-          .join('<br>') || '—'}</td>
-        <td>${operations
-          .map((o) =>
-            escHtml([o.operationType, o.seamType, o.processingMethod, o.comment].filter(Boolean).join(' · '))
-          )
-          .join('<br>') || '—'}</td>
+            .join('<br>') || '—'
+        }</td>
+        <td>${
+          operations
+            .map((o) =>
+              escHtml(
+                [o.operationType, o.seamType, o.processingMethod, o.comment]
+                  .filter(Boolean)
+                  .join(' · ')
+              )
+            )
+            .join('<br>') || '—'
+        }</td>
       </tr>`;
     })
     .join('');
@@ -596,14 +626,14 @@ function buildSignoffAndHandoffMergedHtml(
   handoff: ReturnType<typeof resolveWorkshop2TechPackHandoffChecklistRow>,
   ctx: Workshop2FinalTzSpecExportContext
 ): string {
-  const signRows = (
-    ['general', 'material', 'construction', 'assignment'] as const
-  ).map((section) => {
-    const label = SECTION_SIGNOFF_LABELS[section];
-    const b = formatSignoffCell(sec[section]?.brand);
-    const t = formatSignoffCell(sec[section]?.tech);
-    return `<tr><td>${escHtml(label)}</td><td>${escHtml(b)}</td><td>${escHtml(t)}</td></tr>`;
-  });
+  const signRows = (['general', 'material', 'construction', 'assignment'] as const).map(
+    (section) => {
+      const label = SECTION_SIGNOFF_LABELS[section];
+      const b = formatSignoffCell(sec[section]?.brand);
+      const t = formatSignoffCell(sec[section]?.tech);
+      return `<tr><td>${escHtml(label)}</td><td>${escHtml(b)}</td><td>${escHtml(t)}</td></tr>`;
+    }
+  );
   const handRows = handoff
     ? `<tr><td colspan="3"><strong>Передача (tech pack)</strong></td></tr>
        <tr><td>Ревизия пакета</td><td colspan="2">${escHtml(handoff.packageRevisionLabel || '—')}</td></tr>
@@ -738,18 +768,17 @@ function buildMeasurementsSectionHtml(
     .map((h, i) => {
       const key = colKeys[i];
       const tol = key && dossier.sampleBaseDimensionTolerances?.[key];
-      const tolStr = tol && (tol.plus || tol.minus) ? `<br/><span class="muted" style="font-size: 0.8em; font-weight: normal;">(±${tol.plus || 0}/${tol.minus || 0}см)</span>` : '';
+      const tolStr =
+        tol && (tol.plus || tol.minus)
+          ? `<br/><span class="muted" style="font-size: 0.8em; font-weight: normal;">(±${tol.plus || 0}/${tol.minus || 0}см)</span>`
+          : '';
       return `<th>${escHtml(h)}${tolStr}</th>`;
     })
     .join('')}<th>Кол-во, шт</th></tr></thead>`;
 
   const bodyRows = hbs.map((hb, rowIndex) => {
     const pid = hb.parameterId!;
-    const sizeLabel = resolvedHandbookDisplayLabel(
-      'sampleBaseSize',
-      pid,
-      hb.displayLabel
-    );
+    const sizeLabel = resolvedHandbookDisplayLabel('sampleBaseSize', pid, hb.displayLabel);
     const cells = colKeys.map((key) => {
       const isExtra = key.startsWith('__extra:');
       if (rangeMode && rangeKeys.has(key) && !isExtra) {
@@ -789,17 +818,16 @@ function buildMeasurementsSectionHtml(
     .map((h, i) => {
       const key = colKeys[i];
       const tol = key && dossier.sampleBaseDimensionTolerances?.[key];
-      const tolStr = tol && (tol.plus || tol.minus) ? `<br/><span class="muted" style="font-size: 0.8em; font-weight: normal;">(±${tol.plus || 0}/${tol.minus || 0}см)</span>` : '';
+      const tolStr =
+        tol && (tol.plus || tol.minus)
+          ? `<br/><span class="muted" style="font-size: 0.8em; font-weight: normal;">(±${tol.plus || 0}/${tol.minus || 0}см)</span>`
+          : '';
       return `<th>${escHtml(h)} (диап.)${tolStr}</th>`;
     })
     .join('')}</tr></thead>`;
   const rangeBody = hbs.map((hb) => {
     const pid = hb.parameterId!;
-    const sizeLabel = resolvedHandbookDisplayLabel(
-      'sampleBaseSize',
-      pid,
-      hb.displayLabel
-    );
+    const sizeLabel = resolvedHandbookDisplayLabel('sampleBaseSize', pid, hb.displayLabel);
     const cells = colKeys.map((key) => {
       if (key.startsWith('__extra:')) return '<td>—</td>';
       const t = formatRangeCell(rangeByPid[pid]?.[key]);
@@ -819,7 +847,9 @@ function assignmentLines(dossier: Workshop2DossierPhase1, maxRows: number): stri
     if (a.kind !== 'canonical' || !a.attributeId) continue;
     const attr = getAttributeById(a.attributeId);
     const name = attr?.name ?? a.attributeId;
-    const parts = a.values.map((v) => v.displayLabel?.trim() || v.text || String(v.number ?? '')).filter(Boolean);
+    const parts = a.values
+      .map((v) => v.displayLabel?.trim() || v.text || String(v.number ?? ''))
+      .filter(Boolean);
     const line = `${name}: ${parts.length ? parts.join(', ') : '—'}`;
     rows.push(line);
     if (rows.length >= maxRows) break;
@@ -854,9 +884,7 @@ export function buildWorkshop2FinalTzSpecDocumentHtml(
   const sku = ctx.articleSku.trim() || '—';
   const name = ctx.articleName.trim() || '—';
   const path = ctx.pathLabel.trim() || '—';
-  const updated = dossier.updatedAt
-    ? new Date(dossier.updatedAt).toLocaleString('ru-RU')
-    : '—';
+  const updated = dossier.updatedAt ? new Date(dossier.updatedAt).toLocaleString('ru-RU') : '—';
   const brief = dossier.passportProductionBrief;
   const visualQ = getVisualHandoffQuickSummary(dossier);
   const handoff = resolveWorkshop2TechPackHandoffChecklistRow(dossier.techPackFactoryHandoffs);
@@ -867,11 +895,17 @@ export function buildWorkshop2FinalTzSpecDocumentHtml(
   const exportStatus = productionPreflight.canSendToFactory ? 'ready_for_factory' : 'draft';
 
   const TOC_ITEMS = [...FINAL_TZ_SECTION_ORDER];
-  
+
   // Factory comments block
   let factoryCommentsHtml = '';
   if (dossier.attrComments) {
-    const factoryComments: { attrId: string; label: string; text: string; by: string; at: string }[] = [];
+    const factoryComments: {
+      attrId: string;
+      label: string;
+      text: string;
+      by: string;
+      at: string;
+    }[] = [];
     for (const [attrId, comments] of Object.entries(dossier.attrComments)) {
       const fComments = comments.filter((c) => c.visibility === 'factory');
       if (fComments.length > 0) {
@@ -882,18 +916,24 @@ export function buildWorkshop2FinalTzSpecDocumentHtml(
         }
       }
     }
-    
+
     if (factoryComments.length > 0) {
-      TOC_ITEMS.push({ anchor: 'sec-comments', title: 'Комментарии для фабрики', description: 'Важные уточнения по атрибутам' });
-      
-      const cRows = factoryComments.map((c) => {
-        return `<tr>
+      TOC_ITEMS.push({
+        anchor: 'sec-comments',
+        title: 'Комментарии для фабрики',
+        description: 'Важные уточнения по атрибутам',
+      });
+
+      const cRows = factoryComments
+        .map((c) => {
+          return `<tr>
           <td>${escHtml(c.label)}</td>
           <td>${escHtml(c.text)}</td>
           <td class="muted">${escHtml(c.by)}<br>${new Date(c.at).toLocaleString('ru-RU')}</td>
         </tr>`;
-      }).join('');
-      
+        })
+        .join('');
+
       factoryCommentsHtml = `
         <h2 id="sec-comments">${TOC_ITEMS.length}. ${getBilingualHeader('Комментарии для фабрики', ctx.exportLanguage)}</h2>
         <table>
@@ -946,7 +986,9 @@ export function buildWorkshop2FinalTzSpecDocumentHtml(
     formatMaterialBomPlainText(buildFinalTzMaterialBomInput(dossier, ctx))
   );
   const materialChecklistHtml = buildMaterialChecklistExcerptHtml(dossier, ctx);
-  const compositionLabelExportHtml = buildCompositionLabelSpecExportHtml(dossier.compositionLabelSpec);
+  const compositionLabelExportHtml = buildCompositionLabelSpecExportHtml(
+    dossier.compositionLabelSpec
+  );
   const compositionBomCrossRef = workshop2CompositionLabelSpecHasExportableContent(
     dossier.compositionLabelSpec
   )

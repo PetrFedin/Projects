@@ -11,9 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { suggestedCompositionLabelMetadataFromDossier } from '@/lib/production/workshop2-composition-label-constructor';
-import {
-  W2_COMPOSITION_LABEL_ORIGIN_PRESETS,
-} from '@/lib/production/workshop2-composition-label-spec-constants';
+import { W2_COMPOSITION_LABEL_ORIGIN_PRESETS } from '@/lib/production/workshop2-composition-label-spec-constants';
 import type {
   Workshop2CompositionLabelConstructorLanguage,
   Workshop2CompositionLabelSpec,
@@ -167,7 +165,7 @@ export function Workshop2CompositionLabelMetadataBlock({
   }
 
   return (
-    <div className="space-y-3 rounded-lg border border-border-subtle bg-white p-3">
+    <div className="border-border-subtle space-y-3 rounded-lg border bg-white p-3">
       <p
         className={cn(
           'text-xs font-semibold uppercase tracking-wide',

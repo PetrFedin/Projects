@@ -313,7 +313,7 @@ export function ColorAttributeRow({
               Палитра и градиент
             </Label>
           </div>
-          <div className="min-w-0 overflow-hidden rounded-md bg-white shadow-sm ring-1 ring-border-subtle/80">
+          <div className="ring-border-subtle/80 min-w-0 overflow-hidden rounded-md bg-white shadow-sm ring-1">
             <button
               type="button"
               className="hover:bg-bg-surface2/80 flex h-9 w-full items-center gap-2 px-2 text-left text-sm"
@@ -326,10 +326,12 @@ export function ColorAttributeRow({
               <span className="text-text-primary min-w-0 flex-1 truncate font-medium leading-none">
                 {summaryLabel}
               </span>
-              <span className="text-text-muted shrink-0 text-[10px]">{paletteOpen ? '▲' : '▼'}</span>
+              <span className="text-text-muted shrink-0 text-[10px]">
+                {paletteOpen ? '▲' : '▼'}
+              </span>
             </button>
             {paletteOpen ? (
-              <div className="border-t border-border-subtle/70 bg-white p-2">
+              <div className="border-border-subtle/70 border-t bg-white p-2">
                 <Input
                   className="mb-2 h-9 text-sm"
                   placeholder="Фильтр по названию цвета…"
@@ -347,7 +349,7 @@ export function ColorAttributeRow({
                       : 'Показать всю палитру'}
                   </button>
                 ) : null}
-                <div className="max-h-52 divide-y divide-border-subtle/70 overflow-y-auto rounded-md bg-white">
+                <div className="divide-border-subtle/70 max-h-52 divide-y overflow-y-auto rounded-md bg-white">
                   <button
                     type="button"
                     className="hover:bg-bg-surface2 flex h-9 w-full items-center gap-2 px-2 text-left text-sm"
@@ -396,7 +398,7 @@ export function ColorAttributeRow({
         </div>
 
         <div className={colorSubCard}>
-          <div className="flex items-center gap-1 justify-between">
+          <div className="flex items-center justify-between gap-1">
             <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-text-primary')}>
               Свой оттенок
             </Label>
@@ -404,16 +406,16 @@ export function ColorAttributeRow({
               type="button"
               variant="ghost"
               size="sm"
-              className="h-6 px-1.5 text-[9px] text-teal-700 hover:text-teal-900 hover:bg-teal-50"
+              className="h-6 px-1.5 text-[9px] text-teal-700 hover:bg-teal-50 hover:text-teal-900"
               onClick={() => setAiColorOpen(true)}
             >
-              <LucideIcons.Sparkles className="size-3 mr-1" />
+              <LucideIcons.Sparkles className="mr-1 size-3" />
               Распознать Pantone/HEX
             </Button>
           </div>
           <div className="flex min-w-0 items-center gap-2">
             <div
-              className="relative h-9 w-9 shrink-0 overflow-hidden rounded-md bg-white shadow-sm ring-1 ring-border-subtle/80"
+              className="ring-border-subtle/80 relative h-9 w-9 shrink-0 overflow-hidden rounded-md bg-white shadow-sm ring-1"
               title="Превью: при сохранённом градиенте показывается полоса; клик — выбор сплошного цвета"
             >
               <div
@@ -478,7 +480,7 @@ export function ColorAttributeRow({
             <LucideIcons.Check className="h-4 w-4" aria-hidden />
           </Button>
           <div
-            className="h-9 min-h-9 min-w-0 flex-1 rounded-md bg-bg-surface2/50 shadow-inner ring-1 ring-inset ring-border-subtle/50"
+            className="bg-bg-surface2/50 ring-border-subtle/50 h-9 min-h-9 min-w-0 flex-1 rounded-md shadow-inner ring-1 ring-inset"
             style={{ background: previewCss }}
             title="Превью градиента"
           />
@@ -489,40 +491,50 @@ export function ColorAttributeRow({
         <DialogContent className="max-h-[min(90vh,600px)] w-[min(96vw,500px)] max-w-none gap-0 overflow-hidden p-0 sm:rounded-xl">
           <DialogHeader className="border-border-subtle border-b p-4 sm:p-5">
             <div className="flex items-center gap-3">
-              <div className="bg-teal-100/50 text-teal-600 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-100/50 text-teal-600">
                 <LucideIcons.Sparkles className="h-5 w-5" aria-hidden />
               </div>
               <div className="flex-1 text-left">
-                <DialogTitle className="text-base text-teal-900">Распознать Pantone/HEX</DialogTitle>
+                <DialogTitle className="text-base text-teal-900">
+                  Распознать Pantone/HEX
+                </DialogTitle>
                 <DialogDescription className="text-xs text-teal-700/80">
-                  Загрузите изображение или введите примерное описание цвета, чтобы нейросеть подобрала точный Pantone TCX/TPG или HEX.
+                  Загрузите изображение или введите примерное описание цвета, чтобы нейросеть
+                  подобрала точный Pantone TCX/TPG или HEX.
                 </DialogDescription>
               </div>
             </div>
           </DialogHeader>
-          <div className="p-6 flex flex-col items-center justify-center space-y-5 bg-slate-50 min-h-[300px]">
+          <div className="flex min-h-[300px] flex-col items-center justify-center space-y-5 bg-slate-50 p-6">
             {aiColorLoading ? (
               <>
-                <LucideIcons.Loader2 className="w-10 h-10 text-teal-500 animate-spin" />
-                <p className="text-xs font-medium text-teal-700">Анализ изображения и поиск по библиотекам Pantone...</p>
+                <LucideIcons.Loader2 className="h-10 w-10 animate-spin text-teal-500" />
+                <p className="text-xs font-medium text-teal-700">
+                  Анализ изображения и поиск по библиотекам Pantone...
+                </p>
               </>
             ) : (
               <>
                 <div className="w-full space-y-3">
-                  <div className="border-2 border-dashed border-slate-300 rounded-xl p-8 flex flex-col items-center justify-center bg-white hover:bg-slate-50 transition-colors cursor-pointer">
-                    <LucideIcons.UploadCloud className="w-8 h-8 text-slate-400 mb-2" />
+                  <div className="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-white p-8 transition-colors hover:bg-slate-50">
+                    <LucideIcons.UploadCloud className="mb-2 h-8 w-8 text-slate-400" />
                     <p className="text-sm font-semibold text-slate-700">Загрузить фото</p>
-                    <p className="text-[10px] text-slate-500 mt-1 text-center">JPEG, PNG до 5MB</p>
+                    <p className="mt-1 text-center text-[10px] text-slate-500">JPEG, PNG до 5MB</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="h-px bg-slate-200 flex-1" />
-                    <span className="text-[10px] text-slate-400 font-bold uppercase">ИЛИ</span>
-                    <div className="h-px bg-slate-200 flex-1" />
+                    <div className="h-px flex-1 bg-slate-200" />
+                    <span className="text-[10px] font-bold uppercase text-slate-400">ИЛИ</span>
+                    <div className="h-px flex-1 bg-slate-200" />
                   </div>
-                  <Input placeholder="Опишите цвет (например: 'пыльная роза', 'navy blue')" className="h-9 text-sm bg-white" value={aiColorPrompt} onChange={(e) => setAiColorPrompt(e.target.value)} />
+                  <Input
+                    placeholder="Опишите цвет (например: 'пыльная роза', 'navy blue')"
+                    className="h-9 bg-white text-sm"
+                    value={aiColorPrompt}
+                    onChange={(e) => setAiColorPrompt(e.target.value)}
+                  />
                 </div>
-                <Button 
-                  className="bg-teal-600 hover:bg-teal-700 text-white w-full" 
+                <Button
+                  className="w-full bg-teal-600 text-white hover:bg-teal-700"
                   onClick={async () => {
                     setAiColorLoading(true);
                     try {
@@ -531,7 +543,7 @@ export function ColorAttributeRow({
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ description: aiColorPrompt }),
                       });
-                      const data = await res.json() as { hex?: string, label?: string };
+                      const data = (await res.json()) as { hex?: string; label?: string };
                       if (data.hex && data.label) {
                         patchColor({ freeText: `${data.hex} · ${data.label}` });
                       }

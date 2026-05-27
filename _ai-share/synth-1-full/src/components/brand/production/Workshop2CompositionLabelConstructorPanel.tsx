@@ -125,7 +125,9 @@ export function Workshop2CompositionLabelConstructorPanel({
     setLogoErr(null);
     if (!file) return;
     if (file.size > MAX_COMPOSITION_LABEL_LOGO_BYTES) {
-      setLogoErr(`Файл слишком большой (макс. ${Math.round(MAX_COMPOSITION_LABEL_LOGO_BYTES / 1024)} КБ).`);
+      setLogoErr(
+        `Файл слишком большой (макс. ${Math.round(MAX_COMPOSITION_LABEL_LOGO_BYTES / 1024)} КБ).`
+      );
       return;
     }
     const r = new FileReader();
@@ -146,7 +148,8 @@ export function Workshop2CompositionLabelConstructorPanel({
       <div className="space-y-4">
         <CompositionLabelBlockStrip kicker="Справка ISO 3758">
           <p className="text-text-muted text-xs leading-snug">
-            Блок по умолчанию свёрнут. Основной ввод — доли волокон и знаки ухода в соседних полосах.
+            Блок по умолчанию свёрнут. Основной ввод — доли волокон и знаки ухода в соседних
+            полосах.
           </p>
           <Workshop2CompositionLabelIsoGuidanceCollapsible />
         </CompositionLabelBlockStrip>
@@ -177,7 +180,9 @@ export function Workshop2CompositionLabelConstructorPanel({
               className="min-h-[52px] text-xs"
               disabled={ro}
               value={s.careInstructionsSupplement ?? ''}
-              onChange={(e) => onChange(patchSpec(s, { careInstructionsSupplement: e.target.value }))}
+              onChange={(e) =>
+                onChange(patchSpec(s, { careInstructionsSupplement: e.target.value }))
+              }
               placeholder="Сухая чистка щёткой, не замачивать декор, хранение на плечиках…"
             />
           </div>
@@ -245,7 +250,9 @@ export function Workshop2CompositionLabelConstructorPanel({
               <Checkbox
                 disabled={ro}
                 checked={Boolean(s.showTrimBleedInDraft)}
-                onCheckedChange={(v) => onChange(patchSpec(s, { showTrimBleedInDraft: v === true }))}
+                onCheckedChange={(v) =>
+                  onChange(patchSpec(s, { showTrimBleedInDraft: v === true }))
+                }
               />
               <span>Контур припусков в черновике (рамка печати).</span>
             </label>
@@ -261,7 +268,9 @@ export function Workshop2CompositionLabelConstructorPanel({
               <Checkbox
                 disabled={ro}
                 checked={Boolean(s.showTrimMarksOnDraft)}
-                onCheckedChange={(v) => onChange(patchSpec(s, { showTrimMarksOnDraft: v === true }))}
+                onCheckedChange={(v) =>
+                  onChange(patchSpec(s, { showTrimMarksOnDraft: v === true }))
+                }
               />
               <span>Метки реза по углам.</span>
             </label>
@@ -269,7 +278,9 @@ export function Workshop2CompositionLabelConstructorPanel({
               <Checkbox
                 disabled={ro}
                 checked={Boolean(s.showEacPlaceholderOnDraft)}
-                onCheckedChange={(v) => onChange(patchSpec(s, { showEacPlaceholderOnDraft: v === true }))}
+                onCheckedChange={(v) =>
+                  onChange(patchSpec(s, { showEacPlaceholderOnDraft: v === true }))
+                }
               />
               <span>Плейсхолдер EAC на лице (не юр. файл).</span>
             </label>
@@ -305,7 +316,9 @@ export function Workshop2CompositionLabelConstructorPanel({
             </Select>
           </div>
           <div className="space-y-1.5">
-            <Label className="text-xs font-medium">Как стыкуются листы, где сгиб, порядок чтения</Label>
+            <Label className="text-xs font-medium">
+              Как стыкуются листы, где сгиб, порядок чтения
+            </Label>
             <Textarea
               className="min-h-[56px] text-xs"
               disabled={ro}
@@ -315,7 +328,9 @@ export function Workshop2CompositionLabelConstructorPanel({
             />
           </div>
           <div className="space-y-1.5">
-            <Label className="text-xs font-medium">Логотип: зона, размер, отступы (кратко для цеха)</Label>
+            <Label className="text-xs font-medium">
+              Логотип: зона, размер, отступы (кратко для цеха)
+            </Label>
             <Textarea
               className="min-h-[44px] text-xs"
               disabled={ro}
@@ -413,22 +428,27 @@ export function Workshop2CompositionLabelConstructorPanel({
             <p className="text-text-primary text-xs font-medium">Оформление и черновик</p>
 
             <CompositionLabelBlockStrip kicker="Типографика (кегль, гарнитура, жирные блоки)">
-              <Workshop2CompositionLabelTypographyControls spec={s} onChange={onChange} readOnly={ro} />
+              <Workshop2CompositionLabelTypographyControls
+                spec={s}
+                onChange={onChange}
+                readOnly={ro}
+              />
             </CompositionLabelBlockStrip>
 
             <Collapsible
               defaultOpen={false}
-              className="group border-border-subtle rounded-lg border border-dashed border-neutral-300/80 bg-neutral-50/50"
+              className="border-border-subtle group rounded-lg border border-dashed border-neutral-300/80 bg-neutral-50/50"
             >
               <CollapsibleTrigger asChild>
                 <button
                   type="button"
-                  className="text-text-primary hover:bg-white/80 flex w-full min-h-9 items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-xs transition-colors"
+                  className="text-text-primary flex min-h-9 w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-xs transition-colors hover:bg-white/80"
                 >
                   <span className="min-w-0">
                     <span className="font-medium">Доп. правка текстов по блокам</span>
                     <span className="text-text-muted block text-[11px] leading-snug">
-                      Юр. строки, состав, низ бирки — дубль полей шагов 1–2; правьте вместе с превью справа
+                      Юр. строки, состав, низ бирки — дубль полей шагов 1–2; правьте вместе с превью
+                      справа
                     </span>
                   </span>
                   <LucideIcons.ChevronDown className="text-text-muted h-4 w-4 shrink-0 transition-transform group-data-[state=open]:rotate-180" />
@@ -475,7 +495,9 @@ export function Workshop2CompositionLabelConstructorPanel({
           </div>
 
           <div className="bg-bg-surface2/30 border-border-subtle min-w-0 space-y-3 rounded-lg border p-3 xl:sticky xl:top-2 xl:self-start">
-            <p className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">Превью</p>
+            <p className="text-text-muted text-[10px] font-semibold uppercase tracking-wide">
+              Превью
+            </p>
             <Workshop2CompositionLabelDraftMockup
               spec={s}
               displayLines={displayLines}

@@ -118,8 +118,7 @@ export function useProductionPageMainDerived(args: {
   );
 
   const displaySkus = useMemo(
-    () =>
-      filterRowsByCaseInsensitiveSubstring(filteredSkus, skuSearchQuery, (s) => [s.name, s.id]),
+    () => filterRowsByCaseInsensitiveSubstring(filteredSkus, skuSearchQuery, (s) => [s.name, s.id]),
     [filteredSkus, skuSearchQuery]
   );
 
@@ -143,8 +142,7 @@ export function useProductionPageMainDerived(args: {
   );
 
   const filteredCollections = useMemo(
-    () =>
-      filterListedProductionCollections(collections, archivedCollectionIds, collectionFilter),
+    () => filterListedProductionCollections(collections, archivedCollectionIds, collectionFilter),
     [
       collections,
       archivedCollectionIds,
@@ -207,6 +205,4 @@ export function useProductionPageMainDerived(args: {
   };
 }
 
-export type ProductionPageMainDerivedSnapshot = ReturnType<
-  typeof useProductionPageMainDerived
->;
+export type ProductionPageMainDerivedSnapshot = ReturnType<typeof useProductionPageMainDerived>;

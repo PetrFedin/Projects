@@ -1,4 +1,7 @@
-import type { Workshop2DossierPhase1, Workshop2DossierLifecycleState } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2DossierLifecycleState,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import { buildWorkshop2TzGateSnapshot } from '@/lib/production/workshop2-tz-gates';
 
 export function validateLifecycleTargetByGate(

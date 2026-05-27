@@ -84,7 +84,9 @@ export function CategorySketchAnnotatorEditorRightSidebar({
                   p.priority !== 'critical' &&
                   activeAnn?.annotationId !== p.annotationId &&
                   'border-amber-500',
-                !inFilter && activeAnn?.annotationId !== p.annotationId && 'border-dashed opacity-45'
+                !inFilter &&
+                  activeAnn?.annotationId !== p.annotationId &&
+                  'border-dashed opacity-45'
               )}
               onClick={() => onSelectPin(p.annotationId)}
             >

@@ -20,7 +20,9 @@ export function buildDeliveryWindowsWithMeta(
     const start = new Date(w.startShipDate);
     const complete = new Date(w.completeShipDate);
     const cancel = w.cancelDate ? new Date(w.cancelDate) : undefined;
-    const daysToStart = Math.round((start.getTime() - todayStart.getTime()) / (1000 * 60 * 60 * 24));
+    const daysToStart = Math.round(
+      (start.getTime() - todayStart.getTime()) / (1000 * 60 * 60 * 24)
+    );
     const daysToCancel = cancel
       ? Math.round((cancel.getTime() - todayStart.getTime()) / (1000 * 60 * 60 * 24))
       : undefined;

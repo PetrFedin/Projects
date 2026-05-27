@@ -36,7 +36,7 @@ export function Workshop2ConstructionCadZipReadinessStrip({
                 ? 'bg-amber-100 text-amber-900'
                 : cadZipEmptyBytes
                   ? 'bg-rose-100 text-rose-900'
-                  : 'bg-muted text-text-muted'
+                  : 'text-text-muted bg-muted'
           )}
         >
           {cadZipAllFilled ? '✓' : cadZipPartialBytes ? '!' : '○'}{' '}

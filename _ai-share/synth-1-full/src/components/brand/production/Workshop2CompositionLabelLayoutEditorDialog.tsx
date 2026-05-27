@@ -115,21 +115,17 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
 
   const wMm = num(draftSpec.labelWidthMm ?? '', 0);
   const hMm = num(draftSpec.labelHeightMm ?? '', 0);
-  const ratio =
-    wMm > 0 && hMm > 0 ? `${(hMm / wMm) * 100}%` : '56.25%';
+  const ratio = wMm > 0 && hMm > 0 ? `${(hMm / wMm) * 100}%` : '56.25%';
 
-  const patchSelected = useCallback(
-    (patch: Partial<Workshop2CompositionLabelLayoutElement>) => {
-      const sid = selectedIdRef.current;
-      if (!sid) return;
-      setElements((prev) =>
-        prev.map((e) =>
-          e.elementId === sid ? normalizeCompositionLabelLayoutElement({ ...e, ...patch }) : e
-        )
-      );
-    },
-    []
-  );
+  const patchSelected = useCallback((patch: Partial<Workshop2CompositionLabelLayoutElement>) => {
+    const sid = selectedIdRef.current;
+    if (!sid) return;
+    setElements((prev) =>
+      prev.map((e) =>
+        e.elementId === sid ? normalizeCompositionLabelLayoutElement({ ...e, ...patch }) : e
+      )
+    );
+  }, []);
 
   const nudgeSelected = useCallback((dxPct: number, dyPct: number) => {
     const sid = selectedIdRef.current;
@@ -253,7 +249,11 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement | null;
-      if (el?.closest('input, textarea, [contenteditable="true"], select, [data-slot="select-content"]'))
+      if (
+        el?.closest(
+          'input, textarea, [contenteditable="true"], select, [data-slot="select-content"]'
+        )
+      )
         return;
       const sid = selectedIdRef.current;
       if (!sid) return;
@@ -288,12 +288,15 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
         className="flex max-h-[min(92vh,760px)] max-w-5xl flex-col gap-0 p-0 sm:max-w-5xl"
       >
         <DialogHeader className="border-border-subtle shrink-0 border-b px-4 py-3">
-          <DialogTitle className="text-text-primary text-base">Редактировать оформление бирки</DialogTitle>
+          <DialogTitle className="text-text-primary text-base">
+            Редактировать оформление бирки
+          </DialogTitle>
           <DialogDescription asChild>
             <div className="text-text-secondary text-xs leading-snug">
-              Слева — макет в пропорциях мм. Справа — блоки (можно выбрать из списка), позиция и типографика.
-              Стрелки на клавиатуре сдвигают выбранный блок на 1% (с Shift — 5%), если фокус не в поле ввода.
-              Порядок наложения — поле «Слой» или кнопки «Выше / Ниже» рядом с ним.
+              Слева — макет в пропорциях мм. Справа — блоки (можно выбрать из списка), позиция и
+              типографика. Стрелки на клавиатуре сдвигают выбранный блок на 1% (с Shift — 5%), если
+              фокус не в поле ввода. Порядок наложения — поле «Слой» или кнопки «Выше / Ниже» рядом
+              с ним.
             </div>
           </DialogDescription>
         </DialogHeader>
@@ -378,7 +381,8 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
             <div className="space-y-2">
               <p className="text-text-primary text-xs font-medium">Блоки на макете</p>
               <p className="text-text-muted text-xs leading-snug">
-                Нажмите строку — блок выделится на превью. Удобнее, чем попадать курсором в узкую рамку.
+                Нажмите строку — блок выделится на превью. Удобнее, чем попадать курсором в узкую
+                рамку.
               </p>
               <ul className="flex flex-col gap-1.5 p-0">
                 {sortedForList.map((el) => {
@@ -391,7 +395,7 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
                         className={cn(
                           'border-border-default flex w-full flex-col items-start gap-0.5 rounded-md border px-2.5 py-2 text-left transition-colors',
                           active
-                            ? 'border-accent-primary bg-accent-primary/5 ring-1 ring-accent-primary/25'
+                            ? 'border-accent-primary bg-accent-primary/5 ring-accent-primary/25 ring-1'
                             : 'bg-white hover:bg-neutral-50'
                         )}
                       >
@@ -451,7 +455,8 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
                     value={(draftSpec.typographyFontPreset ?? '') || 'unset'}
                     onValueChange={(v) =>
                       patchDraft({
-                        typographyFontPreset: v === 'unset' ? '' : (v as Workshop2CompositionLabelFontPreset),
+                        typographyFontPreset:
+                          v === 'unset' ? '' : (v as Workshop2CompositionLabelFontPreset),
                       })
                     }
                   >
@@ -460,7 +465,11 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
                     </SelectTrigger>
                     <SelectContent>
                       {W2_COMPOSITION_LABEL_FONT_PRESETS.map((o) => (
-                        <SelectItem key={o.id || 'unset'} value={o.id || 'unset'} className="text-xs">
+                        <SelectItem
+                          key={o.id || 'unset'}
+                          value={o.id || 'unset'}
+                          className="text-xs"
+                        >
                           {o.label}
                         </SelectItem>
                       ))}
@@ -545,7 +554,9 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
                 </p>
 
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-medium">Сдвиг, % (или стрелки — 1%, Shift+стрелка — 5%)</Label>
+                  <Label className="text-xs font-medium">
+                    Сдвиг, % (или стрелки — 1%, Shift+стрелка — 5%)
+                  </Label>
                   <div className="flex max-w-[11rem] flex-col items-center gap-1.5">
                     <Button
                       type="button"
@@ -646,7 +657,9 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
                       className="h-9 text-xs"
                       value={selected.rotationDeg ?? 0}
                       onChange={(e) =>
-                        patchSelected({ rotationDeg: num(e.target.value, selected.rotationDeg ?? 0) })
+                        patchSelected({
+                          rotationDeg: num(e.target.value, selected.rotationDeg ?? 0),
+                        })
                       }
                     />
                   </div>
@@ -675,7 +688,9 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
                           className="h-9 flex-1 text-xs"
                           value={selected.fontSizePx ?? 11}
                           onChange={(e) =>
-                            patchSelected({ fontSizePx: num(e.target.value, selected.fontSizePx ?? 11) })
+                            patchSelected({
+                              fontSizePx: num(e.target.value, selected.fontSizePx ?? 11),
+                            })
                           }
                         />
                         <Button
@@ -754,7 +769,10 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
                     onChange={(e) =>
                       patchSelected({
                         opacityPct: Math.round(
-                          Math.max(0, Math.min(100, num(e.target.value, selected.opacityPct ?? 100)))
+                          Math.max(
+                            0,
+                            Math.min(100, num(e.target.value, selected.opacityPct ?? 100))
+                          )
                         ),
                       })
                     }
@@ -769,7 +787,9 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
                       className="h-9 min-w-0 flex-1 text-xs"
                       value={selected.zIndex ?? 1}
                       onChange={(e) =>
-                        patchSelected({ zIndex: Math.round(num(e.target.value, selected.zIndex ?? 1)) })
+                        patchSelected({
+                          zIndex: Math.round(num(e.target.value, selected.zIndex ?? 1)),
+                        })
                       }
                     />
                     <Button
@@ -853,7 +873,13 @@ export function Workshop2CompositionLabelLayoutEditorDialog({
         </div>
 
         <DialogFooter className="border-border-subtle shrink-0 border-t px-4 py-2">
-          <Button type="button" variant="outline" size="sm" className="h-9" onClick={() => onOpenChange(false)}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9"
+            onClick={() => onOpenChange(false)}
+          >
             Отмена
           </Button>
           <Button type="button" size="sm" className="h-9" onClick={handleSave}>

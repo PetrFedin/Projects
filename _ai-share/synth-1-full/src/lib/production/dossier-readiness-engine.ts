@@ -295,6 +295,22 @@ export type DossierSummary = {
   readyForSample: boolean;
 };
 
+/**
+ * Предупреждения для диалога «Пульс»: все секции или фокус текущей вкладки ТЗ.
+ */
+export function dossierPulseWarningsForSection(
+  readiness: DossierReadiness,
+  focusSection: DossierSection | null
+): string[] {
+  if (focusSection && readiness.sections[focusSection]) {
+    const sec = readiness.sections[focusSection];
+    if (sec.warnings.length > 0) return sec.warnings;
+    if (sec.pct < 100) return [`Раздел «${SECTION_ROLES[focusSection].label}»: ${sec.pct}%`];
+    return [];
+  }
+  return readiness.summary.warnings;
+}
+
 export function calculateDossierReadiness(
   dossier: Workshop2DossierPhase1 | null,
   leaf: HandbookCategoryLeaf | undefined | null,

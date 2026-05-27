@@ -47,7 +47,10 @@ function safeSizeToken(s: string): string {
 }
 
 /** Маппинг листа категорий (аудитория + ур. 1) → id блока в `PRODUCTION_PARAMS_BY_CATEGORY`. */
-export function handbookCatL1FromLeaf(leaf: HandbookCategoryLeaf | undefined, isUnisex?: boolean): string | undefined {
+export function handbookCatL1FromLeaf(
+  leaf: HandbookCategoryLeaf | undefined,
+  isUnisex?: boolean
+): string | undefined {
   if (!leaf) return undefined;
   let a = leaf.audienceId;
   if (isUnisex && (a === 'men' || a === 'women')) {
@@ -176,10 +179,9 @@ export function getWorkshopSampleSizeScaleOptions(
   if (cat.startsWith('women-apparel') || cat.startsWith('men-apparel')) {
     out.push({
       key: scaleKey(cat, BODY_GRID_SCALE_ID),
-      label:
-        cat.startsWith('women-apparel')
-          ? 'EU · базовые габариты (женская верхняя одежда: грудь / талия / бёдра)'
-          : 'EU · базовые габариты (мужская одежда: грудь / талия / бёдра)',
+      label: cat.startsWith('women-apparel')
+        ? 'EU · базовые габариты (женская верхняя одежда: грудь / талия / бёдра)'
+        : 'EU · базовые габариты (мужская одежда: грудь / талия / бёдра)',
       rule: 'см, по типовой сетке; значения можно скорректировать ниже',
     });
   }
@@ -196,19 +198,27 @@ export function getWorkshopSampleSizeScaleOptions(
   return out;
 }
 
-export function defaultWorkshopSampleSizeScaleKey(leaf: HandbookCategoryLeaf | undefined, isUnisex?: boolean): string {
+export function defaultWorkshopSampleSizeScaleKey(
+  leaf: HandbookCategoryLeaf | undefined,
+  isUnisex?: boolean
+): string {
   const opts = getWorkshopSampleSizeScaleOptions(leaf, isUnisex);
   return opts[0]?.key ?? 'apparel-alpha';
 }
 
 /** Подписи габаритов из справочника категории (редактируемые в досье). */
-export function getWorkshopDimensionLabels(leaf: HandbookCategoryLeaf | undefined, isUnisex?: boolean): string[] {
+export function getWorkshopDimensionLabels(
+  leaf: HandbookCategoryLeaf | undefined,
+  isUnisex?: boolean
+): string[] {
   const p = getCategoryProductionParamsForLeaf(leaf, isUnisex);
   return p?.dimensions?.length ? [...p.dimensions] : [];
 }
 
 function bodyGridRows(catL1Id: string) {
-  return catL1Id.startsWith('men-apparel') ? MEN_OUTERWEAR_BODY_GRID_CM : WOMEN_OUTERWEAR_BODY_GRID_CM;
+  return catL1Id.startsWith('men-apparel')
+    ? MEN_OUTERWEAR_BODY_GRID_CM
+    : WOMEN_OUTERWEAR_BODY_GRID_CM;
 }
 
 function parametersFromBodyGrid(catL1Id: string): AttributeCatalogParameter[] {
@@ -271,28 +281,27 @@ function findApparelBodyGridRowByScaleSize(
     return undefined;
   }
   if (scaleId === 'RU') {
-    const idx =
-      cat.startsWith('women-apparel')
-        ? (
-            {
-              '42': 1,
-              '44': 2,
-              '46': 3,
-              '48': 4,
-              '50': 5,
-              '52': 5,
-            } as Record<string, number>
-          )[t]
-        : (
-            {
-              '44': 0,
-              '46': 1,
-              '48': 2,
-              '50': 3,
-              '52': 4,
-              '54': 5,
-            } as Record<string, number>
-          )[t];
+    const idx = cat.startsWith('women-apparel')
+      ? (
+          {
+            '42': 1,
+            '44': 2,
+            '46': 3,
+            '48': 4,
+            '50': 5,
+            '52': 5,
+          } as Record<string, number>
+        )[t]
+      : (
+          {
+            '44': 0,
+            '46': 1,
+            '48': 2,
+            '50': 3,
+            '52': 4,
+            '54': 5,
+          } as Record<string, number>
+        )[t];
     if (idx === undefined) return undefined;
     return rows[idx];
   }
@@ -350,10 +359,16 @@ export function getSuggestedDimensionCmForParameterId(
 ): Record<string, string> | undefined {
   if (!parameterId) return undefined;
 
-  const shoeMatch = parameterId.match(/^w2:(men-shoes|women-shoes|kids-shoes|unisex-shoes):([^:]+):(.+)$/);
+  const shoeMatch = parameterId.match(
+    /^w2:(men-shoes|women-shoes|kids-shoes|unisex-shoes):([^:]+):(.+)$/
+  );
   if (shoeMatch) {
     let token = shoeMatch[3]!;
-    try { token = decodeURIComponent(token); } catch { /* keep raw */ }
+    try {
+      token = decodeURIComponent(token);
+    } catch {
+      /* keep raw */
+    }
     const sizeNum = parseFloat(token);
     if (!isNaN(sizeNum)) {
       // Rough heuristic for shoe dimensions based on size (assuming EU or similar numeric scale)
@@ -361,11 +376,12 @@ export function getSuggestedDimensionCmForParameterId(
       const width = 8 + (sizeNum - 30) * 0.15;
       const res: Record<string, string> = {};
       if (dimLabels) {
-        dimLabels.forEach(dl => {
+        dimLabels.forEach((dl) => {
           const lower = dl.toLowerCase();
           if (lower.includes('длина')) res[dl] = footLength.toFixed(1);
           else if (lower.includes('ширина')) res[dl] = width.toFixed(1);
-          else if (lower.includes('обхват') || lower.includes('подъем')) res[dl] = (footLength * 0.9).toFixed(1);
+          else if (lower.includes('обхват') || lower.includes('подъем'))
+            res[dl] = (footLength * 0.9).toFixed(1);
           else res[dl] = ''; // Empty string for unknown dimensions so it still registers as touched
         });
       }

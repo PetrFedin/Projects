@@ -30,7 +30,12 @@ describe('sewing preset declarative JSON', () => {
     });
     const file = parseSewingPresetDeclarativeJson(raw);
     expect(file.rules).toHaveLength(1);
-    const out = applyDeclarativePresetPatches('Платья и сарафаны', 'Платья макси', sample, file.rules);
+    const out = applyDeclarativePresetPatches(
+      'Платья и сарафаны',
+      'Платья макси',
+      sample,
+      file.rules
+    );
     expect(out.skirtLenCm).toBe(130);
     expect(out.forBrandNote).toBe('over');
   });

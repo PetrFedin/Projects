@@ -36,9 +36,7 @@ export function ProductionPageContentTabChatBody({
         <div className="flex-1 overflow-y-auto">
           {(() => {
             const allMsgs = chatMessages || filteredChat || [];
-            const chats = Array.from(
-              new Set(allMsgs.map((m: any) => m.collection || 'General'))
-            );
+            const chats = Array.from(new Set(allMsgs.map((m: any) => m.collection || 'General')));
             const list = chats.length ? chats : ['SS26', 'DROP-UZ', 'BASIC', 'General'];
             return list.map((collId) => {
               const count = allMsgs.filter(
@@ -75,9 +73,7 @@ export function ProductionPageContentTabChatBody({
           {(() => {
             const allMsgsForSel = chatMessages || filteredChat || [];
             const selColl = activeChatCollection || allMsgsForSel[0]?.collection || 'SS26';
-            const msgs = allMsgsForSel.filter(
-              (m: any) => (m.collection || 'General') === selColl
-            );
+            const msgs = allMsgsForSel.filter((m: any) => (m.collection || 'General') === selColl);
             if (msgs.length === 0) {
               return (
                 <p className="text-text-muted py-8 text-center text-[10px]">

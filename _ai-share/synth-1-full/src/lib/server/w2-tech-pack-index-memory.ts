@@ -22,7 +22,10 @@ export function memoryGetW2TechPackIndexRow(
   return store.get(key(collectionId, articleId, attachmentId)) ?? null;
 }
 
-export function memoryListW2TechPackIndexForArticle(collectionId: string, articleId: string): W2TechPackIndexRow[] {
+export function memoryListW2TechPackIndexForArticle(
+  collectionId: string,
+  articleId: string
+): W2TechPackIndexRow[] {
   const prefix = `${collectionId}\n${articleId}\n`;
   const out: W2TechPackIndexRow[] = [];
   for (const [k, v] of store) {
@@ -46,7 +49,10 @@ export function memoryUpdateHandoff(
   store.set(k, {
     ...cur,
     handoffStatus,
-    packageRevision: packageRevision !== undefined && packageRevision !== null ? packageRevision : cur.packageRevision,
+    packageRevision:
+      packageRevision !== undefined && packageRevision !== null
+        ? packageRevision
+        : cur.packageRevision,
     updatedAt,
   });
 }

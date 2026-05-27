@@ -14,9 +14,14 @@ export function clamp(n: number, lo: number, hi: number): number {
   return Math.min(hi, Math.max(lo, n));
 }
 
-export function toMm(
-  m: { bust: number; waist: number; hip: number; shoulderWidth: number; bodyHeight?: number; unit: 'cm' | 'in' }
-) {
+export function toMm(m: {
+  bust: number;
+  waist: number;
+  hip: number;
+  shoulderWidth: number;
+  bodyHeight?: number;
+  unit: 'cm' | 'in';
+}) {
   const c = m.unit;
   return {
     bust: cmToMm(toCm(m.bust, c)),

@@ -21,14 +21,19 @@ function firstAssignmentLabel(dossier: Workshop2DossierPhase1, ids: string[]): s
   return undefined;
 }
 
-export function ensureWorkshop2ProductionModel(dossier: Workshop2DossierPhase1): Workshop2ProductionModel {
+export function ensureWorkshop2ProductionModel(
+  dossier: Workshop2DossierPhase1
+): Workshop2ProductionModel {
   if (dossier.productionModel?.version === 1) return dossier.productionModel;
 
   const l3 = firstAssignmentLabel(dossier, ['l3', 'categoryL3', 'modelCard']) ?? 'unknown';
   const model = buildDefaultProductionModelForL3(l3);
 
   const mainMaterial = firstAssignmentLabel(dossier, ['mat', 'material', 'mainMaterial']);
-  const composition = firstAssignmentLabel(dossier, ['composition', 'fabricCompositionPresetOptions']);
+  const composition = firstAssignmentLabel(dossier, [
+    'composition',
+    'fabricCompositionPresetOptions',
+  ]);
   if (mainMaterial) {
     model.materialLines.push({
       id: 'mat-body-main',
@@ -53,7 +58,11 @@ export function ensureWorkshop2ProductionModel(dossier: Workshop2DossierPhase1):
     });
   }
 
-  const closure = firstAssignmentLabel(dossier, ['closure', 'closureOptionsByCategory', 'fastenerOptionsByCategory']);
+  const closure = firstAssignmentLabel(dossier, [
+    'closure',
+    'closureOptionsByCategory',
+    'fastenerOptionsByCategory',
+  ]);
   if (closure) {
     const n = model.nodes.find((x) => x.id === 'closure');
     if (n) {

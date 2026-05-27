@@ -58,9 +58,9 @@ export function Workshop2SketchPinLibraryDialog({
         <DialogHeader>
           <DialogTitle>Снимки и шаблоны меток</DialogTitle>
           <DialogDescription>
-            Снимки — полная копия меток master и листов. Шаблоны в досье и в библиотеке
-            коллекции (пока localStorage; позже — тот же контракт через API). QR для печати и
-            PDF генерируется локально в браузере.
+            Снимки — полная копия меток master и листов. Шаблоны в досье и в библиотеке коллекции
+            (пока localStorage; позже — тот же контракт через API). QR для печати и PDF генерируется
+            локально в браузере.
           </DialogDescription>
         </DialogHeader>
         <Tabs defaultValue="snapshots" className="w-full">
@@ -99,15 +99,10 @@ export function Workshop2SketchPinLibraryDialog({
               Коллекция
             </TabsTrigger>
           </TabsList>
-          <TabsContent
-            value="snapshots"
-            className="max-h-[50vh] space-y-2 overflow-y-auto pr-1"
-          >
+          <TabsContent value="snapshots" className="max-h-[50vh] space-y-2 overflow-y-auto pr-1">
             {snapshots.length >= 2 ? (
               <div className="border-accent-primary/20 bg-accent-primary/10 text-text-primary rounded-md border p-2 text-[11px]">
-                <p className="text-accent-primary font-medium">
-                  Сравнить master между снимками
-                </p>
+                <p className="text-accent-primary font-medium">Сравнить master между снимками</p>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
                   <select
                     className="border-border-default h-8 min-w-[140px] flex-1 rounded border bg-white px-2 text-xs"
@@ -141,12 +136,8 @@ export function Workshop2SketchPinLibraryDialog({
                     variant="secondary"
                     className="h-8 text-xs"
                     onClick={() => {
-                      const sa = snapshots.find(
-                        (x) => x.snapshotId === snapshotDiffA
-                      );
-                      const sb = snapshots.find(
-                        (x) => x.snapshotId === snapshotDiffB
-                      );
+                      const sa = snapshots.find((x) => x.snapshotId === snapshotDiffA);
+                      const sb = snapshots.find((x) => x.snapshotId === snapshotDiffB);
                       if (!sa || !sb) {
                         onSnapshotDiffSummaryChange('Выберите два разных снимка.');
                         return;
@@ -209,10 +200,7 @@ export function Workshop2SketchPinLibraryDialog({
               ))
             )}
           </TabsContent>
-          <TabsContent
-            value="templates"
-            className="max-h-[50vh] space-y-2 overflow-y-auto pr-1"
-          >
+          <TabsContent value="templates" className="max-h-[50vh] space-y-2 overflow-y-auto pr-1">
             {(dossierPinTemplates ?? []).length === 0 ? (
               <p className="text-text-secondary text-sm">
                 В досье нет шаблонов. Сохраните метки кнопкой «В досье» над доской или на
@@ -244,10 +232,7 @@ export function Workshop2SketchPinLibraryDialog({
               ))
             )}
           </TabsContent>
-          <TabsContent
-            value="collection"
-            className="max-h-[50vh] space-y-2 overflow-y-auto pr-1"
-          >
+          <TabsContent value="collection" className="max-h-[50vh] space-y-2 overflow-y-auto pr-1">
             {!String(collectionId ?? '').trim() ? (
               <p className="text-text-secondary text-sm">
                 Нет id коллекции — библиотека недоступна.

@@ -75,7 +75,10 @@ export default function BrandAuctionsPage() {
   ];
 
   return (
-    <CabinetPageContent maxWidth="full" className="bg-bg-surface2/80 w-full space-y-10 pb-16 font-sans">
+    <CabinetPageContent
+      maxWidth="full"
+      className="bg-bg-surface2/80 w-full space-y-10 pb-16 font-sans"
+    >
       <RegistryPageHeader
         title="Управление закупками"
         leadPlain="Auction Manager PRO v2.0 — тендеры и закупки бренда на платформе."

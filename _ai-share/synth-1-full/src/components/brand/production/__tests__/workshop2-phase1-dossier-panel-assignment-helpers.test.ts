@@ -68,7 +68,10 @@ describe('workshop2-phase1-dossier-panel-assignment-helpers', () => {
     expect(canonicalPhaseAssignmentFilled(filled, attr)).toBe(true);
     expect(
       canonicalPhaseAssignmentFilled(
-        { ...filled, values: [{ valueId: 'v', valueSource: 'free_text', text: '  ', displayLabel: '' }] },
+        {
+          ...filled,
+          values: [{ valueId: 'v', valueSource: 'free_text', text: '  ', displayLabel: '' }],
+        },
         attr
       )
     ).toBe(false);

@@ -21,7 +21,10 @@ import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-le
 import { resolvedHandbookDisplayLabel } from '@/lib/production/workshop2-resolved-handbook-display-label';
 import { extractHex6, extractTwoHexesFromCss } from '@/lib/production/workshop2-passport-color-hex';
 import { normalizeRuColorMatch } from '@/lib/production/workshop2-passport-color-normalize';
-import { partitionHandbookAndFree, partitionValues } from '@/lib/production/workshop2-phase1-attribute-partition';
+import {
+  partitionHandbookAndFree,
+  partitionValues,
+} from '@/lib/production/workshop2-phase1-attribute-partition';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { cn } from '@/lib/utils';
 
@@ -39,10 +42,9 @@ const W2_TZ_ATTR_NAME_OVERRIDE: Record<string, string> = {
 };
 
 function w2TzAttributeDisplayName(attr: AttributeCatalogAttribute): string {
-  if (W2_TZ_ATTR_NAME_OVERRIDE[attr.attributeId]) return W2_TZ_ATTR_NAME_OVERRIDE[attr.attributeId]!;
-  const n = attr.name
-    .replace(/^\s*Конструкция\s*[·:]\s*/i, '')
-    .replace(/^\s*Конструкция\s+/i, '');
+  if (W2_TZ_ATTR_NAME_OVERRIDE[attr.attributeId])
+    return W2_TZ_ATTR_NAME_OVERRIDE[attr.attributeId]!;
+  const n = attr.name.replace(/^\s*Конструкция\s*[·:]\s*/i, '').replace(/^\s*Конструкция\s+/i, '');
   return n.trim() || attr.name;
 }
 
@@ -329,7 +331,7 @@ function ColorAttributeRow({
               Палитра и градиент
             </Label>
           </div>
-          <div className="min-w-0 overflow-hidden rounded-md bg-white shadow-sm ring-1 ring-border-subtle/80">
+          <div className="ring-border-subtle/80 min-w-0 overflow-hidden rounded-md bg-white shadow-sm ring-1">
             <button
               type="button"
               className="hover:bg-bg-surface2/80 flex h-9 w-full items-center gap-2 px-2 text-left text-sm"
@@ -342,10 +344,12 @@ function ColorAttributeRow({
               <span className="text-text-primary min-w-0 flex-1 truncate font-medium leading-none">
                 {summaryLabel}
               </span>
-              <span className="text-text-muted shrink-0 text-[10px]">{paletteOpen ? '▲' : '▼'}</span>
+              <span className="text-text-muted shrink-0 text-[10px]">
+                {paletteOpen ? '▲' : '▼'}
+              </span>
             </button>
             {paletteOpen ? (
-              <div className="border-t border-border-subtle/70 bg-white p-2">
+              <div className="border-border-subtle/70 border-t bg-white p-2">
                 <Input
                   className="mb-2 h-9 text-sm"
                   placeholder="Фильтр по названию цвета…"
@@ -363,7 +367,7 @@ function ColorAttributeRow({
                       : 'Показать всю палитру'}
                   </button>
                 ) : null}
-                <div className="max-h-52 divide-y divide-border-subtle/70 overflow-y-auto rounded-md bg-white">
+                <div className="divide-border-subtle/70 max-h-52 divide-y overflow-y-auto rounded-md bg-white">
                   <button
                     type="button"
                     className="hover:bg-bg-surface2 flex h-9 w-full items-center gap-2 px-2 text-left text-sm"
@@ -419,7 +423,7 @@ function ColorAttributeRow({
           </div>
           <div className="flex min-w-0 items-center gap-2">
             <div
-              className="relative h-9 w-9 shrink-0 overflow-hidden rounded-md bg-white shadow-sm ring-1 ring-border-subtle/80"
+              className="ring-border-subtle/80 relative h-9 w-9 shrink-0 overflow-hidden rounded-md bg-white shadow-sm ring-1"
               title="Превью: при сохранённом градиенте показывается полоса; клик — выбор сплошного цвета"
             >
               <div
@@ -484,7 +488,7 @@ function ColorAttributeRow({
             <Check className="h-4 w-4" aria-hidden />
           </Button>
           <div
-            className="h-9 min-h-9 min-w-0 flex-1 rounded-md bg-bg-surface2/50 shadow-inner ring-1 ring-inset ring-border-subtle/50"
+            className="bg-bg-surface2/50 ring-border-subtle/50 h-9 min-h-9 min-w-0 flex-1 rounded-md shadow-inner ring-1 ring-inset"
             style={{ background: previewCss }}
             title="Превью градиента"
           />
@@ -574,10 +578,7 @@ export function WorkshopPassportColorBundle({
       <div className="space-y-4">
         {primary || refRow ? (
           <div
-            className={cn(
-              'grid gap-3',
-              primary && refRow ? 'md:grid-cols-2 md:items-start' : ''
-            )}
+            className={cn('grid gap-3', primary && refRow ? 'md:grid-cols-2 md:items-start' : '')}
           >
             {primary ? (
               <div className="bg-bg-surface2/40 space-y-2 rounded-md p-3">

@@ -1,6 +1,12 @@
-import type { PatternPiece, SewingPatternDraftOptions } from '@/lib/pattern-drafting/sewing-pattern.types';
+import type {
+  PatternPiece,
+  SewingPatternDraftOptions,
+} from '@/lib/pattern-drafting/sewing-pattern.types';
 import { cmToMm, toMm } from '@/lib/pattern-drafting/sewing-units';
-import { armholeDepthMm, estimateArmholeCurveLengthMm } from '@/lib/pattern-drafting/metric-formulas';
+import {
+  armholeDepthMm,
+  estimateArmholeCurveLengthMm,
+} from '@/lib/pattern-drafting/metric-formulas';
 import { sampleQuadraticBezier } from '@/lib/pattern-geometry/curve-samples';
 import type { Vec2 } from '@/lib/pattern-geometry/vec2';
 
@@ -9,9 +15,10 @@ const DEFAULT_SLEEVE_LEN_CM = 59;
 /**
  * 1/2 втачного рукава (по внутрен. шву — правая половина на схеме), окат = кривая по оцен. длине проймы.
  */
-export function draftSleeveMetric(
-  options: SewingPatternDraftOptions
-): { piece: PatternPiece; log: { key: string; value: string; unit?: string }[] } {
+export function draftSleeveMetric(options: SewingPatternDraftOptions): {
+  piece: PatternPiece;
+  log: { key: string; value: string; unit?: string }[];
+} {
   const m = toMm({ ...options.measures, unit: options.measures.unit });
   const eB = cmToMm(options.ease.bust);
   const yA = armholeDepthMm(m.bust);

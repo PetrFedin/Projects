@@ -1,4 +1,7 @@
-import { isValidHandbookCatalogLeafId, resolveOrRejectHandbookCatalogLeafId } from '@/lib/validation/handbook-leaf-id';
+import {
+  isValidHandbookCatalogLeafId,
+  resolveOrRejectHandbookCatalogLeafId,
+} from '@/lib/validation/handbook-leaf-id';
 
 describe('handbook-leaf-id validation', () => {
   it('принимает известный leaf из снимка', () => {

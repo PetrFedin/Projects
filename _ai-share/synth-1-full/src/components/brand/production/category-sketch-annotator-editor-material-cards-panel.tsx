@@ -41,12 +41,14 @@ export function CategorySketchAnnotatorEditorMaterialCardsPanel({
   return (
     <details className="rounded-xl border border-teal-100 bg-teal-50/25 shadow-sm">
       <summary className="cursor-pointer list-none px-3 py-2.5 text-xs font-medium text-teal-950 [&::-webkit-details-marker]:hidden">
-        Карточки материала на доске ({dataMaterialCards.length}/{MAX_SKETCH_MATERIAL_CARDS_PER_BOARD})
+        Карточки материала на доске ({dataMaterialCards.length}/
+        {MAX_SKETCH_MATERIAL_CARDS_PER_BOARD})
       </summary>
-      <div className="border-teal-100/80 space-y-3 border-t bg-white p-3">
+      <div className="space-y-3 border-t border-teal-100/80 bg-white p-3">
         <p className="text-[11px] leading-snug text-slate-600">
-          Смотки ткани, подклада, фурнитуры на подложке — видно, какой материал к изделию подобран. Кнопка «+
-          материал», затем клик по картинке. Выделите карточку на доске — стрелки сдвигают позицию.
+          Смотки ткани, подклада, фурнитуры на подложке — видно, какой материал к изделию подобран.
+          Кнопка «+ материал», затем клик по картинке. Выделите карточку на доске — стрелки сдвигают
+          позицию.
         </p>
         {dataMaterialCards.length === 0 ? (
           <p className="text-xs text-slate-500">
@@ -119,7 +121,9 @@ export function CategorySketchAnnotatorEditorMaterialCardsPanel({
                 </label>
                 {bomLinePickOptions.length > 0 ? (
                   <label className="mb-2 block space-y-1">
-                    <span className="text-[10px] font-medium text-slate-600">Строка BOM / материал</span>
+                    <span className="text-[10px] font-medium text-slate-600">
+                      Строка BOM / материал
+                    </span>
                     <select
                       className="border-border-default h-8 w-full rounded-md border bg-white px-2 text-xs disabled:opacity-60"
                       disabled={readOnly}

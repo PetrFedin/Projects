@@ -18,7 +18,7 @@ export class TNVEDResolver {
       return {
         code: 'UNKNOWN',
         confidence: 0.1,
-        requiredCertificates: []
+        requiredCertificates: [],
       };
     }
 
@@ -27,13 +27,13 @@ export class TNVEDResolver {
         return {
           code: '6109100000',
           confidence: 0.95,
-          requiredCertificates: ['EAC_DECLARATION']
+          requiredCertificates: ['EAC_DECLARATION'],
         };
       } else if (mainMaterial.includes('polyester')) {
         return {
           code: '6109902000',
           confidence: 0.95,
-          requiredCertificates: ['EAC_DECLARATION']
+          requiredCertificates: ['EAC_DECLARATION'],
         };
       }
     }
@@ -41,7 +41,7 @@ export class TNVEDResolver {
     return {
       code: '6200000000',
       confidence: 0.5,
-      requiredCertificates: ['EAC_DECLARATION']
+      requiredCertificates: ['EAC_DECLARATION'],
     };
   }
 }

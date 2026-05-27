@@ -29,9 +29,9 @@ export function CommunicationsArtifactPolicyStrip({
     >
       <FileWarning className="mt-0.5 size-3.5 shrink-0 text-amber-800" aria-hidden />
       <p>
-        <strong className="font-semibold">Артефакты, а не только переписка:</strong> ТЗ, PO и статусы этапов
-        фиксируются в матрице коллекции и в разработке коллекции; сообщения и задачи — напоминание и согласование, не источник
-        правды по данным.
+        <strong className="font-semibold">Артефакты, а не только переписка:</strong> ТЗ, PO и
+        статусы этапов фиксируются в матрице коллекции и в разработке коллекции; сообщения и задачи
+        — напоминание и согласование, не источник правды по данным.
         {showDeepLinks ? (
           <>
             {' '}

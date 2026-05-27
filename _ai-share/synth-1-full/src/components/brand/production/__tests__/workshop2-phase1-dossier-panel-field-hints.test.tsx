@@ -38,8 +38,6 @@ describe('workshop2-phase1-dossier-panel-field-hints', () => {
       name: 'Тестовый атрибут',
     } as AttributeCatalogAttribute;
     renderWithTooltip(<WorkshopAttributeHintIcon attribute={attribute} />);
-    expect(
-      screen.getByRole('button', { name: /Подробнее: Тестовый атрибут/ })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Подробнее: Тестовый атрибут/ })).toBeInTheDocument();
   });
 });

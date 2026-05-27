@@ -49,8 +49,8 @@ export default function BrandEmbeddedPaymentPage() {
           </div>
           <p className="text-xs text-slate-500">
             Для продакшена: подключите эквайринг (ЮKassa, банк, СБП, «Мир») и при экспорте — Stripe
-            или аналог; замените мок
-            recordPayment на вызов API списания с лимита и обновления статуса заказа.
+            или аналог; замените мок recordPayment на вызов API списания с лимита и обновления
+            статуса заказа.
           </p>
         </CardContent>
       </Card>

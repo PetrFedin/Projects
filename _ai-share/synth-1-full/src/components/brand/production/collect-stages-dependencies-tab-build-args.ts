@@ -23,7 +23,10 @@ export type CollectStagesDependenciesTabBuildSlices = {
     | 'depsSchemaChunks'
     | 'boardStepRows'
   >;
-  pool: Pick<StagesDependenciesTabContentBuildArgs, 'poolArticles' | 'focusArticle' | 'resolvedFocusId'>;
+  pool: Pick<
+    StagesDependenciesTabContentBuildArgs,
+    'poolArticles' | 'focusArticle' | 'resolvedFocusId'
+  >;
   matrix: Pick<
     StagesDependenciesTabContentBuildArgs,
     | 'matrixStageFilterQ'
@@ -70,7 +73,10 @@ export type CollectStagesDependenciesTabBuildSlices = {
     StagesDependenciesTabContentBuildArgs,
     'buildTransitionUrl' | 'mergeModuleHref' | 'navigateToStageModule'
   >;
-  depsPortalFields: Pick<StagesDependenciesTabContentBuildArgs, 'setDepsNodeInfoStepId' | 'depsPortal'>;
+  depsPortalFields: Pick<
+    StagesDependenciesTabContentBuildArgs,
+    'setDepsNodeInfoStepId' | 'depsPortal'
+  >;
   tabProps: Pick<
     StagesDependenciesTabContentBuildArgs,
     | 'collectionArticles'

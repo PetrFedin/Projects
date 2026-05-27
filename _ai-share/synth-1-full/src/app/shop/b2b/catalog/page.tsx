@@ -139,7 +139,11 @@ export default function B2BCatalogPage() {
     : null;
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6" data-testid={tid.page('shop-b2b-catalog')}>
+    <CabinetPageContent
+      maxWidth="5xl"
+      className="space-y-6 px-4 py-6 pb-24 sm:px-6"
+      data-testid={tid.page('shop-b2b-catalog')}
+    >
       <ShopB2bContentHeader
         lead={
           <>

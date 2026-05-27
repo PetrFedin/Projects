@@ -8,8 +8,7 @@ function escapeIcsText(s: string): string {
 export function downloadAcademyEventIcs(event: AcademyEvent, opts?: { url?: string }): void {
   const start = new Date(event.startTime);
   const end = new Date(event.endTime);
-  const fmt = (d: Date) =>
-    d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 
   const uid = `${event.id}@syntha-academy`;
   const summary = escapeIcsText(event.title);

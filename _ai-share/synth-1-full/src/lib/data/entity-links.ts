@@ -7,11 +7,7 @@ import {
   productionFloorTabRequiresArticle,
 } from '@/lib/production/floor-flow';
 import { WORKSHOP2_DEVELOPMENT_FLOOR_TAB_IDS } from '@/lib/production/workshop2-development-scope';
-import {
-  ROUTES,
-  brandProductionFloorHref,
-  withBrandProductionDeepContext,
-} from '@/lib/routes';
+import { ROUTES, brandProductionFloorHref, withBrandProductionDeepContext } from '@/lib/routes';
 import { COLLECTION_DEV_HUB_TITLE_RU } from '@/lib/production/collection-development-labels';
 
 /** Связанный модуль: подпись + href (RelatedModulesBlock, дашборды). */
@@ -103,8 +99,7 @@ export function getWorkshop2FloorTabLinks(
   const cid = collectionId?.trim() || undefined;
   const aid = articleLineId?.trim() || undefined;
   return PRODUCTION_FLOOR_STEPS.map((s) => {
-    const stagesSku =
-      aid && productionFloorTabRequiresArticle(s.id) ? aid : undefined;
+    const stagesSku = aid && productionFloorTabRequiresArticle(s.id) ? aid : undefined;
     return {
       label: s.label,
       href: brandProductionFloorHref(s.id, {
@@ -165,8 +160,7 @@ export function getWorkshop2DevelopmentFloorTabLinks(
   return WORKSHOP2_DEVELOPMENT_FLOOR_TAB_IDS.map((tabId) => {
     const s = PRODUCTION_FLOOR_STEPS.find((x) => x.id === tabId);
     if (!s) return { label: tabId, href: brandProductionFloorHref(tabId, { collectionId: cid }) };
-    const stagesSku =
-      aid && productionFloorTabRequiresArticle(tabId) ? aid : undefined;
+    const stagesSku = aid && productionFloorTabRequiresArticle(tabId) ? aid : undefined;
     return {
       label: s.label,
       href: brandProductionFloorHref(tabId, {
@@ -191,7 +185,10 @@ export function getWorkshop2DevelopmentExtraModuleLinks(
     { label: 'Fit-комментарии', href: deep(ROUTES.brand.productionFitComments) },
     { label: 'Gantt · сроки разработки', href: deep(ROUTES.brand.productionGantt) },
     { label: 'QC · контроль образца', href: deep(ROUTES.brand.productionQcApp) },
-    { label: 'Бронирование материалов (под образец)', href: deep(ROUTES.brand.materialsReservation) },
+    {
+      label: 'Бронирование материалов (под образец)',
+      href: deep(ROUTES.brand.materialsReservation),
+    },
     { label: 'Шоурум', href: deep(ROUTES.brand.showroom) },
     { label: 'Коллекции · из готового ассортимента', href: ROUTES.brand.collections },
   ]);

@@ -64,6 +64,35 @@ export function getWorkshopTzSignatoryPickerOptions(
   return out.sort((a, b) => a.label.localeCompare(b.label, 'ru'));
 }
 
+/** Только команда бренда (без партнёров) — паспорт артикула. */
+export function getWorkshopTzBrandSignatoryPickerOptions(
+  brandOrgId: string = WORKSHOP2_DEFAULT_TZ_BRAND_ORG_ID
+): WorkshopTzSignatoryPickerOption[] {
+  const out: WorkshopTzSignatoryPickerOption[] = [];
+  const seen = new Set<string>();
+  const brand = organizations[brandOrgId];
+  const brandName = brand?.name ?? 'Бренд';
+  pushOrgMembers(brandOrgId, `Команда · ${brandName}`, out, seen);
+  return out.sort((a, b) => a.label.localeCompare(b.label, 'ru'));
+}
+
+/** Организация закреплённого исполнителя по ФИО из справочника команды. */
+export function workshopTzAssigneeOrganizationName(assigneeLabel: string): string | undefined {
+  const target = assigneeLabel.trim();
+  if (!target) return undefined;
+  const tn = norm(target);
+  for (const [orgId, members] of Object.entries(partnerTeams)) {
+    for (const m of members ?? []) {
+      const ml = memberLabel(m);
+      if (!ml) continue;
+      if (ml === target || norm(ml) === tn) {
+        return organizations[orgId]?.name ?? orgId;
+      }
+    }
+  }
+  return undefined;
+}
+
 /** Нормализация для сравнения с `updatedByLabel` / `displayName`. */
 function norm(s: string): string {
   return s.trim().toLowerCase().replace(/\s+/g, ' ');
@@ -130,6 +159,19 @@ function normalizeStageFlags(
   const out: Workshop2TzPerRoleStageFlags = {};
   for (const k of WORKSHOP2_TZ_SIGNOFF_STAGE_IDS) {
     if (f[k] === false) out[k] = false;
+  }
+  return Object.keys(out).length ? out : undefined;
+}
+
+/** Ранние этапы технолога нельзя явно отключить — false снимается при нормализации. */
+function normalizeTechnologistSignStages(
+  f?: Workshop2TzPerRoleStageFlags | null
+): Workshop2TzPerRoleStageFlags | undefined {
+  const base = normalizeStageFlags(f);
+  if (!base) return undefined;
+  const out = { ...base };
+  for (const stage of ['tz', 'sample', 'supply'] as const) {
+    if (out[stage] === false) delete out[stage];
   }
   return Object.keys(out).length ? out : undefined;
 }
@@ -300,6 +342,13 @@ export function workshopTzSignoffRequiredForRole(
   return flags?.tz !== false;
 }
 
+export function technologistEarlyStagesRequired(
+  flags: Workshop2TzPerRoleStageFlags | undefined
+): Workshop2TzSignoffStageId[] {
+  const required: Workshop2TzSignoffStageId[] = ['tz', 'sample'];
+  return required.filter((stage) => !workshopTzParticipatesOnStage(flags, stage));
+}
+
 export function normalizeWorkshopTzSignatoryBindings(
   b?: Workshop2TzSignatoryBindings | null
 ): Workshop2TzSignatoryBindings | undefined {
@@ -310,10 +359,25 @@ export function normalizeWorkshopTzSignatoryBindings(
     out.technologistDisplayLabel = b.technologistDisplayLabel.trim();
   if (b.managerDisplayLabel?.trim()) out.managerDisplayLabel = b.managerDisplayLabel.trim();
   const ds = normalizeStageFlags(b.designerSignStages);
-  const ts = normalizeStageFlags(b.technologistSignStages);
+  const tsRaw = normalizeStageFlags(b.technologistSignStages);
+  const ts = tsRaw
+    ? (() => {
+        const t: Workshop2TzPerRoleStageFlags = { ...tsRaw };
+        for (const stage of ['tz', 'sample', 'supply'] as const) {
+          if (t[stage] === false) delete t[stage];
+        }
+        return Object.keys(t).length ? t : undefined;
+      })()
+    : undefined;
   const ms = normalizeStageFlags(b.managerSignStages);
   if (ds) out.designerSignStages = ds;
-  if (ts) out.technologistSignStages = ts;
+  if (ts) {
+    // Технолог обязан участвовать на ранних этапах (ТЗ, образец) — явное снятие не сохраняем.
+    const enforced: Workshop2TzPerRoleStageFlags = { ...ts };
+    delete enforced.tz;
+    delete enforced.sample;
+    out.technologistSignStages = Object.keys(enforced).length ? enforced : undefined;
+  }
   if (ms) out.managerSignStages = ms;
   const extras = normalizeExtraRows(b.extraAssigneeRows);
   if (extras) out.extraAssigneeRows = extras;

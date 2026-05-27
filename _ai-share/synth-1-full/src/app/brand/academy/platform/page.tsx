@@ -51,10 +51,7 @@ import {
 import { cn } from '@/lib/utils';
 import { RegistryPageHeader } from '@/components/design-system';
 import { AcademyStudioCourseOriginBadges } from '@/components/academy/academy-studio-course-origin-badges';
-import {
-  academyCohortChatId,
-  academyStaffChatId,
-} from '@/lib/academy/academy-course-chats';
+import { academyCohortChatId, academyStaffChatId } from '@/lib/academy/academy-course-chats';
 import { AcademyClientLearningBar } from '@/components/academy/academy-client-learning-bar';
 
 const CATEGORIES = [
@@ -72,10 +69,7 @@ export default function AcademyPlatformPage() {
   const [matchClientCatalogOnly, setMatchClientCatalogOnly] = useState(false);
 
   /** Витрина платформы + курсы этого бренда (включая черновики и заявки — демо). */
-  const brandAcademyPool = useMemo(
-    () => getCoursesForBrandAcademyStudio(DEMO_BRAND_OWNER_ID),
-    []
-  );
+  const brandAcademyPool = useMemo(() => getCoursesForBrandAcademyStudio(DEMO_BRAND_OWNER_ID), []);
 
   const myEnrollments = getMyPlatformEnrollments();
   const myEnrollmentCourses = useMemo(
@@ -108,7 +102,12 @@ export default function AcademyPlatformPage() {
         title="Курсы платформы"
         leadPlain="Курсы, траектории обучения, статьи и события академии платформы для разных ролей в fashion-экосистеме."
         actions={
-          <Button variant="outline" size="sm" className="h-8 gap-1.5 text-[10px] font-bold uppercase" asChild>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 gap-1.5 text-[10px] font-bold uppercase"
+            asChild
+          >
             <Link href={ROUTES.brand.academyOrganizationStudio}>
               <Building2 className="size-3.5" aria-hidden />
               Студия организации
@@ -248,10 +247,13 @@ export default function AcademyPlatformPage() {
           </div>
         </div>
         <p className="text-text-secondary mb-6 max-w-3xl text-sm leading-relaxed">
-          Программы из нескольких курсов в логичном порядке: видно длительность, число шагов, уровень и
-          что получите по итогам — прежде чем открывать страницу программы. Состав списка совпадает с
-          клиентской витриной{' '}
-          <Link href={ROUTES.academyPlatform} className="font-medium text-primary underline-offset-4 hover:underline">
+          Программы из нескольких курсов в логичном порядке: видно длительность, число шагов,
+          уровень и что получите по итогам — прежде чем открывать страницу программы. Состав списка
+          совпадает с клиентской витриной{' '}
+          <Link
+            href={ROUTES.academyPlatform}
+            className="font-medium text-primary underline-offset-4 hover:underline"
+          >
             /academy
           </Link>
           : в программу попадают только курсы, уже доступные в каталоге (после модерации).
@@ -260,7 +262,11 @@ export default function AcademyPlatformPage() {
           {clientLearningPaths.map((path) => {
             const stepCount = path.courses.length;
             const stepLabel =
-              stepCount === 1 ? '1 курс' : stepCount < 5 ? `${stepCount} курса` : `${stepCount} курсов`;
+              stepCount === 1
+                ? '1 курс'
+                : stepCount < 5
+                  ? `${stepCount} курса`
+                  : `${stepCount} курсов`;
             return (
               <Link key={path.id} href={ROUTES.brand.academyPlatformPath(path.id)}>
                 <Card className="border-accent-primary/30 from-accent-primary/10 hover:shadow-accent-primary/10 hover:border-accent-primary/30 group flex h-full overflow-hidden rounded-2xl border bg-gradient-to-br to-white transition-all duration-200 hover:shadow-lg">
@@ -272,7 +278,9 @@ export default function AcademyPlatformPage() {
                             {path.audience}
                           </p>
                         ) : null}
-                        <h3 className="text-text-primary text-lg font-semibold leading-snug">{path.title}</h3>
+                        <h3 className="text-text-primary text-lg font-semibold leading-snug">
+                          {path.title}
+                        </h3>
                       </div>
                       <div className="flex shrink-0 items-center gap-2">
                         <div className="bg-accent-primary/15 rounded-xl p-3">
@@ -350,7 +358,7 @@ export default function AcademyPlatformPage() {
               Как на витрине{' '}
               <Link
                 href={ROUTES.academyPlatform}
-                className="text-primary font-medium underline-offset-4 hover:underline"
+                className="font-medium text-primary underline-offset-4 hover:underline"
               >
                 /academy
               </Link>

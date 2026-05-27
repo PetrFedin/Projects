@@ -10,13 +10,8 @@ import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 export function ProductionPageContentTabReports({ p }: { p: Record<string, unknown> }) {
   const px = p as Record<string, any>;
-  const {
-    filteredSkus,
-    filteredProductionOrders,
-    samplePendingCount,
-    handleAction,
-    setActiveTab,
-  } = px;
+  const { filteredSkus, filteredProductionOrders, samplePendingCount, handleAction, setActiveTab } =
+    px;
 
   return (
     <TabsContent value="reports" className={cabinetSurface.cabinetProfileTabPanel}>

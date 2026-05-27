@@ -51,8 +51,7 @@ export function buildStagesDependenciesTabsSkuProps(
     flowDoc,
     steps,
     onPatchSkuStage: (stepId, patch) => patchSkuStageLocal(resolvedFocusId, stepId, patch),
-    onAppendSkuAuditLine: (stepId, line) =>
-      appendSkuAuditLineLocal(resolvedFocusId, stepId, line),
+    onAppendSkuAuditLine: (stepId, line) => appendSkuAuditLineLocal(resolvedFocusId, stepId, line),
     mergeModuleHref,
     floorHref,
     mergeCollectionQuery,

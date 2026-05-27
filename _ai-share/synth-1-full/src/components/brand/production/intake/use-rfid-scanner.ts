@@ -14,11 +14,11 @@ export function useRfidScanner(onBatchScanned: (epcs: string[]) => void, debounc
   const flushBuffer = useCallback(() => {
     if (epcBufferRef.current.size > 0) {
       const epcs = Array.from(epcBufferRef.current);
-      setSession(prev => {
+      setSession((prev) => {
         const newEpcs = Array.from(new Set([...prev.scannedEpcs, ...epcs]));
         return {
           scannedEpcs: newEpcs,
-          totalScanned: newEpcs.length
+          totalScanned: newEpcs.length,
         };
       });
       onBatchScanned(epcs);
@@ -59,11 +59,14 @@ export function useRfidScanner(onBatchScanned: (epcs: string[]) => void, debounc
     };
   }, [debounceMs, flushBuffer]);
 
-  const simulateScan = useCallback((epcs: string[]) => {
-    epcs.forEach(epc => epcBufferRef.current.add(epc));
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(flushBuffer, debounceMs);
-  }, [debounceMs, flushBuffer]);
+  const simulateScan = useCallback(
+    (epcs: string[]) => {
+      epcs.forEach((epc) => epcBufferRef.current.add(epc));
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(flushBuffer, debounceMs);
+    },
+    [debounceMs, flushBuffer]
+  );
 
   const resetSession = useCallback(() => {
     setSession({ scannedEpcs: [], totalScanned: 0 });
@@ -73,6 +76,6 @@ export function useRfidScanner(onBatchScanned: (epcs: string[]) => void, debounc
   return {
     session,
     simulateScan,
-    resetSession
+    resetSession,
   };
 }

@@ -11,7 +11,10 @@ import {
 import { workshop2ArticleHref } from '@/lib/production/workshop2-url';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
-import { useWorkspaceStore, useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
+import {
+  useWorkspaceStore,
+  useArticleWorkspace,
+} from '@/components/brand/production/article-workspace-context';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -38,8 +41,11 @@ export function Workshop2ArticleOperationalTzRibbon({
   const ref = useWorkspaceStore((state) => state.ref);
   const bundle = useWorkspaceStore((state) => state.bundle);
   const { mergeBundle } = useArticleWorkspace();
-  
-  const b = useMemo(() => buildWorkshop2OperationalTzBridge(tab, dossier, leaf), [tab, dossier, leaf]);
+
+  const b = useMemo(
+    () => buildWorkshop2OperationalTzBridge(tab, dossier, leaf),
+    [tab, dossier, leaf]
+  );
   const w2sec = workshop2OperationalTabToTzW2Sec(tab);
   const href = workshop2ArticleHref(ref.collectionId, articleUrlSegment, {
     w2pane: 'tz',
@@ -69,34 +75,39 @@ export function Workshop2ArticleOperationalTzRibbon({
 
   return (
     <>
-      <div className={`border-border-default mb-4 rounded-xl border border-dashed bg-gradient-to-r px-3 py-2.5 shadow-sm ${isOutOfSync ? 'from-amber-50/95 via-white to-amber-50/40 border-amber-300' : 'from-slate-50/95 via-white to-slate-50/40 border-slate-300/80'}`}>
+      <div
+        className={`border-border-default mb-4 rounded-xl border border-dashed bg-gradient-to-r px-3 py-2.5 shadow-sm ${isOutOfSync ? 'border-amber-300 from-amber-50/95 via-white to-amber-50/40' : 'border-slate-300/80 from-slate-50/95 via-white to-slate-50/40'}`}
+      >
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div className="min-w-0 flex-1 space-y-1">
             <p className="text-text-primary flex items-center gap-1.5 text-[11px] font-semibold">
               <Link2 className="text-accent-primary h-3.5 w-3.5 shrink-0" aria-hidden />
-              Связь с техническим заданием (Версия {dossier?.dossierVersionLabel || `v${dossierVersion}`})
+              Связь с техническим заданием (Версия{' '}
+              {dossier?.dossierVersionLabel || `v${dossierVersion}`})
             </p>
             <p className="text-text-secondary text-[11px] leading-snug">{b.contractLine}</p>
             <p className="text-text-muted text-[10px] leading-snug">{b.overallLine}</p>
-            <p className="text-text-primary text-[10px] font-semibold tabular-nums">{b.focusPctLabel}</p>
+            <p className="text-text-primary text-[10px] font-semibold tabular-nums">
+              {b.focusPctLabel}
+            </p>
           </div>
-          
-          <div className="flex flex-col gap-2 items-end">
+
+          <div className="flex flex-col items-end gap-2">
             <Link
               href={href}
-              className="border-border-default bg-white text-accent-primary shrink-0 rounded-md border px-2.5 py-1.5 text-[10px] font-semibold shadow-sm transition-colors hover:border-accent-primary/40 hover:bg-accent-primary/5"
+              className="border-border-default text-accent-primary hover:border-accent-primary/40 hover:bg-accent-primary/5 shrink-0 rounded-md border bg-white px-2.5 py-1.5 text-[10px] font-semibold shadow-sm transition-colors"
             >
               Открыть ТЗ →
             </Link>
-            
+
             {isOutOfSync && (
               <Button
                 variant="outline"
                 size="sm"
-                className="h-7 text-[10px] bg-amber-100/50 text-amber-900 border-amber-300 hover:bg-amber-200"
+                className="h-7 border-amber-300 bg-amber-100/50 text-[10px] text-amber-900 hover:bg-amber-200"
                 onClick={() => setSyncDialogOpen(true)}
               >
-                <GitMerge className="w-3 h-3 mr-1" />
+                <GitMerge className="mr-1 h-3 w-3" />
                 Синхронизировать (Доступна v{dossierVersion})
               </Button>
             )}
@@ -109,7 +120,7 @@ export function Workshop2ArticleOperationalTzRibbon({
             ))}
           </ul>
         ) : (
-          <p className="text-text-muted mt-2 border-t border-border-subtle/70 pt-2 text-[10px] leading-snug">
+          <p className="text-text-muted border-border-subtle/70 mt-2 border-t pt-2 text-[10px] leading-snug">
             По связанным разделам ТЗ нет открытых предупреждений движка готовности.
           </p>
         )}
@@ -119,33 +130,39 @@ export function Workshop2ArticleOperationalTzRibbon({
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 text-amber-500" />
+              <AlertCircle className="h-5 w-5 text-amber-500" />
               Smart Diff: Обнаружены изменения ТЗ
             </DialogTitle>
             <DialogDescription>
-              Техническое задание было обновлено (до версии {dossier?.dossierVersionLabel || `v${dossierVersion}`}). 
-              Текущая вкладка работает с устаревшими данными (v{syncedVersion}).
+              Техническое задание было обновлено (до версии{' '}
+              {dossier?.dossierVersionLabel || `v${dossierVersion}`}). Текущая вкладка работает с
+              устаревшими данными (v{syncedVersion}).
             </DialogDescription>
           </DialogHeader>
-          
-          <div className="py-4 space-y-3">
-            <div className="text-sm bg-slate-50 p-3 rounded-lg border border-slate-100">
-              <p className="font-semibold text-slate-700 mb-2">Изменения (Diff):</p>
-              <ul className="list-disc list-inside space-y-1 text-xs text-slate-600">
-                <li className="text-amber-700">Изменён материал: Добавлена новая фурнитура "Молния 15см"</li>
+
+          <div className="space-y-3 py-4">
+            <div className="rounded-lg border border-slate-100 bg-slate-50 p-3 text-sm">
+              <p className="mb-2 font-semibold text-slate-700">Изменения (Diff):</p>
+              <ul className="list-inside list-disc space-y-1 text-xs text-slate-600">
+                <li className="text-amber-700">
+                  Изменён материал: Добавлена новая фурнитура "Молния 15см"
+                </li>
                 <li className="text-teal-700">Обновлены лекала: Скорректирован припуск на швы</li>
               </ul>
             </div>
             <p className="text-xs text-slate-500">
-              Система автоматически объединит бесконфликтные изменения. При возникновении прямых конфликтов вам будет предложено выбрать верный вариант.
+              Система автоматически объединит бесконфликтные изменения. При возникновении прямых
+              конфликтов вам будет предложено выбрать верный вариант.
             </p>
           </div>
 
           <DialogFooter>
-            <Button variant="outline" size="sm" onClick={() => setSyncDialogOpen(false)}>Отмена</Button>
-            <Button 
-              size="sm" 
-              className="bg-amber-500 hover:bg-amber-600 text-white"
+            <Button variant="outline" size="sm" onClick={() => setSyncDialogOpen(false)}>
+              Отмена
+            </Button>
+            <Button
+              size="sm"
+              className="bg-amber-500 text-white hover:bg-amber-600"
               onClick={handleSync}
               disabled={syncing}
             >

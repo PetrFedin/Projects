@@ -78,7 +78,11 @@ export default function B2BPaymentPage() {
   );
 
   return (
-    <CabinetPageContent maxWidth="4xl" className="space-y-6" data-testid={tid.page('shop-b2b-payment')}>
+    <CabinetPageContent
+      maxWidth="4xl"
+      className="space-y-6"
+      data-testid={tid.page('shop-b2b-payment')}
+    >
       <ShopB2bContentHeader lead="Оплата заказов внутри платформы; кредитный лимит обновляется после оплаты (JOOR Pay)." />
       <ShopAnalyticsSegmentErpStrip />
 

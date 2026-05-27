@@ -16,9 +16,10 @@ describe('workshop2-phase1-dossier-panel-color-mat-helpers', () => {
   });
 
   it('suggestPaletteFromPrimaryLabels matches Russian black family', () => {
-    const hit = suggestPaletteFromPrimaryLabels(['чёрный'], [
-      { parameterId: 'p1', label: 'Черный графит' },
-    ]);
+    const hit = suggestPaletteFromPrimaryLabels(
+      ['чёрный'],
+      [{ parameterId: 'p1', label: 'Черный графит' }]
+    );
     expect(hit?.parameterId).toBe('p1');
   });
 

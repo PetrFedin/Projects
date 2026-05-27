@@ -321,10 +321,7 @@ export default function ShowroomSessionPage({ params }: { params: { id: string }
                     className="group relative flex items-center gap-3 border-b border-slate-700 pb-3"
                   >
                     <div className="h-14 w-10 overflow-hidden rounded bg-slate-700">
-                      <img
-                        src={p?.images?.[0]?.url ?? ''}
-                        className="h-full w-full object-cover"
-                      />
+                      <img src={p?.images?.[0]?.url ?? ''} className="h-full w-full object-cover" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-slate-300">{p?.name}</div>

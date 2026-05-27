@@ -1,10 +1,7 @@
 'use client';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
-import {
-  STAGES_SKU_PARAM,
-  STAGES_WORK_SKU_PARAM,
-} from '@/lib/production/stages-url';
+import { STAGES_SKU_PARAM, STAGES_WORK_SKU_PARAM } from '@/lib/production/stages-url';
 import { Workshop2StagesDependenciesDepsNodeInfoPortal } from '@/components/brand/production/Workshop2StagesDependenciesDepsNodeInfoPortal';
 import { Workshop2StagesDependenciesPreTabsChrome } from '@/components/brand/production/Workshop2StagesDependenciesPreTabsChrome';
 import { Workshop2StagesDependenciesTabsSection } from '@/components/brand/production/Workshop2StagesDependenciesTabsSection';

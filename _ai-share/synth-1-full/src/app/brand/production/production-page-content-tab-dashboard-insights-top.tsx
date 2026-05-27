@@ -5,7 +5,11 @@ import { BottleneckPanel } from '@/components/brand/production/BottleneckPanel';
 import { SLACountdown } from '@/components/brand/production/ProductionSectionEnhancements';
 import { ProductionSectionHeader } from '@/app/brand/production/production-page-content-chrome';
 
-export function ProductionPageContentTabDashboardInsightsTop({ p }: { p: Record<string, unknown> }) {
+export function ProductionPageContentTabDashboardInsightsTop({
+  p,
+}: {
+  p: Record<string, unknown>;
+}) {
   const px = p as Record<string, any>;
   const { collections, filteredSlaSamples, filteredLosses, filteredCollections } = px;
 

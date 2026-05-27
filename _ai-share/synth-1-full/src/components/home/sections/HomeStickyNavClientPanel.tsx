@@ -10,7 +10,10 @@ const HomeGlobalCategorySelector = dynamic(
     import('@/components/home/GlobalCategorySelector').then((m) => ({
       default: m.GlobalCategorySelector,
     })),
-  { ssr: false, loading: () => <div className="min-h-[48px] animate-pulse bg-muted/30" aria-hidden /> }
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[48px] animate-pulse bg-muted/30" aria-hidden />,
+  }
 );
 
 type HomeStickyNavClientPanelProps = {

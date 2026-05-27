@@ -73,7 +73,10 @@ export default function ClaimsPortalPage() {
   const activeClaim = claims.find((c) => c.id === selectedClaimId) || claims[0];
 
   return (
-    <CabinetPageContent maxWidth="full" className="flex h-[calc(100vh-64px)] flex-col space-y-4 !px-4 !py-4">
+    <CabinetPageContent
+      maxWidth="full"
+      className="flex h-[calc(100vh-64px)] flex-col space-y-4 !px-4 !py-4"
+    >
       <ShopAnalyticsSegmentErpStrip className="shrink-0" />
 
       <div className="border-border-subtle flex shrink-0 flex-wrap items-center gap-2 border-b pb-3">

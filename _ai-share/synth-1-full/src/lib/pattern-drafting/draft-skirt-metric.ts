@@ -1,13 +1,18 @@
-import type { PatternDart, PatternPiece, SewingPatternDraftOptions } from '@/lib/pattern-drafting/sewing-pattern.types';
+import type {
+  PatternDart,
+  PatternPiece,
+  SewingPatternDraftOptions,
+} from '@/lib/pattern-drafting/sewing-pattern.types';
 import { cmToMm, toMm } from '@/lib/pattern-drafting/sewing-units';
 import type { Vec2 } from '@/lib/pattern-geometry/vec2';
 
 /**
  * Выкройка 1/4 юбки (CF — левая кромка). A-line: расклёш от уровня бёдер.
  */
-export function draftSkirtFrontMetric(
-  options: SewingPatternDraftOptions
-): { piece: PatternPiece; log: { key: string; value: string; unit?: string }[] } {
+export function draftSkirtFrontMetric(options: SewingPatternDraftOptions): {
+  piece: PatternPiece;
+  log: { key: string; value: string; unit?: string }[];
+} {
   const m = toMm({ ...options.measures, unit: options.measures.unit });
   const eW = cmToMm(options.ease.waist);
   const eH = cmToMm(options.ease.hip);
@@ -66,9 +71,10 @@ export function draftSkirtFrontMetric(
   };
 }
 
-export function draftSkirtBackMetric(
-  options: SewingPatternDraftOptions
-): { piece: PatternPiece; log: { key: string; value: string; unit?: string }[] } {
+export function draftSkirtBackMetric(options: SewingPatternDraftOptions): {
+  piece: PatternPiece;
+  log: { key: string; value: string; unit?: string }[];
+} {
   const f = draftSkirtFrontMetric({
     ...options,
     darts: { ...options.darts, waistDart: true },

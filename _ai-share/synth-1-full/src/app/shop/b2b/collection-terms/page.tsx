@@ -28,9 +28,7 @@ export default function B2BCollectionTermsPage() {
       .then((res) => (res.ok ? res.json() : []))
       .then((data: unknown) =>
         setPriceLists(
-          Array.isArray(data)
-            ? (data as { slug: string; name: string; currency?: string }[])
-            : []
+          Array.isArray(data) ? (data as { slug: string; name: string; currency?: string }[]) : []
         )
       )
       .catch(() => {});

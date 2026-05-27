@@ -32,9 +32,7 @@ export default function TryBeforeYouBuyPage() {
 
   return (
     <div className="container max-w-4xl space-y-6 py-6 pb-24">
-      <ClientCabinetSectionHeader
-        description="Примерка с холдированием средств. Заказы, клиент, возвраты."
-      />
+      <ClientCabinetSectionHeader description="Примерка с холдированием средств. Заказы, клиент, возвраты." />
 
       <Card className="border-accent-primary/20">
         <CardHeader className="pb-2">

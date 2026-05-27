@@ -27,7 +27,10 @@ describe('POST /api/brand/workshop2/phase1-dossier/section-signoff/commit', () =
       articleId: 'a1',
       dossier: {
         ...seeded,
-        tzSignatoryBindings: { designerDisplayLabel: 'Иван Иванов', technologistDisplayLabel: 'Тех Техов' },
+        tzSignatoryBindings: {
+          designerDisplayLabel: 'Иван Иванов',
+          technologistDisplayLabel: 'Тех Техов',
+        },
       } as never,
     });
     const req = new Request(
@@ -48,7 +51,11 @@ describe('POST /api/brand/workshop2/phase1-dossier/section-signoff/commit', () =
     );
     const res = await POST(req as never);
     expect(res.status).toBe(200);
-    const json = (await res.json()) as { ok: boolean; version: number; dossier?: { sectionSignoffs?: any } };
+    const json = (await res.json()) as {
+      ok: boolean;
+      version: number;
+      dossier?: { sectionSignoffs?: any };
+    };
     expect(json.ok).toBe(true);
     expect(json.version).toBe(2);
     expect(json.dossier?.sectionSignoffs?.[section]?.brand?.by).toBe('Иван Иванов');
@@ -60,7 +67,10 @@ describe('POST /api/brand/workshop2/phase1-dossier/section-signoff/commit', () =
       articleId: 'a2',
       dossier: {
         assignments: [],
-        tzSignatoryBindings: { designerDisplayLabel: 'Мария Петрова', technologistDisplayLabel: 'Тех Техов' },
+        tzSignatoryBindings: {
+          designerDisplayLabel: 'Мария Петрова',
+          technologistDisplayLabel: 'Тех Техов',
+        },
       } as never,
     });
     const req = new Request(

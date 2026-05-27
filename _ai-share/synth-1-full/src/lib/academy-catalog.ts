@@ -1,9 +1,6 @@
 import type { EducationCourse, LearningPath } from './types';
 import { getLearningPathById, mockCourses, mockLearningPaths } from './education-data';
-import {
-  isCourseVisibleInClientCatalog,
-  isPendingPlatformReview,
-} from './academy-catalog-rules';
+import { isCourseVisibleInClientCatalog, isPendingPlatformReview } from './academy-catalog-rules';
 import { DEMO_BRAND_OWNER_ID, DEMO_ORGANIZATION_OWNER_ID } from './academy-constants';
 
 export { DEMO_BRAND_OWNER_ID, DEMO_ORGANIZATION_OWNER_ID } from './academy-constants';
@@ -48,7 +45,8 @@ export function getOrganizationManagedCourses(organizationId: string): Education
  */
 export function getCoursesForBrandAcademyStudio(brandId: string): EducationCourse[] {
   return mockCourses.filter(
-    (c) => c.catalogSource === 'platform' || (c.catalogSource === 'brand' && c.ownerBrandId === brandId)
+    (c) =>
+      c.catalogSource === 'platform' || (c.catalogSource === 'brand' && c.ownerBrandId === brandId)
   );
 }
 
@@ -110,6 +108,7 @@ export function getAcademyCatalogOverview(): AcademyCatalogOverview {
     pendingModerationCount: getCoursesPendingPlatformReview().length,
     clientLearningPathCount: getLearningPathsForClient().length,
     demoBrandManagedCourseCount: getBrandManagedCourses(DEMO_BRAND_OWNER_ID).length,
-    demoOrganizationManagedCourseCount: getOrganizationManagedCourses(DEMO_ORGANIZATION_OWNER_ID).length,
+    demoOrganizationManagedCourseCount: getOrganizationManagedCourses(DEMO_ORGANIZATION_OWNER_ID)
+      .length,
   };
 }

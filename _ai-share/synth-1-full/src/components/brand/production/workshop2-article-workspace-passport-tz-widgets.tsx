@@ -66,7 +66,7 @@ export function W2PassportTzStagesPick({
                 key={id}
                 className={cn(
                   'text-text-primary hover:bg-bg-surface2 flex items-center gap-2 rounded py-1 pl-0.5 pr-1 text-[10px]',
-                  isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+                  isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
                 )}
                 title={isDisabled ? 'Этот этап обязателен для данной роли' : undefined}
               >
@@ -206,7 +206,10 @@ export function PassportTzExtraAssigneeCard({
         </button>
       </div>
       {exAssignee ? (
-        <p className="text-text-muted pl-0.5 text-[9px] leading-tight" title="Организация в справочнике">
+        <p
+          className="text-text-muted pl-0.5 text-[9px] leading-tight"
+          title="Организация в справочнике"
+        >
           {workshopTzAssigneeOrganizationName(exAssignee) || '—'}
         </p>
       ) : null}

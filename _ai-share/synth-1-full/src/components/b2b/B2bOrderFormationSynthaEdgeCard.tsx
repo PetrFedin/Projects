@@ -4,7 +4,14 @@
  * Карточка на экране создания заказа: что берём у JOOR/NuOrder и что добавляем для РФ и лидерства продукта.
  */
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Check } from 'lucide-react';
 import { operationalLayoutContract as o } from '@/lib/ui/operational-layout-contract';
 import { cn } from '@/lib/utils';
@@ -31,14 +38,17 @@ const EDGE = [
 
 export function B2bOrderFormationSynthaEdgeCard({ className }: { className?: string }) {
   return (
-    <Card className={cn(o.panel, 'shadow-none', className)} data-testid="b2b-order-formation-edge-card">
+    <Card
+      className={cn(o.panel, 'shadow-none', className)}
+      data-testid="b2b-order-formation-edge-card"
+    >
       <CardHeader className="border-border-default/60 border-b pb-3">
         <CardTitle className="text-text-primary text-[11px] font-black uppercase tracking-[0.2em]">
           JOOR / NuOrder и дальше
         </CardTitle>
         <CardDescription className="text-text-muted text-xs leading-relaxed">
-          Базовые паттерны wholesale — плюс российская юрисдикация и то, чего типично нет у «чистого»
-          западного B2B-портала: производство и документы в одной цепочке.
+          Базовые паттерны wholesale — плюс российская юрисдикация и то, чего типично нет у
+          «чистого» западного B2B-портала: производство и документы в одной цепочке.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4 pt-4 sm:grid-cols-3">
@@ -82,7 +92,7 @@ export function B2bOrderFormationSynthaEdgeCard({ className }: { className?: str
           </ul>
         </div>
       </CardContent>
-      <CardFooter className="border-border-default/60 flex flex-wrap gap-2 border-t bg-bg-surface2/40 px-6 py-3">
+      <CardFooter className="border-border-default/60 bg-bg-surface2/40 flex flex-wrap gap-2 border-t px-6 py-3">
         <span className="text-text-muted w-full text-[9px] font-black uppercase tracking-[0.18em]">
           Рабочие переходы по ядрам
         </span>
@@ -90,7 +100,7 @@ export function B2bOrderFormationSynthaEdgeCard({ className }: { className?: str
           <Link
             key={item.href}
             href={item.href}
-            className="text-text-primary hover:bg-bg-surface2 border-border-subtle rounded-md border px-2.5 py-1 text-[10px] font-semibold transition-colors hover:text-accent-primary"
+            className="text-text-primary hover:bg-bg-surface2 border-border-subtle hover:text-accent-primary rounded-md border px-2.5 py-1 text-[10px] font-semibold transition-colors"
           >
             {item.label}
           </Link>

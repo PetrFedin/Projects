@@ -13,7 +13,10 @@ import {
   buildSewingPattern,
   defaultSewingDraftOptions,
 } from '@/lib/pattern-drafting/build-sewing-pattern';
-import type { SewingPatternDartToggles, SewingPatternGarmentBlock } from '@/lib/pattern-drafting/sewing-pattern.types';
+import type {
+  SewingPatternDartToggles,
+  SewingPatternGarmentBlock,
+} from '@/lib/pattern-drafting/sewing-pattern.types';
 import { loadBodyProfile } from '@/lib/fashion/fit-match-logic';
 import {
   getDefaultSewingCategorySelection,
@@ -35,7 +38,10 @@ import { logObservability, reportError } from '@/lib/logger';
 import { getUnknownErrorName } from '@/lib/unknown-error-message';
 import { findHandbookLeafById } from '@/lib/production/category-handbook-leaves';
 import { applyInstructionalWatermarkToSvg } from '@/lib/pattern-drafting/sewing-svg-educational';
-import { parseSewingNum, SEWING_DEFAULT_MEASURES as SEWING_DEF } from '@/lib/pattern-drafting/sewing-measure-parse';
+import {
+  parseSewingNum,
+  SEWING_DEFAULT_MEASURES as SEWING_DEF,
+} from '@/lib/pattern-drafting/sewing-measure-parse';
 
 export { parseSewingNum, SEWING_DEF };
 
@@ -104,7 +110,8 @@ export function useSewingPatternWorkspace() {
   const prevL1Ref = useRef<string | null>(null);
   const commitAbortRef = useRef<AbortController | null>(null);
   const [commitPending, setCommitPending] = useState(false);
-  const [serverIntentBaseline, setServerIntentBaseline] = useState<SewingOrderIntentServerRecordV1 | null>(null);
+  const [serverIntentBaseline, setServerIntentBaseline] =
+    useState<SewingOrderIntentServerRecordV1 | null>(null);
   /** Смена JSON-правил пресетов (мини-редактор) — пересчитать ease/деталь. */
   const [presetRulesRevision, setPresetRulesRevision] = useState(0);
 
@@ -143,7 +150,8 @@ export function useSewingPatternWorkspace() {
     if (p.chest && Math.abs(parseSewingNum(s.bust, SEWING_DEF.bust) - p.chest) > d) return true;
     if (p.waist && Math.abs(parseSewingNum(s.waist, SEWING_DEF.waist) - p.waist) > d) return true;
     if (p.hips && Math.abs(parseSewingNum(s.hip, SEWING_DEF.hip) - p.hips) > d) return true;
-    if (p.height && Math.abs(parseSewingNum(s.height, SEWING_DEF.height) - p.height) > 1) return true;
+    if (p.height && Math.abs(parseSewingNum(s.height, SEWING_DEF.height) - p.height) > 1)
+      return true;
     return false;
   }, [serverIntentBaseline]);
 
@@ -296,7 +304,10 @@ export function useSewingPatternWorkspace() {
             cache: 'default',
           });
           if (!res.ok || cancelled) return;
-          const data = (await res.json()) as { ok?: boolean; record?: SewingOrderIntentServerRecordV1 | null };
+          const data = (await res.json()) as {
+            ok?: boolean;
+            record?: SewingOrderIntentServerRecordV1 | null;
+          };
           if (!data.ok || !data.record || cancelled) return;
           const local = readSewingPatternIntentV1();
           const serverTs = Date.parse(data.record.updatedAt);
@@ -311,7 +322,9 @@ export function useSewingPatternWorkspace() {
           setShoulder(data.record.measures.shoulder);
           setHeight(data.record.measures.height);
           setServerIntentBaseline(data.record);
-          logObservability('sewing_intent_hydrated_from_server', { handbookLeafId: data.record.handbookLeafId });
+          logObservability('sewing_intent_hydrated_from_server', {
+            handbookLeafId: data.record.handbookLeafId,
+          });
         } catch {
           /* ignore */
         }
@@ -323,54 +336,51 @@ export function useSewingPatternWorkspace() {
     };
   }, [user?.uid]);
 
-  const rawResult: SewingPatternResult = useMemo(
-    () => {
-      if (!isApparelSewing) {
-        return NON_APPAREL_SEWING_PATTERN_RESULT;
-      }
-      return buildSewingPattern(
-        defaultSewingDraftOptions({
-          measures: {
-            unit: 'cm',
-            bust: parseSewingNum(bust, SEWING_DEF.bust),
-            waist: parseSewingNum(waist, SEWING_DEF.waist),
-            hip: parseSewingNum(hip, SEWING_DEF.hip),
-            shoulderWidth: parseSewingNum(shoulder, SEWING_DEF.shoulder),
-            bodyHeight: height ? parseSewingNum(height, SEWING_DEF.height) : undefined,
-          },
-          garment,
-          darts,
-          ease: { bust: easeB, waist: easeW, hip: easeH },
-          seamAllowanceMm: seam,
-          showSeamLine: showSeam,
-          showGrain,
-          showDimensions: showDim,
-          frontNeckDropCm: neckDrop,
-          shoulderSlant: 0.5,
-          waistToHemSkirtCm: skirtLen,
-        })
-      );
-    },
-    [
-      isApparelSewing,
-      bust,
-      waist,
-      hip,
-      shoulder,
-      height,
-      garment,
-      darts,
-      easeB,
-      easeW,
-      easeH,
-      seam,
-      neckDrop,
-      skirtLen,
-      showSeam,
-      showGrain,
-      showDim,
-    ]
-  );
+  const rawResult: SewingPatternResult = useMemo(() => {
+    if (!isApparelSewing) {
+      return NON_APPAREL_SEWING_PATTERN_RESULT;
+    }
+    return buildSewingPattern(
+      defaultSewingDraftOptions({
+        measures: {
+          unit: 'cm',
+          bust: parseSewingNum(bust, SEWING_DEF.bust),
+          waist: parseSewingNum(waist, SEWING_DEF.waist),
+          hip: parseSewingNum(hip, SEWING_DEF.hip),
+          shoulderWidth: parseSewingNum(shoulder, SEWING_DEF.shoulder),
+          bodyHeight: height ? parseSewingNum(height, SEWING_DEF.height) : undefined,
+        },
+        garment,
+        darts,
+        ease: { bust: easeB, waist: easeW, hip: easeH },
+        seamAllowanceMm: seam,
+        showSeamLine: showSeam,
+        showGrain,
+        showDimensions: showDim,
+        frontNeckDropCm: neckDrop,
+        shoulderSlant: 0.5,
+        waistToHemSkirtCm: skirtLen,
+      })
+    );
+  }, [
+    isApparelSewing,
+    bust,
+    waist,
+    hip,
+    shoulder,
+    height,
+    garment,
+    darts,
+    easeB,
+    easeW,
+    easeH,
+    seam,
+    neckDrop,
+    skirtLen,
+    showSeam,
+    showGrain,
+    showDim,
+  ]);
 
   const result: SewingPatternResult = useMemo(() => {
     if (!isApparelSewing) return rawResult;

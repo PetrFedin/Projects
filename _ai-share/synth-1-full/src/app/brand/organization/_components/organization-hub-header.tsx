@@ -47,7 +47,7 @@ export function OrganizationHubHeader({
   setCustomRange,
 }: OrganizationHubHeaderProps) {
   return (
-    <div className="rounded-2xl border border-border-subtle bg-gradient-to-br from-bg-surface2/50 to-white p-5 shadow-sm">
+    <div className="border-border-subtle from-bg-surface2/50 rounded-2xl border bg-gradient-to-br to-white p-5 shadow-sm">
       <div className="flex flex-col gap-4">
         {!healthLoading && healthError && onRetryHealth ? (
           <div
@@ -87,7 +87,7 @@ export function OrganizationHubHeader({
         ) : null}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent-primary/15 text-accent-primary">
+            <div className="bg-accent-primary/15 text-accent-primary flex size-10 shrink-0 items-center justify-center rounded-xl">
               <LayoutDashboard className="size-5" />
             </div>
             <Badge variant="outline" className="text-[9px]">
@@ -97,20 +97,20 @@ export function OrganizationHubHeader({
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             {healthLoading ? (
               <>
-                <div className="h-6 w-32 animate-pulse rounded bg-bg-surface2" aria-hidden />
-                <span className="hidden text-text-muted sm:inline">•</span>
-                <div className="h-6 w-16 animate-pulse rounded bg-bg-surface2" aria-hidden />
-                <span className="hidden text-text-muted sm:inline">•</span>
-                <div className="h-6 w-24 animate-pulse rounded bg-bg-surface2" aria-hidden />
-                <span className="hidden text-text-muted sm:inline">•</span>
-                <div className="h-6 w-20 animate-pulse rounded bg-bg-surface2" aria-hidden />
+                <div className="bg-bg-surface2 h-6 w-32 animate-pulse rounded" aria-hidden />
+                <span className="text-text-muted hidden sm:inline">•</span>
+                <div className="bg-bg-surface2 h-6 w-16 animate-pulse rounded" aria-hidden />
+                <span className="text-text-muted hidden sm:inline">•</span>
+                <div className="bg-bg-surface2 h-6 w-24 animate-pulse rounded" aria-hidden />
+                <span className="text-text-muted hidden sm:inline">•</span>
+                <div className="bg-bg-surface2 h-6 w-20 animate-pulse rounded" aria-hidden />
               </>
             ) : (
               <>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button
-                      className="-mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-xs font-black text-text-secondary transition-colors hover:bg-accent-primary/10 hover:text-accent-primary"
+                      className="text-text-secondary hover:bg-accent-primary/10 hover:text-accent-primary -mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-xs font-black transition-colors"
                       aria-label="Профиль организации"
                     >
                       <Building2 className="size-3" />
@@ -119,27 +119,27 @@ export function OrganizationHubHeader({
                   </PopoverTrigger>
                   <PopoverContent
                     align="end"
-                    className="w-72 rounded-xl border-border-default p-4 shadow-xl"
+                    className="border-border-default w-72 rounded-xl p-4 shadow-xl"
                   >
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
-                        <div className="flex size-8 items-center justify-center rounded-lg bg-accent-primary/15">
-                          <Building2 className="size-4 text-accent-primary" />
+                        <div className="bg-accent-primary/15 flex size-8 items-center justify-center rounded-lg">
+                          <Building2 className="text-accent-primary size-4" />
                         </div>
                         <div>
-                          <h4 className="text-xs font-black uppercase text-text-primary">
+                          <h4 className="text-text-primary text-xs font-black uppercase">
                             {orgProfile?.brand?.name ?? 'Syntha HQ'}
                           </h4>
-                          <p className="text-[8px] text-text-secondary">Организация</p>
+                          <p className="text-text-secondary text-[8px]">Организация</p>
                         </div>
                       </div>
-                      <div className="space-y-1.5 text-[9px] text-text-secondary">
+                      <div className="text-text-secondary space-y-1.5 text-[9px]">
                         <p>
-                          <span className="font-bold text-text-secondary">Юр. лицо:</span>{' '}
+                          <span className="text-text-secondary font-bold">Юр. лицо:</span>{' '}
                           {orgProfile?.legal?.legal_name ?? 'ООО «Синта Фэшн»'}
                         </p>
                         <p>
-                          <span className="font-bold text-text-secondary">ИНН:</span>{' '}
+                          <span className="text-text-secondary font-bold">ИНН:</span>{' '}
                           {orgProfile?.legal?.inn ?? '7701234567'}
                         </p>
                       </div>
@@ -159,7 +159,7 @@ export function OrganizationHubHeader({
                     </div>
                   </PopoverContent>
                 </Popover>
-                <span className="hidden text-text-muted sm:inline">•</span>
+                <span className="text-text-muted hidden sm:inline">•</span>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button
@@ -176,13 +176,11 @@ export function OrganizationHubHeader({
                   </PopoverTrigger>
                   <PopoverContent
                     align="end"
-                    className="w-72 rounded-xl border-border-default p-4 shadow-xl"
+                    className="border-border-default w-72 rounded-xl p-4 shadow-xl"
                   >
                     <div className="space-y-3">
-                      <h4 className="text-xs font-black uppercase text-text-primary">
-                        Elite Plan
-                      </h4>
-                      <p className="text-[8px] text-text-secondary">Подписка</p>
+                      <h4 className="text-text-primary text-xs font-black uppercase">Elite Plan</h4>
+                      <p className="text-text-secondary text-[8px]">Подписка</p>
                       <Button
                         asChild
                         size="sm"
@@ -199,11 +197,11 @@ export function OrganizationHubHeader({
                     </div>
                   </PopoverContent>
                 </Popover>
-                <span className="hidden text-text-muted sm:inline">•</span>
+                <span className="text-text-muted hidden sm:inline">•</span>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button
-                      className="-mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-xs font-black text-text-secondary hover:bg-accent-primary/10 hover:text-accent-primary"
+                      className="text-text-secondary hover:bg-accent-primary/10 hover:text-accent-primary -mx-1.5 flex items-center gap-1.5 rounded-lg px-1.5 py-0.5 text-xs font-black"
                       aria-label={`Команда: ${participantsCount} участников`}
                     >
                       <Users className="size-3" /> {participantsCount} участников
@@ -211,10 +209,10 @@ export function OrganizationHubHeader({
                   </PopoverTrigger>
                   <PopoverContent
                     align="end"
-                    className="w-72 rounded-xl border-border-default p-4 shadow-xl"
+                    className="border-border-default w-72 rounded-xl p-4 shadow-xl"
                   >
-                    <h4 className="text-xs font-black uppercase text-text-primary">Команда</h4>
-                    <p className="text-[8px] text-text-secondary">{participantsCount} участников</p>
+                    <h4 className="text-text-primary text-xs font-black uppercase">Команда</h4>
+                    <p className="text-text-secondary text-[8px]">{participantsCount} участников</p>
                     <Button
                       asChild
                       size="sm"
@@ -230,7 +228,7 @@ export function OrganizationHubHeader({
                     </Button>
                   </PopoverContent>
                 </Popover>
-                <span className="hidden text-text-muted sm:inline">•</span>
+                <span className="text-text-muted hidden sm:inline">•</span>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button
@@ -243,12 +241,12 @@ export function OrganizationHubHeader({
                   </PopoverTrigger>
                   <PopoverContent
                     align="end"
-                    className="w-72 rounded-xl border-border-default p-4 shadow-xl"
+                    className="border-border-default w-72 rounded-xl p-4 shadow-xl"
                   >
-                    <h4 className="text-xs font-black uppercase text-text-primary">
+                    <h4 className="text-text-primary text-xs font-black uppercase">
                       Сейчас онлайн
                     </h4>
-                    <p className="text-[8px] text-text-secondary">
+                    <p className="text-text-secondary text-[8px]">
                       {onlineCount} из {participantsCount} в системе
                     </p>
                   </PopoverContent>
@@ -260,16 +258,16 @@ export function OrganizationHubHeader({
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-0.5">
             <div className="flex items-center gap-2">
-              <div className="h-3.5 w-1 shrink-0 rounded-full bg-accent-primary" />
-              <h2 className="text-xs font-black uppercase tracking-widest text-text-muted">
+              <div className="bg-accent-primary h-3.5 w-1 shrink-0 rounded-full" />
+              <h2 className="text-text-muted text-xs font-black uppercase tracking-widest">
                 Организация
               </h2>
             </div>
-            <h3 className="text-sm font-black uppercase text-text-primary">Центр управления</h3>
-            <div className="flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-text-muted">
+            <h3 className="text-text-primary text-sm font-black uppercase">Центр управления</h3>
+            <div className="text-text-muted flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest">
               <Link
                 href={ROUTES.brand.strategyOverview}
-                className="transition-colors hover:text-accent-primary"
+                className="hover:text-accent-primary transition-colors"
               >
                 Обзор
               </Link>
@@ -280,16 +278,16 @@ export function OrganizationHubHeader({
           <div className="flex shrink-0 flex-wrap items-center gap-2">
             <span
               id="org-hub-period-heading"
-              className="text-[9px] font-bold uppercase text-text-muted"
+              className="text-text-muted text-[9px] font-bold uppercase"
             >
               Период:
               {typeof activityPeriod === 'object' && (
-                <span className="ml-1 font-normal normal-case text-text-secondary">
+                <span className="text-text-secondary ml-1 font-normal normal-case">
                   {formatActivityPeriod(activityPeriod)}
                 </span>
               )}
             </span>
-            <div className="flex h-[26px] items-center gap-1 rounded-md border border-border-default bg-bg-surface2 p-0.5 shadow-sm">
+            <div className="border-border-default bg-bg-surface2 flex h-[26px] items-center gap-1 rounded-md border p-0.5 shadow-sm">
               <div
                 role="radiogroup"
                 aria-labelledby="org-hub-period-heading"
@@ -306,8 +304,8 @@ export function OrganizationHubHeader({
                     className={cn(
                       'flex h-[20px] min-h-[20px] items-center rounded-sm px-2.5 text-[9px] font-black uppercase tracking-widest transition-all',
                       activityPeriod === p
-                        ? 'bg-white text-text-primary shadow-sm ring-1 ring-border-default'
-                        : 'text-text-muted hover:bg-white/50 hover:text-text-secondary'
+                        ? 'text-text-primary ring-border-default bg-white shadow-sm ring-1'
+                        : 'text-text-muted hover:text-text-secondary hover:bg-white/50'
                     )}
                   >
                     {p === '7d' ? '7 дней' : '30 дней'}
@@ -322,8 +320,8 @@ export function OrganizationHubHeader({
                     className={cn(
                       'flex h-[20px] min-h-[20px] items-center gap-1 rounded-sm px-2.5 text-[9px] font-black uppercase tracking-widest transition-all',
                       typeof activityPeriod === 'object'
-                        ? 'bg-white text-text-primary shadow-sm ring-1 ring-border-default'
-                        : 'text-text-muted hover:bg-white/50 hover:text-text-secondary'
+                        ? 'text-text-primary ring-border-default bg-white shadow-sm ring-1'
+                        : 'text-text-muted hover:text-text-secondary hover:bg-white/50'
                     )}
                   >
                     <CalendarIcon className="size-3" aria-hidden /> Календарь
@@ -332,7 +330,7 @@ export function OrganizationHubHeader({
                 <PopoverContent
                   align="end"
                   aria-label="Календарь: выбор диапазона дат для активности и модулей"
-                  className="w-auto rounded-xl border-border-default p-0 shadow-xl"
+                  className="border-border-default w-auto rounded-xl p-0 shadow-xl"
                 >
                   <CalendarComponent
                     mode="range"

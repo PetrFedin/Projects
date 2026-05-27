@@ -14,8 +14,7 @@ export const fmtMoney = (value: number, currency: string = 'RUB') => {
  */
 export const getCurrencyEquivalent = (valueInRub: number, targetCurrency: string, rate: number) => {
   const converted = valueInRub / rate;
-  const locale =
-    targetCurrency === 'USD' ? 'en-US' : targetCurrency === 'AED' ? 'en-AE' : 'ru-RU';
+  const locale = targetCurrency === 'USD' ? 'en-US' : targetCurrency === 'AED' ? 'en-AE' : 'ru-RU';
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: targetCurrency,

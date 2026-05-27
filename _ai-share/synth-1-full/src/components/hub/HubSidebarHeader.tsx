@@ -58,11 +58,13 @@ export function HubSidebarHeader({
       >
         {profile ? (
           <>
-            <Avatar className="h-9 w-9 shrink-0 rounded-[4px] border border-border-subtle shadow-sm">
+            <Avatar className="border-border-subtle h-9 w-9 shrink-0 rounded-[4px] border shadow-sm">
               {profile.photoURL ? (
                 <AvatarImage src={profile.photoURL} alt="" className="object-cover" />
               ) : null}
-              <AvatarFallback className="rounded-[4px] text-[11px] font-bold">{profile.initials}</AvatarFallback>
+              <AvatarFallback className="rounded-[4px] text-[11px] font-bold">
+                {profile.initials}
+              </AvatarFallback>
             </Avatar>
             <div className="min-w-0 flex-1 text-left">
               <p className="text-text-primary truncate text-[13px] font-semibold leading-tight tracking-tight">
@@ -84,7 +86,9 @@ export function HubSidebarHeader({
                 </p>
               ) : null}
               {profile.profileFooter ? (
-                <div className="mt-2 border-t border-border-subtle/70 pt-2">{profile.profileFooter}</div>
+                <div className="border-border-subtle/70 mt-2 border-t pt-2">
+                  {profile.profileFooter}
+                </div>
               ) : null}
             </div>
           </>
@@ -105,7 +109,9 @@ export function HubSidebarHeader({
               {subline ? (
                 <div className="mt-0.5 flex items-center gap-1.5">
                   {badge ? (
-                    <Badge className={cn(badgeClass, 'h-4 border-none px-1 py-0 text-[7px] font-black')}>
+                    <Badge
+                      className={cn(badgeClass, 'h-4 border-none px-1 py-0 text-[7px] font-black')}
+                    >
                       {badge}
                     </Badge>
                   ) : null}

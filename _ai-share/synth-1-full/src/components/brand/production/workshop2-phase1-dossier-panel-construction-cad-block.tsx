@@ -73,7 +73,8 @@ export function Workshop2DossierConstructionCadBlock({
   const handleCadValidation = () => {
     toast({
       title: 'Интеграция с САПР',
-      description: 'Автоматическая валидация лекал отключена. Требуется API интеграция с системой САПР (Gerber/Lectra/CLO3D).',
+      description:
+        'Автоматическая валидация лекал отключена. Требуется API интеграция с системой САПР (Gerber/Lectra/CLO3D).',
       variant: 'destructive',
     });
   };
@@ -81,7 +82,8 @@ export function Workshop2DossierConstructionCadBlock({
   const handleGenerateMeasurements = () => {
     toast({
       title: 'Интеграция с САПР',
-      description: 'Извлечение мерок из лекал недоступно. Требуется API интеграция с системой САПР.',
+      description:
+        'Извлечение мерок из лекал недоступно. Требуется API интеграция с системой САПР.',
       variant: 'destructive',
     });
   };
@@ -99,7 +101,9 @@ export function Workshop2DossierConstructionCadBlock({
           <div className="flex items-start justify-between gap-2">
             <div className="flex flex-col gap-0.5">
               <div className="flex items-center gap-1.5">
-                <h2 className="text-text-primary text-base font-semibold">Лекала и фабричный CAD</h2>
+                <h2 className="text-text-primary text-base font-semibold">
+                  Лекала и фабричный CAD
+                </h2>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
@@ -120,28 +124,29 @@ export function Workshop2DossierConstructionCadBlock({
                       хранятся локально (IndexedDB/сессия), с S3 включается синхронизация.
                     </p>
                     <p>
-                      ZIP собирается из всех локальных источников, экспорт пишется в журнал. Для цеха
-                      — один пакет по артикулу; фото/сканы лекал храните как отдельные визуальные
-                      вложения, не как CAD-файлы.
+                      ZIP собирается из всех локальных источников, экспорт пишется в журнал. Для
+                      цеха — один пакет по артикулу; фото/сканы лекал храните как отдельные
+                      визуальные вложения, не как CAD-файлы.
                     </p>
                   </TooltipContent>
                 </Tooltip>
               </div>
               <p className="text-text-secondary text-[11px] leading-snug">
-                PDF/CAD, ZIP для цеха, контроль готовности к отправке. Связь со скетчем и материалами — через якоря
-                «Конструкция»; крупные файлы — локально или S3 по настройке окружения.
+                PDF/CAD, ZIP для цеха, контроль готовности к отправке. Связь со скетчем и
+                материалами — через якоря «Конструкция»; крупные файлы — локально или S3 по
+                настройке окружения.
               </p>
             </div>
             {showDeferCommentUi ? (
               <div className="flex shrink-0 items-center gap-1 pl-1">
-                <label 
+                <label
                   className="text-text-muted hover:text-text-primary flex cursor-pointer items-center gap-1.5 whitespace-nowrap text-[10px] font-semibold"
                   title="Отложенное заполнение сохраняется только в браузере (для команды бренда)"
                 >
                   <Checkbox
                     checked={deferredAttrIds.has(W2_CONSTRUCTION_CAD_DEFER_ID)}
                     onCheckedChange={() => toggleDeferAttribute(W2_CONSTRUCTION_CAD_DEFER_ID)}
-                    className="h-3.5 w-3.5 shrink-0 border-border-default"
+                    className="border-border-default h-3.5 w-3.5 shrink-0"
                     aria-label={
                       deferredAttrIds.has(W2_CONSTRUCTION_CAD_DEFER_ID)
                         ? 'Снять отложенное заполнение'
@@ -152,7 +157,7 @@ export function Workshop2DossierConstructionCadBlock({
                 </label>
                 <button
                   type="button"
-                  className="text-text-muted hover:text-text-primary h-8 px-1.5 text-[10px] font-semibold flex items-center"
+                  className="text-text-muted hover:text-text-primary flex h-8 items-center px-1.5 text-[10px] font-semibold"
                   onClick={() => openAttrComments(W2_CONSTRUCTION_CAD_DEFER_ID)}
                 >
                   Комментарий
@@ -172,39 +177,39 @@ export function Workshop2DossierConstructionCadBlock({
           />
         </div>
       </div>
-        <Workshop2TechPackAttachmentsBlock
-          collectionId={collectionId}
-          articleId={articleId}
-          sessionBlobById={techPackSessionBlobById}
-          setSessionBlobById={setTechPackSessionBlobById}
-          attachments={techPackAttachments}
-          onChange={onTechPackAttachmentsChange}
-          onPatchAttachment={onPatchTechPackAttachment}
-          onJournalLine={onJournalLine}
-          onPulseAction={onPulseAction}
-          sealActorLabel={sealActorLabel}
-          zipFileNameStem={skuDraft}
-        />
-        <div className="flex gap-2 justify-end mt-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="h-8 text-[11px] text-slate-600 hover:text-slate-800 hover:bg-slate-50 border-slate-200"
-            onClick={handleCadValidation}
-          >
-            <LucideIcons.ScanSearch className="w-3.5 h-3.5 mr-1.5" />
-            Валидация лекал (САПР)
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="h-8 text-[11px] text-slate-600 hover:text-slate-800 hover:bg-slate-50 border-slate-200"
-            onClick={handleGenerateMeasurements}
-          >
-            <LucideIcons.Ruler className="w-3.5 h-3.5 mr-1.5" />
-            Извлечь табель мер
-          </Button>
-        </div>
+      <Workshop2TechPackAttachmentsBlock
+        collectionId={collectionId}
+        articleId={articleId}
+        sessionBlobById={techPackSessionBlobById}
+        setSessionBlobById={setTechPackSessionBlobById}
+        attachments={techPackAttachments}
+        onChange={onTechPackAttachmentsChange}
+        onPatchAttachment={onPatchTechPackAttachment}
+        onJournalLine={onJournalLine}
+        onPulseAction={onPulseAction}
+        sealActorLabel={sealActorLabel}
+        zipFileNameStem={skuDraft}
+      />
+      <div className="mt-2 flex justify-end gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-8 border-slate-200 text-[11px] text-slate-600 hover:bg-slate-50 hover:text-slate-800"
+          onClick={handleCadValidation}
+        >
+          <LucideIcons.ScanSearch className="mr-1.5 h-3.5 w-3.5" />
+          Валидация лекал (САПР)
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-8 border-slate-200 text-[11px] text-slate-600 hover:bg-slate-50 hover:text-slate-800"
+          onClick={handleGenerateMeasurements}
+        >
+          <LucideIcons.Ruler className="mr-1.5 h-3.5 w-3.5" />
+          Извлечь табель мер
+        </Button>
+      </div>
     </div>
   );
 }

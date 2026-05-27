@@ -27,7 +27,14 @@ export function revokeTzDigitalRowAction(
   rowKey: string,
   extraRoleTitle?: string
 ): void {
-  const { tzWriteDisabled, toast, updatedByLabel, tzRevokersEffective, onTzRevokeDenied, setDossier } = deps;
+  const {
+    tzWriteDisabled,
+    toast,
+    updatedByLabel,
+    tzRevokersEffective,
+    onTzRevokeDenied,
+    setDossier,
+  } = deps;
 
   if (tzWriteDisabled) {
     toast({

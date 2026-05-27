@@ -49,7 +49,11 @@ const techStackData = [
   { level: 'AR-примерка', self: '✅ WebXR / Snap / Zappar SDK', api: '—' },
   { level: 'AI-стилист', self: '✅ OpenAI / Replicate', api: '—' },
   { level: 'Digital Closet / Wishlist', self: '✅ PostgreSQL / S3', api: '—' },
-  { level: 'Digital drops / платежи', self: '➕ ЮKassa / СБП / банк + Stripe при экспорте / CryptoBot', api: '✅ SDK' },
+  {
+    level: 'Digital drops / платежи',
+    self: '➕ ЮKassa / СБП / банк + Stripe при экспорте / CryptoBot',
+    api: '✅ SDK',
+  },
   {
     level: 'NFT / вторичный рынок',
     self: '➕ через партнёров (Web3 интеграция)',
@@ -194,9 +198,8 @@ export function ClientCommunitySpaceDialog({
                       токенизацией и привязкой к аккаунту.
                     </li>
                     <li>
-                      <strong>Покупки и подписки:</strong> ЮKassa, СБП, эквайринг банка,
-                      CryptoBot; при экспорте — Stripe и др. —
-                      подключаемые платёжные модули.
+                      <strong>Покупки и подписки:</strong> ЮKassa, СБП, эквайринг банка, CryptoBot;
+                      при экспорте — Stripe и др. — подключаемые платёжные модули.
                     </li>
                     <li>
                       <strong>Передача digital-вещей:</strong> дарение и обмен между аккаунтами

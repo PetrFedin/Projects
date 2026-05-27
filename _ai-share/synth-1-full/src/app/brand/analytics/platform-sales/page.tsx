@@ -74,11 +74,15 @@ export default function PlatformSalesPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-text-secondary text-xs">Выручка</p>
-                <p className="text-accent-primary text-xl font-black">{PLATFORM_SALES_DEMO_MARKETROOM.revenue}</p>
+                <p className="text-accent-primary text-xl font-black">
+                  {PLATFORM_SALES_DEMO_MARKETROOM.revenue}
+                </p>
                 <p
                   className={cn(
                     'text-xs font-medium',
-                    PLATFORM_SALES_DEMO_MARKETROOM.revenueChange >= 0 ? 'text-emerald-600' : 'text-rose-600'
+                    PLATFORM_SALES_DEMO_MARKETROOM.revenueChange >= 0
+                      ? 'text-emerald-600'
+                      : 'text-rose-600'
                   )}
                 >
                   {PLATFORM_SALES_DEMO_MARKETROOM.revenueChange >= 0 ? '+' : ''}
@@ -130,11 +134,15 @@ export default function PlatformSalesPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-text-secondary text-xs">Выручка</p>
-                <p className="text-xl font-black text-amber-700">{PLATFORM_SALES_DEMO_OUTLET.revenue}</p>
+                <p className="text-xl font-black text-amber-700">
+                  {PLATFORM_SALES_DEMO_OUTLET.revenue}
+                </p>
                 <p
                   className={cn(
                     'text-xs font-medium',
-                    PLATFORM_SALES_DEMO_OUTLET.revenueChange >= 0 ? 'text-emerald-600' : 'text-rose-600'
+                    PLATFORM_SALES_DEMO_OUTLET.revenueChange >= 0
+                      ? 'text-emerald-600'
+                      : 'text-rose-600'
                   )}
                 >
                   {PLATFORM_SALES_DEMO_OUTLET.revenueChange >= 0 ? '+' : ''}
@@ -144,7 +152,9 @@ export default function PlatformSalesPage() {
               <div>
                 <p className="text-text-secondary text-xs">Заказы</p>
                 <p className="text-xl font-black">{PLATFORM_SALES_DEMO_OUTLET.orders}</p>
-                <p className="text-text-secondary text-xs">+{PLATFORM_SALES_DEMO_OUTLET.ordersChange} заказов</p>
+                <p className="text-text-secondary text-xs">
+                  +{PLATFORM_SALES_DEMO_OUTLET.ordersChange} заказов
+                </p>
               </div>
               <div>
                 <p className="text-text-secondary text-xs">Единиц</p>

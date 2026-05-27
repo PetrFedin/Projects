@@ -103,11 +103,12 @@ describe('workshop2-composition-label-from-tz', () => {
   });
 
   it('care symbol toggle replaces others in same ISO group', () => {
-    expect(compositionLabelCareSymbolIdsAfterToggle(['wash_30'], 'wash_40', true)).toEqual(['wash_40']);
-    expect(compositionLabelCareSymbolIdsAfterToggle(['wash_30', 'bleach_no'], 'wash_hand', true)).toEqual([
-      'bleach_no',
-      'wash_hand',
+    expect(compositionLabelCareSymbolIdsAfterToggle(['wash_30'], 'wash_40', true)).toEqual([
+      'wash_40',
     ]);
+    expect(
+      compositionLabelCareSymbolIdsAfterToggle(['wash_30', 'bleach_no'], 'wash_hand', true)
+    ).toEqual(['bleach_no', 'wash_hand']);
   });
 
   it('draft preview mentions supplement care text', () => {
@@ -121,6 +122,9 @@ describe('workshop2-composition-label-from-tz', () => {
   it('draft display uses manual lines when draftTextManual is non-empty', () => {
     const auto = ['a', 'b'];
     expect(compositionLabelDraftDisplayLines({}, auto)).toEqual(auto);
-    expect(compositionLabelDraftDisplayLines({ draftTextManual: '  x\ny  ' }, auto)).toEqual(['  x', 'y  ']);
+    expect(compositionLabelDraftDisplayLines({ draftTextManual: '  x\ny  ' }, auto)).toEqual([
+      '  x',
+      'y  ',
+    ]);
   });
 });

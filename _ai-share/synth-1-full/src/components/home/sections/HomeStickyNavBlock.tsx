@@ -9,7 +9,10 @@ const HomeAdvertisingSectionGate = dynamic(
     import('@/components/home/sections/HomeAdvertisingSectionGate').then((m) => ({
       default: m.HomeAdvertisingSectionGate,
     })),
-  { ssr: false, loading: () => <div className="min-h-[120px] animate-pulse bg-muted/30" aria-hidden /> }
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[120px] animate-pulse bg-muted/30" aria-hidden />,
+  }
 );
 
 const HomeStickyNavB2BPanel = dynamic(
@@ -17,7 +20,10 @@ const HomeStickyNavB2BPanel = dynamic(
     import('@/components/home/sections/HomeStickyNavB2BPanel').then((m) => ({
       default: m.HomeStickyNavB2BPanel,
     })),
-  { ssr: false, loading: () => <div className="min-h-[48px] animate-pulse bg-muted/30" aria-hidden /> }
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[48px] animate-pulse bg-muted/30" aria-hidden />,
+  }
 );
 
 const HomeStickyNavClientPanel = dynamic(
@@ -25,7 +31,10 @@ const HomeStickyNavClientPanel = dynamic(
     import('@/components/home/sections/HomeStickyNavClientPanel').then((m) => ({
       default: m.HomeStickyNavClientPanel,
     })),
-  { ssr: false, loading: () => <div className="min-h-[48px] animate-pulse bg-muted/30" aria-hidden /> }
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[48px] animate-pulse bg-muted/30" aria-hidden />,
+  }
 );
 
 type HomeStickyNavBlockProps = {

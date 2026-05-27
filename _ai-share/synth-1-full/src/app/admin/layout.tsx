@@ -31,7 +31,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
       <div className={cabinetHubLayout.loadingShell}>
-        <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
+        <Loader2 className="size-8 animate-spin text-muted-foreground" aria-hidden />
       </div>
     );
   }
@@ -59,7 +59,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <ErrorBoundary>
       <div className={cabinetHubLayout.rootShell}>
-        <aside className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}>
+        <aside
+          className={cn(cabinetHubLayout.asideChrome, cabinetSidebarLayout.asideWidthStandard)}
+        >
           <HubSidebarHeader
             href={ROUTES.admin.home}
             icon={Shield}
@@ -158,7 +160,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
             <main className={cabinetHubLayout.mainInner}>
               <ErrorBoundary>
-                <Suspense fallback={<div className={cabinetHubLayout.suspenseFallback} aria-busy />}>
+                <Suspense
+                  fallback={<div className={cabinetHubLayout.suspenseFallback} aria-busy />}
+                >
                   {children}
                 </Suspense>
               </ErrorBoundary>

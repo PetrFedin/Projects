@@ -6,13 +6,7 @@ import type { Facets } from '../../types/facets';
 import { Card } from '../ui/card';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Range } from '../ui/Range';
 import { DateRange } from '../ui/DateRange';
 import { cn } from '../../lib/cn';
@@ -70,9 +64,7 @@ export function FilterBarMarketplace({
 
         <Select
           value={filters.currency}
-          onValueChange={(v: string) =>
-            setFilters({ currency: v, page: 1 }, { replace: true })
-          }
+          onValueChange={(v: string) => setFilters({ currency: v, page: 1 }, { replace: true })}
         >
           <SelectTrigger className="h-10 w-[120px]">
             <SelectValue placeholder="Валюта" />

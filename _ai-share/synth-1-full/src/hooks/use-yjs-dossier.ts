@@ -13,7 +13,7 @@ export function useYjsDossier(collectionId: string, articleId: string) {
   useEffect(() => {
     // В реальном приложении здесь будет URL вашего Yjs сервера (например PartyKit)
     // Сейчас используем публичный тестовый сервер или заглушку
-    const wsUrl = 'wss://demos.yjs.dev'; 
+    const wsUrl = 'wss://demos.yjs.dev';
     const roomName = `synth-dossier-${collectionId}-${articleId}`;
 
     const ydoc = new Y.Doc();
@@ -58,7 +58,7 @@ export function useYjsDossier(collectionId: string, articleId: string) {
   const updateDossier = (newDossier: Workshop2DossierPhase1) => {
     if (!docRef.current) return;
     const yDossier = docRef.current.getMap('dossier');
-    
+
     docRef.current.transact(() => {
       // Простейший merge: перезаписываем ключи на верхнем уровне
       // Для полноценного CRDT нужно использовать Y.Map и Y.Array рекурсивно

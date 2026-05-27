@@ -9,7 +9,10 @@ export async function POST(req: Request) {
       const { lines } = body as { lines: BOMItem[] };
 
       if (!lines || !Array.isArray(lines)) {
-        return NextResponse.json({ error: 'Invalid payload, expected { lines: BOMItem[] }' }, { status: 400 });
+        return NextResponse.json(
+          { error: 'Invalid payload, expected { lines: BOMItem[] }' },
+          { status: 400 }
+        );
       }
 
       const metrics = calculateDPP(lines);

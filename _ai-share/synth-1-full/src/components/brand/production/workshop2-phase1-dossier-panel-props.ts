@@ -59,7 +59,9 @@ export type Workshop2Phase1DossierPanelProps = {
   dossierCommentsBridgeRef?: MutableRefObject<{ open: (blockId: string) => void } | null>;
   /** Id блоков `w2-block-*` — для счётчиков на превью паспорта в карточке артикула. */
   tzBlockCommentMetricKeys?: readonly string[];
-  onTzBlockCommentMetrics?: (metrics: Record<string, { total: number; openCritical: number }>) => void;
+  onTzBlockCommentMetrics?: (
+    metrics: Record<string, { total: number; openCritical: number }>
+  ) => void;
   /** Открыть диалог «Пульс» артикула (родитель); для материалов — подсказки раздела. */
   onOpenPulse?: (ctx?: {
     materialHints?: boolean;

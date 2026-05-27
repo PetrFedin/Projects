@@ -2,11 +2,12 @@
 
 import * as LucideIcons from 'lucide-react';
 import { MaterialCompositionBlock } from '@/components/brand/production/workshop2-phase1-dossier-panel-material-composition';
-import {
-  WorkshopInlineHintIcon,
-} from '@/components/brand/production/workshop2-phase1-dossier-panel-field-hints';
+import { WorkshopInlineHintIcon } from '@/components/brand/production/workshop2-phase1-dossier-panel-field-hints';
 import type { AttributeCatalogAttribute } from '@/lib/production/attribute-catalog.types';
-import { matCompositionPctState, type MatPctRow } from '@/lib/production/workshop2-material-mat-rows';
+import {
+  matCompositionPctState,
+  type MatPctRow,
+} from '@/lib/production/workshop2-material-mat-rows';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { cn } from '@/lib/utils';
 
@@ -37,10 +38,10 @@ export function Workshop2MatCompositionPhaseRow({
   const matCompositionSumInvalid = linkedComposition && matPctState.invalid;
 
   return (
-    <li id="w2-material-required-section" className="col-span-full list-none min-w-0">
+    <li id="w2-material-required-section" className="col-span-full min-w-0 list-none">
       <div
         className={cn(
-          'w-full min-w-0 space-y-3 rounded-lg border border-border-subtle bg-white/80',
+          'border-border-subtle w-full min-w-0 space-y-3 rounded-lg border bg-white/80',
           matCompositionSumInvalid &&
             'ring-offset-bg-surface2/80 p-0.5 ring-2 ring-amber-400/90 ring-offset-2'
         )}

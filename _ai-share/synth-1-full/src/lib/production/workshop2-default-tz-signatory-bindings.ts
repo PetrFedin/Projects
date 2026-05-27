@@ -20,10 +20,12 @@ export function applyDefaultWorkshopTzSignatoryBindings(
   return {
     ...W2_DEFAULT_TZ_LABELS,
     ...cur,
-    designerDisplayLabel: cur.designerDisplayLabel?.trim() || W2_DEFAULT_TZ_LABELS.designerDisplayLabel,
+    designerDisplayLabel:
+      cur.designerDisplayLabel?.trim() || W2_DEFAULT_TZ_LABELS.designerDisplayLabel,
     technologistDisplayLabel:
       cur.technologistDisplayLabel?.trim() || W2_DEFAULT_TZ_LABELS.technologistDisplayLabel,
-    managerDisplayLabel: cur.managerDisplayLabel?.trim() || W2_DEFAULT_TZ_LABELS.managerDisplayLabel,
+    managerDisplayLabel:
+      cur.managerDisplayLabel?.trim() || W2_DEFAULT_TZ_LABELS.managerDisplayLabel,
     designerSignStages: cur.designerSignStages,
     technologistSignStages: cur.technologistSignStages,
     managerSignStages: cur.managerSignStages,

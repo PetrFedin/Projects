@@ -50,15 +50,15 @@ export function BrandProductionWorkshopStageSchemeCard(props: {
           Поэтапная схема: от идеи до склада
         </CardTitle>
         <CardDescription className="text-xs">
-          <strong>Что это:</strong> цепочка ниже — те же этапы и тот же порядок, что в матрице «Этапы
-          и зависимости» (
+          <strong>Что это:</strong> цепочка ниже — те же этапы и тот же порядок, что в матрице
+          «Этапы и зависимости» (
           <code className="bg-bg-surface2 rounded px-1 text-[10px]">COLLECTION_STEPS</code>
           ). Переход артикула к следующему шагу в работе определяется графом зависимостей (
           <code className="bg-bg-surface2 rounded px-1 text-[10px]">dependsOn</code>
-          ), а не только номером карточки. Выберите коллекцию выше (карточки «Работа по коллекциям»).
-          По <strong>названию этапа</strong> — модуль: поля, вложения, журнал; «В модуль» — переход в
-          экран этапа. В блоке <strong>«Артикулы коллекции»</strong> — таблица и текущий этап.{' '}
-          <strong>«Быстрые действия»</strong> — добавление артикулов, прогноз, запуск.
+          ), а не только номером карточки. Выберите коллекцию выше (карточки «Работа по
+          коллекциям»). По <strong>названию этапа</strong> — модуль: поля, вложения, журнал; «В
+          модуль» — переход в экран этапа. В блоке <strong>«Артикулы коллекции»</strong> — таблица и
+          текущий этап. <strong>«Быстрые действия»</strong> — добавление артикулов, прогноз, запуск.
         </CardDescription>
         <div className="flex flex-wrap gap-2 pt-2">
           <Button asChild variant="outline" size="sm" className="h-8 text-[10px]">
@@ -96,7 +96,12 @@ export function BrandProductionWorkshopStageSchemeCard(props: {
             ))}
             <option value="__new__">➕ Новая коллекция…</option>
           </select>
-          <Button variant="ghost" size="sm" className="h-7 text-[10px]" onClick={onNewCollectionShortcut}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 text-[10px]"
+            onClick={onNewCollectionShortcut}
+          >
             Новая коллекция
           </Button>
           <span className="text-text-muted ml-2">Прогресс: {progressPct}%</span>
@@ -108,7 +113,9 @@ export function BrandProductionWorkshopStageSchemeCard(props: {
         </div>
 
         <div className="border-border-subtle bg-bg-surface2/60 rounded-xl border p-3">
-          <p className="text-text-secondary mb-2 text-[10px] font-bold">Таймлайн дропов по коллекции</p>
+          <p className="text-text-secondary mb-2 text-[10px] font-bold">
+            Таймлайн дропов по коллекции
+          </p>
           <div className="space-y-2">
             {dropsWithMeta.map((drop) => {
               const stateLabel = drop.isPast

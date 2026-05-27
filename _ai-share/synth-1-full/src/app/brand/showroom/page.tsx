@@ -200,7 +200,10 @@ export default function BrandShowroomPage() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="showroom" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
-        <CabinetPageContent maxWidth="5xl" className="space-y-6 duration-700 animate-in fade-in px-4 py-6 pb-24 sm:px-6">
+        <CabinetPageContent
+          maxWidth="5xl"
+          className="space-y-6 px-4 py-6 pb-24 duration-700 animate-in fade-in sm:px-6"
+        >
           {/* Control Panel: Executive Style */}
           <div className="flex flex-col items-start justify-between gap-3 md:flex-row md:items-center">
             <div className="flex items-center gap-3">
@@ -398,7 +401,10 @@ export default function BrandShowroomPage() {
           </div>
         </CabinetPageContent>
       </TabsContent>
-      <TabsContent value="trade-shows" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+      <TabsContent
+        value="trade-shows"
+        className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+      >
         {tab === 'trade-shows' && <TradeShowsContent />}
       </TabsContent>
       <TabsContent value="passport" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
@@ -410,10 +416,16 @@ export default function BrandShowroomPage() {
       <TabsContent value="invites" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
         {tab === 'invites' && <PrivateInvitesContent />}
       </TabsContent>
-      <TabsContent value="merchandising" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+      <TabsContent
+        value="merchandising"
+        className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+      >
         {tab === 'merchandising' && <MerchandisingContent />}
       </TabsContent>
-      <TabsContent value="video-consultation" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+      <TabsContent
+        value="video-consultation"
+        className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+      >
         {tab === 'video-consultation' && <VideoConsultationContent />}
       </TabsContent>
       <TabsContent value="banners" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>

@@ -60,7 +60,7 @@ export default function OrdersPage() {
     return (
       <div className="w-full space-y-6 py-2">
         <ClientCabinetSectionHeader />
-        <div className="text-center text-text-secondary text-sm">Загрузка…</div>
+        <div className="text-text-secondary text-center text-sm">Загрузка…</div>
       </div>
     );
   }

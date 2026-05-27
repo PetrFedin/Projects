@@ -1,6 +1,5 @@
 'use client';
 
-
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { SkuAnalytics } from '@/components/brand/sku-analytics';
 import {

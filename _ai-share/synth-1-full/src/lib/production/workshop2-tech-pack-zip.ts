@@ -68,7 +68,10 @@ export async function buildWorkshop2TechPackZipBlob(
     }
 
     if (opts.onProgress) {
-      opts.onProgress({ percent: Math.round((i / attachments.length) * 50), currentFile: `Сборка файла: ${a.fileName}` });
+      opts.onProgress({
+        percent: Math.round((i / attachments.length) * 50),
+        currentFile: `Сборка файла: ${a.fileName}`,
+      });
     }
 
     // Yield to the event loop to prevent UI freezing
@@ -115,15 +118,15 @@ export async function buildWorkshop2TechPackZipBlob(
     throw e;
   }
 
-  const blob = await zip.generateAsync(
-    { type: 'blob', compression: 'DEFLATE' },
-    (metadata) => {
-      if (opts.onProgress) {
-        // Zip generation takes the second 50%
-        opts.onProgress({ percent: 50 + Math.round(metadata.percent / 2), currentFile: metadata.currentFile || 'Архивация...' });
-      }
+  const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' }, (metadata) => {
+    if (opts.onProgress) {
+      // Zip generation takes the second 50%
+      opts.onProgress({
+        percent: 50 + Math.round(metadata.percent / 2),
+        currentFile: metadata.currentFile || 'Архивация...',
+      });
     }
-  );
+  });
   return { blob, included, skippedNoUrl, skippedByFilter };
 }
 
@@ -153,6 +156,9 @@ export function triggerBrowserDownloadBlob(blob: Blob, fileName: string): void {
 }
 
 export function sanitizeTechPackZipStem(raw: string): string {
-  const s = raw.trim().replace(/[^a-zA-Z0-9а-яА-ЯёЁ._-]+/g, '-').replace(/^-+|-+$/g, '');
+  const s = raw
+    .trim()
+    .replace(/[^a-zA-Z0-9а-яА-ЯёЁ._-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
   return s.slice(0, 64) || 'article';
 }

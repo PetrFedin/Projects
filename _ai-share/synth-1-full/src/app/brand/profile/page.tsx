@@ -60,10 +60,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { AssetTypeId, MediaAssetItem } from '@/components/brand/MediaAssetsViewer';
 import { RegistryPageHeader, RegistryPageShell } from '@/components/design-system';
 import { BrandProfileCommerceTab } from './brand-profile-commerce-tab';
-import {
-  BrandProfileLegalTab,
-  type BrandProfileLegalDataState,
-} from './brand-profile-legal-tab';
+import { BrandProfileLegalTab, type BrandProfileLegalDataState } from './brand-profile-legal-tab';
 import {
   BrandProfileCertificatesTab,
   type BrandProfileCertificateItem,
@@ -109,11 +106,18 @@ export default function BrandProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const effectiveIsEditing = canEditProfile && isEditing;
 
-  const [legalData, setLegalData] = useState<BrandProfileLegalDataState>(BRAND_PROFILE_INITIAL_LEGAL);
-  const [contacts, setContacts] = useState<BrandProfileContactsState>(BRAND_PROFILE_INITIAL_CONTACTS);
-  const [brandInfo, setBrandInfo] = useState<BrandProfileBrandInfoState>(BRAND_PROFILE_INITIAL_BRAND_INFO);
-  const [brandContacts, setBrandContacts] =
-    useState<BrandProfileBrandContactsState>(BRAND_PROFILE_INITIAL_BRAND_CONTACTS);
+  const [legalData, setLegalData] = useState<BrandProfileLegalDataState>(
+    BRAND_PROFILE_INITIAL_LEGAL
+  );
+  const [contacts, setContacts] = useState<BrandProfileContactsState>(
+    BRAND_PROFILE_INITIAL_CONTACTS
+  );
+  const [brandInfo, setBrandInfo] = useState<BrandProfileBrandInfoState>(
+    BRAND_PROFILE_INITIAL_BRAND_INFO
+  );
+  const [brandContacts, setBrandContacts] = useState<BrandProfileBrandContactsState>(
+    BRAND_PROFILE_INITIAL_BRAND_CONTACTS
+  );
   const [mediaViewerOpen, setMediaViewerOpen] = useState(false);
   const [mediaViewerType, setMediaViewerType] = useState<AssetTypeId | null>(null);
   const [pressKitAutoArchiveDays, setPressKitAutoArchiveDays] = useState(90);
@@ -196,7 +200,9 @@ export default function BrandProfilePage() {
     BRAND_PROFILE_INITIAL_CERTIFICATES
   );
 
-  const [changelog, setChangelog] = useState<BrandProfileChangelogEntry[]>(BRAND_PROFILE_INITIAL_CHANGELOG);
+  const [changelog, setChangelog] = useState<BrandProfileChangelogEntry[]>(
+    BRAND_PROFILE_INITIAL_CHANGELOG
+  );
 
   const handleVerify = (type: 'legal' | 'email' | 'phone' | 'address') => {
     setIsVerifying(type);
@@ -329,7 +335,7 @@ export default function BrandProfilePage() {
                   <RefreshCcw className={cn('size-3.5', syncLoading && 'animate-spin')} />{' '}
                   Синхронизация
                   {lastSynced && (
-                    <span className="ml-auto text-sm text-text-muted">
+                    <span className="text-text-muted ml-auto text-sm">
                       {lastSynced.toLocaleTimeString('ru-RU', {
                         hour: '2-digit',
                         minute: '2-digit',
@@ -379,32 +385,32 @@ export default function BrandProfilePage() {
         }
       />
 
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-text-secondary">
+      <div className="text-text-secondary flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
         {!canEditProfile && (
           <Badge
             variant="outline"
-            className="border-border-subtle bg-bg-surface2 text-xs font-medium text-text-secondary"
+            className="border-border-subtle bg-bg-surface2 text-text-secondary text-xs font-medium"
           >
             Только просмотр
           </Badge>
         )}
         <Badge
           variant="outline"
-          className="border-state-success/30 bg-state-success/10 text-xs font-medium text-state-success"
+          className="border-state-success/30 bg-state-success/10 text-state-success text-xs font-medium"
         >
           <Check className="mr-1 size-3.5" /> Верифицирован
         </Badge>
         <span className="inline-flex items-center gap-1.5">
-          <Calendar className="size-4 text-text-muted" />
+          <Calendar className="text-text-muted size-4" />
           Основан в {brand.foundedYear}
         </span>
         <span className="inline-flex items-center gap-1.5">
-          <Globe className="size-4 text-text-muted" />
+          <Globe className="text-text-muted size-4" />
           {brand.countryOfOrigin}
         </span>
         <Link
           href={ROUTES.brand.customerActivity}
-          className="inline-flex items-center gap-1.5 font-medium text-accent-primary hover:text-accent-hover"
+          className="text-accent-primary hover:text-accent-hover inline-flex items-center gap-1.5 font-medium"
         >
           <Users className="size-4" />
           {(brand.followers || 0).toLocaleString('ru-RU')} подписчиков
@@ -453,7 +459,9 @@ export default function BrandProfilePage() {
 
       <Card className={cn(registryFeedLayout.panelCardSoft, 'p-4 md:p-6')}>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-5">
-          <TabsList className={cn(cabinetSurface.tabsList, 'min-h-9 w-full flex-wrap gap-0.5 shadow-inner')}>
+          <TabsList
+            className={cn(cabinetSurface.tabsList, 'min-h-9 w-full flex-wrap gap-0.5 shadow-inner')}
+          >
             <AnimatePresence>
               {activeGroup === 'profile' && (
                 <motion.div
@@ -573,17 +581,17 @@ export default function BrandProfilePage() {
 
       {/* Changelog Dialog */}
       <Dialog open={showChangelogDialog} onOpenChange={setShowChangelogDialog}>
-        <DialogContent className="max-h-[85vh] rounded-xl border-border-default sm:max-w-[650px]">
-          <DialogHeader className="border-b border-border-subtle pb-4">
-            <DialogTitle className="flex items-center gap-2 text-base font-bold uppercase tracking-tight text-text-primary">
+        <DialogContent className="border-border-default max-h-[85vh] rounded-xl sm:max-w-[650px]">
+          <DialogHeader className="border-border-subtle border-b pb-4">
+            <DialogTitle className="text-text-primary flex items-center gap-2 text-base font-bold uppercase tracking-tight">
               <History className="h-4.5 w-4.5 text-accent-primary" />
               История изменений профиля
             </DialogTitle>
-            <DialogDescription className="text-sm font-medium text-text-muted">
+            <DialogDescription className="text-text-muted text-sm font-medium">
               Архив действий — фильтр по полю, экспорт CSV, откат
             </DialogDescription>
             <div className="flex flex-wrap gap-2 pt-3">
-              <div className="flex rounded-lg bg-bg-surface2 p-1">
+              <div className="bg-bg-surface2 flex rounded-lg p-1">
                 <button
                   onClick={() => setChangelogFilter('all')}
                   className={cn(
@@ -616,50 +624,50 @@ export default function BrandProfilePage() {
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
-                className="group flex gap-3 rounded-xl border border-border-subtle bg-bg-surface2 p-3 transition-all hover:border-accent-soft hover:bg-white"
+                className="border-border-subtle bg-bg-surface2 hover:border-accent-soft group flex gap-3 rounded-xl border p-3 transition-all hover:bg-white"
               >
                 <div className="flex shrink-0 flex-col items-center gap-2 pt-1">
-                  <div className="flex size-8 items-center justify-center rounded-lg border border-border-subtle bg-white text-text-muted shadow-sm transition-colors group-hover:text-accent-primary">
+                  <div className="border-border-subtle text-text-muted group-hover:text-accent-primary flex size-8 items-center justify-center rounded-lg border bg-white shadow-sm transition-colors">
                     <History className="size-4" />
                   </div>
-                  <div className="h-full w-px bg-border-default/60" />
+                  <div className="bg-border-default/60 h-full w-px" />
                 </div>
 
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <p className="text-sm font-bold uppercase tracking-tight text-text-primary">
+                      <p className="text-text-primary text-sm font-bold uppercase tracking-tight">
                         {entry.user}
                       </p>
                       <Badge
                         variant="outline"
-                        className="h-4 rounded-md border-border-default bg-white px-1.5 text-[8px] font-bold uppercase text-text-muted"
+                        className="border-border-default text-text-muted h-4 rounded-md bg-white px-1.5 text-[8px] font-bold uppercase"
                       >
                         {entry.field}
                       </Badge>
                     </div>
-                    <span className="text-[9px] font-bold uppercase tabular-nums text-text-muted">
+                    <span className="text-text-muted text-[9px] font-bold uppercase tabular-nums">
                       {entry.date}
                     </span>
                   </div>
 
-                  <p className="text-sm font-medium text-text-secondary">{entry.action}</p>
+                  <p className="text-text-secondary text-sm font-medium">{entry.action}</p>
 
                   {entry.oldValue && (
                     <div className="grid grid-cols-2 gap-2 pt-2">
                       <div className="space-y-1">
-                        <p className="px-1 text-[7px] font-bold uppercase tracking-widest text-text-muted">
+                        <p className="text-text-muted px-1 text-[7px] font-bold uppercase tracking-widest">
                           Было
                         </p>
-                        <div className="truncate rounded-lg border border-state-error/30 bg-state-error/10 px-2.5 py-1.5 text-xs italic leading-tight text-text-muted">
+                        <div className="border-state-error/30 bg-state-error/10 text-text-muted truncate rounded-lg border px-2.5 py-1.5 text-xs italic leading-tight">
                           {entry.oldValue}
                         </div>
                       </div>
                       <div className="space-y-1">
-                        <p className="px-1 text-[7px] font-bold uppercase tracking-widest text-text-muted">
+                        <p className="text-text-muted px-1 text-[7px] font-bold uppercase tracking-widest">
                           Стало
                         </p>
-                        <div className="bg-state-success/10/50 border-state-success/30/50 truncate rounded-lg border px-2.5 py-1.5 text-xs font-bold leading-tight text-text-primary">
+                        <div className="bg-state-success/10/50 border-state-success/30/50 text-text-primary truncate rounded-lg border px-2.5 py-1.5 text-xs font-bold leading-tight">
                           {entry.newValue}
                         </div>
                       </div>
@@ -667,10 +675,10 @@ export default function BrandProfilePage() {
                   )}
                   {!entry.oldValue && entry.newValue && (
                     <div className="pt-2">
-                      <p className="mb-1 px-1 text-[7px] font-bold uppercase tracking-widest text-text-muted">
+                      <p className="text-text-muted mb-1 px-1 text-[7px] font-bold uppercase tracking-widest">
                         Добавлено
                       </p>
-                      <div className="rounded-lg border border-accent-soft/50 bg-accent-soft/50 px-2.5 py-1.5 text-xs font-bold leading-tight text-text-primary">
+                      <div className="border-accent-soft/50 bg-accent-soft/50 text-text-primary rounded-lg border px-2.5 py-1.5 text-xs font-bold leading-tight">
                         {entry.newValue}
                       </div>
                     </div>
@@ -690,10 +698,10 @@ export default function BrandProfilePage() {
             ))}
           </div>
 
-          <DialogFooter className="gap-2 border-t border-border-subtle pt-4">
+          <DialogFooter className="border-border-subtle gap-2 border-t pt-4">
             <Button
               variant="ghost"
-              className="h-8 rounded-lg text-[9px] font-bold uppercase tracking-widest text-text-muted hover:bg-bg-surface2"
+              className="text-text-muted hover:bg-bg-surface2 h-8 rounded-lg text-[9px] font-bold uppercase tracking-widest"
               onClick={() => {
                 exportToCSV(
                   filteredChangelog.map((e) => ({
@@ -722,7 +730,7 @@ export default function BrandProfilePage() {
             </Button>
             <Button
               onClick={() => setShowChangelogDialog(false)}
-              className="h-8 rounded-lg bg-text-primary px-6 text-[9px] font-bold uppercase tracking-widest text-white"
+              className="bg-text-primary h-8 rounded-lg px-6 text-[9px] font-bold uppercase tracking-widest text-white"
             >
               Закрыть
             </Button>

@@ -9,7 +9,10 @@ const HomeB2BNavigation = dynamic(
     import('@/components/home/B2BNavigation').then((m) => ({
       default: m.B2BNavigation,
     })),
-  { ssr: false, loading: () => <div className="min-h-[48px] animate-pulse bg-muted/30" aria-hidden /> }
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[48px] animate-pulse bg-muted/30" aria-hidden />,
+  }
 );
 
 type HomeStickyNavB2BPanelProps = {
@@ -17,7 +20,9 @@ type HomeStickyNavB2BPanelProps = {
 };
 
 /** B2B sticky nav + scroll spy — chunk только для b2b role. */
-export const HomeStickyNavB2BPanel = memo(function HomeStickyNavB2BPanel({ viewRole }: HomeStickyNavB2BPanelProps) {
+export const HomeStickyNavB2BPanel = memo(function HomeStickyNavB2BPanel({
+  viewRole,
+}: HomeStickyNavB2BPanelProps) {
   const { isScrolledDown, activeB2BSection, setActiveB2BSection } = useHomeB2BScrollSync(true);
 
   return (

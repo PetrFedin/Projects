@@ -29,7 +29,10 @@ export const MATERIAL_GUIDE_ATTR_IDS = new Set([
 
 export const WORKSHOP_MERGE_OUTERWEAR_MATERIAL_TAB_GROUP_IDS = new Set(['outerwear', 'material']);
 
-export const WORKSHOP_MERGE_OUTERWEAR_MATERIAL_TAB_LABELS = new Set(['Верхняя одежда', 'Материалы']);
+export const WORKSHOP_MERGE_OUTERWEAR_MATERIAL_TAB_LABELS = new Set([
+  'Верхняя одежда',
+  'Материалы',
+]);
 
 /** Служебный ключ одной колонки без подзаголовков групп каталога (блок «Визуальные оси»). */
 export const WORKSHOP_FLAT_CATALOG_SINGLE_GROUP_KEY = '__w2_flat_catalog__';

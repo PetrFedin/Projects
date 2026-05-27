@@ -66,11 +66,13 @@ export default function SewingPresetEditorPage() {
           <Link href={ROUTES.client.sewingPatterns}>К сценарию лекал</Link>
         </Button>
       </div>
-      <p className="text-xs text-muted-foreground max-w-3xl">
+      <p className="max-w-3xl text-xs text-muted-foreground">
         Правила хранятся в <code className="rounded bg-slate-100 px-1">{LS_KEY}</code> и применяются
-        после эвристики и кода <code className="rounded bg-slate-100 px-1">SEWING_PRESET_USER_RULES</code>.
-        Поля <code className="rounded bg-slate-100 px-1">when.l2Contains</code> /{' '}
-        <code className="rounded bg-slate-100 px-1">leafContains</code> — подстроки без учёта регистра.
+        после эвристики и кода{' '}
+        <code className="rounded bg-slate-100 px-1">SEWING_PRESET_USER_RULES</code>. Поля{' '}
+        <code className="rounded bg-slate-100 px-1">when.l2Contains</code> /{' '}
+        <code className="rounded bg-slate-100 px-1">leafContains</code> — подстроки без учёта
+        регистра.
       </p>
       <Textarea
         className="min-h-[320px] font-mono text-xs"
@@ -79,7 +81,11 @@ export default function SewingPresetEditorPage() {
         spellCheck={false}
       />
       {error ? <p className="text-sm text-destructive">{error}</p> : null}
-      {saved ? <p className="text-sm text-emerald-700">Сохранено. Вернитесь к лекалам — пресет обновится.</p> : null}
+      {saved ? (
+        <p className="text-sm text-emerald-700">
+          Сохранено. Вернитесь к лекалам — пресет обновится.
+        </p>
+      ) : null}
       <div className="flex flex-wrap gap-2">
         <Button type="button" size="sm" onClick={onSave}>
           Сохранить в localStorage

@@ -75,9 +75,7 @@ export function filterListedProductionCollections<T extends CollectionListRow>(
   archivedCollectionIds: readonly string[],
   collectionFilter: { search?: string; status?: string; priority?: string }
 ): T[] {
-  let list = collections.filter(
-    (c) => c.id !== 'ARCHIVE' && !archivedCollectionIds.includes(c.id)
-  );
+  let list = collections.filter((c) => c.id !== 'ARCHIVE' && !archivedCollectionIds.includes(c.id));
   if (collectionFilter.search) {
     const q = collectionFilter.search.toLowerCase();
     list = list.filter(
@@ -101,8 +99,7 @@ export function filterProductionAuditLog<T extends AuditLogRow>(
   auditFilter: 'all' | 'bom' | 'sample' | 'po' | 'status'
 ): T[] {
   let list = auditLog.filter(
-    (a) =>
-      selectedCollectionIds.length === 0 || selectedCollectionIds.includes(a.collection ?? '')
+    (a) => selectedCollectionIds.length === 0 || selectedCollectionIds.includes(a.collection ?? '')
   );
   if (auditFilter !== 'all') list = list.filter((a) => a.action === auditFilter);
   return [...list].sort((a, b) => b.id - a.id);

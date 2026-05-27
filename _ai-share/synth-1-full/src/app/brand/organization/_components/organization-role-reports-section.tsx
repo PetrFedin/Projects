@@ -32,8 +32,7 @@ export function OrganizationRoleReportsSection({
         title="Результаты бренда по ролям"
         meta={{
           description: 'Краткое описание результатов бренда с позиции CEO, CFO, COO и др.',
-          purpose:
-            'Для владельцев и пользователей, зарегистрированных под соответствующей ролью.',
+          purpose: 'Для владельцев и пользователей, зарегистрированных под соответствующей ролью.',
           functionality: ['Отчёт CEO', 'Отчёт CFO', 'Отчёт COO', 'и др.'],
           importance: 7,
         }}
@@ -52,8 +51,7 @@ export function OrganizationRoleReportsSection({
       title="Результаты бренда по ролям"
       meta={{
         description: 'Краткое описание результатов бренда с позиции CEO, CFO, COO и др.',
-        purpose:
-          'Для владельцев и пользователей, зарегистрированных под соответствующей ролью.',
+        purpose: 'Для владельцев и пользователей, зарегистрированных под соответствующей ролью.',
         functionality: ['Отчёт CEO', 'Отчёт CFO', 'Отчёт COO', 'и др.'],
         importance: 7,
       }}
@@ -61,7 +59,7 @@ export function OrganizationRoleReportsSection({
       className="min-w-0"
     >
       <div className={cn(registryFeedLayout.panelCardSoft, 'p-4')}>
-        <p className="mb-3 text-xs text-text-secondary">
+        <p className="text-text-secondary mb-3 text-xs">
           Выберите роль для просмотра сводки результатов бренда с её позиции:
         </p>
         <div className="flex flex-wrap gap-2">
@@ -73,7 +71,7 @@ export function OrganizationRoleReportsSection({
               key={role.id}
               variant="outline"
               size="sm"
-              className="h-8 gap-1.5 border-border-default px-3 text-[9px] font-bold uppercase hover:border-accent-primary/30 hover:bg-accent-primary/10"
+              className="border-border-default hover:border-accent-primary/30 hover:bg-accent-primary/10 h-8 gap-1.5 px-3 text-[9px] font-bold uppercase"
               onClick={() => setActiveReportRole(role.id)}
             >
               <UserCircle className="size-3" /> {role.label}

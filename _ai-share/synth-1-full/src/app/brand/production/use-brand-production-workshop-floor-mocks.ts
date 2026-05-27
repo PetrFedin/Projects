@@ -3,7 +3,10 @@
 import { useMemo } from 'react';
 import { JOOR_DELIVERY_WINDOWS } from '@/lib/b2b/joor-constants';
 import type { ProductionPageOrderLike } from '@/app/brand/production/production-page-build-items-for-collection';
-import { buildDropStatsFromItems, type DropStatsItemInput } from '@/app/brand/production/production-page-drop-stats';
+import {
+  buildDropStatsFromItems,
+  type DropStatsItemInput,
+} from '@/app/brand/production/production-page-drop-stats';
 import { buildDeliveryWindowsWithMeta } from '@/app/brand/production/production-page-delivery-windows-meta';
 import type { DeliveryWindowWithMeta } from '@/app/brand/production/production-page-delivery-windows-meta';
 import { computeHasProductionFloorRisks } from '@/app/brand/production/production-page-floor-risk-signal';

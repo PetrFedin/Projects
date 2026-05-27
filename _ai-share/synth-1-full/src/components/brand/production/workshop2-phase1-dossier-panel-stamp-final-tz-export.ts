@@ -37,7 +37,9 @@ export function stampDossierAfterFinalTzExport(opts: {
   const productionExportMeta = {
     exportedAt,
     exportedBy: updatedByLabel.slice(0, 200),
-    status: productionPreflight.canSendToFactory ? ('ready_for_factory' as const) : ('draft' as const),
+    status: productionPreflight.canSendToFactory
+      ? ('ready_for_factory' as const)
+      : ('draft' as const),
     score: productionPreflight.score,
     blockersCount: productionPreflight.blockers.length,
     warningsCount: productionPreflight.warnings.length,

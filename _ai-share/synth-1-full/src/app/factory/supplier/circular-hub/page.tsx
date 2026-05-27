@@ -72,8 +72,8 @@ export default function SupplierCircularHubPage() {
         className="text-text-muted border-border-default bg-bg-surface2/80 rounded-md border px-3 py-2 text-xs leading-snug"
         data-testid="supplier-circular-demo-disclaimer"
       >
-        <span className="text-text-primary font-semibold">Демо.</span> Показатели и сделки на мок-данных;
-        не финансовая отчётность и не интеграция с OMS. См. реестр ядра:{' '}
+        <span className="text-text-primary font-semibold">Демо.</span> Показатели и сделки на
+        мок-данных; не финансовая отчётность и не интеграция с OMS. См. реестр ядра:{' '}
         <code className="text-[10px]">CORE_OPERATING_CHAIN.md</code> §5.
       </p>
 

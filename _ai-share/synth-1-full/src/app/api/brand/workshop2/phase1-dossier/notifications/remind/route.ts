@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     // Real Resend integration logic
     const resendApiKey = process.env.RESEND_API_KEY;
     let delivered = false;
-    
+
     if (resendApiKey) {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',

@@ -99,7 +99,7 @@ export function Workshop2CompositionLabelLayoutPreviewBody({
                               height={14}
                               loading="lazy"
                               decoding="async"
-                              className="h-3.5 w-3.5 object-contain grayscale contrast-125"
+                              className="h-3.5 w-3.5 object-contain contrast-125 grayscale"
                             />
                           ) : (
                             <span className="text-[7px] font-medium text-neutral-700">{abbr}</span>
@@ -108,7 +108,9 @@ export function Workshop2CompositionLabelLayoutPreviewBody({
                       );
                     })
                   ) : (
-                    <span className="text-text-muted text-[8px]">Иконки ухода (выберите в бирке)</span>
+                    <span className="text-text-muted text-[8px]">
+                      Иконки ухода (выберите в бирке)
+                    </span>
                   )}
                 </div>
               ) : null}
@@ -147,7 +149,11 @@ export function Workshop2CompositionLabelLayoutPreviewBody({
           }
 
           return (
-            <div key={el.elementId} className={cn(commonClass, 'border-transparent')} style={commonStyle}>
+            <div
+              key={el.elementId}
+              className={cn(commonClass, 'border-transparent')}
+              style={commonStyle}
+            >
               {inner}
             </div>
           );

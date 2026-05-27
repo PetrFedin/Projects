@@ -100,11 +100,7 @@ function BrandCalendarMain() {
         contextSearchSeed={contextSearchSeed || undefined}
       />
       <CollaborationCalendarSection />
-      <RelatedModulesBlock
-        title="Связанные операции"
-        links={getCommLinks()}
-        className="mt-2"
-      />
+      <RelatedModulesBlock title="Связанные операции" links={getCommLinks()} className="mt-2" />
     </CabinetPageContent>
   );
 }

@@ -20,9 +20,7 @@ export function ProductionPageContentTabMaterialsBody({
   return (
     <>
       <ProductionPageContentTabMaterialsBodyViewSwitch p={p} cn={cn} />
-      {procurementView === 'rolls' && (
-        <ProductionPageContentTabMaterialsBodyRolls p={p} cn={cn} />
-      )}
+      {procurementView === 'rolls' && <ProductionPageContentTabMaterialsBodyRolls p={p} cn={cn} />}
       {procurementView === 'requisition' && (
         <ProductionPageContentTabMaterialsBodyRequisition p={p} />
       )}

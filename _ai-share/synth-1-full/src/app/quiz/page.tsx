@@ -56,7 +56,9 @@ export default function QuizPage() {
                   Вектор роста
                 </p>
                 <p className="mt-1 font-semibold text-violet-900">{result.upgradeTarget.name}</p>
-                <p className="mt-1 text-sm text-violet-800/90">{result.upgradeTarget.description}</p>
+                <p className="mt-1 text-sm text-violet-800/90">
+                  {result.upgradeTarget.description}
+                </p>
               </div>
             )}
             <div className="space-y-3">
@@ -133,7 +135,12 @@ export default function QuizPage() {
           ))}
           <div className="flex gap-3 pt-4">
             {step > 0 && (
-              <Button type="button" variant="ghost" onClick={prevStep} className="text-xs font-bold uppercase">
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={prevStep}
+                className="text-xs font-bold uppercase"
+              >
                 Назад
               </Button>
             )}

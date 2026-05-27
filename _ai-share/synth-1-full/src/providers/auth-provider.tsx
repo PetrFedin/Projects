@@ -34,37 +34,49 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const fetchFastApiProfile = useCallback(async (fallbackEmail?: string) => {
-    const email = fallbackEmail ?? (typeof window !== 'undefined' ? localStorage.getItem('syntha_last_email') : null);
-    if (!USE_FASTAPI) {
-      if (email) setSyntheticProfile(email);
-      return;
-    }
-
-    const PROFILE_TIMEOUT_MS = 4000;
-
-    try {
-      const controller = new AbortController();
-      const timeoutId = typeof window !== 'undefined' ? setTimeout(() => controller.abort(), PROFILE_TIMEOUT_MS) : undefined;
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1'}/profile/me`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('syntha_access_token')}` },
-        signal: controller.signal,
-      });
-      if (timeoutId) clearTimeout(timeoutId);
-
-      if (response.ok) {
-        const data = (await response.json()) as { data?: unknown };
-        if (data?.data) {
-          setProfile(data.data as FastApiSessionProfile);
-          return;
-        }
+  const fetchFastApiProfile = useCallback(
+    async (fallbackEmail?: string) => {
+      const email =
+        fallbackEmail ??
+        (typeof window !== 'undefined' ? localStorage.getItem('syntha_last_email') : null);
+      if (!USE_FASTAPI) {
+        if (email) setSyntheticProfile(email);
+        return;
       }
-    } catch (err: unknown) {
-      if (getUnknownErrorName(err) !== 'AbortError') console.warn('Failed to fetch FastAPI profile:', err);
-    }
-    if (email) setSyntheticProfile(email);
-  }, [setSyntheticProfile]);
+
+      const PROFILE_TIMEOUT_MS = 4000;
+
+      try {
+        const controller = new AbortController();
+        const timeoutId =
+          typeof window !== 'undefined'
+            ? setTimeout(() => controller.abort(), PROFILE_TIMEOUT_MS)
+            : undefined;
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1'}/profile/me`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem('syntha_access_token')}` },
+            signal: controller.signal,
+          }
+        );
+        if (timeoutId) clearTimeout(timeoutId);
+
+        if (response.ok) {
+          const data = (await response.json()) as { data?: unknown };
+          if (data?.data) {
+            setProfile(data.data as FastApiSessionProfile);
+            return;
+          }
+        }
+      } catch (err: unknown) {
+        if (getUnknownErrorName(err) !== 'AbortError')
+          console.warn('Failed to fetch FastAPI profile:', err);
+      }
+      if (email) setSyntheticProfile(email);
+    },
+    [setSyntheticProfile]
+  );
 
   useEffect(() => {
     let mounted = true;
@@ -93,15 +105,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const user = await authRepository.getCurrentUser();
           if (!mounted) return;
           setUser(user);
-          const token = typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : null;
+          const token =
+            typeof window !== 'undefined' ? localStorage.getItem('syntha_access_token') : null;
 
           if (user && token) {
-            const email = (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
+            const email =
+              (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
             await fetchFastApiProfile(email ?? undefined);
           } else if (typeof window !== 'undefined') {
             const path = window.location.pathname;
             const search = window.location.search || '';
-            const email = isSynthDevAutoLoginEnabled() ? resolvePathBasedDevSignInEmail(path, search) : null;
+            const email = isSynthDevAutoLoginEnabled()
+              ? resolvePathBasedDevSignInEmail(path, search)
+              : null;
             if (email) {
               try {
                 const u = await authRepository.signIn(email, SYNTH_MOCK_KNOWN_PASSWORD);
@@ -114,7 +130,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 /* dev auto-login */
               }
             } else if (user) {
-              const email2 = (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
+              const email2 =
+                (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
               await fetchFastApiProfile(email2 ?? undefined);
             }
           }
@@ -129,7 +146,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (!mounted) return;
         setUser(user);
         if (user) {
-          const email = (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
+          const email =
+            (user as { email?: string })?.email ?? localStorage.getItem('syntha_last_email');
           void fetchFastApiProfile(email ?? undefined);
         } else {
           setProfile(null);
@@ -155,22 +173,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, [fetchFastApiProfile, pathname]);
 
-  const signIn = useCallback(async (email: string, password: string) => {
-    const userProfile = await authRepository.signIn(email, password);
-    setUser(userProfile);
-    if (typeof window !== 'undefined') localStorage.setItem('syntha_last_email', email);
-    setSyntheticProfile(email);
-    /** Дождаться Hub-профиля, иначе RouteGuard после `router.push` ещё один тик видит старый `profile`. */
-    await fetchFastApiProfile(email);
-    return userProfile;
-  }, [fetchFastApiProfile, setSyntheticProfile]);
+  const signIn = useCallback(
+    async (email: string, password: string) => {
+      const userProfile = await authRepository.signIn(email, password);
+      setUser(userProfile);
+      if (typeof window !== 'undefined') localStorage.setItem('syntha_last_email', email);
+      setSyntheticProfile(email);
+      /** Дождаться Hub-профиля, иначе RouteGuard после `router.push` ещё один тик видит старый `profile`. */
+      await fetchFastApiProfile(email);
+      return userProfile;
+    },
+    [fetchFastApiProfile, setSyntheticProfile]
+  );
 
-  const signUp = useCallback(async (email: string, password: string, displayName: string) => {
-    const userProfile = await authRepository.signUp(email, password, displayName);
-    setUser(userProfile);
-    await fetchFastApiProfile();
-    return userProfile;
-  }, [fetchFastApiProfile]);
+  const signUp = useCallback(
+    async (email: string, password: string, displayName: string) => {
+      const userProfile = await authRepository.signUp(email, password, displayName);
+      setUser(userProfile);
+      await fetchFastApiProfile();
+      return userProfile;
+    },
+    [fetchFastApiProfile]
+  );
 
   const signOut = useCallback(async () => {
     await authRepository.signOut();
@@ -189,11 +213,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signIn, signUp, signOut, updateProfile }}>
+    <AuthContext.Provider
+      value={{ user, profile, loading, signIn, signUp, signOut, updateProfile }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
 export { useAuth } from '@/lib/auth/auth-context';
-

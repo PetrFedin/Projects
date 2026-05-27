@@ -28,7 +28,7 @@ export default function IntegrationHubPage() {
   const [activeTab, setActiveTab] = useState('internal');
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="space-y-6 py-12 pb-16 px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-12 py-6 pb-16 pb-24 sm:px-6">
       <header className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
         <div className="flex-1">
           <h1 className="font-headline text-sm font-bold">Integration Hub</h1>

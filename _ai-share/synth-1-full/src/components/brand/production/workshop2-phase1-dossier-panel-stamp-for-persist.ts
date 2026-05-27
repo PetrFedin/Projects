@@ -17,21 +17,19 @@ export function stampPhase1DossierForPersist(
   let stamped: Workshop2DossierPhase1 = {
     ...next,
     schemaVersion: 1,
-    updatedAt:
-      opts?.freezeUpdatedAt && next.updatedAt
-        ? next.updatedAt
-        : new Date().toISOString(),
+    updatedAt: opts?.freezeUpdatedAt && next.updatedAt ? next.updatedAt : new Date().toISOString(),
     updatedBy:
-      opts?.freezeUpdatedAt && next.updatedBy
-        ? next.updatedBy
-        : updatedByLabel.slice(0, 256),
+      opts?.freezeUpdatedAt && next.updatedBy ? next.updatedBy : updatedByLabel.slice(0, 256),
   };
   if (prevSnap) {
     const summaries = summarizeWorkshop2PersistDiff(prevSnap, stamped);
     const details = summarizeWorkshop2PersistAttrDiffDetails(prevSnap, stamped);
     const lines = [...summaries, ...details];
     if (lines.length > 0) {
-      stamped = pushTzActionLog(stamped, updatedByLabel, { type: 'dossier_edit', summaries: lines });
+      stamped = pushTzActionLog(stamped, updatedByLabel, {
+        type: 'dossier_edit',
+        summaries: lines,
+      });
     }
   }
   return stamped;

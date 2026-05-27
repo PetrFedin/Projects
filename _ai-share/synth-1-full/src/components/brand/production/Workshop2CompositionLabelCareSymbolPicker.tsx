@@ -52,8 +52,8 @@ export function Workshop2CompositionLabelCareSymbolPicker({
             Блок Б: уход (пиктограммы ISO 3758)
           </p>
           <p className="text-text-secondary text-[11px] leading-snug">
-            Нажмите вариант в каждой группе — на бирку попадёт одна семантика из группы (взаимоисключение).
-            Пиктограммы — ч/б ориентиры по справочнику{' '}
+            Нажмите вариант в каждой группе — на бирку попадёт одна семантика из группы
+            (взаимоисключение). Пиктограммы — ч/б ориентиры по справочнику{' '}
             <a
               href="https://furtek.ru/znachki-po-uhodu"
               target="_blank"
@@ -66,7 +66,12 @@ export function Workshop2CompositionLabelCareSymbolPicker({
           </p>
         </>
       ) : (
-        <p className={cn('text-text-secondary text-xs leading-snug', titleAlert ? 'text-red-600' : '')}>
+        <p
+          className={cn(
+            'text-text-secondary text-xs leading-snug',
+            titleAlert ? 'text-red-600' : ''
+          )}
+        >
           В каждой группе — один вариант; для тиража сверяйте знаки с официальным набором.
         </p>
       )}
@@ -89,40 +94,42 @@ export function Workshop2CompositionLabelCareSymbolPicker({
           </p>
           <ul className="list-disc space-y-1 pl-4">
             <li>
-              <span className="text-text-primary font-medium">Стирка</span> (чаша с водой) — температура (30°C,
-              40°C), деликатный или ручной режим.
+              <span className="text-text-primary font-medium">Стирка</span> (чаша с водой) —
+              температура (30°C, 40°C), деликатный или ручной режим.
             </li>
             <li>
-              <span className="text-text-primary font-medium">Отбеливание</span> (треугольник) — разрешено или
-              запрещено; перечёркнутый значок означает запрет.
+              <span className="text-text-primary font-medium">Отбеливание</span> (треугольник) —
+              разрешено или запрещено; перечёркнутый значок означает запрет.
             </li>
             <li>
-              <span className="text-text-primary font-medium">Глажка</span> (утюг) — число точек внутри задаёт
-              допустимый нагрев подошвы (1 — низкий, 3 — высокий).
+              <span className="text-text-primary font-medium">Глажка</span> (утюг) — число точек
+              внутри задаёт допустимый нагрев подошвы (1 — низкий, 3 — высокий).
             </li>
             <li>
-              <span className="text-text-primary font-medium">Сушка</span> (квадрат) — барабан, вертикальная
-              сушка, тень / без нагрева и т.п.
+              <span className="text-text-primary font-medium">Сушка</span> (квадрат) — барабан,
+              вертикальная сушка, тень / без нагрева и т.п.
             </li>
             <li>
-              <span className="text-text-primary font-medium">Химчистка</span> (круг) — буквы внутри (P, F, W…)
-              указывают допустимые растворители и процесс.
+              <span className="text-text-primary font-medium">Химчистка</span> (круг) — буквы внутри
+              (P, F, W…) указывают допустимые растворители и процесс.
             </li>
           </ul>
           <p>
-            Рядом с уходом на бирке размещают <span className="text-text-primary font-medium">состав</span> в
-            процентах по волокнам, <span className="text-text-primary font-medium">размер</span> изделия и при
+            Рядом с уходом на бирке размещают{' '}
+            <span className="text-text-primary font-medium">состав</span> в процентах по волокнам,{' '}
+            <span className="text-text-primary font-medium">размер</span> изделия и при
             необходимости <span className="text-text-primary font-medium">логотип</span>.{' '}
-            <span className="text-text-primary font-medium">Перечёркнутый</span> символ — нельзя выполнять это
-            воздействие (стирка, отжим, глажка и т.д.).
+            <span className="text-text-primary font-medium">Перечёркнутый</span> символ — нельзя
+            выполнять это воздействие (стирка, отжим, глажка и т.д.).
           </p>
           <p>
-            Отдельно оформляют маркировку соответствия (например <span className="font-medium">EAC</span> / знаки
-            РСТ) — это не заменяет блок ухода по ISO.
+            Отдельно оформляют маркировку соответствия (например{' '}
+            <span className="font-medium">EAC</span> / знаки РСТ) — это не заменяет блок ухода по
+            ISO.
           </p>
           <p className="text-text-muted text-[10px]">
-            Жаккард / тканые этикетки часто заказывают от минимального тиража (типично от 100 шт.) — параметры
-            уточняйте у поставщика бирок.
+            Жаккард / тканые этикетки часто заказывают от минимального тиража (типично от 100 шт.) —
+            параметры уточняйте у поставщика бирок.
           </p>
         </CollapsibleContent>
       </Collapsible>
@@ -132,7 +139,7 @@ export function Workshop2CompositionLabelCareSymbolPicker({
           const inGroup = W2_COMPOSITION_LABEL_CARE_SYMBOL_CATALOG.filter((c) => c.group === group);
           return (
             <div key={group} className="space-y-1.5">
-              <p className="text-xs font-medium text-text-primary">
+              <p className="text-text-primary text-xs font-medium">
                 {W2_COMPOSITION_LABEL_CARE_GROUP_LABELS[group]}
               </p>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
@@ -156,7 +163,7 @@ export function Workshop2CompositionLabelCareSymbolPicker({
                         'flex min-h-[5.5rem] flex-col items-center gap-1 rounded-md border p-1.5 text-center transition-colors',
                         on
                           ? 'border-sky-500 bg-sky-50 text-sky-950 shadow-sm'
-                          : 'border-border-subtle bg-white text-text-secondary hover:border-sky-300/80 hover:bg-sky-50/40',
+                          : 'border-border-subtle text-text-secondary bg-white hover:border-sky-300/80 hover:bg-sky-50/40',
                         ro && 'pointer-events-none opacity-60'
                       )}
                     >
@@ -168,7 +175,7 @@ export function Workshop2CompositionLabelCareSymbolPicker({
                         height={36}
                         loading="lazy"
                         decoding="async"
-                        className="h-9 w-9 shrink-0 object-contain grayscale contrast-125"
+                        className="h-9 w-9 shrink-0 object-contain contrast-125 grayscale"
                       />
                       <span className="text-text-primary line-clamp-3 text-[9px] font-medium leading-tight">
                         {sym.label}

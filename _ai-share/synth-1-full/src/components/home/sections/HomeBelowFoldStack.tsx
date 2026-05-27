@@ -22,7 +22,12 @@ const HomeBelowFoldRoleStack = dynamic(
     import('@/components/home/sections/HomeBelowFoldRoleStack').then((m) => ({
       default: m.HomeBelowFoldRoleStack,
     })),
-  { ssr: false, loading: () => <div className="min-h-[200px] animate-pulse rounded-xl bg-muted/40" aria-hidden /> }
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-[200px] animate-pulse rounded-xl bg-muted/40" aria-hidden />
+    ),
+  }
 );
 
 type HomeBelowFoldStackProps = {
@@ -43,11 +48,7 @@ export const HomeBelowFoldStack = memo(function HomeBelowFoldStack({
 }: HomeBelowFoldStackProps) {
   if (isClientBelowFoldRole(viewRole)) {
     return (
-      <HomeBelowFoldClientStack
-        viewRole={viewRole}
-        isDropsUnlocked={isDropsUnlocked}
-        live={live}
-      />
+      <HomeBelowFoldClientStack viewRole={viewRole} isDropsUnlocked={isDropsUnlocked} live={live} />
     );
   }
 

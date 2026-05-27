@@ -10,7 +10,8 @@ describe('buildWorkshop2TechPackZipBlob', () => {
       if (url.startsWith('data:')) {
         return {
           ok: true,
-          blob: async () => new Blob([new Uint8Array([1, 2, 3])], { type: 'application/octet-stream' }),
+          blob: async () =>
+            new Blob([new Uint8Array([1, 2, 3])], { type: 'application/octet-stream' }),
         } as Response;
       }
       throw new Error(`unexpected fetch url: ${url}`);
@@ -98,7 +99,12 @@ describe('buildWorkshop2TechPackZipBlob', () => {
 
   test('throws all_filtered when every row filtered', async () => {
     const attachments: Workshop2Phase1TechPackAttachment[] = [
-      { attachmentId: 'x', fileName: 'a.pdf', byteStorage: 'dataurl', previewDataUrl: 'data:application/pdf;base64,AA==' },
+      {
+        attachmentId: 'x',
+        fileName: 'a.pdf',
+        byteStorage: 'dataurl',
+        previewDataUrl: 'data:application/pdf;base64,AA==',
+      },
     ];
     await expect(
       buildWorkshop2TechPackZipBlob({
@@ -111,7 +117,12 @@ describe('buildWorkshop2TechPackZipBlob', () => {
 
   test('throws all_filtered when only zip and excludeZipExtensions', async () => {
     const attachments: Workshop2Phase1TechPackAttachment[] = [
-      { attachmentId: 'z', fileName: 'only.zip', byteStorage: 'dataurl', previewDataUrl: 'data:application/zip;base64,AA==' },
+      {
+        attachmentId: 'z',
+        fileName: 'only.zip',
+        byteStorage: 'dataurl',
+        previewDataUrl: 'data:application/zip;base64,AA==',
+      },
     ];
     await expect(
       buildWorkshop2TechPackZipBlob({

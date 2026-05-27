@@ -10,8 +10,7 @@ export function ProductionPageContentTabSlaOverdueBanner({ p }: { p: Record<stri
 
   if (overdue.length === 0) return null;
 
-  const suffix =
-    overdue.length === 1 ? '' : overdue.length < 5 ? 'а' : 'ов';
+  const suffix = overdue.length === 1 ? '' : overdue.length < 5 ? 'а' : 'ов';
 
   return (
     <Card className="rounded-xl border border-amber-200 bg-amber-50/50">

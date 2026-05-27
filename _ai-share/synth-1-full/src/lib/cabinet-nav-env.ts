@@ -54,7 +54,9 @@ type NavGroupLike = { id: string; clusterId?: string };
  * Режим investor для бренда: A→B→C в основном контуре, вторичное (команда / партнёры / логистика) — в архив;
  * «Организация и настройки» (профиль, интеграции) поднимаются в spine для runbook §5 (A1, B4).
  */
-export function applyBrandInvestorSpineClusterOverrides<T extends NavGroupLike>(groups: readonly T[]): T[] {
+export function applyBrandInvestorSpineClusterOverrides<T extends NavGroupLike>(
+  groups: readonly T[]
+): T[] {
   if (!isBrandNavInvestorSpineEnabled()) return [...groups];
   return groups.map((g) => {
     if (g.id === 'team' || g.id === 'partners' || g.id === 'logistics')
@@ -65,7 +67,9 @@ export function applyBrandInvestorSpineClusterOverrides<T extends NavGroupLike>(
 }
 
 /** Shop: короткий spine под зеркало B2B + коммуникации; партнёры и логистика — в архив. */
-export function applyShopInvestorSpineClusterOverrides<T extends NavGroupLike>(groups: readonly T[]): T[] {
+export function applyShopInvestorSpineClusterOverrides<T extends NavGroupLike>(
+  groups: readonly T[]
+): T[] {
   if (!isShopNavInvestorSpineEnabled()) return [...groups];
   return groups.map((g) => {
     if (g.id === 'partners' || g.id === 'logistics') return { ...g, clusterId: 'archive' } as T;

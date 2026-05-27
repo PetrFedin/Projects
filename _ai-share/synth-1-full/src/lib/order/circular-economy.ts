@@ -64,8 +64,7 @@ export class CircularEconomyEngine {
         accepted: true,
         creditAmount: Math.round(credit),
         nextLifecycleStage: 'outlet',
-        reasoning:
-          'Item has minor wear. Routing to cleaning/QC, then brand outlet allocation.',
+        reasoning: 'Item has minor wear. Routing to cleaning/QC, then brand outlet allocation.',
       };
     }
 
@@ -74,8 +73,7 @@ export class CircularEconomyEngine {
       accepted: true,
       creditAmount: Math.round(credit),
       nextLifecycleStage: 'outlet',
-      reasoning:
-        'Item is in pristine condition. Routing to brand outlet / allocation.',
+      reasoning: 'Item is in pristine condition. Routing to brand outlet / allocation.',
     };
   }
 }

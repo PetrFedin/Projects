@@ -37,7 +37,9 @@ export function Workshop2FactoryHandoffBundleBanner({
     <Workshop2SurfaceStatusBanner
       hintRu={status.hintRu}
       detailRu={status.state !== 'none' ? `Состояние: ${status.state}` : undefined}
-      tone={status.state === 'acknowledged' ? 'emerald' : status.state === 'none' ? 'amber' : 'amber'}
+      tone={
+        status.state === 'acknowledged' ? 'emerald' : status.state === 'none' ? 'amber' : 'amber'
+      }
     />
   );
 }
@@ -54,9 +56,7 @@ export function Workshop2HandoffPdfExportReadinessBanner({
     <Workshop2SurfaceStatusBanner
       hintRu={readiness.hintRu}
       detailRu={
-        readiness.blockers.length > 1
-          ? readiness.blockers.slice(0, 3).join(' · ')
-          : undefined
+        readiness.blockers.length > 1 ? readiness.blockers.slice(0, 3).join(' · ') : undefined
       }
       tone={tone}
     />
@@ -78,7 +78,9 @@ export function Workshop2AssignmentHandoffStatusCollapsible({
   /** Tech pack sections complete — компактная подсказка вместо отдельных Card-баннеров. */
   techPackReady?: boolean;
 }) {
-  const hasContent = Boolean(assignmentSummary?.hintRu || handoffStatus?.hintRu || techPackReady !== undefined);
+  const hasContent = Boolean(
+    assignmentSummary?.hintRu || handoffStatus?.hintRu || techPackReady !== undefined
+  );
   const [open, setOpen] = useState(false);
 
   if (!hasContent) return null;
@@ -87,18 +89,20 @@ export function Workshop2AssignmentHandoffStatusCollapsible({
     <details
       open={open}
       onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)}
-      className="rounded-lg border border-border-subtle bg-bg-surface2/40"
+      className="border-border-subtle bg-bg-surface2/40 rounded-lg border"
     >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2 text-xs font-medium text-text-primary [&::-webkit-details-marker]:hidden">
+      <summary className="text-text-primary flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2 text-xs font-medium [&::-webkit-details-marker]:hidden">
         <span>
           Статус задания и handoff
           {techPackReady !== undefined
             ? ` · Tech pack ${techPackReady ? 'готов' : 'не готов'}`
             : ''}
         </span>
-        <ChevronDown className={cn('h-4 w-4 shrink-0 transition-transform', open && 'rotate-180')} />
+        <ChevronDown
+          className={cn('h-4 w-4 shrink-0 transition-transform', open && 'rotate-180')}
+        />
       </summary>
-      <div className="space-y-2 border-t border-border-subtle px-3 py-2">
+      <div className="border-border-subtle space-y-2 border-t px-3 py-2">
         {techPackReady !== undefined ? (
           <p
             className={cn(
@@ -115,7 +119,11 @@ export function Workshop2AssignmentHandoffStatusCollapsible({
         ) : null}
         <Workshop2AssignmentSignoffChecklistBanner summary={assignmentSummary} />
         <Workshop2FactoryHandoffBundleBanner status={handoffStatus} />
-        <Workshop2DossierPersistButton busy={handoffMirrorBusy} onClick={onPersistHandoff} title="factoryHandoffBundleMirror → PG" />
+        <Workshop2DossierPersistButton
+          busy={handoffMirrorBusy}
+          onClick={onPersistHandoff}
+          title="factoryHandoffBundleMirror → PG"
+        />
       </div>
     </details>
   );

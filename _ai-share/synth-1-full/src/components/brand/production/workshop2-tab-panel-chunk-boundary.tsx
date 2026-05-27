@@ -40,7 +40,12 @@ export class Workshop2TabPanelChunkBoundary extends Component<Props, State> {
     if (!isChunkLoadError(error)) throw error;
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console
-      console.warn('[workshop2] tab chunk load error', this.props.tabLabelRu, error.message, info.componentStack);
+      console.warn(
+        '[workshop2] tab chunk load error',
+        this.props.tabLabelRu,
+        error.message,
+        info.componentStack
+      );
     }
   }
 
@@ -53,7 +58,7 @@ export class Workshop2TabPanelChunkBoundary extends Component<Props, State> {
     if (!this.state.chunkError) return this.props.children;
     return (
       <div
-        className="rounded-lg border border-amber-500/40 bg-amber-500/5 p-4 text-sm space-y-2"
+        className="space-y-2 rounded-lg border border-amber-500/40 bg-amber-500/5 p-4 text-sm"
         role="alert"
       >
         <p className="font-medium text-amber-900 dark:text-amber-100">
@@ -61,8 +66,8 @@ export class Workshop2TabPanelChunkBoundary extends Component<Props, State> {
         </p>
         <p className="text-muted-foreground">
           В dev после HMR или stale `.next` иногда устаревает JS-chunk (ChunkLoadError /
-          MODULE_NOT_FOUND). Обновите страницу (Cmd+Shift+R), выполните `rm -rf .next` или
-          нажмите «Перезагрузить».
+          MODULE_NOT_FOUND). Обновите страницу (Cmd+Shift+R), выполните `rm -rf .next` или нажмите
+          «Перезагрузить».
         </p>
         <Button type="button" size="sm" variant="outline" onClick={this.handleRetry}>
           Перезагрузить

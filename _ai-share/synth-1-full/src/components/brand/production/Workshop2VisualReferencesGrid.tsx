@@ -48,7 +48,9 @@ export function Workshop2VisualReferencesGrid({
         const tileAspect = refViewMode === 'board' ? 'aspect-[4/3]' : 'aspect-square';
         if (visualRefIsMediaPreview(r)) {
           const isVideo = effectiveVisualRefMime(r).startsWith('video/');
-          const isMainPhoto = Boolean(canonicalMainPhotoRefId && canonicalMainPhotoRefId === r.refId);
+          const isMainPhoto = Boolean(
+            canonicalMainPhotoRefId && canonicalMainPhotoRefId === r.refId
+          );
           return (
             <div key={r.refId} className="min-w-0">
               <div className="relative min-w-0">
@@ -176,11 +178,16 @@ export function Workshop2VisualReferencesGrid({
                 </button>
               </div>
               {(() => {
-                const asp = (r.takeawayAspects ?? []).map((a) => VISUAL_REF_TAKEAWAY_LABELS[a]).join(' · ');
+                const asp = (r.takeawayAspects ?? [])
+                  .map((a) => VISUAL_REF_TAKEAWAY_LABELS[a])
+                  .join(' · ');
                 const note = r.takeawayNote?.trim() ?? '';
                 if (!asp && !note) return null;
                 return (
-                  <p className="text-text-secondary mt-1 line-clamp-2 text-[9px] leading-snug" title={note || asp}>
+                  <p
+                    className="text-text-secondary mt-1 line-clamp-2 text-[9px] leading-snug"
+                    title={note || asp}
+                  >
                     {[asp, note].filter(Boolean).join(' — ')}
                   </p>
                 );

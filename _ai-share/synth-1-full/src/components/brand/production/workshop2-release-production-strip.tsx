@@ -112,13 +112,16 @@ export function Workshop2ReleaseProductionStrip({
                       : 'border-amber-300 bg-amber-50 text-amber-900'
                   )}
                 >
-                  T&amp;A {taMirror.overdueCount > 0 ? `просроч. ${taMirror.overdueCount}` : `задерж. ${taMirror.delayedCount}`}
+                  T&amp;A{' '}
+                  {taMirror.overdueCount > 0
+                    ? `просроч. ${taMirror.overdueCount}`
+                    : `задерж. ${taMirror.delayedCount}`}
                 </Badge>
               </Link>
             ) : null}
             {sparklineValues && sparklineValues.length > 0 ? (
               <div
-                className="flex items-end gap-0.5 h-4"
+                className="flex h-4 items-end gap-0.5"
                 data-testid="workshop2-release-strip-sparkline"
                 title="Production metrics trend"
               >
@@ -153,28 +156,15 @@ export function Workshop2ReleaseProductionStrip({
             <p className="text-text-muted text-[10px]">Нет активного заказа образца</p>
           )}
           <div className="flex flex-wrap justify-end gap-1.5">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-7 text-[10px]"
-              asChild
-            >
+            <Button type="button" variant="outline" size="sm" className="h-7 text-[10px]" asChild>
               <Link href={model.chipLinks.fit.href} data-testid="workshop2-release-link-fit-sample">
                 <Package className="mr-1 h-3 w-3" />
                 Образец (примерка)
               </Link>
             </Button>
-            <Button
-              type="button"
-              variant="default"
-              size="sm"
-              className="h-7 text-[10px]"
-              asChild
-            >
+            <Button type="button" variant="default" size="sm" className="h-7 text-[10px]" asChild>
               <Link href={floorHref} data-testid="workshop2-release-link-floor-queue">
-                <Warehouse className="mr-1 h-3 w-3" />
-                В цех
+                <Warehouse className="mr-1 h-3 w-3" />В цех
               </Link>
             </Button>
           </div>

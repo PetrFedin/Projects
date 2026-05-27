@@ -40,8 +40,11 @@ export async function POST(req: NextRequest) {
   const collectionId = String(b.collectionId ?? '').trim();
   const articleId = String(b.articleId ?? '').trim();
   const attachmentId = String(b.attachmentId ?? '').trim();
-  const handoffStatus = String(b.handoffStatus ?? '').trim().toLowerCase();
-  const packageRevision = b.packageRevision != null ? String(b.packageRevision).trim().slice(0, 120) : null;
+  const handoffStatus = String(b.handoffStatus ?? '')
+    .trim()
+    .toLowerCase();
+  const packageRevision =
+    b.packageRevision != null ? String(b.packageRevision).trim().slice(0, 120) : null;
   if (!collectionId || !articleId || !attachmentId || !handoffStatus) {
     return NextResponse.json({ error: 'ids_required' }, { status: 400 });
   }
@@ -49,12 +52,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'handoff_status_rejected' }, { status: 400 });
   }
   try {
-    await updateW2TechPackHandoff(collectionId, articleId, attachmentId, handoffStatus, packageRevision);
+    await updateW2TechPackHandoff(
+      collectionId,
+      articleId,
+      attachmentId,
+      handoffStatus,
+      packageRevision
+    );
   } catch (e) {
     const d = getUnknownErrorDetail(e);
     logW2TechPackOps('handoff_index_err', { detail: d.slice(0, 200) });
     return NextResponse.json({ error: 'handoff_failed' }, { status: 500 });
   }
   logW2TechPackOps('handoff_ok', { collectionId, articleId, attachmentId, handoffStatus });
-  return NextResponse.json({ ok: true, collectionId, articleId, attachmentId, handoffStatus, packageRevision });
+  return NextResponse.json({
+    ok: true,
+    collectionId,
+    articleId,
+    attachmentId,
+    handoffStatus,
+    packageRevision,
+  });
 }

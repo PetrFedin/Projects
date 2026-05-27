@@ -35,10 +35,7 @@ export function W2SketchThumbRail(props: {
   const activeSid = props.activeSheetId ?? props.sheets[0]?.sheetId ?? null;
   return (
     <div
-      className={cn(
-        'flex shrink-0 gap-2 self-start lg:w-[12.5rem]',
-        W2_SKETCH_RAIL_THUMB_MAX_H
-      )}
+      className={cn('flex shrink-0 gap-2 self-start lg:w-[12.5rem]', W2_SKETCH_RAIL_THUMB_MAX_H)}
       role="tablist"
       aria-label="Скетч-листы артикула"
     >
@@ -53,16 +50,12 @@ export function W2SketchThumbRail(props: {
             'relative w-[11.5rem] shrink-0 overflow-hidden rounded-lg border-2 text-left transition-colors lg:w-full',
             w2SketchThumbAspectClass(props.masterBoardOrientation),
             props.sketchSurface === 'master'
-              ? 'border-accent-primary shadow-sm ring-1 ring-accent-primary/25'
+              ? 'border-accent-primary ring-accent-primary/25 shadow-sm ring-1'
               : 'border-border-default hover:border-border-subtle'
           )}
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- data URL из досье */}
-          <img
-            src={props.masterImageUrl ?? ''}
-            alt=""
-            className="h-full w-full object-contain"
-          />
+          <img src={props.masterImageUrl ?? ''} alt="" className="h-full w-full object-contain" />
           <span className="pointer-events-none absolute bottom-1 left-0.5 rounded bg-black/65 px-1 py-px text-[9px] font-bold text-white">
             Лист 1
           </span>
@@ -94,7 +87,7 @@ export function W2SketchThumbRail(props: {
               'relative w-[11.5rem] shrink-0 overflow-hidden rounded-lg border-2 text-left transition-colors lg:w-full',
               w2SketchThumbAspectClass(s.boardOrientation),
               selected
-                ? 'border-accent-primary shadow-sm ring-1 ring-accent-primary/25'
+                ? 'border-accent-primary ring-accent-primary/25 shadow-sm ring-1'
                 : 'border-border-default hover:border-border-subtle'
             )}
           >

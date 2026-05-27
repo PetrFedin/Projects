@@ -47,10 +47,7 @@ export function ProductionPageContentTabDashboard({ p }: { p: Record<string, unk
           collectionId={selectedId}
           collectionName={collections?.find((c: any) => c.id === selectedId)?.name}
           readiness={
-            parseInt(
-              collections?.find((c: any) => c.id === selectedId)?.readiness || '0',
-              10
-            ) || 65
+            parseInt(collections?.find((c: any) => c.id === selectedId)?.readiness || '0', 10) || 65
           }
           stageStatus={{
             design: 'completed',

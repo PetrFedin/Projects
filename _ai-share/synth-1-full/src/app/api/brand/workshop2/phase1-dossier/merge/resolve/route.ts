@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { Workshop2DossierPhase1, Workshop2TzActionLogEntry } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2TzActionLogEntry,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import {
   getWorkshop2ServerDossierRecord,
   putWorkshop2ServerDossierRecord,
@@ -14,7 +17,10 @@ function makeId(): string {
   return `w2-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-function collectConflictingFields(serverDossier: Workshop2DossierPhase1, localDossier: Workshop2DossierPhase1): string[] {
+function collectConflictingFields(
+  serverDossier: Workshop2DossierPhase1,
+  localDossier: Workshop2DossierPhase1
+): string[] {
   const out: string[] = [];
   for (const k of Object.keys(localDossier) as (keyof Workshop2DossierPhase1)[]) {
     if (!Object.prototype.hasOwnProperty.call(serverDossier, k)) continue;
@@ -35,7 +41,9 @@ function applyManualResolution(input: {
     if (choice !== 'local') continue;
     const key = field as keyof Workshop2DossierPhase1;
     if (!Object.prototype.hasOwnProperty.call(input.localDossier, key)) continue;
-    (merged as Record<string, unknown>)[field] = (input.localDossier as Record<string, unknown>)[field];
+    (merged as Record<string, unknown>)[field] = (input.localDossier as Record<string, unknown>)[
+      field
+    ];
   }
   return merged;
 }
@@ -62,11 +70,18 @@ export async function POST(req: NextRequest) {
   const actorLabel = String(b.actorLabel ?? '').trim() || 'system';
   const localDossier = b.localDossier as Workshop2DossierPhase1 | undefined;
   const resolutionsRaw = b.resolutions as Record<string, ResolutionChoice> | undefined;
-  if (!collectionId || !articleId || !localDossier || !Array.isArray(localDossier.assignments) || !resolutionsRaw) {
+  if (
+    !collectionId ||
+    !articleId ||
+    !localDossier ||
+    !Array.isArray(localDossier.assignments) ||
+    !resolutionsRaw
+  ) {
     return NextResponse.json({ ok: false, error: 'invalid_body' }, { status: 400 });
   }
   const actorResolved = resolveWorkshop2ServerActor(req, actorLabel);
-  if (!actorResolved.ok) return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
+  if (!actorResolved.ok)
+    return NextResponse.json({ ok: false, error: 'actor_required' }, { status: 401 });
   const actor = actorResolved.actor;
   if (!actorHasAnyRole(actor, ['production:edit', 'w2:merge_resolve'])) {
     return NextResponse.json({ ok: false, error: 'forbidden_actor_role' }, { status: 403 });
@@ -76,9 +91,14 @@ export async function POST(req: NextRequest) {
   if (!cur) return NextResponse.json({ ok: false, error: 'not_found' }, { status: 404 });
 
   const conflictingFields = collectConflictingFields(cur.dossier, localDossier);
-  const unresolved = conflictingFields.filter((f) => resolutionsRaw[f] !== 'server' && resolutionsRaw[f] !== 'local');
+  const unresolved = conflictingFields.filter(
+    (f) => resolutionsRaw[f] !== 'server' && resolutionsRaw[f] !== 'local'
+  );
   if (unresolved.length > 0) {
-    return NextResponse.json({ ok: false, error: 'unresolved_fields', unresolved }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: 'unresolved_fields', unresolved },
+      { status: 400 }
+    );
   }
 
   const merged = applyManualResolution({

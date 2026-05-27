@@ -48,7 +48,11 @@ describe('POST /api/brand/workshop2/phase1-dossier/handoff/commit', () => {
     expect(res.status).toBe(200);
     const json = (await res.json()) as {
       ok: boolean;
-      dossier?: { techPackFactoryHandoffs?: unknown[]; lifecycleState?: string; revisions?: unknown[] };
+      dossier?: {
+        techPackFactoryHandoffs?: unknown[];
+        lifecycleState?: string;
+        revisions?: unknown[];
+      };
     };
     expect(json.ok).toBe(true);
     expect(Array.isArray(json.dossier?.techPackFactoryHandoffs)).toBe(true);

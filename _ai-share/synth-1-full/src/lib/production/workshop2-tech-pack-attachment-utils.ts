@@ -47,9 +47,7 @@ export function techPackAttachmentHasZipSourceBytes(
   sessionBlobById: Record<string, string>
 ): boolean {
   return (
-    Boolean(a.previewDataUrl) ||
-    Boolean(sessionBlobById[a.attachmentId]) ||
-    a.byteStorage === 'idb'
+    Boolean(a.previewDataUrl) || Boolean(sessionBlobById[a.attachmentId]) || a.byteStorage === 'idb'
   );
 }
 
@@ -59,7 +57,12 @@ export function techPackInlinePreviewKind(
 ): 'image' | 'pdf' | '3d' | null {
   const m = effectiveMime.toLowerCase();
   const n = fileName.toLowerCase();
-  if (/\.(glb|gltf|obj)$/i.test(n) || m === 'model/gltf-binary' || m === 'model/gltf+json' || m === 'model/obj') {
+  if (
+    /\.(glb|gltf|obj)$/i.test(n) ||
+    m === 'model/gltf-binary' ||
+    m === 'model/gltf+json' ||
+    m === 'model/obj'
+  ) {
     return '3d';
   }
   if (m === 'application/pdf' || m === 'application/x-pdf' || /\.pdf$/i.test(n)) {

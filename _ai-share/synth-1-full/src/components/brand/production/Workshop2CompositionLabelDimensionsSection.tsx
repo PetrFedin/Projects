@@ -132,7 +132,9 @@ export function Workshop2CompositionLabelDimensionsSection({
               disabled={ro}
               value={(s.printColorMode ?? '') || 'unset'}
               onValueChange={(v) =>
-                onChange(patchSpec(s, { printColorMode: v === 'unset' ? '' : (v as PrintColorMode) }))
+                onChange(
+                  patchSpec(s, { printColorMode: v === 'unset' ? '' : (v as PrintColorMode) })
+                )
               }
             >
               <SelectTrigger className="h-9 text-xs">
@@ -171,7 +173,9 @@ export function Workshop2CompositionLabelDimensionsSection({
 
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <Label className={cn('text-xs font-medium', need.has('physical') ? 'text-red-600' : '')}>
+            <Label
+              className={cn('text-xs font-medium', need.has('physical') ? 'text-red-600' : '')}
+            >
               Тип полотна (фильтр)
             </Label>
             <Select
@@ -180,7 +184,8 @@ export function Workshop2CompositionLabelDimensionsSection({
               onValueChange={(v) =>
                 onChange(
                   patchSpec(s, {
-                    physicalMaterial: v === 'unset' ? '' : (v as Workshop2CompositionLabelPhysicalKind),
+                    physicalMaterial:
+                      v === 'unset' ? '' : (v as Workshop2CompositionLabelPhysicalKind),
                   })
                 )
               }
@@ -190,7 +195,12 @@ export function Workshop2CompositionLabelDimensionsSection({
               </SelectTrigger>
               <SelectContent>
                 {W2_COMPOSITION_LABEL_PHYSICAL_OPTIONS.map((o) => (
-                  <SelectItem key={o.id} value={o.id} className="text-xs" title={o.hint || undefined}>
+                  <SelectItem
+                    key={o.id}
+                    value={o.id}
+                    className="text-xs"
+                    title={o.hint || undefined}
+                  >
                     {o.label}
                   </SelectItem>
                 ))}
@@ -212,10 +222,7 @@ export function Workshop2CompositionLabelDimensionsSection({
 
       <div className="space-y-2">
         <p
-          className={cn(
-            'text-xs font-medium',
-            sourcesAlert ? 'text-red-600' : 'text-text-primary'
-          )}
+          className={cn('text-xs font-medium', sourcesAlert ? 'text-red-600' : 'text-text-primary')}
         >
           Что войдёт в финальный текст (источники из ТЗ)
         </p>
@@ -230,7 +237,10 @@ export function Workshop2CompositionLabelDimensionsSection({
             />
             <span>
               <span
-                className={cn('font-medium', need.has('fiber_tz_gap') ? 'text-red-600' : 'text-text-primary')}
+                className={cn(
+                  'font-medium',
+                  need.has('fiber_tz_gap') ? 'text-red-600' : 'text-text-primary'
+                )}
               >
                 Сырьевой состав в %
               </span>{' '}
@@ -252,11 +262,15 @@ export function Workshop2CompositionLabelDimensionsSection({
             />
             <span>
               <span
-                className={cn('font-medium', need.has('care_tz_gap') ? 'text-red-600' : 'text-text-primary')}
+                className={cn(
+                  'font-medium',
+                  need.has('care_tz_gap') ? 'text-red-600' : 'text-text-primary'
+                )}
               >
                 Рекомендации по уходу
               </span>{' '}
-              — классы стирки и температура из ТЗ; при отсутствии — доп. текст или знаки ниже в конструкторе.
+              — классы стирки и температура из ТЗ; при отсутствии — доп. текст или знаки ниже в
+              конструкторе.
             </span>
           </label>
           <label className="flex cursor-pointer items-start gap-2 text-xs leading-snug">
@@ -276,7 +290,8 @@ export function Workshop2CompositionLabelDimensionsSection({
               >
                 Производитель / маркировка
               </span>{' '}
-              — из маркировки, упаковки, штрихкода, заметок бренда и страны происхождения (если заполнены).
+              — из маркировки, упаковки, штрихкода, заметок бренда и страны происхождения (если
+              заполнены).
             </span>
           </label>
         </div>
@@ -304,17 +319,19 @@ export function Workshop2CompositionLabelDimensionsSection({
         />
       </div>
 
-      <div className="border-border-subtle bg-bg-surface2/50 space-y-2 rounded-lg border border-dashed p-3 text-xs leading-snug text-text-secondary">
+      <div className="border-border-subtle bg-bg-surface2/50 text-text-secondary space-y-2 rounded-lg border border-dashed p-3 text-xs leading-snug">
         <p className="text-text-primary text-xs font-medium">Справка по типам материалов бирки</p>
         <ul className="list-disc space-y-1 pl-4">
           <li>
-            <span className="text-text-primary font-medium">Сатин</span> — мягкий материал, не раздражает кожу.
+            <span className="text-text-primary font-medium">Сатин</span> — мягкий материал, не
+            раздражает кожу.
           </li>
           <li>
             <span className="text-text-primary font-medium">Нейлон</span> — плотный, держит форму.
           </li>
           <li>
-            <span className="text-text-primary font-medium">Жаккард</span> — тканый ярлык с логотипом в структуре.
+            <span className="text-text-primary font-medium">Жаккард</span> — тканый ярлык с
+            логотипом в структуре.
           </li>
         </ul>
       </div>

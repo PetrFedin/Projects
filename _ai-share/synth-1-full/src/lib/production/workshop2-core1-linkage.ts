@@ -31,7 +31,9 @@ const COLLECTION_STEP_IDS = COLLECTION_STEPS.map((s) => s.id);
 /**
  * Уникальные ref для матрицы: id PO в бандле, иначе подпись (если id пустой).
  */
-export function collectBundlePoRefsForMatrix(bundle: ArticleWorkspaceBundle | null | undefined): string[] {
+export function collectBundlePoRefsForMatrix(
+  bundle: ArticleWorkspaceBundle | null | undefined
+): string[] {
   const pos = bundle?.planPo?.purchaseOrders ?? [];
   const out: string[] = [];
   for (const p of pos) {
@@ -85,7 +87,10 @@ export function getSkuStageOutputRefsForKind(
   kind: string
 ): string[] {
   const outs = doc.skus[skuId]?.stages[stepId]?.outputs ?? [];
-  return outs.filter((o) => o.kind === kind).map((o) => o.ref.trim()).filter(Boolean);
+  return outs
+    .filter((o) => o.kind === kind)
+    .map((o) => o.ref.trim())
+    .filter(Boolean);
 }
 
 /** Грубое сопоставление ref из матрицы с id/подписью PO в бандле артикула. */

@@ -394,3 +394,32 @@ export function buildPassportHubModel(
     combinedPct,
   };
 }
+
+/** Атрибуты «Старт по каталогу», перенесённые в блок «План пошива» (штрихкод, ТН ВЭД, Incoterms). */
+export const PASSPORT_MOVED_TO_SEWING_PLAN_ATTR_IDS = new Set<string>([
+  'productBarcodeTypeOptions',
+  'customsHsDeclarationOptions',
+  'customsProductGroupOptions',
+  'customsTnvedCodePrimary',
+  'customsTnvedCodeSecondary',
+  'customsTnvedCodeTertiary',
+  'customsTnvedPreliminaryCode',
+  'customsClassificationRationale',
+  'customsValueIncotermsNote',
+]);
+
+/** Цвет заголовка «Паспорт» по общей готовности маршрута. */
+export function passportHubHeaderTitleClass(model: Workshop2PassportHubModel): string {
+  if (model.combinedPct >= 80) return 'text-emerald-800';
+  if (model.combinedPct >= 50) return 'text-amber-900';
+  return 'text-text-primary';
+}
+
+/** Подсветка названия контрольной точки, если она закрыта. */
+export function passportCheckpointTitleClass(
+  model: Workshop2PassportHubModel,
+  checkpointId: string
+): string {
+  const done = model.checkpoints.some((c) => c.id === checkpointId && c.done);
+  return done ? 'text-emerald-800' : 'text-text-primary';
+}

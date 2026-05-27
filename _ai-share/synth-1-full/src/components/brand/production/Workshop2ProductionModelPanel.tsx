@@ -14,7 +14,10 @@ type Props = {
 
 export function Workshop2ProductionModelPanel({ dossier, onChange, disabled = false }: Props) {
   const model = ensureWorkshop2ProductionModel(dossier);
-  const preflight = buildWorkshop2ProductionPreflightSnapshot({ ...dossier, productionModel: model });
+  const preflight = buildWorkshop2ProductionPreflightSnapshot({
+    ...dossier,
+    productionModel: model,
+  });
 
   function updateModel(next: Workshop2ProductionModel): void {
     onChange({ productionModel: next });
@@ -29,16 +32,16 @@ export function Workshop2ProductionModelPanel({ dossier, onChange, disabled = fa
 
   return (
     <section className="border-border-default rounded-xl border bg-white p-4 shadow-sm">
-      <div className="mb-4 flex flex-col md:flex-row md:items-start justify-between gap-3">
+      <div className="mb-4 flex flex-col justify-between gap-3 md:flex-row md:items-start">
         <div>
           <h3 className="text-base font-semibold">Карта изделия</h3>
-          <p className="text-text-secondary text-sm mt-1">
+          <p className="text-text-secondary mt-1 text-sm">
             Узлы изделия, описание для фабрики и мгновенная проверка блокеров.
           </p>
         </div>
-        <div className="rounded-lg border border-border-subtle bg-bg-surface px-3 py-2 text-right">
+        <div className="border-border-subtle bg-bg-surface rounded-lg border px-3 py-2 text-right">
           <div className="text-sm font-semibold">{preflight.score}/100</div>
-          <div className="text-xs text-text-secondary">
+          <div className="text-text-secondary text-xs">
             {preflight.canSendToFactory ? 'Готово к передаче' : 'Есть блокеры'}
           </div>
         </div>
@@ -54,29 +57,32 @@ export function Workshop2ProductionModelPanel({ dossier, onChange, disabled = fa
             const trims = model.trimLines.filter((m) => m.nodeId === node.id);
             const operations = model.operations.filter((m) => m.nodeId === node.id);
             return (
-              <div key={node.id} className="rounded-lg border border-border-subtle bg-bg-surface p-4">
-                <div className="flex items-center justify-between gap-3 mb-3">
+              <div
+                key={node.id}
+                className="border-border-subtle bg-bg-surface rounded-lg border p-4"
+              >
+                <div className="mb-3 flex items-center justify-between gap-3">
                   <div className="min-w-0">
                     <div className="text-sm font-semibold">
                       {node.label}
                       {node.isRequired ? (
-                        <span className="ml-2 rounded bg-red-50 text-red-700 px-1.5 py-0.5 text-xs font-normal">
+                        <span className="ml-2 rounded bg-red-50 px-1.5 py-0.5 text-xs font-normal text-red-700">
                           Обязательный
                         </span>
                       ) : null}
                     </div>
-                    <div className="text-text-secondary text-xs mt-1">
+                    <div className="text-text-secondary mt-1 text-xs">
                       Материалы: {materials.length} · Фурнитура: {trims.length} · Операции:{' '}
                       {operations.length}
                     </div>
                   </div>
-                  <label className="text-text-secondary flex items-center gap-2 text-sm cursor-pointer">
+                  <label className="text-text-secondary flex cursor-pointer items-center gap-2 text-sm">
                     <input
                       type="checkbox"
                       checked={Boolean(node.notApplicable)}
                       disabled={disabled}
                       onChange={(e) => updateNode(node.id, { notApplicable: e.target.checked })}
-                      className="rounded border-gray-300 text-accent-primary focus:ring-accent-primary"
+                      className="text-accent-primary focus:ring-accent-primary rounded border-gray-300"
                     />
                     Нет в модели
                   </label>
@@ -85,7 +91,7 @@ export function Workshop2ProductionModelPanel({ dossier, onChange, disabled = fa
                 {!node.notApplicable ? (
                   <div className="grid gap-3">
                     <textarea
-                      className="min-h-[80px] rounded-md border border-border-default p-3 text-sm focus:outline-none focus:ring-1 focus:ring-accent-primary"
+                      className="border-border-default focus:ring-accent-primary min-h-[80px] rounded-md border p-3 text-sm focus:outline-none focus:ring-1"
                       value={node.description ?? ''}
                       disabled={disabled}
                       placeholder="Описание узла для производства..."
@@ -107,7 +113,7 @@ export function Workshop2ProductionModelPanel({ dossier, onChange, disabled = fa
                                 : 'rounded-md border border-amber-200 bg-amber-50 p-3 text-xs'
                             }
                           >
-                            <strong className="block mb-1 font-semibold">{issue.label}</strong>
+                            <strong className="mb-1 block font-semibold">{issue.label}</strong>
                             <div className="text-text-secondary">{issue.detail}</div>
                           </div>
                         ))}

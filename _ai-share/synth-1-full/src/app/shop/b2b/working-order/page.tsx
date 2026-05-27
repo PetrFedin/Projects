@@ -249,7 +249,7 @@ export default function WorkingOrderPage() {
           <CardTitle className="text-base">Контекст оптового заказа</CardTitle>
           <CardDescription>
             Новые версии файла привязываются к выбранному заказу. Можно открыть страницу с{' '}
-            <code className="text-text-secondary rounded bg-bg-surface2 px-1 text-[11px]">
+            <code className="text-text-secondary bg-bg-surface2 rounded px-1 text-[11px]">
               ?wholesaleOrderId=…
             </code>{' '}
             из списка заказов.

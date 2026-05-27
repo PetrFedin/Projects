@@ -50,11 +50,7 @@ export function ProductionPageContentTabOrders({
           status: o.status,
           paymentStatus:
             o.paymentStatus ||
-            (o.payment === 'Оплачено'
-              ? 'paid'
-              : o.payment === 'Аванс 50%'
-                ? 'advance'
-                : 'pending'),
+            (o.payment === 'Оплачено' ? 'paid' : o.payment === 'Аванс 50%' ? 'advance' : 'pending'),
           dueDate: o.dueDate,
         }))}
         onPayClick={(id) => handleAction?.('Оплата', `Переход к оплате PO ${id}`)}

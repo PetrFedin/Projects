@@ -2,7 +2,10 @@ import {
   buildSewingPattern,
   defaultSewingDraftOptions,
 } from '@/lib/pattern-drafting/build-sewing-pattern';
-import { parseSewingNum, SEWING_DEFAULT_MEASURES } from '@/lib/pattern-drafting/sewing-measure-parse';
+import {
+  parseSewingNum,
+  SEWING_DEFAULT_MEASURES,
+} from '@/lib/pattern-drafting/sewing-measure-parse';
 import { applyInstructionalWatermarkToSvg } from '@/lib/pattern-drafting/sewing-svg-educational';
 import type {
   SewingPatternDartToggles,
@@ -39,7 +42,8 @@ export function parseSewingPatternPreviewBody(
     return { ok: false, error: 'invalid_garment' };
   }
   const garment = b.garment as SewingPatternGarmentBlock;
-  if (!b.measures || typeof b.measures !== 'object') return { ok: false, error: 'missing_measures' };
+  if (!b.measures || typeof b.measures !== 'object')
+    return { ok: false, error: 'missing_measures' };
   const m = b.measures as Record<string, unknown>;
   const d = SEWING_DEFAULT_MEASURES;
   const measures = {
@@ -48,7 +52,9 @@ export function parseSewingPatternPreviewBody(
     waist: parseSewingNum(m.waist, d.waist),
     hip: parseSewingNum(m.hip, d.hip),
     shoulderWidth: parseSewingNum(
-      m.shoulder !== undefined && m.shoulder !== null && m.shoulder !== '' ? m.shoulder : m.shoulderWidth,
+      m.shoulder !== undefined && m.shoulder !== null && m.shoulder !== ''
+        ? m.shoulder
+        : m.shoulderWidth,
       d.shoulder
     ),
     bodyHeight:

@@ -119,10 +119,7 @@ export function WorkshopPassportColorBundle({
       <div className="space-y-4">
         {primary || refRow ? (
           <div
-            className={cn(
-              'grid gap-3',
-              primary && refRow ? 'md:grid-cols-2 md:items-start' : ''
-            )}
+            className={cn('grid gap-3', primary && refRow ? 'md:grid-cols-2 md:items-start' : '')}
           >
             {primary ? (
               <div className="bg-bg-surface2/40 space-y-2 rounded-md p-3">
@@ -142,14 +139,16 @@ export function WorkshopPassportColorBundle({
                   </div>
                   {fieldDeferralPhase1 ? (
                     <div className="flex shrink-0 items-center gap-1.5 pl-1">
-                      <label 
+                      <label
                         className="text-text-muted hover:text-text-primary flex cursor-pointer items-center gap-1.5 whitespace-nowrap text-[10px] font-semibold leading-none"
                         title="Отложенное заполнение сохраняется только в браузере (для команды бренда)"
                       >
                         <Checkbox
                           checked={deferredAttrIds.has(primary.attribute.attributeId)}
-                          onCheckedChange={() => onToggleFieldDeferral(primary.attribute.attributeId)}
-                          className="h-3.5 w-3.5 shrink-0 border-border-default"
+                          onCheckedChange={() =>
+                            onToggleFieldDeferral(primary.attribute.attributeId)
+                          }
+                          className="border-border-default h-3.5 w-3.5 shrink-0"
                           aria-label={
                             deferredAttrIds.has(primary.attribute.attributeId)
                               ? 'Снять отложенное заполнение'
@@ -203,14 +202,16 @@ export function WorkshopPassportColorBundle({
                   </div>
                   {fieldDeferralPhase1 ? (
                     <div className="flex shrink-0 items-center gap-1.5 pl-1">
-                      <label 
+                      <label
                         className="text-text-muted hover:text-text-primary flex cursor-pointer items-center gap-1.5 whitespace-nowrap text-[10px] font-semibold leading-none"
                         title="Отложенное заполнение сохраняется только в браузере (для команды бренда)"
                       >
                         <Checkbox
                           checked={deferredAttrIds.has(refRow.attribute.attributeId)}
-                          onCheckedChange={() => onToggleFieldDeferral(refRow.attribute.attributeId)}
-                          className="h-3.5 w-3.5 shrink-0 border-border-default"
+                          onCheckedChange={() =>
+                            onToggleFieldDeferral(refRow.attribute.attributeId)
+                          }
+                          className="border-border-default h-3.5 w-3.5 shrink-0"
                           aria-label={
                             deferredAttrIds.has(refRow.attribute.attributeId)
                               ? 'Снять отложенное заполнение'

@@ -33,10 +33,16 @@ export default function WhiteboardPage() {
   const whiteboardProducts = products.slice(0, 12);
 
   return (
-    <CabinetPageContent maxWidth="full" className="!mx-0 flex h-[calc(100vh-64px)] flex-col overflow-hidden !rounded-none bg-[#F8F9FB] !p-0">
+    <CabinetPageContent
+      maxWidth="full"
+      className="!mx-0 flex h-[calc(100vh-64px)] flex-col overflow-hidden !rounded-none bg-[#F8F9FB] !p-0"
+    >
       <B2bOrderUrlContextBanner
         variant="shop"
-        className={cn('shrink-0 rounded-none border-x-0 border-t-0', cabinetSurface.hubMainContentPaddingX)}
+        className={cn(
+          'shrink-0 rounded-none border-x-0 border-t-0',
+          cabinetSurface.hubMainContentPaddingX
+        )}
       />
       <ShopB2bToolHeader
         backHref={ROUTES.shop.home}

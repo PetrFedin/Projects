@@ -86,7 +86,10 @@ export default function CustomerIntelligencePage() {
   };
 
   return (
-    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent
+      maxWidth="full"
+      className="w-full space-y-6 pb-16 duration-700 animate-in fade-in"
+    >
       <RegistryPageHeader
         title="Клиентский интеллект"
         leadPlain={

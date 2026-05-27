@@ -42,7 +42,7 @@ export function Workshop2SectionPrimaryStatusBanner({
               type="button"
               variant="outline"
               size="sm"
-              className="h-8 text-[10px] bg-white hover:bg-slate-50 text-slate-700"
+              className="h-8 bg-white text-[10px] text-slate-700 hover:bg-slate-50"
               onClick={onOpenPulse}
             >
               Пульс раздела

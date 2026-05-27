@@ -90,7 +90,8 @@ export function buildWorkshop2ProductionPreflightSnapshot(
   const hasComposition = hasAssignmentValue(dossier, 'composition');
 
   const hasColor =
-    hasAssignmentValue(dossier, 'color') || hasAssignmentValue(dossier, 'primaryColorFamilyOptions');
+    hasAssignmentValue(dossier, 'color') ||
+    hasAssignmentValue(dossier, 'primaryColorFamilyOptions');
   const hasLength = hasAssignmentValue(dossier, 'len');
   const hasSilhouette =
     hasAssignmentValue(dossier, 'silh') || hasAssignmentValue(dossier, 'clothingFitOptions');
@@ -116,9 +117,12 @@ export function buildWorkshop2ProductionPreflightSnapshot(
   const fiberSumOk = compositionLabelFiberRowsSumIsHundred(labelSpec);
 
   // AI Cross-check logic from registry
-  const l1Value = dossier.assignments.find((a) => a.attributeId === 'l1')?.values?.[0]?.displayLabel ?? '';
-  const l2Value = dossier.assignments.find((a) => a.attributeId === 'l2')?.values?.[0]?.displayLabel ?? '';
-  const l3Value = dossier.assignments.find((a) => a.attributeId === 'l3')?.values?.[0]?.displayLabel ?? '';
+  const l1Value =
+    dossier.assignments.find((a) => a.attributeId === 'l1')?.values?.[0]?.displayLabel ?? '';
+  const l2Value =
+    dossier.assignments.find((a) => a.attributeId === 'l2')?.values?.[0]?.displayLabel ?? '';
+  const l3Value =
+    dossier.assignments.find((a) => a.attributeId === 'l3')?.values?.[0]?.displayLabel ?? '';
 
   const aiConflicts = runWorkshop2AiConflictChecks(dossier, {
     l1Name: l1Value,
@@ -246,7 +250,8 @@ export function buildWorkshop2ProductionPreflightSnapshot(
       severity: 'warning',
       section: 'construction',
       label: 'Не описаны карманы',
-      detail: 'Если карманов нет — лучше явно указать "без карманов", иначе это останется серой зоной.',
+      detail:
+        'Если карманов нет — лучше явно указать "без карманов", иначе это останется серой зоной.',
       anchor: 'construction',
     });
   }
@@ -320,7 +325,9 @@ export function buildWorkshop2ProductionPreflightSnapshot(
         }
       }
     }
-    const missingTolerance = Array.from(keysWithDims).some(k => !tols[k] || (tols[k].plus == null && tols[k].minus == null));
+    const missingTolerance = Array.from(keysWithDims).some(
+      (k) => !tols[k] || (tols[k].plus == null && tols[k].minus == null)
+    );
     if (missingTolerance) {
       addIssue(issues, {
         id: 'construction.measurements.tolerances_missing',
@@ -342,7 +349,8 @@ export function buildWorkshop2ProductionPreflightSnapshot(
         severity: 'warning',
         section: 'materials',
         label: 'Не указан расход материалов',
-        detail: 'В BOM (раздел Конструкция/Узлы) есть материалы без указания расхода на единицу (yield).',
+        detail:
+          'В BOM (раздел Конструкция/Узлы) есть материалы без указания расхода на единицу (yield).',
         anchor: 'construction',
       });
     }
@@ -356,7 +364,8 @@ export function buildWorkshop2ProductionPreflightSnapshot(
         severity: 'blocker',
         section: 'materials',
         label: 'Материалы-заглушки в BOM',
-        detail: 'В BOM добавлены материалы, у которых не указаны ни поставщик, ни артикул. Производство не сможет закупить такое сырье.',
+        detail:
+          'В BOM добавлены материалы, у которых не указаны ни поставщик, ни артикул. Производство не сможет закупить такое сырье.',
         anchor: 'materials',
       });
     }

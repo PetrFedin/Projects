@@ -63,7 +63,9 @@ export function notifyResponsibleForTzRowAction(
     setDossier((prev: Workshop2DossierPhase1) => {
       const next = pushTzActionLog(prev, updatedByLabel.slice(0, 200), {
         type: 'dossier_edit',
-        summaries: [`Запрос подписи ТЗ: ${who}. ${url ? `Ссылка: ${url}` : 'URL недоступен в среде.'}`],
+        summaries: [
+          `Запрос подписи ТЗ: ${who}. ${url ? `Ссылка: ${url}` : 'URL недоступен в среде.'}`,
+        ],
       });
       deps.persist(next);
       return next;
@@ -82,7 +84,11 @@ export function notifyStakeholdersForSectionSignoffAction(
   setTzNotifyHighlightRowKey(side ? `section:${section}:${side}` : `section:${section}`);
   const url = resolveArticleUrlWithTzPane();
   const who =
-    side === 'brand' ? 'бренд (продакт / дизайн)' : side === 'tech' ? 'технолог' : 'бренд и технолог';
+    side === 'brand'
+      ? 'бренд (продакт / дизайн)'
+      : side === 'tech'
+        ? 'технолог'
+        : 'бренд и технолог';
   const summary =
     side != null
       ? `Секция «${sectionTitle}»: ждём подтверждение — ${who}`
@@ -90,7 +96,7 @@ export function notifyStakeholdersForSectionSignoffAction(
   void (async () => {
     try {
       if (url) await navigator.clipboard.writeText(url);
-      
+
       // Simulate real API notification
       const res = await fetch('/api/brand/workshop2/phase1-dossier/notifications/remind', {
         method: 'POST',
@@ -102,21 +108,29 @@ export function notifyStakeholdersForSectionSignoffAction(
           message: summary,
         }),
       });
-      
+
       if (!res.ok) throw new Error('Failed to send notification via API');
-      
+
       const data = await res.json();
 
       toast({
-        title: url ? (data.delivered ? 'Уведомление отправлено на email' : 'Запрос зафиксирован') : 'Запрос зафиксирован',
+        title: url
+          ? data.delivered
+            ? 'Уведомление отправлено на email'
+            : 'Запрос зафиксирован'
+          : 'Запрос зафиксирован',
         description: url
-          ? (data.delivered ? `${summary}. Адресат получит email/push со ссылкой.` : `${summary}. Email не настроен, передайте ссылку вручную.`)
+          ? data.delivered
+            ? `${summary}. Адресат получит email/push со ссылкой.`
+            : `${summary}. Email не настроен, передайте ссылку вручную.`
           : 'Запись в журнале; передайте ссылку вручную.',
       });
     } catch {
       toast({
         title: 'Зафиксировано локально',
-        description: url ? 'Ссылка скопирована, но отправка email не удалась.' : 'Скопируйте адрес страницы вручную.',
+        description: url
+          ? 'Ссылка скопирована, но отправка email не удалась.'
+          : 'Скопируйте адрес страницы вручную.',
         variant: 'destructive',
       });
     }
@@ -197,7 +211,9 @@ export function updateSignoffDeadlineAction(
       updatedByLabel.slice(0, 200),
       {
         type: 'dossier_edit',
-        summaries: [`Изменён дедлайн подписания секции ${section} (${side}): ${dueAt || 'сброшен'}`],
+        summaries: [
+          `Изменён дедлайн подписания секции ${section} (${side}): ${dueAt || 'сброшен'}`,
+        ],
       }
     );
     persist(next);

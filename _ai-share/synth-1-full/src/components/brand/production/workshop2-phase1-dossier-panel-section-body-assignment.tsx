@@ -11,7 +11,10 @@ import type {
   Workshop2DossierSectionRowsSharedBundle,
 } from '@/components/brand/production/workshop2-phase1-dossier-panel-section-rows';
 import { Workshop2VendorBiddingPanel } from '@/components/brand/production/Workshop2VendorBiddingPanel';
-import type { Workshop2DossierPhase1, Workshop2VendorBid } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2VendorBid,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 
 type AssignmentSendPanelProps = ComponentProps<typeof Workshop2DossierAssignmentSendPanel>;
 type HandoffBlockProps = ComponentProps<typeof Workshop2TechPackHandoffBlock>;
@@ -50,9 +53,9 @@ export function Workshop2DossierSectionBodyAssignment({
     : `Дальше: ${sendPanelProps.factorySendHubPreview.firstUnmet?.label ?? sendPanelProps.tzPreflight.issues[0]?.title ?? 'закройте блокеры передачи'}.`;
 
   const handleBidsUpdate = (updatedBids: Workshop2VendorBid[]) => {
-    setDossier(prev => ({
+    setDossier((prev) => ({
       ...prev,
-      bids: updatedBids
+      bids: updatedBids,
     }));
   };
 
@@ -67,7 +70,11 @@ export function Workshop2DossierSectionBodyAssignment({
       <Workshop2DossierAssignmentSendPanel {...sendPanelProps}>
         <Workshop2TechPackHandoffBlock {...handoffBlockProps} />
       </Workshop2DossierAssignmentSendPanel>
-      <Workshop2VendorBiddingPanel articleId={articleId} bids={dossier.bids} onBidsUpdate={handleBidsUpdate} />
+      <Workshop2VendorBiddingPanel
+        articleId={articleId}
+        bids={dossier.bids}
+        onBidsUpdate={handleBidsUpdate}
+      />
       {tzBlockersFooter}
     </div>
   );

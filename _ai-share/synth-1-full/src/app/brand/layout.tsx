@@ -7,7 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { AiVoiceAssistant } from '@/components/admin/voice-assistant';
 import { GlobalPulse } from '@/components/global/global-pulse';
 import { cn } from '@/lib/utils';
-import { isBrandNavInvestorSpineEnabled, applyBrandInvestorSpineClusterOverrides } from '@/lib/cabinet-nav-env';
+import {
+  isBrandNavInvestorSpineEnabled,
+  applyBrandInvestorSpineClusterOverrides,
+} from '@/lib/cabinet-nav-env';
 import { BRAND_SIDEBAR_W, cabinetHubLayout, cabinetSidebarLayout } from '@/lib/ui/cabinet-surface';
 import {
   brandNavGroups,
@@ -183,7 +186,9 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
     return null;
   }, [w2ArticlePath, w2ArticleBreadcrumb]);
   const hubBreadcrumbLeaf =
-    hubPath === '/brand' || hubPath === '/brand/profile' ? 'Профиль' : activeLinkForRecent?.label || 'Раздел';
+    hubPath === '/brand' || hubPath === '/brand/profile'
+      ? 'Профиль'
+      : activeLinkForRecent?.label || 'Раздел';
   React.useEffect(() => {
     if (
       pathname &&
@@ -852,24 +857,24 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                 }
                 trailing={
                   <>
-                    {(Array.isArray(profile?.alerts) ? profile.alerts : []).map((alert: any, idx: number) => (
-                      <Badge
-                        key={idx}
-                        variant="outline"
-                        className="border-accent-primary/20 bg-accent-primary/10 text-accent-primary h-7 animate-pulse px-2 text-[7px] font-black uppercase tracking-widest"
-                      >
-                        {alert.message}
-                      </Badge>
-                    ))}
+                    {(Array.isArray(profile?.alerts) ? profile.alerts : []).map(
+                      (alert: any, idx: number) => (
+                        <Badge
+                          key={idx}
+                          variant="outline"
+                          className="border-accent-primary/20 bg-accent-primary/10 text-accent-primary h-7 animate-pulse px-2 text-[7px] font-black uppercase tracking-widest"
+                        >
+                          {alert.message}
+                        </Badge>
+                      )
+                    )}
                   </>
                 }
               />
 
               <BrandSectionHeaderBlock />
               <StageContextBar />
-              <main
-                className={cn('mt-2 slide-in-from-bottom-2', cabinetHubLayout.mainInner)}
-              >
+              <main className={cn('mt-2 slide-in-from-bottom-2', cabinetHubLayout.mainInner)}>
                 <PageContainer
                   className={
                     /* cabinet v1: горизонтальные inset только у CabinetHubMain — здесь без px */

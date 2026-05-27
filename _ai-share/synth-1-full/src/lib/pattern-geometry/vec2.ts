@@ -73,7 +73,11 @@ function edgeOutwardNormal(t: Vec2, area: number): Vec2 {
 /**
  * `distanceMm` > 0, `outward: true` — смещение грани **наружи** полигона.
  */
-export function offsetClosedPolygon(pts: readonly Vec2[], distanceMm: number, outward: boolean): Vec2[] {
+export function offsetClosedPolygon(
+  pts: readonly Vec2[],
+  distanceMm: number,
+  outward: boolean
+): Vec2[] {
   if (pts.length < 3) return [...pts];
   const n = pts.length;
   const area = polygonSignedArea(pts);

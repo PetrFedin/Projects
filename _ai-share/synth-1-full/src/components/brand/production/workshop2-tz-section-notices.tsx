@@ -30,18 +30,20 @@ export function Workshop2DossierTzSectionNotices({
     <details
       open={open}
       onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)}
-      className="rounded-lg border border-border-subtle bg-slate-50/60"
+      className="border-border-subtle rounded-lg border bg-slate-50/60"
       id="w2-tz-section-notices"
     >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2 text-[11px] font-medium text-text-primary [&::-webkit-details-marker]:hidden">
+      <summary className="text-text-primary flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2 text-[11px] font-medium [&::-webkit-details-marker]:hidden">
         <span>Подсказки и ограничения ТЗ</span>
-        <ChevronDown className={cn('h-4 w-4 shrink-0 transition-transform', open && 'rotate-180')} />
+        <ChevronDown
+          className={cn('h-4 w-4 shrink-0 transition-transform', open && 'rotate-180')}
+        />
       </summary>
-      <div className="space-y-2 border-t border-border-subtle px-3 py-2.5">
+      <div className="border-border-subtle space-y-2 border-t px-3 py-2.5">
         {readonlyMode ? (
           <p className={WORKSHOP2_SURFACE_BANNER_TZ_NOTICE_CLASS} role="status">
-            <span className="font-semibold">Только просмотр.</span> У этой роли нет права «Редактировать
-            производство» — изменения ТЗ не сохраняются; экспорт доступен.
+            <span className="font-semibold">Только просмотр.</span> У этой роли нет права
+            «Редактировать производство» — изменения ТЗ не сохраняются; экспорт доступен.
           </p>
         ) : null}
         {hasAi ? (
@@ -59,15 +61,15 @@ export function Workshop2DossierTzSectionNotices({
             </ul>
           </div>
         ) : null}
-        <p className="text-[11px] leading-snug text-text-secondary">
-          <span className="font-medium text-text-primary">Перед подписью секции</span>
+        <p className="text-text-secondary text-[11px] leading-snug">
+          <span className="text-text-primary font-medium">Перед подписью секции</span>
           {' — '}
           готовность и pre-flight смотрите в{' '}
           {onOpenPulse ? (
             <Button
               type="button"
               variant="link"
-              className="h-auto p-0 text-[11px] font-semibold text-accent-primary underline"
+              className="text-accent-primary h-auto p-0 text-[11px] font-semibold underline"
               onClick={onOpenPulse}
             >
               «Пульс артикула»

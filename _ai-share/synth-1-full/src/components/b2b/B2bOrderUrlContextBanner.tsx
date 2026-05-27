@@ -69,7 +69,7 @@ export function B2bOrderUrlContextBanner({
     <div
       className={cn(
         o.panel,
-        'flex flex-col gap-2 border-border-default/80 px-3 py-2 shadow-sm',
+        'border-border-default/80 flex flex-col gap-2 px-3 py-2 shadow-sm',
         className
       )}
       data-testid="b2b-order-url-context-banner"
@@ -81,27 +81,29 @@ export function B2bOrderUrlContextBanner({
             <div className="text-text-muted text-[9px] font-black uppercase tracking-[0.18em]">
               Контекст B2B-заказа
             </div>
-            <div className="text-text-primary truncate font-mono text-[11px] font-semibold">{orderId}</div>
+            <div className="text-text-primary truncate font-mono text-[11px] font-semibold">
+              {orderId}
+            </div>
           </div>
         </div>
         <div className="flex flex-wrap gap-1.5">
           <Link
             href={orderHref}
-            className="text-text-primary hover:bg-bg-surface2 border-border-subtle inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-[10px] font-semibold transition-colors hover:text-accent-primary"
+            className="text-text-primary hover:bg-bg-surface2 border-border-subtle hover:text-accent-primary inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-[10px] font-semibold transition-colors"
           >
             <Package className="size-3 opacity-70" aria-hidden />
             Карточка
           </Link>
           <Link
             href={msgHref}
-            className="text-text-primary hover:bg-bg-surface2 border-border-subtle inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-[10px] font-semibold transition-colors hover:text-accent-primary"
+            className="text-text-primary hover:bg-bg-surface2 border-border-subtle hover:text-accent-primary inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-[10px] font-semibold transition-colors"
           >
             <MessageSquare className="size-3 opacity-70" aria-hidden />
             Чат
           </Link>
           <Link
             href={calHref}
-            className="text-text-primary hover:bg-bg-surface2 border-border-subtle inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-[10px] font-semibold transition-colors hover:text-accent-primary"
+            className="text-text-primary hover:bg-bg-surface2 border-border-subtle hover:text-accent-primary inline-flex items-center gap-1 rounded-md border px-2.5 py-1 text-[10px] font-semibold transition-colors"
           >
             <Calendar className="size-3 opacity-70" aria-hidden />
             Задачи
@@ -110,36 +112,51 @@ export function B2bOrderUrlContextBanner({
       </div>
       {showWorkspaceShortcuts ? (
         <div
-          className="flex max-w-full flex-wrap gap-x-2 gap-y-0.5 border-t border-border-default/60 pt-2 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground"
+          className="border-border-default/60 flex max-w-full flex-wrap gap-x-2 gap-y-0.5 border-t pt-2 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground"
           data-testid="b2b-order-url-context-workspace-shortcuts"
         >
           {variant === 'brand' ? (
             <>
-              <Link href={matrixBrandHref} className="hover:text-foreground underline-offset-2 hover:underline">
+              <Link
+                href={matrixBrandHref}
+                className="underline-offset-2 hover:text-foreground hover:underline"
+              >
                 Матрица SKU
               </Link>
               <span className="text-border-default" aria-hidden>
                 ·
               </span>
-              <Link href={prodOpsHref} className="hover:text-foreground underline-offset-2 hover:underline">
+              <Link
+                href={prodOpsHref}
+                className="underline-offset-2 hover:text-foreground hover:underline"
+              >
                 Операции цеха
               </Link>
             </>
           ) : (
             <>
-              <Link href={matrixShopHref} className="hover:text-foreground underline-offset-2 hover:underline">
+              <Link
+                href={matrixShopHref}
+                className="underline-offset-2 hover:text-foreground hover:underline"
+              >
                 Матрица
               </Link>
               <span className="text-border-default" aria-hidden>
                 ·
               </span>
-              <Link href={selectionHref} className="hover:text-foreground underline-offset-2 hover:underline">
+              <Link
+                href={selectionHref}
+                className="underline-offset-2 hover:text-foreground hover:underline"
+              >
                 Подборки
               </Link>
               <span className="text-border-default" aria-hidden>
                 ·
               </span>
-              <Link href={whiteboardHref} className="hover:text-foreground underline-offset-2 hover:underline">
+              <Link
+                href={whiteboardHref}
+                className="underline-offset-2 hover:text-foreground hover:underline"
+              >
                 Доска
               </Link>
             </>

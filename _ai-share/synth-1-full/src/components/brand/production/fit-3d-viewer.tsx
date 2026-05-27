@@ -13,9 +13,12 @@ interface Fit3DViewerProps {
 
 function Model({ modelUrl, tensionMapUrl }: { modelUrl: string; tensionMapUrl?: string }) {
   const { scene } = useGLTF(modelUrl, true); // Draco compression enabled by default in useGLTF when passing true or string for draco path, wait, useGLTF(url, useDraco)
-  
-  const tensionTexture = useTexture(tensionMapUrl || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='); // 1x1 transparent if not provided
-  
+
+  const tensionTexture = useTexture(
+    tensionMapUrl ||
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+  ); // 1x1 transparent if not provided
+
   useEffect(() => {
     if (scene) {
       scene.traverse((child) => {
@@ -43,14 +46,18 @@ function Loader() {
   return (
     <Html center>
       <div className="flex flex-col items-center justify-center">
-        <div className="w-6 h-6 border-2 border-accent-primary border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-2 text-xs text-text-secondary font-medium">Загрузка 3D...</p>
+        <div className="border-accent-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"></div>
+        <p className="text-text-secondary mt-2 text-xs font-medium">Загрузка 3D...</p>
       </div>
     </Html>
   );
 }
 
-export function Fit3DViewer({ modelUrl, tensionMapUrl, className = "w-full h-full min-h-[400px]" }: Fit3DViewerProps) {
+export function Fit3DViewer({
+  modelUrl,
+  tensionMapUrl,
+  className = 'w-full h-full min-h-[400px]',
+}: Fit3DViewerProps) {
   return (
     <div className={className}>
       <Canvas camera={{ position: [0, 1, 3], fov: 50 }}>

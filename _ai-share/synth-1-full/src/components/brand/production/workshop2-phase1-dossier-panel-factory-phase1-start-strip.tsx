@@ -45,7 +45,9 @@ export function Workshop2DossierFactoryPhase1StartStrip({
           size="sm"
           variant="secondary"
           className="h-8 text-xs"
-          onClick={() => jumpToTzSectionAnchor('construction', W2_TZ_SECTION_SIGNOFF_VISUALS_ANCHOR)}
+          onClick={() =>
+            jumpToTzSectionAnchor('construction', W2_TZ_SECTION_SIGNOFF_VISUALS_ANCHOR)
+          }
         >
           Канон визуала
         </Button>

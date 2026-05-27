@@ -200,9 +200,7 @@ export function PricingTierManager() {
                     </p>
                   </div>
                   <div className="text-center">
-                    <p className="mb-1 text-[8px] font-bold uppercase text-slate-400">
-                      База (РРЦ)
-                    </p>
+                    <p className="mb-1 text-[8px] font-bold uppercase text-slate-400">База (РРЦ)</p>
                     <p className="text-xs font-black text-slate-400">{item.base}</p>
                   </div>
                   <div className="text-center">

@@ -18,13 +18,13 @@ export function Workshop2SampleGanttChart({ phases }: Workshop2SampleGanttChartP
   if (!phases || phases.length === 0) return null;
 
   return (
-    <div className="w-full mb-6">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="text-xs font-semibold text-text-primary uppercase tracking-wider">
+    <div className="mb-6 w-full">
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className="text-text-primary text-xs font-semibold uppercase tracking-wider">
           Критический путь сэмпла (Gantt)
         </h3>
       </div>
-      <div className="relative flex h-8 w-full bg-bg-surface2 rounded-md overflow-hidden border border-border-subtle shadow-inner">
+      <div className="bg-bg-surface2 border-border-subtle relative flex h-8 w-full overflow-hidden rounded-md border shadow-inner">
         {phases.map((phase) => (
           <motion.div
             key={phase.id}
@@ -32,7 +32,7 @@ export function Workshop2SampleGanttChart({ phases }: Workshop2SampleGanttChartP
             animate={{ opacity: 1, scaleX: 1 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
             className={cn(
-              "absolute h-full flex items-center px-2 text-[10px] sm:text-[11px] font-bold text-white whitespace-nowrap overflow-hidden text-ellipsis shadow-sm border-r border-white/20 last:border-r-0 origin-left",
+              'absolute flex h-full origin-left items-center overflow-hidden text-ellipsis whitespace-nowrap border-r border-white/20 px-2 text-[10px] font-bold text-white shadow-sm last:border-r-0 sm:text-[11px]',
               phase.color
             )}
             style={{ left: `${phase.startPercent}%`, width: `${phase.widthPercent}%` }}

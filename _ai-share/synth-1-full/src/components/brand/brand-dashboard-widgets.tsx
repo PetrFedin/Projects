@@ -297,9 +297,7 @@ export function BrandDashboardWidgets() {
                   : 'bg-white text-slate-500 hover:text-slate-900'
               )}
             >
-              {showEquivalents
-                ? 'Валюта: RUB'
-                : 'Единая валюта + эквиваленты $/€'}
+              {showEquivalents ? 'Валюта: RUB' : 'Единая валюта + эквиваленты $/€'}
             </Button>
             <Button
               variant="default"

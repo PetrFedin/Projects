@@ -47,7 +47,8 @@ export function getClientCatalogPreview(course: EducationCourse): ClientCatalogP
     return {
       kind: 'blocked',
       title: 'Черновик',
-      description: 'Отправьте курс на согласование из студии, чтобы он попал в очередь модераторов.',
+      description:
+        'Отправьте курс на согласование из студии, чтобы он попал в очередь модераторов.',
       primaryAction: { label: 'Витрина платформы', href: ROUTES.brand.academyPlatform },
     };
   }
@@ -68,7 +69,9 @@ export function getClientCatalogPreview(course: EducationCourse): ClientCatalogP
 }
 
 /** «Дом» студии автора: бренд или организация (для платформенных курсов — null). */
-export function getAuthorWorkspaceHome(course: EducationCourse): { label: string; href: string } | null {
+export function getAuthorWorkspaceHome(
+  course: EducationCourse
+): { label: string; href: string } | null {
   if (course.catalogSource === 'brand') {
     return { label: 'Витрина платформы (бренд)', href: ROUTES.brand.academyPlatform };
   }

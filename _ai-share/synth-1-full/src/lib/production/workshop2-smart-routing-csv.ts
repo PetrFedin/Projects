@@ -3,7 +3,10 @@ import type { Workshop2SmartRoutingOperation } from '@/lib/production/workshop2-
 
 function sanitizeCsvBasename(raw: string): string {
   const t = raw.trim() || 'workshop2-routing';
-  return t.replace(/[^\w.\-]+/g, '_').replace(/_+/g, '_').slice(0, 120);
+  return t
+    .replace(/[^\w.\-]+/g, '_')
+    .replace(/_+/g, '_')
+    .slice(0, 120);
 }
 
 /** Экспорт техпоследовательности в UTF-8 CSV (BOM для Excel). */

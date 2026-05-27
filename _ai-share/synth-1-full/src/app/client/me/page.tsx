@@ -329,31 +329,46 @@ function UserProfileContent() {
               <TabsList className={cn(cabinetSurface.tabsList, 'w-full flex-wrap shadow-inner')}>
                 <TabsTrigger
                   value="profile"
-                  className={cn(cabinetSurface.tabsTrigger, 'data-[state=active]:text-accent-primary')}
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'data-[state=active]:text-accent-primary'
+                  )}
                 >
                   Основные данные
                 </TabsTrigger>
                 <TabsTrigger
                   value="measurements"
-                  className={cn(cabinetSurface.tabsTrigger, 'data-[state=active]:text-accent-primary')}
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'data-[state=active]:text-accent-primary'
+                  )}
                 >
                   Параметры
                 </TabsTrigger>
                 <TabsTrigger
                   value="familySync"
-                  className={cn(cabinetSurface.tabsTrigger, 'data-[state=active]:text-accent-primary')}
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'data-[state=active]:text-accent-primary'
+                  )}
                 >
                   Семья
                 </TabsTrigger>
                 <TabsTrigger
                   value="productPrefs"
-                  className={cn(cabinetSurface.tabsTrigger, 'data-[state=active]:text-accent-primary')}
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'data-[state=active]:text-accent-primary'
+                  )}
                 >
                   Предпочтения
                 </TabsTrigger>
                 <TabsTrigger
                   value="audit"
-                  className={cn(cabinetSurface.tabsTrigger, 'data-[state=active]:text-accent-primary')}
+                  className={cn(
+                    cabinetSurface.tabsTrigger,
+                    'data-[state=active]:text-accent-primary'
+                  )}
                 >
                   История
                 </TabsTrigger>
@@ -363,10 +378,10 @@ function UserProfileContent() {
             {profileSubTab === 'profile' && (
               <div className="space-y-4">
                 <div className="duration-500 animate-in fade-in slide-in-from-top-4">
-                  <h2 className="text-xl font-black uppercase tracking-tight text-text-primary md:text-2xl">
+                  <h2 className="text-text-primary text-xl font-black uppercase tracking-tight md:text-2xl">
                     Добро пожаловать, {displayUser?.displayName?.split(' ')[0] || 'Елена'}!
                   </h2>
-                  <p className="text-sm font-medium text-text-secondary md:text-base">
+                  <p className="text-text-secondary text-sm font-medium md:text-base">
                     Рады видеть вас снова. Вот актуальное состояние вашего профиля.
                   </p>
                 </div>
@@ -430,7 +445,7 @@ function ProfileSystemState({ title, description }: { title: string; description
       <div className={clientMeNuOrderShell.canvas} data-testid="client-me-nuorder-shell-loading">
         <Card className="border-[#c5ccd6] bg-white shadow-none">
           <CardContent className="flex flex-col items-center gap-2 py-8 text-center">
-            <p className="text-[#1a2433] text-base font-semibold">{title}</p>
+            <p className="text-base font-semibold text-[#1a2433]">{title}</p>
             <p className="max-w-xl text-sm text-[#5b6675]">{description}</p>
           </CardContent>
         </Card>

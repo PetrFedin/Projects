@@ -1,7 +1,13 @@
-import type { Workshop2DossierPhase1, Workshop2Phase1CategorySketchAnnotation } from './workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2Phase1CategorySketchAnnotation,
+} from './workshop2-dossier-phase1.types';
 import { normalizeSketchSheets } from './workshop2-sketch-sheets';
 import { resolveWorkshop2TechPackHandoffChecklistRow } from './workshop2-tech-pack-handoff-resolve';
-import { buildWorkshop2TzGateSnapshot, type Workshop2TzGateCommentLike } from './workshop2-tz-gates';
+import {
+  buildWorkshop2TzGateSnapshot,
+  type Workshop2TzGateCommentLike,
+} from './workshop2-tz-gates';
 import { buildWorkshop2ProductionPreflightSnapshot } from './workshop2-production-preflight';
 
 export type Workshop2TzTraceRow = {
@@ -17,13 +23,7 @@ export type Workshop2TzPreflightIssue = {
   title: string;
   detail: string;
   fixHint: string;
-  target:
-    | 'visuals'
-    | 'material'
-    | 'construction'
-    | 'assignment'
-    | 'general'
-    | 'comments';
+  target: 'visuals' | 'material' | 'construction' | 'assignment' | 'general' | 'comments';
   priority: number;
 };
 
@@ -37,7 +37,9 @@ function detectMachineCodeFromMessage(detail: string): string | null {
   return m?.[1] ?? null;
 }
 
-function collectAllPins(dossier: Workshop2DossierPhase1): Workshop2Phase1CategorySketchAnnotation[] {
+function collectAllPins(
+  dossier: Workshop2DossierPhase1
+): Workshop2Phase1CategorySketchAnnotation[] {
   const out: Workshop2Phase1CategorySketchAnnotation[] = [];
   out.push(...(dossier.categorySketchAnnotations ?? []));
   for (const sh of normalizeSketchSheets(dossier.sketchSheets)) out.push(...sh.annotations);
@@ -47,7 +49,10 @@ function collectAllPins(dossier: Workshop2DossierPhase1): Workshop2Phase1Categor
 
 export function buildWorkshop2TzTraceRows(
   dossier: Workshop2DossierPhase1,
-  opts?: { commentsById?: Record<string, Workshop2TzGateCommentLike[]>; sessionBlobById?: Record<string, string> }
+  opts?: {
+    commentsById?: Record<string, Workshop2TzGateCommentLike[]>;
+    sessionBlobById?: Record<string, string>;
+  }
 ): Workshop2TzTraceRow[] {
   const gate = buildWorkshop2TzGateSnapshot(dossier, opts);
   const pins = collectAllPins(dossier);
@@ -61,17 +66,21 @@ export function buildWorkshop2TzTraceRows(
       id: 'trace-brief',
       label: 'Паспорт → запуск',
       status: launchType === 'undecided' ? 'warn' : 'ok',
-      detail:
-        launchType === 'undecided'
-          ? 'тип запуска не выбран'
-          : `тип запуска: ${launchType}`,
+      detail: launchType === 'undecided' ? 'тип запуска не выбран' : `тип запуска: ${launchType}`,
     },
     {
       id: 'trace-material-bom',
       label: 'ТЗ ↔ BOM',
-      status: (dossier.materialAlternativeDrafts?.length ?? 0) + (dossier.bomLineDeltaDrafts?.length ?? 0) > 0 ? 'ok' : 'warn',
+      status:
+        (dossier.materialAlternativeDrafts?.length ?? 0) +
+          (dossier.bomLineDeltaDrafts?.length ?? 0) >
+        0
+          ? 'ok'
+          : 'warn',
       detail:
-        (dossier.materialAlternativeDrafts?.length ?? 0) + (dossier.bomLineDeltaDrafts?.length ?? 0) > 0
+        (dossier.materialAlternativeDrafts?.length ?? 0) +
+          (dossier.bomLineDeltaDrafts?.length ?? 0) >
+        0
           ? `альтернатив: ${dossier.materialAlternativeDrafts?.length ?? 0}, дельт: ${dossier.bomLineDeltaDrafts?.length ?? 0}`
           : 'нет draft-связок материалов/BOM',
     },
@@ -103,7 +112,10 @@ export function buildWorkshop2TzTraceRows(
 
 export function buildWorkshop2TzPreflightReport(
   dossier: Workshop2DossierPhase1,
-  opts?: { commentsById?: Record<string, Workshop2TzGateCommentLike[]>; sessionBlobById?: Record<string, string> }
+  opts?: {
+    commentsById?: Record<string, Workshop2TzGateCommentLike[]>;
+    sessionBlobById?: Record<string, string>;
+  }
 ): Workshop2TzPreflightReport {
   const gate = buildWorkshop2TzGateSnapshot(dossier, opts);
   const pins = collectAllPins(dossier);
@@ -125,13 +137,13 @@ export function buildWorkshop2TzPreflightReport(
             ? 'Проверьте файлы CAD: у каждого должны быть байты для ZIP.'
             : blocker.id === 'composition_label'
               ? 'Заполните блок «Бирка состава» во вкладке «Материалы» (якорь «Бирка»).'
-            : blocker.id === 'production_preflight'
-              ? 'Закройте блокеры производственного pre-flight (материалы, мерки, скетч, узлы).'
-              : blocker.id === 'section_signoffs'
-                ? 'Соберите подписи бренд+тех по всем 4 секциям.'
-                : blocker.id === 'handoff_marks'
-                  ? 'Зафиксируйте отметки бренд/цех и строку передачи.'
-                  : 'Закройте или resolve критичные комментарии.',
+              : blocker.id === 'production_preflight'
+                ? 'Закройте блокеры производственного pre-flight (материалы, мерки, скетч, узлы).'
+                : blocker.id === 'section_signoffs'
+                  ? 'Соберите подписи бренд+тех по всем 4 секциям.'
+                  : blocker.id === 'handoff_marks'
+                    ? 'Зафиксируйте отметки бренд/цех и строку передачи.'
+                    : 'Закройте или resolve критичные комментарии.',
       target:
         blocker.id === 'sketch'
           ? 'construction'
@@ -141,9 +153,9 @@ export function buildWorkshop2TzPreflightReport(
               ? 'material'
               : blocker.id === 'production_preflight'
                 ? 'assignment'
-              : blocker.id === 'section_signoffs' || blocker.id === 'handoff_marks'
-                ? 'assignment'
-                : 'comments',
+                : blocker.id === 'section_signoffs' || blocker.id === 'handoff_marks'
+                  ? 'assignment'
+                  : 'comments',
       priority: blocker.priority,
     });
   }
@@ -190,7 +202,14 @@ export function buildWorkshop2TzPreflightReport(
       title: w.label,
       detail: w.detail,
       fixHint: 'Уточните данные перед передачей в цех.',
-      target: w.section === 'passport' ? 'general' : w.section === 'materials' ? 'material' : w.section === 'sketch' ? 'construction' : 'construction',
+      target:
+        w.section === 'passport'
+          ? 'general'
+          : w.section === 'materials'
+            ? 'material'
+            : w.section === 'sketch'
+              ? 'construction'
+              : 'construction',
       priority: 36,
     });
   }

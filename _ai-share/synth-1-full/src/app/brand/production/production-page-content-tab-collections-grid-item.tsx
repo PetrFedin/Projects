@@ -32,12 +32,7 @@ export function ProductionPageContentTabCollectionsGridItem({
     >
       <div className={cn('h-1.5 w-full bg-gradient-to-r', metrics.statusColor)} />
       <div className="flex flex-col gap-5 p-6">
-        <ProductionPageContentTabCollectionsGridItemMain
-          c={c}
-          p={p}
-          cn={cn}
-          metrics={metrics}
-        />
+        <ProductionPageContentTabCollectionsGridItemMain c={c} p={p} cn={cn} metrics={metrics} />
         <ProductionPageContentTabCollectionsGridItemActions c={c} p={p} />
       </div>
     </Card>

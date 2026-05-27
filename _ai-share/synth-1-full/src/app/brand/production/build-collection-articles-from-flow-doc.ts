@@ -18,7 +18,8 @@ export function buildCollectionArticlesFromFlowDoc(
       getSkuDataGatedCurrentStepId(flowDocReady, skuKey, COLLECTION_FLOW_STEP_IDS) ||
       COLLECTION_FLOW_STEP_IDS[0];
     const qty = (item.orderedQuantity as number | undefined) ?? 30;
-    const price = typeof item.price === 'number' ? item.price : ((item.price as number | undefined) ?? 0);
+    const price =
+      typeof item.price === 'number' ? item.price : ((item.price as number | undefined) ?? 0);
     const wholesalePrice = price * 0.4;
     const facets = deriveStagesArticleFacets(item, idx);
     const skuStr = (item.sku ?? item.id) as string;
@@ -32,7 +33,9 @@ export function buildCollectionArticlesFromFlowDoc(
       sku: skuStr,
       name: (item.name as string | undefined) ?? 'Без названия',
       currentStageId,
-      primaryOrderRef: orderFromItem ? String(orderFromItem) : derivePrimaryOrderRef(seasonStr, idx),
+      primaryOrderRef: orderFromItem
+        ? String(orderFromItem)
+        : derivePrimaryOrderRef(seasonStr, idx),
       forecastQty: qty,
       forecastRevenue: qty * wholesalePrice,
       deliveryWindowId: (item.deliveryWindowId as string | undefined) ?? 'drop1',

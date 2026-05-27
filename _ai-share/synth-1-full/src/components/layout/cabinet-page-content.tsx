@@ -40,12 +40,7 @@ export function CabinetPageContent({
   const mw = MAX_WIDTH_CLASS[maxWidth];
   return (
     <div
-      className={cn(
-        'w-full space-y-6 pb-20 pt-1',
-        mw,
-        maxWidth !== 'full' && 'mx-auto',
-        className
-      )}
+      className={cn('w-full space-y-6 pb-20 pt-1', mw, maxWidth !== 'full' && 'mx-auto', className)}
       {...rest}
     >
       {children}

@@ -1,10 +1,16 @@
 import { draftBodiceBackMetric } from '@/lib/pattern-drafting/draft-bodice-back-metric';
 import { draftBodiceFrontMetric } from '@/lib/pattern-drafting/draft-bodice-front-metric';
-import { draftSkirtBackMetric, draftSkirtFrontMetric } from '@/lib/pattern-drafting/draft-skirt-metric';
+import {
+  draftSkirtBackMetric,
+  draftSkirtFrontMetric,
+} from '@/lib/pattern-drafting/draft-skirt-metric';
 import { draftSleeveMetric } from '@/lib/pattern-drafting/draft-sleeve-metric';
 import { renderSewingPatternSvg } from '@/lib/pattern-drafting/render-sewing-pattern-svg';
 import { sewingPatternsMessages } from '@/lib/pattern-drafting/sewing-patterns-messages';
-import type { SewingPatternDraftOptions, SewingPatternResult } from '@/lib/pattern-drafting/sewing-pattern.types';
+import type {
+  SewingPatternDraftOptions,
+  SewingPatternResult,
+} from '@/lib/pattern-drafting/sewing-pattern.types';
 import { defaultEaseCm } from '@/lib/pattern-drafting/metric-formulas';
 
 /** Один и тот же объект для «не-одежда» — стабильная ссылка в React (без лишнего re-parse SVG). */

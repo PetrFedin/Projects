@@ -42,22 +42,22 @@ export function Workshop2Phase1DossierPanelHandoffBlock({
   }, [isReady, hasFiredConfetti]);
 
   return (
-    <div className="mt-8 mb-4 flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="mb-4 mt-8 flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="mb-4 flex w-full max-w-md flex-col gap-2 text-center">
         <div className="flex items-center justify-between text-sm font-medium text-slate-700">
           <span>Готовность к передаче</span>
           <span className={cn(isReady ? 'text-emerald-600' : '')}>{overallPct}%</span>
         </div>
         <Progress value={overallPct} className="h-2.5 w-full bg-slate-100" />
-        
+
         {!isReady && missingLabels.length > 0 && (
-          <p className="text-xs text-slate-500 mt-1">
-            Осталось заполнить: <span className="text-amber-600 font-medium">{missingLabels}</span>
+          <p className="mt-1 text-xs text-slate-500">
+            Осталось заполнить: <span className="font-medium text-amber-600">{missingLabels}</span>
           </p>
         )}
-        
+
         {isReady && (
-          <p className="text-xs text-emerald-600 mt-1 flex items-center justify-center gap-1.5 font-medium">
+          <p className="mt-1 flex items-center justify-center gap-1.5 text-xs font-medium text-emerald-600">
             <Sparkles className="h-3.5 w-3.5" />
             Все обязательные поля заполнены. Можно отправлять!
           </p>

@@ -13,7 +13,10 @@ interface Workshop2DfmCheckPanelProps {
   photoUrl?: string;
 }
 
-export function Workshop2DfmCheckPanel({ articleDescription, photoUrl }: Workshop2DfmCheckPanelProps) {
+export function Workshop2DfmCheckPanel({
+  articleDescription,
+  photoUrl,
+}: Workshop2DfmCheckPanelProps) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalyzeDfmOutput | null>(null);
   const { toast } = useToast();
@@ -26,17 +29,24 @@ export function Workshop2DfmCheckPanel({ articleDescription, photoUrl }: Worksho
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ articleDescription, photoUrl }),
       });
-      
+
       if (!res.ok) {
         throw new Error('Failed to run DFM check');
       }
-      
+
       const data = await res.json();
       setResult(data);
-      toast({ title: 'DFM Анализ завершен', description: 'Результаты проверки технологичности обновлены.' });
+      toast({
+        title: 'DFM Анализ завершен',
+        description: 'Результаты проверки технологичности обновлены.',
+      });
     } catch (error) {
       console.error(error);
-      toast({ title: 'Ошибка', description: 'Не удалось выполнить DFM анализ', variant: 'destructive' });
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось выполнить DFM анализ',
+        variant: 'destructive',
+      });
     } finally {
       setLoading(false);
     }
@@ -44,21 +54,31 @@ export function Workshop2DfmCheckPanel({ articleDescription, photoUrl }: Worksho
 
   const getComplexityBadge = (level: string) => {
     switch (level) {
-      case 'simple': return <Badge className="bg-green-500">Простой</Badge>;
-      case 'moderate': return <Badge className="bg-blue-500">Средний</Badge>;
-      case 'complex': return <Badge className="bg-amber-500">Сложный</Badge>;
-      case 'highly_complex': return <Badge className="bg-red-500">Очень сложный</Badge>;
-      default: return <Badge>{level}</Badge>;
+      case 'simple':
+        return <Badge className="bg-green-500">Простой</Badge>;
+      case 'moderate':
+        return <Badge className="bg-blue-500">Средний</Badge>;
+      case 'complex':
+        return <Badge className="bg-amber-500">Сложный</Badge>;
+      case 'highly_complex':
+        return <Badge className="bg-red-500">Очень сложный</Badge>;
+      default:
+        return <Badge>{level}</Badge>;
     }
   };
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
-      case 'critical': return <AlertTriangle className="h-4 w-4 text-red-500" />;
-      case 'high': return <AlertTriangle className="h-4 w-4 text-amber-500" />;
-      case 'medium': return <Info className="h-4 w-4 text-blue-500" />;
-      case 'low': return <CheckCircle2 className="h-4 w-4 text-green-500" />;
-      default: return <Info className="h-4 w-4" />;
+      case 'critical':
+        return <AlertTriangle className="h-4 w-4 text-red-500" />;
+      case 'high':
+        return <AlertTriangle className="h-4 w-4 text-amber-500" />;
+      case 'medium':
+        return <Info className="h-4 w-4 text-blue-500" />;
+      case 'low':
+        return <CheckCircle2 className="h-4 w-4 text-green-500" />;
+      default:
+        return <Info className="h-4 w-4" />;
     }
   };
 
@@ -68,28 +88,41 @@ export function Workshop2DfmCheckPanel({ articleDescription, photoUrl }: Worksho
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="text-sm font-medium">AI DFM Анализ</CardTitle>
-            <CardDescription className="text-xs">Проверка технологичности и сложности пошива</CardDescription>
+            <CardDescription className="text-xs">
+              Проверка технологичности и сложности пошива
+            </CardDescription>
           </div>
-          <Button size="sm" variant="outline" onClick={runCheck} disabled={loading} className="h-8 text-xs">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={runCheck}
+            disabled={loading}
+            className="h-8 text-xs"
+          >
             {loading ? <Loader2 className="mr-2 h-3 w-3 animate-spin" /> : null}
             {result ? 'Обновить анализ' : 'Запустить DFM аудит'}
           </Button>
         </div>
       </CardHeader>
-      
+
       {result && (
         <CardContent className="space-y-4 pt-0">
           <div className="flex items-center gap-2 text-sm">
             <span className="text-text-secondary">Уровень сложности:</span>
             {getComplexityBadge(result.complexityLevel)}
           </div>
-          
+
           {result.issues.length > 0 ? (
             <div className="space-y-2">
-              <h4 className="text-xs font-medium text-text-secondary uppercase">Обнаруженные риски</h4>
+              <h4 className="text-text-secondary text-xs font-medium uppercase">
+                Обнаруженные риски
+              </h4>
               <ul className="space-y-2">
                 {result.issues.map((issue, idx) => (
-                  <li key={idx} className="bg-bg-surface2 rounded-md border border-border-subtle p-3 text-sm">
+                  <li
+                    key={idx}
+                    className="bg-bg-surface2 border-border-subtle rounded-md border p-3 text-sm"
+                  >
                     <div className="flex items-start gap-2">
                       <div className="mt-0.5">{getSeverityIcon(issue.severity)}</div>
                       <div>
@@ -97,7 +130,8 @@ export function Workshop2DfmCheckPanel({ articleDescription, photoUrl }: Worksho
                         <p className="text-text-secondary mt-1 text-xs">{issue.description}</p>
                         {issue.recommendation && (
                           <p className="text-accent-primary mt-2 text-xs font-medium">
-                            Рекомендация: <span className="font-normal">{issue.recommendation}</span>
+                            Рекомендация:{' '}
+                            <span className="font-normal">{issue.recommendation}</span>
                           </p>
                         )}
                       </div>
@@ -107,7 +141,7 @@ export function Workshop2DfmCheckPanel({ articleDescription, photoUrl }: Worksho
               </ul>
             </div>
           ) : (
-            <div className="flex items-center gap-2 rounded-md bg-green-50/50 p-3 text-sm text-green-700 border border-green-100">
+            <div className="flex items-center gap-2 rounded-md border border-green-100 bg-green-50/50 p-3 text-sm text-green-700">
               <CheckCircle2 className="h-4 w-4" />
               <p>Проблем с технологичностью не обнаружено.</p>
             </div>

@@ -1,14 +1,15 @@
 import type { Workshop2CompositionLabelSpec } from '@/lib/production/workshop2-dossier-phase1.types';
 
 /** Межстрочный и межбуквенный интервал для черновика / превью (CSS). */
-export function compositionLabelDraftTypographyStyle(spec: Workshop2CompositionLabelSpec | undefined): {
+export function compositionLabelDraftTypographyStyle(
+  spec: Workshop2CompositionLabelSpec | undefined
+): {
   lineHeight: string;
   letterSpacing?: string;
 } {
   const s = spec ?? {};
   const lhRaw = Number.parseFloat(String(s.typographyLineHeightPct ?? '').replace(',', '.'));
-  const lineHeight =
-    Number.isFinite(lhRaw) && lhRaw >= 80 && lhRaw <= 220 ? `${lhRaw}%` : '130%';
+  const lineHeight = Number.isFinite(lhRaw) && lhRaw >= 80 && lhRaw <= 220 ? `${lhRaw}%` : '130%';
   const lsRaw = Number.parseFloat(String(s.typographyLetterSpacingEm ?? '').replace(',', '.'));
   const letterSpacing =
     Number.isFinite(lsRaw) && lsRaw >= -0.15 && lsRaw <= 0.6 ? `${lsRaw}em` : undefined;
@@ -16,7 +17,9 @@ export function compositionLabelDraftTypographyStyle(spec: Workshop2CompositionL
 }
 
 /** Множитель шага строки в PDF (pt) от межстрочного %. */
-export function compositionLabelPdfLineStepMm(spec: Workshop2CompositionLabelSpec | undefined): number {
+export function compositionLabelPdfLineStepMm(
+  spec: Workshop2CompositionLabelSpec | undefined
+): number {
   const { lineHeight } = compositionLabelDraftTypographyStyle(spec);
   const pct = Number.parseFloat(lineHeight.replace('%', ''));
   const factor = Number.isFinite(pct) ? pct / 100 : 1.3;

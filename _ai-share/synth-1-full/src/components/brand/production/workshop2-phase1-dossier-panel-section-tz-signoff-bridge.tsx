@@ -1,6 +1,9 @@
 'use client';
 
-import { Workshop2TzSectionSignoffStrip, type Workshop2TzSectionSignoffTabKey } from '@/components/brand/production/Workshop2TzSectionSignoffStrip';
+import {
+  Workshop2TzSectionSignoffStrip,
+  type Workshop2TzSectionSignoffTabKey,
+} from '@/components/brand/production/Workshop2TzSectionSignoffStrip';
 import { W2_SECTION_SIGNOFF_PCT_THRESHOLD } from '@/components/brand/production/Workshop2TzSectionTabIndicator';
 import { SECTION_LABEL_BY_ID } from '@/components/brand/production/workshop2-phase1-dossier-panel-dossier-constants';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';

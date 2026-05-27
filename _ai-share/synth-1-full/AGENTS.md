@@ -4,10 +4,10 @@
 
 **`_ai-share/synth-1-full`** — единственная активная кодовая база фронтенда Fashion OS в монорепо: фичи, BFF, доменный канон, E2E и CI-релиз.
 
-| Каталог                                 | Роль                        | Конечное состояние                                                 |
-| --------------------------------------- | --------------------------- | ------------------------------------------------------------------ |
-| **`_ai-share/synth-1-full`**            | Канон, prod и demo          | Единственное дерево Next.js в монорепо                             |
-| **`Projects/src/`** (если присутствует) | Внешний / legacy-дубликаты  | Не канон; не развивать как источник правды                         |
+| Каталог                                 | Роль                       | Конечное состояние                         |
+| --------------------------------------- | -------------------------- | ------------------------------------------ |
+| **`_ai-share/synth-1-full`**            | Канон, prod и demo         | Единственное дерево Next.js в монорепо     |
+| **`Projects/src/`** (если присутствует) | Внешний / legacy-дубликаты | Не канон; не развивать как источник правды |
 
 Политика: **`docs/CANONICAL_FULL.md`**, **`SOURCE_OF_TRUTH.md`**, **`Projects/docs/MIGRATION_FULL_CUTOVER.md`**. Субмодуль **`synth-1/`** из корня монорепо **удалён** — весь продуктовый фронт ведётся здесь.
 
@@ -31,38 +31,38 @@
 
 **Code-splitting (dev cold compile):** root layout **без** глобального `yet-another-react-lightbox/styles.css` (компонент Lightbox в коде не используется). Таблица:
 
-| Зона | Lazy-модули |
-|------|-------------|
-| **`client-layout`** | `Header`, `Footer`, `LeftSidebarNav`, B2C sheets, analytics, PWA SW — **не монтируются на cabinet routes**; **`RolePanelGate`** после idle |
-| **realtime** | `WebSocketProvider` — только если `NEXT_PUBLIC_WS_URL`; polling feed — только public shell; оба — только с `NotificationsProviderGate` |
-| **notifications** | `NotificationsProviderGate` — тот же scope, что B2B (не на light cabinets) |
-| **B2B state** | `B2BStateProviderGate` — **не** на factory/distributor/client/admin/academy/wallet/**shop retail**; только `/shop/b2b/*`, `/brand/*`, public |
-| **UI state** | `UIStateProviderGate` — brand + `/shop/b2b/*` всегда; retail `/shop/*` только settings; factory/distributor/admin — только `*/settings`; client — me/wishlist/outfits; academy/wallet — нет |
-| **`/`** | **Home split** — см. таблицу ниже; `HomePageLazySections`, 4 contexts mid-fold, CMS/products вне shell |
-| **cabinet desktop sidebar** | **`CabinetDesktopOnly`** + **`*DesktopSidebarGate`** — sidebar chunks не на mobile |
-| **`/brand/*`** | **`BrandDesktopSidebarGate`** + idle **`SidebarOrgHeaderGate`** + secondary chrome |
-| **`/brand/academy/*`** | lazy **`BrandAcademyLayoutShell`** |
-| **`/vendor/*`** | **`VendorDesktopSidebarGate`** + mobile nav bar + lazy **`VendorLayoutShell`** |
-| **`/shop/*`** | **`ShopDesktopSidebarGate`** + lazy mobile Sheet + path-index |
-| **factory / distributor / admin** | **`*DesktopSidebarGate`** + idle **`HubSidebarHeaderGate`** + lazy mobile Sheet |
-| **`/admin/*`** | `AdminLayoutSidebarPanel` + path-index |
-| **distributor / factory** | `*LayoutSidebarPanel` + path-index |
-| **client cabinet** | **`ClientDesktopSidebarGate`** + lazy mobile Sheet; **`RolePanelGate`** (idle) |
-| **header** | `HeaderLazyParts` (SearchBar, UserNav, ecosystem menu) |
-| **query (react-query)** | `QueryProviderGate` — lazy chunk только **`/brand/*`** |
-| **dev-only chrome** | `DevOnlyChromeGate` — chunk recovery + session banner, idle + один dynamic |
+| Зона                              | Lazy-модули                                                                                                                                                                                 |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`client-layout`**               | `Header`, `Footer`, `LeftSidebarNav`, B2C sheets, analytics, PWA SW — **не монтируются на cabinet routes**; **`RolePanelGate`** после idle                                                  |
+| **realtime**                      | `WebSocketProvider` — только если `NEXT_PUBLIC_WS_URL`; polling feed — только public shell; оба — только с `NotificationsProviderGate`                                                      |
+| **notifications**                 | `NotificationsProviderGate` — тот же scope, что B2B (не на light cabinets)                                                                                                                  |
+| **B2B state**                     | `B2BStateProviderGate` — **не** на factory/distributor/client/admin/academy/wallet/**shop retail**; только `/shop/b2b/*`, `/brand/*`, public                                                |
+| **UI state**                      | `UIStateProviderGate` — brand + `/shop/b2b/*` всегда; retail `/shop/*` только settings; factory/distributor/admin — только `*/settings`; client — me/wishlist/outfits; academy/wallet — нет |
+| **`/`**                           | **Home split** — см. таблицу ниже; `HomePageLazySections`, 4 contexts mid-fold, CMS/products вне shell                                                                                      |
+| **cabinet desktop sidebar**       | **`CabinetDesktopOnly`** + **`*DesktopSidebarGate`** — sidebar chunks не на mobile                                                                                                          |
+| **`/brand/*`**                    | **`BrandDesktopSidebarGate`** + idle **`SidebarOrgHeaderGate`** + secondary chrome                                                                                                          |
+| **`/brand/academy/*`**            | lazy **`BrandAcademyLayoutShell`**                                                                                                                                                          |
+| **`/vendor/*`**                   | **`VendorDesktopSidebarGate`** + mobile nav bar + lazy **`VendorLayoutShell`**                                                                                                              |
+| **`/shop/*`**                     | **`ShopDesktopSidebarGate`** + lazy mobile Sheet + path-index                                                                                                                               |
+| **factory / distributor / admin** | **`*DesktopSidebarGate`** + idle **`HubSidebarHeaderGate`** + lazy mobile Sheet                                                                                                             |
+| **`/admin/*`**                    | `AdminLayoutSidebarPanel` + path-index                                                                                                                                                      |
+| **distributor / factory**         | `*LayoutSidebarPanel` + path-index                                                                                                                                                          |
+| **client cabinet**                | **`ClientDesktopSidebarGate`** + lazy mobile Sheet; **`RolePanelGate`** (idle)                                                                                                              |
+| **header**                        | `HeaderLazyParts` (SearchBar, UserNav, ecosystem menu)                                                                                                                                      |
+| **query (react-query)**           | `QueryProviderGate` — lazy chunk только **`/brand/*`**                                                                                                                                      |
+| **dev-only chrome**               | `DevOnlyChromeGate` — chunk recovery + session banner, idle + один dynamic                                                                                                                  |
 
 **Главная (`/`):** **`HomePageLazySections.tsx`** — 4 lazy boundaries (`HomeStickyNavBlock`, `HomeAdminHubGate`, `HomeMidFoldStack`, `HomeBelowFoldGate`); shell **`HomePageClientShell`** (memo) + **`HomeCmsProvider`**.
 
-| Слой | Паттерн | Файлы / hooks |
-|------|---------|----------------|
-| **Shell** | UI-state only, без CMS/products state | `HomePageClient.tsx`, `HomePageClientShell` |
-| **CMS data** | Split context + singleton cache; shell prefetch | `home-cms-config-cache.ts`, `useHomeShellPrefetch`, `HomeCmsContext.tsx` |
-| **Products data** | Prefetch + singleton cache; hook только в mid-fold | `home-products-catalog.ts`, `useHomeShellPrefetch`, `useHomeProducts` |
-| **Sticky nav** | Idle advertising + role panels (B2B vs client) | `HomeAdvertisingSectionGate`, `HomeStickyNavB2BPanel`, `HomeStickyNavClientPanel` |
-| **Mid-fold** | 4 contexts (linesheet, brands tab, look dialog, showcase) + IO/idle gates | `HomeShowroomMidFoldContext.tsx`, `HomeMidFoldDataLayer`, `ShowroomSectionGate` |
-| **Below-fold** | IO sentinel + staggered section gates + idle glow | `HomeBelowFoldGate`, `HomeBelowFoldSectionGate`, `HomeMouseGlowGate` |
-| **B2B dialogs** | Context + on-demand chunks | `HomeB2BDialogsContext.tsx`, `HomeLookDetailsDialogHost` |
+| Слой              | Паттерн                                                                   | Файлы / hooks                                                                     |
+| ----------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| **Shell**         | UI-state only, без CMS/products state                                     | `HomePageClient.tsx`, `HomePageClientShell`                                       |
+| **CMS data**      | Split context + singleton cache; shell prefetch                           | `home-cms-config-cache.ts`, `useHomeShellPrefetch`, `HomeCmsContext.tsx`          |
+| **Products data** | Prefetch + singleton cache; hook только в mid-fold                        | `home-products-catalog.ts`, `useHomeShellPrefetch`, `useHomeProducts`             |
+| **Sticky nav**    | Idle advertising + role panels (B2B vs client)                            | `HomeAdvertisingSectionGate`, `HomeStickyNavB2BPanel`, `HomeStickyNavClientPanel` |
+| **Mid-fold**      | 4 contexts (linesheet, brands tab, look dialog, showcase) + IO/idle gates | `HomeShowroomMidFoldContext.tsx`, `HomeMidFoldDataLayer`, `ShowroomSectionGate`   |
+| **Below-fold**    | IO sentinel + staggered section gates + idle glow                         | `HomeBelowFoldGate`, `HomeBelowFoldSectionGate`, `HomeMouseGlowGate`              |
+| **B2B dialogs**   | Context + on-demand chunks                                                | `HomeB2BDialogsContext.tsx`, `HomeLookDetailsDialogHost`                          |
 
 **Embed runway:** **`ProductScrollSwitcher`** — dynamic в embed page.
 
@@ -96,7 +96,7 @@ Before UI/UX changes: read `STYLE_GUIDE.md` and `design-system/synth-1-fashion-o
 
 - **Развитие приложения в full (перенос, настройки, связи, фичи):** `docs/FULL_APP_DEVELOPMENT.md`
 - **Единый стиль кабинетов (shell, `cabinetSurface`, шапки реестра):** `.cursor/rules/cabinet-ui-consistency.mdc`, `src/lib/ui/cabinet-surface.ts`
-- **Адаптив (breakpoints, touch):** `.cursor/rules/responsive-design.mdc` (в корне монорепо — globs на **`_ai-share/synth-1-full/**`**; при открытом только full — **`src/**`** в **`.cursor/rules/responsive-design.mdc`** внутри этого пакета)
+- **Адаптив (breakpoints, touch):** `.cursor/rules/responsive-design.mdc` (в корне монорепо — globs на **`\_ai-share/synth-1-full/**`**; при открытом только full — **`src/**`** в **`.cursor/rules/responsive-design.mdc`** внутри этого пакета)
 - **Домен / API / PR:** `.cursor/rules/domain-canon-pr.mdc` — обновление `docs/domain-model/*`, `TASK_QUEUE.md`, контракты v1
 - Profile schema: `BRAND_PROFILE_SCHEMA.md`
 - Tokens: `src/design/tokens.json`, `design-tokens.json`, `src/design/UI_RULES.md`, `src/design/JOOR_ORACLE_ENTERPRISE_UI.md`, `.ai_context/ui_rules.md`, `.ai_context/joor_oracle_ui_rules.md`

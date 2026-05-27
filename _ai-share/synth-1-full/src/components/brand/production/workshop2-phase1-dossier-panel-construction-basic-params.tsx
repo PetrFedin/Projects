@@ -22,7 +22,10 @@ import {
   type Workshop2DossierSectionRowsSharedBundle,
 } from '@/components/brand/production/workshop2-phase1-dossier-panel-section-rows';
 import { Workshop2GradingMatrixPanel } from '@/components/brand/production/Workshop2GradingMatrixPanel';
-import { W2_VISUAL_QUAD_ATTR_IDS, W2_VISUAL_QUAD_ATTR_ORDER } from '@/components/brand/production/workshop2-phase1-dossier-panel-w2-tz-labels';
+import {
+  W2_VISUAL_QUAD_ATTR_IDS,
+  W2_VISUAL_QUAD_ATTR_ORDER,
+} from '@/components/brand/production/workshop2-phase1-dossier-panel-w2-tz-labels';
 
 export type Workshop2ConstructionPhase1ExtraRow = {
   attribute: AttributeCatalogAttribute;
@@ -111,7 +114,9 @@ export function Workshop2DossierConstructionBasicParamsBlock({
   const [tolerancesLoading, setTolerancesLoading] = useState(false);
   const [cadParserOpen, setCadParserOpen] = useState(false);
   const [cadParserLoading, setCadParserLoading] = useState(false);
-  const [cadResult, setCadResult] = useState<import('@/lib/production/cad-parser').CadParseResult | null>(null);
+  const [cadResult, setCadResult] = useState<
+    import('@/lib/production/cad-parser').CadParseResult | null
+  >(null);
 
   const hint = constructionL2Hint(l2Name);
   const silhouetteQuadCells = buildSilhouetteQuadCells(sectionRows, extraRows);
@@ -147,7 +152,7 @@ export function Workshop2DossierConstructionBasicParamsBlock({
             type="button"
             variant="secondary"
             size="sm"
-            className="h-8 text-[11px] gap-1.5"
+            className="h-8 gap-1.5 text-[11px]"
             onClick={() => setAvatarOpen(true)}
           >
             <LucideIcons.Box className="size-3.5" />
@@ -157,7 +162,7 @@ export function Workshop2DossierConstructionBasicParamsBlock({
             type="button"
             variant="outline"
             size="sm"
-            className="h-8 text-[11px] gap-1.5 border-teal-200 bg-teal-50/30 text-teal-800 hover:bg-teal-100 hover:text-teal-900"
+            className="h-8 gap-1.5 border-teal-200 bg-teal-50/30 text-[11px] text-teal-800 hover:bg-teal-100 hover:text-teal-900"
             onClick={() => setTolerancesOpen(true)}
           >
             <LucideIcons.Sparkles className="size-3.5" />
@@ -167,7 +172,7 @@ export function Workshop2DossierConstructionBasicParamsBlock({
             type="button"
             variant="outline"
             size="sm"
-            className="h-8 text-[11px] gap-1.5 border-blue-200 bg-blue-50/30 text-blue-800 hover:bg-blue-100 hover:text-blue-900"
+            className="h-8 gap-1.5 border-blue-200 bg-blue-50/30 text-[11px] text-blue-800 hover:bg-blue-100 hover:text-blue-900"
             onClick={() => setCadParserOpen(true)}
           >
             <LucideIcons.FileCode2 className="size-3.5" />
@@ -176,7 +181,7 @@ export function Workshop2DossierConstructionBasicParamsBlock({
         </div>
         {silhouetteQuadCells.length > 0 ? (
           <div className="space-y-2">
-            <ul className="grid gap-2 sm:grid-cols-2 *:min-w-0">
+            <ul className="grid gap-2 *:min-w-0 sm:grid-cols-2">
               {silhouetteQuadCells.map((cell) =>
                 cell.kind === 'base' ? (
                   <Fragment key={cell.row.attribute.attributeId}>
@@ -211,28 +216,32 @@ export function Workshop2DossierConstructionBasicParamsBlock({
         <DialogContent className="max-h-[min(90vh,600px)] w-[min(96vw,500px)] max-w-none gap-0 overflow-hidden p-0 sm:rounded-xl">
           <DialogHeader className="border-border-subtle border-b p-4 sm:p-5">
             <div className="flex items-center gap-3">
-              <div className="bg-slate-100 text-slate-600 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
                 <LucideIcons.Box className="h-5 w-5" aria-hidden />
               </div>
               <div className="flex-1 text-left">
                 <DialogTitle className="text-base text-slate-900">3D-аватар (Скан)</DialogTitle>
                 <DialogDescription className="text-xs text-slate-500">
-                  Загрузите 3D-скан фигуры (.obj, .fbx) или укажите параметры аватара для виртуальной примерки лекал.
+                  Загрузите 3D-скан фигуры (.obj, .fbx) или укажите параметры аватара для
+                  виртуальной примерки лекал.
                 </DialogDescription>
               </div>
             </div>
           </DialogHeader>
-          <div className="p-6 flex flex-col items-center justify-center space-y-4 bg-slate-50 min-h-[300px]">
-            <div className="w-24 h-24 rounded-full bg-slate-200 border-4 border-white shadow-sm flex items-center justify-center animate-pulse">
-              <LucideIcons.ScanFace className="w-10 h-10 text-slate-400" />
+          <div className="flex min-h-[300px] flex-col items-center justify-center space-y-4 bg-slate-50 p-6">
+            <div className="flex h-24 w-24 animate-pulse items-center justify-center rounded-full border-4 border-white bg-slate-200 shadow-sm">
+              <LucideIcons.ScanFace className="h-10 w-10 text-slate-400" />
             </div>
-            <div className="text-center space-y-2">
+            <div className="space-y-2 text-center">
               <p className="text-sm font-semibold text-slate-700">Модуль 3D-примерочной</p>
-              <p className="text-xs text-slate-500 max-w-xs">
-                Эта функция требует интеграции с Clo3D или Browzwear. Поддержка просмотра .zprj и .ZPAC файлов будет добавлена в следующих релизах.
+              <p className="max-w-xs text-xs text-slate-500">
+                Эта функция требует интеграции с Clo3D или Browzwear. Поддержка просмотра .zprj и
+                .ZPAC файлов будет добавлена в следующих релизах.
               </p>
             </div>
-            <Button variant="outline" size="sm" onClick={() => setAvatarOpen(false)}>Понятно</Button>
+            <Button variant="outline" size="sm" onClick={() => setAvatarOpen(false)}>
+              Понятно
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -241,33 +250,37 @@ export function Workshop2DossierConstructionBasicParamsBlock({
         <DialogContent className="max-h-[min(90vh,600px)] w-[min(96vw,500px)] max-w-none gap-0 overflow-hidden p-0 sm:rounded-xl">
           <DialogHeader className="border-border-subtle border-b p-4 sm:p-5">
             <div className="flex items-center gap-3">
-              <div className="bg-teal-100/50 text-teal-600 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-100/50 text-teal-600">
                 <LucideIcons.Sparkles className="h-5 w-5" aria-hidden />
               </div>
               <div className="flex-1 text-left">
-                <DialogTitle className="text-base text-teal-900">AI-расчет допусков ГОСТ/ISO</DialogTitle>
+                <DialogTitle className="text-base text-teal-900">
+                  AI-расчет допусков ГОСТ/ISO
+                </DialogTitle>
                 <DialogDescription className="text-xs text-teal-700/80">
-                  Автоматический расчет допустимых отклонений (+/- см) для ключевых измерений табеля мер на основе ткани и силуэта.
+                  Автоматический расчет допустимых отклонений (+/- см) для ключевых измерений табеля
+                  мер на основе ткани и силуэта.
                 </DialogDescription>
               </div>
             </div>
           </DialogHeader>
-          <div className="p-6 flex flex-col items-center justify-center space-y-4 bg-slate-50 min-h-[300px]">
+          <div className="flex min-h-[300px] flex-col items-center justify-center space-y-4 bg-slate-50 p-6">
             {tolerancesLoading ? (
               <>
-                <LucideIcons.Loader2 className="w-10 h-10 text-teal-500 animate-spin" />
+                <LucideIcons.Loader2 className="h-10 w-10 animate-spin text-teal-500" />
                 <p className="text-xs font-medium text-teal-700">Анализ ткани и силуэта...</p>
               </>
             ) : (
               <>
-                <div className="text-center space-y-2">
+                <div className="space-y-2 text-center">
                   <p className="text-sm font-semibold text-slate-700">Умные допуски</p>
-                  <p className="text-xs text-slate-500 max-w-xs">
-                    Нейросеть проанализирует выбранные материалы (эластичность, усадку) и силуэт, чтобы предложить оптимальные допуски для каждой точки измерения в табеле мер.
+                  <p className="max-w-xs text-xs text-slate-500">
+                    Нейросеть проанализирует выбранные материалы (эластичность, усадку) и силуэт,
+                    чтобы предложить оптимальные допуски для каждой точки измерения в табеле мер.
                   </p>
                 </div>
-                <Button 
-                  className="bg-teal-600 hover:bg-teal-700 text-white" 
+                <Button
+                  className="bg-teal-600 text-white hover:bg-teal-700"
                   onClick={async () => {
                     setTolerancesLoading(true);
                     try {
@@ -280,7 +293,10 @@ export function Workshop2DossierConstructionBasicParamsBlock({
                       if (typeof window !== 'undefined') {
                         const toast = (window as any).__toast__;
                         if (toast) {
-                          toast({ title: 'Допуски обновлены', description: 'Табель мер заполнен рекомендованными значениями ГОСТ.' });
+                          toast({
+                            title: 'Допуски обновлены',
+                            description: 'Табель мер заполнен рекомендованными значениями ГОСТ.',
+                          });
                         }
                       }
                     } catch (error) {
@@ -299,39 +315,45 @@ export function Workshop2DossierConstructionBasicParamsBlock({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={cadParserOpen} onOpenChange={(open) => {
-        setCadParserOpen(open);
-        if (!open) {
-          setTimeout(() => setCadResult(null), 200);
-        }
-      }}>
+      <Dialog
+        open={cadParserOpen}
+        onOpenChange={(open) => {
+          setCadParserOpen(open);
+          if (!open) {
+            setTimeout(() => setCadResult(null), 200);
+          }
+        }}
+      >
         <DialogContent className="max-h-[min(90vh,600px)] w-[min(96vw,500px)] max-w-none gap-0 overflow-hidden p-0 sm:rounded-xl">
           <DialogHeader className="border-border-subtle border-b p-4 sm:p-5">
             <div className="flex items-center gap-3">
-              <div className="bg-blue-100/50 text-blue-600 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-100/50 text-blue-600">
                 <LucideIcons.FileCode2 className="h-5 w-5" aria-hidden />
               </div>
               <div className="flex-1 text-left">
                 <DialogTitle className="text-base text-blue-900">Парсинг САПР файла</DialogTitle>
                 <DialogDescription className="text-xs text-blue-700/80">
-                  Загрузите файл Clo3D (.zprj) или Browzwear (.zpac) для автоматического расчета расхода.
+                  Загрузите файл Clo3D (.zprj) или Browzwear (.zpac) для автоматического расчета
+                  расхода.
                 </DialogDescription>
               </div>
             </div>
           </DialogHeader>
-          <div className="p-6 flex flex-col items-center justify-center space-y-4 bg-slate-50 min-h-[300px]">
+          <div className="flex min-h-[300px] flex-col items-center justify-center space-y-4 bg-slate-50 p-6">
             {cadParserLoading ? (
               <>
-                <LucideIcons.Loader2 className="w-10 h-10 text-blue-500 animate-spin" />
+                <LucideIcons.Loader2 className="h-10 w-10 animate-spin text-blue-500" />
                 <p className="text-sm font-medium text-blue-700">Анализ файла...</p>
-                <p className="text-xs text-blue-500 max-w-xs text-center">Извлекаем площадь лекал и рассчитываем длину швов для черновых узлов BOM...</p>
+                <p className="max-w-xs text-center text-xs text-blue-500">
+                  Извлекаем площадь лекал и рассчитываем длину швов для черновых узлов BOM...
+                </p>
               </>
             ) : cadResult ? (
               <div className="w-full space-y-4">
-                <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 space-y-3">
+                <div className="space-y-3 rounded-lg border border-blue-100 bg-blue-50 p-4">
                   <div className="flex items-center justify-between border-b border-blue-200/50 pb-2">
                     <span className="text-sm font-semibold text-blue-900">Результаты анализа</span>
-                    <span className="text-xs font-medium text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">
+                    <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">
                       {cadResult.patterns.length} лекал
                     </span>
                   </div>
@@ -339,27 +361,39 @@ export function Workshop2DossierConstructionBasicParamsBlock({
                     <div className="space-y-1">
                       <span className="text-xs text-blue-600/80">Суммарная площадь</span>
                       <p className="text-sm font-medium text-blue-900">
-                        {cadResult.patterns.reduce((sum: number, p: any) => sum + p.areaM2, 0).toFixed(2)} м²
+                        {cadResult.patterns
+                          .reduce((sum: number, p: any) => sum + p.areaM2, 0)
+                          .toFixed(2)}{' '}
+                        м²
                       </p>
                     </div>
                     <div className="space-y-1">
                       <span className="text-xs text-blue-600/80">Длина швов</span>
-                      <p className="text-sm font-medium text-blue-900">{cadResult.seamLengthsTotalMeters} м</p>
+                      <p className="text-sm font-medium text-blue-900">
+                        {cadResult.seamLengthsTotalMeters} м
+                      </p>
                     </div>
                   </div>
                   <div className="pt-2">
-                    <span className="text-xs text-blue-600/80 mb-2 block">Будут добавлены материалы:</span>
+                    <span className="mb-2 block text-xs text-blue-600/80">
+                      Будут добавлены материалы:
+                    </span>
                     <ul className="space-y-1.5">
                       {cadResult.mockMaterialLines.map((line: any) => (
-                        <li key={line.id} className="text-xs text-blue-800 flex justify-between bg-white/60 px-2 py-1.5 rounded">
-                          <span className="font-medium truncate mr-2">{line.materialName}</span>
-                          <span className="shrink-0 text-blue-600">{line.consumption} {line.unit}</span>
+                        <li
+                          key={line.id}
+                          className="flex justify-between rounded bg-white/60 px-2 py-1.5 text-xs text-blue-800"
+                        >
+                          <span className="mr-2 truncate font-medium">{line.materialName}</span>
+                          <span className="shrink-0 text-blue-600">
+                            {line.consumption} {line.unit}
+                          </span>
                         </li>
                       ))}
                     </ul>
                   </div>
                 </div>
-                <div className="flex gap-2 w-full">
+                <div className="flex w-full gap-2">
                   <Button
                     variant="outline"
                     className="flex-1"
@@ -368,19 +402,26 @@ export function Workshop2DossierConstructionBasicParamsBlock({
                     Отмена
                   </Button>
                   <Button
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                    className="flex-1 bg-blue-600 text-white hover:bg-blue-700"
                     onClick={() => {
                       dossierAttrCardCtx.setDossier((prev: any) => {
-                        const existingModel = prev.productionModel || { version: 1, nodes: [], materialLines: [], trimLines: [], operations: [], measurements: [] };
+                        const existingModel = prev.productionModel || {
+                          version: 1,
+                          nodes: [],
+                          materialLines: [],
+                          trimLines: [],
+                          operations: [],
+                          measurements: [],
+                        };
                         return {
                           ...prev,
                           productionModel: {
                             ...existingModel,
                             materialLines: [
                               ...existingModel.materialLines,
-                              ...cadResult.mockMaterialLines
-                            ]
-                          }
+                              ...cadResult.mockMaterialLines,
+                            ],
+                          },
                         };
                       });
                       if (typeof window !== 'undefined') {
@@ -401,25 +442,28 @@ export function Workshop2DossierConstructionBasicParamsBlock({
               </div>
             ) : (
               <>
-                <div className="w-24 h-24 rounded-full bg-slate-200 border-4 border-slate-300 shadow-sm flex items-center justify-center border-dashed">
-                  <LucideIcons.UploadCloud className="w-10 h-10 text-slate-400" />
+                <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-dashed border-slate-300 bg-slate-200 shadow-sm">
+                  <LucideIcons.UploadCloud className="h-10 w-10 text-slate-400" />
                 </div>
-                <div className="text-center space-y-2">
-                  <p className="text-sm font-semibold text-slate-700">Перетащите .zprj или .zpac файл</p>
-                  <p className="text-xs text-slate-500 max-w-xs">
-                    Система автоматически извлечет список деталей и сгенерирует черновые узлы в BOM (Материалы), сокращая ручной ввод.
+                <div className="space-y-2 text-center">
+                  <p className="text-sm font-semibold text-slate-700">
+                    Перетащите .zprj или .zpac файл
+                  </p>
+                  <p className="max-w-xs text-xs text-slate-500">
+                    Система автоматически извлечет список деталей и сгенерирует черновые узлы в BOM
+                    (Материалы), сокращая ручной ввод.
                   </p>
                 </div>
-                
-                <div className="relative w-full max-w-xs group mt-2">
+
+                <div className="group relative mt-2 w-full max-w-xs">
                   <input
                     type="file"
                     accept=".zprj,.zpac"
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                    className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                     onChange={async (e) => {
                       const file = e.target.files?.[0];
                       if (!file) return;
-                      
+
                       setCadParserLoading(true);
                       try {
                         const { parseCadFile } = await import('@/lib/production/cad-parser');
@@ -432,9 +476,9 @@ export function Workshop2DossierConstructionBasicParamsBlock({
                       }
                     }}
                   />
-                  <Button 
+                  <Button
                     type="button"
-                    className="w-full bg-blue-600 group-hover:bg-blue-700 text-white pointer-events-none" 
+                    className="pointer-events-none w-full bg-blue-600 text-white group-hover:bg-blue-700"
                   >
                     Выбрать файл на компьютере
                   </Button>

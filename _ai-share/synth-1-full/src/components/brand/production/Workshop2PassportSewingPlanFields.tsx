@@ -117,10 +117,22 @@ function MultiIsoPicker({ disabled, value, onChange, subjectOptions }: MultiIsoP
           </ul>
         </ScrollArea>
         <div className="border-border-subtle flex justify-end gap-2 border-t p-2">
-          <Button type="button" variant="ghost" size="sm" className="h-7 text-[11px]" onClick={() => onChange(undefined)}>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-7 text-[11px]"
+            onClick={() => onChange(undefined)}
+          >
             Сбросить
           </Button>
-          <Button type="button" variant="secondary" size="sm" className="h-7 text-[11px]" onClick={() => setOpen(false)}>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            className="h-7 text-[11px]"
+            onClick={() => setOpen(false)}
+          >
             Готово
           </Button>
         </div>
@@ -136,7 +148,12 @@ type MultiPartnerPickerProps = {
   partnerOptions: readonly SewingPlanPartnerRow[];
 };
 
-function MultiPartnerPicker({ disabled, value, onChange, partnerOptions }: MultiPartnerPickerProps) {
+function MultiPartnerPicker({
+  disabled,
+  value,
+  onChange,
+  partnerOptions,
+}: MultiPartnerPickerProps) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
   const labelById = useMemo(
@@ -202,10 +219,22 @@ function MultiPartnerPicker({ disabled, value, onChange, partnerOptions }: Multi
           </ul>
         </ScrollArea>
         <div className="border-border-subtle flex justify-end gap-2 border-t p-2">
-          <Button type="button" variant="ghost" size="sm" className="h-7 text-[11px]" onClick={() => onChange(undefined)}>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-7 text-[11px]"
+            onClick={() => onChange(undefined)}
+          >
             Сбросить
           </Button>
-          <Button type="button" variant="secondary" size="sm" className="h-7 text-[11px]" onClick={() => setOpen(false)}>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            className="h-7 text-[11px]"
+            onClick={() => setOpen(false)}
+          >
             Готово
           </Button>
         </div>
@@ -223,7 +252,12 @@ type Props = {
   labelFilledClassName: string;
 };
 
-export function Workshop2PassportSewingPlanFields({ brief, disabled, onPatch, labelFilledClassName }: Props) {
+export function Workshop2PassportSewingPlanFields({
+  brief,
+  disabled,
+  onPatch,
+  labelFilledClassName,
+}: Props) {
   const pb = brief ?? {};
   const [refPayload, setRefPayload] = useState<Workshop2SewingPlanReferencePayload | null>(null);
 
@@ -245,9 +279,13 @@ export function Workshop2PassportSewingPlanFields({ brief, disabled, onPatch, la
     };
   }, []);
 
-  const subjectOptions = refPayload?.rfSubjects?.length ? refPayload.rfSubjects : RF_FEDERAL_SUBJECT_OPTIONS;
+  const subjectOptions = refPayload?.rfSubjects?.length
+    ? refPayload.rfSubjects
+    : RF_FEDERAL_SUBJECT_OPTIONS;
   const partnerOptions: readonly SewingPlanPartnerRow[] =
-    refPayload && refPayload.partners.length > 0 ? refPayload.partners : SEWING_ENTERPRISE_PARTNER_OPTIONS;
+    refPayload && refPayload.partners.length > 0
+      ? refPayload.partners
+      : SEWING_ENTERPRISE_PARTNER_OPTIONS;
 
   const partnersHint =
     refPayload?.source.partners === 'b2b_json'
@@ -267,13 +305,12 @@ export function Workshop2PassportSewingPlanFields({ brief, disabled, onPatch, la
           <>
             <p>
               Субъекты РФ — из справочника ISO 3166-2 (см. ниже). Предприятия — из API{' '}
-              <code className="text-[10px]">/api/brand/sewing-plan-reference</code>:{' '}
-              {partnersHint}
+              <code className="text-[10px]">/api/brand/sewing-plan-reference</code>: {partnersHint}
             </p>
             <p className="text-text-secondary">{rfHint}</p>
             <p className="text-text-secondary">
-              Если партнёра нет в списке, укажите название в поле справа. Дополнительный произвольный текст
-              — внизу (в т.ч. контур вне РФ).
+              Если партнёра нет в списке, укажите название в поле справа. Дополнительный
+              произвольный текст — внизу (в т.ч. контур вне РФ).
             </p>
           </>
         }
@@ -282,7 +319,7 @@ export function Workshop2PassportSewingPlanFields({ brief, disabled, onPatch, la
       </WorkshopLabelWithHint>
 
       <div className="space-y-1">
-        <Label className="text-text-primary text-[11px] font-semibold leading-none mb-0">
+        <Label className="text-text-primary mb-0 text-[11px] font-semibold leading-none">
           Субъект(ы) РФ
         </Label>
         <MultiIsoPicker
@@ -295,7 +332,7 @@ export function Workshop2PassportSewingPlanFields({ brief, disabled, onPatch, la
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
         <div className="min-w-0 flex-1 space-y-1">
-          <Label className="text-text-primary text-[11px] font-semibold leading-none mb-0">
+          <Label className="text-text-primary mb-0 text-[11px] font-semibold leading-none">
             Предприятие / партнёр
           </Label>
           <MultiPartnerPicker
@@ -306,7 +343,10 @@ export function Workshop2PassportSewingPlanFields({ brief, disabled, onPatch, la
           />
         </div>
         <div className="w-full shrink-0 space-y-1 sm:w-[min(100%,14rem)]">
-          <Label htmlFor="w2-passport-sewing-partner-custom" className="text-text-primary text-[11px] font-semibold leading-none mb-0">
+          <Label
+            htmlFor="w2-passport-sewing-partner-custom"
+            className="text-text-primary mb-0 text-[11px] font-semibold leading-none"
+          >
             Нет в списке
           </Label>
           <Input
@@ -335,7 +375,7 @@ export function Workshop2PassportSewingPlanFields({ brief, disabled, onPatch, la
         </WorkshopLabelWithHint>
         <Textarea
           id="w2-passport-sewing-free-note"
-          className="min-h-[28px] max-h-28 w-full resize-y py-1.5 text-sm leading-snug"
+          className="max-h-28 min-h-[28px] w-full resize-y py-1.5 text-sm leading-snug"
           rows={2}
           disabled={disabled}
           placeholder="Например: финишные операции в другом регионе; или КНП за пределами РФ."

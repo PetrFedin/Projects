@@ -8,4 +8,3 @@ import type { B2BOrder } from '@/lib/types';
 export function getB2BOrdersBaseForUi(): B2BOrder[] {
   return mockB2BOrders;
 }
-

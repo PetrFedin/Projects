@@ -309,9 +309,7 @@ export default function ShadowInventoryPage() {
                 <TrendingUp className="w-4.5 h-4.5 text-indigo-400" />
               </div>
               <div>
-                <h3 className="text-xs font-black uppercase tracking-tight">
-                  Досрочная выручка
-                </h3>
+                <h3 className="text-xs font-black uppercase tracking-tight">Досрочная выручка</h3>
                 <p className="text-[9px] font-bold uppercase tracking-widest text-white/40">
                   Инсайт по теневым продажам
                 </p>

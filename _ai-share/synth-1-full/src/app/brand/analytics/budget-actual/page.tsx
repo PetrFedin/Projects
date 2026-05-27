@@ -12,7 +12,12 @@ import { listBudgetActualSnapshots } from '@/lib/api/analytics';
 import type { BudgetActualSnapshot } from '@/lib/analytics/budget-actual';
 import { ROUTES } from '@/lib/routes';
 import { cn } from '@/lib/utils';
-import { DataTableContainer, FilterToolbar, LoadingState, RegistryPageHeader } from '@/components/design-system';
+import {
+  DataTableContainer,
+  FilterToolbar,
+  LoadingState,
+  RegistryPageHeader,
+} from '@/components/design-system';
 
 const PERIODS = ['SS26', 'FW25', 'SS25'];
 

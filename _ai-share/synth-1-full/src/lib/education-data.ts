@@ -272,8 +272,7 @@ export const mockCourses: EducationCourse[] = [
   {
     id: 'course-org-pending',
     title: '[На согласовании] Открытый лекторий для индивидуальных слушателей',
-    description:
-      'Демо: заявка организации на модерации — не видна клиентам до одобрения.',
+    description: 'Демо: заявка организации на модерации — не видна клиентам до одобрения.',
     thumbnail: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800',
     duration: '8 часов',
     level: 'beginner',
@@ -364,8 +363,7 @@ export const mockAcademyEvents: AcademyEvent[] = [
   {
     id: 'event-up-2',
     title: 'Воркшоп: цифровые паспорта продукции',
-    description:
-      'Практическая сессия по созданию и отслеживанию паспортов продукции в Syntha OS.',
+    description: 'Практическая сессия по созданию и отслеживанию паспортов продукции в Syntha OS.',
     type: 'workshop',
     startTime: '2026-11-05T11:00:00Z',
     endTime: '2026-11-05T13:00:00Z',
@@ -535,8 +533,7 @@ const PATH_2_DETAIL: LearningPathProgramDetail = {
         'Stable Diffusion для текстиля: ограничения и QA',
         'Цифровое семплирование: стоимость и календарь',
       ],
-      labOrProject:
-        'Проект: серия рендеров + описание пайплайна и список рисков для фабрики.',
+      labOrProject: 'Проект: серия рендеров + описание пайплайна и список рисков для фабрики.',
     },
     {
       courseId: 'course-5',
@@ -549,8 +546,7 @@ const PATH_2_DETAIL: LearningPathProgramDetail = {
         'Маркетинговые воронки и каналы',
         'Финансовое планирование для коллекции и масштабирования',
       ],
-      labOrProject:
-        'Итог: презентация стратегии бренда с приложением артефактов из AI/3D блока.',
+      labOrProject: 'Итог: презентация стратегии бренда с приложением артефактов из AI/3D блока.',
     },
   ],
   faq: [
@@ -694,7 +690,9 @@ export function getClientAcademyLearningActivity(
     1,
     Math.min(
       totalClientsRanked,
-      Math.round(totalClientsRanked * (1 - activityScore / 100) * 0.35 + completedCourses * 40 + 120)
+      Math.round(
+        totalClientsRanked * (1 - activityScore / 100) * 0.35 + completedCourses * 40 + 120
+      )
     )
   );
   const worseOrEqualPct = Math.ceil((rankAmongClients / totalClientsRanked) * 100);

@@ -62,7 +62,7 @@ export function CabinetModulePageHeader({
           {title}
         </h2>
         {meta != null && meta !== false ? (
-          <span className="text-text-secondary ml-1 text-sm font-medium leading-none tabular-nums sm:ml-2">
+          <span className="text-text-secondary ml-1 text-sm font-medium tabular-nums leading-none sm:ml-2">
             {meta}
           </span>
         ) : null}

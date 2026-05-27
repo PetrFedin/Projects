@@ -49,7 +49,7 @@ export async function POST(request: Request) {
   const patch = await request.json();
   const db = await readDb();
   const key = `${collectionId}:${articleId}`;
-  
+
   const existing = db[key] || {
     schemaVersion: 1,
     collectionId,

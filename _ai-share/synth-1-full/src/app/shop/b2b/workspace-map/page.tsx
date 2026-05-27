@@ -9,7 +9,10 @@ import { useRbac } from '@/hooks/useRbac';
 import { useUserContext } from '@/hooks/useUserContext';
 import { resolveB2bWorkspaceRole } from '@/components/b2b/B2BWorkspaceModuleGrid';
 import { ROUTES } from '@/lib/routes';
-import { B2bOrderUrlContextBanner, getSynthaThreeCoresQuickLinksForBuyer } from '@/lib/syntha-priority-cores';
+import {
+  B2bOrderUrlContextBanner,
+  getSynthaThreeCoresQuickLinksForBuyer,
+} from '@/lib/syntha-priority-cores';
 import { cn } from '@/lib/utils';
 import { operationalLayoutContract as o } from '@/lib/ui/operational-layout-contract';
 
@@ -29,14 +32,11 @@ export default function ShopB2BWorkspaceMapPage() {
   const quick = getSynthaThreeCoresQuickLinksForBuyer();
 
   return (
-    <CabinetPageContent
-      maxWidth="full"
-      className="flex h-[100dvh] min-h-[100dvh] flex-col !p-0"
-    >
+    <CabinetPageContent maxWidth="full" className="flex h-[100dvh] min-h-[100dvh] flex-col !p-0">
       <div
         className={cn(
           o.panel,
-          'shrink-0 space-y-2 border-b border-border-default px-3 py-2 shadow-none sm:px-4'
+          'border-border-default shrink-0 space-y-2 border-b px-3 py-2 shadow-none sm:px-4'
         )}
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -53,7 +53,7 @@ export default function ShopB2BWorkspaceMapPage() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-text-primary hover:bg-bg-surface2 border-border-subtle rounded-md border px-2 py-1 text-[10px] font-semibold transition-colors hover:text-accent-primary"
+              className="text-text-primary hover:bg-bg-surface2 border-border-subtle hover:text-accent-primary rounded-md border px-2 py-1 text-[10px] font-semibold transition-colors"
             >
               {item.label}
             </Link>

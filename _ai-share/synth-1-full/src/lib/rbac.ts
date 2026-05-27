@@ -209,9 +209,7 @@ export function getPlatformRole(userRoles: string[] | undefined): PlatformRole {
   const normalized = userRoles.map((x) => String(x).toLowerCase()).filter(Boolean);
   if (normalized.includes('admin') || normalized.includes('platform_admin')) return 'admin';
   if (
-    normalized.some((x) =>
-      ['brand', 'brand_owner', 'brand_admin', 'brand_manager'].includes(x)
-    )
+    normalized.some((x) => ['brand', 'brand_owner', 'brand_admin', 'brand_manager'].includes(x))
   ) {
     return 'brand';
   }

@@ -7,7 +7,12 @@ import { Card, CardContent } from '@/components/ui/card';
 
 const StylistPanel = dynamic(
   () => import('@/components/ai/StylistPanel').then((m) => ({ default: m.StylistPanel })),
-  { ssr: false, loading: () => <div className="min-h-[200px] animate-pulse rounded-xl bg-muted/40" aria-hidden /> }
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-[200px] animate-pulse rounded-xl bg-muted/40" aria-hidden />
+    ),
+  }
 );
 
 type HomeAiStylistSectionProps = {

@@ -62,10 +62,10 @@ export function Workshop2AttrCommentsDialog({
     openAttrId == null
       ? ''
       : (W2_TZ_ATTR_NAME_OVERRIDE[openAttrId] ??
-          (() => {
-            const a = getAttributeById(openAttrId);
-            return a ? w2TzAttributeDisplayName(a) : openAttrId;
-          })());
+        (() => {
+          const a = getAttributeById(openAttrId);
+          return a ? w2TzAttributeDisplayName(a) : openAttrId;
+        })());
   const thread = openAttrId ? commentsById[openAttrId] : undefined;
   const visibleThread = onlyOpen
     ? (thread ?? []).filter((comment) => (comment.status ?? 'open') === 'open')
@@ -74,9 +74,7 @@ export function Workshop2AttrCommentsDialog({
     <Dialog open={Boolean(openAttrId)} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[min(90vh,640px)] w-[min(96vw,620px)] max-w-none overflow-hidden p-0 sm:rounded-xl">
         <DialogHeader className="border-border-subtle border-b px-4 py-3 sm:px-5">
-          <DialogTitle>
-            Комментарии по атрибуту{openAttrId ? ` «${attrLabel}»` : ''}
-          </DialogTitle>
+          <DialogTitle>Комментарии по атрибуту{openAttrId ? ` «${attrLabel}»` : ''}</DialogTitle>
           <DialogDescription>Комментарии, статусы и владельцы по атрибуту.</DialogDescription>
         </DialogHeader>
         <div className="flex h-[min(72vh,520px)] flex-col gap-3 p-4 sm:p-5">

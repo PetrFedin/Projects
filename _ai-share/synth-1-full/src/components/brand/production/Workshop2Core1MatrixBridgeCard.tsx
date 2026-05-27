@@ -91,11 +91,10 @@ export function Workshop2Core1MatrixBridgeCard() {
             Матрица коллекции ↔ план (ядро №1)
           </p>
           <p className="text-text-secondary text-[10px] leading-snug">
-            Статусы этапов — в{' '}
-            <span className="font-mono text-[9px]">unified flow</span>; PO в таблице ниже — в бандле
-            артикула. В матрице для этапа «PO» укажите выходы с видом{' '}
-            <span className="font-mono text-[9px]">po</span>, чтобы связать номера — либо нажмите «PO →
-            матрица», чтобы подтянуть id строк из плана в выходы этапа без ручного ввода.
+            Статусы этапов — в <span className="font-mono text-[9px]">unified flow</span>; PO в
+            таблице ниже — в бандле артикула. В матрице для этапа «PO» укажите выходы с видом{' '}
+            <span className="font-mono text-[9px]">po</span>, чтобы связать номера — либо нажмите
+            «PO → матрица», чтобы подтянуть id строк из плана в выходы этапа без ручного ввода.
           </p>
           <p className="text-[10px] font-semibold">
             Handoff в серию (до «Площадка и сроки»):{' '}
@@ -112,7 +111,8 @@ export function Workshop2Core1MatrixBridgeCard() {
           </p>
           <p className="text-[10px]">
             PO в бандле: <strong>{state.bundlePurchaseOrderCount}</strong> · ref в матрице (этап{' '}
-            <span className="font-mono">po</span>): <strong>{state.matrixPoOutputRefs.length}</strong>
+            <span className="font-mono">po</span>):{' '}
+            <strong>{state.matrixPoOutputRefs.length}</strong>
             {state.poBundleAlignedWithMatrix ? (
               <span className="text-emerald-800">
                 {' '}

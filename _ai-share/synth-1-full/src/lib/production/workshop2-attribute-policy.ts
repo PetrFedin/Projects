@@ -43,7 +43,11 @@ export const W2_POLICY_LEAF_PACKAGE_ROLLOUT_IDS = new Set<string>([
 const W2_LEAF_POLICY_RULES: Record<string, Workshop2LeafPolicyRule> = {
   'catalog::catalog-apparel-g0-l3': {
     requiredAttrIds: ['insulationMaterialOptions', 'insulationLevelOptions'],
-    recommendedAttrIds: ['thermoTechOptions', 'liningOptionsByCategory', 'hoodPresenceOptionsByCategory'],
+    recommendedAttrIds: [
+      'thermoTechOptions',
+      'liningOptionsByCategory',
+      'hoodPresenceOptionsByCategory',
+    ],
     /** Для пуховиков не нужен блок драпировки в базовом ТЗ пилота. */
     hiddenAttrIds: ['draperyOptionsByCategory'],
   },
@@ -59,7 +63,10 @@ const W2_LEAF_POLICY_RULES: Record<string, Workshop2LeafPolicyRule> = {
   },
 };
 
-function policyKey(audienceId: string | null | undefined, leafId: string | null | undefined): string | null {
+function policyKey(
+  audienceId: string | null | undefined,
+  leafId: string | null | undefined
+): string | null {
   const leaf = (leafId ?? '').trim();
   if (!leaf) return null;
   const aud = (audienceId ?? 'catalog').trim() || 'catalog';
@@ -100,4 +107,3 @@ export function workshop2PolicySuppressesAttribute(
 ): boolean {
   return workshop2PolicySuppressedAttrIdsForContext(ctx).has(attributeId);
 }
-

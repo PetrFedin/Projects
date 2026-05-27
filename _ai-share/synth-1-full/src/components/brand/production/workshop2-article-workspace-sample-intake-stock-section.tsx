@@ -89,7 +89,8 @@ export function Workshop2ArticleSampleIntakeStockSection({
     );
   };
 
-  const fieldClass = "border-border-default h-8 w-full rounded-md border bg-white px-2 text-[11px] font-medium shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-primary disabled:cursor-not-allowed disabled:opacity-50";
+  const fieldClass =
+    'border-border-default h-8 w-full rounded-md border bg-white px-2 text-[11px] font-medium shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-primary disabled:cursor-not-allowed disabled:opacity-50';
 
   return (
     <div className="space-y-4">
@@ -99,7 +100,9 @@ export function Workshop2ArticleSampleIntakeStockSection({
             <LucideIcons.PackageCheck className="h-4 w-4 shrink-0" aria-hidden />
           </div>
           <div className="min-w-0 flex-1 space-y-1">
-            <h2 className="text-text-primary text-sm font-semibold">Склад приемки (Sample Intake)</h2>
+            <h2 className="text-text-primary text-sm font-semibold">
+              Склад приемки (Sample Intake)
+            </h2>
             <p className="text-text-secondary text-[11px] leading-snug">
               Приемка сэмпла в коллекцию, контроль доработок, комплаенс и утверждение Gold-образца.
             </p>
@@ -134,8 +137,8 @@ export function Workshop2ArticleSampleIntakeStockSection({
         </div>
 
         {needSewnRf && (
-          <div className="space-y-1 flex items-end pb-1">
-            <label className="text-text-primary flex items-center gap-2 text-[11px] font-medium cursor-pointer">
+          <div className="flex items-end space-y-1 pb-1">
+            <label className="text-text-primary flex cursor-pointer items-center gap-2 text-[11px] font-medium">
               <input
                 type="checkbox"
                 checked={Boolean(r.sewnInRussiaConfirmed)}
@@ -148,24 +151,36 @@ export function Workshop2ArticleSampleIntakeStockSection({
         )}
       </div>
 
-      <div className="border-border-subtle pt-4 border-t space-y-4">
-        <h3 className="text-sm font-semibold text-text-primary">Процесс доработки образца</h3>
-        <p className="text-[11px] text-text-secondary leading-snug">
-          Если образец имеет дефекты или не соответствует требованиям, верните его на фабрику с комментариями.
+      <div className="border-border-subtle space-y-4 border-t pt-4">
+        <h3 className="text-text-primary text-sm font-semibold">Процесс доработки образца</h3>
+        <p className="text-text-secondary text-[11px] leading-snug">
+          Если образец имеет дефекты или не соответствует требованиям, верните его на фабрику с
+          комментариями.
         </p>
 
         {reworkHistory.length > 0 && (
           <div className="space-y-3">
             {reworkHistory.map((rw, index) => (
-              <div key={rw.id} className="border border-amber-200/60 bg-amber-50/30 rounded-lg p-3 space-y-3">
+              <div
+                key={rw.id}
+                className="space-y-3 rounded-lg border border-amber-200/60 bg-amber-50/30 p-3"
+              >
                 <div className="flex items-center justify-between">
-                  <h4 className="text-[11px] font-bold text-amber-900">Итерация доработки #{index + 1}</h4>
+                  <h4 className="text-[11px] font-bold text-amber-900">
+                    Итерация доработки #{index + 1}
+                  </h4>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] text-amber-700/70 font-medium">{rw.date.split('T')[0]}</span>
+                    <span className="text-[10px] font-medium text-amber-700/70">
+                      {rw.date.split('T')[0]}
+                    </span>
                     <select
-                      className={cn(fieldClass, 'h-7 w-auto py-0 text-[10px] bg-white')}
+                      className={cn(fieldClass, 'h-7 w-auto bg-white py-0 text-[10px]')}
                       value={rw.status}
-                      onChange={(e) => updateRework(rw.id, { status: e.target.value as 'returned_to_factory' | 'received_back' })}
+                      onChange={(e) =>
+                        updateRework(rw.id, {
+                          status: e.target.value as 'returned_to_factory' | 'received_back',
+                        })
+                      }
                     >
                       <option value="returned_to_factory">Отправлено на фабрику</option>
                       <option value="received_back">Получено обратно</option>
@@ -173,7 +188,7 @@ export function Workshop2ArticleSampleIntakeStockSection({
                   </div>
                 </div>
                 <Textarea
-                  className="min-h-[60px] text-[11px] bg-white resize-none border-amber-200/60 focus-visible:ring-amber-500/30"
+                  className="min-h-[60px] resize-none border-amber-200/60 bg-white text-[11px] focus-visible:ring-amber-500/30"
                   placeholder="Опишите замечания к образцу и требования по доработке..."
                   value={rw.comment}
                   onChange={(e) => updateRework(rw.id, { comment: e.target.value })}
@@ -187,17 +202,17 @@ export function Workshop2ArticleSampleIntakeStockSection({
           type="button"
           variant="outline"
           size="sm"
-          className="text-xs h-8"
+          className="h-8 text-xs"
           onClick={addRework}
           disabled={fg.goldApproved}
         >
-          <LucideIcons.ArrowLeftRight className="w-3.5 h-3.5 mr-1.5" />
+          <LucideIcons.ArrowLeftRight className="mr-1.5 h-3.5 w-3.5" />
           Отправить на доработку
         </Button>
       </div>
 
-      <div className="border-border-subtle pt-4 border-t space-y-3">
-        <h3 className="text-sm font-semibold text-text-primary">Реквизиты и комплаенс</h3>
+      <div className="border-border-subtle space-y-3 border-t pt-4">
+        <h3 className="text-text-primary text-sm font-semibold">Реквизиты и комплаенс</h3>
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block space-y-1">
             <span className="text-text-muted text-[10px] font-semibold">
@@ -211,9 +226,7 @@ export function Workshop2ArticleSampleIntakeStockSection({
             />
           </label>
           <label className="block space-y-1">
-            <span className="text-text-muted text-[10px] font-semibold">
-              ТН ВЭД под отгрузку
-            </span>
+            <span className="text-text-muted text-[10px] font-semibold">ТН ВЭД под отгрузку</span>
             <Input
               className={fieldClass}
               value={r.finalTnvedCode ?? ''}
@@ -285,33 +298,37 @@ export function Workshop2ArticleSampleIntakeStockSection({
         </div>
       </div>
 
-      <div className="border-border-subtle pt-4 border-t flex flex-wrap items-center justify-between gap-3">
+      <div className="border-border-subtle flex flex-wrap items-center justify-between gap-3 border-t pt-4">
         <div>
           {fg.goldApproved ? (
-            <span className="text-[11px] font-semibold text-emerald-700 flex items-center gap-1.5">
-              <LucideIcons.CheckCircle className="w-4 h-4" />
+            <span className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
+              <LucideIcons.CheckCircle className="h-4 w-4" />
               Сэмпл принят (Gold)
             </span>
           ) : !intake.ok ? (
-            <span className="text-amber-700 text-[11px] font-medium flex items-center gap-1.5">
-              <LucideIcons.AlertCircle className="w-4 h-4" />
+            <span className="flex items-center gap-1.5 text-[11px] font-medium text-amber-700">
+              <LucideIcons.AlertCircle className="h-4 w-4" />
               Заполните обязательные поля
             </span>
-          ) : reworkHistory.some(rw => rw.status === 'returned_to_factory') ? (
-            <span className="text-amber-700 text-[11px] font-medium flex items-center gap-1.5">
-              <LucideIcons.AlertCircle className="w-4 h-4" />
+          ) : reworkHistory.some((rw) => rw.status === 'returned_to_factory') ? (
+            <span className="flex items-center gap-1.5 text-[11px] font-medium text-amber-700">
+              <LucideIcons.AlertCircle className="h-4 w-4" />
               Ожидается возврат образца с доработки
             </span>
           ) : (
-            <span className="text-blue-700 text-[11px] font-medium flex items-center gap-1.5">
-              <LucideIcons.Info className="w-4 h-4" />
+            <span className="flex items-center gap-1.5 text-[11px] font-medium text-blue-700">
+              <LucideIcons.Info className="h-4 w-4" />
               Готово к приемке
             </span>
           )}
         </div>
         <Button
           type="button"
-          disabled={!intake.ok || fg.goldApproved || reworkHistory.some(rw => rw.status === 'returned_to_factory')}
+          disabled={
+            !intake.ok ||
+            fg.goldApproved ||
+            reworkHistory.some((rw) => rw.status === 'returned_to_factory')
+          }
           className="h-9 text-xs font-semibold"
           onClick={() =>
             void mergeBundle({

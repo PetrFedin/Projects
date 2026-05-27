@@ -55,7 +55,8 @@ async function fetchFromApi(
   } catch (err: unknown) {
     // Token economy & silent mode: don't spam console if backend is not started
     if (
-      (getUnknownErrorMessage(err, '') === 'Failed to fetch' || getUnknownErrorName(err) === 'TypeError') &&
+      (getUnknownErrorMessage(err, '') === 'Failed to fetch' ||
+        getUnknownErrorName(err) === 'TypeError') &&
       retryCount < MAX_RETRIES
     ) {
       isApiReachable = false;

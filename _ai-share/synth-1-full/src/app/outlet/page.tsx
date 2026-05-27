@@ -167,7 +167,7 @@ export default function OutletPage() {
   ];
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="pb-16 px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent maxWidth="5xl" className="px-4 py-6 pb-16 pb-24 sm:px-6">
       <header className="mb-8 text-center">
         <h1 className="font-headline text-sm font-bold md:text-sm">Аутлет</h1>
         <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground">

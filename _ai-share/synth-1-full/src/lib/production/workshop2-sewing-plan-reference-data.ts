@@ -22,9 +22,17 @@ function parsePartnersJson(raw: string | undefined): SewingPlanPartnerRow[] | nu
       if (!row || typeof row !== 'object') continue;
       const id = String((row as { id?: unknown }).id ?? '').trim();
       const label = String((row as { label?: unknown }).label ?? '').trim();
-      const capabilities = Array.isArray((row as { capabilities?: unknown }).capabilities) ? (row as { capabilities?: unknown }).capabilities as string[] : undefined;
-      const machines = Array.isArray((row as { machines?: unknown }).machines) ? (row as { machines?: unknown }).machines as string[] : undefined;
-      const materialsExpertise = Array.isArray((row as { materialsExpertise?: unknown }).materialsExpertise) ? (row as { materialsExpertise?: unknown }).materialsExpertise as string[] : undefined;
+      const capabilities = Array.isArray((row as { capabilities?: unknown }).capabilities)
+        ? ((row as { capabilities?: unknown }).capabilities as string[])
+        : undefined;
+      const machines = Array.isArray((row as { machines?: unknown }).machines)
+        ? ((row as { machines?: unknown }).machines as string[])
+        : undefined;
+      const materialsExpertise = Array.isArray(
+        (row as { materialsExpertise?: unknown }).materialsExpertise
+      )
+        ? ((row as { materialsExpertise?: unknown }).materialsExpertise as string[])
+        : undefined;
       if (id && label) out.push({ id, label, capabilities, machines, materialsExpertise });
     }
     return out.length ? out : null;
@@ -51,7 +59,10 @@ function parseRfSubjectExtrasJson(raw: string | undefined): RfFederalSubjectOpti
   }
 }
 
-function mergeRfSubjects(base: readonly RfFederalSubjectOption[], extras: RfFederalSubjectOption[]) {
+function mergeRfSubjects(
+  base: readonly RfFederalSubjectOption[],
+  extras: RfFederalSubjectOption[]
+) {
   const map = new Map(base.map((o) => [o.iso31662, { ...o }]));
   for (const e of extras) {
     map.set(e.iso31662, { iso31662: e.iso31662, name: e.name });

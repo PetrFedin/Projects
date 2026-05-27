@@ -65,9 +65,7 @@ export default function ClientGiftRegistryPage() {
 
   return (
     <div className="container max-w-3xl space-y-6 py-6 pb-24">
-      <ClientCabinetSectionHeader
-        description="Свадьба, ДР, юбилей — отметьте «куплено» по всей сети. РФ."
-      />
+      <ClientCabinetSectionHeader description="Свадьба, ДР, юбилей — отметьте «куплено» по всей сети. РФ." />
 
       <Card className="border-amber-100">
         <CardHeader className="pb-2">

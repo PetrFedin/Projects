@@ -157,15 +157,13 @@ export function SewingPatternWorkspace() {
                 </Label>
               </div>
               <div className="flex items-center space-x-2 rounded-md border border-slate-200/80 p-2">
-                <RadioGroupItem
-                  value="profile"
-                  id="sew-ms-profile"
-                  disabled={!w.hasBodyProfile}
-                />
+                <RadioGroupItem value="profile" id="sew-ms-profile" disabled={!w.hasBodyProfile} />
                 <Label
                   htmlFor="sew-ms-profile"
                   className={
-                    w.hasBodyProfile ? 'cursor-pointer text-xs font-normal' : 'text-xs font-normal text-muted-foreground'
+                    w.hasBodyProfile
+                      ? 'cursor-pointer text-xs font-normal'
+                      : 'text-xs font-normal text-muted-foreground'
                   }
                 >
                   {m.measureSourceProfile}
@@ -237,9 +235,7 @@ export function SewingPatternWorkspace() {
           onClick={() => void onCommitIntent()}
           data-testid="sewing-commit-intent"
         >
-          {w.commitPending ? (
-            <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-          ) : null}
+          {w.commitPending ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : null}
           {m.commitIntentButton}
         </Button>
         <span className="text-[11px] text-muted-foreground">{m.commitIntentHint}</span>
@@ -295,7 +291,11 @@ export function SewingPatternWorkspace() {
               </Badge>
             </div>
             <CardDescription>
-              {m.previewFileDescription(w.result.widthMm, w.result.heightMm, w.result.downloadFileName)}
+              {m.previewFileDescription(
+                w.result.widthMm,
+                w.result.heightMm,
+                w.result.downloadFileName
+              )}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -324,7 +324,10 @@ export function SewingPatternWorkspace() {
           </CardHeader>
           <CardContent className="space-y-1.5 text-xs">
             {w.result.buildLog.map((row) => (
-              <div key={row.key} className="flex justify-between gap-2 border-b border-slate-100 py-0.5">
+              <div
+                key={row.key}
+                className="flex justify-between gap-2 border-b border-slate-100 py-0.5"
+              >
                 <span className="text-slate-600">{row.key}</span>
                 <span className="font-mono text-slate-900">
                   {row.value} {row.unit ?? ''}

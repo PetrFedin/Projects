@@ -59,7 +59,10 @@ export default function PlatformCourseDetailPage() {
 
   if (!course) {
     return (
-      <CabinetPageContent maxWidth="full" className="from-bg-surface2/80 to-bg-surface w-full space-y-6 bg-gradient-to-b pb-16">
+      <CabinetPageContent
+        maxWidth="full"
+        className="from-bg-surface2/80 to-bg-surface w-full space-y-6 bg-gradient-to-b pb-16"
+      >
         <RegistryPageHeader
           title="Курс не найден"
           leadPlain="Курс отсутствует в демо-данных платформы."
@@ -86,7 +89,10 @@ export default function PlatformCourseDetailPage() {
   const isNew = (course as { isNew?: boolean }).isNew;
 
   return (
-    <CabinetPageContent maxWidth="full" className="from-bg-surface2/80 to-bg-surface w-full space-y-8 bg-gradient-to-b pb-16">
+    <CabinetPageContent
+      maxWidth="full"
+      className="from-bg-surface2/80 to-bg-surface w-full space-y-8 bg-gradient-to-b pb-16"
+    >
       <RegistryPageHeader
         title={course.title}
         leadPlain={course.description}
@@ -105,9 +111,12 @@ export default function PlatformCourseDetailPage() {
           <Alert className="border-amber-200/80 bg-amber-50/90 text-foreground">
             <Archive className="size-4 text-amber-800" aria-hidden />
             <AlertTitle>Архив витрины</AlertTitle>
-            <AlertDescription className="text-muted-foreground text-sm">
+            <AlertDescription className="text-sm text-muted-foreground">
               Курс снят с клиентского каталога{' '}
-              <Link href={ROUTES.academyPlatform} className="font-medium text-primary underline-offset-4 hover:underline">
+              <Link
+                href={ROUTES.academyPlatform}
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
                 /academy
               </Link>
               . Материалы в кабинете бренда доступны для внутреннего просмотра.
@@ -162,13 +171,23 @@ export default function PlatformCourseDetailPage() {
 
         {learningStarted ? (
           <div className="flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap">
-            <Button variant="outline" size="sm" className={cn('w-full sm:w-auto', ACADEMY_CTA_SECONDARY)} asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className={cn('w-full sm:w-auto', ACADEMY_CTA_SECONDARY)}
+              asChild
+            >
               <Link href={ROUTES.brand.messagesChat(academyStaffChatId(id))} className="gap-1.5">
                 <MessageCircle className="size-3.5 shrink-0" aria-hidden />
                 Чат с куратором
               </Link>
             </Button>
-            <Button variant="outline" size="sm" className={cn('w-full sm:w-auto', ACADEMY_CTA_SECONDARY)} asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className={cn('w-full sm:w-auto', ACADEMY_CTA_SECONDARY)}
+              asChild
+            >
               <Link href={ROUTES.brand.messagesChat(academyCohortChatId(id))} className="gap-1.5">
                 <Users className="size-3.5 shrink-0" aria-hidden />
                 Группа участников

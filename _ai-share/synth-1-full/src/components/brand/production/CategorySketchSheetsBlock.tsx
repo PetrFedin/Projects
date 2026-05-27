@@ -603,36 +603,45 @@ export function CategorySketchSheetsBlock({
           </div>
           {!hideSheetThumbnailRail ? (
             <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
-            {sheets.map((s) => {
-              const n = s.annotations.filter((a) => a.categoryLeafId === leafId).length;
-              const idxAll = Math.max(0, sheets.findIndex((x) => x.sheetId === s.sheetId));
-              const label = (s.title?.trim() || defaultExtraSketchSheetTitle(idxAll)).slice(0, 28);
-              return (
-                <button
-                  key={s.sheetId}
-                  type="button"
-                  onClick={() => pickSheet(s.sheetId)}
-                  className={cn(
-                    'inline-flex h-9 min-h-9 max-w-[180px] items-center gap-1.5 rounded-lg border px-2.5 text-left text-xs font-medium transition-colors',
-                    s.sheetId === resolvedSheetId
-                      ? 'border-accent-primary/40 bg-accent-primary/10 text-accent-primary shadow-sm'
-                      : 'border-border-default bg-bg-surface2/80 text-text-primary hover:border-border-default hover:bg-white'
-                  )}
-                >
-                  <span className="truncate">{label}</span>
-                  {s.sceneId?.trim() ? (
-                    <span className="shrink-0 font-mono text-[9px] text-teal-700" title="ID сцены">
-                      {s.sceneId.trim().slice(0, 6)}
-                    </span>
-                  ) : null}
-                  {n > 0 ? (
-                    <span className="text-text-secondary shrink-0 rounded-full bg-white/90 px-1.5 text-[10px] font-bold tabular-nums">
-                      {n}
-                    </span>
-                  ) : null}
-                </button>
-              );
-            })}
+              {sheets.map((s) => {
+                const n = s.annotations.filter((a) => a.categoryLeafId === leafId).length;
+                const idxAll = Math.max(
+                  0,
+                  sheets.findIndex((x) => x.sheetId === s.sheetId)
+                );
+                const label = (s.title?.trim() || defaultExtraSketchSheetTitle(idxAll)).slice(
+                  0,
+                  28
+                );
+                return (
+                  <button
+                    key={s.sheetId}
+                    type="button"
+                    onClick={() => pickSheet(s.sheetId)}
+                    className={cn(
+                      'inline-flex h-9 min-h-9 max-w-[180px] items-center gap-1.5 rounded-lg border px-2.5 text-left text-xs font-medium transition-colors',
+                      s.sheetId === resolvedSheetId
+                        ? 'border-accent-primary/40 bg-accent-primary/10 text-accent-primary shadow-sm'
+                        : 'border-border-default bg-bg-surface2/80 text-text-primary hover:border-border-default hover:bg-white'
+                    )}
+                  >
+                    <span className="truncate">{label}</span>
+                    {s.sceneId?.trim() ? (
+                      <span
+                        className="shrink-0 font-mono text-[9px] text-teal-700"
+                        title="ID сцены"
+                      >
+                        {s.sceneId.trim().slice(0, 6)}
+                      </span>
+                    ) : null}
+                    {n > 0 ? (
+                      <span className="text-text-secondary shrink-0 rounded-full bg-white/90 px-1.5 text-[10px] font-bold tabular-nums">
+                        {n}
+                      </span>
+                    ) : null}
+                  </button>
+                );
+              })}
             </div>
           ) : null}
           <Button
@@ -787,8 +796,9 @@ export function CategorySketchSheetsBlock({
                 <span className="text-text-primary font-medium">ID сцены</span> (как в досье) — для
                 пакета PLM и сопоставления ракурсов;{' '}
                 <span className="text-text-primary font-medium">статус и чеклист</span> — перед
-                передачей в цех; <span className="text-text-primary font-medium">задача по виду</span>{' '}
-                — что проверить на этом скетче.
+                передачей в цех;{' '}
+                <span className="text-text-primary font-medium">задача по виду</span> — что
+                проверить на этом скетче.
               </p>
               <section className="space-y-3">
                 <h4 className="text-text-secondary text-[11px] font-semibold uppercase tracking-wide">
@@ -1181,7 +1191,10 @@ export function CategorySketchSheetsBlock({
                           {(
                             s.title?.trim() ||
                             defaultExtraSketchSheetTitle(
-                              Math.max(0, sheets.findIndex((x) => x.sheetId === s.sheetId))
+                              Math.max(
+                                0,
+                                sheets.findIndex((x) => x.sheetId === s.sheetId)
+                              )
                             )
                           ).slice(0, 48)}
                         </option>

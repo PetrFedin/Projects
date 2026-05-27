@@ -23,7 +23,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
-import type { Workshop2SewingContractorsPayload, SewingPlanPartnerRow } from '@/lib/production/workshop2-sewing-plan-reference-types';
+import type {
+  Workshop2SewingContractorsPayload,
+  SewingPlanPartnerRow,
+} from '@/lib/production/workshop2-sewing-plan-reference-types';
 
 const SUB_DEFAULT: { v: 1; orders: SubcontractOrder[] } = {
   v: 1,
@@ -135,47 +138,54 @@ export default function SubcontractorPage() {
         <CardContent>
           <ul className="space-y-3">
             {data.orders.map((o, i) => {
-              const contractor = contractors.find((c) => c.label === o.subcontractorName || c.id === o.subcontractorId);
+              const contractor = contractors.find(
+                (c) => c.label === o.subcontractorName || c.id === o.subcontractorId
+              );
               return (
-              <li
-                key={o.id}
-                className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
-              >
-                <div>
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium">{o.subcontractorName}</p>
-                    {contractor?.capabilities?.map((cap) => (
-                      <Badge key={cap} variant="secondary" className="text-[10px] h-5 px-1.5">{cap}</Badge>
-                    ))}
-                    {contractor?.machines?.map((mac) => (
-                      <Badge key={mac} variant="outline" className="text-[10px] h-5 px-1.5">{mac}</Badge>
-                    ))}
-                  </div>
-                  <p className="text-text-secondary text-xs mt-1">
-                    {o.workTypeLabel} · <AcronymWithTooltip abbr="PO" /> {o.orderId} · {o.quantity}{' '}
-                    {o.unit}
-                  </p>
-                  {o.actNumber && (
-                    <p className="text-text-secondary mt-1 text-xs">Акт: {o.actNumber}</p>
-                  )}
-                </div>
-                <Select
-                  value={o.status}
-                  onValueChange={(v) => setOrder(i, { status: v as SubcontractOrder['status'] })}
+                <li
+                  key={o.id}
+                  className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
                 >
-                  <SelectTrigger className="h-8 w-[130px] text-[10px]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {(Object.keys(statusLabels) as SubcontractOrder['status'][]).map((s) => (
-                      <SelectItem key={s} value={s} className="text-xs">
-                        {statusLabels[s]}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </li>
-            )})}
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium">{o.subcontractorName}</p>
+                      {contractor?.capabilities?.map((cap) => (
+                        <Badge key={cap} variant="secondary" className="h-5 px-1.5 text-[10px]">
+                          {cap}
+                        </Badge>
+                      ))}
+                      {contractor?.machines?.map((mac) => (
+                        <Badge key={mac} variant="outline" className="h-5 px-1.5 text-[10px]">
+                          {mac}
+                        </Badge>
+                      ))}
+                    </div>
+                    <p className="text-text-secondary mt-1 text-xs">
+                      {o.workTypeLabel} · <AcronymWithTooltip abbr="PO" /> {o.orderId} ·{' '}
+                      {o.quantity} {o.unit}
+                    </p>
+                    {o.actNumber && (
+                      <p className="text-text-secondary mt-1 text-xs">Акт: {o.actNumber}</p>
+                    )}
+                  </div>
+                  <Select
+                    value={o.status}
+                    onValueChange={(v) => setOrder(i, { status: v as SubcontractOrder['status'] })}
+                  >
+                    <SelectTrigger className="h-8 w-[130px] text-[10px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(Object.keys(statusLabels) as SubcontractOrder['status'][]).map((s) => (
+                        <SelectItem key={s} value={s} className="text-xs">
+                          {statusLabels[s]}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </li>
+              );
+            })}
           </ul>
         </CardContent>
       </Card>

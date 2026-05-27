@@ -78,7 +78,10 @@ import {
   W2_VISUALS_SKETCH_ANCHOR_ID,
 } from '@/lib/production/workshop2-material-bom-sketch-strip';
 import type { MaterialBomExportInput } from '@/lib/production/workshop2-material-bom-export';
-import { parseMatRowsFromDossier, type MatPctRow } from '@/lib/production/workshop2-material-mat-rows';
+import {
+  parseMatRowsFromDossier,
+  type MatPctRow,
+} from '@/lib/production/workshop2-material-mat-rows';
 import {
   buildPassportHubModel,
   partitionGeneralPassportExtras,
@@ -144,7 +147,10 @@ import {
   getWorkshopTzSectionStatusLabel,
   resolveWorkshop2TechPackHandoffChecklistRow,
 } from '@/lib/production/workshop2-tz-section-readiness';
-import { buildWorkshop2TzGateSnapshot, type Workshop2TzGateCommentLike } from '@/lib/production/workshop2-tz-gates';
+import {
+  buildWorkshop2TzGateSnapshot,
+  type Workshop2TzGateCommentLike,
+} from '@/lib/production/workshop2-tz-gates';
 import { WORKSHOP_FIELD_LABEL_CLASS } from '@/components/brand/production/workshop2-phase1-dossier-panel-ui-constants';
 import { buildWorkshop2TzDigitalSignoffRows } from '@/components/brand/production/workshop2-phase1-dossier-panel-build-tz-digital-signoff-rows';
 import { useWorkshop2Phase1DossierAudienceAndAttributeRows } from '@/components/brand/production/use-workshop2-phase1-dossier-audience-and-attribute-rows';
@@ -199,7 +205,10 @@ import { buildWorkshop2Phase1DossierRouteHandoffAbsoluteUrl } from '@/components
 import { buildWorkshop2Phase1DossierPassportStep1BriefHref } from '@/components/brand/production/workshop2-phase1-dossier-panel-passport-step1-brief-href';
 import { passportManualFieldLabelClass } from '@/components/brand/production/workshop2-phase1-dossier-panel-signoff-format';
 import { W2_VISUAL_QUAD_ATTR_IDS } from '@/components/brand/production/workshop2-phase1-dossier-panel-w2-tz-labels';
-import { WorkshopInlineHintIcon, WorkshopLabelWithHint } from '@/components/brand/production/workshop2-phase1-dossier-panel-field-hints';
+import {
+  WorkshopInlineHintIcon,
+  WorkshopLabelWithHint,
+} from '@/components/brand/production/workshop2-phase1-dossier-panel-field-hints';
 import { HandbookMultiSelectPopover } from '@/components/brand/production/workshop2-phase1-dossier-panel-handbook-multi-select';
 import { resolvedHandbookDisplayLabel } from '@/components/brand/production/workshop2-phase1-dossier-panel-handbook-display-label';
 import { partitionHandbookAndFree } from '@/components/brand/production/workshop2-phase1-dossier-panel-assignment-helpers';
@@ -325,7 +334,8 @@ export function Workshop2Phase1DossierPanel({
     return () => window.removeEventListener('factory-pin-added', handleFactoryPin);
   }, [toast]);
 
-  const { profile: dossierViewProfile, setProfile: setDossierViewProfileFromCtx } = useWorkshop2DossierView();
+  const { profile: dossierViewProfile, setProfile: setDossierViewProfileFromCtx } =
+    useWorkshop2DossierView();
   /** Нет права production:edit — досье и скетч только для чтения (без API, матрица rbac.ts). */
   const tzWriteDisabled = !can('production', 'edit');
   const lockedSketchFloorOnly = isSketchFloorOnlyRole(role);
@@ -442,18 +452,20 @@ export function Workshop2Phase1DossierPanel({
     setDossierInternal
   );
 
-  const { dossierMetricsFooterLine, setDossierMetricsTick } = useWorkshop2Phase1DossierSessionMetricsUi({
-    isPhase1,
-    collectionId,
-    articleId,
-    dossierUpdatedAt: dossier.updatedAt,
-    w2DossierMetricsCtx,
-  });
+  const { dossierMetricsFooterLine, setDossierMetricsTick } =
+    useWorkshop2Phase1DossierSessionMetricsUi({
+      isPhase1,
+      collectionId,
+      articleId,
+      dossierUpdatedAt: dossier.updatedAt,
+      w2DossierMetricsCtx,
+    });
 
-  const { skuDraft, setSkuDraft, nameDraft, setNameDraft } = useWorkshop2Phase1DossierArticleLineDrafts({
-    articleSku,
-    articleName,
-  });
+  const { skuDraft, setSkuDraft, nameDraft, setNameDraft } =
+    useWorkshop2Phase1DossierArticleLineDrafts({
+      articleSku,
+      articleName,
+    });
   w2MetricsSkuRef.current = skuDraft.trim() || articleSku.trim() || null;
 
   useEffect(() => {
@@ -479,7 +491,10 @@ export function Workshop2Phase1DossierPanel({
     null
   );
   const [handbookCheckReportExpanded, setHandbookCheckReportExpanded] = useState(true);
-  const deferredAttrIds = useMemo(() => new Set(dossier.deferredAttrIds ?? []), [dossier.deferredAttrIds]);
+  const deferredAttrIds = useMemo(
+    () => new Set(dossier.deferredAttrIds ?? []),
+    [dossier.deferredAttrIds]
+  );
   const [attrCommentDialogAttrId, setAttrCommentDialogAttrId] = useState<string | null>(null);
   const [attrCommentDraft, setAttrCommentDraft] = useState('');
   const [attrCommentDraftSeverity, setAttrCommentDraftSeverity] = useState<'normal' | 'critical'>(
@@ -487,13 +502,12 @@ export function Workshop2Phase1DossierPanel({
   );
   const [attrCommentDraftAssignee, setAttrCommentDraftAssignee] = useState('');
   const [attrCommentDraftDueAt, setAttrCommentDraftDueAt] = useState('');
-  const [attrCommentDraftVisibility, setAttrCommentDraftVisibility] = useState<'internal' | 'factory'>('internal');
+  const [attrCommentDraftVisibility, setAttrCommentDraftVisibility] = useState<
+    'internal' | 'factory'
+  >('internal');
   const [attrCommentOnlyOpen, setAttrCommentOnlyOpen] = useState(true);
-  const {
-    tzMinimalModeBySection,
-    setTzMinimalModeBySection,
-    tzMinimalHideDeferCommentUi,
-  } = useWorkshop2Phase1DossierTzMinimalMode({ isPhase1, activeSection });
+  const { tzMinimalModeBySection, setTzMinimalModeBySection, tzMinimalHideDeferCommentUi } =
+    useWorkshop2Phase1DossierTzMinimalMode({ isPhase1, activeSection });
   const [tzNotifyHighlightRowKey, setTzNotifyHighlightRowKey] = useState<string | null>(null);
   useWorkshop2Phase1DossierHandbookCheckSnapshotResetOnActiveSection(
     activeSection,
@@ -539,16 +553,16 @@ export function Workshop2Phase1DossierPanel({
         sectionSignoffOrganizationLabel
       ),
     [
-    dossier.tzSignatoryBindings,
-    dossier.designerSignoff,
-    dossier.technologistSignoff,
-    dossier.managerSignoff,
-    dossier.extraTzSignoffsByRowId,
-    tzSignCaps.designer,
-    tzSignCaps.technologist,
-    tzSignCaps.manager,
-    updatedByLabel,
-    sectionSignoffOrganizationLabel,
+      dossier.tzSignatoryBindings,
+      dossier.designerSignoff,
+      dossier.technologistSignoff,
+      dossier.managerSignoff,
+      dossier.extraTzSignoffsByRowId,
+      tzSignCaps.designer,
+      tzSignCaps.technologist,
+      tzSignCaps.manager,
+      updatedByLabel,
+      sectionSignoffOrganizationLabel,
     ]
   );
 
@@ -559,12 +573,8 @@ export function Workshop2Phase1DossierPanel({
     window.setTimeout(() => setTzRevokeDeniedHint(null), 7000);
   }, []);
 
-  const {
-    pinnedAttrGroups,
-    collapsedAttrGroups,
-    toggleAttrGroupPinned,
-    toggleAttrGroupCollapsed,
-  } = useWorkshop2Phase1DossierAttrGroupUi(activeSection);
+  const { pinnedAttrGroups, collapsedAttrGroups, toggleAttrGroupPinned, toggleAttrGroupCollapsed } =
+    useWorkshop2Phase1DossierAttrGroupUi(activeSection);
 
   useWorkshop2Phase1DossierHydrateFromStorage({
     collectionId,
@@ -682,7 +692,7 @@ export function Workshop2Phase1DossierPanel({
   );
 
   const {
-      selectedAudienceId,
+    selectedAudienceId,
     selectedAudienceLabel,
     passportCategoryCaption,
     effectiveAudienceId,
@@ -690,11 +700,11 @@ export function Workshop2Phase1DossierPanel({
     leafPhase1Ids,
     leafPhase2Ids,
     leafPhase3Ids,
-      baseRowsPhase2,
-      baseRowsPhase3,
+    baseRowsPhase2,
+    baseRowsPhase3,
     linkedMatComposition,
     linkedMatCompositionPhase2,
-      linkedMatCompositionPhase3,
+    linkedMatCompositionPhase3,
     leafRowPolicy,
     rowsToShow,
     rowsToShowPhase2,
@@ -720,7 +730,7 @@ export function Workshop2Phase1DossierPanel({
         updatedByLabel,
         skuDraft,
         nameDraft,
-          pathLabel: currentLeaf.pathLabel,
+        pathLabel: currentLeaf.pathLabel,
       });
       /** Не сдвигаем `updatedAt`: иначе метка «документ актуален» ломается сразу после экспорта. */
       persist(stamped, { freezeUpdatedAt: true });
@@ -777,7 +787,12 @@ export function Workshop2Phase1DossierPanel({
     (line: string) => {
       if (tzWriteDisabled) return;
       setDossierInternal((prev) =>
-        commitDossierEditJournalViaBrowser(journalCommitBase, prev, [line], W2_JOURNAL_COMMIT_LS_JOURNAL)
+        commitDossierEditJournalViaBrowser(
+          journalCommitBase,
+          prev,
+          [line],
+          W2_JOURNAL_COMMIT_LS_JOURNAL
+        )
       );
     },
     [journalCommitBase, setDossierInternal, tzWriteDisabled]
@@ -787,7 +802,12 @@ export function Workshop2Phase1DossierPanel({
     (action: Workshop2TzActionLogPayload) => {
       if (tzWriteDisabled) return;
       setDossierInternal((prev) =>
-        commitTzActionJournalViaBrowser(journalCommitBase, prev, action, W2_JOURNAL_COMMIT_LS_JOURNAL)
+        commitTzActionJournalViaBrowser(
+          journalCommitBase,
+          prev,
+          action,
+          W2_JOURNAL_COMMIT_LS_JOURNAL
+        )
       );
     },
     [journalCommitBase, setDossierInternal, tzWriteDisabled]
@@ -852,9 +872,9 @@ export function Workshop2Phase1DossierPanel({
       });
       if (r === 'aborted') return;
       if (r === 'exported') {
-      toast({ title: 'Скачан архив', description: 'ZIP: PNG по доскам и PDF паспорт визуала.' });
+        toast({ title: 'Скачан архив', description: 'ZIP: PNG по доскам и PDF паспорт визуала.' });
       } else {
-      toast({ title: 'Не удалось сформировать архив', variant: 'destructive' });
+        toast({ title: 'Не удалось сформировать архив', variant: 'destructive' });
       }
     } finally {
       setSketchBundleBusy(false);
@@ -1001,7 +1021,7 @@ export function Workshop2Phase1DossierPanel({
       });
       if (matErr) {
         setSaveError(matErr);
-          return;
+        return;
       }
       persist(dossier);
       onContinueToNextStep?.();
@@ -1016,12 +1036,12 @@ export function Workshop2Phase1DossierPanel({
       });
       if (matErr) {
         setSaveError(matErr);
-          return;
-        }
+        return;
+      }
       const phase2Err = validatePhase2CanonicalRequiredFilled({ leafPhase2Ids, dossier });
       if (phase2Err) {
         setSaveError(phase2Err);
-            return;
+        return;
       }
       persist(dossier);
       onContinueToStep3?.();
@@ -1053,7 +1073,7 @@ export function Workshop2Phase1DossierPanel({
     (attributeId: string, parts: { parameterId: string; displayLabel: string }[]) => {
       setDossier((prev: Workshop2DossierPhase1) =>
         upsertCanonicalMultiHandbookPreservingFreeSide(prev, attributeId, parts)
-        );
+      );
     },
     []
   );
@@ -1227,9 +1247,8 @@ export function Workshop2Phase1DossierPanel({
     [currentLeaf.leafId, dossier.categorySketchAnnotations, dossier.sketchSheets]
   );
 
-  const { toggleDeferAttribute, deferGroupSetAll } = useWorkshop2Phase1DossierFieldDeferralActions(
-    setDossier
-  );
+  const { toggleDeferAttribute, deferGroupSetAll } =
+    useWorkshop2Phase1DossierFieldDeferralActions(setDossier);
 
   const { openAttrComments } = useWorkshop2Phase1DossierAttrCommentsOpenBridge(
     dossierCommentsBridgeRef,
@@ -1297,9 +1316,7 @@ export function Workshop2Phase1DossierPanel({
             : {
                 ...row,
                 status:
-                  (row.status ?? 'open') === 'resolved'
-                    ? ('open' as const)
-                    : ('resolved' as const),
+                  (row.status ?? 'open') === 'resolved' ? ('open' as const) : ('resolved' as const),
               }
         );
         const next = { ...prevComments, [attrCommentDialogAttrId]: nextRows };
@@ -1714,8 +1731,7 @@ export function Workshop2Phase1DossierPanel({
     );
     const skuFilledUi = skuAssigned || skuDraft.trim().length > 0;
     const nameFilledUi = nameAssigned || nameDraft.trim().length > 0;
-    const bonusDone =
-      Number(skuFilledUi && !skuAssigned) + Number(nameFilledUi && !nameAssigned);
+    const bonusDone = Number(skuFilledUi && !skuAssigned) + Number(nameFilledUi && !nameAssigned);
     if (bonusDone > 0) {
       const done = next.general.done + bonusDone;
       const total = Math.max(next.general.total, 1);
@@ -1748,10 +1764,9 @@ export function Workshop2Phase1DossierPanel({
   /** Средний процент по четырём вкладкам ТЗ (без «Задание») — порог для кнопки «Подписать». */
   const tzCoreFieldsFillPctGate = useMemo(() => {
     const keys = ['general', 'material', 'construction'] as const;
-    const perSectionPct = Object.fromEntries(keys.map((k) => [k, sectionReadinessUi[k].pct])) as Record<
-      (typeof keys)[number],
-      number
-    >;
+    const perSectionPct = Object.fromEntries(
+      keys.map((k) => [k, sectionReadinessUi[k].pct])
+    ) as Record<(typeof keys)[number], number>;
     const pct = Math.round(
       keys.reduce((sum, k) => sum + perSectionPct[k], 0) / Math.max(keys.length, 1)
     );
@@ -1799,10 +1814,12 @@ export function Workshop2Phase1DossierPanel({
   }, [sectionWarningsById, tzGateSnapshot.sectionMinimumErrors]);
 
   const tzBlockersFooter = useMemo(
-    () => <Workshop2DossierTzBlockersFooter 
-      onOpenPulse={onOpenPulse} 
-      aiWarnings={productionPreflight.issues.filter(i => i.id.startsWith('ai.'))} 
-    />,
+    () => (
+      <Workshop2DossierTzBlockersFooter
+        onOpenPulse={onOpenPulse}
+        aiWarnings={productionPreflight.issues.filter((i) => i.id.startsWith('ai.'))}
+      />
+    ),
     [onOpenPulse, productionPreflight.issues]
   );
 
@@ -1956,9 +1973,7 @@ export function Workshop2Phase1DossierPanel({
       const pct = sectionReadinessUi[k]?.pct ?? 0;
       const hasWarnings = (sectionWarningsById[k]?.length ?? 0) > 0;
       return (
-        isWorkshop2TzSectionFullySigned(k, dossier.sectionSignoffs) &&
-        !hasWarnings &&
-        pct >= 100
+        isWorkshop2TzSectionFullySigned(k, dossier.sectionSignoffs) && !hasWarnings && pct >= 100
       );
     });
   }, [dossier.sectionSignoffs, sectionReadinessUi, sectionWarningsById]);
@@ -1986,14 +2001,18 @@ export function Workshop2Phase1DossierPanel({
     () =>
       dossierViewProfile === 'full'
         ? TZ_TAB_SECTIONS
-        : TZ_TAB_SECTIONS.filter((s) => isWorkshop2DossierViewPrimarySection(dossierViewProfile, s.id)),
+        : TZ_TAB_SECTIONS.filter((s) =>
+            isWorkshop2DossierViewPrimarySection(dossierViewProfile, s.id)
+          ),
     [dossierViewProfile]
   );
   const dossierNavSecondarySections = useMemo(
     () =>
       dossierViewProfile === 'full'
         ? []
-        : TZ_TAB_SECTIONS.filter((s) => !isWorkshop2DossierViewPrimarySection(dossierViewProfile, s.id)),
+        : TZ_TAB_SECTIONS.filter(
+            (s) => !isWorkshop2DossierViewPrimarySection(dossierViewProfile, s.id)
+          ),
     [dossierViewProfile]
   );
 
@@ -2126,12 +2145,7 @@ export function Workshop2Phase1DossierPanel({
   );
 
   const matSketchBomGapRefs = useMemo(
-    () =>
-      resolveMatSketchBomGapRefs(
-        dossier,
-        sketchBomRefsUnion,
-        materialBomExportInput.matLines
-      ),
+    () => resolveMatSketchBomGapRefs(dossier, sketchBomRefsUnion, materialBomExportInput.matLines),
     [dossier, sketchBomRefsUnion, materialBomExportInput.matLines]
   );
 
@@ -2221,7 +2235,12 @@ export function Workshop2Phase1DossierPanel({
   const allSectionSignoffPairsDone = useMemo(
     () =>
       (['general', 'material', 'construction'] as const).every((k) =>
-        isWorkshop2TzSectionTabDoneForUi(k, dossier.sectionSignoffs, sectionReadinessUi[k]?.pct ?? 0, dossier)
+        isWorkshop2TzSectionTabDoneForUi(
+          k,
+          dossier.sectionSignoffs,
+          sectionReadinessUi[k]?.pct ?? 0,
+          dossier
+        )
       ),
     [dossier.sectionSignoffs, sectionReadinessUi]
   );
@@ -2230,8 +2249,7 @@ export function Workshop2Phase1DossierPanel({
     const hasIssues =
       HANDBOOK_SNAPSHOT_SECTION_KEYS.some(
         (sid) => (handbookCheckSnapshot.bySection[sid]?.length ?? 0) > 0
-      ) ||
-      (handbookCheckSnapshot.globalHandbookWarnings?.length ?? 0) > 0;
+      ) || (handbookCheckSnapshot.globalHandbookWarnings?.length ?? 0) > 0;
     return !hasIssues;
   }, [handbookCheckSnapshot]);
   const stageBoardHandbookWarnings = handbookCheckSnapshot?.bySection[activeSection] ?? [];
@@ -2273,13 +2291,7 @@ export function Workshop2Phase1DossierPanel({
       section: 'general' | 'visuals' | 'material' | 'construction',
       side: 'brand' | 'tech',
       dueAt: string | undefined
-    ) =>
-      updateSignoffDeadlineAction(
-        { setDossier, persist, updatedByLabel },
-        section,
-        side,
-        dueAt
-      ),
+    ) => updateSignoffDeadlineAction({ setDossier, persist, updatedByLabel }, section, side, dueAt),
     [updatedByLabel, persist]
   );
 
@@ -2306,11 +2318,11 @@ export function Workshop2Phase1DossierPanel({
           materialSectionMinimumErrors: tzGateSnapshot.sectionMinimumErrors.material,
           constructionSectionMinimumErrors: tzGateSnapshot.sectionMinimumErrors.construction,
           setActiveSection,
-            updatedByLabel,
+          updatedByLabel,
           sectionSignoffOrganizationLabel,
-                  collectionId,
-                  articleId,
-                  articleSku,
+          collectionId,
+          articleId,
+          articleSku,
           setDossier,
         },
         rowKey,
@@ -2340,7 +2352,7 @@ export function Workshop2Phase1DossierPanel({
         {
           tzWriteDisabled,
           toast,
-            updatedByLabel,
+          updatedByLabel,
           tzRevokersEffective,
           onTzRevokeDenied,
           setDossier,
@@ -2348,14 +2360,7 @@ export function Workshop2Phase1DossierPanel({
         rowKey,
         extraRoleTitle
       ),
-    [
-      onTzRevokeDenied,
-      setDossier,
-            updatedByLabel,
-      tzRevokersEffective,
-      tzWriteDisabled,
-      toast,
-    ]
+    [onTzRevokeDenied, setDossier, updatedByLabel, tzRevokersEffective, tzWriteDisabled, toast]
   );
 
   const tzSectionSignoffRevokeAllowed = useMemo(
@@ -2398,10 +2403,7 @@ export function Workshop2Phase1DossierPanel({
 
   const sectionSignoffSessionTechOk = useMemo(() => {
     if (sectionSignoffPassportPreviews.techPassportMissing) return false;
-    return workshopTzSignerAllowed(
-      updatedByLabel,
-      sectionSignoffPassportPreviews.techPassportName
-    );
+    return workshopTzSignerAllowed(updatedByLabel, sectionSignoffPassportPreviews.techPassportName);
   }, [sectionSignoffPassportPreviews, updatedByLabel]);
 
   const commitSectionSignoff = useCallback(
@@ -2453,7 +2455,7 @@ export function Workshop2Phase1DossierPanel({
           setDossier,
           persist,
         },
-            section,
+        section,
         role
       ),
     [
@@ -2599,8 +2601,8 @@ export function Workshop2Phase1DossierPanel({
       sectionGateErrorsById={sectionGateErrorsById}
       tzMinimalConstruction={tzMinimalModeBySection.construction}
       onToggleTzMinimalConstruction={() =>
-                setTzMinimalModeBySection((prev) => ({
-                  ...prev,
+        setTzMinimalModeBySection((prev) => ({
+          ...prev,
           construction: !prev.construction,
         }))
       }
@@ -2612,9 +2614,9 @@ export function Workshop2Phase1DossierPanel({
       dossier={dossier}
       setDossier={setDossier}
       passportHubModel={passportHubModel}
-                skuDraft={skuDraft}
+      skuDraft={skuDraft}
       setSkuDraft={setSkuDraft}
-                nameDraft={nameDraft}
+      nameDraft={nameDraft}
       setNameDraft={setNameDraft}
       internalArticleCode={internalArticleCode}
       passportCategoryCaption={passportCategoryCaption}
@@ -2623,34 +2625,34 @@ export function Workshop2Phase1DossierPanel({
       appendPassportPostSignoffJournalNote={appendPassportPostSignoffJournalNote}
       passportDriftLogDone={passportDriftLogDone}
       setPassportDriftLogDone={setPassportDriftLogDone}
-                tzWriteDisabled={tzWriteDisabled}
+      tzWriteDisabled={tzWriteDisabled}
       jumpToTzSectionAnchor={jumpToTzSectionAnchor}
       jumpToMaterialMatTable={jumpToMaterialMatTable}
       jumpToSketchLineRefs={jumpToSketchLineRefs}
       jumpToConstructionContour={jumpToConstructionContour}
       jumpToQcArticleSection={jumpToQcArticleSection}
       onNavigateToTab={onNavigateToTab}
-                dossierViewProfile={dossierViewProfile}
-                passportCriticalAuditSummaries={passportCriticalAuditSummaries}
+      dossierViewProfile={dossierViewProfile}
+      passportCriticalAuditSummaries={passportCriticalAuditSummaries}
       workshop2FactoryShareUrl={workshop2FactoryShareUrl ?? ''}
       sketchBomRefsUnion={sketchBomRefsUnion}
-                matSketchBomGapRefs={matSketchBomGapRefs}
+      matSketchBomGapRefs={matSketchBomGapRefs}
       audiences={audiences}
       selectedAudienceId={selectedAudienceId}
       onAudienceSelect={onAudienceSelect}
       l1Opts={l1Opts}
       l2Opts={l2Opts}
       l3Opts={l3Opts}
-                        currentLeaf={currentLeaf}
+      currentLeaf={currentLeaf}
       onL1Select={onL1Select}
       onL2Select={onL2Select}
       onL3Select={onL3Select}
       commitSku={commitSku}
       commitName={commitName}
       tzMinimalHideDeferCommentUi={tzMinimalHideDeferCommentUi}
-                        deferredAttrIds={deferredAttrIds}
+      deferredAttrIds={deferredAttrIds}
       toggleDeferAttribute={toggleDeferAttribute}
-                        attrCommentsById={attrCommentsById}
+      attrCommentsById={attrCommentsById}
       openAttrComments={openAttrComments}
       passportSewingPlanStartRows={passportSewingPlanStartRows}
       passportSewingPlanStartExtras={passportSewingPlanStartExtras}
@@ -2662,7 +2664,7 @@ export function Workshop2Phase1DossierPanel({
       patchColor={patchColor}
       onSetHandbookParametersWithColorBundleSync={onSetHandbookParametersWithColorBundleSync}
       onSetHandbookParameters={onSetHandbookParameters}
-                        onFreeTextSide={onFreeTextSide}
+      onFreeTextSide={onFreeTextSide}
       showPhase1PassportArticleCard={showPhase1PassportArticleCard}
       passportArticleCardStartRows={passportArticleCardStartRows}
       passportArticleCardStartExtras={passportArticleCardStartExtras}
@@ -2686,8 +2688,8 @@ export function Workshop2Phase1DossierPanel({
       extraRowsCurrent={extraRowsCurrent}
       renderPhaseRow={renderPhaseRow}
       dossierAttrCardCtx={dossierAttrCardCtx}
-              collectionId={collectionId}
-              articleId={articleId}
+      collectionId={collectionId}
+      articleId={articleId}
       techPackSessionBlobById={techPackSessionBlobById}
       setTechPackSessionBlobById={setTechPackSessionBlobById}
       logTechPackZipLine={logTechPackZipLine}
@@ -2702,8 +2704,8 @@ export function Workshop2Phase1DossierPanel({
       sketchMasterAnnotatorRef={sketchMasterAnnotatorRef}
       sketchSheetAnnotatorRef={sketchSheetAnnotatorRef}
       canOpenSketchFromToolbar={canOpenSketchFromToolbar}
-                        sketchEditsLocked={sketchEditsLocked}
-                            sketchSurface={sketchSurface}
+      sketchEditsLocked={sketchEditsLocked}
+      sketchSurface={sketchSurface}
       sketchWorkspaceTab={sketchWorkspaceTab}
       sketchWorkspaceStats={sketchWorkspaceStats}
       sketchSheetPickerId={sketchSheetPickerId}
@@ -2715,13 +2717,13 @@ export function Workshop2Phase1DossierPanel({
       saveMasterSketchPinTemplate={saveMasterSketchPinTemplate}
       saveMasterSketchPinTemplateToOrg={saveMasterSketchPinTemplateToOrg}
       sketchAttributeOptions={sketchAttributeOptions}
-                        bomLinePickOptions={bomLinePickOptions}
+      bomLinePickOptions={bomLinePickOptions}
       normalizedSketchSheets={normalizedSketchSheets}
       appendSketchSheetFromUpload={appendSketchSheetFromUpload}
       selectedAudienceLabel={selectedAudienceLabel}
       visualsCatalogAttributeIdsForSketch={visualsCatalogAttributeIdsForSketch}
       visualsCatalogSketchLinksForPins={visualsCatalogSketchLinksForPins}
-                        onVisualCatalogSuggestFromSketch={onVisualCatalogSuggestFromSketch}
+      onVisualCatalogSuggestFromSketch={onVisualCatalogSuggestFromSketch}
       orgSketchLibraryRevision={orgSketchLibraryRevision}
       setOrgSketchLibraryRevision={setOrgSketchLibraryRevision}
       subcategorySketchActiveLevel={subcategorySketchActiveLevel}
@@ -2753,12 +2755,9 @@ export function Workshop2Phase1DossierPanel({
     : formatWorkshop2InternalArticleCodePlaceholder();
 
   const showCompactPassportContextRibbon =
-    isPhase1 &&
-    activeSection !== 'general' &&
-    dossierViewUiCaps.showCompactPassportContextRibbon;
+    isPhase1 && activeSection !== 'general' && dossierViewUiCaps.showCompactPassportContextRibbon;
 
-  const asideHasContent =
-    dossierViewProfile === 'factory' || dossierViewProfile === 'finance';
+  const asideHasContent = dossierViewProfile === 'factory' || dossierViewProfile === 'finance';
   /** В фазе 1 глобальные подписи ролей скрыты — остаётся только «Подтверждение секции» на вкладках. */
   const hideTzGlobalRoleSignoffBlock = isPhase1;
   const showTzRightAside = !isPhase1 || Boolean(handbookCheckSnapshot);
@@ -2781,7 +2780,10 @@ export function Workshop2Phase1DossierPanel({
         <div className="flex items-center justify-between rounded-xl border border-amber-200 bg-amber-50 p-4">
           <div>
             <h3 className="text-sm font-semibold text-amber-900">
-              Статус: {dossier.lifecycleState === 'sent_to_production' ? 'В производстве' : 'Готово к передаче'}
+              Статус:{' '}
+              {dossier.lifecycleState === 'sent_to_production'
+                ? 'В производстве'
+                : 'Готово к передаче'}
             </h3>
             <p className="text-xs text-amber-800">ТЗ заблокировано для изменений.</p>
           </div>
@@ -2810,9 +2812,9 @@ export function Workshop2Phase1DossierPanel({
         dossierMainColumnFlash={dossierMainColumnFlash}
         stageBoardHandbookWarnings={stageBoardHandbookWarnings}
         tzRevokeDeniedHint={tzRevokeDeniedHint}
-              onJumpToVisualBrandNotes={() => {
-                setActiveSection('general');
-                queueMicrotask(() => {
+        onJumpToVisualBrandNotes={() => {
+          setActiveSection('general');
+          queueMicrotask(() => {
             document.getElementById('w2-attr-brandNotes')?.scrollIntoView({
               behavior: 'smooth',
               block: 'start',
@@ -2893,7 +2895,7 @@ export function Workshop2Phase1DossierPanel({
           onExportLanguageChange: setExportLanguage,
           finalTzSpecDocumentHtml,
           phase1DossierJsonUtf8Bytes,
-  tzWriteDisabled,
+          tzWriteDisabled,
           onDownloadHtml: handleFinalTzDownloadHtml,
           onPrintPdf: handleFinalTzPrintToPdf,
         }}
@@ -2922,8 +2924,6 @@ export function Workshop2Phase1DossierPanel({
           onSend: saveAttrComment,
         }}
       />
-
-      </div>
-    );
-  }
-
+    </div>
+  );
+}

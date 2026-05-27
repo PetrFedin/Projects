@@ -16,7 +16,11 @@ type Props = {
   catalogAttributeId?: string;
   /** Не больше стольких значений (остальные чекбоксы неактивны, пока не снимете выбор). */
   maxSelections?: number;
-  resolveDisplayLabel: (attributeId: string | undefined, parameterId: string, stored: string) => string;
+  resolveDisplayLabel: (
+    attributeId: string | undefined,
+    parameterId: string,
+    stored: string
+  ) => string;
 };
 
 /** Выпадающий список с чекбоксами (несколько значений справочника). */

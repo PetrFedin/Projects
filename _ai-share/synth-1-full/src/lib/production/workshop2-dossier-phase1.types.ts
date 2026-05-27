@@ -1016,7 +1016,7 @@ export type Workshop2ProductionModel = {
   operations: Workshop2ProductionOperation[];
   measurements: Workshop2ProductionMeasurement[];
   notesForFactory?: string;
-  
+
   /** Плановая или фактическая логистика */
   logisticsCost?: number;
   /** Рассчитанная фактическая себестоимость (Actual COGS) */
@@ -1101,7 +1101,13 @@ export type Workshop2DossierPhase1 = {
   /** Текстовый ярлык текущей версии (например, "v1", "v2 - Fit corrections") */
   dossierVersionLabel?: string;
   /** Снимки состояния ТЗ при создании новых версий */
-  versionHistorySnapshots?: { version: number; label: string; at: string; by: string; snapshot: any }[];
+  versionHistorySnapshots?: {
+    version: number;
+    label: string;
+    at: string;
+    by: string;
+    snapshot: any;
+  }[];
   optionalNote?: string;
   updatedAt?: string;
   updatedBy?: string;
@@ -1197,7 +1203,10 @@ export type Workshop2DossierPhase1 = {
    * Ранее хранились в localStorage, теперь персистятся в досье.
    * Ключ — id атрибута или синтетический ключ (w2-construction-cad).
    */
-  attrComments?: Record<string, import('@/components/brand/production/workshop2-phase1-dossier-panel-attr-comments-dialog').Workshop2AttrComment[]>;
+  attrComments?: Record<
+    string,
+    import('@/components/brand/production/workshop2-phase1-dossier-panel-attr-comments-dialog').Workshop2AttrComment[]
+  >;
   /**
    * Отложенные атрибуты (галочка "Позже").
    * Ранее хранились в localStorage, теперь в досье.

@@ -72,8 +72,14 @@ export function SampleBaseSizeBlock({
   handbookCommentsCount: number;
   onOpenHandbookComments: () => void;
 }) {
-  const scaleRows = useMemo(() => getWorkshopSampleSizeScaleOptions(currentLeaf, dossier.isUnisex), [currentLeaf, dossier.isUnisex]);
-  const dimLabels = useMemo(() => getWorkshopDimensionLabels(currentLeaf, dossier.isUnisex), [currentLeaf, dossier.isUnisex]);
+  const scaleRows = useMemo(
+    () => getWorkshopSampleSizeScaleOptions(currentLeaf, dossier.isUnisex),
+    [currentLeaf, dossier.isUnisex]
+  );
+  const dimLabels = useMemo(
+    () => getWorkshopDimensionLabels(currentLeaf, dossier.isUnisex),
+    [currentLeaf, dossier.isUnisex]
+  );
   const effectiveScaleId =
     dossier.sampleSizeScaleId ?? scaleRows[0]?.key ?? defaultSizeScaleIdForLeaf(currentLeaf);
   const sizeParams = useMemo(
@@ -86,37 +92,43 @@ export function SampleBaseSizeBlock({
   );
   const handbookParts = useMemo(() => {
     if (!sampleAssign) return [];
-    return sampleAssign.values.map(v => {
-      if (v.valueSource === 'handbook_parameter') {
-        return {
-          id: v.valueId,
-          parameterId: v.parameterId!,
-          displayLabel: resolvedHandbookDisplayLabel('sampleBaseSize', v.parameterId!, v.displayLabel),
-          isFree: false,
-        };
-      } else {
-        return {
-          id: v.valueId,
-          parameterId: `__free:${v.text}`,
-          displayLabel: v.text || '',
-          isFree: true,
-        };
-      }
-    }).filter(p => p.displayLabel.trim().length > 0);
+    return sampleAssign.values
+      .map((v) => {
+        if (v.valueSource === 'handbook_parameter') {
+          return {
+            id: v.valueId,
+            parameterId: v.parameterId!,
+            displayLabel: resolvedHandbookDisplayLabel(
+              'sampleBaseSize',
+              v.parameterId!,
+              v.displayLabel
+            ),
+            isFree: false,
+          };
+        } else {
+          return {
+            id: v.valueId,
+            parameterId: `__free:${v.text}`,
+            displayLabel: v.text || '',
+            isFree: true,
+          };
+        }
+      })
+      .filter((p) => p.displayLabel.trim().length > 0);
   }, [sampleAssign]);
 
   const freeStr = useMemo(() => {
     if (!sampleAssign) return '';
     return sampleAssign.values
-      .filter(v => v.valueSource === 'free_text' && v.text?.trim())
-      .map(v => v.text)
+      .filter((v) => v.valueSource === 'free_text' && v.text?.trim())
+      .map((v) => v.text)
       .join('; ');
   }, [sampleAssign]);
   const hasSampleBaseSelection = handbookParts.length > 0 || freeStr.trim().length > 0;
 
   const selectOptions = useMemo(() => {
     const list = [...sizeParams];
-    const hbs = sampleAssign?.values.filter(v => v.valueSource === 'handbook_parameter') || [];
+    const hbs = sampleAssign?.values.filter((v) => v.valueSource === 'handbook_parameter') || [];
     for (const v of hbs) {
       const pid = v.parameterId;
       if (pid && !list.some((p) => p.parameterId === pid)) {
@@ -131,25 +143,27 @@ export function SampleBaseSizeBlock({
   }, [sizeParams, sampleAssign]);
 
   const movePart = (index: number, direction: 'up' | 'down') => {
-    setDossier(p => {
-      const assignIdx = p.assignments.findIndex(a => a.kind === 'canonical' && a.attributeId === 'sampleBaseSize');
+    setDossier((p) => {
+      const assignIdx = p.assignments.findIndex(
+        (a) => a.kind === 'canonical' && a.attributeId === 'sampleBaseSize'
+      );
       if (assignIdx < 0) return p;
       const assign = p.assignments[assignIdx];
-      
+
       const part = handbookParts[index];
       const otherPart = handbookParts[index + (direction === 'up' ? -1 : 1)];
       if (!part || !otherPart) return p;
-      
+
       const newValues = [...assign.values];
-      const idx1 = newValues.findIndex(v => v.valueId === part.id);
-      const idx2 = newValues.findIndex(v => v.valueId === otherPart.id);
-      
+      const idx1 = newValues.findIndex((v) => v.valueId === part.id);
+      const idx2 = newValues.findIndex((v) => v.valueId === otherPart.id);
+
       if (idx1 >= 0 && idx2 >= 0) {
         const temp = newValues[idx1];
         newValues[idx1] = newValues[idx2];
         newValues[idx2] = temp;
       }
-      
+
       const newAssignments = [...p.assignments];
       newAssignments[assignIdx] = { ...assign, values: newValues };
       return { ...p, assignments: newAssignments };
@@ -321,7 +335,9 @@ export function SampleBaseSizeBlock({
       let next = p;
       let changedColumns = 0;
       let changedCells = 0;
-      const sourceKeys = dimsWithSuggestionRange.length ? dimsWithSuggestionRange : dimensionKeysAll;
+      const sourceKeys = dimsWithSuggestionRange.length
+        ? dimsWithSuggestionRange
+        : dimensionKeysAll;
       for (const k of sourceKeys) {
         const curKeys = new Set(next.sampleBaseDimensionRangeKeys ?? []);
         const keyAlreadyEnabled = curKeys.has(k);
@@ -763,7 +779,11 @@ export function SampleBaseSizeBlock({
                 const sid = e.target.value;
                 setDossier((prev: Workshop2DossierPhase1) => {
                   const next: Workshop2DossierPhase1 = { ...prev, sampleSizeScaleId: sid };
-                  const params = resolveSampleBaseSizeParametersForLeaf(attribute, currentLeaf, sid);
+                  const params = resolveSampleBaseSizeParametersForLeaf(
+                    attribute,
+                    currentLeaf,
+                    sid
+                  );
                   const allow = new Set(params.map((p) => p.parameterId));
                   const a = prev.assignments.find(
                     (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
@@ -817,16 +837,18 @@ export function SampleBaseSizeBlock({
             </Label>
             {fieldDeferralPhase1 ? (
               <div className="flex shrink-0 items-center gap-1">
-                <label 
+                <label
                   className="text-text-muted hover:text-text-primary flex cursor-pointer items-center gap-1.5 whitespace-nowrap text-[10px] font-semibold"
                   title="Отложенное заполнение сохраняется только в браузере (для команды бренда)"
                 >
                   <Checkbox
                     checked={deferHandbookLater}
                     onCheckedChange={() => onToggleDeferHandbookLater()}
-                    className="h-3.5 w-3.5 shrink-0 border-border-default"
+                    className="border-border-default h-3.5 w-3.5 shrink-0"
                     aria-label={
-                      deferHandbookLater ? 'Снять отложенное заполнение' : 'Заполнить позже (только для бренда)'
+                      deferHandbookLater
+                        ? 'Снять отложенное заполнение'
+                        : 'Заполнить позже (только для бренда)'
                     }
                   />
                   <span>Позже (лок.)</span>
@@ -872,7 +894,8 @@ export function SampleBaseSizeBlock({
         <div className="border-border-default min-w-0 max-w-full rounded-xl border bg-white p-1 shadow-sm">
           {tablePieceSum > moqCap ? (
             <p className="mx-1 mb-2 rounded-md border border-amber-200 bg-amber-50/90 px-2 py-1.5 text-[11px] text-amber-900">
-              Сумма штук по размерам ({tablePieceSum}) больше количества образцов в паспорте ({moqCap}
+              Сумма штук по размерам ({tablePieceSum}) больше количества образцов в паспорте (
+              {moqCap}
               ). Уменьшите количества или увеличьте лимит.
             </p>
           ) : null}
@@ -903,9 +926,8 @@ export function SampleBaseSizeBlock({
                   </TooltipTrigger>
                   <TooltipContent className={WORKSHOP_HINT_TOOLTIP_CLASS}>
                     <p>
-                      «Все мерки с число–число» активна при включённых диапазонах: ищет ячейки,
-                      где уже введён диапазон (например 44–46), и переводит колонку в режим
-                      мин/макс.
+                      «Все мерки с число–число» активна при включённых диапазонах: ищет ячейки, где
+                      уже введён диапазон (например 44–46), и переводит колонку в режим мин/макс.
                     </p>
                     <p>
                       «Заполнить по справочнику (EU)» — только пустые ячейки, для шкал одежды с
@@ -919,7 +941,7 @@ export function SampleBaseSizeBlock({
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="border-accent-primary/20 text-accent-primary hover:bg-accent-primary/10 focus-visible:ring-0 focus-visible:ring-offset-0 h-7 bg-white text-[10px] shadow-sm"
+                  className="border-accent-primary/20 text-accent-primary hover:bg-accent-primary/10 h-7 bg-white text-[10px] shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0"
                   title="Для одежды (EU/RU/INT): подставляет см из сетки по строке базового размера. Заполняются только пустые ячейки."
                   onClick={fillAllSuggestions}
                 >
@@ -931,7 +953,7 @@ export function SampleBaseSizeBlock({
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="focus-visible:ring-0 focus-visible:ring-offset-0 h-7 shrink-0 bg-white text-[10px] shadow-sm"
+                    className="h-7 shrink-0 bg-white text-[10px] shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0"
                     title="Включает мин/макс для колонок, где в таблице уже есть диапазон вида «число–число»."
                     onClick={() => addAllSuggestedRangeDimensions()}
                   >
@@ -969,9 +991,7 @@ export function SampleBaseSizeBlock({
             <div className="min-w-max space-y-3 px-2">
               <div className="border-border-subtle flex flex-nowrap items-end gap-x-2 gap-y-2 border-b pb-2">
                 <div className="min-w-[5rem] max-w-[9rem] shrink-0 pb-2" aria-hidden>
-                  <span className="text-text-muted text-[10px] font-semibold">
-                    Размер
-                  </span>
+                  <span className="text-text-muted text-[10px] font-semibold">Размер</span>
                 </div>
                 {visibleDimLabels.map((canon) => {
                   const display = dossier.sampleBaseDimensionLabelOverrides?.[canon] ?? canon;
@@ -1067,17 +1087,17 @@ export function SampleBaseSizeBlock({
               {handbookParts.map((part, idx) => (
                 <div
                   key={part.id || part.parameterId}
-                  className="border-border-subtle flex flex-nowrap items-start gap-x-2 gap-y-2 border-b pb-3 last:border-0 last:pb-0 group"
+                  className="border-border-subtle group flex flex-nowrap items-start gap-x-2 gap-y-2 border-b pb-3 last:border-0 last:pb-0"
                   aria-label={sizeLineForPart(part)}
                 >
                   <div className="flex min-h-9 min-w-[4.5rem] max-w-[9rem] shrink-0 items-center">
                     <span className="text-text-primary text-sm font-medium leading-snug">
                       {sizeLineForPart(part)}
                     </span>
-                    <div className="flex flex-col ml-1 bg-slate-50 border border-slate-100 rounded">
+                    <div className="ml-1 flex flex-col rounded border border-slate-100 bg-slate-50">
                       <button
                         type="button"
-                        className="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-200 disabled:opacity-30 disabled:hover:text-slate-400 disabled:hover:bg-transparent transition-colors"
+                        className="p-1 text-slate-400 transition-colors hover:bg-slate-200 hover:text-slate-700 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-400"
                         onClick={() => movePart(idx, 'up')}
                         disabled={idx === 0}
                         title="Поднять вверх"
@@ -1086,7 +1106,7 @@ export function SampleBaseSizeBlock({
                       </button>
                       <button
                         type="button"
-                        className="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-200 disabled:opacity-30 disabled:hover:text-slate-400 disabled:hover:bg-transparent transition-colors"
+                        className="p-1 text-slate-400 transition-colors hover:bg-slate-200 hover:text-slate-700 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-400"
                         onClick={() => movePart(idx, 'down')}
                         disabled={idx === handbookParts.length - 1}
                         title="Опустить вниз"
@@ -1432,4 +1452,3 @@ export function SampleBaseSizeBlock({
     </div>
   );
 }
-

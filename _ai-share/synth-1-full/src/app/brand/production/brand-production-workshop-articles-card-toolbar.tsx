@@ -125,7 +125,12 @@ export function BrandProductionWorkshopArticlesCardToolbar(props: {
             <AlertCircle className="h-3.5 w-3.5" /> Требуют внимания{' '}
             {needsAttentionCount > 0 ? `(${needsAttentionCount})` : null}
           </Button>
-          <Button variant="outline" size="sm" className="h-8 gap-1 text-[10px]" onClick={onExportArticlesCsv}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 gap-1 text-[10px]"
+            onClick={onExportArticlesCsv}
+          >
             <Download className="h-3.5 w-3.5" /> Экспорт CSV
           </Button>
         </div>

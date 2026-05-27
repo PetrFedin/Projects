@@ -107,5 +107,5 @@ export async function sparkLayerGetPriceLists(): Promise<SparkLayerPriceList[]> 
   });
   if (!res.ok) return [];
   const data = (await res.json()) as SparkLayerPriceList[] | { items?: SparkLayerPriceList[] };
-  return Array.isArray(data) ? data : data.items ?? [];
+  return Array.isArray(data) ? data : (data.items ?? []);
 }

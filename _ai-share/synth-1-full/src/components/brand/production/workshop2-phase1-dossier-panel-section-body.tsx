@@ -30,7 +30,9 @@ export type Workshop2Phase1DossierPanelSectionBodyProps = {
   Omit<ComponentProps<typeof Workshop2DossierSectionBodyDefaultRows>, 'sectionRowsShared'>;
 
 /** Роутер тела панели ТЗ по активной секции (без изменения поведения относительно прежнего IIFE в панели). */
-export function Workshop2Phase1DossierPanelSectionBody(props: Workshop2Phase1DossierPanelSectionBodyProps) {
+export function Workshop2Phase1DossierPanelSectionBody(
+  props: Workshop2Phase1DossierPanelSectionBodyProps
+) {
   const activeSectionStr = props.activeSection as string;
   if (
     activeSectionStr === 'time_and_action' ||
@@ -46,9 +48,12 @@ export function Workshop2Phase1DossierPanelSectionBody(props: Workshop2Phase1Dos
     return (
       <>
         <div className="border-border-subtle bg-bg-surface2 text-text-secondary space-y-2 rounded-xl border p-4 text-[12px] leading-relaxed">
-          <p className="text-text-primary font-semibold">Раздел перенесён из технического задания</p>
+          <p className="text-text-primary font-semibold">
+            Раздел перенесён из технического задания
+          </p>
           <p>
-            Эта часть относится к следующему этапу разработки образца. Откройте в ленте разработки артикула: {where}
+            Эта часть относится к следующему этапу разработки образца. Откройте в ленте разработки
+            артикула: {where}
           </p>
         </div>
         {props.tzBlockersFooter}
@@ -117,7 +122,9 @@ export function Workshop2Phase1DossierPanelSectionBody(props: Workshop2Phase1Dos
         sectionRowsCurrent={props.sectionRowsCurrent}
         allowMultiHandbook={props.allowMultiHandbook}
         patchColor={props.patchColor}
-        onSetHandbookParametersWithColorBundleSync={props.onSetHandbookParametersWithColorBundleSync}
+        onSetHandbookParametersWithColorBundleSync={
+          props.onSetHandbookParametersWithColorBundleSync
+        }
         onSetHandbookParameters={props.onSetHandbookParameters}
         onFreeTextSide={props.onFreeTextSide}
         showPhase1PassportArticleCard={props.showPhase1PassportArticleCard}
@@ -134,13 +141,13 @@ export function Workshop2Phase1DossierPanelSectionBody(props: Workshop2Phase1Dos
         sectionSignoffSessionBrandOk={props.sectionSignoffSessionBrandOk}
         sectionSignoffSessionTechOk={props.sectionSignoffSessionTechOk}
         tzSectionSignoffRevokeAllowed={props.tzSectionSignoffRevokeAllowed}
-          tzNotifyHighlightRowKey={props.tzNotifyHighlightRowKey}
-          commitSectionSignoff={props.commitSectionSignoff}
-          revokeSectionSignoff={props.revokeSectionSignoff}
-          notifyStakeholdersForSectionSignoff={props.notifyStakeholdersForSectionSignoff}
-          setSignoffDeadline={props.setSignoffDeadline}
-          tzBlockersFooter={props.tzBlockersFooter}
-        />
+        tzNotifyHighlightRowKey={props.tzNotifyHighlightRowKey}
+        commitSectionSignoff={props.commitSectionSignoff}
+        revokeSectionSignoff={props.revokeSectionSignoff}
+        notifyStakeholdersForSectionSignoff={props.notifyStakeholdersForSectionSignoff}
+        setSignoffDeadline={props.setSignoffDeadline}
+        tzBlockersFooter={props.tzBlockersFooter}
+      />
     );
   }
 
@@ -276,12 +283,12 @@ export function Workshop2Phase1DossierPanelSectionBody(props: Workshop2Phase1Dos
         sectionSignoffSessionBrandOk={props.sectionSignoffSessionBrandOk}
         sectionSignoffSessionTechOk={props.sectionSignoffSessionTechOk}
         tzSectionSignoffRevokeAllowed={props.tzSectionSignoffRevokeAllowed}
-          tzNotifyHighlightRowKey={props.tzNotifyHighlightRowKey}
-          commitSectionSignoff={props.commitSectionSignoff}
-          revokeSectionSignoff={props.revokeSectionSignoff}
-          notifyStakeholdersForSectionSignoff={props.notifyStakeholdersForSectionSignoff}
-          setSignoffDeadline={props.setSignoffDeadline}
-        />
+        tzNotifyHighlightRowKey={props.tzNotifyHighlightRowKey}
+        commitSectionSignoff={props.commitSectionSignoff}
+        revokeSectionSignoff={props.revokeSectionSignoff}
+        notifyStakeholdersForSectionSignoff={props.notifyStakeholdersForSectionSignoff}
+        setSignoffDeadline={props.setSignoffDeadline}
+      />
     );
   }
 

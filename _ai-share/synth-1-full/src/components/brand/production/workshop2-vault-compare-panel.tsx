@@ -16,11 +16,14 @@ function Workshop2VaultComparePanelInner({ collectionId, articleId }: Props) {
   const [compareResult, setCompareResult] = useState<string | null>(null);
 
   return (
-    <div className="mt-3 rounded-lg border border-slate-200 bg-white p-3" data-testid="workshop2-vault-compare-panel">
-      <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-500 mb-2">
+    <div
+      className="mt-3 rounded-lg border border-slate-200 bg-white p-3"
+      data-testid="workshop2-vault-compare-panel"
+    >
+      <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
         Сравнить ревизии
       </p>
-      <div className="flex flex-wrap gap-2 items-center">
+      <div className="flex flex-wrap items-center gap-2">
         <Input
           className="h-8 max-w-[120px] text-[11px]"
           placeholder="left id"

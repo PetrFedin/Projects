@@ -85,7 +85,10 @@ export async function withTokenAudit<I, O>(
 
     return result;
   } catch (error: unknown) {
-    console.error(`[TOKEN_AUDIT_ERROR] Flow: ${flowName}`, getUnknownErrorMessage(error, 'unknown'));
+    console.error(
+      `[TOKEN_AUDIT_ERROR] Flow: ${flowName}`,
+      getUnknownErrorMessage(error, 'unknown')
+    );
     throw error;
   }
 }

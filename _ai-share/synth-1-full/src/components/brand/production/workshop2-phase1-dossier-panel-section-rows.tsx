@@ -55,10 +55,7 @@ export type Workshop2DossierSectionRowsProps = {
   opts?: Workshop2DossierSectionRowsOpts;
   activeSection: DossierSection;
   currentLeaf: HandbookCategoryLeaf;
-  tzMinimalModeBySection: Record<
-    'general' | 'visuals' | 'material' | 'construction',
-    boolean
-  >;
+  tzMinimalModeBySection: Record<'general' | 'visuals' | 'material' | 'construction', boolean>;
   collapsedAttrGroups: ReadonlySet<string>;
   pinnedAttrGroups: ReadonlySet<string>;
   toggleAttrGroupPinned: (groupName: string) => void;

@@ -5,7 +5,10 @@ import { MapPin } from 'lucide-react';
 
 export default function DistributorShowroomsPage() {
   return (
-    <CabinetPageContent maxWidth="full" className="flex min-h-[60vh] flex-col items-center justify-center space-y-4">
+    <CabinetPageContent
+      maxWidth="full"
+      className="flex min-h-[60vh] flex-col items-center justify-center space-y-4"
+    >
       <div className="bg-bg-surface2 flex h-12 w-12 items-center justify-center rounded-2xl">
         <MapPin className="text-text-muted h-8 w-8" />
       </div>

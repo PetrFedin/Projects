@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { History, MessageSquare, Pencil, Plus, Trash2, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -135,7 +128,10 @@ type Props = {
   /** Описание и заметка для демо-коллекции SS27. */
   onUpdateSs27Meta: (patch: Workshop2Ss27MetaPatch) => boolean;
   articlePickerLines: LocalOrderLine[];
-  onCommitWorkshop2Article: (collectionId: string, commit: Workshop2ArticleCommit) => string | false;
+  onCommitWorkshop2Article: (
+    collectionId: string,
+    commit: Workshop2ArticleCommit
+  ) => string | false;
   onBulkAddWorkshop2Articles: (
     collectionId: string,
     rows: { sku: string; name?: string }[]
@@ -435,9 +431,9 @@ export function Workshop2TabContent({
     [collectionsForLookup]
   );
   /** Сетка карточек: все артикулы / только в работе / только разработанные (100% этапов). */
-  const [articleHubStatusFilter, setArticleHubStatusFilter] = useState<
-    'all' | 'in_work' | 'done'
-  >('all');
+  const [articleHubStatusFilter, setArticleHubStatusFilter] = useState<'all' | 'in_work' | 'done'>(
+    'all'
+  );
   const articleRowRefs = useRef<Map<string, HTMLLIElement>>(new Map());
 
   const collectionsForCurrentTab = listTab === 'active' ? activeCollections : archivedCollections;
@@ -955,7 +951,9 @@ export function Workshop2TabContent({
             <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
               {COLLECTION_DEV_HUB_TITLE_RU}
             </h1>
-            <p className="max-w-2xl text-sm text-slate-600">{WORKSHOP2_TAB_CONTENT_PAGE_SUBTITLE}</p>
+            <p className="max-w-2xl text-sm text-slate-600">
+              {WORKSHOP2_TAB_CONTENT_PAGE_SUBTITLE}
+            </p>
           </div>
           <div className="flex flex-wrap items-center gap-2 pt-1">
             <span className="text-text-secondary mr-1 text-xs font-medium">Показать:</span>
@@ -1849,8 +1847,7 @@ export function Workshop2TabContent({
               : null
           }
           onSaveEdit={(collectionId, articleId, data) => {
-            const prevSku =
-              articleEditTarget?.articleId === articleId ? articleEditTarget.sku : '';
+            const prevSku = articleEditTarget?.articleId === articleId ? articleEditTarget.sku : '';
             const ok = onPatchWorkshop2ArticleLine(collectionId, articleId, {
               sku: data.sku,
               name: data.name,
@@ -1864,11 +1861,15 @@ export function Workshop2TabContent({
               const nNext = normalizeLocalSkuCode(data.sku);
               const nPrev = normalizeLocalSkuCode(prevSku);
               if (nNext && nNext !== nPrev) {
-                const d = getWorkshop2Phase1Dossier(collectionId, articleId) ?? emptyWorkshop2DossierPhase1();
+                const d =
+                  getWorkshop2Phase1Dossier(collectionId, articleId) ??
+                  emptyWorkshop2DossierPhase1();
                 setWorkshop2Phase1Dossier(
                   collectionId,
                   articleId,
-                  appendWorkshop2TzDossierEditLog(d, createdByLabel, [`SKU артикула: ${data.sku.trim()}`])
+                  appendWorkshop2TzDossierEditLog(d, createdByLabel, [
+                    `SKU артикула: ${data.sku.trim()}`,
+                  ])
                 );
               }
             }

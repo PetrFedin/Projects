@@ -62,7 +62,7 @@ export default function OrderConfirmationPage({
 
   if (loading) {
     return (
-      <CabinetPageContent maxWidth="5xl" className="py-12 pb-16 px-4 py-6 pb-24 sm:px-6">
+      <CabinetPageContent maxWidth="5xl" className="px-4 py-12 py-6 pb-16 pb-24 sm:px-6">
         <div className="text-center">Загрузка...</div>
       </CabinetPageContent>
     );
@@ -75,7 +75,7 @@ export default function OrderConfirmationPage({
   const statusInfo = statusConfig[order.status];
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="py-12 pb-16 px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent maxWidth="5xl" className="px-4 py-12 py-6 pb-16 pb-24 sm:px-6">
       <div className="mx-auto max-w-4xl space-y-4">
         {/* Header */}
         <div className="flex items-center gap-3">

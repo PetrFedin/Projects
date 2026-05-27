@@ -12,16 +12,7 @@ export function formatActivityPeriod(period: ActivityPeriod): string {
   return period === '7d' ? `Неделя ${dd(start)}–${dd(today)}` : `Месяц ${dd(start)}–${dd(today)}`;
 }
 
-export type RoleReport =
-  | 'CEO'
-  | 'CFO'
-  | 'COO'
-  | 'CTO'
-  | 'CMO'
-  | 'CIO'
-  | 'CHRO'
-  | 'CSO'
-  | 'CDO';
+export type RoleReport = 'CEO' | 'CFO' | 'COO' | 'CTO' | 'CMO' | 'CIO' | 'CHRO' | 'CSO' | 'CDO';
 
 export const ROLE_REPORTS: { id: RoleReport; label: string; desc: string }[] = [
   { id: 'CEO', label: 'CEO', desc: 'Генеральный директор' },

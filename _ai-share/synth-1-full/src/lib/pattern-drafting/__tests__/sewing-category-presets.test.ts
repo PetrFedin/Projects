@@ -1,5 +1,9 @@
 import { resolveSewingCategoryPreset } from '@/lib/pattern-drafting/sewing-category-presets';
-import { getSewingL2Options, getSewingL3Options, getSewingEffectiveLeaf } from '@/lib/pattern-drafting/sewing-apparel-category-tree';
+import {
+  getSewingL2Options,
+  getSewingL3Options,
+  getSewingEffectiveLeaf,
+} from '@/lib/pattern-drafting/sewing-apparel-category-tree';
 
 const L1 = 'Одежда' as const;
 

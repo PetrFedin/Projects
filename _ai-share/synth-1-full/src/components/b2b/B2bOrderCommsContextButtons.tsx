@@ -80,24 +80,36 @@ export function B2bOrderCommsContextButtons({
           data-testid="b2b-order-workspace-deep-links"
         >
           {variant === 'brand' ? (
-            <Link href={matrixBrandHref} className="hover:text-foreground underline-offset-2 hover:underline">
+            <Link
+              href={matrixBrandHref}
+              className="underline-offset-2 hover:text-foreground hover:underline"
+            >
               Матрица
             </Link>
           ) : (
             <>
-              <Link href={matrixShopHref} className="hover:text-foreground underline-offset-2 hover:underline">
+              <Link
+                href={matrixShopHref}
+                className="underline-offset-2 hover:text-foreground hover:underline"
+              >
                 Матрица
               </Link>
               <span className="text-border-default" aria-hidden>
                 ·
               </span>
-              <Link href={selectionHref} className="hover:text-foreground underline-offset-2 hover:underline">
+              <Link
+                href={selectionHref}
+                className="underline-offset-2 hover:text-foreground hover:underline"
+              >
                 Подборки
               </Link>
               <span className="text-border-default" aria-hidden>
                 ·
               </span>
-              <Link href={whiteboardHref} className="hover:text-foreground underline-offset-2 hover:underline">
+              <Link
+                href={whiteboardHref}
+                className="underline-offset-2 hover:text-foreground hover:underline"
+              >
                 Доска
               </Link>
             </>

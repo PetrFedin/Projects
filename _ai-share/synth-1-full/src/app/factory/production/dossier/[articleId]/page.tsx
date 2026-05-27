@@ -4,12 +4,14 @@ import { WORKSHOP2_SYSTEM_COLLECTION_ID } from '@/lib/production/local-collectio
 import { buildWorkshop2FinalTzSpecDocumentHtml } from '@/lib/production/workshop2-final-tz-spec-export';
 import { Workshop2InteractiveFactoryPortal } from '@/components/brand/production/Workshop2InteractiveFactoryPortal';
 
-export default async function FactoryDossierPortalPage(props: { params: Promise<{ articleId: string }> }) {
+export default async function FactoryDossierPortalPage(props: {
+  params: Promise<{ articleId: string }>;
+}) {
   const { articleId } = await props.params;
   const internalCode = WORKSHOP2_SYSTEM_COLLECTION_ID;
-  
+
   if (!internalCode || !articleId) return notFound();
-  
+
   const dossier = await getWorkshop2Phase1Dossier(internalCode, articleId);
   if (!dossier) return notFound();
 

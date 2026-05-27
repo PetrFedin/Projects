@@ -124,7 +124,9 @@ export function CategorySketchAnnotatorEditorHandoffExportPanel({
                 />
               </label>
               <label className="space-y-0.5 sm:col-span-2">
-                <span className="text-[9px] font-semibold text-zinc-500">Утверждённый референс</span>
+                <span className="text-[9px] font-semibold text-zinc-500">
+                  Утверждённый референс
+                </span>
                 <Input
                   className="h-8 text-sm"
                   value={compliance.approvedReferenceUrl ?? ''}
@@ -249,8 +251,8 @@ export function CategorySketchAnnotatorEditorHandoffExportPanel({
                             ) : null}
                           </p>
                           <p>
-                            + {revisionDiff.addedIds.length} id · −{' '}
-                            {revisionDiff.removedIds.length} id
+                            + {revisionDiff.addedIds.length} id · − {revisionDiff.removedIds.length}{' '}
+                            id
                           </p>
                           {revisionDiff.changed.length > 0 ? (
                             <table className="w-full border-collapse text-left">
@@ -263,7 +265,9 @@ export function CategorySketchAnnotatorEditorHandoffExportPanel({
                               <tbody>
                                 {revisionDiff.changed.slice(0, 24).map((row) => (
                                   <tr key={row.annotationId} className="border-b border-zinc-100">
-                                    <td className="py-0.5 pr-1 align-top">{row.annotationId.slice(0, 10)}…</td>
+                                    <td className="py-0.5 pr-1 align-top">
+                                      {row.annotationId.slice(0, 10)}…
+                                    </td>
                                     <td className="py-0.5 align-top">
                                       {row.diffs.map((d) => (
                                         <span
@@ -279,7 +283,9 @@ export function CategorySketchAnnotatorEditorHandoffExportPanel({
                               </tbody>
                             </table>
                           ) : (
-                            <p className="text-zinc-500">Поля priority / stage / BOM ref совпадают.</p>
+                            <p className="text-zinc-500">
+                              Поля priority / stage / BOM ref совпадают.
+                            </p>
                           )}
                         </div>
                       ) : (
@@ -351,8 +357,7 @@ export function CategorySketchAnnotatorEditorHandoffExportPanel({
                 disabled={readOnly}
                 onClick={onAppendPropagatedDrafts}
               >
-                <ClipboardList className="size-3.5" />
-                В посадку / ОТК
+                <ClipboardList className="size-3.5" />В посадку / ОТК
               </Button>
               <Button
                 type="button"

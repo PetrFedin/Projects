@@ -8,11 +8,17 @@ import {
   W2_COMPOSITION_LABEL_ORIGIN_PRESETS,
 } from '@/lib/production/workshop2-composition-label-spec-constants';
 
-export function compositionLabelConstructorFiberHasRows(spec: Workshop2CompositionLabelSpec | undefined): boolean {
-  return (spec?.constructorFiberRows ?? []).some((r) => Boolean(r.fiberId?.trim()) && r.percent > 0);
+export function compositionLabelConstructorFiberHasRows(
+  spec: Workshop2CompositionLabelSpec | undefined
+): boolean {
+  return (spec?.constructorFiberRows ?? []).some(
+    (r) => Boolean(r.fiberId?.trim()) && r.percent > 0
+  );
 }
 
-export function compositionLabelConstructorFiberPercentSum(spec: Workshop2CompositionLabelSpec | undefined): number {
+export function compositionLabelConstructorFiberPercentSum(
+  spec: Workshop2CompositionLabelSpec | undefined
+): number {
   let t = 0;
   for (const r of spec?.constructorFiberRows ?? []) {
     if (!r.fiberId?.trim() || !(r.percent > 0)) continue;
@@ -22,7 +28,9 @@ export function compositionLabelConstructorFiberPercentSum(spec: Workshop2Compos
   return Math.round(t * 1000) / 1000;
 }
 
-export function compositionLabelFiberRowsSumIsHundred(spec: Workshop2CompositionLabelSpec | undefined): boolean {
+export function compositionLabelFiberRowsSumIsHundred(
+  spec: Workshop2CompositionLabelSpec | undefined
+): boolean {
   if (!compositionLabelConstructorFiberHasRows(spec)) return true;
   return Math.abs(compositionLabelConstructorFiberPercentSum(spec) - 100) < 0.05;
 }
@@ -69,7 +77,9 @@ export function buildCompositionLabelConstructorFiberLines(
   return lines;
 }
 
-export function compositionLabelOriginDisplayLines(spec: Workshop2CompositionLabelSpec | undefined): string[] {
+export function compositionLabelOriginDisplayLines(
+  spec: Workshop2CompositionLabelSpec | undefined
+): string[] {
   const pid = (spec?.labelOriginPresetId ?? '').trim();
   if (!pid || pid === 'unset') return [];
   const p = W2_COMPOSITION_LABEL_ORIGIN_PRESETS.find((x) => x.id === pid);
@@ -81,7 +91,9 @@ export function compositionLabelOriginDisplayLines(spec: Workshop2CompositionLab
   return [p.lineRu || p.lineEn];
 }
 
-export function compositionLabelCardMetadataLines(spec: Workshop2CompositionLabelSpec | undefined): string[] {
+export function compositionLabelCardMetadataLines(
+  spec: Workshop2CompositionLabelSpec | undefined
+): string[] {
   const s = spec ?? {};
   const out: string[] = [];
   const size = (s.labelGarmentSizeText ?? '').trim();

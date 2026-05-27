@@ -72,13 +72,14 @@ export default function OrganizationAcademyStudioPage() {
           <div>
             <p className="text-text-primary text-sm font-semibold">Модерация платформы</p>
             <p className="text-text-secondary mt-1 max-w-xl text-sm leading-relaxed">
-              Заявки на публикацию попадают в общую очередь администраторов. Пока статус «На модерации»,
-              курс не показывается клиентам в витрине академии.
+              Заявки на публикацию попадают в общую очередь администраторов. Пока статус «На
+              модерации», курс не показывается клиентам в витрине академии.
             </p>
             {pendingCount > 0 ? (
               <p className="text-text-muted mt-2 text-xs">
                 Сейчас на проверке:{' '}
-                <span className="text-text-primary font-medium">{pendingCount}</span> из {orgPool.length}
+                <span className="text-text-primary font-medium">{pendingCount}</span> из{' '}
+                {orgPool.length}
               </p>
             ) : null}
           </div>
@@ -132,7 +133,7 @@ export default function OrganizationAcademyStudioPage() {
               Как на витрине{' '}
               <Link
                 href={ROUTES.academyPlatform}
-                className="text-primary font-medium underline-offset-4 hover:underline"
+                className="font-medium text-primary underline-offset-4 hover:underline"
               >
                 /academy
               </Link>
@@ -191,8 +192,11 @@ export default function OrganizationAcademyStudioPage() {
                   <h3 className="text-text-primary line-clamp-2 font-semibold leading-tight">
                     {course.title}
                   </h3>
-                  <p className="text-text-secondary mt-2 line-clamp-2 text-sm">{course.description}</p>
-                  {course.audienceKind === 'professional' && courseProfessionalScopeLabel(course) ? (
+                  <p className="text-text-secondary mt-2 line-clamp-2 text-sm">
+                    {course.description}
+                  </p>
+                  {course.audienceKind === 'professional' &&
+                  courseProfessionalScopeLabel(course) ? (
                     <p className="text-text-muted mt-2 text-[11px] font-medium">
                       {courseProfessionalScopeLabel(course)}
                     </p>

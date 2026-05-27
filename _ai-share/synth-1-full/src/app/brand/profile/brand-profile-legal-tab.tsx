@@ -71,19 +71,19 @@ export function BrandProfileLegalTab({
 }: BrandProfileLegalTabProps) {
   return (
     <TabsContent value="legal" className={tabPanelClassName}>
-      <div className="space-y-1 border-b border-border-subtle pb-4">
-        <h2 className="text-base font-semibold text-text-primary">Юридические данные</h2>
-        <p className="text-sm text-text-secondary">
+      <div className="border-border-subtle space-y-1 border-b pb-4">
+        <h2 className="text-text-primary text-base font-semibold">Юридические данные</h2>
+        <p className="text-text-secondary text-sm">
           Реквизиты и регистрационные сведения для договоров и счетов в РФ.
         </p>
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="space-y-3">
-          <div className="flex flex-wrap items-end justify-between gap-2 border-b border-border-subtle pb-3">
-            <h3 className="text-sm font-semibold text-text-primary">Регистрация компании</h3>
+          <div className="border-border-subtle flex flex-wrap items-end justify-between gap-2 border-b pb-3">
+            <h3 className="text-text-primary text-sm font-semibold">Регистрация компании</h3>
             <div className="flex items-center gap-2">
               {legalData.isVerified ? (
-                <Badge className="h-6 gap-1 border border-state-success/30 bg-state-success/10 px-2 text-xs font-medium text-state-success">
+                <Badge className="border-state-success/30 bg-state-success/10 text-state-success h-6 gap-1 border px-2 text-xs font-medium">
                   <CheckCircle2 className="size-3.5" /> Верифицировано ФНС
                 </Badge>
               ) : (
@@ -102,7 +102,7 @@ export function BrandProfileLegalTab({
               )}
             </div>
           </div>
-          <Card className="space-y-2 rounded-xl border border-border-default bg-white p-4 shadow-sm md:p-5">
+          <Card className="border-border-default space-y-2 rounded-xl border bg-white p-4 shadow-sm md:p-5">
             {(
               [
                 {
@@ -133,13 +133,13 @@ export function BrandProfileLegalTab({
             ).map((item, i) => (
               <div
                 key={i}
-                className="group flex items-center justify-between rounded-lg border border-border-subtle/50 bg-bg-surface2 p-2.5 transition-colors hover:bg-bg-surface2"
+                className="border-border-subtle/50 bg-bg-surface2 hover:bg-bg-surface2 group flex items-center justify-between rounded-lg border p-2.5 transition-colors"
               >
                 <div className="flex items-center gap-2.5">
-                  <div className="flex size-7 items-center justify-center rounded-lg border border-border-subtle bg-white shadow-sm transition-transform group-hover:scale-105">
-                    <item.icon className="size-3.5 text-accent-primary" />
+                  <div className="border-border-subtle flex size-7 items-center justify-center rounded-lg border bg-white shadow-sm transition-transform group-hover:scale-105">
+                    <item.icon className="text-accent-primary size-3.5" />
                   </div>
-                  <span className="text-xs font-medium text-text-muted">{item.label}</span>
+                  <span className="text-text-muted text-xs font-medium">{item.label}</span>
                 </div>
                 {isEditing ? (
                   <Input
@@ -147,10 +147,10 @@ export function BrandProfileLegalTab({
                     onChange={(e) =>
                       setLegalData((prev) => ({ ...prev, [item.key]: e.target.value }))
                     }
-                    className="h-8 w-full max-w-[min(100%,20rem)] rounded-md border-border-default bg-white text-right text-sm font-medium sm:w-48"
+                    className="border-border-default h-8 w-full max-w-[min(100%,20rem)] rounded-md bg-white text-right text-sm font-medium sm:w-48"
                   />
                 ) : (
-                  <span className="max-w-[min(100%,20rem)] text-right text-sm font-medium tracking-tight text-text-primary">
+                  <span className="text-text-primary max-w-[min(100%,20rem)] text-right text-sm font-medium tracking-tight">
                     {item.value}
                   </span>
                 )}
@@ -160,10 +160,10 @@ export function BrandProfileLegalTab({
         </div>
 
         <div className="space-y-3">
-          <div className="border-b border-border-subtle pb-3">
-            <h3 className="text-sm font-semibold text-text-primary">Руководство и полномочия</h3>
+          <div className="border-border-subtle border-b pb-3">
+            <h3 className="text-text-primary text-sm font-semibold">Руководство и полномочия</h3>
           </div>
-          <Card className="flex h-full flex-col justify-center space-y-2 rounded-xl border border-border-default bg-white p-4 shadow-sm md:p-5">
+          <Card className="border-border-default flex h-full flex-col justify-center space-y-2 rounded-xl border bg-white p-4 shadow-sm md:p-5">
             {(
               [
                 { key: 'ceo' as const, label: 'CEO', value: legalData.ceo, icon: Users },
@@ -195,13 +195,13 @@ export function BrandProfileLegalTab({
             ).map((item, i) => (
               <div
                 key={i}
-                className="group flex items-center justify-between rounded-lg border border-border-subtle/50 bg-bg-surface2 p-2.5 transition-colors hover:bg-bg-surface2"
+                className="border-border-subtle/50 bg-bg-surface2 hover:bg-bg-surface2 group flex items-center justify-between rounded-lg border p-2.5 transition-colors"
               >
                 <div className="flex items-center gap-2.5">
-                  <div className="flex size-7 items-center justify-center rounded-lg border border-border-subtle bg-white shadow-sm transition-transform group-hover:scale-105">
-                    <item.icon className="size-3.5 text-state-success" />
+                  <div className="border-border-subtle flex size-7 items-center justify-center rounded-lg border bg-white shadow-sm transition-transform group-hover:scale-105">
+                    <item.icon className="text-state-success size-3.5" />
                   </div>
-                  <span className="text-xs font-medium text-text-muted">{item.label}</span>
+                  <span className="text-text-muted text-xs font-medium">{item.label}</span>
                 </div>
                 {isEditing ? (
                   <Input
@@ -209,10 +209,10 @@ export function BrandProfileLegalTab({
                     onChange={(e) =>
                       setLegalData((prev) => ({ ...prev, [item.key]: e.target.value }))
                     }
-                    className="h-8 w-full max-w-[min(100%,20rem)] rounded-md border-border-default bg-white text-right text-sm font-medium sm:w-48"
+                    className="border-border-default h-8 w-full max-w-[min(100%,20rem)] rounded-md bg-white text-right text-sm font-medium sm:w-48"
                   />
                 ) : (
-                  <span className="max-w-[min(100%,20rem)] truncate text-right text-sm font-medium tracking-tight text-text-primary">
+                  <span className="text-text-primary max-w-[min(100%,20rem)] truncate text-right text-sm font-medium tracking-tight">
                     {item.value}
                   </span>
                 )}
@@ -224,10 +224,10 @@ export function BrandProfileLegalTab({
 
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="space-y-3">
-          <div className="border-b border-border-subtle pb-3">
-            <h3 className="text-sm font-semibold text-text-primary">Адреса</h3>
+          <div className="border-border-subtle border-b pb-3">
+            <h3 className="text-text-primary text-sm font-semibold">Адреса</h3>
           </div>
-          <Card className="space-y-3 rounded-xl border border-border-default bg-white p-4 shadow-sm md:p-5">
+          <Card className="border-border-default space-y-3 rounded-xl border bg-white p-4 shadow-sm md:p-5">
             {(
               [
                 {
@@ -245,7 +245,7 @@ export function BrandProfileLegalTab({
               <div key={i} className="space-y-1.5">
                 <div className="flex items-center gap-2">
                   <MapPin className="size-3 text-blue-600" />
-                  <span className="text-xs font-medium text-text-muted">{item.label}</span>
+                  <span className="text-text-muted text-xs font-medium">{item.label}</span>
                 </div>
                 {isEditing ? (
                   <Textarea
@@ -253,10 +253,10 @@ export function BrandProfileLegalTab({
                     onChange={(e) =>
                       setLegalData((prev) => ({ ...prev, [item.key]: e.target.value }))
                     }
-                    className="min-h-[72px] rounded-lg border-border-default bg-bg-surface2 p-3 text-sm font-medium"
+                    className="border-border-default bg-bg-surface2 min-h-[72px] rounded-lg p-3 text-sm font-medium"
                   />
                 ) : (
-                  <p className="rounded-lg border border-border-subtle bg-bg-surface2 p-3 text-sm font-medium text-text-secondary">
+                  <p className="border-border-subtle bg-bg-surface2 text-text-secondary rounded-lg border p-3 text-sm font-medium">
                     {item.value}
                   </p>
                 )}
@@ -266,16 +266,20 @@ export function BrandProfileLegalTab({
         </div>
 
         <div className="space-y-3">
-          <div className="border-b border-border-subtle pb-3">
-            <h3 className="text-sm font-semibold text-text-primary">Банковские реквизиты</h3>
+          <div className="border-border-subtle border-b pb-3">
+            <h3 className="text-text-primary text-sm font-semibold">Банковские реквизиты</h3>
           </div>
-          <Card className="flex h-full flex-col justify-center rounded-xl border border-border-default bg-white p-4 shadow-sm md:p-5">
+          <Card className="border-border-default flex h-full flex-col justify-center rounded-xl border bg-white p-4 shadow-sm md:p-5">
             <div className="space-y-2">
               {(
                 [
                   { key: 'bankName' as const, label: 'Банк', value: legalData.bankName },
                   { key: 'bik' as const, label: 'БИК', value: legalData.bik },
-                  { key: 'corrAccount' as const, label: 'Корр. счет', value: legalData.corrAccount },
+                  {
+                    key: 'corrAccount' as const,
+                    label: 'Корр. счет',
+                    value: legalData.corrAccount,
+                  },
                   {
                     key: 'paymentAccount' as const,
                     label: 'Р/С',
@@ -285,19 +289,19 @@ export function BrandProfileLegalTab({
               ).map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between border-b border-border-subtle pb-2 last:border-0 last:pb-0"
+                  className="border-border-subtle flex items-center justify-between border-b pb-2 last:border-0 last:pb-0"
                 >
-                  <span className="text-xs font-medium text-text-muted">{item.label}</span>
+                  <span className="text-text-muted text-xs font-medium">{item.label}</span>
                   {isEditing ? (
                     <Input
                       value={item.value}
                       onChange={(e) =>
                         setLegalData((prev) => ({ ...prev, [item.key]: e.target.value }))
                       }
-                      className="h-8 w-full max-w-xs rounded-md border-border-default bg-bg-surface2 text-right font-mono text-sm font-medium"
+                      className="border-border-default bg-bg-surface2 h-8 w-full max-w-xs rounded-md text-right font-mono text-sm font-medium"
                     />
                   ) : (
-                    <span className="font-mono text-sm font-medium tracking-tight text-text-primary">
+                    <span className="text-text-primary font-mono text-sm font-medium tracking-tight">
                       {item.value}
                     </span>
                   )}
@@ -309,10 +313,10 @@ export function BrandProfileLegalTab({
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Card className="rounded-xl border border-border-default bg-white p-4 shadow-sm md:p-5">
-          <div className="mb-3 flex items-center gap-2 border-b border-border-subtle pb-3">
-            <ShieldCheck className="size-4 text-accent-primary" />
-            <h3 className="text-sm font-semibold text-text-primary">Лицензии</h3>
+        <Card className="border-border-default rounded-xl border bg-white p-4 shadow-sm md:p-5">
+          <div className="border-border-subtle mb-3 flex items-center gap-2 border-b pb-3">
+            <ShieldCheck className="text-accent-primary size-4" />
+            <h3 className="text-text-primary text-sm font-semibold">Лицензии</h3>
           </div>
           {isEditing ? (
             <Textarea
@@ -322,13 +326,13 @@ export function BrandProfileLegalTab({
               placeholder="При необходимости"
             />
           ) : (
-            <p className="text-sm font-medium text-text-secondary">{legalData.licenses}</p>
+            <p className="text-text-secondary text-sm font-medium">{legalData.licenses}</p>
           )}
         </Card>
-        <Card className="rounded-xl border border-border-default bg-white p-4 shadow-sm md:p-5">
-          <div className="mb-3 flex items-center gap-2 border-b border-border-subtle pb-3">
-            <FileText className="size-4 text-state-success" />
-            <h3 className="text-sm font-semibold text-text-primary">Доверенности</h3>
+        <Card className="border-border-default rounded-xl border bg-white p-4 shadow-sm md:p-5">
+          <div className="border-border-subtle mb-3 flex items-center gap-2 border-b pb-3">
+            <FileText className="text-state-success size-4" />
+            <h3 className="text-text-primary text-sm font-semibold">Доверенности</h3>
           </div>
           {isEditing ? (
             <Textarea
@@ -340,13 +344,13 @@ export function BrandProfileLegalTab({
               placeholder="Ген. доверенность, спец. доверенность"
             />
           ) : (
-            <p className="text-sm font-medium text-text-secondary">{legalData.powersOfAttorney}</p>
+            <p className="text-text-secondary text-sm font-medium">{legalData.powersOfAttorney}</p>
           )}
         </Card>
-        <Card className="rounded-xl border border-border-default bg-white p-4 shadow-sm md:p-5">
-          <div className="mb-3 flex items-center gap-2 border-b border-border-subtle pb-3">
+        <Card className="border-border-default rounded-xl border bg-white p-4 shadow-sm md:p-5">
+          <div className="border-border-subtle mb-3 flex items-center gap-2 border-b pb-3">
             <Shield className="size-4 text-amber-600" />
-            <h3 className="text-sm font-semibold text-text-primary">Страхование</h3>
+            <h3 className="text-text-primary text-sm font-semibold">Страхование</h3>
           </div>
           {isEditing ? (
             <Input
@@ -356,7 +360,7 @@ export function BrandProfileLegalTab({
               placeholder="ОСАГО, ДМС, КАСКО"
             />
           ) : (
-            <p className="text-sm font-medium text-text-secondary">{legalData.insurance}</p>
+            <p className="text-text-secondary text-sm font-medium">{legalData.insurance}</p>
           )}
         </Card>
       </div>

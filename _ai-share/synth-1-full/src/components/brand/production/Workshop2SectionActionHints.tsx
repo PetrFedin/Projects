@@ -13,16 +13,8 @@ const STEP_LABEL: Record<Workshop2TzSignoffSectionKey, string> = {
 };
 
 const DEFAULT_ACTIONS: Record<Workshop2TzSignoffSectionKey, string[]> = {
-  general: [
-    'Заполните Sku и название.',
-    'Проверьте аудиторию и L1-L3.',
-    'Добавьте сроки запуска.',
-  ],
-  visuals: [
-    'Добавьте 1+ референс.',
-    'Укажите цвет и референс.',
-    'Выберите силуэт/посадку.',
-  ],
+  general: ['Заполните Sku и название.', 'Проверьте аудиторию и L1-L3.', 'Добавьте сроки запуска.'],
+  visuals: ['Добавьте 1+ референс.', 'Укажите цвет и референс.', 'Выберите силуэт/посадку.'],
   material: [
     'Добавьте 2+ материалов в Bom.',
     'Проверьте состав 100%.',
@@ -38,9 +30,7 @@ const DEFAULT_ACTIONS: Record<Workshop2TzSignoffSectionKey, string[]> = {
     'Выберите вложения для передачи.',
     'Зафиксируйте handoff.',
   ],
-  b2b_sales: [
-    'Заполните параметры B2B.',
-  ],
+  b2b_sales: ['Заполните параметры B2B.'],
 };
 
 function normalizeWarningAsAction(text: string): string {
@@ -80,7 +70,7 @@ export function Workshop2SectionActionHints({
               className={
                 hasWarnings
                   ? 'mt-[2px] inline-block h-1.5 w-1.5 rounded-full bg-amber-500'
-                  : 'mt-[2px] inline-block h-1.5 w-1.5 rounded-full bg-accent-primary/80'
+                  : 'bg-accent-primary/80 mt-[2px] inline-block h-1.5 w-1.5 rounded-full'
               }
             />
             <span className="leading-snug">{item}</span>

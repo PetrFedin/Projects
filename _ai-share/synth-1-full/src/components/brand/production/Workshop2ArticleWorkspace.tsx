@@ -68,7 +68,13 @@ import {
   W2_ARTICLE_MAIN_TAB_STRIP,
   w2ArticleMainTabMeta,
 } from '@/lib/production/workshop-article-main-tab-labels';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   appendWorkshop2ArticleActivity,
   buildWorkshop2ArticleProductionHistory,
@@ -97,7 +103,10 @@ import {
 } from '@/components/brand/production/Workshop2ArticleWorkspaceTabPanels';
 import { Workshop2DfmCheckPanel } from '@/components/brand/production/workshop2-dfm-check-panel';
 import { Workshop2ContractorMatchmaker } from '@/components/brand/production/workshop2-contractor-matchmaker';
-import { PassportTzExtraAssigneeCard, W2PassportTzStagesPick } from '@/components/brand/production/workshop2-article-workspace-passport-tz-widgets';
+import {
+  PassportTzExtraAssigneeCard,
+  W2PassportTzStagesPick,
+} from '@/components/brand/production/workshop2-article-workspace-passport-tz-widgets';
 import { useWorkshop2TzDueNotifications } from '@/hooks/use-workshop2-tz-due-notifications';
 import { useRbac } from '@/hooks/useRbac';
 import { useToast } from '@/hooks/use-toast';
@@ -183,7 +192,10 @@ type Props = {
     patch: Workshop2ArticleLinePatch
   ) => boolean;
   articlePickerLines: LocalOrderLine[];
-  onCommitWorkshop2Article: (collectionId: string, commit: Workshop2ArticleCommit) => string | false;
+  onCommitWorkshop2Article: (
+    collectionId: string,
+    commit: Workshop2ArticleCommit
+  ) => string | false;
 };
 
 type StageUiStatus =
@@ -274,15 +286,25 @@ function Workshop2ArticleWorkspaceScreen({
   dossierViewProfile: Workshop2DossierViewProfile;
   sketchFloorInUrl: boolean;
   articlePickerLines: LocalOrderLine[];
-  onCommitWorkshop2Article: (collectionId: string, commit: Workshop2ArticleCommit) => string | false;
+  onCommitWorkshop2Article: (
+    collectionId: string,
+    commit: Workshop2ArticleCommit
+  ) => string | false;
 }) {
   const { bundle, dossier, setDossier } = useArticleWorkspace();
   const [dossierHydrateKey, setDossierHydrateKey] = useState(0);
   const { role } = useRbac();
   const visibleTabs = useMemo(() => {
-    return W2_ARTICLE_MAIN_TAB_STRIP.filter(t => {
+    return W2_ARTICLE_MAIN_TAB_STRIP.filter((t) => {
       if (role === 'designer') return t.id === 'tz' || t.id === 'fit' || t.id === 'supply';
-      if (role === 'manufacturer') return t.id === 'tz' || t.id === 'plan' || t.id === 'release' || t.id === 'qc' || t.id === 'stock';
+      if (role === 'manufacturer')
+        return (
+          t.id === 'tz' ||
+          t.id === 'plan' ||
+          t.id === 'release' ||
+          t.id === 'qc' ||
+          t.id === 'stock'
+        );
       return true;
     });
   }, [role]);
@@ -375,7 +397,15 @@ function Workshop2ArticleWorkspaceScreen({
 
   useEffect(() => {
     let raw = getWorkshop2Phase1Dossier(collectionId, article.id) ?? null;
-    const demoMerged = null; // Removed mergeSs27DemoDossierIfNeeded to avoid canned mock data
+    const demoMerged = fullTzDemoAutoMergeEnabled
+      ? mergeSs27DemoDossierIfNeeded(
+          collectionId,
+          { id: article.id, sku: article.sku },
+          raw,
+          leaf ?? null,
+          createdByLabel
+        )
+      : null;
 
     if (demoMerged) {
       setWorkshop2Phase1Dossier(collectionId, article.id, demoMerged);
@@ -397,7 +427,7 @@ function Workshop2ArticleWorkspaceScreen({
       const leafAud = leaf?.audienceId?.trim();
       let defaultAudienceId = leafAud;
       let defaultUnisex = raw.isUnisex;
-      
+
       const skuUpper = (article.sku || '').trim().toUpperCase();
       if (skuUpper.includes('-M-')) {
         defaultAudienceId = 'men';
@@ -436,6 +466,7 @@ function Workshop2ArticleWorkspaceScreen({
     collectionId,
     createdByLabel,
     dossierHydrateKey,
+    fullTzDemoAutoMergeEnabled,
     leaf,
     lineTzBindings,
     mainTab,
@@ -1225,7 +1256,7 @@ function Workshop2ArticleWorkspaceScreen({
         </div>
         <div className="min-w-0 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:thin] sm:overflow-x-visible">
           <div
-            className="grid min-h-9 w-full min-w-[48rem] grid-cols-7 gap-0.5 rounded-xl border border-border-subtle bg-bg-surface2 p-1 sm:min-w-0"
+            className="border-border-subtle bg-bg-surface2 grid min-h-9 w-full min-w-[48rem] grid-cols-7 gap-0.5 rounded-xl border p-1 sm:min-w-0"
             role="tablist"
             aria-label="Разделы артикула"
             style={{ gridTemplateColumns: `repeat(${visibleTabs.length}, minmax(0, 1fr))` }}
@@ -1241,8 +1272,9 @@ function Workshop2ArticleWorkspaceScreen({
                   onClick={() => openTab(t.id)}
                   className={cn(
                     cabinetSurface.tabsTrigger,
-                    'h-8 min-h-8 min-w-0 w-full max-w-full justify-center !normal-case !tracking-tight px-1.5 text-center text-[10px] font-semibold leading-tight',
-                    active && 'bg-bg-surface text-accent-primary shadow-sm ring-1 ring-border-subtle'
+                    'h-8 min-h-8 w-full min-w-0 max-w-full justify-center px-1.5 text-center text-[10px] font-semibold !normal-case leading-tight !tracking-tight',
+                    active &&
+                      'bg-bg-surface text-accent-primary ring-border-subtle shadow-sm ring-1'
                   )}
                 >
                   {t.title}
@@ -1262,10 +1294,12 @@ function Workshop2ArticleWorkspaceScreen({
               </p>
               <Select
                 value={passportVisualSource}
-                onValueChange={(v) => updatePassportVisualSource(v as Workshop2PassportVisualSource)}
+                onValueChange={(v) =>
+                  updatePassportVisualSource(v as Workshop2PassportVisualSource)
+                }
               >
                 <SelectTrigger
-                  className="border-border-default bg-white text-text-primary h-8 w-full text-[10px] sm:max-w-[11rem]"
+                  className="border-border-default text-text-primary h-8 w-full bg-white text-[10px] sm:max-w-[11rem]"
                   aria-label="Источник изображения в паспорте"
                 >
                   <SelectValue placeholder="Источник" />
@@ -1369,7 +1403,7 @@ function Workshop2ArticleWorkspaceScreen({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                    className="h-8 w-8 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
                     onClick={() => setArticleEditOpen(true)}
                     title="Редактировать"
                     aria-label="Редактировать"
@@ -1408,25 +1442,26 @@ function Workshop2ArticleWorkspaceScreen({
                     : 'Формат: 6 цифр от 100000. Номер присваивается при сохранении строки в инвентаре разработки коллекции.'
                 }
               >
-                <div className="flex items-center gap-2 justify-end mb-1">
-                  <Badge variant="outline" className="bg-emerald-50 text-emerald-600 border-emerald-200 text-[9px] gap-1 px-1.5 py-0">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <div className="mb-1 flex items-center justify-end gap-2">
+                  <Badge
+                    variant="outline"
+                    className="gap-1 border-emerald-200 bg-emerald-50 px-1.5 py-0 text-[9px] text-emerald-600"
+                  >
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500"></span>
                     Multiplayer (Yjs)
                   </Badge>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-5 px-1.5 text-[9px] font-semibold flex items-center gap-1 border-indigo-200 text-indigo-700 bg-indigo-50/50 hover:bg-indigo-100"
+                    className="flex h-5 items-center gap-1 border-indigo-200 bg-indigo-50/50 px-1.5 text-[9px] font-semibold text-indigo-700 hover:bg-indigo-100"
                     onClick={() => setVersionHistoryOpen(true)}
                     title="Управление версиями ТЗ"
                   >
-                    <LucideIcons.History className="w-3 h-3" />
+                    <LucideIcons.History className="h-3 w-3" />
                     {dossier?.dossierVersionLabel || `v${dossier?.dossierVersion || 1}`}
                   </Button>
                 </div>
-                <p className="text-text-muted text-[8px] font-semibold">
-                  Внутренний артикул
-                </p>
+                <p className="text-text-muted text-[8px] font-semibold">Внутренний артикул</p>
                 <p
                   className={cn(
                     'text-text-primary font-mono text-[10px] font-medium tabular-nums',
@@ -1442,16 +1477,16 @@ function Workshop2ArticleWorkspaceScreen({
                 </p>
               </div>
               <div className="border-border-subtle col-span-1 border-t pt-3 sm:col-span-2">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Workshop2DfmCheckPanel 
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <Workshop2DfmCheckPanel
                     articleDescription={`Артикул: ${article.sku}\nНазвание: ${articleDisplayName}\nКатегория: ${categoryPath}`}
                     photoUrl={passportVisualSlides[passportVisualIndex]?.src}
                   />
-                  <Workshop2ContractorMatchmaker 
+                  <Workshop2ContractorMatchmaker
                     articleDescription={`Артикул: ${article.sku}\nНазвание: ${articleDisplayName}\nКатегория: ${categoryPath}`}
                   />
                 </div>
-                <div className="flex flex-wrap items-center gap-3 mt-4">
+                <div className="mt-4 flex flex-wrap items-center gap-3">
                   <Button
                     type="button"
                     variant="outline"
@@ -1494,7 +1529,7 @@ function Workshop2ArticleWorkspaceScreen({
                     />
                     Пульс {pulseScore}%
                     {pulseHandoffOk ? (
-                      <span className="bg-emerald-600 text-white rounded px-1 py-0 text-[9px] font-bold leading-none">
+                      <span className="rounded bg-emerald-600 px-1 py-0 text-[9px] font-bold leading-none text-white">
                         OK
                       </span>
                     ) : null}
@@ -1553,29 +1588,39 @@ function Workshop2ArticleWorkspaceScreen({
       >
         <DialogContent
           ariaTitle="Управление ролями и подписями"
-          className="flex max-h-[min(90vh,600px)] max-w-lg flex-col gap-0 p-0 overflow-hidden bg-slate-50"
+          className="flex max-h-[min(90vh,600px)] max-w-lg flex-col gap-0 overflow-hidden bg-slate-50 p-0"
         >
-          <DialogHeader className="bg-white px-5 py-4 border-b">
-            <DialogTitle className="text-text-primary text-lg flex items-center gap-2">
-              <LucideIcons.Users className="w-5 h-5 text-accent-primary" />
+          <DialogHeader className="border-b bg-white px-5 py-4">
+            <DialogTitle className="text-text-primary flex items-center gap-2 text-lg">
+              <LucideIcons.Users className="text-accent-primary h-5 w-5" />
               Подписанты ТЗ
             </DialogTitle>
-            <DialogDescription className="text-text-secondary text-xs mt-1.5">
-              Закрепите ответственных за разделы ТЗ. Их подписи будут фиксироваться в финальном документе.
+            <DialogDescription className="text-text-secondary mt-1.5 text-xs">
+              Закрепите ответственных за разделы ТЗ. Их подписи будут фиксироваться в финальном
+              документе.
             </DialogDescription>
           </DialogHeader>
-          
-          <div className="bg-amber-50/50 px-5 py-2 border-b border-amber-100 flex items-center justify-between">
-            <div className="flex items-center gap-4 text-[10px] text-amber-900/80 font-medium">
-              <span className="flex items-center gap-1"><LucideIcons.CheckSquare className="w-3 h-3" /> Паспорт {dossierReadiness.sections.general.pct}%</span>
-              <span className="flex items-center gap-1"><LucideIcons.CheckSquare className="w-3 h-3" /> Материалы {dossierReadiness.sections.material.pct}%</span>
-              <span className="flex items-center gap-1"><LucideIcons.CheckSquare className="w-3 h-3" /> Конструкция {dossierReadiness.sections.construction.pct}%</span>
+
+          <div className="flex items-center justify-between border-b border-amber-100 bg-amber-50/50 px-5 py-2">
+            <div className="flex items-center gap-4 text-[10px] font-medium text-amber-900/80">
+              <span className="flex items-center gap-1">
+                <LucideIcons.CheckSquare className="h-3 w-3" /> Паспорт{' '}
+                {dossierReadiness.sections.general.pct}%
+              </span>
+              <span className="flex items-center gap-1">
+                <LucideIcons.CheckSquare className="h-3 w-3" /> Материалы{' '}
+                {dossierReadiness.sections.material.pct}%
+              </span>
+              <span className="flex items-center gap-1">
+                <LucideIcons.CheckSquare className="h-3 w-3" /> Конструкция{' '}
+                {dossierReadiness.sections.construction.pct}%
+              </span>
             </div>
             <Button
               type="button"
               variant="ghost"
               size="sm"
-              className="h-6 text-[9px] hover:bg-amber-100/50 text-amber-900"
+              className="h-6 text-[9px] text-amber-900 hover:bg-amber-100/50"
               onClick={clearSignStageExclusionsForAllRoles}
             >
               Сбросить ограничения этапов
@@ -1584,7 +1629,7 @@ function Workshop2ArticleWorkspaceScreen({
 
           <div
             ref={tzSignatoryListScrollRef}
-            className="min-h-0 flex-1 overflow-y-auto p-5 space-y-3"
+            className="min-h-0 flex-1 space-y-3 overflow-y-auto p-5"
           >
             {passportTzSignerRowsOrdered.map((entry) => {
               if (entry.kind === 'extra') {
@@ -1613,20 +1658,22 @@ function Workshop2ArticleWorkspaceScreen({
               }
               const row = entry.row;
               const assignee = passportTzBindings[row.valueKey]?.trim() ?? '';
-              const adminName = dossier?.passportProductionBrief?.articleCardOwnerName?.trim() ?? '';
+              const adminName =
+                dossier?.passportProductionBrief?.articleCardOwnerName?.trim() ?? '';
               const adminOn = Boolean(
                 assignee && adminName && workshopTzLabelsMatch(assignee, adminName)
               );
-              const showClearBaseAssignee = Boolean(assignee) && canRemovePassportTzRoleRows && !adminOn;
+              const showClearBaseAssignee =
+                Boolean(assignee) && canRemovePassportTzRoleRows && !adminOn;
               return (
                 <div
                   key={row.id}
-                  className="bg-white rounded-lg border border-slate-200 p-3 shadow-sm flex flex-col gap-2 transition-all hover:border-slate-300"
+                  className="flex flex-col gap-2 rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition-all hover:border-slate-300"
                 >
                   <div className="flex items-center justify-between">
                     <Label
                       htmlFor={`${row.id}-dlg`}
-                      className="text-slate-800 text-xs font-bold uppercase tracking-wide flex items-center gap-1.5"
+                      className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-slate-800"
                     >
                       {row.label}
                     </Label>
@@ -1643,7 +1690,9 @@ function Workshop2ArticleWorkspaceScreen({
                               ? 'bg-accent-primary text-white'
                               : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
                           )}
-                          onClick={() => toggleCardAdminForAssignee(assignee || undefined, !adminOn)}
+                          onClick={() =>
+                            toggleCardAdminForAssignee(assignee || undefined, !adminOn)
+                          }
                         >
                           Админ
                         </button>
@@ -1651,7 +1700,7 @@ function Workshop2ArticleWorkspaceScreen({
                       {showClearBaseAssignee && (
                         <button
                           type="button"
-                          className="h-5 w-5 flex items-center justify-center rounded-md text-slate-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+                          className="flex h-5 w-5 items-center justify-center rounded-md text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
                           onClick={() => persistTzBindings({ [row.valueKey]: undefined })}
                           aria-label={`Убрать ${row.label}`}
                         >
@@ -1660,10 +1709,10 @@ function Workshop2ArticleWorkspaceScreen({
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                     <select
                       id={`${row.id}-dlg`}
-                      className="h-8 flex-1 rounded-md border border-slate-200 bg-slate-50 px-2 text-xs font-medium text-slate-700 focus:bg-white focus:ring-1 focus:ring-accent-primary focus:outline-none"
+                      className="focus:ring-accent-primary h-8 flex-1 rounded-md border border-slate-200 bg-slate-50 px-2 text-xs font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-1"
                       value={passportTzBindings[row.valueKey] ?? ''}
                       onChange={(e) =>
                         persistTzBindings({
@@ -1675,26 +1724,31 @@ function Workshop2ArticleWorkspaceScreen({
                     </select>
                     <W2PassportTzStagesPick
                       idPrefix={`${row.id}-dlg`}
-                      selectedIds={workshopTzSelectedStageIds(row.stages, W2_PASSPORT_TZ_STAGE_ORDER)}
-                      disabledIds={row.role === 'technologist' ? ['tz', 'sample', 'supply'] : undefined}
+                      selectedIds={workshopTzSelectedStageIds(
+                        row.stages,
+                        W2_PASSPORT_TZ_STAGE_ORDER
+                      )}
+                      disabledIds={
+                        row.role === 'technologist' ? ['tz', 'sample', 'supply'] : undefined
+                      }
                       onChange={(ids) => setRoleSignStagesBulk(row.role, ids)}
                     />
                   </div>
                   {assignee ? (
-                    <p className="text-slate-400 text-[10px] flex items-center gap-1 font-medium">
-                      <LucideIcons.Building2 className="w-3 h-3" />
+                    <p className="flex items-center gap-1 text-[10px] font-medium text-slate-400">
+                      <LucideIcons.Building2 className="h-3 w-3" />
                       {workshopTzAssigneeOrganizationName(assignee) || 'Организация не указана'}
                     </p>
                   ) : null}
                 </div>
               );
             })}
-            
-            <div className="pt-4 flex flex-col items-center justify-center gap-3">
-              <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest relative flex items-center w-full">
-                <span className="flex-1 h-px bg-slate-200"></span>
+
+            <div className="flex flex-col items-center justify-center gap-3 pt-4">
+              <span className="relative flex w-full items-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                <span className="h-px flex-1 bg-slate-200"></span>
                 <span className="px-3">Добавить роль</span>
-                <span className="flex-1 h-px bg-slate-200"></span>
+                <span className="h-px flex-1 bg-slate-200"></span>
               </span>
               <div className="flex flex-wrap justify-center gap-1.5">
                 {WORKSHOP2_TZ_EXTRA_ROLE_PRESET_DEFS.map((p) => (
@@ -1703,7 +1757,7 @@ function Workshop2ArticleWorkspaceScreen({
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="h-7 px-2.5 text-[10px] font-semibold bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:text-slate-900"
+                    className="h-7 border-slate-200 bg-white px-2.5 text-[10px] font-semibold text-slate-600 hover:border-slate-300 hover:text-slate-900"
                     onClick={() => addExtraTzRoleFromPreset(p.id)}
                   >
                     + {WORKSHOP2_TZ_EXTRA_ROLE_PRESET_BUTTON_LABEL_RU[p.id]}
@@ -1713,19 +1767,25 @@ function Workshop2ArticleWorkspaceScreen({
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="h-7 px-2.5 text-[10px] font-semibold bg-white border-slate-200 text-accent-primary hover:border-accent-primary hover:bg-accent-primary/5"
+                  className="text-accent-primary hover:border-accent-primary hover:bg-accent-primary/5 h-7 border-slate-200 bg-white px-2.5 text-[10px] font-semibold"
                   onClick={addExtraTzRoleRow}
                 >
-                  <LucideIcons.Plus className="w-3 h-3 mr-1" />
+                  <LucideIcons.Plus className="mr-1 h-3 w-3" />
                   Своя роль
                 </Button>
               </div>
             </div>
           </div>
-          
-          <DialogFooter className="bg-white border-t px-5 py-3 flex sm:justify-between items-center">
-            <span className="text-[10px] text-slate-400 font-medium hidden sm:block">Изменения сохраняются автоматически</span>
-            <Button type="button" onClick={() => setSignatoriesDialogOpen(false)} className="px-8 font-semibold">
+
+          <DialogFooter className="flex items-center border-t bg-white px-5 py-3 sm:justify-between">
+            <span className="hidden text-[10px] font-medium text-slate-400 sm:block">
+              Изменения сохраняются автоматически
+            </span>
+            <Button
+              type="button"
+              onClick={() => setSignatoriesDialogOpen(false)}
+              className="px-8 font-semibold"
+            >
               Готово
             </Button>
           </DialogFooter>
@@ -1746,14 +1806,18 @@ function Workshop2ArticleWorkspaceScreen({
                   <span className="text-text-primary font-medium">
                     {W2_PULSE_SECTION_LABEL_RU[focusDossierSection]}
                   </span>
-                  : ниже — общая сводка по артикулу; блок «Замечания движка» отфильтрован по этому разделу.
+                  : ниже — общая сводка по артикулу; блок «Замечания движка» отфильтрован по этому
+                  разделу.
                 </>
               ) : (
-                <>Сводка готовности к передаче, pre-flight производства и обязательных полей по разделам ТЗ.</>
+                <>
+                  Сводка готовности к передаче, pre-flight производства и обязательных полей по
+                  разделам ТЗ.
+                </>
               )}
             </DialogDescription>
           </DialogHeader>
-          <div className="max-h-[min(78vh,620px)] overflow-y-auto px-4 py-3 space-y-4">
+          <div className="max-h-[min(78vh,620px)] space-y-4 overflow-y-auto px-4 py-3">
             <div
               className={cn(
                 'rounded-lg border px-3 py-2 text-[11px] leading-snug',
@@ -1762,7 +1826,7 @@ function Workshop2ArticleWorkspaceScreen({
                   : 'border-amber-200 bg-amber-50/85 text-amber-950'
               )}
             >
-              <p className="font-semibold text-text-primary">
+              <p className="text-text-primary font-semibold">
                 Готовность к передаче (pre-flight): {pulseScore}/100
                 {pulseScoreBand ? (
                   <>
@@ -1771,7 +1835,7 @@ function Workshop2ArticleWorkspaceScreen({
                   </>
                 ) : null}
               </p>
-              <p className="mt-0.5 text-text-secondary">
+              <p className="text-text-secondary mt-0.5">
                 Блокеров: {productionPreflightPulse?.blockers.length ?? 0} · предупреждений:{' '}
                 {productionPreflightPulse?.warnings.length ?? 0} · сводка заполнения ТЗ:{' '}
                 {dossierReadiness.overall.pct}% · ворота handoff:{' '}
@@ -1781,7 +1845,9 @@ function Workshop2ArticleWorkspaceScreen({
             </div>
 
             <div className="space-y-2">
-              <p className="text-text-primary text-[11px] font-semibold">Обязательное по разделам ТЗ</p>
+              <p className="text-text-primary text-[11px] font-semibold">
+                Обязательное по разделам ТЗ
+              </p>
               <div className="space-y-2">
                 {W2_ARTICLE_PULSE_SECTION_ORDER.map((sec) => {
                   const block = dossierReadiness.sections[sec];
@@ -1790,7 +1856,9 @@ function Workshop2ArticleWorkspaceScreen({
                     block.warnings.length > 0
                       ? block.warnings
                       : block.pct < 100
-                        ? [`Заполнение ${block.pct}% — доведите раздел до 100% или закройте обязательные пункты.`]
+                        ? [
+                            `Заполнение ${block.pct}% — доведите раздел до 100% или закройте обязательные пункты.`,
+                          ]
                         : [];
                   if (missing.length === 0 && block.pct >= 100) {
                     return (
@@ -1807,7 +1875,7 @@ function Workshop2ArticleWorkspaceScreen({
                       key={sec}
                       className="rounded-md border border-amber-100 bg-amber-50/40 px-2.5 py-1.5 text-[10px] text-amber-950"
                     >
-                      <div className="font-semibold text-text-primary">
+                      <div className="text-text-primary font-semibold">
                         {label} · {block.pct}%
                       </div>
                       <ul className="mt-1 list-inside list-disc space-y-0.5 pl-0.5">
@@ -1823,40 +1891,42 @@ function Workshop2ArticleWorkspaceScreen({
 
             {productionPreflightPulse && productionPreflightPulse.issues.length > 0 ? (
               <div className="space-y-2">
-                <p className="text-text-primary text-[11px] font-semibold">Pre-flight производства</p>
+                <p className="text-text-primary text-[11px] font-semibold">
+                  Pre-flight производства
+                </p>
                 <div className="space-y-2">
-                  {(Object.keys(pulsePreflightBySection) as W2ProductionPreflightIssue['section'][]).map(
-                    (secKey) => {
-                      const list = pulsePreflightBySection[secKey];
-                      if (!list?.length) return null;
-                      return (
-                        <div
-                          key={secKey}
-                          className="rounded-md border border-border-subtle bg-bg-surface2/40 px-2.5 py-1.5"
-                        >
-                          <p className="text-text-primary text-[10px] font-semibold">
-                            {W2_PULSE_PREFLIGHT_SECTION_LABEL_RU[secKey]}
-                          </p>
-                          <ul className="mt-1 list-inside list-disc space-y-0.5 pl-0.5 text-[10px] text-text-secondary">
-                            {list.map((issue) => (
-                              <li key={issue.id}>
-                                <span
-                                  className={
-                                    issue.severity === 'blocker'
-                                      ? 'font-semibold text-rose-800'
-                                      : 'font-medium text-amber-900'
-                                  }
-                                >
-                                  {issue.label}:
-                                </span>{' '}
-                                {issue.detail}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      );
-                    }
-                  )}
+                  {(
+                    Object.keys(pulsePreflightBySection) as W2ProductionPreflightIssue['section'][]
+                  ).map((secKey) => {
+                    const list = pulsePreflightBySection[secKey];
+                    if (!list?.length) return null;
+                    return (
+                      <div
+                        key={secKey}
+                        className="border-border-subtle bg-bg-surface2/40 rounded-md border px-2.5 py-1.5"
+                      >
+                        <p className="text-text-primary text-[10px] font-semibold">
+                          {W2_PULSE_PREFLIGHT_SECTION_LABEL_RU[secKey]}
+                        </p>
+                        <ul className="text-text-secondary mt-1 list-inside list-disc space-y-0.5 pl-0.5 text-[10px]">
+                          {list.map((issue) => (
+                            <li key={issue.id}>
+                              <span
+                                className={
+                                  issue.severity === 'blocker'
+                                    ? 'font-semibold text-rose-800'
+                                    : 'font-medium text-amber-900'
+                                }
+                              >
+                                {issue.label}:
+                              </span>{' '}
+                              {issue.detail}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             ) : null}
@@ -1889,8 +1959,8 @@ function Workshop2ArticleWorkspaceScreen({
             {mainTab === 'tz' ? (
               <div className="space-y-2">
                 {pulseSlotRef.current?.renderTzMinimalControls?.()}
-                <details className="rounded-lg border border-border-subtle bg-white/60 px-2 py-1.5 text-[11px]">
-                  <summary className="cursor-pointer select-none font-semibold text-text-primary">
+                <details className="border-border-subtle rounded-lg border bg-white/60 px-2 py-1.5 text-[11px]">
+                  <summary className="text-text-primary cursor-pointer select-none font-semibold">
                     Хабы визуала и материалов
                   </summary>
                   <div className="mt-2 space-y-4">
@@ -1927,8 +1997,8 @@ function Workshop2ArticleWorkspaceScreen({
           <DialogHeader className="border-border-subtle shrink-0 border-b px-4 py-3">
             <DialogTitle className="text-text-primary text-base">Предварительно ТЗ</DialogTitle>
             <DialogDescription className="text-text-secondary text-xs">
-              Сводный HTML так же, как при финальном экспорте. Прокрутите документ целиком — все уровни
-              карточки, попавшие в сборку.
+              Сводный HTML так же, как при финальном экспорте. Прокрутите документ целиком — все
+              уровни карточки, попавшие в сборку.
             </DialogDescription>
           </DialogHeader>
           <div className="min-h-0 flex-1 bg-slate-100 p-2">
@@ -1946,7 +2016,13 @@ function Workshop2ArticleWorkspaceScreen({
             )}
           </div>
           <DialogFooter className="border-border-subtle shrink-0 border-t px-4 py-2">
-            <Button type="button" variant="outline" size="sm" className="h-7" onClick={() => setTzPreviewOpen(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-7"
+              onClick={() => setTzPreviewOpen(false)}
+            >
               Закрыть
             </Button>
           </DialogFooter>
@@ -2089,8 +2165,8 @@ function Workshop2ArticleWorkspaceScreen({
           <DialogHeader className="border-border-subtle space-y-1 border-b px-4 py-3">
             <DialogTitle className="text-text-primary text-base">История</DialogTitle>
             <DialogDescription className="text-text-secondary text-xs">
-              <span className="text-text-primary font-mono font-semibold">{article.sku}</span> — локальные
-              правки коллекции, ТЗ и строки артикула.
+              <span className="text-text-primary font-mono font-semibold">{article.sku}</span> —
+              локальные правки коллекции, ТЗ и строки артикула.
             </DialogDescription>
           </DialogHeader>
           <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
@@ -2101,11 +2177,12 @@ function Workshop2ArticleWorkspaceScreen({
             ) : (
               <ul className="divide-border-subtle divide-y">
                 {articleProductionHistory.map((row) => (
-                  <li key={row.id} className="text-text-primary py-2.5 text-sm first:pt-0 last:pb-0">
+                  <li
+                    key={row.id}
+                    className="text-text-primary py-2.5 text-sm first:pt-0 last:pb-0"
+                  >
                     <div className="flex flex-wrap items-baseline justify-between gap-2">
-                      <span className="text-text-muted text-[9px] font-semibold">
-                        {row.scope}
-                      </span>
+                      <span className="text-text-muted text-[9px] font-semibold">{row.scope}</span>
                       <time
                         dateTime={row.at}
                         className="text-text-secondary text-[11px] font-medium tabular-nums"
@@ -2149,46 +2226,72 @@ function Workshop2ArticleWorkspaceScreen({
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-indigo-900">
-              <LucideIcons.History className="w-5 h-5 text-indigo-500" />
+              <LucideIcons.History className="h-5 w-5 text-indigo-500" />
               Версионирование ТЗ (Досье)
             </DialogTitle>
             <DialogDescription>
-              Текущая активная версия: <strong>{dossier?.dossierVersionLabel || `v${dossier?.dossierVersion || 1}`}</strong>.
-              Вы можете зафиксировать текущее состояние лекал и ТЗ для производства, создав новую версию.
+              Текущая активная версия:{' '}
+              <strong>{dossier?.dossierVersionLabel || `v${dossier?.dossierVersion || 1}`}</strong>.
+              Вы можете зафиксировать текущее состояние лекал и ТЗ для производства, создав новую
+              версию.
             </DialogDescription>
           </DialogHeader>
 
-          <div className="py-4 space-y-4">
+          <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <ul className="relative border-l border-slate-200 ml-3 space-y-4">
-                {(dossier?.versionHistorySnapshots || [{ version: 1, label: 'v1 - Первый сэмпл', at: new Date().toISOString(), by: createdByLabel }]).map((v: any, idx: number, arr: any[]) => (
-                  <li key={v.version} className="pl-6 relative">
-                    <div className={cn(
-                      "absolute w-3 h-3 rounded-full -left-[6.5px] top-1.5 border-2 border-white",
-                      idx === arr.length - 1 ? "bg-indigo-500" : "bg-slate-300"
-                    )}></div>
-                    <p className={cn("text-sm font-semibold", idx === arr.length - 1 ? "text-indigo-900" : "text-slate-700")}>
+              <ul className="relative ml-3 space-y-4 border-l border-slate-200">
+                {(
+                  dossier?.versionHistorySnapshots || [
+                    {
+                      version: 1,
+                      label: 'v1 - Первый сэмпл',
+                      at: new Date().toISOString(),
+                      by: createdByLabel,
+                    },
+                  ]
+                ).map((v: any, idx: number, arr: any[]) => (
+                  <li key={v.version} className="relative pl-6">
+                    <div
+                      className={cn(
+                        'absolute -left-[6.5px] top-1.5 h-3 w-3 rounded-full border-2 border-white',
+                        idx === arr.length - 1 ? 'bg-indigo-500' : 'bg-slate-300'
+                      )}
+                    ></div>
+                    <p
+                      className={cn(
+                        'text-sm font-semibold',
+                        idx === arr.length - 1 ? 'text-indigo-900' : 'text-slate-700'
+                      )}
+                    >
                       {v.label}
                     </p>
-                    <p className="text-[10px] text-slate-500 mt-0.5">
-                      Зафиксировал(а) {v.by} · {new Date(v.at).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' })}
+                    <p className="mt-0.5 text-[10px] text-slate-500">
+                      Зафиксировал(а) {v.by} ·{' '}
+                      {new Date(v.at).toLocaleString('ru-RU', {
+                        dateStyle: 'short',
+                        timeStyle: 'short',
+                      })}
                     </p>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="bg-indigo-50/50 p-4 rounded-lg border border-indigo-100 space-y-3">
+            <div className="space-y-3 rounded-lg border border-indigo-100 bg-indigo-50/50 p-4">
               <h4 className="text-sm font-semibold text-indigo-900">Создать новую версию</h4>
-              <Input placeholder="Название версии (например: v2 - Корректировка посадки)" className="h-8 text-xs bg-white" />
-              <Button 
-                size="sm" 
-                className="w-full h-8 text-xs bg-indigo-600 hover:bg-indigo-700 text-white"
+              <Input
+                placeholder="Название версии (например: v2 - Корректировка посадки)"
+                className="h-8 bg-white text-xs"
+              />
+              <Button
+                size="sm"
+                className="h-8 w-full bg-indigo-600 text-xs text-white hover:bg-indigo-700"
                 onClick={() => {
-                  toast({ 
-                    title: 'Интеграция', 
-                    description: 'Создание снимков отключено. ТЗ версионируется автоматически в БД.',
-                    variant: 'destructive'
+                  toast({
+                    title: 'Интеграция',
+                    description:
+                      'Создание снимков отключено. ТЗ версионируется автоматически в БД.',
+                    variant: 'destructive',
                   });
                 }}
               >

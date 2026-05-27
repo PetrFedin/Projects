@@ -21,12 +21,7 @@ export const BRAND_QUIZ_QUESTIONS: QuizQuestion[] = [
     key: 'price_index',
     label: 'Ценовой уровень коллекции',
     hint: 'Средний чек / позиционирование относительно конкурентов',
-    options: L(
-      'Масс-маркет, доступный вход',
-      'Мидл-маркет',
-      'Премиум',
-      'Люкс / ultra-luxury'
-    ),
+    options: L('Масс-маркет, доступный вход', 'Мидл-маркет', 'Премиум', 'Люкс / ultra-luxury'),
   },
   {
     key: 'production_volume',
@@ -133,12 +128,7 @@ export const BRAND_QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     key: 'heritage_age',
     label: 'Наследие и история бренда',
-    options: L(
-      'Новый бренд',
-      'До 10 лет',
-      '10–40 лет',
-      '40+ лет / сильная история'
-    ),
+    options: L('Новый бренд', 'До 10 лет', '10–40 лет', '40+ лет / сильная история'),
   },
   {
     key: 'innovation_design',
@@ -183,22 +173,12 @@ export const BRAND_QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     key: 'collab_frequency',
     label: 'Коллаборации и дропы',
-    options: L(
-      'Редко',
-      'Иногда',
-      'Регулярные коллаборации',
-      'Ключевая часть модели (дропы, hype)'
-    ),
+    options: L('Редко', 'Иногда', 'Регулярные коллаборации', 'Ключевая часть модели (дропы, hype)'),
   },
   {
     key: 'audience_income',
     label: 'Целевая платёжеспособность аудитории',
-    options: L(
-      'Массовый доход',
-      'Средний+',
-      'Высокий',
-      'Премиум / HNW'
-    ),
+    options: L('Массовый доход', 'Средний+', 'Высокий', 'Премиум / HNW'),
   },
   {
     key: 'digital_maturity',

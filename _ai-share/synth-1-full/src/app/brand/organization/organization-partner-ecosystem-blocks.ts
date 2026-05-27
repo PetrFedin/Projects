@@ -3,14 +3,7 @@
  * Связь: `app/api/v1/endpoints/brand.py` → `partnerEcosystem` в ответе дашборда бренда.
  */
 
-import {
-  FileText,
-  CreditCard,
-  RotateCcw,
-  Truck,
-  CheckSquare,
-  TrendingUp,
-} from 'lucide-react';
+import { FileText, CreditCard, RotateCcw, Truck, CheckSquare, TrendingUp } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export interface PartnerEcosystemBlock {

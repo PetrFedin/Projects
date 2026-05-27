@@ -210,7 +210,10 @@ function SearchContent() {
   ];
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="space-y-4 pb-16 duration-300 animate-in fade-in px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent
+      maxWidth="5xl"
+      className="space-y-4 px-4 py-6 pb-16 pb-24 duration-300 animate-in fade-in sm:px-6"
+    >
       {viewRole === 'b2b' && (
         <div className="grid grid-cols-1 gap-3 duration-500 animate-in slide-in-from-top-4 md:grid-cols-4">
           <Card className="bg-text-primary relative overflow-hidden rounded-3xl border-none p-4 text-white shadow-xl">

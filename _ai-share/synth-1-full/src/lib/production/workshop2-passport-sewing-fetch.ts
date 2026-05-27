@@ -3,11 +3,15 @@ import type {
   Workshop2SewingPlanReferencePayload,
 } from '@/lib/production/workshop2-sewing-plan-reference-types';
 
-export type Workshop2RfReferencePayload = Pick<Workshop2SewingPlanReferencePayload, 'rfSubjects' | 'source'>;
+export type Workshop2RfReferencePayload = Pick<
+  Workshop2SewingPlanReferencePayload,
+  'rfSubjects' | 'source'
+>;
 
-export async function loadWorkshop2PassportSewingSources(
-  fetchImpl: typeof fetch
-): Promise<{ refPayload: Workshop2RfReferencePayload | null; contractorsPayload: Workshop2ContractorsPayload | null }> {
+export async function loadWorkshop2PassportSewingSources(fetchImpl: typeof fetch): Promise<{
+  refPayload: Workshop2RfReferencePayload | null;
+  contractorsPayload: Workshop2ContractorsPayload | null;
+}> {
   try {
     const [refRes, contractorsRes] = await Promise.all([
       fetchImpl('/api/brand/sewing-plan-reference'),

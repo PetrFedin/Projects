@@ -16,15 +16,17 @@ export function computeSampleEconomicsDraftTotal(draft: Workshop2SampleEconomics
     const unit = Number.isFinite(line.unitCost) ? (line.unitCost as number) : 0;
     return sum + qty * unit;
   }, 0);
-  
+
   const logistics = Number.isFinite(draft.logisticsCost) ? draft.logisticsCost! : 0;
   const customs = Number.isFinite(draft.customsCost) ? draft.customsCost! : 0;
   const rework = Number.isFinite(draft.reworkCost) ? draft.reworkCost! : 0;
-  
+
   return linesTotal + logistics + customs + rework;
 }
 
-export function computeSampleEconomicsLaborHoursTotal(draft: Workshop2SampleEconomicsDraft): number {
+export function computeSampleEconomicsLaborHoursTotal(
+  draft: Workshop2SampleEconomicsDraft
+): number {
   return draft.lines.reduce((sum, line) => {
     const h = Number.isFinite(line.laborHours) ? (line.laborHours as number) : 0;
     return sum + h;
@@ -62,7 +64,7 @@ export function calculatePreliminaryCogs(
       return sum + sash;
     }, 0);
   }
-  
+
   const laborCost = totalSash * laborRatePerMinute;
 
   return {
@@ -81,6 +83,6 @@ export function calculateActualCogs(
   return {
     ...prelim,
     logisticsCost,
-    actualCogs: dossier.productionModel?.actualCogs ?? (prelim.totalCogs + logisticsCost),
+    actualCogs: dossier.productionModel?.actualCogs ?? prelim.totalCogs + logisticsCost,
   };
 }

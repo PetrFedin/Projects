@@ -1,9 +1,4 @@
-import {
-  ParamKey,
-  NormVec,
-  SegmentInfo,
-  StyleArchetype,
-} from './types';
+import { ParamKey, NormVec, SegmentInfo, StyleArchetype } from './types';
 
 export const SEGMENTS: SegmentInfo[] = [
   {
@@ -189,10 +184,7 @@ export const calcBPI = (norm: NormVec): number => {
 /** Соответствие индексу BPI (0–100) одному из 20 сегментов шкалы. */
 export const segmentFromBpi = (bpi: number): SegmentInfo => {
   const clamped = Math.max(0, Math.min(100, bpi));
-  const idx = Math.min(
-    SEGMENTS.length - 1,
-    Math.floor((clamped / 100) * SEGMENTS.length)
-  );
+  const idx = Math.min(SEGMENTS.length - 1, Math.floor((clamped / 100) * SEGMENTS.length));
   return SEGMENTS[idx];
 };
 
@@ -258,10 +250,7 @@ export const inferStyleArchetype = (norm: NormVec): StyleArchetype => {
     },
     {
       id: 'contemporary',
-      v:
-        norm.innovation_design * 0.35 +
-        norm.visual_identity * 0.2 +
-        norm.digital_maturity * 0.25,
+      v: norm.innovation_design * 0.35 + norm.visual_identity * 0.2 + norm.digital_maturity * 0.25,
     },
   ];
   scores.sort((a, b) => b.v - a.v);
@@ -273,9 +262,7 @@ export const inferStyleArchetype = (norm: NormVec): StyleArchetype => {
 export const buildUpgradeTips = (norm: NormVec, target: SegmentInfo | null): string[] => {
   const tips: string[] = [];
   if (target) {
-    tips.push(
-      `Ориентир роста: сегмент «${target.name}» — ${target.description}`
-    );
+    tips.push(`Ориентир роста: сегмент «${target.name}» — ${target.description}`);
   }
   const keys = (Object.keys(BPI_W) as ParamKey[]).filter((k) => BPI_W[k] > 0);
   const ranked = keys

@@ -73,11 +73,11 @@ export function upsertCanonicalMultiHandbookAndFree(
 ): Workshop2DossierPhase1 {
   const idx = findCanonicalIndex(dossier, attributeId);
   const prev = idx >= 0 ? dossier.assignments[idx]! : null;
-  
+
   let values: Workshop2Phase1AttributeValue[] = [];
-  
+
   if (preserveOrderValues && preserveOrderValues.length > 0) {
-     values = preserveOrderValues;
+    values = preserveOrderValues;
   } else {
     const seen = new Set<string>();
     for (const h of handbookParts) {
@@ -92,8 +92,7 @@ export function upsertCanonicalMultiHandbookAndFree(
       });
     }
     const ftParts = parseSemicolonFreeTextSegments(freeTextRaw);
-    const hasFree =
-      ftParts.some((p) => p.length > 0) || freeTextRaw.includes(';');
+    const hasFree = ftParts.some((p) => p.length > 0) || freeTextRaw.includes(';');
     if (hasFree) {
       for (const p of ftParts) {
         values.push({
@@ -105,7 +104,7 @@ export function upsertCanonicalMultiHandbookAndFree(
       }
     }
   }
-  
+
   if (values.length === 0) {
     if (idx < 0) return dossier;
     return {
@@ -132,14 +131,16 @@ export function syncSampleBaseSizePartsAndPruneDims(
   ftRaw: string
 ): Workshop2DossierPhase1 {
   const allow = new Set(parts.map((p) => p.parameterId));
-  
-  const a = prev.assignments.find((x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize');
+
+  const a = prev.assignments.find(
+    (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+  );
   let preserveOrderValues: Workshop2Phase1AttributeValue[] | undefined = undefined;
-  
+
   if (a) {
     const newValues: Workshop2Phase1AttributeValue[] = [];
     const usedParts = new Set<string>();
-    
+
     for (const v of a.values) {
       if (v.valueSource === 'handbook_parameter' && allow.has(v.parameterId!)) {
         newValues.push(v);
@@ -148,7 +149,7 @@ export function syncSampleBaseSizePartsAndPruneDims(
         newValues.push(v);
       }
     }
-    
+
     for (const p of parts) {
       if (!usedParts.has(p.parameterId)) {
         newValues.push({
@@ -161,10 +162,16 @@ export function syncSampleBaseSizePartsAndPruneDims(
     }
     preserveOrderValues = newValues;
   }
-  
-  const merged = upsertCanonicalMultiHandbookAndFree(prev, 'sampleBaseSize', parts, ftRaw, preserveOrderValues);
-  
-  const mergedAssign = merged.assignments.find(x => x.attributeId === 'sampleBaseSize');
+
+  const merged = upsertCanonicalMultiHandbookAndFree(
+    prev,
+    'sampleBaseSize',
+    parts,
+    ftRaw,
+    preserveOrderValues
+  );
+
+  const mergedAssign = merged.assignments.find((x) => x.attributeId === 'sampleBaseSize');
   if (mergedAssign) {
     mergedAssign.values.forEach((v) => {
       if (v.valueSource === 'free_text') {
@@ -253,22 +260,25 @@ export function upsertCanonicalMultiHandbookPreservingFreeSide(
       .filter((v) => v.valueSource === 'free_text')
       .map((v) => v.text ?? '')
       .join(';') ?? '';
-  
+
   let preserveOrderValues: Workshop2Phase1AttributeValue[] | undefined = undefined;
   if (a) {
     preserveOrderValues = [];
     const usedParts = new Set<string>();
-    
+
     // Keep existing handbook parameters if they are in the new list, keep free text
     for (const v of a.values) {
-      if (v.valueSource === 'handbook_parameter' && handbookParts.some(p => p.parameterId === v.parameterId)) {
+      if (
+        v.valueSource === 'handbook_parameter' &&
+        handbookParts.some((p) => p.parameterId === v.parameterId)
+      ) {
         preserveOrderValues.push(v);
         usedParts.add(v.parameterId!);
       } else if (v.valueSource === 'free_text') {
         preserveOrderValues.push(v);
       }
     }
-    
+
     // Add new handbook parameters to the end
     for (const p of handbookParts) {
       if (!usedParts.has(p.parameterId)) {
@@ -282,7 +292,13 @@ export function upsertCanonicalMultiHandbookPreservingFreeSide(
     }
   }
 
-  return upsertCanonicalMultiHandbookAndFree(prev, attributeId, handbookParts, ftText, preserveOrderValues);
+  return upsertCanonicalMultiHandbookAndFree(
+    prev,
+    attributeId,
+    handbookParts,
+    ftText,
+    preserveOrderValues
+  );
 }
 
 /** Обновить free_text у canonical-атрибута, сохранив текущие handbook_parameter. */
@@ -328,7 +344,7 @@ export function upsertCanonicalMultiHandbookPreservingHandbookSide(
   const idx = findCanonicalIndex(prev, attributeId);
   const assignments = [...prev.assignments];
   assignments[idx] = { ...a, values: newValues };
-  
+
   return { ...prev, assignments };
 }
 

@@ -36,14 +36,14 @@ export function VendorDocumentUpload() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="border-2 border-dashed border-border-default rounded-lg p-6 flex flex-col items-center justify-center text-center bg-bg-surface2/30">
-          <Upload className="w-8 h-8 text-text-muted mb-2" />
-          <p className="text-sm font-medium text-text-primary mb-1">Перетащите файлы сюда</p>
-          <p className="text-xs text-text-muted mb-4">PDF, JPG, PNG до 10MB</p>
+        <div className="border-border-default bg-bg-surface2/30 flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 text-center">
+          <Upload className="text-text-muted mb-2 h-8 w-8" />
+          <p className="text-text-primary mb-1 text-sm font-medium">Перетащите файлы сюда</p>
+          <p className="text-text-muted mb-4 text-xs">PDF, JPG, PNG до 10MB</p>
           <Button onClick={handleUpload} disabled={isUploading} size="sm">
             {isUploading ? (
               <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Загрузка...
               </>
             ) : (
@@ -54,21 +54,24 @@ export function VendorDocumentUpload() {
 
         {uploadedFiles.length > 0 && (
           <div className="space-y-2">
-            <h4 className="text-xs font-semibold text-text-secondary uppercase tracking-wider">
+            <h4 className="text-text-secondary text-xs font-semibold uppercase tracking-wider">
               Недавние загрузки
             </h4>
             <div className="space-y-2">
               {uploadedFiles.map((file, idx) => (
-                <div key={idx} className="flex items-center justify-between p-2 rounded border border-border-subtle bg-bg-surface">
+                <div
+                  key={idx}
+                  className="border-border-subtle bg-bg-surface flex items-center justify-between rounded border p-2"
+                >
                   <div className="flex items-center gap-2">
-                    <File className="w-4 h-4 text-blue-500" />
-                    <span className="text-xs font-medium text-text-primary">{file.name}</span>
+                    <File className="h-4 w-4 text-blue-500" />
+                    <span className="text-text-primary text-xs font-medium">{file.name}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] text-text-muted">
+                    <span className="text-text-muted text-[10px]">
                       {new Date(file.date).toLocaleDateString()}
                     </span>
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                   </div>
                 </div>
               ))}

@@ -53,7 +53,10 @@ export default function BrandCustomizationPage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
-    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent
+      maxWidth="full"
+      className="w-full space-y-6 pb-16 duration-700 animate-in fade-in"
+    >
       <RegistryPageHeader
         title="Управление пошивом"
         leadPlain="Customization Hub P3: активных заказов 148, очередь 12 дней. Реестр спецзаказов и 3D-мерки."

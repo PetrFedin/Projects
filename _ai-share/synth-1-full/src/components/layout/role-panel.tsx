@@ -114,7 +114,7 @@ function RolePanelContent() {
 
   const panel = (
     <aside
-      className="fixed right-2 top-1/2 z-[10050] flex max-h-[min(560px,calc(100vh-6rem))] -translate-y-1/2 flex-col gap-2 overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white/95 p-2.5 shadow-2xl backdrop-blur-md select-none touch-manipulation"
+      className="fixed right-2 top-1/2 z-[10050] flex max-h-[min(560px,calc(100vh-6rem))] -translate-y-1/2 touch-manipulation select-none flex-col gap-2 overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white/95 p-2.5 shadow-2xl backdrop-blur-md"
       aria-label="Демо: переключение роли"
     >
       <p className="text-text-muted px-0.5 text-center text-[8px] font-black uppercase leading-tight tracking-widest">

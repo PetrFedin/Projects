@@ -67,7 +67,9 @@ export function getSectionWarnings(
   if (section === 'assignment') {
     const ar = sectionReadiness.assignment;
     if (ar.pct < 100) {
-      return ['Пакет для цеха ещё не закрыт по чеклисту «Задание» (скетч, ZIP, подписи, передача).'];
+      return [
+        'Пакет для цеха ещё не закрыт по чеклисту «Задание» (скетч, ZIP, подписи, передача).',
+      ];
     }
     return [];
   }

@@ -23,20 +23,16 @@ const OrganizationOverviewContent = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div
-        className="space-y-4"
-        aria-busy="true"
-        aria-label="Загрузка центра управления"
-      >
+      <div className="space-y-4" aria-busy="true" aria-label="Загрузка центра управления">
         <div
-          className="h-[140px] animate-pulse rounded-2xl border border-border-subtle bg-gradient-to-br from-bg-surface2/50 to-white shadow-sm"
+          className="border-border-subtle from-bg-surface2/50 h-[140px] animate-pulse rounded-2xl border bg-gradient-to-br to-white shadow-sm"
           aria-hidden
         />
         <div
-          className="h-[120px] animate-pulse rounded-xl border border-border-subtle bg-bg-surface2/80"
+          className="border-border-subtle bg-bg-surface2/80 h-[120px] animate-pulse rounded-xl border"
           aria-hidden
         />
-        <OrgHubModulesStripSkeleton className="rounded-xl border border-border-subtle bg-white p-4 shadow-sm md:p-5" />
+        <OrgHubModulesStripSkeleton className="border-border-subtle rounded-xl border bg-white p-4 shadow-sm md:p-5" />
       </div>
     ),
   }
@@ -172,8 +168,7 @@ export function OrganizationOverviewEmbed() {
     }
   }, [resolvedKey, router]);
 
-  const resolvedParticipants =
-    organizationPresence.participantsCount ?? PARTICIPANTS_COUNT;
+  const resolvedParticipants = organizationPresence.participantsCount ?? PARTICIPANTS_COUNT;
   const resolvedOnline = Math.min(
     organizationPresence.onlineCount ?? ONLINE_COUNT,
     resolvedParticipants

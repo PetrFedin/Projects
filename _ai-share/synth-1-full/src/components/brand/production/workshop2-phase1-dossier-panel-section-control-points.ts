@@ -63,7 +63,7 @@ export function buildSectionControlPoints(
           label: 'Основной эскиз собран',
           done: Boolean(
             dossier.categorySketchImageDataUrl ||
-              (dossier.categorySketchAnnotations?.length ?? 0) > 0
+            (dossier.categorySketchAnnotations?.length ?? 0) > 0
           ),
         },
         {
@@ -97,7 +97,7 @@ export function buildSectionControlPoints(
           label: 'Табель мер заполнен',
           done: Boolean(
             dossier.sampleBasePerSizeDimensions &&
-              Object.keys(dossier.sampleBasePerSizeDimensions).length > 0
+            Object.keys(dossier.sampleBasePerSizeDimensions).length > 0
           ),
         },
         {

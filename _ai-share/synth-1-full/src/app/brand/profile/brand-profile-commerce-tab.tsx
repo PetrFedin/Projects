@@ -2,15 +2,7 @@
 
 import type { Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
-import {
-  ArrowUpRight,
-  Clock,
-  DollarSign,
-  Package,
-  Palette,
-  Truck,
-  Zap,
-} from 'lucide-react';
+import { ArrowUpRight, Clock, DollarSign, Package, Palette, Truck, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -44,8 +36,8 @@ export function BrandProfileCommerceTab({
     <TabsContent value="commerce" className={tabPanelClassName}>
       <div className="space-y-2">
         <div className="flex items-center gap-1.5 px-1">
-          <div className="h-1 w-5 rounded-full bg-accent-primary" />
-          <h2 className="text-sm font-semibold text-text-primary">Условия оптовой торговли</h2>
+          <div className="bg-accent-primary h-1 w-5 rounded-full" />
+          <h2 className="text-text-primary text-sm font-semibold">Условия оптовой торговли</h2>
         </div>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
           {(
@@ -96,7 +88,7 @@ export function BrandProfileCommerceTab({
           ).map((item, i) => (
             <Card
               key={i}
-              className="group rounded-xl border border-border-subtle bg-white p-4 shadow-sm transition-all hover:border-accent-soft"
+              className="border-border-subtle hover:border-accent-soft group rounded-xl border bg-white p-4 shadow-sm transition-all"
             >
               <div className="mb-3 flex items-center gap-3">
                 <div
@@ -108,7 +100,7 @@ export function BrandProfileCommerceTab({
                 >
                   <item.icon className="size-4" />
                 </div>
-                <span className="text-xs font-medium text-text-muted">{item.label}</span>
+                <span className="text-text-muted text-xs font-medium">{item.label}</span>
               </div>
               {isEditing ? (
                 <Input
@@ -116,10 +108,10 @@ export function BrandProfileCommerceTab({
                   onChange={(e) =>
                     setCommerceTerms((prev) => ({ ...prev, [item.key]: e.target.value }))
                   }
-                  className="h-8 rounded-lg border-none bg-bg-surface2 text-[13px] font-bold uppercase shadow-inner"
+                  className="bg-bg-surface2 h-8 rounded-lg border-none text-[13px] font-bold uppercase shadow-inner"
                 />
               ) : (
-                <p className="text-base font-bold tracking-tight text-text-primary">
+                <p className="text-text-primary text-base font-bold tracking-tight">
                   {commerceTerms[item.key]}
                 </p>
               )}
@@ -129,20 +121,20 @@ export function BrandProfileCommerceTab({
       </div>
       <div className="mt-4 space-y-2">
         <div className="flex items-center justify-between px-1">
-          <div className="h-1 w-5 rounded-full bg-state-success" />
-          <h2 className="text-sm font-semibold text-text-primary">Условия по тирам партнёров</h2>
+          <div className="bg-state-success h-1 w-5 rounded-full" />
+          <h2 className="text-text-primary text-sm font-semibold">Условия по тирам партнёров</h2>
           <Button
             asChild
             variant="ghost"
             size="sm"
-            className="h-6 text-[8px] font-bold text-accent-primary"
+            className="text-accent-primary h-6 text-[8px] font-bold"
           >
             <Link href={ROUTES.brand.pricing}>
               Прайсинг <ArrowUpRight className="inline size-2.5" />
             </Link>
           </Button>
         </div>
-        <Card className="rounded-xl border border-border-subtle bg-gradient-to-br from-bg-surface2 to-bg-surface p-4">
+        <Card className="border-border-subtle from-bg-surface2 to-bg-surface rounded-xl border bg-gradient-to-br p-4">
           <div className="grid grid-cols-3 gap-3">
             {[
               { label: 'VIP', discount: '45%', color: 'bg-amber-50 border-amber-100' },
@@ -158,8 +150,8 @@ export function BrandProfileCommerceTab({
               },
             ].map((t) => (
               <div key={t.label} className={cn('rounded-lg border p-3', t.color)}>
-                <p className="text-[9px] font-bold uppercase text-text-muted">{t.label}</p>
-                <p className="text-sm font-black text-text-primary">{t.discount}</p>
+                <p className="text-text-muted text-[9px] font-bold uppercase">{t.label}</p>
+                <p className="text-text-primary text-sm font-black">{t.discount}</p>
               </div>
             ))}
           </div>

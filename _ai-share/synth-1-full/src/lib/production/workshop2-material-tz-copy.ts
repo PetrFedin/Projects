@@ -37,7 +37,8 @@ export const W2_MATERIAL_TZ_TEMPERATURE_BODY =
 
 export const W2_MATERIAL_TZ_INSULATION_MATERIAL_TITLE = 'Материал утеплителя';
 export const W2_MATERIAL_TZ_INSULATION_MATERIAL_BODY_PARTS = {
-  beforeBold: 'Совместите с отдельной строкой «утеплитель» в справочнике материалов и при необходимости с меткой ',
+  beforeBold:
+    'Совместите с отдельной строкой «утеплитель» в справочнике материалов и при необходимости с меткой ',
   tagBold: 'material',
   afterBold: ' на скетче — чтобы закупка и конструкция ссылались на одно наименование.',
 } as const;

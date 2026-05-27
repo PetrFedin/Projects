@@ -171,9 +171,7 @@ function unwrapGenericPayload(val: unknown): unknown {
   return val;
 }
 
-function isOrganizationHealthBundle(
-  payload: unknown
-): payload is {
+function isOrganizationHealthBundle(payload: unknown): payload is {
   metrics: unknown[];
   profile?: unknown;
   dashboard?: unknown;
@@ -257,10 +255,7 @@ export function useOrganizationHealth(): UseOrganizationHealthResult {
       }
 
       const payload = unwrapGenericPayload(apiRaw);
-      if (
-        isOrganizationHealthBundle(payload) &&
-        payload.metrics.length > 0
-      ) {
+      if (isOrganizationHealthBundle(payload) && payload.metrics.length > 0) {
         setApiHealthData(apiRaw);
         setProfile(toOrgProfileView(payload.profile ?? null));
         setDashboard(toDashboardSnapshot(payload.dashboard ?? null));
@@ -471,9 +466,7 @@ export function useOrganizationHealth(): UseOrganizationHealthResult {
         score: markingHealth.score,
         color: colorFrom(markingHealth.score),
         desc:
-          dashboard?.['markingSyncStatus'] === 'ok'
-            ? 'Честный ЗНАК, ЭДО'
-            : 'Проверьте маркировку',
+          dashboard?.['markingSyncStatus'] === 'ok' ? 'Честный ЗНАК, ЭДО' : 'Проверьте маркировку',
         href: '/brand/compliance',
         trend: 0,
         status: statusFrom(markingHealth.score),
@@ -534,7 +527,8 @@ export function useOrganizationHealth(): UseOrganizationHealthResult {
   const lastCheck = metrics[0]?.details?.lastCheck ?? formatDate(new Date());
 
   const organizationPresence = useMemo(() => {
-    const d = dashboard && typeof dashboard === 'object' ? (dashboard as Record<string, unknown>) : null;
+    const d =
+      dashboard && typeof dashboard === 'object' ? (dashboard as Record<string, unknown>) : null;
     const fromDashboardParticipants =
       typeof d?.participantsCount === 'number'
         ? (d.participantsCount as number)

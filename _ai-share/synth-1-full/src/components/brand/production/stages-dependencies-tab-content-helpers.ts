@@ -229,11 +229,7 @@ export type StagesLocalInventoryToolsInput = Omit<
   'poolArticleCount' | 'contextFilterActive' | 'onResetFacets'
 >;
 
-export function statusLabel(
-  s: MatrixStepStatus,
-  blocked: boolean,
-  profileNa?: boolean
-): string {
+export function statusLabel(s: MatrixStepStatus, blocked: boolean, profileNa?: boolean): string {
   if (profileNa) return 'Вне профиля';
   if (blocked) return 'Заблокировано';
   if (s === 'done') return 'Готово';

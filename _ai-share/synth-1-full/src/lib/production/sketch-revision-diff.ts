@@ -107,7 +107,8 @@ export function buildSketchRevisionCompareOverlayPoints(
   }
   for (const row of revisionDiff.changed) {
     const p = mapB.get(row.annotationId) ?? mapA.get(row.annotationId);
-    if (p) points.push({ annotationId: row.annotationId, xPct: p.xPct, yPct: p.yPct, kind: 'changed' });
+    if (p)
+      points.push({ annotationId: row.annotationId, xPct: p.xPct, yPct: p.yPct, kind: 'changed' });
   }
   return points;
 }
@@ -133,7 +134,11 @@ export function computeSketchRevisionCompareBundle(
     };
   }
   const revisionDiff = compareRevisionSnapshots(snapA, snapB);
-  const revisionDiffOverlayPins = buildSketchRevisionCompareOverlayPoints(snapA, snapB, revisionDiff);
+  const revisionDiffOverlayPins = buildSketchRevisionCompareOverlayPoints(
+    snapA,
+    snapB,
+    revisionDiff
+  );
   return {
     revisionDiff,
     revisionDiffOverlayPins,

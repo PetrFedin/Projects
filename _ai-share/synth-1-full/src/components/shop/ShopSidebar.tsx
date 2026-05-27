@@ -70,10 +70,7 @@ export function ShopSidebar({
     }));
   }, [groups]);
 
-  const flatGroups = useMemo(
-    () => clusteredSections.flatMap((s) => s.groups),
-    [clusteredSections]
-  );
+  const flatGroups = useMemo(() => clusteredSections.flatMap((s) => s.groups), [clusteredSections]);
 
   const activeGroupId = flatGroups.find((g) =>
     g.links.some((l) => isLinkActive(l, pathname || ''))

@@ -16,7 +16,7 @@ function escHtml(s: string): string {
     .replace(/"/g, '&quot;');
 }
 
-function canonicalSketchHuman(dossier: Workshop2DossierPhase1): string {
+export function canonicalSketchHuman(dossier: Workshop2DossierPhase1): string {
   const t = dossier.canonicalMainSketchTarget;
   if (!t) return '—';
   if (t.kind === 'master') return 'Master-скетч (категория)';

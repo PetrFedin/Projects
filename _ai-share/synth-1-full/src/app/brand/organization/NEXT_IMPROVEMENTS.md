@@ -47,16 +47,16 @@
 
 **Частично:** в `app/api/v1/endpoints/brand.py` (`fetch_brand_dashboard_data`) сняты частые заглушки при «активной» организации (`orders` / `showrooms` / `members`):
 
-| Поле | Источник в БД |
-|------|----------------|
-| `retailersCount` | UNION DISTINCT buyer из `orders` (`buyer_organization_id` \| `buyer_id`) и retailer id из **`Assortment.retailer_ids`** по `organization_id`; иначе при активной орг. — `max(orders, showrooms, 1)`, демо — как раньше |
-| `collectionsCount` | `CollectionDrop` + `Lookbook` по `brand_id` |
-| `certsActive` | активные `EACCertificate` |
-| `poInProduction` | заказы со статусом `confirmed` |
-| `openB2bOrders` | только фактический pending (без «или 7» при активной орг.) |
-| `markingSyncStatus` / `markingLastSync` | локальные **`ChestnyZnakCode`**: `COUNT`, последнее событие `max(coalesce(applied_at, created_at))`; без записей при активной орг. — warning |
-| `inventorySyncFailed30d` | **`InventorySyncLog`** со статусом `failed`, `organization_id == brand_id`, за 30 дн.; без активной орг. — `0` |
-| `inventorySyncLastSuccessAt` | **`max(timestamp)`** успешных синков по `organization_id`; ISO datetime или `null` |
+| Поле                                    | Источник в БД                                                                                                                                                                                                          |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `retailersCount`                        | UNION DISTINCT buyer из `orders` (`buyer_organization_id` \| `buyer_id`) и retailer id из **`Assortment.retailer_ids`** по `organization_id`; иначе при активной орг. — `max(orders, showrooms, 1)`, демо — как раньше |
+| `collectionsCount`                      | `CollectionDrop` + `Lookbook` по `brand_id`                                                                                                                                                                            |
+| `certsActive`                           | активные `EACCertificate`                                                                                                                                                                                              |
+| `poInProduction`                        | заказы со статусом `confirmed`                                                                                                                                                                                         |
+| `openB2bOrders`                         | только фактический pending (без «или 7» при активной орг.)                                                                                                                                                             |
+| `markingSyncStatus` / `markingLastSync` | локальные **`ChestnyZnakCode`**: `COUNT`, последнее событие `max(coalesce(applied_at, created_at))`; без записей при активной орг. — warning                                                                           |
+| `inventorySyncFailed30d`                | **`InventorySyncLog`** со статусом `failed`, `organization_id == brand_id`, за 30 дн.; без активной орг. — `0`                                                                                                         |
+| `inventorySyncLastSuccessAt`            | **`max(timestamp)`** успешных синков по `organization_id`; ISO datetime или `null`                                                                                                                                     |
 
 **Inventory sync:** в модели **`InventorySyncLog`** добавлено поле **`organization_id`** (nullable, индекс). SQL-патчи и порядок: корневой **`scripts/sql/README.md`**. Репозиторий: **`get_latest_logs_for_organization`**.
 
@@ -72,12 +72,12 @@
 
 Ответ `brand/dashboard.partnerEcosystem`:
 
-| Поле | Поведение при `has_org_activity` |
-|------|-----------------------------------|
-| `growthByPeriod` | агрегаты 7d/30d из **`orders_*`**, **`pending*`**, **`po_confirmed`**, **`shipped_count`**, **`retailers_count`**, **`edo_signed`** (тот же слой данных, что патчи процессов; без отдельной таблицы истории) |
-| `countsPatchById` | патч карточки «Магазины» (`retailersCount`/orders) |
-| `businessProcessesPatchById` | `b2b-orders`, `documents`, `shipments`: счётчики заказов/ЭДО из БД |
-| `ecosystemBlocksPatchById` | `contracts-docs`, `logistics-shipments`, `partner-analytics`: метрики/алерты из тех же источников где возможно |
+| Поле                         | Поведение при `has_org_activity`                                                                                                                                                                             |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `growthByPeriod`             | агрегаты 7d/30d из **`orders_*`**, **`pending*`**, **`po_confirmed`**, **`shipped_count`**, **`retailers_count`**, **`edo_signed`** (тот же слой данных, что патчи процессов; без отдельной таблицы истории) |
+| `countsPatchById`            | патч карточки «Магазины» (`retailersCount`/orders)                                                                                                                                                           |
+| `businessProcessesPatchById` | `b2b-orders`, `documents`, `shipments`: счётчики заказов/ЭДО из БД                                                                                                                                           |
+| `ecosystemBlocksPatchById`   | `contracts-docs`, `logistics-shipments`, `partner-analytics`: метрики/алерты из тех же источников где возможно                                                                                               |
 
 Остальные процессы и блоки — заготовки из `page-data` до появления доменных агрегатов (возвраты, задачи, финансы).
 

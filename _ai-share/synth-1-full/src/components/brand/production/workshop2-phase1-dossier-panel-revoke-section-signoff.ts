@@ -69,17 +69,13 @@ export function revokeSectionSignoffAction(
       nextRoot[section] = prevSec;
     }
     const cleaned = Object.keys(nextRoot).length > 0 ? nextRoot : undefined;
-    const next = pushTzActionLog(
-      { ...prev, sectionSignoffs: cleaned },
-      updatedByLabel,
-      {
-        type: 'section_signoff',
-        section,
-        role,
-        set: false,
-        signerOrganization: removedOrg,
-      }
-    );
+    const next = pushTzActionLog({ ...prev, sectionSignoffs: cleaned }, updatedByLabel, {
+      type: 'section_signoff',
+      section,
+      role,
+      set: false,
+      signerOrganization: removedOrg,
+    });
     persist(next);
     return next;
   });

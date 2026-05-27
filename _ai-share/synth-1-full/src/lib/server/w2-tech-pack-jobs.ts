@@ -55,7 +55,9 @@ async function initTableIfNeeded() {
 
 const memoryJobs = new Map<string, W2TechPackJob>();
 
-export async function upsertW2TechPackJob(job: Omit<W2TechPackJob, 'updatedAt'> & { updatedAt?: string }): Promise<void> {
+export async function upsertW2TechPackJob(
+  job: Omit<W2TechPackJob, 'updatedAt'> & { updatedAt?: string }
+): Promise<void> {
   const updatedAt = job.updatedAt ?? new Date().toISOString();
   const fullJob: W2TechPackJob = { ...job, updatedAt };
 
@@ -73,7 +75,14 @@ export async function upsertW2TechPackJob(job: Omit<W2TechPackJob, 'updatedAt'> 
              result_url = EXCLUDED.result_url,
              error_detail = EXCLUDED.error_detail,
              updated_at = EXCLUDED.updated_at`,
-          [fullJob.jobId, fullJob.status, fullJob.progress, fullJob.resultUrl ?? null, fullJob.errorDetail ?? null, fullJob.updatedAt]
+          [
+            fullJob.jobId,
+            fullJob.status,
+            fullJob.progress,
+            fullJob.resultUrl ?? null,
+            fullJob.errorDetail ?? null,
+            fullJob.updatedAt,
+          ]
         );
         return;
       }
@@ -81,7 +90,7 @@ export async function upsertW2TechPackJob(job: Omit<W2TechPackJob, 'updatedAt'> 
       console.error('[w2_techpack_jobs] pg upsert failed, fallback memory', e);
     }
   }
-  
+
   memoryJobs.set(fullJob.jobId, fullJob);
 }
 
@@ -113,6 +122,6 @@ export async function getW2TechPackJob(jobId: string): Promise<W2TechPackJob | n
       console.error('[w2_techpack_jobs] pg get failed, fallback memory', e);
     }
   }
-  
+
   return memoryJobs.get(jobId) ?? null;
 }

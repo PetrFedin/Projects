@@ -24,9 +24,7 @@ type Props = {
 /** Поднавигация внутри вкладки «Производство»: 3 primary + «Ещё» для floor/cut/logistics/timeline. */
 export function Workshop2ReleaseSubNav({ value, onChange }: Props) {
   const overflowActive = isWorkshop2ReleaseSubTabInOverflow(value);
-  const overflowLabel = overflowActive
-    ? WORKSHOP2_RELEASE_SUB_TAB_LABELS_RU[value]
-    : 'Ещё';
+  const overflowLabel = overflowActive ? WORKSHOP2_RELEASE_SUB_TAB_LABELS_RU[value] : 'Ещё';
 
   return (
     <nav
@@ -74,7 +72,7 @@ export function Workshop2ReleaseSubNav({ value, onChange }: Props) {
             <DropdownMenuItem
               key={id}
               className={cn(
-                'text-[11px] cursor-pointer',
+                'cursor-pointer text-[11px]',
                 value === id && 'bg-indigo-50 font-medium text-indigo-900'
               )}
               data-testid={`workshop2-release-sub-overflow-${id}`}

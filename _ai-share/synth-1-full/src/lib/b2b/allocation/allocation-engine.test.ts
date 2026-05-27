@@ -6,12 +6,12 @@ describe('B2BPriorityStrategy', () => {
     const strategy = new B2BPriorityStrategy();
     const batch: IntakeBatch = {
       batchId: 'batch-1',
-      items: [{ articleId: 'A1', size: 'M', quantity: 10 }]
+      items: [{ articleId: 'A1', size: 'M', quantity: 10 }],
     };
     const demand: DemandProfile = {
       b2bBackorders: [{ orderId: 'O1', articleId: 'A1', size: 'M', requestedQuantity: 6 }],
       ecomDemand: [{ articleId: 'A1', size: 'M', requestedQuantity: 5 }],
-      retailDemand: []
+      retailDemand: [],
     };
 
     const plan = strategy.allocate(batch, demand);
@@ -28,19 +28,19 @@ describe('B2BPriorityStrategy', () => {
     const strategy = new B2BPriorityStrategy();
     const batch: IntakeBatch = {
       batchId: 'batch-2',
-      items: [{ articleId: 'A1', size: 'M', quantity: 20 }]
+      items: [{ articleId: 'A1', size: 'M', quantity: 20 }],
     };
     const demand: DemandProfile = {
       b2bBackorders: [{ orderId: 'O1', articleId: 'A1', size: 'M', requestedQuantity: 5 }],
       retailDemand: [{ storeId: 'S1', articleId: 'A1', size: 'M', requestedQuantity: 10 }],
-      ecomDemand: [{ articleId: 'A1', size: 'M', requestedQuantity: 10 }]
+      ecomDemand: [{ articleId: 'A1', size: 'M', requestedQuantity: 10 }],
     };
 
     const plan = strategy.allocate(batch, demand);
 
-    const b2bAlloc = plan.allocations.find(a => a.destinationType === 'B2B');
-    const retailAlloc = plan.allocations.find(a => a.destinationType === 'RETAIL');
-    const ecomAlloc = plan.allocations.find(a => a.destinationType === 'ECOM');
+    const b2bAlloc = plan.allocations.find((a) => a.destinationType === 'B2B');
+    const retailAlloc = plan.allocations.find((a) => a.destinationType === 'RETAIL');
+    const ecomAlloc = plan.allocations.find((a) => a.destinationType === 'ECOM');
 
     expect(b2bAlloc?.allocatedQuantity).toBe(5);
     expect(retailAlloc?.allocatedQuantity).toBe(10);

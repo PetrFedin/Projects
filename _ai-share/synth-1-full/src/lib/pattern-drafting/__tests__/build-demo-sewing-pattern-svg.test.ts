@@ -1,5 +1,8 @@
 import { buildDemoSewingPatternSvg } from '@/lib/pattern-drafting/build-demo-sewing-pattern-svg';
-import { buildSewingPattern, defaultSewingDraftOptions } from '@/lib/pattern-drafting/build-sewing-pattern';
+import {
+  buildSewingPattern,
+  defaultSewingDraftOptions,
+} from '@/lib/pattern-drafting/build-sewing-pattern';
 
 describe('buildDemoSewingPatternSvg / buildSewingPattern', () => {
   const m = { unit: 'cm' as const, bust: 90, waist: 72, hip: 98, shoulderWidth: 40 };
@@ -24,9 +27,7 @@ describe('buildDemoSewingPatternSvg / buildSewingPattern', () => {
       'sleeve',
     ] as const;
     for (const g of garments) {
-      const r = buildSewingPattern(
-        defaultSewingDraftOptions({ measures: m, garment: g, darts })
-      );
+      const r = buildSewingPattern(defaultSewingDraftOptions({ measures: m, garment: g, darts }));
       expect(r.svg).toContain('path d=');
       expect(r.buildLog.length).toBeGreaterThan(0);
     }

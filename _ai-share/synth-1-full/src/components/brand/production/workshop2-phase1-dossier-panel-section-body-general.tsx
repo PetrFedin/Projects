@@ -21,7 +21,10 @@ import { dossierUpdatedAfterLatestTzSignoff } from '@/lib/production/workshop2-t
 import { type Workshop2PassportHubModel } from '@/lib/production/workshop2-passport-check';
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
 import type { DossierSection } from '@/lib/production/dossier-readiness-engine';
-import type { Workshop2DossierPhase1, Workshop2TzSignoffSectionKey } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2TzSignoffSectionKey,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2AttrComment } from '@/components/brand/production/workshop2-phase1-dossier-panel-attr-comments-dialog';
 import type { Workshop2DossierViewProfile } from '@/lib/production/workshop2-dossier-view-infrastructure';
 export type Workshop2DossierSectionBodyGeneralProps = {
@@ -31,9 +34,7 @@ export type Workshop2DossierSectionBodyGeneralProps = {
   isPhase1: boolean;
   isPhase2: boolean;
   tzMinimalModeBySection: Record<DossierSection, boolean>;
-  setTzMinimalModeBySection: Dispatch<
-    SetStateAction<Record<DossierSection, boolean>>
-  >;
+  setTzMinimalModeBySection: Dispatch<SetStateAction<Record<DossierSection, boolean>>>;
   dossier: Workshop2DossierPhase1;
   setDossier: Dispatch<SetStateAction<Workshop2DossierPhase1>>;
   passportHubModel: Workshop2PassportHubModel;
@@ -228,153 +229,153 @@ export function Workshop2DossierSectionBodyGeneral({
   tzBlockersFooter,
 }: Workshop2DossierSectionBodyGeneralProps) {
   return (
-      <div className="space-y-4">
-        <>
-          {isPhase1 ? (
-            <div id="w2-passport-hub" className="sr-only" aria-hidden="true" />
-          ) : (
-            <Workshop2PassportHubPanel
-              model={passportHubModel}
-              skuDraft={skuDraft}
-              nameDraft={nameDraft}
-              internalArticleCodeDisplay={
-                isWorkshop2InternalArticleCodeValid(internalArticleCode)
-                  ? internalArticleCode
-                  : formatWorkshop2InternalArticleCodePlaceholder()
-              }
-              categoryPathLabel={passportCategoryCaption}
-              onNavigate={(id) => {
-                setActivePassportSubNavId(id);
-                document
-                  .getElementById(id)
-                  ?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
-              }}
-              showPostSignoffDrift={
-                Boolean(
-                  dossier.isVerifiedByDesigner ||
-                  dossier.isVerifiedByTechnologist ||
-                  dossier.isVerifiedByManager
-                ) && dossierUpdatedAfterLatestTzSignoff(dossier)
-              }
-              onLogPostSignoffReminder={appendPassportPostSignoffJournalNote}
-              pulseLoggedReminder={passportDriftLogDone}
-              onPulseLoggedReminder={() => setPassportDriftLogDone(true)}
-              tzWriteDisabled={tzWriteDisabled}
-              tzPhase={currentPhase}
-              onJumpToVisualSection={() =>
-                jumpToTzSectionAnchor('general', 'w2-passport-design-intent')
-              }
-              onJumpToMaterialSection={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
-              onJumpToMaterialMatTable={jumpToMaterialMatTable}
-              onJumpToSketchLineRefs={jumpToSketchLineRefs}
-              onJumpToConstructionContour={jumpToConstructionContour}
-              onJumpToQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
-              dossierViewProfile={dossierViewProfile}
-              passportCriticalAuditSummaries={passportCriticalAuditSummaries}
-              readOnlyShareUrl={workshop2FactoryShareUrl}
-              sketchLinkedBomRefs={sketchBomRefsUnion}
-              matSketchBomGapRefs={matSketchBomGapRefs}
-            />
-          )}
-        </>
-        
-        {/* Панель Change Requests (CR) */}
-        <Workshop2ChangeRequestsPanel
-          dossier={dossier}
-          setDossier={setDossier}
-          tzWriteDisabled={tzWriteDisabled}
-        />
+    <div className="space-y-4">
+      <>
+        {isPhase1 ? (
+          <div id="w2-passport-hub" className="sr-only" aria-hidden="true" />
+        ) : (
+          <Workshop2PassportHubPanel
+            model={passportHubModel}
+            skuDraft={skuDraft}
+            nameDraft={nameDraft}
+            internalArticleCodeDisplay={
+              isWorkshop2InternalArticleCodeValid(internalArticleCode)
+                ? internalArticleCode
+                : formatWorkshop2InternalArticleCodePlaceholder()
+            }
+            categoryPathLabel={passportCategoryCaption}
+            onNavigate={(id) => {
+              setActivePassportSubNavId(id);
+              document
+                .getElementById(id)
+                ?.scrollIntoView({ behavior: tzScrollBehavior, block: 'start' });
+            }}
+            showPostSignoffDrift={
+              Boolean(
+                dossier.isVerifiedByDesigner ||
+                dossier.isVerifiedByTechnologist ||
+                dossier.isVerifiedByManager
+              ) && dossierUpdatedAfterLatestTzSignoff(dossier)
+            }
+            onLogPostSignoffReminder={appendPassportPostSignoffJournalNote}
+            pulseLoggedReminder={passportDriftLogDone}
+            onPulseLoggedReminder={() => setPassportDriftLogDone(true)}
+            tzWriteDisabled={tzWriteDisabled}
+            tzPhase={currentPhase}
+            onJumpToVisualSection={() =>
+              jumpToTzSectionAnchor('general', 'w2-passport-design-intent')
+            }
+            onJumpToMaterialSection={() => jumpToTzSectionAnchor('material', 'w2-material-hub')}
+            onJumpToMaterialMatTable={jumpToMaterialMatTable}
+            onJumpToSketchLineRefs={jumpToSketchLineRefs}
+            onJumpToConstructionContour={jumpToConstructionContour}
+            onJumpToQcRoute={onNavigateToTab ? jumpToQcArticleSection : undefined}
+            dossierViewProfile={dossierViewProfile}
+            passportCriticalAuditSummaries={passportCriticalAuditSummaries}
+            readOnlyShareUrl={workshop2FactoryShareUrl}
+            sketchLinkedBomRefs={sketchBomRefsUnion}
+            matSketchBomGapRefs={matSketchBomGapRefs}
+          />
+        )}
+      </>
 
-        <Workshop2DossierGeneralIdentityBlock
-          isPhase1={isPhase1}
-          isPhase2={isPhase2}
-          dossier={dossier}
-          setDossier={setDossier}
-          internalArticleCode={internalArticleCode}
-          skuDraft={skuDraft}
-          setSkuDraft={setSkuDraft}
-          nameDraft={nameDraft}
-          setNameDraft={setNameDraft}
-          audiences={audiences}
-          selectedAudienceId={selectedAudienceId}
-          onAudienceSelect={onAudienceSelect}
-          l1Opts={l1Opts}
-          l2Opts={l2Opts}
-          l3Opts={l3Opts}
-          currentLeaf={currentLeaf}
-          onL1Select={onL1Select}
-          onL2Select={onL2Select}
-          onL3Select={onL3Select}
-          commitSku={commitSku}
-          commitName={commitName}
-          tzMinimalHideDeferCommentUi={tzMinimalHideDeferCommentUi}
-          deferredAttrIds={deferredAttrIds}
-          toggleDeferAttribute={toggleDeferAttribute}
-          attrCommentsById={attrCommentsById}
-          openAttrComments={openAttrComments}
-          passportSewingPlanStartRows={passportSewingPlanStartRows}
-          passportSewingPlanStartExtras={passportSewingPlanStartExtras}
-          workshop2DossierSectionRowsSharedProps={workshop2DossierSectionRowsSharedProps}
-          currentPhase={currentPhase}
-          tzWriteDisabled={tzWriteDisabled}
-          articleSku={articleSku}
-          passportCategoryCaption={passportCategoryCaption}
-        />
-        <Workshop2DossierGeneralDesignVisualBlock
-          isPhase1={isPhase1}
-                      dossier={dossier}
-          setDossier={setDossier}
-          saveDraft={saveDraft}
-          updatedByLabel={updatedByLabel}
-          sectionRowsCurrent={sectionRowsCurrent}
-                      currentLeaf={currentLeaf}
-          currentPhase={currentPhase}
-                      allowMultiHandbook={allowMultiHandbook}
-                      patchColor={patchColor}
-          onSetHandbookParametersWithColorBundleSync={onSetHandbookParametersWithColorBundleSync}
-          onSetHandbookParameters={onSetHandbookParameters}
-          onFreeTextSide={onFreeTextSide}
-          tzMinimalModeBySection={tzMinimalModeBySection}
-                      deferredAttrIds={deferredAttrIds}
-          toggleDeferAttribute={toggleDeferAttribute}
-                      attrCommentsById={attrCommentsById}
-          openAttrComments={openAttrComments}
-        />
-        <Workshop2DossierGeneralArticleStartBlock
-          isPhase1={isPhase1}
-          showPhase1PassportArticleCard={showPhase1PassportArticleCard}
-          passportHubModel={passportHubModel}
-          currentPhase={currentPhase}
-          workshop2DossierSectionRowsSharedProps={workshop2DossierSectionRowsSharedProps}
-          passportArticleCardStartRows={passportArticleCardStartRows}
-          passportArticleCardStartExtras={passportArticleCardStartExtras}
-          generalPassportPreSampleRows={generalPassportPreSampleRows}
-          generalPassportPreSampleExtras={generalPassportPreSampleExtras}
-          passportSewingPlanStartRows={passportSewingPlanStartRows}
-          passportSewingPlanStartExtras={passportSewingPlanStartExtras}
-          passportStep1BriefHref={passportStep1BriefHref}
-        />
-        {tzBlockersFooter}
-        <Workshop2DossierPanelSectionTzSignoffBridge
-          section="general"
-          dossier={dossier}
-          sectionFillPct={sectionReadinessUi.general?.pct ?? 0}
-          tzWriteDisabled={tzWriteDisabled}
-          tzSectionSignoffRevokeAllowed={tzSectionSignoffRevokeAllowed}
-          sectionSignoffPassportPreviews={sectionSignoffPassportPreviews}
-          sectionSignoffOrganizationLabel={sectionSignoffOrganizationLabel}
-          updatedByLabel={updatedByLabel}
-          sectionGateErrors={sectionGateErrorsById.general}
-          sectionSignoffProfileGateOk={sectionSignoffProfileGateOk}
-          dvTzSignoffSides={dvTzSignoffSides}
-          sectionSignoffSessionBrandOk={sectionSignoffSessionBrandOk}
-          sectionSignoffSessionTechOk={sectionSignoffSessionTechOk}
-          tzNotifyHighlightRowKey={tzNotifyHighlightRowKey}
-          commitSectionSignoff={commitSectionSignoff}
-          revokeSectionSignoff={revokeSectionSignoff}
-          notifyStakeholdersForSectionSignoff={notifyStakeholdersForSectionSignoff}
-          setSignoffDeadline={setSignoffDeadline}
-        />
-      </div>
+      {/* Панель Change Requests (CR) */}
+      <Workshop2ChangeRequestsPanel
+        dossier={dossier}
+        setDossier={setDossier}
+        tzWriteDisabled={tzWriteDisabled}
+      />
+
+      <Workshop2DossierGeneralIdentityBlock
+        isPhase1={isPhase1}
+        isPhase2={isPhase2}
+        dossier={dossier}
+        setDossier={setDossier}
+        internalArticleCode={internalArticleCode}
+        skuDraft={skuDraft}
+        setSkuDraft={setSkuDraft}
+        nameDraft={nameDraft}
+        setNameDraft={setNameDraft}
+        audiences={audiences}
+        selectedAudienceId={selectedAudienceId}
+        onAudienceSelect={onAudienceSelect}
+        l1Opts={l1Opts}
+        l2Opts={l2Opts}
+        l3Opts={l3Opts}
+        currentLeaf={currentLeaf}
+        onL1Select={onL1Select}
+        onL2Select={onL2Select}
+        onL3Select={onL3Select}
+        commitSku={commitSku}
+        commitName={commitName}
+        tzMinimalHideDeferCommentUi={tzMinimalHideDeferCommentUi}
+        deferredAttrIds={deferredAttrIds}
+        toggleDeferAttribute={toggleDeferAttribute}
+        attrCommentsById={attrCommentsById}
+        openAttrComments={openAttrComments}
+        passportSewingPlanStartRows={passportSewingPlanStartRows}
+        passportSewingPlanStartExtras={passportSewingPlanStartExtras}
+        workshop2DossierSectionRowsSharedProps={workshop2DossierSectionRowsSharedProps}
+        currentPhase={currentPhase}
+        tzWriteDisabled={tzWriteDisabled}
+        articleSku={articleSku}
+        passportCategoryCaption={passportCategoryCaption}
+      />
+      <Workshop2DossierGeneralDesignVisualBlock
+        isPhase1={isPhase1}
+        dossier={dossier}
+        setDossier={setDossier}
+        saveDraft={saveDraft}
+        updatedByLabel={updatedByLabel}
+        sectionRowsCurrent={sectionRowsCurrent}
+        currentLeaf={currentLeaf}
+        currentPhase={currentPhase}
+        allowMultiHandbook={allowMultiHandbook}
+        patchColor={patchColor}
+        onSetHandbookParametersWithColorBundleSync={onSetHandbookParametersWithColorBundleSync}
+        onSetHandbookParameters={onSetHandbookParameters}
+        onFreeTextSide={onFreeTextSide}
+        tzMinimalModeBySection={tzMinimalModeBySection}
+        deferredAttrIds={deferredAttrIds}
+        toggleDeferAttribute={toggleDeferAttribute}
+        attrCommentsById={attrCommentsById}
+        openAttrComments={openAttrComments}
+      />
+      <Workshop2DossierGeneralArticleStartBlock
+        isPhase1={isPhase1}
+        showPhase1PassportArticleCard={showPhase1PassportArticleCard}
+        passportHubModel={passportHubModel}
+        currentPhase={currentPhase}
+        workshop2DossierSectionRowsSharedProps={workshop2DossierSectionRowsSharedProps}
+        passportArticleCardStartRows={passportArticleCardStartRows}
+        passportArticleCardStartExtras={passportArticleCardStartExtras}
+        generalPassportPreSampleRows={generalPassportPreSampleRows}
+        generalPassportPreSampleExtras={generalPassportPreSampleExtras}
+        passportSewingPlanStartRows={passportSewingPlanStartRows}
+        passportSewingPlanStartExtras={passportSewingPlanStartExtras}
+        passportStep1BriefHref={passportStep1BriefHref}
+      />
+      {tzBlockersFooter}
+      <Workshop2DossierPanelSectionTzSignoffBridge
+        section="general"
+        dossier={dossier}
+        sectionFillPct={sectionReadinessUi.general?.pct ?? 0}
+        tzWriteDisabled={tzWriteDisabled}
+        tzSectionSignoffRevokeAllowed={tzSectionSignoffRevokeAllowed}
+        sectionSignoffPassportPreviews={sectionSignoffPassportPreviews}
+        sectionSignoffOrganizationLabel={sectionSignoffOrganizationLabel}
+        updatedByLabel={updatedByLabel}
+        sectionGateErrors={sectionGateErrorsById.general}
+        sectionSignoffProfileGateOk={sectionSignoffProfileGateOk}
+        dvTzSignoffSides={dvTzSignoffSides}
+        sectionSignoffSessionBrandOk={sectionSignoffSessionBrandOk}
+        sectionSignoffSessionTechOk={sectionSignoffSessionTechOk}
+        tzNotifyHighlightRowKey={tzNotifyHighlightRowKey}
+        commitSectionSignoff={commitSectionSignoff}
+        revokeSectionSignoff={revokeSectionSignoff}
+        notifyStakeholdersForSectionSignoff={notifyStakeholdersForSectionSignoff}
+        setSignoffDeadline={setSignoffDeadline}
+      />
+    </div>
   );
 }

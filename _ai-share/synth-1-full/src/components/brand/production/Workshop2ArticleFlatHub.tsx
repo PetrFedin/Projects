@@ -317,8 +317,7 @@ export function Workshop2ArticleFlatHub({
       if (articleStatusFilter === 'in_work') {
         return {
           title: 'Нет артикулов в работе',
-          description:
-            'Все выбранные артикулы с этапами 100% — откройте «Все» или «Разработано».',
+          description: 'Все выбранные артикулы с этапами 100% — откройте «Все» или «Разработано».',
           showCreate: false,
         } as const;
       }
@@ -344,108 +343,108 @@ export function Workshop2ArticleFlatHub({
         {/* Одна строка, 5 равных колонок; на узком экране — горизонтальная прокрутка. py/px внутри, чтобы кольцо фокуса не обрезалось overflow-x. */}
         <div className="w-full min-w-0 overflow-x-auto px-0.5 py-1.5 [-webkit-overflow-scrolling:touch]">
           <div className="grid w-full min-w-0 grid-cols-5 gap-1.5 max-sm:min-w-[42rem]">
-          <div className="min-w-0 flex flex-col gap-0.5">
-            <span className="text-text-secondary text-[8px] font-semibold uppercase leading-none">
-              Поиск
-            </span>
-            <Input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="SKU, название, подборка, тег…"
-              className="h-7 min-w-0 text-xs"
-              aria-label="Поиск по артикулам"
-            />
-          </div>
-          <div className="min-w-0 flex flex-col gap-0.5">
-            <Label
-              htmlFor="w2-hub-art"
-              className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
-              title="Один артикул из списка"
-            >
-              Артикул
-            </Label>
-            <select
-              id="w2-hub-art"
-              className="border-border-default bg-background text-text-primary focus-visible:ring-offset-background h-7 w-full min-w-0 rounded-md border px-1.5 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              value={articleFilter}
-              onChange={(e) => setArticleFilter(e.target.value)}
-            >
-              <option value={ARTICLE_FILTER_ALL}>Все</option>
-              {articleOptions.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="min-w-0 flex flex-col gap-0.5">
-            <Label
-              htmlFor="w2-hub-l1"
-              className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
-              title="Категория, уровень 1"
-            >
-              Ур.1
-            </Label>
-            <select
-              id="w2-hub-l1"
-              className="border-border-default bg-background focus-visible:ring-offset-background h-7 w-full min-w-0 rounded-md border px-1 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              value={catL1}
-              onChange={(e) => setCatL1(e.target.value)}
-            >
-              <option value="">Все</option>
-              {l1Options.map((o) => (
-                <option key={o} value={o}>
-                  {o}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="min-w-0 flex flex-col gap-0.5">
-            <Label
-              htmlFor="w2-hub-l2"
-              className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
-              title="Категория, уровень 2"
-            >
-              Ур.2
-            </Label>
-            <select
-              id="w2-hub-l2"
-              className="border-border-default bg-background focus-visible:ring-offset-background h-7 w-full min-w-0 rounded-md border px-1 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              value={catL2}
-              onChange={(e) => setCatL2(e.target.value)}
-              disabled={l2Options.length === 0}
-            >
-              <option value="">Все</option>
-              {l2Options.map((o) => (
-                <option key={o} value={o}>
-                  {o}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="min-w-0 flex flex-col gap-0.5">
-            <Label
-              htmlFor="w2-hub-l3"
-              className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
-              title="Категория, уровень 3"
-            >
-              Ур.3
-            </Label>
-            <select
-              id="w2-hub-l3"
-              className="border-border-default bg-background focus-visible:ring-offset-background h-7 w-full min-w-0 rounded-md border px-1 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              value={catL3}
-              onChange={(e) => setCatL3(e.target.value)}
-              disabled={l3Options.length === 0}
-            >
-              <option value="">Все</option>
-              {l3Options.map((o) => (
-                <option key={o} value={o}>
-                  {o}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <span className="text-text-secondary text-[8px] font-semibold uppercase leading-none">
+                Поиск
+              </span>
+              <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="SKU, название, подборка, тег…"
+                className="h-7 min-w-0 text-xs"
+                aria-label="Поиск по артикулам"
+              />
+            </div>
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <Label
+                htmlFor="w2-hub-art"
+                className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
+                title="Один артикул из списка"
+              >
+                Артикул
+              </Label>
+              <select
+                id="w2-hub-art"
+                className="border-border-default text-text-primary h-7 w-full min-w-0 rounded-md border bg-background px-1.5 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-background"
+                value={articleFilter}
+                onChange={(e) => setArticleFilter(e.target.value)}
+              >
+                <option value={ARTICLE_FILTER_ALL}>Все</option>
+                {articleOptions.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <Label
+                htmlFor="w2-hub-l1"
+                className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
+                title="Категория, уровень 1"
+              >
+                Ур.1
+              </Label>
+              <select
+                id="w2-hub-l1"
+                className="border-border-default h-7 w-full min-w-0 rounded-md border bg-background px-1 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-background"
+                value={catL1}
+                onChange={(e) => setCatL1(e.target.value)}
+              >
+                <option value="">Все</option>
+                {l1Options.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <Label
+                htmlFor="w2-hub-l2"
+                className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
+                title="Категория, уровень 2"
+              >
+                Ур.2
+              </Label>
+              <select
+                id="w2-hub-l2"
+                className="border-border-default h-7 w-full min-w-0 rounded-md border bg-background px-1 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-background"
+                value={catL2}
+                onChange={(e) => setCatL2(e.target.value)}
+                disabled={l2Options.length === 0}
+              >
+                <option value="">Все</option>
+                {l2Options.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <Label
+                htmlFor="w2-hub-l3"
+                className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
+                title="Категория, уровень 3"
+              >
+                Ур.3
+              </Label>
+              <select
+                id="w2-hub-l3"
+                className="border-border-default h-7 w-full min-w-0 rounded-md border bg-background px-1 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-background"
+                value={catL3}
+                onChange={(e) => setCatL3(e.target.value)}
+                disabled={l3Options.length === 0}
+              >
+                <option value="">Все</option>
+                {l3Options.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
         {allScopeTags.length > 0 ? (
@@ -465,7 +464,7 @@ export function Workshop2ArticleFlatHub({
                       'hover:border-accent-primary/50 rounded border px-1.5 py-0.5 text-[9px] font-medium transition-colors',
                       on
                         ? 'border-accent-primary/60 bg-accent-primary/15 text-text-primary'
-                        : 'border-border-subtle bg-white/80 text-text-secondary'
+                        : 'border-border-subtle text-text-secondary bg-white/80'
                     )}
                   >
                     {t}
@@ -563,7 +562,7 @@ function ArticleCard({
   const audienceLine = audienceLineForFlatHubCard(row);
 
   return (
-    <div className="border-border-default rounded-xl border bg-white p-4 shadow-sm hover:border-accent-primary/40 flex h-full w-full min-w-0 flex-col transition-colors">
+    <div className="border-border-default hover:border-accent-primary/40 flex h-full w-full min-w-0 flex-col rounded-xl border bg-white p-4 shadow-sm transition-colors">
       <div className="flex min-h-0 flex-1 flex-col gap-0 p-0">
         <div className="relative flex min-w-0 gap-1.5">
           <div className="relative min-h-[3rem] min-w-0 flex-1">
@@ -636,7 +635,7 @@ function ArticleCard({
               type="button"
               size="icon"
               variant="outline"
-              className="h-4 w-4 min-h-4 min-w-4 shrink-0 p-0"
+              className="h-4 min-h-4 w-4 min-w-4 shrink-0 p-0"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();

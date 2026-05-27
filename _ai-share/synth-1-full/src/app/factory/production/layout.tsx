@@ -30,11 +30,7 @@ import {
   CabinetHubTitleRow,
 } from '@/components/layout/cabinet-hub-chrome';
 import { cn } from '@/lib/utils';
-import {
-  cabinetHubLayout,
-  cabinetSidebarLayout,
-  cabinetSurface,
-} from '@/lib/ui/cabinet-surface';
+import { cabinetHubLayout, cabinetSidebarLayout, cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { resolveCabinetActiveNavLink } from '@/lib/ui/cabinet-nav-active';
 import { cabinetRoleLabelRu } from '@/lib/ui/cabinet-role-labels';
 import { ROUTES } from '@/lib/routes';
@@ -83,7 +79,7 @@ function FactoryProductionLayoutContent({ children }: { children: React.ReactNod
   if (loading && HUB_AUTH_FULLSCREEN_SPINNER) {
     return (
       <div className={cabinetHubLayout.loadingShell}>
-        <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
+        <Loader2 className="size-8 animate-spin text-muted-foreground" aria-hidden />
       </div>
     );
   }
@@ -227,7 +223,7 @@ export default function FactoryProductionLayout({ children }: { children: React.
             'text-text-muted flex flex-col gap-3 text-xs font-medium uppercase tracking-widest'
           )}
         >
-          <Loader2 className="text-muted-foreground size-8 animate-spin" aria-hidden />
+          <Loader2 className="size-8 animate-spin text-muted-foreground" aria-hidden />
           Загрузка…
         </div>
       }

@@ -13,12 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { getAcademyCatalogOverview, getCoursesPendingPlatformReview } from '@/lib/academy-catalog';
 import { getClientCatalogPreview } from '@/lib/academy-course-context';
 import { ROUTES } from '@/lib/routes';
@@ -40,12 +35,14 @@ export default function AdminAcademyModerationPage() {
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <div className="mb-2 flex items-center gap-2">
-                <ClipboardCheck className="text-muted-foreground size-6" aria-hidden />
-                <h1 className="text-2xl font-semibold tracking-tight">Академия: модерация курсов</h1>
+                <ClipboardCheck className="size-6 text-muted-foreground" aria-hidden />
+                <h1 className="text-2xl font-semibold tracking-tight">
+                  Академия: модерация курсов
+                </h1>
               </div>
-              <p className="text-muted-foreground max-w-2xl text-sm leading-relaxed">
-                Заявки от брендов на платформе и от организаций-партнёров. После одобрения курс попадает в
-                клиентский каталог{' '}
+              <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                Заявки от брендов на платформе и от организаций-партнёров. После одобрения курс
+                попадает в клиентский каталог{' '}
                 <Link
                   href={ROUTES.academyPlatform}
                   className="font-medium text-primary underline-offset-4 hover:underline"
@@ -54,7 +51,7 @@ export default function AdminAcademyModerationPage() {
                 </Link>
                 . Кнопки решения пока демо — подключение к API и журнал решений позже.
               </p>
-              <p className="text-muted-foreground mt-2 max-w-2xl text-xs leading-relaxed">
+              <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground">
                 Контекст студий:{' '}
                 <Link
                   href={ROUTES.brand.academyPlatform}
@@ -78,54 +75,74 @@ export default function AdminAcademyModerationPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            <div className="bg-card rounded-xl border p-3 text-center shadow-sm">
-              <p className="text-muted-foreground text-[11px] font-medium uppercase tracking-wide">Всего курсов (мок)</p>
-              <p className="text-foreground mt-1 text-2xl font-semibold tabular-nums">
+            <div className="rounded-xl border bg-card p-3 text-center shadow-sm">
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                Всего курсов (мок)
+              </p>
+              <p className="mt-1 text-2xl font-semibold tabular-nums text-foreground">
                 {overview.totalCoursesInDataset}
               </p>
             </div>
-            <div className="bg-card rounded-xl border p-3 text-center shadow-sm">
-              <p className="text-muted-foreground text-[11px] font-medium uppercase tracking-wide">Витрина /academy</p>
-              <p className="text-foreground mt-1 text-2xl font-semibold tabular-nums">
+            <div className="rounded-xl border bg-card p-3 text-center shadow-sm">
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                Витрина /academy
+              </p>
+              <p className="mt-1 text-2xl font-semibold tabular-nums text-foreground">
                 {overview.clientCatalogCourseCount}
               </p>
             </div>
-            <div className="bg-card rounded-xl border p-3 text-center shadow-sm">
-              <p className="text-muted-foreground text-[11px] font-medium uppercase tracking-wide">Очередь</p>
-              <p className="text-foreground mt-1 text-2xl font-semibold tabular-nums text-amber-700">
+            <div className="rounded-xl border bg-card p-3 text-center shadow-sm">
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                Очередь
+              </p>
+              <p className="mt-1 text-2xl font-semibold tabular-nums text-amber-700 text-foreground">
                 {overview.pendingModerationCount}
               </p>
             </div>
-            <div className="bg-card rounded-xl border p-3 text-center shadow-sm">
-              <p className="text-muted-foreground text-[11px] font-medium uppercase tracking-wide">Траектории</p>
-              <p className="text-foreground mt-1 text-2xl font-semibold tabular-nums">
+            <div className="rounded-xl border bg-card p-3 text-center shadow-sm">
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                Траектории
+              </p>
+              <p className="mt-1 text-2xl font-semibold tabular-nums text-foreground">
                 {overview.clientLearningPathCount}
               </p>
             </div>
-            <div className="bg-card rounded-xl border p-3 text-center shadow-sm">
-              <p className="text-muted-foreground text-[11px] font-medium uppercase tracking-wide">Бренд (демо)</p>
-              <p className="text-foreground mt-1 text-2xl font-semibold tabular-nums">
+            <div className="rounded-xl border bg-card p-3 text-center shadow-sm">
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                Бренд (демо)
+              </p>
+              <p className="mt-1 text-2xl font-semibold tabular-nums text-foreground">
                 {overview.demoBrandManagedCourseCount}
               </p>
             </div>
-            <div className="bg-card rounded-xl border p-3 text-center shadow-sm">
-              <p className="text-muted-foreground text-[11px] font-medium uppercase tracking-wide">Орг. (демо)</p>
-              <p className="text-foreground mt-1 text-2xl font-semibold tabular-nums">
+            <div className="rounded-xl border bg-card p-3 text-center shadow-sm">
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                Орг. (демо)
+              </p>
+              <p className="mt-1 text-2xl font-semibold tabular-nums text-foreground">
                 {overview.demoOrganizationManagedCourseCount}
               </p>
             </div>
           </div>
-          <p className="text-muted-foreground text-xs">
+          <p className="text-xs text-muted-foreground">
             В демо-данных помечено архивом:{' '}
-            <span className="text-foreground font-medium tabular-nums">{overview.archivedCourseCountInDataset}</span>{' '}
-            курсов — они не попадают в клиентский каталог (и траектории с ними скрываются на витрине).
+            <span className="font-medium tabular-nums text-foreground">
+              {overview.archivedCourseCountInDataset}
+            </span>{' '}
+            курсов — они не попадают в клиентский каталог (и траектории с ними скрываются на
+            витрине).
           </p>
 
           {queue.length === 0 ? (
             <div className="rounded-xl border border-dashed bg-muted/20 p-8 text-center">
-              <p className="text-muted-foreground text-sm">Очередь пуста — заявок на согласовании нет.</p>
-              <p className="text-muted-foreground mt-3 text-xs">
-                <Link href={ROUTES.brand.academyPlatform} className="font-medium text-primary underline-offset-4 hover:underline">
+              <p className="text-sm text-muted-foreground">
+                Очередь пуста — заявок на согласовании нет.
+              </p>
+              <p className="mt-3 text-xs text-muted-foreground">
+                <Link
+                  href={ROUTES.brand.academyPlatform}
+                  className="font-medium text-primary underline-offset-4 hover:underline"
+                >
                   Витрина платформы в кабинете бренда
                 </Link>
                 {' · '}
@@ -139,8 +156,8 @@ export default function AdminAcademyModerationPage() {
             </div>
           ) : (
             <>
-              <p className="text-muted-foreground text-sm">
-                В очереди: <span className="text-foreground font-semibold">{queue.length}</span>
+              <p className="text-sm text-muted-foreground">
+                В очереди: <span className="font-semibold text-foreground">{queue.length}</span>
               </p>
               <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
                 <Table>
@@ -169,11 +186,11 @@ export default function AdminAcademyModerationPage() {
                             >
                               {c.title}
                             </Link>
-                            <p className="text-muted-foreground mt-1 font-mono text-[11px] leading-tight">
+                            <p className="mt-1 font-mono text-[11px] leading-tight text-muted-foreground">
                               {c.id}
                             </p>
                           </TableCell>
-                          <TableCell className="text-muted-foreground text-sm">
+                          <TableCell className="text-sm text-muted-foreground">
                             {courseCategoryRu(c.category)}
                           </TableCell>
                           <TableCell>
@@ -181,7 +198,7 @@ export default function AdminAcademyModerationPage() {
                               {catalogSourceLabel(c.catalogSource)}
                             </Badge>
                           </TableCell>
-                          <TableCell className="text-muted-foreground text-sm">
+                          <TableCell className="text-sm text-muted-foreground">
                             <span>{courseAudienceKindLabel(c)}</span>
                             {scope ? (
                               <span className="mt-0.5 block text-[11px] text-muted-foreground/90">
@@ -189,30 +206,33 @@ export default function AdminAcademyModerationPage() {
                               </span>
                             ) : null}
                           </TableCell>
-                          <TableCell className="text-muted-foreground whitespace-nowrap text-sm">
+                          <TableCell className="whitespace-nowrap text-sm text-muted-foreground">
                             {formatCoursePrice(c)}
                           </TableCell>
-                          <TableCell className="text-muted-foreground max-w-[180px] truncate text-sm" title={c.provider}>
+                          <TableCell
+                            className="max-w-[180px] truncate text-sm text-muted-foreground"
+                            title={c.provider}
+                          >
                             {c.provider}
                           </TableCell>
                           <TableCell>
                             {clientPreview.kind === 'live' ? (
                               <Link
                                 href={clientPreview.href}
-                                className="text-primary text-xs font-medium underline-offset-4 hover:underline"
+                                className="text-xs font-medium text-primary underline-offset-4 hover:underline"
                               >
                                 Открыть как клиент
                               </Link>
                             ) : (
                               <Tooltip>
                                 <TooltipTrigger asChild>
-                                  <span className="text-muted-foreground cursor-help border-b border-dotted border-muted-foreground/50 text-xs">
+                                  <span className="cursor-help border-b border-dotted border-muted-foreground/50 text-xs text-muted-foreground">
                                     Ожидает публикации
                                   </span>
                                 </TooltipTrigger>
                                 <TooltipContent side="top" className="max-w-[280px] text-xs">
                                   <p className="font-medium">После одобрения</p>
-                                  <p className="text-muted-foreground mt-1 break-all">
+                                  <p className="mt-1 break-all text-muted-foreground">
                                     {ROUTES.clientAcademyCourse(c.id)}
                                   </p>
                                 </TooltipContent>
@@ -221,7 +241,12 @@ export default function AdminAcademyModerationPage() {
                           </TableCell>
                           <TableCell className="text-right">
                             <div className="flex flex-wrap items-center justify-end gap-1.5">
-                              <Button variant="ghost" size="sm" className="h-8 gap-1 px-2 text-xs" asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-8 gap-1 px-2 text-xs"
+                                asChild
+                              >
                                 <Link href={ROUTES.brand.academyPlatformCourse(c.id)}>
                                   <ExternalLink className="size-3.5" aria-hidden />
                                   Студия
@@ -242,7 +267,12 @@ export default function AdminAcademyModerationPage() {
                               <Tooltip>
                                 <TooltipTrigger asChild>
                                   <span className="inline-flex">
-                                    <Button size="sm" variant="outline" className="h-8 px-2 text-xs" disabled>
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      className="h-8 px-2 text-xs"
+                                      disabled
+                                    >
                                       Отклонить
                                     </Button>
                                   </span>

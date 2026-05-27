@@ -3,7 +3,10 @@
 import { CheckCircle2, Circle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import type { Workshop2DossierSignoffMeta, Workshop2SketchSheetViewKind } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierSignoffMeta,
+  Workshop2SketchSheetViewKind,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import { SKETCH_SHEET_VIEW_LABELS } from '@/lib/production/workshop2-sketch-sheets';
 import type { CategorySketchAnnotatorSheetStorage } from '@/components/brand/production/category-sketch-annotator-types';
 

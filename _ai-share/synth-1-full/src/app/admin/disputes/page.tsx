@@ -410,8 +410,8 @@ export default function AdminDisputesPage() {
                   </span>
                 </div>
                 <p className="text-[10px] font-medium leading-relaxed text-white/60">
-                  Перевести на этап медиации: ответчик не предоставил производственные журналы в срок
-                  48 ч по регламенту.
+                  Перевести на этап медиации: ответчик не предоставил производственные журналы в
+                  срок 48 ч по регламенту.
                 </p>
               </div>
             </div>

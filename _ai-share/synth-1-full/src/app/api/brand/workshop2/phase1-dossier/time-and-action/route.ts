@@ -43,7 +43,7 @@ let mockMilestones: Workshop2TaMilestone[] = [
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const articleId = searchParams.get('articleId');
-  
+
   // Return the in-memory mock milestones regardless of articleId for the mock
   return NextResponse.json({ milestones: mockMilestones });
 }

@@ -7,7 +7,10 @@ interface DossierAttributeInputProps {
   onChange: (value: string | string[] | number | null) => void;
 }
 
-export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({ attribute, onChange }) => {
+export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({
+  attribute,
+  onChange,
+}) => {
   const renderInput = () => {
     switch (attribute.uiType) {
       case 'text_input':
@@ -17,7 +20,7 @@ export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({ at
             value={attribute.value as string}
             onChange={(e) => onChange(e.target.value)}
             placeholder={attribute.placeholder}
-            className="h-8 w-full rounded-md border px-2 py-1 text-[11px] bg-white"
+            className="h-8 w-full rounded-md border bg-white px-2 py-1 text-[11px]"
           />
         );
       case 'number_input':
@@ -27,7 +30,7 @@ export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({ at
             value={attribute.value as number}
             onChange={(e) => onChange(Number(e.target.value))}
             placeholder={attribute.placeholder}
-            className="h-8 w-full rounded-md border px-2 py-1 text-[11px] bg-white"
+            className="h-8 w-full rounded-md border bg-white px-2 py-1 text-[11px]"
           />
         );
       case 'date_input':
@@ -37,7 +40,7 @@ export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({ at
             value={attribute.value as string}
             onChange={(e) => onChange(e.target.value)}
             placeholder={attribute.placeholder}
-            className="h-8 w-full rounded-md border px-2 py-1 text-[11px] bg-white"
+            className="h-8 w-full rounded-md border bg-white px-2 py-1 text-[11px]"
           />
         );
       case 'select':
@@ -45,7 +48,7 @@ export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({ at
           <select
             value={attribute.value as string}
             onChange={(e) => onChange(e.target.value)}
-            className="h-8 w-full rounded-md border px-2 py-1 text-[11px] bg-white"
+            className="h-8 w-full rounded-md border bg-white px-2 py-1 text-[11px]"
           >
             {attribute.options?.map((option) => (
               <option key={option.value} value={option.value}>
@@ -62,7 +65,7 @@ export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({ at
             onChange={(e) =>
               onChange(Array.from(e.target.selectedOptions, (option) => option.value))
             }
-            className="h-8 w-full rounded-md border px-2 py-1 text-[11px] bg-white"
+            className="h-8 w-full rounded-md border bg-white px-2 py-1 text-[11px]"
           >
             {attribute.options?.map((option) => (
               <option key={option.value} value={option.value}>
@@ -77,7 +80,7 @@ export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({ at
             {attribute.options?.map((option) => (
               <div
                 key={option.value}
-                className={`w-8 h-8 rounded-full cursor-pointer border-2 ${
+                className={`h-8 w-8 cursor-pointer rounded-full border-2 ${
                   attribute.value === option.value ? 'border-blue-500' : 'border-gray-300'
                 }`}
                 style={{ backgroundColor: option.color }}
@@ -89,18 +92,23 @@ export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({ at
       case 'image_upload':
         return (
           <div>
-            <input type="file" onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                 const reader = new FileReader();
-                 reader.onload = (ev) => onChange(ev.target?.result as string);
-                 reader.readAsDataURL(file);
-              }
-            }}
-             className="h-8 w-full rounded-md border px-2 py-1 text-[11px] bg-white" />
-            {attribute.value && typeof attribute.value === 'string' && attribute.value.startsWith('data:') && (
-              <img src={attribute.value} alt="Uploaded" className="mt-2 max-h-40" />
-            )}
+            <input
+              type="file"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = (ev) => onChange(ev.target?.result as string);
+                  reader.readAsDataURL(file);
+                }
+              }}
+              className="h-8 w-full rounded-md border bg-white px-2 py-1 text-[11px]"
+            />
+            {attribute.value &&
+              typeof attribute.value === 'string' &&
+              attribute.value.startsWith('data:') && (
+                <img src={attribute.value} alt="Uploaded" className="mt-2 max-h-40" />
+              )}
             {!attribute.value && attribute.imageUploadUrl && (
               <img src={attribute.imageUploadUrl} alt="Uploaded" className="mt-2 max-h-40" />
             )}
@@ -112,9 +120,9 @@ export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({ at
   };
 
   return (
-    <div className="border-border-subtle bg-bg-surface2/40 space-y-0.5 rounded-md border px-2 py-1.5 flex flex-col justify-between h-full min-h-[52px]">
+    <div className="border-border-subtle bg-bg-surface2/40 flex h-full min-h-[52px] flex-col justify-between space-y-0.5 rounded-md border px-2 py-1.5">
       <div>
-        <label className="text-text-primary min-w-0 truncate text-[11px] font-semibold leading-none mb-1 flex items-center gap-1">
+        <label className="text-text-primary mb-1 flex min-w-0 items-center gap-1 truncate text-[11px] font-semibold leading-none">
           <span>{attribute.label}</span>
           {attribute.description && (
             <WorkshopInlineHintIcon label={attribute.label}>

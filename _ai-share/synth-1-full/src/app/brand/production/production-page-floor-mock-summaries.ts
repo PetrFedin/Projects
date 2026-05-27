@@ -41,8 +41,8 @@ export function buildFloorSubcontractSummary(orders: SubcontractOrder[]): FloorS
 /** Сводки по мокам этажа (до API). Стабильные ссылки — не пересчитывать в `page.tsx`. */
 export const FLOOR_MOCK_QC_SUMMARY = buildFloorQcSummaryFromInspections(MOCK_QC_INSPECTIONS_FLOOR);
 
-export const FLOOR_MOCK_MILESTONES_SUMMARY =
-  buildFloorMilestonesSummary(MOCK_MILESTONES_FLOOR);
+export const FLOOR_MOCK_MILESTONES_SUMMARY = buildFloorMilestonesSummary(MOCK_MILESTONES_FLOOR);
 
-export const FLOOR_MOCK_SUBCONTRACT_SUMMARY =
-  buildFloorSubcontractSummary(MOCK_SUBCONTRACT_ORDERS_FLOOR);
+export const FLOOR_MOCK_SUBCONTRACT_SUMMARY = buildFloorSubcontractSummary(
+  MOCK_SUBCONTRACT_ORDERS_FLOOR
+);

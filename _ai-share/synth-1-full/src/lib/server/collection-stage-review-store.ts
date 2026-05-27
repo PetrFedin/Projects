@@ -63,9 +63,9 @@ export async function createCollectionStageReviewRecord(input: {
 }): Promise<CollectionStageReviewRecord> {
   const now = new Date().toISOString();
   const requestId = makeId();
-  const ticketBase = `${input.collectionKey.replace(/[^a-zA-Z0-9:_-]+/g, '-').slice(0, 80) || 'x'}:${input.stepId
-    .replace(/[^a-zA-Z0-9:_-]+/g, '-')
-    .slice(0, 80) || 'x'}`;
+  const ticketBase = `${input.collectionKey.replace(/[^a-zA-Z0-9:_-]+/g, '-').slice(0, 80) || 'x'}:${
+    input.stepId.replace(/[^a-zA-Z0-9:_-]+/g, '-').slice(0, 80) || 'x'
+  }`;
   const record: CollectionStageReviewRecord = {
     requestId,
     createdAt: now,
@@ -78,7 +78,9 @@ export async function createCollectionStageReviewRecord(input: {
     channels: input.channels,
     ...(input.summaryNote?.trim() ? { summaryNote: input.summaryNote.trim() } : {}),
     status: 'queued',
-    ...(input.channels.includes('tasks') ? { taskRef: `task:${ticketBase}:${requestId.slice(-8)}` } : {}),
+    ...(input.channels.includes('tasks')
+      ? { taskRef: `task:${ticketBase}:${requestId.slice(-8)}` }
+      : {}),
     ...(input.channels.includes('messages')
       ? { messageThreadRef: `thread:${ticketBase}:${requestId.slice(-8)}` }
       : {}),

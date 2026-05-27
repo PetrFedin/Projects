@@ -20,7 +20,11 @@ import type { Workshop2InfoPickMatrixGapSummary } from '@/lib/production/worksho
 
 /** Thin wrappers → единый Workshop2SurfaceStatusBanner (Phase 1B). */
 
-export function Workshop2SupplyBundleStatusBanner({ status }: { status: Workshop2SupplyBundleStatus }) {
+export function Workshop2SupplyBundleStatusBanner({
+  status,
+}: {
+  status: Workshop2SupplyBundleStatus;
+}) {
   if (!status.hintRu) return null;
   return (
     <Workshop2SurfaceStatusBanner
@@ -30,20 +34,26 @@ export function Workshop2SupplyBundleStatusBanner({ status }: { status: Workshop
   );
 }
 
-export function Workshop2StockBundleStatusBanner({ status }: { status: Workshop2StockBundleStatus }) {
+export function Workshop2StockBundleStatusBanner({
+  status,
+}: {
+  status: Workshop2StockBundleStatus;
+}) {
   if (!status.hintRu) return null;
   return (
     <Workshop2SurfaceStatusBanner
       hintRu={status.hintRu}
       detailRu={`Движений: ${status.movementCount} · остаток: ${status.qtyOnHand.toLocaleString('ru-RU')} ед.`}
-      tone={
-        status.negativeBalance ? 'rose' : status.state === 'ready' ? 'emerald' : 'amber'
-      }
+      tone={status.negativeBalance ? 'rose' : status.state === 'ready' ? 'emerald' : 'amber'}
     />
   );
 }
 
-export function Workshop2TaMilestonesStatusBanner({ status }: { status: Workshop2TaMilestonesStatus }) {
+export function Workshop2TaMilestonesStatusBanner({
+  status,
+}: {
+  status: Workshop2TaMilestonesStatus;
+}) {
   if (!status.hintRu) return null;
   return (
     <Workshop2SurfaceStatusBanner
@@ -77,7 +87,11 @@ export function Workshop2LabDipStatusBanner({
   );
 }
 
-export function Workshop2ReleaseRoutingStatusBanner({ status }: { status: Workshop2ReleaseRoutingStatus }) {
+export function Workshop2ReleaseRoutingStatusBanner({
+  status,
+}: {
+  status: Workshop2ReleaseRoutingStatus;
+}) {
   if (!status.hintRu) return null;
   return (
     <Workshop2SurfaceStatusBanner
@@ -98,8 +112,7 @@ export function Workshop2ReleaseStatusCollapsible({
 }) {
   const mirror = dossier?.releaseRoutingMirror;
   const hasMirrorChip = Boolean(mirror?.mirroredAt);
-  const hasLocalWarning =
-    !hasMirrorChip && routingStatus.routingStepCount > 0;
+  const hasLocalWarning = !hasMirrorChip && routingStatus.routingStepCount > 0;
   const hasRoutingHint = Boolean(routingStatus.hintRu);
   const hasContent = hasRoutingHint || hasMirrorChip || hasLocalWarning;
   const [open, setOpen] = useState(false);
@@ -117,29 +130,35 @@ export function Workshop2ReleaseStatusCollapsible({
     <details
       open={open}
       onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)}
-      className="rounded-lg border border-border-subtle bg-bg-surface2/40"
+      className="border-border-subtle bg-bg-surface2/40 rounded-lg border"
       data-testid="workshop2-release-status-collapsible"
     >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2 text-xs font-medium text-text-primary [&::-webkit-details-marker]:hidden">
+      <summary className="text-text-primary flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2 text-xs font-medium [&::-webkit-details-marker]:hidden">
         <span>
           Статус выпуска · {toneLabel}
-          {routingStatus.routingStepCount > 0
-            ? ` · ${routingStatus.routingStepCount} шаг.`
-            : ''}
+          {routingStatus.routingStepCount > 0 ? ` · ${routingStatus.routingStepCount} шаг.` : ''}
         </span>
-        <ChevronDown className={cn('h-4 w-4 shrink-0 transition-transform', open && 'rotate-180')} />
+        <ChevronDown
+          className={cn('h-4 w-4 shrink-0 transition-transform', open && 'rotate-180')}
+        />
       </summary>
-      <div className="space-y-2 border-t border-border-subtle px-3 py-2">
+      <div className="border-border-subtle space-y-2 border-t px-3 py-2">
         <Workshop2ReleaseRoutingStatusBanner status={routingStatus} />
         {hasMirrorChip ? (
-          <p className={WORKSHOP2_SURFACE_BANNER_INLINE_EMERALD_CLASS} data-testid="release-routing-pg-chip">
-            releaseRoutingMirror в PG ·{' '}
-            {new Date(mirror!.mirroredAt).toLocaleString('ru-RU')} · {mirror!.routingSource} ·{' '}
-            {mirror!.state}
+          <p
+            className={WORKSHOP2_SURFACE_BANNER_INLINE_EMERALD_CLASS}
+            data-testid="release-routing-pg-chip"
+          >
+            releaseRoutingMirror в PG · {new Date(mirror!.mirroredAt).toLocaleString('ru-RU')} ·{' '}
+            {mirror!.routingSource} · {mirror!.state}
           </p>
         ) : hasLocalWarning ? (
-          <p className={WORKSHOP2_SURFACE_BANNER_INLINE_WARN_CLASS} data-testid="release-routing-pg-chip">
-            Маршрут локально ({routingStatus.routingStepCount} шаг.) — сохраните mirror routingSteps в PG.
+          <p
+            className={WORKSHOP2_SURFACE_BANNER_INLINE_WARN_CLASS}
+            data-testid="release-routing-pg-chip"
+          >
+            Маршрут локально ({routingStatus.routingStepCount} шаг.) — сохраните mirror routingSteps
+            в PG.
           </p>
         ) : null}
       </div>
@@ -162,7 +181,11 @@ export function Workshop2PomTableStatusBanner({ status }: { status: Workshop2Pom
   );
 }
 
-export function Workshop2InfoPickMatrixGapsBanner({ summary }: { summary: Workshop2InfoPickMatrixGapSummary | null }) {
+export function Workshop2InfoPickMatrixGapsBanner({
+  summary,
+}: {
+  summary: Workshop2InfoPickMatrixGapSummary | null;
+}) {
   if (!summary?.hintRu || summary.missingCount === 0) return null;
   const preview = summary.rows
     .filter((r) => !r.filled && r.linkedToMatrix)
@@ -172,7 +195,9 @@ export function Workshop2InfoPickMatrixGapsBanner({ summary }: { summary: Worksh
   return (
     <Workshop2SurfaceStatusBanner
       hintRu={summary.hintRu}
-      detailRu={preview ? `Примеры: ${preview}${summary.missingMatrixCount > 4 ? '…' : ''}` : undefined}
+      detailRu={
+        preview ? `Примеры: ${preview}${summary.missingMatrixCount > 4 ? '…' : ''}` : undefined
+      }
     />
   );
 }

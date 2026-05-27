@@ -46,7 +46,9 @@ export function AcademyCourseReviewsPanel({
   /** Без верхней границы — внутри Card в кабинете бренда */
   embedded?: boolean;
 }) {
-  const [reviews, setReviews] = React.useState<CourseReviewEntry[]>(() => getCourseReviews(courseId));
+  const [reviews, setReviews] = React.useState<CourseReviewEntry[]>(() =>
+    getCourseReviews(courseId)
+  );
   const [summary, setSummary] = React.useState(() => getCourseRatingSummary(courseId));
   const [name, setName] = React.useState('');
   const [text, setText] = React.useState('');
@@ -73,12 +75,10 @@ export function AcademyCourseReviewsPanel({
     refresh();
   };
 
-  const displayAvg = summary.count > 0 ? summary.average : catalogRating ?? 0;
+  const displayAvg = summary.count > 0 ? summary.average : (catalogRating ?? 0);
 
   return (
-    <div
-      className={cn(!embedded && 'border-t border-[#e6e9ef] pt-4', embedded && 'pt-0')}
-    >
+    <div className={cn(!embedded && 'border-t border-[#e6e9ef] pt-4', embedded && 'pt-0')}>
       <h2 className="mb-2 text-[11px] font-bold uppercase tracking-widest text-[#6b7788]">
         Отзывы и оценка
       </h2>
@@ -98,10 +98,7 @@ export function AcademyCourseReviewsPanel({
 
       <ul className="mb-6 space-y-3">
         {reviews.map((r) => (
-          <li
-            key={r.id}
-            className="rounded-sm border border-[#e6e9ef] bg-[#f7f8fa] px-3 py-2.5"
-          >
+          <li key={r.id} className="rounded-sm border border-[#e6e9ef] bg-[#f7f8fa] px-3 py-2.5">
             <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
               <span className="text-[12px] font-semibold text-[#1a2433]">{r.authorName}</span>
               <StarsRow value={r.rating} />
@@ -118,8 +115,13 @@ export function AcademyCourseReviewsPanel({
         ))}
       </ul>
 
-      <form onSubmit={onSubmit} className="space-y-3 rounded-sm border border-dashed border-[#c5ccd6] bg-white p-3">
-        <p className="text-[11px] font-semibold uppercase tracking-wide text-[#6b7788]">Оставить отзыв</p>
+      <form
+        onSubmit={onSubmit}
+        className="space-y-3 rounded-sm border border-dashed border-[#c5ccd6] bg-white p-3"
+      >
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-[#6b7788]">
+          Оставить отзыв
+        </p>
         <Input
           placeholder="Ваше имя"
           value={name}

@@ -39,9 +39,7 @@ export function Workshop2DossierMaterialSectionBody({
 }) {
   const l2 = currentLeaf.l2Name;
   const materialMatRows = sectionRowsCurrent.filter((r) => r.attribute.attributeId === 'mat');
-  const materialCatalogRows = sectionRowsCurrent.filter(
-    (r) => r.attribute.attributeId !== 'mat'
-  );
+  const materialCatalogRows = sectionRowsCurrent.filter((r) => r.attribute.attributeId !== 'mat');
   const materialOuterwearUnified = l2 === 'Верхняя одежда';
   const materialUnifiedFieldRows = [...materialMatRows, ...materialCatalogRows];
   const materialFieldsBlocks = materialOuterwearUnified ? (

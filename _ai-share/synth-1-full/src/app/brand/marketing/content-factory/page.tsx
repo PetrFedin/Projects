@@ -16,7 +16,10 @@ export default function BrandMarketingContentFactoryPage() {
   const links = getRelatedLinks('wiz-studio').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent
+      maxWidth="full"
+      className="w-full space-y-6 pb-16 duration-700 animate-in fade-in"
+    >
       <RegistryPageHeader
         title="WizStudio / AI-каталог"
         leadPlain="Виртуальные съёмки и контент без фотосессии. Генерация образов по flat-фото, фоны, lifestyle."

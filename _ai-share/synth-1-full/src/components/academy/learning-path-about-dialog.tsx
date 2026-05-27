@@ -99,7 +99,11 @@ export function LearningPathAboutDialog({
               </Badge>
             ) : null}
             {path.format ? (
-              <Badge variant="outline" className="max-w-[200px] truncate text-[10px] font-normal normal-case" title={path.format}>
+              <Badge
+                variant="outline"
+                className="max-w-[200px] truncate text-[10px] font-normal normal-case"
+                title={path.format}
+              >
                 {path.format}
               </Badge>
             ) : null}
@@ -125,7 +129,9 @@ export function LearningPathAboutDialog({
               <section className="space-y-2">
                 <SectionTitle icon={Target}>Для кого</SectionTitle>
                 {path.audience ? (
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{path.audience}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    {path.audience}
+                  </p>
                 ) : null}
                 {d?.audienceDetail ? (
                   <p className="text-[13px] leading-relaxed text-slate-700">{d.audienceDetail}</p>
@@ -180,7 +186,9 @@ export function LearningPathAboutDialog({
                         <p className="text-[14px] font-semibold text-slate-800">{courseId}</p>
                       )}
                       {course ? (
-                        <p className="mt-1 text-[12px] leading-relaxed text-slate-600">{course.description}</p>
+                        <p className="mt-1 text-[12px] leading-relaxed text-slate-600">
+                          {course.description}
+                        </p>
                       ) : null}
                       {course ? (
                         <p className="mt-1 text-[11px] text-slate-500">
@@ -194,7 +202,9 @@ export function LearningPathAboutDialog({
                         </p>
                       ) : null}
                       {block?.narrative ? (
-                        <p className="mt-1 text-[12px] leading-relaxed text-slate-700">{block.narrative}</p>
+                        <p className="mt-1 text-[12px] leading-relaxed text-slate-700">
+                          {block.narrative}
+                        </p>
                       ) : null}
                       {block?.keyUnits?.length ? (
                         <div className="mt-2">
@@ -225,7 +235,9 @@ export function LearningPathAboutDialog({
                           <p className="text-[10px] font-bold uppercase tracking-wide text-indigo-800">
                             Практика / проект
                           </p>
-                          <p className="mt-0.5 text-[12px] leading-snug text-indigo-950">{block.labOrProject}</p>
+                          <p className="mt-0.5 text-[12px] leading-snug text-indigo-950">
+                            {block.labOrProject}
+                          </p>
                         </div>
                       ) : null}
                     </li>
@@ -250,9 +262,13 @@ export function LearningPathAboutDialog({
 
             <section className="space-y-2">
               <SectionTitle icon={Award}>Сертификация и итог</SectionTitle>
-              <p className="text-[13px] font-semibold leading-snug text-emerald-800">{path.outcome}</p>
+              <p className="text-[13px] font-semibold leading-snug text-emerald-800">
+                {path.outcome}
+              </p>
               {d?.certificationDetail ? (
-                <p className="text-[13px] leading-relaxed text-slate-700">{d.certificationDetail}</p>
+                <p className="text-[13px] leading-relaxed text-slate-700">
+                  {d.certificationDetail}
+                </p>
               ) : null}
             </section>
 
@@ -275,9 +291,14 @@ export function LearningPathAboutDialog({
                 <SectionTitle icon={HelpCircle}>Частые вопросы</SectionTitle>
                 <div className="space-y-3">
                   {d.faq.map((item) => (
-                    <div key={item.question} className="rounded-lg border border-slate-100 bg-slate-50/80 px-3 py-2.5">
+                    <div
+                      key={item.question}
+                      className="rounded-lg border border-slate-100 bg-slate-50/80 px-3 py-2.5"
+                    >
                       <p className="text-[12px] font-semibold text-slate-900">{item.question}</p>
-                      <p className="mt-1 text-[12px] leading-relaxed text-slate-600">{item.answer}</p>
+                      <p className="mt-1 text-[12px] leading-relaxed text-slate-600">
+                        {item.answer}
+                      </p>
                     </div>
                   ))}
                 </div>

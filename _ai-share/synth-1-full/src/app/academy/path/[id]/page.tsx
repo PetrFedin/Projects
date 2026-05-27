@@ -83,15 +83,18 @@ export default function ClientAcademyPathPage() {
     setCompletedCourseIds(loadCompletedCourseIds(id));
   }, [id]);
 
-  const setCompleted = useCallback((updater: (prev: string[]) => string[]) => {
-    const p = getLearningPathByIdForClient(id);
-    if (!p || p.archived) return;
-    setCompletedCourseIds((prev) => {
-      const next = updater(prev);
-      saveCompletedCourseIds(p.id, next);
-      return next;
-    });
-  }, [id]);
+  const setCompleted = useCallback(
+    (updater: (prev: string[]) => string[]) => {
+      const p = getLearningPathByIdForClient(id);
+      if (!p || p.archived) return;
+      setCompletedCourseIds((prev) => {
+        const next = updater(prev);
+        saveCompletedCourseIds(p.id, next);
+        return next;
+      });
+    },
+    [id]
+  );
 
   const toggleCourseDone = useCallback(
     (courseId: string) => {
@@ -167,7 +170,12 @@ export default function ClientAcademyPathPage() {
     <TooltipProvider>
       <div className={nuOrderDeskShell.canvas}>
         <div className="mb-4 flex flex-wrap items-center gap-2">
-          <Button variant="ghost" size="sm" className="h-7 gap-1 px-2 text-[11px] font-semibold" asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 gap-1 px-2 text-[11px] font-semibold"
+            asChild
+          >
             <Link href={ROUTES.academyPlatform}>
               <ArrowLeft className="size-3.5" aria-hidden />
               Академия
@@ -185,8 +193,8 @@ export default function ClientAcademyPathPage() {
               <Archive className="size-4 text-amber-800" aria-hidden />
               <AlertTitle className="text-[13px]">Программа в архиве</AlertTitle>
               <AlertDescription className="text-[12px] text-[#5b6675]">
-                Новые зачисления не оформляются; материалы доступны для ознакомления. Прогресс и отметки
-                недоступны.
+                Новые зачисления не оформляются; материалы доступны для ознакомления. Прогресс и
+                отметки недоступны.
               </AlertDescription>
             </Alert>
           ) : null}
@@ -201,9 +209,13 @@ export default function ClientAcademyPathPage() {
                   Программа
                 </Badge>
                 {path.audience ? (
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#8b95a5]">{path.audience}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#8b95a5]">
+                    {path.audience}
+                  </p>
                 ) : null}
-                <h1 className="text-[18px] font-semibold leading-snug text-[#1a2433] sm:text-[20px]">{path.title}</h1>
+                <h1 className="text-[18px] font-semibold leading-snug text-[#1a2433] sm:text-[20px]">
+                  {path.title}
+                </h1>
               </div>
             </div>
           </div>
@@ -224,7 +236,10 @@ export default function ClientAcademyPathPage() {
               {path.totalDuration}
             </Badge>
             {path.level ? (
-              <Badge variant="outline" className="rounded-md px-2 py-0.5 text-[10px] font-medium normal-case">
+              <Badge
+                variant="outline"
+                className="rounded-md px-2 py-0.5 text-[10px] font-medium normal-case"
+              >
                 {academyLevelLabels[path.level]}
               </Badge>
             ) : null}
@@ -247,7 +262,12 @@ export default function ClientAcademyPathPage() {
               </span>
               <span>
                 средняя оценка по отзывам модулей ({pathReviewsAggregate.count}{' '}
-                {pathReviewsAggregate.count === 1 ? 'оценка' : pathReviewsAggregate.count < 5 ? 'оценки' : 'оценок'})
+                {pathReviewsAggregate.count === 1
+                  ? 'оценка'
+                  : pathReviewsAggregate.count < 5
+                    ? 'оценки'
+                    : 'оценок'}
+                )
               </span>
             </p>
           ) : null}
@@ -278,14 +298,18 @@ export default function ClientAcademyPathPage() {
 
           <div className="mb-5 space-y-2 rounded-lg border border-[#e6e9ef] bg-[#f7f8fa] p-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-[#6b7788]">Прогресс программы</p>
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-[#6b7788]">
+                Прогресс программы
+              </p>
               <span className="text-[12px] font-semibold tabular-nums text-[#1a2433]">
                 {doneInPath}/{stepCount} модулей
               </span>
             </div>
             <Progress value={progressPct} className="h-2 bg-white" />
             {allDone ? (
-              <p className="text-[12px] font-medium text-emerald-800">Все модули отмечены — осталось пройти контроль и зачёт.</p>
+              <p className="text-[12px] font-medium text-emerald-800">
+                Все модули отмечены — осталось пройти контроль и зачёт.
+              </p>
             ) : nextCourseId ? (
               <p className="text-[12px] text-[#5b6675]">
                 Следующий шаг:{' '}
@@ -342,7 +366,9 @@ export default function ClientAcademyPathPage() {
             </TabsList>
 
             <TabsContent value="progress" className="space-y-4">
-              <h2 className="text-[11px] font-bold uppercase tracking-widest text-[#6b7788]">Модули и статус</h2>
+              <h2 className="text-[11px] font-bold uppercase tracking-widest text-[#6b7788]">
+                Модули и статус
+              </h2>
               <ol className="space-y-3">
                 {path.courses.map((courseId, i) => {
                   const course = getCourseByIdForClient(courseId);
@@ -390,8 +416,15 @@ export default function ClientAcademyPathPage() {
                               >
                                 {done ? 'Снять отметку' : 'Подтвердить прохождение модуля'}
                               </Button>
-                              <Button size="sm" variant="outline" className={ACADEMY_CTA_SECONDARY} asChild>
-                                <Link href={ROUTES.clientAcademyCourse(courseId)}>К материалам курса</Link>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className={ACADEMY_CTA_SECONDARY}
+                                asChild
+                              >
+                                <Link href={ROUTES.clientAcademyCourse(courseId)}>
+                                  К материалам курса
+                                </Link>
                               </Button>
                             </div>
                           ) : null}
@@ -462,8 +495,8 @@ export default function ClientAcademyPathPage() {
 
             <TabsContent value="tasks" className="space-y-4">
               <p className="text-[12px] text-[#6b7788]">
-                Юниты и проекты по шагам программы. Выполнение фиксируется в курсах; здесь — дорожная карта и
-                контрольные точки.
+                Юниты и проекты по шагам программы. Выполнение фиксируется в курсах; здесь —
+                дорожная карта и контрольные точки.
               </p>
               {path.courses.map((courseId, i) => {
                 const course = getCourseByIdForClient(courseId);
@@ -477,14 +510,21 @@ export default function ClientAcademyPathPage() {
                           <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-[#8b95a5]">
                             Шаг {i + 1}
                           </p>
-                          <CardTitle className="text-[15px] text-[#1a2433]">{course.title}</CardTitle>
+                          <CardTitle className="text-[15px] text-[#1a2433]">
+                            {course.title}
+                          </CardTitle>
                           {block?.roleInPath ? (
                             <CardDescription className="mt-1 text-[13px] text-[#5b6675]">
                               {block.roleInPath}
                             </CardDescription>
                           ) : null}
                         </div>
-                        <Button size="sm" variant="outline" className={cn('shrink-0', ACADEMY_CTA_SECONDARY)} asChild>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className={cn('shrink-0', ACADEMY_CTA_SECONDARY)}
+                          asChild
+                        >
                           <Link href={ROUTES.clientAcademyCourse(courseId)}>К курсу</Link>
                         </Button>
                       </div>
@@ -528,7 +568,9 @@ export default function ClientAcademyPathPage() {
                 <CardContent className="space-y-3 text-[13px] text-[#5b6675]">
                   {d?.tools?.length ? (
                     <div>
-                      <p className="mb-1.5 text-[11px] font-semibold uppercase text-[#6b7788]">Инструменты</p>
+                      <p className="mb-1.5 text-[11px] font-semibold uppercase text-[#6b7788]">
+                        Инструменты
+                      </p>
                       <ul className="list-inside list-disc space-y-1">
                         {d.tools.map((t) => (
                           <li key={t}>{t}</li>
@@ -540,7 +582,9 @@ export default function ClientAcademyPathPage() {
                   )}
                   {d?.readings?.length ? (
                     <div>
-                      <p className="mb-1.5 text-[11px] font-semibold uppercase text-[#6b7788]">Материалы</p>
+                      <p className="mb-1.5 text-[11px] font-semibold uppercase text-[#6b7788]">
+                        Материалы
+                      </p>
                       <ul className="list-inside list-disc space-y-1">
                         {d.readings.map((r) => (
                           <li key={r}>{r}</li>
@@ -600,7 +644,9 @@ export default function ClientAcademyPathPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3 text-[13px] leading-relaxed text-[#5b6675]">
-                  {d?.assessmentAndCert ? <p>{d.assessmentAndCert}</p> : (
+                  {d?.assessmentAndCert ? (
+                    <p>{d.assessmentAndCert}</p>
+                  ) : (
                     <p>Промежуточные проверки и итоговый зачёт описаны внутри курсов программы.</p>
                   )}
                   {d?.certificationDetail ? (
@@ -616,19 +662,28 @@ export default function ClientAcademyPathPage() {
                   <ol className="list-inside list-decimal space-y-1.5 text-[13px] text-[#5b6675]">
                     <li>Отметить модули программы на вкладке «Ход обучения».</li>
                     <li>Пройти привязанные аттестации в разделе «Тесты и аттестация».</li>
-                    <li>Сдать практические задания / кейс по требованиям курса (проверка в демо — вручную).</li>
+                    <li>
+                      Сдать практические задания / кейс по требованиям курса (проверка в демо —
+                      вручную).
+                    </li>
                   </ol>
                   {relatedAssessments.length > 0 ? (
                     <div className="space-y-2">
-                      <p className="text-[11px] font-semibold uppercase text-[#6b7788]">Аттестации по курсам программы</p>
+                      <p className="text-[11px] font-semibold uppercase text-[#6b7788]">
+                        Аттестации по курсам программы
+                      </p>
                       <ul className="space-y-2">
                         {relatedAssessments.map((a) => (
                           <li
                             key={a.id}
                             className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-[#e6e9ef] bg-[#f7f8fa] px-3 py-2"
                           >
-                            <span className="min-w-0 text-[13px] font-medium text-[#1a2433]">{a.title}</span>
-                            <span className="text-[11px] text-[#6b7788]">порог {a.passingScore}%</span>
+                            <span className="min-w-0 text-[13px] font-medium text-[#1a2433]">
+                              {a.title}
+                            </span>
+                            <span className="text-[11px] text-[#6b7788]">
+                              порог {a.passingScore}%
+                            </span>
                           </li>
                         ))}
                       </ul>
@@ -642,7 +697,9 @@ export default function ClientAcademyPathPage() {
               <div className="flex items-start gap-3 rounded-lg border border-emerald-100 bg-emerald-50/80 p-4">
                 <Award className="mt-0.5 size-5 shrink-0 text-emerald-700" aria-hidden />
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-800">Результат программы</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-800">
+                    Результат программы
+                  </p>
                   <p className="mt-1 text-[14px] font-semibold text-emerald-900">{path.outcome}</p>
                 </div>
               </div>
@@ -651,7 +708,9 @@ export default function ClientAcademyPathPage() {
 
           <Separator className="my-6" />
 
-          <h2 className="mb-3 text-[11px] font-bold uppercase tracking-widest text-[#6b7788]">Краткий список курсов</h2>
+          <h2 className="mb-3 text-[11px] font-bold uppercase tracking-widest text-[#6b7788]">
+            Краткий список курсов
+          </h2>
           <ol className="space-y-3">
             {path.courses.map((courseId, i) => {
               const course = getCourseByIdForClient(courseId);
@@ -669,7 +728,9 @@ export default function ClientAcademyPathPage() {
                       <p className="text-[14px] font-semibold text-[#1a2433]">{course.title}</p>
                       <p className="mt-0.5 text-[12px] text-[#6b7788]">{course.duration}</p>
                       <p className="mt-1 flex flex-wrap gap-x-2 gap-y-0.5 text-[10px] text-[#6b7788]">
-                        <span className="font-medium text-[#1a2433]">{formatCoursePrice(course)}</span>
+                        <span className="font-medium text-[#1a2433]">
+                          {formatCoursePrice(course)}
+                        </span>
                         {courseProviderKindShortLabel(course.providerKind) ? (
                           <span>{courseProviderKindShortLabel(course.providerKind)}</span>
                         ) : null}
@@ -678,7 +739,9 @@ export default function ClientAcademyPathPage() {
                         ) : null}
                       </p>
                     </div>
-                    <span className="shrink-0 self-center text-[11px] font-semibold text-[#0b63ce]">Открыть →</span>
+                    <span className="shrink-0 self-center text-[11px] font-semibold text-[#0b63ce]">
+                      Открыть →
+                    </span>
                   </Link>
                 </li>
               );

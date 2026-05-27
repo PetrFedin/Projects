@@ -207,7 +207,7 @@ export default function CampaignDetailsPage({
   };
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="py-12 pb-16 px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent maxWidth="5xl" className="px-4 py-12 py-6 pb-16 pb-24 sm:px-6">
       <div className="grid gap-3 lg:grid-cols-3">
         {/* Main Content */}
         <div className="space-y-4 lg:col-span-2">

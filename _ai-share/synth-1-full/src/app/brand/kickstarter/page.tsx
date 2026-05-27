@@ -1,6 +1,5 @@
 'use client';
 
-
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';

@@ -182,7 +182,9 @@ export function Workshop2PassportHubPanel({
       {showPostSignoffDrift ? (
         <div className="rounded-md border border-amber-200 bg-amber-50/90 px-2.5 py-2 text-[10px] text-amber-950">
           <p className="font-semibold">Досье менялось после подписи ТЗ</p>
-          <p className="mt-0.5 leading-snug">Согласуйте повторное подтверждение или зафиксируйте версию.</p>
+          <p className="mt-0.5 leading-snug">
+            Согласуйте повторное подтверждение или зафиксируйте версию.
+          </p>
           {!pulseLoggedReminder ? (
             <Button
               type="button"
@@ -215,12 +217,24 @@ export function Workshop2PassportHubPanel({
           </p>
           <div className="mt-1.5 flex flex-wrap gap-1">
             {onJumpToMaterialSection ? (
-              <Button type="button" variant="outline" size="sm" className="h-8 text-[10px]" onClick={onJumpToMaterialSection}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 text-[10px]"
+                onClick={onJumpToMaterialSection}
+              >
                 Mat
               </Button>
             ) : null}
             {onJumpToMaterialMatTable ? (
-              <Button type="button" variant="secondary" size="sm" className="h-8 text-[10px]" onClick={onJumpToMaterialMatTable}>
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                className="h-8 text-[10px]"
+                onClick={onJumpToMaterialMatTable}
+              >
                 Таблица
               </Button>
             ) : null}
@@ -236,12 +250,24 @@ export function Workshop2PassportHubPanel({
               </Button>
             ) : null}
             {onJumpToConstructionContour ? (
-              <Button type="button" variant="outline" size="sm" className="h-8 text-[10px]" onClick={onJumpToConstructionContour}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 text-[10px]"
+                onClick={onJumpToConstructionContour}
+              >
                 Контур
               </Button>
             ) : null}
             {onJumpToQcRoute ? (
-              <Button type="button" variant="outline" size="sm" className="h-8 text-[10px]" onClick={onJumpToQcRoute}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 text-[10px]"
+                onClick={onJumpToQcRoute}
+              >
                 ОТК
               </Button>
             ) : null}
@@ -259,12 +285,24 @@ export function Workshop2PassportHubPanel({
           </p>
           <div className="mt-1 flex flex-wrap gap-1">
             {onJumpToVisualSection ? (
-              <Button type="button" variant="outline" size="sm" className="h-8 text-[10px]" onClick={onJumpToVisualSection}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 text-[10px]"
+                onClick={onJumpToVisualSection}
+              >
                 Скетч
               </Button>
             ) : null}
             {onJumpToMaterialSection ? (
-              <Button type="button" variant="secondary" size="sm" className="h-8 text-[10px]" onClick={onJumpToMaterialSection}>
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                className="h-8 text-[10px]"
+                onClick={onJumpToMaterialSection}
+              >
                 Mat
               </Button>
             ) : null}

@@ -23,10 +23,7 @@ export function Workshop2ConstructionPreflightDetails({
           <div className="text-sm font-semibold leading-tight">Pre-flight производства</div>
           <div className="text-text-secondary text-[11px] font-normal leading-snug">
             {snapshot.score}/100
-            <span className={cn('font-semibold', band.tone)}>
-              {' '}
-              · {band.label}
-            </span>
+            <span className={cn('font-semibold', band.tone)}> · {band.label}</span>
             {' · '}
             блокеров {snapshot.blockers.length}, предупр. {snapshot.warnings.length}
           </div>

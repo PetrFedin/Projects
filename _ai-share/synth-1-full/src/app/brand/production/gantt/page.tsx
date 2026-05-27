@@ -53,7 +53,7 @@ export default function GanttProductionPage() {
             </Link>
           </Button>
           <h1 className="text-2xl font-bold uppercase">Планировщик Gantt производства</h1>
-            <Link href={ROUTES.brand.productionDailyOutput}>
+          <Link href={ROUTES.brand.productionDailyOutput}>
             <Button variant="outline" size="sm" className="gap-1">
               <ClipboardList className="h-4 w-4" aria-hidden /> Сменный выпуск
             </Button>

@@ -117,9 +117,7 @@ export function SustainabilityWidget() {
               <p className="text-base font-black tabular-nums tracking-tight text-emerald-900">
                 {circularEconomy.buyBackAvailable} SKU
               </p>
-              <p className="text-[10px] font-bold uppercase text-emerald-600">
-                Доступен выкуп
-              </p>
+              <p className="text-[10px] font-bold uppercase text-emerald-600">Доступен выкуп</p>
             </div>
 
             <p className="text-[10px] font-medium italic text-emerald-900">

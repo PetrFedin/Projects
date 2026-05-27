@@ -97,17 +97,25 @@ export function CategorySketchAnnotatorEditorSketchFilePanel({
           </Button>
           {!sheetStorage ? (
             <details className="min-w-48 flex-1 rounded-md border border-dashed border-teal-200 bg-teal-50/30 p-2 text-xs">
-              <summary className="cursor-pointer font-semibold text-teal-800/60 flex items-center gap-1.5 mb-1.5 opacity-80" title="В разработке">
+              <summary
+                className="mb-1.5 flex cursor-pointer items-center gap-1.5 font-semibold text-teal-800/60 opacity-80"
+                title="В разработке"
+              >
                 <ImageIcon className="size-4" />
                 Сгенерировать скетч (скоро)
               </summary>
-              <div className="space-y-2 border-t border-teal-100 pt-2 opacity-60 pointer-events-none">
+              <div className="pointer-events-none space-y-2 border-t border-teal-100 pt-2 opacity-60">
                 <div className="space-y-1">
-                  <Label htmlFor="ai-sketch-prompt" className="text-[10px] text-teal-700 font-medium">Текстовое описание (опционально)</Label>
+                  <Label
+                    htmlFor="ai-sketch-prompt"
+                    className="text-[10px] font-medium text-teal-700"
+                  >
+                    Текстовое описание (опционально)
+                  </Label>
                   <Textarea
                     id="ai-sketch-prompt"
                     placeholder="Например: классическая белая рубашка, длинный рукав, приталенный силуэт..."
-                    className="h-16 text-[11px] resize-none border-teal-200 focus-visible:ring-teal-500"
+                    className="h-16 resize-none border-teal-200 text-[11px] focus-visible:ring-teal-500"
                     disabled={true}
                   />
                 </div>
@@ -116,14 +124,15 @@ export function CategorySketchAnnotatorEditorSketchFilePanel({
                     type="button"
                     variant="default"
                     size="sm"
-                    className="h-8 gap-1 text-xs bg-teal-600 hover:bg-teal-700 text-white w-full"
+                    className="h-8 w-full gap-1 bg-teal-600 text-xs text-white hover:bg-teal-700"
                     disabled={true}
                   >
                     Генерация (в разработке)
                   </Button>
                 </div>
                 <p className="text-[9px] leading-snug text-teal-600/80">
-                  AI создаст базовый скетч по описанию и параметрам артикула (ожидается подключение бэкенда).
+                  AI создаст базовый скетч по описанию и параметрам артикула (ожидается подключение
+                  бэкенда).
                 </p>
               </div>
             </details>
@@ -144,7 +153,8 @@ export function CategorySketchAnnotatorEditorSketchFilePanel({
               </span>
             </div>
             <p className="text-[9px] leading-snug text-slate-600">
-              Наложение поверх подложки (прошлая партия, референс). Подгонка масштаба и сдвига — слайдерами ниже.
+              Наложение поверх подложки (прошлая партия, референс). Подгонка масштаба и сдвига —
+              слайдерами ниже.
             </p>
             <Label htmlFor={sketchCompareInputId} className="text-xs text-slate-500">
               {compareOverlayDataUrl ? 'Заменить эталон' : 'Файл эталона (jpg, png…)'}
@@ -159,7 +169,9 @@ export function CategorySketchAnnotatorEditorSketchFilePanel({
             />
             {compareOverlayDataUrl ? (
               <div className="space-y-2">
-                <p className="text-[9px] leading-snug text-slate-600">Прозрачность, масштаб и смещение по полю.</p>
+                <p className="text-[9px] leading-snug text-slate-600">
+                  Прозрачность, масштаб и смещение по полю.
+                </p>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-[9px] text-slate-600">Прозрачность: {compareOpacity}%</span>
                   <input

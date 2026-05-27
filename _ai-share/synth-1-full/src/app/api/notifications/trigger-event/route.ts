@@ -7,7 +7,10 @@ export async function POST(request: NextRequest) {
     const { type, title, body: messageBody } = body;
 
     if (!type || !title || !messageBody) {
-      return NextResponse.json({ error: 'Missing required fields: type, title, body' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Missing required fields: type, title, body' },
+        { status: 400 }
+      );
     }
 
     // Validate type against allowed TriggerType values (T-13-03 mitigation)

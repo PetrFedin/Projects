@@ -2,11 +2,7 @@
 
 import { Plus, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function ProductionPageContentTabLossesBodyRegistryHeader({
   onAddLoss,

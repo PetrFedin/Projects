@@ -412,7 +412,7 @@ export function VisualReferencesBlock({
               <TooltipTrigger asChild>
                 <button
                   type="button"
-                  className="text-text-muted hover:text-text-primary -m-0.5 inline-flex shrink-0 rounded p-1 transition hover:bg-bg-surface2/80"
+                  className="text-text-muted hover:text-text-primary hover:bg-bg-surface2/80 -m-0.5 inline-flex shrink-0 rounded p-1 transition"
                   aria-label="Зачем нужны референсы"
                 >
                   <LucideIcons.Info className="h-4 w-4" aria-hidden />
@@ -426,7 +426,8 @@ export function VisualReferencesBlock({
             </Tooltip>
           </div>
           <p className="text-text-secondary text-sm leading-snug">
-            До {MAX_VISUAL_REFERENCES} файлов; звезда — канон для витрины, обсуждения — в полноэкране.
+            До {MAX_VISUAL_REFERENCES} файлов; звезда — канон для витрины, обсуждения — в
+            полноэкране.
           </p>
           {openRefDiscussionCount > 0 ? (
             <p className="text-[11px] font-medium text-rose-700">
@@ -441,9 +442,7 @@ export function VisualReferencesBlock({
         <div
           className={cn(
             'grid w-full min-w-0',
-            refViewMode === 'board'
-              ? 'grid-cols-2 gap-3 sm:gap-4'
-              : 'grid-cols-5 gap-1 sm:gap-1.5'
+            refViewMode === 'board' ? 'grid-cols-2 gap-3 sm:gap-4' : 'grid-cols-5 gap-1 sm:gap-1.5'
           )}
         >
           {items.map((r, index) => {
@@ -698,7 +697,7 @@ export function VisualReferencesBlock({
               type="button"
               variant="outline"
               size="sm"
-              className="h-9 px-4 text-sm font-semibold border-slate-200 text-slate-500"
+              className="h-9 border-slate-200 px-4 text-sm font-semibold text-slate-500"
               disabled={true}
               title="В разработке"
             >
@@ -927,9 +926,7 @@ export function VisualReferencesBlock({
                 </div>
 
                 <div className="border-border-subtle space-y-2 border-t pt-3">
-                  <p className="text-text-muted text-[10px] font-semibold">
-                    Обсуждение
-                  </p>
+                  <p className="text-text-muted text-[10px] font-semibold">Обсуждение</p>
                   <div className="border-border-subtle bg-bg-surface2/80 flex max-h-52 flex-col gap-2 overflow-y-auto rounded-lg border p-2">
                     {sortedComments.length === 0 ? (
                       <p className="text-text-secondary text-center text-[11px]">
@@ -1071,8 +1068,8 @@ export function VisualReferencesBlock({
                 <DialogTitle>{refEditorId ? 'Референс' : 'Новый референс'}</DialogTitle>
                 <DialogDescription className="text-sm leading-snug">
                   Название, пояснение и ссылка — по желанию; фото или видео дадут превью в сетке.
-                  Компактная сетка или два крупных превью в ряд — переключатели под сеткой референсов
-                  (после закрытия этого окна).
+                  Компактная сетка или два крупных превью в ряд — переключатели под сеткой
+                  референсов (после закрытия этого окна).
                 </DialogDescription>
               </DialogHeader>
             </div>
@@ -1199,34 +1196,39 @@ export function VisualReferencesBlock({
         <DialogContent className="max-h-[min(90vh,640px)] w-[min(96vw,540px)] max-w-none gap-0 overflow-y-auto p-0 sm:rounded-xl">
           <DialogHeader className="border-border-subtle border-b p-4 sm:p-5">
             <div className="flex items-center gap-3">
-              <div className="bg-teal-100/50 text-teal-600 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-100/50 text-teal-600">
                 <LucideIcons.Sparkles className="h-5 w-5" aria-hidden />
               </div>
               <div className="flex-1 text-left">
                 <DialogTitle className="text-base text-teal-900">AI-Генерация мудборда</DialogTitle>
                 <DialogDescription className="text-xs text-teal-700/80">
-                  Анализируем ваши текстовые заметки и существующие референсы для создания единого стилевого коллажа.
+                  Анализируем ваши текстовые заметки и существующие референсы для создания единого
+                  стилевого коллажа.
                 </DialogDescription>
               </div>
             </div>
           </DialogHeader>
-          <div className="p-4 sm:p-5 space-y-4 bg-slate-50/50">
+          <div className="space-y-4 bg-slate-50/50 p-4 sm:p-5">
             <div className="space-y-2">
-              <Label className="text-xs font-semibold text-slate-700">Текстовое направление (Prompt)</Label>
-              <Textarea 
-                className="min-h-[80px] text-sm bg-white" 
+              <Label className="text-xs font-semibold text-slate-700">
+                Текстовое направление (Prompt)
+              </Label>
+              <Textarea
+                className="min-h-[80px] bg-white text-sm"
                 placeholder="Опишите желаемое настроение, цветовую гамму, текстуры... Например: 'Минималистичный скандинавский стиль, пастельные тона, лен и хлопок'"
                 value={aiMoodboardPrompt}
                 onChange={(e) => setAiMoodboardPrompt(e.target.value)}
               />
             </div>
-            
+
             <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Настройки генерации</p>
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                Настройки генерации
+              </p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
                   <Label className="text-[10px] text-slate-500">Стиль отрисовки</Label>
-                  <select className="w-full text-xs h-8 border-slate-200 rounded bg-slate-50 px-2 outline-none focus:ring-1 focus:ring-teal-500">
+                  <select className="h-8 w-full rounded border-slate-200 bg-slate-50 px-2 text-xs outline-none focus:ring-1 focus:ring-teal-500">
                     <option>Фотореализм</option>
                     <option>Скетч маркерами</option>
                     <option>Акварель</option>
@@ -1235,7 +1237,7 @@ export function VisualReferencesBlock({
                 </div>
                 <div className="space-y-1">
                   <Label className="text-[10px] text-slate-500">Основа (Source)</Label>
-                  <select className="w-full text-xs h-8 border-slate-200 rounded bg-slate-50 px-2 outline-none focus:ring-1 focus:ring-teal-500">
+                  <select className="h-8 w-full rounded border-slate-200 bg-slate-50 px-2 text-xs outline-none focus:ring-1 focus:ring-teal-500">
                     <option>Все референсы</option>
                     <option>Только главное фото</option>
                     <option>Только текст (с нуля)</option>
@@ -1245,9 +1247,11 @@ export function VisualReferencesBlock({
             </div>
 
             {aiMoodboardLoading && (
-              <div className="flex flex-col items-center justify-center py-6 space-y-3">
+              <div className="flex flex-col items-center justify-center space-y-3 py-6">
                 <LucideIcons.Loader2 className="h-6 w-6 animate-spin text-teal-500" />
-                <p className="text-xs font-medium text-teal-800 animate-pulse">Собираем коллаж, анализируем паттерны...</p>
+                <p className="animate-pulse text-xs font-medium text-teal-800">
+                  Собираем коллаж, анализируем паттерны...
+                </p>
               </div>
             )}
           </div>
@@ -1261,10 +1265,10 @@ export function VisualReferencesBlock({
             >
               Отмена
             </Button>
-            <Button 
-              type="button" 
-              size="sm" 
-              className="bg-teal-600 hover:bg-teal-700 text-white"
+            <Button
+              type="button"
+              size="sm"
+              className="bg-teal-600 text-white hover:bg-teal-700"
               disabled={aiMoodboardLoading}
               onClick={async () => {
                 setAiMoodboardLoading(true);
@@ -1274,14 +1278,14 @@ export function VisualReferencesBlock({
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ prompt: aiMoodboardPrompt }),
                   });
-                  const data = await res.json() as { images?: { url: string; title: string }[] };
+                  const data = (await res.json()) as { images?: { url: string; title: string }[] };
                   if (data.images && Array.isArray(data.images)) {
                     const newItems = data.images.map((img: { url: string; title: string }) => ({
                       refId: newUuid(),
                       title: img.title,
                       previewDataUrl: img.url,
                       mimeType: 'image/jpeg',
-                      fileName: 'ai-moodboard.jpg'
+                      fileName: 'ai-moodboard.jpg',
                     }));
                     onChange([...items, ...newItems]);
                   }

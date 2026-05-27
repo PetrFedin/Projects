@@ -7,7 +7,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import * as LucideIcons from 'lucide-react';
-import { WorkshopInlineHintIcon, WorkshopLabelWithHint } from '@/components/brand/production/workshop2-phase1-dossier-panel-field-hints';
+import {
+  WorkshopInlineHintIcon,
+  WorkshopLabelWithHint,
+} from '@/components/brand/production/workshop2-phase1-dossier-panel-field-hints';
 import { passportManualFieldLabelClass } from '@/components/brand/production/workshop2-phase1-dossier-panel-signoff-format';
 import { partitionHandbookAndFree } from '@/components/brand/production/workshop2-phase1-dossier-panel-assignment-helpers';
 import {
@@ -109,590 +112,593 @@ export function Workshop2DossierGeneralIdentityBlock({
 }: Workshop2DossierGeneralIdentityBlockProps) {
   return (
     <>
-    {isPhase1 ? (
-      <>
-        <div
-          id="w2-passport-identity"
-          className="border-border-default scroll-mt-24 space-y-4 rounded-xl border bg-white p-4 shadow-sm"
-        >
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div className="flex min-w-0 flex-1 items-start gap-3">
-            <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-              <LucideIcons.Fingerprint className="h-4 w-4 shrink-0" aria-hidden />
+      {isPhase1 ? (
+        <>
+          <div
+            id="w2-passport-identity"
+            className="border-border-default scroll-mt-24 space-y-4 rounded-xl border bg-white p-4 shadow-sm"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="flex min-w-0 flex-1 items-start gap-3">
+                <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                  <LucideIcons.Fingerprint className="h-4 w-4 shrink-0" aria-hidden />
+                </div>
+                <div className="min-w-0 flex-1 space-y-1">
+                  <h2 className="text-text-primary text-base font-semibold">Паспорт артикула</h2>
+                  <p className="text-text-secondary text-[11px] leading-snug">
+                    SKU, название, аудитория, ветка каталога и сроки образца — база для карточки
+                    артикула.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="min-w-0 flex-1 space-y-1">
-              <h2 className="text-text-primary text-base font-semibold">Паспорт артикула</h2>
-              <p className="text-text-secondary text-[11px] leading-snug">
-                SKU, название, аудитория, ветка каталога и сроки образца — база для карточки артикула.
-              </p>
-            </div>
-          </div>
-        </div>
-          <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
-            <DossierAttributeInput
-              attribute={{
-                attributeId: 'internalArticleCode',
-                groupId: 'general',
-                name: 'Внутренний артикул',
-                type: 'text',
-                sortOrder: 0,
-                parameters: [],
-                allowFreeText: true,
-                allowMultipleDistinct: false,
-                uiType: 'text_input',
-                value: isWorkshop2InternalArticleCodeValid(internalArticleCode)
-                  ? internalArticleCode
-                  : formatWorkshop2InternalArticleCodePlaceholder(),
-                label: 'Внутренний артикул',
-                description:
-                  'Внутренний порядковый номер артикула в коллекции. Присваивается при создании строки и дальше не редактируется.',
-                placeholder: formatWorkshop2InternalArticleCodePlaceholder(),
-              }}
-              onChange={() => {
-                // Internal article code is read-only, so no onChange needed
-              }}
-            />
-            <DossierAttributeInput
-              attribute={{
-                attributeId: 'sku',
-                groupId: 'general',
-                name: 'Артикул (SKU)',
-                type: 'text',
-                sortOrder: 1,
-                parameters: [],
-                allowFreeText: true,
-                allowMultipleDistinct: false,
-                uiType: 'text_input',
-                value: skuDraft,
-                label: 'Артикул (SKU)',
-                description:
-                  'Публичный код модели: этикетки, заказы, интеграции. Сохраняется при выходе из поля (on blur).',
-                placeholder: ''
-              }}
-              onChange={(value) => {
-                setSkuDraft(value as string);
-                commitSku();
-              }}
-            />
-            <DossierAttributeInput
-              attribute={{
-                attributeId: 'audience',
-                groupId: 'general',
-                name: 'Аудитория',
-                type: 'select',
-                sortOrder: 2,
-                parameters: [],
-                allowFreeText: false,
-                allowMultipleDistinct: false,
-                uiType: 'select',
-                value: selectedAudienceId,
-                label: 'Аудитория',
-                description:
-                  'Сегмент справочника (женская, мужская и т.д.): от него зависят доступные значения атрибутов.',
-                options: audiences.map((a) => ({ value: a.id, label: a.name })),
-              }}
-              onChange={(value) => onAudienceSelect(value as string)}
-            />
-            <DossierAttributeInput
-              attribute={{
-                attributeId: 'l1Name',
-                groupId: 'general',
-                name: 'Раздел каталога (L1)',
-                type: 'select',
-                sortOrder: 3,
-                parameters: [],
-                allowFreeText: false,
-                allowMultipleDistinct: false,
-                uiType: 'select',
-                value: currentLeaf.l1Name,
-                label: 'Раздел каталога (L1)',
-                description:
-                  'Раздел верхнего уровня в справочнике (например, «Одежда»). Задаёт базовые правила и набор атрибутов.',
-                options: l1Opts.map((o) => ({ value: o, label: o })),
-              }}
-              onChange={(value) => onL1Select(value as string)}
-            />
-            <DossierAttributeInput
-              attribute={{
-                attributeId: 'l2Name',
-                groupId: 'general',
-                name: 'Подтип / группа (L2)',
-                type: 'select',
-                sortOrder: 4,
-                parameters: [],
-                allowFreeText: false,
-                allowMultipleDistinct: false,
-                uiType: 'select',
-                value: currentLeaf.l2Name,
-                label: 'Подтип / группа (L2)',
-                description:
-                  'Группа внутри раздела (например, «Верхняя одежда»). От неё зависят варианты карточки модели (L3).',
-                options: l2Opts.map((o) => ({ value: o, label: o })),
-              }}
-              onChange={(value) => onL2Select(value as string)}
-            />
-            <DossierAttributeInput
-              attribute={{
-                attributeId: 'l3Name',
-                groupId: 'general',
-                name: 'Карточка модели в справочнике (L3)',
-                type: 'select',
-                sortOrder: 5,
-                parameters: [],
-                allowFreeText: false,
-                allowMultipleDistinct: false,
-                uiType: 'select',
-                value: currentLeaf.l3Name,
-                label: 'Карточка модели в справочнике (L3)',
-                description:
-                  'Карточка модели в справочнике (например, «Пальто») — соответствует листу артикула.',
-                options: l3Opts.map((o) => ({ value: o, label: o })),
-              }}
-              onChange={(value) => onL3Select(value as string)}
-            />
-            <div className="grid gap-1.5 sm:col-span-2 lg:col-span-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
+            <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
               <DossierAttributeInput
                 attribute={{
-                  attributeId: 'name',
+                  attributeId: 'internalArticleCode',
                   groupId: 'general',
-                  name: 'Рабочее название модели',
+                  name: 'Внутренний артикул',
                   type: 'text',
-                  sortOrder: 6,
+                  sortOrder: 0,
                   parameters: [],
                   allowFreeText: true,
                   allowMultipleDistinct: false,
                   uiType: 'text_input',
-                  value: nameDraft,
-                  label: 'Рабочее название модели',
+                  value: isWorkshop2InternalArticleCodeValid(internalArticleCode)
+                    ? internalArticleCode
+                    : formatWorkshop2InternalArticleCodePlaceholder(),
+                  label: 'Внутренний артикул',
                   description:
-                    'Человекочитаемое имя для команды: не путать с SKU. Сохраняется при выходе из поля.',
-                  placeholder: 'Например: Пальто прямого силуэта с поясом',
+                    'Внутренний порядковый номер артикула в коллекции. Присваивается при создании строки и дальше не редактируется.',
+                  placeholder: formatWorkshop2InternalArticleCodePlaceholder(),
+                }}
+                onChange={() => {
+                  // Internal article code is read-only, so no onChange needed
+                }}
+              />
+              <DossierAttributeInput
+                attribute={{
+                  attributeId: 'sku',
+                  groupId: 'general',
+                  name: 'Артикул (SKU)',
+                  type: 'text',
+                  sortOrder: 1,
+                  parameters: [],
+                  allowFreeText: true,
+                  allowMultipleDistinct: false,
+                  uiType: 'text_input',
+                  value: skuDraft,
+                  label: 'Артикул (SKU)',
+                  description:
+                    'Публичный код модели: этикетки, заказы, интеграции. Сохраняется при выходе из поля (on blur).',
+                  placeholder: '',
                 }}
                 onChange={(value) => {
-                  setNameDraft(value as string);
-                  commitName();
+                  setSkuDraft(value as string);
+                  commitSku();
                 }}
               />
-              <div
-                className="flex flex-col gap-1 sm:items-end sm:pb-px"
-                role="group"
-                aria-label="Унисекс"
-              >
-                <WorkshopLabelWithHint
-                  labelClassName="mb-0"
-                  hint={
-                    <>
-                      <p>
-                        Флаг паспорта: модель позиционируется как унисекс. Влияет на подсказки
-                        и контекст в блоках ТЗ.
-                      </p>
-                    </>
-                  }
-                >
-                  Унисекс
-                </WorkshopLabelWithHint>
-                <div className="border-border-default bg-bg-surface2/80 inline-flex shrink-0 self-start rounded-md border p-px sm:self-end">
-                  <button
-                    type="button"
-                    className={cn(
-                      'h-[1.4rem] min-w-[1.8rem] rounded-sm px-1.5 text-[10px] font-medium leading-none transition',
-                      !dossier.isUnisex
-                        ? 'text-text-primary bg-white shadow-sm'
-                        : 'text-text-secondary hover:text-text-primary'
-                    )}
-                    onClick={() =>
-                      setDossier((p: Workshop2DossierPhase1) => ({ ...p, isUnisex: false }))
-                    }
-                  >
-                    Нет
-                  </button>
-                  <button
-                    type="button"
-                    className={cn(
-                      'h-[1.4rem] min-w-[1.8rem] rounded-sm px-1.5 text-[10px] font-medium leading-none transition',
-                      dossier.isUnisex === true
-                        ? 'text-text-primary bg-white shadow-sm'
-                        : 'text-text-secondary hover:text-text-primary'
-                    )}
-                    onClick={() =>
-                      setDossier((p: Workshop2DossierPhase1) => ({ ...p, isUnisex: true }))
-                    }
-                  >
-                    Да
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div
-              id="w2-passport-brief"
-              className="border-border-subtle col-span-full scroll-mt-24 space-y-3 border-t pt-3"
-            >
-              <div className="grid gap-1.5 sm:grid-cols-3 sm:items-start">
-                <div className="grid grid-cols-2 gap-1.5">
-                  <DossierAttributeInput
-                    attribute={{
-                      attributeId: 'targetSampleOrPilotDate',
-                      groupId: 'productionBrief',
-                      name: 'Целевая дата образца / пилота',
-                      type: 'text',
-                      sortOrder: 7,
-                      parameters: [],
-                      allowFreeText: true,
-                      allowMultipleDistinct: false,
-                      uiType: 'date_input',
-                      value: dossier.passportProductionBrief?.targetSampleOrPilotDate ?? '',
-                      label: 'С',
-                      description: '',
-                    }}
-                    onChange={(value) =>
-                      setDossier((p: Workshop2DossierPhase1) => ({
-                        ...p,
-                        passportProductionBrief: {
-                          ...(p.passportProductionBrief ?? {}),
-                          targetSampleOrPilotDate: value as string || undefined,
-                        },
-                      }))
-                    }
-                  />
-                  <DossierAttributeInput
-                    attribute={{
-                      attributeId: 'targetSampleOrPilotDateEnd',
-                      groupId: 'productionBrief',
-                      name: 'Целевая дата образца / пилота (конец)',
-                      type: 'text',
-                      sortOrder: 8,
-                      parameters: [],
-                      allowFreeText: true,
-                      allowMultipleDistinct: false,
-                      uiType: 'date_input',
-                      value: dossier.passportProductionBrief?.targetSampleOrPilotDateEnd ?? '',
-                      label: 'По',
-                      description: '',
-                    }}
-                    onChange={(value) =>
-                      setDossier((p: Workshop2DossierPhase1) => ({
-                        ...p,
-                        passportProductionBrief: {
-                          ...(p.passportProductionBrief ?? {}),
-                          targetSampleOrPilotDateEnd: value as string || undefined,
-                        },
-                      }))
-                    }
-                  />
-                </div>
+              <DossierAttributeInput
+                attribute={{
+                  attributeId: 'audience',
+                  groupId: 'general',
+                  name: 'Аудитория',
+                  type: 'select',
+                  sortOrder: 2,
+                  parameters: [],
+                  allowFreeText: false,
+                  allowMultipleDistinct: false,
+                  uiType: 'select',
+                  value: selectedAudienceId,
+                  label: 'Аудитория',
+                  description:
+                    'Сегмент справочника (женская, мужская и т.д.): от него зависят доступные значения атрибутов.',
+                  options: audiences.map((a) => ({ value: a.id, label: a.name })),
+                }}
+                onChange={(value) => onAudienceSelect(value as string)}
+              />
+              <DossierAttributeInput
+                attribute={{
+                  attributeId: 'l1Name',
+                  groupId: 'general',
+                  name: 'Раздел каталога (L1)',
+                  type: 'select',
+                  sortOrder: 3,
+                  parameters: [],
+                  allowFreeText: false,
+                  allowMultipleDistinct: false,
+                  uiType: 'select',
+                  value: currentLeaf.l1Name,
+                  label: 'Раздел каталога (L1)',
+                  description:
+                    'Раздел верхнего уровня в справочнике (например, «Одежда»). Задаёт базовые правила и набор атрибутов.',
+                  options: l1Opts.map((o) => ({ value: o, label: o })),
+                }}
+                onChange={(value) => onL1Select(value as string)}
+              />
+              <DossierAttributeInput
+                attribute={{
+                  attributeId: 'l2Name',
+                  groupId: 'general',
+                  name: 'Подтип / группа (L2)',
+                  type: 'select',
+                  sortOrder: 4,
+                  parameters: [],
+                  allowFreeText: false,
+                  allowMultipleDistinct: false,
+                  uiType: 'select',
+                  value: currentLeaf.l2Name,
+                  label: 'Подтип / группа (L2)',
+                  description:
+                    'Группа внутри раздела (например, «Верхняя одежда»). От неё зависят варианты карточки модели (L3).',
+                  options: l2Opts.map((o) => ({ value: o, label: o })),
+                }}
+                onChange={(value) => onL2Select(value as string)}
+              />
+              <DossierAttributeInput
+                attribute={{
+                  attributeId: 'l3Name',
+                  groupId: 'general',
+                  name: 'Карточка модели в справочнике (L3)',
+                  type: 'select',
+                  sortOrder: 5,
+                  parameters: [],
+                  allowFreeText: false,
+                  allowMultipleDistinct: false,
+                  uiType: 'select',
+                  value: currentLeaf.l3Name,
+                  label: 'Карточка модели в справочнике (L3)',
+                  description:
+                    'Карточка модели в справочнике (например, «Пальто») — соответствует листу артикула.',
+                  options: l3Opts.map((o) => ({ value: o, label: o })),
+                }}
+                onChange={(value) => onL3Select(value as string)}
+              />
+              <div className="grid gap-1.5 sm:col-span-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start lg:col-span-3">
                 <DossierAttributeInput
                   attribute={{
-                    attributeId: 'deadlineCriticality',
-                    groupId: 'productionBrief',
-                    name: 'Критичность срока',
-                    type: 'select',
-                    sortOrder: 9,
+                    attributeId: 'name',
+                    groupId: 'general',
+                    name: 'Рабочее название модели',
+                    type: 'text',
+                    sortOrder: 6,
                     parameters: [],
-                    allowFreeText: false,
+                    allowFreeText: true,
                     allowMultipleDistinct: false,
-                    uiType: 'select',
-                    value: dossier.passportProductionBrief?.deadlineCriticality ?? 'tbd',
-                    label: 'Критичность срока',
+                    uiType: 'text_input',
+                    value: nameDraft,
+                    label: 'Рабочее название модели',
                     description:
-                      'Нельзя сдвигать без согласования / Допустимы корректировки.',
-                    options: [
-                      { value: 'tbd', label: 'Пока не определено' },
-                      { value: 'hard', label: 'Жёсткий дедлайн' },
-                      { value: 'flexible', label: 'Гибкий ориентир' },
-                    ],
-                  }}
-                  onChange={(value) =>
-                    setDossier((p: Workshop2DossierPhase1) => ({
-                      ...p,
-                      passportProductionBrief: {
-                        ...(p.passportProductionBrief ?? {}),
-                        deadlineCriticality: value as Workshop2PassportDeadlineCriticality,
-                      },
-                    }))
-                  }
-                />
-                <DossierAttributeInput
-                  attribute={{
-                    attributeId: 'moqTargetMaxPieces',
-                    groupId: 'productionBrief',
-                    name: 'Кол-во образцов',
-                    type: 'number',
-                    sortOrder: 10,
-                    parameters: [],
-                    allowFreeText: false,
-                    allowMultipleDistinct: false,
-                    uiType: 'number_input',
-                    value: effectiveMoqTargetMaxPieces(dossier.passportProductionBrief),
-                    label: 'Кол-во образцов',
-                    description:
-                      'Ограничивает, сколько размеров можно отметить в блоке «Базовый размер» → «Выбор из справочника», и верхнюю границу суммы штук по размерам в табеле мерок.',
-                    placeholder: '1',
+                      'Человекочитаемое имя для команды: не путать с SKU. Сохраняется при выходе из поля.',
+                    placeholder: 'Например: Пальто прямого силуэта с поясом',
                   }}
                   onChange={(value) => {
-                    const num = Number(value);
-                    setDossier((p: Workshop2DossierPhase1) => {
-                      const prevBrief = p.passportProductionBrief ?? {};
-                      if (!Number.isFinite(num) || num < 1) {
-                        return {
-                          ...p,
-                          passportProductionBrief: {
-                            ...prevBrief,
-                            moqTargetMaxPieces: 1,
-                          },
-                        };
+                    setNameDraft(value as string);
+                    commitName();
+                  }}
+                />
+                <div
+                  className="flex flex-col gap-1 sm:items-end sm:pb-px"
+                  role="group"
+                  aria-label="Унисекс"
+                >
+                  <WorkshopLabelWithHint
+                    labelClassName="mb-0"
+                    hint={
+                      <>
+                        <p>
+                          Флаг паспорта: модель позиционируется как унисекс. Влияет на подсказки и
+                          контекст в блоках ТЗ.
+                        </p>
+                      </>
+                    }
+                  >
+                    Унисекс
+                  </WorkshopLabelWithHint>
+                  <div className="border-border-default bg-bg-surface2/80 inline-flex shrink-0 self-start rounded-md border p-px sm:self-end">
+                    <button
+                      type="button"
+                      className={cn(
+                        'h-[1.4rem] min-w-[1.8rem] rounded-sm px-1.5 text-[10px] font-medium leading-none transition',
+                        !dossier.isUnisex
+                          ? 'text-text-primary bg-white shadow-sm'
+                          : 'text-text-secondary hover:text-text-primary'
+                      )}
+                      onClick={() =>
+                        setDossier((p: Workshop2DossierPhase1) => ({ ...p, isUnisex: false }))
                       }
-                      let next: Workshop2DossierPhase1 = {
-                        ...p,
-                        passportProductionBrief: { ...prevBrief, moqTargetMaxPieces: num },
-                      };
-                      const sa = next.assignments.find(
-                        (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
-                      );
-                      const { hbs, ft } = partitionHandbookAndFree(sa);
-                      if (hbs.length > num) {
-                        const parts = hbs.slice(0, num).map((v) => ({
-                          parameterId: v.parameterId!,
-                          displayLabel: v.displayLabel ?? '',
-                        }));
-                        next = syncSampleBaseSizePartsAndPruneDims(next, parts, ft?.text ?? '');
+                    >
+                      Нет
+                    </button>
+                    <button
+                      type="button"
+                      className={cn(
+                        'h-[1.4rem] min-w-[1.8rem] rounded-sm px-1.5 text-[10px] font-medium leading-none transition',
+                        dossier.isUnisex === true
+                          ? 'text-text-primary bg-white shadow-sm'
+                          : 'text-text-secondary hover:text-text-primary'
+                      )}
+                      onClick={() =>
+                        setDossier((p: Workshop2DossierPhase1) => ({ ...p, isUnisex: true }))
                       }
-                      return {
-                        ...next,
-                        passportProductionBrief: {
-                          ...(next.passportProductionBrief ?? {}),
-                          moqTargetMaxPieces: num,
-                        },
-                        sampleBasePerSizePieceQty: clampSampleBasePieceQtyToCap(
-                          next.sampleBasePerSizePieceQty,
-                          num
-                        ),
-                      };
-                    });
-                  }}
-                />
-              </div>
-              <Workshop2PassportSewingPlanFields
-                brief={dossier.passportProductionBrief}
-                disabled={tzWriteDisabled}
-                labelFilledClassName={passportManualFieldLabelClass(
-                  (() => {
-                    const b = dossier.passportProductionBrief;
-                    return (
-                      (b?.sewingRfSubjectIsoCodes?.length ?? 0) > 0 ||
-                      (b?.sewingEnterprisePartnerIds?.length ?? 0) > 0 ||
-                      Boolean(b?.sewingEnterprisesCustomNote?.trim()) ||
-                      Boolean(b?.sewingRegionPlanNote?.trim())
-                    );
-                  })()
-                )}
-                onPatch={(patch) =>
-                  setDossier((p: Workshop2DossierPhase1) => ({
-                    ...p,
-                    passportProductionBrief: {
-                      ...(p.passportProductionBrief ?? {}),
-                      ...patch,
-                    },
-                  }))
-                }
-              />
-              <div className="scroll-mt-24 space-y-3">
-                <div className="min-w-0 space-y-2 rounded-lg border border-border-subtle bg-bg-surface2/40 p-3">
-                  <div className="grid gap-2 sm:grid-cols-2 sm:items-start">
-                <DossierAttributeInput
-                  attribute={{
-                    attributeId: 'productionStrategy',
-                    groupId: 'productionBrief',
-                    name: 'Производственная стратегия',
-                    type: 'select',
-                    sortOrder: 10.5,
-                    parameters: [],
-                    allowFreeText: false,
-                    allowMultipleDistinct: false,
-                    uiType: 'select',
-                    value: dossier.productionStrategy ?? '',
-                    label: 'Производственная стратегия',
-                    description: 'CMT, FPP, гибрид или кастомизация бланка.',
-                    options: [
-                      { value: '', label: 'Не выбрано' },
-                      { value: 'fpp', label: 'FPP (Full Production Package)' },
-                      { value: 'cmt', label: 'CMT (Cut, Make, Trim)' },
-                      { value: 'hybrid', label: 'Гибрид (Hybrid)' },
-                      { value: 'blank_customization', label: 'Кастомизация бланка' },
-                    ],
-                  }}
-                  onChange={(value) =>
-                    setDossier((p: Workshop2DossierPhase1) => ({
-                      ...p,
-                      productionStrategy: (value as 'fpp' | 'cmt' | 'hybrid' | 'blank_customization') || undefined,
-                    }))
-                  }
-                />
-                <DossierAttributeInput
-                  attribute={{
-                    attributeId: 'plannedLaunchType',
-                    groupId: 'productionBrief',
-                    name: 'Планируемый тип запуска',
-                    type: 'select',
-                    sortOrder: 11,
-                    parameters: [],
-                    allowFreeText: false,
-                    allowMultipleDistinct: false,
-                    uiType: 'select',
-                    value: dossier.passportProductionBrief?.plannedLaunchType ?? 'undecided',
-                    label: 'Планируемый тип запуска',
-                    description:
-                      'Схема запуска (цех, КНП, опт и др.) — для контура пошива и передачи в работу.',
-                    options: [
-                      { value: 'undecided', label: 'Ещё не решено' },
-                      { value: 'own_floor', label: 'Своё производство (цех бренда)' },
-                      { value: 'cmt', label: 'КНП / подряд (CMT)' },
-                      { value: 'mixed', label: 'Смешанная схема' },
-                      { value: 'domestic_partner', label: 'Партнёр в РФ / СНГ' },
-                      { value: 'nearshore_partner', label: 'Ближнее зарубежье' },
-                      { value: 'far_east_partner', label: 'Дальнее зарубежье' },
-                      { value: 'ecom_d2c_first', label: 'E-com / D2C в приоритете' },
-                      { value: 'wholesale_preorder', label: 'Опт / предзаказ' },
-                      { value: 'dropship_fulfillment', label: 'Дропшип / fulfillment' },
-                      { value: 'made_to_order_mto', label: 'MTO / пошив под заказ' },
-                      { value: 'import_rtw', label: 'Импорт готовой одежды (RTW)' },
-                      { value: 'pilot_line_only', label: 'Только пилот / образцы' },
-                      { value: 'other_catalogued', label: 'Другое (из справочника)' },
-                    ],
-                  }}
-                  onChange={(value) =>
-                    setDossier((p: Workshop2DossierPhase1) => ({
-                      ...p,
-                      passportProductionBrief: {
-                        ...(p.passportProductionBrief ?? {}),
-                        plannedLaunchType: value as Workshop2PassportPlannedLaunchType,
-                      },
-                    }))
-                  }
-                />
-                <DossierAttributeInput
-                  attribute={{
-                    attributeId: 'plannedLaunchCustomNote',
-                    groupId: 'productionBrief',
-                    name: 'Дополнение к типу запуска',
-                    type: 'text',
-                    sortOrder: 12,
-                    parameters: [],
-                    allowFreeText: true,
-                    allowMultipleDistinct: false,
-                    uiType: 'text_input',
-                    value: dossier.passportProductionBrief?.plannedLaunchCustomNote ?? '',
-                    label: 'Дополнение к типу запуска (свободный текст)',
-                    placeholder: 'Свой текст',
-                  }}
-                  onChange={(value) =>
-                    setDossier((p: Workshop2DossierPhase1) => ({
-                      ...p,
-                      passportProductionBrief: {
-                        ...(p.passportProductionBrief ?? {}),
-                        plannedLaunchCustomNote: value as string || undefined,
-                      },
-                    }))
-                  }
-                />
-                <DossierAttributeInput
-                  attribute={{
-                    attributeId: 'packagingAndLabelingNote',
-                    groupId: 'productionBrief',
-                    name: 'Упаковка и маркировка',
-                    type: 'text',
-                    sortOrder: 13,
-                    parameters: [],
-                    allowFreeText: true,
-                    allowMultipleDistinct: false,
-                    uiType: 'text_input',
-                    value: dossier.passportProductionBrief?.packagingAndLabelingNote ?? '',
-                    label: 'Упаковка и маркировка',
-                    description: 'Транспортная и индивидуальная упаковка (коробки, полибеги, штрихкоды и т.д.)',
-                    placeholder: 'Укажите требования к упаковке',
-                  }}
-                  onChange={(value) =>
-                    setDossier((p: Workshop2DossierPhase1) => ({
-                      ...p,
-                      passportProductionBrief: {
-                        ...(p.passportProductionBrief ?? {}),
-                        packagingAndLabelingNote: value as string || undefined,
-                      },
-                    }))
-                  }
-                />
-                <DossierAttributeInput
-                  attribute={{
-                    attributeId: 'weightAndDimensionsNote',
-                    groupId: 'productionBrief',
-                    name: 'Весогабаритные характеристики',
-                    type: 'text',
-                    sortOrder: 14,
-                    parameters: [],
-                    allowFreeText: true,
-                    allowMultipleDistinct: false,
-                    uiType: 'text_input',
-                    value: dossier.passportProductionBrief?.weightAndDimensionsNote ?? '',
-                    label: 'Весогабаритные характеристики',
-                    description: 'Расчетный вес, габариты изделия или транспортной упаковки',
-                    placeholder: 'Вес, габариты (ДхШхВ)',
-                  }}
-                  onChange={(value) =>
-                    setDossier((p: Workshop2DossierPhase1) => ({
-                      ...p,
-                      passportProductionBrief: {
-                        ...(p.passportProductionBrief ?? {}),
-                        weightAndDimensionsNote: value as string || undefined,
-                      },
-                    }))
-                  }
-                />
+                    >
+                      Да
+                    </button>
                   </div>
                 </div>
               </div>
-              {passportSewingPlanStartRows.length + passportSewingPlanStartExtras.length > 0 ? (
-                <Workshop2DossierSectionRows
-                  {...workshop2DossierSectionRowsSharedProps}
-                  rows={passportSewingPlanStartRows}
-                  phase={currentPhase}
-                  extras={passportSewingPlanStartExtras}
-                  opts={{
-                    showAttributeNameHintIcons: true,
-                    fieldLayout: 'grid2',
-                    strictAttributeFillLabelColors: true,
-                  }}
+              <div
+                id="w2-passport-brief"
+                className="border-border-subtle col-span-full scroll-mt-24 space-y-3 border-t pt-3"
+              >
+                <div className="grid gap-1.5 sm:grid-cols-3 sm:items-start">
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <DossierAttributeInput
+                      attribute={{
+                        attributeId: 'targetSampleOrPilotDate',
+                        groupId: 'productionBrief',
+                        name: 'Целевая дата образца / пилота',
+                        type: 'text',
+                        sortOrder: 7,
+                        parameters: [],
+                        allowFreeText: true,
+                        allowMultipleDistinct: false,
+                        uiType: 'date_input',
+                        value: dossier.passportProductionBrief?.targetSampleOrPilotDate ?? '',
+                        label: 'С',
+                        description: '',
+                      }}
+                      onChange={(value) =>
+                        setDossier((p: Workshop2DossierPhase1) => ({
+                          ...p,
+                          passportProductionBrief: {
+                            ...(p.passportProductionBrief ?? {}),
+                            targetSampleOrPilotDate: (value as string) || undefined,
+                          },
+                        }))
+                      }
+                    />
+                    <DossierAttributeInput
+                      attribute={{
+                        attributeId: 'targetSampleOrPilotDateEnd',
+                        groupId: 'productionBrief',
+                        name: 'Целевая дата образца / пилота (конец)',
+                        type: 'text',
+                        sortOrder: 8,
+                        parameters: [],
+                        allowFreeText: true,
+                        allowMultipleDistinct: false,
+                        uiType: 'date_input',
+                        value: dossier.passportProductionBrief?.targetSampleOrPilotDateEnd ?? '',
+                        label: 'По',
+                        description: '',
+                      }}
+                      onChange={(value) =>
+                        setDossier((p: Workshop2DossierPhase1) => ({
+                          ...p,
+                          passportProductionBrief: {
+                            ...(p.passportProductionBrief ?? {}),
+                            targetSampleOrPilotDateEnd: (value as string) || undefined,
+                          },
+                        }))
+                      }
+                    />
+                  </div>
+                  <DossierAttributeInput
+                    attribute={{
+                      attributeId: 'deadlineCriticality',
+                      groupId: 'productionBrief',
+                      name: 'Критичность срока',
+                      type: 'select',
+                      sortOrder: 9,
+                      parameters: [],
+                      allowFreeText: false,
+                      allowMultipleDistinct: false,
+                      uiType: 'select',
+                      value: dossier.passportProductionBrief?.deadlineCriticality ?? 'tbd',
+                      label: 'Критичность срока',
+                      description: 'Нельзя сдвигать без согласования / Допустимы корректировки.',
+                      options: [
+                        { value: 'tbd', label: 'Пока не определено' },
+                        { value: 'hard', label: 'Жёсткий дедлайн' },
+                        { value: 'flexible', label: 'Гибкий ориентир' },
+                      ],
+                    }}
+                    onChange={(value) =>
+                      setDossier((p: Workshop2DossierPhase1) => ({
+                        ...p,
+                        passportProductionBrief: {
+                          ...(p.passportProductionBrief ?? {}),
+                          deadlineCriticality: value as Workshop2PassportDeadlineCriticality,
+                        },
+                      }))
+                    }
+                  />
+                  <DossierAttributeInput
+                    attribute={{
+                      attributeId: 'moqTargetMaxPieces',
+                      groupId: 'productionBrief',
+                      name: 'Кол-во образцов',
+                      type: 'number',
+                      sortOrder: 10,
+                      parameters: [],
+                      allowFreeText: false,
+                      allowMultipleDistinct: false,
+                      uiType: 'number_input',
+                      value: effectiveMoqTargetMaxPieces(dossier.passportProductionBrief),
+                      label: 'Кол-во образцов',
+                      description:
+                        'Ограничивает, сколько размеров можно отметить в блоке «Базовый размер» → «Выбор из справочника», и верхнюю границу суммы штук по размерам в табеле мерок.',
+                      placeholder: '1',
+                    }}
+                    onChange={(value) => {
+                      const num = Number(value);
+                      setDossier((p: Workshop2DossierPhase1) => {
+                        const prevBrief = p.passportProductionBrief ?? {};
+                        if (!Number.isFinite(num) || num < 1) {
+                          return {
+                            ...p,
+                            passportProductionBrief: {
+                              ...prevBrief,
+                              moqTargetMaxPieces: 1,
+                            },
+                          };
+                        }
+                        let next: Workshop2DossierPhase1 = {
+                          ...p,
+                          passportProductionBrief: { ...prevBrief, moqTargetMaxPieces: num },
+                        };
+                        const sa = next.assignments.find(
+                          (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+                        );
+                        const { hbs, ft } = partitionHandbookAndFree(sa);
+                        if (hbs.length > num) {
+                          const parts = hbs.slice(0, num).map((v) => ({
+                            parameterId: v.parameterId!,
+                            displayLabel: v.displayLabel ?? '',
+                          }));
+                          next = syncSampleBaseSizePartsAndPruneDims(next, parts, ft?.text ?? '');
+                        }
+                        return {
+                          ...next,
+                          passportProductionBrief: {
+                            ...(next.passportProductionBrief ?? {}),
+                            moqTargetMaxPieces: num,
+                          },
+                          sampleBasePerSizePieceQty: clampSampleBasePieceQtyToCap(
+                            next.sampleBasePerSizePieceQty,
+                            num
+                          ),
+                        };
+                      });
+                    }}
+                  />
+                </div>
+                <Workshop2PassportSewingPlanFields
+                  brief={dossier.passportProductionBrief}
+                  disabled={tzWriteDisabled}
+                  labelFilledClassName={passportManualFieldLabelClass(
+                    (() => {
+                      const b = dossier.passportProductionBrief;
+                      return (
+                        (b?.sewingRfSubjectIsoCodes?.length ?? 0) > 0 ||
+                        (b?.sewingEnterprisePartnerIds?.length ?? 0) > 0 ||
+                        Boolean(b?.sewingEnterprisesCustomNote?.trim()) ||
+                        Boolean(b?.sewingRegionPlanNote?.trim())
+                      );
+                    })()
+                  )}
+                  onPatch={(patch) =>
+                    setDossier((p: Workshop2DossierPhase1) => ({
+                      ...p,
+                      passportProductionBrief: {
+                        ...(p.passportProductionBrief ?? {}),
+                        ...patch,
+                      },
+                    }))
+                  }
                 />
-              ) : null}
+                <div className="scroll-mt-24 space-y-3">
+                  <div className="border-border-subtle bg-bg-surface2/40 min-w-0 space-y-2 rounded-lg border p-3">
+                    <div className="grid gap-2 sm:grid-cols-2 sm:items-start">
+                      <DossierAttributeInput
+                        attribute={{
+                          attributeId: 'productionStrategy',
+                          groupId: 'productionBrief',
+                          name: 'Производственная стратегия',
+                          type: 'select',
+                          sortOrder: 10.5,
+                          parameters: [],
+                          allowFreeText: false,
+                          allowMultipleDistinct: false,
+                          uiType: 'select',
+                          value: dossier.productionStrategy ?? '',
+                          label: 'Производственная стратегия',
+                          description: 'CMT, FPP, гибрид или кастомизация бланка.',
+                          options: [
+                            { value: '', label: 'Не выбрано' },
+                            { value: 'fpp', label: 'FPP (Full Production Package)' },
+                            { value: 'cmt', label: 'CMT (Cut, Make, Trim)' },
+                            { value: 'hybrid', label: 'Гибрид (Hybrid)' },
+                            { value: 'blank_customization', label: 'Кастомизация бланка' },
+                          ],
+                        }}
+                        onChange={(value) =>
+                          setDossier((p: Workshop2DossierPhase1) => ({
+                            ...p,
+                            productionStrategy:
+                              (value as 'fpp' | 'cmt' | 'hybrid' | 'blank_customization') ||
+                              undefined,
+                          }))
+                        }
+                      />
+                      <DossierAttributeInput
+                        attribute={{
+                          attributeId: 'plannedLaunchType',
+                          groupId: 'productionBrief',
+                          name: 'Планируемый тип запуска',
+                          type: 'select',
+                          sortOrder: 11,
+                          parameters: [],
+                          allowFreeText: false,
+                          allowMultipleDistinct: false,
+                          uiType: 'select',
+                          value: dossier.passportProductionBrief?.plannedLaunchType ?? 'undecided',
+                          label: 'Планируемый тип запуска',
+                          description:
+                            'Схема запуска (цех, КНП, опт и др.) — для контура пошива и передачи в работу.',
+                          options: [
+                            { value: 'undecided', label: 'Ещё не решено' },
+                            { value: 'own_floor', label: 'Своё производство (цех бренда)' },
+                            { value: 'cmt', label: 'КНП / подряд (CMT)' },
+                            { value: 'mixed', label: 'Смешанная схема' },
+                            { value: 'domestic_partner', label: 'Партнёр в РФ / СНГ' },
+                            { value: 'nearshore_partner', label: 'Ближнее зарубежье' },
+                            { value: 'far_east_partner', label: 'Дальнее зарубежье' },
+                            { value: 'ecom_d2c_first', label: 'E-com / D2C в приоритете' },
+                            { value: 'wholesale_preorder', label: 'Опт / предзаказ' },
+                            { value: 'dropship_fulfillment', label: 'Дропшип / fulfillment' },
+                            { value: 'made_to_order_mto', label: 'MTO / пошив под заказ' },
+                            { value: 'import_rtw', label: 'Импорт готовой одежды (RTW)' },
+                            { value: 'pilot_line_only', label: 'Только пилот / образцы' },
+                            { value: 'other_catalogued', label: 'Другое (из справочника)' },
+                          ],
+                        }}
+                        onChange={(value) =>
+                          setDossier((p: Workshop2DossierPhase1) => ({
+                            ...p,
+                            passportProductionBrief: {
+                              ...(p.passportProductionBrief ?? {}),
+                              plannedLaunchType: value as Workshop2PassportPlannedLaunchType,
+                            },
+                          }))
+                        }
+                      />
+                      <DossierAttributeInput
+                        attribute={{
+                          attributeId: 'plannedLaunchCustomNote',
+                          groupId: 'productionBrief',
+                          name: 'Дополнение к типу запуска',
+                          type: 'text',
+                          sortOrder: 12,
+                          parameters: [],
+                          allowFreeText: true,
+                          allowMultipleDistinct: false,
+                          uiType: 'text_input',
+                          value: dossier.passportProductionBrief?.plannedLaunchCustomNote ?? '',
+                          label: 'Дополнение к типу запуска (свободный текст)',
+                          placeholder: 'Свой текст',
+                        }}
+                        onChange={(value) =>
+                          setDossier((p: Workshop2DossierPhase1) => ({
+                            ...p,
+                            passportProductionBrief: {
+                              ...(p.passportProductionBrief ?? {}),
+                              plannedLaunchCustomNote: (value as string) || undefined,
+                            },
+                          }))
+                        }
+                      />
+                      <DossierAttributeInput
+                        attribute={{
+                          attributeId: 'packagingAndLabelingNote',
+                          groupId: 'productionBrief',
+                          name: 'Упаковка и маркировка',
+                          type: 'text',
+                          sortOrder: 13,
+                          parameters: [],
+                          allowFreeText: true,
+                          allowMultipleDistinct: false,
+                          uiType: 'text_input',
+                          value: dossier.passportProductionBrief?.packagingAndLabelingNote ?? '',
+                          label: 'Упаковка и маркировка',
+                          description:
+                            'Транспортная и индивидуальная упаковка (коробки, полибеги, штрихкоды и т.д.)',
+                          placeholder: 'Укажите требования к упаковке',
+                        }}
+                        onChange={(value) =>
+                          setDossier((p: Workshop2DossierPhase1) => ({
+                            ...p,
+                            passportProductionBrief: {
+                              ...(p.passportProductionBrief ?? {}),
+                              packagingAndLabelingNote: (value as string) || undefined,
+                            },
+                          }))
+                        }
+                      />
+                      <DossierAttributeInput
+                        attribute={{
+                          attributeId: 'weightAndDimensionsNote',
+                          groupId: 'productionBrief',
+                          name: 'Весогабаритные характеристики',
+                          type: 'text',
+                          sortOrder: 14,
+                          parameters: [],
+                          allowFreeText: true,
+                          allowMultipleDistinct: false,
+                          uiType: 'text_input',
+                          value: dossier.passportProductionBrief?.weightAndDimensionsNote ?? '',
+                          label: 'Весогабаритные характеристики',
+                          description: 'Расчетный вес, габариты изделия или транспортной упаковки',
+                          placeholder: 'Вес, габариты (ДхШхВ)',
+                        }}
+                        onChange={(value) =>
+                          setDossier((p: Workshop2DossierPhase1) => ({
+                            ...p,
+                            passportProductionBrief: {
+                              ...(p.passportProductionBrief ?? {}),
+                              weightAndDimensionsNote: (value as string) || undefined,
+                            },
+                          }))
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+                {passportSewingPlanStartRows.length + passportSewingPlanStartExtras.length > 0 ? (
+                  <Workshop2DossierSectionRows
+                    {...workshop2DossierSectionRowsSharedProps}
+                    rows={passportSewingPlanStartRows}
+                    phase={currentPhase}
+                    extras={passportSewingPlanStartExtras}
+                    opts={{
+                      showAttributeNameHintIcons: true,
+                      fieldLayout: 'grid2',
+                      strictAttributeFillLabelColors: true,
+                    }}
+                  />
+                ) : null}
+              </div>
             </div>
           </div>
+        </>
+      ) : (
+        <div
+          id="w2-passport-identity"
+          className="border-border-default scroll-mt-24 space-y-1 rounded-xl border bg-white p-4 shadow-sm"
+        >
+          <p className="flex flex-wrap items-baseline gap-x-1">
+            <span
+              className={
+                isPhase2
+                  ? 'text-[9px] font-semibold text-orange-800'
+                  : 'text-text-secondary text-[9px] font-semibold'
+              }
+            >
+              {isPhase2 ? 'Обязательный' : 'ОТК / приёмка'}
+            </span>
+            <span className="text-text-primary text-sm font-semibold">
+              {isPhase2 ? 'Шаг 2' : 'Шаг 3'}
+            </span>
+          </p>
+          <p className="text-text-primary font-mono text-sm font-semibold">{articleSku}</p>
+          <p className="text-text-secondary text-[10px] leading-snug">{passportCategoryCaption}</p>
+          <p className="text-text-secondary text-[10px] leading-snug">
+            Полная идентификация и аудитория — на шаге 1 ТЗ; здесь дозаполнение полей паспорта для
+            текущего шага.
+          </p>
         </div>
-      </>
-    ) : (
-      <div
-        id="w2-passport-identity"
-        className="border-border-default scroll-mt-24 space-y-1 rounded-xl border bg-white p-4 shadow-sm"
-      >
-        <p className="flex flex-wrap items-baseline gap-x-1">
-          <span
-            className={
-              isPhase2
-                ? 'text-[9px] font-semibold text-orange-800'
-                : 'text-text-secondary text-[9px] font-semibold'
-            }
-          >
-            {isPhase2 ? 'Обязательный' : 'ОТК / приёмка'}
-          </span>
-          <span className="text-text-primary text-sm font-semibold">
-            {isPhase2 ? 'Шаг 2' : 'Шаг 3'}
-          </span>
-        </p>
-        <p className="text-text-primary font-mono text-sm font-semibold">{articleSku}</p>
-        <p className="text-text-secondary text-[10px] leading-snug">{passportCategoryCaption}</p>
-        <p className="text-text-secondary text-[10px] leading-snug">
-          Полная идентификация и аудитория — на шаге 1 ТЗ; здесь дозаполнение полей паспорта
-          для текущего шага.
-        </p>
-      </div>
-    )}
+      )}
     </>
   );
 }

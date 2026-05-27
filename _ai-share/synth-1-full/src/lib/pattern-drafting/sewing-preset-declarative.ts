@@ -95,7 +95,11 @@ export function defaultDeclarativeRulesFile(): SewingPresetDeclarativeFileV1 {
 
 const norm = (s: string) => s.toLowerCase().replace(/\s+/g, ' ').trim();
 
-function whenMatches(l2: string, leafName: string, when: SewingPresetDeclarativeRuleV1['when']): boolean {
+function whenMatches(
+  l2: string,
+  leafName: string,
+  when: SewingPresetDeclarativeRuleV1['when']
+): boolean {
   const t2 = norm(l2);
   const tl = norm(leafName);
   const k2 = when.l2Contains?.trim() ? norm(when.l2Contains) : '';
@@ -106,13 +110,18 @@ function whenMatches(l2: string, leafName: string, when: SewingPresetDeclarative
   return true;
 }
 
-function mergePatch(base: SewingCategoryPreset, patch: SewingPresetDeclarativeRuleV1['patch']): SewingCategoryPreset {
+function mergePatch(
+  base: SewingCategoryPreset,
+  patch: SewingPresetDeclarativeRuleV1['patch']
+): SewingCategoryPreset {
   const p = patch;
   return {
     ...base,
     ...(p.summary != null ? { summary: p.summary } : {}),
     ...(p.primary != null ? { primary: p.primary as SewingPatternGarmentBlock } : {}),
-    ...(p.alternates != null ? { alternates: p.alternates as SewingCategoryPreset['alternates'] } : {}),
+    ...(p.alternates != null
+      ? { alternates: p.alternates as SewingCategoryPreset['alternates'] }
+      : {}),
     ease: {
       ...base.ease,
       ...(p.ease ?? {}),

@@ -29,7 +29,7 @@ export default function BrandMarketingHubPage() {
   const [tab, setTab] = useState('campaigns');
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="space-y-4 py-4 px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-4 py-6 pb-24 sm:px-6">
       <RegistryPageHeader
         title="Маркетинг"
         leadPlain="Кампании, контент-фабрика и сигнал трендов в едином workflow-центре."
@@ -54,7 +54,10 @@ export default function BrandMarketingHubPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="campaigns" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+        <TabsContent
+          value="campaigns"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+        >
           {tab === 'campaigns' && <CampaignsContent />}
         </TabsContent>
         <TabsContent value="factory" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>

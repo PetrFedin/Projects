@@ -56,7 +56,9 @@ export function WorkshopTzDigitalSignoffRow({
             <p className="text-text-secondary text-[10px] leading-snug">
               {passportAssigneeOrgLabel?.trim() ? (
                 <>
-                  <span className="text-text-muted font-medium">{passportAssigneeOrgLabel.trim()}</span>
+                  <span className="text-text-muted font-medium">
+                    {passportAssigneeOrgLabel.trim()}
+                  </span>
                   <span className="text-text-muted"> · </span>
                 </>
               ) : null}
@@ -95,7 +97,12 @@ export function WorkshopTzDigitalSignoffRow({
                 Подписано
               </span>
               {canRevoke ? (
-                <Button type="button" variant="outline" className="h-9 px-3 text-xs" onClick={onRevoke}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-9 px-3 text-xs"
+                  onClick={onRevoke}
+                >
                   Снять подпись
                 </Button>
               ) : (
@@ -127,7 +134,12 @@ export function WorkshopTzDigitalSignoffRow({
                   'Подписать может только закреплённый в паспорте исполнитель с нужным правом в команде.';
                 const signTooltipHint = signBlockHint ?? (!canSign ? defaultNoSignHint : null);
                 const signBtn = (
-                  <Button type="button" className="h-9 px-3 text-xs font-semibold" disabled={!canSign} onClick={onSign}>
+                  <Button
+                    type="button"
+                    className="h-9 px-3 text-xs font-semibold"
+                    disabled={!canSign}
+                    onClick={onSign}
+                  >
                     Подписать
                   </Button>
                 );

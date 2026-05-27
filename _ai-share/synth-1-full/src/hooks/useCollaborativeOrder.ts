@@ -49,7 +49,9 @@ export function useCollaborativeOrder() {
   const [liveCollaborators, setLiveCollaborators] = useState<LiveCollaborator[]>([]);
   const [pendingApprovals, setPendingApprovals] = useState<PendingApproval[]>([]);
   const [teamBudget, setTeamBudget] = useState<TeamBudget>(() =>
-    SYNTH_DASHBOARD_DEMO_MOCKS ? { ...DASHBOARD_DEMO_TEAM_BUDGET } : { allocated: 0, total: 0, remaining: 0 }
+    SYNTH_DASHBOARD_DEMO_MOCKS
+      ? { ...DASHBOARD_DEMO_TEAM_BUDGET }
+      : { allocated: 0, total: 0, remaining: 0 }
   );
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
 

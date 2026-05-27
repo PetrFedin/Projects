@@ -33,8 +33,7 @@ export function Workshop2ReleaseLogisticsPanel({
     w2pane: 'supply',
   });
   const tmsLive = isWorkshop2LiveTmsConfigured();
-  const logisticsMode =
-    mirror?.logisticsMode ?? (tmsLive ? 'tms_live' : 'journal_only');
+  const logisticsMode = mirror?.logisticsMode ?? (tmsLive ? 'tms_live' : 'journal_only');
 
   return (
     <div
@@ -58,7 +57,7 @@ export function Workshop2ReleaseLogisticsPanel({
       <Badge
         variant={tmsLive ? 'default' : 'outline'}
         className={
-          tmsLive ? 'text-[10px]' : 'border-amber-200 bg-amber-50 text-amber-900 text-[10px]'
+          tmsLive ? 'text-[10px]' : 'border-amber-200 bg-amber-50 text-[10px] text-amber-900'
         }
         data-testid="workshop2-release-logistics-tms-chip"
       >
@@ -85,12 +84,18 @@ export function Workshop2ReleaseLogisticsPanel({
       </dl>
 
       {mirror?.hintRu ? (
-        <p className="rounded-md bg-slate-50 px-2 py-1.5 text-[10px] text-slate-700">{mirror.hintRu}</p>
+        <p className="rounded-md bg-slate-50 px-2 py-1.5 text-[10px] text-slate-700">
+          {mirror.hintRu}
+        </p>
       ) : null}
 
       <div className="flex flex-wrap items-center gap-2">
         {mirror?.mirroredAt ? (
-          <Badge variant="outline" className="text-[10px]" data-testid="workshop2-release-logistics-pg-chip">
+          <Badge
+            variant="outline"
+            className="text-[10px]"
+            data-testid="workshop2-release-logistics-pg-chip"
+          >
             PG mirror · {new Date(mirror.mirroredAt).toLocaleString('ru-RU')}
           </Badge>
         ) : (

@@ -64,7 +64,9 @@ export function ProductionPageContentTabLossesBodyRegistryTable({
                   {l.type === 'material' ? 'Материал' : 'Модель'}
                 </Badge>
                 {l.category && (
-                  <span className="text-text-muted text-[8px]">{lossCategoryLabel(l.category)}</span>
+                  <span className="text-text-muted text-[8px]">
+                    {lossCategoryLabel(l.category)}
+                  </span>
                 )}
               </div>
             </TableCell>

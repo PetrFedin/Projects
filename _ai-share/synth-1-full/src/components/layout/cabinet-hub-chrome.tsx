@@ -6,10 +6,7 @@ import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import {
-  CabinetBreadcrumbs,
-  type BreadcrumbItem,
-} from '@/components/layout/cabinet-breadcrumbs';
+import { CabinetBreadcrumbs, type BreadcrumbItem } from '@/components/layout/cabinet-breadcrumbs';
 import { SynthaDemoMark } from '@/components/ui/syntha-demo-mark';
 
 export type { BreadcrumbItem };

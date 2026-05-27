@@ -23,7 +23,9 @@ export function normalizeCompositionLabelLayoutElement(
   if (x + w > 100) x = Math.max(0, 100 - w);
   if (y + h > 100) y = Math.max(0, 100 - h);
   const rot = el.rotationDeg ?? 0;
-  const rotationDeg = Number.isFinite(rot) ? Math.max(-180, Math.min(180, Math.round(rot * 10) / 10)) : 0;
+  const rotationDeg = Number.isFinite(rot)
+    ? Math.max(-180, Math.min(180, Math.round(rot * 10) / 10))
+    : 0;
   const fs = el.fontSizePx ?? (el.kind === 'text' ? 11 : undefined);
   const fontSizePx =
     el.kind === 'text' && fs != null && Number.isFinite(fs)
@@ -94,12 +96,16 @@ export function ensureCompositionLabelLayoutElements(
   existing: Workshop2CompositionLabelLayoutElement[] | undefined
 ): Workshop2CompositionLabelLayoutElement[] {
   if (existing?.length) {
-    return [...existing].map(normalizeCompositionLabelLayoutElement).sort((a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0));
+    return [...existing]
+      .map(normalizeCompositionLabelLayoutElement)
+      .sort((a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0));
   }
   return buildDefaultCompositionLabelLayoutElements();
 }
 
-export function newCompositionLabelTextElement(index: number): Workshop2CompositionLabelLayoutElement {
+export function newCompositionLabelTextElement(
+  index: number
+): Workshop2CompositionLabelLayoutElement {
   return normalizeCompositionLabelLayoutElement({
     elementId: `layout-el-text-${Date.now()}-${index}`,
     kind: 'text',

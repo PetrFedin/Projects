@@ -135,9 +135,7 @@ function SignoffSideRow({
 
   const sessionBlocked = !sessionMayConfirmAsPassportSigner && !metaCommitted;
   const effectiveConfirmDisabled =
-    confirmDisabled ||
-    sessionBlocked ||
-    (hasNoSignoffData && !profileGateOk);
+    confirmDisabled || sessionBlocked || (hasNoSignoffData && !profileGateOk);
 
   const confirmBtn = (
     <Button
@@ -160,17 +158,17 @@ function SignoffSideRow({
           'border-red-400/90 shadow-[0_0_0_1px_rgba(248,113,113,0.35),0_0_14px_rgba(248,113,113,0.14)]'
       )}
     >
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
         <div className="min-w-0 flex-1 space-y-1.5 sm:pr-2">
           <p className="text-text-primary text-xs font-semibold">{title}</p>
           {passportAssigneeMissing ? (
-            <p className="text-amber-900/90 text-[10px] leading-snug">
-              В паспорте не закреплён ответственный для этой стороны — укажите в карточке артикула (кнопка
-              «Подписанты»).
+            <p className="text-[10px] leading-snug text-amber-900/90">
+              В паспорте не закреплён ответственный для этой стороны — укажите в карточке артикула
+              (кнопка «Подписанты»).
             </p>
           ) : null}
           {metaCommitted && !metaPassportAligned && !passportAssigneeMissing ? (
-            <p className="text-destructive text-[11px] font-medium leading-snug">
+            <p className="text-[11px] font-medium leading-snug text-destructive">
               Подписант не совпадает с паспортом (ожидался{' '}
               <span className="text-text-primary">{passportAssigneeName.trim() || '—'}</span>).{' '}
               Снимите подпись и подтвердите заново.
@@ -178,27 +176,23 @@ function SignoffSideRow({
           ) : null}
           {effectiveConfirmed ? (
             <p className="text-text-secondary text-[11px] leading-snug">
-              <span className="text-emerald-700 font-medium">Подтверждено</span>
+              <span className="font-medium text-emerald-700">Подтверждено</span>
               {meta?.by ? (
                 <>
                   {' '}
-                  / подписал(а){' '}
-                  <span className="text-text-primary font-medium">{meta.by}</span>
+                  / подписал(а) <span className="text-text-primary font-medium">{meta.by}</span>
                 </>
               ) : null}
               {meta?.byOrganization?.trim() ? (
                 <>
                   {' '}
-                  / {' '}
-                  <span className="text-text-secondary font-medium">{meta.byOrganization.trim()}</span>
+                  /{' '}
+                  <span className="text-text-secondary font-medium">
+                    {meta.byOrganization.trim()}
+                  </span>
                 </>
               ) : null}
-              {meta?.at ? (
-                <>
-                  {' '}
-                  · {formatSignoffWhen(meta.at)}
-                </>
-              ) : null}
+              {meta?.at ? <> · {formatSignoffWhen(meta.at)}</> : null}
               {digest ? (
                 <>
                   {' '}
@@ -215,15 +209,12 @@ function SignoffSideRow({
                     <>
                       {' '}
                       · организация{' '}
-                      <span className="text-text-secondary font-medium">{meta.byOrganization.trim()}</span>
+                      <span className="text-text-secondary font-medium">
+                        {meta.byOrganization.trim()}
+                      </span>
                     </>
                   ) : null}
-                  {meta?.at ? (
-                    <>
-                      {' '}
-                      · {formatSignoffWhen(meta.at)}
-                    </>
-                  ) : null}
+                  {meta?.at ? <> · {formatSignoffWhen(meta.at)}</> : null}
                   {digest ? (
                     <>
                       {' '}
@@ -236,7 +227,7 @@ function SignoffSideRow({
               )}
             </p>
           ) : byAtNoDigest ? (
-            <p className="text-amber-900/90 text-[11px] leading-snug">
+            <p className="text-[11px] leading-snug text-amber-900/90">
               Подпись без отпечатка. Подтвердите заново.
             </p>
           ) : hasNoSignoffData ? (
@@ -252,7 +243,9 @@ function SignoffSideRow({
                   {signerOrgPreview.trim() ? (
                     <>
                       <span className="text-text-muted"> / </span>
-                      <span className="font-medium text-text-secondary">{signerOrgPreview.trim()}</span>
+                      <span className="text-text-secondary font-medium">
+                        {signerOrgPreview.trim()}
+                      </span>
                     </>
                   ) : (
                     <span className="text-amber-900/85"> (укажите компанию в профиле)</span>
@@ -265,7 +258,7 @@ function SignoffSideRow({
           )}
         </div>
 
-        <div className="flex w-full shrink-0 flex-col justify-center gap-2 border-t border-border-subtle/70 pt-3 sm:w-auto sm:min-w-[220px] sm:border-l sm:border-t-0 sm:border-border-subtle/70 sm:pl-4 sm:pt-0">
+        <div className="border-border-subtle/70 sm:border-border-subtle/70 flex w-full shrink-0 flex-col justify-center gap-2 border-t pt-3 sm:w-auto sm:min-w-[220px] sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
           <div className="flex flex-col items-end gap-1.5">
             <div className="flex flex-wrap items-center justify-end gap-2">
               {onNotify && !effectiveConfirmed ? (
@@ -308,7 +301,7 @@ function SignoffSideRow({
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="text-text-muted hover:text-destructive h-8 text-xs"
+                  className="text-text-muted h-8 text-xs hover:text-destructive"
                   onClick={onRevoke}
                 >
                   Снять
@@ -318,11 +311,11 @@ function SignoffSideRow({
 
             {onNotify && !effectiveConfirmed && onSetDeadline ? (
               <div className="flex flex-col items-end gap-1">
-                <label className="flex items-center gap-1.5 text-[10px] text-text-muted">
+                <label className="text-text-muted flex items-center gap-1.5 text-[10px]">
                   <span className="shrink-0">Срок</span>
                   <input
                     type="date"
-                    className="h-8 rounded border border-border-default bg-transparent px-1.5 text-[10px] text-text-secondary"
+                    className="border-border-default text-text-secondary h-8 rounded border bg-transparent px-1.5 text-[10px]"
                     value={notifyMeta?.dueAt ? notifyMeta.dueAt.substring(0, 10) : ''}
                     onChange={(e) =>
                       onSetDeadline(
@@ -332,7 +325,7 @@ function SignoffSideRow({
                   />
                 </label>
                 {notifyMeta?.notifyCount ? (
-                  <p className="text-right text-[10px] leading-snug text-text-muted">
+                  <p className="text-text-muted text-right text-[10px] leading-snug">
                     Напоминаний: {notifyMeta.notifyCount}
                     {notifyMeta.lastNotifiedAt
                       ? ` · ${new Date(notifyMeta.lastNotifiedAt).toLocaleString('ru-RU', {
@@ -448,7 +441,7 @@ export function Workshop2TzSectionSignoffStrip({
       ? `Сначала доведите заполнение секции «${secTitle}» до не менее ${fillPctMin}% (сейчас ${sectionFillPct}%).`
       : !sectionErrorsOk
         ? `Исправьте ошибки секции: ${sectionErrors.slice(0, 2).join(' ')}`
-      : undefined;
+        : undefined;
   const confirmDisabled = Boolean(blockReason);
   const brandRowCommitted = workshop2TzSignoffMetaIsCommitted(brandMeta);
   const techRowCommitted = workshop2TzSignoffMetaIsCommitted(techMeta);
@@ -464,7 +457,8 @@ export function Workshop2TzSectionSignoffStrip({
   );
   const brandStaleSigned =
     brandRowCommitted && (!gateOk || (!brandPassportAligned && !brandPassportMissing));
-  const techStaleSigned = techRowCommitted && (!gateOk || (!techPassportAligned && !techPassportMissing));
+  const techStaleSigned =
+    techRowCommitted && (!gateOk || (!techPassportAligned && !techPassportMissing));
   const requiredAuditComplete = requiredSides.every((side) =>
     side === 'brand'
       ? brandRowCommitted && brandPassportAligned
@@ -498,18 +492,28 @@ export function Workshop2TzSectionSignoffStrip({
     <div
       id={`w2-tz-section-signoff-${section}`}
       data-testid={`w2-tz-section-signoff-${section}`}
-      className={cn('border-border-default scroll-mt-24 space-y-3 rounded-xl border bg-bg-surface2/30 p-3 sm:p-4 shadow-sm', className)}
+      className={cn(
+        'border-border-default bg-bg-surface2/30 scroll-mt-24 space-y-3 rounded-xl border p-3 shadow-sm sm:p-4',
+        className
+      )}
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <LucideIcons.CheckSquare className="h-5 w-5 text-accent-primary" aria-hidden />
-          <h2 className="text-text-primary text-sm sm:text-base font-semibold">Подтверждение: {secTitle}</h2>
+          <LucideIcons.CheckSquare className="text-accent-primary h-5 w-5" aria-hidden />
+          <h2 className="text-text-primary text-sm font-semibold sm:text-base">
+            Подтверждение: {secTitle}
+          </h2>
         </div>
-        <div className={cn('px-2.5 py-1 rounded-full border text-[10px] font-semibold', primaryStatusTone)}>
+        <div
+          className={cn(
+            'rounded-full border px-2.5 py-1 text-[10px] font-semibold',
+            primaryStatusTone
+          )}
+        >
           {bothSigned ? 'Завершено' : fillAndRulesOk ? 'Ожидает подписи' : 'Требует заполнения'}
         </div>
       </div>
-      
+
       <div className="grid gap-2 sm:grid-cols-2">
         {requiredSides.includes('brand') ? (
           <SignoffSideRow

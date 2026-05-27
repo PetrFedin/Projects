@@ -5,7 +5,10 @@ import { useToast } from '@/hooks/use-toast';
 import type { BrandProductionCollectionFlowPageViewProps } from '@/app/brand/production/brand-production-collection-flow-page-view';
 import products from '@/lib/products';
 import { initialOrderItems } from '@/lib/order-data';
-import { getProductionFloorTabTitle, mergeCollectionQuery } from '@/app/brand/production/production-page-utils';
+import {
+  getProductionFloorTabTitle,
+  mergeCollectionQuery,
+} from '@/app/brand/production/production-page-utils';
 import { MOCK_COLLECTIONS } from '@/app/brand/production/production-page-demo-data';
 import { useBrandProductionLocalArticles } from '@/app/brand/production/use-brand-production-local-articles';
 import { useBrandProductionLocalInventory } from '@/app/brand/production/use-brand-production-local-inventory';
@@ -97,13 +100,13 @@ export function useBrandProductionCollectionFlowPage(): BrandProductionCollectio
   );
 
   const localRemovableArticles = useMemo(
-    () => buildLocalRemovableArticlesFromItems(itemsForCollection as { id?: unknown; sku?: unknown }[]),
+    () =>
+      buildLocalRemovableArticlesFromItems(itemsForCollection as { id?: unknown; sku?: unknown }[]),
     [itemsForCollection]
   );
 
   const isUserDefinedCollection = useMemo(
-    () =>
-      isUserDefinedProductionCollection(collectionIdFromQuery, localInventory.userCollections),
+    () => isUserDefinedProductionCollection(collectionIdFromQuery, localInventory.userCollections),
     [localInventory.userCollections, collectionIdFromQuery]
   );
 
@@ -127,20 +130,16 @@ export function useBrandProductionCollectionFlowPage(): BrandProductionCollectio
     articleSeeds,
   });
 
-  const {
-    isLocalSkuDuplicate,
-    pushLocalArticle,
-    removeLocalArticle,
-    removeCurrentUserCollection,
-  } = useBrandProductionLocalArticles({
-    collectionIdFromQuery,
-    collectionFlowKey,
-    itemsForCollection,
-    localInventory,
-    setLocalInventory,
-    setUnifiedDoc,
-    pendingFocusLocalSkuRef,
-  });
+  const { isLocalSkuDuplicate, pushLocalArticle, removeLocalArticle, removeCurrentUserCollection } =
+    useBrandProductionLocalArticles({
+      collectionIdFromQuery,
+      collectionFlowKey,
+      itemsForCollection,
+      localInventory,
+      setLocalInventory,
+      setUnifiedDoc,
+      pendingFocusLocalSkuRef,
+    });
 
   const {
     collectionArticles,

@@ -12,9 +12,7 @@ export function sampleQuadraticBezier(p0: Vec2, c: Vec2, p1: Vec2, steps: number
     const a = (1 - t) * (1 - t);
     const b = 2 * (1 - t) * t;
     const c2 = t * t;
-    out.push(
-      V2.add(V2.add(V2.scale(p0, a), V2.scale(c, b)), V2.scale(p1, c2))
-    );
+    out.push(V2.add(V2.add(V2.scale(p0, a), V2.scale(c, b)), V2.scale(p1, c2)));
   }
   return out;
 }

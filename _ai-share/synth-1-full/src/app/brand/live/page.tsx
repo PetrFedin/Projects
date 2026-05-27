@@ -35,7 +35,10 @@ export default function BrandLiveDashboard() {
   const [viewers, setViewers] = useState(1242);
 
   return (
-    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-300 animate-in fade-in">
+    <CabinetPageContent
+      maxWidth="full"
+      className="w-full space-y-6 pb-16 duration-300 animate-in fade-in"
+    >
       <RegistryPageHeader
         title="Live Broadcast Control"
         leadPlain={

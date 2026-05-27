@@ -93,10 +93,10 @@ export async function POST(req: NextRequest) {
   const next = {
     ...record.dossier,
     finalExportSnapshots: [snapshot, ...(record.dossier.finalExportSnapshots ?? [])].slice(0, 80),
-    finalExportSnapshotRecords: [recordSnapshot, ...(record.dossier.finalExportSnapshotRecords ?? [])].slice(
-      0,
-      80
-    ),
+    finalExportSnapshotRecords: [
+      recordSnapshot,
+      ...(record.dossier.finalExportSnapshotRecords ?? []),
+    ].slice(0, 80),
     tzActionLog: [log, ...(record.dossier.tzActionLog ?? [])].slice(0, 120),
     updatedAt: snapshot.createdAt,
     updatedBy: actorLabel.slice(0, 200),

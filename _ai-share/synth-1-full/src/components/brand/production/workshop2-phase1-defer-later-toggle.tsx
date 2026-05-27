@@ -31,7 +31,7 @@ export function Workshop2Phase1DeferLaterToggle({
           checked={checked}
           disabled={disabled}
           onCheckedChange={() => onToggle(fieldKey)}
-          className="h-3.5 w-3.5 shrink-0 border-border-default"
+          className="border-border-default h-3.5 w-3.5 shrink-0"
           aria-label={
             checked ? 'Снять отложенное заполнение' : 'Заполнить позже (только для бренда)'
           }

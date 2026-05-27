@@ -2,7 +2,10 @@
 
 import { useCallback, useEffect, useMemo } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { loadStagesLastInnerSubTab, saveStagesLastInnerSubTab } from '@/lib/production/stages-panels-session';
+import {
+  loadStagesLastInnerSubTab,
+  saveStagesLastInnerSubTab,
+} from '@/lib/production/stages-panels-session';
 import { parseStagesSkuPanelTab } from '@/lib/production/stages-url';
 import {
   STAGES_FILTER_SUB_PARAM,
@@ -49,7 +52,9 @@ export type StagesDependenciesUrlState = {
   filterBadgeSub: StagesSubTab | null;
 };
 
-export function useStagesDependenciesUrlState(collectionFlowKey: string): StagesDependenciesUrlState {
+export function useStagesDependenciesUrlState(
+  collectionFlowKey: string
+): StagesDependenciesUrlState {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();

@@ -153,7 +153,10 @@ export function ProductionIntegrationsDialog({
               <RefreshCw className="h-4 w-4" /> Синхронизация
             </Button>
           </TabsContent>
-          <TabsContent value="notifications" className={cn(cabinetSurface.cabinetProfileTabPanel, 'pt-4')}>
+          <TabsContent
+            value="notifications"
+            className={cn(cabinetSurface.cabinetProfileTabPanel, 'pt-4')}
+          >
             <p className="text-text-secondary text-[10px] font-bold uppercase">
               Email и Push — триггеры
             </p>

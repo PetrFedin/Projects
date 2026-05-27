@@ -33,7 +33,9 @@ describe('workshop2-phase1-dossier-panel construction layout', () => {
     ];
     const out = w2ConstructionRowsDrapeThenPattern(rows);
     const ids = out.map((r) => r.attribute.attributeId);
-    expect(ids.indexOf('draperyOptionsByCategory')).toBeLessThan(ids.indexOf('patternOptionsByCategory'));
+    expect(ids.indexOf('draperyOptionsByCategory')).toBeLessThan(
+      ids.indexOf('patternOptionsByCategory')
+    );
     expect(ids).toHaveLength(3);
   });
 
@@ -66,7 +68,10 @@ describe('workshop2-phase1-dossier-panel signoff format', () => {
 
 describe('workshop2-phase1-dossier-panel w2 tz labels', () => {
   it('w2TzAttributeDisplayName uses override map', () => {
-    const attr = { attributeId: 'garmentLengthApparelOptions', name: 'X' } as AttributeCatalogAttribute;
+    const attr = {
+      attributeId: 'garmentLengthApparelOptions',
+      name: 'X',
+    } as AttributeCatalogAttribute;
     expect(w2TzAttributeDisplayName(attr)).toBe('Длина изделия');
   });
 

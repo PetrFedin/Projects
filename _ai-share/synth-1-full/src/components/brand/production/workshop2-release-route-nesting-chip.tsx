@@ -83,7 +83,7 @@ export function Workshop2ReleaseRouteNestingChip({
         variant="outline"
         className={
           nestingLive
-            ? 'border-emerald-300 text-emerald-800 text-[9px]'
+            ? 'border-emerald-300 text-[9px] text-emerald-800'
             : 'text-[9px] text-slate-600'
         }
         data-testid="workshop2-release-route-nesting-probe"

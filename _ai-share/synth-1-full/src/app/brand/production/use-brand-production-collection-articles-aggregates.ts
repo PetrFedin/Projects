@@ -2,7 +2,10 @@
 
 import { useMemo } from 'react';
 import type { CollectionArticle } from '@/app/brand/production/production-page-types';
-import { buildAggregateStatusMap, type CollectionSkuFlowDoc } from '@/lib/production/unified-sku-flow-store';
+import {
+  buildAggregateStatusMap,
+  type CollectionSkuFlowDoc,
+} from '@/lib/production/unified-sku-flow-store';
 import { COLLECTION_STEPS } from '@/lib/production/collection-steps-catalog';
 
 export function useBrandProductionCollectionArticlesAggregates(args: {

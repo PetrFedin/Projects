@@ -9,7 +9,12 @@ const B2BPresentationSections = dynamic(
     import('@/components/home/B2BPresentationSections').then((m) => ({
       default: m.B2BPresentationSections,
     })),
-  { ssr: false, loading: () => <div className="min-h-[240px] animate-pulse rounded-xl bg-muted/40" aria-hidden /> }
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-[240px] animate-pulse rounded-xl bg-muted/40" aria-hidden />
+    ),
+  }
 );
 
 type B2BPresentationSectionsGateProps = {

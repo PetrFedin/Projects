@@ -23,9 +23,7 @@ export function PanelShell({
   nextAction?: string;
   children: ReactNode;
 }) {
-  const hasMeta = Boolean(
-    summary || readiness || nextAction || (blockers && blockers.length > 0)
-  );
+  const hasMeta = Boolean(summary || readiness || nextAction || (blockers && blockers.length > 0));
 
   return (
     <Card className="border-border-default">
@@ -49,17 +47,17 @@ export function PanelShell({
           <div className="border-border-subtle flex flex-col gap-1.5 border-t border-dotted pt-2.5">
             <div className="flex flex-wrap gap-1.5">
               {summary ? (
-                <span className="bg-bg-surface2/70 text-text-primary max-w-full rounded border border-border-subtle px-2 py-1 text-[10px] leading-snug">
+                <span className="bg-bg-surface2/70 text-text-primary border-border-subtle max-w-full rounded border px-2 py-1 text-[10px] leading-snug">
                   <span className="text-text-muted font-bold">Суть</span> · {summary}
                 </span>
               ) : null}
               {readiness ? (
-                <span className="text-text-primary max-w-full rounded border border-border-subtle bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
+                <span className="text-text-primary border-border-subtle max-w-full rounded border bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
                   <span className="text-text-muted font-bold">Гот.</span> · {readiness}
                 </span>
               ) : null}
               {nextAction ? (
-                <span className="text-accent-primary max-w-full rounded border border-accent-primary/25 bg-accent-primary/8 px-2 py-1 text-[10px] font-semibold leading-snug">
+                <span className="text-accent-primary border-accent-primary/25 bg-accent-primary/8 max-w-full rounded border px-2 py-1 text-[10px] font-semibold leading-snug">
                   <span className="font-bold opacity-80">Далее</span> · {nextAction}
                 </span>
               ) : null}

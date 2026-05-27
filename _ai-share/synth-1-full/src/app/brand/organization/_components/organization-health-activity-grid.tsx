@@ -103,10 +103,8 @@ export function OrganizationHealthActivityGrid({
           >
             {healthError ? (
               <div className="flex flex-col items-center justify-center gap-3 px-4 py-6 text-center">
-                <p className="text-xs font-bold text-text-secondary">
-                  Не удалось загрузить данные
-                </p>
-                <p className="text-[9px] text-text-secondary">{healthError.message}</p>
+                <p className="text-text-secondary text-xs font-bold">Не удалось загрузить данные</p>
+                <p className="text-text-secondary text-[9px]">{healthError.message}</p>
                 <Button
                   variant="outline"
                   size="sm"
@@ -119,24 +117,24 @@ export function OrganizationHealthActivityGrid({
               </div>
             ) : healthLoading ? (
               <div className="flex animate-pulse flex-col gap-4">
-                <div className="absolute right-4 top-4 size-12 rounded-full bg-bg-surface2" />
+                <div className="bg-bg-surface2 absolute right-4 top-4 size-12 rounded-full" />
                 <div className="mt-8 flex flex-col gap-3">
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                    <div key={i} className="h-14 rounded-lg bg-bg-surface2" />
+                    <div key={i} className="bg-bg-surface2 h-14 rounded-lg" />
                   ))}
                 </div>
               </div>
             ) : (
               <>
                 <div className="flex items-start justify-between gap-4">
-                  <p className="text-xs font-bold uppercase text-text-muted">
+                  <p className="text-text-muted text-xs font-bold uppercase">
                     Проверка {lastCheck}
                   </p>
                   <div className="flex shrink-0 items-center gap-1">
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="size-8 rounded-lg text-text-muted hover:text-accent-primary"
+                      className="text-text-muted hover:text-accent-primary size-8 rounded-lg"
                       onClick={() => refetchHealth()}
                       aria-label="Обновить индекс здоровья"
                       title="Обновить"
@@ -166,7 +164,7 @@ export function OrganizationHealthActivityGrid({
                           strokeLinecap="round"
                         />
                       </svg>
-                      <span className="relative text-lg font-black text-accent-primary">
+                      <span className="text-accent-primary relative text-lg font-black">
                         {overallHealth}%
                       </span>
                     </div>
@@ -204,7 +202,7 @@ export function OrganizationHealthActivityGrid({
                             onClick={() =>
                               setOpenHealthDetailFor(openHealthDetailFor === i ? null : i)
                             }
-                            className="flex w-full min-w-0 items-start gap-2 rounded-lg p-2 text-left transition-colors hover:bg-bg-surface2/80"
+                            className="hover:bg-bg-surface2/80 flex w-full min-w-0 items-start gap-2 rounded-lg p-2 text-left transition-colors"
                           >
                             <div
                               className={cn(
@@ -216,7 +214,7 @@ export function OrganizationHealthActivityGrid({
                             </div>
                             <div className="flex min-w-0 flex-1 flex-col gap-1">
                               <div className="flex items-center justify-between gap-2">
-                                <span className="truncate text-xs font-bold text-text-primary hover:text-accent-primary">
+                                <span className="text-text-primary hover:text-accent-primary truncate text-xs font-bold">
                                   {m?.label ?? ''}
                                 </span>
                                 <span
@@ -234,12 +232,12 @@ export function OrganizationHealthActivityGrid({
                               </div>
                               <Progress
                                 value={m?.score ?? 0}
-                                className="h-1.5 bg-bg-surface2"
+                                className="bg-bg-surface2 h-1.5"
                                 indicatorClassName={m?.color ?? 'bg-accent-primary'}
                               />
                               {m?.status !== 'ok' && m?.details?.tips && (
                                 <p
-                                  className="line-clamp-1 text-[8px] text-text-secondary"
+                                  className="text-text-secondary line-clamp-1 text-[8px]"
                                   title={m.details.tips}
                                 >
                                   {m.details.tips}
@@ -266,28 +264,28 @@ export function OrganizationHealthActivityGrid({
                                 <Icon className="size-4" />
                               </div>
                               <div>
-                                <h4 className="text-sm font-bold text-text-primary">
+                                <h4 className="text-text-primary text-sm font-bold">
                                   {m?.label ?? ''}
                                 </h4>
-                                <p className="text-[9px] text-text-secondary">
+                                <p className="text-text-secondary text-[9px]">
                                   {m?.score != null ? `${m.score}%` : '—'} • Проверка{' '}
                                   {details?.lastCheck ?? ''}
                                 </p>
                               </div>
                             </div>
-                            {m?.desc && <p className="text-xs text-text-secondary">{m.desc}</p>}
+                            {m?.desc && <p className="text-text-secondary text-xs">{m.desc}</p>}
                             {(checklist.length > 0 || missing.length > 0) && (
                               <div className="space-y-2">
                                 {checklist.length > 0 && (
                                   <div>
-                                    <p className="mb-1 text-[9px] font-bold uppercase text-text-muted">
+                                    <p className="text-text-muted mb-1 text-[9px] font-bold uppercase">
                                       Заполнено
                                     </p>
                                     <ul className="space-y-0.5">
                                       {checklist.map((item: string, j: number) => (
                                         <li
                                           key={j}
-                                          className="flex items-center gap-1.5 text-xs text-text-secondary"
+                                          className="text-text-secondary flex items-center gap-1.5 text-xs"
                                         >
                                           <span className="text-emerald-500">✓</span> {item}
                                         </li>
@@ -297,14 +295,14 @@ export function OrganizationHealthActivityGrid({
                                 )}
                                 {missing.length > 0 && (
                                   <div>
-                                    <p className="mb-1 text-[9px] font-bold uppercase text-text-muted">
+                                    <p className="text-text-muted mb-1 text-[9px] font-bold uppercase">
                                       Ещё не заполнено
                                     </p>
                                     <ul className="space-y-0.5">
                                       {missing.map((item: string, j: number) => (
                                         <li
                                           key={j}
-                                          className="flex items-center gap-1.5 text-xs text-text-secondary"
+                                          className="text-text-secondary flex items-center gap-1.5 text-xs"
                                         >
                                           <span className="text-amber-500">○</span> {item}
                                         </li>
@@ -321,7 +319,7 @@ export function OrganizationHealthActivityGrid({
                             )}
                             <Link
                               href={m?.href ?? '#'}
-                              className="inline-flex items-center gap-1 text-xs font-semibold text-accent-primary hover:text-accent-primary"
+                              className="text-accent-primary hover:text-accent-primary inline-flex items-center gap-1 text-xs font-semibold"
                               onClick={() => setOpenHealthDetailFor(null)}
                             >
                               Открыть раздел
@@ -357,7 +355,7 @@ export function OrganizationHealthActivityGrid({
               <div
                 role="radiogroup"
                 aria-label="Фильтр списка активности по участнику"
-                className="mb-0 flex w-fit items-center gap-1 rounded-md border border-border-default bg-bg-surface2 p-0.5"
+                className="border-border-default bg-bg-surface2 mb-0 flex w-fit items-center gap-1 rounded-md border p-0.5"
               >
                 {ACTIVITY_PARTICIPANTS.map((p) => {
                   const Icon = p.Icon ?? Users;
@@ -381,7 +379,7 @@ export function OrganizationHealthActivityGrid({
                       className={cn(
                         'flex size-7 items-center justify-center rounded-md transition-all',
                         activityParticipant === p.id
-                          ? cn('bg-white shadow-sm ring-1 ring-border-default', style.text)
+                          ? cn('ring-border-default bg-white shadow-sm ring-1', style.text)
                           : cn(style.bg, style.text, 'hover:opacity-90')
                       )}
                     >
@@ -411,7 +409,7 @@ export function OrganizationHealthActivityGrid({
                     <div
                       key={`${act.user}-${act.dateStr}-${i}`}
                       className={cn(
-                        'flex shrink-0 items-center gap-2 rounded-lg border px-2 py-1.5 text-[9px] text-text-secondary transition-colors',
+                        'text-text-secondary flex shrink-0 items-center gap-2 rounded-lg border px-2 py-1.5 text-[9px] transition-colors',
                         blocked
                           ? 'border-rose-100 bg-rose-50/30'
                           : 'border-border-subtle hover:bg-bg-surface2/80'
@@ -427,12 +425,12 @@ export function OrganizationHealthActivityGrid({
                         <ActIcon className="size-4" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <span className="block truncate font-semibold text-text-primary">
+                        <span className="text-text-primary block truncate font-semibold">
                           {act.user}
                         </span>
                         <span className="block truncate">{act.action}</span>
                       </div>
-                      <span className="shrink-0 text-[8px] font-bold uppercase text-text-muted">
+                      <span className="text-text-muted shrink-0 text-[8px] font-bold uppercase">
                         {act.time}
                       </span>
                       <div className="flex shrink-0 flex-wrap items-center justify-end gap-0.5">
@@ -445,7 +443,7 @@ export function OrganizationHealthActivityGrid({
                                   prev.filter((b) => activityKey(b) !== activityKey(act))
                                 )
                               }
-                              className="inline-flex items-center gap-1 rounded border border-border-default px-2 py-1 text-[9px] font-semibold text-text-secondary hover:bg-bg-surface2"
+                              className="border-border-default text-text-secondary hover:bg-bg-surface2 inline-flex items-center gap-1 rounded border px-2 py-1 text-[9px] font-semibold"
                               aria-label="Разблокировать"
                             >
                               <LockOpen className="size-3" />
@@ -453,7 +451,7 @@ export function OrganizationHealthActivityGrid({
                             </button>
                             <Link
                               href={`${getCorrectionHref(act)}?returnResolved=${encodeURIComponent(activityKey(act))}`}
-                              className="inline-flex items-center gap-1 rounded border border-accent-primary/30 px-2 py-1 text-[9px] font-semibold text-accent-primary hover:bg-accent-primary/10"
+                              className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 inline-flex items-center gap-1 rounded border px-2 py-1 text-[9px] font-semibold"
                             >
                               <Pencil className="size-3" />
                               Изменить
@@ -472,7 +470,7 @@ export function OrganizationHealthActivityGrid({
                                     e.preventDefault();
                                     setOpenCommentFor(openCommentFor === i ? null : i);
                                   }}
-                                  className="rounded p-1.5 text-text-muted hover:bg-accent-primary/10 hover:text-accent-primary"
+                                  className="text-text-muted hover:bg-accent-primary/10 hover:text-accent-primary rounded p-1.5"
                                   aria-label="Написать комментарий"
                                 >
                                   <MessageSquare className="size-3.5" />
@@ -483,14 +481,14 @@ export function OrganizationHealthActivityGrid({
                                 className="z-[200] w-64 rounded-xl p-3"
                                 onClick={(e) => e.stopPropagation()}
                               >
-                                <p className="mb-2 text-xs font-bold text-text-primary">
+                                <p className="text-text-primary mb-2 text-xs font-bold">
                                   Комментарий
                                 </p>
                                 <textarea
                                   value={openCommentFor === i ? commentText : ''}
                                   onChange={(e) => setCommentText(e.target.value)}
                                   placeholder="Введите комментарий..."
-                                  className="min-h-[60px] w-full resize-none rounded-lg border border-border-default px-2 py-1.5 text-xs"
+                                  className="border-border-default min-h-[60px] w-full resize-none rounded-lg border px-2 py-1.5 text-xs"
                                   rows={3}
                                 />
                                 <Button
@@ -513,7 +511,7 @@ export function OrganizationHealthActivityGrid({
                                     e.preventDefault();
                                     setOpenBlockFor(openBlockFor === i ? null : i);
                                   }}
-                                  className="rounded p-1.5 text-text-muted hover:bg-rose-50 hover:text-rose-600"
+                                  className="text-text-muted rounded p-1.5 hover:bg-rose-50 hover:text-rose-600"
                                   aria-label="Заблокировать действие"
                                 >
                                   <Lock className="size-3.5" />
@@ -524,7 +522,7 @@ export function OrganizationHealthActivityGrid({
                                 className="z-[200] w-56 rounded-xl p-3"
                                 onClick={(e) => e.stopPropagation()}
                               >
-                                <p className="mb-2 text-xs font-bold text-text-primary">
+                                <p className="text-text-primary mb-2 text-xs font-bold">
                                   Заблокировать действие?
                                 </p>
                                 <Button
@@ -552,12 +550,12 @@ export function OrganizationHealthActivityGrid({
                   );
                 })
               ) : (
-                <p className="py-4 text-[9px] text-text-muted">
+                <p className="text-text-muted py-4 text-[9px]">
                   Нет активности за выбранный период
                 </p>
               )}
             </div>
-            <div className="mt-auto flex shrink-0 justify-center border-t border-border-default pt-3">
+            <div className="border-border-default mt-auto flex shrink-0 justify-center border-t pt-3">
               <Button
                 asChild
                 variant="cta"

@@ -1,6 +1,5 @@
 'use client';
 
-
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import React, { useState } from 'react';
 import {
@@ -182,7 +181,12 @@ export function TechPackBuilder({ collectionId }: { collectionId?: string | null
       {/* Main Content */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-1 flex-col">
         <div className="px-4">
-          <TabsList className={cn(cabinetSurface.tabsList, 'mb-8 inline-flex h-10 rounded-2xl backdrop-blur md:w-auto shadow-inner')}>
+          <TabsList
+            className={cn(
+              cabinetSurface.tabsList,
+              'mb-8 inline-flex h-10 rounded-2xl shadow-inner backdrop-blur md:w-auto'
+            )}
+          >
             <TabsTrigger
               value="general"
               className="rounded-xl px-6 text-[9px] font-black uppercase tracking-widest transition-all data-[state=active]:bg-white data-[state=active]:shadow-lg"

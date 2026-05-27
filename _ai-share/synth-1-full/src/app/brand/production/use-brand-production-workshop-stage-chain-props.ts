@@ -38,24 +38,22 @@ export function useBrandProductionWorkshopStageChainProps(args: {
       collectionFlowKey,
       collectionId: collectionIdFromQuery,
       collectionLabel,
-      pimCollectionHref:
-        collectionQuery ? `${ROUTES.brand.products}${collectionQuery}` : ROUTES.brand.products,
-      workshopCollectionHref:
-        collectionQuery ? `/brand/production${collectionQuery}` : '/brand/production',
-      budgetActualHref:
-        collectionQuery
-          ? `${ROUTES.brand.budgetActual}${collectionQuery}`
-          : ROUTES.brand.budgetActual,
-      materialsHref:
-        collectionQuery
-          ? `${ROUTES.brand.materials}${collectionQuery}`
-          : ROUTES.brand.materials,
-      mediaHref:
-        collectionQuery ? `${ROUTES.brand.media}${collectionQuery}` : ROUTES.brand.media,
-      techPackHref:
-        collectionQuery
-          ? `${ROUTES.brand.productionTechPackStyle('new')}${collectionQuery}`
-          : ROUTES.brand.productionTechPackStyle('new'),
+      pimCollectionHref: collectionQuery
+        ? `${ROUTES.brand.products}${collectionQuery}`
+        : ROUTES.brand.products,
+      workshopCollectionHref: collectionQuery
+        ? `/brand/production${collectionQuery}`
+        : '/brand/production',
+      budgetActualHref: collectionQuery
+        ? `${ROUTES.brand.budgetActual}${collectionQuery}`
+        : ROUTES.brand.budgetActual,
+      materialsHref: collectionQuery
+        ? `${ROUTES.brand.materials}${collectionQuery}`
+        : ROUTES.brand.materials,
+      mediaHref: collectionQuery ? `${ROUTES.brand.media}${collectionQuery}` : ROUTES.brand.media,
+      techPackHref: collectionQuery
+        ? `${ROUTES.brand.productionTechPackStyle('new')}${collectionQuery}`
+        : ROUTES.brand.productionTechPackStyle('new'),
       liveProcessHref: hubHrefs.liveProcessHref,
       suppliesFloorHref: hubHrefs.suppliesFloorHref,
       sampleFloorHref: hubHrefs.sampleFloorHref,

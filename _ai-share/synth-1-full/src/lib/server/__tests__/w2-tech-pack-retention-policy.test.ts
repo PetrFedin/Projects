@@ -1,4 +1,7 @@
-import { w2TechPackMaxBytesEffective, w2TechPackRetentionDays } from '@/lib/server/w2-tech-pack-retention-policy';
+import {
+  w2TechPackMaxBytesEffective,
+  w2TechPackRetentionDays,
+} from '@/lib/server/w2-tech-pack-retention-policy';
 import { MAX_W2_TECHPACK_BYTES } from '@/lib/server/w2-tech-pack-remote-s3';
 
 describe('w2-tech-pack-retention-policy', () => {

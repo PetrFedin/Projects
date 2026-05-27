@@ -3,9 +3,7 @@
 import { useEffect, type Dispatch, type SetStateAction } from 'react';
 import type { DossierSection } from '@/lib/production/dossier-readiness-engine';
 import type { Workshop2TzSignoffSectionKey } from '@/lib/production/workshop2-dossier-phase1.types';
-import {
-  W2_VISUAL_SUBPAGE_ANCHORS,
-} from '@/lib/production/workshop2-visual-section-warnings';
+import { W2_VISUAL_SUBPAGE_ANCHORS } from '@/lib/production/workshop2-visual-section-warnings';
 import { W2_VISUALS_SKETCH_ANCHOR_ID } from '@/lib/production/workshop2-material-bom-sketch-strip';
 import { TZ_TAB_SECTIONS } from '@/components/brand/production/workshop2-phase1-dossier-panel-dossier-constants';
 

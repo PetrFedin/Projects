@@ -136,7 +136,8 @@ export function useProductionPageMainHandlers(args: {
 
   const getContextTitle = () => {
     if (page.selectedContext === 'brand') return 'Весь бренд';
-    if (page.selectedCollectionIds.length > 1) return `Выбрано: ${page.selectedCollectionIds.length}`;
+    if (page.selectedCollectionIds.length > 1)
+      return `Выбрано: ${page.selectedCollectionIds.length}`;
     if (page.selectedCollectionIds.length === 1) {
       const coll = page.collections.find((c: any) => c.id === page.selectedCollectionIds[0]);
       return coll ? `Коллекция: ${coll.name}` : 'Дроп';
@@ -162,6 +163,4 @@ export function useProductionPageMainHandlers(args: {
   };
 }
 
-export type ProductionPageMainHandlersSnapshot = ReturnType<
-  typeof useProductionPageMainHandlers
->;
+export type ProductionPageMainHandlersSnapshot = ReturnType<typeof useProductionPageMainHandlers>;

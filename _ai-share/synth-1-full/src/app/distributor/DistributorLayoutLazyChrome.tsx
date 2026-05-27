@@ -6,9 +6,7 @@ import { Briefcase } from 'lucide-react';
 export { Briefcase as DistributorHubIcon };
 
 function SidebarSkeleton() {
-  return (
-    <div className="mx-3 my-4 h-24 animate-pulse rounded-md bg-muted/40" aria-hidden />
-  );
+  return <div className="mx-3 my-4 h-24 animate-pulse rounded-md bg-muted/40" aria-hidden />;
 }
 
 export const DistributorLayoutSidebarPanel = dynamic(

@@ -29,9 +29,9 @@ export function Workshop2ChangeRequestsPanel({ dossier, setDossier, tzWriteDisab
   };
 
   return (
-    <div className="space-y-4 rounded-xl border border-border-subtle bg-bg-surface p-4">
+    <div className="border-border-subtle bg-bg-surface space-y-4 rounded-xl border p-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-text-primary">Запросы на изменение (CR)</h3>
+        <h3 className="text-text-primary text-sm font-semibold">Запросы на изменение (CR)</h3>
         <Button
           type="button"
           size="sm"
@@ -44,14 +44,19 @@ export function Workshop2ChangeRequestsPanel({ dossier, setDossier, tzWriteDisab
       </div>
 
       {crs.length === 0 ? (
-        <p className="text-xs text-text-muted">Нет активных запросов на изменение.</p>
+        <p className="text-text-muted text-xs">Нет активных запросов на изменение.</p>
       ) : (
         <div className="space-y-2">
           {crs.map((cr) => (
-            <div key={cr.id} className="flex items-center justify-between rounded-lg border border-border-default p-3 text-xs">
+            <div
+              key={cr.id}
+              className="border-border-default flex items-center justify-between rounded-lg border p-3 text-xs"
+            >
               <div>
-                <p className="font-medium text-text-primary">{cr.description}</p>
-                <p className="text-text-muted mt-1">От: {cr.requestedBy} · {new Date(cr.createdAt).toLocaleString()}</p>
+                <p className="text-text-primary font-medium">{cr.description}</p>
+                <p className="text-text-muted mt-1">
+                  От: {cr.requestedBy} · {new Date(cr.createdAt).toLocaleString()}
+                </p>
               </div>
               <div>
                 <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-medium text-amber-800">

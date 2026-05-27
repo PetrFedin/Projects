@@ -34,7 +34,7 @@ export async function listEdoDocuments(params?: EdoListParams): Promise<EDODocum
     });
     if (!res.ok) throw new Error(`EDO API: ${res.status}`);
     const data = (await res.json()) as EDODocument[] | { documents?: EDODocument[] };
-    return Array.isArray(data) ? data : data.documents ?? [];
+    return Array.isArray(data) ? data : (data.documents ?? []);
   } catch {
     return [];
   }

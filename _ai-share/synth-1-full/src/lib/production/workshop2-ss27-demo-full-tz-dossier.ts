@@ -47,6 +47,13 @@ export function isSs27MenCoatFullTzDemoArticle(
   );
 }
 
+/** Включён ли автоподмешивание полного демо-ТЗ SS27 (E2E/демо по умолчанию). */
+export function isSs27FullTzDemoAutoMergeEnabled(): boolean {
+  const raw = process.env.NEXT_PUBLIC_W2_SS27_FULL_TZ_DEMO;
+  if (raw === '0' || raw === 'false') return false;
+  return true;
+}
+
 export function isWorkshop2DossierTzEmpty(d: Workshop2DossierPhase1 | null | undefined): boolean {
   if (!d) return true;
   const hasBody =
@@ -185,7 +192,11 @@ export function buildWorkshop2Ss27MenCoat01FullTzDemoDossier(
     },
     isVerifiedByDesigner: true,
     isVerifiedByTechnologist: true,
-    designerSignoff: { by: 'Виктория Белова', at: '2026-04-03T16:00:00.000Z', signatureDigest: 'demo-designer-ss27' },
+    designerSignoff: {
+      by: 'Виктория Белова',
+      at: '2026-04-03T16:00:00.000Z',
+      signatureDigest: 'demo-designer-ss27',
+    },
     technologistSignoff: {
       by: 'Артём Новиков',
       at: '2026-04-03T16:05:00.000Z',
@@ -207,6 +218,7 @@ export function mergeSs27DemoDossierIfNeeded(
   leaf: HandbookCategoryLeaf | null,
   updatedBy: string
 ): Workshop2DossierPhase1 | null {
+  if (!isSs27FullTzDemoAutoMergeEnabled()) return null;
   if (!isSs27MenCoatFullTzDemoArticle(collectionId, article)) return null;
   if (!isWorkshop2DossierTzEmpty(stored)) return null;
   return buildWorkshop2Ss27MenCoat01FullTzDemoDossier(leaf, updatedBy);

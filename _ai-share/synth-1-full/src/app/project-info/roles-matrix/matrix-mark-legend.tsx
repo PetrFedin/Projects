@@ -23,7 +23,7 @@ export function MatrixMarkLegend() {
             <TooltipTrigger asChild>
               <button
                 type="button"
-                className="min-w-0 max-w-none cursor-help rounded-sm text-left text-inherit underline decoration-dotted decoration-slate-400 underline-offset-[3px] transition-colors hover:text-slate-900 hover:decoration-slate-600"
+                className="min-w-0 max-w-none cursor-help rounded-sm text-left text-inherit underline decoration-slate-400 decoration-dotted underline-offset-[3px] transition-colors hover:text-slate-900 hover:decoration-slate-600"
               >
                 Сценарии внутри кластера сайдбара
               </button>

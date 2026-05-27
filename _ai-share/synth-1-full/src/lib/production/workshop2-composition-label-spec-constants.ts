@@ -57,12 +57,24 @@ export const W2_COMPOSITION_LABEL_SIZE_PRESETS: {
   heightMm: number;
   hint: string;
 }[] = [
-  { id: 'swing_15x50', label: 'Вшивная 15×50', widthMm: 15, heightMm: 50, hint: 'Узкая, швы/воротник' },
+  {
+    id: 'swing_15x50',
+    label: 'Вшивная 15×50',
+    widthMm: 15,
+    heightMm: 50,
+    hint: 'Узкая, швы/воротник',
+  },
   { id: 'swing_20x60', label: 'Вшивная 20×60', widthMm: 20, heightMm: 60, hint: 'Частый стандарт' },
   { id: 'swing_25x80', label: 'Вшивная 25×80', widthMm: 25, heightMm: 80, hint: 'Верхняя одежда' },
   { id: 'care_40x90', label: 'Care 40×90', widthMm: 40, heightMm: 90, hint: 'Состав + уход' },
   { id: 'care_50x110', label: 'Care 50×110', widthMm: 50, heightMm: 110, hint: 'Расширенный блок' },
-  { id: 'hang_30x120', label: 'Подвесная 30×120', widthMm: 30, heightMm: 120, hint: 'Длинная бирка' },
+  {
+    id: 'hang_30x120',
+    label: 'Подвесная 30×120',
+    widthMm: 30,
+    heightMm: 120,
+    hint: 'Длинная бирка',
+  },
 ];
 
 /** Справочник волокон для конструктора (RU/EN для мультиязычного макета). */
@@ -122,9 +134,17 @@ export const W2_COMPOSITION_LABEL_FONT_PRESETS: {
   cssStack: string;
 }[] = [
   { id: '', label: 'По умолчанию UI', cssStack: 'system-ui, sans-serif' },
-  { id: 'system_sans', label: 'Sans (system)', cssStack: 'system-ui, Segoe UI, Roboto, sans-serif' },
+  {
+    id: 'system_sans',
+    label: 'Sans (system)',
+    cssStack: 'system-ui, Segoe UI, Roboto, sans-serif',
+  },
   { id: 'system_serif', label: 'Serif', cssStack: 'Georgia, Times New Roman, serif' },
-  { id: 'condensed', label: 'Condensed', cssStack: 'Arial Narrow, Helvetica Neue Condensed, sans-serif' },
+  {
+    id: 'condensed',
+    label: 'Condensed',
+    cssStack: 'Arial Narrow, Helvetica Neue Condensed, sans-serif',
+  },
   { id: 'custom', label: 'Своя гарнитура', cssStack: 'system-ui, sans-serif' },
 ];
 

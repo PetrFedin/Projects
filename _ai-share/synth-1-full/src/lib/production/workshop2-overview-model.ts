@@ -305,7 +305,8 @@ function buildTopBlockers(
 
   for (const stage of routeStages) {
     if (stage.id === 'overview') continue;
-    if (workshop2PipelineLaneForArticleMainTab(stage.id) === 'development' || !stage.blocker) continue;
+    if (workshop2PipelineLaneForArticleMainTab(stage.id) === 'development' || !stage.blocker)
+      continue;
     pushUniqueBlocker(blockers, {
       id: `${stage.id}-blocker`,
       stage: stage.id,

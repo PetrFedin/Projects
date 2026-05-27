@@ -34,8 +34,7 @@ function buildReleaseProbeChips(
   const out: ProbeChip[] = [];
 
   if (kinds.includes('mes')) {
-    const configured =
-      wave2.floorMes.configured || isWorkshop2FloorMesConfigured();
+    const configured = wave2.floorMes.configured || isWorkshop2FloorMesConfigured();
     out.push({
       id: 'mes',
       labelRu: configured ? (wave2.floorMes.live ? 'MES live' : 'MES cfg') : 'MES journal',
@@ -44,8 +43,7 @@ function buildReleaseProbeChips(
     });
   }
   if (kinds.includes('erp')) {
-    const configured =
-      wave3?.erpPoCreate.configured ?? isWorkshop2LiveErpConfigured();
+    const configured = wave3?.erpPoCreate.configured ?? isWorkshop2LiveErpConfigured();
     const live = wave3?.erpPoCreate.live ?? false;
     out.push({
       id: 'erp',
@@ -102,10 +100,10 @@ export function Workshop2ReleaseIntegrationProbeRow({ kinds, testId }: Props) {
           title={c.title}
           className={
             c.tone === 'green'
-              ? 'border-emerald-300 bg-emerald-50 text-emerald-900 text-[9px]'
+              ? 'border-emerald-300 bg-emerald-50 text-[9px] text-emerald-900'
               : c.tone === 'red'
-                ? 'border-amber-300 bg-amber-50 text-amber-900 text-[9px]'
-                : 'border-slate-200 bg-slate-50 text-slate-600 text-[9px]'
+                ? 'border-amber-300 bg-amber-50 text-[9px] text-amber-900'
+                : 'border-slate-200 bg-slate-50 text-[9px] text-slate-600'
           }
           data-testid={`workshop2-release-probe-${c.id}`}
         >

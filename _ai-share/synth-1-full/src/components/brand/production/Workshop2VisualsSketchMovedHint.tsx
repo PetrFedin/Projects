@@ -21,8 +21,8 @@ export function Workshop2VisualsSketchMovedHint({ onOpenSketch }: Props) {
         <div className="min-w-0 flex-1 space-y-1">
           <p className="text-text-primary text-sm font-semibold">Скетч перенесён в контур ТЗ</p>
           <p className="text-text-secondary text-xs leading-snug">
-            Редактор меток и листов — в «Конструкция» → разверните «Табель мер: хаб ТЗ» и прокрутите к
-            блоку скетча (тот же якорь для переходов из материалов и «до 9»).
+            Редактор меток и листов — в «Конструкция» → разверните «Табель мер: хаб ТЗ» и прокрутите
+            к блоку скетча (тот же якорь для переходов из материалов и «до 9»).
           </p>
           <Button
             type="button"

@@ -2,9 +2,7 @@ import type { CollectionChainDeepLinkHrefs } from '@/lib/production/collection-c
 import { ROUTES } from '@/lib/routes';
 
 export function buildCollectionIdQuery(collectionIdFromQuery: string): string {
-  return collectionIdFromQuery
-    ? `?collectionId=${encodeURIComponent(collectionIdFromQuery)}`
-    : '';
+  return collectionIdFromQuery ? `?collectionId=${encodeURIComponent(collectionIdFromQuery)}` : '';
 }
 
 export type WorkshopFloorTabHrefs = {

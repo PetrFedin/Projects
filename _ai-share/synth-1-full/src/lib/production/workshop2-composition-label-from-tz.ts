@@ -55,7 +55,10 @@ function uniqueNonEmpty(lines: string[]): string[] {
   return out;
 }
 
-function assignmentLinesForIds(dossier: Workshop2DossierPhase1, attributeIds: readonly string[]): string[] {
+function assignmentLinesForIds(
+  dossier: Workshop2DossierPhase1,
+  attributeIds: readonly string[]
+): string[] {
   const acc: string[] = [];
   for (const id of attributeIds) {
     const a = dossier.assignments.find((x) => x.attributeId === id);
@@ -68,7 +71,9 @@ function assignmentLinesForIds(dossier: Workshop2DossierPhase1, attributeIds: re
 }
 
 /** Снимок данных ТЗ, из которых собирается текст бирки (mat/composition, уход, маркировка). */
-export function buildCompositionLabelTzSnapshot(dossier: Workshop2DossierPhase1): Workshop2CompositionLabelTzSnapshot {
+export function buildCompositionLabelTzSnapshot(
+  dossier: Workshop2DossierPhase1
+): Workshop2CompositionLabelTzSnapshot {
   const rows = parseMatRowsFromDossier(dossier, matParameterLabelMap());
   const fiberLines = rows.map((r) => `${r.label} — ${r.pct}%`);
   const careLines = assignmentLinesForIds(dossier, CARE_ATTRIBUTE_IDS);
@@ -102,7 +107,8 @@ export function compositionLabelSpecMissingSections(
 
   const snap = dossier ? buildCompositionLabelTzSnapshot(dossier) : null;
   if (s.includeFiberCompositionFromTz) {
-    if (!snap?.hasMatData && !compositionLabelConstructorFiberHasRows(s)) needs.push('fiber_tz_gap');
+    if (!snap?.hasMatData && !compositionLabelConstructorFiberHasRows(s))
+      needs.push('fiber_tz_gap');
   }
   if (compositionLabelConstructorFiberHasRows(s) && !compositionLabelFiberRowsSumIsHundred(s)) {
     needs.push('fiber_constructor_sum');
@@ -164,7 +170,11 @@ export function compositionLabelWorkflowProgress(
     need.has('manufacturer_tz_gap')
   );
   const step2Done = !(need.has('fiber_constructor_sum') || need.has('care_tz_gap'));
-  const step3Done = !(need.has('layout_sheets') || need.has('reverse_copy') || need.has('manufacturer_tz_gap'));
+  const step3Done = !(
+    need.has('layout_sheets') ||
+    need.has('reverse_copy') ||
+    need.has('manufacturer_tz_gap')
+  );
   const step4Done = !(sourcesTzAlert || fiberSumAlert);
 
   const stepDone: [boolean, boolean, boolean, boolean] = [
@@ -204,7 +214,9 @@ export function compositionLabelDraftPreviewLines(
     lines.push(...constructorFiberLines);
     const pctSum = compositionLabelConstructorFiberPercentSum(s);
     if (Math.abs(pctSum - 100) >= 0.05) {
-      lines.push(`(контроль суммы долей: ${Math.round(pctSum * 100) / 100}% — для бирки ожидается 100%)`);
+      lines.push(
+        `(контроль суммы долей: ${Math.round(pctSum * 100) / 100}% — для бирки ожидается 100%)`
+      );
     }
   } else if (s.includeFiberCompositionFromTz) {
     if (snap?.fiberLines.length) {
@@ -226,7 +238,9 @@ export function compositionLabelDraftPreviewLines(
     if (s.includeCareSymbolsFromTz && snap?.careLines.length) {
       lines.push(...snap.careLines.map((x) => `ТЗ: ${x}`));
     } else if (s.includeCareSymbolsFromTz) {
-      lines.push('ТЗ: поля ухода пусты — укажите класс стирки / температуру или знаки в конструкторе.');
+      lines.push(
+        'ТЗ: поля ухода пусты — укажите класс стирки / температуру или знаки в конструкторе.'
+      );
     }
     const symPick = (s.careSymbolIds ?? [])
       .map((id) => W2_COMPOSITION_LABEL_CARE_SYMBOL_CATALOG.find((c) => c.id === id)?.label)
@@ -258,7 +272,9 @@ export function compositionLabelDraftPreviewLines(
       !brandTrim &&
       originLines.length === 0
     ) {
-      lines.push('ТЗ: маркировка/упаковка/штрихкод не дали строк — заполните «Текст бренда на лице» или пресет страны.');
+      lines.push(
+        'ТЗ: маркировка/упаковка/штрихкод не дали строк — заполните «Текст бренда на лице» или пресет страны.'
+      );
     }
     if (brandTrim) {
       lines.push(...brandTrim.split('\n').filter(Boolean));

@@ -4,7 +4,10 @@ import {
   w2TechPackRemoteUploadServerConfigured,
 } from '@/lib/server/w2-tech-pack-remote-s3';
 import { getUnknownErrorDetail } from '@/lib/unknown-error-message';
-import { assertTechPackSizeOk, isAllowedTechPackContentTypeForRemote } from '@/lib/server/tech-pack-upload-sanity';
+import {
+  assertTechPackSizeOk,
+  isAllowedTechPackContentTypeForRemote,
+} from '@/lib/server/tech-pack-upload-sanity';
 import { logW2TechPackOps } from '@/lib/server/w2-tech-pack-ops-telemetry';
 import { verifyW2TechPackWriteRequest } from '@/lib/server/w2-tech-pack-api-auth';
 
@@ -31,7 +34,9 @@ export async function POST(req: NextRequest) {
   const articleId = String(b.articleId ?? '').trim();
   const attachmentId = String(b.attachmentId ?? '').trim();
   const fileName = String(b.fileName ?? 'file.bin');
-  const contentType = String(b.contentType ?? 'application/octet-stream').split(';')[0]!.trim();
+  const contentType = String(b.contentType ?? 'application/octet-stream')
+    .split(';')[0]!
+    .trim();
   const sizeBytes = Number(b.sizeBytes);
   const contentSha256Hex = String(b.contentSha256Hex ?? '')
     .toLowerCase()

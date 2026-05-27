@@ -55,7 +55,10 @@ export async function createDrop(
     const err = (await res.json().catch(() => ({}))) as { detail?: string };
     throw new Error(err.detail || `Failed to create drop: ${res.status}`);
   }
-  const json = (await res.json()) as { data?: { id: number; status: string } } & Record<string, unknown>;
+  const json = (await res.json()) as { data?: { id: number; status: string } } & Record<
+    string,
+    unknown
+  >;
   return json.data ?? (json as { id: number; status: string });
 }
 
@@ -99,7 +102,10 @@ export async function saveMerchandiseGrid(
     const err = (await res.json().catch(() => ({}))) as { detail?: string };
     throw new Error(err.detail || `Failed to save merchandise grid: ${res.status}`);
   }
-  const json = (await res.json()) as { data?: { id: number; status: string } } & Record<string, unknown>;
+  const json = (await res.json()) as { data?: { id: number; status: string } } & Record<
+    string,
+    unknown
+  >;
   return json.data ?? (json as { id: number; status: string });
 }
 

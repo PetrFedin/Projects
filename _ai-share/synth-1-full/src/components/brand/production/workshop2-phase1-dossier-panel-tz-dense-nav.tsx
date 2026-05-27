@@ -47,7 +47,7 @@ export function Workshop2DossierTzDenseSectionNav({
   return (
     <div id={W2_PASSPORT_SUBPAGE_ANCHORS.denseView} className="scroll-mt-24">
       <div className="flex flex-nowrap items-stretch gap-2">
-        <div className="flex min-h-9 min-w-0 w-full flex-1 flex-nowrap gap-0.5 overflow-x-auto rounded-xl border border-border-subtle bg-bg-surface2 p-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="border-border-subtle bg-bg-surface2 flex min-h-9 w-full min-w-0 flex-1 flex-nowrap gap-0.5 overflow-x-auto rounded-xl border p-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {dossierNavPrimarySections.map((s) => {
             const isActive = activeSection === s.id;
             const primaryForView =
@@ -62,22 +62,28 @@ export function Workshop2DossierTzDenseSectionNav({
               <button
                 key={s.id}
                 type="button"
-                title={
-                  [!primaryForView ? 'Вторично для выбранного режима ТЗ — откройте при необходимости' : null, SECTION_TAB_ROLE_HINT[s.id]]
-                    .filter(Boolean)
-                    .join(' ')
-                }
+                title={[
+                  !primaryForView
+                    ? 'Вторично для выбранного режима ТЗ — откройте при необходимости'
+                    : null,
+                  SECTION_TAB_ROLE_HINT[s.id],
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
                 aria-label={
                   signed ? `${s.label}: секция подписана` : `${s.label}: заполнено ${pct}%`
                 }
                 onClick={() => onSelectSection(s.id)}
                 className={cn(
                   cabinetSurface.tabsTrigger,
-                  'h-8 min-h-8 min-w-0 flex-1 basis-0 justify-center gap-1 border px-1.5 text-center text-[10px] font-semibold leading-tight !normal-case transition-colors',
-                  isActive && 'border-accent-primary/45 bg-accent-primary/5 text-accent-primary shadow-none',
+                  'h-8 min-h-8 min-w-0 flex-1 basis-0 justify-center gap-1 border px-1.5 text-center text-[10px] font-semibold !normal-case leading-tight transition-colors',
+                  isActive &&
+                    'border-accent-primary/45 bg-accent-primary/5 text-accent-primary shadow-none',
                   !isActive &&
                     'border-border-subtle/90 text-text-secondary hover:border-border-default hover:text-text-primary',
-                  !primaryForView && !isActive && 'opacity-70 ring-1 ring-dashed ring-border-default/80'
+                  !primaryForView &&
+                    !isActive &&
+                    'ring-dashed ring-border-default/80 opacity-70 ring-1'
                 )}
               >
                 <span className="flex min-w-0 items-center justify-center gap-1">
@@ -104,7 +110,9 @@ export function Workshop2DossierTzDenseSectionNav({
               </Button>
             </PopoverTrigger>
             <PopoverContent align="start" className="w-56 p-2">
-              <p className="text-text-secondary mb-1.5 text-[10px] font-semibold">Доп. разделы ТЗ</p>
+              <p className="text-text-secondary mb-1.5 text-[10px] font-semibold">
+                Доп. разделы ТЗ
+              </p>
               <div className="flex flex-col gap-1">
                 {dossierNavSecondarySections.map((s) => {
                   const isActive = activeSection === s.id;

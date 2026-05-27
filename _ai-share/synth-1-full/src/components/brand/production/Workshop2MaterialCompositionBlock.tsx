@@ -215,7 +215,9 @@ export function Workshop2MaterialCompositionBlock({
                     <Input
                       className={cn(
                         'h-7 w-12 px-1 text-[11px] tabular-nums',
-                        sum !== 100 && rows.length > 0 && 'border-amber-400 ring-1 ring-amber-200/80'
+                        sum !== 100 &&
+                          rows.length > 0 &&
+                          'border-amber-400 ring-1 ring-amber-200/80'
                       )}
                       inputMode="numeric"
                       value={String(pctByPid[r.parameterId] ?? 0)}

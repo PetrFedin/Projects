@@ -59,18 +59,18 @@ export function Workshop2ArticleWorkspaceTabPanels({
       return (
         <div className="space-y-3">
           {ribbon}
-        <SectionFlashWrap id={W2_ARTICLE_SECTION_DOM.supply} flashSectionId={flashSectionId}>
+          <SectionFlashWrap id={W2_ARTICLE_SECTION_DOM.supply} flashSectionId={flashSectionId}>
             <Workshop2ArticleSupplyPanel dossier={dossier} />
-        </SectionFlashWrap>
+          </SectionFlashWrap>
         </div>
       );
     case 'fit':
       return (
         <div className="space-y-3">
           {ribbon}
-        <SectionFlashWrap id={W2_ARTICLE_SECTION_DOM.fit} flashSectionId={flashSectionId}>
+          <SectionFlashWrap id={W2_ARTICLE_SECTION_DOM.fit} flashSectionId={flashSectionId}>
             <Workshop2ArticleFitGoldPanel dossier={dossier} />
-        </SectionFlashWrap>
+          </SectionFlashWrap>
         </div>
       );
     case 'plan':
@@ -89,9 +89,9 @@ export function Workshop2ArticleWorkspaceTabPanels({
       return (
         <div className="space-y-3">
           {ribbon}
-        <SectionFlashWrap id={W2_ARTICLE_SECTION_DOM.release} flashSectionId={flashSectionId}>
+          <SectionFlashWrap id={W2_ARTICLE_SECTION_DOM.release} flashSectionId={flashSectionId}>
             <Workshop2ArticleReleasePanel dossier={dossier} />
-        </SectionFlashWrap>
+          </SectionFlashWrap>
           <Workshop2LogisticsPanel dossier={dossier} />
           <Workshop2FactoryERPIntegrationPanel articleId={articleIdStr} dossier={dossier} />
         </div>
@@ -100,9 +100,9 @@ export function Workshop2ArticleWorkspaceTabPanels({
       return (
         <div className="space-y-3">
           {ribbon}
-        <SectionFlashWrap id={W2_ARTICLE_SECTION_DOM.qc} flashSectionId={flashSectionId}>
+          <SectionFlashWrap id={W2_ARTICLE_SECTION_DOM.qc} flashSectionId={flashSectionId}>
             <Workshop2ArticleQcPanel dossier={dossier} />
-        </SectionFlashWrap>
+          </SectionFlashWrap>
           <Workshop2AQLInspectionPanel dossier={dossier} />
         </div>
       );
@@ -110,9 +110,9 @@ export function Workshop2ArticleWorkspaceTabPanels({
       return (
         <div className="space-y-3">
           {ribbon}
-        <SectionFlashWrap id={W2_ARTICLE_SECTION_DOM.stock} flashSectionId={flashSectionId}>
+          <SectionFlashWrap id={W2_ARTICLE_SECTION_DOM.stock} flashSectionId={flashSectionId}>
             <Workshop2ArticleStockPanel dossier={dossier} />
-        </SectionFlashWrap>
+          </SectionFlashWrap>
         </div>
       );
     case 'vault':

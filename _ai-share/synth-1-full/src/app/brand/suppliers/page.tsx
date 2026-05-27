@@ -147,7 +147,10 @@ export default function SuppliersPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="suppliers" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+        <TabsContent
+          value="suppliers"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+        >
           <div className="flex flex-wrap gap-2">
             {['all', 'Ткани', 'Фурнитура', 'CMT'].map((t) => (
               <Button
@@ -254,7 +257,10 @@ export default function SuppliersPage() {
         <TabsContent value="rfq" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
           {tab === 'rfq' && <SupplierRfqContent />}
         </TabsContent>
-        <TabsContent value="sourcing-live" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+        <TabsContent
+          value="sourcing-live"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+        >
           {tab === 'sourcing-live' && <SourcingLiveContent />}
         </TabsContent>
       </Tabs>

@@ -15,7 +15,7 @@ export default function DPPPage() {
   }, [id]);
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="pb-16 px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent maxWidth="5xl" className="px-4 py-6 pb-16 pb-24 sm:px-6">
       <DigitalProductPassport product={product} />
     </CabinetPageContent>
   );

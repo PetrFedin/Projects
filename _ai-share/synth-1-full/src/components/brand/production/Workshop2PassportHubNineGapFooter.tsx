@@ -5,8 +5,7 @@ import { Workshop2NineGapRelatedFooterShell } from '@/components/brand/productio
 import { W2_PASSPORT_SUBPAGE_ANCHORS } from '@/lib/production/workshop2-passport-check';
 import type { Workshop2TzSignoffSectionKey } from '@/lib/production/workshop2-dossier-phase1.types';
 
-const HINT =
-  'Опорные поля SKU и ветка L1–L3; визуал, BOM и конструкция наследуют тот же артикул.';
+const HINT = 'Опорные поля SKU и ветка L1–L3; визуал, BOM и конструкция наследуют тот же артикул.';
 
 type Props = {
   matSketchBomGapRefs: readonly string[];

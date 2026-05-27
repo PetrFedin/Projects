@@ -127,10 +127,7 @@ export default function ShopB2BOrderDetailsPage({
     [operationalOrders]
   );
   const orderFromList = useMemo(
-    () =>
-      ordersWithPayment.find(
-        (o) => getWholesaleOrderIdFromB2BOrder(o) === params.orderId
-      ),
+    () => ordersWithPayment.find((o) => getWholesaleOrderIdFromB2BOrder(o) === params.orderId),
     [ordersWithPayment, params.orderId]
   );
 

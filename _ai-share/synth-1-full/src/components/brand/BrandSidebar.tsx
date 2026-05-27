@@ -10,10 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { useNavPins } from '@/hooks/use-nav-pins';
-import {
-  NAV_GROUP_CLUSTERS,
-  type brandNavGroups,
-} from '@/lib/data/brand-navigation';
+import { NAV_GROUP_CLUSTERS, type brandNavGroups } from '@/lib/data/brand-navigation';
 import {
   BRAND_ARCHIVE_GROUP_ORDER,
   BRAND_CORE_GROUP_ORDER,
@@ -57,9 +54,7 @@ function visibleSubsections(subs: NavSubsection[] | undefined): NavSubsection[] 
   return (subs ?? []).filter((s) => !s.hideInSidebar);
 }
 
-function hasSubsections(
-  link: NavLink
-): link is NavLink & { subsections: NavSubsection[] } {
+function hasSubsections(link: NavLink): link is NavLink & { subsections: NavSubsection[] } {
   return !!(link as { subsections?: unknown[] }).subsections?.length;
 }
 
@@ -252,7 +247,10 @@ export function BrandSidebar({
       const next = new Set(prev);
       let changed = false;
       for (const g of groups) {
-        if (!next.has(g.id) && (g as NavGroup & { clusterId?: string }).clusterId === 'syntha-cores') {
+        if (
+          !next.has(g.id) &&
+          (g as NavGroup & { clusterId?: string }).clusterId === 'syntha-cores'
+        ) {
           next.add(g.id);
           changed = true;
         }
@@ -434,7 +432,9 @@ export function BrandSidebar({
                                                       <ChIcon
                                                         className={cn(
                                                           'size-3.5 shrink-0',
-                                                          chActive ? 'text-white' : 'text-text-muted'
+                                                          chActive
+                                                            ? 'text-white'
+                                                            : 'text-text-muted'
                                                         )}
                                                       />
                                                     ) : null}
@@ -469,7 +469,9 @@ export function BrandSidebar({
                                               )}
                                             />
                                           ) : null}
-                                          <span className="min-w-0 flex-1 truncate">{sub.label}</span>
+                                          <span className="min-w-0 flex-1 truncate">
+                                            {sub.label}
+                                          </span>
                                         </Link>
                                       );
                                     })}

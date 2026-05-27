@@ -13,9 +13,7 @@ const EXAMPLE_PASSPORT_IDS = ['PASS-9921', 'PASS-9922'];
 export default function ClientPassportHubPage() {
   return (
     <div className="container max-w-2xl space-y-6 py-6 pb-24">
-      <ClientCabinetSectionHeader
-        description="История и аутентичность вещей. Выберите паспорт или введите ID."
-      />
+      <ClientCabinetSectionHeader description="История и аутентичность вещей. Выберите паспорт или введите ID." />
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">

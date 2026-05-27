@@ -56,7 +56,10 @@ export function Workshop2DossierViewProfileQuickAside({
                 size="sm"
                 className="border-accent-primary/25 text-text-primary h-7 bg-white text-[10px]"
                 onClick={() =>
-                  jumpToTzSectionAnchor('construction', W2_CONSTRUCTION_SUBPAGE_ANCHORS.patternFiles)
+                  jumpToTzSectionAnchor(
+                    'construction',
+                    W2_CONSTRUCTION_SUBPAGE_ANCHORS.patternFiles
+                  )
                 }
               >
                 Лекала / CAD

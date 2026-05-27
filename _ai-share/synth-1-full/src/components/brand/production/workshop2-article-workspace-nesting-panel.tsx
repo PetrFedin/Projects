@@ -27,7 +27,7 @@ export function Workshop2ArticleNestingPanel({
           <div className="min-w-0 flex-1 space-y-1">
             <div className="flex items-center gap-2">
               <h2 className="text-text-primary text-base font-semibold">Раскладка (Nesting)</h2>
-              <span className="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-medium">
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600">
                 Ответственный: Конструктор / Технолог
               </span>
             </div>
@@ -36,29 +36,28 @@ export function Workshop2ArticleNestingPanel({
             </p>
           </div>
         </div>
-        <span
-          className="border-border-default bg-bg-surface2 text-text-secondary shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px]"
-        >
+        <span className="border-border-default bg-bg-surface2 text-text-secondary shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px]">
           {dataMode === 'http' ? 'API' : 'local'}
         </span>
       </div>
 
-      <div className="border-border-subtle flex flex-col gap-1.5 border-t border-dotted pt-2.5 mt-4">
+      <div className="border-border-subtle mt-4 flex flex-col gap-1.5 border-t border-dotted pt-2.5">
         <div className="flex flex-wrap gap-1.5">
-          <span className="bg-bg-surface2/70 text-text-primary max-w-full rounded border border-border-subtle px-2 py-1 text-[10px] leading-snug">
-            <span className="text-text-muted font-bold">Суть</span> · Артефактов: {nesting.artifacts.length}
+          <span className="bg-bg-surface2/70 text-text-primary border-border-subtle max-w-full rounded border px-2 py-1 text-[10px] leading-snug">
+            <span className="text-text-muted font-bold">Суть</span> · Артефактов:{' '}
+            {nesting.artifacts.length}
           </span>
-          <span className="text-text-primary max-w-full rounded border border-border-subtle bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
+          <span className="text-text-primary border-border-subtle max-w-full rounded border bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
             <span className="text-text-muted font-bold">Гот.</span> ·{' '}
             {nesting.artifacts.length > 0 ? 'Есть артефакты раскладки' : 'Не начато'}
           </span>
         </div>
       </div>
 
-      <div className="min-w-0 space-y-4 mt-4">
+      <div className="mt-4 min-w-0 space-y-4">
         <div className="flex items-center justify-between border-b pb-2">
-          <p className="text-text-primary text-sm font-semibold flex items-center gap-1.5">
-            <LucideIcons.FileArchive className="w-4 h-4 text-slate-400" />
+          <p className="text-text-primary flex items-center gap-1.5 text-sm font-semibold">
+            <LucideIcons.FileArchive className="h-4 w-4 text-slate-400" />
             Артефакты
           </p>
           <Button
@@ -84,10 +83,10 @@ export function Workshop2ArticleNestingPanel({
         </div>
 
         {nesting.artifacts.length === 0 ? (
-          <div className="border-2 border-dashed border-border-default rounded-lg p-8 text-center bg-slate-50/50">
-            <LucideIcons.UploadCloud className="mx-auto h-8 w-8 text-slate-400 mb-3" />
-            <p className="text-text-primary text-sm font-medium mb-1">Загрузите файлы раскладки</p>
-            <p className="text-text-secondary text-xs mb-4">Поддерживаются форматы DXF, PLT, PDF</p>
+          <div className="border-border-default rounded-lg border-2 border-dashed bg-slate-50/50 p-8 text-center">
+            <LucideIcons.UploadCloud className="mx-auto mb-3 h-8 w-8 text-slate-400" />
+            <p className="text-text-primary mb-1 text-sm font-medium">Загрузите файлы раскладки</p>
+            <p className="text-text-secondary mb-4 text-xs">Поддерживаются форматы DXF, PLT, PDF</p>
             <Button
               type="button"
               variant="outline"
@@ -111,11 +110,14 @@ export function Workshop2ArticleNestingPanel({
         ) : (
           <ul className="space-y-4">
             {nesting.artifacts.map((a) => (
-              <li key={a.id} className="border-border-subtle space-y-3 rounded-lg border bg-slate-50/50 p-4">
+              <li
+                key={a.id}
+                className="border-border-subtle space-y-3 rounded-lg border bg-slate-50/50 p-4"
+              >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 space-y-3">
                     <Input
-                      className="h-8 text-sm font-semibold focus:bg-white bg-transparent border-transparent px-0 shadow-none focus:px-2 focus:border-border-default"
+                      className="focus:border-border-default h-8 border-transparent bg-transparent px-0 text-sm font-semibold shadow-none focus:bg-white focus:px-2"
                       placeholder="Название (например: Раскладка на 150см)"
                       value={a.title}
                       onChange={(e) =>
@@ -129,19 +131,23 @@ export function Workshop2ArticleNestingPanel({
                         })
                       }
                     />
-                    
+
                     {/* Drag and drop zone for this artifact */}
-                    <div className="border border-dashed border-border-default rounded-md p-4 flex items-center justify-center gap-2 bg-white hover:bg-slate-50 transition-colors cursor-pointer">
+                    <div className="border-border-default flex cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed bg-white p-4 transition-colors hover:bg-slate-50">
                       <LucideIcons.FileUp className="h-4 w-4 text-slate-400" />
-                      <span className="text-xs text-text-secondary">
-                        {a.fileRefNote ? a.fileRefNote : 'Перетащите DXF/PLT/PDF файл или нажмите для выбора'}
+                      <span className="text-text-secondary text-xs">
+                        {a.fileRefNote
+                          ? a.fileRefNote
+                          : 'Перетащите DXF/PLT/PDF файл или нажмите для выбора'}
                       </span>
                     </div>
 
                     {/* Metrics */}
                     <div className="grid grid-cols-3 gap-3">
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Длина (м)</label>
+                        <label className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+                          Длина (м)
+                        </label>
                         <Input
                           className="h-8 text-xs focus:bg-white"
                           placeholder="0.00"
@@ -155,7 +161,15 @@ export function Workshop2ArticleNestingPanel({
                               nesting: {
                                 ...nesting,
                                 artifacts: nesting.artifacts.map((x) =>
-                                  x.id === a.id ? { ...x, length: length !== undefined && !Number.isNaN(length) ? length : undefined } : x
+                                  x.id === a.id
+                                    ? {
+                                        ...x,
+                                        length:
+                                          length !== undefined && !Number.isNaN(length)
+                                            ? length
+                                            : undefined,
+                                      }
+                                    : x
                                 ),
                               },
                             });
@@ -163,7 +177,9 @@ export function Workshop2ArticleNestingPanel({
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Слои (шт)</label>
+                        <label className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+                          Слои (шт)
+                        </label>
                         <Input
                           className="h-8 text-xs focus:bg-white"
                           placeholder="0"
@@ -176,7 +192,15 @@ export function Workshop2ArticleNestingPanel({
                               nesting: {
                                 ...nesting,
                                 artifacts: nesting.artifacts.map((x) =>
-                                  x.id === a.id ? { ...x, layers: layers !== undefined && !Number.isNaN(layers) ? layers : undefined } : x
+                                  x.id === a.id
+                                    ? {
+                                        ...x,
+                                        layers:
+                                          layers !== undefined && !Number.isNaN(layers)
+                                            ? layers
+                                            : undefined,
+                                      }
+                                    : x
                                 ),
                               },
                             });
@@ -184,7 +208,9 @@ export function Workshop2ArticleNestingPanel({
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider">Эффективность (%)</label>
+                        <label className="text-text-muted text-[10px] font-bold uppercase tracking-wider">
+                          Эффективность (%)
+                        </label>
                         <Input
                           className="h-8 text-xs focus:bg-white"
                           placeholder="0"
@@ -197,7 +223,16 @@ export function Workshop2ArticleNestingPanel({
                               nesting: {
                                 ...nesting,
                                 artifacts: nesting.artifacts.map((x) =>
-                                  x.id === a.id ? { ...x, efficiencyPct: efficiencyPct !== undefined && !Number.isNaN(efficiencyPct) ? efficiencyPct : undefined } : x
+                                  x.id === a.id
+                                    ? {
+                                        ...x,
+                                        efficiencyPct:
+                                          efficiencyPct !== undefined &&
+                                          !Number.isNaN(efficiencyPct)
+                                            ? efficiencyPct
+                                            : undefined,
+                                      }
+                                    : x
                                 ),
                               },
                             });
@@ -205,21 +240,27 @@ export function Workshop2ArticleNestingPanel({
                         />
                       </div>
                     </div>
-                    
+
                     {/* AI Action */}
                     <div className="pt-2">
                       <Button
                         type="button"
                         variant="secondary"
                         size="sm"
-                        className="h-8 text-[11px] gap-1.5 text-accent-primary bg-accent-primary/10 hover:bg-accent-primary/20"
+                        className="text-accent-primary bg-accent-primary/10 hover:bg-accent-primary/20 h-8 gap-1.5 text-[11px]"
                         onClick={() => {
                           // Simulate AI request
                           void mergeBundle({
                             nesting: {
                               ...nesting,
                               artifacts: nesting.artifacts.map((x) =>
-                                x.id === a.id ? { ...x, efficiencyPct: 85, fileRefNote: 'Optimized_Nesting.dxf' } : x
+                                x.id === a.id
+                                  ? {
+                                      ...x,
+                                      efficiencyPct: 85,
+                                      fileRefNote: 'Optimized_Nesting.dxf',
+                                    }
+                                  : x
                               ),
                             },
                           });
@@ -230,12 +271,12 @@ export function Workshop2ArticleNestingPanel({
                       </Button>
                     </div>
                   </div>
-                  
+
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="h-8 w-8 p-0 text-text-muted hover:text-red-600 hover:bg-red-50 shrink-0 mt-1"
+                    className="text-text-muted mt-1 h-8 w-8 shrink-0 p-0 hover:bg-red-50 hover:text-red-600"
                     onClick={() =>
                       void mergeBundle({
                         nesting: {
@@ -256,4 +297,3 @@ export function Workshop2ArticleNestingPanel({
     </div>
   );
 }
-

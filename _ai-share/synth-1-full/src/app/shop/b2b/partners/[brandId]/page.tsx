@@ -141,9 +141,10 @@ export default function PartnerDetailsPage({
         className="text-text-muted border-border-default bg-bg-surface2/80 rounded-md border px-3 py-2 text-xs leading-snug"
         data-testid="shop-b2b-partner-detail-demo-disclaimer"
       >
-        <span className="text-text-primary font-semibold">Демо.</span> Карточка партнёра на смешанных данных: профиль
-        бренда из каталога-заглушки, заказы — демо read-model; коммерческие условия, контакты и документы — иллюстрация,
-        не юридически значимые. См. <code className="text-[10px]">CORE_OPERATING_CHAIN.md</code> §5.
+        <span className="text-text-primary font-semibold">Демо.</span> Карточка партнёра на
+        смешанных данных: профиль бренда из каталога-заглушки, заказы — демо read-model;
+        коммерческие условия, контакты и документы — иллюстрация, не юридически значимые. См.{' '}
+        <code className="text-[10px]">CORE_OPERATING_CHAIN.md</code> §5.
       </p>
 
       <Tabs defaultValue="overview">
@@ -328,7 +329,10 @@ export default function PartnerDetailsPage({
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="contracts" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+        <TabsContent
+          value="contracts"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+        >
           <Card>
             <CardHeader>
               <CardTitle>Документы</CardTitle>

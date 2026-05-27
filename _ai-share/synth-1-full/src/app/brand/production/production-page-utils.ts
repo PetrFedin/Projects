@@ -1,7 +1,4 @@
-import {
-  PRODUCTION_FLOOR_STEPS,
-  type ProductionFloorTabId,
-} from '@/lib/production/floor-flow';
+import { PRODUCTION_FLOOR_STEPS, type ProductionFloorTabId } from '@/lib/production/floor-flow';
 
 export function getProductionFloorTabTitle(tab: ProductionFloorTabId): string {
   return PRODUCTION_FLOOR_STEPS.find((s) => s.id === tab)?.label ?? tab;

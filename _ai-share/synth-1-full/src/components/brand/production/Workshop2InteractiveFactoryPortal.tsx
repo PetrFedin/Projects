@@ -29,28 +29,28 @@ export function Workshop2InteractiveFactoryPortal({
   const [pins, setPins] = useState<FactoryPin[]>([]);
   const [status, setStatus] = useState<'pending' | 'rejected' | 'accepted'>('pending');
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   // Временный черновик пина
   const [draftPin, setDraftPin] = useState<{ x: number; y: number } | null>(null);
   const [draftText, setDraftText] = useState('');
 
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isPinMode || !containerRef.current) return;
-    
+
     // Если мы кликаем внутри уже открытого диалога черновика, игнорируем
     if ((e.target as HTMLElement).closest('.pin-draft-dialog')) return;
 
     const rect = containerRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-    
+
     setDraftPin({ x, y });
     setDraftText('');
   };
 
   const savePin = () => {
     if (!draftPin || !draftText.trim()) return;
-    
+
     const newPin: FactoryPin = {
       id: Math.random().toString(36).slice(2, 10),
       x: draftPin.x,
@@ -60,13 +60,15 @@ export function Workshop2InteractiveFactoryPortal({
       by: 'Фабрика (Менеджер)',
       at: new Date().toISOString(),
     };
-    
+
     setPins([...pins, newPin]);
     setDraftPin(null);
     setIsPinMode(false);
-    
-    window.dispatchEvent(new CustomEvent('factory-pin-added', { detail: { message: newPin.text } }));
-    
+
+    window.dispatchEvent(
+      new CustomEvent('factory-pin-added', { detail: { message: newPin.text } })
+    );
+
     toast({
       title: 'Комментарий добавлен',
       description: 'Бренд получит уведомление о новом комментарии.',
@@ -92,107 +94,134 @@ export function Workshop2InteractiveFactoryPortal({
   };
 
   return (
-    <div className="container mx-auto max-w-5xl py-8 space-y-6">
-      <div className="flex items-start justify-between bg-white p-4 rounded-xl border shadow-sm sticky top-4 z-50">
+    <div className="container mx-auto max-w-5xl space-y-6 py-8">
+      <div className="sticky top-4 z-50 flex items-start justify-between rounded-xl border bg-white p-4 shadow-sm">
         <div>
           <h1 className="text-xl font-bold tracking-tight">Interactive Tech Pack</h1>
-          <p className="text-text-secondary text-sm mt-1">
+          <p className="text-text-secondary mt-1 text-sm">
             Артикул: {articleId} · {pins.length} комментариев
           </p>
         </div>
         <div className="flex items-center gap-3">
           {status === 'pending' && (
-            <Badge className="bg-amber-100 text-amber-800 border-amber-200">Ожидает согласования</Badge>
+            <Badge className="border-amber-200 bg-amber-100 text-amber-800">
+              Ожидает согласования
+            </Badge>
           )}
           {status === 'accepted' && (
-            <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200"><CheckCircle2 className="w-3 h-3 mr-1"/> Принято в работу</Badge>
+            <Badge className="border-emerald-200 bg-emerald-100 text-emerald-800">
+              <CheckCircle2 className="mr-1 h-3 w-3" /> Принято в работу
+            </Badge>
           )}
           {status === 'rejected' && (
-            <Badge className="bg-rose-100 text-rose-800 border-rose-200"><XCircle className="w-3 h-3 mr-1"/> Возвращено на доработку</Badge>
+            <Badge className="border-rose-200 bg-rose-100 text-rose-800">
+              <XCircle className="mr-1 h-3 w-3" /> Возвращено на доработку
+            </Badge>
           )}
-          
-          <div className="h-6 w-px bg-border-default mx-1" />
-          
-          <Button 
-            variant={isPinMode ? 'default' : 'outline'} 
+
+          <div className="bg-border-default mx-1 h-6 w-px" />
+
+          <Button
+            variant={isPinMode ? 'default' : 'outline'}
             onClick={() => {
               setIsPinMode(!isPinMode);
               setDraftPin(null);
             }}
             className={isPinMode ? 'bg-blue-600 hover:bg-blue-700' : ''}
           >
-            <MessageSquarePlus className="w-4 h-4 mr-2" />
+            <MessageSquarePlus className="mr-2 h-4 w-4" />
             {isPinMode ? 'Отменить Pin' : 'Добавить Pin (комментарий)'}
           </Button>
 
           {status === 'pending' && (
             <>
-              <Button variant="outline" className="border-rose-200 text-rose-700 hover:bg-rose-50" onClick={rejectTz}>
+              <Button
+                variant="outline"
+                className="border-rose-200 text-rose-700 hover:bg-rose-50"
+                onClick={rejectTz}
+              >
                 Нужны правки
               </Button>
-              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white" onClick={acceptTz}>
+              <Button className="bg-emerald-600 text-white hover:bg-emerald-700" onClick={acceptTz}>
                 ТЗ принято в работу
               </Button>
             </>
           )}
         </div>
       </div>
-      
+
       {isPinMode && (
-        <div className="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg text-sm flex items-center justify-center animate-in fade-in slide-in-from-top-2">
-          Кликните в любое место документа, чтобы оставить комментарий к конкретному узлу или скетчу.
+        <div className="flex items-center justify-center rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800 animate-in fade-in slide-in-from-top-2">
+          Кликните в любое место документа, чтобы оставить комментарий к конкретному узлу или
+          скетчу.
         </div>
       )}
-      
-      <div 
+
+      <div
         ref={containerRef}
         onClick={handleContainerClick}
-        className={`bg-white border rounded-xl shadow-sm overflow-hidden relative transition-all duration-200 ${isPinMode ? 'cursor-crosshair ring-2 ring-blue-500 ring-offset-4' : ''}`}
+        className={`relative overflow-hidden rounded-xl border bg-white shadow-sm transition-all duration-200 ${isPinMode ? 'cursor-crosshair ring-2 ring-blue-500 ring-offset-4' : ''}`}
       >
-        <div className="p-8 prose prose-sm max-w-none prose-headings:border-b prose-headings:pb-2 prose-a:text-blue-600 pointer-events-none select-none">
+        <div className="prose prose-sm prose-headings:border-b prose-headings:pb-2 prose-a:text-blue-600 pointer-events-none max-w-none select-none p-8">
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
         </div>
 
         {/* Отрисовка сохраненных пинов */}
         {pins.map((pin, i) => (
-          <div 
-            key={pin.id} 
-            className="absolute z-20 group"
+          <div
+            key={pin.id}
+            className="group absolute z-20"
             style={{ left: `${pin.x}%`, top: `${pin.y}%`, transform: 'translate(-50%, -50%)' }}
           >
-            <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-md ring-2 ring-white">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-md ring-2 ring-white">
               {i + 1}
             </div>
             {/* Всплывающая подсказка с комментарием при наведении */}
-            <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-48 bg-white border shadow-lg rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              <p className="text-xs font-medium text-text-primary mb-1">{pin.by}</p>
-              <p className="text-xs text-text-secondary leading-snug">{pin.text}</p>
-              <p className="text-[10px] text-text-muted mt-2">{new Date(pin.at).toLocaleString('ru-RU')}</p>
+            <div className="pointer-events-none absolute bottom-full left-1/2 mb-2 w-48 -translate-x-1/2 rounded-lg border bg-white p-3 opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
+              <p className="text-text-primary mb-1 text-xs font-medium">{pin.by}</p>
+              <p className="text-text-secondary text-xs leading-snug">{pin.text}</p>
+              <p className="text-text-muted mt-2 text-[10px]">
+                {new Date(pin.at).toLocaleString('ru-RU')}
+              </p>
             </div>
           </div>
         ))}
 
         {/* Диалог добавления нового пина */}
         {draftPin && (
-          <div 
-            className="absolute z-30 pin-draft-dialog bg-white border shadow-xl rounded-lg p-3 w-64"
-            style={{ left: `${draftPin.x}%`, top: `${draftPin.y}%`, transform: 'translate(-50%, 16px)' }}
+          <div
+            className="pin-draft-dialog absolute z-30 w-64 rounded-lg border bg-white p-3 shadow-xl"
+            style={{
+              left: `${draftPin.x}%`,
+              top: `${draftPin.y}%`,
+              transform: 'translate(-50%, 16px)',
+            }}
           >
-            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-t border-l transform rotate-45" />
+            <div className="absolute -top-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 transform border-l border-t bg-white" />
             <div className="relative">
-              <p className="text-xs font-medium mb-2">Новый комментарий</p>
-              <Textarea 
-                className="text-xs min-h-[80px] mb-2" 
+              <p className="mb-2 text-xs font-medium">Новый комментарий</p>
+              <Textarea
+                className="mb-2 min-h-[80px] text-xs"
                 placeholder="Укажите замечание к этой части ТЗ..."
                 value={draftText}
                 onChange={(e) => setDraftText(e.target.value)}
                 autoFocus
               />
-              <div className="flex gap-2 justify-end">
-                <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={() => setDraftPin(null)}>
+              <div className="flex justify-end gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 text-xs"
+                  onClick={() => setDraftPin(null)}
+                >
                   Отмена
                 </Button>
-                <Button size="sm" className="h-7 text-xs bg-blue-600" disabled={!draftText.trim()} onClick={savePin}>
+                <Button
+                  size="sm"
+                  className="h-7 bg-blue-600 text-xs"
+                  disabled={!draftText.trim()}
+                  onClick={savePin}
+                >
                   Сохранить
                 </Button>
               </div>

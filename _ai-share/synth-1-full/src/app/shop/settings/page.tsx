@@ -28,7 +28,7 @@ export default function ShopSettingsPage() {
   return (
     <CabinetPageContent
       maxWidth="5xl"
-      className="bg-bg-canvas space-y-6 duration-300 animate-in fade-in px-4 py-6 pb-24 sm:px-6"
+      className="bg-bg-canvas space-y-6 px-4 py-6 pb-24 duration-300 animate-in fade-in sm:px-6"
       data-testid={tid.page('shop-settings')}
     >
       <RegistryPageHeader

@@ -18,14 +18,18 @@ export default function B2BTrackingPage() {
   const ordersWithTracking = mockB2BOrders.filter((o) => o.status !== 'Черновик').slice(0, 8);
 
   return (
-    <CabinetPageContent maxWidth="4xl" className="space-y-6" data-testid={tid.page('shop-b2b-tracking')}>
+    <CabinetPageContent
+      maxWidth="4xl"
+      className="space-y-6"
+      data-testid={tid.page('shop-b2b-tracking')}
+    >
       <ShopB2bContentHeader lead="Сквозной мониторинг отгрузок: JOOR ASN, статусы доставки и ссылки на трекинг перевозчика." />
       <p
         className="text-text-muted border-border-default bg-bg-surface2/80 rounded-md border px-3 py-2 text-xs leading-snug"
         data-testid="shop-b2b-tracking-demo-disclaimer"
       >
-        <span className="text-text-primary font-semibold">Демо.</span> Список заказов и трекинг на мок-данных;
-        не реальная интеграция с OMS/перевозчиком. См. реестр ядра:{' '}
+        <span className="text-text-primary font-semibold">Демо.</span> Список заказов и трекинг на
+        мок-данных; не реальная интеграция с OMS/перевозчиком. См. реестр ядра:{' '}
         <code className="text-[10px]">CORE_OPERATING_CHAIN.md</code> §5.
       </p>
       <ShopAnalyticsSegmentErpStrip />

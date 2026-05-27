@@ -4,8 +4,21 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getAqlPlan, AqlLevel } from '@/lib/production/aql-standards';
@@ -24,8 +37,8 @@ export function Workshop2AQLInspectionPanel({
   const batches = qc?.batches || [];
 
   const [selectedBatchId, setSelectedBatchId] = useState<string>('');
-  
-  const activeBatch = batches.find(b => b.id === selectedBatchId) || batches[0];
+
+  const activeBatch = batches.find((b) => b.id === selectedBatchId) || batches[0];
 
   const [fallbackOrderQty, setFallbackOrderQty] = useState<number>(1000);
   const [aqlLevel, setAqlLevel] = useState<string>('2.5');
@@ -33,18 +46,16 @@ export function Workshop2AQLInspectionPanel({
   const [fallbackMajorFound, setFallbackMajorFound] = useState<number>(0);
   const [minorFound, setMinorFound] = useState<number>(0);
 
-  const orderQty = activeBatch ? (activeBatch.batchSize || 0) : fallbackOrderQty;
-  const majorFound = activeBatch ? (activeBatch.majorDefects || 0) : fallbackMajorFound;
+  const orderQty = activeBatch ? activeBatch.batchSize || 0 : fallbackOrderQty;
+  const majorFound = activeBatch ? activeBatch.majorDefects || 0 : fallbackMajorFound;
 
   const handleOrderQtyChange = (val: number) => {
     if (activeBatch && qc) {
       void mergeBundle({
         qc: {
           ...qc,
-          batches: qc.batches.map(b => 
-            b.id === activeBatch.id ? { ...b, batchSize: val } : b
-          )
-        }
+          batches: qc.batches.map((b) => (b.id === activeBatch.id ? { ...b, batchSize: val } : b)),
+        },
       });
     } else {
       setFallbackOrderQty(val);
@@ -56,10 +67,10 @@ export function Workshop2AQLInspectionPanel({
       void mergeBundle({
         qc: {
           ...qc,
-          batches: qc.batches.map(b => 
+          batches: qc.batches.map((b) =>
             b.id === activeBatch.id ? { ...b, majorDefects: val } : b
-          )
-        }
+          ),
+        },
       });
     } else {
       setFallbackMajorFound(val);
@@ -75,17 +86,21 @@ export function Workshop2AQLInspectionPanel({
   const sampleSize = majorAqlPlan.sampleSize;
 
   const isFail =
-    criticalFound > 0 || majorFound >= majorAqlPlan.rejectLimit || minorFound >= minorAqlPlan.rejectLimit;
+    criticalFound > 0 ||
+    majorFound >= majorAqlPlan.rejectLimit ||
+    minorFound >= minorAqlPlan.rejectLimit;
 
   return (
-    <div className="border-border-default rounded-xl border bg-white p-4 shadow-sm space-y-6">
+    <div className="border-border-default space-y-6 rounded-xl border bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex min-w-0 flex-1 items-start gap-3">
           <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
             <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden />
           </div>
           <div className="min-w-0 flex-1 space-y-1">
-            <h2 className="text-text-primary text-base font-semibold">Калькулятор инспекции (AQL)</h2>
+            <h2 className="text-text-primary text-base font-semibold">
+              Калькулятор инспекции (AQL)
+            </h2>
             <p className="text-text-secondary text-[11px] leading-snug">
               Расчет объема выборки и порогов брака по стандарту ISO 2859-1 (AQL).
             </p>
@@ -94,12 +109,14 @@ export function Workshop2AQLInspectionPanel({
         <div className="flex items-center gap-3">
           {batches.length > 0 && (
             <Select value={activeBatch?.id || ''} onValueChange={setSelectedBatchId}>
-              <SelectTrigger className="w-[180px] h-8 text-xs bg-white">
+              <SelectTrigger className="h-8 w-[180px] bg-white text-xs">
                 <SelectValue placeholder="Выберите партию" />
               </SelectTrigger>
               <SelectContent>
-                {batches.map(b => (
-                  <SelectItem key={b.id} value={b.id}>{b.label}</SelectItem>
+                {batches.map((b) => (
+                  <SelectItem key={b.id} value={b.id}>
+                    {b.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -107,16 +124,23 @@ export function Workshop2AQLInspectionPanel({
         </div>
       </div>
 
-      <div className="border-border-subtle flex flex-col gap-1.5 border-t border-dotted pt-2.5 mt-4">
+      <div className="border-border-subtle mt-4 flex flex-col gap-1.5 border-t border-dotted pt-2.5">
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="bg-bg-surface2/70 text-text-primary max-w-full rounded border border-border-subtle px-2 py-1 text-[10px] leading-snug">
+          <span className="bg-bg-surface2/70 text-text-primary border-border-subtle max-w-full rounded border px-2 py-1 text-[10px] leading-snug">
             <span className="text-text-muted font-bold">Суть</span> · Объём выборки: {sampleSize}
           </span>
-          <span className="text-text-primary max-w-full rounded border border-border-subtle bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
+          <span className="text-text-primary border-border-subtle max-w-full rounded border bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
             <span className="text-text-muted font-bold">Гот.</span> ·{' '}
             {isFail ? 'Брак превышает норму' : 'Инспекция в норме'}
           </span>
-          <span className={cn("text-text-primary max-w-full rounded border px-2 py-1 text-[10px] font-semibold leading-snug", isFail ? "border-red-200 bg-red-50 text-red-700" : "border-emerald-200 bg-emerald-50 text-emerald-700")}>
+          <span
+            className={cn(
+              'text-text-primary max-w-full rounded border px-2 py-1 text-[10px] font-semibold leading-snug',
+              isFail
+                ? 'border-red-200 bg-red-50 text-red-700'
+                : 'border-emerald-200 bg-emerald-50 text-emerald-700'
+            )}
+          >
             <span className="font-bold opacity-80">Итог</span> · {isFail ? 'БРАК' : 'ПРИНЯТО'}
           </span>
         </div>
@@ -136,7 +160,7 @@ export function Workshop2AQLInspectionPanel({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 md:grid-cols-4 mb-6">
+        <div className="mb-6 grid grid-cols-2 gap-6 md:grid-cols-4">
           <div className="space-y-2">
             <Label className="text-text-secondary">Размер партии (шт.)</Label>
             <Input
@@ -162,7 +186,7 @@ export function Workshop2AQLInspectionPanel({
           </div>
           <div className="space-y-2">
             <Label className="text-text-secondary">Объём выборки</Label>
-            <div className="font-mono text-3xl font-bold text-text-primary">{sampleSize}</div>
+            <div className="text-text-primary font-mono text-3xl font-bold">{sampleSize}</div>
           </div>
           <div className="space-y-2">
             <Label className="text-text-secondary">Итог</Label>
@@ -180,7 +204,7 @@ export function Workshop2AQLInspectionPanel({
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-lg border border-border-subtle">
+        <div className="border-border-subtle overflow-hidden rounded-lg border">
           <Table>
             <TableHeader className="bg-bg-surface2">
               <TableRow>
@@ -207,7 +231,10 @@ export function Workshop2AQLInspectionPanel({
                   {criticalFound > 0 ? (
                     <Badge variant="destructive">Брак</Badge>
                   ) : (
-                    <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-emerald-700">
+                    <Badge
+                      variant="outline"
+                      className="border-emerald-200 bg-emerald-50 text-emerald-700"
+                    >
                       Норма
                     </Badge>
                   )}
@@ -231,7 +258,10 @@ export function Workshop2AQLInspectionPanel({
                   {majorFound >= majorAqlPlan.rejectLimit ? (
                     <Badge variant="destructive">Брак</Badge>
                   ) : (
-                    <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-emerald-700">
+                    <Badge
+                      variant="outline"
+                      className="border-emerald-200 bg-emerald-50 text-emerald-700"
+                    >
                       Норма
                     </Badge>
                   )}
@@ -255,7 +285,10 @@ export function Workshop2AQLInspectionPanel({
                   {minorFound >= minorAqlPlan.rejectLimit ? (
                     <Badge variant="destructive">Брак</Badge>
                   ) : (
-                    <Badge variant="outline" className="border-emerald-200 bg-emerald-50 text-emerald-700">
+                    <Badge
+                      variant="outline"
+                      className="border-emerald-200 bg-emerald-50 text-emerald-700"
+                    >
                       Норма
                     </Badge>
                   )}

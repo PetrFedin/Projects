@@ -31,7 +31,8 @@ export const W2_VISUAL_QUAD_ATTR_ORDER = [
 export const W2_VISUAL_QUAD_ATTR_IDS = new Set<string>(W2_VISUAL_QUAD_ATTR_ORDER);
 
 export function w2TzAttributeDisplayName(attr: AttributeCatalogAttribute): string {
-  if (W2_TZ_ATTR_NAME_OVERRIDE[attr.attributeId]) return W2_TZ_ATTR_NAME_OVERRIDE[attr.attributeId]!;
+  if (W2_TZ_ATTR_NAME_OVERRIDE[attr.attributeId])
+    return W2_TZ_ATTR_NAME_OVERRIDE[attr.attributeId]!;
   const n = attr.name
     .replace(/^\s*Конструкция\s*[·:]\s*/i, '')
     .replace(/^\s*Конструкция\s+/i, '')

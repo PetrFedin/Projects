@@ -10,7 +10,9 @@ describe('/api/brand/workshop2/phase1-dossier', () => {
   });
 
   it('GET returns read contract hint when ids are omitted', async () => {
-    const res = await GET(new Request('http://localhost/api/brand/workshop2/phase1-dossier') as never);
+    const res = await GET(
+      new Request('http://localhost/api/brand/workshop2/phase1-dossier') as never
+    );
     expect(res.status).toBe(200);
     const json = (await res.json()) as { mode: string; message: string };
     expect(json.mode).toBe('server_file_persist');
@@ -101,7 +103,11 @@ describe('/api/brand/workshop2/phase1-dossier', () => {
       ) as never
     );
     expect(getRes.status).toBe(200);
-    const json = (await getRes.json()) as { ok: boolean; version: number; dossier?: { assignments?: unknown[] } };
+    const json = (await getRes.json()) as {
+      ok: boolean;
+      version: number;
+      dossier?: { assignments?: unknown[] };
+    };
     expect(json.ok).toBe(true);
     expect(json.version).toBe(1);
     expect(Array.isArray(json.dossier?.assignments)).toBe(true);

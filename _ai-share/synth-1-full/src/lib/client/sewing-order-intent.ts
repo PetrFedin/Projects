@@ -9,7 +9,10 @@ export type SewingOrderMeasureStrings = {
   height: string;
 };
 
-export function sameMeasureStrings(a: SewingOrderMeasureStrings, b: SewingOrderMeasureStrings): boolean {
+export function sameMeasureStrings(
+  a: SewingOrderMeasureStrings,
+  b: SewingOrderMeasureStrings
+): boolean {
   return (
     a.bust === b.bust &&
     a.waist === b.waist &&

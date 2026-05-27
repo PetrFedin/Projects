@@ -6,18 +6,21 @@ describe('TNVEDResolver', () => {
     const resultCotton = resolver.resolve({
       category: 'T-shirt',
       materialComposition: [{ material: 'Cotton', percentage: 100 }],
-      targetCountry: 'RU'
+      targetCountry: 'RU',
     });
-    
+
     expect(resultCotton.code).toBe('6109100000');
     expect(resultCotton.confidence).toBeGreaterThan(0.9);
 
     const resultPoly = resolver.resolve({
       category: 't-shirt',
-      materialComposition: [{ material: 'Polyester', percentage: 80 }, { material: 'Elastane', percentage: 20 }],
-      targetCountry: 'RU'
+      materialComposition: [
+        { material: 'Polyester', percentage: 80 },
+        { material: 'Elastane', percentage: 20 },
+      ],
+      targetCountry: 'RU',
     });
-    
+
     expect(resultPoly.code).toBe('6109902000');
   });
 
@@ -28,11 +31,11 @@ describe('TNVEDResolver', () => {
       materialComposition: [
         { material: 'Wool', percentage: 30 },
         { material: 'Polyester', percentage: 30 },
-        { material: 'Nylon', percentage: 40 }
+        { material: 'Nylon', percentage: 40 },
       ],
-      targetCountry: 'RU'
+      targetCountry: 'RU',
     });
-    
+
     expect(result.code).toBe('UNKNOWN');
     expect(result.confidence).toBeLessThan(0.2);
   });

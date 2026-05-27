@@ -62,7 +62,9 @@ export function createHttpArticleWorkspacePort(
       });
 
       if (!res.ok) {
-        throw new Error(`ArticleWorkspace HTTP mergeBundle failed: ${res.status} ${res.statusText}`);
+        throw new Error(
+          `ArticleWorkspace HTTP mergeBundle failed: ${res.status} ${res.statusText}`
+        );
       }
 
       const data = await res.json();

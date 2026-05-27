@@ -19,10 +19,7 @@ export function ProductionPageContentShellHeaderActions({
   return (
     <div className="flex flex-wrap items-center gap-1.5">
       <div
-        className={cn(
-          cabinetSurface.groupTabList,
-          'h-auto min-h-9 flex-wrap items-center gap-0.5'
-        )}
+        className={cn(cabinetSurface.groupTabList, 'h-auto min-h-9 flex-wrap items-center gap-0.5')}
       >
         <Button
           onClick={() => setActiveTab?.('chat')}
@@ -59,10 +56,7 @@ export function ProductionPageContentShellHeaderActions({
         </Button>
       )}
       <div
-        className={cn(
-          cabinetSurface.groupTabList,
-          'h-auto min-h-9 flex-wrap items-center gap-0.5'
-        )}
+        className={cn(cabinetSurface.groupTabList, 'h-auto min-h-9 flex-wrap items-center gap-0.5')}
       >
         <Button
           onClick={() => setActiveTab?.('notifications')}

@@ -6,7 +6,10 @@
 import fs from 'fs';
 import path from 'path';
 import type { LiveProcessDefinition } from '@/lib/live-process/types';
-import { getAllLiveProcessIds, getLiveProcessDefinition } from '@/lib/live-process/process-definitions';
+import {
+  getAllLiveProcessIds,
+  getLiveProcessDefinition,
+} from '@/lib/live-process/process-definitions';
 
 const STORE_VERSION = 1 as const;
 
@@ -26,7 +29,9 @@ function defaultStore(): WorkflowStoreFile {
 }
 
 export function getWorkflowStorePath(): string {
-  return process.env.WORKFLOW_STORE_PATH ?? path.join(process.cwd(), '.data', 'workflow-store.json');
+  return (
+    process.env.WORKFLOW_STORE_PATH ?? path.join(process.cwd(), '.data', 'workflow-store.json')
+  );
 }
 
 export function isWorkflowStoreDisabled(): boolean {

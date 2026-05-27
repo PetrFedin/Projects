@@ -96,7 +96,7 @@ export function OrganizationAttentionAlertsSection({
                 {[1, 2, 3, 4].map((i) => (
                   <div
                     key={i}
-                    className="h-[200px] w-[240px] min-w-[240px] shrink-0 animate-pulse rounded-xl border border-border-subtle bg-bg-surface2"
+                    className="border-border-subtle bg-bg-surface2 h-[200px] w-[240px] min-w-[240px] shrink-0 animate-pulse rounded-xl border"
                     aria-hidden
                   />
                 ))}
@@ -148,7 +148,7 @@ export function OrganizationAttentionAlertsSection({
                                     <PopoverTrigger asChild>
                                       <button
                                         type="button"
-                                        className="rounded p-0.5 text-text-muted hover:bg-amber-100 hover:text-amber-600"
+                                        className="text-text-muted rounded p-0.5 hover:bg-amber-100 hover:text-amber-600"
                                         aria-label={`Описание: ${meta.title}`}
                                       >
                                         <HelpCircle className="size-3.5" />
@@ -158,7 +158,7 @@ export function OrganizationAttentionAlertsSection({
                                       align="end"
                                       className="w-72 rounded-xl p-3 text-left"
                                     >
-                                      <p className="text-xs leading-relaxed text-text-secondary">
+                                      <p className="text-text-secondary text-xs leading-relaxed">
                                         {meta.description}
                                       </p>
                                     </PopoverContent>
@@ -170,7 +170,7 @@ export function OrganizationAttentionAlertsSection({
                                   (c: { id: string; name: string; daysLeft: number }) => (
                                     <li
                                       key={c.id}
-                                      className="flex items-center justify-between gap-2 text-xs text-text-primary"
+                                      className="text-text-primary flex items-center justify-between gap-2 text-xs"
                                     >
                                       <span className="truncate">{c.name}</span>
                                       <span className="shrink-0 font-bold text-amber-600">
@@ -205,7 +205,7 @@ export function OrganizationAttentionAlertsSection({
                             <h4 className="mb-2 text-xs font-black uppercase text-amber-800">
                               {meta.title}
                             </h4>
-                            <p className="mb-3 text-xs leading-relaxed text-text-secondary">
+                            <p className="text-text-secondary mb-3 text-xs leading-relaxed">
                               {meta.description}
                             </p>
                             <ul className="mb-3 space-y-1.5">
@@ -213,7 +213,7 @@ export function OrganizationAttentionAlertsSection({
                                 (c: { id: string; name: string; daysLeft: number }) => (
                                   <li
                                     key={c.id}
-                                    className="flex items-center justify-between gap-2 text-xs text-text-primary"
+                                    className="text-text-primary flex items-center justify-between gap-2 text-xs"
                                   >
                                     <span className="truncate">{c.name}</span>
                                     <span className="shrink-0 font-bold text-amber-600">
@@ -283,7 +283,7 @@ export function OrganizationAttentionAlertsSection({
                                     <PopoverTrigger asChild>
                                       <button
                                         type="button"
-                                        className="rounded p-0.5 text-text-muted hover:bg-rose-100 hover:text-rose-600"
+                                        className="text-text-muted rounded p-0.5 hover:bg-rose-100 hover:text-rose-600"
                                         aria-label={`Описание: ${meta.title}`}
                                       >
                                         <HelpCircle className="size-3.5" />
@@ -293,7 +293,7 @@ export function OrganizationAttentionAlertsSection({
                                       align="end"
                                       className="w-72 rounded-xl p-3 text-left"
                                     >
-                                      <p className="text-xs leading-relaxed text-text-secondary">
+                                      <p className="text-text-secondary text-xs leading-relaxed">
                                         {meta.description}
                                       </p>
                                     </PopoverContent>
@@ -305,7 +305,7 @@ export function OrganizationAttentionAlertsSection({
                                   (p: { id: string; name: string; detail: string }) => (
                                     <li
                                       key={p.id}
-                                      className="flex items-center justify-between gap-2 text-xs text-text-primary"
+                                      className="text-text-primary flex items-center justify-between gap-2 text-xs"
                                     >
                                       <span className="truncate" title={p.detail}>
                                         {p.name} — {p.detail}
@@ -339,7 +339,7 @@ export function OrganizationAttentionAlertsSection({
                             <h4 className="mb-2 text-xs font-black uppercase text-rose-800">
                               {meta.title}
                             </h4>
-                            <p className="mb-3 text-xs leading-relaxed text-text-secondary">
+                            <p className="text-text-secondary mb-3 text-xs leading-relaxed">
                               {meta.description}
                             </p>
                             <ul className="mb-3 space-y-1.5">
@@ -347,7 +347,7 @@ export function OrganizationAttentionAlertsSection({
                                 (p: { id: string; name: string; detail: string }) => (
                                   <li
                                     key={p.id}
-                                    className="flex items-center justify-between gap-2 text-xs text-text-primary"
+                                    className="text-text-primary flex items-center justify-between gap-2 text-xs"
                                   >
                                     <span className="truncate" title={p.detail}>
                                       {p.name} — {p.detail}
@@ -426,7 +426,7 @@ export function OrganizationAttentionAlertsSection({
                                     )}
                                   />
                                 </div>
-                                <h4 className="truncate text-[9px] font-black uppercase text-text-primary">
+                                <h4 className="text-text-primary truncate text-[9px] font-black uppercase">
                                   {getBlockLabel?.('systems') ?? meta.title}
                                 </h4>
                               </div>
@@ -435,7 +435,7 @@ export function OrganizationAttentionAlertsSection({
                                   <PopoverTrigger asChild>
                                     <button
                                       type="button"
-                                      className="rounded p-0.5 text-text-muted hover:bg-bg-surface2 hover:text-text-secondary"
+                                      className="text-text-muted hover:bg-bg-surface2 hover:text-text-secondary rounded p-0.5"
                                       aria-label={`Описание: ${meta.title}`}
                                     >
                                       <HelpCircle className="size-3.5" />
@@ -445,7 +445,7 @@ export function OrganizationAttentionAlertsSection({
                                     align="end"
                                     className="w-72 rounded-xl p-3 text-left"
                                   >
-                                    <p className="text-xs leading-relaxed text-text-secondary">
+                                    <p className="text-text-secondary text-xs leading-relaxed">
                                       {meta.description}
                                     </p>
                                   </PopoverContent>
@@ -456,7 +456,7 @@ export function OrganizationAttentionAlertsSection({
                               {ok ? (
                                 <p className="text-xs font-medium text-emerald-700">В норме</p>
                               ) : (
-                                <ul className="space-y-1 text-xs text-text-primary">
+                                <ul className="text-text-primary space-y-1 text-xs">
                                   {alerts.integrationIssues.map(
                                     (issue: { id: string; message: string }) => (
                                       <li
@@ -480,7 +480,7 @@ export function OrganizationAttentionAlertsSection({
                             <div className="mt-auto flex justify-start gap-2">
                               <Link
                                 href={meta.detailHref}
-                                className="inline-flex items-center gap-0.5 text-[9px] font-semibold text-accent-primary hover:underline"
+                                className="text-accent-primary inline-flex items-center gap-0.5 text-[9px] font-semibold hover:underline"
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 Детально <ArrowRight className="size-3" />
@@ -492,16 +492,16 @@ export function OrganizationAttentionAlertsSection({
                           align="start"
                           className="max-h-[80vh] w-[320px] overflow-y-auto rounded-xl p-4"
                         >
-                          <h4 className="mb-2 text-xs font-black uppercase text-text-primary">
+                          <h4 className="text-text-primary mb-2 text-xs font-black uppercase">
                             {meta.title}
                           </h4>
-                          <p className="mb-3 text-xs leading-relaxed text-text-secondary">
+                          <p className="text-text-secondary mb-3 text-xs leading-relaxed">
                             {meta.description}
                           </p>
                           {ok ? (
                             <p className="mb-3 text-xs font-medium text-emerald-700">В норме</p>
                           ) : (
-                            <ul className="mb-3 space-y-1 text-xs text-text-primary">
+                            <ul className="text-text-primary mb-3 space-y-1 text-xs">
                               {alerts.integrationIssues.map(
                                 (issue: { id: string; message: string }) => (
                                   <li
@@ -553,7 +553,7 @@ export function OrganizationAttentionAlertsSection({
                               role="button"
                               tabIndex={0}
                               aria-label={`${getBlockLabel?.('tasks') ?? meta.title}. Открыть подробности, задач: ${alerts.tasks.length}`}
-                              className="flex h-full cursor-pointer flex-col rounded-xl border border-accent-primary/25 bg-accent-primary/10 p-3 outline-none transition-colors hover:bg-accent-primary/10 focus-visible:ring-2 focus-visible:ring-accent-primary/40"
+                              className="border-accent-primary/25 bg-accent-primary/10 hover:bg-accent-primary/10 focus-visible:ring-accent-primary/40 flex h-full cursor-pointer flex-col rounded-xl border p-3 outline-none transition-colors focus-visible:ring-2"
                               onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === ' ') {
                                   e.preventDefault();
@@ -563,10 +563,10 @@ export function OrganizationAttentionAlertsSection({
                             >
                               <div className="mb-2 flex shrink-0 items-center justify-between gap-2">
                                 <div className="flex min-w-0 items-center gap-2">
-                                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent-primary/15">
-                                    <CheckSquare className="size-4 text-accent-primary" />
+                                  <div className="bg-accent-primary/15 flex size-9 shrink-0 items-center justify-center rounded-lg">
+                                    <CheckSquare className="text-accent-primary size-4" />
                                   </div>
-                                  <h4 className="truncate text-[9px] font-black uppercase text-accent-primary">
+                                  <h4 className="text-accent-primary truncate text-[9px] font-black uppercase">
                                     {getBlockLabel?.('tasks') ?? meta.title}
                                   </h4>
                                 </div>
@@ -575,7 +575,7 @@ export function OrganizationAttentionAlertsSection({
                                     <PopoverTrigger asChild>
                                       <button
                                         type="button"
-                                        className="rounded p-0.5 text-text-muted hover:bg-accent-primary/15 hover:text-accent-primary"
+                                        className="text-text-muted hover:bg-accent-primary/15 hover:text-accent-primary rounded p-0.5"
                                         aria-label={`Описание: ${meta.title}`}
                                       >
                                         <HelpCircle className="size-3.5" />
@@ -585,7 +585,7 @@ export function OrganizationAttentionAlertsSection({
                                       align="end"
                                       className="w-72 rounded-xl p-3 text-left"
                                     >
-                                      <p className="text-xs leading-relaxed text-text-secondary">
+                                      <p className="text-text-secondary text-xs leading-relaxed">
                                         {meta.description}
                                       </p>
                                     </PopoverContent>
@@ -597,7 +597,7 @@ export function OrganizationAttentionAlertsSection({
                                   (t: { id: string; title: string; priority: string }) => (
                                     <li
                                       key={t.id}
-                                      className="flex items-center justify-between gap-2 text-xs text-text-primary"
+                                      className="text-text-primary flex items-center justify-between gap-2 text-xs"
                                     >
                                       <span className="truncate" title={t.priority}>
                                         {t.title}
@@ -605,7 +605,7 @@ export function OrganizationAttentionAlertsSection({
                                       <ResolveAlertLink
                                         id={t.id}
                                         detailHref={meta.detailHref}
-                                        className="shrink-0 text-[8px] font-semibold text-accent-primary hover:underline"
+                                        className="text-accent-primary shrink-0 text-[8px] font-semibold hover:underline"
                                         stopPropagation
                                         onDismiss={dismissTask}
                                       />
@@ -616,7 +616,7 @@ export function OrganizationAttentionAlertsSection({
                               <div className="mt-auto flex justify-start gap-2">
                                 <Link
                                   href={meta.detailHref}
-                                  className="inline-flex items-center gap-0.5 text-[9px] font-semibold text-accent-primary hover:underline"
+                                  className="text-accent-primary inline-flex items-center gap-0.5 text-[9px] font-semibold hover:underline"
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   Детально <ArrowRight className="size-3" />
@@ -628,10 +628,10 @@ export function OrganizationAttentionAlertsSection({
                             align="start"
                             className="max-h-[80vh] w-[320px] overflow-y-auto rounded-xl p-4"
                           >
-                            <h4 className="mb-2 text-xs font-black uppercase text-accent-primary">
+                            <h4 className="text-accent-primary mb-2 text-xs font-black uppercase">
                               {meta.title}
                             </h4>
-                            <p className="mb-3 text-xs leading-relaxed text-text-secondary">
+                            <p className="text-text-secondary mb-3 text-xs leading-relaxed">
                               {meta.description}
                             </p>
                             <ul className="mb-3 space-y-1.5">
@@ -639,7 +639,7 @@ export function OrganizationAttentionAlertsSection({
                                 (t: { id: string; title: string; priority: string }) => (
                                   <li
                                     key={t.id}
-                                    className="flex items-center justify-between gap-2 text-xs text-text-primary"
+                                    className="text-text-primary flex items-center justify-between gap-2 text-xs"
                                   >
                                     <span className="truncate" title={t.priority}>
                                       {t.title}
@@ -647,7 +647,7 @@ export function OrganizationAttentionAlertsSection({
                                     <ResolveAlertLink
                                       id={t.id}
                                       detailHref={meta.detailHref}
-                                      className="shrink-0 text-[8px] font-semibold text-accent-primary hover:underline"
+                                      className="text-accent-primary shrink-0 text-[8px] font-semibold hover:underline"
                                       onDismiss={dismissTask}
                                     />
                                   </li>

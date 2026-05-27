@@ -9,9 +9,7 @@ import {
 describe('workshop2-phase1-dossier-panel-dossier-mutations', () => {
   it('sumSampleBasePieceQtyForPids sums positive finite ints for known pids', () => {
     expect(sumSampleBasePieceQtyForPids(undefined, new Set(['a']))).toBe(0);
-    expect(
-      sumSampleBasePieceQtyForPids({ a: 2, b: 3, c: 1.7 }, new Set(['a', 'c']))
-    ).toBe(3);
+    expect(sumSampleBasePieceQtyForPids({ a: 2, b: 3, c: 1.7 }, new Set(['a', 'c']))).toBe(3);
   });
 
   it('clampSampleBasePieceQtyToCap keeps largest rows first under cap', () => {
@@ -21,7 +19,12 @@ describe('workshop2-phase1-dossier-panel-dossier-mutations', () => {
   it('upsertCanonicalMultiHandbookAndFree dedupes parameter ids', () => {
     const spy = jest.spyOn(globalThis.crypto, 'randomUUID').mockReturnValue('uuid-fixed');
     const base = emptyWorkshop2DossierPhase1();
-    const next = upsertCanonicalMultiHandbookAndFree(base, 'x', [{ parameterId: 'p1', displayLabel: 'A' }], '');
+    const next = upsertCanonicalMultiHandbookAndFree(
+      base,
+      'x',
+      [{ parameterId: 'p1', displayLabel: 'A' }],
+      ''
+    );
     expect(next.assignments).toHaveLength(1);
     expect(next.assignments[0]?.values).toHaveLength(1);
     spy.mockRestore();

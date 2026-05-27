@@ -1,6 +1,5 @@
 'use client';
 
-
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import React, { useState, useMemo, useEffect } from 'react';
 import {
@@ -253,7 +252,9 @@ export default function BrandCustomersPage() {
       </div>
 
       <Tabs defaultValue="list" className="w-full" onValueChange={setActiveTab}>
-        <TabsList className={cn(cabinetSurface.tabsList, 'mb-8 h-10 w-fit rounded-2xl shadow-inner')}>
+        <TabsList
+          className={cn(cabinetSurface.tabsList, 'mb-8 h-10 w-fit rounded-2xl shadow-inner')}
+        >
           <TabsTrigger
             value="list"
             className="h-12 rounded-xl px-6 text-[10px] font-black uppercase tracking-widest transition-all data-[state=active]:bg-slate-900 data-[state=active]:text-white data-[state=active]:shadow-xl"

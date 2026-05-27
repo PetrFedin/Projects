@@ -19,7 +19,7 @@ export async function GET(req: Request) {
   // Мок-логика: возвращаем фейковую плановую себестоимость на основе артикула
   const estimate = {
     articleId,
-    totalLandedCost: 15.40,
+    totalLandedCost: 15.4,
     currency: 'USD',
     bomCoveragePct: 85, // процент строк BOM с ценами
     updatedAt: new Date().toISOString(),

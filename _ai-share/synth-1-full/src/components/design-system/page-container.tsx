@@ -42,7 +42,9 @@ export function PageHeader({
       <div className="min-w-0 space-y-1">
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{title}</h1>
-          {titleAddon ? <div className="flex flex-wrap items-center gap-1.5">{titleAddon}</div> : null}
+          {titleAddon ? (
+            <div className="flex flex-wrap items-center gap-1.5">{titleAddon}</div>
+          ) : null}
         </div>
         {description ? <p className="max-w-2xl text-sm text-slate-600">{description}</p> : null}
       </div>

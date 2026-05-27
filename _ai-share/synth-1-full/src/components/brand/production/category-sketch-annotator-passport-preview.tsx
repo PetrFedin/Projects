@@ -215,7 +215,9 @@ export function CategorySketchAnnotatorPassportPreview({
             ))}
           {canOpenSketchEditor ? (
             <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-center justify-end px-3 py-2 text-white">
-              <span className="shrink-0 text-xs opacity-90 group-hover:underline">Открыть редактор</span>
+              <span className="shrink-0 text-xs opacity-90 group-hover:underline">
+                Открыть редактор
+              </span>
             </div>
           ) : null}
         </div>

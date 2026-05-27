@@ -12,33 +12,159 @@ import type {
 import { downloadWorkshop2SmartRoutingCsv } from '@/lib/production/workshop2-smart-routing-csv';
 
 const DEMO_SEQUENCE_APPAREL: Workshop2SmartRoutingOperation[] = [
-  { id: '1', category: 'Заготовка', name: '1. Дублирование деталей полочки', equipment: 'Пресс проходной', sash: 1.2 },
-  { id: '2', category: 'Заготовка', name: '2. Обработка вытачек на полочке и спинке', equipment: 'Универсальная машина', sash: 2.5 },
-  { id: '3', category: 'Заготовка', name: '3. Обработка карманов в листочку', equipment: 'Универсальная машина', sash: 5.0 },
-  { id: '4', category: 'Монтаж', name: '4. Стачать плечевые и боковые швы', equipment: 'Оверлок 4-ниточный', sash: 3.5 },
-  { id: '5', category: 'Монтаж', name: '5. Втачать рукава в проймы', equipment: 'Оверлок 4-ниточный', sash: 4.0 },
-  { id: '6', category: 'Отделка', name: '6. Подшить низ изделия и низ рукавов', equipment: 'Машина потайного стежка', sash: 2.8 },
-  { id: '7', category: 'Отделка', name: '7. Окончательная ВТО', equipment: 'Утюжильный стол', sash: 3.0 },
+  {
+    id: '1',
+    category: 'Заготовка',
+    name: '1. Дублирование деталей полочки',
+    equipment: 'Пресс проходной',
+    sash: 1.2,
+  },
+  {
+    id: '2',
+    category: 'Заготовка',
+    name: '2. Обработка вытачек на полочке и спинке',
+    equipment: 'Универсальная машина',
+    sash: 2.5,
+  },
+  {
+    id: '3',
+    category: 'Заготовка',
+    name: '3. Обработка карманов в листочку',
+    equipment: 'Универсальная машина',
+    sash: 5.0,
+  },
+  {
+    id: '4',
+    category: 'Монтаж',
+    name: '4. Стачать плечевые и боковые швы',
+    equipment: 'Оверлок 4-ниточный',
+    sash: 3.5,
+  },
+  {
+    id: '5',
+    category: 'Монтаж',
+    name: '5. Втачать рукава в проймы',
+    equipment: 'Оверлок 4-ниточный',
+    sash: 4.0,
+  },
+  {
+    id: '6',
+    category: 'Отделка',
+    name: '6. Подшить низ изделия и низ рукавов',
+    equipment: 'Машина потайного стежка',
+    sash: 2.8,
+  },
+  {
+    id: '7',
+    category: 'Отделка',
+    name: '7. Окончательная ВТО',
+    equipment: 'Утюжильный стол',
+    sash: 3.0,
+  },
 ];
 
 const DEMO_SEQUENCE_SHOES: Workshop2SmartRoutingOperation[] = [
-  { id: '1', category: 'Раскрой', name: '1. Раскрой деталей верха', equipment: 'Вырубной пресс', sash: 3.5 },
-  { id: '2', category: 'Заготовка', name: '2. Спускание краев деталей', equipment: 'Машина для спускания краев', sash: 2.0 },
-  { id: '3', category: 'Заготовка', name: '3. Сборка заготовки верха', equipment: 'Швейная машина колонковая', sash: 6.5 },
-  { id: '4', category: 'Затяжка', name: '4. Формование пяточной части', equipment: 'Машина для формования пятки', sash: 1.5 },
-  { id: '5', category: 'Затяжка', name: '5. Затяжка носочно-пучковой части', equipment: 'Затяжная машина (ЗНП)', sash: 2.5 },
-  { id: '6', category: 'Сборка', name: '6. Приклеивание подошвы', equipment: 'Пресс для приклеивания подошв', sash: 3.0 },
-  { id: '7', category: 'Отделка', name: '7. Чистка и финишная обработка', equipment: 'Финишная машина', sash: 4.0 },
+  {
+    id: '1',
+    category: 'Раскрой',
+    name: '1. Раскрой деталей верха',
+    equipment: 'Вырубной пресс',
+    sash: 3.5,
+  },
+  {
+    id: '2',
+    category: 'Заготовка',
+    name: '2. Спускание краев деталей',
+    equipment: 'Машина для спускания краев',
+    sash: 2.0,
+  },
+  {
+    id: '3',
+    category: 'Заготовка',
+    name: '3. Сборка заготовки верха',
+    equipment: 'Швейная машина колонковая',
+    sash: 6.5,
+  },
+  {
+    id: '4',
+    category: 'Затяжка',
+    name: '4. Формование пяточной части',
+    equipment: 'Машина для формования пятки',
+    sash: 1.5,
+  },
+  {
+    id: '5',
+    category: 'Затяжка',
+    name: '5. Затяжка носочно-пучковой части',
+    equipment: 'Затяжная машина (ЗНП)',
+    sash: 2.5,
+  },
+  {
+    id: '6',
+    category: 'Сборка',
+    name: '6. Приклеивание подошвы',
+    equipment: 'Пресс для приклеивания подошв',
+    sash: 3.0,
+  },
+  {
+    id: '7',
+    category: 'Отделка',
+    name: '7. Чистка и финишная обработка',
+    equipment: 'Финишная машина',
+    sash: 4.0,
+  },
 ];
 
 const DEMO_SEQUENCE_BAGS: Workshop2SmartRoutingOperation[] = [
-  { id: '1', category: 'Раскрой', name: '1. Вырубка основных деталей', equipment: 'Вырубной пресс', sash: 2.5 },
-  { id: '2', category: 'Заготовка', name: '2. Шерфование краев кожи', equipment: 'Машина для спускания краев', sash: 1.8 },
-  { id: '3', category: 'Сборка', name: '3. Сборка ручек', equipment: 'Швейная машина с плоской платформой', sash: 3.0 },
-  { id: '4', category: 'Заготовка', name: '4. Подготовка подкладки и внутренних карманов', equipment: 'Универсальная швейная машина', sash: 4.5 },
-  { id: '5', category: 'Сборка', name: '5. Соединение верха с подкладкой', equipment: 'Швейная машина рукавного типа', sash: 5.5 },
-  { id: '6', category: 'Фурнитура', name: '6. Установка фурнитуры (замки, хольнитены)', equipment: 'Пресс для установки фурнитуры', sash: 2.0 },
-  { id: '7', category: 'Отделка', name: '7. Покраска и полировка урезов', equipment: 'Машина для покраски урезов', sash: 3.5 },
+  {
+    id: '1',
+    category: 'Раскрой',
+    name: '1. Вырубка основных деталей',
+    equipment: 'Вырубной пресс',
+    sash: 2.5,
+  },
+  {
+    id: '2',
+    category: 'Заготовка',
+    name: '2. Шерфование краев кожи',
+    equipment: 'Машина для спускания краев',
+    sash: 1.8,
+  },
+  {
+    id: '3',
+    category: 'Сборка',
+    name: '3. Сборка ручек',
+    equipment: 'Швейная машина с плоской платформой',
+    sash: 3.0,
+  },
+  {
+    id: '4',
+    category: 'Заготовка',
+    name: '4. Подготовка подкладки и внутренних карманов',
+    equipment: 'Универсальная швейная машина',
+    sash: 4.5,
+  },
+  {
+    id: '5',
+    category: 'Сборка',
+    name: '5. Соединение верха с подкладкой',
+    equipment: 'Швейная машина рукавного типа',
+    sash: 5.5,
+  },
+  {
+    id: '6',
+    category: 'Фурнитура',
+    name: '6. Установка фурнитуры (замки, хольнитены)',
+    equipment: 'Пресс для установки фурнитуры',
+    sash: 2.0,
+  },
+  {
+    id: '7',
+    category: 'Отделка',
+    name: '7. Покраска и полировка урезов',
+    equipment: 'Машина для покраски урезов',
+    sash: 3.5,
+  },
 ];
 
 export type Workshop2SmartRoutingPanelProps = {
@@ -86,10 +212,23 @@ export function Workshop2SmartRoutingPanel({
     window.setTimeout(() => {
       const l1 = currentLeaf?.l1Name?.toLowerCase() || '';
       const cid = categoryLeafId?.toLowerCase() || '';
-      const isShoes = cid.startsWith('catalog-shoes') || cid.includes('footwear') || l1.includes('обувь') || l1.includes('shoes') || l1.includes('footwear');
-      const isBags = cid.startsWith('catalog-bags') || cid.includes('bag') || l1.includes('сумки') || l1.includes('bags');
-      const targetDemo = isShoes ? DEMO_SEQUENCE_SHOES : isBags ? DEMO_SEQUENCE_BAGS : DEMO_SEQUENCE_APPAREL;
-      
+      const isShoes =
+        cid.startsWith('catalog-shoes') ||
+        cid.includes('footwear') ||
+        l1.includes('обувь') ||
+        l1.includes('shoes') ||
+        l1.includes('footwear');
+      const isBags =
+        cid.startsWith('catalog-bags') ||
+        cid.includes('bag') ||
+        l1.includes('сумки') ||
+        l1.includes('bags');
+      const targetDemo = isShoes
+        ? DEMO_SEQUENCE_SHOES
+        : isBags
+          ? DEMO_SEQUENCE_BAGS
+          : DEMO_SEQUENCE_APPAREL;
+
       const next = targetDemo.map((o) => ({ ...o }));
       persistSequence(next);
       setLoading(false);
@@ -117,7 +256,7 @@ export function Workshop2SmartRoutingPanel({
     }
   }, [operations, csvBasename, toast]);
 
-    const totalSash = operations.reduce((sum, op) => sum + op.sash, 0);
+  const totalSash = operations.reduce((sum, op) => sum + op.sash, 0);
 
   const updateOpSash = useCallback(
     (id: string, newSash: number) => {
@@ -165,22 +304,22 @@ export function Workshop2SmartRoutingPanel({
         </div>
         <div className="min-w-0 flex-1 space-y-2">
           <div className="flex items-start justify-between gap-4">
-            <div className="flex flex-col gap-1 min-w-0 flex-1">
+            <div className="flex min-w-0 flex-1 flex-col gap-1">
               <h2 className="text-text-primary text-base font-semibold">
                 Умная маршрутизация (технологическая последовательность)
               </h2>
-              <p className="text-text-secondary text-xs leading-snug pr-4">
-                Генерация детальной последовательности, норматива SASH (мин) и оборудования по узлам изделия.
-                Цепочка сохраняется в досье для повторного открытия и выгрузки в CSV.
+              <p className="text-text-secondary pr-4 text-xs leading-snug">
+                Генерация детальной последовательности, норматива SASH (мин) и оборудования по узлам
+                изделия. Цепочка сохраняется в досье для повторного открытия и выгрузки в CSV.
               </p>
             </div>
-            <div className="flex gap-2 shrink-0">
+            <div className="flex shrink-0 gap-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleAddOperation}
                 disabled={disabled}
-                className="gap-1.5 h-8 text-[11px] text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 border-indigo-200"
+                className="h-8 gap-1.5 border-indigo-200 text-[11px] text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700"
               >
                 <LucideIcons.Plus className="h-3.5 w-3.5" />
                 Добавить операцию
@@ -190,7 +329,7 @@ export function Workshop2SmartRoutingPanel({
                 disabled={loading || disabled}
                 variant="outline"
                 size="sm"
-                className="h-8 shrink-0 gap-1.5 text-xs text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 border-indigo-200"
+                className="h-8 shrink-0 gap-1.5 border-indigo-200 text-xs text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700"
               >
                 {loading ? (
                   <LucideIcons.Loader2 className="size-3.5 animate-spin" />
@@ -226,7 +365,7 @@ export function Workshop2SmartRoutingPanel({
               {operations.map((op) => (
                 <li
                   key={op.id}
-                  className="group border-border-subtle/50 flex flex-col border-b py-2 pr-2 last:border-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between transition-colors hover:bg-slate-50"
+                  className="border-border-subtle/50 group flex flex-col border-b py-2 pr-2 transition-colors last:border-0 last:pb-0 hover:bg-slate-50 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div className="flex min-w-0 flex-1 items-start gap-2">
                     <div className="mt-0.5 shrink-0">
@@ -234,10 +373,12 @@ export function Workshop2SmartRoutingPanel({
                         value={op.category}
                         disabled={disabled}
                         onChange={(e) => {
-                          const next = operations.map((o) => (o.id === op.id ? { ...o, category: e.target.value } : o));
+                          const next = operations.map((o) =>
+                            o.id === op.id ? { ...o, category: e.target.value } : o
+                          );
                           persistSequence(next);
                         }}
-                        className="h-4 border border-border-default rounded px-1 text-[9px] bg-white outline-none disabled:opacity-50 uppercase"
+                        className="border-border-default h-4 rounded border bg-white px-1 text-[9px] uppercase outline-none disabled:opacity-50"
                       >
                         <option value="Раскрой">Раскрой</option>
                         <option value="Заготовка">Заготовка</option>
@@ -252,26 +393,28 @@ export function Workshop2SmartRoutingPanel({
                       value={op.name}
                       disabled={disabled}
                       onChange={(e) => {
-                        const next = operations.map((o) => (o.id === op.id ? { ...o, name: e.target.value } : o));
+                        const next = operations.map((o) =>
+                          o.id === op.id ? { ...o, name: e.target.value } : o
+                        );
                         persistSequence(next);
                       }}
-                      className="text-text-primary text-sm font-medium leading-tight break-words pt-0.5 bg-transparent outline-none border-b border-transparent focus:border-indigo-400 focus:bg-white px-1 w-full transition-colors disabled:opacity-50"
+                      className="text-text-primary w-full break-words border-b border-transparent bg-transparent px-1 pt-0.5 text-sm font-medium leading-tight outline-none transition-colors focus:border-indigo-400 focus:bg-white disabled:opacity-50"
                       placeholder="Название операции..."
                     />
                   </div>
                   <div className="mt-1.5 flex flex-wrap items-center justify-end gap-2 pl-10 sm:mt-0 sm:shrink-0 sm:pl-4">
-                    <div className="border-border-subtle focus-within:border-indigo-400 focus-within:ring-1 focus-within:ring-indigo-400 flex items-center gap-1.5 rounded border bg-white px-1.5 py-0.5 transition-all">
+                    <div className="border-border-subtle flex items-center gap-1.5 rounded border bg-white px-1.5 py-0.5 transition-all focus-within:border-indigo-400 focus-within:ring-1 focus-within:ring-indigo-400">
                       <LucideIcons.Scissors className="text-text-muted h-3 w-3" />
                       <input
                         type="text"
                         value={op.equipment}
                         disabled={disabled}
                         onChange={(e) => updateOpEquipment(op.id, e.target.value)}
-                        className="w-[120px] bg-transparent text-[10px] text-text-secondary outline-none placeholder:text-text-muted disabled:opacity-50"
+                        className="text-text-secondary placeholder:text-text-muted w-[120px] bg-transparent text-[10px] outline-none disabled:opacity-50"
                         placeholder="Оборудование..."
                       />
                     </div>
-                    <div className="border-border-subtle focus-within:border-indigo-400 focus-within:ring-1 focus-within:ring-indigo-400 flex min-w-[5rem] items-center justify-end gap-1.5 rounded border bg-white px-1.5 py-0.5 transition-all">
+                    <div className="border-border-subtle flex min-w-[5rem] items-center justify-end gap-1.5 rounded border bg-white px-1.5 py-0.5 transition-all focus-within:border-indigo-400 focus-within:ring-1 focus-within:ring-indigo-400">
                       <LucideIcons.Clock className="text-text-muted h-3 w-3 shrink-0" />
                       <input
                         type="number"
@@ -283,7 +426,7 @@ export function Workshop2SmartRoutingPanel({
                           const val = parseFloat(e.target.value);
                           if (!isNaN(val)) updateOpSash(op.id, val);
                         }}
-                        className="w-10 text-right bg-transparent text-[11px] font-mono font-medium text-text-primary outline-none disabled:opacity-50"
+                        className="text-text-primary w-10 bg-transparent text-right font-mono text-[11px] font-medium outline-none disabled:opacity-50"
                       />
                       <span className="text-text-muted text-[9px]">мин</span>
                     </div>
@@ -291,7 +434,7 @@ export function Workshop2SmartRoutingPanel({
                       type="button"
                       disabled={disabled}
                       onClick={() => removeOp(op.id)}
-                      className="opacity-0 group-hover:opacity-100 flex items-center justify-center w-6 h-6 rounded-md text-red-400 hover:text-red-600 hover:bg-red-50 disabled:opacity-0 transition-all ml-1"
+                      className="ml-1 flex h-6 w-6 items-center justify-center rounded-md text-red-400 opacity-0 transition-all hover:bg-red-50 hover:text-red-600 disabled:opacity-0 group-hover:opacity-100"
                       title="Удалить операцию"
                     >
                       <LucideIcons.Trash2 className="h-3.5 w-3.5" />
@@ -301,14 +444,14 @@ export function Workshop2SmartRoutingPanel({
                       disabled={disabled}
                       onClick={() => {
                         const next = [...operations];
-                        const idx = next.findIndex(o => o.id === op.id);
+                        const idx = next.findIndex((o) => o.id === op.id);
                         if (idx > -1) {
                           const clone = { ...next[idx], id: `op-${Date.now()}` };
                           next.splice(idx + 1, 0, clone);
                           persistSequence(next);
                         }
                       }}
-                      className="opacity-0 group-hover:opacity-100 flex items-center justify-center w-6 h-6 rounded-md text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 disabled:opacity-0 transition-all ml-1"
+                      className="ml-1 flex h-6 w-6 items-center justify-center rounded-md text-indigo-400 opacity-0 transition-all hover:bg-indigo-50 hover:text-indigo-600 disabled:opacity-0 group-hover:opacity-100"
                       title="Дублировать операцию"
                     >
                       <LucideIcons.Copy className="h-3.5 w-3.5" />

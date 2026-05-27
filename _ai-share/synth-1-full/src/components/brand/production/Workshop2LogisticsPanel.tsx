@@ -34,12 +34,18 @@ const LOG_ENTRIES = [
 
 const getTruckPosition = (stepIndex: number) => {
   switch (stepIndex) {
-    case 0: return "translate(100, 150)";
-    case 1: return "translate(200, 100)";
-    case 2: return "translate(450, 180)";
-    case 3: return "translate(650, 150)";
-    case 4: return "translate(800, 100)";
-    default: return "translate(450, 180)";
+    case 0:
+      return 'translate(100, 150)';
+    case 1:
+      return 'translate(200, 100)';
+    case 2:
+      return 'translate(450, 180)';
+    case 3:
+      return 'translate(650, 150)';
+    case 4:
+      return 'translate(800, 100)';
+    default:
+      return 'translate(450, 180)';
   }
 };
 
@@ -62,45 +68,45 @@ export function Workshop2LogisticsPanel({
           </div>
           <div className="min-w-0 flex-1 space-y-1">
             <div className="flex items-center gap-2">
-              <h2 className="text-text-primary text-base font-semibold">Логистика и цепочка поставок</h2>
-              <span className="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full font-medium">
+              <h2 className="text-text-primary text-base font-semibold">
+                Логистика и цепочка поставок
+              </h2>
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600">
                 Ответственный: Логист
               </span>
             </div>
             <p className="text-text-secondary text-xs leading-snug">
-              Отслеживание статуса доставки от фабрики до склада. Интеграция с API транспортной компании.
+              Отслеживание статуса доставки от фабрики до склада. Интеграция с API транспортной
+              компании.
             </p>
           </div>
         </div>
-        <span
-          className="border-border-default bg-bg-surface2 text-text-secondary shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px]"
-        >
+        <span className="border-border-default bg-bg-surface2 text-text-secondary shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px]">
           {dataMode === 'http' ? 'API' : 'local'}
         </span>
       </div>
 
-      <div className="border-border-subtle flex flex-col gap-1.5 border-t border-dotted pt-2.5 mt-4">
+      <div className="border-border-subtle mt-4 flex flex-col gap-1.5 border-t border-dotted pt-2.5">
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="bg-bg-surface2/70 text-text-primary max-w-full rounded border border-border-subtle px-2 py-1 text-[10px] leading-snug">
-            <span className="text-text-muted font-bold">Суть</span> · Этап: {STEPS[currentStepIndex].label}
+          <span className="bg-bg-surface2/70 text-text-primary border-border-subtle max-w-full rounded border px-2 py-1 text-[10px] leading-snug">
+            <span className="text-text-muted font-bold">Суть</span> · Этап:{' '}
+            {STEPS[currentStepIndex].label}
           </span>
-          <span className="text-text-primary max-w-full rounded border border-border-subtle bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
+          <span className="text-text-primary border-border-subtle max-w-full rounded border bg-white px-2 py-1 text-[10px] font-semibold leading-snug">
             <span className="text-text-muted font-bold">Гот.</span> · В пути
           </span>
           <Badge
             variant="outline"
-            className="flex items-center gap-1 border-blue-200 bg-blue-50 text-blue-700 text-[10px] px-2 py-0.5 shadow-sm"
+            className="flex items-center gap-1 border-blue-200 bg-blue-50 px-2 py-0.5 text-[10px] text-blue-700 shadow-sm"
           >
             <Activity className="h-3 w-3 animate-pulse" />
             Трекинг активен
           </Badge>
-          <span className="text-text-muted ml-auto text-[10px]">
-            Обновлено: 10 мин назад
-          </span>
+          <span className="text-text-muted ml-auto text-[10px]">Обновлено: 10 мин назад</span>
         </div>
       </div>
 
-      <div className="min-w-0 space-y-4 mt-4">
+      <div className="mt-4 min-w-0 space-y-4">
         <div className="space-y-6">
           <div className="overflow-x-auto pb-8 pt-4">
             <div className="relative min-w-[600px]">
@@ -110,40 +116,44 @@ export function Workshop2LogisticsPanel({
                 style={{ width: `${(currentStepIndex / (STEPS.length - 1)) * 100}%` }}
               />
               <div className="relative flex w-full justify-between">
-              {STEPS.map((step, idx) => {
-                const Icon = step.icon;
-                const isCompleted = idx < currentStepIndex;
-                const isCurrent = idx === currentStepIndex;
-                const isPending = idx > currentStepIndex;
+                {STEPS.map((step, idx) => {
+                  const Icon = step.icon;
+                  const isCompleted = idx < currentStepIndex;
+                  const isCurrent = idx === currentStepIndex;
+                  const isPending = idx > currentStepIndex;
 
-                return (
-                  <button
-                    key={step.id}
-                    onClick={() => setCurrentStepIndex(idx)}
-                    className="flex flex-col items-center gap-3 relative group cursor-pointer"
-                  >
-                    <div
-                      className={cn(
-                        'z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 bg-background transition-colors',
-                        isCompleted && 'border-blue-600 bg-blue-50 text-blue-600',
-                        isCurrent && 'border-blue-600 bg-blue-600 text-white shadow-md shadow-blue-200',
-                        isPending && 'border-slate-200 bg-slate-50 text-slate-400 group-hover:border-slate-300'
-                      )}
+                  return (
+                    <button
+                      key={step.id}
+                      onClick={() => setCurrentStepIndex(idx)}
+                      className="group relative flex cursor-pointer flex-col items-center gap-3"
                     >
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <div
-                      className={cn(
-                        'absolute top-[52px] w-[120px] text-center whitespace-normal leading-tight text-[11px] font-medium transition-colors',
-                        isCurrent ? 'font-bold text-slate-900' : 'text-slate-500 group-hover:text-slate-700'
-                      )}
-                      style={{ left: '50%', transform: 'translateX(-50%)' }}
-                    >
-                      {step.label}
-                    </div>
-                  </button>
-                );
-              })}
+                      <div
+                        className={cn(
+                          'z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 bg-background transition-colors',
+                          isCompleted && 'border-blue-600 bg-blue-50 text-blue-600',
+                          isCurrent &&
+                            'border-blue-600 bg-blue-600 text-white shadow-md shadow-blue-200',
+                          isPending &&
+                            'border-slate-200 bg-slate-50 text-slate-400 group-hover:border-slate-300'
+                        )}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div
+                        className={cn(
+                          'absolute top-[52px] w-[120px] whitespace-normal text-center text-[11px] font-medium leading-tight transition-colors',
+                          isCurrent
+                            ? 'font-bold text-slate-900'
+                            : 'text-slate-500 group-hover:text-slate-700'
+                        )}
+                        style={{ left: '50%', transform: 'translateX(-50%)' }}
+                      >
+                        {step.label}
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -154,30 +164,30 @@ export function Workshop2LogisticsPanel({
                 <h3 className="border-b pb-2 text-sm font-medium">Реквизиты отправки</h3>
                 <div className="grid grid-cols-1 gap-4 text-[11px]">
                   <div className="space-y-1.5">
-                    <Label className="text-slate-500 text-[10px]">Экспедитор</Label>
+                    <Label className="text-[10px] text-slate-500">Экспедитор</Label>
                     <div className="font-medium">Global Freight Logistics</div>
                   </div>
                   <div className="space-y-1.5">
-                    <Label className="text-slate-500 text-[10px]">ТТН / трек-номер</Label>
+                    <Label className="text-[10px] text-slate-500">ТТН / трек-номер</Label>
                     <div className="font-mono font-medium">GFL-89320-X-44</div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <Label className="text-slate-500 text-[10px]">Откуда</Label>
+                      <Label className="text-[10px] text-slate-500">Откуда</Label>
                       <div className="font-medium">Бишкек, КР</div>
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-slate-500 text-[10px]">Куда</Label>
+                      <Label className="text-[10px] text-slate-500">Куда</Label>
                       <div className="font-medium">Москва, РФ</div>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <Label className="text-slate-500 text-[10px]">Отправление</Label>
+                      <Label className="text-[10px] text-slate-500">Отправление</Label>
                       <div className="font-medium">2026-05-10</div>
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-slate-500 text-[10px]">Прибытие</Label>
+                      <Label className="text-[10px] text-slate-500">Прибытие</Label>
                       <div className="font-medium">2026-05-24</div>
                     </div>
                   </div>
@@ -232,11 +242,35 @@ export function Workshop2LogisticsPanel({
                   <circle cx="100" cy="150" r="6" fill="#3b82f6" />
                   <circle cx="800" cy="100" r="6" fill="#94a3b8" />
 
-                  <g transform={getTruckPosition(currentStepIndex)} style={{ transition: 'transform 1s ease-in-out' }}>
-                    <circle cx="0" cy="0" r="12" fill="#3b82f6" className="animate-ping opacity-75" />
+                  <g
+                    transform={getTruckPosition(currentStepIndex)}
+                    style={{ transition: 'transform 1s ease-in-out' }}
+                  >
+                    <circle
+                      cx="0"
+                      cy="0"
+                      r="12"
+                      fill="#3b82f6"
+                      className="animate-ping opacity-75"
+                    />
                     <circle cx="0" cy="0" r="6" fill="#2563eb" stroke="white" strokeWidth="2" />
-                    <rect x="-15" y="-35" width="30" height="20" rx="4" fill="white" stroke="#e2e8f0" />
-                    <text x="0" y="-22" fontSize="10" textAnchor="middle" fill="#0f172a" fontWeight="bold">
+                    <rect
+                      x="-15"
+                      y="-35"
+                      width="30"
+                      height="20"
+                      rx="4"
+                      fill="white"
+                      stroke="#e2e8f0"
+                    />
+                    <text
+                      x="0"
+                      y="-22"
+                      fontSize="10"
+                      textAnchor="middle"
+                      fill="#0f172a"
+                      fontWeight="bold"
+                    >
                       GFL
                     </text>
                   </g>
@@ -249,11 +283,15 @@ export function Workshop2LogisticsPanel({
                     </div>
                     <div>
                       <div className="text-sm font-medium">
-                        {currentStepIndex === 0 ? 'На производстве' :
-                         currentStepIndex === 1 ? 'Погрузка' :
-                         currentStepIndex === 2 ? 'В пути · Трасса М5' :
-                         currentStepIndex === 3 ? 'Таможенный контроль' :
-                         'Доставлено на склад'}
+                        {currentStepIndex === 0
+                          ? 'На производстве'
+                          : currentStepIndex === 1
+                            ? 'Погрузка'
+                            : currentStepIndex === 2
+                              ? 'В пути · Трасса М5'
+                              : currentStepIndex === 3
+                                ? 'Таможенный контроль'
+                                : 'Доставлено на склад'}
                       </div>
                       <div className="text-xs text-slate-500">Обновлено: только что</div>
                     </div>
@@ -281,23 +319,44 @@ export function Workshop2LogisticsPanel({
                     const isLast = idx === LOG_ENTRIES.length - 1;
 
                     return (
-                      <div key={idx} className={cn("relative pl-6", !isLast && "border-l-2 pb-4", isCompleted || isCurrent ? "border-blue-500" : "border-slate-200")}>
-                        <div className={cn(
-                          "absolute -left-[9px] top-0 h-4 w-4 rounded-full border-4",
-                          isCompleted ? "border-white bg-blue-500" : 
-                          isCurrent ? "border-blue-500 bg-white" : 
-                          "border-white bg-slate-200"
-                        )} />
-                        <div className={cn(
-                          "text-[13px] font-medium",
-                          isCompleted ? "text-slate-900" :
-                          isCurrent ? "text-blue-600" :
-                          "text-slate-400"
-                        )}>{entry.title}</div>
-                        <div className={cn(
-                          "text-[11px]",
-                          isCompleted || isCurrent ? "text-slate-500" : "text-slate-400"
-                        )}>{entry.desc} · {entry.time}</div>
+                      <div
+                        key={idx}
+                        className={cn(
+                          'relative pl-6',
+                          !isLast && 'border-l-2 pb-4',
+                          isCompleted || isCurrent ? 'border-blue-500' : 'border-slate-200'
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            'absolute -left-[9px] top-0 h-4 w-4 rounded-full border-4',
+                            isCompleted
+                              ? 'border-white bg-blue-500'
+                              : isCurrent
+                                ? 'border-blue-500 bg-white'
+                                : 'border-white bg-slate-200'
+                          )}
+                        />
+                        <div
+                          className={cn(
+                            'text-[13px] font-medium',
+                            isCompleted
+                              ? 'text-slate-900'
+                              : isCurrent
+                                ? 'text-blue-600'
+                                : 'text-slate-400'
+                          )}
+                        >
+                          {entry.title}
+                        </div>
+                        <div
+                          className={cn(
+                            'text-[11px]',
+                            isCompleted || isCurrent ? 'text-slate-500' : 'text-slate-400'
+                          )}
+                        >
+                          {entry.desc} · {entry.time}
+                        </div>
                       </div>
                     );
                   })}

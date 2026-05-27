@@ -100,7 +100,10 @@ export default function KizStockAccountingPage() {
   };
 
   return (
-    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-500 animate-in fade-in">
+    <CabinetPageContent
+      maxWidth="full"
+      className="w-full space-y-6 pb-16 duration-500 animate-in fade-in"
+    >
       <RegistryPageHeader
         title="Складской учет КИЗ"
         leadPlain="Мониторинг и синхронизация маркированных остатков в реальном времени."

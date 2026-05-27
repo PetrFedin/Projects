@@ -258,7 +258,6 @@ export const ROUTES = {
     mediaVideoSpecs: '/brand/media/video-specs',
     blog: '/brand/blog',
     live: '/brand/live',
-    reviews: '/brand/reviews',
     /** LIVE process: хаб поэтапных схем */
     processLiveHub: '/brand/process/live',
     /** LIVE process по разделам (индивидуальные поэтапные схемы) */
@@ -445,8 +444,7 @@ export const ROUTES = {
     creditRisk: '/brand/credit-risk',
     lastCall: '/brand/last-call',
     messages: '/brand/messages',
-    messagesChat: (chatId: string) =>
-      `/brand/messages?chat=${encodeURIComponent(chatId)}`,
+    messagesChat: (chatId: string) => `/brand/messages?chat=${encodeURIComponent(chatId)}`,
     calendar: '/brand/calendar',
     tasks: '/brand/tasks',
     events: '/brand/events',
@@ -640,8 +638,7 @@ export const ROUTES = {
     calendar: '/shop/calendar',
     messages: '/shop/messages',
     /** Внутренние сообщения с предвыбранным чатом (например академия: `?chat=academy_…`) */
-    messagesChat: (chatId: string) =>
-      `/shop/messages?chat=${encodeURIComponent(chatId)}`,
+    messagesChat: (chatId: string) => `/shop/messages?chat=${encodeURIComponent(chatId)}`,
     staff: '/shop/staff',
     career: '/shop/career',
   },
@@ -727,8 +724,7 @@ export const ROUTES = {
   contact: '/contact',
   academyPlatform: '/academy',
   /** Статья базы знаний в ЛК клиента (mock / education-data) */
-  clientAcademyKnowledgeArticle: (slug: string) =>
-    `/academy/knowledge/${encodeURIComponent(slug)}`,
+  clientAcademyKnowledgeArticle: (slug: string) => `/academy/knowledge/${encodeURIComponent(slug)}`,
   /** Карточка курса платформы (mock / education-data) */
   clientAcademyCourse: (id: string) => `/academy/course/${encodeURIComponent(id)}`,
   /** Траектория обучения (mock / education-data) */
@@ -854,7 +850,10 @@ export function brandProductionFloorHref(
 }
 
 /** Карточка артикула в разработке коллекции — тот же контекст, что `w2col` / `w2art` в query списка. */
-export function brandWorkshop2ArticleCardHref(collectionId: string, articleSegment: string): string {
+export function brandWorkshop2ArticleCardHref(
+  collectionId: string,
+  articleSegment: string
+): string {
   return workshop2ArticlePath(collectionId, articleSegment);
 }
 

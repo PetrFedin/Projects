@@ -4,7 +4,7 @@ import { reconcilePO } from '@/lib/b2b/intake/rfid-reconciliation-logic';
 
 const reconcilePayloadSchema = z.object({
   purchaseOrderId: z.string(),
-  epcs: z.array(z.string().regex(/^[0-9A-Za-z]+$/))
+  epcs: z.array(z.string().regex(/^[0-9A-Za-z]+$/)),
 });
 
 export async function POST(req: NextRequest) {
@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(result);
-
   } catch (err: any) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid payload', details: err.errors }, { status: 400 });

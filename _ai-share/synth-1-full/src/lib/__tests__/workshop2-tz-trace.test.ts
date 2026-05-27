@@ -1,7 +1,10 @@
 /**
  * @jest-environment node
  */
-import { buildWorkshop2TzPreflightReport, buildWorkshop2TzTraceRows } from '@/lib/production/workshop2-tz-trace';
+import {
+  buildWorkshop2TzPreflightReport,
+  buildWorkshop2TzTraceRows,
+} from '@/lib/production/workshop2-tz-trace';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 
 function emptyDossier(): Workshop2DossierPhase1 {

@@ -29,7 +29,11 @@ describe('POST /api/brand/workshop2/phase1-dossier/merge', () => {
     });
     const res = await POST(req as never);
     expect(res.status).toBe(200);
-    const json = (await res.json()) as { ok: boolean; version: number; dossier?: { collaborationMergeNote?: string } };
+    const json = (await res.json()) as {
+      ok: boolean;
+      version: number;
+      dossier?: { collaborationMergeNote?: string };
+    };
     expect(json.ok).toBe(true);
     expect(json.version).toBe(2);
     expect(json.dossier?.collaborationMergeNote).toBe('local');
@@ -39,7 +43,10 @@ describe('POST /api/brand/workshop2/phase1-dossier/merge', () => {
     await putWorkshop2ServerDossierRecord({
       collectionId: 'c2',
       articleId: 'a2',
-      dossier: { assignments: [], tzSignatoryBindings: { designerDisplayLabel: 'Server' } } as never,
+      dossier: {
+        assignments: [],
+        tzSignatoryBindings: { designerDisplayLabel: 'Server' },
+      } as never,
     });
     const req = new Request('http://localhost/api/brand/workshop2/phase1-dossier/merge', {
       method: 'POST',

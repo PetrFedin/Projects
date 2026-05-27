@@ -15,10 +15,7 @@ import type {
  * Intentionally empty: no long RACI copy in the product UI. Section ownership for signatures is
  * handled in `w2-tz-section-signer-filter.ts` + паспорт (этап «ТЗ»).
  */
-export const W2_RACI_MAIN_TAB_LINE: Record<
-  Exclude<Workshop2ArticleMainTab, 'overview'>,
-  string
-> = {
+export const W2_RACI_MAIN_TAB_LINE: Record<Exclude<Workshop2ArticleMainTab, 'overview'>, string> = {
   tz: '',
   supply: '',
   fit: '',
@@ -40,7 +37,8 @@ export const W2_RACI_TZ_SECTION_LINE: Record<Workshop2TzPanelSectionId, string> 
 /** Пояснение к этапам цифровой подписи в паспорте (чекбоксы у роли). */
 export const W2_RACI_TZ_SIGNOFF_STAGE_LINE: Record<Workshop2TzSignoffStageId, string> = {
   tz: 'ТЗ: согласование досье до передачи в образец/снабжение — дизайн, технолог, менеджер изделия, если на них подпись включена; иначе не ждём.',
-  sample: 'Образец/пилот: согласование готовности прототипа — бренд+технолог; поставщик/цех — в объёме передачи, не весь ТЗ.',
+  sample:
+    'Образец/пилот: согласование готовности прототипа — бренд+технолог; поставщик/цех — в объёме передачи, не весь ТЗ.',
   supply: 'Снабжение: закреплённые снабжение/PD/поставщик; бренд — только в части бренд-стопов.',
   fit: 'Посадка/эталон: дизайн+технолог+зона, ответственная за примерку; без лишних согласующих вне паспорта.',
   plan: 'План: план+снабжение+производство; бренд — окно даты/объёма.',

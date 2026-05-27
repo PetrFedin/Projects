@@ -86,7 +86,7 @@ export function Workshop2FloorToolkitBridge({
               type="button"
               className={cn(
                 'hover:bg-bg-surface2/50 flex w-full items-center justify-between gap-2 rounded-lg px-4 py-3 text-left transition-colors',
-                'focus-visible:ring-accent-primary focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'
+                'focus-visible:ring-accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2'
               )}
             >
               <span className="text-text-primary flex min-w-0 items-center gap-2 text-sm font-semibold">
@@ -109,7 +109,7 @@ export function Workshop2FloorToolkitBridge({
                 </Link>
                 <Link
                   href={ROUTES.brand.production}
-                  className="text-text-muted text-[11px] font-medium underline-offset-2 hover:text-accent-primary hover:underline"
+                  className="text-text-muted hover:text-accent-primary text-[11px] font-medium underline-offset-2 hover:underline"
                 >
                   Пол цеха (все вкладки)
                 </Link>
@@ -142,8 +142,8 @@ export function Workshop2FloorToolkitBridge({
               >
                 /brand/production
               </Link>{' '}
-              — только для ТЗ, материалов под образец, эталона и контроля. Серия, партия и заказы — в полном поле и
-              B2B, ниже на странице. {contextSummary}
+              — только для ТЗ, материалов под образец, эталона и контроля. Серия, партия и заказы —
+              в полном поле и B2B, ниже на странице. {contextSummary}
             </CardDescription>
           </div>
           <Link

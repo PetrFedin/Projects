@@ -2,6 +2,15 @@
  * Эвристика без API: сравнение linkedBomLineRef на скетче со строками mat из досье.
  * Совпадение — если ref или строка mat содержат друг друга (регистронезависимо).
  */
+import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+
+export function resolveMatSketchBomGapRefs(
+  _dossier: Workshop2DossierPhase1,
+  sketchRefs: string[],
+  matLines: string[]
+): string[] {
+  return sketchBomRefsMissingFromMatLines(sketchRefs, matLines);
+}
 
 export function sketchBomRefsMissingFromMatLines(
   sketchRefs: string[],

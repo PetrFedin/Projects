@@ -1,13 +1,7 @@
 'use client';
 
 import { History } from 'lucide-react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ProductionPageContentTabAuditBodyToolbar } from '@/app/brand/production/production-page-content-tab-audit-body-toolbar';
 import { ProductionPageContentTabAuditBodyTable } from '@/app/brand/production/production-page-content-tab-audit-body-table';
 

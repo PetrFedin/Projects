@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import type { CollectionChecklistItem } from '@/app/brand/production/production-page-collection-articles-helpers';
-import { AlertCircle, CheckCircle2, CircleDot, ClipboardCheck, FileText, ListTodo } from 'lucide-react';
+import {
+  AlertCircle,
+  CheckCircle2,
+  CircleDot,
+  ClipboardCheck,
+  FileText,
+  ListTodo,
+} from 'lucide-react';
 
 export function BrandProductionCollectionChecklistCard(props: {
   items: readonly CollectionChecklistItem[];
@@ -49,7 +56,9 @@ export function BrandProductionCollectionChecklistCard(props: {
                 <div
                   className={cn(
                     'flex items-center gap-2 rounded-lg border p-3',
-                    item.done ? 'border-emerald-200 bg-emerald-50/50' : 'border-border-subtle bg-bg-surface2/80'
+                    item.done
+                      ? 'border-emerald-200 bg-emerald-50/50'
+                      : 'border-border-subtle bg-bg-surface2/80'
                   )}
                 >
                   {item.done ? (
@@ -122,7 +131,9 @@ export function BrandProductionWorkshopAttentionSummary(props: {
             <ClipboardCheck className="text-accent-primary h-5 w-5" />
           </div>
           <div>
-            <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">Без PO</p>
+            <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest">
+              Без PO
+            </p>
             <p className="text-text-primary text-lg font-black">{withoutPoCount} арт.</p>
           </div>
         </CardContent>

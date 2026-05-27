@@ -33,10 +33,10 @@ export function BrandProductionWorkshopTabIntro(props: {
           </CardTitle>
           <CardDescription className="text-text-primary text-xs leading-relaxed">
             Сначала коллекция, затем артикул. Вкладки «Этапы», «Снабжение», «Эталон», «План»,
-            «Выпуск», «ОТК», «Склад» и «Операции» открываются только после выбора артикула в
-            таблице ниже — <strong className="text-text-primary">«В цех · процесс»</strong>.
-            Вкладка «LIVE · схема» доступна без артикула (обзор по коллекции). Раздел готовых к
-            продаже продуктов и B2B/B2C — отдельно позже.
+            «Выпуск», «ОТК», «Склад» и «Операции» открываются только после выбора артикула в таблице
+            ниже — <strong className="text-text-primary">«В цех · процесс»</strong>. Вкладка «LIVE ·
+            схема» доступна без артикула (обзор по коллекции). Раздел готовых к продаже продуктов и
+            B2B/B2C — отдельно позже.
           </CardDescription>
         </CardHeader>
         {articleContextValid && stagesSkuContextLine ? (
@@ -102,8 +102,12 @@ export function BrandProductionWorkshopTabIntro(props: {
                     )}
                   >
                     <CardContent className="p-4">
-                      <p className="text-text-primary truncate text-[12px] font-semibold">{col.name}</p>
-                      <Badge className={cn('mt-1.5 border text-[9px]', statusClass)}>{statusLabel}</Badge>
+                      <p className="text-text-primary truncate text-[12px] font-semibold">
+                        {col.name}
+                      </p>
+                      <Badge className={cn('mt-1.5 border text-[9px]', statusClass)}>
+                        {statusLabel}
+                      </Badge>
                       <p className="text-text-secondary mt-2 text-[10px]">
                         Артикулов: <strong>{col.articleCount}</strong>
                       </p>

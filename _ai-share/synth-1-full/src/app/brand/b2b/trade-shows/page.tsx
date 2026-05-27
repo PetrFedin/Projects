@@ -17,7 +17,10 @@ export default function BrandB2BTradeShowsPage() {
   const links = getRelatedLinks('trade-show').map((l) => ({ label: l.label, href: l.href }));
 
   return (
-    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16 duration-700 animate-in fade-in">
+    <CabinetPageContent
+      maxWidth="full"
+      className="w-full space-y-6 pb-16 duration-700 animate-in fade-in"
+    >
       <RegistryPageHeader
         title="Market Week / Trade Show"
         leadPlain="CPM, МФН и др. события. Календарь выставок, инвайты байерам, заказы с события."

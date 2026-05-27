@@ -51,8 +51,7 @@ export function mergePartnerGrowthSlice(
     .map((x) => ({
       label: String(x.label ?? ''),
       value: String(x.value ?? ''),
-      href:
-        typeof x.href === 'string' && x.href.length > 0 ? x.href : '#',
+      href: typeof x.href === 'string' && x.href.length > 0 ? x.href : '#',
     }))
     .filter((x) => x.label.length > 0 && x.value.length > 0);
   if (items.length === 0) return fallback;

@@ -9,7 +9,10 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { operationalLayoutContract as o } from '@/lib/ui/operational-layout-contract';
-import type { PriorityWorkflowGroup, PriorityWorkflowVariant } from '@/lib/data/b2b-priority-workflow-groups';
+import type {
+  PriorityWorkflowGroup,
+  PriorityWorkflowVariant,
+} from '@/lib/data/b2b-priority-workflow-groups';
 
 const VARIANT_ACCENT: Record<PriorityWorkflowVariant, string> = {
   production: 'border-l-slate-600',
@@ -43,13 +46,11 @@ export function B2bPriorityWorkflowPanel({
       className={cn(o.panel, 'overflow-hidden shadow-none', className)}
       data-testid="b2b-priority-workflow-panel"
     >
-      <header className="border-border-default/80 border-b bg-bg-surface2/50 px-4 py-3">
+      <header className="border-border-default/80 bg-bg-surface2/50 border-b px-4 py-3">
         <h2 className="text-text-primary text-[11px] font-black uppercase tracking-[0.22em]">
           {title}
         </h2>
-        {lead ? (
-          <p className="text-text-muted mt-1.5 text-xs leading-snug">{lead}</p>
-        ) : null}
+        {lead ? <p className="text-text-muted mt-1.5 text-xs leading-snug">{lead}</p> : null}
       </header>
 
       <div className="grid grid-cols-1 gap-3 p-3 sm:grid-cols-2 xl:grid-cols-3">
@@ -57,8 +58,8 @@ export function B2bPriorityWorkflowPanel({
           <div
             key={group.id}
             className={cn(
-              'flex min-h-0 flex-col rounded-lg border border-border-default/90 bg-white',
-              'border-l-[3px] pl-3 pr-2.5 py-2.5',
+              'border-border-default/90 flex min-h-0 flex-col rounded-lg border bg-white',
+              'border-l-[3px] py-2.5 pl-3 pr-2.5',
               VARIANT_ACCENT[group.variant]
             )}
           >
@@ -75,7 +76,7 @@ export function B2bPriorityWorkflowPanel({
                 <li key={`${group.id}-${String(link.href)}-${i}`}>
                   <Link
                     href={link.href}
-                    className="text-text-primary hover:bg-bg-surface2/90 group flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left text-[11px] font-semibold leading-tight transition-colors hover:text-accent-primary"
+                    className="text-text-primary hover:bg-bg-surface2/90 hover:text-accent-primary group flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left text-[11px] font-semibold leading-tight transition-colors"
                   >
                     <span className="min-w-0 flex-1 truncate">{link.label}</span>
                     <ArrowUpRight

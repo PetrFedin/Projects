@@ -1,10 +1,9 @@
 export type DropStatsItemInput = { deliveryWindowId?: string; orderedQuantity?: number };
 
 /** Агрегация по окнам поставки для карточек дропов на этаже. */
-export function buildDropStatsFromItems(items: DropStatsItemInput[]): Record<
-  string,
-  { styles: number; qty: number }
-> {
+export function buildDropStatsFromItems(
+  items: DropStatsItemInput[]
+): Record<string, { styles: number; qty: number }> {
   const acc: Record<string, { styles: number; qty: number }> = {};
   for (const item of items) {
     const windowId: string = item.deliveryWindowId || 'unknown';

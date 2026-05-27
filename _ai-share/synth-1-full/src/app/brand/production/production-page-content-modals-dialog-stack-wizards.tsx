@@ -3,7 +3,11 @@
 import { CollectionCreateWizard } from '@/components/brand/production/CollectionCreateWizard';
 import { SkuCreateWizard } from '@/components/brand/production/SkuCreateWizard';
 
-export function ProductionPageContentModalsDialogStackWizards({ p }: { p: Record<string, unknown> }) {
+export function ProductionPageContentModalsDialogStackWizards({
+  p,
+}: {
+  p: Record<string, unknown>;
+}) {
   const px = p as Record<string, any>;
   const {
     isSkuWizardOpen,
@@ -29,7 +33,9 @@ export function ProductionPageContentModalsDialogStackWizards({ p }: { p: Record
         open={!!isCreatingCollection}
         onOpenChange={(open) => setIsCreatingCollection?.(!open)}
         onCreated={handleCollectionCreated}
-        existingCollections={collections?.map((c: { id: string; name: string }) => ({ id: c.id, name: c.name })) || []}
+        existingCollections={
+          collections?.map((c: { id: string; name: string }) => ({ id: c.id, name: c.name })) || []
+        }
         duplicateFrom={px.duplicateFromCollection}
       />
     </>

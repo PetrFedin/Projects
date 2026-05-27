@@ -72,13 +72,7 @@ export default function LandedCostPage() {
   ];
 
   const exchangeRate =
-    currency === 'EUR'
-      ? 102.4
-      : currency === 'USD'
-        ? 94.2
-        : currency === 'CNY'
-          ? 12.85
-          : 1;
+    currency === 'EUR' ? 102.4 : currency === 'USD' ? 94.2 : currency === 'CNY' ? 12.85 : 1;
 
   const calculateLanded = (item: any) => {
     const fobInRub = item.fob * exchangeRate;

@@ -16,13 +16,13 @@
 
 ## Точки расширения в коде
 
-| Механизм | Файл |
-|----------|------|
-| Оверлей оплат на любой базе | `applyOrderPaymentsOverlay` в `partner-finance-rollup.ts` |
-| Фильтр brand/retailer | `filterB2BOrdersByOperationalActor` в `b2b-orders-read-model-shared.ts` |
-| Снимок списка заказов | `b2b-order-persistence.file.ts`, тип `B2BOrderSnapshotFileV1` |
-| Детализация строк без БД (план) | `lineItemsByOrderId` в снимке v1 |
-| Порт чтения (план) | `B2BOrderReadPort` в `b2b-order-persistence.types.ts` |
+| Механизм                        | Файл                                                                    |
+| ------------------------------- | ----------------------------------------------------------------------- |
+| Оверлей оплат на любой базе     | `applyOrderPaymentsOverlay` в `partner-finance-rollup.ts`               |
+| Фильтр brand/retailer           | `filterB2BOrdersByOperationalActor` в `b2b-orders-read-model-shared.ts` |
+| Снимок списка заказов           | `b2b-order-persistence.file.ts`, тип `B2BOrderSnapshotFileV1`           |
+| Детализация строк без БД (план) | `lineItemsByOrderId` в снимке v1                                        |
+| Порт чтения (план)              | `B2BOrderReadPort` в `b2b-order-persistence.types.ts`                   |
 
 ## Следующие шаги
 

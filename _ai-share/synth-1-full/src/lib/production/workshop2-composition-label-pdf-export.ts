@@ -3,7 +3,11 @@ import type { Workshop2CompositionLabelSpec } from '@/lib/production/workshop2-d
 import { compositionLabelPdfLineStepMm } from '@/lib/production/workshop2-composition-label-typography-style';
 
 function parseMm(v: string | undefined, fallback: number): number {
-  const n = Number(String(v ?? '').replace(',', '.').trim());
+  const n = Number(
+    String(v ?? '')
+      .replace(',', '.')
+      .trim()
+  );
   return Number.isFinite(n) && n > 0 ? n : fallback;
 }
 

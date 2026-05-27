@@ -100,7 +100,9 @@ export type Workshop2TabContentArticlesPanelProps = {
   setBulkOpen: Dispatch<SetStateAction<boolean>>;
   setArticleDialogCol: Dispatch<SetStateAction<{ id: string; displayName: string } | null>>;
   setArticleEditTarget: Dispatch<SetStateAction<Workshop2TabContentArticlesPanelEditTarget | null>>;
-  setArticleNotesTarget: Dispatch<SetStateAction<Workshop2TabContentArticlesPanelNotesTarget | null>>;
+  setArticleNotesTarget: Dispatch<
+    SetStateAction<Workshop2TabContentArticlesPanelNotesTarget | null>
+  >;
   appendWorkshop2Activity: (message: string, actor: string) => void;
   createdByLabel: string;
   onRemoveWorkshop2Article: (collectionId: string, articleId: string) => void;
@@ -292,9 +294,7 @@ export function Workshop2TabContentArticlesPanel({
                 <select
                   id={`w2-art-sort-${open.id}`}
                   value={articleListSort}
-                  onChange={(e) =>
-                    setArticleListSort(e.target.value === 'added' ? 'added' : 'sku')
-                  }
+                  onChange={(e) => setArticleListSort(e.target.value === 'added' ? 'added' : 'sku')}
                   className="border-border-default text-text-primary h-9 w-[6.75rem] cursor-pointer rounded-md border bg-white px-1.5 text-[10px] font-semibold sm:w-[7.5rem]"
                 >
                   <option value="sku">SKU A→Я</option>
@@ -386,11 +386,8 @@ export function Workshop2TabContentArticlesPanel({
                     const active = articlePanelStageFilter === sid;
                     const split = WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX;
                     const showLaneSep =
-                      idx === split &&
-                      split > 0 &&
-                      split < WORKSHOP2_PIPELINE_STEP_IDS.length;
-                    const laneHint =
-                      idx < split ? 'Разработка и ТЗ' : 'Сэмплы и выпуск';
+                      idx === split && split > 0 && split < WORKSHOP2_PIPELINE_STEP_IDS.length;
+                    const laneHint = idx < split ? 'Разработка и ТЗ' : 'Сэмплы и выпуск';
                     return (
                       <Fragment key={sid}>
                         {showLaneSep ? (
@@ -449,15 +446,11 @@ export function Workshop2TabContentArticlesPanel({
                   })}
                 </div>
                 {WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX > 0 &&
-                WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX <
-                  WORKSHOP2_PIPELINE_STEP_IDS.length ? (
+                WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX < WORKSHOP2_PIPELINE_STEP_IDS.length ? (
                   <div className="text-text-muted mt-1.5 flex w-full min-w-0 flex-wrap justify-between gap-x-2 gap-y-0.5 text-[9px] leading-tight">
-                    <span>
-                      Разработка: этапы 1–{WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX}
-                    </span>
+                    <span>Разработка: этапы 1–{WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX}</span>
                     <span className="text-right">
-                      Сэмплы и выпуск: этапы{' '}
-                      {WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX + 1}–
+                      Сэмплы и выпуск: этапы {WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX + 1}–
                       {WORKSHOP2_PIPELINE_STEP_IDS.length}
                     </span>
                   </div>
@@ -785,8 +778,8 @@ export function Workshop2TabContentArticlesPanel({
                               </Button>
                             </TooltipTrigger>
                             <TooltipContent side="left" className="max-w-[200px] text-[11px]">
-                              Зафиксировано в истории. Разбиение задач по этапам подключим в
-                              модуле изделия.
+                              Зафиксировано в истории. Разбиение задач по этапам подключим в модуле
+                              изделия.
                             </TooltipContent>
                           </Tooltip>
                           <Button
@@ -818,5 +811,4 @@ export function Workshop2TabContentArticlesPanel({
       </Card>
     </div>
   );
-
 }

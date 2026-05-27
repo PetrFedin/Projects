@@ -85,7 +85,10 @@ export default function SmartMirrorPage() {
   };
 
   return (
-    <CabinetPageContent maxWidth="full" className="!mx-0 flex min-h-screen flex-col gap-3 overflow-hidden bg-black !px-4 !py-4 font-sans text-white">
+    <CabinetPageContent
+      maxWidth="full"
+      className="!mx-0 flex min-h-screen flex-col gap-3 overflow-hidden bg-black !px-4 !py-4 font-sans text-white"
+    >
       {/* Mirror Header */}
       <header className="flex items-center justify-between border-b border-white/10 pb-8">
         <div className="flex items-center gap-3">

@@ -30,7 +30,8 @@ export default function GlobalError({
           <div style={{ maxWidth: 560, textAlign: 'center' }}>
             <h1 style={{ fontSize: 28, marginBottom: 8 }}>Произошла ошибка приложения</h1>
             <p style={{ opacity: 0.8, marginBottom: 16 }}>
-              Попробуйте перезагрузить страницу. Если ошибка повторяется, откройте приложение заново.
+              Попробуйте перезагрузить страницу. Если ошибка повторяется, откройте приложение
+              заново.
             </p>
             <button
               onClick={reset}

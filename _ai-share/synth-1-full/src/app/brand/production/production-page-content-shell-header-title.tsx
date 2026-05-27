@@ -6,14 +6,8 @@ import { Button } from '@/components/ui/button';
 
 export function ProductionPageContentShellHeaderTitle({ p }: { p: Record<string, unknown> }) {
   const px = p as Record<string, any>;
-  const {
-    perms,
-    prodRole,
-    getContextTitle,
-    selectedContext,
-    resetToBrand,
-    setIsGlobalSearchOpen,
-  } = px;
+  const { perms, prodRole, getContextTitle, selectedContext, resetToBrand, setIsGlobalSearchOpen } =
+    px;
 
   return (
     <div className="space-y-0.5">
@@ -46,9 +40,7 @@ export function ProductionPageContentShellHeaderTitle({ p }: { p: Record<string,
           onClick={() => setIsGlobalSearchOpen?.(true)}
         >
           <Search className="h-3.5 w-3.5" /> Поиск{' '}
-          <kbd className="bg-bg-surface2 ml-0.5 rounded px-1 py-0.5 font-mono text-[8px]">
-            ⌘K
-          </kbd>
+          <kbd className="bg-bg-surface2 ml-0.5 rounded px-1 py-0.5 font-mono text-[8px]">⌘K</kbd>
         </Button>
         {selectedContext !== 'brand' && (
           <Button

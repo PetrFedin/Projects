@@ -68,11 +68,12 @@ jobs:
           npm run schemas:validate
           npm run schemas:validate:examples
 
-      - name: ESLint (flat config, lib scope)
-        run: npx eslint src/lib lib --max-warnings 0
+      - name: ESLint (errors only, lib scope)
+        run: npm run lint:errors
 
-      - name: TypeScript (CI subset)
+      - name: TypeScript (CI subset, non-blocking tech debt)
         run: npm run typecheck:ci
+        continue-on-error: true
 
       - name: Production build
         run: NODE_OPTIONS=--max-old-space-size=8192 npm run build

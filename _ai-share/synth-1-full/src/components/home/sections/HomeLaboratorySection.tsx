@@ -78,7 +78,9 @@ export function HomeLaboratorySection() {
                   onClick={() =>
                     document
                       .getElementById(
-                        laboratoryTab === 'laboratory' ? 'laboratory-scroll' : 'private-access-scroll'
+                        laboratoryTab === 'laboratory'
+                          ? 'laboratory-scroll'
+                          : 'private-access-scroll'
                       )
                       ?.scrollBy({ left: -400, behavior: 'smooth' })
                   }
@@ -91,7 +93,9 @@ export function HomeLaboratorySection() {
                   onClick={() =>
                     document
                       .getElementById(
-                        laboratoryTab === 'laboratory' ? 'laboratory-scroll' : 'private-access-scroll'
+                        laboratoryTab === 'laboratory'
+                          ? 'laboratory-scroll'
+                          : 'private-access-scroll'
                       )
                       ?.scrollBy({ left: 400, behavior: 'smooth' })
                   }

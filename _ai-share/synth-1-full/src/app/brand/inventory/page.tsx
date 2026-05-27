@@ -460,10 +460,7 @@ export default function BrandInventoryPage() {
                         <div className="flex items-center gap-2.5">
                           <div className="relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-lg border border-slate-200/50 bg-slate-50 shadow-inner transition-transform group-hover:scale-105">
                             <NextImage
-                              src={
-                                product.images?.[0]?.url ||
-                                'https://picsum.photos/seed/p/200'
-                              }
+                              src={product.images?.[0]?.url || 'https://picsum.photos/seed/p/200'}
                               alt=""
                               fill
                               className="object-cover"

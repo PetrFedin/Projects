@@ -6,16 +6,27 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
-export function Workshop2CompositionLabelIsoGuidanceCollapsible({ className }: { className?: string }) {
+export function Workshop2CompositionLabelIsoGuidanceCollapsible({
+  className,
+}: {
+  className?: string;
+}) {
   const [open, setOpen] = useState(false);
   return (
-    <Collapsible open={open} onOpenChange={setOpen} className={cn('rounded-lg border border-dashed border-slate-300/80 bg-slate-50/60', className)}>
+    <Collapsible
+      open={open}
+      onOpenChange={setOpen}
+      className={cn(
+        'rounded-lg border border-dashed border-slate-300/80 bg-slate-50/60',
+        className
+      )}
+    >
       <CollapsibleTrigger asChild>
         <Button
           type="button"
           variant="ghost"
           size="sm"
-          className="text-text-primary hover:bg-white/80 flex min-h-9 w-full justify-between gap-2 rounded-lg px-3 py-2 text-left text-xs font-normal"
+          className="text-text-primary flex min-h-9 w-full justify-between gap-2 rounded-lg px-3 py-2 text-left text-xs font-normal hover:bg-white/80"
         >
           <span className="flex items-center gap-2">
             <LucideIcons.BookOpen className="h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden />
@@ -45,29 +56,29 @@ export function Workshop2CompositionLabelIsoGuidanceCollapsible({ className }: {
         <p className="text-text-primary font-semibold">Порядок групп ISO 3758</p>
         <ol className="list-decimal space-y-0.5 pl-4">
           <li>
-            <span className="text-text-primary font-medium">Стирка</span> — цифры в тазу (30/40/60 °C), рука,
-            одна/две черты под тазом (щадящий/деликатный).
+            <span className="text-text-primary font-medium">Стирка</span> — цифры в тазу (30/40/60
+            °C), рука, одна/две черты под тазом (щадящий/деликатный).
           </li>
           <li>
-            <span className="text-text-primary font-medium">Отбеливание</span> — треугольник: пустой, с линиями
-            (кислородные), перечёркнутый (запрет).
+            <span className="text-text-primary font-medium">Отбеливание</span> — треугольник:
+            пустой, с линиями (кислородные), перечёркнутый (запрет).
           </li>
           <li>
-            <span className="text-text-primary font-medium">Сушка</span> — квадрат с кругом, точки для t° барабана;
-            линии для естественной сушки.
+            <span className="text-text-primary font-medium">Сушка</span> — квадрат с кругом, точки
+            для t° барабана; линии для естественной сушки.
           </li>
           <li>
-            <span className="text-text-primary font-medium">Глажение</span> — утюг с точками (• / •• / •••) или
-            перечёркнутый.
+            <span className="text-text-primary font-medium">Глажение</span> — утюг с точками (• / ••
+            / •••) или перечёркнутый.
           </li>
           <li>
-            <span className="text-text-primary font-medium">Проф. уход</span> — круг с P/F/W или перечёркнутый
-            круг.
+            <span className="text-text-primary font-medium">Проф. уход</span> — круг с P/F/W или
+            перечёркнутый круг.
           </li>
         </ol>
         <p className="text-text-muted italic">
-          Перечёркнутый символ — полный запрет операции. На макете ниже можно отметить нужные знаки и сверить с
-          ТЗ.
+          Перечёркнутый символ — полный запрет операции. На макете ниже можно отметить нужные знаки
+          и сверить с ТЗ.
         </p>
       </CollapsibleContent>
     </Collapsible>

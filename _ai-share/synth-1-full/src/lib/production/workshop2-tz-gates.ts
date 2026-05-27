@@ -57,8 +57,13 @@ export type W2GateSectionFillPct = Partial<
   Record<'general' | 'material' | 'construction' | 'visuals', number>
 >;
 
-function hasCanonicalAssignmentValue(dossier: Workshop2DossierPhase1, attributeId: string): boolean {
-  const a = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === attributeId);
+function hasCanonicalAssignmentValue(
+  dossier: Workshop2DossierPhase1,
+  attributeId: string
+): boolean {
+  const a = dossier.assignments.find(
+    (x) => x.kind === 'canonical' && x.attributeId === attributeId
+  );
   if (!a) return false;
   return a.values.some(
     (v) => (v.displayLabel?.trim() ?? '').length > 0 || (v.text?.trim() ?? '').length > 0
@@ -69,7 +74,9 @@ function readCanonicalAssignmentTexts(
   dossier: Workshop2DossierPhase1,
   attributeId: string
 ): { labels: string[]; texts: string[] } {
-  const a = dossier.assignments.find((x) => x.kind === 'canonical' && x.attributeId === attributeId);
+  const a = dossier.assignments.find(
+    (x) => x.kind === 'canonical' && x.attributeId === attributeId
+  );
   if (!a) return { labels: [], texts: [] };
   const labels = a.values.map((v) => v.displayLabel?.trim() ?? '').filter(Boolean);
   const texts = a.values.map((v) => v.text?.trim() ?? '').filter(Boolean);
@@ -79,13 +86,16 @@ function readCanonicalAssignmentTexts(
 function parseCompositionTotalFromTexts(texts: string[]): number | null {
   if (!texts.length) return null;
   const joined = texts.join(', ');
-  
+
   const percentMatches = joined.match(/(\d{1,3}(?:[.,]\d+)?)%/g);
   if (percentMatches && percentMatches.length > 0) {
-    const total = percentMatches.reduce((sum, m) => sum + Number.parseFloat(m.replace('%', '').replace(',', '.')), 0);
+    const total = percentMatches.reduce(
+      (sum, m) => sum + Number.parseFloat(m.replace('%', '').replace(',', '.')),
+      0
+    );
     return Number.isFinite(total) ? Math.round(total) : null;
   }
-  
+
   const matches = joined.match(/\b\d{1,3}(?:[.,]\d+)?\b/g);
   if (!matches || !matches.length) return null;
   const total = matches.reduce((sum, m) => sum + Number.parseFloat(m.replace(',', '.')), 0);
@@ -114,7 +124,10 @@ function buildSectionMinimumErrors(
   if (!dossier.passportProductionBrief?.targetSampleOrPilotDate) {
     out.general.push('Целевая дата или окно образца не указаны.');
   }
-  if (!hasCanonicalAssignmentValue(dossier, 'plannedLaunchOptions') && !dossier.passportProductionBrief?.plannedLaunchCustomNote) {
+  if (
+    !hasCanonicalAssignmentValue(dossier, 'plannedLaunchOptions') &&
+    !dossier.passportProductionBrief?.plannedLaunchCustomNote
+  ) {
     out.general.push('Тип запуска (сезон/дроп) не указан.');
   }
 
@@ -164,7 +177,10 @@ function buildSectionMinimumErrors(
     out.construction.push('Укажите тип застежки.');
   }
 
-  if (!hasCanonicalAssignmentValue(dossier, 'silh') && !hasCanonicalAssignmentValue(dossier, 'fit_type')) {
+  if (
+    !hasCanonicalAssignmentValue(dossier, 'silh') &&
+    !hasCanonicalAssignmentValue(dossier, 'fit_type')
+  ) {
     out.construction.push('Выберите базовый силуэт.');
   }
 
@@ -172,7 +188,9 @@ function buildSectionMinimumErrors(
     (a) => (a.linkedAttributeId?.trim() ?? '').length > 0
   ).length;
   if (nodeLikeCount < 3) {
-    out.construction.push(`Для конструктивных узлов нужно минимум 3 позиции (сейчас ${nodeLikeCount}).`);
+    out.construction.push(
+      `Для конструктивных узлов нужно минимум 3 позиции (сейчас ${nodeLikeCount}).`
+    );
   }
 
   const pocketAssignments = dossier.assignments.filter((a) => {
@@ -242,15 +260,19 @@ export function buildWorkshop2TzGateSnapshot(
   const minimumErrorsList = Object.values(sectionMinimumErrors).flat();
   const sectionMinimumsOk = minimumErrorsList.length === 0;
 
-  const aiWarnings = productionPreflight.issues.filter(i => i.id.startsWith('ai.'));
+  const aiWarnings = productionPreflight.issues.filter((i) => i.id.startsWith('ai.'));
   const aiWarningsOk = aiWarnings.length === 0;
 
   const launchType = dossier.passportProductionBrief?.plannedLaunchType;
   const skipCadForLaunchType = launchType === 'import_rtw' || launchType === 'made_to_order_mto';
-  const zipBytesOk = skipCadForLaunchType ? true : (att.length > 0 && techPackWithBytes === att.length);
+  const zipBytesOk = skipCadForLaunchType
+    ? true
+    : att.length > 0 && techPackWithBytes === att.length;
   const zipBytesDetail = skipCadForLaunchType
     ? 'не требуется для типа запуска'
-    : att.length === 0 ? 'нет файлов CAD' : `${techPackWithBytes} из ${att.length} в ZIP`;
+    : att.length === 0
+      ? 'нет файлов CAD'
+      : `${techPackWithBytes} из ${att.length} в ZIP`;
 
   const lines: Workshop2TzGateLine[] = [
     {
@@ -281,9 +303,10 @@ export function buildWorkshop2TzGateSnapshot(
       label: 'Производственный pre-flight',
       ok: productionPreflight.canSendToFactory && aiWarningsOk,
       priority: 27,
-      detail: productionPreflight.canSendToFactory && aiWarningsOk
-        ? `готово: ${productionPreflight.score}/100`
-        : `${productionPreflight.blockers.length} блок., ${productionPreflight.warnings.length} предупр. · score ${productionPreflight.score}/100${!aiWarningsOk ? ` · ${aiWarnings.length} AI-предупр.` : ''}`,
+      detail:
+        productionPreflight.canSendToFactory && aiWarningsOk
+          ? `готово: ${productionPreflight.score}/100`
+          : `${productionPreflight.blockers.length} блок., ${productionPreflight.warnings.length} предупр. · score ${productionPreflight.score}/100${!aiWarningsOk ? ` · ${aiWarnings.length} AI-предупр.` : ''}`,
     },
     {
       id: 'section_minimums',

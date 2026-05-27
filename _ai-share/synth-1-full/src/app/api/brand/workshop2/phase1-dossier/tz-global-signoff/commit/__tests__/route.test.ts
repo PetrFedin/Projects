@@ -50,7 +50,10 @@ describe('POST /api/brand/workshop2/phase1-dossier/tz-global-signoff/commit', ()
     );
     const res = await POST(req as never);
     expect(res.status).toBe(200);
-    const json = (await res.json()) as { ok: boolean; dossier?: { designerSignoff?: { by?: string } } };
+    const json = (await res.json()) as {
+      ok: boolean;
+      dossier?: { designerSignoff?: { by?: string } };
+    };
     expect(json.ok).toBe(true);
     expect(json.dossier?.designerSignoff?.by).toBe('Иван Иванов');
   });

@@ -75,7 +75,8 @@ function resolveSewingCategoryPresetCore(l2: string, leafName: string): SewingCa
   }
   if (t.includes('носк') || t.includes('чулк') || t.includes('колгот') || t.includes('гольф')) {
     return base({
-      summary: 'Мелкий трикотаж: силуэт без полного развёртывания; ориентир по обхвату стопы/голени — у бренда.',
+      summary:
+        'Мелкий трикотаж: силуэт без полного развёртывания; ориентир по обхвату стопы/голени — у бренда.',
       primary: 'bodice_front',
       alternates: ['sleeve', 'skirt_front'],
       ease: { bust: 8, waist: 6, hip: 6 },
@@ -146,14 +147,21 @@ function resolveSewingCategoryPresetCore(l2: string, leafName: string): SewingCa
       forBrandNote: 'Категория: пиджак/костюм. Методика плеча — у технолога бренда.',
     });
   }
-  if (t.includes('свитер') || t.includes('худи') || t.includes('кардиган') || t.includes('водолаз') || t.includes('трико')) {
+  if (
+    t.includes('свитер') ||
+    t.includes('худи') ||
+    t.includes('кардиган') ||
+    t.includes('водолаз') ||
+    t.includes('трико')
+  ) {
     return base({
       summary: 'Трикотаж: чаще без классических вытачек; смотрите как ориентир.',
       primary: 'bodice_front',
       alternates: ['sleeve', 'bodice_back'],
       ease: { bust: 6, waist: 4, hip: 4 },
       darts: { shoulderDart: false, bustSideDart: false, waistDart: false },
-      forBrandNote: 'Категория: трикотаж. Оса (посадка) и формула петли — в конструировании бренда.',
+      forBrandNote:
+        'Категория: трикотаж. Оса (посадка) и формула петли — в конструировании бренда.',
     });
   }
   if (
@@ -169,16 +177,28 @@ function resolveSewingCategoryPresetCore(l2: string, leafName: string): SewingCa
     (t.includes('шорт') && !t.includes('пляж'))
   ) {
     return base({
-      summary: 'Низ: без развёртки брюк в этом ориентире; мерки талии/бедра — для согласования с брендом.',
+      summary:
+        'Низ: без развёртки брюк в этом ориентире; мерки талии/бедра — для согласования с брендом.',
       primary: 'skirt_front',
       alternates: ['bodice_front', 'skirt_back'],
       ease: { bust: 3, waist: 2, hip: 5 },
       darts: { shoulderDart: false, bustSideDart: false, waistDart: true },
       skirtLenCm: 50,
-      forBrandNote: 'Категория: брюки/шорты. Условный контур (талия) — полный пакет кроя брюк у бренда/ПО.',
+      forBrandNote:
+        'Категория: брюки/шорты. Условный контур (талия) — полный пакет кроя брюк у бренда/ПО.',
     });
   }
-  if (t.includes('рубашк') || t.includes('блуз') || t.includes('сорочк') || t.includes('топ') || t.includes('майк') || t.includes('кроп') || t.includes('футболк') || t.includes('поло') || t.includes('боди')) {
+  if (
+    t.includes('рубашк') ||
+    t.includes('блуз') ||
+    t.includes('сорочк') ||
+    t.includes('топ') ||
+    t.includes('майк') ||
+    t.includes('кроп') ||
+    t.includes('футболк') ||
+    t.includes('поло') ||
+    t.includes('боди')
+  ) {
     return base({
       summary: 'Верх/сорочка: обычно умеренный ease, вытачки по силуэту.',
       primary: 'bodice_front',

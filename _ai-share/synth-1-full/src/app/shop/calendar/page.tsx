@@ -22,10 +22,7 @@ function ShopCalendarBody() {
   return (
     <div className="space-y-4">
       <B2bOrderUrlContextBanner variant="shop" className="rounded-xl" />
-      <StyleCalendar
-        initialRole="shop"
-        contextSearchSeed={contextSearchSeed || undefined}
-      />
+      <StyleCalendar initialRole="shop" contextSearchSeed={contextSearchSeed || undefined} />
     </div>
   );
 }

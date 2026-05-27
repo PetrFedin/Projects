@@ -9,9 +9,7 @@ import type { Workshop2SampleOrderDto } from '@/lib/production/workshop2-sample-
 import { postWorkshop2FloorSampleStatusSyncApi } from '@/lib/production/workshop2-sample-api-client';
 import { workshop2ContextToProductionFloorFromSampleOrder } from '@/lib/production/workshop2-floor-bridge';
 import { workshop2SampleOrderStatusToFloorTab } from '@/lib/production/workshop2-floor-bridge-sync';
-import {
-  labelWorkshop2SampleOrderStatusRu,
-} from '@/lib/production/workshop2-release-production-display';
+import { labelWorkshop2SampleOrderStatusRu } from '@/lib/production/workshop2-release-production-display';
 import { workshop2ArticleHref } from '@/lib/production/workshop2-url';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { useToast } from '@/hooks/use-toast';
@@ -65,9 +63,7 @@ export function Workshop2ReleaseFloorPanel({
       if (json.ok) {
         setMesPollState('ok');
         setMesPollLabelRu(
-          json.resolvedOrderStatus
-            ? `MES: ${json.resolvedOrderStatus}`
-            : 'MES poll OK'
+          json.resolvedOrderStatus ? `MES: ${json.resolvedOrderStatus}` : 'MES poll OK'
         );
         const resolved = json.resolvedOrderStatus as string | undefined;
         if (
@@ -120,9 +116,7 @@ export function Workshop2ReleaseFloorPanel({
     : 'stages';
 
   const lastSyncedAt =
-    dossier?.sampleWorkflow?.lastSyncedAt ??
-    dossier?.floorBridgeMirror?.lastSyncedAt ??
-    null;
+    dossier?.sampleWorkflow?.lastSyncedAt ?? dossier?.floorBridgeMirror?.lastSyncedAt ?? null;
   const floorStatusLabel =
     dossier?.sampleWorkflow?.floorStatusLabel ??
     (activeOrder ? labelWorkshop2SampleOrderStatusRu(activeOrder.status) : null);
@@ -146,7 +140,9 @@ export function Workshop2ReleaseFloorPanel({
         title: res.ok ? 'ERP staging ACK' : erpLive ? 'ERP staging без ACK' : 'ERP journal-only',
         description:
           res.dossier.factoryErpStagingMirror?.hintRu ??
-          (res.skipped ? 'WORKSHOP2_FACTORY_ERP_BASE_URL не задан.' : res.error ?? 'См. journal в досье.'),
+          (res.skipped
+            ? 'WORKSHOP2_FACTORY_ERP_BASE_URL не задан.'
+            : (res.error ?? 'См. journal в досье.')),
         variant: res.ok ? 'default' : 'destructive',
       });
     } finally {
@@ -194,15 +190,16 @@ export function Workshop2ReleaseFloorPanel({
         Пол цеха · Floor Bridge 2.0
       </p>
 
-      <Workshop2ReleaseIntegrationProbeRow kinds={['mes', 'erp']} testId="workshop2-release-floor-probes" />
+      <Workshop2ReleaseIntegrationProbeRow
+        kinds={['mes', 'erp']}
+        testId="workshop2-release-floor-probes"
+      />
 
       <div className="flex flex-wrap items-center gap-2">
         <Badge
           variant={erpLive ? 'default' : 'outline'}
           className={
-            erpLive
-              ? 'text-[10px]'
-              : 'border-amber-200 bg-amber-50 text-amber-900 text-[10px]'
+            erpLive ? 'text-[10px]' : 'border-amber-200 bg-amber-50 text-[10px] text-amber-900'
           }
           data-testid="workshop2-floor-erp-mode-chip"
         >
@@ -222,7 +219,10 @@ export function Workshop2ReleaseFloorPanel({
       </div>
 
       {activeOrder ? (
-        <div className="flex flex-wrap items-center gap-2" data-testid="workshop2-floor-mes-poll-chip">
+        <div
+          className="flex flex-wrap items-center gap-2"
+          data-testid="workshop2-floor-mes-poll-chip"
+        >
           <Badge
             variant={
               mesPollState === 'ok'
@@ -240,9 +240,7 @@ export function Workshop2ReleaseFloorPanel({
             }
           >
             <Radio className="mr-1 h-3 w-3" />
-            {mesPollState === 'loading'
-              ? 'MES poll…'
-              : mesPollLabelRu ?? 'MES не опрошен'}
+            {mesPollState === 'loading' ? 'MES poll…' : (mesPollLabelRu ?? 'MES не опрошен')}
           </Badge>
           <Button
             type="button"
@@ -270,7 +268,9 @@ export function Workshop2ReleaseFloorPanel({
           <div>
             <dt className="text-text-muted">Статус заказа (бренд)</dt>
             <dd>
-              <Badge variant="outline">{labelWorkshop2SampleOrderStatusRu(activeOrder.status)}</Badge>
+              <Badge variant="outline">
+                {labelWorkshop2SampleOrderStatusRu(activeOrder.status)}
+              </Badge>
             </dd>
           </div>
           <div>
@@ -295,7 +295,9 @@ export function Workshop2ReleaseFloorPanel({
           </div>
         </dl>
       ) : (
-        <p className="text-text-secondary text-sm">Нет активного заказа — очередь цеха пуста для артикула.</p>
+        <p className="text-text-secondary text-sm">
+          Нет активного заказа — очередь цеха пуста для артикула.
+        </p>
       )}
 
       {activeOrder ? (

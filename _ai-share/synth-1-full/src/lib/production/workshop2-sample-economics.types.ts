@@ -49,7 +49,7 @@ export type Workshop2SampleEconomicsDraft = {
   /** Как связано с КП / паспортом; не храните дубликат текста Incoterms из ТЗ. */
   tzCommerceLinkNote?: string;
   internalNotes?: string;
-  
+
   // Comprehensive calculation controls
   logisticsCost?: number;
   customsCost?: number;

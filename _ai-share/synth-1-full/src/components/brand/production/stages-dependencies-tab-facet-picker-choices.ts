@@ -1,7 +1,4 @@
-import {
-  STAGES_PRODUCTION_SITES,
-  getHandbookAudiences,
-} from '@/lib/production/stages-tab-facets';
+import { STAGES_PRODUCTION_SITES, getHandbookAudiences } from '@/lib/production/stages-tab-facets';
 import {
   articleMatchesFacetBundle,
   type StagesFacetSetBundle,

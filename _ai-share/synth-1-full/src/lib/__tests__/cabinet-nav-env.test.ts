@@ -23,7 +23,8 @@ describe('cabinet-nav-env', () => {
     else process.env.NEXT_PUBLIC_SHOP_NAV_INVESTOR_SPINE = prevShop;
     if (prevFactory === undefined) delete process.env.NEXT_PUBLIC_FACTORY_NAV_INVESTOR_SPINE;
     else process.env.NEXT_PUBLIC_FACTORY_NAV_INVESTOR_SPINE = prevFactory;
-    if (prevDistributor === undefined) delete process.env.NEXT_PUBLIC_DISTRIBUTOR_NAV_INVESTOR_SPINE;
+    if (prevDistributor === undefined)
+      delete process.env.NEXT_PUBLIC_DISTRIBUTOR_NAV_INVESTOR_SPINE;
     else process.env.NEXT_PUBLIC_DISTRIBUTOR_NAV_INVESTOR_SPINE = prevDistributor;
   });
 

@@ -35,7 +35,9 @@ export function Workshop2AttributeStatusIcons({
                   ? 'border-red-200 bg-red-50 text-red-700'
                   : 'border-emerald-200 bg-emerald-50 text-emerald-800'
               )}
-              aria-label={isMissingRequired ? 'Заполните обязательное поле' : 'Обязательное поле заполнено'}
+              aria-label={
+                isMissingRequired ? 'Заполните обязательное поле' : 'Обязательное поле заполнено'
+              }
             >
               {isMissingRequired ? (
                 <LucideIcons.CircleAlert className="h-3.5 w-3.5" aria-hidden />
@@ -62,8 +64,8 @@ export function Workshop2AttributeStatusIcons({
             </span>
           </TooltipTrigger>
           <TooltipContent side="top" className="max-w-[280px] text-xs">
-            Атрибут связан с матрицей info-pick / project-info — изменения влияют на общий справочник
-            бренда.
+            Атрибут связан с матрицей info-pick / project-info — изменения влияют на общий
+            справочник бренда.
           </TooltipContent>
         </Tooltip>
       ) : null}

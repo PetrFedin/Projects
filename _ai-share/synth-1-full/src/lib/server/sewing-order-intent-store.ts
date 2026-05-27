@@ -48,7 +48,9 @@ function runExclusive<T>(fn: () => Promise<T>): Promise<T> {
   return next;
 }
 
-export async function putSewingOrderIntentRecord(record: SewingOrderIntentServerRecordV1): Promise<void> {
+export async function putSewingOrderIntentRecord(
+  record: SewingOrderIntentServerRecordV1
+): Promise<void> {
   const key = sewingIntentSubjectKey(record.subject);
   return runExclusive(async () => {
     const snap = await readSnapshot();

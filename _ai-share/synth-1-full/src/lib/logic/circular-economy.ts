@@ -113,7 +113,8 @@ export class CircularEconomyEngine {
       status: 'accepted',
       storeCreditOffered,
       nextAction,
-      estimatedRecoveryValue: estimatedRecoveryValue > 0 ? Math.round(estimatedRecoveryValue) : undefined,
+      estimatedRecoveryValue:
+        estimatedRecoveryValue > 0 ? Math.round(estimatedRecoveryValue) : undefined,
       reasoning: `Condition is ${request.condition}. Offering ${storeCreditOffered} credit. Item will be routed to ${nextAction}.`,
     };
   }

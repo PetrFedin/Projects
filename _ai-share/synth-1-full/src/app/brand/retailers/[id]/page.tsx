@@ -160,7 +160,10 @@ export default function RetailerDetailPage({ params }: { params: Promise<{ id: s
             Условия
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="orders" className={cn(cabinetSurface.cabinetProfileTabPanel, 'space-y-2')}>
+        <TabsContent
+          value="orders"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'space-y-2')}
+        >
           <Card>
             <CardHeader>
               <CardTitle className="text-sm">Последние заказы</CardTitle>

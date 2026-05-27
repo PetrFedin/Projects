@@ -29,7 +29,9 @@ export type SynthaOverlayParsedContext = {
   skuCode: string | null;
 };
 
-export function parseSynthaOverlayContext(searchParams: URLSearchParams): SynthaOverlayParsedContext {
+export function parseSynthaOverlayContext(
+  searchParams: URLSearchParams
+): SynthaOverlayParsedContext {
   const orderId =
     searchParams.get('orderId')?.trim() ||
     searchParams.get('order')?.trim() ||
@@ -61,7 +63,10 @@ export type SynthaOverlayHrefContext = {
  * Добавляет в `URLSearchParams` канонические ключи контекста ядра №3 (заказ, коллекция, артикул, этап, PO ref, sku).
  * Используйте при сборке произвольных deep-link в сообщения/календарь без дублирования имён параметров.
  */
-export function appendSynthaOverlaySearchParams(sp: URLSearchParams, ctx: SynthaOverlayHrefContext): void {
+export function appendSynthaOverlaySearchParams(
+  sp: URLSearchParams,
+  ctx: SynthaOverlayHrefContext
+): void {
   const oid = ctx.orderId?.trim();
   if (oid) {
     sp.set('order', oid);

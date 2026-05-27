@@ -69,7 +69,11 @@ export function AsyncMultiSelect({
       {open && (
         <div className="border-border-subtle bg-bg-surface absolute z-30 mt-2 w-full rounded-lg border p-2 shadow-sm">
           <div className="px-1 pb-2">
-            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Введите для поиска…" />
+            <Input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Введите для поиска…"
+            />
           </div>
 
           <div className="max-h-56 overflow-auto">

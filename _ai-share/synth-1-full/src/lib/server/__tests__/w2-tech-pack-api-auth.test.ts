@@ -59,9 +59,9 @@ describe('w2-tech-pack-api-auth', () => {
   });
 
   it('isW2TechPackBrowserSameOriginRequest is true for sec-fetch-site', () => {
-    expect(isW2TechPackBrowserSameOriginRequest(mockNextRequest({ 'sec-fetch-site': 'same-origin' }))).toBe(
-      true
-    );
+    expect(
+      isW2TechPackBrowserSameOriginRequest(mockNextRequest({ 'sec-fetch-site': 'same-origin' }))
+    ).toBe(true);
     expect(isW2TechPackBrowserSameOriginRequest(mockNextRequest({}))).toBe(false);
   });
 

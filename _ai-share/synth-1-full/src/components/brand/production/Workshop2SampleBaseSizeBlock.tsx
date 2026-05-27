@@ -75,12 +75,24 @@ export function Workshop2SampleBaseSizeBlock({
   handbookCommentsCount?: number;
   onOpenHandbookComments?: () => void;
 }) {
-  const scaleRows = useMemo(() => getWorkshopSampleSizeScaleOptions(currentLeaf, dossier.isUnisex), [currentLeaf, dossier.isUnisex]);
-  const dimLabels = useMemo(() => getWorkshopDimensionLabels(currentLeaf, dossier.isUnisex), [currentLeaf, dossier.isUnisex]);
+  const scaleRows = useMemo(
+    () => getWorkshopSampleSizeScaleOptions(currentLeaf, dossier.isUnisex),
+    [currentLeaf, dossier.isUnisex]
+  );
+  const dimLabels = useMemo(
+    () => getWorkshopDimensionLabels(currentLeaf, dossier.isUnisex),
+    [currentLeaf, dossier.isUnisex]
+  );
   const effectiveScaleId =
     dossier.sampleSizeScaleId ?? scaleRows[0]?.key ?? defaultSizeScaleIdForLeaf(currentLeaf);
   const sizeParams = useMemo(
-    () => resolveSampleBaseSizeParametersForLeaf(attribute, currentLeaf, effectiveScaleId, dossier.isUnisex),
+    () =>
+      resolveSampleBaseSizeParametersForLeaf(
+        attribute,
+        currentLeaf,
+        effectiveScaleId,
+        dossier.isUnisex
+      ),
     [attribute, currentLeaf, effectiveScaleId, dossier.isUnisex]
   );
 
@@ -90,23 +102,29 @@ export function Workshop2SampleBaseSizeBlock({
 
   const handbookParts = useMemo(() => {
     if (!sampleAssign) return [];
-    return sampleAssign.values.map(v => {
-      if (v.valueSource === 'handbook_parameter') {
-        return {
-          id: v.valueId,
-          parameterId: v.parameterId!,
-          displayLabel: resolvedHandbookDisplayLabel('sampleBaseSize', v.parameterId!, v.displayLabel),
-          isFree: false,
-        };
-      } else {
-        return {
-          id: v.valueId,
-          parameterId: `__free:${v.text}`,
-          displayLabel: v.text || '',
-          isFree: true,
-        };
-      }
-    }).filter(p => p.displayLabel.trim().length > 0);
+    return sampleAssign.values
+      .map((v) => {
+        if (v.valueSource === 'handbook_parameter') {
+          return {
+            id: v.valueId,
+            parameterId: v.parameterId!,
+            displayLabel: resolvedHandbookDisplayLabel(
+              'sampleBaseSize',
+              v.parameterId!,
+              v.displayLabel
+            ),
+            isFree: false,
+          };
+        } else {
+          return {
+            id: v.valueId,
+            parameterId: `__free:${v.text}`,
+            displayLabel: v.text || '',
+            isFree: true,
+          };
+        }
+      })
+      .filter((p) => p.displayLabel.trim().length > 0);
   }, [sampleAssign]);
 
   const freeStr = useMemo(() => {
@@ -138,7 +156,7 @@ export function Workshop2SampleBaseSizeBlock({
 
   const selectOptions = useMemo(() => {
     const list = [...sizeParams];
-    const hbs = sampleAssign?.values.filter(v => v.valueSource === 'handbook_parameter') || [];
+    const hbs = sampleAssign?.values.filter((v) => v.valueSource === 'handbook_parameter') || [];
     for (const v of hbs) {
       const pid = v.parameterId;
       if (pid && !list.some((p) => p.parameterId === pid)) {
@@ -153,26 +171,28 @@ export function Workshop2SampleBaseSizeBlock({
   }, [sizeParams, sampleAssign]);
 
   const movePart = (index: number, direction: 'up' | 'down') => {
-    setDossier(p => {
-      const assignIdx = p.assignments.findIndex(a => a.kind === 'canonical' && a.attributeId === 'sampleBaseSize');
+    setDossier((p) => {
+      const assignIdx = p.assignments.findIndex(
+        (a) => a.kind === 'canonical' && a.attributeId === 'sampleBaseSize'
+      );
       if (assignIdx < 0) return p;
       const assign = p.assignments[assignIdx];
-      
+
       const part = handbookParts[index];
       const otherPart = handbookParts[index + (direction === 'up' ? -1 : 1)];
       if (!part || !otherPart) return p;
-      
+
       const newValues = [...assign.values];
       // Find exact objects in values array by id
-      const idx1 = newValues.findIndex(v => v.valueId === part.id);
-      const idx2 = newValues.findIndex(v => v.valueId === otherPart.id);
-      
+      const idx1 = newValues.findIndex((v) => v.valueId === part.id);
+      const idx2 = newValues.findIndex((v) => v.valueId === otherPart.id);
+
       if (idx1 >= 0 && idx2 >= 0) {
         const temp = newValues[idx1];
         newValues[idx1] = newValues[idx2];
         newValues[idx2] = temp;
       }
-      
+
       const newAssignments = [...p.assignments];
       newAssignments[assignIdx] = { ...assign, values: newValues };
       return { ...p, assignments: newAssignments };
@@ -579,7 +599,9 @@ export function Workshop2SampleBaseSizeBlock({
     [dossier.gradingRules]
   );
   const isGradingFrozenStorageKey = (storageKey: string) => {
-    const ruleId = storageKey.startsWith('__extra:') ? storageKey.slice('__extra:'.length) : storageKey;
+    const ruleId = storageKey.startsWith('__extra:')
+      ? storageKey.slice('__extra:'.length)
+      : storageKey;
     return gradingFrozenRuleIds.has(ruleId);
   };
 
@@ -734,21 +756,29 @@ export function Workshop2SampleBaseSizeBlock({
                 const sid = e.target.value;
                 setDossier((prev: Workshop2DossierPhase1) => {
                   const next: Workshop2DossierPhase1 = { ...prev, sampleSizeScaleId: sid };
-                  const params = resolveSampleBaseSizeParametersForLeaf(attribute, currentLeaf, sid, dossier.isUnisex);
+                  const params = resolveSampleBaseSizeParametersForLeaf(
+                    attribute,
+                    currentLeaf,
+                    sid,
+                    dossier.isUnisex
+                  );
                   const allow = new Set(params.map((p) => p.parameterId));
-                const a = prev.assignments.find(
-                  (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
-                );
-                const hbList = a?.values.filter((v): v is Workshop2Phase1AttributeValue & { parameterId: string } => 
-                  v.valueSource === 'handbook_parameter' && !!v.parameterId
-                ) ?? [];
-                const ftText = a?.values
-                  .filter(v => v.valueSource === 'free_text' && v.text?.trim())
-                  .map(v => v.text)
-                  .join('; ') ?? '';
-                
-                if (!hbList.length) return next;
-                const keep = hbList.filter((hb) => hb.parameterId && allow.has(hb.parameterId));
+                  const a = prev.assignments.find(
+                    (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
+                  );
+                  const hbList =
+                    a?.values.filter(
+                      (v): v is Workshop2Phase1AttributeValue & { parameterId: string } =>
+                        v.valueSource === 'handbook_parameter' && !!v.parameterId
+                    ) ?? [];
+                  const ftText =
+                    a?.values
+                      .filter((v) => v.valueSource === 'free_text' && v.text?.trim())
+                      .map((v) => v.text)
+                      .join('; ') ?? '';
+
+                  if (!hbList.length) return next;
+                  const keep = hbList.filter((hb) => hb.parameterId && allow.has(hb.parameterId));
                   if (keep.length === hbList.length) return next;
                   const parts = keep.map((v) => ({
                     parameterId: v.parameterId!,
@@ -800,10 +830,11 @@ export function Workshop2SampleBaseSizeBlock({
                     const a = prev.assignments.find(
                       (x) => x.kind === 'canonical' && x.attributeId === 'sampleBaseSize'
                     );
-                    const ftText = a?.values
-                      .filter(v => v.valueSource === 'free_text' && v.text?.trim())
-                      .map(v => v.text)
-                      .join('; ') ?? '';
+                    const ftText =
+                      a?.values
+                        .filter((v) => v.valueSource === 'free_text' && v.text?.trim())
+                        .map((v) => v.text)
+                        .join('; ') ?? '';
                     const cap = effectiveMoqTargetMaxPieces(prev.passportProductionBrief);
                     const trimmed = nextParts.slice(0, Math.floor(cap));
                     return syncSampleBaseSizePartsAndPruneDims(prev, trimmed, ftText);
@@ -812,21 +843,33 @@ export function Workshop2SampleBaseSizeBlock({
               />
             </div>
             {handbookParts.length > 0 && (
-              <div className="flex-1 min-w-0 space-y-1.5">
-                <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-text-primary')}>
-                  База
-                </Label>
-                <div className="flex flex-wrap gap-2 min-w-0">
+              <div className="min-w-0 flex-1 space-y-1.5">
+                <Label className={cn(WORKSHOP_FIELD_LABEL_CLASS, 'text-text-primary')}>База</Label>
+                <div className="flex min-w-0 flex-wrap gap-2">
                   {handbookParts.map((p) => (
-                    <label key={p.parameterId} className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-md px-2 py-1 cursor-pointer hover:bg-slate-100 transition-colors shrink-0">
-                      <Checkbox 
+                    <label
+                      key={p.parameterId}
+                      className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-md border border-slate-200 bg-slate-50 px-2 py-1 transition-colors hover:bg-slate-100"
+                    >
+                      <Checkbox
                         checked={dossier.sampleBaseSizeLabel === p.displayLabel}
                         onCheckedChange={(c) => {
-                          if (c) setDossier(prev => ({ ...prev, sampleBaseSizeLabel: p.displayLabel }));
+                          if (c)
+                            setDossier((prev) => ({
+                              ...prev,
+                              sampleBaseSizeLabel: p.displayLabel,
+                            }));
                         }}
-                        className="h-3.5 w-3.5 border-red-200 data-[state=checked]:bg-red-500 data-[state=checked]:border-red-500"
+                        className="h-3.5 w-3.5 border-red-200 data-[state=checked]:border-red-500 data-[state=checked]:bg-red-500"
                       />
-                      <span className={cn("text-[11px] font-medium", dossier.sampleBaseSizeLabel === p.displayLabel ? "text-red-600" : "text-text-primary")}>
+                      <span
+                        className={cn(
+                          'text-[11px] font-medium',
+                          dossier.sampleBaseSizeLabel === p.displayLabel
+                            ? 'text-red-600'
+                            : 'text-text-primary'
+                        )}
+                      >
                         {p.displayLabel}
                       </span>
                     </label>
@@ -848,7 +891,8 @@ export function Workshop2SampleBaseSizeBlock({
           ) : null}
           {tablePieceSum > moqCap ? (
             <p className="mx-1 mb-2 rounded-md border border-amber-200 bg-amber-50/90 px-2 py-1.5 text-[11px] text-amber-900">
-              Сумма штук по размерам ({tablePieceSum}) больше количества образцов в паспорте ({moqCap}
+              Сумма штук по размерам ({tablePieceSum}) больше количества образцов в паспорте (
+              {moqCap}
               ). Уменьшите количества или увеличьте лимит.
             </p>
           ) : null}
@@ -917,7 +961,10 @@ export function Workshop2SampleBaseSizeBlock({
                   return (
                     <div
                       key={`hdr-${canon}`}
-                      className={cn('relative shrink-0 flex flex-col', colRange ? 'w-[6.25rem]' : 'w-[5rem]')}
+                      className={cn(
+                        'relative flex shrink-0 flex-col',
+                        colRange ? 'w-[6.25rem]' : 'w-[5rem]'
+                      )}
                     >
                       <button
                         type="button"
@@ -934,13 +981,19 @@ export function Workshop2SampleBaseSizeBlock({
                         onChange={(e) => setStandardLabelOverride(canon, e.target.value)}
                         aria-label="Подпись мерки"
                         disabled={tzWriteDisabled || dimFrozen}
-                        title={dimFrozen ? 'Снимите «Фикс» в матрице градации, чтобы редактировать' : undefined}
+                        title={
+                          dimFrozen
+                            ? 'Снимите «Фикс» в матрице градации, чтобы редактировать'
+                            : undefined
+                        }
                       />
                       <div className="mt-1 flex items-center justify-between gap-0.5">
                         <Input
-                          className="h-6 w-full px-1 text-[8px] text-center"
+                          className="h-6 w-full px-1 text-center text-[8px]"
                           placeholder="-см"
-                          value={dossier.sampleBaseDimensionTolerances?.[canon]?.minus?.toString() ?? ''}
+                          value={
+                            dossier.sampleBaseDimensionTolerances?.[canon]?.minus?.toString() ?? ''
+                          }
                           disabled={tzWriteDisabled || dimFrozen}
                           onChange={(e) => {
                             const val = e.target.value;
@@ -950,16 +1003,18 @@ export function Workshop2SampleBaseSizeBlock({
                                 ...p,
                                 sampleBaseDimensionTolerances: {
                                   ...tol,
-                                  [canon]: { ...tol[canon], minus: val ? Number(val) : undefined }
-                                }
+                                  [canon]: { ...tol[canon], minus: val ? Number(val) : undefined },
+                                },
                               };
                             });
                           }}
                         />
                         <Input
-                          className="h-6 w-full px-1 text-[8px] text-center"
+                          className="h-6 w-full px-1 text-center text-[8px]"
                           placeholder="+см"
-                          value={dossier.sampleBaseDimensionTolerances?.[canon]?.plus?.toString() ?? ''}
+                          value={
+                            dossier.sampleBaseDimensionTolerances?.[canon]?.plus?.toString() ?? ''
+                          }
                           disabled={tzWriteDisabled || dimFrozen}
                           onChange={(e) => {
                             const val = e.target.value;
@@ -969,8 +1024,8 @@ export function Workshop2SampleBaseSizeBlock({
                                 ...p,
                                 sampleBaseDimensionTolerances: {
                                   ...tol,
-                                  [canon]: { ...tol[canon], plus: val ? Number(val) : undefined }
-                                }
+                                  [canon]: { ...tol[canon], plus: val ? Number(val) : undefined },
+                                },
                               };
                             });
                           }}
@@ -1002,7 +1057,10 @@ export function Workshop2SampleBaseSizeBlock({
                   return (
                     <div
                       key={ex.id}
-                      className={cn('relative shrink-0 flex flex-col', colRange ? 'w-[6.25rem]' : 'w-[5.5rem]')}
+                      className={cn(
+                        'relative flex shrink-0 flex-col',
+                        colRange ? 'w-[6.25rem]' : 'w-[5.5rem]'
+                      )}
                     >
                       <button
                         type="button"
@@ -1027,13 +1085,19 @@ export function Workshop2SampleBaseSizeBlock({
                         }}
                         aria-label="Подпись мерки"
                         disabled={tzWriteDisabled || dimFrozen}
-                        title={dimFrozen ? 'Снимите «Фикс» в матрице градации, чтобы редактировать' : undefined}
+                        title={
+                          dimFrozen
+                            ? 'Снимите «Фикс» в матрице градации, чтобы редактировать'
+                            : undefined
+                        }
                       />
                       <div className="mt-1 flex items-center justify-between gap-0.5">
                         <Input
-                          className="h-6 w-full px-1 text-[8px] text-center"
+                          className="h-6 w-full px-1 text-center text-[8px]"
                           placeholder="-см"
-                          value={dossier.sampleBaseDimensionTolerances?.[ek]?.minus?.toString() ?? ''}
+                          value={
+                            dossier.sampleBaseDimensionTolerances?.[ek]?.minus?.toString() ?? ''
+                          }
                           disabled={tzWriteDisabled || dimFrozen}
                           onChange={(e) => {
                             const val = e.target.value;
@@ -1043,16 +1107,18 @@ export function Workshop2SampleBaseSizeBlock({
                                 ...p,
                                 sampleBaseDimensionTolerances: {
                                   ...tol,
-                                  [ek]: { ...tol[ek], minus: val ? Number(val) : undefined }
-                                }
+                                  [ek]: { ...tol[ek], minus: val ? Number(val) : undefined },
+                                },
                               };
                             });
                           }}
                         />
                         <Input
-                          className="h-6 w-full px-1 text-[8px] text-center"
+                          className="h-6 w-full px-1 text-center text-[8px]"
                           placeholder="+см"
-                          value={dossier.sampleBaseDimensionTolerances?.[ek]?.plus?.toString() ?? ''}
+                          value={
+                            dossier.sampleBaseDimensionTolerances?.[ek]?.plus?.toString() ?? ''
+                          }
                           disabled={tzWriteDisabled || dimFrozen}
                           onChange={(e) => {
                             const val = e.target.value;
@@ -1062,8 +1128,8 @@ export function Workshop2SampleBaseSizeBlock({
                                 ...p,
                                 sampleBaseDimensionTolerances: {
                                   ...tol,
-                                  [ek]: { ...tol[ek], plus: val ? Number(val) : undefined }
-                                }
+                                  [ek]: { ...tol[ek], plus: val ? Number(val) : undefined },
+                                },
                               };
                             });
                           }}
@@ -1094,7 +1160,7 @@ export function Workshop2SampleBaseSizeBlock({
               {handbookParts.map((part, idx) => (
                 <div
                   key={part.parameterId}
-                  className="border-border-subtle flex flex-nowrap items-center gap-x-2 gap-y-2 border-b pb-3 last:border-0 last:pb-0 group"
+                  className="border-border-subtle group flex flex-nowrap items-center gap-x-2 gap-y-2 border-b pb-3 last:border-0 last:pb-0"
                   aria-label={sizeLineForPart(part)}
                 >
                   <div className="flex min-h-9 min-w-[4.5rem] max-w-[12rem] shrink-0 items-center gap-2">
@@ -1106,22 +1172,25 @@ export function Workshop2SampleBaseSizeBlock({
                           setDossier((p) => ({ ...p, sampleBaseSizeLabel: sizeLineForPart(part) }));
                         }
                       }}
-                      className="h-4 w-4 border-red-200 data-[state=checked]:bg-red-500 data-[state=checked]:border-red-500"
+                      className="h-4 w-4 border-red-200 data-[state=checked]:border-red-500 data-[state=checked]:bg-red-500"
                       title="Сделать базовым размером"
                     />
-                    <span className={cn(
-                      "text-text-primary text-sm font-medium leading-snug truncate",
-                      dossier.sampleBaseSizeLabel === sizeLineForPart(part) && "text-red-600 font-bold"
-                    )}>
+                    <span
+                      className={cn(
+                        'text-text-primary truncate text-sm font-medium leading-snug',
+                        dossier.sampleBaseSizeLabel === sizeLineForPart(part) &&
+                          'font-bold text-red-600'
+                      )}
+                    >
                       {sizeLineForPart(part)}
                       {dossier.sampleBaseSizeLabel === sizeLineForPart(part) && (
                         <span className="ml-1 text-[10px] font-bold text-red-500">(база)</span>
                       )}
                     </span>
-                    <div className="flex flex-col ml-auto bg-slate-50 border border-slate-100 rounded">
+                    <div className="ml-auto flex flex-col rounded border border-slate-100 bg-slate-50">
                       <button
                         type="button"
-                        className="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-200 disabled:opacity-30 disabled:hover:text-slate-400 disabled:hover:bg-transparent transition-colors"
+                        className="p-1 text-slate-400 transition-colors hover:bg-slate-200 hover:text-slate-700 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-400"
                         onClick={() => movePart(idx, 'up')}
                         disabled={idx === 0}
                         title="Поднять вверх"
@@ -1130,7 +1199,7 @@ export function Workshop2SampleBaseSizeBlock({
                       </button>
                       <button
                         type="button"
-                        className="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-200 disabled:opacity-30 disabled:hover:text-slate-400 disabled:hover:bg-transparent transition-colors"
+                        className="p-1 text-slate-400 transition-colors hover:bg-slate-200 hover:text-slate-700 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-400"
                         onClick={() => movePart(idx, 'down')}
                         disabled={idx === handbookParts.length - 1}
                         title="Опустить вниз"
@@ -1195,7 +1264,9 @@ export function Workshop2SampleBaseSizeBlock({
                               size="sm"
                               className="text-text-secondary h-6 px-1 text-[9px]"
                               disabled={
-                                !midpointNominalSuggestion(rc.min, rc.max) || tzWriteDisabled || dimFrozen
+                                !midpointNominalSuggestion(rc.min, rc.max) ||
+                                tzWriteDisabled ||
+                                dimFrozen
                               }
                               onClick={() => {
                                 const m = midpointNominalSuggestion(rc.min, rc.max);
@@ -1286,7 +1357,9 @@ export function Workshop2SampleBaseSizeBlock({
                               size="sm"
                               className="text-text-secondary h-6 px-1 text-[9px]"
                               disabled={
-                                !midpointNominalSuggestion(rc.min, rc.max) || tzWriteDisabled || dimFrozen
+                                !midpointNominalSuggestion(rc.min, rc.max) ||
+                                tzWriteDisabled ||
+                                dimFrozen
                               }
                               onClick={() => {
                                 const m = midpointNominalSuggestion(rc.min, rc.max);

@@ -85,13 +85,7 @@ export function Workshop2TzSectionTabIndicator({
       className={cn('relative inline-flex h-[22px] w-[22px] shrink-0', className)}
       title={`Заполнено ${clamped}% · для подписи рекомендуется ≥ ${threshold}%`}
     >
-      <svg
-        width="22"
-        height="22"
-        viewBox="0 0 22 22"
-        className="block -rotate-90"
-        aria-hidden
-      >
+      <svg width="22" height="22" viewBox="0 0 22 22" className="block -rotate-90" aria-hidden>
         <circle
           cx="11"
           cy="11"

@@ -3,7 +3,10 @@
  */
 import { buildWorkshop2TzGateSnapshot } from '@/lib/production/workshop2-tz-gates';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
-import { W2_CNODE_BOM, W2_MATERIAL_WITHOUT_NODE } from '@/lib/production/workshop2-bom-construction-node-integrity';
+import {
+  W2_CNODE_BOM,
+  W2_MATERIAL_WITHOUT_NODE,
+} from '@/lib/production/workshop2-bom-construction-node-integrity';
 
 function emptyDossier(): Workshop2DossierPhase1 {
   return { assignments: [] } as Workshop2DossierPhase1;
@@ -115,9 +118,9 @@ describe('workshop2-tz-gates', () => {
       bomLineCostingHints: [{ lineRef: 'LREF-ORPHAN-01' }],
     } as Workshop2DossierPhase1;
     const snap = buildWorkshop2TzGateSnapshot(d, { activeCategoryLeafId: leaf });
-    expect(snap.sectionMinimumErrors.material.some((m) => m.includes(W2_MATERIAL_WITHOUT_NODE))).toBe(
-      true
-    );
+    expect(
+      snap.sectionMinimumErrors.material.some((m) => m.includes(W2_MATERIAL_WITHOUT_NODE))
+    ).toBe(true);
   });
 
   describe('sectionMinimumErrors.material (W2-TZ-IMPLEMENTATION-SPEC)', () => {
@@ -184,10 +187,7 @@ describe('workshop2-tz-gates', () => {
     it('composition_sum_100_required: сумма не 100%', () => {
       const d = {
         ...emptyDossier(),
-        assignments: [
-          matTwoRows(),
-          canon('composition', 'Состав', '40% хлопок, 40% полиэстер'),
-        ],
+        assignments: [matTwoRows(), canon('composition', 'Состав', '40% хлопок, 40% полиэстер')],
       } as Workshop2DossierPhase1;
       const snap = buildWorkshop2TzGateSnapshot(d);
       expect(snap.sectionMinimumErrors.material.some((m) => m.includes('100%'))).toBe(true);
@@ -221,7 +221,11 @@ describe('workshop2-tz-gates', () => {
     it('silhouette: требуется silh или fit_type (gate on visuals)', () => {
       const d = {
         ...emptyDossier(),
-        assignments: [matTwoRows(), canon('composition', 'Состав', '100% хлопок'), canon('zipperType', 'Молния', 'YKK')],
+        assignments: [
+          matTwoRows(),
+          canon('composition', 'Состав', '100% хлопок'),
+          canon('zipperType', 'Молния', 'YKK'),
+        ],
       } as Workshop2DossierPhase1;
       const snap = buildWorkshop2TzGateSnapshot(d);
       expect(snap.sectionMinimumErrors.visuals).toContain('Выберите базовый силуэт.');
@@ -270,7 +274,9 @@ describe('workshop2-tz-gates', () => {
         ],
       } as Workshop2DossierPhase1;
       const snap = buildWorkshop2TzGateSnapshot(d, { activeCategoryLeafId: 'leaf-1' });
-      expect(snap.sectionMinimumErrors.construction.some((m) => m.includes('минимум 3'))).toBe(true);
+      expect(snap.sectionMinimumErrors.construction.some((m) => m.includes('минимум 3'))).toBe(
+        true
+      );
     });
 
     it('nodes_min_count: при 0 узлах тоже ошибка', () => {

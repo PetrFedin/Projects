@@ -138,9 +138,7 @@ export function mergeOperationalNotesPersisted(params: {
 
   const existing = data.notes[params.wholesaleOrderId];
   const now = new Date().toISOString();
-  const next: OperationalNoteEntryV1 = existing
-    ? { ...existing }
-    : { note: '', updatedAt: now };
+  const next: OperationalNoteEntryV1 = existing ? { ...existing } : { note: '', updatedAt: now };
 
   if (params.note !== undefined) {
     next.note = params.note;

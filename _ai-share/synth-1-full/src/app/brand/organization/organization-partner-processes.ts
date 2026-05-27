@@ -3,14 +3,7 @@
  * Связь: `app/api/v1/endpoints/brand.py` → `partnerEcosystem` в дашборде бренда.
  */
 
-import {
-  ClipboardList,
-  FileText,
-  CheckSquare,
-  RotateCcw,
-  Truck,
-  ShoppingCart,
-} from 'lucide-react';
+import { ClipboardList, FileText, CheckSquare, RotateCcw, Truck, ShoppingCart } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export interface PartnerProcessItem {

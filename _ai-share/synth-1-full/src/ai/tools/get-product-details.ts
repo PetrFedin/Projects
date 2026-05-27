@@ -46,9 +46,7 @@ export const getProductDetails = ai.defineTool(
     }>;
 
     // This is a mock search. In a real app, you'd use a proper search engine like Algolia or Elasticsearch.
-    const foundProduct = products.find((p) =>
-      p.name.toLowerCase().includes(query.toLowerCase())
-    );
+    const foundProduct = products.find((p) => p.name.toLowerCase().includes(query.toLowerCase()));
 
     if (foundProduct) {
       console.log(`[getProductDetails Tool] Found: ${foundProduct.name}`);

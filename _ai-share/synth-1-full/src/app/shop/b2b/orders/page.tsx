@@ -119,49 +119,49 @@ export default function ShopB2BOrdersPage() {
                     {filteredOrders.map((o) => {
                       const wid = getWholesaleOrderIdFromB2BOrder(o);
                       return (
-                      <tr key={wid} className="border-border-subtle border-b">
-                        <td className="py-2 font-mono">
-                          <Link
-                            className="text-accent-primary hover:underline"
-                            href={ROUTES.shop.b2bOrder(wid)}
-                          >
-                            {wid}
-                          </Link>
-                        </td>
-                        <td className="py-2">{o.brand}</td>
-                        <td className="py-2">
-                          <Badge variant="secondary" className="text-[9px]">
-                            {o.status}
-                          </Badge>
-                        </td>
-                        <td className="py-2 text-right font-medium">{o.amount}</td>
-                        <td className="text-text-secondary py-2 text-[10px]">
-                          {o.paymentStatus ?? '—'}
-                        </td>
-                        <td className="py-2 text-right">
-                          <div className="flex flex-wrap justify-end gap-x-2 gap-y-0.5 text-[10px] font-semibold uppercase tracking-wide">
+                        <tr key={wid} className="border-border-subtle border-b">
+                          <td className="py-2 font-mono">
                             <Link
                               className="text-accent-primary hover:underline"
-                              href={`${ROUTES.shop.b2bPayment}?orderId=${encodeURIComponent(wid)}`}
+                              href={ROUTES.shop.b2bOrder(wid)}
                             >
-                              Оплата
+                              {wid}
                             </Link>
-                            <Link
-                              className="text-accent-primary hover:underline"
-                              href={ROUTES.shop.b2bTracking}
-                            >
-                              Трек
-                            </Link>
-                            <Link
-                              className="text-accent-primary hover:underline"
-                              href={ROUTES.shop.b2bClaims}
-                            >
-                              Претензия
-                            </Link>
-                          </div>
-                        </td>
-                      </tr>
-                    );
+                          </td>
+                          <td className="py-2">{o.brand}</td>
+                          <td className="py-2">
+                            <Badge variant="secondary" className="text-[9px]">
+                              {o.status}
+                            </Badge>
+                          </td>
+                          <td className="py-2 text-right font-medium">{o.amount}</td>
+                          <td className="text-text-secondary py-2 text-[10px]">
+                            {o.paymentStatus ?? '—'}
+                          </td>
+                          <td className="py-2 text-right">
+                            <div className="flex flex-wrap justify-end gap-x-2 gap-y-0.5 text-[10px] font-semibold uppercase tracking-wide">
+                              <Link
+                                className="text-accent-primary hover:underline"
+                                href={`${ROUTES.shop.b2bPayment}?orderId=${encodeURIComponent(wid)}`}
+                              >
+                                Оплата
+                              </Link>
+                              <Link
+                                className="text-accent-primary hover:underline"
+                                href={ROUTES.shop.b2bTracking}
+                              >
+                                Трек
+                              </Link>
+                              <Link
+                                className="text-accent-primary hover:underline"
+                                href={ROUTES.shop.b2bClaims}
+                              >
+                                Претензия
+                              </Link>
+                            </div>
+                          </td>
+                        </tr>
+                      );
                     })}
                   </tbody>
                 </table>

@@ -73,7 +73,10 @@ export default function BrandCompliancePage() {
   ];
 
   return (
-    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16 duration-500 animate-in fade-in">
+    <CabinetPageContent
+      maxWidth="full"
+      className="w-full space-y-4 pb-16 duration-500 animate-in fade-in"
+    >
       <RegistryPageHeader
         title="Russian Layer & Compliance"
         leadPlain="ЭДО (УПД/УКД), маркировка «Честный ЗНАК» и EAC. ЦРПТ и ГИС МТ — единый слой учёта для РФ. Связь с Production, складом и B2B-заказами."

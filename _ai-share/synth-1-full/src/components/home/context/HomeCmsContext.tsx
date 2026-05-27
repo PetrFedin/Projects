@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  createContext,
-  useContext,
-  useMemo,
-  type ReactNode,
-} from 'react';
+import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import type { CmsHomeConfig } from '@/data/cms.home.default';
 import { useHomeCmsConfig } from '@/components/home/hooks/use-home-cms-config';
 

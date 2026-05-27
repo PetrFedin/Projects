@@ -2,15 +2,7 @@
  * Карточки модулей хаба «Организация» + merge с `brand/dashboard.moduleStats`.
  */
 
-import {
-  Building2,
-  Users,
-  Settings,
-  Zap,
-  CreditCard,
-  ShieldCheck,
-  FileText,
-} from 'lucide-react';
+import { Building2, Users, Settings, Zap, CreditCard, ShieldCheck, FileText } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export const NAVIGATION_CARDS = [

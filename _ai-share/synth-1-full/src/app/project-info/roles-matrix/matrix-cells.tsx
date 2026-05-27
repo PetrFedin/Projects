@@ -100,17 +100,19 @@ export function MatrixCell({
 
   const partialHint = useMemo(() => {
     if (mark !== '◑') return null;
-    return getClusterSharingHintForPartialMark(rowId, roleId, clusterNames, clusterDuplicates ?? []);
+    return getClusterSharingHintForPartialMark(
+      rowId,
+      roleId,
+      clusterNames,
+      clusterDuplicates ?? []
+    );
   }, [mark, rowId, roleId, clusterNames, clusterDuplicates]);
 
   const body = (
     <div className="flex h-full min-h-0 w-full flex-1 items-stretch gap-2">
       <div className="flex w-6 shrink-0 flex-col items-center pt-0.5">
         <span
-          className={cn(
-            'text-center text-lg font-bold leading-none sm:text-xl',
-            markClass(mark)
-          )}
+          className={cn('text-center text-lg font-bold leading-none sm:text-xl', markClass(mark))}
           title={mark === '◑' ? undefined : 'Покрытие в навигации'}
         >
           {mark}
@@ -153,9 +155,7 @@ export function MatrixCell({
                     Полный перечень — на шаге «Информация, метрики и функции»
                   </p>
                 ) : null}
-                {navInventoryOpen &&
-                item.detailsBrief?.length &&
-                item.detailsInventory?.length ? (
+                {navInventoryOpen && item.detailsBrief?.length && item.detailsInventory?.length ? (
                   <div className="mt-0.5 flex flex-col gap-1.5 pl-0.5">
                     {item.detailsBrief.map((brief, bi) => {
                       const inv = item.detailsInventory![bi];
@@ -203,11 +203,7 @@ export function MatrixCell({
                         <li
                           key={d}
                           className={cn(lowRf && 'font-medium text-red-600')}
-                          title={
-                            lowRf
-                              ? TITLE_RF_RU_LOW
-                              : undefined
-                          }
+                          title={lowRf ? TITLE_RF_RU_LOW : undefined}
                         >
                           {d}
                         </li>

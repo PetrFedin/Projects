@@ -13,7 +13,12 @@ const ClientBrandsSection = dynamic(
     import('@/components/home/sections/ClientBrandsSection').then((m) => ({
       default: m.ClientBrandsSection,
     })),
-  { ssr: false, loading: () => <div className="min-h-[200px] animate-pulse rounded-xl bg-muted/40" aria-hidden /> }
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-[200px] animate-pulse rounded-xl bg-muted/40" aria-hidden />
+    ),
+  }
 );
 
 type ClientBrandsSectionGateProps = {

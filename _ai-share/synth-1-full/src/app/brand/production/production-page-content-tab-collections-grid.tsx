@@ -15,16 +15,16 @@ export function ProductionPageContentTabCollectionsGrid({
   const px = p as Record<string, any>;
   const { collections, filteredCollections } = px;
 
-  const sorted = [...(filteredCollections ?? collections ?? []).filter((c: any) => c.id !== 'ARCHIVE')].sort(
-    (a: any, b: any) => {
-      const ord = px.collectionSortOrder || 'name';
-      if (ord === 'name') return (a.name || '').localeCompare(b.name || '');
-      if (ord === 'status') return (a.status || '').localeCompare(b.status || '');
-      const ra = parseInt(String(a.readiness || '0').replace(/\D/g, ''), 10) || 0;
-      const rb = parseInt(String(b.readiness || '0').replace(/\D/g, ''), 10) || 0;
-      return ord === 'readiness' ? rb - ra : 0;
-    }
-  );
+  const sorted = [
+    ...(filteredCollections ?? collections ?? []).filter((c: any) => c.id !== 'ARCHIVE'),
+  ].sort((a: any, b: any) => {
+    const ord = px.collectionSortOrder || 'name';
+    if (ord === 'name') return (a.name || '').localeCompare(b.name || '');
+    if (ord === 'status') return (a.status || '').localeCompare(b.status || '');
+    const ra = parseInt(String(a.readiness || '0').replace(/\D/g, ''), 10) || 0;
+    const rb = parseInt(String(b.readiness || '0').replace(/\D/g, ''), 10) || 0;
+    return ord === 'readiness' ? rb - ra : 0;
+  });
 
   return (
     <div

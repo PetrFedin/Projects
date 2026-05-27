@@ -62,7 +62,10 @@ export function BrandProductionFloorTabPanels(props: BrandProductionFloorTabPane
   return (
     <>
       <TabsContent value="stages" className={floorTabPanelClassName}>
-        <BrandProductionStagesFloorPanel isActive={tab === 'stages'} stagesProps={stagesTabContentProps} />
+        <BrandProductionStagesFloorPanel
+          isActive={tab === 'stages'}
+          stagesProps={stagesTabContentProps}
+        />
       </TabsContent>
 
       <TabsContent value="live" className={floorTabPanelClassName}>

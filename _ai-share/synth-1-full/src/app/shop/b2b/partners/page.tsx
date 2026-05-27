@@ -315,9 +315,9 @@ export default function PartnersPage() {
               </Table>
             </TabsContent>
             <TabsContent
-            value="requests"
-            className={cn(cabinetSurface.cabinetProfileTabPanel, 'pt-4')}
-          >
+              value="requests"
+              className={cn(cabinetSurface.cabinetProfileTabPanel, 'pt-4')}
+            >
               <p className="text-text-secondary text-sm">
                 Заявки на сотрудничество с брендами. После одобрения бренд появится в «Мои
                 партнёры».{' '}

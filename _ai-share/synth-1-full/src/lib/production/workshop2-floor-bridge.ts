@@ -1,11 +1,7 @@
 /**
  * Мост разработка коллекции (workshop2) ↔ пол `/brand/production`: единая точка для сборки deep-link без дублирования логики в UI.
  */
-import {
-  ROUTES,
-  brandProductionFloorHref,
-  withBrandProductionDeepContext,
-} from '@/lib/routes';
+import { ROUTES, brandProductionFloorHref, withBrandProductionDeepContext } from '@/lib/routes';
 
 export type Workshop2FloorBridgeContext = {
   collectionId: string;

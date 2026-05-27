@@ -12,7 +12,9 @@ export type BrandProductionCollectionFlowPageViewProps = {
   shell: BrandProductionFloorTabsShellProps;
 };
 
-export function BrandProductionCollectionFlowPageView(props: BrandProductionCollectionFlowPageViewProps) {
+export function BrandProductionCollectionFlowPageView(
+  props: BrandProductionCollectionFlowPageViewProps
+) {
   const { tab, onTabChange, shell } = props;
 
   return (

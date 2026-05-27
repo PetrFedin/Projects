@@ -67,7 +67,11 @@ export default function BrandProductsPage() {
   const [tab, setTab] = useState('pim');
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-6 pb-24 sm:px-6" data-testid={tid.page('brand-products')}>
+    <CabinetPageContent
+      maxWidth="5xl"
+      className="space-y-4 px-4 py-6 pb-24 sm:px-6"
+      data-testid={tid.page('brand-products')}
+    >
       <RegistryPageHeader
         title="Продукт"
         leadPlain="Карточки, матрица ассортимента и продуктовые потоки от планирования до цифрового паспорта."

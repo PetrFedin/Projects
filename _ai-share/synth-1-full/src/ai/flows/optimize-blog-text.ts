@@ -66,7 +66,10 @@ const optimizeBlogTextFlow = ai.defineFlow(
       return output;
     } catch (error: unknown) {
       // Fallback logic if API Key is missing or other provider errors occur
-      console.warn('AI Provider failed, using local heuristic engine:', getUnknownErrorMessage(error, 'unknown'));
+      console.warn(
+        'AI Provider failed, using local heuristic engine:',
+        getUnknownErrorMessage(error, 'unknown')
+      );
 
       const text = input.text;
 

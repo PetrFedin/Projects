@@ -131,18 +131,25 @@ const FILTER_KEYS = ['q', 'cat', 'access', 'out', 'org', 'aud'] as const;
 export function getAcademyCourseFilterParamString(f: AcademyCourseFiltersSnapshot): string {
   const t = new URLSearchParams();
   writeAcademyCourseFiltersToSearchParams(t, f);
-  const entries = FILTER_KEYS.map((k) => [k, t.get(k) ?? ''] as const).sort((a, b) => a[0].localeCompare(b[0]));
+  const entries = FILTER_KEYS.map((k) => [k, t.get(k) ?? ''] as const).sort((a, b) =>
+    a[0].localeCompare(b[0])
+  );
   return entries.map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
 }
 
-export function academyCourseFiltersMatchUrl(sp: URLSearchParams, f: AcademyCourseFiltersSnapshot): boolean {
+export function academyCourseFiltersMatchUrl(
+  sp: URLSearchParams,
+  f: AcademyCourseFiltersSnapshot
+): boolean {
   const expected = new URLSearchParams();
   writeAcademyCourseFiltersToSearchParams(expected, f);
   return FILTER_KEYS.every((k) => (sp.get(k) ?? '') === (expected.get(k) ?? ''));
 }
 
 /** Полное состояние фильтров из URL (пустые ключи → значения по умолчанию). */
-export function parseAcademyCourseFiltersSnapshot(sp: URLSearchParams): AcademyCourseFiltersSnapshot {
+export function parseAcademyCourseFiltersSnapshot(
+  sp: URLSearchParams
+): AcademyCourseFiltersSnapshot {
   const partial = readAcademyCourseFiltersFromSearchParams(sp);
   return {
     searchQuery: partial.searchQuery ?? '',

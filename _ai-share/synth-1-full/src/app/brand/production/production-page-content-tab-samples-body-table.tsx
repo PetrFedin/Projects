@@ -1,13 +1,7 @@
 'use client';
 
 import { Card } from '@/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ProductionPageContentTabSamplesBodyTableRow } from '@/app/brand/production/production-page-content-tab-samples-body-table-row';
 
 type CnFn = (...args: (string | boolean | undefined | null)[]) => string;
@@ -20,11 +14,7 @@ export function ProductionPageContentTabSamplesBodyTable({
   cn: CnFn;
 }) {
   const px = p as Record<string, any>;
-  const {
-    displaySampleStatuses,
-    filteredSampleStatuses,
-    sampleStageFilter,
-  } = px;
+  const { displaySampleStatuses, filteredSampleStatuses, sampleStageFilter } = px;
 
   const rows = ((displaySampleStatuses || filteredSampleStatuses || []) as any[]).filter(
     (s: any) => {

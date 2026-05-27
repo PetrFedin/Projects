@@ -183,17 +183,14 @@ export function formatWorkshop2PassportGapReportAsText(r: Workshop2PassportGapRe
   out.push('');
   out.push('On leaf (general / passport columns):');
   for (const l of r.linesOnLeaf) {
-    const st =
-      l.requiredForCurrentTzStep
-        ? l.filled
-          ? 'ok'
-          : 'OPEN (required)'
-        : l.filled
-          ? 'filled (optional)'
-          : '—';
-    out.push(
-      `  [${l.passportBlock}] ${l.attributeId} — ${l.name}: ${st}`
-    );
+    const st = l.requiredForCurrentTzStep
+      ? l.filled
+        ? 'ok'
+        : 'OPEN (required)'
+      : l.filled
+        ? 'filled (optional)'
+        : '—';
+    out.push(`  [${l.passportBlock}] ${l.attributeId} — ${l.name}: ${st}`);
   }
   if (r.requiredButMissingFromLeaf.length) {
     out.push('');

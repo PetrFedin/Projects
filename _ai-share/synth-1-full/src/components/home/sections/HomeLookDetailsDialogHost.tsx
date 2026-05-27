@@ -16,8 +16,7 @@ const LookDetailsDialogGate = dynamic(
 
 /** Look dialog — читает split context; не триггерит re-render showcase consumers. */
 export function HomeLookDetailsDialogHost() {
-  const { selectedLook, isLookDetailsOpen, setIsLookDetailsOpen } =
-    useHomeShowroomLookDialog();
+  const { selectedLook, isLookDetailsOpen, setIsLookDetailsOpen } = useHomeShowroomLookDialog();
   const { viewRole, setShowroomViewMode } = useHomeShowroomShowcase();
 
   return (

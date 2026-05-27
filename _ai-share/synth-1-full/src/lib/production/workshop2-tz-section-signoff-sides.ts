@@ -27,7 +27,8 @@ export function workshop2TzSectionSignoffRequiredSides(
 
 export function workshop2TzSectionSignoffDoneTitle(section: Workshop2TzSignoffSectionKey): string {
   const sides = workshop2TzSectionSignoffRequiredSides(section);
-  if (sides.includes('brand') && sides.includes('tech')) return 'Секция подписана брендом и технологом';
+  if (sides.includes('brand') && sides.includes('tech'))
+    return 'Секция подписана брендом и технологом';
   if (sides.includes('brand')) return 'Секция подписана брендом';
   if (sides.includes('tech')) return 'Секция подписана технологом';
   return 'Секция подписана';

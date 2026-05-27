@@ -34,12 +34,18 @@ export function ProductionWorkshop2HubBanner() {
         <div className="min-w-0 space-y-1">
           <p>
             Разработка и образец — в разделе{' '}
-            <strong className="text-text-primary">{COLLECTION_DEV_HUB_TITLE_RU}</strong> (в списке коллекции та же логика: слева ТЗ и
-            согласования, справа — от supply-path сэмплы и выпуск по каталогу этапов). На полу ниже: серия, заказы и
-            массовый выпуск по отдельным вкладкам.
+            <strong className="text-text-primary">{COLLECTION_DEV_HUB_TITLE_RU}</strong> (в списке
+            коллекции та же логика: слева ТЗ и согласования, справа — от supply-path сэмплы и выпуск
+            по каталогу этапов). На полу ниже: серия, заказы и массовый выпуск по отдельным
+            вкладкам.
           </p>
           <p className="text-text-muted text-[11px]">
-            Параметр <code className="text-text-secondary bg-bg-surface2 rounded px-1 py-0.5 font-mono text-[10px]">stagesSku</code> должен совпадать с id строки артикула в этой коллекции; иначе пол сбросит контекст артикула.
+            Параметр{' '}
+            <code className="text-text-secondary bg-bg-surface2 rounded px-1 py-0.5 font-mono text-[10px]">
+              stagesSku
+            </code>{' '}
+            должен совпадать с id строки артикула в этой коллекции; иначе пол сбросит контекст
+            артикула.
           </p>
         </div>
       </div>

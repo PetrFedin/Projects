@@ -1,5 +1,11 @@
-import { midpointNominalSuggestion, parseDimensionValueToRange } from '@/lib/production/workshop-dimension-range';
-import type { Workshop2DossierPhase1, Workshop2GradingRow } from '@/lib/production/workshop2-dossier-phase1.types';
+import {
+  midpointNominalSuggestion,
+  parseDimensionValueToRange,
+} from '@/lib/production/workshop-dimension-range';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2GradingRow,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 
 /** Строки табеля размеров (как в `Workshop2SampleBaseSizeBlock.handbookParts`). */
 export function workshop2SampleBaseSizeRowParts(
@@ -150,7 +156,10 @@ export function pushGradingRulesToSampleDimensions(
   sizing: { sizes: readonly string[]; baseLabel: string },
   rules: readonly Workshop2GradingRow[],
   points: readonly GradingPointFromSample[]
-): Pick<Workshop2DossierPhase1, 'sampleBasePerSizeDimensions' | 'sampleBasePerSizeDimensionRanges'> {
+): Pick<
+  Workshop2DossierPhase1,
+  'sampleBasePerSizeDimensions' | 'sampleBasePerSizeDimensionRanges'
+> {
   const parts = workshop2SampleBaseSizeRowParts(dossier);
   const nextDims: Record<string, Record<string, string>> = {
     ...(dossier.sampleBasePerSizeDimensions ?? {}),
@@ -203,7 +212,10 @@ export function pushGradingRulesToSampleDimensions(
     }
   }
 
-  const out: Pick<Workshop2DossierPhase1, 'sampleBasePerSizeDimensions' | 'sampleBasePerSizeDimensionRanges'> = {
+  const out: Pick<
+    Workshop2DossierPhase1,
+    'sampleBasePerSizeDimensions' | 'sampleBasePerSizeDimensionRanges'
+  > = {
     sampleBasePerSizeDimensions: Object.keys(nextDims).length ? nextDims : undefined,
   };
   if (nextRanges && Object.keys(nextRanges).length > 0) {

@@ -171,7 +171,10 @@ export default function B2BCreateOrderPage() {
       <RelatedModulesBlock
         title="Связанные разделы и быстрые ядра"
         links={finalizeRelatedModuleLinks(
-          dedupeEntityLinksByHref([...getShopB2BHubLinks(), ...getSynthaThreeCoresQuickLinksForBuyer()])
+          dedupeEntityLinksByHref([
+            ...getShopB2BHubLinks(),
+            ...getSynthaThreeCoresQuickLinksForBuyer(),
+          ])
         )}
       />
     </ShopB2bNuOrderScope>

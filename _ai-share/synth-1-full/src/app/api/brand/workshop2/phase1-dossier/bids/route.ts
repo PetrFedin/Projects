@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     if (action === 'add_mock_bid') {
       const factories = ['ШвейПром', 'ООО "Эталон"', 'Фабрика №1', 'Текстиль-Мастер', 'FashionSew'];
       const randomFactory = factories[Math.floor(Math.random() * factories.length)];
-      
+
       const newBid: Workshop2VendorBid = {
         id: crypto.randomUUID(),
         vendorId: `vendor-${Math.floor(Math.random() * 1000)}`,

@@ -61,6 +61,7 @@
     "format": "prettier --write \"{src,components,app}/**/*.{ts,tsx,js,jsx,json,css,md}\" \"*.{json,md}\"",
     "format:check": "prettier --check \"{src,components,app}/**/*.{ts,tsx,js,jsx,json,css,md}\" \"*.{json,md}\"",
     "typecheck": "node scripts/ensure-supported-node.mjs && NODE_OPTIONS=--max-old-space-size=4096 tsc --noEmit -p tsconfig.typecheck.json",
+    "typecheck:ci": "node scripts/ensure-supported-node.mjs && NODE_OPTIONS=--max-old-space-size=4096 tsc --noEmit -p tsconfig.ci.json",
     "typecheck:w2": "node scripts/ensure-supported-node.mjs && NODE_OPTIONS=--max-old-space-size=4096 tsc --noEmit -p tsconfig.strict-w2.json",
     "typecheck:next-pages": "npm run -s build:isolated && NODE_OPTIONS=--max-old-space-size=4096 tsc --noEmit -p tsconfig.next-pages.json",
     "typecheck:order-subset": "node scripts/ensure-supported-node.mjs && tsc --noEmit -p tsconfig.strict-order.json",

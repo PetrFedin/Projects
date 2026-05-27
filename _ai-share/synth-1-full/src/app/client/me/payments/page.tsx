@@ -6,7 +6,7 @@ import { PaymentsPageContent } from './payments-page-content';
 
 export default function PaymentsPage() {
   return (
-    <CabinetPageContent maxWidth="5xl" className="space-y-4 py-4 px-4 py-6 pb-24 sm:px-6">
+    <CabinetPageContent maxWidth="5xl" className="space-y-4 px-4 py-4 py-6 pb-24 sm:px-6">
       <ClientCabinetSectionHeader />
       <PaymentsPageContent />
     </CabinetPageContent>

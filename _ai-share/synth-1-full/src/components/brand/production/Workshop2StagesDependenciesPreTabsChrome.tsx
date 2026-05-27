@@ -11,7 +11,10 @@ import {
 import { StagesHelpHover } from '@/components/brand/production/stages-dependencies-tab-content-stages-help';
 import { StagesLocalInventoryToolbar } from '@/components/brand/production/stages-dependencies-tab-local-inventory-toolbar';
 import type { CollectionStep } from '@/lib/production/collection-steps-catalog';
-import { PRODUCTION_FLOW_PROFILES, type ProductionFlowProfileId } from '@/lib/production/collection-production-profiles';
+import {
+  PRODUCTION_FLOW_PROFILES,
+  type ProductionFlowProfileId,
+} from '@/lib/production/collection-production-profiles';
 import { stagesArticleDisplayLabel } from '@/lib/production/stages-tab-facets';
 import type {
   StagesLocalInventoryTools,
@@ -131,14 +134,16 @@ export function Workshop2StagesDependenciesPreTabsChrome(
                       Свернуть
                     </Button>
                   </div>
-                  <p className="text-text-secondary text-[9px] leading-snug">{productionProfileHint}</p>
+                  <p className="text-text-secondary text-[9px] leading-snug">
+                    {productionProfileHint}
+                  </p>
                   <p className="text-text-secondary text-[8px]">
                     Хранится в документе коллекции (
                     <code className="rounded bg-white/80 px-0.5">productionProfileId</code>) через{' '}
                     <strong className="text-text-primary">ProductionDataPort</strong> (сейчас
                     localStorage; с API — тот же контракт). Меняет{' '}
-                    <strong className="text-text-primary">блокировки</strong> и подсветку этапов «вне
-                    профиля», не названия модулей.
+                    <strong className="text-text-primary">блокировки</strong> и подсветку этапов
+                    «вне профиля», не названия модулей.
                   </p>
                 </div>
                 <Select value={productionProfileId} onValueChange={onProductionProfileChange}>
@@ -199,7 +204,9 @@ export function Workshop2StagesDependenciesPreTabsChrome(
           role="status"
         >
           <div className="flex flex-wrap items-baseline gap-x-1 gap-y-1">
-            <span className="font-black uppercase tracking-wider text-emerald-800/90">Контур SKU</span>
+            <span className="font-black uppercase tracking-wider text-emerald-800/90">
+              Контур SKU
+            </span>
             <span className="text-text-muted"> · </span>
             <span className="text-text-primary font-semibold">
               {stagesArticleDisplayLabel(focusArticle.sku, focusArticle.season)}
@@ -237,8 +244,7 @@ export function Workshop2StagesDependenciesPreTabsChrome(
                     onClick={() => onJumpToMatrixRow(focusSkuContourGuidance.next!.id)}
                     title="Откроется вкладка «Процесс и правила» и прокрутка к строке этапа в матрице"
                   >
-                    <Crosshair className="h-3 w-3 shrink-0" aria-hidden />
-                    К следующему в матрице
+                    <Crosshair className="h-3 w-3 shrink-0" aria-hidden />К следующему в матрице
                   </Button>
                 ) : null}
                 {focusSkuContourGuidance.blockedDeps.length > 0

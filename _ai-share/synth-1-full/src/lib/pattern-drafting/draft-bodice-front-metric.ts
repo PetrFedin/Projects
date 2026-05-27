@@ -1,4 +1,8 @@
-import type { PatternDart, PatternPiece, SewingPatternDraftOptions } from '@/lib/pattern-drafting/sewing-pattern.types';
+import type {
+  PatternDart,
+  PatternPiece,
+  SewingPatternDraftOptions,
+} from '@/lib/pattern-drafting/sewing-pattern.types';
 import { cmToMm, clamp, toMm } from '@/lib/pattern-drafting/sewing-units';
 import {
   armholeDepthMm,
@@ -8,9 +12,10 @@ import {
 import { sampleQuadraticBezier } from '@/lib/pattern-geometry/curve-samples';
 import type { Vec2 } from '@/lib/pattern-geometry/vec2';
 
-export function draftBodiceFrontMetric(
-  options: SewingPatternDraftOptions
-): { piece: PatternPiece; log: { key: string; value: string; unit?: string }[] } {
+export function draftBodiceFrontMetric(options: SewingPatternDraftOptions): {
+  piece: PatternPiece;
+  log: { key: string; value: string; unit?: string }[];
+} {
   const m = toMm({ ...options.measures, unit: options.measures.unit });
   const eB = cmToMm(options.ease.bust);
   const eW = cmToMm(options.ease.waist);
@@ -21,7 +26,8 @@ export function draftBodiceFrontMetric(
   const sh = m.shoulder * 0.48 * (1 - (options.shoulderSlant - 0.5) * 0.1);
 
   const suppression = quarterWaistSuppressionMm(m.bust, m.waist, eB, eW);
-  const dartsTuned = options.darts.shoulderDart || options.darts.bustSideDart || options.darts.waistDart;
+  const dartsTuned =
+    options.darts.shoulderDart || options.darts.bustSideDart || options.darts.waistDart;
   /** Сужение бокового шва (без визуальных вытачек тоже, иначе «лишняя» талия). */
   const sideTakes = clamp(suppression * 0.38, 0, suppression);
   const wWside = wW + sideTakes;

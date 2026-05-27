@@ -101,7 +101,9 @@ export function buildWorkshop2TzDigitalSignoffRows(
     const name = ex.assigneeDisplayLabel?.trim() ?? '';
     const hasAssignee = Boolean(name);
     const canSign = hasAssignee && workshopTzSignerAllowed(updatedByLabel, name);
-    const mismatch = !hasAssignee ? 'Назначьте исполнителя в паспорте (кнопка «Подписанты»).' : undefined;
+    const mismatch = !hasAssignee
+      ? 'Назначьте исполнителя в паспорте (кнопка «Подписанты»).'
+      : undefined;
     rows.push({
       rowKey: `extra:${ex.rowId}`,
       title: ex.roleTitle?.trim() || 'Роль',

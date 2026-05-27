@@ -36,7 +36,9 @@ export function usePaymentData() {
   const { currentOrg } = useUserContext();
 
   const [creditLine, setCreditLine] = useState<CreditLine>(() =>
-    SYNTH_DASHBOARD_DEMO_MOCKS ? { ...DASHBOARD_DEMO_CREDIT_LINE } : { available: 0, limit: 0, used: 0 }
+    SYNTH_DASHBOARD_DEMO_MOCKS
+      ? { ...DASHBOARD_DEMO_CREDIT_LINE }
+      : { available: 0, limit: 0, used: 0 }
   );
 
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(() =>

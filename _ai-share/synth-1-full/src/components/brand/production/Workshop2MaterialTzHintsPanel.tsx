@@ -22,18 +22,27 @@ export type Workshop2MaterialTzHintsPanelProps = {
   layout: Workshop2MaterialTzHintsLayout;
 };
 
-export function Workshop2MaterialTzHintsPanel({ l2Name, layout }: Workshop2MaterialTzHintsPanelProps) {
+export function Workshop2MaterialTzHintsPanel({
+  l2Name,
+  layout,
+}: Workshop2MaterialTzHintsPanelProps) {
   const outer = l2Name === 'Верхняя одежда';
   return (
-    <details className="group space-y-3 rounded-xl border border-border-default bg-white/95 p-3 shadow-sm">
-      <summary className="flex cursor-pointer items-center justify-between text-[10px] font-semibold text-text-primary list-none [&::-webkit-details-marker]:hidden">
+    <details className="border-border-default group space-y-3 rounded-xl border bg-white/95 p-3 shadow-sm">
+      <summary className="text-text-primary flex cursor-pointer list-none items-center justify-between text-[10px] font-semibold [&::-webkit-details-marker]:hidden">
         {W2_MATERIAL_TZ_REGION_KICKER[layout]}
-        <span className="text-text-muted text-[10px] font-normal group-open:hidden">Показать подсказки</span>
-        <span className="text-text-muted hidden text-[10px] font-normal group-open:inline">Скрыть</span>
+        <span className="text-text-muted text-[10px] font-normal group-open:hidden">
+          Показать подсказки
+        </span>
+        <span className="text-text-muted hidden text-[10px] font-normal group-open:inline">
+          Скрыть
+        </span>
       </summary>
-      <div className="space-y-3 mt-3">
+      <div className="mt-3 space-y-3">
         <div>
-          <p className="text-text-primary text-[11px] font-semibold">{W2_MATERIAL_TZ_FABRIC_WEIGHT_TITLE}</p>
+          <p className="text-text-primary text-[11px] font-semibold">
+            {W2_MATERIAL_TZ_FABRIC_WEIGHT_TITLE}
+          </p>
           <p className="border-accent-primary/30 bg-accent-primary/10 text-text-primary mt-1 rounded-r-md border-l-2 py-1.5 pl-2 text-[10px] leading-snug">
             {W2_MATERIAL_TZ_FABRIC_WEIGHT_PARTS.beforePrimary}
             <span className="font-semibold">{W2_MATERIAL_TZ_FABRIC_WEIGHT_PARTS.primaryBold}</span>
@@ -43,15 +52,21 @@ export function Workshop2MaterialTzHintsPanel({ l2Name, layout }: Workshop2Mater
             {outer ? (
               <span className="text-accent-primary/90 mt-1 block">
                 {W2_MATERIAL_TZ_FABRIC_WEIGHT_PARTS.outerwearNoteLead}
-                <span className="font-semibold">{W2_MATERIAL_TZ_FABRIC_WEIGHT_PARTS.outerwearShellBold}</span>
+                <span className="font-semibold">
+                  {W2_MATERIAL_TZ_FABRIC_WEIGHT_PARTS.outerwearShellBold}
+                </span>
                 {W2_MATERIAL_TZ_FABRIC_WEIGHT_PARTS.outerwearNoteTail}
               </span>
             ) : null}
           </p>
         </div>
         <div>
-          <p className="text-text-primary text-[11px] font-semibold">{W2_MATERIAL_TZ_TEMPERATURE_TITLE}</p>
-          <p className="text-text-secondary mt-1 text-[10px] leading-snug">{W2_MATERIAL_TZ_TEMPERATURE_BODY}</p>
+          <p className="text-text-primary text-[11px] font-semibold">
+            {W2_MATERIAL_TZ_TEMPERATURE_TITLE}
+          </p>
+          <p className="text-text-secondary mt-1 text-[10px] leading-snug">
+            {W2_MATERIAL_TZ_TEMPERATURE_BODY}
+          </p>
         </div>
         {outer ? (
           <>
@@ -62,7 +77,9 @@ export function Workshop2MaterialTzHintsPanel({ l2Name, layout }: Workshop2Mater
                 </p>
                 <p className="text-text-primary mt-1 rounded-r-md border-l-2 border-amber-200 bg-amber-50/40 py-1.5 pl-2 text-[10px] leading-snug">
                   {W2_MATERIAL_TZ_INSULATION_MATERIAL_BODY_PARTS.beforeBold}
-                  <span className="font-semibold">{W2_MATERIAL_TZ_INSULATION_MATERIAL_BODY_PARTS.tagBold}</span>
+                  <span className="font-semibold">
+                    {W2_MATERIAL_TZ_INSULATION_MATERIAL_BODY_PARTS.tagBold}
+                  </span>
                   {W2_MATERIAL_TZ_INSULATION_MATERIAL_BODY_PARTS.afterBold}
                 </p>
               </div>
@@ -77,21 +94,31 @@ export function Workshop2MaterialTzHintsPanel({ l2Name, layout }: Workshop2Mater
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-text-primary text-[11px] font-semibold">{W2_MATERIAL_TZ_THERMO_TECH_TITLE}</p>
+                <p className="text-text-primary text-[11px] font-semibold">
+                  {W2_MATERIAL_TZ_THERMO_TECH_TITLE}
+                </p>
                 <p className="text-text-primary mt-1 rounded-r-md border-l-2 border-teal-200 bg-teal-50/40 py-1.5 pl-2 text-[10px] leading-snug">
                   {W2_MATERIAL_TZ_THERMO_TECH_BODY}
                 </p>
               </div>
               <div>
-                <p className="text-text-primary text-[11px] font-semibold">{W2_MATERIAL_TZ_CARE_TITLE[layout]}</p>
-                <p className="text-text-secondary mt-1 text-[10px] leading-snug">{W2_MATERIAL_TZ_CARE_BODY}</p>
+                <p className="text-text-primary text-[11px] font-semibold">
+                  {W2_MATERIAL_TZ_CARE_TITLE[layout]}
+                </p>
+                <p className="text-text-secondary mt-1 text-[10px] leading-snug">
+                  {W2_MATERIAL_TZ_CARE_BODY}
+                </p>
               </div>
             </div>
           </>
         ) : (
           <div>
-            <p className="text-text-primary text-[11px] font-semibold">{W2_MATERIAL_TZ_CARE_TITLE[layout]}</p>
-            <p className="text-text-secondary mt-1 text-[10px] leading-snug">{W2_MATERIAL_TZ_CARE_BODY}</p>
+            <p className="text-text-primary text-[11px] font-semibold">
+              {W2_MATERIAL_TZ_CARE_TITLE[layout]}
+            </p>
+            <p className="text-text-secondary mt-1 text-[10px] leading-snug">
+              {W2_MATERIAL_TZ_CARE_BODY}
+            </p>
           </div>
         )}
       </div>

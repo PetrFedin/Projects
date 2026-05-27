@@ -64,11 +64,7 @@ export function buildCompositionLabelDraftSvg(
   const printOnReverse = Boolean(spec.printOnReverse);
   const hasReverse = printOnReverse && Boolean((spec.reverseFaceLines ?? '').trim());
   const totalW =
-    panelMode === 'combined'
-      ? printOnReverse
-        ? panelW * 2 + sideGapPx
-        : panelW
-      : panelW;
+    panelMode === 'combined' ? (printOnReverse ? panelW * 2 + sideGapPx : panelW) : panelW;
   const totalH = panelH;
   const pad = 14;
   const bleedPx = Math.max(0, Math.round(parseMm(spec.labelBleedMm, 0) * scale));
@@ -104,15 +100,14 @@ export function buildCompositionLabelDraftSvg(
     .join('');
 
   const reverseX0 = panelW + sideGapPx;
-  const drawReverseLines =
-    hasReverse
-      ? reverseLines
-          .map((line, i) => {
-            const y = pad + 14 + i * lineStep;
-            return `<text x="${pad}" y="${y}" font-size="${fontSizePx}" fill="#1f2937">${escXml(line.slice(0, 180))}</text>`;
-          })
-          .join('')
-      : '';
+  const drawReverseLines = hasReverse
+    ? reverseLines
+        .map((line, i) => {
+          const y = pad + 14 + i * lineStep;
+          return `<text x="${pad}" y="${y}" font-size="${fontSizePx}" fill="#1f2937">${escXml(line.slice(0, 180))}</text>`;
+        })
+        .join('')
+    : '';
 
   const panelTitle =
     panelMode === 'face'
@@ -168,11 +163,7 @@ export function buildCompositionLabelDraftSvg(
   ${
     panelMode === 'combined'
       ? `${facePanel}
-  ${
-    printOnReverse
-      ? `<g transform="translate(${reverseX0},0)">${reversePanel}</g>`
-      : ''
-  }`
+  ${printOnReverse ? `<g transform="translate(${reverseX0},0)">${reversePanel}</g>` : ''}`
       : panelMode === 'face'
         ? facePanel
         : reversePanel
@@ -241,4 +232,3 @@ export async function downloadCompositionLabelDraftPng(opts: {
   const suffix = opts.panel && opts.panel !== 'combined' ? `-${opts.panel}` : '';
   downloadBlob(blob, `${stem}${suffix}.png`);
 }
-

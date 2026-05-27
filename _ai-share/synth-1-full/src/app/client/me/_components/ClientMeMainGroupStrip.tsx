@@ -2,11 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import {
-  MAIN_GROUP_ORDER,
-  MAIN_GROUP_META,
-  type ClientMeMainGroup,
-} from './client-me-tab-model';
+import { MAIN_GROUP_ORDER, MAIN_GROUP_META, type ClientMeMainGroup } from './client-me-tab-model';
 
 export function ClientMeMainGroupStrip({
   activeGroup,
@@ -19,7 +15,7 @@ export function ClientMeMainGroupStrip({
     <div
       className={cn(
         cabinetSurface.groupTabList,
-        'mb-0.5 min-h-8 w-full flex-wrap gap-0.5 py-0.5 !h-auto'
+        'mb-0.5 !h-auto min-h-8 w-full flex-wrap gap-0.5 py-0.5'
       )}
       data-testid="user-cabinet-main-groups"
       role="tablist"

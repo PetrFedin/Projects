@@ -116,7 +116,10 @@ export default function LinesheetsPage() {
             Builder
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="linesheets" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+        <TabsContent
+          value="linesheets"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+        >
           <div className="space-y-6">
             <header className="flex flex-wrap items-center justify-end gap-3">
               <Button
@@ -214,7 +217,10 @@ export default function LinesheetsPage() {
             </div>
           </div>
         </TabsContent>
-        <TabsContent value="campaigns" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>
+        <TabsContent
+          value="campaigns"
+          className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}
+        >
           {tab === 'campaigns' && <LinesheetCampaignsContent />}
         </TabsContent>
         <TabsContent value="versions" className={cn(cabinetSurface.cabinetProfileTabPanel, 'mt-4')}>

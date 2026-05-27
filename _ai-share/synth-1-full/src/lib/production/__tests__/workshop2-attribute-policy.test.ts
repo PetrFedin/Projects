@@ -68,4 +68,3 @@ describe('workshop2-attribute-policy soft rollout', () => {
     }
   });
 });
-

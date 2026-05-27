@@ -71,7 +71,13 @@ function attributeDetailHintBody(attribute: AttributeCatalogAttribute): ReactNod
 }
 
 /** Иконка «i» с произвольным содержимым тултипа. */
-export function WorkshopInlineHintIcon({ label, children }: { label: string; children: ReactNode }) {
+export function WorkshopInlineHintIcon({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>

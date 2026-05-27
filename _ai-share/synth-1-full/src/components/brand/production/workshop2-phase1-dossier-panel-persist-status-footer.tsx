@@ -29,7 +29,9 @@ export function Workshop2DossierPersistStatusFooter({
         {savedHint ? (
           <span className="text-[11px] font-medium text-emerald-700">{savedHint}</span>
         ) : null}
-        {saveError ? <span className="text-[11px] font-medium text-red-600">{saveError}</span> : null}
+        {saveError ? (
+          <span className="text-[11px] font-medium text-red-600">{saveError}</span>
+        ) : null}
       </div>
       {metricsFooterLine ? (
         <span

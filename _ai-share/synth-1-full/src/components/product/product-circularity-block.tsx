@@ -37,7 +37,9 @@ export const ProductCircularityBlock: React.FC<{ product: Product }> = ({ produc
         </div>
         <div>
           <div className="mb-1 text-[10px] font-black uppercase text-slate-400">CO₂ saved</div>
-          <div className="text-2xl font-black tracking-tight text-slate-800">{circ.carbonSavings} kg</div>
+          <div className="text-2xl font-black tracking-tight text-slate-800">
+            {circ.carbonSavings} kg
+          </div>
         </div>
       </div>
 

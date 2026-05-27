@@ -93,8 +93,7 @@ const RAW: Record<string, ClientSectionFallback> = {
   },
   [normalizePath(ROUTES.client.seasonAtlas)]: {
     label: 'Сезонный атлас',
-    description:
-      'Корзины SS/FW + год и carryover из тегов. Парсер: season-parse.',
+    description: 'Корзины SS/FW + год и carryover из тегов. Парсер: season-parse.',
     icon: CalendarRange,
   },
   [normalizePath(ROUTES.client.categoryAtlas)]: {
@@ -173,7 +172,9 @@ const RAW: Record<string, ClientSectionFallback> = {
   },
 };
 
-export function getClientSectionFallback(pathname: string | null | undefined): ClientSectionFallback | undefined {
+export function getClientSectionFallback(
+  pathname: string | null | undefined
+): ClientSectionFallback | undefined {
   const p = normalizePath(pathname ?? '');
   return RAW[p];
 }

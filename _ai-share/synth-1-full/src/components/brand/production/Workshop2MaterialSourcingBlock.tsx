@@ -40,7 +40,7 @@ const KNOWN_SUPPLIER_PRESETS: {
     label: 'Prime Leather (Россия)',
     fabricDescription: 'Натуральная кожа КРС, лицевая, толщина 1.2-1.4 мм',
     priceNote: '28 руб/дм² от 500 дм²',
-  }
+  },
 ];
 
 const MAX_PHOTOS = 3;
@@ -100,7 +100,9 @@ export function Workshop2MaterialSourcingBlock({ draft, disabled, onChange }: Pr
           <LucideIcons.Layers className="h-4 w-4 shrink-0" aria-hidden />
         </div>
         <div className="min-w-0 flex-1 space-y-1">
-          <h2 className="text-text-primary text-base font-semibold">Материал: снабжение и справочник</h2>
+          <h2 className="text-text-primary text-base font-semibold">
+            Материал: снабжение и справочник
+          </h2>
           <p className="text-text-secondary text-[11px] leading-snug">
             Фиксация основного материала: поставщик, артикул, цена и фото образца для закупки.
           </p>
@@ -142,14 +144,14 @@ export function Workshop2MaterialSourcingBlock({ draft, disabled, onChange }: Pr
           {d.photoDataUrls.map((src, i) => (
             <li
               key={`${i}-${src.slice(0, 32)}`}
-              className="border-border-default relative h-24 w-24 overflow-hidden rounded-md border bg-bg-surface2"
+              className="border-border-default bg-bg-surface2 relative h-24 w-24 overflow-hidden rounded-md border"
             >
               <Image src={src} alt="" fill className="object-cover" unoptimized />
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="bg-background/85 text-text-primary absolute right-0 top-0 h-7 rounded-none px-1.5 text-[10px]"
+                className="text-text-primary absolute right-0 top-0 h-7 rounded-none bg-background/85 px-1.5 text-[10px]"
                 disabled={disabled}
                 onClick={() => {
                   const next = (d.photoDataUrls ?? []).filter((_, j) => j !== i);
@@ -237,9 +239,7 @@ export function Workshop2MaterialSourcingBlock({ draft, disabled, onChange }: Pr
 
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="space-y-1">
-          <label className="text-text-secondary text-[11px] font-medium">
-            Цена / условия
-          </label>
+          <label className="text-text-secondary text-[11px] font-medium">Цена / условия</label>
           <Input
             className="h-9 text-sm"
             disabled={disabled}
@@ -262,18 +262,18 @@ export function Workshop2MaterialSourcingBlock({ draft, disabled, onChange }: Pr
         </div>
       </div>
 
-      <div className="space-y-1 mt-3">
-        <label className="text-text-secondary text-[11px] font-medium flex justify-between items-center">
+      <div className="mt-3 space-y-1">
+        <label className="text-text-secondary flex items-center justify-between text-[11px] font-medium">
           Прикрепить прайс-лист или каталог партнёра
         </label>
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <Input
-            className="h-9 flex-1 text-sm text-text-muted"
+            className="text-text-muted h-9 flex-1 text-sm"
             type="file"
             disabled={disabled}
             onChange={(e) => {
-               // Placeholder for file attach functionality
-               console.log(e.target.files)
+              // Placeholder for file attach functionality
+              console.log(e.target.files);
             }}
           />
         </div>

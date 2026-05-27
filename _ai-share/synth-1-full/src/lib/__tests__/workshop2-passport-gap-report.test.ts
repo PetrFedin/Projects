@@ -20,7 +20,9 @@ describe('workshop2-passport-gap-report', () => {
     expect(r.leafId).toBe(leaf!.leafId);
     expect(r.tzPhase).toBe('1');
     expect(Array.isArray(r.linesOnLeaf)).toBe(true);
-    expect(r.summary.startRequiredTotal + r.summary.preSampleRequiredTotal).toBeGreaterThanOrEqual(0);
+    expect(r.summary.startRequiredTotal + r.summary.preSampleRequiredTotal).toBeGreaterThanOrEqual(
+      0
+    );
     for (const l of r.linesOnLeaf) {
       expect(['start', 'preSample']).toContain(l.passportBlock);
     }

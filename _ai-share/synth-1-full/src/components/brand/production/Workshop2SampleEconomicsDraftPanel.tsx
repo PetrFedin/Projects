@@ -46,7 +46,9 @@ function withEconomicsPatch(
   };
 }
 
-const CATEGORIES = Object.keys(WORKSHOP2_SAMPLE_ECONOMICS_LINE_CATEGORY_LABELS) as Workshop2SampleEconomicsLineCategory[];
+const CATEGORIES = Object.keys(
+  WORKSHOP2_SAMPLE_ECONOMICS_LINE_CATEGORY_LABELS
+) as Workshop2SampleEconomicsLineCategory[];
 
 export function Workshop2SampleEconomicsDraftPanel() {
   const { ref, dataMode, loading } = useArticleWorkspace();
@@ -80,17 +82,24 @@ export function Workshop2SampleEconomicsDraftPanel() {
 
   if (!dossier) {
     return (
-    <div className="border-border-default rounded-xl border border-dashed bg-white p-4 shadow-sm">
-      <div className="space-y-3">
-        <p className="text-text-primary text-sm font-semibold">Экономика образца (план)</p>
-        <p className="text-text-secondary text-[11px] leading-snug">
-          Досье ТЗ для артикула ещё не найдено в этом браузере. Откройте вкладку «ТЗ» и сохраните досье — затем нажмите «Проверить снова».
-        </p>
-        <Button type="button" variant="outline" size="sm" className="mt-2 h-8 text-xs" onClick={reloadDossier}>
-          Проверить снова
-        </Button>
+      <div className="border-border-default rounded-xl border border-dashed bg-white p-4 shadow-sm">
+        <div className="space-y-3">
+          <p className="text-text-primary text-sm font-semibold">Экономика образца (план)</p>
+          <p className="text-text-secondary text-[11px] leading-snug">
+            Досье ТЗ для артикула ещё не найдено в этом браузере. Откройте вкладку «ТЗ» и сохраните
+            досье — затем нажмите «Проверить снова».
+          </p>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mt-2 h-8 text-xs"
+            onClick={reloadDossier}
+          >
+            Проверить снова
+          </Button>
+        </div>
       </div>
-    </div>
     );
   }
 
@@ -107,52 +116,55 @@ export function Workshop2SampleEconomicsDraftPanel() {
   };
 
   return (
-    <div className="border-border-default rounded-xl border bg-white p-4 shadow-sm mt-4">
+    <div className="border-border-default mt-4 rounded-xl border bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="flex min-w-0 flex-1 items-start gap-3">
-          <div className="bg-emerald-50 text-emerald-700 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-emerald-100 shadow-sm">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-emerald-100 bg-emerald-50 text-emerald-700 shadow-sm">
             <LucideIcons.CircleDollarSign className="h-4 w-4 shrink-0" aria-hidden />
           </div>
           <div className="min-w-0 flex-1 space-y-1">
             <h2 className="text-text-primary text-base font-semibold">Экономика образца (план)</h2>
             <p className="text-text-secondary text-[11px] leading-snug">
-              Плановые расходы, труд и сроки по сэмплу. Таможенная стоимость и Incoterms — в паспорте, в «Карточке артикула».
+              Плановые расходы, труд и сроки по сэмплу. Таможенная стоимость и Incoterms — в
+              паспорте, в «Карточке артикула».
             </p>
           </div>
         </div>
-        <span
-          className="border-border-default bg-bg-surface2 text-text-secondary shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px]"
-        >
+        <span className="border-border-default bg-bg-surface2 text-text-secondary shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px]">
           {dataMode === 'http' ? 'API' : 'local'}
         </span>
       </div>
 
-      <div className="border-border-subtle flex flex-col gap-1.5 border-t border-dotted pt-2.5 mt-4">
+      <div className="border-border-subtle mt-4 flex flex-col gap-1.5 border-t border-dotted pt-2.5">
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="bg-bg-surface2/70 text-text-primary rounded border border-border-subtle px-2 py-1 text-[10px] font-semibold">
-            <span className="text-text-muted font-bold">Итого оценка:</span> {total.toLocaleString('ru-RU', { maximumFractionDigits: 0 })} {cur}
+          <span className="bg-bg-surface2/70 text-text-primary border-border-subtle rounded border px-2 py-1 text-[10px] font-semibold">
+            <span className="text-text-muted font-bold">Итого оценка:</span>{' '}
+            {total.toLocaleString('ru-RU', { maximumFractionDigits: 0 })} {cur}
           </span>
           {laborH > 0 ? (
-            <span className="text-text-primary bg-white rounded border border-border-subtle px-2 py-1 text-[10px] font-semibold">
-              <span className="text-text-muted font-bold">Σ труд, ч:</span> {laborH.toLocaleString('ru-RU', { maximumFractionDigits: 1 })}
+            <span className="text-text-primary border-border-subtle rounded border bg-white px-2 py-1 text-[10px] font-semibold">
+              <span className="text-text-muted font-bold">Σ труд, ч:</span>{' '}
+              {laborH.toLocaleString('ru-RU', { maximumFractionDigits: 1 })}
             </span>
           ) : null}
-          <div className="flex items-center gap-1 ml-auto">
-            <span className="text-[10px] font-semibold tracking-wide text-text-muted">Валюта:</span>
+          <div className="ml-auto flex items-center gap-1">
+            <span className="text-text-muted text-[10px] font-semibold tracking-wide">Валюта:</span>
             <Input
-              className="h-6 w-16 text-[10px] px-1 bg-white"
+              className="h-6 w-16 bg-white px-1 text-[10px]"
               value={draft.currencyCode ?? 'RUB'}
-              onChange={(e) => patchEconomics({ currencyCode: e.target.value.slice(0, 8) || 'RUB' })}
+              onChange={(e) =>
+                patchEconomics({ currencyCode: e.target.value.slice(0, 8) || 'RUB' })
+              }
             />
           </div>
         </div>
       </div>
 
-      <div className="space-y-4 mt-4">
+      <div className="mt-4 space-y-4">
         <div className="space-y-2">
           <div className="flex items-center justify-between border-b pb-2">
-            <p className="text-text-primary text-sm font-semibold flex items-center gap-1.5">
-              <LucideIcons.Calculator className="w-4 h-4 text-slate-400" />
+            <p className="text-text-primary flex items-center gap-1.5 text-sm font-semibold">
+              <LucideIcons.Calculator className="h-4 w-4 text-slate-400" />
               Дополнительные расходы и маржа
             </p>
           </div>
@@ -268,9 +280,9 @@ export function Workshop2SampleEconomicsDraftPanel() {
         </div>
 
         <div className="space-y-2">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border-subtle pb-2">
-            <p className="text-text-primary text-sm font-semibold flex items-center gap-1.5">
-              <LucideIcons.ListChecks className="w-4 h-4 text-slate-400" />
+          <div className="border-border-subtle flex flex-wrap items-center justify-between gap-2 border-b pb-2">
+            <p className="text-text-primary flex items-center gap-1.5 text-sm font-semibold">
+              <LucideIcons.ListChecks className="h-4 w-4 text-slate-400" />
               Строки затрат
             </p>
             <div className="flex gap-2">
@@ -278,11 +290,11 @@ export function Workshop2SampleEconomicsDraftPanel() {
                 type="button"
                 variant="outline"
                 size="sm"
-                className="h-8 text-[11px] text-indigo-600 border-indigo-200 hover:bg-indigo-50"
+                className="h-8 border-indigo-200 text-[11px] text-indigo-600 hover:bg-indigo-50"
                 onClick={() => {
                   const model = dossier.productionModel;
                   if (!model) return;
-                  
+
                   const matLines = model.materialLines.map((m) => ({
                     id: newLineId(),
                     label: m.materialName || 'Материал без названия',
@@ -292,7 +304,7 @@ export function Workshop2SampleEconomicsDraftPanel() {
                     unitCost: m.landedCost || m.unitCostNet || 0,
                     sourceHint: 'tz_bom_reference' as const,
                   }));
-                  
+
                   const trimLines = model.trimLines.map((t) => ({
                     id: newLineId(),
                     label: t.name || 'Фурнитура',
@@ -322,7 +334,7 @@ export function Workshop2SampleEconomicsDraftPanel() {
                   }
                 }}
               >
-                <LucideIcons.Download className="w-3.5 h-3.5 mr-1" />
+                <LucideIcons.Download className="mr-1 h-3.5 w-3.5" />
                 Синхронизировать с BOM
               </Button>
               <Button
@@ -345,14 +357,15 @@ export function Workshop2SampleEconomicsDraftPanel() {
                   })
                 }
               >
-                <LucideIcons.Plus className="w-3.5 h-3.5 mr-1" />
+                <LucideIcons.Plus className="mr-1 h-3.5 w-3.5" />
                 Добавить строку
               </Button>
             </div>
           </div>
           {draft.lines.length === 0 ? (
             <p className="text-text-secondary text-[11px] italic">
-              Добавьте позиции вручную или синхронизируйте из BOM (материалы, фурнитура, техпроцесс).
+              Добавьте позиции вручную или синхронизируйте из BOM (материалы, фурнитура,
+              техпроцесс).
             </p>
           ) : (
             <ul className="space-y-2">
@@ -371,7 +384,9 @@ export function Workshop2SampleEconomicsDraftPanel() {
                     className={cn(field, 'h-8 text-[11px]')}
                     value={line.category}
                     onChange={(e) =>
-                      setLine(line.id, { category: e.target.value as Workshop2SampleEconomicsLineCategory })
+                      setLine(line.id, {
+                        category: e.target.value as Workshop2SampleEconomicsLineCategory,
+                      })
                     }
                   >
                     {CATEGORIES.map((c) => (
@@ -398,7 +413,11 @@ export function Workshop2SampleEconomicsDraftPanel() {
                   />
                   <Input
                     className="h-8 text-[11px]"
-                    value={line.unitCost != null && Number.isFinite(line.unitCost) ? String(line.unitCost) : ''}
+                    value={
+                      line.unitCost != null && Number.isFinite(line.unitCost)
+                        ? String(line.unitCost)
+                        : ''
+                    }
                     onChange={(e) => {
                       const v = e.target.value.trim();
                       const unitCost = v === '' ? undefined : Number(v);
@@ -410,7 +429,11 @@ export function Workshop2SampleEconomicsDraftPanel() {
                   />
                   <Input
                     className="h-8 text-[11px]"
-                    value={line.laborHours != null && Number.isFinite(line.laborHours) ? String(line.laborHours) : ''}
+                    value={
+                      line.laborHours != null && Number.isFinite(line.laborHours)
+                        ? String(line.laborHours)
+                        : ''
+                    }
                     onChange={(e) => {
                       const v = e.target.value.trim();
                       const laborHours = v === '' ? undefined : Number(v);
@@ -426,7 +449,8 @@ export function Workshop2SampleEconomicsDraftPanel() {
                       value={line.sourceHint ?? 'manual'}
                       onChange={(e) =>
                         setLine(line.id, {
-                          sourceHint: e.target.value as Workshop2SampleEconomicsLineItem['sourceHint'],
+                          sourceHint: e.target
+                            .value as Workshop2SampleEconomicsLineItem['sourceHint'],
                         })
                       }
                     >
@@ -447,7 +471,11 @@ export function Workshop2SampleEconomicsDraftPanel() {
                   </div>
                   <Input
                     className="h-8 text-[11px] lg:col-span-6"
-                    value={line.leadTimeDays != null && Number.isFinite(line.leadTimeDays) ? String(line.leadTimeDays) : ''}
+                    value={
+                      line.leadTimeDays != null && Number.isFinite(line.leadTimeDays)
+                        ? String(line.leadTimeDays)
+                        : ''
+                    }
                     onChange={(e) => {
                       const v = e.target.value.trim();
                       const leadTimeDays = v === '' ? undefined : Number(v);
