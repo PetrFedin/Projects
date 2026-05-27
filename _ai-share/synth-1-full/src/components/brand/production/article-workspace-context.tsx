@@ -107,8 +107,6 @@ export function useArticleWorkspace(): ArticleWorkspaceContextValue {
 }
 
 /** Селекторный хук для ленты operational↔TZ (без zustand). */
-export function useWorkspaceStore<T>(
-  selector: (state: ArticleWorkspaceContextValue) => T
-): T {
+export function useWorkspaceStore<T>(selector: (state: ArticleWorkspaceContextValue) => T): T {
   return selector(useArticleWorkspace());
 }

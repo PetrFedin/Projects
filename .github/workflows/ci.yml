@@ -38,7 +38,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install poetry
           poetry config virtualenvs.create true
-          poetry install --no-interaction --without ml
+          poetry install --no-interaction --without ml --with dev
 
       - name: Pytest (smoke + unit)
         run: poetry run pytest tests/smoke tests/unit -q --tb=short

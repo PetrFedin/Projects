@@ -204,15 +204,16 @@ export function appendWorkshop2TzDossierEditLog(
   details: string[]
 ): Workshop2DossierPhase1 {
   if (details.length === 0) return dossier;
-  const entry: import('@/lib/production/workshop2-dossier-phase1.types').Workshop2TzActionLogEntry = {
-    entryId: crypto.randomUUID(),
-    at: new Date().toISOString(),
-    by: actorLabel,
-    action: {
-      type: 'dossier_edit',
-      summaries: details,
-    },
-  };
+  const entry: import('@/lib/production/workshop2-dossier-phase1.types').Workshop2TzActionLogEntry =
+    {
+      entryId: crypto.randomUUID(),
+      at: new Date().toISOString(),
+      by: actorLabel,
+      action: {
+        type: 'dossier_edit',
+        summaries: details,
+      },
+    };
   return {
     ...dossier,
     tzActionLog: [entry, ...(dossier.tzActionLog ?? [])],

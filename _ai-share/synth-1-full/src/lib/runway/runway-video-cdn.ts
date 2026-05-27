@@ -58,21 +58,6 @@ export function extractVideoCdnSigningPath(url: string): string {
   return url.split('?')[0] ?? url;
 }
 
-/** HMAC query при RUNWAY_VIDEO_CDN_SIGNING_SECRET (SSR/API only). */
-export function resolveVideoCdnHmacQuery(resolvedUrl: string): string | undefined {
-  if (typeof window !== 'undefined') return undefined;
-  const secret = resolveEnvVideoCdnSigningSecret();
-  if (!secret) return undefined;
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { buildRunwayCdnSigningQuery } =
-      require('@/lib/runway/runway-video-cdn-signing') as typeof import('@/lib/runway/runway-video-cdn-signing');
-    return buildRunwayCdnSigningQuery(extractVideoCdnSigningPath(resolvedUrl), secret);
-  } catch {
-    return undefined;
-  }
-}
-
 export function appendVideoCdnSignedQuery(url: string, signedQuery?: string): string {
   if (!signedQuery?.trim()) return url;
   const raw = signedQuery.trim().replace(/^\?/, '');

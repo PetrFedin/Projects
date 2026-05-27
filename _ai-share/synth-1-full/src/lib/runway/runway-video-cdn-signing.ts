@@ -1,5 +1,5 @@
 import { createHmac } from 'node:crypto';
-import { appendVideoCdnSignedQuery } from '@/lib/runway/runway-video-cdn';
+import 'server-only';
 
 export const RUNWAY_CDN_SIGN_TTL_SEC = 3600;
 
@@ -32,5 +32,6 @@ export function signRunwayVideoCdnUrl(resolvedUrl: string, secret?: string): str
   const key = secret?.trim() || process.env.RUNWAY_VIDEO_CDN_SIGNING_SECRET?.trim();
   if (!key) return resolvedUrl;
   const query = buildRunwayCdnSigningQuery(extractVideoCdnSigningPath(resolvedUrl), key);
-  return appendVideoCdnSignedQuery(resolvedUrl, query);
+  if (!query.trim()) return resolvedUrl;
+  return resolvedUrl.includes('?') ? `${resolvedUrl}&${query}` : `${resolvedUrl}?${query}`;
 }
