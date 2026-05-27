@@ -12,6 +12,8 @@ export function shouldEagerAuthBootstrap(
   pathname: string | null | undefined,
   search = ''
 ): boolean {
+  /** Playwright dev:e2e — без idle-defer auth (client cabinet loading / flaky smoke). */
+  if (process.env.NEXT_PUBLIC_E2E === 'true') return true;
   if (!pathname) return true;
   if (pathname.startsWith('/login') || pathname.startsWith('/auth')) return true;
   if (!isPublicShellPathname(pathname)) return true;

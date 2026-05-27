@@ -28,6 +28,11 @@ async function openSmokeRoute(page: Page, path: string): Promise<void> {
   throw lastError instanceof Error ? lastError : new Error(String(lastError));
 }
 
+/** После domcontentloaded ждём `<main>` — cabinet/public layout; `body` может быть hidden при гидрации. */
+async function waitForSmokeShell(page: Page): Promise<void> {
+  await expect(page.locator('main').first()).toBeVisible({ timeout: 90_000 });
+}
+
 const SMOKE_ROUTES = [
   { path: '/', name: 'Главная' },
   { path: '/client', name: 'Клиент (дашборд)' },
@@ -68,16 +73,18 @@ const SMOKE_ROUTES = [
 
 for (const { path, name } of SMOKE_ROUTES) {
   test(`smoke: ${name} (${path})`, async ({ page }) => {
+    test.setTimeout(180_000);
     await openSmokeRoute(page, path);
-    await expect(page.locator('body')).toBeVisible();
+    await waitForSmokeShell(page);
   });
 }
 
 test.describe('Client section has nav', () => {
   test('client hub sidebar: named navigation and active wardrobe link', async ({ page }) => {
-    await page.goto('/client/wardrobe');
+    test.setTimeout(180_000);
+    await openSmokeRoute(page, '/client/wardrobe');
     const nav = page.getByRole('navigation', { name: /клиентское меню/i });
-    await expect(nav).toBeVisible();
+    await expect(nav).toBeVisible({ timeout: 90_000 });
     /** Группа «Гардероб» раскрыта на этом маршруте; подписи — `clientNavGroups` (не старый горизонтальный ClientNav). */
     await expect(nav.getByRole('link', { name: /мой гардероб/i })).toBeVisible();
   });

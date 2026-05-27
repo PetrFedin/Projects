@@ -52,6 +52,7 @@ export function HubSidebar({
   activeBgClass = 'bg-slate-900',
   className,
   onNavigate,
+  ariaLabel,
   sidebarClusters,
   coreGroupOrder,
   archiveGroupOrder,
@@ -62,6 +63,8 @@ export function HubSidebar({
   activeBgClass?: string;
   className?: string;
   onNavigate?: () => void;
+  /** Accessible name для `<nav>` — e2e и screen readers (client cabinet). */
+  ariaLabel?: string;
   /** Если заданы вместе с порядками — секции «Ядра 1–3» и «Архив». */
   sidebarClusters?: typeof SYNTHA_SIDEBAR_CLUSTERS;
   coreGroupOrder?: readonly string[];
@@ -97,8 +100,12 @@ export function HubSidebar({
     .flatMap((g) => g.links)
     .find((l) => isLinkActive(l, pathname || '', basePath))?.value;
 
-  const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set());
-  const [openLinks, setOpenLinks] = useState<Set<string>>(() => new Set());
+  const [openGroups, setOpenGroups] = useState<Set<string>>(() =>
+    activeGroupId ? new Set([activeGroupId]) : new Set()
+  );
+  const [openLinks, setOpenLinks] = useState<Set<string>>(() =>
+    activeLinkValue ? new Set([activeLinkValue]) : new Set()
+  );
 
   useEffect(() => {
     if (activeGroupId) setOpenGroups((prev) => new Set([...prev, activeGroupId]));
@@ -233,7 +240,10 @@ export function HubSidebar({
   };
 
   return (
-    <nav className={cn('scrollbar-hide flex h-full flex-col overflow-y-auto', className)}>
+    <nav
+      aria-label={ariaLabel}
+      className={cn('scrollbar-hide flex h-full flex-col overflow-y-auto', className)}
+    >
       <div className="space-y-0.5 p-2">
         {clusteredSections
           ? clusteredSections.map((section) => (
