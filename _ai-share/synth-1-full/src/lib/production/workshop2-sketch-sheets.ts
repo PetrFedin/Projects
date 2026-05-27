@@ -2,6 +2,7 @@ import type {
   Workshop2Phase1CategorySketchAnnotation,
   Workshop2Phase1SketchSheet,
   Workshop2Phase1SubcategorySketchSlot,
+  Workshop2SketchMaterialCard,
   Workshop2SketchSheetWorkflowStatus,
   Workshop2SketchSheetViewKind,
 } from '@/lib/production/workshop2-dossier-phase1.types';
@@ -12,6 +13,8 @@ import {
 
 export const MAX_SKETCH_SHEETS = 12;
 export const MAX_ANNOTATIONS_PER_SKETCH_SHEET = 24;
+/** Лимит карточек материала на одной доске скетча. */
+export const MAX_SKETCH_MATERIAL_CARDS_PER_BOARD = 8;
 
 export const SKETCH_SHEET_VIEW_LABELS: Record<Workshop2SketchSheetViewKind, string> = {
   front: 'Анфас / фас',
@@ -272,4 +275,33 @@ export function appendImportedLegacySheets(
   const incoming = legacySlotsToSketchSheets(slots);
   if (incoming.length === 0) return cur;
   return [...cur, ...incoming].slice(0, MAX_SKETCH_SHEETS);
+}
+
+/** Заголовок дополнительного листа по индексу (0-based). */
+export function defaultExtraSketchSheetTitle(index: number): string {
+  return `Лист ${Math.max(0, index) + 1}`;
+}
+
+/** Нормализация карточки материала на доске скетча. */
+export function normalizeSketchMaterialCard(
+  raw: Workshop2SketchMaterialCard
+): Workshop2SketchMaterialCard {
+  const cardId = raw.cardId?.trim();
+  if (!cardId) {
+    throw new Error('Workshop2SketchMaterialCard.cardId is required');
+  }
+  return {
+    cardId,
+    xPct: Math.min(98, Math.max(2, raw.xPct)),
+    yPct: Math.min(98, Math.max(2, raw.yPct)),
+    ...(raw.widthPct != null ? { widthPct: Math.min(40, Math.max(8, raw.widthPct)) } : {}),
+    ...(typeof raw.imageDataUrl === 'string' ? { imageDataUrl: raw.imageDataUrl } : {}),
+    ...(typeof raw.imageFileName === 'string'
+      ? { imageFileName: raw.imageFileName.slice(0, 200) }
+      : {}),
+    ...(typeof raw.caption === 'string' ? { caption: raw.caption.slice(0, 500) } : {}),
+    ...(typeof raw.linkedBomLineRef === 'string'
+      ? { linkedBomLineRef: raw.linkedBomLineRef.slice(0, 120) }
+      : {}),
+  };
 }

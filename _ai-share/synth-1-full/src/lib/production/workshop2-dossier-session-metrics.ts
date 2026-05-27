@@ -54,7 +54,7 @@ export function getW2DossierSessionOpenedAtMs(
   }
 }
 
-type PersistStat = { successCount: number; lastSuccessAt: string };
+type PersistStat = { successCount: number; lastSuccessAt: string; persistFailureCount?: number };
 
 function readPersistMap(): Record<string, PersistStat> {
   if (typeof localStorage === 'undefined') return {};
@@ -76,10 +76,28 @@ export function recordW2DossierPersistSuccess(collectionId: string, articleId: s
   try {
     const k = articleKey(collectionId, articleId);
     const map = readPersistMap();
-    const prev = map[k] ?? { successCount: 0, lastSuccessAt: '' };
+    const prev = map[k] ?? { successCount: 0, lastSuccessAt: '', persistFailureCount: 0 };
     map[k] = {
       successCount: prev.successCount + 1,
       lastSuccessAt: new Date().toISOString(),
+      persistFailureCount: prev.persistFailureCount ?? 0,
+    };
+    localStorage.setItem(PERSIST_KEY, JSON.stringify(map));
+  } catch {
+    /* quota */
+  }
+}
+
+/** Неудачная попытка persist (quota, API и т.п.) — счётчик для подвала метрик. */
+export function recordW2DossierPersistFailure(collectionId: string, articleId: string): void {
+  if (typeof localStorage === 'undefined') return;
+  try {
+    const k = articleKey(collectionId, articleId);
+    const map = readPersistMap();
+    const prev = map[k] ?? { successCount: 0, lastSuccessAt: '', persistFailureCount: 0 };
+    map[k] = {
+      ...prev,
+      persistFailureCount: (prev.persistFailureCount ?? 0) + 1,
     };
     localStorage.setItem(PERSIST_KEY, JSON.stringify(map));
   } catch {
@@ -233,6 +251,9 @@ export function formatW2DossierMetricsFooterLine(
   }
   if (persist) {
     parts.push(`сохранений в браузер: ${persist.successCount}`);
+    if ((persist.persistFailureCount ?? 0) > 0) {
+      parts.push(`сбоев записи: ${persist.persistFailureCount}`);
+    }
     if (persist.lastSuccessAt) {
       try {
         parts.push(

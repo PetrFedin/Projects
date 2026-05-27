@@ -3,6 +3,7 @@
  * Глобальный блок ТЗ на артикул: `TZ_ARTICLE_BASE_KEYS_ORDER` + обязательные цвет/состав/уход/страна.
  */
 import type { HandbookCategoryLeaf } from '@/lib/production/category-catalog';
+import { resolveWorkshop2CatalogAttributeId } from '@/lib/production/workshop2-attribute-id-aliases';
 import {
   getOptimizedAttributeCards,
   TZ_ARTICLE_BASE_KEYS_ORDER,
@@ -440,6 +441,20 @@ export function collectInfoPickAttributeKeys(
 /**
  * Обязательные ключи: глобальный ТЗ-блок + ветка L1/L2/L3.
  */
+/** Обязательные оси info-pick, сведённые к id attribute-catalog (Workshop2). */
+export function collectRequiredCatalogAttributeKeysForLeaf(
+  l1Name: string,
+  l2Name: string,
+  l3Name: string = ''
+): Set<string> {
+  const raw = collectRequiredInfoPickAttributeKeys(l1Name, l2Name, l3Name);
+  const out = new Set<string>();
+  for (const key of raw) {
+    out.add(resolveWorkshop2CatalogAttributeId(key));
+  }
+  return out;
+}
+
 export function collectRequiredInfoPickAttributeKeys(
   l1Name: string,
   l2Name: string,

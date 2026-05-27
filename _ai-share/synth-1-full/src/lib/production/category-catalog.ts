@@ -16,6 +16,7 @@ export {
   handbookL3OptionsForAudience,
   handbookLeafIdFromL123,
   resolveWorkshop2EffectiveAudienceId,
+  resolveWorkshop2AudienceDisplayLabel,
   resolveHandbookLeafId,
   type CategoryHandbookSnapshot,
   type HandbookCategoryLeaf,

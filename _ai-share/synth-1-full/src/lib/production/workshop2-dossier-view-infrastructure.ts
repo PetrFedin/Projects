@@ -529,3 +529,26 @@ export function defaultSketchExportSurfaceForDossierView(
 ): W2SketchExportSurface {
   return profile === 'merch' ? 'merch_clean' : 'workshop_floor';
 }
+
+/** Какие стороны цифровой подписи секции доступны в ролевом режиме w2view. */
+export function workshop2DossierViewTzSignoffConfirmSides(profile: Workshop2DossierViewProfile): {
+  brand: boolean;
+  tech: boolean;
+} {
+  switch (profile) {
+    case 'technologist':
+      return { brand: false, tech: true };
+    case 'designer':
+    case 'merch':
+      return { brand: true, tech: false };
+    case 'factory':
+    case 'supply':
+    case 'production':
+    case 'qc':
+    case 'compliance':
+    case 'finance':
+      return { brand: false, tech: false };
+    default:
+      return { brand: true, tech: true };
+  }
+}

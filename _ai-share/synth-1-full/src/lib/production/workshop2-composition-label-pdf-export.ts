@@ -17,15 +17,10 @@ function imageFormatFromDataUrl(dataUrl: string): 'PNG' | 'JPEG' | null {
   return null;
 }
 
-/**
- * Черновик бирки в PDF с физическими мм (для типографии / согласования).
- * Вектор текста; растровый логотип — если data URL читается движком.
- */
-export function downloadCompositionLabelDraftPdf(opts: {
+function buildCompositionLabelDraftPdfDoc(opts: {
   spec: Workshop2CompositionLabelSpec;
   lines: string[];
-  fileBase: string;
-}): void {
+}): jsPDF {
   const s = opts.spec;
   const wMm = parseMm(s.labelWidthMm, 30);
   const hMm = parseMm(s.labelHeightMm, 70);
@@ -64,6 +59,30 @@ export function downloadCompositionLabelDraftPdf(opts: {
     doc.text(parts, margin, y + lineStep * 0.35);
     y += parts.length * lineStep;
   }
+  return doc;
+}
+
+/** Серверный/zip экспорт: PDF-буфер без download в браузере. */
+export function buildCompositionLabelDraftPdfBuffer(opts: {
+  spec: Workshop2CompositionLabelSpec;
+  lines: string[];
+  fileBase: string;
+}): Buffer {
+  const doc = buildCompositionLabelDraftPdfDoc({ spec: opts.spec, lines: opts.lines });
+  const arrayBuffer = doc.output('arraybuffer') as ArrayBuffer;
+  return Buffer.from(arrayBuffer);
+}
+
+/**
+ * Черновик бирки в PDF с физическими мм (для типографии / согласования).
+ * Вектор текста; растровый логотип — если data URL читается движком.
+ */
+export function downloadCompositionLabelDraftPdf(opts: {
+  spec: Workshop2CompositionLabelSpec;
+  lines: string[];
+  fileBase: string;
+}): void {
+  const doc = buildCompositionLabelDraftPdfDoc({ spec: opts.spec, lines: opts.lines });
   const safe = opts.fileBase.replace(/[^\wа-яА-ЯёЁ.-]+/g, '-').slice(0, 56) || 'composition-label';
   doc.save(`${safe}-label-draft.pdf`);
 }

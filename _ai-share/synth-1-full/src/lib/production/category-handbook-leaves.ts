@@ -70,6 +70,17 @@ export function resolveWorkshop2EffectiveAudienceId(
   return leaves[0]?.audienceId ?? audienceId;
 }
 
+/** Человекочитаемая подпись аудитории для паспорта (dossier override → leaf → справочник). */
+export function resolveWorkshop2AudienceDisplayLabel(
+  dossierSelectedAudienceId: string | undefined,
+  currentLeaf: HandbookCategoryLeaf,
+  audiences: { id: string; name: string }[]
+): string | null {
+  const id = dossierSelectedAudienceId?.trim() || currentLeaf.audienceId;
+  const name = audiences.find((a) => a.id === id)?.name?.trim();
+  return name || null;
+}
+
 export function handbookL1OptionsForAudience(
   leaves: HandbookCategoryLeaf[],
   audienceId: string

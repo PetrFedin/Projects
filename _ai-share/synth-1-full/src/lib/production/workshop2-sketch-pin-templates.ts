@@ -12,6 +12,9 @@ import {
 
 const MAX_PIN_TEMPLATES = 24;
 
+/** UI шаблонов master-меток на доске скетча (feature flag). */
+export const WORKSHOP2_MASTER_SKETCH_PIN_TEMPLATES_UI_ENABLED = true;
+
 /** Пустой или отсутствующий leafId в старых данных — считаем метку относящейся к целевой ветке при показе/шаблонах. */
 export function sketchPinBelongsToLeaf(
   a: Workshop2Phase1CategorySketchAnnotation,
