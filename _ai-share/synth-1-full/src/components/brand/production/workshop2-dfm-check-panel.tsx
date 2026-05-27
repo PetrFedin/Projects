@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, CheckCircle2, Loader2, Info } from 'lucide-react';
-import type { AnalyzeDfmOutput } from '@/ai/flows/analyze-dfm-flow';
+import type { AnalyzeDfmOutput } from '@/lib/production/workshop2-analyze-dfm-types';
 import { useToast } from '@/hooks/use-toast';
 
 export function Workshop2DfmCheckPanel({
