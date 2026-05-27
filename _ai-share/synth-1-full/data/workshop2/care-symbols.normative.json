@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": "ISO 3758 / ГОСТ Р 53271 (нормативные подписи для UI)",
+  "symbols": {
+    "wash_machine_normal": { "normativeLabelRu": "Машинная стирка, обычный режим" },
+    "wash_hand": { "normativeLabelRu": "Только ручная стирка" },
+    "wash_30": { "normativeLabelRu": "Стирка до 30 °C" },
+    "wash_40": { "normativeLabelRu": "Стирка до 40 °C" },
+    "wash_50": { "normativeLabelRu": "Стирка до 50 °C" },
+    "wash_60": { "normativeLabelRu": "Стирка до 60 °C" },
+    "wash_forbidden": { "normativeLabelRu": "Стирка запрещена" },
+    "bleach_allow": { "normativeLabelRu": "Отбеливание разрешено" },
+    "bleach_non_chlorine": { "normativeLabelRu": "Отбеливание только без хлора" },
+    "bleach_forbidden": { "normativeLabelRu": "Отбеливание запрещено" },
+    "tumble_dry_normal": { "normativeLabelRu": "Барабанная сушка, обычный режим" },
+    "tumble_dry_low": { "normativeLabelRu": "Барабанная сушка при низкой температуре" },
+    "tumble_dry_forbidden": { "normativeLabelRu": "Барабанная сушка запрещена" },
+    "dry_flat": { "normativeLabelRu": "Сушка в расправленном виде" },
+    "dry_shade": { "normativeLabelRu": "Сушка в тени" },
+    "wring_forbidden": { "normativeLabelRu": "Отжим в центрифуге запрещён" },
+    "iron_high": { "normativeLabelRu": "Глажка при высокой температуре" },
+    "iron_medium": { "normativeLabelRu": "Глажка при средней температуре" },
+    "iron_low": { "normativeLabelRu": "Глажка при низкой температуре" },
+    "iron_forbidden": { "normativeLabelRu": "Глажка запрещена" },
+    "prof_dry_clean_any": { "normativeLabelRu": "Профессиональная химчистка (любой растворитель)" },
+    "prof_dry_clean_p": { "normativeLabelRu": "Химчистка, растворитель P" },
+    "prof_wet_clean": { "normativeLabelRu": "Профессиональная влажная чистка" }
+  }
+}

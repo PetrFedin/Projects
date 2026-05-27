@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "marks": [
+    { "id": "cert-none", "labelRu": "Без заявленных сертификатов", "sortOrder": 0 },
+    { "id": "cert-oeko-tex-100", "labelRu": "OEKO-TEX Standard 100", "sortOrder": 10 },
+    { "id": "cert-gots", "labelRu": "GOTS (органический хлопок)", "sortOrder": 20 },
+    { "id": "cert-grs", "labelRu": "GRS (переработанные материалы)", "sortOrder": 30 },
+    { "id": "cert-bci", "labelRu": "BCI / Better Cotton", "sortOrder": 40 },
+    { "id": "cert-lwg", "labelRu": "Leather Working Group", "sortOrder": 50 },
+    { "id": "cert-ce", "labelRu": "CE (соответствие ЕС)", "sortOrder": 60 },
+    { "id": "cert-other", "labelRu": "Прочее — перечислить в ТЗ", "sortOrder": 99 }
+  ]
+}

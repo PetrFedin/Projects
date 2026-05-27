@@ -1,0 +1,12 @@
+{
+  "id": "fast-track-30",
+  "labelRu": "Быстрый трек · 30 дней",
+  "offsetsDays": [
+    { "title": "Размещение заказа (PO)", "offsetDays": 0 },
+    { "title": "Поставка материалов", "offsetDays": 7 },
+    { "title": "Лекала", "offsetDays": 10 },
+    { "title": "Раскрой образца", "offsetDays": 14 },
+    { "title": "Пошив образца", "offsetDays": 21 },
+    { "title": "Финальный review", "offsetDays": 28 }
+  ]
+}

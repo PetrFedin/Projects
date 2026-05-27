@@ -1,0 +1,12 @@
+{
+  "id": "outerwear-90",
+  "labelRu": "Верхняя одежда · 90 дней",
+  "offsetsDays": [
+    { "title": "Размещение заказа (PO)", "offsetDays": 0 },
+    { "title": "Поставка материалов", "offsetDays": 21 },
+    { "title": "Лекала + градация", "offsetDays": 28 },
+    { "title": "Раскрой", "offsetDays": 35 },
+    { "title": "Пошив образца", "offsetDays": 60 },
+    { "title": "Финальный review", "offsetDays": 85 }
+  ]
+}

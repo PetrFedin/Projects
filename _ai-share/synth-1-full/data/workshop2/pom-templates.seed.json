@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "templates": [
+    {
+      "leafId": "catalog-apparel-g0-l0",
+      "label": "Пальто · базовый POM",
+      "dimensionLabels": ["Обхват груди", "Обхват талии", "Обхват бёдер", "Длина изделия"]
+    },
+    {
+      "leafId": "catalog-shoes-g0-l0",
+      "label": "Кроссовки · EU",
+      "dimensionLabels": ["Длина стельки (мм)", "Масса пары (г)"]
+    }
+  ]
+}
