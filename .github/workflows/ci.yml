@@ -63,6 +63,13 @@ jobs:
 
       - run: npm ci
 
+      - name: Add swap for Next.js build
+        run: |
+          sudo fallocate -l 8G /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+
       - name: Category catalog & schemas
         run: |
           npm run gen:category-catalog

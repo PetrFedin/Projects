@@ -44,6 +44,12 @@ jobs:
           cache: npm
           cache-dependency-path: _ai-share/synth-1-full/package-lock.json
       - run: npm ci
+      - name: Add swap for Next.js build
+        run: |
+          sudo fallocate -l 8G /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
       - run: npm run format:check
       - run: npm run lint
       - name: Legacy archive API guard
