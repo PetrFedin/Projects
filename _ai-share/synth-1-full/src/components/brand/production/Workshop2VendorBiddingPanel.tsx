@@ -45,15 +45,13 @@ export function Workshop2VendorBiddingPanel({
 
   const lowest = useMemo(() => compareWorkshop2VendorBidsLowestCmt(localBids), [localBids]);
 
-  if (!isWorkshop2ShowVendorBiddingEnabled()) {
-    return null;
-  }
-
-  if (!articleId?.trim() || !collectionId?.trim()) {
-    return null;
-  }
+  const biddingEnabled =
+    isWorkshop2ShowVendorBiddingEnabled() &&
+    Boolean(articleId?.trim()) &&
+    Boolean(collectionId?.trim());
 
   const postBid = useCallback(async () => {
+    if (!biddingEnabled || !articleId?.trim() || !collectionId?.trim()) return;
     setBusy(true);
     try {
       const res = await fetch(
@@ -90,7 +88,11 @@ export function Workshop2VendorBiddingPanel({
     } finally {
       setBusy(false);
     }
-  }, [articleId, collectionId, form, localBids, onBidsUpdate, toast]);
+  }, [articleId, biddingEnabled, collectionId, form, localBids, onBidsUpdate, toast]);
+
+  if (!biddingEnabled) {
+    return null;
+  }
 
   return (
     <div

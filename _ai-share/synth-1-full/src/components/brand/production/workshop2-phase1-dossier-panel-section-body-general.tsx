@@ -27,6 +27,8 @@ import type {
 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2AttrComment } from '@/components/brand/production/workshop2-phase1-dossier-panel-attr-comments-dialog';
 import type { Workshop2DossierViewProfile } from '@/lib/production/workshop2-dossier-view-infrastructure';
+import { Workshop2OperationalPgMirrorChip } from '@/components/brand/production/workshop2-operational-panel-chrome';
+import { summarizeWorkshop2TzGeneralPgMirror } from '@/lib/production/workshop2-operational-pg-mirror-status';
 export type Workshop2DossierSectionBodyGeneralProps = {
   sectionReadinessUi: Record<DossierSection, { pct: number }>;
   sectionGateErrorsById: Record<DossierSection, string[]>;
@@ -230,6 +232,9 @@ export function Workshop2DossierSectionBodyGeneral({
 }: Workshop2DossierSectionBodyGeneralProps) {
   return (
     <div className="space-y-4">
+      <span data-testid="workshop2-tz-general-pg-chip" className="inline-flex">
+        <Workshop2OperationalPgMirrorChip {...summarizeWorkshop2TzGeneralPgMirror(dossier)} />
+      </span>
       <>
         {isPhase1 ? (
           <div id="w2-passport-hub" className="sr-only" aria-hidden="true" />
@@ -379,11 +384,3 @@ export function Workshop2DossierSectionBodyGeneral({
     </div>
   );
 }
-
-/* PG chip */
-<span data-testid="workshop2-tz-general-pg-chip">
-  <Workshop2OperationalPgMirrorChip {...summarizeWorkshop2TzGeneralPgMirror(dossier)} />
-</span>;
-
-void formatWorkshop2PersistToastTitle;
-void formatWorkshop2PersistToastDescription;
