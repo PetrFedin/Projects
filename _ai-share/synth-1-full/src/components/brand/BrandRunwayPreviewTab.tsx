@@ -873,6 +873,7 @@ export function BrandRunwayPreviewTab({
                     {uploadPresignEnabled && uploadS3Configured
                       ? t('runway.uploadR2Hint')
                       : t('runway.uploadHint')}
+                    . {t('runway.videoSpecsHint')}
                   </span>
                 ) : null}
               </div>

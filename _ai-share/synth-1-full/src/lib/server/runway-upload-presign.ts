@@ -9,6 +9,7 @@ import {
   RUNWAY_UPLOAD_MAX_BYTES,
   sanitizeRunwayBrandSlug,
 } from '@/lib/server/runway-upload';
+import { signRunwayVideoCdnUrl } from '@/lib/runway/runway-video-cdn-signing';
 
 export const RUNWAY_PRESIGN_EXPIRES_SEC = 900;
 
@@ -191,7 +192,7 @@ export async function createRunwayUploadPresign(
     expiresIn: RUNWAY_PRESIGN_EXPIRES_SEC,
   });
 
-  const publicUrl = `${publicBase}/${storageKey}`;
+  const publicUrl = signRunwayVideoCdnUrl(`${publicBase}/${storageKey}`);
 
   return {
     ok: true,

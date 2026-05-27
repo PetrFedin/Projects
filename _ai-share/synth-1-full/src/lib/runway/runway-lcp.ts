@@ -7,6 +7,8 @@ export interface RunwayLcpHeroPayload {
   productSlug: string;
   msSinceNavigation: number;
   connectionType?: string;
+  /** 'lcp' если PerformanceObserver, иначе 'navigation'. */
+  source?: 'lcp' | 'navigation';
 }
 
 /** Sample rate 0–1 из NEXT_PUBLIC_RUNWAY_LCP_SAMPLE_RATE или dev default 1 / prod 0.1. */
@@ -56,13 +58,86 @@ export function resolveConnectionType(): string | undefined {
   return conn?.effectiveType?.trim() || undefined;
 }
 
+/** Buffered LCP entry (PerformanceObserver), если доступен. */
+export function readBufferedLcpMs(): number | undefined {
+  if (typeof performance === 'undefined') return undefined;
+  try {
+    const entries = performance.getEntriesByType('largest-contentful-paint');
+    const last = entries[entries.length - 1] as PerformanceEntry | undefined;
+    if (last && Number.isFinite(last.startTime)) {
+      return Math.max(0, Math.round(last.startTime));
+    }
+  } catch {
+    /* unsupported */
+  }
+  return undefined;
+}
+
+/** Подписка на LCP — возвращает cleanup; fallback через navigation timing в payload builder. */
+export function observeRunwayHeroLcp(onLcp: (ms: number) => void): () => void {
+  if (typeof window === 'undefined' || typeof PerformanceObserver === 'undefined') {
+    return () => undefined;
+  }
+
+  let done = false;
+  const finish = (ms: number) => {
+    if (done) return;
+    done = true;
+    onLcp(ms);
+  };
+
+  try {
+    const buffered = readBufferedLcpMs();
+    if (buffered != null) {
+      finish(buffered);
+      return () => undefined;
+    }
+
+    const observer = new PerformanceObserver((list) => {
+      const entries = list.getEntries();
+      const last = entries[entries.length - 1];
+      if (last) finish(Math.max(0, Math.round(last.startTime)));
+    });
+    observer.observe({ type: 'largest-contentful-paint', buffered: true });
+    return () => observer.disconnect();
+  } catch {
+    return () => undefined;
+  }
+}
+
+/** Demo / E2E / opt-out — не отправлять runway_lcp_hero. */
+export function shouldEmitRunwayLcpHero(options: {
+  isDemoMode?: boolean;
+  isE2eMode?: boolean;
+  analyticsOptOut?: boolean;
+}): boolean {
+  if (options.isDemoMode || options.isE2eMode || options.analyticsOptOut) return false;
+  return true;
+}
+
+/** Проверка opt-out PostHog / localStorage без PII. */
+export function resolveRunwayAnalyticsOptOut(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    if (window.localStorage.getItem('runway-analytics-opt-out') === '1') return true;
+    const posthog = (window as Window & { posthog?: { has_opted_out_capturing?: () => boolean } })
+      .posthog;
+    if (posthog?.has_opted_out_capturing?.()) return true;
+  } catch {
+    /* ignore */
+  }
+  return false;
+}
+
 export function buildRunwayLcpHeroPayload(
   productSlug: string,
   nowMs: number = performance.now()
 ): RunwayLcpHeroPayload {
+  const lcpMs = readBufferedLcpMs();
   return {
     productSlug,
-    msSinceNavigation: measureMsSinceNavigation(nowMs),
+    msSinceNavigation: lcpMs ?? measureMsSinceNavigation(nowMs),
     connectionType: resolveConnectionType(),
+    source: lcpMs != null ? 'lcp' : 'navigation',
   };
 }

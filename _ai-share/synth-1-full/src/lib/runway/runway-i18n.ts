@@ -223,6 +223,7 @@ const RUNWAY_STRINGS = {
     'runway.uploadFailed': 'Не удалось загрузить видео',
     'runway.uploadHint': 'MP4 до 50 МБ · dev/local storage',
     'runway.uploadR2Hint': 'MP4 до 50 МБ · R2 presigned PUT',
+    'runway.videoSpecsHint': 'См. docs/runway-brand-video-specs.md (кодек, битрейт, ffmpeg).',
     'runway.uploadR2Disabled': 'Загрузка на сервере не настроена (RUNWAY_UPLOAD_ENABLED + R2/S3)',
     'runway.weeklySummary': 'Недельная сводка',
     'runway.weeklySummaryDesc':
@@ -475,6 +476,7 @@ const RUNWAY_STRINGS = {
     'runway.uploadFailed': 'Video upload failed',
     'runway.uploadHint': 'MP4 up to 50 MB · dev/local storage',
     'runway.uploadR2Hint': 'MP4 up to 50 MB · R2 presigned PUT',
+    'runway.videoSpecsHint': 'See docs/runway-brand-video-specs.md (codec, bitrate, ffmpeg).',
     'runway.uploadR2Disabled': 'R2 upload not configured on server',
     'runway.weeklySummary': 'Weekly summary',
     'runway.weeklySummaryDesc':

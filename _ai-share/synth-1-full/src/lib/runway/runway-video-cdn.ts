@@ -1,8 +1,7 @@
 /**
  * CDN для scrollVideoUrl / sectionVideoUrl из scroll-experience.json.
  * Относительные пути (/videos/...) дополняются videoCdnBaseUrl; абсолютные URL не меняются.
- * RUNWAY_VIDEO_CDN_SIGNED_QUERY — опциональный query для cache busting.
- * RUNWAY_VIDEO_CDN_SIGNING_SECRET — HMAC token (server-side).
+ * RUNWAY_VIDEO_CDN_SIGNED_QUERY — опциональный query для cache busting / signed URLs.
  */
 import type { ScrollExperienceConfig } from '@/lib/types';
 
@@ -45,19 +44,6 @@ export function applyVideoCdnBaseUrl(
 }
 
 /** Добавить signed query (?v=… или &token=…) к абсолютному/относительному URL. */
-
-/** Pathname для HMAC — без query, client-safe. */
-export function extractVideoCdnSigningPath(url: string): string {
-  if (/^https?:\/\//i.test(url)) {
-    try {
-      return new URL(url).pathname;
-    } catch {
-      return url.split('?')[0] ?? url;
-    }
-  }
-  return url.split('?')[0] ?? url;
-}
-
 export function appendVideoCdnSignedQuery(url: string, signedQuery?: string): string {
   if (!signedQuery?.trim()) return url;
   const raw = signedQuery.trim().replace(/^\?/, '');

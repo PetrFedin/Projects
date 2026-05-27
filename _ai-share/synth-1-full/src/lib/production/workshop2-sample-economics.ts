@@ -1,5 +1,9 @@
 import type { Workshop2SampleEconomicsDraft } from '@/lib/production/workshop2-sample-economics.types';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import {
+  computeWorkshop2BomCostingRollup,
+  type Workshop2BomCostingRollup,
+} from '@/lib/production/workshop2-bom-costing';
 
 export function emptyWorkshop2SampleEconomicsDraft(): Workshop2SampleEconomicsDraft {
   return {
@@ -71,6 +75,51 @@ export function calculatePreliminaryCogs(
     materialCost,
     laborCost,
     totalCogs: materialCost + laborCost,
+  };
+}
+
+/** Строки экономики образца из rollup BOM (материалы / фурнитура / операции). */
+export function buildSampleEconomicsLinesFromBomRollup(
+  rollup: Workshop2BomCostingRollup
+): Workshop2SampleEconomicsDraft['lines'] {
+  return rollup.lineCosts.map((lc, i) => ({
+    id: `bom-${lc.lineId}-${i}`,
+    label: lc.label,
+    category:
+      lc.kind === 'operation'
+        ? ('labor' as const)
+        : lc.kind === 'trim'
+          ? ('material' as const)
+          : ('material' as const),
+    qty: lc.yieldQty || 1,
+    unitLabel: lc.kind === 'operation' ? 'ед' : 'расход',
+    unitCost: lc.lineCost > 0 && lc.yieldQty > 0 ? lc.lineCost / lc.yieldQty : lc.unitPrice,
+    sourceHint: 'tz_bom_reference' as const,
+  }));
+}
+
+/** Обновляет черновик экономики образца rollup-ом BOM + target FOB. */
+export function rollupSampleEconomicsFromBomCosting(
+  dossier: Workshop2DossierPhase1,
+  prev?: Workshop2SampleEconomicsDraft | null
+): Workshop2SampleEconomicsDraft {
+  const base = prev ?? emptyWorkshop2SampleEconomicsDraft();
+  const rollup = computeWorkshop2BomCostingRollup(dossier);
+  const bomLines = buildSampleEconomicsLinesFromBomRollup(rollup);
+  const manualLines = base.lines.filter((l) => l.sourceHint !== 'tz_bom_reference');
+  return {
+    ...base,
+    currencyCode: rollup.currency || base.currencyCode || 'RUB',
+    lines: [...bomLines, ...manualLines],
+    bomRollup: {
+      syncedAt: new Date().toISOString(),
+      estimatedFob: rollup.estimatedFob,
+      targetFob: rollup.targetFob,
+      targetMarginPct: rollup.targetMarginPct,
+      deltaBand: rollup.deltaBand,
+      deltaPct: rollup.deltaPct,
+      currency: rollup.currency,
+    },
   };
 }
 

@@ -6,6 +6,8 @@ import type {
 import fs from 'node:fs';
 import path from 'node:path';
 import { Pool, type PoolClient } from 'pg';
+import { buildWorkshop2FileStoreDemoDossier } from '@/lib/production/workshop2-file-store-demo-bootstrap';
+import { isWorkshop2PostgresEnabled } from '@/lib/server/workshop2-pg-pool';
 
 type Key = `${string}::${string}`;
 
@@ -90,13 +92,36 @@ function flushToDisk(): void {
   }
 }
 
+/** Wave P — demo SS27 dossier seed в file-store (PG off). */
+function ensureWorkshop2FileStoreDemoDossierRecord(
+  collectionId: string,
+  articleId: string
+): Workshop2ServerDossierRecord | null {
+  const demo = buildWorkshop2FileStoreDemoDossier({ collectionId, articleId });
+  if (!demo) return null;
+  const nowIso = new Date().toISOString();
+  const next: Workshop2ServerDossierRecord = {
+    collectionId,
+    articleId,
+    version: 1,
+    updatedAt: nowIso,
+    dossier: demo,
+  };
+  DOSSIER_STORE.set(keyOf(collectionId, articleId), next);
+  flushToDisk();
+  return next;
+}
+
 export function getWorkshop2ServerDossierRecord(
   collectionId: string,
   articleId: string
 ): Promise<Workshop2ServerDossierRecord | null> {
-  if (USE_POSTGRES) return getWorkshop2ServerDossierRecordFromPg(collectionId, articleId);
+  if (isWorkshop2PostgresEnabled())
+    return getWorkshop2ServerDossierRecordFromPg(collectionId, articleId);
   hydrateFromDiskIfNeeded();
-  return Promise.resolve(DOSSIER_STORE.get(keyOf(collectionId, articleId)) ?? null);
+  const existing = DOSSIER_STORE.get(keyOf(collectionId, articleId)) ?? null;
+  if (existing) return Promise.resolve(existing);
+  return Promise.resolve(ensureWorkshop2FileStoreDemoDossierRecord(collectionId, articleId));
 }
 
 export async function putWorkshop2ServerDossierRecord(input: {

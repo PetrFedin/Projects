@@ -48,6 +48,46 @@ export const W2_ARTICLE_MAIN_TAB_STRIP: readonly {
   },
 ] as const;
 
+/** Wave 14 RU: порядок вкладок по умолчанию (SS27 journey-first). */
+export const WORKSHOP2_RU_TAB_ORDER_DEFAULT = [
+  'tz',
+  'plan',
+  'supply',
+  'fit',
+  'release',
+  'qc',
+  'stock',
+  'vault',
+] as const satisfies readonly Workshop2ArticleMainTab[];
+
+export const WORKSHOP2_RU_TAB_ORDER_STORAGE_KEY = 'w2-tab-order-ru';
+
+/** Применяет RU порядок один раз из localStorage (если ещё не сохранён). */
+export function applyWorkshop2RuMainTabOrderOnce<T extends { id: Workshop2ArticleMainTab }>(
+  tabs: readonly T[],
+  storage: Pick<Storage, 'getItem' | 'setItem'> | null
+): T[] {
+  if (!storage || tabs.length === 0) return [...tabs];
+  const existing = storage.getItem(WORKSHOP2_RU_TAB_ORDER_STORAGE_KEY);
+  if (!existing) {
+    storage.setItem(WORKSHOP2_RU_TAB_ORDER_STORAGE_KEY, WORKSHOP2_RU_TAB_ORDER_DEFAULT.join(','));
+  }
+  const orderRaw = storage.getItem(WORKSHOP2_RU_TAB_ORDER_STORAGE_KEY);
+  const order = (orderRaw ?? WORKSHOP2_RU_TAB_ORDER_DEFAULT.join(','))
+    .split(',')
+    .map((s) => s.trim()) as Workshop2ArticleMainTab[];
+  const byId = new Map(tabs.map((t) => [t.id, t]));
+  const sorted: T[] = [];
+  for (const id of order) {
+    const row = byId.get(id);
+    if (row) sorted.push(row);
+  }
+  for (const t of tabs) {
+    if (!sorted.includes(t)) sorted.push(t);
+  }
+  return sorted;
+}
+
 export function w2ArticleMainTabMeta(tab: Workshop2ArticleMainTab): {
   title: string;
   blurb: string;
