@@ -65,10 +65,14 @@ jobs:
 
       - name: Add swap for Next.js build
         run: |
-          sudo fallocate -l 8G /swapfile
+          sudo swapoff -a || true
+          if ! sudo fallocate -l 8G /swapfile 2>/dev/null; then
+            sudo dd if=/dev/zero of=/swapfile bs=1M count=8192 status=none
+          fi
           sudo chmod 600 /swapfile
           sudo mkswap /swapfile
           sudo swapon /swapfile
+          free -h
 
       - name: Category catalog & schemas
         run: |
