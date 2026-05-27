@@ -39,6 +39,7 @@ jobs:
           pip install poetry
           poetry config virtualenvs.create true
           poetry install --no-interaction --without ml --with dev
+          poetry run pip install 'aiosqlite>=0.20.0'
 
       - name: Pytest (smoke + unit)
         run: poetry run python -m pytest tests/smoke tests/unit -q --tb=short
@@ -46,6 +47,8 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 35
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
     defaults:
       run:
         working-directory: _ai-share/synth-1-full
@@ -76,4 +79,4 @@ jobs:
         continue-on-error: true
 
       - name: Production build
-        run: NODE_OPTIONS=--max-old-space-size=8192 npm run build
+        run: npm run build

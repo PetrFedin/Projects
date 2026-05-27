@@ -88,7 +88,7 @@
     "dev:bench:routes": "DEV_BENCH_ONLY_HUBS=0 node scripts/dev-route-benchmark.mjs",
     "genkit:dev": "node scripts/ensure-supported-node.mjs && genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "node scripts/ensure-supported-node.mjs && genkit start -- tsx --watch src/ai/dev.ts",
-    "build": "node scripts/ensure-supported-node.mjs && NODE_OPTIONS=--max-old-space-size=8192 NODE_ENV=production next build",
+    "build": "node scripts/ensure-supported-node.mjs && NODE_OPTIONS=${NODE_OPTIONS:---max-old-space-size=8192} NODE_ENV=production next build",
     "analyze:bundle": "node scripts/ensure-supported-node.mjs && ANALYZE=true NEXT_DIST_DIR=.next-analyze NODE_OPTIONS=--max-old-space-size=8192 NODE_ENV=production next build",
     "build:strict-types": "NEXT_STRICT_TYPES=1 npm run build",
     "build:isolated": "rm -rf .next-isolated && NEXT_DIST_DIR=.next-isolated npm run build",

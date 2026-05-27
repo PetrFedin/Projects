@@ -35,6 +35,7 @@ jobs:
       CI: true
       NEXT_TELEMETRY_DISABLED: '1'
       NEXT_PUBLIC_USE_B2C_SHOP_API: 'true'
+      NODE_OPTIONS: --max-old-space-size=6144
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
