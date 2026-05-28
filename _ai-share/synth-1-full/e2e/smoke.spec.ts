@@ -1,17 +1,15 @@
 import { test, expect, type Page } from '@playwright/test';
-import { ensureDevCabinetLogin, devEmailForCabinetPath } from './helpers/dev-cabinet-login';
 
 /**
  * Smoke-тесты: ключевые страницы открываются без ошибок и отображают основной контент.
  * Запуск: npm run test:e2e (поднимает dev-сервер и прогоняет тесты).
+ *
+ * Кабинеты: dev path-auto-login в AuthProvider (без /login — RHF не совместим с Playwright fill).
  */
 
 const GOTO_OPTS = { waitUntil: 'domcontentloaded' as const, timeout: 60_000 };
 
 async function openSmokeRoute(page: Page, path: string): Promise<void> {
-  if (devEmailForCabinetPath(path)) {
-    await ensureDevCabinetLogin(page, path);
-  }
   const pattern = new RegExp(path.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
   let lastError: unknown;
   for (let attempt = 0; attempt < 3; attempt++) {

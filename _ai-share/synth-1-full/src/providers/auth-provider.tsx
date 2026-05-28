@@ -173,6 +173,51 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, [fetchFastApiProfile, pathname]);
 
+  /**
+   * E2E serial smoke: path-auto-login срабатывает только на пустой сессии.
+   * При смене кабинета в одном контексте (shop → client) переключаем mock-пользователя.
+   */
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_E2E !== 'true') return;
+    if (!isSynthDevAutoLoginEnabled()) return;
+    if (typeof window === 'undefined') return;
+
+    const search = window.location.search || '';
+    const pathEmail = resolvePathBasedDevSignInEmail(pathname ?? '', search);
+    if (!pathEmail) return;
+
+    let cancelled = false;
+
+    void (async () => {
+      const token = localStorage.getItem('syntha_access_token');
+      if (!token) return;
+
+      const currentUser = await authRepository.getCurrentUser();
+      const currentEmail =
+        (currentUser as { email?: string } | null)?.email ??
+        localStorage.getItem('syntha_last_email') ??
+        '';
+      if (currentEmail.toLowerCase() === pathEmail.toLowerCase()) return;
+
+      setLoading(true);
+      try {
+        const u = await authRepository.signIn(pathEmail, SYNTH_MOCK_KNOWN_PASSWORD);
+        if (cancelled) return;
+        setUser(u);
+        markSynthDevAutoLoginSession();
+        await fetchFastApiProfile(pathEmail);
+      } catch {
+        /* dev cabinet switch */
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [pathname, fetchFastApiProfile]);
+
   const signIn = useCallback(
     async (email: string, password: string) => {
       const userProfile = await authRepository.signIn(email, password);
