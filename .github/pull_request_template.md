@@ -22,4 +22,5 @@
 ## Метки CI (опционально)
 
 - **`ci-heavy`** — полный API Playwright + verification (см. **`.github/workflows/synth-1-full-ci.yml`**).
+- **`investor-spine-e2e`** — автоматически после **`ci-fast`**: второй **`test:e2e:light`** с **`NEXT_PUBLIC_*_INVESTOR_SPINE=1`** (ручной только прогон — workflow **`investor-spine-e2e-dispatch.yml`**).
 - **`ci-visual`** — визуальные снапшоты Playwright.
