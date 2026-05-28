@@ -1,6 +1,7 @@
 # Next app: _ai-share/synth-1-full (монорепозиторий Projects).
 # Субмодуль synth-1/ из корня монорепо удалён; канон — только этот каталог.
-# ci-fast — каждый push/PR по paths; ci-heavy — лейбл `ci-heavy` на PR, еженедельный schedule или workflow_dispatch.
+# ci-fast — каждый push/PR по paths; investor-spine-e2e — после ci-fast (light smoke + INVESTOR_SPINE env);
+# ci-heavy — лейбл `ci-heavy` на PR, еженедельный schedule или workflow_dispatch.
 # Legacy вне канона: корневой `Projects/src/` — по docs/MONOREPO_INTEGRATION.md (фазы D/E), пока не зафиксировано «только full».
 # Standalone-клон пакета (без heavy): `_ai-share/synth-1-full/.github/workflows/ci.yml`.
 name: synth-1-full CI
@@ -67,6 +68,30 @@ jobs:
       - run: npm run build:isolated
       - run: npx playwright install chromium --with-deps
       - name: Playwright light smoke
+        run: npm run test:e2e:light
+
+  investor-spine-e2e:
+    name: investor-spine e2e (light smoke + spine nav)
+    needs: ci-fast
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      NEXT_TELEMETRY_DISABLED: '1'
+      NEXT_PUBLIC_USE_B2C_SHOP_API: 'true'
+      NEXT_PUBLIC_BRAND_NAV_INVESTOR_SPINE: '1'
+      NEXT_PUBLIC_SHOP_NAV_INVESTOR_SPINE: '1'
+      NEXT_PUBLIC_FACTORY_NAV_INVESTOR_SPINE: '1'
+      NEXT_PUBLIC_DISTRIBUTOR_NAV_INVESTOR_SPINE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+      - run: npm ci
+      - run: npx playwright install chromium --with-deps
+      - name: Playwright light smoke (investor spine env)
         run: npm run test:e2e:light
 
   ci-heavy:
