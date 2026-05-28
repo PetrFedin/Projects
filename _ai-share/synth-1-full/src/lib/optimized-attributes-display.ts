@@ -199,7 +199,8 @@ const DISPLAY_LABELS: Record<string, string> = {
   shoulderOptionsByCategory: 'Плечо',
   backDetailOptionsByCategory: 'Детали спинки',
   hemTypeOptionsByCategory: 'Тип подола',
-  waistbandOptionsByCategory: 'Пояс и ремень (в т.ч. посадка ремня и ширина полотна — блок «Аксессуары»)',
+  waistbandOptionsByCategory:
+    'Пояс и ремень (в т.ч. посадка ремня и ширина полотна — блок «Аксессуары»)',
   transformationOptionsByCategory: 'Трансформация',
   reinforcementOptionsByCategory: 'Усиление',
   seamOptionsByCategory: 'Шов',

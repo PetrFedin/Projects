@@ -1,4 +1,3 @@
-
 export interface PriceComparisonEntry {
   platform: string;
   logoUrl: string;
@@ -10,12 +9,13 @@ export interface PriceComparisonEntry {
 }
 
 export interface PriceComparisonData {
-    lastChecked: string;
-    offers: PriceComparisonEntry[];
+  lastChecked: string;
+  offers: PriceComparisonEntry[];
 }
 
 export const priceComparisonData: Record<string, PriceComparisonData> = {
-  '1': { // Product ID for 'Кашемировый свитер с круглым вырезом'
+  '1': {
+    // Product ID for 'Кашемировый свитер с круглым вырезом'
     lastChecked: 'сегодня в 14:30',
     offers: [
       {
@@ -43,7 +43,7 @@ export const priceComparisonData: Record<string, PriceComparisonData> = {
         url: '#',
         location: 'Казахстан',
       },
-       {
+      {
         platform: 'Farfetch',
         logoUrl: 'https://i.imgur.com/DkI7OZX.png',
         price: 31000,

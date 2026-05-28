@@ -18,6 +18,6 @@ export function getB2BCampaigns(): B2BCampaignV1[] {
       targetMarket: 'Asia / UAE',
       activeStatus: false,
       publishedAt: '2026-03-15',
-    }
+    },
   ];
 }

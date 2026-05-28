@@ -1,0 +1,1 @@
+- Pre-existing typecheck errors found in src/app/api/brand/workshop2/fit-sessions/ai-analysis/route.ts, src/app/api/brand/workshop2/qc/detect/route.ts, and supplier-qc-scorecard.tsx during phase 10 plan 01 task 1.

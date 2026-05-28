@@ -102,7 +102,15 @@ export interface B2COrder {
   tax: number;
   shipping: number;
   total: number;
-  status: 'draft' | 'pending_payment' | 'paid' | 'processing' | 'ready_for_pickup' | 'shipped' | 'delivered' | 'cancelled';
+  status:
+    | 'draft'
+    | 'pending_payment'
+    | 'paid'
+    | 'processing'
+    | 'ready_for_pickup'
+    | 'shipped'
+    | 'delivered'
+    | 'cancelled';
   fulfillmentMethod: 'delivery' | 'pickup';
   pickupLocationId?: string;
   shippingAddress?: {
@@ -140,7 +148,7 @@ export interface StoreLocation {
   images?: string[];
 }
 
-export type StoreService = 
+export type StoreService =
   | 'in_store_pickup'
   | 'try_on'
   | 'alterations'
@@ -196,7 +204,10 @@ export interface StockSyncAgreement {
     syncFrequency: 'realtime' | 'hourly' | 'daily';
     minimumStock: number;
     autoReserve: boolean;
+    autoRebalanceEnabled?: boolean;
     commissionPercent?: number;
+    revenueSharePercent?: number;
+    currency?: string;
     fulfillmentResponsibility: 'retailer' | 'brand' | 'shared';
   };
   startDate: string;

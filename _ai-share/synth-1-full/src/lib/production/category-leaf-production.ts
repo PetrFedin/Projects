@@ -34,7 +34,9 @@ function mergeProfile(
   };
 }
 
-export function getResolvedLeafProductionProfile(leaf: HandbookCategoryLeaf): LeafProductionProfile {
+export function getResolvedLeafProductionProfile(
+  leaf: HandbookCategoryLeaf
+): LeafProductionProfile {
   const base = deriveDefaultLeafProductionProfile(leaf);
   const sizeHint = handbookCatL1FromLeaf(leaf);
   const withSize: LeafProductionProfile = {

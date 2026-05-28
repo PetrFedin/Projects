@@ -60,7 +60,7 @@ export function downloadSketchMesQualityCsv(args: {
   rows.forEach((a, idx) => {
     const code = a.mesDefectCode?.trim() ?? '';
     const label = defectLabelByCode(cat, code) ?? '';
-    const parent = code ? cat.find((c) => c.code === code)?.parentCode ?? '' : '';
+    const parent = code ? (cat.find((c) => c.code === code)?.parentCode ?? '') : '';
     lines.push(
       [
         csvEscape(sku),

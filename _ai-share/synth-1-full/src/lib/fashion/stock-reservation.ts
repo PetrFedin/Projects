@@ -18,11 +18,15 @@ export function getPartnerReservations(partnerId: string): B2BReservationV1[] {
       quantity: 150,
       expiryDate: '2026-04-10',
       status: 'active',
-    }
+    },
   ];
 }
 
-export function createReservation(partnerId: string, sku: string, quantity: number): B2BReservationV1 {
+export function createReservation(
+  partnerId: string,
+  sku: string,
+  quantity: number
+): B2BReservationV1 {
   return {
     id: `RES-${Math.floor(Math.random() * 10000)}`,
     partnerId,

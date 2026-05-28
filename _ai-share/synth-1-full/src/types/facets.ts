@@ -6,4 +6,3 @@ export type Facets = {
   countryOfOrigin: FacetBucket[];
   productionStage: FacetBucket[];
 };
-

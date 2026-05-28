@@ -17,37 +17,39 @@ export function ProductSourcingRfqBlock({ product }: Props) {
   const rfq = createSourcingRfq(product, qty);
 
   const handleSend = () => {
-    toast({ 
-      title: 'RFQ Draft Created', 
-      description: `Запрос котировок ${rfq.id} подготовлен для отправки поставщикам.` 
+    toast({
+      title: 'RFQ Draft Created',
+      description: `Запрос котировок ${rfq.id} подготовлен для отправки поставщикам.`,
     });
   };
 
   return (
-    <Card className="mt-4 border-dashed bg-violet-50/20 text-muted-foreground">
+    <Card className="bg-accent-primary/10 mt-4 border-dashed text-muted-foreground">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
-          <Factory className="h-4 w-4 text-violet-600" />
+        <CardTitle className="flex items-center gap-2 text-sm">
+          <Factory className="text-accent-primary h-4 w-4" />
           Production Sourcing (RFQ)
         </CardTitle>
-        <CardDescription className="text-xs italic">Brand tool — Request Factory Quote.</CardDescription>
+        <CardDescription className="text-xs italic">
+          Brand tool — Request Factory Quote.
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 pt-2">
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
-            <p className="text-[10px] uppercase font-bold tracking-tight">Target Quantity</p>
+            <p className="text-[10px] font-bold uppercase tracking-tight">Target Quantity</p>
             <div className="flex items-center gap-2">
               <Package className="h-3 w-3" />
-              <input 
-                type="number" 
-                value={qty} 
+              <input
+                type="number"
+                value={qty}
                 onChange={(e) => setQty(parseInt(e.target.value) || 0)}
                 className="w-full bg-transparent text-xs font-bold text-foreground focus:outline-none"
               />
             </div>
           </div>
           <div className="space-y-1">
-            <p className="text-[10px] uppercase font-bold tracking-tight">Target Unit Price</p>
+            <p className="text-[10px] font-bold uppercase tracking-tight">Target Unit Price</p>
             <div className="flex items-center gap-1 text-xs font-bold text-foreground">
               <DollarSign className="h-3 w-3" />
               {rfq.targetPrice.toLocaleString()} ₽
@@ -55,10 +57,10 @@ export function ProductSourcingRfqBlock({ product }: Props) {
           </div>
         </div>
 
-        <Button 
-          variant="outline" 
-          size="sm" 
-          className="w-full text-[10px] h-8 gap-2 border-violet-300 text-violet-700 hover:bg-violet-100"
+        <Button
+          variant="outline"
+          size="sm"
+          className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/15 h-8 w-full gap-2 text-[10px]"
           onClick={handleSend}
         >
           <Send className="h-3 w-3" />

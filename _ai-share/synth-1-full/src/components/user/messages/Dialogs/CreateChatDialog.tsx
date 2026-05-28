@@ -1,6 +1,11 @@
 import React from 'react';
-import { 
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +18,11 @@ import { UserRole } from '@/lib/types';
 interface CreateChatDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onCreate: (name: string, groupKey: string, opts?: { linkOrderId?: string; linkCollectionId?: string }) => void;
+  onCreate: (
+    name: string,
+    groupKey: string,
+    opts?: { linkOrderId?: string; linkCollectionId?: string }
+  ) => void;
   currentRole: UserRole;
 }
 
@@ -21,7 +30,7 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
   open,
   onOpenChange,
   onCreate,
-  currentRole
+  currentRole,
 }) => {
   const [name, setName] = React.useState('Новый чат');
   const [groupKey, setGroupKey] = React.useState<string>('team');
@@ -69,22 +78,32 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl bg-white rounded-xl border-none shadow-2xl p-3">
-        <DialogHeader className="space-y-3 mb-6">
-          <DialogTitle className="text-base font-black tracking-tighter text-slate-800 uppercase">Создать чат</DialogTitle>
-          <DialogDescription className="text-slate-400 font-bold text-[10px] uppercase tracking-widest">
+      <DialogContent className="max-w-xl rounded-xl border-none bg-white p-3 shadow-2xl">
+        <DialogHeader className="mb-6 space-y-3">
+          <DialogTitle className="text-text-primary text-base font-black uppercase tracking-tighter">
+            Создать чат
+          </DialogTitle>
+          <DialogDescription className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
             Организуйте взаимодействие в едином пространстве
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
           <div className="space-y-2">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-slate-400 ml-2">Название чата</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} className="bg-slate-50 border-slate-100 rounded-2xl h-12 font-bold text-sm px-5" />
+            <Label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-[0.2rem]">
+              Название чата
+            </Label>
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="bg-bg-surface2 border-border-subtle h-12 rounded-2xl px-5 text-sm font-bold"
+            />
           </div>
 
           <div className="space-y-2">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-slate-400 ml-2">Группа назначения</Label>
+            <Label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-[0.2rem]">
+              Группа назначения
+            </Label>
             <div className="grid grid-cols-2 gap-3">
               {groups.map((g) => (
                 <Button
@@ -92,8 +111,10 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
                   type="button"
                   variant={groupKey === g.key ? 'default' : 'outline'}
                   className={cn(
-                    "justify-start h-12 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
-                    groupKey === g.key ? "bg-slate-900 text-white shadow-lg" : "bg-slate-50 border-slate-100 text-slate-400 hover:bg-white"
+                    'h-12 justify-start rounded-xl text-[10px] font-black uppercase tracking-widest transition-all',
+                    groupKey === g.key
+                      ? 'bg-text-primary text-white shadow-lg'
+                      : 'bg-bg-surface2 border-border-subtle text-text-muted hover:bg-white'
                   )}
                   onClick={() => setGroupKey(g.key)}
                 >
@@ -104,23 +125,43 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-slate-400 ml-2">Привязать к</Label>
+            <Label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-[0.2rem]">
+              Привязать к
+            </Label>
             <div className="flex flex-wrap gap-2">
-              <Button type="button" variant={linkType === 'none' ? 'default' : 'outline'} size="sm" className="h-8 text-[9px]" onClick={() => setLinkType('none')}>
+              <Button
+                type="button"
+                variant={linkType === 'none' ? 'default' : 'outline'}
+                size="sm"
+                className="h-8 text-[9px]"
+                onClick={() => setLinkType('none')}
+              >
                 Нет
               </Button>
-              <Button type="button" variant={linkType === 'order' ? 'default' : 'outline'} size="sm" className="h-8 text-[9px]" onClick={() => setLinkType('order')}>
-                <Package className="h-3 w-3 mr-1" /> Заказ
+              <Button
+                type="button"
+                variant={linkType === 'order' ? 'default' : 'outline'}
+                size="sm"
+                className="h-8 text-[9px]"
+                onClick={() => setLinkType('order')}
+              >
+                <Package className="mr-1 h-3 w-3" /> Заказ
               </Button>
-              <Button type="button" variant={linkType === 'collection' ? 'default' : 'outline'} size="sm" className="h-8 text-[9px]" onClick={() => setLinkType('collection')}>
-                <Factory className="h-3 w-3 mr-1" /> Коллекция
+              <Button
+                type="button"
+                variant={linkType === 'collection' ? 'default' : 'outline'}
+                size="sm"
+                className="h-8 text-[9px]"
+                onClick={() => setLinkType('collection')}
+              >
+                <Factory className="mr-1 h-3 w-3" /> Коллекция
               </Button>
             </div>
             {linkType !== 'none' && (
               <select
-                className="h-9 w-full rounded-lg border border-slate-200 px-3 text-[10px] font-bold"
+                className="border-border-default h-9 w-full rounded-lg border px-3 text-[10px] font-bold"
                 value={linkId}
-                onChange={e => setLinkId(e.target.value)}
+                onChange={(e) => setLinkId(e.target.value)}
               >
                 <option value="">Выбрать…</option>
                 {linkType === 'order' && (
@@ -140,11 +181,22 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2rem] text-slate-400 ml-2">Новая группа</Label>
+            <Label className="text-text-muted ml-2 text-[10px] font-black uppercase tracking-[0.2rem]">
+              Новая группа
+            </Label>
             <div className="flex gap-3">
-              <Input value={newGroupName} onChange={(e) => setNewGroupName(e.target.value)} placeholder="Напр: Логистика" className="bg-slate-50 border-slate-100 rounded-2xl h-12 font-bold text-xs px-5" />
-              <Button variant="outline" onClick={createGroup} className="h-12 rounded-2xl px-6 border-slate-100 hover:bg-slate-50">
-                <Plus className="h-4 w-4 mr-2" />
+              <Input
+                value={newGroupName}
+                onChange={(e) => setNewGroupName(e.target.value)}
+                placeholder="Напр: Логистика"
+                className="bg-bg-surface2 border-border-subtle h-12 rounded-2xl px-5 text-xs font-bold"
+              />
+              <Button
+                variant="outline"
+                onClick={createGroup}
+                className="border-border-subtle hover:bg-bg-surface2 h-12 rounded-2xl px-6"
+              >
+                <Plus className="mr-2 h-4 w-4" />
                 <span className="text-[10px] font-black uppercase tracking-widest">Добавить</span>
               </Button>
             </div>
@@ -152,10 +204,17 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
         </div>
 
         <DialogFooter className="mt-10 gap-3">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="rounded-2xl h-12 px-8 font-black text-[10px] uppercase text-slate-400 tracking-widest">
+          <Button
+            variant="ghost"
+            onClick={() => onOpenChange(false)}
+            className="text-text-muted h-12 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest"
+          >
             Отмена
           </Button>
-          <Button onClick={submit} className="bg-blue-600 hover:bg-blue-700 text-white rounded-2xl h-12 px-10 font-black text-[10px] uppercase tracking-[0.2rem] shadow-xl shadow-blue-100">
+          <Button
+            onClick={submit}
+            className="h-12 rounded-2xl bg-blue-600 px-10 text-[10px] font-black uppercase tracking-[0.2rem] text-white shadow-xl shadow-blue-100 hover:bg-blue-700"
+          >
             СОЗДАТЬ
           </Button>
         </DialogFooter>

@@ -35,8 +35,20 @@ export function createSeedState(): BrandProductionState {
       },
     ],
     factories: [
-      { id: 'fab-1', name: 'Фабрика «Север»', country: 'РФ', utilizationPct: 72, maxCapacityUnits: 50000 },
-      { id: 'fab-2', name: 'CMT Istanbul', country: 'TR', utilizationPct: 55, maxCapacityUnits: 80000 },
+      {
+        id: 'fab-1',
+        name: 'Фабрика «Север»',
+        country: 'РФ',
+        utilizationPct: 72,
+        maxCapacityUnits: 50000,
+      },
+      {
+        id: 'fab-2',
+        name: 'CMT Istanbul',
+        country: 'TR',
+        utilizationPct: 55,
+        maxCapacityUnits: 80000,
+      },
     ],
     articles: [
       {

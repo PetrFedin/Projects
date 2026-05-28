@@ -4,11 +4,7 @@ import React from 'react';
 import { Check, UserPlus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import type { Participant } from '@/lib/types/calendar';
@@ -25,7 +21,9 @@ interface ParticipantPickerProps {
 }
 
 /** Список участников из команды и связанных организаций */
-function getAvailableParticipants(currentOrgId?: string): { uid: string; name: string; role: UserRole }[] {
+function getAvailableParticipants(
+  currentOrgId?: string
+): { uid: string; name: string; role: UserRole }[] {
   const list: { uid: string; name: string; role: UserRole }[] = [];
   const added = new Set<string>();
   const orgIds = currentOrgId ? [currentOrgId] : Object.keys(partnerTeams);
@@ -66,20 +64,14 @@ export function ParticipantPicker({
   currentOrgId,
   disabled,
 }: ParticipantPickerProps) {
-  const available = React.useMemo(
-    () => getAvailableParticipants(currentOrgId),
-    [currentOrgId]
-  );
+  const available = React.useMemo(() => getAvailableParticipants(currentOrgId), [currentOrgId]);
   const selectedIds = new Set(participants.map((p) => p.uid));
 
   const toggle = (uid: string, name: string, role: UserRole) => {
     if (selectedIds.has(uid)) {
       onChange(participants.filter((p) => p.uid !== uid));
     } else {
-      onChange([
-        ...participants,
-        { uid, name, role, status: 'pending' as const },
-      ]);
+      onChange([...participants, { uid, name, role, status: 'pending' as const }]);
     }
   };
 
@@ -91,11 +83,7 @@ export function ParticipantPicker({
     <div className="space-y-2">
       <div className="flex flex-wrap gap-1.5">
         {participants.map((p) => (
-          <Badge
-            key={p.uid}
-            variant="secondary"
-            className="gap-1 pr-1 text-xs"
-          >
+          <Badge key={p.uid} variant="secondary" className="gap-1 pr-1 text-xs">
             {p.name}
             {p.status === 'pending' && (
               <span className="text-[10px] text-amber-600">(приглашён)</span>
@@ -104,7 +92,7 @@ export function ParticipantPicker({
               <button
                 type="button"
                 onClick={() => remove(p.uid)}
-                className="rounded p-0.5 hover:bg-slate-300"
+                className="hover:bg-border-default rounded p-0.5"
               >
                 <X className="h-2.5 w-2.5" />
               </button>
@@ -122,26 +110,26 @@ export function ParticipantPicker({
           </PopoverTrigger>
           <PopoverContent className="w-64 p-0" align="start">
             <ScrollArea className="h-48">
-              <div className="p-2 space-y-0.5">
+              <div className="space-y-0.5 p-2">
                 {available.map((a) => (
                   <button
                     key={a.uid}
                     type="button"
                     onClick={() => toggle(a.uid, a.name, a.role)}
                     className={cn(
-                      'w-full flex items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors',
+                      'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors',
                       selectedIds.has(a.uid)
-                        ? 'bg-indigo-50 text-indigo-700'
-                        : 'hover:bg-slate-50'
+                        ? 'bg-accent-primary/10 text-accent-primary'
+                        : 'hover:bg-bg-surface2'
                     )}
                   >
                     {selectedIds.has(a.uid) ? (
-                      <Check className="h-4 w-4 shrink-0 text-indigo-600" />
+                      <Check className="text-accent-primary h-4 w-4 shrink-0" />
                     ) : (
                       <span className="w-4" />
                     )}
                     <span className="truncate">{a.name}</span>
-                    <span className="text-[10px] text-slate-400 ml-auto">{a.role}</span>
+                    <span className="text-text-muted ml-auto text-[10px]">{a.role}</span>
                   </button>
                 ))}
               </div>

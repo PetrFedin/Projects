@@ -10,9 +10,14 @@ import {
   upstashReadW2DossierMetricsTail,
 } from '@/lib/server/workshop2-dossier-metrics-upstash';
 
-export type W2MetricsAppendResult = { stored: boolean; target: 'redis' | 'file' | 'redis_fallback_file' };
+export type W2MetricsAppendResult = {
+  stored: boolean;
+  target: 'redis' | 'file' | 'redis_fallback_file';
+};
 
-export async function appendW2DossierMetricUnified(row: Workshop2DossierMetricsPayload): Promise<W2MetricsAppendResult> {
+export async function appendW2DossierMetricUnified(
+  row: Workshop2DossierMetricsPayload
+): Promise<W2MetricsAppendResult> {
   if (getW2DossierMetricsUpstashConfig()) {
     try {
       await upstashAppendW2DossierMetricRow(row);
@@ -39,7 +44,9 @@ export async function appendW2DossierMetricUnified(row: Workshop2DossierMetricsP
   }
 }
 
-export async function readW2DossierMetricsUnified(maxLines: number): Promise<Workshop2DossierMetricsPayload[]> {
+export async function readW2DossierMetricsUnified(
+  maxLines: number
+): Promise<Workshop2DossierMetricsPayload[]> {
   if (getW2DossierMetricsUpstashConfig()) {
     try {
       const fromRedis = await upstashReadW2DossierMetricsTail(maxLines);

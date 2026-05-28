@@ -6,7 +6,7 @@ export function generateLineSheet(products: Product[]): LineSheetV1 {
   return {
     id: `LS-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000)}`,
     collectionName: 'Main Collection SS26',
-    items: products.slice(0, 15).map(p => ({
+    items: products.slice(0, 15).map((p) => ({
       sku: p.sku,
       wholesalePrice: Math.round(p.price * 0.55),
       moq: 50,

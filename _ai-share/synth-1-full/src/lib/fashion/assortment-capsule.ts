@@ -1,12 +1,19 @@
 import type { AssortmentCapsuleIntegrityV1 } from './types';
 
 /** Проверка целостности капсулы (B2B Capsule Checker). */
-export function checkCapsuleIntegrity(sku: string, currentSessionSkus: string[]): AssortmentCapsuleIntegrityV1 {
+export function checkCapsuleIntegrity(
+  sku: string,
+  currentSessionSkus: string[]
+): AssortmentCapsuleIntegrityV1 {
   const capsuleId = `CAP-${sku.split('-')[0]}`;
-  const required = [`${sku.split('-')[0]}-TOP`, `${sku.split('-')[0]}-BTM`, `${sku.split('-')[0]}-ACC`];
-  
-  const missing = required.filter(req => !currentSessionSkus.includes(req) && req !== sku);
-  const score = Math.max(0, 100 - (missing.length * 33));
+  const required = [
+    `${sku.split('-')[0]}-TOP`,
+    `${sku.split('-')[0]}-BTM`,
+    `${sku.split('-')[0]}-ACC`,
+  ];
+
+  const missing = required.filter((req) => !currentSessionSkus.includes(req) && req !== sku);
+  const score = Math.max(0, 100 - missing.length * 33);
 
   return {
     capsuleId,
@@ -15,4 +22,12 @@ export function checkCapsuleIntegrity(sku: string, currentSessionSkus: string[])
     integrityScore: score,
     isCapsuleComplete: missing.length === 0,
   };
+}
+
+/** Рекомендации по капсулам для текущей сессии (обёртка над `checkCapsuleIntegrity`). */
+export function recommendCapsules(
+  sku: string,
+  sessionSkus: string[]
+): AssortmentCapsuleIntegrityV1 {
+  return checkCapsuleIntegrity(sku, sessionSkus);
 }

@@ -1,30 +1,51 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, startTransition } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { getRecentActivities } from './page-data';
-import type { RecentActivity } from './page-data';
+import type { ModuleStatPatch } from './organization-navigation-cards';
+import { getRecentActivities, type RecentActivity } from './organization-recent-activity';
 import type { HistoryEntry } from '@/components/brand/SectionBlock';
 import { useOrganizationHealth } from '@/hooks/use-organization-health';
 import { useToast } from '@/hooks/use-toast';
 import { useAttentionAlerts } from './use-attention-alerts';
+import type { BlockId } from './use-attention-alerts';
+import { OrgHubModulesStripSkeleton } from './_components/organization-hub-skeletons';
+import { PARTICIPANTS_COUNT, ONLINE_COUNT } from './organization-demo-data';
+import { BRAND_ID } from './organization-config';
+import type { ActivityPeriod } from './_components/organization-overview-lib';
+
 const OrganizationOverviewContent = dynamic(
-  () => import('./organization-overview-content').then((m) => ({ default: m.OrganizationOverviewContent })),
+  () =>
+    import('./organization-overview-content').then((m) => ({
+      default: m.OrganizationOverviewContent,
+    })),
   {
     ssr: false,
-    loading: () => <div className="min-h-[320px] rounded-xl border border-slate-100 bg-slate-50/80 animate-pulse" aria-hidden />,
+    loading: () => (
+      <div className="space-y-4" aria-busy="true" aria-label="Загрузка центра управления">
+        <div
+          className="border-border-subtle from-bg-surface2/50 h-[140px] animate-pulse rounded-2xl border bg-gradient-to-br to-white shadow-sm"
+          aria-hidden
+        />
+        <div
+          className="border-border-subtle bg-bg-surface2/80 h-[120px] animate-pulse rounded-xl border"
+          aria-hidden
+        />
+        <OrgHubModulesStripSkeleton className="border-border-subtle rounded-xl border bg-white p-4 shadow-sm md:p-5" />
+      </div>
+    ),
   }
 );
-import { PARTICIPANTS_COUNT, ONLINE_COUNT } from './organization-demo-data';
-
-type ActivityPeriod = '7d' | '30d' | { from: Date; to: Date };
 
 function toDateStr(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-function filterActivitiesByPeriod(activities: RecentActivity[], period: ActivityPeriod): RecentActivity[] {
+function filterActivitiesByPeriod(
+  activities: RecentActivity[],
+  period: ActivityPeriod
+): RecentActivity[] {
   let startStr: string;
   let endStr: string;
   if (typeof period === 'object') {
@@ -52,10 +73,10 @@ export function OrganizationOverviewEmbed() {
   const [openCommentFor, setOpenCommentFor] = useState<number | null>(null);
   const [commentText, setCommentText] = useState('');
   const [blockedActivities, setBlockedActivities] = useState<RecentActivity[]>([]);
-  const [alertHelpKey, setAlertHelpKey] = useState<string | null>(null);
 
   const activityKey = (a: RecentActivity) => `${a.user}|${a.action}|${a.time}|${a.dateStr}`;
-  const isBlocked = (a: RecentActivity) => blockedActivities.some((b) => activityKey(b) === activityKey(a));
+  const isBlocked = (a: RecentActivity) =>
+    blockedActivities.some((b) => activityKey(b) === activityKey(a));
   const getCorrectionHref = (act: RecentActivity) => {
     const map: Record<RecentActivity['type'], string> = {
       profile: '/brand',
@@ -68,12 +89,46 @@ export function OrganizationOverviewEmbed() {
   };
 
   const { toast } = useToast();
-  const { alerts, getActiveDuration, getHistory, getBlockLabel, dismissCertificate, dismissProfile, dismissTask } = useAttentionAlerts();
+  const {
+    metrics: healthMetrics,
+    overallHealth,
+    lastCheck,
+    isLoading: healthLoading,
+    error: healthError,
+    refetch: refetchHealth,
+    profile: orgProfile,
+    partialLoadWarning,
+    organizationPresence,
+    dashboard,
+  } = useOrganizationHealth();
 
-  const attentionHistory = (['certificates', 'profile', 'systems', 'tasks'] as const)
-    .flatMap((id) => getHistory(id).map((e) => ({ ...e, blockLabel: getBlockLabel(id) })))
-    .sort((a, b) => b.timestamp - a.timestamp)
-    .slice(0, 30);
+  const attentionBrandId = useMemo(() => {
+    const id = orgProfile?.brand?.id;
+    return typeof id === 'string' && id.trim() !== '' ? id : BRAND_ID;
+  }, [orgProfile?.brand?.id]);
+
+  const {
+    alerts,
+    getHistory,
+    getBlockLabel,
+    dismissCertificate,
+    dismissProfile,
+    dismissTask,
+    dismissIntegrationIssue,
+  } = useAttentionAlerts({
+    attentionAlertsFromDashboard: dashboard?.attentionAlerts,
+    healthLoading,
+    brandId: attentionBrandId,
+  });
+
+  const attentionHistory = useMemo(
+    () =>
+      (['certificates', 'profile', 'systems', 'tasks'] as const)
+        .flatMap((id) => getHistory(id).map((e) => ({ ...e, blockLabel: getBlockLabel(id) })))
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .slice(0, 30),
+    [getHistory, getBlockLabel]
+  );
 
   const recentActivities = useMemo(() => getRecentActivities(new Date()), []);
   const filteredActivities = filterActivitiesByPeriod(recentActivities, activityPeriod).filter(
@@ -88,36 +143,48 @@ export function OrganizationOverviewEmbed() {
       author: act.user,
       timestamp: new Date(act.dateStr).getTime() + (filteredActivities.length - i) * 60000,
       blockLabel:
-        act.type === 'profile' ? 'Профиль' : act.type === 'team' ? 'Команда' : act.type === 'integration' ? 'Интеграции' : act.type === 'security' ? 'Безопасность' : 'Биллинг',
+        act.type === 'profile'
+          ? 'Профиль'
+          : act.type === 'team'
+            ? 'Команда'
+            : act.type === 'integration'
+              ? 'Интеграции'
+              : act.type === 'security'
+                ? 'Безопасность'
+                : 'Биллинг',
     }));
-    return [...attentionHistory, ...activityEntries].sort((a, b) => b.timestamp - a.timestamp).slice(0, 50) as HistoryEntry[];
+    return [...attentionHistory, ...activityEntries]
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 50) as HistoryEntry[];
   }, [attentionHistory, filteredActivities]);
 
-  const formatHistoryTime = (ts: number) => {
-    const diff = Date.now() - ts;
-    if (diff < 60000) return 'только что';
-    if (diff < 3600000) return `${Math.floor(diff / 60000)} мин`;
-    if (diff < 86400000) return `${Math.floor(diff / 3600000)} ч`;
-    return `${Math.floor(diff / 86400000)} д`;
-  };
-
-  const resolvedKey = searchParams.get('resolved');
+  const resolvedKey = searchParams?.get('resolved') ?? null;
   useEffect(() => {
     if (resolvedKey) {
-      setBlockedActivities((prev) => prev.filter((b) => activityKey(b) !== resolvedKey));
+      startTransition(() => {
+        setBlockedActivities((prev) => prev.filter((b) => activityKey(b) !== resolvedKey));
+      });
       router.replace(BRAND_PROFILE_ORG, { scroll: false });
     }
   }, [resolvedKey, router]);
 
-  const { metrics: healthMetrics, overallHealth, lastCheck, isLoading: healthLoading, error: healthError, refetch: refetchHealth, profile: orgProfile, dashboard: orgDashboard } = useOrganizationHealth();
+  const resolvedParticipants = organizationPresence.participantsCount ?? PARTICIPANTS_COUNT;
+  const resolvedOnline = Math.min(
+    organizationPresence.onlineCount ?? ONLINE_COUNT,
+    resolvedParticipants
+  );
 
   const modulesPeriodKey = typeof activityPeriod === 'object' ? '30d' : activityPeriod;
+
+  const moduleStatsByHref = useMemo((): Record<string, ModuleStatPatch> | undefined => {
+    const raw = dashboard?.moduleStats;
+    return raw && typeof raw === 'object' ? (raw as Record<string, ModuleStatPatch>) : undefined;
+  }, [dashboard?.moduleStats]);
 
   return (
     <OrganizationOverviewContent
       modulesPeriodKey={modulesPeriodKey}
       orgProfile={orgProfile}
-      orgDashboard={orgDashboard}
       healthMetrics={healthMetrics}
       overallHealth={overallHealth}
       lastCheck={lastCheck}
@@ -130,7 +197,6 @@ export function OrganizationOverviewEmbed() {
       setCustomRange={setCustomRange}
       activityParticipant={activityParticipant}
       setActivityParticipant={setActivityParticipant}
-      blockedActivities={blockedActivities}
       setBlockedActivities={setBlockedActivities}
       openBlockFor={openBlockFor}
       setOpenBlockFor={setOpenBlockFor}
@@ -138,26 +204,23 @@ export function OrganizationOverviewEmbed() {
       setOpenCommentFor={setOpenCommentFor}
       commentText={commentText}
       setCommentText={setCommentText}
-      alertHelpKey={alertHelpKey}
-      setAlertHelpKey={setAlertHelpKey}
       toast={toast}
       alerts={alerts}
-      getActiveDuration={getActiveDuration}
-      getHistory={getHistory}
-      getBlockLabel={getBlockLabel}
+      getBlockLabel={(key) => getBlockLabel(key as BlockId)}
       dismissCertificate={dismissCertificate}
       dismissProfile={dismissProfile}
       dismissTask={dismissTask}
-      attentionHistory={attentionHistory}
+      dismissIntegrationIssue={dismissIntegrationIssue}
       filteredActivities={filteredActivities}
       globalHistory={globalHistory}
-      formatHistoryTime={formatHistoryTime}
       activityKey={activityKey}
       isBlocked={isBlocked}
       getCorrectionHref={getCorrectionHref}
-      resolvedKey={resolvedKey}
-      participantsCount={PARTICIPANTS_COUNT}
-      onlineCount={ONLINE_COUNT}
+      participantsCount={resolvedParticipants}
+      onlineCount={resolvedOnline}
+      partialLoadWarning={partialLoadWarning}
+      moduleStatsByHref={moduleStatsByHref}
+      partnerEcosystem={dashboard?.partnerEcosystem}
     />
   );
 }

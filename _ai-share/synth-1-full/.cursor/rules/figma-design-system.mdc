@@ -1,0 +1,33 @@
+---
+description: Rules for implementing Figma designs using the Figma MCP server.
+globs:
+  - "**/*.{ts,tsx,css,mdx}"
+  - "**/design/**"
+  - "**/tokens.json"
+  - "**/tailwind.config.*"
+alwaysApply: false
+---
+
+# Figma Design System — Synth (full)
+
+## Figma -> code contract
+- Treat Figma MCP output (often React + Tailwind) as a *reference for structure and intent*.
+- Always adapt to the conventions in `src/design/UI_RULES.md` and the existing primitives in `@/components/design-system` and `@/components/ui`.
+- Validate against the Figma screenshot for both visual parity and behavior.
+
+## IMPORTANT: no hardcoded styling
+- Never paste hex values, rgba strings, or raw pixel spacing from Figma into components.
+- Use token-driven Tailwind classes derived from `src/design/tokens.json` (canonical) / `design-tokens.json` (scale alias).
+- If a mapping class is missing, update tokens/tailwind config instead of hardcoding.
+
+### Token class shortlist (use these first)
+- Surfaces / backgrounds: `bg-bg-canvas`, `bg-bg-surface`, `bg-bg-surface2`
+- Text: `text-text-primary`, `text-text-secondary`, `text-text-muted`, `text-text-inverse`
+- Borders: `border-border-subtle`, `border-border-default`, `border-border-strong`
+- Accent: `bg-accent-primary`, `bg-accent-soft`, `text-accent-primary`, `border-accent-primary`
+
+## Component reuse
+- Prefer layout + analytics primitives from `@/components/design-system`:
+  `PageContainer`, `PageHeader`, `SectionContainer`, `SectionHeader`, `DashboardGrid`, `MetricCard`, `AnalyticsCard`, `WidgetContainer`, `ChartCard`, `HistogramCard`, `DataTableContainer`, `FilterToolbar`, `EmptyState`, `LoadingState`, `ErrorState`, `StatusBadge`.
+- Prefer UI primitives from `@/components/ui` (buttons/inputs/badges/cards/etc.) instead of creating one-off card styles.
+- Components should accept and forward `className` and merge classes with `cn()` / `@/lib/utils`.

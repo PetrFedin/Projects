@@ -40,44 +40,59 @@ export function SampleCommentsAndTracking({
   onRemind,
 }: SampleCommentsAndTrackingProps) {
   const [newComment, setNewComment] = useState('');
-  const statusLabels = { at_factory: 'На фабрике', in_transit: 'В пути', at_brand: 'У бренда', qc: 'На проверке' };
+  const statusLabels = {
+    at_factory: 'На фабрике',
+    in_transit: 'В пути',
+    at_brand: 'У бренда',
+    qc: 'На проверке',
+  };
 
   return (
     <div className="space-y-3">
       {tracking && (
-        <Card className="rounded-xl border border-slate-100 shadow-sm p-3">
+        <Card className="border-border-subtle rounded-xl border p-3 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-100 text-sky-600">
               <Package className="h-4 w-4" />
             </div>
             <div>
               <p className="text-[10px] font-bold">{statusLabels[tracking.status]}</p>
-              {tracking.eta && <p className="text-[9px] text-slate-500">ETA: {tracking.eta}</p>}
+              {tracking.eta && (
+                <p className="text-text-secondary text-[9px]">ETA: {tracking.eta}</p>
+              )}
             </div>
             {onRemind && (
-              <Button size="sm" variant="ghost" className="h-7 text-[9px] ml-auto" onClick={onRemind}>
-                <Bell className="h-3.5 w-3.5 mr-1" /> Напомнить
+              <Button
+                size="sm"
+                variant="ghost"
+                className="ml-auto h-7 text-[9px]"
+                onClick={onRemind}
+              >
+                <Bell className="mr-1 h-3.5 w-3.5" /> Напомнить
               </Button>
             )}
           </div>
         </Card>
       )}
-      <Card className="rounded-xl border border-slate-100 shadow-sm">
-        <CardHeader className="py-2 px-4">
-          <CardTitle className="text-[10px] font-black uppercase flex items-center gap-2">
+      <Card className="border-border-subtle rounded-xl border shadow-sm">
+        <CardHeader className="px-4 py-2">
+          <CardTitle className="flex items-center gap-2 text-[10px] font-black uppercase">
             <MessageSquare className="h-4 w-4" /> Комментарии по сэмплу {skuName || skuId}
           </CardTitle>
         </CardHeader>
         <CardContent className="px-4 pb-4">
-          <div className="space-y-2 max-h-40 overflow-y-auto mb-3">
+          <div className="mb-3 max-h-40 space-y-2 overflow-y-auto">
             {comments.length === 0 ? (
-              <p className="text-[10px] text-slate-400 py-4 text-center">Нет комментариев</p>
+              <p className="text-text-muted py-4 text-center text-[10px]">Нет комментариев</p>
             ) : (
               comments.map((c) => (
-                <div key={c.id} className="p-2 rounded-lg bg-slate-50 border border-slate-100">
+                <div
+                  key={c.id}
+                  className="bg-bg-surface2 border-border-subtle rounded-lg border p-2"
+                >
                   <p className="text-[10px] font-bold">{c.author}</p>
-                  <p className="text-[10px] text-slate-700 mt-0.5">{c.text}</p>
-                  <p className="text-[9px] text-slate-400 mt-1">{c.time}</p>
+                  <p className="text-text-primary mt-0.5 text-[10px]">{c.text}</p>
+                  <p className="text-text-muted mt-1 text-[9px]">{c.time}</p>
                 </div>
               ))
             )}
@@ -88,9 +103,18 @@ export function SampleCommentsAndTracking({
                 placeholder="Комментарий..."
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
-                className="text-[10px] h-8 flex-1"
+                className="h-8 flex-1 text-[10px]"
               />
-              <Button size="sm" className="h-8 text-[9px]" onClick={() => { if (newComment.trim()) { onAddComment(newComment); setNewComment(''); } }}>
+              <Button
+                size="sm"
+                className="h-8 text-[9px]"
+                onClick={() => {
+                  if (newComment.trim()) {
+                    onAddComment(newComment);
+                    setNewComment('');
+                  }
+                }}
+              >
                 Отправить
               </Button>
             </div>

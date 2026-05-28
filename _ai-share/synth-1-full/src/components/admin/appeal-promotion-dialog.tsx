@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -8,14 +7,14 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import type { Promotion, PromotionStatus } from '@/lib/types';
-import { useState } from "react";
-import { Label } from "../ui/label";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../ui/select";
-import { Textarea } from "../ui/textarea";
+import { useState } from 'react';
+import { Label } from '../ui/label';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select';
+import { Textarea } from '../ui/textarea';
 
 interface AppealPromotionDialogProps {
   promotion: Promotion;
@@ -24,19 +23,24 @@ interface AppealPromotionDialogProps {
   onAppeal: (promotion: Promotion, reason: string) => void;
 }
 
-export function AppealPromotionDialog({ promotion, isOpen, onOpenChange, onAppeal }: AppealPromotionDialogProps) {
-    const { toast } = useToast();
-    const [reason, setReason] = useState('');
-    const [requestedStatus, setRequestedStatus] = useState<PromotionStatus>('pending');
+export function AppealPromotionDialog({
+  promotion,
+  isOpen,
+  onOpenChange,
+  onAppeal,
+}: AppealPromotionDialogProps) {
+  const { toast } = useToast();
+  const [reason, setReason] = useState('');
+  const [requestedStatus, setRequestedStatus] = useState<PromotionStatus>('pending');
 
-    const handleSubmit = () => {
-        onAppeal(promotion, reason);
-        onOpenChange(false);
-        toast({
-            title: "Апелляция отправлена",
-            description: "Ваш запрос на пересмотр статуса кампании отправлен администратору."
-        })
-    }
+  const handleSubmit = () => {
+    onAppeal(promotion, reason);
+    onOpenChange(false);
+    toast({
+      title: 'Апелляция отправлена',
+      description: 'Ваш запрос на пересмотр статуса кампании отправлен администратору.',
+    });
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -44,39 +48,46 @@ export function AppealPromotionDialog({ promotion, isOpen, onOpenChange, onAppea
         <DialogHeader>
           <DialogTitle>Обжаловать решение по кампании</DialogTitle>
           <DialogDescription>
-            Опишите причину, по которой вы не согласны с текущим статусом кампании "{promotion.productName}".
+            Опишите причину, по которой вы не согласны с текущим статусом кампании "
+            {promotion.productName}".
           </DialogDescription>
         </DialogHeader>
-        <div className="py-4 space-y-4">
-            <div className="space-y-2">
-                <Label htmlFor="requested-status">Запросить статус</Label>
-                <Select value={requestedStatus} onValueChange={(v) => setRequestedStatus(v as PromotionStatus)}>
-                    <SelectTrigger id="requested-status">
-                        <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="pending">На пересмотр</SelectItem>
-                        <SelectItem value="active">Активировать</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="appeal-reason">Обоснование</Label>
-                <Textarea 
-                    id="appeal-reason"
-                    placeholder="Например, 'Считаем, что креатив соответствует правилам платформы...'"
-                    value={reason}
-                    onChange={(e) => setReason(e.target.value)}
-                    rows={4}
-                />
-            </div>
+        <div className="space-y-4 py-4">
+          <div className="space-y-2">
+            <Label htmlFor="requested-status">Запросить статус</Label>
+            <Select
+              value={requestedStatus}
+              onValueChange={(v) => setRequestedStatus(v as PromotionStatus)}
+            >
+              <SelectTrigger id="requested-status">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="pending">На пересмотр</SelectItem>
+                <SelectItem value="active">Активировать</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="appeal-reason">Обоснование</Label>
+            <Textarea
+              id="appeal-reason"
+              placeholder="Например, 'Считаем, что креатив соответствует правилам платформы...'"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows={4}
+            />
+          </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Отмена</Button>
-          <Button onClick={handleSubmit} disabled={!reason.trim()}>Отправить апелляцию</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Отмена
+          </Button>
+          <Button onClick={handleSubmit} disabled={!reason.trim()}>
+            Отправить апелляцию
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 }
-

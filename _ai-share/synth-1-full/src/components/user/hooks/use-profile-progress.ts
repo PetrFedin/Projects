@@ -11,25 +11,55 @@ export interface ProfileProgressResult {
   };
 }
 
-const PROGRESS_ITEMS: Array<{ key: string; label: string; getDone: (vals: Record<string, unknown>) => boolean }> = [
-  { key: 'displayName', label: 'Имя для отображения', getDone: (v) => !!v.displayName && String(v.displayName).trim().length >= 2 },
+const PROGRESS_ITEMS: Array<{
+  key: string;
+  label: string;
+  getDone: (vals: Record<string, unknown>) => boolean;
+}> = [
+  {
+    key: 'displayName',
+    label: 'Имя для отображения',
+    getDone: (v) => !!v.displayName && String(v.displayName).trim().length >= 2,
+  },
   { key: 'email', label: 'Email', getDone: (v) => !!v.email && String(v.email).includes('@') },
-  { key: 'identity', label: 'Имя и фамилия', getDone: (v) => !!(v as any).identity?.firstName && !!(v as any).identity?.lastName },
-  { key: 'birthDate', label: 'Дата рождения', getDone: (v) => !!((v as any).personalInfo?.birthDate ?? '').trim() },
-  { key: 'country', label: 'Страна', getDone: (v) => !!((v as any).personalInfo?.country ?? '').trim() },
+  {
+    key: 'identity',
+    label: 'Имя и фамилия',
+    getDone: (v) => !!(v as any).identity?.firstName && !!(v as any).identity?.lastName,
+  },
+  {
+    key: 'birthDate',
+    label: 'Дата рождения',
+    getDone: (v) => !!((v as any).personalInfo?.birthDate ?? '').trim(),
+  },
+  {
+    key: 'country',
+    label: 'Страна',
+    getDone: (v) => !!((v as any).personalInfo?.country ?? '').trim(),
+  },
   { key: 'city', label: 'Город', getDone: (v) => !!((v as any).personalInfo?.city ?? '').trim() },
-  { key: 'phone', label: 'Телефон', getDone: (v) => !!((v as any).personalInfo?.phones?.primary ?? '').trim() },
-  { key: 'address', label: 'Адрес', getDone: (v) => !!((v as any).personalInfo?.addresses?.primary ?? '').trim() },
+  {
+    key: 'phone',
+    label: 'Телефон',
+    getDone: (v) => !!((v as any).personalInfo?.phones?.primary ?? '').trim(),
+  },
+  {
+    key: 'address',
+    label: 'Адрес',
+    getDone: (v) => !!((v as any).personalInfo?.addresses?.primary ?? '').trim(),
+  },
 ];
 
-export function useProfileProgress(form: UseFormReturn<Record<string, unknown>>): ProfileProgressResult {
+export function useProfileProgress<
+  TFieldValues extends Record<string, unknown> = Record<string, unknown>,
+>(form: UseFormReturn<TFieldValues>): ProfileProgressResult {
   const values = form.watch();
 
   return useMemo(() => {
     const items = PROGRESS_ITEMS.map(({ key, label, getDone }) => ({
       key,
       label,
-      done: getDone(values ?? {}),
+      done: getDone((values ?? {}) as Record<string, unknown>),
     }));
     const doneCount = items.filter((i) => i.done).length;
     const total = items.length;

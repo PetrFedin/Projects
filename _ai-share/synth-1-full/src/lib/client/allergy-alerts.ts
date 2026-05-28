@@ -14,7 +14,7 @@ export interface MaterialAlert {
 
 export interface ProductCompositionCheck {
   productId: string;
-  composition: string;   // сырой текст состава
+  composition: string; // сырой текст состава
   materials: { name: string; percent?: number }[];
   /** Есть ли пересечение с ограничениями пользователя */
   hasAlert: boolean;

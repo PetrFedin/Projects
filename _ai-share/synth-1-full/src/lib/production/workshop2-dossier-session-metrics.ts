@@ -38,7 +38,10 @@ export function touchW2DossierSessionOpenedAt(collectionId: string, articleId: s
   }
 }
 
-export function getW2DossierSessionOpenedAtMs(collectionId: string, articleId: string): number | null {
+export function getW2DossierSessionOpenedAtMs(
+  collectionId: string,
+  articleId: string
+): number | null {
   if (typeof sessionStorage === 'undefined') return null;
   try {
     const raw = sessionStorage.getItem(SESS_OPEN_KEY);
@@ -51,7 +54,7 @@ export function getW2DossierSessionOpenedAtMs(collectionId: string, articleId: s
   }
 }
 
-type PersistStat = { successCount: number; lastSuccessAt: string };
+type PersistStat = { successCount: number; lastSuccessAt: string; persistFailureCount?: number };
 
 function readPersistMap(): Record<string, PersistStat> {
   if (typeof localStorage === 'undefined') return {};
@@ -59,7 +62,9 @@ function readPersistMap(): Record<string, PersistStat> {
     const raw = localStorage.getItem(PERSIST_KEY);
     if (!raw) return {};
     const p = JSON.parse(raw) as unknown;
-    return p && typeof p === 'object' && !Array.isArray(p) ? (p as Record<string, PersistStat>) : {};
+    return p && typeof p === 'object' && !Array.isArray(p)
+      ? (p as Record<string, PersistStat>)
+      : {};
   } catch {
     return {};
   }
@@ -71,10 +76,11 @@ export function recordW2DossierPersistSuccess(collectionId: string, articleId: s
   try {
     const k = articleKey(collectionId, articleId);
     const map = readPersistMap();
-    const prev = map[k] ?? { successCount: 0, lastSuccessAt: '' };
+    const prev = map[k] ?? { successCount: 0, lastSuccessAt: '', persistFailureCount: 0 };
     map[k] = {
       successCount: prev.successCount + 1,
       lastSuccessAt: new Date().toISOString(),
+      persistFailureCount: prev.persistFailureCount ?? 0,
     };
     localStorage.setItem(PERSIST_KEY, JSON.stringify(map));
   } catch {
@@ -82,7 +88,27 @@ export function recordW2DossierPersistSuccess(collectionId: string, articleId: s
   }
 }
 
-export function getW2DossierPersistStats(collectionId: string, articleId: string): PersistStat | null {
+/** Неудачная попытка persist (quota, API и т.п.) — счётчик для подвала метрик. */
+export function recordW2DossierPersistFailure(collectionId: string, articleId: string): void {
+  if (typeof localStorage === 'undefined') return;
+  try {
+    const k = articleKey(collectionId, articleId);
+    const map = readPersistMap();
+    const prev = map[k] ?? { successCount: 0, lastSuccessAt: '', persistFailureCount: 0 };
+    map[k] = {
+      ...prev,
+      persistFailureCount: (prev.persistFailureCount ?? 0) + 1,
+    };
+    localStorage.setItem(PERSIST_KEY, JSON.stringify(map));
+  } catch {
+    /* quota */
+  }
+}
+
+export function getW2DossierPersistStats(
+  collectionId: string,
+  articleId: string
+): PersistStat | null {
   const map = readPersistMap();
   return map[articleKey(collectionId, articleId)] ?? null;
 }
@@ -129,13 +155,18 @@ function readContourMap(): Record<string, W2ContourMilestones> {
     const raw = localStorage.getItem(CONTOUR_KEY);
     if (!raw) return {};
     const p = JSON.parse(raw) as unknown;
-    return p && typeof p === 'object' && !Array.isArray(p) ? (p as Record<string, W2ContourMilestones>) : {};
+    return p && typeof p === 'object' && !Array.isArray(p)
+      ? (p as Record<string, W2ContourMilestones>)
+      : {};
   } catch {
     return {};
   }
 }
 
-export function getW2ContourMilestones(collectionId: string, articleId: string): W2ContourMilestones {
+export function getW2ContourMilestones(
+  collectionId: string,
+  articleId: string
+): W2ContourMilestones {
   return readContourMap()[articleKey(collectionId, articleId)] ?? {};
 }
 
@@ -190,7 +221,11 @@ export function maybeRecordW2TzSampleReady(
   return writeContourMilestones(k, { ...cur, tzSampleReadyAt: new Date().toISOString() });
 }
 
-function formatMilestoneDelta(openedMs: number | null, atIso: string | undefined, label: string): string | null {
+function formatMilestoneDelta(
+  openedMs: number | null,
+  atIso: string | undefined,
+  label: string
+): string | null {
   if (!openedMs || !atIso) return null;
   const at = Date.parse(atIso);
   if (!Number.isFinite(at)) return null;
@@ -216,9 +251,14 @@ export function formatW2DossierMetricsFooterLine(
   }
   if (persist) {
     parts.push(`сохранений в браузер: ${persist.successCount}`);
+    if ((persist.persistFailureCount ?? 0) > 0) {
+      parts.push(`сбоев записи: ${persist.persistFailureCount}`);
+    }
     if (persist.lastSuccessAt) {
       try {
-        parts.push(`последн.: ${new Date(persist.lastSuccessAt).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' })}`);
+        parts.push(
+          `последн.: ${new Date(persist.lastSuccessAt).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' })}`
+        );
       } catch {
         parts.push('последн.: —');
       }

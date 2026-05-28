@@ -27,7 +27,13 @@ tsconfig.tsbuildinfo
 **/*.tmp
 *.txt
 *.bak.tsx
-docs/
+
+# ── Документация ──
+# Раньше было `docs/` целиком — агент и IDE не видели `docs/phase-0/`.
+# Остальное под `docs/` по-прежнему не индексируется (токены); phase-0 — для ADR/этапа 0.
+docs/*
+!docs/phase-0/
+!docs/phase-0/**
 
 # ── Секреты ──
 .env*

@@ -1,0 +1,130 @@
+# Cursor: Superpowers, GSD, agent-browser, deep research
+
+Краткий гид по инструментам, которые вы просили подключить. Часть — **плагины/навыки Cursor**, часть — **MCP** в `.cursor/mcp.json`, часть — **CLI** на машине.
+
+**Для агентов в этом репо:** обязательное правило **`/.cursor/rules/gsd-superpowers-mcp-monorepo.mdc`** (`alwaysApply: true`) + корневой **`/AGENTS.md`**. Соблюдай их вместе с этим файлом.
+
+### Портативность GSD
+
+В ссылках на workflow/skills используются пути **от корня репозитория** (например `@.cursor/get-shit-done/...`, `node .cursor/get-shit-done/bin/gsd-tools.cjs`). Открывайте воркспейс **`Projects`**, а не вложенную папку, чтобы пути совпадали. После **`npx get-shit-done-cc@latest --local --cursor`** при необходимости выполните **`bash scripts/normalize-gsd-cursor-paths.sh`** из корня репо (убирает префиксы вида `/Users/…/Projects/` и `/home/…/Projects/` в `*.md` / `*.mdc` / `*.json` / `*.yml` под **`.cursor/`**). Проверка перед коммитом: **`bash scripts/check-gsd-cursor-paths.sh`** (тот же шаг в корневом GitHub Actions **`Synth-1 CI`**).
+
+## 1. Superpowers (obra)
+
+Методология и набор skills для агента: планирование, TDD, субагенты, worktrees. Исходники: [https://github.com/obra/superpowers.git](https://github.com/obra/superpowers.git).
+
+### В монорепо
+
+Подключён **git submodule** **`tools/superpowers`** → тот же репозиторий. Удобно смотреть skills и доки локально (`tools/superpowers/skills/`, `tools/superpowers/.cursor-plugin/`).
+
+После `git clone` без субмодулей:
+
+```bash
+git submodule update --init tools/superpowers
+```
+
+### В Cursor (рекомендуется для агента)
+
+В чате агента: **`/add-plugin superpowers`** или Marketplace → **Superpowers** (см. [README в upstream](https://github.com/obra/superpowers#cursor-via-plugin-marketplace)).
+
+Плагин и submodule **дополняют друг друга**: submodule — зафиксированная копия исходников, плагин — то, что Cursor подхватывает как расширение.
+
+## 2. Get Shit Done (GSD)
+
+Уже установлено **локально в этот репозиторий** командой:
+
+```bash
+npx get-shit-done-cc@latest --local --cursor
+```
+
+Файлы лежат в **`.cursor/`** (skills, `get-shit-done/`, агенты и т.д.). В чате используйте навыки/команды GSD по их документации (например **`gsd-help`** / упоминание skill из `.cursor/skills/`).
+
+Обновление:
+
+```bash
+npx get-shit-done-cc@latest --local --cursor
+```
+
+## 3. agent-browser (Vercel) + MCP
+
+**CLI** (один раз на машине, нужен для MCP-сервера):
+
+```bash
+npm install -g agent-browser
+agent-browser install
+```
+
+**MCP:** в корне репозитория добавлен **`.cursor/mcp.json`** с сервером **`agent-browser`** (`npx -y agent-browser-mcp`). После установки CLI перезапустите Cursor или перезагрузите MCP.
+
+Проверка в терминале: `agent-browser open example.com` → `agent-browser snapshot` → `agent-browser close`.
+
+## 4. Deep research
+
+Готового «одного» официального MCP нет; распространённые варианты:
+
+| Вариант | Установка | Ключи |
+|--------|-----------|--------|
+| [@pinkpixel/deep-research-mcp](https://www.npmjs.com/package/@pinkpixel/deep-research-mcp) | `npx -y @pinkpixel/deep-research-mcp` | **Tavily** API |
+| [mcp-deepwebresearch](https://www.npmjs.com/package/mcp-deepwebresearch) | `npx -y mcp-deepwebresearch` | см. README пакета (часто поиск + Chromium) |
+| [RivalSearchMCP](https://github.com/damionrashford/RivalSearchMCP) | clone + `npm run build` | заявлено без платных ключей для базового поиска |
+
+Чтобы не коммитить секреты, добавьте блок в **локальный** `~/.cursor/mcp.json` или в проектный `.cursor/mcp.json` **у себя** (не в git), например:
+
+```json
+"deep-research": {
+  "command": "npx",
+  "args": ["-y", "@pinkpixel/deep-research-mcp"],
+  "env": {
+    "TAVILY_API_KEY": "ваш_ключ"
+  }
+}
+```
+
+В репозиторий ключи **не** кладём.
+
+Полная генерация **проектного** `.cursor/mcp.json` и **`~/.cursor/mcp.json`** (stdio + remote MCP + Semgrep при наличии CLI):
+
+```bash
+REPO_ROOT=/path/to/Projects python3 scripts/cursor-mcp-sync.py
+# или
+bash scripts/install-cursor-user-mcp.sh
+```
+
+Опционально в окружении перед запуском: **`TAVILY_API_KEY`** (deep-research), **`DD_API_KEY`**, **`DD_APPLICATION_KEY`**, **`DD_MCP_DOMAIN`** (Datadog). Без них соответствующие серверы не добавляются.
+
+## 5. Файлы в этом репозитории
+
+| Путь | Назначение |
+|------|------------|
+| `tools/superpowers/` | Submodule [obra/superpowers](https://github.com/obra/superpowers) — исходники skills / `.cursor-plugin` |
+| `.cursor/mcp.json` | MCP: filesystem (npm), git/fetch (**Python** `python3 -m mcp_server_*`), **agent-browser** (npm). См. примечание про git/fetch ниже. |
+| `scripts/cursor-mcp-sync.py`, `scripts/install-cursor-user-mcp.sh`, `scripts/mcp-run-semgrep.sh` | Синхронизируют **`.cursor/mcp.json`** и **`~/.cursor/mcp.json`**: filesystem, git, fetch, agent-browser, **Exa / Figma / Sentry / Linear** (remote), **Semgrep** через обёртку (без user-specific `PATH` в JSON), опционально Tavily / Datadog по env. |
+| `.cursor/skills/`, `.cursor/get-shit-done/`, … | **GSD** (после `npx get-shit-done-cc … --local --cursor`) |
+
+**Git / Fetch MCP:** пакеты `@modelcontextprotocol/server-git` и `server-fetch` **сняты с npm**; используются PyPI-пакеты **`mcp-server-git`** и **`mcp-server-fetch`** (`pip3 install --user …`). Конфиг в репозитории уже переведён на `python3 -m mcp_server_git` / `mcp_server_fetch`. Альтернатива upstream: `uvx mcp-server-git` / `uvx mcp-server-fetch`.
+
+Если Cursor не подхватывает проектный MCP, проверьте настройки: использование **Project MCP** и путь к корню воркспейса **`Projects`**.
+
+## 6. Быстрый Next dev (synth-1-full)
+
+Канон: **`_ai-share/synth-1-full`**. Корень воркспейса Cursor = **`Projects`**.
+
+| Команда (из корня) | Назначение |
+|--------------------|------------|
+| `npm run dev:fast:clean` | Daily dev: Turbopack, skip enterprise bootstrap, убивает e2e **:3123**, clean `.next` |
+| `npm run verify:dev-perf` | Статика ~3s: `smoke` (= `check:contracts:ci` + layout gates) |
+| `npm run pre-pr:dev-perf` | Pre-PR: verify + подсказки PR (без e2e) |
+| `npm run pre-pr:dev-perf:e2e` | + `test:e2e:light` (локально может OOM — CI источник правды) |
+| `npm run analyze:bundle` | Production build + bundle report (`npm i -D @next/bundle-analyzer` во full) |
+| `npm run test:e2e:light` | E2E smoke 36 маршрутов (~7 min); pre/post kill **:3123** |
+| `npm run test:e2e:verification` | Unified ecosystem smoke (~210s/test serial); CI: Actions → **unified ecosystem e2e (dispatch)** |
+| `npm run dev:bench:routes` | 38 URL, нужен живой dev на **:3000** |
+| `npm run dev:bench:ci` | 9 хабов, strict: fail при &gt;3000 ms или 5xx |
+| `npm run stop:stale-dev` | Убить забытый e2e **:3123** (и **:3010**) |
+
+**Не параллелить** `dev:fast` (:3000) и `test:e2e:*` (:3123) — один каталог **`.next`**. После e2e: `dev:fast:clean` → bench. Перед **`test:e2e:verification`** после turbopack: скрипт **`prepare-e2e-webpack-dev.sh`** (в npm script) чистит `.next`.
+
+**Bench:** не гонять `dev:bench:ci` и `dev:bench:routes` подряд на одном turbopack без `dev:fast:clean` — каскад 500. Manual checklist: один clean → `dev:bench:ci` **или** `dev:bench:routes`.
+
+Коммиты серии (после `sudo xcodebuild -license`): `bash scripts/commit-home-dev-optimization.sh`. Push + PR: `bash scripts/ship-dev-perf.sh [branch]` или **`bash scripts/create-dev-perf-pr.sh`**. Pre-PR: **`npm run pre-pr:dev-perf`**. Review paths: **`bash scripts/dev-perf-review-files.sh`**. Scope ветки (~198 commits): **`.planning/phases/dev-perf/PR_SCOPE.md`**. Список файлов без git: `bash scripts/commit-home-dev-optimization.sh --list-files`.
+
+Подробнее: **`AGENTS.md`**, **`_ai-share/synth-1-full/AGENTS.md`**.

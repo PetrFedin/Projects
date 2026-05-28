@@ -4,22 +4,24 @@
  * Генерация идей контента для брендов: посты, подписи, описания.
  */
 
-import { ai, withTokenAudit, truncateInput } from "@/ai/genkit";
-import { z } from "zod";
+import { ai, withTokenAudit, truncateInput } from '@/ai/genkit';
+import { z } from 'zod';
 
 const InputSchema = z.object({
   brandName: z.string(),
-  theme: z.string().optional().describe("Тема: новая коллекция, сезон, акция, behind-the-scenes"),
-  channel: z.enum(["instagram", "telegram", "blog", "email"]).optional(),
+  theme: z.string().optional().describe('Тема: новая коллекция, сезон, акция, behind-the-scenes'),
+  channel: z.enum(['instagram', 'telegram', 'blog', 'email']).optional(),
   count: z.number().min(1).max(10).optional(),
 });
 
 const OutputSchema = z.object({
-  ideas: z.array(z.object({
-    title: z.string(),
-    caption: z.string().describe("Краткое описание поста/подписи"),
-    hashtags: z.array(z.string()).optional(),
-  })),
+  ideas: z.array(
+    z.object({
+      title: z.string(),
+      caption: z.string().describe('Краткое описание поста/подписи'),
+      hashtags: z.array(z.string()).optional(),
+    })
+  ),
 });
 
 export type GenerateContentIdeasInput = z.infer<typeof InputSchema>;
@@ -30,22 +32,29 @@ export async function generateContentIdeas(
 ): Promise<GenerateContentIdeasOutput> {
   const promptInput = {
     brandName: truncateInput(input.brandName, 60),
-    theme: input.theme ?? "новинки сезона",
-    channel: input.channel ?? "instagram",
+    theme: input.theme ?? 'новинки сезона',
+    channel: input.channel ?? 'instagram',
     count: input.count ?? 5,
   };
 
   try {
     const result = await withTokenAudit(
-      "generateContentIdeas",
+      'generateContentIdeas',
       promptInput,
       undefined,
       undefined,
       async (i) => {
         const prompt = ai.definePrompt({
-          name: "generateContentIdeasPrompt",
-          model: "googleai/gemini-1.5-flash",
-          input: { schema: z.object({ brandName: z.string(), theme: z.string(), channel: z.string(), count: z.number() }) },
+          name: 'generateContentIdeasPrompt',
+          model: 'googleai/gemini-1.5-flash',
+          input: {
+            schema: z.object({
+              brandName: z.string(),
+              theme: z.string(),
+              channel: z.string(),
+              count: z.number(),
+            }),
+          },
           output: { schema: OutputSchema },
           config: { maxOutputTokens: 600, temperature: 0.7 },
           prompt: `Ты — контент-менеджер для модного бренда. Придумай идеи для соцсетей.
@@ -67,7 +76,7 @@ export async function generateContentIdeas(
     );
     return result ?? { ideas: [] };
   } catch (e) {
-    console.warn("[generateContentIdeas] Genkit failed:", e);
+    console.warn('[generateContentIdeas] Genkit failed:', e);
     return { ideas: [] };
   }
 }

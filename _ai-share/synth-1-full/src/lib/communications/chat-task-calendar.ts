@@ -31,14 +31,16 @@ export function calendarEventFromChatTask(
     ownerName,
     calendarId: 'messages',
     title: task.text?.trim() || 'Задача',
-    description: (task.chatId ?? chatId) ? `Из чата · ${task.chatId ?? chatId}` : 'Задача из сообщений',
+    description:
+      (task.chatId ?? chatId) ? `Из чата · ${task.chatId ?? chatId}` : 'Задача из сообщений',
     layer: 'communications',
     visibility: 'internal',
     type: 'task',
     startAt: start.toISOString(),
     endAt: end.toISOString(),
     participants: [],
-    importance: task.priority === 'critical' ? 'critical' : task.priority === 'high' ? 'high' : 'medium',
+    importance:
+      task.priority === 'critical' ? 'critical' : task.priority === 'high' ? 'high' : 'medium',
     targetChatId: task.chatId ?? chatId,
     reminderMinutesBefore: 15,
   };

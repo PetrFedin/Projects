@@ -1,11 +1,16 @@
 node_modules
+# канон только в корне synth-1-full; дубликат в src ломает установку зависимостей
+src/package.json
 .next
+.next-codex
+.next-isolated
 out
 .firebase
 
 .env
 .env.local
 .env.*.local
+.envrc
 
 npm-debug.log*
 yarn-debug.log*
@@ -24,9 +29,28 @@ backup_duplicates/
 *.log
 temp_*
 tsconfig.tsbuildinfo
-*.tsbuildinfo
-tsconfig.ci.probe.json
+tsconfig.*.tsbuildinfo
+
+# Playwright (локальные прогоны; не версионировать)
+playwright-report/
+test-results/
 
 # локальные метрики досье Workshop2 (NDJSON)
 data/workshop2-dossier-metrics.ndjson
 data/w2-metrics-archive-state.json
+data/integration-export-jobs.json
+data/domain-event-outbox.json
+data/b2b-operational-notes.json
+data/b2b-operational-status.json
+data/b2b-working-order-versions.json
+data/sewing-order-intents.json
+data/sewing-intent-task-queue.jsonl
+
+# персистентность процессов (dev / PROCESS_PERSISTENCE)
+.data/
+
+# локальный operational pilot (реальные данные; example остаётся в scripts/)
+/pilot-real-bundle.json
+/pilot-real-snapshot.json
+/pilot-real-report/
+/pilot-review-ratings.json

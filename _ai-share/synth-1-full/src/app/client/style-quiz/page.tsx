@@ -12,8 +12,10 @@ import {
   saveStyleQuizProfile,
 } from '@/lib/fashion/style-quiz-store';
 import type { StyleQuizProfileV1 } from '@/lib/fashion/types';
-import { ArrowLeft, Wand2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 type Mood = StyleQuizProfileV1['mood'];
 type Sil = StyleQuizProfileV1['silhouette'];
@@ -33,7 +35,9 @@ function Chip({
       type="button"
       onClick={onClick}
       className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
-        active ? 'border-primary bg-primary/10 text-foreground' : 'border-border text-muted-foreground hover:border-primary/40'
+        active
+          ? 'border-primary bg-primary/10 text-foreground'
+          : 'border-border text-muted-foreground hover:border-primary/40'
       }`}
     >
       {children}
@@ -62,32 +66,22 @@ export default function StyleQuizPage() {
 
   const persist = () => {
     saveStyleQuizProfile({ mood, silhouette, palette });
-    toast({ title: 'Профиль сохранён', description: 'Откройте «Для вас» в локальном режиме — порядок ленты обновится.' });
+    toast({
+      title: 'Профиль сохранён',
+      description: 'Откройте «Для вас» в локальном режиме — порядок ленты обновится.',
+    });
   };
 
   return (
-    <div className="container max-w-lg mx-auto px-4 py-6 space-y-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.client.home}>
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
-            <Wand2 className="h-6 w-6" />
-            Квиз стиля
-          </h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Локальный профиль для ранжирования «Для вас». Позже — синхронизация с CRM.
-          </p>
-        </div>
-      </div>
+    <CabinetPageContent maxWidth="lg">
+      <ClientCabinetSectionHeader />
 
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Настроения и силуэт</CardTitle>
-          <CardDescription>Три оси — эвристика по названию, категории и цвету SKU.</CardDescription>
+          <CardDescription>
+            Три оси — эвристика по названию, категории и цвету <AcronymWithTooltip abbr="SKU" />.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
@@ -149,6 +143,6 @@ export default function StyleQuizPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

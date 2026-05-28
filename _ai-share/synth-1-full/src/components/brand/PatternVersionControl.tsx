@@ -1,14 +1,14 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { 
-  FileCode2, 
-  History, 
-  User, 
-  Clock, 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  FileCode2,
+  History,
+  User,
+  Clock,
   ArrowUpRight,
   Download,
   ShieldCheck,
@@ -17,19 +17,40 @@ import {
   AlertCircle,
   FileSearch,
   Maximize2,
-  Box
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+  Box,
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function PatternVersionControl({ collectionId }: { collectionId?: string | null }) {
   const versions = React.useMemo(() => {
     if (!collectionId || collectionId === 'ARCHIVE') return [];
     if (collectionId === 'SS26') {
       return [
-        { id: 'v2.4', date: '08.03.2026', user: 'Mark L.', change: 'Увеличен припуск на швы рукава до 1.2см. Исправлена дуга проймы.', status: 'approved', icon: CheckCircle2 },
-        { id: 'v2.3', date: '01.03.2026', user: 'Mark L.', change: 'Добавлены лекала для подкладки. Оптимизация раскладки.', status: 'archive', icon: History },
-        { id: 'v2.2', date: '15.02.2026', user: 'Ivan S.', change: 'Базовая конструкция (EU 38). Первичный драфт.', status: 'archive', icon: History },
+        {
+          id: 'v2.4',
+          date: '08.03.2026',
+          user: 'Mark L.',
+          change: 'Увеличен припуск на швы рукава до 1.2см. Исправлена дуга проймы.',
+          status: 'approved',
+          icon: CheckCircle2,
+        },
+        {
+          id: 'v2.3',
+          date: '01.03.2026',
+          user: 'Mark L.',
+          change: 'Добавлены лекала для подкладки. Оптимизация раскладки.',
+          status: 'archive',
+          icon: History,
+        },
+        {
+          id: 'v2.2',
+          date: '15.02.2026',
+          user: 'Ivan S.',
+          change: 'Базовая конструкция (EU 38). Первичный драфт.',
+          status: 'archive',
+          icon: History,
+        },
       ];
     }
     return [];
@@ -41,74 +62,120 @@ export function PatternVersionControl({ collectionId }: { collectionId?: string 
   };
 
   return (
-    <Card className="border border-slate-100 shadow-sm rounded-xl bg-white overflow-hidden h-full group">
-      <CardHeader className="p-4 border-b border-slate-50 bg-indigo-50/20 flex flex-row items-center justify-between">
+    <Card className="border-border-subtle group h-full overflow-hidden rounded-xl border bg-white shadow-sm">
+      <CardHeader className="border-border-subtle bg-accent-primary/10 flex flex-row items-center justify-between border-b p-4">
         <div className="space-y-0.5">
-          <CardTitle className="text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 text-slate-900">
-            <FileCode2 className="w-4 h-4 text-indigo-600" />
+          <CardTitle className="text-text-primary flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider">
+            <FileCode2 className="text-accent-primary h-4 w-4" />
             Версионный контроль лекал (CAD)
           </CardTitle>
-          <p className="text-[10px] text-slate-400 font-medium uppercase tracking-tight">История изменений конструкторской документации.</p>
+          <p className="text-text-muted text-[10px] font-medium uppercase tracking-tight">
+            История изменений конструкторской документации.
+          </p>
         </div>
         <div className="flex gap-2">
-           <Button onClick={() => handleAction("Экспорт", "Подготовка файлов DXF/AAMA для экспорта...")} variant="ghost" size="icon" className="h-7 w-7 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-white shadow-sm border border-slate-100"><Download className="h-3.5 w-3.5" /></Button>
-           <Button onClick={() => handleAction("Просмотр", "Открытие 3D-вьювера Clo3D...")} variant="ghost" size="icon" className="h-7 w-7 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-white shadow-sm border border-slate-100"><FileSearch className="h-3.5 w-3.5" /></Button>
+          <Button
+            onClick={() => handleAction('Экспорт', 'Подготовка файлов DXF/AAMA для экспорта...')}
+            variant="ghost"
+            size="icon"
+            className="text-text-muted hover:text-accent-primary border-border-subtle h-7 w-7 rounded-lg border shadow-sm hover:bg-white"
+          >
+            <Download className="h-3.5 w-3.5" />
+          </Button>
+          <Button
+            onClick={() => handleAction('Просмотр', 'Открытие 3D-вьювера Clo3D...')}
+            variant="ghost"
+            size="icon"
+            className="text-text-muted hover:text-accent-primary border-border-subtle h-7 w-7 rounded-lg border shadow-sm hover:bg-white"
+          >
+            <FileSearch className="h-3.5 w-3.5" />
+          </Button>
         </div>
       </CardHeader>
-      
-      <CardContent className="p-4 space-y-4">
+
+      <CardContent className="space-y-4 p-4">
         <div className="space-y-3">
           {versions.map((v, i) => (
-            <div key={i} className={cn(
-              "p-3 rounded-xl border transition-all cursor-pointer group/version relative overflow-hidden",
-              v.status === 'approved' ? "bg-white border-indigo-200 shadow-sm ring-1 ring-indigo-50" : "bg-slate-50/50 border-slate-100 opacity-60 hover:opacity-100 hover:bg-white"
-            )}>
-              <div className="flex justify-between items-start mb-1">
+            <div
+              key={i}
+              className={cn(
+                'group/version relative cursor-pointer overflow-hidden rounded-xl border p-3 transition-all',
+                v.status === 'approved'
+                  ? 'border-accent-primary/30 ring-accent-primary/10 bg-white shadow-sm ring-1'
+                  : 'bg-bg-surface2/80 border-border-subtle opacity-60 hover:bg-white hover:opacity-100'
+              )}
+            >
+              <div className="mb-1 flex items-start justify-between">
                 <div className="flex items-center gap-2">
-                  <div className={cn("h-6 w-6 rounded-lg flex items-center justify-center shadow-sm", v.status === 'approved' ? "bg-indigo-600 text-white" : "bg-slate-200 text-slate-500")}>
+                  <div
+                    className={cn(
+                      'flex h-6 w-6 items-center justify-center rounded-lg shadow-sm',
+                      v.status === 'approved'
+                        ? 'bg-accent-primary text-white'
+                        : 'bg-border-subtle text-text-secondary'
+                    )}
+                  >
                     <v.icon className="h-3 w-3" />
                   </div>
-                  <p className="text-[11px] font-black text-slate-900 uppercase tracking-tight">{v.id}</p>
+                  <p className="text-text-primary text-[11px] font-black uppercase tracking-tight">
+                    {v.id}
+                  </p>
                 </div>
-                <Badge className={cn(
-                  "text-[7px] font-black uppercase px-1 h-3.5 border-none",
-                  v.status === 'approved' ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-400"
-                )}>{v.status === 'approved' ? 'MASTER' : 'ARCHIVE'}</Badge>
+                <Badge
+                  className={cn(
+                    'h-3.5 border-none px-1 text-[7px] font-black uppercase',
+                    v.status === 'approved'
+                      ? 'bg-emerald-500 text-white'
+                      : 'bg-bg-surface2 text-text-muted'
+                  )}
+                >
+                  {v.status === 'approved' ? 'MASTER' : 'ARCHIVE'}
+                </Badge>
               </div>
-              
-              <div className="flex items-center gap-2 text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-2">
-                <span className="flex items-center gap-1"><Clock className="h-2.5 w-2.5" /> {v.date}</span>
-                <span className="flex items-center gap-1"><User className="h-2.5 w-2.5" /> {v.user}</span>
+
+              <div className="text-text-muted mb-2 flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest">
+                <span className="flex items-center gap-1">
+                  <Clock className="h-2.5 w-2.5" /> {v.date}
+                </span>
+                <span className="flex items-center gap-1">
+                  <User className="h-2.5 w-2.5" /> {v.user}
+                </span>
               </div>
-              
-              <p className="text-[9px] text-slate-600 font-medium leading-relaxed italic line-clamp-2">"{v.change}"</p>
-              
+
+              <p className="text-text-secondary line-clamp-2 text-[9px] font-medium italic leading-relaxed">
+                "{v.change}"
+              </p>
+
               {v.status === 'approved' && (
-                <div className="absolute -right-2 -bottom-2 opacity-5 group-hover/version:opacity-10 transition-opacity">
-                  <Box className="h-12 w-12 text-indigo-900" />
+                <div className="absolute -bottom-2 -right-2 opacity-5 transition-opacity group-hover/version:opacity-10">
+                  <Box className="text-accent-primary h-12 w-12" />
                 </div>
               )}
             </div>
           ))}
           {versions.length === 0 && (
-            <div className="py-10 text-center border-2 border-dashed border-slate-100 rounded-xl">
-              <p className="text-[9px] font-black uppercase tracking-widest text-slate-300 italic">Лекала еще не загружены</p>
+            <div className="border-border-subtle rounded-xl border-2 border-dashed py-10 text-center">
+              <p className="text-text-muted text-[9px] font-black uppercase italic tracking-widest">
+                Лекала еще не загружены
+              </p>
             </div>
           )}
         </div>
 
-        <div className="p-4 bg-slate-900 text-white rounded-2xl space-y-3 relative overflow-hidden group/dark shadow-xl shadow-slate-200/50">
-           <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full -translate-y-8 translate-x-8 blur-2xl group-hover/dark:bg-indigo-500/10 transition-all"></div>
-           <div className="relative z-10 flex items-center gap-2">
-              <Zap className="h-4 w-4 text-amber-400 animate-pulse fill-amber-400" />
-              <span className="text-[10px] font-black uppercase tracking-widest">Auto-Grading AI</span>
-           </div>
-           <p className="text-[9px] leading-relaxed text-slate-300 font-bold uppercase tracking-tight relative z-10">
-             Используйте AI для автоматической градации лекал по размерной сетке бренда.
-           </p>
-           <Button className="w-full h-8 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-[8px] font-black uppercase tracking-[0.2em] transition-all shadow-lg border-none">
-             Запустить градацию (Clo3D/Optitex)
-           </Button>
+        <div className="bg-text-primary group/dark relative space-y-3 overflow-hidden rounded-2xl p-4 text-white shadow-md shadow-xl">
+          <div className="group-hover/dark:bg-accent-primary/10 absolute right-0 top-0 h-24 w-24 -translate-y-8 translate-x-8 rounded-full bg-white/5 blur-2xl transition-all"></div>
+          <div className="relative z-10 flex items-center gap-2">
+            <Zap className="h-4 w-4 animate-pulse fill-amber-400 text-amber-400" />
+            <span className="text-[10px] font-black uppercase tracking-widest">
+              Auto-Grading AI
+            </span>
+          </div>
+          <p className="text-text-muted relative z-10 text-[9px] font-bold uppercase leading-relaxed tracking-tight">
+            Используйте AI для автоматической градации лекал по размерной сетке бренда.
+          </p>
+          <Button className="bg-accent-primary hover:bg-accent-primary h-8 w-full rounded-lg border-none text-[8px] font-black uppercase tracking-[0.2em] text-white shadow-lg transition-all">
+            Запустить градацию (Clo3D/Optitex)
+          </Button>
         </div>
       </CardContent>
     </Card>

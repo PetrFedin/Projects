@@ -14,7 +14,10 @@ export interface ErpConnectorConfig {
   base?: string;
 }
 
-export async function syncErp(provider: ErpProvider, config: ErpConnectorConfig): Promise<{ ok: boolean; lastSync?: string; error?: string }> {
+export async function syncErp(
+  provider: ErpProvider,
+  config: ErpConnectorConfig
+): Promise<{ ok: boolean; lastSync?: string; error?: string }> {
   try {
     const res = await fetch(`${ERP_API}/sync`, {
       method: 'POST',
@@ -22,7 +25,7 @@ export async function syncErp(provider: ErpProvider, config: ErpConnectorConfig)
       body: JSON.stringify({ ...config, provider }),
     });
     if (!res.ok) throw new Error(await res.text());
-    const data = await res.json();
+    const data = (await res.json()) as { lastSync?: string };
     return { ok: true, lastSync: data.lastSync };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : 'Sync failed' };

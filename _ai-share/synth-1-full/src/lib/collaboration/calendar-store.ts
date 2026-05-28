@@ -15,7 +15,7 @@ function loadEvents(userId: string): CalendarEvent[] {
   if (typeof window === 'undefined') return [];
   try {
     const raw = localStorage.getItem(storageKey(userId));
-    return raw ? JSON.parse(raw) : [];
+    return raw ? (JSON.parse(raw) as CalendarEvent[]) : [];
   } catch {
     return [];
   }
@@ -35,7 +35,7 @@ function loadEventsWhereParticipant(userId: string): CalendarEvent[] {
     try {
       const raw = localStorage.getItem(key);
       if (!raw) continue;
-      const events: CalendarEvent[] = JSON.parse(raw);
+      const events = JSON.parse(raw) as CalendarEvent[];
       for (const e of events) {
         const isParticipant = e.participants?.some((p) => p.uid === userId);
         if (isParticipant && !result.some((r) => r.id === e.id)) {
@@ -52,9 +52,7 @@ function loadEventsWhereParticipant(userId: string): CalendarEvent[] {
 /** Получить все события для пользователя: свои + где он участник */
 export function getCalendarEvents(userId: string): CalendarEvent[] {
   const own = loadEvents(userId);
-  const invited = loadEventsWhereParticipant(userId).filter(
-    (e) => !own.some((o) => o.id === e.id)
-  );
+  const invited = loadEventsWhereParticipant(userId).filter((e) => !own.some((o) => o.id === e.id));
   return [...own, ...invited];
 }
 
@@ -107,7 +105,7 @@ export function findEventOwner(eventId: string): string | null {
     try {
       const raw = localStorage.getItem(key);
       if (!raw) continue;
-      const events: CalendarEvent[] = JSON.parse(raw);
+      const events = JSON.parse(raw) as CalendarEvent[];
       if (events.some((e) => e.id === eventId)) {
         return key.replace(STORAGE_KEY + '_', '');
       }

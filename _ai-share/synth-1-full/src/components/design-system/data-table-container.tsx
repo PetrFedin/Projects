@@ -27,12 +27,12 @@ export function DataTableContainer({
       <div
         className={cn(
           'overflow-x-auto rounded-xl bg-white',
-          bordered && 'border border-slate-200 shadow-sm'
+          bordered && 'border-border-default border shadow-sm'
         )}
       >
         {children}
       </div>
-      {footer ? <div className="text-xs text-slate-500">{footer}</div> : null}
+      {footer ? <div className="text-text-secondary text-xs">{footer}</div> : null}
     </div>
   );
 }

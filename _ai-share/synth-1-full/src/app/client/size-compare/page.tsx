@@ -6,22 +6,28 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { PlatformDataBanner } from '@/components/client/platform-data-banner';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { buildSizeCompareRows } from '@/lib/fashion/size-compare';
 import { downloadJsonFile } from '@/lib/platform/json-io';
-import { ArrowLeft, Columns2, Download } from 'lucide-react';
+import { Download } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 function SizeCompareInner() {
   const search = useSearchParams();
   const defA = search.get('a') || products[0]?.slug || '';
-  const defB = search.get('b') || products.find((p) => p.slug !== defA)?.slug || products[0]?.slug || '';
-
-  if (!products.length) {
-    return <p className="text-sm text-muted-foreground">Каталог пуст.</p>;
-  }
+  const defB =
+    search.get('b') || products.find((p) => p.slug !== defA)?.slug || products[0]?.slug || '';
 
   const [slugA, setSlugA] = useState(defA);
   const [slugB, setSlugB] = useState(defB);
@@ -34,6 +40,10 @@ function SizeCompareInner() {
   }, [slugB, a]);
 
   const rows = useMemo(() => (a && b ? buildSizeCompareRows(a, b) : []), [a, b]);
+
+  if (!products.length) {
+    return <p className="text-sm text-muted-foreground">Каталог пуст.</p>;
+  }
 
   const exportJson = () => {
     if (!a || !b) return;
@@ -72,7 +82,10 @@ function SizeCompareInner() {
                   </option>
                 ))}
               </select>
-              <Link href={`/products/${col.label === 'Товар A' ? a.slug : b.slug}`} className="flex gap-3 items-center rounded-lg border p-2 hover:bg-muted/50">
+              <Link
+                href={`/products/${col.label === 'Товар A' ? a.slug : b.slug}`}
+                className="flex items-center gap-3 rounded-lg border p-2 hover:bg-muted/50"
+              >
                 <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded">
                   <Image
                     src={(col.label === 'Товар A' ? a : b).images[0]?.url || '/placeholder.jpg'}
@@ -83,8 +96,12 @@ function SizeCompareInner() {
                   />
                 </div>
                 <div className="text-xs">
-                  <p className="font-medium line-clamp-2">{(col.label === 'Товар A' ? a : b).name}</p>
-                  <p className="text-muted-foreground font-mono mt-1">{(col.label === 'Товар A' ? a : b).sku}</p>
+                  <p className="line-clamp-2 font-medium">
+                    {(col.label === 'Товар A' ? a : b).name}
+                  </p>
+                  <p className="mt-1 font-mono text-muted-foreground">
+                    {(col.label === 'Товар A' ? a : b).sku}
+                  </p>
                 </div>
               </Link>
             </CardContent>
@@ -94,7 +111,7 @@ function SizeCompareInner() {
 
       <div className="flex flex-wrap gap-2">
         <Button type="button" variant="outline" size="sm" onClick={exportJson}>
-          <Download className="h-4 w-4 mr-2" />
+          <Download className="mr-2 h-4 w-4" />
           Экспорт JSON
         </Button>
       </div>
@@ -102,7 +119,9 @@ function SizeCompareInner() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Сравнение</CardTitle>
-          <CardDescription>Один DTO для виджета на PDP и для API `GET /compare?skus=`.</CardDescription>
+          <CardDescription>
+            Один DTO для виджета на PDP и для API `GET /compare?skus=`.
+          </CardDescription>
         </CardHeader>
         <CardContent className="overflow-x-auto">
           <Table>
@@ -117,8 +136,8 @@ function SizeCompareInner() {
               {rows.map((r) => (
                 <TableRow key={r.label}>
                   <TableCell className="text-xs font-medium">{r.label}</TableCell>
-                  <TableCell className="text-xs max-w-[200px] break-words">{r.left}</TableCell>
-                  <TableCell className="text-xs max-w-[200px] break-words">{r.right}</TableCell>
+                  <TableCell className="max-w-[200px] break-words text-xs">{r.left}</TableCell>
+                  <TableCell className="max-w-[200px] break-words text-xs">{r.right}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -131,24 +150,18 @@ function SizeCompareInner() {
 
 export default function SizeComparePage() {
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
-              <Columns2 className="h-6 w-6" />
-              Сравнение SKU
-            </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              Два артикула: размерный ряд, состав, сезон. Параметры URL: <code className="text-[10px] bg-muted px-1 rounded">a</code>,{' '}
-              <code className="text-[10px] bg-muted px-1 rounded">b</code> (slug).
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader
+            description={
+              <>
+                Два артикула: размерный ряд, состав, сезон. Параметры URL:{' '}
+                <code className="rounded bg-muted px-1 text-[10px]">a</code>,{' '}
+                <code className="rounded bg-muted px-1 text-[10px]">b</code> (slug).
+              </>
+            }
+          />
         </div>
         <PlatformDataBanner />
       </div>
@@ -156,6 +169,6 @@ export default function SizeComparePage() {
       <Suspense fallback={<p className="text-sm text-muted-foreground">Загрузка…</p>}>
         <SizeCompareInner />
       </Suspense>
-    </div>
+    </CabinetPageContent>
   );
 }

@@ -79,6 +79,7 @@ class InventorySyncLogBase(BaseModel):
     items_synced_count: int
     status: str
     error_message: Optional[str] = None
+    organization_id: Optional[str] = None
 
 class InventorySyncLogCreate(InventorySyncLogBase):
     pass

@@ -3,9 +3,7 @@
  * Связывает Production, B2B, Finance, Tasks, Events, Messages — единый источник.
  */
 
-import { format, differenceInDays, startOfDay, isSameDay } from 'date-fns';
-import { ROUTES } from '@/lib/routes';
-import { getCalendarEvents } from '@/lib/collaboration/calendar-store';
+import { format, differenceInDays, startOfDay } from 'date-fns';
 
 export type EventSource =
   | 'production'
@@ -16,12 +14,6 @@ export type EventSource =
   | 'marketing'
   | 'content'
   | 'finance';
-
-/** Single layer or comma-separated preset for `?layers=` deep links (parsed client-side). */
-export type CalendarLayersValue =
-  | EventSource
-  | `${EventSource},${EventSource}`
-  | `${EventSource},${EventSource},${EventSource}`;
 
 export type RecurrenceType = 'daily' | 'weekly' | 'monthly' | 'yearly';
 
@@ -62,19 +54,6 @@ export interface CalendarEvent {
   participants?: string[];
 }
 
-/** Элемент ленты «Сегодня» в хабе Связь (сообщения / календарь) */
-export interface TodayStripItem {
-  id: string;
-  t: string;
-  d: string;
-  color: string;
-  calendarHref?: string;
-  startAt?: string;
-  endAt?: string;
-  reminderMinutes?: number;
-  description?: string;
-}
-
 export interface UpcomingDeadline {
   t: string;
   d: string;
@@ -97,20 +76,222 @@ export interface UpcomingDeadline {
 
 /** События января 2026 — единый источник для календаря и cross-links */
 export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
-  { d: 3, t: 'Paris Fashion Week', source: 'events', c: 'bg-slate-900 text-white', href: '/brand/events', partner: 'Оргкомитет', entityType: 'event', startTime: '10:00', endTime: '18:00', timezone: 'Europe/Paris', location: 'Paris', reminderMinutes: 60, collection: 'SS26', weight: 8, priority: 'high' },
-  { d: 5, t: 'Согласование PO ORD-4521', source: 'orders', c: 'bg-indigo-100 text-indigo-700', href: '/brand/b2b-orders/4521', role: 'Байер', partner: 'Podium', entityId: '4521', entityType: 'order', startTime: '11:00', endTime: '12:00', reminderMinutes: 15, collection: 'SS26', dependsOn: 'task-podium', weight: 1, priority: 'high' },
-  { d: 5, t: 'Звонок с Podium', source: 'meetings', c: 'bg-sky-100 text-sky-700', href: '/brand/messages', role: 'Байер', partner: 'Podium', entityId: 'podium-chat', startTime: '14:00', endTime: '14:30', reminderMinutes: 5, collection: 'SS26', weight: 0.5 },
-  { d: 6, t: 'Договор Podium — черновик', source: 'tasks', c: 'bg-violet-100 text-violet-700', href: '/brand/tasks', assignee: 'Анна', role: 'Юрист', entityId: 'task-podium', entityType: 'task', startTime: '09:00', endTime: '12:00', collection: 'SS26', weight: 3 },
-  { d: 8, t: 'Escrow Milestone 1 — 30%', source: 'finance', c: 'bg-emerald-100 text-emerald-700', href: '/brand/finance/escrow', partner: 'ЦУМ', entityId: 'escrow-tsum', entityType: 'escrow', startTime: '12:00', endTime: '13:00', reminderMinutes: 1440, collection: 'SS26', weight: 1.5, priority: 'high' },
-  { d: 11, t: 'Отгрузка SS26 Main', source: 'production', c: 'bg-amber-100 text-amber-700', href: '/brand/production', role: 'Логист', entityType: 'production', startTime: '08:00', endTime: '17:00', collection: 'SS26', weight: 9, priority: 'high' },
-  { d: 12, t: 'Lookbook Graphene — релиз', source: 'content', c: 'bg-purple-100 text-purple-700', href: '/brand/media', role: 'Маркетолог', startTime: '09:00', endTime: '10:00', collection: 'SS26', weight: 1 },
-  { d: 12, t: 'Gold Sample SYN-001', source: 'tasks', c: 'bg-violet-100 text-violet-700', href: '/brand/production', assignee: 'Петр (QC)', entityId: 'syn-001', entityType: 'task', startTime: '10:00', endTime: '11:30', recurrence: 'weekly', collection: 'SS26', weight: 1.5, dependsOn: 'sample-fitting', actualDate: '2026-01-13', priority: 'medium' },
-  { d: 14, t: 'Peak Conversion Day', source: 'marketing', c: 'bg-emerald-100 text-emerald-700 font-bold', ai: true, href: '/brand/promotions', startTime: '00:00', endTime: '23:59', collection: 'SS26', weight: 3, priority: 'high' },
-  { d: 15, t: 'Встреча с ЦУМ', source: 'meetings', c: 'bg-sky-100 text-sky-700', href: '/brand/b2b-orders', partner: 'ЦУМ', startTime: '15:00', endTime: '16:30', timezone: 'Europe/Moscow', reminderMinutes: 30, collection: 'SS26', weight: 1.5 },
-  { d: 18, t: 'Gold Sample — примерка', source: 'production', c: 'bg-purple-100 text-purple-700', href: '/brand/production', role: 'QC', partner: 'Фабрика #4', entityType: 'production', startTime: '11:00', endTime: '14:00', location: 'Фабрика #4', entityId: 'sample-fitting', collection: 'SS26', weight: 3 },
-  { d: 20, t: 'Оплата ORD-4420 Escrow', source: 'finance', c: 'bg-emerald-100 text-emerald-700', href: '/brand/finance/escrow', partner: 'ЦУМ', entityId: '4420', entityType: 'escrow', startTime: '10:00', endTime: '11:00', reminderMinutes: 60, collection: 'SS26', weight: 1, priority: 'high' },
-  { d: 24, t: 'Milan SS26 Drop', source: 'events', c: 'bg-blue-100 text-blue-700', href: '/brand/events', entityType: 'event', startTime: '09:00', endTime: '20:00', timezone: 'Europe/Rome', location: 'Milan', collection: 'SS26', weight: 11, priority: 'high' },
-  { d: 28, t: 'Контракт TSUM — подписание', source: 'orders', c: 'bg-indigo-100 text-indigo-700', href: '/brand/b2b-orders', role: 'CFO', partner: 'ЦУМ', entityId: 'tsum-contract', entityType: 'order', startTime: '16:00', endTime: '17:00', reminderMinutes: 60, collection: 'SS26', weight: 1, priority: 'high' },
+  {
+    d: 3,
+    t: 'Неделя моды в Москве (SS26)',
+    source: 'events',
+    c: 'bg-slate-900 text-white',
+    href: '/brand/events',
+    partner: 'Оргкомитет',
+    entityType: 'event',
+    startTime: '10:00',
+    endTime: '18:00',
+    timezone: 'Europe/Moscow',
+    location: 'Москва',
+    reminderMinutes: 60,
+    collection: 'SS26',
+    weight: 8,
+    priority: 'high',
+  },
+  {
+    d: 5,
+    t: 'Согласование PO ORD-4521',
+    source: 'orders',
+    c: 'bg-indigo-100 text-indigo-700',
+    href: '/brand/b2b-orders/4521',
+    role: 'Байер',
+    partner: 'Podium',
+    entityId: '4521',
+    entityType: 'order',
+    startTime: '11:00',
+    endTime: '12:00',
+    reminderMinutes: 15,
+    collection: 'SS26',
+    dependsOn: 'task-podium',
+    weight: 1,
+    priority: 'high',
+  },
+  {
+    d: 5,
+    t: 'Звонок с Podium',
+    source: 'meetings',
+    c: 'bg-sky-100 text-sky-700',
+    href: '/brand/messages',
+    role: 'Байер',
+    partner: 'Podium',
+    entityId: 'podium-chat',
+    startTime: '14:00',
+    endTime: '14:30',
+    reminderMinutes: 5,
+    collection: 'SS26',
+    weight: 0.5,
+  },
+  {
+    d: 6,
+    t: 'Договор Podium — черновик',
+    source: 'tasks',
+    c: 'bg-violet-100 text-violet-700',
+    href: '/brand/tasks',
+    assignee: 'Анна',
+    role: 'Юрист',
+    entityId: 'task-podium',
+    entityType: 'task',
+    startTime: '09:00',
+    endTime: '12:00',
+    collection: 'SS26',
+    weight: 3,
+  },
+  {
+    d: 8,
+    t: 'Escrow Milestone 1 — 30%',
+    source: 'finance',
+    c: 'bg-emerald-100 text-emerald-700',
+    href: '/brand/finance/escrow',
+    partner: 'ЦУМ',
+    entityId: 'escrow-tsum',
+    entityType: 'escrow',
+    startTime: '12:00',
+    endTime: '13:00',
+    reminderMinutes: 1440,
+    collection: 'SS26',
+    weight: 1.5,
+    priority: 'high',
+  },
+  {
+    d: 11,
+    t: 'Отгрузка SS26 Main',
+    source: 'production',
+    c: 'bg-amber-100 text-amber-700',
+    href: '/brand/production',
+    role: 'Логист',
+    entityType: 'production',
+    startTime: '08:00',
+    endTime: '17:00',
+    collection: 'SS26',
+    weight: 9,
+    priority: 'high',
+  },
+  {
+    d: 12,
+    t: 'Lookbook Graphene — релиз',
+    source: 'content',
+    c: 'bg-purple-100 text-purple-700',
+    href: '/brand/media',
+    role: 'Маркетолог',
+    startTime: '09:00',
+    endTime: '10:00',
+    collection: 'SS26',
+    weight: 1,
+  },
+  {
+    d: 12,
+    t: 'Gold Sample SYN-001',
+    source: 'tasks',
+    c: 'bg-violet-100 text-violet-700',
+    href: '/brand/production',
+    assignee: 'Петр (QC)',
+    entityId: 'syn-001',
+    entityType: 'task',
+    startTime: '10:00',
+    endTime: '11:30',
+    recurrence: 'weekly',
+    collection: 'SS26',
+    weight: 1.5,
+    dependsOn: 'sample-fitting',
+    actualDate: '2026-01-13',
+    priority: 'medium',
+  },
+  {
+    d: 14,
+    t: 'Peak Conversion Day',
+    source: 'marketing',
+    c: 'bg-emerald-100 text-emerald-700 font-bold',
+    ai: true,
+    href: '/brand/promotions',
+    startTime: '00:00',
+    endTime: '23:59',
+    collection: 'SS26',
+    weight: 3,
+    priority: 'high',
+  },
+  {
+    d: 15,
+    t: 'Встреча с ЦУМ',
+    source: 'meetings',
+    c: 'bg-sky-100 text-sky-700',
+    href: '/brand/b2b-orders',
+    partner: 'ЦУМ',
+    startTime: '15:00',
+    endTime: '16:30',
+    timezone: 'Europe/Moscow',
+    reminderMinutes: 30,
+    collection: 'SS26',
+    weight: 1.5,
+  },
+  {
+    d: 18,
+    t: 'Gold Sample — примерка',
+    source: 'production',
+    c: 'bg-purple-100 text-purple-700',
+    href: '/brand/production',
+    role: 'QC',
+    partner: 'Фабрика #4',
+    entityType: 'production',
+    startTime: '11:00',
+    endTime: '14:00',
+    location: 'Фабрика #4',
+    entityId: 'sample-fitting',
+    collection: 'SS26',
+    weight: 3,
+  },
+  {
+    d: 20,
+    t: 'Оплата ORD-4420 Escrow',
+    source: 'finance',
+    c: 'bg-emerald-100 text-emerald-700',
+    href: '/brand/finance/escrow',
+    partner: 'ЦУМ',
+    entityId: '4420',
+    entityType: 'escrow',
+    startTime: '10:00',
+    endTime: '11:00',
+    reminderMinutes: 60,
+    collection: 'SS26',
+    weight: 1,
+    priority: 'high',
+  },
+  {
+    d: 24,
+    t: 'Дроп коллекции SS26 — Москва',
+    source: 'events',
+    c: 'bg-blue-100 text-blue-700',
+    href: '/brand/events',
+    entityType: 'event',
+    startTime: '09:00',
+    endTime: '20:00',
+    timezone: 'Europe/Moscow',
+    location: 'Москва',
+    collection: 'SS26',
+    weight: 11,
+    priority: 'high',
+  },
+  {
+    d: 28,
+    t: 'Контракт TSUM — подписание',
+    source: 'orders',
+    c: 'bg-indigo-100 text-indigo-700',
+    href: '/brand/b2b-orders',
+    role: 'CFO',
+    partner: 'ЦУМ',
+    entityId: 'tsum-contract',
+    entityType: 'order',
+    startTime: '16:00',
+    endTime: '17:00',
+    reminderMinutes: 60,
+    collection: 'SS26',
+    weight: 1,
+    priority: 'high',
+  },
 ];
 
 /** Цвета статусов по источнику */
@@ -145,7 +326,8 @@ export function getUpcomingDeadlines(
     if (ev.priority === 'high') s = 'Urgent';
     else if (daysUntil <= 3 && daysUntil >= 0) s = 'Active';
     else if (daysUntil < 0) s = 'Overdue';
-    else if (ev.source === 'content' || ev.source === 'marketing' || ev.source === 'finance') s = ev.source.charAt(0).toUpperCase() + ev.source.slice(1);
+    else if (ev.source === 'content' || ev.source === 'marketing' || ev.source === 'finance')
+      s = ev.source.charAt(0).toUpperCase() + ev.source.slice(1);
     else s = 'Pending';
 
     return {
@@ -161,22 +343,24 @@ export function getUpcomingDeadlines(
       layer: ev.source,
       daysUntil,
       isOverdue,
-      calendarHref: buildCalendarUrl({ layers: ev.source, date: `${year}-${String(month + 1).padStart(2, '0')}-${String(ev.d).padStart(2, '0')}` }),
+      calendarHref: buildCalendarUrl({
+        layers: ev.source,
+        date: `${year}-${String(month + 1).padStart(2, '0')}-${String(ev.d).padStart(2, '0')}`,
+      }),
     };
   });
 
-  const filtered = (options?.role || options?.partner || options?.layer)
-    ? mapped.filter((d) => {
-        if (options.role && d.role !== options.role) return false;
-        if (options.partner && d.partner !== options.partner) return false;
-        if (options.layer && d.layer !== options.layer) return false;
-        return true;
-      })
-    : mapped;
+  const filtered =
+    options?.role || options?.partner || options?.layer
+      ? mapped.filter((d) => {
+          if (options.role && d.role !== options.role) return false;
+          if (options.partner && d.partner !== options.partner) return false;
+          if (options.layer && d.layer !== options.layer) return false;
+          return true;
+        })
+      : mapped;
 
-  return filtered
-    .sort((a, b) => (a.daysUntil ?? 0) - (b.daysUntil ?? 0))
-    .slice(0, limit);
+  return filtered.sort((a, b) => (a.daysUntil ?? 0) - (b.daysUntil ?? 0)).slice(0, limit);
 }
 
 /** Upcoming deadlines — автогенерация из ALL_CALENDAR_EVENTS (SS26 январь 2026) */
@@ -184,54 +368,12 @@ export function getDefaultUpcomingDeadlines(options?: { limit?: number }): Upcom
   return getUpcomingDeadlines(ALL_CALENDAR_EVENTS, 2026, 0, options);
 }
 
-/** События на текущий календарный день: локальные из календаря + демо-строки за 2026-01-… при совпадении дня */
-export function getTodayCommunicationsStripItems(userId: string, options?: { limit?: number }): TodayStripItem[] {
-  const limit = options?.limit ?? 12;
-  const today = startOfDay(new Date());
-  const ymd = format(today, 'yyyy-MM-dd');
-  const out: TodayStripItem[] = [];
-
-  if (typeof window !== 'undefined') {
-    for (const ev of getCalendarEvents(userId)) {
-      if (ev.status === 'cancelled') continue;
-      if (!isSameDay(new Date(ev.startAt), today)) continue;
-      out.push({
-        id: `cal_${ev.id}`,
-        t: ev.title,
-        d: format(new Date(ev.startAt), 'HH:mm'),
-        color: 'bg-fuchsia-50 text-fuchsia-800 border-fuchsia-100',
-        calendarHref: buildCalendarUrl({ date: ymd, layers: 'tasks' }),
-        startAt: ev.startAt,
-        endAt: ev.endAt,
-        reminderMinutes: ev.reminderMinutesBefore,
-        description: ev.description,
-      });
-    }
-  }
-
-  for (const ev of ALL_CALENDAR_EVENTS) {
-    const dt = new Date(2026, 0, ev.d);
-    if (!isSameDay(dt, today)) continue;
-    out.push({
-      id: `demo_${ev.t}_${ev.d}`,
-      t: ev.t,
-      d: ev.startTime ?? '—',
-      color: ev.c.includes('bg-') ? ev.c : SOURCE_COLORS[ev.source] ?? 'bg-slate-50 text-slate-600 border-slate-100',
-      calendarHref: buildCalendarUrl({ layers: ev.source, date: `2026-01-${String(ev.d).padStart(2, '0')}` }),
-      description: ev.description,
-      reminderMinutes: ev.reminderMinutes,
-    });
-  }
-
-  return out.slice(0, limit);
-}
-
 /** @deprecated используйте getDefaultUpcomingDeadlines() */
 export const UPCOMING_DEADLINES: UpcomingDeadline[] = getDefaultUpcomingDeadlines();
 
 /** URL календаря с контекстом для cross-links из других разделов */
 export function buildCalendarUrl(params: {
-  layers?: CalendarLayersValue | CalendarLayersValue[];
+  layers?: EventSource | EventSource[];
   partner?: string;
   role?: string;
   date?: string;
@@ -252,16 +394,41 @@ export function buildCalendarUrl(params: {
   if (params.collection) q.set('collection', params.collection);
   if (params.add) q.set('add', '1');
   const query = q.toString();
-  return `${ROUTES.brand.calendar}${query ? `?${query}` : ''}`;
+  return `/brand/calendar${query ? `?${query}` : ''}`;
 }
 
 /** Season Pipeline — фазы fashion-цикла. layers — какие слои календаря релевантны */
 export const SEASON_PIPELINE_PHASES = [
-  { id: 'research', label: 'Research', color: 'bg-slate-100 text-slate-700', layers: ['tasks', 'meetings'] as EventSource[] },
-  { id: 'design', label: 'Design', color: 'bg-indigo-100 text-indigo-700', layers: ['tasks', 'content', 'orders'] as EventSource[] },
-  { id: 'sampling', label: 'Sampling', color: 'bg-violet-100 text-violet-700', layers: ['production', 'tasks', 'meetings'] as EventSource[] },
-  { id: 'production', label: 'Production', color: 'bg-amber-100 text-amber-700', layers: ['production', 'orders', 'finance'] as EventSource[] },
-  { id: 'launch', label: 'Launch', color: 'bg-emerald-100 text-emerald-700', layers: ['events', 'marketing', 'content'] as EventSource[] },
+  {
+    id: 'research',
+    label: 'Research',
+    color: 'bg-slate-100 text-slate-700',
+    layers: ['tasks', 'meetings'] as EventSource[],
+  },
+  {
+    id: 'design',
+    label: 'Design',
+    color: 'bg-indigo-100 text-indigo-700',
+    layers: ['tasks', 'content', 'orders'] as EventSource[],
+  },
+  {
+    id: 'sampling',
+    label: 'Sampling',
+    color: 'bg-violet-100 text-violet-700',
+    layers: ['production', 'tasks', 'meetings'] as EventSource[],
+  },
+  {
+    id: 'production',
+    label: 'Production',
+    color: 'bg-amber-100 text-amber-700',
+    layers: ['production', 'orders', 'finance'] as EventSource[],
+  },
+  {
+    id: 'launch',
+    label: 'Launch',
+    color: 'bg-emerald-100 text-emerald-700',
+    layers: ['events', 'marketing', 'content'] as EventSource[],
+  },
 ] as const;
 
 /** Fashion Key Dates по сезонам. calendarDate для ссылки в календарь (YYYY-MM-DD) */
@@ -272,14 +439,54 @@ export interface FashionSeasonDate {
   phase: string;
   href: string;
   calendarDate?: string;
-  layers?: CalendarLayersValue;
+  layers?: EventSource;
 }
 export const FASHION_SEASON_DATES: FashionSeasonDate[] = [
-  { season: 'SS26', label: 'Paris FW', date: '3 Jan', phase: 'launch', href: '/brand/events', calendarDate: '2026-01-03', layers: 'events' },
-  { season: 'SS26', label: 'Lookbook Release', date: '12 Jan', phase: 'launch', href: '/brand/media', calendarDate: '2026-01-12', layers: 'content' },
-  { season: 'SS26', label: 'Milan Drop', date: '24 Jan', phase: 'launch', href: '/brand/events', calendarDate: '2026-01-24', layers: 'events' },
-  { season: 'SS26', label: 'Pre-Order Close', date: '15 Feb', phase: 'production', href: '/brand/pre-orders', calendarDate: '2026-02-15', layers: 'orders' },
-  { season: 'FW26', label: 'Pre-Order Open', date: 'Mar 2026', phase: 'design', href: '/brand/pre-orders', calendarDate: '2026-03-01', layers: 'orders' },
+  {
+    season: 'SS26',
+    label: 'Неделя моды (Москва)',
+    date: '3 Jan',
+    phase: 'launch',
+    href: '/brand/events',
+    calendarDate: '2026-01-03',
+    layers: 'events',
+  },
+  {
+    season: 'SS26',
+    label: 'Публикация лукбука',
+    date: '12 Jan',
+    phase: 'launch',
+    href: '/brand/media',
+    calendarDate: '2026-01-12',
+    layers: 'content',
+  },
+  {
+    season: 'SS26',
+    label: 'Дроп коллекции (Москва)',
+    date: '24 Jan',
+    phase: 'launch',
+    href: '/brand/events',
+    calendarDate: '2026-01-24',
+    layers: 'events',
+  },
+  {
+    season: 'SS26',
+    label: 'Закрытие предзаказа',
+    date: '15 Feb',
+    phase: 'production',
+    href: '/brand/pre-orders',
+    calendarDate: '2026-02-15',
+    layers: 'orders',
+  },
+  {
+    season: 'FW26',
+    label: 'Открытие предзаказа',
+    date: 'Mar 2026',
+    phase: 'design',
+    href: '/brand/pre-orders',
+    calendarDate: '2026-03-01',
+    layers: 'orders',
+  },
 ];
 
 /** Пороги тепловой карты: лёгкая / средняя / пик (часы) */

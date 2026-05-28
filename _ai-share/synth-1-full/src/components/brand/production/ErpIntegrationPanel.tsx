@@ -12,7 +12,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Database,
@@ -21,7 +21,7 @@ import {
   ArrowRightLeft,
   Package,
   Landmark,
-  FileSpreadsheet
+  FileSpreadsheet,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -38,9 +38,30 @@ interface ErpConnection {
 }
 
 const DEFAULT_ERP: ErpConnection[] = [
-  { type: '1c', name: '1С:ERP', connected: false, syncOrders: true, syncStocks: true, syncFinance: true },
-  { type: 'sap', name: 'SAP', connected: false, syncOrders: true, syncStocks: true, syncFinance: true },
-  { type: 'custom', name: 'Собственный API', connected: false, syncOrders: true, syncStocks: true, syncFinance: true }
+  {
+    type: '1c',
+    name: '1С:ERP',
+    connected: false,
+    syncOrders: true,
+    syncStocks: true,
+    syncFinance: true,
+  },
+  {
+    type: 'sap',
+    name: 'SAP',
+    connected: false,
+    syncOrders: true,
+    syncStocks: true,
+    syncFinance: true,
+  },
+  {
+    type: 'custom',
+    name: 'Собственный API',
+    connected: false,
+    syncOrders: true,
+    syncStocks: true,
+    syncFinance: true,
+  },
 ];
 
 export interface ErpIntegrationPanelProps {
@@ -49,16 +70,31 @@ export interface ErpIntegrationPanelProps {
   onFieldMapping?: () => void;
 }
 
-export function ErpIntegrationPanel({ trigger, onConnect, onFieldMapping }: ErpIntegrationPanelProps) {
+export function ErpIntegrationPanel({
+  trigger,
+  onConnect,
+  onFieldMapping,
+}: ErpIntegrationPanelProps) {
   const [connections, setConnections] = useState<ErpConnection[]>(DEFAULT_ERP);
   const [selectedType, setSelectedType] = useState<ErpType | null>(null);
-  const [config, setConfig] = useState<Record<string, string>>({ endpoint: '', login: '', password: '', base: '' });
+  const [config, setConfig] = useState<Record<string, string>>({
+    endpoint: '',
+    login: '',
+    password: '',
+    base: '',
+  });
 
   const handleSaveConnection = () => {
     if (!selectedType) return;
     setConnections((prev) =>
       prev.map((c) =>
-        c.type === selectedType ? { ...c, connected: true, lastSync: new Date().toISOString().slice(0, 16).replace('T', ' ') } : c
+        c.type === selectedType
+          ? {
+              ...c,
+              connected: true,
+              lastSync: new Date().toISOString().slice(0, 16).replace('T', ' '),
+            }
+          : c
       )
     );
     onConnect?.(selectedType, config);
@@ -68,7 +104,9 @@ export function ErpIntegrationPanel({ trigger, onConnect, onFieldMapping }: ErpI
   const handleSync = (type: ErpType) => {
     setConnections((prev) =>
       prev.map((c) =>
-        c.type === type ? { ...c, lastSync: new Date().toISOString().slice(0, 16).replace('T', ' ') } : c
+        c.type === type
+          ? { ...c, lastSync: new Date().toISOString().slice(0, 16).replace('T', ' ') }
+          : c
       )
     );
   };
@@ -77,41 +115,48 @@ export function ErpIntegrationPanel({ trigger, onConnect, onFieldMapping }: ErpI
     <Dialog>
       <DialogTrigger asChild>
         {trigger ?? (
-          <Button variant="ghost" size="sm" className="w-full h-7 text-[9px] font-bold uppercase gap-1">
-            <Database className="w-3.5 h-3.5" /> ERP / 1С
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 w-full gap-1 text-[9px] font-bold uppercase"
+          >
+            <Database className="h-3.5 w-3.5" /> ERP / 1С
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] border-none rounded-2xl shadow-2xl p-0 overflow-hidden bg-white">
-        <DialogHeader className="p-6 bg-emerald-600 text-white">
+      <DialogContent className="overflow-hidden rounded-2xl border-none bg-white p-0 shadow-2xl sm:max-w-[600px]">
+        <DialogHeader className="bg-emerald-600 p-6 text-white">
           <DialogTitle className="text-lg font-black uppercase">Интеграция ERP / 1С</DialogTitle>
-          <DialogDescription className="text-[10px] text-white/80 uppercase">
+          <DialogDescription className="text-[10px] uppercase text-white/80">
             Синхронизация заказов, остатков, финансов — маппинг полей
           </DialogDescription>
         </DialogHeader>
-        <div className="p-6 space-y-6">
-          <div className="grid grid-cols-3 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
+        <div className="space-y-6 p-6">
+          <div className="bg-bg-surface2 border-border-subtle grid grid-cols-3 gap-2 rounded-xl border p-3">
             <div className="flex items-center gap-2">
-              <Package className="w-4 h-4 text-indigo-600" />
+              <Package className="text-accent-primary h-4 w-4" />
               <span className="text-[9px] font-bold uppercase">Заказы (PO)</span>
             </div>
             <div className="flex items-center gap-2">
-              <FileSpreadsheet className="w-4 h-4 text-indigo-600" />
+              <FileSpreadsheet className="text-accent-primary h-4 w-4" />
               <span className="text-[9px] font-bold uppercase">Остатки</span>
             </div>
             <div className="flex items-center gap-2">
-              <Landmark className="w-4 h-4 text-indigo-600" />
+              <Landmark className="text-accent-primary h-4 w-4" />
               <span className="text-[9px] font-bold uppercase">Финансы</span>
             </div>
           </div>
 
           {connections.map((conn) => (
-            <Card key={conn.type} className="border border-slate-100 shadow-sm rounded-xl overflow-hidden">
+            <Card
+              key={conn.type}
+              className="border-border-subtle overflow-hidden rounded-xl border shadow-sm"
+            >
               <CardHeader className="p-4 pb-2">
-                <div className="flex justify-between items-start">
+                <div className="flex items-start justify-between">
                   <div>
                     <CardTitle className="text-[11px] font-black uppercase">{conn.name}</CardTitle>
-                    <CardDescription className="text-[9px] mt-0.5">
+                    <CardDescription className="mt-0.5 text-[9px]">
                       {conn.syncOrders && 'Заказы • '}
                       {conn.syncStocks && 'Остатки • '}
                       {conn.syncFinance && 'Финансы'}
@@ -120,45 +165,49 @@ export function ErpIntegrationPanel({ trigger, onConnect, onFieldMapping }: ErpI
                   <Badge
                     className={cn(
                       'text-[8px] font-black uppercase',
-                      conn.connected ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500'
+                      conn.connected
+                        ? 'bg-emerald-100 text-emerald-600'
+                        : 'bg-bg-surface2 text-text-secondary'
                     )}
                   >
                     {conn.connected ? 'Подключено' : 'Не подключено'}
                   </Badge>
                 </div>
               </CardHeader>
-              <CardContent className="p-4 pt-0 space-y-2">
+              <CardContent className="space-y-2 p-4 pt-0">
                 {conn.connected && conn.lastSync && (
-                  <p className="text-[9px] text-slate-500 font-bold uppercase">Последняя синхронизация: {conn.lastSync}</p>
+                  <p className="text-text-secondary text-[9px] font-bold uppercase">
+                    Последняя синхронизация: {conn.lastSync}
+                  </p>
                 )}
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex flex-wrap gap-2">
                   {conn.connected ? (
                     <>
                       <Button
                         variant="outline"
                         size="sm"
-                        className="h-8 text-[9px] font-bold uppercase gap-1"
+                        className="h-8 gap-1 text-[9px] font-bold uppercase"
                         onClick={() => handleSync(conn.type)}
                       >
-                        <RefreshCw className="w-3.5 h-3.5" /> Синхронизация
+                        <RefreshCw className="h-3.5 w-3.5" /> Синхронизация
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
-                        className="h-8 text-[9px] font-bold uppercase gap-1"
+                        className="h-8 gap-1 text-[9px] font-bold uppercase"
                         onClick={onFieldMapping}
                       >
-                        <ArrowRightLeft className="w-3.5 h-3.5" /> Маппинг полей
+                        <ArrowRightLeft className="h-3.5 w-3.5" /> Маппинг полей
                       </Button>
                     </>
                   ) : (
                     <Button
                       variant="default"
                       size="sm"
-                      className="h-8 text-[9px] font-bold uppercase gap-1 bg-emerald-600 hover:bg-emerald-700"
+                      className="h-8 gap-1 bg-emerald-600 text-[9px] font-bold uppercase hover:bg-emerald-700"
                       onClick={() => setSelectedType(conn.type)}
                     >
-                      <Database className="w-3.5 h-3.5" /> Подключить
+                      <Database className="h-3.5 w-3.5" /> Подключить
                     </Button>
                   )}
                 </div>
@@ -167,21 +216,21 @@ export function ErpIntegrationPanel({ trigger, onConnect, onFieldMapping }: ErpI
           ))}
 
           {selectedType && (
-            <Card className="border-2 border-emerald-200 shadow-sm rounded-xl overflow-hidden bg-emerald-50/30">
+            <Card className="overflow-hidden rounded-xl border-2 border-emerald-200 bg-emerald-50/30 shadow-sm">
               <CardHeader className="p-4">
                 <CardTitle className="text-[11px] font-black uppercase">
                   Настройка {DEFAULT_ERP.find((c) => c.type === selectedType)?.name}
                 </CardTitle>
                 <CardDescription className="text-[9px]">REST API, логин, база</CardDescription>
               </CardHeader>
-              <CardContent className="p-4 space-y-3">
+              <CardContent className="space-y-3 p-4">
                 <div className="space-y-2">
                   <Label className="text-[9px] font-black uppercase">Endpoint API</Label>
                   <Input
                     placeholder="https://erp.company.ru/api/..."
                     value={config.endpoint}
                     onChange={(e) => setConfig((p) => ({ ...p, endpoint: e.target.value }))}
-                    className="h-9 text-[10px] rounded-lg"
+                    className="h-9 rounded-lg text-[10px]"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
@@ -190,7 +239,7 @@ export function ErpIntegrationPanel({ trigger, onConnect, onFieldMapping }: ErpI
                     <Input
                       value={config.login}
                       onChange={(e) => setConfig((p) => ({ ...p, login: e.target.value }))}
-                      className="h-9 text-[10px] rounded-lg"
+                      className="h-9 rounded-lg text-[10px]"
                     />
                   </div>
                   <div className="space-y-2">
@@ -199,7 +248,7 @@ export function ErpIntegrationPanel({ trigger, onConnect, onFieldMapping }: ErpI
                       type="password"
                       value={config.password}
                       onChange={(e) => setConfig((p) => ({ ...p, password: e.target.value }))}
-                      className="h-9 text-[10px] rounded-lg"
+                      className="h-9 rounded-lg text-[10px]"
                     />
                   </div>
                 </div>
@@ -210,15 +259,24 @@ export function ErpIntegrationPanel({ trigger, onConnect, onFieldMapping }: ErpI
                       placeholder="БазаПроизводство"
                       value={config.base}
                       onChange={(e) => setConfig((p) => ({ ...p, base: e.target.value }))}
-                      className="h-9 text-[10px] rounded-lg"
+                      className="h-9 rounded-lg text-[10px]"
                     />
                   </div>
                 )}
                 <div className="flex gap-2">
-                  <Button size="sm" className="h-8 text-[9px] font-bold uppercase flex-1 bg-emerald-600 hover:bg-emerald-700" onClick={handleSaveConnection}>
-                    <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Сохранить
+                  <Button
+                    size="sm"
+                    className="h-8 flex-1 bg-emerald-600 text-[9px] font-bold uppercase hover:bg-emerald-700"
+                    onClick={handleSaveConnection}
+                  >
+                    <CheckCircle2 className="mr-1 h-3.5 w-3.5" /> Сохранить
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-8 text-[9px]" onClick={() => setSelectedType(null)}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 text-[9px]"
+                    onClick={() => setSelectedType(null)}
+                  >
                     Отмена
                   </Button>
                 </div>

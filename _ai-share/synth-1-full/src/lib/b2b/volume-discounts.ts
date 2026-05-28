@@ -41,19 +41,24 @@ function loadRules(): VolumeDiscountRule[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
-    return JSON.parse(raw);
+    return JSON.parse(raw) as VolumeDiscountRule[];
   } catch {
     return [];
   }
 }
 
 /** Правила объёмных скидок по бренду и группе клиентов. Мок: одно правило по умолчанию. */
-export function getVolumeDiscountRules(brandId?: string, customerGroupId?: CustomerGroupId): VolumeDiscountRule[] {
+export function getVolumeDiscountRules(
+  brandId?: string,
+  customerGroupId?: CustomerGroupId
+): VolumeDiscountRule[] {
   const stored = loadRules();
   if (stored.length > 0) {
     let list = brandId ? stored.filter((r) => !r.brandId || r.brandId === brandId) : stored;
     if (customerGroupId) {
-      list = list.filter((r) => !r.customerGroupIds?.length || r.customerGroupIds.includes(customerGroupId));
+      list = list.filter(
+        (r) => !r.customerGroupIds?.length || r.customerGroupIds.includes(customerGroupId)
+      );
     }
     return list;
   }
@@ -70,9 +75,9 @@ export function getVolumeDiscountRules(brandId?: string, customerGroupId?: Custo
 export function getVolumeDiscountMultiplier(
   quantity: number,
   brandId?: string,
-  customerGroupId?: CustomerGroupId
+  _customerGroupId?: CustomerGroupId
 ): number {
-  const rules = getVolumeDiscountRules(brandId, customerGroupId);
+  const rules = getVolumeDiscountRules(brandId);
   const rule = rules[0]; // берём первое подходящее
   if (!rule?.tiers?.length) return 1;
   const sorted = [...rule.tiers].sort((a, b) => b.minQuantity - a.minQuantity);

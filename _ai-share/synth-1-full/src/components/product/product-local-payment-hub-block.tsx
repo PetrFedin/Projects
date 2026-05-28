@@ -8,50 +8,61 @@ import { getLocalPaymentHub } from '@/lib/fashion/local-payment-hub';
 
 export const ProductLocalPaymentHubBlock: React.FC = () => {
   const methods = getLocalPaymentHub();
-  
+
   return (
-    <Card className="p-4 border-2 border-indigo-50 bg-indigo-50/10 shadow-sm relative overflow-hidden">
-      <div className="absolute top-0 right-0 p-2 opacity-5 rotate-45">
-        <Wallet className="w-12 h-12" />
+    <Card className="border-accent-primary/15 bg-accent-primary/10 relative overflow-hidden border-2 p-4 shadow-sm">
+      <div className="absolute right-0 top-0 rotate-45 p-2 opacity-5">
+        <Wallet className="h-12 w-12" />
       </div>
 
-      <div className="flex items-center gap-2 mb-4">
-        <CreditCard className="w-4 h-4 text-indigo-500" />
-        <h4 className="font-bold text-xs uppercase text-indigo-700 tracking-tight">Локальные способы оплаты</h4>
+      <div className="mb-4 flex items-center gap-2">
+        <CreditCard className="text-accent-primary h-4 w-4" />
+        <h4 className="text-accent-primary text-xs font-bold uppercase tracking-tight">
+          Локальные способы оплаты
+        </h4>
       </div>
 
       <div className="space-y-2.5">
         {methods.map((m) => (
-          <div key={m.method} className={`p-2.5 rounded-lg border transition-all ${m.isPreferred ? 'bg-white border-indigo-100 shadow-sm' : 'bg-slate-50 border-slate-100'}`}>
-            <div className="flex items-center justify-between mb-1.5">
+          <div
+            key={m.method}
+            className={`rounded-lg border p-2.5 transition-all ${m.isPreferred ? 'border-accent-primary/20 bg-white shadow-sm' : 'bg-bg-surface2 border-border-subtle'}`}
+          >
+            <div className="mb-1.5 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 bg-indigo-50 rounded-md flex items-center justify-center border border-indigo-100 shadow-sm">
-                   {m.method === 'SBP' ? <Zap className="w-4 h-4 text-indigo-600" /> : <Smartphone className="w-4 h-4 text-indigo-400" />}
+                <div className="bg-accent-primary/10 border-accent-primary/20 flex h-7 w-7 items-center justify-center rounded-md border shadow-sm">
+                  {m.method === 'SBP' ? (
+                    <Zap className="text-accent-primary h-4 w-4" />
+                  ) : (
+                    <Smartphone className="text-accent-primary h-4 w-4" />
+                  )}
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-black text-slate-800 uppercase">{m.method}</span>
+                  <span className="text-text-primary text-xs font-black uppercase">{m.method}</span>
                   {m.bonusReward > 0 && (
-                    <span className="text-[9px] font-black text-emerald-600 uppercase">+{m.bonusReward}% Cashback</span>
+                    <span className="text-[9px] font-black uppercase text-emerald-600">
+                      +{m.bonusReward}% Cashback
+                    </span>
                   )}
                 </div>
               </div>
               {m.isPreferred && (
-                <Badge className="bg-indigo-600 text-[8px] h-3.5 px-1.5 uppercase font-black border-none">Fastest</Badge>
+                <Badge className="bg-accent-primary h-3.5 border-none px-1.5 text-[8px] font-black uppercase">
+                  Fastest
+                </Badge>
               )}
             </div>
-            <div className="text-[10px] text-slate-500 leading-tight">
-               {m.description}
-            </div>
+            <div className="text-text-secondary text-[10px] leading-tight">{m.description}</div>
           </div>
         ))}
       </div>
 
-      <div className="mt-4 pt-3 border-t border-indigo-100 flex justify-between items-center text-[9px] text-slate-400 font-black uppercase">
+      <div className="border-accent-primary/20 text-text-muted mt-4 flex items-center justify-between border-t pt-3 text-[9px] font-black uppercase">
         <div className="flex items-center gap-1">
-          <ShieldCheck className="w-3 h-3 text-emerald-500" /> Safe SSL
+          <ShieldCheck className="h-3 w-3 text-emerald-500" /> Safe SSL
         </div>
         <div className="flex items-center gap-1">
-          <Smartphone className="w-3 h-3" /> App Pay Ready
+          <Smartphone className="h-3 w-3" /> App Pay Ready
         </div>
       </div>
     </Card>

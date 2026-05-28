@@ -18,10 +18,39 @@ export interface CustomizationOption {
 }
 
 export const CUSTOMIZATION_OPTIONS: CustomizationOption[] = [
-  { id: 'logo', type: 'logo', label: 'Логотип на изделии', requiresUpload: true, maxFileSizeMb: 5, acceptedFormats: ['png', 'svg', 'ai'], price: 500 },
-  { id: 'mockup', type: 'mockup', label: 'Мокап для превью', requiresUpload: true, maxFileSizeMb: 10, acceptedFormats: ['png', 'jpg', 'psd'] },
-  { id: 'embroidery', type: 'embroidery', label: 'Вышивка (логотип)', requiresUpload: true, maxFileSizeMb: 2, acceptedFormats: ['emb', 'dst', 'png'] },
-  { id: 'print', type: 'print', label: 'Печать (принт)', requiresUpload: true, maxFileSizeMb: 20, acceptedFormats: ['png', 'ai', 'pdf'] },
+  {
+    id: 'logo',
+    type: 'logo',
+    label: 'Логотип на изделии',
+    requiresUpload: true,
+    maxFileSizeMb: 5,
+    acceptedFormats: ['png', 'svg', 'ai'],
+    price: 500,
+  },
+  {
+    id: 'mockup',
+    type: 'mockup',
+    label: 'Мокап для превью',
+    requiresUpload: true,
+    maxFileSizeMb: 10,
+    acceptedFormats: ['png', 'jpg', 'psd'],
+  },
+  {
+    id: 'embroidery',
+    type: 'embroidery',
+    label: 'Вышивка (логотип)',
+    requiresUpload: true,
+    maxFileSizeMb: 2,
+    acceptedFormats: ['emb', 'dst', 'png'],
+  },
+  {
+    id: 'print',
+    type: 'print',
+    label: 'Печать (принт)',
+    requiresUpload: true,
+    maxFileSizeMb: 20,
+    acceptedFormats: ['png', 'ai', 'pdf'],
+  },
 ];
 
 export interface LineItemCustomization {

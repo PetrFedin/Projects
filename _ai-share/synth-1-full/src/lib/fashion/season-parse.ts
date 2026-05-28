@@ -2,7 +2,10 @@ import type { Product } from '@/lib/types';
 import type { FashionSeasonParsed } from './types';
 
 /** Нормализация строки сезона для фильтров и мерча (без тяжёлого NLP). */
-export function parseFashionSeasonLabel(season: string, tags?: Product['tags']): FashionSeasonParsed {
+export function parseFashionSeasonLabel(
+  season: string,
+  tags?: Product['tags']
+): FashionSeasonParsed {
   const raw = (season || '').trim();
   let half: FashionSeasonParsed['half'] = null;
   const u = raw.toUpperCase();

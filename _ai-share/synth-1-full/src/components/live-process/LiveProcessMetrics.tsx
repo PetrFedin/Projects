@@ -26,21 +26,21 @@ export function LiveProcessMetrics({ processId }: LiveProcessMetricsProps) {
           <CardHeader className="pb-2">
             <h3 className="text-sm font-bold">KPI процесса</h3>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <CardContent className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <div>
-              <p className="text-[10px] text-slate-500 uppercase">% вовремя</p>
+              <p className="text-text-secondary text-[10px] uppercase">% вовремя</p>
               <p className="text-lg font-bold text-emerald-600">{kpi.onTimePct}%</p>
             </div>
             <div>
-              <p className="text-[10px] text-slate-500 uppercase">Средний цикл (дн.)</p>
+              <p className="text-text-secondary text-[10px] uppercase">Средний цикл (дн.)</p>
               <p className="text-lg font-bold">{kpi.avgCycleDays}</p>
             </div>
             <div>
-              <p className="text-[10px] text-slate-500 uppercase">Просрочки</p>
+              <p className="text-text-secondary text-[10px] uppercase">Просрочки</p>
               <p className="text-lg font-bold text-amber-600">{kpi.overdueInstances}</p>
             </div>
             <div>
-              <p className="text-[10px] text-slate-500 uppercase">Без ответственного</p>
+              <p className="text-text-secondary text-[10px] uppercase">Без ответственного</p>
               <p className="text-lg font-bold text-red-600">{kpi.stagesWithoutAssignee}</p>
             </div>
           </CardContent>
@@ -52,7 +52,7 @@ export function LiveProcessMetrics({ processId }: LiveProcessMetricsProps) {
         <Card>
           <CardHeader className="pb-2">
             <h3 className="text-sm font-bold">Воронка: среднее время по этапам</h3>
-            <p className="text-xs text-slate-500">Узкие места — этапы с высоким % просрочек</p>
+            <p className="text-text-secondary text-xs">Узкие места — этапы с высоким % просрочек</p>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -61,16 +61,18 @@ export function LiveProcessMetrics({ processId }: LiveProcessMetricsProps) {
                 const isBottleneck = m.overduePct >= 20;
                 return (
                   <div key={m.stageId} className="flex items-center gap-3">
-                    <span className="text-xs w-32 truncate">{stage?.title ?? m.stageId}</span>
+                    <span className="w-32 truncate text-xs">{stage?.title ?? m.stageId}</span>
                     <div className="flex-1">
                       <Progress
                         value={100 - m.overduePct}
                         className={`h-2 ${isBottleneck ? '[&>div]:bg-amber-500' : ''}`}
                       />
                     </div>
-                    <span className="text-xs text-slate-600 w-16">{m.avgDays} дн.</span>
+                    <span className="text-text-secondary w-16 text-xs">{m.avgDays} дн.</span>
                     {m.overduePct > 0 && (
-                      <span className={`text-[10px] ${isBottleneck ? 'text-amber-600 font-medium' : 'text-slate-500'}`}>
+                      <span
+                        className={`text-[10px] ${isBottleneck ? 'font-medium text-amber-600' : 'text-text-secondary'}`}
+                      >
                         {m.overduePct}% проср.
                       </span>
                     )}

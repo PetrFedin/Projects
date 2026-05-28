@@ -12,7 +12,10 @@ import {
   patchStepModuleFields,
   saveCollectionStageModules,
 } from '@/lib/production/collection-stage-modules-store';
-import { getFormFieldsForStep, hasSubstantiveModuleContent } from '@/lib/production/collection-step-form-fields';
+import {
+  getFormFieldsForStep,
+  hasSubstantiveModuleContent,
+} from '@/lib/production/collection-step-form-fields';
 import type { CollectionModuleSaveEvent } from '@/components/brand/production/CollectionStepModuleDialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -32,9 +35,11 @@ const STATUS_RU: Record<MatrixStepStatus, string> = {
 const VARIANT_STYLES = {
   emerald: 'border-emerald-200/90 bg-gradient-to-r from-emerald-50/35 via-white to-teal-50/20',
   rose: 'border-rose-200/85 bg-gradient-to-r from-rose-50/30 via-white to-amber-50/15',
-  violet: 'border-violet-200/90 bg-gradient-to-r from-violet-50/35 via-white to-fuchsia-50/15',
+  violet:
+    'border-accent-primary/30 bg-gradient-to-r from-accent-primary/10 via-white to-accent-primary/10',
   sky: 'border-sky-200/90 bg-gradient-to-r from-sky-50/40 via-white to-cyan-50/15',
-  indigo: 'border-indigo-200/90 bg-gradient-to-r from-indigo-50/35 via-white to-slate-50/25',
+  indigo:
+    'border-accent-primary/30 bg-gradient-to-r from-accent-primary/10 via-white to-bg-surface2/25',
   amber: 'border-amber-200/90 bg-gradient-to-r from-amber-50/40 via-white to-orange-50/15',
   orange: 'border-orange-200/85 bg-gradient-to-r from-orange-50/35 via-white to-amber-50/18',
   teal: 'border-teal-200/90 bg-gradient-to-r from-teal-50/35 via-white to-cyan-50/18',
@@ -113,7 +118,8 @@ export function CollectionStageModuleHubCard({
       if (k === collectionFlowKey) refresh();
     };
     window.addEventListener(BRAND_COLLECTION_STAGE_MODULES_SAVED, h as EventListener);
-    return () => window.removeEventListener(BRAND_COLLECTION_STAGE_MODULES_SAVED, h as EventListener);
+    return () =>
+      window.removeEventListener(BRAND_COLLECTION_STAGE_MODULES_SAVED, h as EventListener);
   }, [collectionFlowKey, refresh]);
 
   const handleSave = () => {
@@ -153,34 +159,39 @@ export function CollectionStageModuleHubCard({
           <Icon className={cn('h-4 w-4 shrink-0', iconClassName)} aria-hidden />
           <CardTitle className="text-sm uppercase tracking-tight">{cardTitle}</CardTitle>
           {matrixStatus ? (
-            <Badge variant="outline" className="h-5 border-slate-200 text-[7px] font-bold uppercase">
+            <Badge
+              variant="outline"
+              className="border-border-default h-5 text-[7px] font-bold uppercase"
+            >
               {STATUS_RU[matrixStatus]}
             </Badge>
           ) : null}
           {substantive ? (
-            <Badge className="h-5 bg-emerald-600/90 text-[7px] font-bold uppercase">Черновик заполнен</Badge>
+            <Badge className="h-5 bg-emerald-600/90 text-[7px] font-bold uppercase">
+              Черновик заполнен
+            </Badge>
           ) : (
-            <Badge variant="secondary" className="h-5 text-[7px] font-semibold text-slate-600">
+            <Badge variant="secondary" className="text-text-secondary h-5 text-[7px] font-semibold">
               Синхрон с модулем этапа в ленте
             </Badge>
           )}
         </div>
         <CardDescription className="text-xs leading-relaxed">
-          Коллекция: <strong className="text-slate-800">{collectionLabel}</strong>. {cardHint} Этап в матрице:{' '}
-          <span className="font-mono text-[10px]">{stepId}</span>.
+          Коллекция: <strong className="text-text-primary">{collectionLabel}</strong>. {cardHint}{' '}
+          Этап в матрице: <span className="font-mono text-[10px]">{stepId}</span>.
         </CardDescription>
         {previewLine ? (
-          <p className="text-[11px] font-medium text-slate-700 pt-0.5 line-clamp-2">
-            Кратко: <span className="text-indigo-900">{previewLine}</span>
+          <p className="text-text-primary line-clamp-2 pt-0.5 text-[11px] font-medium">
+            Кратко: <span className="text-accent-primary">{previewLine}</span>
           </p>
         ) : null}
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex flex-wrap items-end gap-2 rounded-lg border border-slate-100 bg-white/80 p-3">
+        <div className="border-border-subtle flex flex-wrap items-end gap-2 rounded-lg border bg-white/80 p-3">
           <div className="flex min-w-[200px] flex-1 items-center gap-2">
-            <UserCircle className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
+            <UserCircle className="text-text-muted h-4 w-4 shrink-0" aria-hidden />
             <div className="min-w-0 flex-1">
-              <p className="text-[9px] font-bold uppercase text-slate-400">Кто вносит изменения</p>
+              <p className="text-text-muted text-[9px] font-bold uppercase">Кто вносит изменения</p>
               <Input
                 className="mt-0.5 h-8 text-xs"
                 value={actorLabel}
@@ -197,14 +208,20 @@ export function CollectionStageModuleHubCard({
             return (
               <div key={def.key}>
                 {firstGenericIndex === idx ? (
-                  <div className="border-t border-slate-200 pt-3">
-                    <p className="text-[8px] font-black uppercase tracking-wider text-slate-400">
+                  <div className="border-border-default border-t pt-3">
+                    <p className="text-text-muted text-[8px] font-black uppercase tracking-wider">
                       Дополнительно: цели, решения, риски, ссылки
                     </p>
                   </div>
                 ) : null}
-                <div className={cn(isGeneric ? 'rounded-lg border border-dashed border-slate-200/80 bg-slate-50/40 p-2' : '')}>
-                  <p className="mb-1 text-[9px] font-bold uppercase text-slate-400">{def.label}</p>
+                <div
+                  className={cn(
+                    isGeneric
+                      ? 'border-border-default/80 bg-bg-surface2/40 rounded-lg border border-dashed p-2'
+                      : ''
+                  )}
+                >
+                  <p className="text-text-muted mb-1 text-[9px] font-bold uppercase">{def.label}</p>
                   {def.type === 'textarea' ? (
                     <Textarea
                       className="min-h-[64px] text-xs"
@@ -227,11 +244,17 @@ export function CollectionStageModuleHubCard({
           })}
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
+        <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-3">
           <Button type="button" size="sm" className="h-9 text-xs" onClick={handleSave}>
             {saveLabel}
           </Button>
-          <Button type="button" variant="outline" size="sm" className="h-9 gap-1.5 text-[10px]" onClick={onOpenFullDialog}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1.5 text-[10px]"
+            onClick={onOpenFullDialog}
+          >
             <LayoutPanelLeft className="h-3.5 w-3.5 shrink-0" aria-hidden />
             Вложения, история, согласование
           </Button>

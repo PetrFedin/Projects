@@ -4,11 +4,10 @@ import type { FitSentimentV1 } from './types';
 /** Генерирует "мнение покупателей" о посадке (демо-NLP данных возвратов). */
 export function getFitSentiment(product: Product): FitSentimentV1 {
   const skuHash = product.sku.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
-  
+
   // Deterministic mock based on SKU
-  const overall: FitSentimentV1['overall'] = 
-    skuHash % 5 === 0 ? 'small' : 
-    skuHash % 7 === 0 ? 'large' : 'true';
+  const overall: FitSentimentV1['overall'] =
+    skuHash % 5 === 0 ? 'small' : skuHash % 7 === 0 ? 'large' : 'true';
 
   const returnRate = (skuHash % 15) + 5; // 5-20%
   const confidence = 75 + (skuHash % 20); // 75-95%

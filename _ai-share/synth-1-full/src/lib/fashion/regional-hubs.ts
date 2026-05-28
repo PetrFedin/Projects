@@ -7,21 +7,21 @@ export function getRegionalHubFulfillment(sku: string): RegionalHubFulfillmentV1
   if (isNaN(seed)) seed = sku.length * 17;
 
   return [
-    { 
-      hubId: 'HUB-CENTRAL-MSK', 
-      sku, 
-      stockInHub: 5000, 
-      availableForB2B: 3500, 
-      reservedForRetail: 1500, 
-      nextReplenishmentDate: '2026-04-10' 
+    {
+      hubId: 'HUB-CENTRAL-MSK',
+      sku,
+      stockInHub: 5000,
+      availableForB2B: 3500,
+      reservedForRetail: 1500,
+      nextReplenishmentDate: '2026-04-10',
     },
-    { 
-      hubId: 'HUB-SOUTH-KRD', 
-      sku, 
-      stockInHub: 1200, 
-      availableForB2B: 800, 
-      reservedForRetail: 400, 
-      nextReplenishmentDate: '2026-04-15' 
+    {
+      hubId: 'HUB-SOUTH-KRD',
+      sku,
+      stockInHub: 1200,
+      availableForB2B: 800,
+      reservedForRetail: 400,
+      nextReplenishmentDate: '2026-04-15',
     },
   ];
 }

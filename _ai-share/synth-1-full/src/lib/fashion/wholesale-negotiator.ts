@@ -1,7 +1,11 @@
 import type { WholesalePriceNegotiatorV1 } from './types';
 
 /** Помощник для согласования оптовых цен (Negotiator AI). */
-export function getWholesaleNegotiationProposal(sku: string, targetPrice: number, qty: number): WholesalePriceNegotiatorV1 {
+export function getWholesaleNegotiationProposal(
+  sku: string,
+  targetPrice: number,
+  qty: number
+): WholesalePriceNegotiatorV1 {
   const seedRaw = sku.split('-')[1] || '100';
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = sku.length * 41;

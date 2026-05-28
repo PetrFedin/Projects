@@ -21,6 +21,17 @@ const STRIP_KEYS = new Set([
   'sectionSignoffs',
 ]);
 
+/** Сравнение тела досье без журнала/мета — для guard перед setState в workspace hydrate. */
+export function areWorkshop2DossierPersistBodiesEqual(
+  before: Workshop2DossierPhase1,
+  after: Workshop2DossierPhase1
+): boolean {
+  return (
+    stableStringify(stripDossierForPersistDiff(before)) ===
+    stableStringify(stripDossierForPersistDiff(after))
+  );
+}
+
 /** Убираем журнал, мета сохранения и подписи — они логируются отдельными записями. */
 export function stripDossierForPersistDiff(d: Workshop2DossierPhase1): Record<string, unknown> {
   const out: Record<string, unknown> = {};
@@ -67,7 +78,10 @@ export function summarizeWorkshop2PersistDiff(
   before: Workshop2DossierPhase1,
   after: Workshop2DossierPhase1
 ): string[] {
-  if (stableStringify(stripDossierForPersistDiff(before)) === stableStringify(stripDossierForPersistDiff(after))) {
+  if (
+    stableStringify(stripDossierForPersistDiff(before)) ===
+    stableStringify(stripDossierForPersistDiff(after))
+  ) {
     return [];
   }
 
@@ -91,13 +105,18 @@ export function summarizeWorkshop2PersistDiff(
   if (hadSketch !== hasSketch) {
     out.push(hasSketch ? 'Основной эскиз: добавлен' : 'Основной эскиз: убран');
   }
-  if (stableStringify(before.categorySketchAnnotations) !== stableStringify(after.categorySketchAnnotations)) {
+  if (
+    stableStringify(before.categorySketchAnnotations) !==
+    stableStringify(after.categorySketchAnnotations)
+  ) {
     out.push('Метки на эскизе');
   }
   if (stableStringify(before.techPackAttachments) !== stableStringify(after.techPackAttachments)) {
     out.push(`Вложения tech pack (${after.techPackAttachments?.length ?? 0} шт.)`);
   }
-  if (stableStringify(before.subcategorySketchSlots) !== stableStringify(after.subcategorySketchSlots)) {
+  if (
+    stableStringify(before.subcategorySketchSlots) !== stableStringify(after.subcategorySketchSlots)
+  ) {
     out.push('Мини-скетчи по узлам ветки (линия / группа / модель) / задачи цеха');
   }
   if (stableStringify(before.sketchSheets) !== stableStringify(after.sketchSheets)) {
@@ -107,19 +126,31 @@ export function summarizeWorkshop2PersistDiff(
   if (before.sampleSizeScaleId !== after.sampleSizeScaleId) {
     out.push('Размерная шкала образца');
   }
-  if (stableStringify(before.sampleBasePerSizeDimensions) !== stableStringify(after.sampleBasePerSizeDimensions)) {
+  if (
+    stableStringify(before.sampleBasePerSizeDimensions) !==
+    stableStringify(after.sampleBasePerSizeDimensions)
+  ) {
     out.push('Табель мер / габариты по размерам');
   }
   if (before.sampleBaseDimensionRangeMode !== after.sampleBaseDimensionRangeMode) {
     out.push('Режим мин–макс по меркам');
   }
-  if (stableStringify(before.sampleBasePerSizeDimensionRanges) !== stableStringify(after.sampleBasePerSizeDimensionRanges)) {
+  if (
+    stableStringify(before.sampleBasePerSizeDimensionRanges) !==
+    stableStringify(after.sampleBasePerSizeDimensionRanges)
+  ) {
     out.push('Диапазоны мерок');
   }
-  if (stableStringify(before.sampleBasePerSizePieceQty) !== stableStringify(after.sampleBasePerSizePieceQty)) {
+  if (
+    stableStringify(before.sampleBasePerSizePieceQty) !==
+    stableStringify(after.sampleBasePerSizePieceQty)
+  ) {
     out.push('Количество шт по размерам (табель)');
   }
-  if (stableStringify(before.sampleBaseExtraDimensions) !== stableStringify(after.sampleBaseExtraDimensions)) {
+  if (
+    stableStringify(before.sampleBaseExtraDimensions) !==
+    stableStringify(after.sampleBaseExtraDimensions)
+  ) {
     out.push('Дополнительные мерки');
   }
   if (stableStringify(before.optionalNote) !== stableStringify(after.optionalNote)) {
@@ -128,10 +159,16 @@ export function summarizeWorkshop2PersistDiff(
   if (stableStringify(before.tzSignatoryBindings) !== stableStringify(after.tzSignatoryBindings)) {
     out.push('Закрепление подписантов ТЗ по артикулу');
   }
-  if (stableStringify(before.materialComplianceChecklist) !== stableStringify(after.materialComplianceChecklist)) {
+  if (
+    stableStringify(before.materialComplianceChecklist) !==
+    stableStringify(after.materialComplianceChecklist)
+  ) {
     out.push('Чеклист комплаенса материалов (хаб BOM)');
   }
-  if (stableStringify(before.visualReadinessChecklist) !== stableStringify(after.visualReadinessChecklist)) {
+  if (
+    stableStringify(before.visualReadinessChecklist) !==
+    stableStringify(after.visualReadinessChecklist)
+  ) {
     out.push('Чеклист готовности визуала (менеджер / досье)');
   }
 
@@ -144,9 +181,41 @@ export function summarizeWorkshop2PersistDiff(
         out.push(`Атрибут «${n}»`);
       }
     } else {
-      out.push(`Атрибуты ТЗ: изменено полей — ${names.length} (в т.ч. «${names.slice(0, 3).join('», «')}» …)`);
+      out.push(
+        `Атрибуты ТЗ: изменено полей — ${names.length} (в т.ч. «${names.slice(0, 3).join('», «')}» …)`
+      );
     }
   }
 
   return out;
+}
+
+/** Детали diff атрибутов для журнала persist (alias `summarizeWorkshop2PersistDiff`). */
+export function summarizeWorkshop2PersistAttrDiffDetails(
+  before: Workshop2DossierPhase1,
+  after: Workshop2DossierPhase1
+): string[] {
+  return summarizeWorkshop2PersistDiff(before, after);
+}
+
+export function appendWorkshop2TzDossierEditLog(
+  dossier: Workshop2DossierPhase1,
+  actorLabel: string,
+  details: string[]
+): Workshop2DossierPhase1 {
+  if (details.length === 0) return dossier;
+  const entry: import('@/lib/production/workshop2-dossier-phase1.types').Workshop2TzActionLogEntry =
+    {
+      entryId: crypto.randomUUID(),
+      at: new Date().toISOString(),
+      by: actorLabel,
+      action: {
+        type: 'dossier_edit',
+        summaries: details,
+      },
+    };
+  return {
+    ...dossier,
+    tzActionLog: [entry, ...(dossier.tzActionLog ?? [])],
+  };
 }

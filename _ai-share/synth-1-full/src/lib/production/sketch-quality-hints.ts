@@ -5,7 +5,10 @@ import type {
 
 const CLOSE_PCT = 2.5;
 
-function dist2(a: Workshop2Phase1CategorySketchAnnotation, b: Workshop2Phase1CategorySketchAnnotation): number {
+function dist2(
+  a: Workshop2Phase1CategorySketchAnnotation,
+  b: Workshop2Phase1CategorySketchAnnotation
+): number {
   const dx = a.xPct - b.xPct;
   const dy = a.yPct - b.yPct;
   return dx * dx + dy * dy;
@@ -26,7 +29,9 @@ export function sketchBoardQualityHints(
     hints.push('Есть метки, но нет своей подложки — координаты могут быть неочевидны для цеха.');
   }
 
-  const criticalNoText = own.filter((a) => a.priority === 'critical' && !String(a.text ?? '').trim());
+  const criticalNoText = own.filter(
+    (a) => a.priority === 'critical' && !String(a.text ?? '').trim()
+  );
   if (criticalNoText.length > 0) {
     hints.push(`Критичных меток без текста: ${criticalNoText.length} — добавьте пояснение.`);
   }

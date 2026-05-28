@@ -1,0 +1,56 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${workspaceFolder}"
+      ]
+    },
+    "git": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "mcp_server_git",
+        "--repository",
+        "${workspaceFolder}"
+      ]
+    },
+    "fetch": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "mcp_server_fetch"
+      ]
+    },
+    "agent-browser": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "agent-browser-mcp"
+      ]
+    },
+    "exa": {
+      "url": "https://mcp.exa.ai/mcp"
+    },
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp"
+    },
+    "sentry": {
+      "type": "http",
+      "url": "https://mcp.sentry.dev/mcp"
+    },
+    "linear": {
+      "url": "https://mcp.linear.app/mcp",
+      "transport": "http"
+    },
+    "semgrep": {
+      "command": "bash",
+      "args": [
+        "${workspaceFolder}/scripts/mcp-run-semgrep.sh"
+      ]
+    }
+  }
+}

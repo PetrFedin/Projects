@@ -39,9 +39,24 @@ interface SupplierPenaltyTermsProps {
 }
 
 const DEFAULT_PENALTIES: PenaltyTerm[] = [
-  { type: 'delay', label: 'Просрочка отгрузки', value: '1% в день от суммы заказа', description: 'Макс. 15%' },
-  { type: 'defect', label: 'Брак выше нормы', value: '100% стоимости бракованных единиц', description: 'При рекламации' },
-  { type: 'shortage', label: 'Недопоставка', value: '2% за каждые недостающие 10%', description: 'От объёма PO' },
+  {
+    type: 'delay',
+    label: 'Просрочка отгрузки',
+    value: '1% в день от суммы заказа',
+    description: 'Макс. 15%',
+  },
+  {
+    type: 'defect',
+    label: 'Брак выше нормы',
+    value: '100% стоимости бракованных единиц',
+    description: 'При рекламации',
+  },
+  {
+    type: 'shortage',
+    label: 'Недопоставка',
+    value: '2% за каждые недостающие 10%',
+    description: 'От объёма PO',
+  },
 ];
 
 export function SupplierPenaltyTerms({
@@ -59,48 +74,48 @@ export function SupplierPenaltyTerms({
     <>
       <Card
         className={cn(
-          'border shadow-sm rounded-xl p-4 cursor-pointer transition-all hover:border-amber-200',
-          'border-slate-100'
+          'cursor-pointer rounded-xl border p-4 shadow-sm transition-all hover:border-amber-200',
+          'border-border-subtle'
         )}
         onClick={() => setIsOpen(true)}
       >
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
-            <div className="p-2 bg-amber-50 rounded-lg text-amber-600">
-              <Gavel className="w-4 h-4" />
+            <div className="rounded-lg bg-amber-50 p-2 text-amber-600">
+              <Gavel className="h-4 w-4" />
             </div>
             <div>
-              <CardTitle className="text-[11px] font-bold uppercase tracking-wider text-slate-900">
+              <CardTitle className="text-text-primary text-[11px] font-bold uppercase tracking-wider">
                 Штрафы и условия
               </CardTitle>
-              <CardDescription className="text-[9px] text-slate-500 mt-0.5">
+              <CardDescription className="text-text-secondary mt-0.5 text-[9px]">
                 Просрочки, брак, условия сотрудничества
               </CardDescription>
             </div>
           </div>
-          <Badge variant="outline" className="text-[8px] border-amber-200 text-amber-700">
+          <Badge variant="outline" className="border-amber-200 text-[8px] text-amber-700">
             Настроить
           </Badge>
         </div>
-        <CardContent className="p-0 mt-3 space-y-2">
+        <CardContent className="mt-3 space-y-2 p-0">
           {localPenalties.slice(0, 2).map((p, i) => (
             <div key={i} className="flex justify-between text-[9px]">
-              <span className="text-slate-600 font-bold uppercase">{p.label}</span>
-              <span className="text-slate-900 font-black">{p.value}</span>
+              <span className="text-text-secondary font-bold uppercase">{p.label}</span>
+              <span className="text-text-primary font-black">{p.value}</span>
             </div>
           ))}
-          <div className="flex items-center gap-1.5 pt-1 border-t border-slate-100">
-            <Handshake className="w-3 h-3 text-indigo-500" />
-            <span className="text-[9px] font-bold text-slate-600">{localTerms.payment}</span>
+          <div className="border-border-subtle flex items-center gap-1.5 border-t pt-1">
+            <Handshake className="text-accent-primary h-3 w-3" />
+            <span className="text-text-secondary text-[9px] font-bold">{localTerms.payment}</span>
           </div>
         </CardContent>
       </Card>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[500px] rounded-2xl">
+        <DialogContent className="rounded-2xl sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Gavel className="w-5 h-5 text-amber-600" />
+              <Gavel className="h-5 w-5 text-amber-600" />
               Условия сотрудничества: {factoryName}
             </DialogTitle>
             <DialogDescription className="text-[10px]">
@@ -109,13 +124,18 @@ export function SupplierPenaltyTerms({
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <h4 className="text-[10px] font-black uppercase text-slate-500 mb-2 flex items-center gap-1">
-                <AlertTriangle className="w-3 h-3" /> Штрафные санкции
+              <h4 className="text-text-secondary mb-2 flex items-center gap-1 text-[10px] font-black uppercase">
+                <AlertTriangle className="h-3 w-3" /> Штрафные санкции
               </h4>
               <div className="space-y-3">
                 {localPenalties.map((p, i) => (
-                  <div key={i} className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                    <Label className="text-[9px] font-bold uppercase text-slate-500">{p.label}</Label>
+                  <div
+                    key={i}
+                    className="bg-bg-surface2 border-border-subtle rounded-xl border p-3"
+                  >
+                    <Label className="text-text-secondary text-[9px] font-bold uppercase">
+                      {p.label}
+                    </Label>
                     <Input
                       value={p.value}
                       onChange={(e) =>
@@ -127,15 +147,15 @@ export function SupplierPenaltyTerms({
                       placeholder="1% в день"
                     />
                     {p.description && (
-                      <p className="text-[8px] text-slate-400 mt-1">{p.description}</p>
+                      <p className="text-text-muted mt-1 text-[8px]">{p.description}</p>
                     )}
                   </div>
                 ))}
               </div>
             </div>
             <div>
-              <h4 className="text-[10px] font-black uppercase text-slate-500 mb-2 flex items-center gap-1">
-                <Handshake className="w-3 h-3" /> Условия оплаты
+              <h4 className="text-text-secondary mb-2 flex items-center gap-1 text-[10px] font-black uppercase">
+                <Handshake className="h-3 w-3" /> Условия оплаты
               </h4>
               <Input
                 value={localTerms.payment}
@@ -145,7 +165,9 @@ export function SupplierPenaltyTerms({
               />
             </div>
             <div>
-              <Label className="text-[9px] font-bold uppercase text-slate-500">Срок производства</Label>
+              <Label className="text-text-secondary text-[9px] font-bold uppercase">
+                Срок производства
+              </Label>
               <Input
                 value={localTerms.leadTime || ''}
                 onChange={(e) => setLocalTerms((t) => ({ ...t, leadTime: e.target.value }))}

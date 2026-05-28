@@ -8,6 +8,8 @@ import type { Product } from '@/lib/types';
 import { generateSyndicatedContent, CHANNEL_LABELS } from '@/lib/fashion/content-syndication';
 import { Share2, Copy, Wand2, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
+import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 
 type Props = { product: Product };
 
@@ -24,10 +26,10 @@ export function ProductContentSyndicationBlock({ product }: Props) {
   };
 
   return (
-    <Card className="mt-4 border-violet-500/20 bg-violet-50/10">
+    <Card className="border-accent-primary/20 bg-accent-primary/10 mt-4">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
-          <Wand2 className="h-4 w-4 text-violet-600" />
+        <CardTitle className="flex items-center gap-2 text-sm">
+          <Wand2 className="text-accent-primary h-4 w-4" />
           AI Content Syndication
         </CardTitle>
         <CardDescription className="text-xs">
@@ -36,30 +38,44 @@ export function ProductContentSyndicationBlock({ product }: Props) {
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="wb">
-          <TabsList className="h-8 p-1 flex-wrap">
-            {content.map(c => (
-              <TabsTrigger key={c.channel} value={c.channel} className="text-[10px] px-2">
+          {/* cabinetSurface v1 */}
+          <TabsList className={cn(cabinetSurface.tabsList, 'h-auto min-h-8 flex-wrap p-0.5')}>
+            {content.map((c) => (
+              <TabsTrigger
+                key={c.channel}
+                value={c.channel}
+                className={cn(cabinetSurface.tabsTrigger, 'h-7 px-2 text-[10px] font-semibold')}
+              >
                 {c.channel.toUpperCase()}
               </TabsTrigger>
             ))}
           </TabsList>
-          {content.map(c => (
-            <TabsContent key={c.channel} value={c.channel} className="space-y-3 mt-2">
-              <div className="p-3 rounded border bg-background relative group">
-                <p className="text-[11px] font-bold mb-1">{c.title}</p>
-                <p className="text-[11px] text-muted-foreground leading-relaxed line-clamp-3">{c.description}</p>
-                <Button 
-                  size="icon" 
-                  variant="ghost" 
-                  className="h-6 w-6 absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          {content.map((c) => (
+            <TabsContent key={c.channel} value={c.channel} className="mt-2 space-y-3">
+              <div className="group relative rounded border bg-background p-3">
+                <p className="mb-1 text-[11px] font-bold">{c.title}</p>
+                <p className="line-clamp-3 text-[11px] leading-relaxed text-muted-foreground">
+                  {c.description}
+                </p>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="absolute right-2 top-2 h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
                   onClick={() => handleCopy(`${c.title}\n\n${c.description}`, c.channel)}
                 >
-                  {copied === c.channel ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3" />}
+                  {copied === c.channel ? (
+                    <Check className="h-3 w-3 text-emerald-600" />
+                  ) : (
+                    <Copy className="h-3 w-3" />
+                  )}
                 </Button>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {c.keyFeatures.map((f, i) => (
-                  <span key={i} className="text-[9px] px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-700 border border-violet-200">
+                  <span
+                    key={i}
+                    className="bg-accent-primary/15 text-accent-primary border-accent-primary/25 rounded-full border px-1.5 py-0.5 text-[9px]"
+                  >
                     {f}
                   </span>
                 ))}

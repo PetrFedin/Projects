@@ -18,6 +18,7 @@ Your task is to transform the UI so it feels like a premium Fashion B2B operatin
 - high-end merchandising / planning systems
 
 You must preserve:
+
 - existing pages
 - existing navigation
 - existing routes
@@ -25,6 +26,7 @@ You must preserve:
 - existing product structure
 
 You must NOT:
+
 - break routing
 - remove sections
 - rebuild the application from scratch
@@ -32,6 +34,7 @@ You must NOT:
 - create inconsistent one-off components
 
 All improvements must be:
+
 - additive
 - consistent
 - enterprise-grade

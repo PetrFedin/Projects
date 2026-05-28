@@ -9,7 +9,9 @@ import { sketchPinBelongsToLeaf } from '@/lib/production/workshop2-sketch-pin-te
 const MAX_SNAPSHOTS = 24;
 
 function newId(): string {
-  return typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `snap-${Date.now()}`;
+  return typeof crypto !== 'undefined' && crypto.randomUUID
+    ? crypto.randomUUID()
+    : `snap-${Date.now()}`;
 }
 
 /** Добавить неизменяемый снимок меток текущей ветки (master). */

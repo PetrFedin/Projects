@@ -31,10 +31,7 @@ export function canAttachArticleToPO(article: ArticleEntity): TransitionCheck {
 }
 
 /** Отгрузка / склад: последняя инспекция по PO не fail с блокировкой */
-export function canShipForPO(
-  po: POEntity,
-  inspections: QCInspectionEntity[]
-): TransitionCheck {
+export function canShipForPO(po: POEntity, inspections: QCInspectionEntity[]): TransitionCheck {
   const forPo = inspections.filter((i) => i.poId === po.id && i.blocksShipment);
   const blocking = forPo.filter((i) => i.result === 'fail' || i.result === 'rework');
   if (blocking.length > 0) {

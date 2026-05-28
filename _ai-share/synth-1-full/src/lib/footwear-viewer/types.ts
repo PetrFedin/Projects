@@ -23,11 +23,7 @@ export interface FootwearAngleShot {
   sequenceIndex: number;
 }
 
-export type FootwearScanSource =
-  | 'photogrammetry'
-  | 'lid_ar'
-  | 'studio_scan'
-  | 'manual_upload';
+export type FootwearScanSource = 'photogrammetry' | 'lid_ar' | 'studio_scan' | 'manual_upload';
 
 export interface FootwearScanMeta {
   source: FootwearScanSource;
@@ -46,7 +42,13 @@ export interface FootwearScanBundle {
   pairingPresets?: BottomWearPairingPreset[];
 }
 
-export type BottomWearCategory = 'jeans' | 'trousers' | 'joggers' | 'shorts' | 'skirt' | 'dress_pants';
+export type BottomWearCategory =
+  | 'jeans'
+  | 'trousers'
+  | 'joggers'
+  | 'shorts'
+  | 'skirt'
+  | 'dress_pants';
 
 export interface BottomWearPairingPreset {
   id: string;

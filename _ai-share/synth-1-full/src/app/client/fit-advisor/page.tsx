@@ -12,8 +12,10 @@ import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { loadForYouPreferences } from '@/lib/platform/for-you';
 import { buildFitAdvice } from '@/lib/fashion/fit-advisor';
-import { ArrowLeft, Ruler, ArrowDown, ArrowUp, MinusCircle, HelpCircle } from 'lucide-react';
+import { ArrowDown, ArrowUp, MinusCircle, HelpCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 
 function IconFor({ skew }: { skew: ReturnType<typeof buildFitAdvice>['skew'] }) {
   if (skew === 'size_down') return <ArrowDown className="h-8 w-8 text-amber-600" />;
@@ -28,7 +30,10 @@ function FitAdvisorInner() {
   const [sku, setSku] = useState(initialSku);
 
   const prefs = useMemo(() => loadForYouPreferences(), []);
-  const advice = useMemo(() => buildFitAdvice(sku.trim() || products[0]?.sku || '', prefs), [sku, prefs]);
+  const advice = useMemo(
+    () => buildFitAdvice(sku.trim() || products[0]?.sku || '', prefs),
+    [sku, prefs]
+  );
   const product = products.find((p) => p.sku === sku.trim());
 
   return (
@@ -36,15 +41,23 @@ function FitAdvisorInner() {
       <Card className="md:col-span-2">
         <CardHeader>
           <CardTitle className="text-base">SKU</CardTitle>
-          <CardDescription>Голоса посадки с PDP (localStorage) + ваш размер из «Для вас».</CardDescription>
+          <CardDescription>
+            Голоса посадки с PDP (localStorage) + ваш размер из «Для вас».
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="sku">Артикул / SKU</Label>
-            <Input id="sku" value={sku} onChange={(e) => setSku(e.target.value)} className="font-mono text-sm" />
+            <Input
+              id="sku"
+              value={sku}
+              onChange={(e) => setSku(e.target.value)}
+              className="font-mono text-sm"
+            />
           </div>
           <p className="text-xs text-muted-foreground">
-            Базовый размер в профиле: <strong className="text-foreground">{prefs.sizeHint}</strong>. Изменить в{' '}
+            Базовый размер в профиле: <strong className="text-foreground">{prefs.sizeHint}</strong>.
+            Изменить в{' '}
             <Link href={ROUTES.client.forYou} className="underline">
               Для вас
             </Link>
@@ -63,7 +76,9 @@ function FitAdvisorInner() {
           <IconFor skew={advice.skew} />
           <div>
             <CardTitle className="text-base">{advice.headline}</CardTitle>
-            <CardDescription className="text-sm mt-2 leading-relaxed">{advice.detail}</CardDescription>
+            <CardDescription className="mt-2 text-sm leading-relaxed">
+              {advice.detail}
+            </CardDescription>
           </div>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">
@@ -77,23 +92,10 @@ function FitAdvisorInner() {
 
 export default function ClientFitAdvisorPage() {
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
-              <Ruler className="h-6 w-6" />
-              Посадка и размер
-            </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              Детерминированный совет до подключения size-ML и истории заказов.
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader />
         </div>
         <PlatformDataBanner />
       </div>
@@ -101,6 +103,6 @@ export default function ClientFitAdvisorPage() {
       <Suspense fallback={<p className="text-sm text-muted-foreground">Загрузка…</p>}>
         <FitAdvisorInner />
       </Suspense>
-    </div>
+    </CabinetPageContent>
   );
 }

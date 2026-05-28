@@ -20,6 +20,6 @@ export function getStoreVipFittings(storeId: string = 'STORE-MSK-MAIN'): StoreVi
       stylistId: 'STYLIST-MAX',
       preSelectedSkus: ['SKU-202'],
       status: 'scheduled',
-    }
+    },
   ];
 }

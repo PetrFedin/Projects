@@ -5,7 +5,7 @@ import type { LogisticStrategyV1 } from './types';
 export function optimizeFulfillment(product: Product): LogisticStrategyV1 {
   const price = product.price;
   const isHeavy = product.category === 'Outerwear';
-  
+
   if (price > 15000) {
     return {
       sku: product.sku,

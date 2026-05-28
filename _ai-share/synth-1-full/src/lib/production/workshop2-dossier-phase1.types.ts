@@ -3,9 +3,10 @@ import type {
   Workshop2BomLineDeltaDraft,
   Workshop2MaterialAlternativeDraft,
 } from '@/lib/production/workshop2-dossier-view-infrastructure';
+import type { Workshop2SampleEconomicsDraft } from '@/lib/production/workshop2-sample-economics.types';
 
 /**
- * Модель досье фазы 1 Цеха 2 — соответствует schemas/workshop2-dossier-phase1.json.
+ * Модель досье фазы 1 разработки коллекции — соответствует schemas/workshop2-dossier-phase1.json.
  */
 
 export type Workshop2Phase1ValueSource = 'handbook_parameter' | 'free_text' | 'numeric';
@@ -34,15 +35,120 @@ export type Workshop2Phase1AttributeAssignment = {
   values: Workshop2Phase1AttributeValue[];
 };
 
+/** Где лежат байты оригинала (кроме сессионного blob: в компоненте). */
+export type Workshop2Phase1TechPackByteStorage = 'dataurl' | 'idb' | 'session';
+
+/** Семантика файла (для фильтров и политик). */
+export type Workshop2Phase1TechPackSourceKind = 'pdf' | 'image' | 'cad' | 'archive' | 'other';
+
 export type Workshop2Phase1TechPackAttachment = {
   attachmentId: string;
   fileName: string;
   fileSize?: number;
   mimeType?: string;
-  /** Data URL; для крупных файлов может отсутствовать из‑за лимита localStorage. */
+  /**
+   * Data URL; для крупных файлов может отсутствовать — тогда `byteStorage` idb|session
+   * и/или `previewThumbnailDataUrl` для списка.
+   */
   previewDataUrl?: string;
   revisionNote?: string;
+  /**
+   * Где хранятся байты; по умолчанию считаем `dataurl`, если задан `previewDataUrl`, иначе
+   * устаревшие записи без поля.
+   */
+  byteStorage?: Workshop2Phase1TechPackByteStorage;
+  /**
+   * Миниатюра (jpeg data URL, ~2–20 KB) для списка без тянуть полный base64.
+   * Для `idb` с изображениями — заполняется на загрузке.
+   */
+  previewThumbnailDataUrl?: string;
+  /** SHA-256, первые 16 hex (аудит / дедуп). */
+  contentSha256?: string;
+  /** Кто загрузил файл (подпись сессии бренда). */
+  uploadedBy?: string;
+  /** ISO, время добавления вложения. */
+  uploadedAt?: string;
+  sourceKind?: Workshop2Phase1TechPackSourceKind;
+  /** «К производству» — опциональная ручная отметка (ISO). */
+  productionMarkedAt?: string;
+  /** S3/объектное хранилище: ключ объекта после успешной выгрузки. */
+  remoteObjectKey?: string;
+  /**
+   * Синхронизация с бэкендом (когда API и облако включены).
+   * `local` — только этот браузер / localStorage+IDB; `pending` — в очереди; `synced` — копия в облаке.
+   */
+  remoteSyncState?: 'local' | 'pending' | 'uploading' | 'synced' | 'failed';
+  remoteSyncedAt?: string;
+  /** Последняя ошибка upload (сеть/403/валидация). */
+  remoteLastError?: string;
+  /** Инкремент при повторной заливке того же вложения. */
+  remoteContentVersion?: number;
+  /**
+   * Канон для аудита: после успешного `complete` на сервере — верифицированный объект в хранилище.
+   * `local_only` — байты не подтверждены бэкендом (только клиент/LS/IDB).
+   */
+  canonicalSource?: 'local_only' | 'object_store_verified';
+  /** SHA-256 полный (64 hex), зафиксированный при серверной проверке (не путать с 16-hex в UI). */
+  integritySha256Full?: string;
+  /** ETag S3 после HeadObject/complete. */
+  objectStoreEtag?: string;
+  /** Когда сервер подтвердил размер+magic+hash. */
+  serverIntegrityVerifiedAt?: string;
+  /**
+   * Неизменяемая отметка «отдали в работу с этим содержимым»; повтор — только новый `attachmentId`/файл.
+   */
+  productionImmutableSeal?: { at: string; by: string; contentSha256Full: string };
 };
+
+/** Канал передачи пакета в сторону фабрики (доменная модель; интеграции подключаются снаружи). */
+export type Workshop2FactoryHandoffChannel = 'portal' | 'email' | 'edi' | 'zip_download' | 'other';
+
+export type Workshop2TechPackHandoffStatus =
+  | 'draft'
+  | 'sent'
+  | 'acknowledged'
+  | 'accepted'
+  | 'rejected'
+  | 'amendment_requested';
+
+/** Согласованный пакет tech pack к цеху: кто, когда, ревизия, ответ. */
+export type Workshop2TechPackFactoryHandoff = {
+  handoffId: string;
+  createdAt: string;
+  createdBy: string;
+  /** Бренд: отметка «передано» (до фиксации пакета). */
+  brandDispatchedAt?: string;
+  brandDispatchedBy?: string;
+  /** Производство: отметка «получено» (до фиксации пакета). */
+  factoryReceivedAt?: string;
+  factoryReceivedBy?: string;
+  packageRevisionLabel: string;
+  windowNote?: string;
+  contactLabel?: string;
+  channel: Workshop2FactoryHandoffChannel;
+  status: Workshop2TechPackHandoffStatus;
+  sentAt?: string;
+  factoryResponseAt?: string;
+  /** В демо — произвольная подпись ответа («ОТК фабрики»). */
+  factoryResponseBy?: string;
+  factoryComment?: string;
+  /** Вложения, входящие в эту передачу. */
+  attachmentIds: string[];
+  /**
+   * Снимок проверенных на сервере вложений на момент фиксации передачи (`object_store_verified`).
+   * Для аудита: ключ объекта и хеш после `tech-pack/complete`.
+   */
+  verifiedTechPackAuditAtSend?: {
+    attachmentId: string;
+    remoteObjectKey?: string;
+    integritySha256Full?: string;
+    remoteSyncedAt?: string;
+    objectStoreEtag?: string;
+  }[];
+};
+
+/** Режим хранения досье: демо в браузере vs целевой сервер (флаг для UI, не заменяет persist). */
+export type Workshop2DossierStorageTarget = 'browser_local' | 'server_target';
 
 export type Workshop2SketchAnnotationType =
   | 'construction'
@@ -88,7 +194,7 @@ export type Workshop2MesDefectCodeRow = {
   parentCode?: string;
 };
 
-/** Этапы маршрута Цеха 2 (вкладки воркспейса, привязка метки скетча). */
+/** Этапы маршрута разработки коллекции (вкладки воркспейса, привязка метки скетча). */
 export type Workshop2TzSignoffStageId =
   | 'tz'
   | 'sample'
@@ -99,10 +205,19 @@ export type Workshop2TzSignoffStageId =
   | 'qc';
 
 /** Активные вкладки ТЗ в навигации (4 шт.). */
-export type Workshop2TzPanelSectionId = 'general' | 'visuals' | 'material' | 'construction';
+export type Workshop2TzPanelSectionId =
+  | 'general'
+  | 'visuals'
+  | 'material'
+  | 'construction'
+  /** Пакет в цех: tech pack, ZIP, фиксация передачи (отдельная вкладка ТЗ «Задание»). */
+  | 'assignment';
 
 /** Устаревшие ключи в сохранённых метках (табель мер / упаковка вынесены в конструкцию и материалы). */
-export type Workshop2TzPanelSectionKeyStored = Workshop2TzPanelSectionId | 'measurements' | 'packaging';
+export type Workshop2TzPanelSectionKeyStored =
+  | Workshop2TzPanelSectionId
+  | 'measurements'
+  | 'packaging';
 
 /** Что именно берём с референса (решение, не только файл). */
 export type Workshop2VisualRefTakeawayAspect =
@@ -159,6 +274,16 @@ export type Workshop2Phase1CategorySketchAnnotation = {
   xPct: number;
   /** 0–100, от верхнего края подложки. */
   yPct: number;
+  /**
+   * Конец линии линейного размера (в процентах подложки). Если заданы оба — на доске рисуется линия
+   * от (xPct,yPct) до конца; подпись и число — в `dimensionLabel` / `dimensionValueText`.
+   */
+  lineEndXPct?: number;
+  lineEndYPct?: number;
+  /** Что измеряется: рукав, пояс, манжет и т.п. */
+  dimensionLabel?: string;
+  /** Значение в см/мм и т.д. */
+  dimensionValueText?: string;
   text: string;
   annotationType?: Workshop2SketchAnnotationType;
   priority?: Workshop2SketchAnnotationPriority;
@@ -293,6 +418,26 @@ export type Workshop2SketchSheetChecklist = {
   workshopTaskConfirmed?: boolean;
 };
 
+/** Ориентация поля доски скетча (превью и миниатюры). */
+export type Workshop2SketchBoardOrientation = 'landscape' | 'portrait';
+
+/**
+ * Мини-карточка материала (смотка / фото образца) на подложке скетча.
+ * Координаты в процентах от поля доски (как у меток).
+ */
+export type Workshop2SketchMaterialCard = {
+  cardId: string;
+  xPct: number;
+  yPct: number;
+  /** Ширина карточки в % ширины поля доски; высота по соотношению изображения. */
+  widthPct?: number;
+  imageDataUrl?: string;
+  imageFileName?: string;
+  caption?: string;
+  /** Строка BOM / материал — как у метки скетча. */
+  linkedBomLineRef?: string;
+};
+
 /**
  * Дополнительный скетч-лист: своя подложка (файл) и метки.
  * Независим от master-полей `categorySketchImage*` / `categorySketchAnnotations`.
@@ -305,6 +450,8 @@ export type Workshop2Phase1SketchSheet = {
   viewKind?: Workshop2SketchSheetViewKind;
   imageDataUrl?: string;
   imageFileName?: string;
+  /** Альбомная или книжная доска для подложки и превью. */
+  boardOrientation?: Workshop2SketchBoardOrientation;
   annotations: Workshop2Phase1CategorySketchAnnotation[];
   /** Короткая задача цеха по этому виду (не дубль меток). */
   workshopTaskNote?: string;
@@ -318,6 +465,8 @@ export type Workshop2Phase1SketchSheet = {
    */
   referenceMotionVideoUrl?: string;
   referenceMotionVideoNote?: string;
+  /** Карточки подобранных материалов на этом листе (поверх подложки). */
+  materialCards?: Workshop2SketchMaterialCard[];
 };
 
 /**
@@ -403,16 +552,37 @@ export type Workshop2SampleProductionChainMode =
 
 /**
  * Финальный слой после образца, перед отгрузкой в коллекцию (этап «приёмка сэмпла» на вкладке Fit).
- * Черновой ТН ВЭД и обоснование остаются в паспорте ТЗ; здесь — утверждённые реквизиты.
+ * В паспорте ТЗ для цеха — ориентир по группе и основному коду ТН ВЭД; расширенные коды и обоснование из каталога — вкладка ТЗ «Задание»; здесь — утверждённые реквизиты под отгрузку.
  */
 /** Жёсткость целевой даты образца / пилота. */
 export type Workshop2PassportDeadlineCriticality = 'hard' | 'flexible' | 'tbd';
 
 /** Кто ведёт карточку ТЗ на шаге 1 (не оргструктура). */
-export type Workshop2PassportArticleCardOwnerRole = 'designer' | 'product' | 'technologist' | 'shared';
+export type Workshop2PassportArticleCardOwnerRole =
+  | 'designer'
+  | 'product'
+  | 'technologist'
+  | 'shared';
 
-/** План запуска: своё производство / КНП / смешанный. */
-export type Workshop2PassportPlannedLaunchType = 'own_floor' | 'cmt' | 'mixed' | 'undecided';
+/**
+ * План запуска: производственная схема и канал.
+ * Расширенный список + поле «свой текст» (`plannedLaunchCustomNote`) при необходимости.
+ */
+export type Workshop2PassportPlannedLaunchType =
+  | 'undecided'
+  | 'own_floor'
+  | 'cmt'
+  | 'mixed'
+  | 'domestic_partner'
+  | 'nearshore_partner'
+  | 'far_east_partner'
+  | 'ecom_d2c_first'
+  | 'wholesale_preorder'
+  | 'dropship_fulfillment'
+  | 'made_to_order_mto'
+  | 'import_rtw'
+  | 'pilot_line_only'
+  | 'other_catalogued';
 
 /**
  * Сроки, объём и запуск (паспорт, шаг 1): якоря для оценки срока и объёма;
@@ -421,6 +591,8 @@ export type Workshop2PassportPlannedLaunchType = 'own_floor' | 'cmt' | 'mixed' |
 export type Workshop2PassportProductionBrief = {
   /** Целевая дата готовности образца или пилотной партии (ISO date YYYY-MM-DD). */
   targetSampleOrPilotDate?: string;
+  /** Конец окна дат (необязательно; если задано вместе с `targetSampleOrPilotDate` — диапазон). */
+  targetSampleOrPilotDateEnd?: string;
   /** Ориентир по MOQ (текст); в UI не показывается, поле оставлено для старых досье. */
   moqTargetNote?: string;
   /** Сколько образцов: не больше стольких размеров из справочника; сумма «Кол-во, шт» в табеле не выше этого числа. */
@@ -429,8 +601,24 @@ export type Workshop2PassportProductionBrief = {
   articleCardOwnerRole?: Workshop2PassportArticleCardOwnerRole;
   articleCardOwnerName?: string;
   plannedLaunchType?: Workshop2PassportPlannedLaunchType;
+  /** Уточнение к выбранному типу запуска (свой вариант, партнёр, регион и т.д.). */
+  plannedLaunchCustomNote?: string;
   /** Регион пошива / тип цеха — продуктовое правило, не дубль страны происхождения. */
   sewingRegionPlanNote?: string;
+  /** Субъекты РФ (ISO 3166-2, коды вида RU-MOW), мультивыбор. */
+  sewingRfSubjectIsoCodes?: string[];
+  /** Предприятия / партнёры из внутреннего справочника (id), мультивыбор. */
+  sewingEnterprisePartnerIds?: string[];
+  /** Партнёр или предприятие вне справочника — свободный текст. */
+  sewingEnterprisesCustomNote?: string;
+  /** Окно первой отгрузки / выхода в продажу (ориентир для плана и SLA). */
+  passportFirstShipWindowNote?: string;
+  /** Жёсткие ограничения для снабжения и производства (MOQ, сроки, сертификация узла и т.п.). */
+  passportSupplyOrProductionConstraintNote?: string;
+  /** Транспортная и индивидуальная упаковка (коробки, полибеги, штрихкоды и т.д.) */
+  packagingAndLabelingNote?: string;
+  /** Весогабаритные характеристики (расчетный вес, габариты упаковки и т.д.) */
+  weightAndDimensionsNote?: string;
   /**
    * Целевые даты ответа по ролям на этапе ТЗ (YYYY-MM-DD): напоминание для команды, не блокирует сохранение.
    */
@@ -439,6 +627,24 @@ export type Workshop2PassportProductionBrief = {
     technologist?: string;
     manager?: string;
   };
+};
+
+/** Черновик снабжения по материалу в секции «Материалы» (локально, до API каталога партнёра). */
+export type Workshop2MaterialSourcingDraft = {
+  supplierDisplayName?: string;
+  supplierPartnerSlug?: string;
+  fabricDescription?: string;
+  priceNote?: string;
+  priceDate?: string;
+  photoDataUrls?: string[];
+  catalogPickNote?: string;
+};
+
+export type Workshop2SampleIntakeReworkIteration = {
+  id: string;
+  date: string;
+  comment: string;
+  status: 'returned_to_factory' | 'received_back';
 };
 
 export type Workshop2SampleIntakeRelease = {
@@ -460,6 +666,8 @@ export type Workshop2SampleIntakeRelease = {
   okpd2Note?: string;
   /** Итоговый состав, если менялся на образце. */
   actualCompositionNote?: string;
+  /** История доработок образца. */
+  reworkHistory?: Workshop2SampleIntakeReworkIteration[];
 };
 
 /** true/undefined = участие/подпись на этапе; false = снято (для ТЗ — подпись этого уровня не обязательна). */
@@ -484,8 +692,422 @@ export type Workshop2TzSignatoryBindings = {
   extraAssigneeRows?: Workshop2TzSignatoryExtraRow[];
 };
 
+/** Метаданные последнего «финального» экспорта спецификации (один файл по артикулу). */
+export type Workshop2FinalTzDocumentExportMeta = {
+  exportedAt: string;
+  exportedBy: string;
+  format: 'html' | 'pdf';
+  dossierUpdatedAtSnapshot: string;
+  articleSkuSnapshot?: string;
+  articleNameSnapshot?: string;
+  pathLabelSnapshot?: string;
+};
+
+/** Физический тип полотна бирки (составник / care label). */
+export type Workshop2CompositionLabelPhysicalKind =
+  | 'satin'
+  | 'nylon'
+  | 'jacquard'
+  | 'polyester'
+  | 'cotton'
+  | 'other';
+
+/** Раскладка печати бирки по листам / сегментам. */
+export type Workshop2CompositionLabelSheetLayout = 'single' | 'two_sheets' | 'three_sheets';
+
+/** Пресет гарнитуры для макета бирки (экранный черновик и ТТ для типографии). */
+export type Workshop2CompositionLabelFontPreset =
+  | ''
+  | 'system_sans'
+  | 'system_serif'
+  | 'condensed'
+  | 'custom';
+
+/** Строка конструктора «волокно + доля» (карточка товара / ERP). */
+export type Workshop2CompositionLabelFiberRow = {
+  fiberId: string;
+  percent: number;
+};
+
+/** Язык подписей волокон и страны в черновике конструктора. */
+export type Workshop2CompositionLabelConstructorLanguage = 'ru' | 'en' | 'bilingual';
+
+/** Объект на макете бирки в визуальном редакторе (позиции в % от габарита бирки). */
+export type Workshop2CompositionLabelLayoutElementKind = 'text' | 'logo' | 'careStrip';
+
+export type Workshop2CompositionLabelLayoutElement = {
+  elementId: string;
+  kind: Workshop2CompositionLabelLayoutElementKind;
+  /** Порядок отрисовки (больше — выше). */
+  zIndex?: number;
+  /** 0–100, левый верх элемента. */
+  xPct: number;
+  yPct: number;
+  wPct: number;
+  hPct: number;
+  rotationDeg?: number;
+  /** Для `text`: кегль в px на превью (масштаб с биркой). */
+  fontSizePx?: number;
+  fontWeight?: 'normal' | 'bold';
+  /** Для `text`: выравнивание многострочного блока. */
+  textAlign?: 'left' | 'center' | 'right';
+  /** 0–100, непрозрачность блока на превью. */
+  opacityPct?: number;
+};
+
+/**
+ * Спецификация бирки состава и ухода: размеры, материал бирки, что берётся из ТЗ, что дописывается вручную.
+ */
+export type Workshop2CompositionLabelSpec = {
+  /** Ширина бирки, мм (печать / заказ у поставщика бирок). */
+  labelWidthMm?: string;
+  /** Высота (или длина развёрнутой бирки), мм. */
+  labelHeightMm?: string;
+  /** Припуск печати, мм (подсказка для подрядчика). */
+  labelBleedMm?: string;
+  /** Внутреннее «безопасное» поле от обреза, мм. */
+  labelSafeInsetMm?: string;
+  /** Выбранный пресет габаритов из справочника (пусто = только ручные мм). */
+  labelSizePresetId?: string;
+  /** Сатин / нейлон / жаккард — влияет на ощущение и долговечность. */
+  physicalMaterial?: Workshop2CompositionLabelPhysicalKind | '' | undefined;
+  /** Уточнение полотна или свой вариант (справа от фильтра типа). */
+  physicalMaterialNote?: string;
+  /** Сырьевой состав в % — из полей ТЗ (mat / composition). */
+  includeFiberCompositionFromTz?: boolean;
+  /** Рекомендации по уходу (значки стирки, глажки…) — из полей ТЗ. */
+  includeCareSymbolsFromTz?: boolean;
+  /** Производитель / составитель рядом с составом — из паспорта (бренд, реквизиты при наличии в ТЗ). */
+  includeManufacturerFromTz?: boolean;
+  /** Доп. обязательные строки (юридический адрес, рег. знак, артикул на бирке…). */
+  extraLegalLines?: string;
+  /** Произвольные примечания технолога к финальному тексту бирки. */
+  technologistNotes?: string;
+  /** Показать в черновике условный контур припусков / габаритов печати. */
+  showTrimBleedInDraft?: boolean;
+  /** Условные метки реза (углы) на черновике — для согласования с типографией. */
+  showTrimMarksOnDraft?: boolean;
+  /** Плейсхолдер маркировки EAC на черновике (не заменяет юр. макет). */
+  showEacPlaceholderOnDraft?: boolean;
+  /** Печать части текста на обороте бирки. */
+  printOnReverse?: boolean;
+  /** Сколько логических листов/сегментов в раскладке. */
+  sheetLayout?: Workshop2CompositionLabelSheetLayout | '' | undefined;
+  /** Как расположить блоки, SKU, логотип на 2–3 листах; где сгиб. */
+  layoutPlacementNotes?: string;
+  /** Текст бренда / ИНН / адрес на лицевой стороне (если не хватает полей ТЗ). */
+  brandFaceLines?: string;
+  /** Позиция и размер логотипа на бирке. */
+  brandLogoPlacementNote?: string;
+  /** Гарнитура для макета. */
+  typographyFontPreset?: Workshop2CompositionLabelFontPreset | undefined;
+  /** Если preset === custom — название шрифта для подрядчика. */
+  typographyCustomFontName?: string;
+  /** Кегль основного текста, pt. */
+  typographyBodyPt?: string;
+  /** Межстрочный интервал основного текста, % от кегля (напр. 130). */
+  typographyLineHeightPct?: string;
+  /** Межбуквенный интервал, em (напр. 0.02; 0 = по умолчанию). */
+  typographyLetterSpacingEm?: string;
+  /** Цветность печати — подсказка цеху/типографии. */
+  printColorMode?: '' | 'bw' | 'cmyk' | 'spot' | 'other';
+  /** Целевое разрешение растра / LPI, подсказка (напр. 300 DPI). */
+  printDpiNote?: string;
+  /** Жирное начертание блока состава в макете. */
+  typographyBoldFiberBlock?: boolean;
+  /** Жирное начертание блока ухода в макете. */
+  typographyBoldCareBlock?: boolean;
+  /** Явно отмеченные знаки ухода (дополнение к авто из ТЗ). */
+  careSymbolIds?: string[];
+  /** Плотность сетки знаков ухода на черновике. */
+  careSymbolsLayoutDensity?: 'tight' | 'normal' | 'loose';
+  /** Доп. текст по уходу / обслуживанию (ручной), кроме полей ТЗ. */
+  careInstructionsSupplement?: string;
+  /** Текст для оборота (если включена печать на обороте). */
+  reverseFaceLines?: string;
+  /** Вынести составник отдельным пунктом в задание цеха / пакет передачи. */
+  includeInFactoryAssignment?: boolean;
+  /** Логотип на макете (data URL, локально в досье). */
+  compositionLabelLogoDataUrl?: string;
+  /** Ручной текст на макете; если заполнен — подменяет авто-черновик в превью. */
+  draftTextManual?: string;
+  /** Блок А: состав из справочника волокон + % (автоматизация панели конструктора). */
+  constructorFiberRows?: Workshop2CompositionLabelFiberRow[];
+  /** Язык строк состава / страны в конструкторе (мультиязычный экспорт). */
+  constructorDisplayLanguage?: Workshop2CompositionLabelConstructorLanguage;
+  /** Блок В: страна изготовления (пресет подписи). */
+  labelOriginPresetId?: string;
+  /** Размер изделия на бирке (часто дублирует размерник). */
+  labelGarmentSizeText?: string;
+  /** Артикул на бирке. */
+  labelArticleSkuText?: string;
+  /** Текст штрих-кода (EAN-13 и т.п.) или подпись под кодом. */
+  labelBarcodeText?: string;
+  /** URL для QR внизу бирки (лендинг, карточка, маркировка). */
+  labelQrUrl?: string;
+  /** Размещение блоков на макете (визуальный редактор оформления). */
+  layoutElements?: Workshop2CompositionLabelLayoutElement[];
+};
+
+export type Workshop2ProductionNodeKind =
+  | 'body'
+  | 'front'
+  | 'back'
+  | 'sleeve'
+  | 'collar'
+  | 'hood'
+  | 'pocket'
+  | 'closure'
+  | 'lining'
+  | 'hem'
+  | 'cuff'
+  | 'belt'
+  | 'hardware'
+  | 'label'
+  | 'packaging'
+  | 'other';
+
+export type Workshop2ProductionNodeStatus = 'empty' | 'draft' | 'ready' | 'approved';
+
+export type Workshop2ProductionNode = {
+  id: string;
+  parentId?: string;
+  kind: Workshop2ProductionNodeKind;
+  label: string;
+  isRequired?: boolean;
+  sortOrder?: number;
+  sourceAttributeIds?: string[];
+  sketchAnnotationIds?: string[];
+  description?: string;
+  notApplicable?: boolean;
+  notApplicableReason?: string;
+  status?: Workshop2ProductionNodeStatus;
+  comment?: string;
+};
+
+export type Workshop2ProductionMaterialRole =
+  | 'main'
+  | 'lining'
+  | 'interlining'
+  | 'insulation'
+  | 'contrast'
+  | 'trim'
+  | 'thread'
+  | 'label'
+  | 'packaging'
+  | 'other';
+
+export type Workshop2ProductionMaterialLine = {
+  id: string;
+  nodeId: string;
+  role: Workshop2ProductionMaterialRole;
+  materialName: string;
+  compositionText?: string;
+  percentage?: number;
+  gsm?: number;
+  color?: string;
+  supplier?: string;
+  article?: string;
+  unit?: 'm' | 'm2' | 'kg' | 'pcs' | 'set';
+  consumption?: number;
+  sourceAssignmentId?: string;
+  isPrimary?: boolean;
+  comment?: string;
+  yieldPerUnit?: number;
+  yieldUnit?: string;
+  unitCostNet?: number;
+  landedCost?: number;
+  currency?: string;
+  supplyType?: 'brand' | 'factory';
+  substitutes?: (string | { id: string; name: string })[];
+};
+
+export type Workshop2ProductionTrimLine = {
+  id: string;
+  nodeId: string;
+  trimType:
+    | 'button'
+    | 'zipper'
+    | 'snap'
+    | 'hook'
+    | 'cord'
+    | 'elastic'
+    | 'buckle'
+    | 'label'
+    | 'other';
+  name: string;
+  size?: string;
+  color?: string;
+  quantity?: number;
+  placement?: string;
+  supplier?: string;
+  article?: string;
+  unitCostNet?: number;
+  comment?: string;
+  supplyType?: 'brand' | 'factory';
+  substitutes?: (string | { id: string; name: string })[];
+};
+
+export type Workshop2ProductionOperation = {
+  id: string;
+  nodeId: string;
+  name?: string;
+  operationType:
+    | 'seam'
+    | 'edge_finish'
+    | 'pressing'
+    | 'fusing'
+    | 'quilting'
+    | 'topstitch'
+    | 'bar_tack'
+    | 'buttonhole'
+    | 'attachment'
+    | 'other';
+  seamType?: string;
+  processingMethod?: string;
+  machineType?: string;
+  stitchesPerCm?: number;
+  thread?: string;
+  costPerUnit?: number;
+  sash?: number;
+  comment?: string;
+};
+
+export type Workshop2ProductionMeasurement = {
+  id: string;
+  nodeId?: string;
+  code: string;
+  label: string;
+  size: string;
+  valueCm?: number;
+  tolerancePlusCm?: number;
+  toleranceMinusCm?: number;
+  comment?: string;
+};
+
+export type Workshop2GradingRow = {
+  id: string;
+  pointName: string;
+  baseMeasurement: number;
+  increments: Record<string, number>;
+  /** Шаг автоматического приращения для всех размеров (+/- см). */
+  gradingStep?: number;
+  /** Защита строки: не меняется из табеля и не перезаписывается авто-градацией, пока снята галочка. */
+  gradingFrozen?: boolean;
+};
+
+/** Строка техпоследовательности (умная маршрутизация), хранится в досье для экспорта и повторного открытия. */
+export type Workshop2SmartRoutingOperation = {
+  id: string;
+  category: string;
+  name: string;
+  equipment: string;
+  /** Нормативное время операции, мин (SASH). */
+  sash: number;
+};
+
+export type Workshop2ProductionModel = {
+  version: 1;
+  generatedFromCategoryKey?: string;
+  generatedAt?: string;
+  nodes: Workshop2ProductionNode[];
+  materialLines: Workshop2ProductionMaterialLine[];
+  trimLines: Workshop2ProductionTrimLine[];
+  operations: Workshop2ProductionOperation[];
+  measurements: Workshop2ProductionMeasurement[];
+  notesForFactory?: string;
+
+  /** Плановая или фактическая логистика */
+  logisticsCost?: number;
+  /** Рассчитанная фактическая себестоимость (Actual COGS) */
+  actualCogs?: number;
+};
+
+export type Workshop2ProductionPreflightIssue = {
+  id: string;
+  severity: 'blocker' | 'warning' | 'info';
+  section:
+    | 'passport'
+    | 'visuals'
+    | 'materials'
+    | 'construction'
+    | 'measurements'
+    | 'sketch'
+    | 'label'
+    | 'attachments'
+    | 'handoff';
+  nodeId?: string;
+  label: string;
+  detail: string;
+  anchor?: string;
+  fixHint?: string;
+};
+
+export type Workshop2ProductionPreflightSnapshot = {
+  score: number;
+  blockers: Workshop2ProductionPreflightIssue[];
+  warnings: Workshop2ProductionPreflightIssue[];
+  info: Workshop2ProductionPreflightIssue[];
+  issues: Workshop2ProductionPreflightIssue[];
+  canExportDraft: boolean;
+  canSendToFactory: boolean;
+  updatedAt: string;
+};
+
+export type Workshop2ProductionTzExportMeta = {
+  exportedAt: string;
+  exportedBy?: string;
+  status: 'draft' | 'ready_for_factory';
+  score: number;
+  blockersCount: number;
+  warningsCount: number;
+  dossierUpdatedAtSnapshot?: string;
+};
+
+export type Workshop2VendorBid = {
+  id: string;
+  vendorId: string;
+  vendorName: string;
+  cmtPrice: number;
+  currency: string;
+  leadTimeDays: number;
+  moq: number;
+  status: 'pending' | 'accepted' | 'rejected';
+  submittedAt: string;
+};
+
+export type Workshop2TaMilestone = {
+  id: string;
+  title: string;
+  targetDate: string;
+  actualDate: string | null;
+  status: 'pending' | 'in_progress' | 'completed' | 'delayed';
+};
+
+export type Workshop2ChangeRequestStatus = 'pending' | 'approved' | 'rejected';
+
+export type Workshop2ChangeRequest = {
+  id: string;
+  description: string;
+  status: Workshop2ChangeRequestStatus;
+  requestedBy: string;
+  createdAt: string;
+};
+
 export type Workshop2DossierPhase1 = {
   schemaVersion: 1;
+  /** Внутренняя числовая версия ТЗ (увеличивается при публикации новых эталонов/ревизий) */
+  dossierVersion?: number;
+  /** Текстовый ярлык текущей версии (например, "v1", "v2 - Fit corrections") */
+  dossierVersionLabel?: string;
+  /** Снимки состояния ТЗ при создании новых версий */
+  versionHistorySnapshots?: {
+    version: number;
+    label: string;
+    at: string;
+    by: string;
+    snapshot: any;
+  }[];
   optionalNote?: string;
   updatedAt?: string;
   updatedBy?: string;
@@ -495,9 +1117,19 @@ export type Workshop2DossierPhase1 = {
   isUnisex?: boolean;
   /** Сроки, объём, запуск, владелец ТЗ — см. `Workshop2PassportProductionBrief`. */
   passportProductionBrief?: Workshop2PassportProductionBrief;
+  /** Фото/поставщик/ткань и задел под каталог партнёров (материалы ТЗ). */
+  materialSourcingDraft?: Workshop2MaterialSourcingDraft;
   assignments: Workshop2Phase1AttributeAssignment[];
   /** До 5 файлов tech pack / лекал (дополнительно к ссылке и ревизии в атрибуте). */
   techPackAttachments?: Workshop2Phase1TechPackAttachment[];
+  /** Передачи пакета tech pack на сторону производства (канал, статус, ответ). */
+  techPackFactoryHandoffs?: Workshop2TechPackFactoryHandoff[];
+  /**
+   * Целевой режим хранения (подсказка UI). Реальный persist по-прежнему localStorage, пока нет API досье.
+   */
+  dossierStorageTarget?: Workshop2DossierStorageTarget;
+  /** Локальная заметка о конфликте вкладок / ручном merge (не серверный CRDT). */
+  collaborationMergeNote?: string;
   /** Референсы: описание + ссылка и/или вложение. */
   visualReferences?: Workshop2Phase1VisualReference[];
   /** Главное фото модели среди референсов (refId). */
@@ -519,8 +1151,12 @@ export type Workshop2DossierPhase1 = {
   /** Своя подложка вместо типового скетча по категории (data URL). */
   categorySketchImageDataUrl?: string;
   categorySketchImageFileName?: string;
+  /** Ориентация поля общей доски скетча (превью и миниатюра в ленте). */
+  categorySketchBoardOrientation?: Workshop2SketchBoardOrientation;
   /** Комментарии вокруг/на скетче для текущей категории. */
   categorySketchAnnotations?: Workshop2Phase1CategorySketchAnnotation[];
+  /** Карточки материалов на общей доске скетча (смотки поверх подложки). */
+  categorySketchMaterialCards?: Workshop2SketchMaterialCard[];
   /**
    * Полупрозрачное наложение для сравнения с эталоном (фото прошлой партии / референс).
    * Рисуется поверх подложки master-скетча с прозрачностью `categorySketchCompareOverlayOpacityPct`.
@@ -562,6 +1198,20 @@ export type Workshop2DossierPhase1 = {
   /** Справочник кодов дефектов MES; в UI дополняется дефолтами. */
   sketchMesDefectCatalog?: Workshop2MesDefectCodeRow[];
   brandNotes?: string;
+  /**
+   * Комментарии к атрибутам (в том числе к отложенным полям).
+   * Ранее хранились в localStorage, теперь персистятся в досье.
+   * Ключ — id атрибута или синтетический ключ (w2-construction-cad).
+   */
+  attrComments?: Record<
+    string,
+    import('@/components/brand/production/workshop2-phase1-dossier-panel-attr-comments-dialog').Workshop2AttrComment[]
+  >;
+  /**
+   * Отложенные атрибуты (галочка "Позже").
+   * Ранее хранились в localStorage, теперь в досье.
+   */
+  deferredAttrIds?: string[];
   isVerifiedByDesigner?: boolean;
   isVerifiedByTechnologist?: boolean;
   isVerifiedByManager?: boolean;
@@ -583,10 +1233,19 @@ export type Workshop2DossierPhase1 = {
   tzSignatoryBindings?: Workshop2TzSignatoryBindings;
   /** Галочки по секциям: бренд / технолог + метка времени. */
   sectionSignoffs?: Workshop2DossierSectionSignoffs;
+  /** Напоминания по подтверждению секций (время/счётчик/дедлайн per role). */
+  sectionSignoffReminders?: Workshop2SectionSignoffReminders;
+  /**
+   * Последний экспорт единого документа «Итоговое ТЗ» (HTML / печать в PDF).
+   * `dossierUpdatedAtSnapshot` сравнивают с текущим `updatedAt`, чтобы показать «документ устарел после правок».
+   */
+  finalTzDocumentLastExport?: Workshop2FinalTzDocumentExportMeta;
   /** Журнал проставления/снятия подтверждений ТЗ (глобальные и по секциям). */
   tzActionLog?: Workshop2TzActionLogEntry[];
   /** Выбранная шкала базового размера; если нет — из правил каталога по L1. */
   sampleSizeScaleId?: string;
+  /** Явно выбранный базовый размер (метка из шкалы или свой текст). */
+  sampleBaseSizeLabel?: string;
   /** @deprecated см. sampleBasePerSizeDimensions */
   sampleBaseDimensionOverrides?: Record<string, string>;
   /** Количество шт по строке базового размера (ключ — parameterId размера). Сумма ≤ moqTargetMaxPieces при заданном лимите образцов. */
@@ -608,6 +1267,8 @@ export type Workshop2DossierPhase1 = {
   sampleBaseHiddenDimensionKeys?: string[];
   /** Подписи стандартных мерок в таблице (ключ — исходная подпись из справочника). */
   sampleBaseDimensionLabelOverrides?: Record<string, string>;
+  /** Допуски по меркам (± см) */
+  sampleBaseDimensionTolerances?: Record<string, { plus?: number; minus?: number }>;
   /**
    * Три слота скетчей по ур.1 / ур.2 / ур.3 каталога: детализация производственных задач
    * и опциональная сводка габаритов + атрибутов карточки артикула.
@@ -631,6 +1292,29 @@ export type Workshop2DossierPhase1 = {
   /** Обязательные финальные поля для кнопки «Принять сэмпл в коллекцию» (вкладка Fit). */
   sampleIntakeRelease?: Workshop2SampleIntakeRelease;
 
+  gradingRules?: Workshop2GradingRow[];
+  gradingSizes?: string[];
+  /** Сохранённая цепочка операций из блока «Умная маршрутизация» (конструктив). */
+  smartRoutingSequence?: Workshop2SmartRoutingOperation[];
+
+  /**
+   * Черновик плановой экономики образца (COGS + сроки): вкладка «Снабжение».
+   * Не смешивается с % готовности паспорта «Общее»; условия поставки из ТЗ — только ссылка/заметка, без дубля Incoterms.
+   */
+  sampleEconomicsDraft?: Workshop2SampleEconomicsDraft;
+
+  /**
+   * Бирка состава / care label: габариты, материал бирки и что тянуть из ТЗ vs вручную для финального текста.
+   * Основной ввод — вкладка «Материалы»; при передаче в цех согласовать с блоком «Отправка».
+   */
+  compositionLabelSpec?: Workshop2CompositionLabelSpec;
+  /** Производственная карта изделия: узлы, материалы, операции, мерки, контроль. */
+  productionModel?: Workshop2ProductionModel;
+  /** Снимок последнего производственного pre-flight. */
+  productionPreflightLastSnapshot?: Workshop2ProductionPreflightSnapshot;
+  /** Последняя сборка итогового производственного ТЗ. */
+  productionTzLastExport?: Workshop2ProductionTzExportMeta;
+
   /** Альтернативы материала / узла BOM (персистентно в досье до API). */
   materialAlternativeDrafts?: Workshop2MaterialAlternativeDraft[];
   /** Дельта BOM по строкам (ТЗ / образец / серия). */
@@ -649,12 +1333,47 @@ export type Workshop2DossierPhase1 = {
   lifecycleState?: Workshop2DossierLifecycleState;
   /** История ревизий и переходов между состояниями. */
   revisions?: Workshop2DossierRevision[];
+  /** Запросы на изменение (CR). */
+  changeRequests?: Workshop2ChangeRequest[];
   /** Записи согласований по секциям. */
   approvalRecords?: Workshop2DossierApprovalRecord[];
+  /** Краткие метаданные снимков финального экспорта ТЗ (лента истории). */
+  finalExportSnapshots?: Workshop2FinalExportSnapshotMeta[];
+  /** Полные снимки финального экспорта (state snapshot + context). */
+  finalExportSnapshotRecords?: Workshop2FinalExportSnapshotRecord[];
+
+  /** Тендерная площадка: ставки фабрик. */
+  bids?: Workshop2VendorBid[];
+
+  /** Time & Action Calendar: этапы производства после выбора подрядчика. */
+  taMilestones?: Workshop2TaMilestone[];
+
+  /** Производственная стратегия */
+  productionStrategy?: 'fpp' | 'cmt' | 'hybrid' | 'blank_customization';
+  /** Настройки B2B-интеграции (оптовые продажи и предзаказ) */
+  b2bIntegrationDraft?: {
+    isLive?: boolean;
+    wholesalePrice?: string;
+    msrp?: string;
+    moq?: string;
+    startDate?: string;
+    endDate?: string;
+  };
+
+  /** Единое хранилище (Vault) для документов */
+  vaultDocuments?: {
+    id: string;
+    type: 'contract' | 'invoice' | 'certificate';
+    title: string;
+    fileUrl?: string;
+    amount?: number;
+  }[];
 };
 
 export type Workshop2DossierSignoffMeta = {
   by: string;
+  /** Предприятие / бренд, где числится подписант (рядом с ФИО в журнале и UI). */
+  byOrganization?: string;
   /** ISO-8601 */
   at: string;
   /** Демо-отпечаток цифровой подписи (не КЭП). */
@@ -664,10 +1383,30 @@ export type Workshop2DossierSignoffMeta = {
 /** Ключи совпадают с секциями ТЗ · досье. */
 export type Workshop2DossierSectionSignoffs = Partial<
   Record<
-    'general' | 'visuals' | 'material' | 'construction',
+    'general' | 'visuals' | 'material' | 'construction' | 'assignment' | 'b2b_sales',
     {
       brand?: Workshop2DossierSignoffMeta;
       tech?: Workshop2DossierSignoffMeta;
+    }
+  >
+>;
+
+/** Напоминание по подтверждению секции ТЗ для конкретной стороны (бренд / технолог). */
+export type Workshop2SectionSignoffReminder = {
+  /** ISO-8601 */
+  lastNotifiedAt?: string;
+  notifyCount?: number;
+  /** ISO-8601 (плановый срок ответа). */
+  dueAt?: string;
+};
+
+/** Reminders per section/side: кто и сколько раз получил запрос подтверждения. */
+export type Workshop2SectionSignoffReminders = Partial<
+  Record<
+    'general' | 'visuals' | 'material' | 'construction' | 'assignment' | 'b2b_sales',
+    {
+      brand?: Workshop2SectionSignoffReminder;
+      tech?: Workshop2SectionSignoffReminder;
     }
   >
 >;
@@ -683,6 +1422,8 @@ export type Workshop2TzActionLogPayload =
       section: Workshop2TzSignoffSectionKey;
       role: 'brand' | 'tech';
       set: boolean;
+      /** Предприятие в записи подписи / снятой строке — для текста в журнале. */
+      signerOrganization?: string;
     }
   /** Изменения данных ТЗ / карточки при сохранении или сразу после правки артикула (SKU, ветка). */
   | { type: 'dossier_edit'; summaries: string[] }
@@ -698,6 +1439,19 @@ export type Workshop2TzActionLogPayload =
       type: 'sketch_labels_restore';
       label?: string;
       snapshotAt: string;
+    }
+  /** Целостность tech pack: печать к производству / подтверждение сервером. */
+  | { type: 'tech_pack_integrity'; summary: string }
+  /** Исходящая передача пакета к фабрике. */
+  | { type: 'tech_pack_handoff'; handoffId: string; detail: string }
+  /** Ответ/статус со стороны производства (имитация B2B-порта). */
+  | { type: 'tech_pack_factory_response'; handoffId: string; detail: string }
+  /** Единый документ «Итоговое ТЗ» (скачивание HTML или печать в PDF из браузера). */
+  | {
+      type: 'final_tz_spec_export';
+      format: 'html' | 'pdf';
+      dossierUpdatedAtSnapshot: string;
+      pathLabel?: string;
     };
 
 export type Workshop2TzActionLogEntry = {
@@ -731,4 +1485,24 @@ export type Workshop2DossierApprovalRecord = {
   by: string;
   comment?: string;
   section?: string;
+};
+
+/**
+ * Снимок метаданных экспорта «Итоговое ТЗ» (для истории и диффов).
+ */
+export type Workshop2FinalExportSnapshotMeta = {
+  snapshotId: string;
+  createdAt: string;
+  createdBy: string;
+  dossierVersion: number;
+  dossierUpdatedAtSnapshot?: string;
+  lifecycleState?: Workshop2DossierLifecycleState;
+};
+
+/**
+ * Полная запись снимка экспорта: метаданные + зафиксированное состояние досье.
+ */
+export type Workshop2FinalExportSnapshotRecord = Workshop2FinalExportSnapshotMeta & {
+  dossierSnapshot: Workshop2DossierPhase1;
+  exportContextSnapshot?: Record<string, unknown>;
 };

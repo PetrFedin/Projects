@@ -1,11 +1,14 @@
 import type { WeatherDemandCorrelationV1 } from './types';
 
 /** Корреляция спроса и погоды для регионов РФ. */
-export function getWeatherDemandCorrelation(sku: string, region: string): WeatherDemandCorrelationV1 {
+export function getWeatherDemandCorrelation(
+  sku: string,
+  region: string
+): WeatherDemandCorrelationV1 {
   const seedRaw = sku.split('-')[1] || '100';
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = sku.length * 23;
-  
+
   return {
     sku,
     region,

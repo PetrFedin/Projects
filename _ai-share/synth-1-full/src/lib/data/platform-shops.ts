@@ -5,10 +5,28 @@
 import type { PlatformShop } from '@/lib/brand-profile/online-store-types';
 
 export const PLATFORM_SHOPS: PlatformShop[] = [
-  { id: 'shop1', name: 'Podium', nameAlt: 'Подиум', city: 'Москва', type: 'Мультибренд', logoUrl: 'https://picsum.photos/seed/podium-logo/40/40', website: 'https://podium.ru' },
-  { id: 'shop2', name: 'ЦУМ', nameAlt: 'TSUM', city: 'Москва', type: 'Универмаг', logoUrl: 'https://i.imgur.com/JMgcWwL.png', website: 'https://tsum.ru' },
-  { id: 'shop3', name: 'Boutique No.7', nameAlt: 'Бутик №7', city: 'Санкт-Петербург', type: 'Бутик', logoUrl: 'https://picsum.photos/seed/boutique7-logo/40/40' },
-  { id: 'shop4', name: 'Lamoda', nameAlt: 'Ла Мода', city: 'Москва', type: 'Маркетплейс', logoUrl: 'https://picsum.photos/seed/lamoda/40/40', website: 'https://lamoda.ru' },
-  { id: 'shop5', name: 'Wildberries', nameAlt: 'Вайлдберриз', city: 'Москва', type: 'Маркетплейс', logoUrl: 'https://picsum.photos/seed/wb/40/40', website: 'https://wildberries.ru' },
-  { id: 'shop6', name: 'Ozon', city: 'Москва', type: 'Маркетплейс', logoUrl: 'https://picsum.photos/seed/ozon/40/40', website: 'https://ozon.ru' },
+  {
+    id: 'shop1',
+    name: 'Демо-магазин · Москва 1',
+    nameAlt: 'Демо MSK 1',
+    city: 'Москва',
+    type: 'Мультибренд',
+    logoUrl: 'https://picsum.photos/seed/demo-retail-msk1/40/40',
+  },
+  {
+    id: 'shop2',
+    name: 'Демо-магазин · Москва 2',
+    nameAlt: 'Демо MSK 2',
+    city: 'Москва',
+    type: 'Универмаг',
+    logoUrl: 'https://picsum.photos/seed/demo-retail-msk2/40/40',
+  },
+  {
+    id: 'shop3',
+    name: 'Демо-магазин · СПб',
+    nameAlt: 'Демо СПб',
+    city: 'Санкт-Петербург',
+    type: 'Бутик',
+    logoUrl: 'https://picsum.photos/seed/demo-retail-spb/40/40',
+  },
 ];

@@ -12,55 +12,75 @@ export function ProductReorderRecommendationBlock({ product }: { product: Produc
   const recommendations = getB2BReorderSuggestions('PARTNER-01', [product.sku]);
 
   return (
-    <Card className="p-4 border-2 border-indigo-600 bg-indigo-600 text-white shadow-2xl my-4 relative overflow-hidden group">
-      <div className="absolute top-0 right-0 p-4 opacity-10 rotate-12 pointer-events-none group-hover:scale-110 transition-transform">
-         <Sparkles className="w-16 h-16 text-white" />
+    <Card className="border-accent-primary bg-accent-primary group relative my-4 overflow-hidden border-2 p-4 text-white shadow-2xl">
+      <div className="pointer-events-none absolute right-0 top-0 rotate-12 p-4 opacity-10 transition-transform group-hover:scale-110">
+        <Sparkles className="h-16 w-16 text-white" />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 text-indigo-100">
-          <Sparkles className="w-4 h-4" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-white">AI-Driven Reorder Suggestions</h4>
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-accent-primary/30 flex items-center gap-2">
+          <Sparkles className="h-4 w-4" />
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-white">
+            AI-Driven Reorder Suggestions
+          </h4>
         </div>
-        <Badge className="bg-indigo-500 text-white border-none text-[8px] h-4 font-black uppercase">Smart Hub</Badge>
+        <Badge className="bg-accent-primary h-4 border-none text-[8px] font-black uppercase text-white">
+          Smart Hub
+        </Badge>
       </div>
 
       <div className="space-y-4">
-         {recommendations.map((r) => (
-           <div key={r.sku} className="group/item p-3 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/10 hover:bg-white/20 transition-all cursor-pointer">
-              <div className="flex justify-between items-start mb-2">
-                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-indigo-500 flex items-center justify-center shadow-md">
-                       <ShoppingBag className="w-4 h-4 text-white" />
-                    </div>
-                    <div>
-                       <div className="text-[11px] font-black text-white leading-tight uppercase tracking-tight">{r.sku}</div>
-                       <div className="text-[8px] font-bold text-indigo-200 uppercase tracking-wider">{r.reason}</div>
-                    </div>
-                 </div>
-                 <div className="text-right">
-                    <div className="text-[14px] font-black text-white">+{r.suggestedQty}</div>
-                    <div className="text-[7px] font-black text-indigo-300 uppercase leading-none">Suggested</div>
-                 </div>
+        {recommendations.map((r) => (
+          <div
+            key={r.sku}
+            className="group/item cursor-pointer rounded-2xl border border-white/10 bg-white/10 p-3 backdrop-blur-sm transition-all hover:bg-white/20"
+          >
+            <div className="mb-2 flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="bg-accent-primary flex h-8 w-8 items-center justify-center rounded-xl shadow-md">
+                  <ShoppingBag className="h-4 w-4 text-white" />
+                </div>
+                <div>
+                  <div className="text-[11px] font-black uppercase leading-tight tracking-tight text-white">
+                    {r.sku}
+                  </div>
+                  <div className="text-accent-primary/40 text-[8px] font-bold uppercase tracking-wider">
+                    {r.reason}
+                  </div>
+                </div>
               </div>
-              
-              <div className="flex items-center gap-3 mb-3">
-                 <div className="flex-1">
-                    <Progress value={r.confidenceScore} className="h-1 bg-white/10 fill-white rounded-full" />
-                 </div>
-                 <span className="text-[8px] font-black text-indigo-200 uppercase tracking-widest">{r.confidenceScore}% Conf.</span>
+              <div className="text-right">
+                <div className="text-[14px] font-black text-white">+{r.suggestedQty}</div>
+                <div className="text-accent-primary text-[7px] font-black uppercase leading-none">
+                  Suggested
+                </div>
               </div>
+            </div>
 
-              <button className="w-full h-8 bg-white text-indigo-600 rounded-lg text-[8px] font-black uppercase flex items-center justify-center gap-2 shadow-lg shadow-indigo-700/50 hover:bg-indigo-50 transition-all">
-                 Quick Reorder <Plus className="w-3 h-3" />
-              </button>
-           </div>
-         ))}
+            <div className="mb-3 flex items-center gap-3">
+              <div className="flex-1">
+                <Progress
+                  value={r.confidenceScore}
+                  className="h-1 rounded-full bg-white/10 fill-white"
+                />
+              </div>
+              <span className="text-accent-primary/40 text-[8px] font-black uppercase tracking-widest">
+                {r.confidenceScore}% Conf.
+              </span>
+            </div>
+
+            <button className="text-accent-primary shadow-accent-primary/25 hover:bg-accent-primary/10 flex h-8 w-full items-center justify-center gap-2 rounded-lg bg-white text-[8px] font-black uppercase shadow-lg transition-all">
+              Quick Reorder <Plus className="h-3 w-3" />
+            </button>
+          </div>
+        ))}
       </div>
 
-      <div className="mt-4 p-3 bg-white/5 rounded-2xl border border-white/5 flex items-center gap-3">
-         <RefreshCw className="w-4 h-4 text-indigo-300 animate-spin-slow" />
-         <div className="text-[9px] font-bold text-indigo-100 uppercase tracking-widest">Live Sync: Analyzing {recommendations.length} SKU dependencies...</div>
+      <div className="mt-4 flex items-center gap-3 rounded-2xl border border-white/5 bg-white/5 p-3">
+        <RefreshCw className="text-accent-primary animate-spin-slow h-4 w-4" />
+        <div className="text-accent-primary/30 text-[9px] font-bold uppercase tracking-widest">
+          Live Sync: Analyzing {recommendations.length} SKU dependencies...
+        </div>
       </div>
     </Card>
   );

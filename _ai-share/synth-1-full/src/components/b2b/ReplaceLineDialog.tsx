@@ -33,7 +33,9 @@ export function ReplaceLineDialog({
 }: ReplaceLineDialogProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const sameCategory = item.category
-    ? allProducts.filter((p: Product) => p.category === item.category && p.id !== item.id).slice(0, 4)
+    ? allProducts
+        .filter((p: Product) => p.category === item.category && p.id !== item.id)
+        .slice(0, 4)
     : allProducts.slice(0, 4);
 
   const handleReplace = () => {
@@ -65,8 +67,10 @@ export function ReplaceLineDialog({
             {sameCategory.map((p: Product) => (
               <li
                 key={p.id}
-                className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${
-                  selectedId === p.id ? 'border-primary bg-primary/5' : 'border-slate-200 hover:border-slate-300'
+                className={`flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors ${
+                  selectedId === p.id
+                    ? 'border-primary bg-primary/5'
+                    : 'border-border-default hover:border-border-default'
                 }`}
                 onClick={() => setSelectedId(p.id)}
               >
@@ -76,7 +80,9 @@ export function ReplaceLineDialog({
                   )}
                   <div>
                     <p className="font-medium">{p.name}</p>
-                    <p className="text-xs text-slate-500">{p.category} · {p.price?.toLocaleString('ru-RU')} ₽</p>
+                    <p className="text-text-secondary text-xs">
+                      {p.category} · {p.price?.toLocaleString('ru-RU')} ₽
+                    </p>
                   </div>
                 </div>
                 {selectedId === p.id && <Badge variant="default">Выбрано</Badge>}
@@ -85,7 +91,11 @@ export function ReplaceLineDialog({
           </ul>
         </div>
         <DialogFooter>
-          <Button variant="outline" className="text-rose-600 border-rose-200" onClick={handleCancelLine}>
+          <Button
+            variant="outline"
+            className="border-rose-200 text-rose-600"
+            onClick={handleCancelLine}
+          >
             Отменить позицию
           </Button>
           <Button onClick={handleReplace} disabled={!selectedId}>

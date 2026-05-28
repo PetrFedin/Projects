@@ -6,8 +6,18 @@ export function getB2BQualityClaim(sku: string): B2BQualityClaimV1 {
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = sku.length * 17;
 
-  const reasons: B2BQualityClaimV1['reason'][] = ['fabric_defect', 'stitching', 'stain', 'size_deviation'];
-  const statuses: B2BQualityClaimV1['status'][] = ['open', 'under_review', 'resolved', 'credit_note_issued'];
+  const reasons: B2BQualityClaimV1['reason'][] = [
+    'fabric_defect',
+    'stitching',
+    'stain',
+    'size_deviation',
+  ];
+  const statuses: B2BQualityClaimV1['status'][] = [
+    'open',
+    'under_review',
+    'resolved',
+    'credit_note_issued',
+  ];
 
   return {
     claimId: `CLM-${seed}-RU`,

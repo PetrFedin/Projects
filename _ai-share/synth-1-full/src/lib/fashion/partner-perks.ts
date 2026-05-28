@@ -23,6 +23,6 @@ export function getPartnerPerks(partnerId: string, currentOrderValue: number): P
       requirementDescription: 'Assortment width > 50 SKU',
       isUnlocked: false,
       progressPercent: 65,
-    }
+    },
   ];
 }

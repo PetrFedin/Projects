@@ -1,5 +1,5 @@
 /**
- * Снимки вкладок страницы артикула Цеха 2.
+ * Снимки вкладок страницы артикула в разработке коллекции.
  * Контракт рассчитан на последующую замену локального адаптера на HTTP без смены UI.
  */
 
@@ -27,7 +27,10 @@ export type SupplySnapshot = {
     unit?: string;
     costPerUnit?: number;
     leadTimeDays?: number; // Added: Material lead time tracking
+    vendorItemId?: string; // Added: B2B Vendor Connect mock
     sourceNote?: string;
+    supplyType?: 'brand' | 'factory';
+    substitutes?: (string | { id: string; name: string })[];
   }[];
   note?: string;
 };
@@ -40,12 +43,45 @@ export type FitComment = {
   role?: 'designer' | 'technologist' | 'brand_manager';
 };
 
+export type CadVersion = {
+  id: string;
+  articleId: string;
+  versionNumber: number;
+  fileUrl: string;
+  createdAt: string;
+};
+
+export type FitSessionComment = {
+  id: string;
+  targetAnchor: string;
+  text: string;
+  photoUrls: string[];
+  by?: string;
+  at?: string;
+};
+
+export type FitSession = {
+  id: string;
+  sampleType: 'proto' | 'sms' | 'pps' | 'top';
+  status: 'pending' | 'approved' | 'rework' | 'approved_with_comments';
+  dateStr: string;
+  measurementsDelta: Record<string, number>;
+  comments: FitSessionComment[];
+  cadVersionId?: string | null;
+  aiFitAnalysis?: {
+    wrinklesDetected: string[];
+    recommendations: string[];
+  };
+};
+
 export type FitGoldSnapshot = {
   goldApproved: boolean;
   approvedAt?: string;
   approvedBy?: string;
   fitComments: FitComment[];
   virtualFitScore?: number; // 0-100 from VTO
+  sessions?: FitSession[];
+  baseSpecUpdatedFromDeltasAt?: string; // Track when deltas were applied to base spec
 };
 
 export type PoLine = {
@@ -70,6 +106,8 @@ export type NestingArtifact = {
   id: string;
   title: string;
   efficiencyPct?: number;
+  length?: number;
+  layers?: number;
   fileRefNote?: string;
   at: string;
 };
@@ -115,21 +153,26 @@ export type ProductionOperation = {
   id: string;
   name: string;
   sash: number; // Стандартное время (мин/ед)
+  machineSetupTime?: number; // Время переналадки (мин)
   costPerUnit: number;
   status: 'pending' | 'in_progress' | 'completed';
   assignedTo?: string;
+  mediaUrl?: string;
 };
 
 export type ReleaseSnapshot = {
   note?: string;
   shiftNote?: string;
   subcontractNote?: string;
+  sampleMaterialsNote?: string; // Материалы для отшива образца
   operations?: ProductionOperation[];
 };
 
 export type ArticleWorkspaceBundle = {
   schemaVersion: 1;
   updatedAt?: string;
+  /** Текущая версия ТЗ, на которой базируются производственные данные */
+  lastSyncedDossierVersion?: number;
   supply?: SupplySnapshot;
   fitGold?: FitGoldSnapshot;
   planPo?: PlanPoSnapshot;

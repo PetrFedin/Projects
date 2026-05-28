@@ -30,7 +30,7 @@ export function calculateMatrixTotals(cells: MatrixCell[], price: number): Matri
     byColor: {},
   };
 
-  cells.forEach(cell => {
+  cells.forEach((cell) => {
     if (cell.quantity <= 0) return;
 
     totals.totalUnits += cell.quantity;
@@ -47,18 +47,18 @@ export function calculateMatrixTotals(cells: MatrixCell[], price: number): Matri
  * Преобразует ячейки матрицы в формат элементов корзины
  */
 export function convertMatrixToCartItems(
-  product: Product, 
-  cells: MatrixCell[], 
-  deliveryDate: string = "Immediate"
+  product: Product,
+  cells: MatrixCell[],
+  deliveryDate: string = 'Immediate'
 ): CartItem[] {
   return cells
-    .filter(cell => cell.quantity > 0)
-    .map(cell => ({
+    .filter((cell) => cell.quantity > 0)
+    .map((cell) => ({
       ...product,
       quantity: cell.quantity,
       selectedSize: cell.size,
       deliveryDate,
       // Добавляем инфо о цвете, если продукт поддерживает вариации
-      selectedColor: cell.color 
+      selectedColor: cell.color,
     }));
 }

@@ -46,7 +46,9 @@ async function upstashCmd(cmd: (string | number)[]): Promise<unknown> {
   return j.result;
 }
 
-export async function upstashAppendW2DossierMetricRow(row: Workshop2DossierMetricsPayload): Promise<void> {
+export async function upstashAppendW2DossierMetricRow(
+  row: Workshop2DossierMetricsPayload
+): Promise<void> {
   const line = JSON.stringify(row);
   const cap = getW2UpstashMetricsMaxListLen();
   await upstashCmd(['LPUSH', REDIS_KEY, line]);
@@ -58,7 +60,9 @@ export async function upstashDeleteW2DossierMetricsList(): Promise<void> {
   await upstashCmd(['DEL', REDIS_KEY]);
 }
 
-export async function upstashReadW2DossierMetricsTail(maxLines: number): Promise<Workshop2DossierMetricsPayload[]> {
+export async function upstashReadW2DossierMetricsTail(
+  maxLines: number
+): Promise<Workshop2DossierMetricsPayload[]> {
   const n = Math.min(Math.max(maxLines, 1), 5000);
   const raw = await upstashCmd(['LRANGE', REDIS_KEY, 0, n - 1]);
   if (!Array.isArray(raw)) return [];

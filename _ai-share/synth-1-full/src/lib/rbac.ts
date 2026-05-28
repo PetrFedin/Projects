@@ -30,6 +30,8 @@ export type Resource =
   | 'integrations'
   | 'team'
   | 'analytics'
+  | 'marketing'
+  | 'learning'
   | 'edo'
   | 'settings';
 
@@ -47,6 +49,8 @@ const RBAC_MATRIX: Record<PlatformRole, Partial<Record<Resource, Action[]>>> = {
     integrations: ['view', 'create', 'edit', 'delete'],
     team: ['view', 'create', 'edit', 'delete'],
     analytics: ['view', 'export'],
+    marketing: ['view', 'create', 'edit', 'delete', 'export'],
+    learning: ['view', 'create', 'edit', 'delete'],
     edo: ['view', 'create', 'edit', 'delete'],
     settings: ['view', 'edit'],
   },
@@ -61,6 +65,8 @@ const RBAC_MATRIX: Record<PlatformRole, Partial<Record<Resource, Action[]>>> = {
     integrations: ['view', 'edit'],
     team: ['view', 'edit'],
     analytics: ['view', 'export'],
+    marketing: ['view', 'export'],
+    learning: ['view', 'edit'],
     edo: ['view', 'create', 'edit'],
     settings: ['view', 'edit'],
   },
@@ -70,12 +76,19 @@ const RBAC_MATRIX: Record<PlatformRole, Partial<Record<Resource, Action[]>>> = {
     warehouse: ['view'],
     finance: ['view'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
     edo: ['view'],
+    /** Ритейл-центр: настройки магазина, команда — группа «Сеть и доступы». */
+    settings: ['view'],
+    team: ['view'],
   },
   buyer: {
     b2b_orders: ['view', 'create'],
     b2b_catalog: ['view'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
     production: ['view'],
   },
   distributor: {
@@ -83,77 +96,127 @@ const RBAC_MATRIX: Record<PlatformRole, Partial<Record<Resource, Action[]>>> = {
     b2b_catalog: ['view'],
     warehouse: ['view'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
     edo: ['view'],
     production: ['view'],
   },
   manufacturer: {
+    brand_profile: ['view'],
     production: ['view', 'edit'],
     b2b_orders: ['view'],
     warehouse: ['view'],
     compliance: ['view', 'edit'],
   },
   supplier: {
+    brand_profile: ['view'],
     production: ['view'],
     b2b_orders: ['view'],
   },
   designer: {
+    brand_profile: ['view'],
     production: ['view', 'edit'],
     b2b_catalog: ['view'],
+    marketing: ['view'],
+    learning: ['view', 'edit'],
   },
   technologist: {
+    brand_profile: ['view'],
     production: ['view', 'edit', 'approve'],
     compliance: ['view', 'edit'],
+    marketing: ['view'],
+    learning: ['view'],
   },
   production_manager: {
+    brand_profile: ['view'],
     production: ['view', 'create', 'edit', 'approve', 'export'],
     b2b_orders: ['view'],
     warehouse: ['view', 'edit'],
     compliance: ['view', 'edit'],
+    marketing: ['view'],
+    learning: ['view'],
   },
   finance_manager: {
+    brand_profile: ['view'],
     finance: ['view', 'edit', 'approve', 'export'],
     b2b_orders: ['view'],
     edo: ['view', 'create', 'edit'],
-    /** Цех / Цех 2 в навигации и read-only контур (без create/edit в матрице production). */
+    /** Пол (цех) / разработка коллекции в навигации и read-only контур (без create/edit в матрице production). */
     production: ['view'],
+    /** BI / финхаб / ESG в сайдбаре; без этого CFO не видит кластеры «Аналитика» и «Финансы». */
+    analytics: ['view', 'export'],
+    /** Группа «Маркетинг» в бренд-центре (согласовано: CFO видит). */
+    marketing: ['view'],
+    /** Ритейл-центр: бюджет, связанные кабинеты, read-only настройки. */
+    settings: ['view'],
+    team: ['view'],
   },
   sales_rep: {
+    brand_profile: ['view'],
     b2b_orders: ['view', 'create', 'edit'],
     b2b_catalog: ['view'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
     production: ['view'],
   },
   merchandiser: {
+    brand_profile: ['view'],
     b2b_orders: ['view', 'create', 'edit'],
     b2b_catalog: ['view', 'edit'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
     production: ['view'],
   },
   client: {
     b2b_catalog: ['view'],
     analytics: ['view'],
+    marketing: ['view'],
+    learning: ['view'],
   },
 };
 
-export function getPlatformRole(userRoles: string[] | undefined): PlatformRole {
-  if (!userRoles?.length) return 'retailer';
-  const r = userRoles[0]?.toLowerCase();
-  if (r === 'admin' || r === 'platform_admin') return 'admin';
-  if (r === 'brand' || r === 'brand_owner' || r === 'brand_admin' || r === 'brand_manager') {
+function mapStringToPlatformRole(r: string): PlatformRole | null {
+  const x = r.toLowerCase();
+  if (x === 'admin' || x === 'platform_admin') return 'admin';
+  if (x === 'brand' || x === 'brand_owner' || x === 'brand_admin' || x === 'brand_manager') {
     return 'brand';
   }
-  if (r === 'shop' || r === 'retailer') return 'retailer';
-  if (r === 'buyer') return 'buyer';
-  if (r === 'distributor') return 'distributor';
-  if (r === 'manufacturer' || r === 'factory') return 'manufacturer';
-  if (r === 'supplier') return 'supplier';
-  if (r === 'designer') return 'designer';
-  if (r === 'technologist') return 'technologist';
-  if (r === 'production_manager') return 'production_manager';
-  if (r === 'finance_manager' || r === 'cfo') return 'finance_manager';
-  if (r === 'sales_rep') return 'sales_rep';
-  if (r === 'merchandiser') return 'merchandiser';
-  if (r === 'client') return 'client';
+  if (x === 'shop' || x === 'retailer') return 'retailer';
+  if (x === 'buyer') return 'buyer';
+  if (x === 'distributor') return 'distributor';
+  if (x === 'manufacturer' || x === 'factory') return 'manufacturer';
+  if (x === 'supplier') return 'supplier';
+  if (x === 'designer') return 'designer';
+  if (x === 'technologist') return 'technologist';
+  if (x === 'production_manager') return 'production_manager';
+  if (x === 'finance_manager' || x === 'cfo') return 'finance_manager';
+  if (x === 'sales_rep') return 'sales_rep';
+  if (x === 'merchandiser') return 'merchandiser';
+  if (x === 'client') return 'client';
+  return null;
+}
+
+/**
+ * Одна «платформенная» роль для матрицы RBAC.
+ * При нескольких ролях из Hub не берём слепо `roles[0]`: иначе, например,
+ * `['production_manager','brand']` даёт production_manager без `brand_profile`,
+ * а пункт «Профиль» в сайдбаре пропадает, хотя пользователь — владелец бренда.
+ */
+export function getPlatformRole(userRoles: string[] | undefined): PlatformRole {
+  if (!userRoles?.length) return 'retailer';
+  const normalized = userRoles.map((x) => String(x).toLowerCase()).filter(Boolean);
+  if (normalized.includes('admin') || normalized.includes('platform_admin')) return 'admin';
+  if (
+    normalized.some((x) => ['brand', 'brand_owner', 'brand_admin', 'brand_manager'].includes(x))
+  ) {
+    return 'brand';
+  }
+  for (const raw of userRoles) {
+    const mapped = mapStringToPlatformRole(String(raw));
+    if (mapped) return mapped;
+  }
   return 'retailer';
 }
 

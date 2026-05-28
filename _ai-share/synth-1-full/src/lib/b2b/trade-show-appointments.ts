@@ -23,7 +23,7 @@ function load(): TradeShowAppointment[] {
   if (typeof window === 'undefined') return [];
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    return raw ? (JSON.parse(raw) as TradeShowAppointment[]) : [];
   } catch {
     return [];
   }
@@ -39,7 +39,9 @@ export function getAppointments(tradeShowId?: string): TradeShowAppointment[] {
   return tradeShowId ? all.filter((a) => a.tradeShowId === tradeShowId) : all;
 }
 
-export function createAppointment(data: Omit<TradeShowAppointment, 'id' | 'createdAt'>): TradeShowAppointment {
+export function createAppointment(
+  data: Omit<TradeShowAppointment, 'id' | 'createdAt'>
+): TradeShowAppointment {
   const item: TradeShowAppointment = {
     ...data,
     id: `apt-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,

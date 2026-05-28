@@ -16,10 +16,7 @@ import type {
   Workshop2Phase1CategorySketchAnnotation,
   Workshop2SketchAnnotationType,
 } from './workshop2-dossier-phase1.types';
-import type {
-  FitGoldSnapshot,
-  QcSnapshot,
-} from './article-workspace/types';
+import type { FitGoldSnapshot, QcSnapshot } from './article-workspace/types';
 
 // ---------------------------------------------------------------------------
 // 1. Canonical link record
@@ -42,9 +39,7 @@ export type SketchAnnotationLink = {
 // 2. Resolve all links from dossier
 // ---------------------------------------------------------------------------
 
-export function resolveSketchLinks(
-  dossier: Workshop2DossierPhase1
-): SketchAnnotationLink[] {
+export function resolveSketchLinks(dossier: Workshop2DossierPhase1): SketchAnnotationLink[] {
   const annotations = dossier.categorySketchAnnotations ?? [];
   return annotations.map((a) => ({
     annotationId: a.annotationId,
@@ -77,18 +72,14 @@ export function findAnnotationsForTask(
   dossier: Workshop2DossierPhase1,
   taskIdOrSlotId: string
 ): Workshop2Phase1CategorySketchAnnotation[] {
-  return (dossier.categorySketchAnnotations ?? []).filter(
-    (a) => a.linkedTaskId === taskIdOrSlotId
-  );
+  return (dossier.categorySketchAnnotations ?? []).filter((a) => a.linkedTaskId === taskIdOrSlotId);
 }
 
 export function findAnnotationsForQcZone(
   dossier: Workshop2DossierPhase1,
   qcZoneId: string
 ): Workshop2Phase1CategorySketchAnnotation[] {
-  return (dossier.categorySketchAnnotations ?? []).filter(
-    (a) => a.linkedQcZoneId === qcZoneId
-  );
+  return (dossier.categorySketchAnnotations ?? []).filter((a) => a.linkedQcZoneId === qcZoneId);
 }
 
 // ---------------------------------------------------------------------------
@@ -170,9 +161,7 @@ export function checkLinkIntegrity(
     }
 
     if (a.linkedQcZoneId && qcSnapshot) {
-      const batchWithZone = qcSnapshot.batches.some(
-        (b) => b.id === a.linkedQcZoneId
-      );
+      const batchWithZone = qcSnapshot.batches.some((b) => b.id === a.linkedQcZoneId);
       if (!batchWithZone) {
         issues.push({
           annotationId: a.annotationId,

@@ -17,9 +17,7 @@ export function SidebarOrgHeader() {
     if (!orgId) return { org: null, member: null };
     const o = organizations[orgId];
     const team = partnerTeams[orgId];
-    const m = team?.find(
-      (t) => t.email === user?.email || t.nickname === user?.nickname
-    );
+    const m = team?.find((t) => t.email === user?.email || t.nickname === user?.nickname);
     return { org: o ?? null, member: m ?? null };
   }, [orgId, user?.email, user?.nickname]);
 
@@ -27,29 +25,28 @@ export function SidebarOrgHeader() {
 
   if (!org) {
     return (
-      <div className="px-2 py-2 border-b border-slate-100 shrink-0">
+      <div className="border-border-subtle shrink-0 border-b px-2 py-2">
         <Link
           href={ROUTES.brand.settings}
-          className="flex items-center gap-2 px-2 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors"
+          className="bg-bg-surface2 hover:bg-bg-surface2 flex items-center gap-2 rounded-lg px-2 py-2 transition-colors"
         >
-          <div className="h-8 w-8 rounded-md bg-slate-200 shrink-0" />
+          <div className="bg-border-subtle h-8 w-8 shrink-0 rounded-md" />
           <div className="min-w-0 flex-1">
-            <p className="text-[10px] font-bold text-slate-600 truncate">
+            <p className="text-text-secondary truncate text-[10px] font-bold">
               {user?.displayName || 'Пользователь'}
             </p>
-            <p className="text-[8px] text-slate-400 truncate">Бренд-центр</p>
+            <p className="text-text-muted truncate text-[8px]">Бренд-центр</p>
           </div>
         </Link>
       </div>
     );
   }
 
-  const memberName =
-    member
-      ? `${member.firstName} ${member.lastName}`.trim() || member.nickname
-      : user?.displayName || user?.identity?.firstName
-        ? `${user.identity?.firstName || ''} ${user.identity?.lastName || ''}`.trim()
-        : user?.displayName || 'Сотрудник';
+  const memberName = member
+    ? `${member.firstName} ${member.lastName}`.trim() || member.nickname
+    : user?.displayName || user?.identity?.firstName
+      ? `${user.identity?.firstName || ''} ${user.identity?.lastName || ''}`.trim()
+      : user?.displayName || 'Сотрудник';
   const memberRole = member?.role || 'Участник';
 
   const canToggle = org.logo && memberPhoto;
@@ -57,13 +54,13 @@ export function SidebarOrgHeader() {
   const goToSettings = () => router.push(ROUTES.brand.settings);
 
   return (
-    <div className="px-2 py-2 border-b border-slate-100 shrink-0">
+    <div className="border-border-subtle shrink-0 border-b px-2 py-2">
       <div
         role="button"
         tabIndex={0}
         onClick={goToSettings}
         onKeyDown={(e) => e.key === 'Enter' && goToSettings()}
-        className="flex items-start gap-2 px-2 py-2 rounded-lg bg-slate-50/80 hover:bg-slate-100 transition-colors cursor-pointer group"
+        className="bg-bg-surface2/80 hover:bg-bg-surface2 group flex cursor-pointer items-start gap-2 rounded-lg px-2 py-2 transition-colors"
       >
         <div
           role="button"
@@ -79,60 +76,37 @@ export function SidebarOrgHeader() {
               if (canToggle) setShowLogo((prev) => !prev);
             }
           }}
-          className="h-9 w-9 rounded-md overflow-hidden bg-white border border-slate-100 shrink-0 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          className="border-border-subtle focus:ring-accent-primary/30 flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-white focus:outline-none focus:ring-2"
           title={canToggle ? (showLogo ? 'Показать фото' : 'Показать лого') : undefined}
           aria-label={canToggle ? (showLogo ? 'Показать фото' : 'Показать лого') : undefined}
         >
           {showLogo && org.logo ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={org.logo}
-              alt=""
-              width={36}
-              height={36}
-              className="object-cover w-9 h-9"
-            />
+            <img src={org.logo} alt="" width={36} height={36} className="h-9 w-9 object-cover" />
           ) : memberPhoto ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={memberPhoto}
-              alt=""
-              width={36}
-              height={36}
-              className="object-cover w-9 h-9"
-            />
+            <img src={memberPhoto} alt="" width={36} height={36} className="h-9 w-9 object-cover" />
           ) : org.logo ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={org.logo}
-              alt=""
-              width={36}
-              height={36}
-              className="object-cover w-9 h-9"
-            />
+            <img src={org.logo} alt="" width={36} height={36} className="h-9 w-9 object-cover" />
           ) : (
-            <span className="text-slate-400 text-xs font-bold">
-              {org.name?.charAt(0) || '?'}
-            </span>
+            <span className="text-text-muted text-xs font-bold">{org.name?.charAt(0) || '?'}</span>
           )}
         </div>
         <div className="min-w-0 flex-1">
           <p
-            className="text-[10px] font-bold text-slate-800 truncate leading-tight"
+            className="text-text-primary truncate text-[10px] font-bold leading-tight"
             title={org.name}
           >
             {org.name}
           </p>
           <p
-            className="text-[9px] font-medium text-slate-600 truncate mt-0.5"
+            className="text-text-secondary mt-0.5 truncate text-[9px] font-medium"
             title={memberName}
           >
             {memberName}
           </p>
-          <p
-            className="text-[8px] text-slate-400 truncate"
-            title={memberRole}
-          >
+          <p className="text-text-muted truncate text-[8px]" title={memberRole}>
             {memberRole}
           </p>
         </div>

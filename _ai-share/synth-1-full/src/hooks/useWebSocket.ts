@@ -1,13 +1,23 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
+import type { RealtimeTransportMode } from '@/lib/realtime/browser-transport';
 
 export type WSMessage =
   | { type: 'order_status'; orderId: string; status: string }
   | { type: 'qc_update'; collectionId: string; status: string }
   | { type: 'edo_document'; docId: string; status: string }
   | { type: 'notification'; payload: { type: string; title: string; body?: string; href?: string } }
-  | { type: 'reconnect' };
+  | { type: 'reconnect' }
+  | { type: 'b2b_finance_refresh'; orderId: string; amount?: number }
+  | { type: 'b2b_integrations_refresh'; orderId?: string; provider?: string }
+  | {
+      type: 'process_refresh';
+      processId: string;
+      contextId: string;
+      kind: 'runtime' | 'definition';
+      version?: number;
+    };
 
 const WS_URL = process.env.NEXT_PUBLIC_WS_URL || '';
 
@@ -54,5 +64,6 @@ export function useWebSocket({ onMessage, enabled = true }: UseWebSocketOptions 
     return disconnect;
   }, [connect, disconnect]);
 
-  return { connected };
+  const transport: RealtimeTransportMode = connected ? 'ws' : 'idle';
+  return { connected, transport, reconnectAttempt: 0 };
 }

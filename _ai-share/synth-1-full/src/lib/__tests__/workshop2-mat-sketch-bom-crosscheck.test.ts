@@ -14,6 +14,9 @@ describe('workshop2-mat-sketch-bom-crosscheck', () => {
   });
 
   it('flags ref not in any mat line', () => {
-    expect(sketchBomRefsMissingFromMatLines(['X1', 'Y2'], ['Ткань A', 'Подклад B'])).toEqual(['X1', 'Y2']);
+    expect(sketchBomRefsMissingFromMatLines(['X1', 'Y2'], ['Ткань A', 'Подклад B'])).toEqual([
+      'X1',
+      'Y2',
+    ]);
   });
 });

@@ -23,14 +23,16 @@ export function ProductFitMatchBlock({ product }: Props) {
   if (!profile) {
     return (
       <Card className="mt-4 border-dashed bg-muted/20">
-        <CardContent className="pt-4 flex items-center justify-between gap-4">
+        <CardContent className="flex items-center justify-between gap-4 pt-4">
           <div className="space-y-1">
             <p className="text-xs font-semibold">Умный подбор размера</p>
-            <p className="text-[10px] text-muted-foreground">Заполните свои мерки, чтобы мы сравнили их с промерами изделия.</p>
+            <p className="text-[10px] text-muted-foreground">
+              Заполните свои мерки, чтобы мы сравнили их с промерами изделия.
+            </p>
           </div>
-          <Link 
+          <Link
             href={ROUTES.client.profile} // or a dedicated fit profile page
-            className="text-[10px] text-primary flex items-center hover:underline whitespace-nowrap"
+            className="flex items-center whitespace-nowrap text-[10px] text-primary hover:underline"
           >
             Настроить <ChevronRight className="h-3 w-3" />
           </Link>
@@ -47,7 +49,7 @@ export function ProductFitMatchBlock({ product }: Props) {
   return (
     <Card className="mt-4 border-emerald-500/30 bg-emerald-500/5">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <UserCheck className="h-4 w-4 text-emerald-600" />
           Наш прогноз посадки
         </CardTitle>
@@ -63,15 +65,15 @@ export function ProductFitMatchBlock({ product }: Props) {
               Размер {best.size}
             </Badge>
           </div>
-          <div className="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">
+          <div className="rounded bg-emerald-100 px-1.5 py-0.5 font-mono text-[10px] font-bold text-emerald-700">
             {best.score}% Match
           </div>
         </div>
-        
+
         {best.notes.length > 0 && (
-          <div className="space-y-1.5 pt-2 border-t border-emerald-500/20">
+          <div className="space-y-1.5 border-t border-emerald-500/20 pt-2">
             {best.notes.map((note, i) => (
-              <p key={i} className="text-[10px] flex items-center gap-1.5 text-emerald-800">
+              <p key={i} className="flex items-center gap-1.5 text-[10px] text-emerald-800">
                 <AlertCircle className="h-3 w-3 shrink-0" />
                 {note}
               </p>
@@ -79,7 +81,7 @@ export function ProductFitMatchBlock({ product }: Props) {
           </div>
         )}
 
-        <p className="text-[10px] text-muted-foreground italic leading-tight">
+        <p className="text-[10px] italic leading-tight text-muted-foreground">
           * Прогноз на основе сантиметров изделия. Если любите свободнее — берите на размер больше.
         </p>
       </CardContent>

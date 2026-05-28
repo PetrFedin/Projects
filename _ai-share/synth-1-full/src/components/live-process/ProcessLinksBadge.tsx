@@ -18,17 +18,16 @@ export function ProcessLinksBadge({ processLinks, sourceStageId }: ProcessLinksB
   if (links.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap gap-1 mt-1">
+    <div className="mt-1 flex flex-wrap gap-1">
       {links.map((link) => {
         const targetDef = getLiveProcessDefinition(link.targetProcessId);
         return (
           <Link
             key={`${link.sourceProcessId}-${link.sourceStageId}-${link.targetProcessId}`}
             href={processLiveUrl(link.targetProcessId)}
-            className="inline-flex items-center gap-0.5 text-[10px] text-indigo-600 hover:text-indigo-700"
+            className="text-accent-primary hover:text-accent-primary inline-flex items-center gap-0.5 text-[10px]"
           >
-            <ArrowRight className="h-3 w-3" />
-            → {targetDef?.name ?? link.targetProcessId}
+            <ArrowRight className="h-3 w-3" />→ {targetDef?.name ?? link.targetProcessId}
           </Link>
         );
       })}

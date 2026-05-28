@@ -8,11 +8,11 @@ const CACHE_TTL = 3600 * 24; // 24 часа
 export async function getFromCache<T>(key: string): Promise<T | null> {
   // В MVP используем LocalStorage (client) или простую Map (server)
   // В Production заменить на Redis
-  if (typeof window === 'undefined') return null; 
+  if (typeof window === 'undefined') return null;
   const cached = localStorage.getItem(`ai_cache_${key}`);
   if (!cached) return null;
-  
-  const { value, expiry } = JSON.parse(cached);
+
+  const { value, expiry } = JSON.parse(cached) as { value: T; expiry: number };
   if (Date.now() > expiry) {
     localStorage.removeItem(`ai_cache_${key}`);
     return null;

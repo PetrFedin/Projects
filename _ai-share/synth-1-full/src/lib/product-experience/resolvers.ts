@@ -12,7 +12,9 @@ export function resolveEyewearFrameUrl(product: Product): string | undefined {
 const EYEWEAR_HINT = /очк|солнцезащит|eyewear|оправ/i;
 
 export function isEyewearCategory(product: Product): boolean {
-  const blob = [product.category, product.subcategory, product.subcategory2, product.name].filter(Boolean).join(' ');
+  const blob = [product.category, product.subcategory, product.subcategory2, product.name]
+    .filter(Boolean)
+    .join(' ');
   return EYEWEAR_HINT.test(blob);
 }
 
@@ -23,7 +25,12 @@ export function productShowsGlassesTryOn(product: Product): boolean {
 function isFootwearBundle(obj: unknown): obj is FootwearScanBundle {
   if (!obj || typeof obj !== 'object') return false;
   const o = obj as Record<string, unknown>;
-  return typeof o.skuId === 'string' && typeof o.name === 'string' && Array.isArray(o.angles) && o.angles.length > 0;
+  return (
+    typeof o.skuId === 'string' &&
+    typeof o.name === 'string' &&
+    Array.isArray(o.angles) &&
+    o.angles.length > 0
+  );
 }
 
 export function parseFootwearBundle(product: Product): FootwearScanBundle | null {

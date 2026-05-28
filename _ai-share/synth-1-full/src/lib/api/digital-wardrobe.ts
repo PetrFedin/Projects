@@ -8,8 +8,24 @@ import { DIGITAL_WARDROBE_API } from '@/lib/client/digital-wardrobe';
 import type { WardrobeItem, WardrobeLook } from '@/lib/client/digital-wardrobe';
 
 const MOCK_ITEMS: WardrobeItem[] = [
-  { id: 'w1', productId: 'p1', sku: 'DRS-BLK-M', name: 'Платье чёрное', orderId: 'ORD-7001', purchasedAt: '2026-02-15T10:00:00Z', category: 'Платья' },
-  { id: 'w2', productId: 'p2', sku: 'JKT-NAV-48', name: 'Пиджак синий', orderId: 'ORD-7002', purchasedAt: '2026-03-01T14:00:00Z', category: 'Верх' },
+  {
+    id: 'w1',
+    productId: 'p1',
+    sku: 'DRS-BLK-M',
+    name: 'Платье чёрное',
+    orderId: 'ORD-7001',
+    purchasedAt: '2026-02-15T10:00:00Z',
+    category: 'Платья',
+  },
+  {
+    id: 'w2',
+    productId: 'p2',
+    sku: 'JKT-NAV-48',
+    name: 'Пиджак синий',
+    orderId: 'ORD-7002',
+    purchasedAt: '2026-03-01T14:00:00Z',
+    category: 'Верх',
+  },
 ];
 
 const MOCK_LOOKS: WardrobeLook[] = [

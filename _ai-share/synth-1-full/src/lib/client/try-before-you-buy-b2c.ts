@@ -3,7 +3,14 @@
  * Связи: Заказы, клиент, возвраты. Инфра под API.
  */
 
-export type TBYBStatus = 'hold_placed' | 'shipped' | 'delivered' | 'purchased' | 'returned' | 'hold_released' | 'cancelled';
+export type TBYBStatus =
+  | 'hold_placed'
+  | 'shipped'
+  | 'delivered'
+  | 'purchased'
+  | 'returned'
+  | 'hold_released'
+  | 'cancelled';
 
 export interface TBYBOrder {
   id: string;

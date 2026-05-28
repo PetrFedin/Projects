@@ -7,9 +7,9 @@
  * - GenerateOutfitFromPromptOutput - The return type for the generateOutfitFromPrompt function.
  */
 
-import {ai, withTokenAudit, truncateInput, withRetry} from '@/ai/genkit';
-import {z} from 'zod';
-import {googleAI} from '@genkit-ai/google-genai';
+import { ai, withTokenAudit, truncateInput, withRetry } from '@/ai/genkit';
+import { z } from 'zod';
+import { googleAI } from '@genkit-ai/google-genai';
 
 const GenerateOutfitFromPromptInputSchema = z.object({
   prompt: z.string().describe('A text prompt describing the desired outfit style.'),
@@ -32,7 +32,9 @@ export async function generateOutfitFromPrompt(
     ...input,
     prompt: truncateInput(input.prompt, 500),
   };
-  return withTokenAudit('generateOutfitFromPrompt', optimizedInput, undefined, undefined, (i) => generateOutfitFromPromptFlow(i));
+  return withTokenAudit('generateOutfitFromPrompt', optimizedInput, undefined, undefined, (i) =>
+    generateOutfitFromPromptFlow(i)
+  );
 }
 
 const generateOutfitFromPromptFlow = ai.defineFlow(
@@ -41,17 +43,19 @@ const generateOutfitFromPromptFlow = ai.defineFlow(
     inputSchema: GenerateOutfitFromPromptInputSchema,
     outputSchema: GenerateOutfitFromPromptOutputSchema,
   },
-  async input => {
-    const {media} = await withRetry(async () => ai.generate({
-      model: googleAI.model('imagen-4.0-fast-generate-001'),
-      prompt: input.prompt,
-    }));
+  async (input) => {
+    const { media } = await withRetry(async () =>
+      ai.generate({
+        model: googleAI.model('imagen-4.0-fast-generate-001'),
+        prompt: input.prompt,
+      })
+    );
 
     if (!media || !media.url) {
       // Return a specific error or a default image data URI
       return { generatedOutfitImage: '' };
     }
 
-    return {generatedOutfitImage: media.url};
+    return { generatedOutfitImage: media.url };
   }
 );

@@ -3,7 +3,12 @@
  * «Часто заказывают вместе», «Добавьте к заказу», «Аномалия: нестандартное qty по размеру».
  */
 
-export type RecommendationType = 'add_to_order' | 'often_bought_together' | 'anomaly' | 'trend' | 'restock';
+export type RecommendationType =
+  | 'add_to_order'
+  | 'often_bought_together'
+  | 'anomaly'
+  | 'trend'
+  | 'restock';
 
 export interface OrderRecommendation {
   id: string;
@@ -54,7 +59,8 @@ export function getMockOrderRecommendations(orderLineCount: number): OrderRecomm
       id: 'rec2',
       type: 'add_to_order',
       title: 'Дополните заказ',
-      description: 'Рекомендуем добавить аксессуары из той же коллекции для увеличения среднего чека.',
+      description:
+        'Рекомендуем добавить аксессуары из той же коллекции для увеличения среднего чека.',
       priority: 3,
       createdAt: new Date().toISOString(),
     });
@@ -77,7 +83,8 @@ export function getMockOrderAnomalies(): OrderAnomaly[] {
       id: 'an2',
       type: 'qty_deviation',
       title: 'Минимальный заказ',
-      description: 'По позиции FW26-JKT-01 общее qty ниже MOQ (24). Добавьте 4 шт. для соблюдения MOQ.',
+      description:
+        'По позиции FW26-JKT-01 общее qty ниже MOQ (24). Добавьте 4 шт. для соблюдения MOQ.',
       lineId: 'line-1',
       severity: 'high',
       suggestedAction: 'Увеличить qty до 24 или объединить с другим цветом',

@@ -15,5 +15,6 @@ export function subscribeUnifiedSkuFlowSaved(
     if (k) fn({ collectionKey: k });
   };
   window.addEventListener(BRAND_UNIFIED_SKU_FLOW_SAVED_EVENT, handler as EventListener);
-  return () => window.removeEventListener(BRAND_UNIFIED_SKU_FLOW_SAVED_EVENT, handler as EventListener);
+  return () =>
+    window.removeEventListener(BRAND_UNIFIED_SKU_FLOW_SAVED_EVENT, handler as EventListener);
 }

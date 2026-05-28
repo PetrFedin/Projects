@@ -26,23 +26,63 @@ export interface ReorderLineSellThrough {
 /** Мок: строки прошлых заказов с sell-through. В проде — из аналитики/ERP. */
 function buildMockReorderLines(): ReorderLineSellThrough[] {
   const orders = mockB2BOrders.filter((o) => o.status !== 'Черновик');
-  const itemsByOrder: Record<string, { sku: string; productId: string; name: string; qty: number }[]> = {
+  const itemsByOrder: Record<
+    string,
+    { sku: string; productId: string; name: string; qty: number }[]
+  > = {
     'B2B-0012': [
-      { sku: (products[0] as any)?.sku ?? 'CTP-26-001', productId: products[0]?.id ?? '1', name: products[0]?.name ?? 'Product 1', qty: 50 },
-      { sku: (products[1] as any)?.sku ?? 'CTP-26-002', productId: products[1]?.id ?? '2', name: products[1]?.name ?? 'Product 2', qty: 75 },
-      { sku: (products[3] as any)?.sku ?? 'CTP-26-004', productId: products[3]?.id ?? '4', name: products[3]?.name ?? 'Product 4', qty: 30 },
+      {
+        sku: (products[0] as any)?.sku ?? 'CTP-26-001',
+        productId: products[0]?.id ?? '1',
+        name: products[0]?.name ?? 'Product 1',
+        qty: 50,
+      },
+      {
+        sku: (products[1] as any)?.sku ?? 'CTP-26-002',
+        productId: products[1]?.id ?? '2',
+        name: products[1]?.name ?? 'Product 2',
+        qty: 75,
+      },
+      {
+        sku: (products[3] as any)?.sku ?? 'CTP-26-004',
+        productId: products[3]?.id ?? '4',
+        name: products[3]?.name ?? 'Product 4',
+        qty: 30,
+      },
     ],
     'B2B-0011': [
-      { sku: 'APC-26-101', productId: '101', name: 'A.P.C. Item', qty: 40 },
-      { sku: 'APC-26-102', productId: '102', name: 'A.P.C. Item 2', qty: 60 },
+      {
+        sku: (products[2] as { sku?: string })?.sku ?? 'NW-K001-BLK',
+        productId: products[2]?.id ?? '3',
+        name: products[2]?.name ?? 'Nordic Wool — позиция 1',
+        qty: 40,
+      },
+      {
+        sku: (products[0] as { sku?: string })?.sku ?? 'NW-K001-BLK',
+        productId: products[0]?.id ?? '1',
+        name: products[0]?.name ?? 'Nordic Wool — позиция 2',
+        qty: 60,
+      },
     ],
     'B2B-0010': [
-      { sku: 'ACNE-26-01', productId: '201', name: 'Acne Item', qty: 25 },
+      {
+        sku: (products[4] as { sku?: string })?.sku ?? 'SYN-C004-BEI',
+        productId: products[4]?.id ?? '4',
+        name: products[4]?.name ?? 'Syntha Lab — позиция',
+        qty: 25,
+      },
     ],
   };
   const lines: ReorderLineSellThrough[] = [];
   orders.forEach((o) => {
-    const items = itemsByOrder[o.order] ?? initialOrderItems.slice(0, 2).map((it: any) => ({ sku: it.sku ?? it.id, productId: it.id, name: it.name, qty: it.orderedQuantity ?? 0 }));
+    const items =
+      itemsByOrder[o.order] ??
+      initialOrderItems.slice(0, 2).map((it: any) => ({
+        sku: it.sku ?? it.id,
+        productId: it.id,
+        name: it.name,
+        qty: it.orderedQuantity ?? 0,
+      }));
     items.forEach((line, i) => {
       const previousQty = line.qty;
       const seed = (o.order.length + line.sku.length + i) % 100;

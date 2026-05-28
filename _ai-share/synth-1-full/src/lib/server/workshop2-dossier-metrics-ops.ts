@@ -137,10 +137,7 @@ export function buildW2OpsAlerts(
   }
 
   const rawAbandon = rows.filter((r) => r.abandonCount > 0).length;
-  if (
-    rows.length >= th.abandonMinRaw &&
-    rawAbandon / rows.length > th.abandonRatioWarnAbove
-  ) {
+  if (rows.length >= th.abandonMinRaw && rawAbandon / rows.length > th.abandonRatioWarnAbove) {
     alerts.push({
       level: 'info',
       code: 'high_abandon_signal',

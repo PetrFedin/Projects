@@ -3,7 +3,14 @@
  * Связи: Склад, каталог, BOPIS, заказы. Инфра под API.
  */
 
-export type EndlessAisleOrderStatus = 'created' | 'reserved' | 'shipping' | 'at_store' | 'ready_pickup' | 'picked_up' | 'cancelled';
+export type EndlessAisleOrderStatus =
+  | 'created'
+  | 'reserved'
+  | 'shipping'
+  | 'at_store'
+  | 'ready_pickup'
+  | 'picked_up'
+  | 'cancelled';
 
 export interface EndlessAisleRequest {
   id: string;

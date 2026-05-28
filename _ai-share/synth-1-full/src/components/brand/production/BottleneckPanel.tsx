@@ -25,40 +25,62 @@ export function BottleneckPanel({ items, onResolve }: BottleneckPanelProps) {
   if (items.length === 0) return null;
 
   return (
-    <Card className="border border-amber-100 shadow-sm rounded-xl overflow-hidden bg-amber-50/30">
-      <CardHeader className="p-4 border-b border-amber-100/50">
-        <CardTitle className="text-[11px] font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
-          <AlertTriangle className="w-4 h-4 text-amber-600" />
+    <Card className="overflow-hidden rounded-xl border border-amber-100 bg-amber-50/30 shadow-sm">
+      <CardHeader className="border-b border-amber-100/50 p-4">
+        <CardTitle className="text-text-primary flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider">
+          <AlertTriangle className="h-4 w-4 text-amber-600" />
           Узкие места
         </CardTitle>
-        <p className="text-[9px] text-slate-500 mt-0.5">Просрочки, риски, недостающие ресурсы</p>
+        <p className="text-text-secondary mt-0.5 text-[9px]">
+          Просрочки, риски, недостающие ресурсы
+        </p>
       </CardHeader>
-      <CardContent className="p-4 space-y-2">
+      <CardContent className="space-y-2 p-4">
         {items.map((item) => (
           <div
             key={item.id}
             className={cn(
-              'flex items-center justify-between gap-3 p-3 rounded-xl border transition-all',
-              item.severity === 'high' && 'bg-rose-50 border-rose-100',
-              item.severity === 'medium' && 'bg-amber-50 border-amber-100',
-              item.severity === 'low' && 'bg-slate-50 border-slate-100'
+              'flex items-center justify-between gap-3 rounded-xl border p-3 transition-all',
+              item.severity === 'high' && 'border-rose-100 bg-rose-50',
+              item.severity === 'medium' && 'border-amber-100 bg-amber-50',
+              item.severity === 'low' && 'bg-bg-surface2 border-border-subtle'
             )}
           >
-            <div className="flex items-center gap-2 min-w-0">
-              {item.type === 'sla' && <Clock className="w-4 h-4 text-rose-500 shrink-0" />}
-              {item.type === 'budget' && <Wallet className="w-4 h-4 text-amber-500 shrink-0" />}
-              {item.type === 'material' && <Package className="w-4 h-4 text-amber-500 shrink-0" />}
-              {item.type === 'stage' && <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0" />}
+            <div className="flex min-w-0 items-center gap-2">
+              {item.type === 'sla' && <Clock className="h-4 w-4 shrink-0 text-rose-500" />}
+              {item.type === 'budget' && <Wallet className="h-4 w-4 shrink-0 text-amber-500" />}
+              {item.type === 'material' && <Package className="h-4 w-4 shrink-0 text-amber-500" />}
+              {item.type === 'stage' && (
+                <AlertTriangle className="h-4 w-4 shrink-0 text-amber-500" />
+              )}
               <div className="min-w-0">
-                <p className="text-[10px] font-bold text-slate-900 truncate">{item.title}</p>
-                {item.detail && <p className="text-[9px] text-slate-500 truncate">{item.detail}</p>}
+                <p className="text-text-primary truncate text-[10px] font-bold">{item.title}</p>
+                {item.detail && (
+                  <p className="text-text-secondary truncate text-[9px]">{item.detail}</p>
+                )}
               </div>
             </div>
-            <Badge variant="outline" className={cn("text-[8px] shrink-0", item.severity === 'high' && "border-rose-200 text-rose-700", item.severity === 'medium' && "border-amber-200 text-amber-700")}>
-              {item.severity === 'high' ? 'Критично' : item.severity === 'medium' ? 'Внимание' : 'Низкий'}
+            <Badge
+              variant="outline"
+              className={cn(
+                'shrink-0 text-[8px]',
+                item.severity === 'high' && 'border-rose-200 text-rose-700',
+                item.severity === 'medium' && 'border-amber-200 text-amber-700'
+              )}
+            >
+              {item.severity === 'high'
+                ? 'Критично'
+                : item.severity === 'medium'
+                  ? 'Внимание'
+                  : 'Низкий'}
             </Badge>
             {onResolve && (
-              <Button variant="ghost" size="sm" className="h-7 text-[9px] shrink-0" onClick={() => onResolve(item.id)}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 shrink-0 text-[9px]"
+                onClick={() => onResolve(item.id)}
+              >
                 →
               </Button>
             )}

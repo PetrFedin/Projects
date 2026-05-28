@@ -91,7 +91,10 @@ const SKETCH_TYPE_TZ_MATRIX: Record<
   hardware: {
     section: 'material',
     managerHint: 'Фурнитура — позиции BOM, типоразмер, цвет, установка.',
-    suggestedAttributeIds: withVisualAxes(['hardwareOptionsByCategory', 'fasteningOptionsByCategory']),
+    suggestedAttributeIds: withVisualAxes([
+      'hardwareOptionsByCategory',
+      'fasteningOptionsByCategory',
+    ]),
   },
   labeling: {
     section: 'material',
@@ -107,7 +110,11 @@ const SKETCH_TYPE_TZ_MATRIX: Record<
   qc: {
     section: 'construction',
     managerHint: 'Критерий ОТК / зона контроля; ключевые мерки при необходимости.',
-    suggestedAttributeIds: withVisualAxes(['qcCheckpoint', 'preQcGates', 'sampleCosmeticTolerance']),
+    suggestedAttributeIds: withVisualAxes([
+      'qcCheckpoint',
+      'preQcGates',
+      'sampleCosmeticTolerance',
+    ]),
   },
 };
 
@@ -129,7 +136,7 @@ export type VisualCatalogSketchLinkRow = Pick<
  */
 export function mergeSuggestedTzAttributeIdsForSketchType(
   t: Workshop2SketchAnnotationType | undefined,
-  visualsCatalogLinks: VisualCatalogSketchLinkRow[] | undefined
+  visualsCatalogLinks: readonly VisualCatalogSketchLinkRow[] | undefined
 ): string[] {
   const base = suggestedTzAttributeIdsForSketchType(t);
   if (!t || !visualsCatalogLinks?.length) return base;

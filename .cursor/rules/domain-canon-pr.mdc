@@ -1,0 +1,15 @@
+---
+description: Доменные изменения в synth-1-full требуют обновления канона и чеклистов
+alwaysApply: false
+globs: _ai-share/synth-1-full/src/app/api/**,_ai-share/synth-1-full/src/lib/order/**,_ai-share/synth-1-full/docs/domain-model/**,_ai-share/synth-1-full/TASK_QUEUE.md
+---
+
+# Домен и PR (synth-1-full)
+
+Если меняются границы домена (Order, Article, Inventory, Availability), DTO/Zod, BFF-маршруты или SoT в **`_ai-share/synth-1-full`**:
+
+1. Обновить **`_ai-share/synth-1-full/docs/domain-model/*`** и отметки в **`_ai-share/synth-1-full/TASK_QUEUE.md`** / чеклистах.
+2. Не вводить «тихую» правду только в компонентах — источник типов и контрактов в **`src/lib`** внутри каталога full + доки.
+3. Новый публичный API предпочтительно как **v1** с политикой из **`docs/api-response-contracts.md`** (пути относительно `synth-1-full`).
+
+То же содержание для воркспейса только **full** (относительные пути): **`_ai-share/synth-1-full/.cursor/rules/domain-canon-pr.mdc`**.

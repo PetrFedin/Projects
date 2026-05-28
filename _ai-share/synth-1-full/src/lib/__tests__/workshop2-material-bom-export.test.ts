@@ -1,4 +1,7 @@
-import { formatMaterialBomPlainText, formatMaterialBomTsv } from '@/lib/production/workshop2-material-bom-export';
+import {
+  formatMaterialBomPlainText,
+  formatMaterialBomTsv,
+} from '@/lib/production/workshop2-material-bom-export';
 
 describe('workshop2-material-bom-export', () => {
   const sample = {

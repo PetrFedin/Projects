@@ -8,19 +8,30 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { TooltipProvider } from '../ui/tooltip';
 import { LeftSidebarNav } from './left-sidebar-nav';
+import { OfflineBanner } from '@/components/brand/production/OfflineBanner';
+import { RegisterServiceWorker } from '@/components/pwa/RegisterServiceWorker';
+import { ThemeProvider } from '@/components/providers/theme-provider';
+import { RunwayAnalyticsGate } from '@/components/layout/RunwayAnalyticsGate';
+import { shouldMountUIStateProvider } from '@/lib/layout/ui-state-route';
+import { cn } from '@/lib/utils';
+import { ROUTES } from '@/lib/routes';
+import GlobalPodcastPlayer from './global-podcast-player';
 
 const AiStylist = dynamic(() => import('@/components/ai-stylist'), { ssr: false });
 const CartSheet = dynamic(() => import('@/components/layout/cart-sheet'), { ssr: false });
 const WishlistSheet = dynamic(() => import('@/components/layout/wishlist-sheet'), { ssr: false });
 const PreOrderSheet = dynamic(() => import('@/components/layout/pre-order-sheet'), { ssr: false });
 const ComparisonPanel = dynamic(() => import('../comparison-panel'), { ssr: false });
-const GlobalPodcastPlayer = dynamic(() => import('./global-podcast-player'), { ssr: false });
 const RolePanel = dynamic(() => import('./role-panel'), { ssr: false });
-import { OfflineBanner } from '@/components/brand/production/OfflineBanner';
-import { RegisterServiceWorker } from '@/components/pwa/RegisterServiceWorker';
-import { cn } from '@/lib/utils';
 
-const CABINET_ROUTES = ['/brand', '/admin', '/shop', '/factory', '/distributor', '/client'];
+const CABINET_ROUTES = [
+  ROUTES.brand.home,
+  ROUTES.admin.home,
+  ROUTES.shop.home,
+  ROUTES.factory.home,
+  ROUTES.distributor.home,
+  ROUTES.client.home,
+];
 
 export default function ClientLayout({
   children,
@@ -29,29 +40,33 @@ export default function ClientLayout({
 }>) {
   const pathname = usePathname();
   const isCabinet = pathname && CABINET_ROUTES.some((r) => pathname.startsWith(r));
+  const uiStateChrome = shouldMountUIStateProvider(pathname);
 
   return (
+    <ThemeProvider>
       <TooltipProvider>
         <RouteGuard>
-        <RegisterServiceWorker />
-        <div className="relative flex min-h-screen flex-col">
-          <OfflineBanner />
-          <GlobalPodcastPlayer />
-          {/* Верхняя панель показывается везде, включая кабинеты */}
-          <Header />
-          {/* Иначе fixed z-[100] перекрывает собственный сайдбар кабинета (бренд z-30) и «съедает» клики слева. */}
-          {!isCabinet ? <LeftSidebarNav /> : null}
-          <main className={cn("flex-1", isCabinet ? "" : "pb-32")}>{children}</main>
-          {!isCabinet && <Footer />}
-          <CartSheet />
-          <WishlistSheet />
-          <PreOrderSheet />
-          <AiStylist />
-          <ComparisonPanel />
-          <RolePanel />
-          <Toaster />
-        </div>
+          <RegisterServiceWorker />
+          <RunwayAnalyticsGate />
+          <div className="relative flex min-h-screen flex-col">
+            <OfflineBanner />
+            {uiStateChrome ? <GlobalPodcastPlayer /> : null}
+            {/* Верхняя панель показывается везде, включая кабинеты */}
+            <Header />
+            {/* Иначе fixed z-[100] перекрывает собственный сайдбар кабинета (бренд z-30) и «съедает» клики слева. */}
+            {!isCabinet ? <LeftSidebarNav /> : null}
+            <main className={cn('flex-1', isCabinet ? '' : 'pb-32')}>{children}</main>
+            {!isCabinet && <Footer />}
+            {uiStateChrome ? <CartSheet /> : null}
+            {uiStateChrome ? <WishlistSheet /> : null}
+            {uiStateChrome ? <PreOrderSheet /> : null}
+            {uiStateChrome ? <AiStylist /> : null}
+            {uiStateChrome ? <ComparisonPanel /> : null}
+            <RolePanel />
+            <Toaster />
+          </div>
         </RouteGuard>
       </TooltipProvider>
+    </ThemeProvider>
   );
 }

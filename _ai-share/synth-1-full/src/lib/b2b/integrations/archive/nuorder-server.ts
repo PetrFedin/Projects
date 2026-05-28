@@ -5,6 +5,7 @@
  */
 
 import { buildOAuth1Header } from './oauth1';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 import type {
   NuOrderConfig,
   NuOrderCompanyCode,
@@ -25,7 +26,9 @@ function getBaseUrl(config: NuOrderConfig): string {
   return host.replace(/\/$/, '');
 }
 
-export async function nuorderServerGetCompanyCodes(config: NuOrderConfig): Promise<NuOrderCompanyCode[]> {
+export async function nuorderServerGetCompanyCodes(
+  config: NuOrderConfig
+): Promise<NuOrderCompanyCode[]> {
   try {
     const url = `${getBaseUrl(config)}/api/companies/codes/list`;
     const auth = buildOAuth1Header('GET', url, {
@@ -39,9 +42,9 @@ export async function nuorderServerGetCompanyCodes(config: NuOrderConfig): Promi
       headers: { Authorization: auth, Accept: 'application/json' },
     });
     if (!res.ok) return MOCK_COMPANIES;
-    const data = await res.json();
-    if (Array.isArray(data)) return data as NuOrderCompanyCode[];
-    if (data?.codes) return data.codes as NuOrderCompanyCode[];
+    const data = (await res.json()) as NuOrderCompanyCode[] | { codes?: NuOrderCompanyCode[] };
+    if (Array.isArray(data)) return data;
+    if (data && 'codes' in data && data.codes) return data.codes;
     return MOCK_COMPANIES;
   } catch {
     return MOCK_COMPANIES;
@@ -77,7 +80,7 @@ export async function nuorderServerCreateOrder(
     const orderId = data.order_id ?? data.id ?? `nu-${Date.now()}`;
     return { success: true, orderId: String(orderId) };
   } catch (e) {
-    return { success: false, error: e instanceof Error ? e.message : 'NuOrder request failed' };
+    return { success: false, error: getUnknownErrorMessage(e, 'NuOrder request failed') };
   }
 }
 
@@ -110,7 +113,11 @@ export async function nuorderServerPushInventory(
     };
     const res = await fetch(url, {
       method: 'PUT',
-      headers: { Authorization: auth, 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: {
+        Authorization: auth,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
       body: JSON.stringify(body),
     });
     if (!res.ok) {
@@ -120,7 +127,7 @@ export async function nuorderServerPushInventory(
     const count = payload.inventory?.length ?? 0;
     return { success: true, processed: count };
   } catch (e) {
-    return { success: false, error: e instanceof Error ? e.message : 'NuOrder inventory failed' };
+    return { success: false, error: getUnknownErrorMessage(e, 'NuOrder inventory failed') };
   }
 }
 
@@ -134,7 +141,11 @@ export async function nuorderServerSendShipment(
     const auth = buildOAuth1Header('POST', url, oauth(config));
     const res = await fetch(url, {
       method: 'POST',
-      headers: { Authorization: auth, 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: {
+        Authorization: auth,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
       body: JSON.stringify(payload),
     });
     if (!res.ok) {
@@ -143,7 +154,7 @@ export async function nuorderServerSendShipment(
     }
     return { success: true };
   } catch (e) {
-    return { success: false, error: e instanceof Error ? e.message : 'NuOrder shipment failed' };
+    return { success: false, error: getUnknownErrorMessage(e, 'NuOrder shipment failed') };
   }
 }
 
@@ -157,7 +168,11 @@ export async function nuorderServerUpdateOrder(
     const auth = buildOAuth1Header('PUT', url, oauth(config));
     const res = await fetch(url, {
       method: 'PUT',
-      headers: { Authorization: auth, 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: {
+        Authorization: auth,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
       body: JSON.stringify(payload),
     });
     if (!res.ok) {
@@ -166,7 +181,7 @@ export async function nuorderServerUpdateOrder(
     }
     return { success: true };
   } catch (e) {
-    return { success: false, error: e instanceof Error ? e.message : 'NuOrder order edit failed' };
+    return { success: false, error: getUnknownErrorMessage(e, 'NuOrder order edit failed') };
   }
 }
 
@@ -181,7 +196,11 @@ export async function nuorderServerPushReplenishment(
     const body = { items: payload.items };
     const res = await fetch(url, {
       method: 'POST',
-      headers: { Authorization: auth, 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: {
+        Authorization: auth,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
       body: JSON.stringify(body),
     });
     if (!res.ok) {
@@ -190,6 +209,9 @@ export async function nuorderServerPushReplenishment(
     }
     return { success: true, processed: payload.items?.length ?? 0 };
   } catch (e) {
-    return { success: false, error: e instanceof Error ? e.message : 'NuOrder replenishment failed' };
+    return {
+      success: false,
+      error: getUnknownErrorMessage(e, 'NuOrder replenishment failed'),
+    };
   }
 }

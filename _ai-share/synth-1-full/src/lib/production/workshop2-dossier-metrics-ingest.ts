@@ -81,17 +81,19 @@ let cachedMetricsStamp: string | null = null;
 let cachedMetricsStampUntil = 0;
 let stampRefreshInFlight: Promise<void> | null = null;
 
-async function fetchW2MetricsStampFromServer(ctx?: Workshop2DossierMetricsFlushContext): Promise<void> {
+async function fetchW2MetricsStampFromServer(
+  ctx?: Workshop2DossierMetricsFlushContext
+): Promise<void> {
   if (typeof window === 'undefined' || !isW2MetricsStampClientEnabled()) return;
-  const uid =
-    ctx?.appUserUid?.trim() ||
-    getW2TzMetricsClientActorId()?.trim() ||
-    '';
+  const uid = ctx?.appUserUid?.trim() || getW2TzMetricsClientActorId()?.trim() || '';
   if (!uid) return;
 
   try {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-    const token = typeof localStorage !== 'undefined' ? localStorage.getItem('syntha_access_token')?.trim() : '';
+    const token =
+      typeof localStorage !== 'undefined'
+        ? localStorage.getItem('syntha_access_token')?.trim()
+        : '';
     if (token) headers.Authorization = `Bearer ${token}`;
     const res = await fetch('/api/production/workshop2-dossier-metrics/stamp', {
       method: 'POST',
@@ -205,16 +207,15 @@ export function buildWorkshop2DossierMetricsPayload(
 ): Workshop2DossierMetricsPayload {
   const now = Date.now();
   const opened = getW2DossierSessionOpenedAtMs(collectionId, articleId);
-  const tabOpenMinutes =
-    opened != null ? Math.max(0, Math.floor((now - opened) / 60_000)) : null;
+  const tabOpenMinutes = opened != null ? Math.max(0, Math.floor((now - opened) / 60_000)) : null;
   const persist = getW2DossierPersistStats(collectionId, articleId);
   const attach = shouldAttachUserContext();
-  const uid =
-    attach && ctx?.appUserUid?.trim() ? clip(ctx.appUserUid, 128) : undefined;
+  const uid = attach && ctx?.appUserUid?.trim() ? clip(ctx.appUserUid, 128) : undefined;
   const oid = attach && ctx?.orgId?.trim() ? clip(ctx.orgId, 128) : undefined;
   const skuRaw = ctx?.sku?.trim();
   const sku = skuRaw ? clip(skuRaw, 96) : undefined;
-  const buf = typeof window !== 'undefined' ? w2ReadNextStepMlBuffer(collectionId, articleId) : null;
+  const buf =
+    typeof window !== 'undefined' ? w2ReadNextStepMlBuffer(collectionId, articleId) : null;
   return {
     capturedAt: new Date().toISOString(),
     collectionId,
@@ -282,12 +283,10 @@ export function flushW2NextStepFeedbackToServer(
   lastNavFlushMs.set(k, now);
 
   const opened = getW2DossierSessionOpenedAtMs(collectionId, articleId);
-  const tabOpenMinutes =
-    opened != null ? Math.max(0, Math.floor((now - opened) / 60_000)) : null;
+  const tabOpenMinutes = opened != null ? Math.max(0, Math.floor((now - opened) / 60_000)) : null;
   const persist = getW2DossierPersistStats(collectionId, articleId);
   const attach = shouldAttachUserContext();
-  const uid =
-    attach && ctx?.appUserUid?.trim() ? clip(ctx.appUserUid, 128) : undefined;
+  const uid = attach && ctx?.appUserUid?.trim() ? clip(ctx.appUserUid, 128) : undefined;
   const oid = attach && ctx?.orgId?.trim() ? clip(ctx.orgId, 128) : undefined;
   const skuRaw = args.sku?.trim() || ctx?.sku?.trim();
   const sku = skuRaw ? clip(skuRaw, 96) : undefined;

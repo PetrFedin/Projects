@@ -357,5 +357,6 @@ const removedFromCategoriesAttributeOptionsRaw = {
   ],
 } as const;
 
-export const removedFromCategoriesAttributeOptions =
-  stripAttributeValuesOverlappingCatalog(removedFromCategoriesAttributeOptionsRaw);
+export const removedFromCategoriesAttributeOptions = stripAttributeValuesOverlappingCatalog(
+  removedFromCategoriesAttributeOptionsRaw
+);

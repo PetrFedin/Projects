@@ -6,6 +6,8 @@
 
 - **Правила и палитра:** `design-system/synth-1-fashion-os/MASTER.md` (генерируется из UI UX Pro Max)
 - **Токены в коде:** этот каталог, `tokens.json`
+- **Кабинеты и профили (хром, вкладки, роли):** `src/design/CABINET_PROFILES_STYLING_RULES_RU.md` (канон + матрица покрытия)
+- **Figma community под JOOR/NuOrder-плотность (маршруты → файлы):** `src/design/FIGMA_REFERENCE_MATRIX_JOOR_NUORDER.md`
 - **Шрифты:** Fira Sans (body), Fira Code (headings/mono) — подключены в `app/layout.tsx`
 
 ## Как это работает

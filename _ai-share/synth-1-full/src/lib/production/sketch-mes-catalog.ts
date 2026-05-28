@@ -12,7 +12,9 @@ export const DEFAULT_SKETCH_MES_DEFECT_CATALOG: Workshop2MesDefectCodeRow[] = [
   { code: 'L1-FIN', label: 'Отделка / глажка / бирки' },
 ];
 
-export function mergedMesDefectCatalog(custom?: Workshop2MesDefectCodeRow[]): Workshop2MesDefectCodeRow[] {
+export function mergedMesDefectCatalog(
+  custom?: Workshop2MesDefectCodeRow[]
+): Workshop2MesDefectCodeRow[] {
   const c = custom ?? [];
   const have = new Set(c.map((x) => x.code));
   return [...c, ...DEFAULT_SKETCH_MES_DEFECT_CATALOG.filter((d) => !have.has(d.code))];

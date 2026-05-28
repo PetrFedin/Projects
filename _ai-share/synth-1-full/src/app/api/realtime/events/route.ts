@@ -38,10 +38,12 @@ export async function GET(request: NextRequest) {
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
-      const send = (data: string) =>
-        controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+      const send = (data: string) => controller.enqueue(encoder.encode(`data: ${data}\n\n`));
       // Keepalive every 30s
-      const id = setInterval(() => send(JSON.stringify({ type: 'ping', ts: new Date().toISOString() })), 30000);
+      const id = setInterval(
+        () => send(JSON.stringify({ type: 'ping', ts: new Date().toISOString() })),
+        30000
+      );
       request.signal.addEventListener('abort', () => {
         clearInterval(id);
         controller.close();

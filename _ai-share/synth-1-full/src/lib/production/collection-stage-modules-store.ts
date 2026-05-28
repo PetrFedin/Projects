@@ -71,7 +71,10 @@ export function loadCollectionStageModules(collectionKey: string): CollectionSta
   }
 }
 
-export function saveCollectionStageModules(collectionKey: string, doc: CollectionStageModulesDoc): void {
+export function saveCollectionStageModules(
+  collectionKey: string,
+  doc: CollectionStageModulesDoc
+): void {
   if (typeof window === 'undefined') return;
   window.localStorage.setItem(storageKey(collectionKey), JSON.stringify(doc));
   window.dispatchEvent(
@@ -79,7 +82,10 @@ export function saveCollectionStageModules(collectionKey: string, doc: Collectio
   );
 }
 
-export function getStepModule(doc: CollectionStageModulesDoc, stepId: string): CollectionStageModuleData {
+export function getStepModule(
+  doc: CollectionStageModulesDoc,
+  stepId: string
+): CollectionStageModuleData {
   return doc.steps[stepId] ?? emptyStep();
 }
 

@@ -5,20 +5,24 @@
  * Принимает образы и контекст, возвращает улучшенные reason для каждого item.
  */
 
-import { ai, withTokenAudit, truncateInput } from "@/ai/genkit";
-import { z } from "zod";
+import { ai, withTokenAudit, truncateInput } from '@/ai/genkit';
+import { z } from 'zod';
 
 const InputSchema = z.object({
   occasion: z.string(),
   mood: z.string(),
   season: z.string(),
   palette: z.string().optional(),
-  itemsDescription: z.string().describe("List of items: productId, title, category, color, lookTitle, isFromWardrobe, currentReason"),
+  itemsDescription: z
+    .string()
+    .describe(
+      'List of items: productId, title, category, color, lookTitle, isFromWardrobe, currentReason'
+    ),
 });
 
 const EnrichedReasonSchema = z.object({
   productId: z.string(),
-  reason: z.string().describe("Краткое объяснение выбора товара на русском (до 15 слов)"),
+  reason: z.string().describe('Краткое объяснение выбора товара на русском (до 15 слов)'),
 });
 
 const OutputSchema = z.object({
@@ -52,7 +56,7 @@ export async function enrichLookReasons(
       (it) =>
         `- productId: ${it.productId}, title: ${truncateInput(it.title, 60)}, category: ${it.category}, color: ${it.color}, lookTitle: ${it.lookTitle}, isFromWardrobe: ${it.isFromWardrobe}, currentReason: ${truncateInput(it.currentReason, 80)}`
     )
-    .join("\n");
+    .join('\n');
 
   const promptInput = {
     occasion: params.occasion,
@@ -64,14 +68,14 @@ export async function enrichLookReasons(
 
   try {
     const result = await withTokenAudit(
-      "enrichLookReasons",
+      'enrichLookReasons',
       promptInput,
       undefined,
       undefined,
       async (i) => {
         const prompt = ai.definePrompt({
-          name: "enrichLookReasonsPrompt",
-          model: "googleai/gemini-1.5-flash",
+          name: 'enrichLookReasonsPrompt',
+          model: 'googleai/gemini-1.5-flash',
           input: { schema: InputSchema },
           output: { schema: OutputSchema },
           config: { maxOutputTokens: 800, temperature: 0.5 },
@@ -100,7 +104,7 @@ export async function enrichLookReasons(
     }
     return map;
   } catch (e) {
-    console.warn("[enrichLookReasons] Genkit failed:", e);
+    console.warn('[enrichLookReasons] Genkit failed:', e);
     return {};
   }
 }

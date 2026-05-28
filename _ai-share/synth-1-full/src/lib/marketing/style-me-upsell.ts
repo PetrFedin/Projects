@@ -38,7 +38,21 @@ export async function listCampaigns(): Promise<StyleMeCampaign[]> {
   await new Promise((r) => setTimeout(r, 200));
   const now = new Date().toISOString();
   return [
-    { id: 'sm1', name: 'Подборка через 2 дня', daysAfterPurchase: 2, channel: 'telegram', status: 'active', createdAt: now },
-    { id: 'sm2', name: 'WhatsApp через 5 дней', daysAfterPurchase: 5, channel: 'whatsapp', status: 'draft', createdAt: now },
+    {
+      id: 'sm1',
+      name: 'Подборка через 2 дня',
+      daysAfterPurchase: 2,
+      channel: 'telegram',
+      status: 'active',
+      createdAt: now,
+    },
+    {
+      id: 'sm2',
+      name: 'WhatsApp через 5 дней',
+      daysAfterPurchase: 5,
+      channel: 'whatsapp',
+      status: 'draft',
+      createdAt: now,
+    },
   ];
 }

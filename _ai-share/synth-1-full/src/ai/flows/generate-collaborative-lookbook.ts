@@ -7,34 +7,26 @@
  * - GenerateCollaborativeLookbookOutput - The return type for the function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'zod';
-import {googleAI} from '@genkit-ai/google-genai';
+import { ai } from '@/ai/genkit';
+import { z } from 'zod';
+import { googleAI } from '@genkit-ai/google-genai';
 
 const GenerateCollaborativeLookbookInputSchema = z.object({
-  productOneName: z.string().describe("The name of the first product."),
-  productOneImageDataUri: z
-    .string()
-    .describe(
-      "The image of the first product, as a data URI."
-    ),
-  productTwoName: z.string().describe("The name of the second product."),
-  productTwoImageDataUri: z
-    .string()
-    .describe(
-      "The image of the second product, as a data URI."
-    ),
+  productOneName: z.string().describe('The name of the first product.'),
+  productOneImageDataUri: z.string().describe('The image of the first product, as a data URI.'),
+  productTwoName: z.string().describe('The name of the second product.'),
+  productTwoImageDataUri: z.string().describe('The image of the second product, as a data URI.'),
 });
-export type GenerateCollaborativeLookbookInput = z.infer<typeof GenerateCollaborativeLookbookInputSchema>;
+export type GenerateCollaborativeLookbookInput = z.infer<
+  typeof GenerateCollaborativeLookbookInputSchema
+>;
 
 const GenerateCollaborativeLookbookOutputSchema = z.object({
-  creativeImageUrl: z
-    .string()
-    .describe(
-      "The data URI of the generated lookbook image."
-    ),
+  creativeImageUrl: z.string().describe('The data URI of the generated lookbook image.'),
 });
-export type GenerateCollaborativeLookbookOutput = z.infer<typeof GenerateCollaborativeLookbookOutputSchema>;
+export type GenerateCollaborativeLookbookOutput = z.infer<
+  typeof GenerateCollaborativeLookbookOutputSchema
+>;
 
 export async function generateCollaborativeLookbook(
   input: GenerateCollaborativeLookbookInput
@@ -48,13 +40,14 @@ const generateCollaborativeLookbookFlow = ai.defineFlow(
     inputSchema: GenerateCollaborativeLookbookInputSchema,
     outputSchema: GenerateCollaborativeLookbookOutputSchema,
   },
-  async input => {
-    const {media} = await ai.generate({
-        model: googleAI.model('gemini-2.5-flash-image-preview'),
-        prompt: [
-            {media: {url: input.productOneImageDataUri}},
-            {media: {url: input.productTwoImageDataUri}},
-            {text: `You are an expert fashion stylist and creative director. Your task is to generate a single, cohesive fashion lookbook image that elegantly combines two separate products into one outfit.
+  async (input) => {
+    const { media } = await ai.generate({
+      model: googleAI.model('gemini-2.5-flash-image-preview'),
+      prompt: [
+        { media: { url: input.productOneImageDataUri } },
+        { media: { url: input.productTwoImageDataUri } },
+        {
+          text: `You are an expert fashion stylist and creative director. Your task is to generate a single, cohesive fashion lookbook image that elegantly combines two separate products into one outfit.
 
             **Products:**
             1.  "${input.productOneName}" (first image)
@@ -66,11 +59,12 @@ const generateCollaborativeLookbookFlow = ai.defineFlow(
             3.  **Background:** Place the model against a clean, minimalist, high-fashion background (e.g., a studio setting, an architectural backdrop).
             4.  **Do Not Alter Products:** The core design of the products themselves should not be changed.
             5.  **Output:** Generate only the final, styled image. Do not output any text, commentary, or separate images.
-            `},
-        ],
-        config: {
-            responseModalities: ['IMAGE'], 
+            `,
         },
+      ],
+      config: {
+        responseModalities: ['IMAGE'],
+      },
     });
 
     if (!media || !media.url) {

@@ -49,36 +49,41 @@ class ErrorBoundaryClass extends React.Component<ErrorBoundaryProps, ErrorBounda
   }
 }
 
-function DefaultErrorFallback({ error, resetError }: { error: Error | null; resetError: () => void }) {
+function DefaultErrorFallback({
+  error,
+  resetError,
+}: {
+  error: Error | null;
+  resetError: () => void;
+}) {
   const router = useRouter();
 
   return (
-    <div className="min-h-[400px] flex items-center justify-center p-4">
-      <Card className="max-w-md w-full border-2 border-destructive/20">
+    <div className="flex min-h-[400px] items-center justify-center p-4">
+      <Card className="w-full max-w-md border-2 border-destructive/20">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
             <AlertTriangle className="h-6 w-6 text-destructive" />
           </div>
           <CardTitle className="text-base">Ошибка загрузки</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-sm text-muted-foreground text-center">
-            Произошла непредвиденная ошибка. Пожалуйста, попробуйте обновить страницу или вернуться на главную.
+          <p className="text-center text-sm text-muted-foreground">
+            Произошла непредвиденная ошибка. Пожалуйста, попробуйте обновить страницу или вернуться
+            на главную.
           </p>
           {process.env.NODE_ENV === 'development' && error && (
-            <div className="p-3 bg-muted rounded-md">
-              <p className="text-xs font-mono text-destructive break-all">
-                {error.message}
-              </p>
+            <div className="rounded-md bg-muted p-3">
+              <p className="break-all font-mono text-xs text-destructive">{error.message}</p>
             </div>
           )}
-          <div className="flex gap-2 justify-center">
+          <div className="flex justify-center gap-2">
             <Button onClick={resetError} variant="outline" size="sm">
-              <RefreshCw className="h-4 w-4 mr-2" />
+              <RefreshCw className="mr-2 h-4 w-4" />
               Попробовать снова
             </Button>
             <Button onClick={() => router.push('/')} variant="default" size="sm">
-              <Home className="h-4 w-4 mr-2" />
+              <Home className="mr-2 h-4 w-4" />
               На главную
             </Button>
           </div>

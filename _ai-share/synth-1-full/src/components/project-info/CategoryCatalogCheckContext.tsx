@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react';
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 import {
   buildDefaultFlagMap,
   loadCatalogAudienceFlagMap,
@@ -65,7 +58,9 @@ export function CategoryCatalogCheckProvider({ children }: { children: ReactNode
   );
 
   return (
-    <CategoryCatalogCheckContext.Provider value={value}>{children}</CategoryCatalogCheckContext.Provider>
+    <CategoryCatalogCheckContext.Provider value={value}>
+      {children}
+    </CategoryCatalogCheckContext.Provider>
   );
 }
 

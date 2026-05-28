@@ -30,7 +30,10 @@ export function LiveProcessReminders({ processId, contextId }: LiveProcessRemind
   const [dismissed, setDismissed] = useState<Set<string>>(new Set());
 
   const reminders = MOCK_REMINDERS.filter(
-    (r) => !dismissed.has(r.id) && (!processId || r.processId === processId) && (!contextId || r.contextId === contextId)
+    (r) =>
+      !dismissed.has(r.id) &&
+      (!processId || r.processId === processId) &&
+      (!contextId || r.contextId === contextId)
   );
 
   if (reminders.length === 0) return null;
@@ -50,14 +53,14 @@ export function LiveProcessReminders({ processId, contextId }: LiveProcessRemind
             return (
               <li
                 key={r.id}
-                className="flex items-center gap-2 p-2 rounded-lg bg-amber-50 border border-amber-100"
+                className="flex items-center gap-2 rounded-lg border border-amber-100 bg-amber-50 p-2"
               >
-                <Icon className="h-4 w-4 text-amber-600 shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] text-amber-700 font-medium">
+                <Icon className="h-4 w-4 shrink-0 text-amber-600" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-[10px] font-medium text-amber-700">
                     {REMINDER_LABELS[r.type]}
                   </p>
-                  <p className="text-xs text-slate-700">{r.message}</p>
+                  <p className="text-text-primary text-xs">{r.message}</p>
                 </div>
                 <Button
                   variant="ghost"

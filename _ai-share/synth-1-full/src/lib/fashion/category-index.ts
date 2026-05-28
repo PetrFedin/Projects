@@ -6,7 +6,7 @@ export function buildCategoryIndex(products: Product[]): CategoryIndexBucket[] {
   const map = new Map<string, { count: number; exampleSlug: string }>();
   for (const p of products) {
     const parts = [p.category_group, p.category, p.subcategory, p.subcategory2].filter(
-      (x): x is string => typeof x === 'string' && x.trim().length > 0,
+      (x): x is string => typeof x === 'string' && x.trim().length > 0
     );
     const path = parts.length ? parts.join(' › ') : 'Без категории';
     const prev = map.get(path);

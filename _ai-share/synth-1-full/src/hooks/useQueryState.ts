@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { decodeQuery, encodeQuery } from "../lib/queryCodec";
+import * as React from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { decodeQuery, encodeQuery } from '../lib/queryCodec';
 
 type SetStateOptions = { replace?: boolean };
 
@@ -12,10 +12,9 @@ export function useQueryState<T extends Record<string, any>>(
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
-  const safePath = pathname ?? "/";
 
   const state = React.useMemo(
-    () => decodeQuery(defaults, new URLSearchParams(sp?.toString() ?? "")),
+    () => decodeQuery(defaults, new URLSearchParams(sp.toString())),
     [sp, defaults]
   );
 
@@ -23,15 +22,14 @@ export function useQueryState<T extends Record<string, any>>(
     (patch: Partial<T>, opts?: SetStateOptions) => {
       const merged = { ...state, ...patch } as T;
       const qs = encodeQuery(merged);
-      const url = qs ? `${safePath}?${qs}` : safePath;
+      const url = qs ? `${pathname}?${qs}` : pathname;
       if (opts?.replace) router.replace(url);
       else router.push(url);
     },
-    [router, safePath, state]
+    [router, pathname, state]
   );
 
-  const reset = React.useCallback(() => router.replace(safePath), [router, safePath]);
+  const reset = React.useCallback(() => router.replace(pathname), [router, pathname]);
 
   return [state, setState, reset];
 }
-

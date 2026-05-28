@@ -22,7 +22,11 @@ export function Workshop2DossierViewProvider({
   children: ReactNode;
 }) {
   const value = useMemo(() => ({ profile, setProfile }), [profile, setProfile]);
-  return <Workshop2DossierViewContext.Provider value={value}>{children}</Workshop2DossierViewContext.Provider>;
+  return (
+    <Workshop2DossierViewContext.Provider value={value}>
+      {children}
+    </Workshop2DossierViewContext.Provider>
+  );
 }
 
 export function useWorkshop2DossierView(): Workshop2DossierViewContextValue {

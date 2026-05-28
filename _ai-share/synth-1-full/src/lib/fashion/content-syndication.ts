@@ -4,8 +4,8 @@ import type { SyndicatedContentV1, ContentChannelV1 } from './types';
 /** Генерирует адаптированные тексты под разные каналы (демо AI-копирайтинга). */
 export function generateSyndicatedContent(product: Product): SyndicatedContentV1[] {
   const channels: ContentChannelV1[] = ['wb', 'ozon', 'lamoda', 'instagram'];
-  
-  return channels.map(channel => {
+
+  return channels.map((channel) => {
     let title = product.name;
     let description = product.description;
     let tone: SyndicatedContentV1['tone'] = 'technical';

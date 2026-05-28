@@ -50,3 +50,9 @@ export { KPIWidget } from './kpi-widget';
 export type { KPIWidgetProps } from './kpi-widget';
 
 export { SectionHeader } from '@/components/ui/section-header';
+
+export { RegistryPageHeader } from './registry-page-header';
+export type { RegistryPageHeaderProps } from './registry-page-header';
+
+export { RegistryPageShell } from './registry-page-shell';
+export type { RegistryPageShellVariant } from './registry-page-shell';

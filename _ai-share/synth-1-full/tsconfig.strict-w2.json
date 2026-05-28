@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/lib/production/workshop2-*.ts",
+    "src/lib/production/sketch-*.ts",
+    "src/lib/production/bom-*.ts",
+    "src/lib/production/material-*.ts",
+    "src/components/brand/production/Workshop2*.tsx",
+    "src/components/brand/production/CategorySketch*.tsx",
+    "src/app/brand/production/workshop2/**/*.tsx",
+    "src/app/api/brand/workshop2/**/*.ts",
+    "src/app/api/brand/sewing-plan-reference/route.ts",
+    "scripts/w2-*.mjs",
+    "scripts/validate-sewing-preset-coverage.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    ".next-isolated",
+    "src/**/__tests__/**",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx"
+  ]
+}

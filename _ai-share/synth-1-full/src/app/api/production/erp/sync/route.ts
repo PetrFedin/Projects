@@ -5,7 +5,11 @@ import { erpSync } from '@/lib/integrations/erp-backend-proxy';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { provider = '1c', scope = 'all', collectionIds } = body as {
+    const {
+      provider = '1c',
+      scope = 'all',
+      collectionIds,
+    } = body as {
       provider?: ErpProvider;
       scope?: 'orders' | 'stock' | 'finance' | 'all';
       collectionIds?: string[];

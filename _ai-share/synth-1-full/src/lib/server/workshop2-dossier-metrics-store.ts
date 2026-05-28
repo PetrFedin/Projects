@@ -54,7 +54,9 @@ export async function maybeRotateW2DossierMetricsFile(): Promise<void> {
 /**
  * Последние maxLines событий (хвост файла; читается до MAX_TAIL_BYTES с конца).
  */
-export async function readW2DossierMetricsTail(maxLines: number): Promise<Workshop2DossierMetricsPayload[]> {
+export async function readW2DossierMetricsTail(
+  maxLines: number
+): Promise<Workshop2DossierMetricsPayload[]> {
   const p = getW2DossierMetricsFilePath();
   let fh: Awaited<ReturnType<typeof fs.open>>;
   try {

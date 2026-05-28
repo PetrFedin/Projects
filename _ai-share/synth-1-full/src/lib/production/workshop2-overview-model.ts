@@ -8,6 +8,7 @@ import type { ArticleWorkspaceBundle } from '@/lib/production/article-workspace/
 import { type HandbookCategoryLeaf } from '@/lib/production/category-catalog';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { workshop2DossierWarningLooksVisual } from '@/lib/production/workshop2-visual-section-warnings';
+import { workshop2PipelineLaneForArticleMainTab } from '@/lib/production/workshop2-collection-metrics';
 
 export type Workshop2OverviewTab =
   | 'overview'
@@ -140,11 +141,20 @@ export type Workshop2OverviewPrimaryAction = {
   dossierSection?: DossierSection;
 };
 
+export type Workshop2OverviewReadinessSnapshot = {
+  tzOverallPct: number;
+  readyForHandoff: boolean;
+  blockerCount: number;
+  warningCount: number;
+  source: 'dossier_readiness';
+};
+
 export type Workshop2OverviewModel = {
   decisionItems: Workshop2OverviewDecisionItem[];
   routeStages: Workshop2OverviewRouteStage[];
   topBlockers: Workshop2OverviewBlocker[];
   primaryAction: Workshop2OverviewPrimaryAction;
+  readinessSnapshot: Workshop2OverviewReadinessSnapshot;
 };
 
 /** Подпись этапа без повтора роли, если она уже в названии (напр. «Снабжение · Закупка» и владелец «Закупка»). */
@@ -169,19 +179,21 @@ function getAssignmentLabels(
   return [...new Set(labels)].slice(0, limit);
 }
 
-function buildDecisionItems(dossier: Workshop2DossierPhase1 | null): Workshop2OverviewDecisionItem[] {
+function buildDecisionItems(
+  dossier: Workshop2DossierPhase1 | null
+): Workshop2OverviewDecisionItem[] {
   const audienceFilled = Boolean(dossier?.selectedAudienceId);
   const intentFilled = Boolean(dossier?.brandNotes?.trim());
   const materialAttrIds = ['mat', 'composition', 'insulationMaterialOptions', 'thermoTechOptions'];
   const materialFilled = Boolean(
-    dossier?.assignments.some(
-      (a) => Boolean(a.attributeId && materialAttrIds.includes(a.attributeId) && a.values.length > 0)
+    dossier?.assignments.some((a) =>
+      Boolean(a.attributeId && materialAttrIds.includes(a.attributeId) && a.values.length > 0)
     )
   );
   const measurementsFilled = Boolean(
     dossier?.sampleSizeScaleId &&
-      dossier.sampleBasePerSizeDimensions &&
-      Object.keys(dossier.sampleBasePerSizeDimensions).length > 0
+    dossier.sampleBasePerSizeDimensions &&
+    Object.keys(dossier.sampleBasePerSizeDimensions).length > 0
   );
   const constructionAttrIds = [
     'silh',
@@ -232,10 +244,7 @@ function buildDecisionItems(dossier: Workshop2DossierPhase1 | null): Workshop2Ov
   ];
 }
 
-function pushUniqueBlocker(
-  target: Workshop2OverviewBlocker[],
-  blocker: Workshop2OverviewBlocker
-) {
+function pushUniqueBlocker(target: Workshop2OverviewBlocker[], blocker: Workshop2OverviewBlocker) {
   if (target.some((item) => item.stage === blocker.stage && item.text === blocker.text)) return;
   target.push(blocker);
 }
@@ -304,7 +313,9 @@ function buildTopBlockers(
   }
 
   for (const stage of routeStages) {
-    if (stage.id === 'overview' || stage.id === 'tz' || !stage.blocker) continue;
+    if (stage.id === 'overview') continue;
+    if (workshop2PipelineLaneForArticleMainTab(stage.id) === 'development' || !stage.blocker)
+      continue;
     pushUniqueBlocker(blockers, {
       id: `${stage.id}-blocker`,
       stage: stage.id,
@@ -436,7 +447,7 @@ function buildPrimaryAction(
   };
 }
 
-/** Тексты для диалога «зачем секция ТЗ» в сводке решений на обзоре Цеха 2. */
+/** Тексты для диалога «зачем секция ТЗ» в сводке решений на обзоре разработки коллекции. */
 export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
   DossierSection,
   { headline: string; purpose: string; essentials: string[] }
@@ -444,7 +455,7 @@ export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
   general: {
     headline: 'Аудитория и общие данные',
     purpose:
-      'Здесь задаётся, для кого изделие и в каком контексте оно живёт: позиционирование, сезон, роль модели в коллекции и финальные согласования. Без этого handoff по маршруту легко расходится с ожиданиями команды и фабрики.',
+      'Здесь задаётся, для кого изделие и в каком контексте оно живёт: позиционирование, сезон, роль модели в коллекции и финальные согласования. Без этого handoff по маршруту легко расходится с ожиданиями команды и фабрики. По матрице коллекции это часть подготовки к этапу «согласование всех сторон» (gate-all-stakeholders): подтверждения фиксируются в подписи и статусе готовности.',
     essentials: [
       'Целевая аудитория и сегмент',
       'Сезон, капсула, носители образа',
@@ -455,10 +466,7 @@ export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
     headline: 'Визуал и замысел',
     purpose:
       'Эталон «как должно выглядеть»: эскиз, референсы, акценты силуэта и стиля. Это общая опора для снабжения, конструктора, образца и контроля качества.',
-    essentials: [
-      'Эскиз и визуальные референсы',
-      'Описание образа и отличий от базовых моделей',
-    ],
+    essentials: ['Эскиз и визуальные референсы', 'Описание образа и отличий от базовых моделей'],
   },
   material: {
     headline: 'Материалы (BOM)',
@@ -469,6 +477,11 @@ export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
       'Упаковка, этикетки, штрихкод, care-label',
     ],
   },
+  measurements: {
+    headline: 'Табель мер',
+    purpose: 'Единая таблица мерок по размерам для ТЗ, образца и контроля на линии.',
+    essentials: ['Базовый размер и шкала', 'Заполненные мерки по ключевым точкам'],
+  },
   construction: {
     headline: 'Конструкция и табель мер',
     purpose:
@@ -477,6 +490,11 @@ export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
       'Силуэт, узлы, карманы, застёжки, вложения tech pack',
       'Базовый размер, шкала и заполненные мерки',
     ],
+  },
+  packaging: {
+    headline: 'Упаковка',
+    purpose: 'Спецификация упаковки и маркировки для отгрузки и учёта на складе.',
+    essentials: ['Короб / полиэтилен', 'Этикетки и штрихкод'],
   },
   sample_intake: {
     headline: 'Приёмка сэмпла в коллекцию',
@@ -490,7 +508,7 @@ export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
   },
 };
 
-/** Тексты для диалога «что в этапе» на обзоре Цеха 2. */
+/** Тексты для диалога «что в этапе» на обзоре разработки коллекции. */
 export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   Workshop2OverviewTab,
   { headline: string; purpose: string; essentials: string[] }
@@ -498,7 +516,7 @@ export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   overview: {
     headline: 'Обзор',
     purpose:
-      'Входная панель SKU: паспорт артикула, прогресс и замечания, карта маршрута, обязательные решения из ТЗ, блокеры и один следующий шаг — без дублирования длинных форм.',
+      'Входная панель SKU: паспорт артикула, прогресс и замечания, карта маршрута, обязательные решения из ТЗ, блокеры и один следующий шаг — без дублирования длинных форм. По матрице этапов коллекции сюда относится всё до полного согласования ТЗ (в каталоге — в т.ч. tech-pack и gate-all-stakeholders), но в одном интерфейсе со вкладкой «ТЗ».',
     essentials: [
       'Понять, что за изделие и где оно в процессе',
       'Увидеть топ-блокеры и перейти в нужный раздел ТЗ',
@@ -508,7 +526,7 @@ export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   tz: {
     headline: 'ТЗ · Дизайн + тех',
     purpose:
-      'Зафиксировать изделие как продукт: кто аудитория, как выглядит модель, из чего шьём, какие мерки и конструкция, как уходит на выпуск и склад.',
+      'Зафиксировать изделие как продукт: кто аудитория, как выглядит модель, из чего шьём, какие мерки и конструкция, как уходит на выпуск и склад. Формальное согласование всех сторон из матрицы коллекции (этап gate-all-stakeholders) здесь выражено через готовность досье, цифровые подписи и чеклисты — отдельной вкладки «согласование» нет.',
     essentials: [
       'Паспорт артикула и аудитория',
       'Визуал, эскиз, замысел',
@@ -521,7 +539,8 @@ export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   },
   supply: {
     headline: 'Снабжение · Закупка',
-    purpose: 'Перевести материальный замысел в исполнимый BOM: позиции, статусы, поставщики и сроки.',
+    purpose:
+      'Перевести материальный замысел в исполнимый BOM: позиции, статусы, поставщики и сроки. На мини-шкале коллекции этот контур начинается с этапа supply-path в каталоге; дальше — отшив и приёмка образца (в каталоге — samples), распределённые по следующим вкладкам и полу цеха.',
     essentials: [
       'Строки BOM по SKU',
       'Подтверждение поставок и статусов',
@@ -530,43 +549,29 @@ export const WORKSHOP2_ROUTE_STAGE_GUIDANCE: Record<
   },
   fit: {
     headline: 'Эталон · посадка',
-    purpose: 'Сверить образец с ТЗ и зафиксировать gold sample как эталон для серии.',
-    essentials: [
-      'Замеры и комментарии по посадке',
-      'Утверждение эталонного образца',
-    ],
+    purpose:
+      'Сверить образец с ТЗ и зафиксировать gold sample как эталон для серии. Часть смысла этапа каталога «samples» (примерка, доработки до эталона) закрывается здесь и на полу (fit, gold sample).',
+    essentials: ['Замеры и комментарии по посадке', 'Утверждение эталонного образца'],
   },
   plan: {
     headline: 'План · PO',
     purpose: 'Закрепить закупку и запуск: PO, даты, привязка к производству.',
-    essentials: [
-      'Черновики и подтверждённые PO',
-      'Синхронизация с выпуском',
-    ],
+    essentials: ['Черновики и подтверждённые PO', 'Синхронизация с выпуском'],
   },
   release: {
     headline: 'Выпуск',
     purpose: 'Описать и отслеживать производственный маршрут по SKU в цеху.',
-    essentials: [
-      'Техоперации и их статусы',
-      'Готовность к передаче в ОТК',
-    ],
+    essentials: ['Техоперации и их статусы', 'Готовность к передаче в ОТК'],
   },
   qc: {
     headline: 'ОТК',
     purpose: 'Контроль партий по качеству и допускам относительно ТЗ.',
-    essentials: [
-      'Партии и AQL',
-      'Брак, доработки, повторные проверки',
-    ],
+    essentials: ['Партии и AQL', 'Брак, доработки, повторные проверки'],
   },
   stock: {
     headline: 'Склад',
     purpose: 'Зафиксировать приёмку и движения готовой продукции по артикулу.',
-    essentials: [
-      'Приёмка и остатки',
-      'Блокировки к отгрузке при необходимости',
-    ],
+    essentials: ['Приёмка и остатки', 'Блокировки к отгрузке при необходимости'],
   },
 };
 
@@ -574,6 +579,8 @@ export function buildWorkshop2OverviewModel(args: {
   dossier: Workshop2DossierPhase1 | null;
   leaf: HandbookCategoryLeaf | undefined | null;
   bundle: Workshop2OverviewBundleSnapshot | null;
+  collectionId?: string;
+  articleId?: string;
 }): Workshop2OverviewModel {
   const { dossier, leaf, bundle } = args;
   const dossierReadiness = calculateDossierReadiness(dossier, leaf);
@@ -587,11 +594,19 @@ export function buildWorkshop2OverviewModel(args: {
   }));
   const warnings = dossierReadiness.summary.warnings;
   const decisionItems = buildDecisionItems(dossier);
+  const topBlockers = buildTopBlockers(warnings, routeStages);
 
   return {
     decisionItems,
     routeStages,
-    topBlockers: buildTopBlockers(warnings, routeStages),
+    topBlockers,
     primaryAction: buildPrimaryAction(warnings, bundle, decisionItems),
+    readinessSnapshot: {
+      tzOverallPct: dossierReadiness.overall.pct,
+      readyForHandoff: dossierReadiness.overall.readyForHandoff,
+      blockerCount: topBlockers.length,
+      warningCount: Math.max(0, warnings.length),
+      source: 'dossier_readiness',
+    },
   };
 }

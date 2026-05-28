@@ -66,7 +66,7 @@ function parseXmlBom(xml: string): PlmBomItem[] {
   const items: PlmBomItem[] = [];
   const m = xml.match(/<component[^>]*>[\s\S]*?<\/component>/gi);
   if (m) {
-    m.slice(0, 30).forEach(block => {
+    m.slice(0, 30).forEach((block) => {
       const id = block.match(/id="([^"]+)"/)?.[1] ?? 'C-?';
       const name = block.match(/name="([^"]+)"/)?.[1] ?? 'Component';
       const qty = parseFloat(block.match(/quantity="([^"]+)"/)?.[1] ?? '1');

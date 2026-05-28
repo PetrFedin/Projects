@@ -17,7 +17,7 @@ export function ProductAssetCreditsBlock({ product }: Props) {
   return (
     <Card className="mt-4 border-dashed bg-muted/20">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <Camera className="h-4 w-4" />
           Production & Rights
         </CardTitle>
@@ -37,7 +37,11 @@ export function ProductAssetCreditsBlock({ product }: Props) {
             <div className="flex items-center gap-2">
               <span className="font-semibold">{credits.modelName}</span>
               {credits.modelInstagram && (
-                <a href={`https://instagram.com/${credits.modelInstagram.replace('@', '')}`} target="_blank" className="text-primary hover:underline flex items-center gap-0.5">
+                <a
+                  href={`https://instagram.com/${credits.modelInstagram.replace('@', '')}`}
+                  target="_blank"
+                  className="flex items-center gap-0.5 text-primary hover:underline"
+                >
                   <Instagram className="h-3 w-3" />
                 </a>
               )}
@@ -57,18 +61,22 @@ export function ProductAssetCreditsBlock({ product }: Props) {
           )}
         </div>
 
-        <div className="pt-2 border-t flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-2 border-t pt-2">
           <div className="flex items-center gap-1.5">
             {isValid ? (
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
             ) : (
               <AlertTriangle className="h-3.5 w-3.5 text-rose-600" />
             )}
-            <span className={`text-[10px] font-medium ${isValid ? 'text-emerald-700' : 'text-rose-700'}`}>
+            <span
+              className={`text-[10px] font-medium ${isValid ? 'text-emerald-700' : 'text-rose-700'}`}
+            >
               {isValid ? 'Лицензия активна' : 'Срок прав истек (DAM alert)'}
             </span>
           </div>
-          <Badge variant="outline" className="text-[9px] h-4">Asset ID: {product.sku.slice(0, 6)}</Badge>
+          <Badge variant="outline" className="h-4 text-[9px]">
+            Asset ID: {product.sku.slice(0, 6)}
+          </Badge>
         </div>
       </CardContent>
     </Card>

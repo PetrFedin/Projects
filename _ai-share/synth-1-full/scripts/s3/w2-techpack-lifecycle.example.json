@@ -1,0 +1,15 @@
+{
+  "Comment": "Пример: правило expiring незавершённых/старых префиксов techpack. Подставьте Prefix из W2_METRICS_S3_PREFIX/.../techpack и срок из W2_TECHPACK_RETENTION_DAYS (крон/оператор синхронизирует).",
+  "Rules": [
+    {
+      "ID": "w2-techpack-expire",
+      "Status": "Enabled",
+      "Filter": {
+        "Prefix": "w2-metrics/techpack/"
+      },
+      "Expiration": {
+        "Days": 90
+      }
+    }
+  ]
+}

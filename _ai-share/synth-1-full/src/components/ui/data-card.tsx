@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
+import { cn } from '@/lib/utils';
+import { LucideIcon } from 'lucide-react';
 
 interface DataCardProps {
   title: string;
@@ -25,12 +25,12 @@ export function DataCard({
   footer,
   variant = 'default',
   size = 'md',
-  className
+  className,
 }: DataCardProps) {
   const variants = {
-    default: 'bg-white border-slate-200',
-    gradient: 'bg-gradient-to-br from-blue-50 via-white to-indigo-50 border-blue-100',
-    minimal: 'bg-transparent border-transparent'
+    default: 'bg-white border-border-default',
+    gradient: 'bg-gradient-to-br from-blue-50 via-white to-accent-primary/10 border-blue-100',
+    minimal: 'bg-transparent border-transparent',
   };
 
   const sizes = {
@@ -40,7 +40,7 @@ export function DataCard({
       iconSize: 'h-4 w-4',
       title: 'text-xs',
       value: 'text-base',
-      subtitle: 'text-xs'
+      subtitle: 'text-xs',
     },
     md: {
       container: 'p-4',
@@ -48,7 +48,7 @@ export function DataCard({
       iconSize: 'h-6 w-6',
       title: 'text-sm',
       value: 'text-base',
-      subtitle: 'text-sm'
+      subtitle: 'text-sm',
     },
     lg: {
       container: 'p-4',
@@ -56,8 +56,8 @@ export function DataCard({
       iconSize: 'h-8 w-8',
       title: 'text-base',
       value: 'text-sm',
-      subtitle: 'text-base'
-    }
+      subtitle: 'text-base',
+    },
   };
 
   const s = sizes[size];
@@ -65,32 +65,38 @@ export function DataCard({
   const trendColors = {
     up: 'text-emerald-600 bg-emerald-50',
     down: 'text-rose-600 bg-rose-50',
-    neutral: 'text-slate-600 bg-slate-50'
+    neutral: 'text-text-secondary bg-bg-surface2',
   };
 
   return (
-    <div className={cn(
-      "card-hover rounded-3xl border shadow-soft",
-      variants[variant],
-      s.container,
-      className
-    )}>
+    <div
+      className={cn(
+        'card-hover shadow-soft rounded-3xl border',
+        variants[variant],
+        s.container,
+        className
+      )}
+    >
       {/* Header */}
-      <div className="flex items-start justify-between mb-4">
+      <div className="mb-4 flex items-start justify-between">
         {Icon && (
-          <div className={cn(
-            "rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg",
-            s.icon
-          )}>
-            <Icon className={cn(s.iconSize, "text-white")} />
+          <div
+            className={cn(
+              'to-accent-primary flex items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 shadow-lg',
+              s.icon
+            )}
+          >
+            <Icon className={cn(s.iconSize, 'text-white')} />
           </div>
         )}
         {trend && (
-          <span className={cn(
-            "px-3 py-1 rounded-full font-bold uppercase tracking-wider",
-            s.subtitle,
-            trendColors[trend.direction]
-          )}>
+          <span
+            className={cn(
+              'rounded-full px-3 py-1 font-bold uppercase tracking-wider',
+              s.subtitle,
+              trendColors[trend.direction]
+            )}
+          >
             {trend.value}
           </span>
         )}
@@ -98,34 +104,15 @@ export function DataCard({
 
       {/* Content */}
       <div className="space-y-1">
-        <h3 className={cn(
-          "font-bold uppercase tracking-wider text-slate-500",
-          s.title
-        )}>
+        <h3 className={cn('text-text-secondary font-bold uppercase tracking-wider', s.title)}>
           {title}
         </h3>
-        <p className={cn(
-          "font-black text-slate-900 tracking-tight",
-          s.value
-        )}>
-          {value}
-        </p>
-        {subtitle && (
-          <p className={cn(
-            "font-medium text-slate-400",
-            s.subtitle
-          )}>
-            {subtitle}
-          </p>
-        )}
+        <p className={cn('text-text-primary font-black tracking-tight', s.value)}>{value}</p>
+        {subtitle && <p className={cn('text-text-muted font-medium', s.subtitle)}>{subtitle}</p>}
       </div>
 
       {/* Footer */}
-      {footer && (
-        <div className="mt-4 pt-4 border-t border-slate-100">
-          {footer}
-        </div>
-      )}
+      {footer && <div className="border-border-subtle mt-4 border-t pt-4">{footer}</div>}
     </div>
   );
 }

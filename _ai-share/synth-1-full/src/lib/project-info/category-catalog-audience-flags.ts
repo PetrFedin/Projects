@@ -1,22 +1,30 @@
-import { getHandbookCategoryLeaves, type HandbookCategoryLeaf } from '@/lib/production/category-catalog';
+import {
+  getHandbookCategoryLeaves,
+  type HandbookCategoryLeaf,
+} from '@/lib/production/category-catalog';
 import {
   type CatalogAudienceFlags,
   type CatalogAudienceKey,
   defaultAudienceFlagsForCatalogLeaf,
 } from '@/lib/project-info/catalog-audience-defaults';
 
-export type { CatalogAudienceFlags, CatalogAudienceKey } from '@/lib/project-info/catalog-audience-defaults';
+export type {
+  CatalogAudienceFlags,
+  CatalogAudienceKey,
+} from '@/lib/project-info/catalog-audience-defaults';
 
-export const CATALOG_AUDIENCE_COLUMNS: { key: CatalogAudienceKey; label: string; abbr: string }[] = [
-  { key: 'men', label: 'Мужчины', abbr: 'М' },
-  { key: 'women', label: 'Женщины', abbr: 'Ж' },
-  { key: 'boys', label: 'Мальчики', abbr: 'Мл' },
-  { key: 'girls', label: 'Девочки', abbr: 'Дв' },
-  { key: 'newborn', label: 'Новорождённые', abbr: 'Нв' },
-  { key: 'other', label: 'Остальное', abbr: 'Пр' },
-];
+export const CATALOG_AUDIENCE_COLUMNS: { key: CatalogAudienceKey; label: string; abbr: string }[] =
+  [
+    { key: 'men', label: 'Мужчины', abbr: 'М' },
+    { key: 'women', label: 'Женщины', abbr: 'Ж' },
+    { key: 'boys', label: 'Мальчики', abbr: 'Мл' },
+    { key: 'girls', label: 'Девочки', abbr: 'Дв' },
+    { key: 'newborn', label: 'Новорождённые', abbr: 'Нв' },
+    { key: 'other', label: 'Остальное', abbr: 'Пр' },
+  ];
 
-export const CATEGORY_CATALOG_AUDIENCE_FLAGS_KEY = 'synth.projectInfo.categoryCatalog.audienceFlags.v6';
+export const CATEGORY_CATALOG_AUDIENCE_FLAGS_KEY =
+  'synth.projectInfo.categoryCatalog.audienceFlags.v6';
 
 export function defaultAudienceFlagsForLeaf(leaf: HandbookCategoryLeaf): CatalogAudienceFlags {
   return defaultAudienceFlagsForCatalogLeaf(leaf);
@@ -32,7 +40,10 @@ export function buildDefaultFlagMap(): Record<string, CatalogAudienceFlags> {
 
 function parseStored(raw: string): Record<string, Partial<CatalogAudienceFlags>> | null {
   try {
-    const data = JSON.parse(raw) as { version?: number; byLeaf?: Record<string, Partial<CatalogAudienceFlags>> };
+    const data = JSON.parse(raw) as {
+      version?: number;
+      byLeaf?: Record<string, Partial<CatalogAudienceFlags>>;
+    };
     const v = data.version;
     if (
       (v !== 3 && v !== 4 && v !== 5 && v !== 6) ||
@@ -47,7 +58,9 @@ function parseStored(raw: string): Record<string, Partial<CatalogAudienceFlags>>
   }
 }
 
-function normalizeFlags(partial: Partial<CatalogAudienceFlags> | undefined): CatalogAudienceFlags | null {
+function normalizeFlags(
+  partial: Partial<CatalogAudienceFlags> | undefined
+): CatalogAudienceFlags | null {
   if (!partial || typeof partial !== 'object') return null;
   return {
     men: Boolean(partial.men),

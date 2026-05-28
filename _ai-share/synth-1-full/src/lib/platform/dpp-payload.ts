@@ -16,10 +16,30 @@ export function buildLocalDppPayload(product: Product): DigitalProductPassportPa
     dyeBatchLabel: 'DYE-BATCH-884 · RAL 9005',
     fabricCertLine: 'GOTS scope cert №CU-987654 · PDF',
     supplyChain: [
-      { stage: 'Сырье', location: 'Турция, Измир', detail: 'Органический хлопок (GOTS)', status: 'completed' },
-      { stage: 'Прядение', location: 'Италия, Прато', detail: 'Энергоэффективное производство', status: 'completed' },
-      { stage: 'Пошив', location: 'Россия, Иваново', detail: 'Syntha Partner Factory #12', status: 'completed' },
-      { stage: 'Логистика', location: 'Москва, Склад Syntha', detail: 'Углеродно-нейтральная доставка', status: 'completed' },
+      {
+        stage: 'Сырье',
+        location: 'Турция, Измир',
+        detail: 'Органический хлопок (GOTS)',
+        status: 'completed',
+      },
+      {
+        stage: 'Прядение',
+        location: 'Италия, Прато',
+        detail: 'Энергоэффективное производство',
+        status: 'completed',
+      },
+      {
+        stage: 'Пошив',
+        location: 'Россия, Иваново',
+        detail: 'Syntha Partner Factory #12',
+        status: 'completed',
+      },
+      {
+        stage: 'Логистика',
+        location: 'Москва, Склад Syntha',
+        detail: 'Углеродно-нейтральная доставка',
+        status: 'completed',
+      },
     ],
     materials: [
       { name: 'Organic Cotton', percentage: 95, description: 'Выращено без пестицидов' },

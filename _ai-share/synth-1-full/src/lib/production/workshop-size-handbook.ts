@@ -1,5 +1,5 @@
 /**
- * Размерные шкалы и габариты для Цеха 2 из справочника производства (`production-params`)
+ * Размерные шкалы и габариты для разработки коллекции из справочника производства (`production-params`)
  * + базовая EU-сетка обхватов (верхняя одежда, женская линия).
  */
 import type { HandbookCategoryLeaf } from './category-handbook-leaves';
@@ -47,9 +47,15 @@ function safeSizeToken(s: string): string {
 }
 
 /** Маппинг листа категорий (аудитория + ур. 1) → id блока в `PRODUCTION_PARAMS_BY_CATEGORY`. */
-export function handbookCatL1FromLeaf(leaf: HandbookCategoryLeaf | undefined): string | undefined {
+export function handbookCatL1FromLeaf(
+  leaf: HandbookCategoryLeaf | undefined,
+  isUnisex?: boolean
+): string | undefined {
   if (!leaf) return undefined;
-  const a = leaf.audienceId;
+  let a = leaf.audienceId;
+  if (isUnisex && (a === 'men' || a === 'women')) {
+    a = 'unisex';
+  }
   const l1 = leaf.l1Name.trim();
   const table: Record<string, Partial<Record<string, string>>> = {
     Одежда: {
@@ -76,14 +82,14 @@ export function handbookCatL1FromLeaf(leaf: HandbookCategoryLeaf | undefined): s
     'Головные уборы': {
       men: 'men-headwear',
       women: 'women-headwear',
-      kids: 'women-headwear',
+      kids: 'kids-accessories',
       unisex: 'men-headwear',
       catalog: 'women-headwear',
     },
     'Меховые изделия': {
       men: 'men-fur',
       women: 'women-fur',
-      kids: 'women-fur',
+      kids: 'kids-apparel',
       unisex: 'men-fur',
       catalog: 'women-fur',
     },
@@ -102,11 +108,11 @@ export function handbookCatL1FromLeaf(leaf: HandbookCategoryLeaf | undefined): s
       catalog: 'newborn-accessories',
     },
     'Игрушки (детские)': {
-      men: 'women-accessories',
-      women: 'women-accessories',
-      kids: 'women-accessories',
-      unisex: 'women-accessories',
-      catalog: 'women-accessories',
+      men: 'toys',
+      women: 'toys',
+      kids: 'toys',
+      unisex: 'toys',
+      catalog: 'toys',
     },
     'Красота и уход': {
       men: 'beauty-care',
@@ -123,20 +129,29 @@ export function handbookCatL1FromLeaf(leaf: HandbookCategoryLeaf | undefined): s
       catalog: 'home-lifestyle',
     },
     'Носочно-чулочные': {
-      men: 'men-accessories',
-      women: 'women-accessories',
-      kids: 'women-accessories',
-      unisex: 'women-accessories',
-      catalog: 'women-accessories',
+      men: 'hosiery',
+      women: 'hosiery',
+      kids: 'hosiery',
+      unisex: 'hosiery',
+      catalog: 'hosiery',
     },
   };
-  return table[l1]?.[a];
+  const baseId = table[l1]?.[a];
+  if (!baseId) return undefined;
+
+  if (l1 === 'Одежда') {
+    const l2 = leaf.l2Name?.trim() || '';
+    const isWaist = ['Брюки', 'Джинсы', 'Юбки', 'Нижнее бельё', 'Пляжная мода'].includes(l2);
+    return isWaist ? `${baseId}-waist` : `${baseId}-shoulder`;
+  }
+  return baseId;
 }
 
 export function getCategoryProductionParamsForLeaf(
-  leaf: HandbookCategoryLeaf | undefined
+  leaf: HandbookCategoryLeaf | undefined,
+  isUnisex?: boolean
 ): CategoryProductionParams | undefined {
-  const id = handbookCatL1FromLeaf(leaf);
+  const id = handbookCatL1FromLeaf(leaf, isUnisex);
   if (!id) return undefined;
   return PRODUCTION_PARAMS_BY_CATEGORY.find((p) => p.catL1Id === id);
 }
@@ -153,20 +168,20 @@ function scaleKey(catL1Id: string, scaleId: string): string {
 
 /** Все шкалы для листа: справочник производства + при одежде — сетка EU/габариты. */
 export function getWorkshopSampleSizeScaleOptions(
-  leaf: HandbookCategoryLeaf | undefined
+  leaf: HandbookCategoryLeaf | undefined,
+  isUnisex?: boolean
 ): WorkshopSampleSizeScaleOption[] {
-  const cat = handbookCatL1FromLeaf(leaf);
+  const cat = handbookCatL1FromLeaf(leaf, isUnisex);
   if (!cat) return [];
   const params = PRODUCTION_PARAMS_BY_CATEGORY.find((p) => p.catL1Id === cat);
   const out: WorkshopSampleSizeScaleOption[] = [];
 
-  if (cat === 'women-apparel' || cat === 'men-apparel') {
+  if (cat.startsWith('women-apparel') || cat.startsWith('men-apparel')) {
     out.push({
       key: scaleKey(cat, BODY_GRID_SCALE_ID),
-      label:
-        cat === 'women-apparel'
-          ? 'EU · базовые габариты (женская верхняя одежда: грудь / талия / бёдра)'
-          : 'EU · базовые габариты (мужская одежда: грудь / талия / бёдра)',
+      label: cat.startsWith('women-apparel')
+        ? 'EU · базовые габариты (женская верхняя одежда: грудь / талия / бёдра)'
+        : 'EU · базовые габариты (мужская одежда: грудь / талия / бёдра)',
       rule: 'см, по типовой сетке; значения можно скорректировать ниже',
     });
   }
@@ -183,19 +198,27 @@ export function getWorkshopSampleSizeScaleOptions(
   return out;
 }
 
-export function defaultWorkshopSampleSizeScaleKey(leaf: HandbookCategoryLeaf | undefined): string {
-  const opts = getWorkshopSampleSizeScaleOptions(leaf);
+export function defaultWorkshopSampleSizeScaleKey(
+  leaf: HandbookCategoryLeaf | undefined,
+  isUnisex?: boolean
+): string {
+  const opts = getWorkshopSampleSizeScaleOptions(leaf, isUnisex);
   return opts[0]?.key ?? 'apparel-alpha';
 }
 
 /** Подписи габаритов из справочника категории (редактируемые в досье). */
-export function getWorkshopDimensionLabels(leaf: HandbookCategoryLeaf | undefined): string[] {
-  const p = getCategoryProductionParamsForLeaf(leaf);
+export function getWorkshopDimensionLabels(
+  leaf: HandbookCategoryLeaf | undefined,
+  isUnisex?: boolean
+): string[] {
+  const p = getCategoryProductionParamsForLeaf(leaf, isUnisex);
   return p?.dimensions?.length ? [...p.dimensions] : [];
 }
 
 function bodyGridRows(catL1Id: string) {
-  return catL1Id === 'men-apparel' ? MEN_OUTERWEAR_BODY_GRID_CM : WOMEN_OUTERWEAR_BODY_GRID_CM;
+  return catL1Id.startsWith('men-apparel')
+    ? MEN_OUTERWEAR_BODY_GRID_CM
+    : WOMEN_OUTERWEAR_BODY_GRID_CM;
 }
 
 function parametersFromBodyGrid(catL1Id: string): AttributeCatalogParameter[] {
@@ -240,12 +263,10 @@ function mapBodyRowToDimensionRecord(
 }
 
 function findApparelBodyGridRowByScaleSize(
-  cat: 'women-apparel' | 'men-apparel',
+  cat: string,
   scaleId: string,
   token: string
-):
-  | { eu: string; alpha: string; chest: number; waist: number; hips: number }
-  | undefined {
+): { eu: string; alpha: string; chest: number; waist: number; hips: number } | undefined {
   const rows = bodyGridRows(cat);
   const t = token.trim();
   if (scaleId === 'EU') {
@@ -260,35 +281,34 @@ function findApparelBodyGridRowByScaleSize(
     return undefined;
   }
   if (scaleId === 'RU') {
-    const idx =
-      cat === 'women-apparel'
-        ? (
-            {
-              '42': 1,
-              '44': 2,
-              '46': 3,
-              '48': 4,
-              '50': 5,
-              '52': 5,
-            } as Record<string, number>
-          )[t]
-        : (
-            {
-              '44': 0,
-              '46': 1,
-              '48': 2,
-              '50': 3,
-              '52': 4,
-              '54': 5,
-            } as Record<string, number>
-          )[t];
+    const idx = cat.startsWith('women-apparel')
+      ? (
+          {
+            '42': 1,
+            '44': 2,
+            '46': 3,
+            '48': 4,
+            '50': 5,
+            '52': 5,
+          } as Record<string, number>
+        )[t]
+      : (
+          {
+            '44': 0,
+            '46': 1,
+            '48': 2,
+            '50': 3,
+            '52': 4,
+            '54': 5,
+          } as Record<string, number>
+        )[t];
     if (idx === undefined) return undefined;
     return rows[idx];
   }
   if (scaleId === 'INT') {
     const n = parseInt(t, 10);
     if (Number.isNaN(n)) return undefined;
-    if (cat === 'women-apparel') {
+    if (cat.startsWith('women-apparel')) {
       const mapW: Record<number, number> = { 0: 1, 1: 2, 2: 3, 3: 4, 4: 5 };
       const i = mapW[n];
       return i !== undefined ? rows[i] : undefined;
@@ -305,10 +325,11 @@ function findApparelBodyGridRowByScaleSize(
  */
 export function getWorkshopParametersForSampleScale(
   leaf: HandbookCategoryLeaf | undefined,
-  scaleKeyVal: string | undefined
+  scaleKeyVal: string | undefined,
+  isUnisex?: boolean
 ): AttributeCatalogParameter[] {
   if (!leaf || !scaleKeyVal) return [];
-  const cat = handbookCatL1FromLeaf(leaf);
+  const cat = handbookCatL1FromLeaf(leaf, isUnisex);
   if (!cat) return [];
   const parts = scaleKeyVal.split('::');
   if (parts.length < 2) return [];
@@ -337,9 +358,40 @@ export function getSuggestedDimensionCmForParameterId(
   dimLabels?: string[]
 ): Record<string, string> | undefined {
   if (!parameterId) return undefined;
+
+  const shoeMatch = parameterId.match(
+    /^w2:(men-shoes|women-shoes|kids-shoes|unisex-shoes):([^:]+):(.+)$/
+  );
+  if (shoeMatch) {
+    let token = shoeMatch[3]!;
+    try {
+      token = decodeURIComponent(token);
+    } catch {
+      /* keep raw */
+    }
+    const sizeNum = parseFloat(token);
+    if (!isNaN(sizeNum)) {
+      // Rough heuristic for shoe dimensions based on size (assuming EU or similar numeric scale)
+      const footLength = 20 + (sizeNum - 30) * 0.67;
+      const width = 8 + (sizeNum - 30) * 0.15;
+      const res: Record<string, string> = {};
+      if (dimLabels) {
+        dimLabels.forEach((dl) => {
+          const lower = dl.toLowerCase();
+          if (lower.includes('длина')) res[dl] = footLength.toFixed(1);
+          else if (lower.includes('ширина')) res[dl] = width.toFixed(1);
+          else if (lower.includes('обхват') || lower.includes('подъем'))
+            res[dl] = (footLength * 0.9).toFixed(1);
+          else res[dl] = ''; // Empty string for unknown dimensions so it still registers as touched
+        });
+      }
+      return Object.keys(res).length > 0 ? res : undefined;
+    }
+  }
+
   const gridIdx = parameterId.match(/^w2:(women-apparel|men-apparel):__BODY_GRID:(\d+)$/);
   if (gridIdx) {
-    const cat = gridIdx[1] as 'women-apparel' | 'men-apparel';
+    const cat = gridIdx[1];
     const idx = parseInt(gridIdx[2]!, 10);
     const row = bodyGridRows(cat)[idx];
     if (!row) return undefined;
@@ -347,7 +399,7 @@ export function getSuggestedDimensionCmForParameterId(
   }
   const m = parameterId.match(/^w2:(women-apparel|men-apparel):([^:]+):(.+)$/);
   if (!m) return undefined;
-  const cat = m[1] as 'women-apparel' | 'men-apparel';
+  const cat = m[1];
   const scaleId = m[2]!;
   let token = m[3]!;
   try {
@@ -359,4 +411,68 @@ export function getSuggestedDimensionCmForParameterId(
   const row = findApparelBodyGridRowByScaleSize(cat, scaleId, token);
   if (!row) return undefined;
   return mapBodyRowToDimensionRecord(row, dimLabels);
+}
+
+/** Доп. мерки по категории — не входят в базовый набор колонок, но часто нужны в ТЗ. */
+export const W2_EXTENDED_MEASUREMENT_SUGGESTIONS: Partial<Record<string, readonly string[]>> = {
+  'women-shoes': [
+    'Длина стельки',
+    'Ширина стопы в широкой части',
+    'Высота задника / голенища',
+    'Высота подошвы',
+    'Масса пары (г)',
+  ],
+  'men-shoes': ['Длина стельки', 'Высота подошвы', 'Масса пары (г)', 'Объём голенища'],
+  'kids-shoes': ['Длина стельки (мм)', 'Масса пары (г)'],
+  'unisex-shoes': ['Длина стельки', 'Обхват подъёма', 'Высота подошвы'],
+  'women-apparel': ['Длина плеча', 'Ширина спины', 'Обхват шеи', 'Длина юбки/платья'],
+  'men-apparel': ['Длина плеча', 'Ширина спины', 'Обхват шеи'],
+  'women-bags': ['Объём', 'Толщина', 'Ширина дна'],
+  'men-bags': ['Объём', 'Толщина', 'Ширина дна'],
+};
+
+export type WorkshopMeasurementPointSuggestion = {
+  key: string;
+  label: string;
+  kind: 'restore' | 'extra';
+};
+
+/** Варианты «добавить точку»: вернуть скрытые колонки справочника или доп. мерку из пресетов. */
+export function getWorkshopMeasurementPointAddSuggestions(
+  leaf: HandbookCategoryLeaf | undefined,
+  isUnisex: boolean | undefined,
+  opts: {
+    visibleDimLabels: readonly string[];
+    hiddenDimKeys: readonly string[];
+    extraLabels: readonly string[];
+  }
+): WorkshopMeasurementPointSuggestion[] {
+  const active = new Set(
+    [...opts.visibleDimLabels, ...opts.extraLabels.map((s) => s.trim()).filter(Boolean)].map((s) =>
+      s.toLowerCase()
+    )
+  );
+  const out: WorkshopMeasurementPointSuggestion[] = [];
+  const seen = new Set<string>();
+
+  for (const dim of opts.hiddenDimKeys) {
+    const t = dim.trim();
+    if (!t || seen.has(t.toLowerCase())) continue;
+    seen.add(t.toLowerCase());
+    out.push({ key: `restore:${dim}`, label: t, kind: 'restore' });
+  }
+
+  const cat = handbookCatL1FromLeaf(leaf, isUnisex);
+  const extended = cat ? (W2_EXTENDED_MEASUREMENT_SUGGESTIONS[cat] ?? []) : [];
+
+  for (const label of extended) {
+    const t = label.trim();
+    if (!t) continue;
+    const low = t.toLowerCase();
+    if (seen.has(low) || active.has(low)) continue;
+    seen.add(low);
+    out.push({ key: `extra:${t}`, label: t, kind: 'extra' });
+  }
+
+  return out.slice(0, 12);
 }

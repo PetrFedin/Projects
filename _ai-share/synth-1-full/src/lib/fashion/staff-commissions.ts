@@ -5,7 +5,7 @@ export function getStaffCommissionScheme(sku: string): StaffCommissionV1 {
   const seedRaw = sku.split('-')[1] || '100';
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = sku.length * 13;
-  
+
   return {
     sku,
     baseCommissionPercent: 2.5,

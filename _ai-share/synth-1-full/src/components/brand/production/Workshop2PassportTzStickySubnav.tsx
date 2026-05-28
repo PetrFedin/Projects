@@ -58,29 +58,29 @@ export function Workshop2PassportTzStickySubnav({
 
   return (
     <div
-      className="sticky top-0 z-30 -mx-1 flex flex-wrap items-center gap-1.5 rounded-lg border border-slate-200/90 bg-white/95 px-2 py-2 shadow-sm backdrop-blur-sm sm:gap-1 sm:py-1.5"
+      className="border-border-default/90 sticky top-0 z-30 -mx-1 flex flex-wrap items-center gap-1.5 rounded-lg border bg-white/95 px-2 py-2 shadow-sm backdrop-blur-sm sm:gap-1 sm:py-1.5"
       role="navigation"
       aria-label="Подразделы «Паспорт»"
     >
       <span
-        className="flex w-full flex-wrap items-center gap-1 pl-0.5 text-[9px] font-bold uppercase tracking-wide text-slate-400 sm:w-auto sm:pr-1"
+        className="text-text-muted flex w-full flex-wrap items-center gap-1 pl-0.5 text-[9px] font-bold uppercase tracking-wide sm:w-auto sm:pr-1"
         title="Открытые блокеры паспорта для маршрута SKU"
       >
         <span>Паспорт</span>
         {tzPhase !== '1' ? (
-          <span className="rounded border border-indigo-200/80 bg-indigo-50 px-1 py-0 text-[8px] font-black normal-case tracking-wide text-indigo-900">
+          <span className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary rounded border px-1 py-0 text-[8px] font-black normal-case tracking-wide">
             Шаг {tzPhase}
           </span>
         ) : null}
         <span
           className={cn(
-            'tabular-nums normal-case',
+            'normal-case tabular-nums',
             gateOpenCount === 0 ? 'text-emerald-600' : 'text-amber-700'
           )}
         >
           {gateOpenCount === 0 ? '· контур OK' : `· осталось ${gateOpenCount}`}
         </span>
-        <span className="font-normal normal-case text-slate-400">(~{combinedPct}%)</span>
+        <span className="text-text-muted font-normal normal-case">(~{combinedPct}%)</span>
       </span>
       {ITEMS.map((x) => {
         const isCurrent = activeAnchorId === x.id;
@@ -93,8 +93,9 @@ export function Workshop2PassportTzStickySubnav({
             size="sm"
             aria-current={isCurrent ? 'location' : undefined}
             className={cn(
-              'min-h-9 min-w-0 border-slate-200 bg-white px-2.5 py-1.5 text-[10px] font-medium text-slate-700 shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0',
-              isCurrent && 'border-indigo-300 bg-indigo-50 text-indigo-900 ring-1 ring-indigo-200'
+              'border-border-default text-text-primary min-h-9 min-w-0 bg-white px-2.5 py-1.5 text-[10px] font-medium shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0',
+              isCurrent &&
+                'border-accent-primary/30 bg-accent-primary/10 text-accent-primary ring-accent-primary/30 ring-1'
             )}
             onClick={() => onNavigate(x.id)}
             title={navTitle}
@@ -111,7 +112,7 @@ export function Workshop2PassportTzStickySubnav({
           'min-h-9 gap-1 px-2.5 py-1.5 text-[10px] font-semibold shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0',
           auditHitCount > 0
             ? 'border-rose-200 bg-rose-50/90 text-rose-900'
-            : 'border-slate-200 bg-white text-slate-700'
+            : 'border-border-default text-text-primary bg-white'
         )}
         onClick={() => onNavigate(W2_PASSPORT_SUBPAGE_ANCHORS.audit)}
         title="Фильтр критичных полей паспорта по журналу сохранений"
@@ -125,7 +126,7 @@ export function Workshop2PassportTzStickySubnav({
           type="button"
           variant="outline"
           size="sm"
-          className="min-h-9 gap-1 border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[10px] font-semibold text-slate-800 shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
+          className="border-border-default bg-bg-surface2 text-text-primary min-h-9 gap-1 px-2.5 py-1.5 text-[10px] font-semibold shadow-none sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
           onClick={() => onNavigate(W2_PASSPORT_SUBPAGE_ANCHORS.readOnly)}
           title="Ссылка для внешней стороны (read-only, w2view=factory)"
         >
@@ -165,12 +166,11 @@ export function Workshop2PassportTzStickySubnav({
         type="button"
         variant="secondary"
         size="sm"
-        className="min-h-9 gap-1 border-indigo-200 bg-indigo-50/90 px-2.5 py-1.5 text-[10px] font-semibold text-indigo-900 shadow-none sm:ml-auto sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
+        className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary min-h-9 gap-1 px-2.5 py-1.5 text-[10px] font-semibold shadow-none sm:ml-auto sm:h-7 sm:min-h-0 sm:px-2 sm:py-0"
         onClick={onJumpToPulse}
         title="Пульс артикула: SLA по ролям, подписи ТЗ, PDF"
       >
-        <LucideIcons.Activity className="h-3.5 w-3.5 shrink-0" aria-hidden />
-        К пульсу / SLA
+        <LucideIcons.Activity className="h-3.5 w-3.5 shrink-0" aria-hidden />К пульсу / SLA
       </Button>
     </div>
   );

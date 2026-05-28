@@ -22,10 +22,7 @@ export function Workshop2DossierViewModeSelect({ className }: { className?: stri
       <Label htmlFor="w2-dossier-view-mode" className="sr-only">
         Режим просмотра ТЗ
       </Label>
-      <Select
-        value={profile}
-        onValueChange={(v) => setProfile(v as Workshop2DossierViewProfile)}
-      >
+      <Select value={profile} onValueChange={(v) => setProfile(v as Workshop2DossierViewProfile)}>
         <SelectTrigger id="w2-dossier-view-mode" className="h-9 w-[min(100%,220px)] text-xs">
           <SelectValue placeholder="Режим просмотра" />
         </SelectTrigger>

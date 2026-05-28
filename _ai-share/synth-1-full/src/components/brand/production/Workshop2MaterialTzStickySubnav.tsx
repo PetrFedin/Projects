@@ -55,12 +55,19 @@ export function Workshop2MaterialTzStickySubnav({
   showSupplyDraftsNav = false,
 }: Workshop2MaterialTzStickySubnavProps) {
   const showMatSketchGapNav =
-    workshop2DossierViewUiCaps(dossierViewProfile).materialMatSketchGapStrip && matSketchGapCount > 0;
+    workshop2DossierViewUiCaps(dossierViewProfile).materialMatSketchGapStrip &&
+    matSketchGapCount > 0;
 
   const bomNormsItem = { id: W2_MATERIAL_SUBPAGE_ANCHORS.bomNorms, label: 'Нормы' } as const;
   const supplyRouteItem = { id: W2_MATERIAL_SUBPAGE_ANCHORS.supplyRoute, label: 'Замены' } as const;
-  const costingHintsItem = { id: W2_MATERIAL_SUBPAGE_ANCHORS.costingHints, label: 'Costing' } as const;
-  const supplyDraftsItem = { id: W2_MATERIAL_SUBPAGE_ANCHORS.supplyDrafts, label: 'Черновики' } as const;
+  const costingHintsItem = {
+    id: W2_MATERIAL_SUBPAGE_ANCHORS.costingHints,
+    label: 'Costing',
+  } as const;
+  const supplyDraftsItem = {
+    id: W2_MATERIAL_SUBPAGE_ANCHORS.supplyDrafts,
+    label: 'Черновики',
+  } as const;
 
   const navItems = (() => {
     const items: { id: string; label: string }[] = [MATERIAL_NAV_CORE[0]!];
@@ -93,13 +100,13 @@ export function Workshop2MaterialTzStickySubnav({
         ) : null}
         <span
           className={cn(
-            'tabular-nums normal-case',
+            'normal-case tabular-nums',
             gateOpenCount === 0 ? 'text-emerald-600' : 'text-amber-800'
           )}
         >
           {gateOpenCount === 0 ? '· контур OK' : `· открыто ${gateOpenCount}`}
         </span>
-        <span className="font-normal normal-case text-slate-400">(~{combinedPct}%)</span>
+        <span className="text-text-muted font-normal normal-case">(~{combinedPct}%)</span>
       </span>
       {navItems.map((x) => {
         const isCurrent = activeAnchorId === x.id;
@@ -143,8 +150,7 @@ export function Workshop2MaterialTzStickySubnav({
         onClick={onJumpToPulse}
         title="Пульс артикула: SLA, подписи ТЗ"
       >
-        <LucideIcons.Activity className="h-3.5 w-3.5 shrink-0" aria-hidden />
-        К пульсу / SLA
+        <LucideIcons.Activity className="h-3.5 w-3.5 shrink-0" aria-hidden />К пульсу / SLA
       </Button>
     </div>
   );

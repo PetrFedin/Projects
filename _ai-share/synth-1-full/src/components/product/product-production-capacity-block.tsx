@@ -12,63 +12,86 @@ export function ProductProductionCapacityBlock({ product }: { product: Product }
   const cap = getFactoryCapacityStatus(product.sku);
 
   return (
-    <Card className="p-4 border-2 border-slate-100 bg-slate-50/10 shadow-sm my-4 relative overflow-hidden">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 text-slate-600">
-          <Factory className="w-4 h-4" />
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">Factory Capacity Planning</h4>
+    <Card className="border-border-subtle bg-bg-surface2/10 relative my-4 overflow-hidden border-2 p-4 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-text-secondary flex items-center gap-2">
+          <Factory className="h-4 w-4" />
+          <h4 className="text-text-primary text-[10px] font-black uppercase tracking-widest">
+            Factory Capacity Planning
+          </h4>
         </div>
-        <div className="text-[8px] font-black text-slate-400 uppercase">Production Scheduling</div>
+        <div className="text-text-muted text-[8px] font-black uppercase">Production Scheduling</div>
       </div>
 
-      <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm mb-4 relative overflow-hidden">
-         <div className="flex justify-between items-start mb-4">
-            <div>
-               <div className="text-[11px] font-black text-slate-800 uppercase tracking-tighter">{cap.factoryId}</div>
-               <div className="text-[8px] font-bold text-slate-400 uppercase mt-0.5">Primary Manufacturing Site</div>
+      <div className="border-border-subtle relative mb-4 overflow-hidden rounded-2xl border bg-white p-4 shadow-sm">
+        <div className="mb-4 flex items-start justify-between">
+          <div>
+            <div className="text-text-primary text-[11px] font-black uppercase tracking-tighter">
+              {cap.factoryId}
             </div>
-            <Activity className="w-5 h-5 text-indigo-500 animate-pulse" />
-         </div>
+            <div className="text-text-muted mt-0.5 text-[8px] font-bold uppercase">
+              Primary Manufacturing Site
+            </div>
+          </div>
+          <Activity className="text-accent-primary h-5 w-5 animate-pulse" />
+        </div>
 
-         <div className="space-y-4">
-            <div>
-               <div className="flex justify-between items-end mb-1 text-[9px] font-black uppercase tracking-widest text-slate-500">
-                  <span>Line Utilization</span>
-                  <span className={cap.utilizationPercent > 85 ? 'text-rose-600' : 'text-emerald-600'}>{cap.utilizationPercent}%</span>
-               </div>
-               <Progress value={cap.utilizationPercent} className={`h-1.5 bg-slate-100 ${cap.utilizationPercent > 85 ? 'fill-rose-500' : 'fill-indigo-500'}`} />
+        <div className="space-y-4">
+          <div>
+            <div className="text-text-secondary mb-1 flex items-end justify-between text-[9px] font-black uppercase tracking-widest">
+              <span>Line Utilization</span>
+              <span className={cap.utilizationPercent > 85 ? 'text-rose-600' : 'text-emerald-600'}>
+                {cap.utilizationPercent}%
+              </span>
             </div>
+            <Progress
+              value={cap.utilizationPercent}
+              className={`bg-bg-surface2 h-1.5 ${cap.utilizationPercent > 85 ? 'fill-rose-500' : 'fill-accent-primary'}`}
+            />
+          </div>
 
-            <div className="grid grid-cols-2 gap-4">
-               <div>
-                  <div className="text-[14px] font-black text-slate-800 leading-none">{cap.currentBookedQty.toLocaleString()}</div>
-                  <div className="text-[7px] font-black text-slate-400 uppercase mt-1">Units Booked</div>
-               </div>
-               <div className="text-right">
-                  <div className="text-[14px] font-black text-slate-800 leading-none">{cap.totalMonthlyCapacity.toLocaleString()}</div>
-                  <div className="text-[7px] font-black text-slate-400 uppercase mt-1">Total Capacity</div>
-               </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <div className="text-text-primary text-[14px] font-black leading-none">
+                {cap.currentBookedQty.toLocaleString()}
+              </div>
+              <div className="text-text-muted mt-1 text-[7px] font-black uppercase">
+                Units Booked
+              </div>
             </div>
-         </div>
+            <div className="text-right">
+              <div className="text-text-primary text-[14px] font-black leading-none">
+                {cap.totalMonthlyCapacity.toLocaleString()}
+              </div>
+              <div className="text-text-muted mt-1 text-[7px] font-black uppercase">
+                Total Capacity
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="p-3 bg-indigo-50/50 rounded-xl border border-indigo-100 flex items-center justify-between mb-2 shadow-sm">
-         <div className="flex items-center gap-2.5">
-            <Calendar className="w-4 h-4 text-indigo-500" />
-            <div>
-               <div className="text-[10px] font-black text-slate-700">Next Slot Available</div>
-               <div className="text-[9px] font-bold text-indigo-600">{cap.earliestAvailableSlot}</div>
+      <div className="bg-accent-primary/10 border-accent-primary/20 mb-2 flex items-center justify-between rounded-xl border p-3 shadow-sm">
+        <div className="flex items-center gap-2.5">
+          <Calendar className="text-accent-primary h-4 w-4" />
+          <div>
+            <div className="text-text-primary text-[10px] font-black">Next Slot Available</div>
+            <div className="text-accent-primary text-[9px] font-bold">
+              {cap.earliestAvailableSlot}
             </div>
-         </div>
-         <button className="text-[8px] font-black uppercase text-indigo-600 hover:underline flex items-center gap-1">
-            Book Slot <ArrowRight className="w-2.5 h-2.5" />
-         </button>
+          </div>
+        </div>
+        <button className="text-accent-primary flex items-center gap-1 text-[8px] font-black uppercase hover:underline">
+          Book Slot <ArrowRight className="h-2.5 w-2.5" />
+        </button>
       </div>
 
       {cap.utilizationPercent > 90 && (
-        <div className="flex items-center gap-2 mt-2 p-2 bg-rose-50 rounded-lg border border-rose-100">
-           <AlertTriangle className="w-3 h-3 text-rose-500" />
-           <p className="text-[8px] font-black text-rose-700 uppercase leading-none">Capacity Alert: Critical utilization level</p>
+        <div className="mt-2 flex items-center gap-2 rounded-lg border border-rose-100 bg-rose-50 p-2">
+          <AlertTriangle className="h-3 w-3 text-rose-500" />
+          <p className="text-[8px] font-black uppercase leading-none text-rose-700">
+            Capacity Alert: Critical utilization level
+          </p>
         </div>
       )}
     </Card>

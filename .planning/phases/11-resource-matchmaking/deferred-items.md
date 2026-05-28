@@ -1,0 +1,2 @@
+- src/components/brand/production/workshop2-article-workspace-stock-panel.tsx has a syntax error (JSX element 'div' has no corresponding closing tag).
+- src/app/api/b2b/intake/reconcile/route.ts has a Module not found error for rfid-reconciliation-logic

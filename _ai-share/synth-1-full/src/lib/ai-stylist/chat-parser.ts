@@ -3,7 +3,7 @@
  * Сначала regex, при необходимости — LLM (через parseChatWithLLM).
  */
 
-import type { Occasion, StyleMood, ColorPalette } from "./types";
+import type { Occasion, StyleMood, ColorPalette } from './types';
 
 export type ParsedParams = {
   occasion?: Occasion;
@@ -21,33 +21,36 @@ export type ParsedParams = {
 };
 
 const OCCASION_KEYWORDS: { kw: string[]; occasion: Occasion }[] = [
-  { kw: ["вечер", "evening", "ужин", "ресторан", "мероприятие", "event", "выход"], occasion: "Evening" },
-  { kw: ["работа", "офис", "деловой", "work", "бизнес", "встреча", "презентац"], occasion: "Work" },
-  { kw: ["свидание", "date", "романтик"], occasion: "Date" },
-  { kw: ["спорт", "спортивный", "тренировка", "sport", "активный", "фитнес"], occasion: "Sport" },
-  { kw: ["гольф", "golf"], occasion: "Golf" },
-  { kw: ["путешествие", "travel", "поездка", "отпуск", "отдых"], occasion: "Travel" },
-  { kw: ["повседнев", "ежеднев", "casual", "daily", "на каждый день"], occasion: "Daily" },
+  {
+    kw: ['вечер', 'evening', 'ужин', 'ресторан', 'мероприятие', 'event', 'выход'],
+    occasion: 'Evening',
+  },
+  { kw: ['работа', 'офис', 'деловой', 'work', 'бизнес', 'встреча', 'презентац'], occasion: 'Work' },
+  { kw: ['свидание', 'date', 'романтик'], occasion: 'Date' },
+  { kw: ['спорт', 'спортивный', 'тренировка', 'sport', 'активный', 'фитнес'], occasion: 'Sport' },
+  { kw: ['гольф', 'golf'], occasion: 'Golf' },
+  { kw: ['путешествие', 'travel', 'поездка', 'отпуск', 'отдых'], occasion: 'Travel' },
+  { kw: ['повседнев', 'ежеднев', 'casual', 'daily', 'на каждый день'], occasion: 'Daily' },
 ];
 
 const MOOD_KEYWORDS: { kw: string[]; mood: StyleMood }[] = [
-  { kw: ["минимал", "minimal", "простой", "лаконич", "базов"], mood: "Minimal" },
-  { kw: ["урбан", "urban", "город", "street", "уличн"], mood: "Urban" },
-  { kw: ["техно", "techwear", "техническ", "функциональ"], mood: "Techwear" },
-  { kw: ["классик", "classic", "премиум", "элегант"], mood: "Classic" },
-  { kw: ["спорт-люкс", "sport-luxe", "гольф", "атлетич"], mood: "SportLuxe" },
-  { kw: ["авангард", "avantgarde", "дерзк", "смел", "ярк", "statement"], mood: "AvantGarde" },
+  { kw: ['минимал', 'minimal', 'простой', 'лаконич', 'базов'], mood: 'Minimal' },
+  { kw: ['урбан', 'urban', 'город', 'street', 'уличн'], mood: 'Urban' },
+  { kw: ['техно', 'techwear', 'техническ', 'функциональ'], mood: 'Techwear' },
+  { kw: ['классик', 'classic', 'премиум', 'элегант'], mood: 'Classic' },
+  { kw: ['спорт-люкс', 'sport-luxe', 'гольф', 'атлетич'], mood: 'SportLuxe' },
+  { kw: ['авангард', 'avantgarde', 'дерзк', 'смел', 'ярк', 'statement'], mood: 'AvantGarde' },
 ];
 
 const PALETTE_KEYWORDS: { kw: string[]; palette: ColorPalette }[] = [
-  { kw: ["тепл", "warm", "беж", "карамел", "оливк"], palette: "Warm" },
-  { kw: ["холодн", "cool", "синий", "серый", "черный"], palette: "Cool" },
-  { kw: ["нейтрал", "neutral", "базов"], palette: "Neutral" },
-  { kw: ["монохром", "monochrome", "черно-бел"], palette: "Monochrome" },
-  { kw: ["ярк", "vibrant", "цветн", "акцент"], palette: "Vibrant" },
+  { kw: ['тепл', 'warm', 'беж', 'карамел', 'оливк'], palette: 'Warm' },
+  { kw: ['холодн', 'cool', 'синий', 'серый', 'черный'], palette: 'Cool' },
+  { kw: ['нейтрал', 'neutral', 'базов'], palette: 'Neutral' },
+  { kw: ['монохром', 'monochrome', 'черно-бел'], palette: 'Monochrome' },
+  { kw: ['ярк', 'vibrant', 'цветн', 'акцент'], palette: 'Vibrant' },
 ];
 
-const NEGATIVE_KEYWORDS = ["без", "не", "no", "not", "исключит"];
+const NEGATIVE_KEYWORDS = ['без', 'не', 'no', 'not', 'исключит'];
 
 export function parseChatParams(message: string): ParsedParams {
   if (!message?.trim()) return {};
@@ -78,27 +81,28 @@ export function parseChatParams(message: string): ParsedParams {
     }
   }
 
-  if (lower.includes("oversized") && (lower.includes("без") || lower.includes("не"))) {
+  if (lower.includes('oversized') && (lower.includes('без') || lower.includes('не'))) {
     result.excludeOversized = true;
   }
-  if (lower.includes("ярк") && (lower.includes("без") || lower.includes("не"))) {
+  if (lower.includes('ярк') && (lower.includes('без') || lower.includes('не'))) {
     result.excludeBright = true;
   }
 
-  if (["дождь", "дожд", "rain", "мокр", "сыр", "влажн"].some((k) => lower.includes(k))) {
+  if (['дождь', 'дожд', 'rain', 'мокр', 'сыр', 'влажн'].some((k) => lower.includes(k))) {
     result.rainy = true;
   }
 
-  if (["дешевле", "бюджетн", "эконом", "cheaper", "подешевле"].some((k) => lower.includes(k))) {
+  if (['дешевле', 'бюджетн', 'эконом', 'cheaper', 'подешевле'].some((k) => lower.includes(k))) {
     result.refineCheaper = true;
   }
-  if (["дороже", "премиум", "люкс", "pricier", "подороже"].some((k) => lower.includes(k))) {
+  if (['дороже', 'премиум', 'люкс', 'pricier', 'подороже'].some((k) => lower.includes(k))) {
     result.refinePricier = true;
   }
 
-  const budgetMatch = lower.match(/(?:до|бюджет|макс|max)\s*(\d+)\s*(?:к|тыс)?/i)
-    || lower.match(/(\d+)\s*(?:к|тыс)\s*(?:₽|руб)?/i)
-    || lower.match(/(\d{5,})\s*(?:₽|руб)?/i);
+  const budgetMatch =
+    lower.match(/(?:до|бюджет|макс|max)\s*(\d+)\s*(?:к|тыс)?/i) ||
+    lower.match(/(\d+)\s*(?:к|тыс)\s*(?:₽|руб)?/i) ||
+    lower.match(/(\d{5,})\s*(?:₽|руб)?/i);
   if (budgetMatch) {
     let num = parseInt(budgetMatch[1], 10);
     const fullMatch = budgetMatch[0];
@@ -107,9 +111,19 @@ export function parseChatParams(message: string): ParsedParams {
   }
 
   const colorMap: Record<string, string> = {
-    черн: "black", бел: "white", сер: "gray", синий: "navy", голуб: "blue",
-    беж: "beige", оливк: "olive", коричнев: "brown", красн: "red", розов: "pink",
-    зелен: "green", желт: "yellow", "синий деним": "blue",
+    черн: 'black',
+    бел: 'white',
+    сер: 'gray',
+    синий: 'navy',
+    голуб: 'blue',
+    беж: 'beige',
+    оливк: 'olive',
+    коричнев: 'brown',
+    красн: 'red',
+    розов: 'pink',
+    зелен: 'green',
+    желт: 'yellow',
+    'синий деним': 'blue',
   };
   const foundColors: string[] = [];
   for (const [ru, en] of Object.entries(colorMap)) {
@@ -128,11 +142,12 @@ export async function parseChatParamsAsync(message: string): Promise<ParsedParam
   const regexResult = parseChatParams(message);
   if (message.trim().length < 10) return regexResult;
 
-  const needsLLM = !regexResult.occasion || (!regexResult.mood && !regexResult.palette && !regexResult.budgetMax);
+  const needsLLM =
+    !regexResult.occasion || (!regexResult.mood && !regexResult.palette && !regexResult.budgetMax);
   if (!needsLLM) return regexResult;
 
   try {
-    const { parseChatWithLLM } = await import("@/ai/flows/parse-chat-with-llm");
+    const { parseChatWithLLM } = await import('@/ai/flows/parse-chat-with-llm');
     const llmResult = await parseChatWithLLM(message);
     const merged: ParsedParams = { ...regexResult };
 

@@ -1,9 +1,9 @@
-import { CIS_CODES, CIS_VIEW_DATA } from "./geo.constants";
-import { CisCode, PeriodPreset, TimePoint } from "./geo.types";
+import { CIS_CODES, CIS_VIEW_DATA } from './geo.constants';
+import { CisCode, PeriodPreset, TimePoint } from './geo.types';
 
 /** Цвет: от #0ea5e9 (синий) к #f97316 (оранжевый) */
 export function heatColor(value: number, min: number, max: number): string {
-  if (max <= min) return "#0ea5e9";
+  if (max <= min) return '#0ea5e9';
   const t = Math.min(1, Math.max(0, (value - min) / (max - min)));
   const c1 = { r: 14, g: 165, b: 233 };
   const c2 = { r: 249, g: 115, b: 22 };
@@ -23,9 +23,7 @@ export function buildMockTimeSeries(): TimePoint[] {
     const viewersByCountry = {} as Record<CisCode, number>;
 
     for (const [code, v] of base) {
-      const seasonalBoost =
-        code === "UZ" && i > 6 ? 1.2 :
-        code === "KZ" && i > 4 ? 1.1 : 1;
+      const seasonalBoost = code === 'UZ' && i > 6 ? 1.2 : code === 'KZ' && i > 4 ? 1.1 : 1;
 
       viewersByCountry[code] = Math.round(
         v.viewers * factor * seasonalBoost * (0.92 + pseudoRand(i, code) * 0.16)
@@ -34,7 +32,7 @@ export function buildMockTimeSeries(): TimePoint[] {
 
     points.push({
       label: `Неделя ${i + 1}`,
-      date: `2025-W${String(i + 1).padStart(2, "0")}`,
+      date: `2025-W${String(i + 1).padStart(2, '0')}`,
       viewersByCountry,
     });
   }
@@ -56,17 +54,22 @@ function pseudoRand(i: number, code: string) {
 export function sliceByPeriod(full: TimePoint[], period: PeriodPreset): TimePoint[] {
   const len = full.length;
   switch (period) {
-    case "7d": return full.slice(Math.max(0, len - 2));
-    case "30d": return full.slice(Math.max(0, len - 4));
-    case "90d": return full.slice(Math.max(0, len - 8));
-    case "season": return full.slice(Math.max(0, len - 12));
-    case "year":
-    default: return full;
+    case '7d':
+      return full.slice(Math.max(0, len - 2));
+    case '30d':
+      return full.slice(Math.max(0, len - 4));
+    case '90d':
+      return full.slice(Math.max(0, len - 8));
+    case 'season':
+      return full.slice(Math.max(0, len - 12));
+    case 'year':
+    default:
+      return full;
   }
 }
 
 export function computeWeeklyInsights(prev: TimePoint | null, cur: TimePoint): string {
-  if (!prev) return "Недостаточно данных для сравнения с прошлым периодом.";
+  if (!prev) return 'Недостаточно данных для сравнения с прошлым периодом.';
 
   const deltas: { code: CisCode; diffPct: number }[] = [];
   for (const code of CIS_CODES) {
@@ -78,17 +81,17 @@ export function computeWeeklyInsights(prev: TimePoint | null, cur: TimePoint): s
 
   deltas.sort((a, b) => Math.abs(b.diffPct) - Math.abs(a.diffPct));
   const top = deltas.slice(0, 3);
-  if (!top.length) return "Изменения по странам не зафиксированы.";
+  if (!top.length) return 'Изменения по странам не зафиксированы.';
 
-  const parts = top.map(d => {
-    const sign = d.diffPct >= 0 ? "+" : "";
+  const parts = top.map((d) => {
+    const sign = d.diffPct >= 0 ? '+' : '';
     return `${sign}${d.diffPct.toFixed(0)}% в ${d.code}`;
   });
 
-  return `На этой неделе: ${parts.join(", ")}.`;
+  return `На этой неделе: ${parts.join(', ')}.`;
 }
 
 export function minMaxForPoint(point: TimePoint) {
-  const vals = CIS_CODES.map(c => point.viewersByCountry[c] ?? CIS_VIEW_DATA[c].viewers);
+  const vals = CIS_CODES.map((c) => point.viewersByCountry[c] ?? CIS_VIEW_DATA[c].viewers);
   return { min: Math.min(...vals), max: Math.max(...vals) };
 }

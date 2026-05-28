@@ -42,21 +42,29 @@ export default function MetaverseCountdown({ targetDate }: MetaverseCountdownPro
 
   return (
     <div className="flex justify-center gap-3 md:gap-3">
-      <div className="text-center p-4 bg-white/10 rounded-lg w-24 md:w-32 backdrop-blur-sm border border-white/10">
-        <p className="font-headline text-sm md:text-base font-bold">{formatNumber(timeLeft.days)}</p>
-        <p className="text-sm md:text-base text-gray-300 uppercase tracking-widest">Дней</p>
+      <div className="w-24 rounded-lg border border-white/10 bg-white/10 p-4 text-center backdrop-blur-sm md:w-32">
+        <p className="font-headline text-sm font-bold md:text-base">
+          {formatNumber(timeLeft.days)}
+        </p>
+        <p className="text-sm uppercase tracking-widest text-gray-300 md:text-base">Дней</p>
       </div>
-      <div className="text-center p-4 bg-white/10 rounded-lg w-24 md:w-32 backdrop-blur-sm border border-white/10">
-        <p className="font-headline text-sm md:text-base font-bold">{formatNumber(timeLeft.hours)}</p>
-        <p className="text-sm md:text-base text-gray-300 uppercase tracking-widest">Часов</p>
+      <div className="w-24 rounded-lg border border-white/10 bg-white/10 p-4 text-center backdrop-blur-sm md:w-32">
+        <p className="font-headline text-sm font-bold md:text-base">
+          {formatNumber(timeLeft.hours)}
+        </p>
+        <p className="text-sm uppercase tracking-widest text-gray-300 md:text-base">Часов</p>
       </div>
-      <div className="text-center p-4 bg-white/10 rounded-lg w-24 md:w-32 backdrop-blur-sm border border-white/10">
-        <p className="font-headline text-sm md:text-base font-bold">{formatNumber(timeLeft.minutes)}</p>
-        <p className="text-sm md:text-base text-gray-300 uppercase tracking-widest">Минут</p>
+      <div className="w-24 rounded-lg border border-white/10 bg-white/10 p-4 text-center backdrop-blur-sm md:w-32">
+        <p className="font-headline text-sm font-bold md:text-base">
+          {formatNumber(timeLeft.minutes)}
+        </p>
+        <p className="text-sm uppercase tracking-widest text-gray-300 md:text-base">Минут</p>
       </div>
-      <div className="text-center p-4 bg-white/10 rounded-lg w-24 md:w-32 backdrop-blur-sm border border-white/10">
-        <p className="font-headline text-sm md:text-base font-bold">{formatNumber(timeLeft.seconds)}</p>
-        <p className="text-sm md:text-base text-gray-300 uppercase tracking-widest">Секунд</p>
+      <div className="w-24 rounded-lg border border-white/10 bg-white/10 p-4 text-center backdrop-blur-sm md:w-32">
+        <p className="font-headline text-sm font-bold md:text-base">
+          {formatNumber(timeLeft.seconds)}
+        </p>
+        <p className="text-sm uppercase tracking-widest text-gray-300 md:text-base">Секунд</p>
       </div>
     </div>
   );

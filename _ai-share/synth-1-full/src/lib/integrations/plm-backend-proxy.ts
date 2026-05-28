@@ -19,7 +19,10 @@ export function getPlmConfig(type: PlmType): { baseUrl: string; apiKey: string }
   return { baseUrl: baseUrl.replace(/\/$/, ''), apiKey };
 }
 
-export async function plmConnect(type: PlmType, config: { apiUrl: string; apiKey: string }): Promise<{ ok: boolean }> {
+export async function plmConnect(
+  type: PlmType,
+  config: { apiUrl: string; apiKey: string }
+): Promise<{ ok: boolean }> {
   const baseUrl = config.apiUrl.replace(/\/$/, '');
   try {
     const res = await fetch(`${baseUrl}/connect`, {
@@ -36,7 +39,9 @@ export async function plmConnect(type: PlmType, config: { apiUrl: string; apiKey
   }
 }
 
-export async function plmSync(type: PlmType): Promise<{ ok: boolean; lastSync: string; collectionsUpdated?: number }> {
+export async function plmSync(
+  type: PlmType
+): Promise<{ ok: boolean; lastSync: string; collectionsUpdated?: number }> {
   const cfg = getPlmConfig(type);
   if (!cfg) return { ok: true, lastSync: new Date().toISOString(), collectionsUpdated: 0 };
   try {

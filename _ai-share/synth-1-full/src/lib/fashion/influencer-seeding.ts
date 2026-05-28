@@ -19,6 +19,6 @@ export function getInfluencerSeedings(product: Product): InfluencerSeedingV1[] {
       status: 'mention_received',
       sentSku: product.sku,
       reach: 12000,
-    }
+    },
   ];
 }

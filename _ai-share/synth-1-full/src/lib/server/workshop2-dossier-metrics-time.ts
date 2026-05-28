@@ -7,7 +7,10 @@ export type W2MetricsTimeFilterMeta = {
 };
 
 /** ISO / часы / сутки — что указано первым по приоритету: sinceIso → sinceHours → sinceDays */
-export function parseW2MetricsSinceCutoffMs(searchParams: URLSearchParams, nowMs: number = Date.now()): number | null {
+export function parseW2MetricsSinceCutoffMs(
+  searchParams: URLSearchParams,
+  nowMs: number = Date.now()
+): number | null {
   const iso = searchParams.get('sinceIso')?.trim();
   if (iso) {
     const t = Date.parse(iso);

@@ -1,7 +1,9 @@
 import type { RegionalDeliveryWindowV1 } from './types';
 
 /** Окна доставки дистрибьютора по регионам (Logistics Windows). */
-export function getRegionalDeliveryWindows(region: string = 'South-RU'): RegionalDeliveryWindowV1[] {
+export function getRegionalDeliveryWindows(
+  region: string = 'South-RU'
+): RegionalDeliveryWindowV1[] {
   return [
     {
       region,
@@ -18,6 +20,6 @@ export function getRegionalDeliveryWindows(region: string = 'South-RU'): Regiona
       availableCapacityUnits: 500,
       truckType: 'express',
       distributorId: 'DIST-SOUTH-PRO',
-    }
+    },
   ];
 }

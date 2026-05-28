@@ -4,7 +4,16 @@
 
 export type CollectionType = 'main' | 'capsule' | 'collab';
 export type CollectionPriority = 'High' | 'Standard' | 'Low';
-export const SEASONS = ['SS26', 'SS27', 'FW26', 'FW27', 'Resort26', 'Resort27', 'Pre-Fall26', 'Pre-Fall27'] as const;
+export const SEASONS = [
+  'SS26',
+  'SS27',
+  'FW26',
+  'FW27',
+  'Resort26',
+  'Resort27',
+  'Pre-Fall26',
+  'Pre-Fall27',
+] as const;
 export const COLLECTION_TYPES: { value: CollectionType; label: string }[] = [
   { value: 'main', label: 'Сезонная коллекция' },
   { value: 'capsule', label: 'Капсула' },

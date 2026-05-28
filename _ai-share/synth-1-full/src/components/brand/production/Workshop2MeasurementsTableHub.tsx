@@ -5,7 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
-import type { Workshop2DossierPhase1, Workshop2TzSignoffSectionKey } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2TzSignoffSectionKey,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import {
   buildWorkshop2MeasurementsHubChecks,
   WORKSHOP2_MEASUREMENTS_TABLE_ROLE_BLOCKS,
@@ -37,7 +40,7 @@ export function Workshop2MeasurementsTableHub({
   const score = useMemo(() => workshop2MeasurementsHubScore(checks), [checks]);
 
   return (
-    <div className="space-y-3 rounded-xl border border-cyan-200/90 bg-gradient-to-br from-cyan-50/90 via-white to-slate-50/80 p-3 shadow-sm">
+    <div className="to-bg-surface2/80 space-y-3 rounded-xl border border-cyan-200/90 bg-gradient-to-br from-cyan-50/90 via-white p-3 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
@@ -45,10 +48,10 @@ export function Workshop2MeasurementsTableHub({
               <LucideIcons.Ruler className="h-4 w-4" aria-hidden />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-slate-900">Табель мер: хаб ТЗ</h3>
-              <p className="mt-0.5 text-[10px] leading-snug text-slate-600">
-                Единая таблица для образца, фабрики, fit и ОТК. Ниже — 10 контрольных пунктов и роли, которые на неё
-                опираются.
+              <h3 className="text-text-primary text-sm font-bold">Табель мер: хаб ТЗ</h3>
+              <p className="text-text-secondary mt-0.5 text-[10px] leading-snug">
+                Единая таблица для образца, фабрики, fit и ОТК. Ниже — 10 контрольных пунктов и
+                роли, которые на неё опираются.
               </p>
             </div>
           </div>
@@ -58,7 +61,9 @@ export function Workshop2MeasurementsTableHub({
             {score.done}/{score.total} · {score.pct}%
           </span>
           {typeof constructionSectionPct === 'number' ? (
-            <span className="text-[9px] tabular-nums text-slate-500">Секция «Конструкция» ≈ {constructionSectionPct}%</span>
+            <span className="text-text-secondary text-[9px] tabular-nums">
+              Секция «Конструкция» ≈ {constructionSectionPct}%
+            </span>
           ) : null}
           <Popover>
             <PopoverTrigger asChild>
@@ -74,17 +79,17 @@ export function Workshop2MeasurementsTableHub({
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-[min(26rem,calc(100vw-1.5rem))] max-h-[min(32rem,70vh)] space-y-3 overflow-y-auto text-xs"
+              className="max-h-[min(32rem,70vh)] w-[min(26rem,calc(100vw-1.5rem))] space-y-3 overflow-y-auto text-xs"
               align="end"
             >
-              <p className="text-[10px] font-semibold leading-snug text-slate-700">
-                Табель мер — источник правды по числам для всех этапов маршрута SKU. Каждая роль читает те же ячейки; правки
-                согласуйте через ТЗ и подписи секции.
+              <p className="text-text-primary text-[10px] font-semibold leading-snug">
+                Табель мер — источник правды по числам для всех этапов маршрута SKU. Каждая роль
+                читает те же ячейки; правки согласуйте через ТЗ и подписи секции.
               </p>
               {WORKSHOP2_MEASUREMENTS_TABLE_ROLE_BLOCKS.map((row) => (
                 <div key={row.title}>
                   <p className={cn('font-semibold', row.titleClass)}>{row.title}</p>
-                  <p className="mt-1 leading-snug text-slate-600">{row.body}</p>
+                  <p className="text-text-secondary mt-1 leading-snug">{row.body}</p>
                 </div>
               ))}
             </PopoverContent>
@@ -98,18 +103,34 @@ export function Workshop2MeasurementsTableHub({
             key={c.id}
             className={cn(
               'flex gap-2 rounded-lg border px-2 py-1.5 text-[10px] leading-snug',
-              c.done ? 'border-emerald-200/90 bg-emerald-50/50 text-emerald-950' : 'border-slate-200/90 bg-white/80 text-slate-700'
+              c.done
+                ? 'border-emerald-200/90 bg-emerald-50/50 text-emerald-950'
+                : 'border-border-default/90 text-text-primary bg-white/80'
             )}
           >
-            <span className="mt-0.5 shrink-0 font-black tabular-nums text-slate-400">{i + 1}.</span>
+            <span className="text-text-muted mt-0.5 shrink-0 font-black tabular-nums">
+              {i + 1}.
+            </span>
             <div className="min-w-0">
-              <span className={cn('font-semibold', c.done ? 'text-emerald-900' : 'text-slate-800')}>{c.label}</span>
-              {!c.done && c.hint ? <p className="mt-0.5 text-[9px] text-slate-500">{c.hint}</p> : null}
+              <span
+                className={cn('font-semibold', c.done ? 'text-emerald-900' : 'text-text-primary')}
+              >
+                {c.label}
+              </span>
+              {!c.done && c.hint ? (
+                <p className="text-text-secondary mt-0.5 text-[9px]">{c.hint}</p>
+              ) : null}
             </div>
             {c.done ? (
-              <LucideIcons.Check className="ml-auto h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden />
+              <LucideIcons.Check
+                className="ml-auto h-3.5 w-3.5 shrink-0 text-emerald-600"
+                aria-hidden
+              />
             ) : (
-              <LucideIcons.Circle className="ml-auto h-3.5 w-3.5 shrink-0 text-slate-300" aria-hidden />
+              <LucideIcons.Circle
+                className="text-text-muted ml-auto h-3.5 w-3.5 shrink-0"
+                aria-hidden
+              />
             )}
           </li>
         ))}
@@ -165,7 +186,7 @@ export function Workshop2MeasurementsTableHub({
           type="button"
           variant="ghost"
           size="sm"
-          className="h-7 text-[10px] text-slate-600"
+          className="text-text-secondary h-7 text-[10px]"
           onClick={() => onJumpToTzAnchor('construction', 'w2-construction-signoff')}
         >
           Подпись секции

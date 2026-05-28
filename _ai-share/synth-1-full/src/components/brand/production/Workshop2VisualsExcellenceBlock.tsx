@@ -8,11 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import type {
@@ -144,7 +140,10 @@ export function Workshop2VisualsExcellenceBlock({
   const [versionLabelDraft, setVersionLabelDraft] = useState('');
   const [versionSummaryDraft, setVersionSummaryDraft] = useState('');
 
-  const visCaps = useMemo(() => workshop2DossierViewUiCaps(dossierViewProfile), [dossierViewProfile]);
+  const visCaps = useMemo(
+    () => workshop2DossierViewUiCaps(dossierViewProfile),
+    [dossierViewProfile]
+  );
   const showSketchExportSurfacesStrip = visCaps.visualSketchExportSurfacesStrip;
   const showSketchPinLinkFieldsStrip = visCaps.visualSketchPinLinkFieldsStrip;
 
@@ -169,7 +168,10 @@ export function Workshop2VisualsExcellenceBlock({
     ];
     try {
       await navigator.clipboard.writeText(lines.join('\n'));
-      toast({ title: 'Гайд в буфере', description: 'Три поверхности экспорта + подсказка по цеху.' });
+      toast({
+        title: 'Гайд в буфере',
+        description: 'Три поверхности экспорта + подсказка по цеху.',
+      });
     } catch {
       toast({ title: 'Не удалось скопировать', variant: 'destructive' });
     }
@@ -178,7 +180,10 @@ export function Workshop2VisualsExcellenceBlock({
   const copySketchPinLinkFieldsGuide = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(formatSketchPinLinkFieldsPlainText());
-      toast({ title: 'Поля связей в буфере', description: 'Список полей метки для материала, QC и ТЗ.' });
+      toast({
+        title: 'Поля связей в буфере',
+        description: 'Список полей метки для материала, QC и ТЗ.',
+      });
     } catch {
       toast({ title: 'Не удалось скопировать', variant: 'destructive' });
     }
@@ -205,7 +210,10 @@ export function Workshop2VisualsExcellenceBlock({
     ];
     try {
       await navigator.clipboard.writeText(lines.join('\n'));
-      toast({ title: 'Список скопирован', description: 'Удобно вставить в чат, задачу или письмо.' });
+      toast({
+        title: 'Список скопирован',
+        description: 'Удобно вставить в чат, задачу или письмо.',
+      });
     } catch {
       toast({
         title: 'Не удалось скопировать',
@@ -255,7 +263,10 @@ export function Workshop2VisualsExcellenceBlock({
   const copyQuickSummaryPlain = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(quickSummaryPlainText);
-      toast({ title: 'Сводка скопирована', description: 'Текст для чата, почты или таск-трекера.' });
+      toast({
+        title: 'Сводка скопирована',
+        description: 'Текст для чата, почты или таск-трекера.',
+      });
     } catch {
       toast({
         title: 'Не удалось скопировать',
@@ -290,10 +301,13 @@ export function Workshop2VisualsExcellenceBlock({
       articleSku,
       visualRouteGate: visualRouteGateForExport,
     });
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: 'application/json;charset=utf-8',
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    const stem = (articleSku ?? 'article').replace(/[^a-zA-Z0-9а-яА-ЯёЁ._-]+/g, '-').slice(0, 64) || 'article';
+    const stem =
+      (articleSku ?? 'article').replace(/[^a-zA-Z0-9а-яА-ЯёЁ._-]+/g, '-').slice(0, 64) || 'article';
     a.href = url;
     a.download = `visual-handoff-${stem}.json`;
     a.click();
@@ -349,7 +363,10 @@ export function Workshop2VisualsExcellenceBlock({
     () => visualReadinessHints(dossier, { sketchFloorInUrl }),
     [dossier, sketchFloorInUrl]
   );
-  const inferredFromFacts = useMemo(() => inferVisualReadinessChecklistFromFacts(dossier), [dossier]);
+  const inferredFromFacts = useMemo(
+    () => inferVisualReadinessChecklistFromFacts(dossier),
+    [dossier]
+  );
   const canApplyInferredChecklist = useMemo(() => {
     const cur = dossier.visualReadinessChecklist ?? {};
     for (const key of Object.keys(inferredFromFacts) as (keyof typeof inferredFromFacts)[]) {
@@ -366,7 +383,10 @@ export function Workshop2VisualsExcellenceBlock({
   const bullets = dossier.designerIntent?.bullets ?? ['', '', '', '', ''];
 
   const appendVersionLog = () => {
-    const versionLabel = versionLabelDraft.trim() || dossier.currentVisualVersionLabel?.trim() || `v${(dossier.visualVersionLog?.length ?? 0) + 1}`;
+    const versionLabel =
+      versionLabelDraft.trim() ||
+      dossier.currentVisualVersionLabel?.trim() ||
+      `v${(dossier.visualVersionLog?.length ?? 0) + 1}`;
     const changeSummary = versionSummaryDraft.trim();
     if (!changeSummary) return;
     const entry: Workshop2VisualVersionLogEntry = {
@@ -408,139 +428,152 @@ export function Workshop2VisualsExcellenceBlock({
     : '';
 
   return (
-    <div className="space-y-4 rounded-xl border border-indigo-200/80 bg-gradient-to-b from-indigo-50/40 to-white p-4 shadow-sm">
+    <div className="border-accent-primary/30 from-accent-primary/10 space-y-4 rounded-xl border bg-gradient-to-b to-white p-4 shadow-sm">
       <Collapsible defaultOpen={false} className="group/w2-visual-main space-y-4">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <CollapsibleTrigger asChild>
             <button
               type="button"
-              className="flex min-w-0 flex-1 items-start gap-2 rounded-md p-1 text-left transition hover:bg-indigo-100/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/80"
+              className="hover:bg-accent-primary/10 focus-visible:ring-accent-primary/80 flex min-w-0 flex-1 items-start gap-2 rounded-md p-1 text-left transition focus-visible:outline-none focus-visible:ring-2"
             >
               <LucideIcons.ChevronDown
-                className="mt-1.5 h-4 w-4 shrink-0 text-indigo-600 transition-transform duration-200 group-data-[state=open]/w2-visual-main:rotate-180"
+                className="text-accent-primary mt-1.5 h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]/w2-visual-main:rotate-180"
                 aria-hidden
               />
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-sm">
+              <div className="bg-accent-primary flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white shadow-sm">
                 <LucideIcons.Sparkles className="h-4 w-4" aria-hidden />
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-sm font-semibold text-slate-900">Визуал: согласование и полнота</h3>
+                  <h3 className="text-text-primary text-sm font-semibold">
+                    Визуал: согласование и полнота
+                  </h3>
                   {tzPhase !== '1' ? (
-                    <span className="rounded border border-indigo-300/80 bg-indigo-50 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-indigo-900">
+                    <span className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary rounded border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide">
                       Шаг {tzPhase} ТЗ
                     </span>
                   ) : null}
                 </div>
-                <p className="mt-0.5 text-[10px] leading-snug text-slate-500">
-                  Канон, гейт, формы и чеклист — ниже всегда; дорожная карта и описание блока — разверните
+                <p className="text-text-secondary mt-0.5 text-[10px] leading-snug">
+                  Канон, гейт, формы и чеклист — ниже всегда; дорожная карта и описание блока —
+                  разверните
                 </p>
               </div>
             </button>
           </CollapsibleTrigger>
-        <div className="flex flex-wrap items-center gap-1.5">
-          {visualShareAbsoluteUrl ? (
+          <div className="flex flex-wrap items-center gap-1.5">
+            {visualShareAbsoluteUrl ? (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 shrink-0 gap-1 text-[10px]"
+                onClick={() => void copyVisualShareLink()}
+              >
+                <LucideIcons.Link2 className="h-3.5 w-3.5" aria-hidden />
+                Ссылка на визуал
+              </Button>
+            ) : null}
             <Button
               type="button"
               variant="outline"
               size="sm"
               className="h-8 shrink-0 gap-1 text-[10px]"
-              onClick={() => void copyVisualShareLink()}
+              title="Чеклист, рефы, скетч, канон и открытый контур маршрута одним текстом"
+              onClick={() => void copyQuickSummaryPlain()}
             >
-              <LucideIcons.Link2 className="h-3.5 w-3.5" aria-hidden />
-              Ссылка на визуал
+              <LucideIcons.ClipboardCopy className="h-3.5 w-3.5" aria-hidden />
+              Сводка (текст)
             </Button>
-          ) : null}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-8 shrink-0 gap-1 text-[10px]"
-            title="Чеклист, рефы, скетч, канон и открытый контур маршрута одним текстом"
-            onClick={() => void copyQuickSummaryPlain()}
-          >
-            <LucideIcons.ClipboardCopy className="h-3.5 w-3.5" aria-hidden />
-            Сводка (текст)
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-8 shrink-0 gap-1 text-[10px]"
-            onClick={downloadVisualHandoffJson}
-          >
-            <LucideIcons.Download className="h-3.5 w-3.5" aria-hidden />
-            JSON пакета
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-8 shrink-0 gap-1 text-[10px]"
-            onClick={printVisualHandoff}
-          >
-            <LucideIcons.Printer className="h-3.5 w-3.5" aria-hidden />
-            Печать / PDF
-          </Button>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button type="button" variant="outline" size="sm" className="h-8 shrink-0 gap-1 text-[10px]">
-              <LucideIcons.BookOpen className="h-3.5 w-3.5" aria-hidden />
-              Термины
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-8 shrink-0 gap-1 text-[10px]"
+              onClick={downloadVisualHandoffJson}
+            >
+              <LucideIcons.Download className="h-3.5 w-3.5" aria-hidden />
+              JSON пакета
             </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80 space-y-2 text-xs" align="end">
-            <p className="font-semibold text-slate-900">Глоссарий</p>
-            <ul className="space-y-2">
-              {GLOSSARY.map((g) => (
-                <li key={g.term}>
-                  <span className="font-medium text-indigo-800">{g.term}</span>
-                  <span className="text-slate-600"> — {g.def}</span>
-                </li>
-              ))}
-            </ul>
-          </PopoverContent>
-        </Popover>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button type="button" variant="outline" size="sm" className="h-8 shrink-0 gap-1 text-[10px]">
-              <LucideIcons.Users className="h-3.5 w-3.5" aria-hidden />
-              Роли
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-8 shrink-0 gap-1 text-[10px]"
+              onClick={printVisualHandoff}
+            >
+              <LucideIcons.Printer className="h-3.5 w-3.5" aria-hidden />
+              Печать / PDF
             </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80 space-y-3 text-xs" align="end">
-            <div>
-              <p className="font-semibold text-violet-900">Дизайнер</p>
-              <p className="mt-1 leading-snug text-slate-600">
-                Рефы, замысел, скетч с метками и канон — фиксируют образ для маршрута SKU; чеклист помогает не уехать в
-                согласованиях.
-              </p>
-            </div>
-            <div>
-              <p className="font-semibold text-fuchsia-900">Мерч</p>
-              <p className="mt-1 leading-snug text-slate-600">
-                Для витрины и лукбука используйте поверхность «мерч» (без технических меток); канон и версию фиксируйте в
-                блоке выше.
-              </p>
-            </div>
-            <div>
-              <p className="font-semibold text-amber-900">Менеджер</p>
-              <p className="mt-1 leading-snug text-slate-600">
-                Чеклист готовности визуала и открытый гейт — что ещё блокирует «готово к образцу»; сводка в буфер для
-                статуса в почте или таск-трекере.
-              </p>
-            </div>
-            <div>
-              <p className="font-semibold text-teal-900">Технолог</p>
-              <p className="mt-1 leading-snug text-slate-600">
-                Метки с привязкой к атрибуту/BOM и сроками на критичных точках снижают разрыв между картинкой и
-                исполнением; детали узлов — в материалах и конструкции.
-              </p>
-            </div>
-          </PopoverContent>
-        </Popover>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-8 shrink-0 gap-1 text-[10px]"
+                >
+                  <LucideIcons.BookOpen className="h-3.5 w-3.5" aria-hidden />
+                  Термины
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 space-y-2 text-xs" align="end">
+                <p className="text-text-primary font-semibold">Глоссарий</p>
+                <ul className="space-y-2">
+                  {GLOSSARY.map((g) => (
+                    <li key={g.term}>
+                      <span className="text-accent-primary font-medium">{g.term}</span>
+                      <span className="text-text-secondary"> — {g.def}</span>
+                    </li>
+                  ))}
+                </ul>
+              </PopoverContent>
+            </Popover>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-8 shrink-0 gap-1 text-[10px]"
+                >
+                  <LucideIcons.Users className="h-3.5 w-3.5" aria-hidden />
+                  Роли
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 space-y-3 text-xs" align="end">
+                <div>
+                  <p className="text-text-primary font-semibold">Дизайнер</p>
+                  <p className="text-text-secondary mt-1 leading-snug">
+                    Рефы, замысел, скетч с метками и канон — фиксируют образ для маршрута SKU;
+                    чеклист помогает не уехать в согласованиях.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-text-primary font-semibold">Мерч</p>
+                  <p className="text-text-secondary mt-1 leading-snug">
+                    Для витрины и лукбука используйте поверхность «мерч» (без технических меток);
+                    канон и версию фиксируйте в блоке выше.
+                  </p>
+                </div>
+                <div>
+                  <p className="font-semibold text-amber-900">Менеджер</p>
+                  <p className="text-text-secondary mt-1 leading-snug">
+                    Чеклист готовности визуала и открытый гейт — что ещё блокирует «готово к
+                    образцу»; сводка в буфер для статуса в почте или таск-трекере.
+                  </p>
+                </div>
+                <div>
+                  <p className="font-semibold text-teal-900">Технолог</p>
+                  <p className="text-text-secondary mt-1 leading-snug">
+                    Метки с привязкой к атрибуту/BOM и сроками на критичных точках снижают разрыв
+                    между картинкой и исполнением; детали узлов — в материалах и конструкции.
+                  </p>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
-      </div>
 
         <CollapsibleContent className="space-y-4 overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
           <Workshop2NineGapBacklogStrip
@@ -551,22 +584,26 @@ export function Workshop2VisualsExcellenceBlock({
             footer={nineGapFooter}
             onDossierJump={nineGapOnDossierJump}
           />
-          <Collapsible defaultOpen={false} className="w-full min-w-0 rounded-md border border-violet-100/90 bg-white/50 px-2 py-2">
+          <Collapsible
+            defaultOpen={false}
+            className="border-accent-primary/20 w-full min-w-0 rounded-md border bg-white/50 px-2 py-2"
+          >
             <CollapsibleTrigger asChild>
               <button
                 type="button"
-                className="text-left text-[10px] font-semibold text-indigo-700 underline-offset-2 hover:text-indigo-900 hover:underline"
+                className="text-accent-primary hover:text-accent-primary text-left text-[10px] font-semibold underline-offset-2 hover:underline"
               >
                 Описание блока, переходы и передача
               </button>
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-1.5 pt-1.5">
-              <p className="text-[11px] leading-snug text-slate-600">
-                <span className="font-medium text-slate-800">Замысел</span> — только текст в этом блоке;{' '}
-                <span className="font-medium text-slate-800">фото и видео</span> — в «Референсах» (звезда на превью =
-                главное для канона); <span className="font-medium text-slate-800">канон</span> (главное фото + скетч) —
-                справа здесь же. Атрибуты каталога «Визуал» — в{' '}
-                <span className="font-medium text-indigo-800">«Поля каталога»</span> ниже.
+              <p className="text-text-secondary text-[11px] leading-snug">
+                <span className="text-text-primary font-medium">Замысел</span> — только текст в этом
+                блоке; <span className="text-text-primary font-medium">фото и видео</span> — в
+                «Референсах» (звезда на превью = главное для канона);{' '}
+                <span className="text-text-primary font-medium">канон</span> (главное фото + скетч)
+                — справа здесь же. Атрибуты каталога «Визуал» — в{' '}
+                <span className="text-accent-primary font-medium">«Поля каталога»</span> ниже.
               </p>
               {onJumpToPassportSection || onJumpToMaterialSection ? (
                 <div className="flex flex-wrap gap-x-3 gap-y-0.5">
@@ -574,7 +611,7 @@ export function Workshop2VisualsExcellenceBlock({
                     <Button
                       type="button"
                       variant="link"
-                      className="h-auto p-0 text-[10px] font-semibold text-indigo-700"
+                      className="text-accent-primary h-auto p-0 text-[10px] font-semibold"
                       onClick={onJumpToPassportSection}
                     >
                       Паспорт →
@@ -584,7 +621,7 @@ export function Workshop2VisualsExcellenceBlock({
                     <Button
                       type="button"
                       variant="link"
-                      className="h-auto p-0 text-[10px] font-semibold text-indigo-700"
+                      className="text-accent-primary h-auto p-0 text-[10px] font-semibold"
                       onClick={onJumpToMaterialSection}
                     >
                       Материалы (BOM) →
@@ -598,52 +635,59 @@ export function Workshop2VisualsExcellenceBlock({
       </Collapsible>
 
       <div
-          id="w2-visuals-canon-version"
-          className="scroll-mt-24 rounded-lg border border-violet-200/90 bg-violet-50/55 px-3 py-2.5 text-[11px] text-violet-950 shadow-sm"
-        >
-          <div className="flex flex-wrap items-start justify-between gap-2">
-            <div className="min-w-0 space-y-1">
-              <p className="text-[9px] font-black uppercase tracking-wide text-violet-800">Канон и версия визуала</p>
-              <p className="leading-snug">
-                <span className="font-semibold">Скетч:</span> {canonSketchSummary}
-                {dossier.currentVisualVersionLabel ? (
-                  <>
-                    {' '}
-                    · <span className="font-semibold">Метка версии:</span> {dossier.currentVisualVersionLabel}
-                  </>
-                ) : null}
+        id="w2-visuals-canon-version"
+        className="border-accent-primary/30 bg-accent-primary/10 text-text-primary scroll-mt-24 rounded-lg border px-3 py-2.5 text-[11px] shadow-sm"
+      >
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div className="min-w-0 space-y-1">
+            <p className="text-accent-primary text-[9px] font-black uppercase tracking-wide">
+              Канон и версия визуала
+            </p>
+            <p className="leading-snug">
+              <span className="font-semibold">Скетч:</span> {canonSketchSummary}
+              {dossier.currentVisualVersionLabel ? (
+                <>
+                  {' '}
+                  · <span className="font-semibold">Метка версии:</span>{' '}
+                  {dossier.currentVisualVersionLabel}
+                </>
+              ) : null}
+            </p>
+            {lastVersionLogLine ? (
+              <p className="text-text-primary/90 text-[10px] leading-snug">
+                <span className="font-semibold">Последняя запись журнала:</span>{' '}
+                {lastVersionLogLine}
               </p>
-              {lastVersionLogLine ? (
-                <p className="text-[10px] leading-snug text-violet-900/90">
-                  <span className="font-semibold">Последняя запись журнала:</span> {lastVersionLogLine}
-                </p>
-              ) : (
-                <p className="text-[10px] leading-snug text-violet-800/75">
-                  Журнал версий пуст — после согласованных правок добавьте запись ниже (дизайн / менеджер).
-                </p>
-              )}
-            </div>
-            {onJumpToVisualAnchor ? (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="h-7 shrink-0 text-[10px]"
-                onClick={() => onJumpToVisualAnchor(W2_VISUALS_SKETCH_ANCHOR_ID)}
-              >
-                К скетчу
-              </Button>
-            ) : null}
+            ) : (
+              <p className="text-accent-primary/75 text-[10px] leading-snug">
+                Журнал версий пуст — после согласованных правок добавьте запись ниже (дизайн /
+                менеджер).
+              </p>
+            )}
           </div>
+          {onJumpToVisualAnchor ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-7 shrink-0 text-[10px]"
+              onClick={() => onJumpToVisualAnchor(W2_VISUALS_SKETCH_ANCHOR_ID)}
+            >
+              К скетчу
+            </Button>
+          ) : null}
         </div>
+      </div>
 
       {onHandoffToRoute && visualHandoffTargets.length > 0 ? (
         <div
           id="w2-visuals-handoff"
-          className="scroll-mt-24 rounded-lg border border-indigo-200/85 bg-indigo-50/35 px-3 py-2.5 text-[11px] text-indigo-950 shadow-sm"
+          className="border-accent-primary/30 bg-accent-primary/10 text-accent-primary scroll-mt-24 rounded-lg border px-3 py-2.5 text-[11px] shadow-sm"
         >
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[9px] font-bold uppercase tracking-wide text-indigo-900">Передача в маршрут</span>
+            <span className="text-accent-primary text-[9px] font-bold uppercase tracking-wide">
+              Передача в маршрут
+            </span>
             <div className="flex flex-wrap gap-1.5">
               {visualHandoffTargets.map((t) => (
                 <div key={`${t.tab}-${t.domId}`} className="flex items-center gap-0.5">
@@ -669,7 +713,10 @@ export function Workshop2VisualsExcellenceBlock({
                         if (!url) return;
                         try {
                           await navigator.clipboard.writeText(url);
-                          toast({ title: 'Ссылка скопирована', description: 'В буфере — вкладка маршрута и якорь секции.' });
+                          toast({
+                            title: 'Ссылка скопирована',
+                            description: 'В буфере — вкладка маршрута и якорь секции.',
+                          });
                         } catch {
                           toast({
                             title: 'Не удалось скопировать',
@@ -692,25 +739,29 @@ export function Workshop2VisualsExcellenceBlock({
       {showSketchExportSurfacesStrip ? (
         <div
           id="w2-visuals-sketch-export-surfaces"
-          className="scroll-mt-24 rounded-lg border border-slate-200/90 bg-white px-3 py-2.5 text-[11px] text-slate-800 shadow-sm"
+          className="border-border-default/90 text-text-primary scroll-mt-24 rounded-lg border bg-white px-3 py-2.5 text-[11px] shadow-sm"
         >
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div className="min-w-0 space-y-1">
-              <p className="text-[9px] font-black uppercase tracking-wide text-slate-600">
+              <p className="text-text-secondary text-[9px] font-black uppercase tracking-wide">
                 Экспорт скетча · поверхности
               </p>
-              <p className="text-[10px] leading-snug text-slate-600">
-                Один PNG/PDF — три поверхности: цех (узлы+QC), мерч (чисто), комплаенс (техметки+QC).
+              <p className="text-text-secondary text-[10px] leading-snug">
+                Один PNG/PDF — три поверхности: цех (узлы+QC), мерч (чисто), комплаенс
+                (техметки+QC).
               </p>
-              <ul className="mt-1 space-y-1 text-[10px] leading-snug text-slate-700">
+              <ul className="text-text-primary mt-1 space-y-1 text-[10px] leading-snug">
                 {SKETCH_EXPORT_SURFACE_ORDER.map((surf) => {
                   const vis = W2_SKETCH_PIN_VISIBILITY_BY_SURFACE[surf];
                   return (
                     <li key={surf}>
-                      <span className="font-semibold text-slate-900">{W2_SKETCH_EXPORT_SURFACE_LABELS[surf]}</span>
-                      <span className="text-slate-500">
+                      <span className="text-text-primary font-semibold">
+                        {W2_SKETCH_EXPORT_SURFACE_LABELS[surf]}
+                      </span>
+                      <span className="text-text-secondary">
                         {' '}
-                        — тех.метки: {vis.showTechnicalPins ? 'да' : 'нет'}, QC-коды: {vis.showQcCodes ? 'да' : 'нет'}
+                        — тех.метки: {vis.showTechnicalPins ? 'да' : 'нет'}, QC-коды:{' '}
+                        {vis.showQcCodes ? 'да' : 'нет'}
                       </span>
                     </li>
                   );
@@ -724,8 +775,7 @@ export function Workshop2VisualsExcellenceBlock({
               className="h-7 shrink-0 gap-1 text-[10px]"
               onClick={() => void copySketchExportSurfacesGuide()}
             >
-              <LucideIcons.Copy className="h-3.5 w-3.5" aria-hidden />
-              В буфер
+              <LucideIcons.Copy className="h-3.5 w-3.5" aria-hidden />В буфер
             </Button>
           </div>
         </div>
@@ -746,11 +796,17 @@ export function Workshop2VisualsExcellenceBlock({
               </p>
               <div className="space-y-1.5 text-[9px] leading-relaxed">
                 <p className="font-semibold text-cyan-950">К материалу / BOM</p>
-                <p className="font-mono text-cyan-900/95">{W2_SKETCH_PIN_LINK_FIELD_DOC.toMaterial.join(' · ')}</p>
+                <p className="font-mono text-cyan-900/95">
+                  {W2_SKETCH_PIN_LINK_FIELD_DOC.toMaterial.join(' · ')}
+                </p>
                 <p className="font-semibold text-cyan-950">К QC / MES</p>
-                <p className="font-mono text-cyan-900/95">{W2_SKETCH_PIN_LINK_FIELD_DOC.toQc.join(' · ')}</p>
+                <p className="font-mono text-cyan-900/95">
+                  {W2_SKETCH_PIN_LINK_FIELD_DOC.toQc.join(' · ')}
+                </p>
                 <p className="font-semibold text-cyan-950">К разделу ТЗ / маршруту</p>
-                <p className="font-mono text-cyan-900/95">{W2_SKETCH_PIN_LINK_FIELD_DOC.toTzSection.join(' · ')}</p>
+                <p className="font-mono text-cyan-900/95">
+                  {W2_SKETCH_PIN_LINK_FIELD_DOC.toTzSection.join(' · ')}
+                </p>
               </div>
             </div>
             <Button
@@ -760,8 +816,7 @@ export function Workshop2VisualsExcellenceBlock({
               className="h-7 shrink-0 gap-1 border-cyan-300/80 bg-white text-[10px] text-cyan-950"
               onClick={() => void copySketchPinLinkFieldsGuide()}
             >
-              <LucideIcons.Copy className="h-3.5 w-3.5" aria-hidden />
-              В буфер
+              <LucideIcons.Copy className="h-3.5 w-3.5" aria-hidden />В буфер
             </Button>
           </div>
         </div>
@@ -789,7 +844,7 @@ export function Workshop2VisualsExcellenceBlock({
                     type="button"
                     variant="default"
                     size="sm"
-                    className="h-7 gap-1 bg-indigo-600 px-2.5 text-[10px] font-semibold text-white hover:bg-indigo-700"
+                    className="bg-accent-primary hover:bg-accent-primary h-7 gap-1 px-2.5 text-[10px] font-semibold text-white"
                     onClick={() => onJumpToVisualAnchor(visualGateItems[0]!.anchorId)}
                   >
                     <LucideIcons.CornerDownRight className="h-3.5 w-3.5 opacity-90" aria-hidden />
@@ -839,8 +894,8 @@ export function Workshop2VisualsExcellenceBlock({
             </ul>
           ) : (
             <p className="mt-1.5 text-[10px] leading-snug opacity-90">
-              Дальше — чеклист менеджера, канон и журнал версий; для «готово к образцу» проверьте также материалы,
-              мерки и подписи ТЗ.
+              Дальше — чеклист менеджера, канон и журнал версий; для «готово к образцу» проверьте
+              также материалы, мерки и подписи ТЗ.
             </p>
           )}
         </div>
@@ -851,21 +906,27 @@ export function Workshop2VisualsExcellenceBlock({
           <p className="font-semibold">Коротко: базовый путь</p>
           <ol className="mt-1 list-decimal space-y-0.5 pl-4">
             <li>
-              Закройте обязательный контур: блок «Поля каталога» (что именно попало в фазу 1 — от листа категории),
-              референсы, скетч или метки, замысел.
+              Закройте обязательный контур: блок «Поля каталога» (что именно попало в фазу 1 — от
+              листа категории), референсы, скетч или метки, замысел.
             </li>
             <li>Выберите главное фото и главный скетч (канон для подписи).</li>
             <li>Отметьте чеклист после ревью с командой.</li>
             <li>При изменениях — запись в журнал версий (что поменялось).</li>
           </ol>
-          <Button type="button" size="sm" variant="secondary" className="mt-2 h-7 text-[10px]" onClick={dismissOnboard}>
+          <Button
+            type="button"
+            size="sm"
+            variant="secondary"
+            className="mt-2 h-7 text-[10px]"
+            onClick={dismissOnboard}
+          >
             Понятно, не показывать
           </Button>
         </div>
       ) : (
         <button
           type="button"
-          className="text-[10px] font-medium text-indigo-700 underline-offset-2 hover:underline"
+          className="text-accent-primary text-[10px] font-medium underline-offset-2 hover:underline"
           onClick={() => setShowOnboard(true)}
         >
           Показать подсказку по шагам
@@ -873,16 +934,18 @@ export function Workshop2VisualsExcellenceBlock({
       )}
 
       <div className="grid gap-3 lg:grid-cols-2">
-        <div className="rounded-lg border border-slate-200 bg-white/90 p-3 shadow-sm">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Замысел дизайна</p>
-          <Label className="mt-2 text-[10px] text-slate-500">Mood / направление</Label>
+        <div className="border-border-default rounded-lg border bg-white/90 p-3 shadow-sm">
+          <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">
+            Замысел дизайна
+          </p>
+          <Label className="text-text-secondary mt-2 text-[10px]">Mood / направление</Label>
           <Input
             className="mt-1 h-8 text-xs"
             placeholder="Например: мягкий минимализм, спорт-шик FW26"
             value={mood}
             onChange={(e) => patchIntent(e.target.value, bullets)}
           />
-          <p className="mt-2 text-[10px] font-semibold text-slate-500">Тезисы (до 5)</p>
+          <p className="text-text-secondary mt-2 text-[10px] font-semibold">Тезисы (до 5)</p>
           <div className="mt-1 space-y-1">
             {[0, 1, 2, 3, 4].map((i) => (
               <Input
@@ -900,11 +963,13 @@ export function Workshop2VisualsExcellenceBlock({
           </div>
         </div>
 
-        <div className="rounded-lg border border-slate-200 bg-white/90 p-3 shadow-sm">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Канон для подписи</p>
-          <Label className="mt-2 text-[10px] text-slate-500">Главное фото модели</Label>
+        <div className="border-border-default rounded-lg border bg-white/90 p-3 shadow-sm">
+          <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">
+            Канон для подписи
+          </p>
+          <Label className="text-text-secondary mt-2 text-[10px]">Главное фото модели</Label>
           <select
-            className="mt-1 h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px]"
+            className="border-border-default mt-1 h-8 w-full rounded-md border bg-white px-2 text-[11px]"
             value={dossier.canonicalMainPhotoRefId ?? ''}
             onChange={(e) =>
               setDossier((p) => ({
@@ -922,9 +987,9 @@ export function Workshop2VisualsExcellenceBlock({
               </option>
             ))}
           </select>
-          <Label className="mt-2 text-[10px] text-slate-500">Главный скетч</Label>
+          <Label className="text-text-secondary mt-2 text-[10px]">Главный скетч</Label>
           <select
-            className="mt-1 h-8 w-full rounded-md border border-slate-200 bg-white px-2 text-[11px]"
+            className="border-border-default mt-1 h-8 w-full rounded-md border bg-white px-2 text-[11px]"
             value={canonicalSketch.kind === 'master' ? 'master' : canonicalSketch.sheetId}
             onChange={(e) => {
               const v = e.target.value;
@@ -961,11 +1026,14 @@ export function Workshop2VisualsExcellenceBlock({
         </div>
       </div>
 
-      <div id="w2-visuals-checklist" className="scroll-mt-24 rounded-lg border border-slate-200 bg-white/90 p-3 shadow-sm">
+      <div
+        id="w2-visuals-checklist"
+        className="border-border-default scroll-mt-24 rounded-lg border bg-white/90 p-3 shadow-sm"
+      >
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
+          <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">
             Готовность визуала (менеджер){' '}
-            <span className="tabular-nums text-indigo-700">
+            <span className="text-accent-primary tabular-nums">
               {vr.done}/{vr.total}
             </span>
           </p>
@@ -986,9 +1054,9 @@ export function Workshop2VisualsExcellenceBlock({
             По фактам в досье
           </Button>
         </div>
-        <p className="mt-1 text-[10px] leading-snug text-slate-500">
-          Кнопка подставляет только то, что однозначно следует из досье; пункты про треды и эталон цеха — по решению
-          команды.
+        <p className="text-text-secondary mt-1 text-[10px] leading-snug">
+          Кнопка подставляет только то, что однозначно следует из досье; пункты про треды и эталон
+          цеха — по решению команды.
         </p>
         <ul className="mt-2 space-y-2">
           {VISUAL_READINESS_LABELS.map((row) => {
@@ -1002,10 +1070,17 @@ export function Workshop2VisualsExcellenceBlock({
                   onCheckedChange={(v) => patchChecklist({ [row.key]: v === true })}
                   className="mt-0.5"
                 />
-                <label htmlFor={`vr-${row.key}`} className="min-w-0 cursor-pointer text-[11px] leading-snug">
-                  <span className="font-medium text-slate-800">{row.label}</span>
-                  <span className="block text-slate-500">{row.hint}</span>
-                  {hintExtra ? <span className="mt-0.5 block text-[10px] text-indigo-600">{hintExtra}</span> : null}
+                <label
+                  htmlFor={`vr-${row.key}`}
+                  className="min-w-0 cursor-pointer text-[11px] leading-snug"
+                >
+                  <span className="text-text-primary font-medium">{row.label}</span>
+                  <span className="text-text-secondary block">{row.hint}</span>
+                  {hintExtra ? (
+                    <span className="text-accent-primary mt-0.5 block text-[10px]">
+                      {hintExtra}
+                    </span>
+                  ) : null}
                 </label>
               </li>
             );
@@ -1013,9 +1088,13 @@ export function Workshop2VisualsExcellenceBlock({
         </ul>
       </div>
 
-      <div className="rounded-lg border border-slate-200 bg-white/90 p-3 shadow-sm">
-        <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Журнал версий визуала</p>
-        <p className="mt-1 text-[10px] text-slate-500">Кратко: что изменилось, кто и когда (без бинарного diff).</p>
+      <div className="border-border-default rounded-lg border bg-white/90 p-3 shadow-sm">
+        <p className="text-text-secondary text-[10px] font-bold uppercase tracking-wide">
+          Журнал версий визуала
+        </p>
+        <p className="text-text-secondary mt-1 text-[10px]">
+          Кратко: что изменилось, кто и когда (без бинарного diff).
+        </p>
         <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-end">
           <div className="min-w-0 flex-1 space-y-1">
             <Label className="text-[10px]">Метка версии в этой записи</Label>
@@ -1026,7 +1105,12 @@ export function Workshop2VisualsExcellenceBlock({
               onChange={(e) => setVersionLabelDraft(e.target.value)}
             />
           </div>
-          <Button type="button" size="sm" className="h-8 shrink-0 text-[10px]" onClick={appendVersionLog}>
+          <Button
+            type="button"
+            size="sm"
+            className="h-8 shrink-0 text-[10px]"
+            onClick={appendVersionLog}
+          >
             Добавить запись
           </Button>
         </div>
@@ -1037,25 +1121,28 @@ export function Workshop2VisualsExcellenceBlock({
           onChange={(e) => setVersionSummaryDraft(e.target.value)}
         />
         <ul className="mt-3 max-h-40 space-y-2 overflow-y-auto text-[10px]">
-          {([...(dossier.visualVersionLog ?? [])]).reverse().map((e) => (
-            <li key={e.entryId} className="rounded border border-slate-100 bg-slate-50/80 px-2 py-1.5">
-              <span className="font-semibold text-slate-800">{e.versionLabel}</span>
-              <span className="text-slate-500"> · {e.by} · </span>
-              <span className="text-slate-400">{new Date(e.at).toLocaleString('ru-RU')}</span>
-              <p className="mt-0.5 text-slate-700">{e.changeSummary}</p>
+          {[...(dossier.visualVersionLog ?? [])].reverse().map((e) => (
+            <li
+              key={e.entryId}
+              className="border-border-subtle bg-bg-surface2/80 rounded border px-2 py-1.5"
+            >
+              <span className="text-text-primary font-semibold">{e.versionLabel}</span>
+              <span className="text-text-secondary"> · {e.by} · </span>
+              <span className="text-text-muted">{new Date(e.at).toLocaleString('ru-RU')}</span>
+              <p className="text-text-primary mt-0.5">{e.changeSummary}</p>
             </li>
           ))}
         </ul>
       </div>
 
-      <details className="rounded-lg border border-slate-200 bg-white/85 text-[11px] shadow-sm">
-        <summary className="cursor-pointer list-none px-3 py-2 font-semibold text-slate-800 [&::-webkit-details-marker]:hidden">
+      <details className="border-border-default rounded-lg border bg-white/85 text-[11px] shadow-sm">
+        <summary className="text-text-primary cursor-pointer list-none px-3 py-2 font-semibold [&::-webkit-details-marker]:hidden">
           Матрица: тип метки → раздел ТЗ (ориентир для критичных зон)
         </summary>
-        <div className="max-h-52 overflow-auto border-t border-slate-100 px-2 py-2 sm:px-3">
+        <div className="border-border-subtle max-h-52 overflow-auto border-t px-2 py-2 sm:px-3">
           <table className="w-full border-collapse text-left text-[10px]">
             <thead>
-              <tr className="border-b border-slate-200 text-[9px] uppercase tracking-wide text-slate-500">
+              <tr className="border-border-default text-text-secondary border-b text-[9px] uppercase tracking-wide">
                 <th className="py-1.5 pr-2 font-semibold">Тип метки</th>
                 <th className="py-1.5 pr-2 font-semibold">Раздел</th>
                 <th className="py-1.5 pr-2 font-semibold">Подсказка attributeId</th>
@@ -1064,17 +1151,22 @@ export function Workshop2VisualsExcellenceBlock({
             </thead>
             <tbody>
               {SKETCH_TZ_MATRIX_ROWS.map((row) => (
-                <tr key={row.annotationType} className="border-b border-slate-100 last:border-0">
-                  <td className="py-1.5 pr-2 align-top font-medium text-slate-800">{row.typeLabel}</td>
-                  <td className="py-1.5 pr-2 align-top text-indigo-800">{row.sectionLabel}</td>
+                <tr
+                  key={row.annotationType}
+                  className="border-border-subtle border-b last:border-0"
+                >
+                  <td className="text-text-primary py-1.5 pr-2 align-top font-medium">
+                    {row.typeLabel}
+                  </td>
+                  <td className="text-accent-primary py-1.5 pr-2 align-top">{row.sectionLabel}</td>
                   <td
-                    className="max-w-[10rem] py-1.5 pr-2 align-top font-mono text-[9px] leading-snug text-slate-700"
+                    className="text-text-primary max-w-[10rem] py-1.5 pr-2 align-top font-mono text-[9px] leading-snug"
                     title={row.suggestedAttributeIds.join(', ')}
                   >
                     {row.suggestedAttributeIds.slice(0, 3).join(', ')}
                     {row.suggestedAttributeIds.length > 3 ? '…' : ''}
                   </td>
-                  <td className="py-1.5 align-top text-slate-600">{row.managerHint}</td>
+                  <td className="text-text-secondary py-1.5 align-top">{row.managerHint}</td>
                 </tr>
               ))}
             </tbody>
@@ -1082,17 +1174,18 @@ export function Workshop2VisualsExcellenceBlock({
         </div>
       </details>
 
-      <p className="text-[10px] text-slate-500">
-        Черновик в localStorage; тяжёлые data URL в рефах/скетче — сожмите или дайте ссылку (см. предупреждение у
-        сохранения внизу ТЗ).
+      <p className="text-text-secondary text-[10px]">
+        Черновик в localStorage; тяжёлые data URL в рефах/скетче — сожмите или дайте ссылку (см.
+        предупреждение у сохранения внизу ТЗ).
       </p>
-      <p className="text-[10px] text-slate-500">
+      <p className="text-text-secondary text-[10px]">
         Метка ↔ раздел/этап — в карточке на доске; по ветке — «Задачи для производства». Экспорт:{' '}
-        <span className="font-medium text-slate-600">visualQuickSummary</span>,{' '}
-        <span className="font-medium text-slate-600">visualRouteGate</span> (без data URL). Якорь по умолчанию{' '}
-        <span className="font-mono text-[10px]">#w2-visuals-hub</span> — при нужде{' '}
-        <span className="font-mono text-[10px]">#w2-visuals-refs</span>,{' '}
-        <span className="font-mono text-[10px]">#{W2_VISUALS_SKETCH_ANCHOR_ID}</span> (вкладка «Конструкция»)…
+        <span className="text-text-secondary font-medium">visualQuickSummary</span>,{' '}
+        <span className="text-text-secondary font-medium">visualRouteGate</span> (без data URL).
+        Якорь по умолчанию <span className="font-mono text-[10px]">#w2-visuals-hub</span> — при
+        нужде <span className="font-mono text-[10px]">#w2-visuals-refs</span>,{' '}
+        <span className="font-mono text-[10px]">#{W2_VISUALS_SKETCH_ANCHOR_ID}</span> (вкладка
+        «Конструкция»)…
       </p>
     </div>
   );

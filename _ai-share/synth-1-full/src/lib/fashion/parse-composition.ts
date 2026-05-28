@@ -29,7 +29,7 @@ export function compositionToPlainText(parts: CompositionPart[]): string {
     .join(', ');
 }
 
-/** Lowercase text for keyword checks (string or structured composition + material). */
+/** Нормализованная строка для поиска по материалам (учёт string | structured composition). */
 export function compositionSearchText(product: Product): string {
   return compositionToPlainText(parseComposition(product)).toLowerCase();
 }

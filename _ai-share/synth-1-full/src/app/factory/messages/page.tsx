@@ -1,12 +1,8 @@
 'use client';
 
-import MessagesOS from '@/components/user/messages-os';
+import FactoryMessagesPage from '@/app/factory/production/messages/page';
 
-export default function FactoryMessagesPage() {
-  return <MessagesOS />;
+/** Короткий URL `/factory/messages` — тот же экран, что `/factory/production/messages`. */
+export default function FactoryMessagesShortcutPage() {
+  return <FactoryMessagesPage />;
 }
-
-
-
-
-

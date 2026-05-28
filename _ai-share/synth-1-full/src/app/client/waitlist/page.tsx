@@ -8,9 +8,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
-import { loadWaitlist, removeFromWaitlist, type WaitlistEntryV1 } from '@/lib/fashion/waitlist-store';
-import { ArrowLeft, Bell, Trash2, ShoppingBag } from 'lucide-react';
+import {
+  loadWaitlist,
+  removeFromWaitlist,
+  type WaitlistEntryV1,
+} from '@/lib/fashion/waitlist-store';
+import { Trash2, ShoppingBag } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { useToast } from '@/hooks/use-toast';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function WaitlistPage() {
   const { toast } = useToast();
@@ -27,23 +33,8 @@ export default function WaitlistPage() {
   };
 
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.client.home}>
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
-            <Bell className="h-6 w-6 text-primary" />
-            Лист ожидания
-          </h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Здесь собраны товары и размеры, которых нет в наличии. Мы пришлем уведомление при поступлении.
-          </p>
-        </div>
-      </div>
+    <CabinetPageContent maxWidth="4xl">
+      <ClientCabinetSectionHeader />
 
       <Card>
         <CardHeader>
@@ -54,28 +45,41 @@ export default function WaitlistPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           {list.length === 0 ? (
-            <div className="text-center py-12 border border-dashed rounded-lg">
-              <ShoppingBag className="h-10 w-10 text-muted-foreground mx-auto mb-4 opacity-20" />
+            <div className="rounded-lg border border-dashed py-12 text-center">
+              <ShoppingBag className="mx-auto mb-4 h-10 w-10 text-muted-foreground opacity-20" />
               <p className="text-sm text-muted-foreground">
-                Пока ничего не добавлено. На странице товара с отсутствующим размером нажмите «Узнать о наличии».
+                Пока ничего не добавлено. На странице товара с отсутствующим размером нажмите
+                «Узнать о наличии».
               </p>
             </div>
           ) : (
             <div className="grid gap-3">
               {list.map((item) => {
-                const p = products.find(x => x.sku === item.sku);
+                const p = products.find((x) => x.sku === item.sku);
                 return (
-                  <div key={`${item.sku}-${item.size}`} className="flex items-center gap-4 border rounded-lg p-3">
-                    <div className="relative h-16 w-12 rounded border overflow-hidden shrink-0">
+                  <div
+                    key={`${item.sku}-${item.size}`}
+                    className="flex items-center gap-4 rounded-lg border p-3"
+                  >
+                    <div className="relative h-16 w-12 shrink-0 overflow-hidden rounded border">
                       {p?.images[0] && (
-                        <Image src={p.images[0].url} alt={item.name} fill className="object-cover" sizes="64px" />
+                        <Image
+                          src={p.images[0].url}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                          sizes="64px"
+                        />
                       )}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <Link href={`/products/${item.slug}`} className="text-sm font-medium hover:underline block truncate">
+                    <div className="min-w-0 flex-1">
+                      <Link
+                        href={`/products/${item.slug}`}
+                        className="block truncate text-sm font-medium hover:underline"
+                      >
                         {item.name}
                       </Link>
-                      <div className="flex items-center gap-2 mt-1">
+                      <div className="mt-1 flex items-center gap-2">
                         <Badge variant="secondary" className="text-[10px] font-normal">
                           Размер: {item.size}
                         </Badge>
@@ -84,9 +88,9 @@ export default function WaitlistPage() {
                         </span>
                       </div>
                     </div>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       className="text-muted-foreground hover:text-destructive"
                       onClick={() => handleRemove(item.sku, item.size)}
                     >
@@ -99,6 +103,6 @@ export default function WaitlistPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

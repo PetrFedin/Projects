@@ -14,15 +14,21 @@ export function useNavPins() {
     load();
   }, [load]);
 
-  const togglePin = useCallback((key: string) => {
-    store.togglePin(key);
-    load();
-  }, [load]);
+  const togglePin = useCallback(
+    (key: string) => {
+      store.togglePin(key);
+      load();
+    },
+    [load]
+  );
 
-  const setReminder = useCallback((key: string, reminder: string | undefined) => {
-    store.setReminder(key, reminder);
-    load();
-  }, [load]);
+  const setReminder = useCallback(
+    (key: string, reminder: string | undefined) => {
+      store.setReminder(key, reminder);
+      load();
+    },
+    [load]
+  );
 
   return { pins, togglePin, setReminder, refresh: load };
 }

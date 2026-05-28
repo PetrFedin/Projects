@@ -5,7 +5,10 @@
  */
 
 import { NextResponse } from 'next/server';
-import { sparkLayerGetOrders, sparkLayerCreateOrder } from '@/lib/b2b/integrations/archive/sparklayer-core';
+import {
+  sparkLayerGetOrders,
+  sparkLayerCreateOrder,
+} from '@/lib/b2b/integrations/archive/sparklayer-core';
 import type { SparkLayerCreateOrderPayload } from '@/lib/b2b/integrations/archive/sparklayer-core';
 
 export async function GET(request: Request) {

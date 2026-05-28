@@ -2,71 +2,81 @@
  * Style Engine — правила стилей, скоринг и цветовая гармония
  */
 
-import type { StyleMood, Occasion, ColorPalette, Contrast, Season, StylistProduct, WardrobeItem } from "./types";
+import type {
+  StyleMood,
+  Occasion,
+  ColorPalette,
+  Contrast,
+  Season,
+  StylistProduct,
+  WardrobeItem,
+} from './types';
 
 /** Маппинг mood → теги для скоринга */
 export const MOOD_TAG_MAP: Record<StyleMood, string[]> = {
-  Minimal: ["minimal", "capsule", "essential", "clean", "basic"],
-  Urban: ["urban", "city", "street", "casual", "everyday"],
-  Techwear: ["techwear", "waterproof", "functional", "technical"],
-  Classic: ["classic", "premium", "heritage", "timeless", "elegant"],
-  SportLuxe: ["sport-luxe", "golf", "athletic", "elevated"],
-  AvantGarde: ["avantgarde", "statement", "bold", "experimental"],
+  Minimal: ['minimal', 'capsule', 'essential', 'clean', 'basic'],
+  Urban: ['urban', 'city', 'street', 'casual', 'everyday'],
+  Techwear: ['techwear', 'waterproof', 'functional', 'technical'],
+  Classic: ['classic', 'premium', 'heritage', 'timeless', 'elegant'],
+  SportLuxe: ['sport-luxe', 'golf', 'athletic', 'elevated'],
+  AvantGarde: ['avantgarde', 'statement', 'bold', 'experimental'],
 };
 
 /** Маппинг occasion → приоритетные теги */
 export const OCCASION_TAG_MAP: Record<Occasion, string[]> = {
-  Daily: ["everyday", "casual", "comfortable", "comfy"],
-  Work: ["minimal", "professional", "formal", "tailored"],
-  Date: ["premium", "elevated", "elegant"],
-  Travel: ["functional", "versatile", "lightweight", "breathable"],
-  Event: ["premium", "statement", "evening", "dressy"],
-  Sport: ["sport", "active", "athletic"],
-  Golf: ["golf", "sport-luxe", "premium"],
-  Evening: ["premium", "formal", "dressy", "evening"],
+  Daily: ['everyday', 'casual', 'comfortable', 'comfy'],
+  Work: ['minimal', 'professional', 'formal', 'tailored'],
+  Date: ['premium', 'elevated', 'elegant'],
+  Travel: ['functional', 'versatile', 'lightweight', 'breathable'],
+  Event: ['premium', 'statement', 'evening', 'dressy'],
+  Sport: ['sport', 'active', 'athletic'],
+  Golf: ['golf', 'sport-luxe', 'premium'],
+  Evening: ['premium', 'formal', 'dressy', 'evening'],
 };
 
 /** Цветовая совместимость: палитра → допустимые цвета */
 export const PALETTE_COLORS: Record<ColorPalette, string[]> = {
-  Warm: ["taupe", "cream", "camel", "brown", "olive", "terracotta", "sand"],
-  Cool: ["black", "gray", "navy", "white", "blue", "slate"],
-  Neutral: ["black", "white", "gray", "taupe", "cream", "navy", "beige"],
-  Monochrome: ["black", "white", "gray", "charcoal"],
-  Vibrant: ["white", "black", "blue", "red", "green", "yellow", "pink"],
+  Warm: ['taupe', 'cream', 'camel', 'brown', 'olive', 'terracotta', 'sand'],
+  Cool: ['black', 'gray', 'navy', 'white', 'blue', 'slate'],
+  Neutral: ['black', 'white', 'gray', 'taupe', 'cream', 'navy', 'beige'],
+  Monochrome: ['black', 'white', 'gray', 'charcoal'],
+  Vibrant: ['white', 'black', 'blue', 'red', 'green', 'yellow', 'pink'],
 };
 
 /** Правила силуэта для occasion */
-export const OCCASION_SILHOUETTE: Partial<Record<Occasion, "balanced" | "fitted" | "oversized" | "mixed">> = {
-  Work: "fitted",
-  Date: "balanced",
-  Event: "fitted",
-  Evening: "fitted",
-  Sport: "oversized",
-  Golf: "balanced",
-  Daily: "mixed",
-  Travel: "mixed",
+export const OCCASION_SILHOUETTE: Partial<
+  Record<Occasion, 'balanced' | 'fitted' | 'oversized' | 'mixed'>
+> = {
+  Work: 'fitted',
+  Date: 'balanced',
+  Event: 'fitted',
+  Evening: 'fitted',
+  Sport: 'oversized',
+  Golf: 'balanced',
+  Daily: 'mixed',
+  Travel: 'mixed',
 };
 
 /** Силуэтные теги для скоринга */
 const SILHOUETTE_TAGS: Record<string, string[]> = {
-  fitted: ["slim-fit", "tailored", "fitted", "form-fitting"],
-  oversized: ["oversized", "relaxed", "loose", "boxy"],
-  balanced: ["relaxed", "tailored", "regular-fit", "minimal"],
+  fitted: ['slim-fit', 'tailored', 'fitted', 'form-fitting'],
+  oversized: ['oversized', 'relaxed', 'loose', 'boxy'],
+  balanced: ['relaxed', 'tailored', 'regular-fit', 'minimal'],
   mixed: [],
 };
 
 /** Акцентные цвета (один на образ при нейтральной базе) */
-const ACCENT_COLORS = ["blue", "red", "green", "yellow", "pink", "olive", "terracotta"];
-const NEUTRAL_COLORS = ["black", "white", "gray", "navy", "beige", "taupe", "cream", "charcoal"];
+const ACCENT_COLORS = ['blue', 'red', 'green', 'yellow', 'pink', 'olive', 'terracotta'];
+const NEUTRAL_COLORS = ['black', 'white', 'gray', 'navy', 'beige', 'taupe', 'cream', 'charcoal'];
 
 /** Дополнительные пары (для контрастных акцентов) */
 const COMPLEMENTARY_PAIRS: [string, string][] = [
-  ["blue", "orange"],
-  ["blue", "camel"],
-  ["navy", "cream"],
-  ["black", "white"],
-  ["olive", "terracotta"],
-  ["gray", "cream"],
+  ['blue', 'orange'],
+  ['blue', 'camel'],
+  ['navy', 'cream'],
+  ['black', 'white'],
+  ['olive', 'terracotta'],
+  ['gray', 'cream'],
 ];
 
 export function isAccentColor(color: string): boolean {
@@ -90,7 +100,7 @@ export function scoreProduct(
     palette?: ColorPalette;
     contrast?: Contrast;
     biasTags: string[];
-    silhouetteRule?: "balanced" | "fitted" | "oversized" | "mixed";
+    silhouetteRule?: 'balanced' | 'fitted' | 'oversized' | 'mixed';
     favoriteColors?: string[];
     excludedCategories?: string[];
     temperature?: number;
@@ -150,10 +160,10 @@ export function scoreProduct(
   }
 
   // Сезон
-  if (p.season !== "All") {
-    const isSS = ctx.season === "Spring" || ctx.season === "Summer";
-    const isFW = ctx.season === "Autumn" || ctx.season === "Winter";
-    if ((isSS && p.season === "SS") || (isFW && p.season === "FW")) score += 2;
+  if (p.season !== 'All') {
+    const isSS = ctx.season === 'Spring' || ctx.season === 'Summer';
+    const isFW = ctx.season === 'Autumn' || ctx.season === 'Winter';
+    if ((isSS && p.season === 'SS') || (isFW && p.season === 'FW')) score += 2;
   }
 
   // Палитра
@@ -170,34 +180,46 @@ export function scoreProduct(
   }
 
   // Occasion-specific бонусы
-  if (ctx.occasion === "Golf" && tags.includes("golf")) score += 3;
-  if (ctx.occasion === "Work") {
-    if (tags.includes("minimal")) score += 2;
-    if (tags.includes("formal") || tags.includes("professional")) score += 3;
-    if (tags.includes("tailored") || tags.includes("slim-fit")) score += 2;
+  if (ctx.occasion === 'Golf' && tags.includes('golf')) score += 3;
+  if (ctx.occasion === 'Work') {
+    if (tags.includes('minimal')) score += 2;
+    if (tags.includes('formal') || tags.includes('professional')) score += 3;
+    if (tags.includes('tailored') || tags.includes('slim-fit')) score += 2;
   }
-  if (ctx.occasion === "Evening" || ctx.occasion === "Event") {
-    if (tags.includes("premium")) score += 3;
-    if (tags.includes("formal") || tags.includes("dressy")) score += 2;
-    if (tags.includes("statement")) score += 2;
+  if (ctx.occasion === 'Evening' || ctx.occasion === 'Event') {
+    if (tags.includes('premium')) score += 3;
+    if (tags.includes('formal') || tags.includes('dressy')) score += 2;
+    if (tags.includes('statement')) score += 2;
   }
-  if (ctx.occasion === "Date" && (tags.includes("premium") || tags.includes("elegant"))) score += 2;
-  if (ctx.occasion === "Sport" && (tags.includes("sport") || tags.includes("active") || tags.includes("athletic"))) score += 2;
-  if (ctx.occasion === "Travel" && (tags.includes("functional") || tags.includes("versatile") || tags.includes("lightweight"))) score += 2;
+  if (ctx.occasion === 'Date' && (tags.includes('premium') || tags.includes('elegant'))) score += 2;
+  if (
+    ctx.occasion === 'Sport' &&
+    (tags.includes('sport') || tags.includes('active') || tags.includes('athletic'))
+  )
+    score += 2;
+  if (
+    ctx.occasion === 'Travel' &&
+    (tags.includes('functional') || tags.includes('versatile') || tags.includes('lightweight'))
+  )
+    score += 2;
 
-  if (tags.includes("premium")) score += 1;
+  if (tags.includes('premium')) score += 1;
 
   if (ctx.excludedCategories?.includes(p.category)) score -= 5;
-  if (ctx.favoriteColors?.length && ctx.favoriteColors.map((c) => c.toLowerCase()).includes(p.color.toLowerCase())) score += 3;
+  if (
+    ctx.favoriteColors?.length &&
+    ctx.favoriteColors.map((c) => c.toLowerCase()).includes(p.color.toLowerCase())
+  )
+    score += 3;
 
-  if (ctx.temperature != null && ctx.temperature < 10 && p.category === "Outerwear") score += 3;
-  if (ctx.temperature != null && ctx.temperature >= 25 && p.category === "Outerwear") score -= 2;
+  if (ctx.temperature != null && ctx.temperature < 10 && p.category === 'Outerwear') score += 3;
+  if (ctx.temperature != null && ctx.temperature >= 25 && p.category === 'Outerwear') score -= 2;
 
   if (ctx.excludeOversized && tags.some((t) => SILHOUETTE_TAGS.oversized.includes(t))) score -= 5;
   if (ctx.excludeBright && ACCENT_COLORS.includes(p.color.toLowerCase())) score -= 3;
 
   // Силуэт: бонус за соответствие правилу
-  if (ctx.silhouetteRule && ctx.silhouetteRule !== "mixed") {
+  if (ctx.silhouetteRule && ctx.silhouetteRule !== 'mixed') {
     const ruleTags = SILHOUETTE_TAGS[ctx.silhouetteRule] ?? [];
     if (ruleTags.some((t) => tags.includes(t))) score += 2;
   }
@@ -214,8 +236,25 @@ export function getLongevityScore(p: StylistProduct): number {
   const tags = p.tags.map((t) => t.toLowerCase());
   let score = 50; // Базовая оценка
 
-  const longevityTags = ["basic", "classic", "timeless", "heritage", "capsule", "essential", "minimal"];
-  const trendTags = ["trend", "statement", "experimental", "bold", "avantgarde", "seasonal", "y2k", "cyber"];
+  const longevityTags = [
+    'basic',
+    'classic',
+    'timeless',
+    'heritage',
+    'capsule',
+    'essential',
+    'minimal',
+  ];
+  const trendTags = [
+    'trend',
+    'statement',
+    'experimental',
+    'bold',
+    'avantgarde',
+    'seasonal',
+    'y2k',
+    'cyber',
+  ];
 
   for (const t of tags) {
     if (longevityTags.includes(t)) score += 8;
@@ -223,7 +262,12 @@ export function getLongevityScore(p: StylistProduct): number {
   }
 
   // Материалы (если есть в тегах)
-  if (tags.includes("wool") || tags.includes("cashmere") || tags.includes("silk") || tags.includes("leather")) {
+  if (
+    tags.includes('wool') ||
+    tags.includes('cashmere') ||
+    tags.includes('silk') ||
+    tags.includes('leather')
+  ) {
     score += 5;
   }
 
@@ -241,13 +285,17 @@ export function checkSilhouetteBalance(
   if (!hasOversized) return true;
 
   const allPicks = [...existingPicks, product];
-  const upperCategories = ["Outerwear", "Tops"];
-  const lowerCategories = ["Bottoms", "Shoes"];
+  const upperCategories = ['Outerwear', 'Tops'];
+  const lowerCategories = ['Bottoms', 'Shoes'];
   const upperOversized = allPicks.filter(
-    (p) => upperCategories.includes(p.category) && p.tags.some((t) => SILHOUETTE_TAGS.oversized.includes(t.toLowerCase()))
+    (p) =>
+      upperCategories.includes(p.category) &&
+      p.tags.some((t) => SILHOUETTE_TAGS.oversized.includes(t.toLowerCase()))
   ).length;
   const lowerOversized = allPicks.filter(
-    (p) => lowerCategories.includes(p.category) && p.tags.some((t) => SILHOUETTE_TAGS.oversized.includes(t.toLowerCase()))
+    (p) =>
+      lowerCategories.includes(p.category) &&
+      p.tags.some((t) => SILHOUETTE_TAGS.oversized.includes(t.toLowerCase()))
   ).length;
   return !(upperOversized >= 2 || lowerOversized >= 2);
 }
@@ -270,7 +318,7 @@ export function checkColorHarmony(
   if (wardrobeColors.length === 0) return true;
 
   // Нейтральные цвета сочетаются с чем угодно
-  const neutrals = ["black", "white", "gray", "navy", "beige"];
+  const neutrals = ['black', 'white', 'gray', 'navy', 'beige'];
   if (neutrals.includes(productColor)) return true;
   if (wardrobeColors.some((c) => neutrals.includes(c))) return true;
 
@@ -284,10 +332,7 @@ export function checkColorHarmony(
 }
 
 /** Проверка: цвет дополняет уже выбранные в образе */
-export function isComplementaryTo(
-  color: string,
-  existingColors: string[]
-): boolean {
+export function isComplementaryTo(color: string, existingColors: string[]): boolean {
   const c = color.toLowerCase();
   return existingColors.some((existing) => {
     const e = existing.toLowerCase();
@@ -296,11 +341,11 @@ export function isComplementaryTo(
 }
 
 const OCCASION_REASONS: Partial<Record<Occasion, string>> = {
-  Work: "деловой дресс-код",
-  Evening: "вечерний выход",
-  Date: "романтичный образ",
-  Sport: "спортивная функциональность",
-  Travel: "практичность в поездке",
+  Work: 'деловой дресс-код',
+  Evening: 'вечерний выход',
+  Date: 'романтичный образ',
+  Sport: 'спортивная функциональность',
+  Travel: 'практичность в поездке',
 };
 
 /**
@@ -317,25 +362,32 @@ export function explainPick(
   },
   isFromWardrobe: boolean
 ): string {
-  if (isFromWardrobe) return "Твоя вещь из гардероба";
+  if (isFromWardrobe) return 'Твоя вещь из гардероба';
 
   const reasons: string[] = [];
 
-  if (ctx.occasion && OCCASION_REASONS[ctx.occasion] && OCCASION_TAG_MAP[ctx.occasion]?.some((t) => p.tags.includes(t))) {
+  if (
+    ctx.occasion &&
+    OCCASION_REASONS[ctx.occasion] &&
+    OCCASION_TAG_MAP[ctx.occasion]?.some((t) => p.tags.includes(t))
+  ) {
     reasons.push(OCCASION_REASONS[ctx.occasion]!);
   }
-  if (p.audience === "Unisex") reasons.push("универсальный крой");
-  if (p.tags.includes("premium")) reasons.push("премиальное качество");
-  if (ctx.palette && PALETTE_COLORS[ctx.palette]?.map((c) => c.toLowerCase()).includes(p.color.toLowerCase())) {
+  if (p.audience === 'Unisex') reasons.push('универсальный крой');
+  if (p.tags.includes('premium')) reasons.push('премиальное качество');
+  if (
+    ctx.palette &&
+    PALETTE_COLORS[ctx.palette]?.map((c) => c.toLowerCase()).includes(p.color.toLowerCase())
+  ) {
     reasons.push(`соответствие ${ctx.palette.toLowerCase()} гамме`);
   }
   if (ctx.contrast && p.tags.includes(`${ctx.contrast.toLowerCase()}-contrast`)) {
     reasons.push(`баланс контрастности`);
   }
-  if (ctx.biasTags.some((t) => p.tags.includes(t))) reasons.push("стилистический акцент");
-  if (p.category === "Outerwear" && p.tags.includes("classic")) reasons.push("классический верх");
+  if (ctx.biasTags.some((t) => p.tags.includes(t))) reasons.push('стилистический акцент');
+  if (p.category === 'Outerwear' && p.tags.includes('classic')) reasons.push('классический верх');
 
-  if (!reasons.length) reasons.push("базовый элемент образа");
+  if (!reasons.length) reasons.push('базовый элемент образа');
 
-  return reasons.join(", ");
+  return reasons.join(', ');
 }

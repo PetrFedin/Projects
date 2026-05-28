@@ -12,7 +12,9 @@ import {
 describe('workshop2-material-composition-presets', () => {
   it('catalog loads from JSON', () => {
     expect(WORKSHOP2_MATERIAL_COMPOSITION_PRESETS_CATALOG.length).toBeGreaterThan(0);
-    expect(WORKSHOP2_MATERIAL_COMPOSITION_PRESETS_CATALOG.some((p) => p.id === 'coat-wool')).toBe(true);
+    expect(WORKSHOP2_MATERIAL_COMPOSITION_PRESETS_CATALOG.some((p) => p.id === 'coat-wool')).toBe(
+      true
+    );
   });
 
   it('fetchMaterialCompositionPresetsCatalog resolves without network', async () => {
@@ -52,8 +54,11 @@ describe('workshop2-material-composition-presets', () => {
       catalog
     );
     expect(r.some((p) => p.id === 'leaf-only')).toBe(true);
-    expect(presetMatchesMaterialCompositionContext(narrow, { leafId: 'x-leaf-1', l2Name: 'Верхняя одежда' })).toBe(
-      true
-    );
+    expect(
+      presetMatchesMaterialCompositionContext(narrow, {
+        leafId: 'x-leaf-1',
+        l2Name: 'Верхняя одежда',
+      })
+    ).toBe(true);
   });
 });

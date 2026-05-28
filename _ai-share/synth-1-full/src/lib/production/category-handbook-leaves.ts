@@ -1,11 +1,20 @@
 import snapshot from './generated/category-handbook.snapshot.json';
-import type { CategoryHandbookSnapshot, HandbookCategoryLeaf } from './category-handbook-snapshot-builder';
+import type {
+  CategoryHandbookSnapshot,
+  HandbookCategoryLeaf,
+} from './category-handbook-snapshot-builder';
 import type { TaxonomyLeafAlias } from './category-leaf-production-types';
 import { resolveCanonicalLeafId, TAXONOMY_LEAF_ALIASES } from './category-taxonomy-aliases';
 
-export type { CategoryHandbookSnapshot, HandbookCategoryLeaf } from './category-handbook-snapshot-builder';
+export type {
+  CategoryHandbookSnapshot,
+  HandbookCategoryLeaf,
+} from './category-handbook-snapshot-builder';
 export type { TaxonomyLeafAlias } from './category-leaf-production-types';
-export { buildCategoryHandbookSnapshot, handbookAudienceCategoryPath } from './category-handbook-snapshot-builder';
+export {
+  buildCategoryHandbookSnapshot,
+  handbookAudienceCategoryPath,
+} from './category-handbook-snapshot-builder';
 
 const catalog = snapshot as CategoryHandbookSnapshot;
 const WORKSHOP2_FALLBACK_AUDIENCES = [
@@ -41,7 +50,7 @@ export function getHandbookAudiences(): { id: string; name: string }[] {
   return catalog.audiences;
 }
 
-/** Аудитории для Цеха 2 (создание артикула): без унисекс. */
+/** Аудитории для разработки коллекции (создание артикула): без унисекс. */
 export function getHandbookAudiencesWorkshop2(): { id: string; name: string }[] {
   const filtered = getHandbookAudiences().filter((a) => a.id !== 'unisex');
   const hasDedicatedAudiences = filtered.some((a) => a.id !== 'catalog');
@@ -59,6 +68,17 @@ export function resolveWorkshop2EffectiveAudienceId(
   if (leaves.some((l) => l.audienceId === audienceId)) return audienceId;
   if (leaves.some((l) => l.audienceId === 'catalog')) return 'catalog';
   return leaves[0]?.audienceId ?? audienceId;
+}
+
+/** Человекочитаемая подпись аудитории для паспорта (dossier override → leaf → справочник). */
+export function resolveWorkshop2AudienceDisplayLabel(
+  dossierSelectedAudienceId: string | undefined,
+  currentLeaf: HandbookCategoryLeaf,
+  audiences: { id: string; name: string }[]
+): string | null {
+  const id = dossierSelectedAudienceId?.trim() || currentLeaf.audienceId;
+  const name = audiences.find((a) => a.id === id)?.name?.trim();
+  return name || null;
 }
 
 export function handbookL1OptionsForAudience(

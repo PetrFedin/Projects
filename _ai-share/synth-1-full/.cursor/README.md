@@ -26,6 +26,7 @@
 ## Rules (.cursor/rules/)
 
 - `ui-ux-design-system.mdc` — дизайн-система, Tailwind, STYLE_GUIDE
+- `retail-shop-cabinet.mdc` — ритейл-кабинет `/shop`, см. **`docs/RETAIL_CABINET_FULL_PLAYBOOK.md`**
 
 ## Расширения
 

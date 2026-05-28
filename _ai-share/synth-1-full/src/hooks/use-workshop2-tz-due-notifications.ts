@@ -65,9 +65,16 @@ export function useWorkshop2TzDueNotifications(opts: {
       const reqT = workshopTzSignoffRequiredForRole(tzB, 'technologist');
       const reqM = workshopTzSignoffRequiredForRole(tzB, 'manager');
       const readiness = calculateDossierReadiness(dossier, leaf);
-      const visualNote = readiness.summary.readyForSample ? '' : ' Визуал / ТЗ ещё не закрыт по чеклисту.';
+      const visualNote = readiness.summary.readyForSample
+        ? ''
+        : ' Визуал / ТЗ ещё не закрыт по чеклисту.';
 
-      const tryRole = (role: RoleKey, iso: string | undefined, required: boolean, signed: boolean) => {
+      const tryRole = (
+        role: RoleKey,
+        iso: string | undefined,
+        required: boolean,
+        signed: boolean
+      ) => {
         if (!iso?.trim() || !required || signed) return;
         const diff = dayDiffTodayVsDue(iso);
         if (diff === null) return;

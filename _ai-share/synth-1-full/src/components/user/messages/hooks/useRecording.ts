@@ -16,6 +16,6 @@ export function useRecording() {
   return {
     recording,
     startRecording,
-    stopRecording
+    stopRecording,
   };
 }

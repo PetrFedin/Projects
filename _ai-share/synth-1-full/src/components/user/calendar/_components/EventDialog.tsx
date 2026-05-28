@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Dialog,
   DialogContent,
@@ -11,13 +11,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import type { CalendarEvent, EventType, Layer, Visibility } from '@/lib/types/calendar';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { CalendarEvent, Layer, Visibility, EventType } from '@/lib/types/calendar';
 import { LAYERS } from '../constants';
 import { ParticipantPicker } from './ParticipantPicker';
 import { useAuth } from '@/providers/auth-provider';
 import Link from 'next/link';
-import { Video, Phone } from 'lucide-react';
 
 interface EventDialogProps {
   isOpen: boolean;
@@ -28,66 +34,10 @@ interface EventDialogProps {
   onSave: () => void;
   onDelete?: () => void;
   currentRole: string;
+  /** Участник с pending — показать Принять/Отклонить вместо редактирования */
   onAccept?: () => void;
   onReject?: () => void;
   isPendingInvitee?: boolean;
-}
-
-const EVENT_TYPES: { value: EventType; label: string }[] = [
-  { value: 'event', label: 'Событие' },
-  { value: 'task', label: 'Задача' },
-  { value: 'call', label: 'Звонок' },
-  { value: 'livestream', label: 'Видео / эфир' },
-  { value: 'reminder', label: 'Напоминание' },
-  { value: 'appointment', label: 'Встреча' },
-  { value: 'delivery', label: 'Доставка' },
-  { value: 'podcast', label: 'Подкаст' },
-];
-
-function CallActionBlock({ draft }: { draft: Partial<CalendarEvent> }) {
-  const { user } = useAuth();
-  const [, tick] = useState(0);
-  useEffect(() => {
-    const id = window.setInterval(() => tick((n) => n + 1), 5000);
-    return () => window.clearInterval(id);
-  }, []);
-  if (draft.type !== 'call' && draft.type !== 'livestream') return null;
-  const url = draft.callUrl || draft.streamUrl;
-  if (!url) return null;
-  const start = draft.startAt ? new Date(draft.startAt) : null;
-  const end = draft.endAt ? new Date(draft.endAt) : null;
-  const now = new Date();
-  const isAuthor = Boolean(draft.ownerId && user?.uid && draft.ownerId === user.uid);
-  const started = start ? now >= start : false;
-  const finished = end ? now > end : false;
-  if (finished) {
-    return <p className="text-xs text-muted-foreground">Звонок завершён по расписанию.</p>;
-  }
-  const label = started
-    ? isAuthor
-      ? 'Комната (ведущий)'
-      : 'Подключиться'
-    : isAuthor
-      ? 'Начать звонок'
-      : 'Ожидание начала';
-  const disabled = !started && !isAuthor;
-  return (
-    <div className="rounded-md border border-slate-200 bg-slate-50 p-3 flex flex-wrap items-center gap-2">
-      {draft.type === 'call' ? <Phone className="h-4 w-4 text-slate-500" /> : <Video className="h-4 w-4 text-slate-500" />}
-      <span className="text-xs font-medium text-slate-700">Демо-комната</span>
-      {disabled ? (
-        <Button size="sm" type="button" disabled>
-          {label}
-        </Button>
-      ) : (
-        <Button size="sm" type="button" asChild>
-          <a href={url} target="_blank" rel="noreferrer">
-            {label}
-          </a>
-        </Button>
-      )}
-    </div>
-  );
 }
 
 export function EventDialog({
@@ -98,7 +48,7 @@ export function EventDialog({
   setDraft,
   onSave,
   onDelete,
-  currentRole: _currentRole,
+  currentRole,
   onAccept,
   onReject,
   isPendingInvitee = false,
@@ -106,48 +56,49 @@ export function EventDialog({
   const { user } = useAuth();
   const participants = draft.participants ?? [];
   const readOnly = isPendingInvitee;
-  const isCallish = draft.type === 'call' || draft.type === 'livestream';
-
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[520px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{mode === 'create' ? 'Новое событие' : 'Событие'}</DialogTitle>
-          <DialogDescription>Дата, участники и напоминание.</DialogDescription>
+          <DialogTitle>
+            {mode === 'create' ? 'Новое событие' : 'Редактирование события'}
+          </DialogTitle>
+          <DialogDescription>Заполните детали события для календаря.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-3 py-4">
-          <div className="grid gap-2">
+          <div key="title" className="grid gap-2">
             <Label htmlFor="title">Название</Label>
             <Input
               id="title"
-              value={draft.title ?? ''}
+              value={draft.title}
               onChange={(e) => !readOnly && setDraft({ ...draft, title: e.target.value })}
-              placeholder="Название"
+              placeholder="Название события"
               readOnly={readOnly}
             />
           </div>
-          <div className="grid gap-2">
+          <div key="description" className="grid gap-2">
             <Label htmlFor="description">Описание</Label>
             <Textarea
               id="description"
               value={draft.description ?? ''}
               onChange={(e) => !readOnly && setDraft({ ...draft, description: e.target.value })}
-              placeholder="Описание"
+              placeholder="Описание события"
               readOnly={readOnly}
             />
           </div>
           {(draft.linkedPinId || draft.sketchPageUrl) && (
-            <div className="rounded-md border border-indigo-100 bg-indigo-50/60 p-2 text-xs text-indigo-950">
+            <div className="border-accent-primary/20 bg-accent-primary/10 text-accent-primary rounded-md border p-2 text-xs">
               {draft.linkedPinId ? (
                 <p className="font-mono text-[11px]">
-                  Метка скетча: <span className="text-indigo-800">{draft.linkedPinId.slice(0, 12)}…</span>
+                  Метка скетча:{' '}
+                  <span className="text-accent-primary">{draft.linkedPinId.slice(0, 12)}…</span>
                 </p>
               ) : null}
               {draft.sketchPageUrl ? (
                 <p className="mt-1">
                   <Link
                     href={draft.sketchPageUrl}
-                    className="font-medium text-indigo-700 underline underline-offset-2"
+                    className="text-accent-primary font-medium underline underline-offset-2"
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -157,13 +108,13 @@ export function EventDialog({
               ) : null}
             </div>
           )}
-          <div className="grid grid-cols-2 gap-3">
+          <div key="dates" className="grid grid-cols-2 gap-3">
             <div className="grid gap-2">
               <Label htmlFor="start">Начало</Label>
               <Input
                 id="start"
                 type="datetime-local"
-                value={draft.startAt ?? ''}
+                value={draft.startAt}
                 onChange={(e) => !readOnly && setDraft({ ...draft, startAt: e.target.value })}
                 readOnly={readOnly}
               />
@@ -173,86 +124,18 @@ export function EventDialog({
               <Input
                 id="end"
                 type="datetime-local"
-                value={draft.endAt ?? ''}
+                value={draft.endAt}
                 onChange={(e) => !readOnly && setDraft({ ...draft, endAt: e.target.value })}
                 readOnly={readOnly}
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="grid gap-2">
-              <Label>Тип</Label>
-              <Select
-                value={draft.type ?? 'event'}
-                onValueChange={(v: EventType) => {
-                  const next: Partial<CalendarEvent> = { ...draft, type: v };
-                  if (v === 'call' || v === 'livestream') {
-                    next.callUrl = draft.callUrl || 'https://meet.example.com/demo-room';
-                    next.streamUrl = draft.streamUrl || next.callUrl;
-                  }
-                  setDraft(next);
-                }}
-                disabled={readOnly}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Тип" />
-                </SelectTrigger>
-                <SelectContent>
-                  {EVENT_TYPES.map((t) => (
-                    <SelectItem key={t.value} value={t.value}>
-                      {t.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid gap-2">
-              <Label>Напоминание</Label>
-              <Select
-                value={String(draft.reminderMinutesBefore ?? 0)}
-                onValueChange={(v) =>
-                  setDraft({
-                    ...draft,
-                    reminderMinutesBefore: v === '0' ? undefined : Number(v),
-                  })
-                }
-                disabled={readOnly}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Нет" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="0">Без напоминания</SelectItem>
-                  <SelectItem value="5">За 5 минут</SelectItem>
-                  <SelectItem value="15">За 15 минут</SelectItem>
-                  <SelectItem value="30">За 30 минут</SelectItem>
-                  <SelectItem value="60">За 1 час</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          {isCallish && (
-            <div className="grid gap-2">
-              <Label htmlFor="callUrl">Ссылка на звонок</Label>
-              <Input
-                id="callUrl"
-                value={draft.callUrl ?? ''}
-                onChange={(e) =>
-                  !readOnly &&
-                  setDraft({ ...draft, callUrl: e.target.value, streamUrl: e.target.value })
-                }
-                placeholder="https://…"
-                readOnly={readOnly}
-              />
-            </div>
-          )}
-          <div className="grid grid-cols-2 gap-3">
+          <div key="meta" className="grid grid-cols-2 gap-3">
             <div className="grid gap-2">
               <Label htmlFor="layer">Слой</Label>
               <Select
                 value={draft.layer}
                 onValueChange={(v: Layer) => setDraft({ ...draft, layer: v })}
-                disabled={readOnly}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Слой" />
@@ -271,22 +154,29 @@ export function EventDialog({
               <Select
                 value={draft.visibility}
                 onValueChange={(v: Visibility) => setDraft({ ...draft, visibility: v })}
-                disabled={readOnly}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Видимость" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="personal">Личное</SelectItem>
-                  <SelectItem value="internal">Внутреннее</SelectItem>
-                  <SelectItem value="partial">Частичное</SelectItem>
-                  <SelectItem value="public">Публичное</SelectItem>
+                  <SelectItem key="personal" value="personal">
+                    Личное
+                  </SelectItem>
+                  <SelectItem key="internal" value="internal">
+                    Внутреннее
+                  </SelectItem>
+                  <SelectItem key="partial" value="partial">
+                    Частичное
+                  </SelectItem>
+                  <SelectItem key="public" value="public">
+                    Публичное
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
-          <div className="grid gap-2">
+          <div key="participants" className="grid gap-2">
             <Label>Участники</Label>
             <ParticipantPicker
               participants={participants}
@@ -296,12 +186,20 @@ export function EventDialog({
               disabled={readOnly}
             />
           </div>
-
-          <CallActionBlock draft={draft} />
+          {currentRole === 'brand' && (
+            <div key="mystery" className="flex items-center space-x-2">
+              <Switch
+                id="is-mystery"
+                checked={draft.isMystery}
+                onCheckedChange={(checked) => setDraft({ ...draft, isMystery: checked })}
+              />
+              <Label htmlFor="is-mystery">Mystery Event (Скрытые детали)</Label>
+            </div>
+          )}
         </div>
-        <DialogFooter className="gap-2 sm:gap-0 flex-col sm:flex-row sm:justify-between sm:items-center">
+        <DialogFooter className="gap-2 sm:gap-0">
           {isPendingInvitee && onAccept && onReject ? (
-            <div className="flex gap-2 w-full sm:justify-end">
+            <div className="flex w-full gap-2 sm:justify-end">
               <Button variant="outline" onClick={onReject}>
                 Отклонить
               </Button>
@@ -309,33 +207,16 @@ export function EventDialog({
             </div>
           ) : (
             <>
-              <div className="flex flex-wrap gap-2 w-full sm:w-auto">
-                {mode === 'edit' && onDelete && (
-                  <Button variant="destructive" onClick={onDelete}>
-                    Удалить
-                  </Button>
-                )}
-                {mode === 'edit' && !readOnly && (
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      setDraft({
-                        ...draft,
-                        status: draft.status === 'cancelled' ? 'scheduled' : 'cancelled',
-                      })
-                    }
-                  >
-                    {draft.status === 'cancelled' ? 'Восстановить' : 'Отменить'}
-                  </Button>
-                )}
-              </div>
-              <div className="flex gap-2 w-full sm:w-auto sm:ml-auto">
+              {mode === 'edit' && onDelete && (
+                <Button key="delete" variant="destructive" onClick={onDelete}>
+                  Удалить
+                </Button>
+              )}
+              <div key="actions" className="flex gap-2">
                 <Button variant="outline" onClick={() => onOpenChange(false)}>
-                  Закрыть
+                  Отмена
                 </Button>
-                <Button onClick={onSave} disabled={readOnly}>
-                  Сохранить
-                </Button>
+                <Button onClick={onSave}>Сохранить</Button>
               </div>
             </>
           )}

@@ -1,0 +1,25 @@
+# Semgrep OSS — для standalone-клона только этого пакета (без монорепо).
+# В корне Projects используйте `.github/workflows/semgrep-synth-1-full.yml`.
+name: Semgrep
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: semgrep-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  semgrep:
+    name: semgrep scan
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Semgrep
+        run: semgrep scan --config auto --metrics=off

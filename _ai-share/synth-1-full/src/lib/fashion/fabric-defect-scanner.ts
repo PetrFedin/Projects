@@ -5,8 +5,8 @@ import type { FabricDefectScanV1 } from './types';
 export function scanFabricBatch(product: Product): FabricDefectScanV1 {
   const seed = product.id.length + product.sku.length;
   const defects = seed % 4; // 0-3 defects
-  const passRate = 100 - (defects * 3);
-  
+  const passRate = 100 - defects * 3;
+
   const types: FabricDefectScanV1['defectTypes'] = [];
   if (defects > 0) types.push('stain');
   if (defects > 1) types.push('thread_pull');

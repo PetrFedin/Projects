@@ -1,9 +1,8 @@
-
 'use client';
 
-import { Slider } from "@/components/ui/slider";
-import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
+import { Slider } from '@/components/ui/slider';
+import { Input } from '@/components/ui/input';
+import { useEffect, useState } from 'react';
 
 interface PriceRangeFilterProps {
   value?: [number, number];
@@ -12,7 +11,12 @@ interface PriceRangeFilterProps {
   max?: number;
 }
 
-export default function PriceRangeFilter({ value, onValueChange, min=0, max=100000 }: PriceRangeFilterProps) {
+export default function PriceRangeFilter({
+  value,
+  onValueChange,
+  min = 0,
+  max = 100000,
+}: PriceRangeFilterProps) {
   const [localValue, setLocalValue] = useState(value || [min, max]);
 
   useEffect(() => {
@@ -26,7 +30,7 @@ export default function PriceRangeFilter({ value, onValueChange, min=0, max=1000
   const handleSliderCommit = (newValue: [number, number]) => {
     onValueChange(newValue);
   };
-  
+
   const handleInputChange = (index: 0 | 1, val: string) => {
     const num = parseInt(val, 10);
     if (!isNaN(num)) {
@@ -35,7 +39,7 @@ export default function PriceRangeFilter({ value, onValueChange, min=0, max=1000
       setLocalValue(newRange);
       onValueChange(newRange);
     }
-  }
+  };
 
   return (
     <div className="space-y-4">
@@ -48,17 +52,17 @@ export default function PriceRangeFilter({ value, onValueChange, min=0, max=1000
         onValueCommit={handleSliderCommit}
         className="my-4"
       />
-      <div className="flex justify-between items-center gap-2">
-        <Input 
-          value={localValue[0]} 
+      <div className="flex items-center justify-between gap-2">
+        <Input
+          value={localValue[0]}
           onChange={(e) => handleInputChange(0, e.target.value)}
-          className="w-24 h-8 text-center"
+          className="h-8 w-24 text-center"
         />
         <span>-</span>
-        <Input 
+        <Input
           value={localValue[1]}
           onChange={(e) => handleInputChange(1, e.target.value)}
-          className="w-24 h-8 text-center"
+          className="h-8 w-24 text-center"
         />
       </div>
     </div>

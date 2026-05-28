@@ -5,7 +5,12 @@ import { plmImportBom } from '@/lib/integrations/plm-backend-proxy';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { provider = 'gerber', collectionId = 'default', skuId, rawXml } = body as {
+    const {
+      provider = 'gerber',
+      collectionId = 'default',
+      skuId,
+      rawXml,
+    } = body as {
       provider?: PlmProvider;
       collectionId?: string;
       skuId?: string;
@@ -15,7 +20,12 @@ export async function POST(request: NextRequest) {
     const remote = await plmImportBom(type, collectionId, rawXml);
     const bomItems =
       remote.bomItems && Array.isArray(remote.bomItems) && remote.bomItems.length > 0
-        ? (remote.bomItems as { componentId: string; name: string; consumption: number; unit: string }[])
+        ? (remote.bomItems as {
+            componentId: string;
+            name: string;
+            consumption: number;
+            unit: string;
+          }[])
         : rawXml
           ? parsePlmBom(provider, rawXml)
           : parsePlmBom(provider, '');

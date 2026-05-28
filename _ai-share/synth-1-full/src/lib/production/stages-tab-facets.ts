@@ -55,10 +55,9 @@ function leafFromItem(item: Record<string, unknown>): HandbookCategoryLeaf | und
 const DEFAULT_FABRIC_STOCK_NOTE =
   'Основная ткань со склада бренда · партия учтена на складе у производства';
 
-function fabricFacetsFromItem(item: Record<string, unknown>): Pick<
-  StagesArticleFacets,
-  'fabricSuppliersLabel' | 'fabricStockNote'
-> {
+function fabricFacetsFromItem(
+  item: Record<string, unknown>
+): Pick<StagesArticleFacets, 'fabricSuppliersLabel' | 'fabricStockNote'> {
   const raw = item.fabricSuppliers;
   const names = Array.isArray(raw)
     ? (raw as unknown[]).filter((x): x is string => typeof x === 'string' && x.trim().length > 0)
@@ -79,7 +78,10 @@ function fabricFacetsFromItem(item: Record<string, unknown>): Pick<
 /**
  * Назначает артикулу ветку из справочника: явный leafId или стабильный выбор по id строки.
  */
-export function deriveStagesArticleFacets(item: Record<string, unknown>, index: number): StagesArticleFacets {
+export function deriveStagesArticleFacets(
+  item: Record<string, unknown>,
+  index: number
+): StagesArticleFacets {
   const id = String(item.id ?? item.sku ?? index);
   const leaves = getHandbookCategoryLeaves();
   const leaf = leafFromItem(item) ?? leaves[hashString(id) % leaves.length] ?? leaves[0];

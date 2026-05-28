@@ -13,7 +13,9 @@ describe('logger', () => {
   });
 
   it('reportError does not throw with context', () => {
-    expect(() => reportError(new Error('api failed'), { endpoint: '/api/v1/test', status: 500 })).not.toThrow();
+    expect(() =>
+      reportError(new Error('api failed'), { endpoint: '/api/v1/test', status: 500 })
+    ).not.toThrow();
   });
 
   it('logApiError does not throw', () => {

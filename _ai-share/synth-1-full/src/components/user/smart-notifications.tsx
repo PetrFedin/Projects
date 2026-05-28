@@ -4,7 +4,18 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Bell, X, Check, AlertCircle, Gift, Package, Truck, Sparkles, Calendar, TrendingDown } from 'lucide-react';
+import {
+  Bell,
+  X,
+  Check,
+  AlertCircle,
+  Gift,
+  Package,
+  Truck,
+  Sparkles,
+  Calendar,
+  TrendingDown,
+} from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
 import { useUIState } from '@/providers/ui-state';
 import { ordersRepository } from '@/lib/repositories';
@@ -50,7 +61,7 @@ export default function SmartNotifications() {
             description: `${wishlist.length} товаров из вашего избранного сейчас со скидкой до 30%`,
             read: false,
             timestamp: new Date().toISOString(),
-            actionLink: '/u?tab=wardrobe',
+            actionLink: '/client/me?tab=wardrobe',
             actionText: 'Посмотреть скидки',
             priority: 'high',
           },
@@ -94,7 +105,7 @@ export default function SmartNotifications() {
             description: 'Вы получили достижение "Постоянный клиент" за 10 заказов',
             read: true,
             timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-            actionLink: '/u?tab=achievements',
+            actionLink: '/client/me?tab=achievements',
             actionText: 'Посмотреть достижения',
             priority: 'low',
           },
@@ -112,7 +123,7 @@ export default function SmartNotifications() {
         ];
 
         setNotifications(generatedNotifications);
-        setUnreadCount(generatedNotifications.filter(n => !n.read).length);
+        setUnreadCount(generatedNotifications.filter((n) => !n.read).length);
       } catch (error) {
         console.error('Failed to load notifications:', error);
       }
@@ -122,28 +133,34 @@ export default function SmartNotifications() {
   }, [user, cart.length, wishlist.length]);
 
   const markAsRead = (id: string) => {
-    setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
-    setUnreadCount(prev => Math.max(0, prev - 1));
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+    setUnreadCount((prev) => Math.max(0, prev - 1));
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     setUnreadCount(0);
   };
 
   const getIcon = (type: Notification['type']) => {
     switch (type) {
-      case 'sale': return <Gift className="h-4 w-4 text-red-600" />;
-      case 'delivery': return <Truck className="h-4 w-4 text-blue-600" />;
-      case 'restock': return <Package className="h-4 w-4 text-green-600" />;
-      case 'reminder': return <AlertCircle className="h-4 w-4 text-orange-600" />;
-      case 'achievement': return <Sparkles className="h-4 w-4 text-yellow-600" />;
-      case 'recommendation': return <TrendingDown className="h-4 w-4 text-purple-600" />;
+      case 'sale':
+        return <Gift className="h-4 w-4 text-red-600" />;
+      case 'delivery':
+        return <Truck className="h-4 w-4 text-blue-600" />;
+      case 'restock':
+        return <Package className="h-4 w-4 text-green-600" />;
+      case 'reminder':
+        return <AlertCircle className="h-4 w-4 text-orange-600" />;
+      case 'achievement':
+        return <Sparkles className="h-4 w-4 text-yellow-600" />;
+      case 'recommendation':
+        return <TrendingDown className="text-accent-primary h-4 w-4" />;
     }
   };
 
-  const unreadNotifications = notifications.filter(n => !n.read);
-  const readNotifications = notifications.filter(n => n.read);
+  const unreadNotifications = notifications.filter((n) => !n.read);
+  const readNotifications = notifications.filter((n) => n.read);
 
   return (
     <Card>
@@ -159,9 +176,7 @@ export default function SmartNotifications() {
                 </Badge>
               )}
             </CardTitle>
-            <CardDescription>
-              Все важные обновления и напоминания
-            </CardDescription>
+            <CardDescription>Все важные обновления и напоминания</CardDescription>
           </div>
           {unreadCount > 0 && (
             <Button variant="ghost" size="sm" onClick={markAllAsRead}>
@@ -179,22 +194,25 @@ export default function SmartNotifications() {
                 <div
                   key={notification.id}
                   className={cn(
-                    "p-4 rounded-lg border transition-all",
-                    notification.priority === 'high' && "border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/20",
-                    notification.priority === 'medium' && "border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20",
-                    notification.priority === 'low' && "border-muted bg-muted/50"
+                    'rounded-lg border p-4 transition-all',
+                    notification.priority === 'high' &&
+                      'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20',
+                    notification.priority === 'medium' &&
+                      'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20',
+                    notification.priority === 'low' && 'border-muted bg-muted/50'
                   )}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="mt-0.5">
-                      {getIcon(notification.type)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-2 mb-1">
-                        <h4 className="font-semibold text-sm">{notification.title}</h4>
+                    <div className="mt-0.5">{getIcon(notification.type)}</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-1 flex items-start justify-between gap-2">
+                        <h4 className="text-sm font-semibold">{notification.title}</h4>
                         <div className="flex items-center gap-2">
                           <span className="text-xs text-muted-foreground">
-                            {formatDistanceToNow(new Date(notification.timestamp), { addSuffix: true, locale: ru })}
+                            {formatDistanceToNow(new Date(notification.timestamp), {
+                              addSuffix: true,
+                              locale: ru,
+                            })}
                           </span>
                           <Button
                             variant="ghost"
@@ -206,12 +224,12 @@ export default function SmartNotifications() {
                           </Button>
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-2">{notification.description}</p>
+                      <p className="mb-2 text-sm text-muted-foreground">
+                        {notification.description}
+                      </p>
                       {notification.actionLink && notification.actionText && (
-                        <Button variant="link" size="sm" className="p-0 h-auto text-xs" asChild>
-                          <Link href={notification.actionLink}>
-                            {notification.actionText} →
-                          </Link>
+                        <Button variant="link" size="sm" className="h-auto p-0 text-xs" asChild>
+                          <Link href={notification.actionLink}>{notification.actionText} →</Link>
                         </Button>
                       )}
                     </div>
@@ -223,22 +241,23 @@ export default function SmartNotifications() {
 
           {/* Read notifications */}
           {readNotifications.length > 0 && (
-            <div className="pt-4 border-t">
-              <p className="text-xs text-muted-foreground mb-3">Прочитанные</p>
+            <div className="border-t pt-4">
+              <p className="mb-3 text-xs text-muted-foreground">Прочитанные</p>
               {readNotifications.map((notification) => (
                 <div
                   key={notification.id}
-                  className="p-3 rounded-lg border bg-muted/30 opacity-60 hover:opacity-100 transition-opacity mb-2"
+                  className="mb-2 rounded-lg border bg-muted/30 p-3 opacity-60 transition-opacity hover:opacity-100"
                 >
                   <div className="flex items-start gap-3">
-                    <div className="mt-0.5">
-                      {getIcon(notification.type)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-2 mb-1">
-                        <h4 className="font-medium text-sm">{notification.title}</h4>
+                    <div className="mt-0.5">{getIcon(notification.type)}</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-1 flex items-start justify-between gap-2">
+                        <h4 className="text-sm font-medium">{notification.title}</h4>
                         <span className="text-xs text-muted-foreground">
-                          {formatDistanceToNow(new Date(notification.timestamp), { addSuffix: true, locale: ru })}
+                          {formatDistanceToNow(new Date(notification.timestamp), {
+                            addSuffix: true,
+                            locale: ru,
+                          })}
                         </span>
                       </div>
                       <p className="text-xs text-muted-foreground">{notification.description}</p>
@@ -250,8 +269,8 @@ export default function SmartNotifications() {
           )}
 
           {notifications.length === 0 && (
-            <div className="text-center py-4 text-muted-foreground">
-              <Bell className="h-12 w-12 mx-auto mb-2 opacity-50" />
+            <div className="py-4 text-center text-muted-foreground">
+              <Bell className="mx-auto mb-2 h-12 w-12 opacity-50" />
               <p>Нет уведомлений</p>
             </div>
           )}
@@ -260,8 +279,3 @@ export default function SmartNotifications() {
     </Card>
   );
 }
-
-
-
-
-

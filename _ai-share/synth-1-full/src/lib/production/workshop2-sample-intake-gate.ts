@@ -3,6 +3,7 @@ import type {
   Workshop2SampleIntakeRelease,
   Workshop2SampleProductionChainMode,
 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { W2_MATERIAL_COMPLIANCE_FLOW_STEPS } from '@/lib/production/workshop2-dossier-nine-gap-infrastructure';
 
 export type SampleIntakeValidation = {
   ok: boolean;
@@ -50,6 +51,27 @@ export function validateSampleIntakeForCollection(
 
   if (mode === 'import_finished' || mode === 'non_eaeu' || mode === 'eaeu_mixed') {
     need(!r.declarationOrCertificateRef?.trim(), 'Реквизиты декларации соответствия / сертификата');
+  }
+
+  const checklist = dossier.materialComplianceChecklist ?? {};
+  for (const step of W2_MATERIAL_COMPLIANCE_FLOW_STEPS) {
+    if (!checklist[step.stepId]) {
+      missing.push(`Комплаенс материалов: ${step.labelRu}`);
+    }
+  }
+
+  const prelimTnved =
+    dossier.assignments
+      ?.flatMap((a) => a.values ?? [])
+      .find(
+        (v) => v.parameterId === 'customsTnvedPreliminary' || v.displayLabel?.includes('ТН ВЭД')
+      )?.displayLabel ?? dossier.sampleIntakeRelease?.finalTnvedCode;
+  if (!r.finalTnvedCode?.trim() && !prelimTnved?.trim()) {
+    missing.push('ТН ВЭД: заполните в приёмке или в атрибутах ТЗ');
+  }
+
+  if (dossier.goldSampleStatus?.status !== 'approved') {
+    missing.push('Утвердите эталонный образец (вкладка «Примерка»)');
   }
 
   return { ok: missing.length === 0, missing };

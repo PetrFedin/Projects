@@ -4,7 +4,7 @@ import type { MarketplaceSeoV1 } from './types';
 /** Индекс видимости товара в поиске маркетплейсов (WB/Ozon SEO). */
 export function getMarketplaceSeo(product: Product): MarketplaceSeoV1[] {
   const seed = product.id.length;
-  
+
   return [
     {
       sku: product.sku,
@@ -21,6 +21,6 @@ export function getMarketplaceSeo(product: Product): MarketplaceSeoV1[] {
       rank: 12 + (seed % 40),
       visibilityScore: 65 + (seed % 30),
       searchTrend: 'stable',
-    }
+    },
   ];
 }

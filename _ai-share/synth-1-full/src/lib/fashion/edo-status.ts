@@ -17,6 +17,6 @@ export function getRecentEdoDocuments(): EdoDocumentV1[] {
       status: 'pending',
       counterparty: 'ИП "Модный Мир"',
       totalAmount: 125000,
-    }
+    },
   ];
 }

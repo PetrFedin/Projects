@@ -89,7 +89,9 @@ export function getArchivedCollections(): CollectionCard[] {
   return loadAll().filter((c) => c.status === 'archive');
 }
 
-export function createCollection(data: Omit<CollectionCard, 'id' | 'createdAt' | 'updatedAt'>): CollectionCard {
+export function createCollection(
+  data: Omit<CollectionCard, 'id' | 'createdAt' | 'updatedAt'>
+): CollectionCard {
   const list = loadAll();
   const id = data.season.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now().toString(36);
   const now = new Date().toISOString();
@@ -104,7 +106,10 @@ export function createCollection(data: Omit<CollectionCard, 'id' | 'createdAt' |
   return card;
 }
 
-export function updateCollection(id: string, patch: Partial<Omit<CollectionCard, 'id' | 'createdAt'>>): CollectionCard | null {
+export function updateCollection(
+  id: string,
+  patch: Partial<Omit<CollectionCard, 'id' | 'createdAt'>>
+): CollectionCard | null {
   const list = loadAll();
   const idx = list.findIndex((c) => c.id === id);
   if (idx < 0) return null;

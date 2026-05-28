@@ -9,7 +9,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import type { LiveProcessStageDef, LiveProcessStageRuntime, StageStatus } from '@/lib/live-process/types';
+import type {
+  LiveProcessStageDef,
+  LiveProcessStageRuntime,
+  StageStatus,
+} from '@/lib/live-process/types';
 
 interface LiveProcessMobileQuickActionsProps {
   stages: LiveProcessStageDef[];
@@ -25,7 +29,9 @@ export function LiveProcessMobileQuickActions({
   onOpenChat,
 }: LiveProcessMobileQuickActionsProps) {
   const currentStage = useMemo(() => {
-    const doneIds = new Set(stages.filter((s) => runtimes[s.id]?.status === 'done').map((s) => s.id));
+    const doneIds = new Set(
+      stages.filter((s) => runtimes[s.id]?.status === 'done').map((s) => s.id)
+    );
     const inProgress = stages.find((s) => runtimes[s.id]?.status === 'in_progress');
     if (inProgress) return inProgress;
     return stages.find((s) => {
@@ -39,12 +45,13 @@ export function LiveProcessMobileQuickActions({
   const status = runtime?.status ?? 'not_started';
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 flex sm:hidden items-center justify-center gap-2 border-t bg-white/95 backdrop-blur px-4 py-3 safe-area-pb">
+    <div className="safe-area-pb fixed bottom-0 left-0 right-0 z-40 flex items-center justify-center gap-2 border-t bg-white/95 px-4 py-3 backdrop-blur sm:hidden">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm" className="flex-1 max-w-[200px]">
-            <CheckCircle2 className="h-4 w-4 mr-1" />
-            {currentStage.title}: {status === 'done' ? 'Готово' : status === 'in_progress' ? 'В работе' : 'Не начато'}
+          <Button variant="outline" size="sm" className="max-w-[200px] flex-1">
+            <CheckCircle2 className="mr-1 h-4 w-4" />
+            {currentStage.title}:{' '}
+            {status === 'done' ? 'Готово' : status === 'in_progress' ? 'В работе' : 'Не начато'}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="center" side="top" className="w-48">

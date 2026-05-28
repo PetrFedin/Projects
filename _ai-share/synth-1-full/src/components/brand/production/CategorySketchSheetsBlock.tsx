@@ -7,14 +7,19 @@ import {
   useState,
   type CSSProperties,
   type Dispatch,
+  type LegacyRef,
+  type ReactNode,
+  type Ref,
   type SetStateAction,
 } from 'react';
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
-import { CategorySketchTemplateSvg } from '@/lib/production/category-sketch-template';
 import {
   CategorySketchAnnotator,
   type CategorySketchAnnotatorContext,
+  type CategorySketchAnnotatorHandle,
 } from '@/components/brand/production/CategorySketchAnnotator';
+import { SketchCompareMiniBoard } from '@/components/brand/production/category-sketch-sheets-block-compare-mini-board';
+import { WORKFLOW_STATUS_LABEL } from '@/components/brand/production/category-sketch-sheets-block-constants';
 import type {
   Workshop2DossierPhase1,
   Workshop2Phase1CategorySketchAnnotation,
@@ -26,17 +31,20 @@ import type {
 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { sketchSheetQualityHints } from '@/lib/production/sketch-quality-hints';
 import type { VisualCatalogSketchLinkRow } from '@/lib/production/workshop2-sketch-tz-matrix';
-import { appendOrgSketchPinTemplate, readOrgSketchPinTemplatesSync } from '@/lib/production/sketch-org-templates-repository';
+import {
+  appendOrgSketchPinTemplate,
+  readOrgSketchPinTemplatesSync,
+} from '@/lib/production/sketch-org-templates-repository';
 import {
   appendSketchPinTemplate,
   applySketchPinTemplateToSheet,
   createSketchPinTemplateRecord,
   resolveSketchPinTemplatePick,
-  sketchPinBelongsToLeaf,
 } from '@/lib/production/workshop2-sketch-pin-templates';
 import {
   appendImportedLegacySheets,
   createEmptySketchSheet,
+  defaultExtraSketchSheetTitle,
   duplicateSketchSheet,
   MAX_ANNOTATIONS_PER_SKETCH_SHEET,
   MAX_SKETCH_SHEETS,
@@ -64,56 +72,8 @@ import {
   Columns2,
   Copy,
   Layers,
-  Plus,
   Trash2,
 } from 'lucide-react';
-
-const WORKFLOW_STATUS_LABEL: Record<Workshop2SketchSheetWorkflowStatus, string> = {
-  draft: 'Черновик',
-  review: 'На согласовании',
-  approved: 'Утверждён',
-};
-
-function SketchCompareMiniBoard(props: {
-  sheet: Workshop2Phase1SketchSheet;
-  currentLeaf: HandbookCategoryLeaf;
-  sketchContext?: CategorySketchAnnotatorContext;
-  leafId: string;
-}) {
-  const pins = props.sheet.annotations.filter((a) => sketchPinBelongsToLeaf(a, props.leafId));
-  return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-slate-200 bg-white">
-      <div className="absolute inset-0">
-        {props.sheet.imageDataUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element -- data URL из досье
-          <img src={props.sheet.imageDataUrl} alt="" className="h-full w-full object-contain" />
-        ) : (
-          <CategorySketchTemplateSvg
-            leaf={props.currentLeaf}
-            sketchContext={props.sketchContext}
-            className="h-full w-full"
-          />
-        )}
-      </div>
-      {pins.map((a, idx) => (
-        <div
-          key={a.annotationId}
-          className={cn(
-            'absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white text-[10px] font-bold text-white shadow-md',
-            a.priority === 'critical'
-              ? 'bg-rose-600'
-              : a.stage === 'qc'
-                ? 'bg-amber-600'
-                : 'bg-teal-600'
-          )}
-          style={{ left: `${a.xPct}%`, top: `${a.yPct}%` }}
-        >
-          {idx + 1}
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function newUuid(): string {
   return crypto.randomUUID();
@@ -143,15 +103,22 @@ type Props = {
     activeSheetId: string;
     onActiveSheetChange: (sheetId: string) => void;
   };
+  /** Левая колонка «Общий + листы» (например W2SketchThumbRail), если родитель уже рисует её снаружи. */
+  sketchSheetsRail?: ReactNode;
+  /** Скрыть горизонтальный ряд мини-кнопок листов в карточке «Какой лист…» — выбор только из sketchSheetsRail. */
+  hideSheetThumbnailRail?: boolean;
   /** Варианты BOM ref из досье — см. CategorySketchAnnotator. */
-  bomLinePickOptions?: { value: string; label: string }[];
+  bomLinePickOptions?: readonly { value: string; label: string }[];
   /** Сквозная навигация с метки листа — как у master-скетча в досье. */
   onJumpToDossierSection?: (section: Workshop2TzPanelSectionId) => void;
   onNavigateRouteStage?: (stage: Workshop2TzSignoffStageId) => void;
   /** Подсветка полей каталога «Визуал» при выборе метки на скетче. */
-  visualCatalogAttributeIds?: string[];
-  visualCatalogSketchLinks?: VisualCatalogSketchLinkRow[];
+  visualCatalogAttributeIds?: readonly string[];
+  visualCatalogSketchLinks?: readonly VisualCatalogSketchLinkRow[];
   onVisualCatalogSuggestFromSketch?: (ids: string[]) => void;
+  /** Реф на редактор листа — кнопка «Открыть скетч» в шапке досье. */
+  /** Ref на активный листовый аннотатор (совместим с `useRef<T | null>`). */
+  sketchToolbarEditorRef?: Ref<CategorySketchAnnotatorHandle | null>;
 };
 
 export function CategorySketchSheetsBlock({
@@ -167,12 +134,15 @@ export function CategorySketchSheetsBlock({
   auditActor,
   sketchViewFloor,
   embeddedPicker,
+  sketchSheetsRail,
+  hideSheetThumbnailRail = false,
   bomLinePickOptions,
   onJumpToDossierSection,
   onNavigateRouteStage,
   visualCatalogAttributeIds,
   visualCatalogSketchLinks,
   onVisualCatalogSuggestFromSketch,
+  sketchToolbarEditorRef,
 }: Props) {
   const sheetChromeReadOnly = sketchViewFloor;
   const leafId = currentLeaf.leafId;
@@ -200,7 +170,9 @@ export function CategorySketchSheetsBlock({
       (s) =>
         Boolean(s.imageDataUrl) ||
         (s.annotations?.length ?? 0) > 0 ||
-        [s.productionTasks?.whatToDo, s.productionTasks?.watchAttention].some((t) => String(t ?? '').trim())
+        [s.productionTasks?.whatToDo, s.productionTasks?.watchAttention].some((t) =>
+          String(t ?? '').trim()
+        )
     );
   }, [legacySlots]);
 
@@ -261,22 +233,6 @@ export function CategorySketchSheetsBlock({
     return parts.length ? parts.join(' · ') : undefined;
   }, [activeSheet]);
 
-  const [sceneListFilter, setSceneListFilter] = useState<string>('all');
-  const sceneFilterOptions = useMemo(() => {
-    const ids = new Set<string>();
-    for (const s of sheets) {
-      ids.add(s.sceneId?.trim() || '');
-    }
-    const keys = [...ids].filter(Boolean).sort();
-    return { keys, hasEmpty: ids.has('') };
-  }, [sheets]);
-
-  const sheetsForList = useMemo(() => {
-    if (sceneListFilter === 'all') return sheets;
-    if (sceneListFilter === '__empty__') return sheets.filter((s) => !s.sceneId?.trim());
-    return sheets.filter((s) => (s.sceneId?.trim() || '') === sceneListFilter);
-  }, [sheets, sceneListFilter]);
-
   const sceneMismatch = useMemo(() => {
     if (!activeSheet) return null;
     const mid = dossier.categorySketchSceneId?.trim();
@@ -289,14 +245,14 @@ export function CategorySketchSheetsBlock({
   }, [activeSheet, dossier.categorySketchSceneId, dossier.categorySketchSceneView]);
 
   useEffect(() => {
-    if (sheetsForList.length === 0) return;
+    if (sheets.length === 0) return;
     const current = embeddedPicker?.activeSheetId ?? activeSheetId;
-    if (!current || !sheetsForList.some((s) => s.sheetId === current)) {
-      const next = sheetsForList[0]!.sheetId;
+    if (!current || !sheets.some((s) => s.sheetId === current)) {
+      const next = sheets[0]!.sheetId;
       if (embeddedPicker) embeddedPicker.onActiveSheetChange(next);
       else setActiveSheetId(next);
     }
-  }, [sheetsForList, activeSheetId, embeddedPicker]);
+  }, [sheets, activeSheetId, embeddedPicker]);
 
   const orgSketchTemplatesForSheet = useMemo(
     () => readOrgSketchPinTemplatesSync(collectionId),
@@ -308,7 +264,7 @@ export function CategorySketchSheetsBlock({
     setDossier((p) => {
       const cur = normalizeSketchSheets(p.sketchSheets);
       if (cur.length >= MAX_SKETCH_SHEETS) return p;
-      const sheet = createEmptySketchSheet(`Лист ${cur.length + 1}`);
+      const sheet = createEmptySketchSheet(defaultExtraSketchSheetTitle(cur.length));
       newId = sheet.sheetId;
       return { ...p, sketchSheets: [...cur, sheet] };
     });
@@ -324,7 +280,10 @@ export function CategorySketchSheetsBlock({
   const patchActive = useCallback(
     (patch: Partial<Omit<Workshop2Phase1SketchSheet, 'sheetId'>>) => {
       if (!resolvedSheetId) return;
-      setDossier((p) => ({ ...p, sketchSheets: patchSketchSheet(p.sketchSheets, resolvedSheetId, patch) }));
+      setDossier((p) => ({
+        ...p,
+        sketchSheets: patchSketchSheet(p.sketchSheets, resolvedSheetId, patch),
+      }));
     },
     [resolvedSheetId, setDossier]
   );
@@ -363,24 +322,27 @@ export function CategorySketchSheetsBlock({
   const moveActive = useCallback(
     (dir: -1 | 1) => {
       if (!resolvedSheetId) return;
-      setDossier((p) => ({ ...p, sketchSheets: moveSketchSheet(p.sketchSheets, resolvedSheetId, dir) }));
+      setDossier((p) => ({
+        ...p,
+        sketchSheets: moveSketchSheet(p.sketchSheets, resolvedSheetId, dir),
+      }));
     },
     [resolvedSheetId, setDossier]
   );
 
   const goPrevSheet = useCallback(() => {
     if (!resolvedSheetId) return;
-    const idx = sheetsForList.findIndex((s) => s.sheetId === resolvedSheetId);
+    const idx = sheets.findIndex((s) => s.sheetId === resolvedSheetId);
     if (idx <= 0) return;
-    pickSheet(sheetsForList[idx - 1]!.sheetId);
-  }, [resolvedSheetId, sheetsForList, pickSheet]);
+    pickSheet(sheets[idx - 1]!.sheetId);
+  }, [resolvedSheetId, sheets, pickSheet]);
 
   const goNextSheet = useCallback(() => {
     if (!resolvedSheetId) return;
-    const idx = sheetsForList.findIndex((s) => s.sheetId === resolvedSheetId);
-    if (idx < 0 || idx >= sheetsForList.length - 1) return;
-    pickSheet(sheetsForList[idx + 1]!.sheetId);
-  }, [resolvedSheetId, sheetsForList, pickSheet]);
+    const idx = sheets.findIndex((s) => s.sheetId === resolvedSheetId);
+    if (idx < 0 || idx >= sheets.length - 1) return;
+    pickSheet(sheets[idx + 1]!.sheetId);
+  }, [resolvedSheetId, sheets, pickSheet]);
 
   const openCompareDialog = useCallback(() => {
     if (sheets.length < 2 || !resolvedSheetId) return;
@@ -403,13 +365,14 @@ export function CategorySketchSheetsBlock({
       });
       return;
     }
-    setDossier((p) =>
-      appendSketchPinTemplate(p, {
-        name,
-        viewKind: activeSheet.viewKind,
-        sourceLeafId: leafId,
-        annotations: activeSheet.annotations,
-      }).dossier
+    setDossier(
+      (p) =>
+        appendSketchPinTemplate(p, {
+          name,
+          viewKind: activeSheet.viewKind,
+          sourceLeafId: leafId,
+          annotations: activeSheet.annotations,
+        }).dossier
     );
     toast({ title: 'Шаблон сохранён', description: name });
   }, [activeSheet, leafId, setDossier, toast]);
@@ -490,7 +453,9 @@ export function CategorySketchSheetsBlock({
             </summary>
             <div className="flex flex-wrap items-center gap-2 border-t border-amber-100 px-3 py-3">
               <Layers className="h-4 w-4 shrink-0 text-amber-800" aria-hidden />
-              <span className="text-sm text-amber-900/90">Перенос данных из бывших слотов 1–3 в отдельные листы.</span>
+              <span className="text-sm text-amber-900/90">
+                Перенос данных из бывших слотов 1–3 в отдельные листы.
+              </span>
               <Button
                 type="button"
                 size="sm"
@@ -505,10 +470,11 @@ export function CategorySketchSheetsBlock({
           </details>
         ) : null}
         <div className="space-y-3">
-          <p className="text-sm leading-snug text-slate-600">
-            Дополнительные скетч-листы: анфас, спина, деталь, фото — своя подложка и метки к текущему листу каталога.
+          <p className="text-text-secondary text-sm leading-snug">
+            Дополнительные скетч-листы: анфас, спина, деталь, фото — своя подложка и метки к
+            текущему листу каталога.
           </p>
-          <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
+          <div className="border-border-subtle flex flex-wrap items-center gap-2 border-t pt-3">
             <Button
               type="button"
               variant="outline"
@@ -517,7 +483,7 @@ export function CategorySketchSheetsBlock({
               disabled={sheetChromeReadOnly}
               onClick={addSheet}
             >
-              + Первый лист
+              + {defaultExtraSketchSheetTitle(0)}
             </Button>
           </div>
         </div>
@@ -525,11 +491,14 @@ export function CategorySketchSheetsBlock({
     );
   }
 
-  const activeIndexAll = resolvedSheetId ? sheets.findIndex((s) => s.sheetId === resolvedSheetId) : -1;
-  const activeIndexInList = resolvedSheetId ? sheetsForList.findIndex((s) => s.sheetId === resolvedSheetId) : -1;
-  const comparePeerSheet = comparePeerId ? sheets.find((s) => s.sheetId === comparePeerId) : undefined;
+  const activeIndexAll = resolvedSheetId
+    ? sheets.findIndex((s) => s.sheetId === resolvedSheetId)
+    : -1;
+  const comparePeerSheet = comparePeerId
+    ? sheets.find((s) => s.sheetId === comparePeerId)
+    : undefined;
 
-  return (
+  const mainColumn = (
     <div className="space-y-4">
       {canImportLegacy ? (
         <details className="rounded-lg border border-amber-200 bg-amber-50/50">
@@ -553,15 +522,10 @@ export function CategorySketchSheetsBlock({
         </details>
       ) : null}
 
-      <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
-        <p className="mb-1 text-xs font-semibold text-zinc-900">Какой лист редактируем</p>
-        <p className="mb-2 text-[11px] leading-snug text-zinc-500">
-          ‹ › — лист в текущем списке; ↑↓ — порядок листов в досье. Название — поле рядом. Ниже сразу доска; поля цеха и
-          PLM — в свёрнутом блоке в конце.
-        </p>
+      <div className="border-border-default space-y-2 rounded-xl border bg-white p-3 shadow-sm">
         <div className="flex flex-wrap items-center gap-2">
           <div
-            className="flex shrink-0 items-center gap-0.5 rounded-lg border border-slate-200 bg-slate-50 p-0.5"
+            className="border-border-default bg-bg-surface2 flex h-9 shrink-0 items-center gap-0.5 rounded-lg border px-0.5"
             role="group"
             aria-label="Переключение листа"
           >
@@ -569,39 +533,54 @@ export function CategorySketchSheetsBlock({
               type="button"
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
-              disabled={activeIndexInList <= 0 || sheetsForList.length < 2}
+              className="h-9 w-9 shrink-0"
+              disabled={activeIndexAll <= 0 || sheets.length < 2}
               title="Предыдущий лист"
               onClick={goPrevSheet}
             >
               <ChevronLeft className="h-4 w-4" aria-hidden />
             </Button>
-            {sheetsForList.length > 0 ? (
-              <span className="min-w-[2.75rem] px-1 text-center text-[10px] font-semibold tabular-nums text-slate-600">
-                {activeIndexInList >= 0 ? activeIndexInList + 1 : '—'} / {sheetsForList.length}
+            {sheets.length > 0 ? (
+              <span className="text-text-secondary flex h-9 min-w-[2.75rem] items-center justify-center px-1 text-center text-[10px] font-semibold tabular-nums">
+                {activeIndexAll >= 0 ? activeIndexAll + 1 : '—'} / {sheets.length}
               </span>
             ) : null}
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
-              disabled={activeIndexInList < 0 || activeIndexInList >= sheetsForList.length - 1}
+              className="h-9 w-9 shrink-0"
+              disabled={activeIndexAll < 0 || activeIndexAll >= sheets.length - 1}
               title="Следующий лист"
               onClick={goNextSheet}
             >
               <ChevronRight className="h-4 w-4" aria-hidden />
             </Button>
           </div>
+          {activeSheet ? (
+            <div className="min-w-0 max-w-[min(100%,20rem)] flex-1 basis-[10rem]">
+              <Label htmlFor="sketch-sheet-title-inline" className="sr-only">
+                Название листа
+              </Label>
+              <Input
+                id="sketch-sheet-title-inline"
+                className="h-9 text-xs"
+                value={activeSheet.title ?? ''}
+                placeholder="Название листа"
+                readOnly={sheetChromeReadOnly}
+                onChange={(e) => patchActive({ title: e.target.value })}
+              />
+            </div>
+          ) : null}
           <div
-            className="flex shrink-0 items-center gap-0.5 rounded-lg border border-slate-200 bg-slate-50/80 p-0.5"
+            className="border-border-default bg-bg-surface2/80 flex h-9 shrink-0 items-center gap-0.5 rounded-lg border px-0.5"
             title="Порядок листов в общем списке досье"
           >
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="h-8 w-8 shrink-0"
+              className="h-9 w-9 shrink-0"
               disabled={activeIndexAll <= 0 || sheetChromeReadOnly}
               aria-label="Выше в общем списке листов"
               onClick={() => moveActive(-1)}
@@ -612,60 +591,59 @@ export function CategorySketchSheetsBlock({
               type="button"
               variant="ghost"
               size="icon"
-              className="h-8 w-8 shrink-0"
-              disabled={activeIndexAll < 0 || activeIndexAll >= sheets.length - 1 || sheetChromeReadOnly}
+              className="h-9 w-9 shrink-0"
+              disabled={
+                activeIndexAll < 0 || activeIndexAll >= sheets.length - 1 || sheetChromeReadOnly
+              }
               aria-label="Ниже в общем списке листов"
               onClick={() => moveActive(1)}
             >
               <ChevronDown className="h-4 w-4" />
             </Button>
           </div>
-          {activeSheet ? (
-            <div className="min-w-[10rem] max-w-[18rem] flex-1 basis-[12rem]">
-              <Label htmlFor="sketch-sheet-title-inline" className="sr-only">
-                Название листа
-              </Label>
-              <Input
-                id="sketch-sheet-title-inline"
-                className="h-8 text-xs"
-                value={activeSheet.title ?? ''}
-                placeholder="Название листа"
-                readOnly={sheetChromeReadOnly}
-                onChange={(e) => patchActive({ title: e.target.value })}
-              />
+          {!hideSheetThumbnailRail ? (
+            <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
+              {sheets.map((s) => {
+                const n = s.annotations.filter((a) => a.categoryLeafId === leafId).length;
+                const idxAll = Math.max(
+                  0,
+                  sheets.findIndex((x) => x.sheetId === s.sheetId)
+                );
+                const label = (s.title?.trim() || defaultExtraSketchSheetTitle(idxAll)).slice(
+                  0,
+                  28
+                );
+                return (
+                  <button
+                    key={s.sheetId}
+                    type="button"
+                    onClick={() => pickSheet(s.sheetId)}
+                    className={cn(
+                      'inline-flex h-9 min-h-9 max-w-[180px] items-center gap-1.5 rounded-lg border px-2.5 text-left text-xs font-medium transition-colors',
+                      s.sheetId === resolvedSheetId
+                        ? 'border-accent-primary/40 bg-accent-primary/10 text-accent-primary shadow-sm'
+                        : 'border-border-default bg-bg-surface2/80 text-text-primary hover:border-border-default hover:bg-white'
+                    )}
+                  >
+                    <span className="truncate">{label}</span>
+                    {s.sceneId?.trim() ? (
+                      <span
+                        className="shrink-0 font-mono text-[9px] text-teal-700"
+                        title="ID сцены"
+                      >
+                        {s.sceneId.trim().slice(0, 6)}
+                      </span>
+                    ) : null}
+                    {n > 0 ? (
+                      <span className="text-text-secondary shrink-0 rounded-full bg-white/90 px-1.5 text-[10px] font-bold tabular-nums">
+                        {n}
+                      </span>
+                    ) : null}
+                  </button>
+                );
+              })}
             </div>
           ) : null}
-          <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">
-            {sheetsForList.map((s) => {
-              const n = s.annotations.filter((a) => a.categoryLeafId === leafId).length;
-              const label = (s.title?.trim() || SKETCH_SHEET_VIEW_LABELS[s.viewKind ?? 'other']).slice(0, 28);
-              return (
-                <button
-                  key={s.sheetId}
-                  type="button"
-                  onClick={() => pickSheet(s.sheetId)}
-                  className={cn(
-                    'inline-flex max-w-[180px] items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-left text-xs font-medium transition-colors',
-                    s.sheetId === resolvedSheetId
-                      ? 'border-indigo-400 bg-indigo-50 text-indigo-950 shadow-sm'
-                      : 'border-slate-200 bg-slate-50/80 text-slate-700 hover:border-slate-300 hover:bg-white'
-                  )}
-                >
-                  <span className="truncate">{label}</span>
-                  {s.sceneId?.trim() ? (
-                    <span className="shrink-0 font-mono text-[9px] text-teal-700" title="ID сцены">
-                      {s.sceneId.trim().slice(0, 6)}
-                    </span>
-                  ) : null}
-                  {n > 0 ? (
-                    <span className="shrink-0 rounded-full bg-white/90 px-1.5 text-[10px] font-bold tabular-nums text-slate-600">
-                      {n}
-                    </span>
-                  ) : null}
-                </button>
-              );
-            })}
-          </div>
           <Button
             type="button"
             variant="outline"
@@ -678,71 +656,16 @@ export function CategorySketchSheetsBlock({
             <Trash2 className="h-4 w-4 shrink-0" aria-hidden />
             Удалить лист
           </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            className="h-9 gap-1.5 text-xs font-medium shadow-sm"
-            disabled={sheets.length >= MAX_SKETCH_SHEETS || sheetChromeReadOnly}
-            onClick={addSheet}
-          >
-            <Plus className="h-4 w-4" />
-            Новый лист
-          </Button>
         </div>
-        {sceneFilterOptions.keys.length > 0 || sceneFilterOptions.hasEmpty ? (
-          <details className="mt-3 rounded-lg border border-slate-100 bg-slate-50/80 text-[11px]">
-            <summary className="cursor-pointer list-none px-2 py-2 font-medium text-slate-700 [&::-webkit-details-marker]:hidden">
-              Фильтр списка по ID сцены
-            </summary>
-            <div className="flex flex-wrap gap-1.5 border-t border-slate-100 px-2 py-2">
-              <button
-                type="button"
-                className={cn(
-                  'rounded-md border px-2 py-1 text-[11px]',
-                  sceneListFilter === 'all' ? 'border-indigo-300 bg-indigo-50 font-medium' : 'border-transparent bg-white'
-                )}
-                onClick={() => setSceneListFilter('all')}
-              >
-                Все листы
-              </button>
-              {sceneFilterOptions.keys.map((k) => (
-                <button
-                  key={k}
-                  type="button"
-                  className={cn(
-                    'rounded-md border px-2 py-1 font-mono text-[10px]',
-                    sceneListFilter === k ? 'border-indigo-300 bg-indigo-50 font-medium' : 'border-transparent bg-white'
-                  )}
-                  onClick={() => setSceneListFilter(k)}
-                >
-                  {k.length > 14 ? `${k.slice(0, 12)}…` : k}
-                </button>
-              ))}
-              {sceneFilterOptions.hasEmpty ? (
-                <button
-                  type="button"
-                  className={cn(
-                    'rounded-md border px-2 py-1 text-[11px]',
-                    sceneListFilter === '__empty__'
-                      ? 'border-indigo-300 bg-indigo-50 font-medium'
-                      : 'border-transparent bg-white'
-                  )}
-                  onClick={() => setSceneListFilter('__empty__')}
-                >
-                  Без id сцены
-                </button>
-              ) : null}
-            </div>
-          </details>
-        ) : null}
       </div>
 
       {activeSheet ? (
         <div className="space-y-3">
           {sceneMismatch ? (
             <Alert className="border-rose-200 bg-rose-50/80 py-2">
-              <AlertTitle className="text-xs font-semibold text-rose-950">Сцена / вид не совпадают с master</AlertTitle>
+              <AlertTitle className="text-xs font-semibold text-rose-950">
+                Сцена / вид не совпадают с master
+              </AlertTitle>
               <AlertDescription className="flex flex-wrap items-center gap-2 text-xs text-rose-900/90">
                 {sceneMismatch === 'id' ? (
                   <span>ID сцены листа ≠ сцена артикула на общей доске.</span>
@@ -781,12 +704,9 @@ export function CategorySketchSheetsBlock({
             </div>
           ) : null}
 
-          <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm">
-            <p className="mb-1 text-xs font-semibold text-zinc-900">Доска листа</p>
-            <p className="mb-3 text-[11px] leading-snug text-zinc-500">
-              Подложка и метки — как на «Общий». Статус цеха, сцена, заметки и шаблоны — в свёрнутом блоке ниже.
-            </p>
+          <div className="border-border-default rounded-xl border bg-white p-3 shadow-sm">
             <CategorySketchAnnotator
+              ref={sketchToolbarEditorRef as LegacyRef<CategorySketchAnnotatorHandle> | undefined}
               currentLeaf={currentLeaf}
               imageDataUrl={activeSheet.imageDataUrl}
               imageFileName={activeSheet.imageFileName}
@@ -814,10 +734,45 @@ export function CategorySketchSheetsBlock({
               categorySketchSceneId={dossier.categorySketchSceneId}
               categorySketchSceneView={dossier.categorySketchSceneView}
               sketchMesDefectCatalog={dossier.sketchMesDefectCatalog}
+              sketchMaterialCards={activeSheet.materialCards ?? []}
+              onSketchMaterialCardsChange={(next) => patchActive({ materialCards: next })}
               sheetStorage={{
                 annotations: activeSheet.annotations,
                 onAnnotationsChange: (next) => patchActive({ annotations: next }),
-                onImageChange: (url, name) => patchActive({ imageDataUrl: url, imageFileName: name }),
+                onImageChange: (url?: string, name?: string) => {
+                  if (!url) {
+                    patchActive({ imageDataUrl: undefined, imageFileName: undefined });
+                    return;
+                  }
+                  const nextOrientation = activeSheet.boardOrientation ?? 'landscape';
+                  if (!activeSheet.imageDataUrl || sheetChromeReadOnly) {
+                    patchActive({
+                      imageDataUrl: url,
+                      imageFileName: name,
+                      boardOrientation: nextOrientation,
+                    });
+                    return;
+                  }
+                  let newId = '';
+                  setDossier((p) => {
+                    const cur = normalizeSketchSheets(p.sketchSheets);
+                    if (cur.length >= MAX_SKETCH_SHEETS) {
+                      return p;
+                    }
+                    const baseTitle = String(activeSheet.title ?? '').trim();
+                    const nextTitle = baseTitle || defaultExtraSketchSheetTitle(cur.length);
+                    const fresh = createEmptySketchSheet(nextTitle);
+                    newId = fresh.sheetId;
+                    const nextSheet: Workshop2Phase1SketchSheet = {
+                      ...fresh,
+                      imageDataUrl: url,
+                      imageFileName: name,
+                      boardOrientation: nextOrientation,
+                    };
+                    return { ...p, sketchSheets: [...cur, nextSheet] };
+                  });
+                  if (newId) pickSheet(newId);
+                },
               }}
               onJumpToDossierSection={onJumpToDossierSection}
               onNavigateRouteStage={onNavigateRouteStage}
@@ -827,368 +782,384 @@ export function CategorySketchSheetsBlock({
             />
           </div>
 
-          <details className="rounded-xl border border-slate-200 bg-slate-50/60 shadow-sm">
-            <summary className="cursor-pointer list-none px-3 py-2.5 text-xs font-semibold text-slate-800 [&::-webkit-details-marker]:hidden">
+          <details
+            key={`sheet-plm-${resolvedSheetId ?? 'none'}`}
+            className="border-border-default bg-bg-surface2/60 rounded-xl border shadow-sm"
+          >
+            <summary className="text-text-primary cursor-pointer list-none px-3 py-2.5 text-xs font-semibold [&::-webkit-details-marker]:hidden">
               Поля листа для производства и PLM
-              <span className="ml-2 font-normal text-slate-500">
-                {WORKFLOW_STATUS_LABEL[activeSheet.sheetWorkflowStatus ?? 'draft']}
-                {activeSheet.sceneId?.trim() ? (
-                  <span className="font-mono text-teal-700"> · сцена</span>
-                ) : null}
-              </span>
             </summary>
-            <div className="space-y-4 border-t border-slate-200 bg-white p-3">
+            <div className="border-border-default space-y-4 border-t bg-white p-3">
+              <p className="text-text-secondary text-[11px] leading-snug">
+                После загрузки подложки: укажите{' '}
+                <span className="text-text-primary font-medium">вид листа</span> и при необходимости{' '}
+                <span className="text-text-primary font-medium">ID сцены</span> (как в досье) — для
+                пакета PLM и сопоставления ракурсов;{' '}
+                <span className="text-text-primary font-medium">статус и чеклист</span> — перед
+                передачей в цех;{' '}
+                <span className="text-text-primary font-medium">задача по виду</span> — что
+                проверить на этом скетче.
+              </p>
               <section className="space-y-3">
-                <h4 className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-                  Статус цеха, чеклист, сравнение
+                <h4 className="text-text-secondary text-[11px] font-semibold uppercase tracking-wide">
+                  Статус и чеклист перед цехом
                 </h4>
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
-                <div className="space-y-1">
-                  <Label className="text-xs text-slate-600">Статус листа (цех / согласования)</Label>
-                  <select
-                    className="h-9 w-full min-w-[180px] rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
-                    value={activeSheet.sheetWorkflowStatus ?? 'draft'}
-                    disabled={sheetChromeReadOnly}
-                    onChange={(e) =>
-                      patchActive({
-                        sheetWorkflowStatus: e.target.value as Workshop2SketchSheetWorkflowStatus,
-                      })
-                    }
-                  >
-                    {(Object.keys(WORKFLOW_STATUS_LABEL) as Workshop2SketchSheetWorkflowStatus[]).map((k) => (
-                      <option key={k} value={k}>
-                        {WORKFLOW_STATUS_LABEL[k]}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex min-w-0 flex-1 flex-col gap-2 sm:min-w-[280px]">
-                  <Label className="text-xs text-slate-600">Чеклист готовности</Label>
-                  <div className="flex flex-col gap-2 text-sm text-slate-700">
-                    <label
-                      className={cn(
-                        'flex items-center gap-2',
-                        sheetChromeReadOnly ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'
-                      )}
+                  <div className="space-y-1">
+                    <Label className="text-text-secondary text-xs">
+                      Статус листа (цех / согласования)
+                    </Label>
+                    <select
+                      className="border-border-default h-9 w-full min-w-[180px] rounded-md border bg-white px-2 text-sm disabled:opacity-60"
+                      value={activeSheet.sheetWorkflowStatus ?? 'draft'}
+                      disabled={sheetChromeReadOnly}
+                      onChange={(e) =>
+                        patchActive({
+                          sheetWorkflowStatus: e.target.value as Workshop2SketchSheetWorkflowStatus,
+                        })
+                      }
                     >
-                      <Checkbox
-                        disabled={sheetChromeReadOnly}
-                        checked={Boolean(activeSheet.sheetChecklist?.substrateConfirmed)}
-                        onCheckedChange={(v) =>
-                          patchActive({
-                            sheetChecklist: {
-                              ...activeSheet.sheetChecklist,
-                              substrateConfirmed: v === true,
-                            },
-                          })
-                        }
-                      />
-                      Фото / подложка на листе
-                    </label>
-                    <label
-                      className={cn(
-                        'flex items-center gap-2',
-                        sheetChromeReadOnly ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'
-                      )}
-                    >
-                      <Checkbox
-                        disabled={sheetChromeReadOnly}
-                        checked={Boolean(activeSheet.sheetChecklist?.qcPinsConfirmed)}
-                        onCheckedChange={(v) =>
-                          patchActive({
-                            sheetChecklist: {
-                              ...activeSheet.sheetChecklist,
-                              qcPinsConfirmed: v === true,
-                            },
-                          })
-                        }
-                      />
-                      Метки ОТК учтены
-                    </label>
-                    <label
-                      className={cn(
-                        'flex items-center gap-2',
-                        sheetChromeReadOnly ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'
-                      )}
-                    >
-                      <Checkbox
-                        disabled={sheetChromeReadOnly}
-                        checked={Boolean(activeSheet.sheetChecklist?.workshopTaskConfirmed)}
-                        onCheckedChange={(v) =>
-                          patchActive({
-                            sheetChecklist: {
-                              ...activeSheet.sheetChecklist,
-                              workshopTaskConfirmed: v === true,
-                            },
-                          })
-                        }
-                      />
-                      Задача цеха заполнена
-                    </label>
+                      {(
+                        Object.keys(WORKFLOW_STATUS_LABEL) as Workshop2SketchSheetWorkflowStatus[]
+                      ).map((k) => (
+                        <option key={k} value={k}>
+                          {WORKFLOW_STATUS_LABEL[k]}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+                  <div className="flex min-w-0 flex-1 flex-col gap-2 sm:min-w-[280px]">
+                    <Label className="text-text-secondary text-xs">Чеклист готовности</Label>
+                    <div className="text-text-primary flex flex-col gap-2 text-sm">
+                      <label
+                        className={cn(
+                          'flex items-center gap-2',
+                          sheetChromeReadOnly ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'
+                        )}
+                      >
+                        <Checkbox
+                          disabled={sheetChromeReadOnly}
+                          checked={Boolean(activeSheet.sheetChecklist?.substrateConfirmed)}
+                          onCheckedChange={(v) =>
+                            patchActive({
+                              sheetChecklist: {
+                                ...activeSheet.sheetChecklist,
+                                substrateConfirmed: v === true,
+                              },
+                            })
+                          }
+                        />
+                        Фото / подложка на листе
+                      </label>
+                      <label
+                        className={cn(
+                          'flex items-center gap-2',
+                          sheetChromeReadOnly ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'
+                        )}
+                      >
+                        <Checkbox
+                          disabled={sheetChromeReadOnly}
+                          checked={Boolean(activeSheet.sheetChecklist?.qcPinsConfirmed)}
+                          onCheckedChange={(v) =>
+                            patchActive({
+                              sheetChecklist: {
+                                ...activeSheet.sheetChecklist,
+                                qcPinsConfirmed: v === true,
+                              },
+                            })
+                          }
+                        />
+                        Метки ОТК учтены
+                      </label>
+                      <label
+                        className={cn(
+                          'flex items-center gap-2',
+                          sheetChromeReadOnly ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'
+                        )}
+                      >
+                        <Checkbox
+                          disabled={sheetChromeReadOnly}
+                          checked={Boolean(activeSheet.sheetChecklist?.workshopTaskConfirmed)}
+                          onCheckedChange={(v) =>
+                            patchActive({
+                              sheetChecklist: {
+                                ...activeSheet.sheetChecklist,
+                                workshopTaskConfirmed: v === true,
+                              },
+                            })
+                          }
+                        />
+                        Задача цеха заполнена
+                      </label>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-9 gap-1 text-xs sm:shrink-0"
+                    disabled={sheets.length < 2}
+                    onClick={openCompareDialog}
+                    title="Два листа рядом с общим масштабом (анфас и спина и т.д.)"
+                  >
+                    <Columns2 className="h-3.5 w-3.5" />
+                    Сравнить
+                  </Button>
                 </div>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-9 gap-1 text-xs sm:shrink-0"
-                  disabled={sheets.length < 2}
-                  onClick={openCompareDialog}
-                  title="Два листа рядом с общим масштабом (анфас и спина и т.д.)"
-                >
-                  <Columns2 className="h-3.5 w-3.5" />
-                  Сравнить
-                </Button>
-              </div>
               </section>
 
-              <section className="space-y-3 border-t border-slate-100 pt-4">
-                <h4 className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-                  Вид, сцена, копирование
+              <section className="border-border-subtle space-y-3 border-t pt-4">
+                <h4 className="text-text-secondary text-[11px] font-semibold uppercase tracking-wide">
+                  Вид листа и сцена (PLM)
                 </h4>
-                <p className="text-[11px] text-slate-500">
-                  Название листа задаётся в шапке переключателя; порядок в списке — кнопки ↑↓ рядом с ‹ ›.
-                </p>
                 <div className="grid gap-3 sm:grid-cols-[minmax(0,14rem)_1fr] sm:items-end">
-                <div className="space-y-1">
-                  <Label className="text-xs text-slate-600">Тип / вид (в сцене)</Label>
-                  <select
-                    className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
-                    value={activeSheet.viewKind ?? 'other'}
-                    disabled={sheetChromeReadOnly}
-                    onChange={(e) =>
-                      patchActive({ viewKind: e.target.value as Workshop2SketchSheetViewKind })
-                    }
-                  >
-                    {VIEW_KINDS.map((k) => (
-                      <option key={k} value={k}>
-                        {SKETCH_SHEET_VIEW_LABELS[k]}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-9 gap-1 text-xs"
-                    disabled={masterPinsForLeaf.length === 0 || sheetChromeReadOnly}
-                    onClick={importMasterPins}
-                    title="Копирует метки общего скетча на этот лист (новые id)"
-                  >
-                    <Copy className="h-3.5 w-3.5" />
-                    С master ({masterPinsForLeaf.length})
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-9 text-xs"
-                    disabled={sheets.length >= MAX_SKETCH_SHEETS || sheetChromeReadOnly}
-                    onClick={() => duplicateActiveFixed('full')}
-                  >
-                    Копия + фото
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-9 text-xs"
-                    disabled={sheets.length >= MAX_SKETCH_SHEETS || sheetChromeReadOnly}
-                    onClick={() => duplicateActiveFixed('pinsOnly')}
-                  >
-                    Копия меток
-                  </Button>
-                </div>
-              </div>
-              <div className="rounded-lg border border-teal-100 bg-teal-50/40 p-3">
-                <div className="flex flex-wrap items-end gap-2">
-                  <div className="min-w-[12rem] flex-1 space-y-1">
-                    <Label className="text-xs text-slate-600">ID сцены (один на анфас / спину / деталь)</Label>
-                    <Input
-                      className="h-9 text-sm"
-                      value={activeSheet.sceneId ?? ''}
-                      placeholder={dossier.categorySketchSceneId?.trim() || 'совпадает с общей доской'}
-                      readOnly={sheetChromeReadOnly}
-                      onChange={(e) => patchActive({ sceneId: e.target.value.trim() || undefined })}
-                    />
+                  <div className="space-y-1">
+                    <Label className="text-text-secondary text-xs">Тип / вид (в сцене)</Label>
+                    <select
+                      className="border-border-default h-9 w-full rounded-md border bg-white px-2 text-sm disabled:opacity-60"
+                      value={activeSheet.viewKind ?? 'other'}
+                      disabled={sheetChromeReadOnly}
+                      onChange={(e) =>
+                        patchActive({ viewKind: e.target.value as Workshop2SketchSheetViewKind })
+                      }
+                    >
+                      {VIEW_KINDS.map((k) => (
+                        <option key={k} value={k}>
+                          {SKETCH_SHEET_VIEW_LABELS[k]}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-9 text-xs"
-                    disabled={!dossier.categorySketchSceneId?.trim() || sheetChromeReadOnly}
-                    onClick={() =>
-                      patchActive({ sceneId: dossier.categorySketchSceneId?.trim() || undefined })
-                    }
-                  >
-                    Как в досье
-                  </Button>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-9 gap-1 text-xs"
+                      disabled={masterPinsForLeaf.length === 0 || sheetChromeReadOnly}
+                      onClick={importMasterPins}
+                      title="Копирует метки общего скетча на этот лист (новые id)"
+                    >
+                      <Copy className="h-3.5 w-3.5" />С master ({masterPinsForLeaf.length})
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-9 text-xs"
+                      disabled={sheets.length >= MAX_SKETCH_SHEETS || sheetChromeReadOnly}
+                      onClick={() => duplicateActiveFixed('full')}
+                    >
+                      Копия + фото
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-9 text-xs"
+                      disabled={sheets.length >= MAX_SKETCH_SHEETS || sheetChromeReadOnly}
+                      onClick={() => duplicateActiveFixed('pinsOnly')}
+                    >
+                      Копия меток
+                    </Button>
+                  </div>
                 </div>
-                <p className="mt-2 text-[11px] text-slate-600">
-                  Общий id в досье:{' '}
-                  <span className="font-mono text-slate-800">{dossier.categorySketchSceneId ?? '—'}</span>
-                </p>
-              </div>
-              </section>
-
-              <section className="space-y-3 border-t border-slate-100 pt-4">
-                <h4 className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-                  Задача цеха, комментарий, видео
-                </h4>
-                <div className="space-y-3">
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="space-y-1">
-                  <Label className="text-xs text-slate-600">Задача цеха по этому виду</Label>
-                  <Textarea
-                    className="min-h-[72px] text-sm"
-                    placeholder="Коротко: что проверить / сделать на этом ракурсе…"
-                    value={activeSheet.workshopTaskNote ?? ''}
-                    readOnly={sheetChromeReadOnly}
-                    onChange={(e) => patchActive({ workshopTaskNote: e.target.value })}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label className="text-xs text-slate-600">Комментарий к листу (обсуждение)</Label>
-                  <Textarea
-                    className="min-h-[72px] text-sm"
-                    placeholder="Не привязано к точке — для заметок команды…"
-                    value={activeSheet.sheetComment ?? ''}
-                    readOnly={sheetChromeReadOnly}
-                    onChange={(e) => patchActive({ sheetComment: e.target.value })}
-                  />
-                </div>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="space-y-1">
-                  <Label className="text-xs text-slate-600">Видео-референс (URL)</Label>
-                  <Input
-                    className="h-9 text-sm"
-                    placeholder="Ссылка на короткое видео посадки / движения"
-                    value={activeSheet.referenceMotionVideoUrl ?? ''}
-                    readOnly={sheetChromeReadOnly}
-                    onChange={(e) =>
-                      patchActive({
-                        referenceMotionVideoUrl: e.target.value.trim()
-                          ? e.target.value.trim().slice(0, 2000)
-                          : undefined,
-                      })
-                    }
-                  />
-                  <p className="text-[11px] text-slate-500">
-                    Локально только ссылка; загрузка файла — через API медиа (поле-задел в типах досье).
+                <div className="rounded-lg border border-teal-100 bg-teal-50/40 p-3">
+                  <div className="flex flex-wrap items-end gap-2">
+                    <div className="min-w-[12rem] flex-1 space-y-1">
+                      <Label className="text-text-secondary text-xs">
+                        ID сцены (один на анфас / спину / деталь)
+                      </Label>
+                      <Input
+                        className="h-9 text-sm"
+                        value={activeSheet.sceneId ?? ''}
+                        placeholder={
+                          dossier.categorySketchSceneId?.trim() || 'совпадает с общей доской'
+                        }
+                        readOnly={sheetChromeReadOnly}
+                        onChange={(e) =>
+                          patchActive({ sceneId: e.target.value.trim() || undefined })
+                        }
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-9 text-xs"
+                      disabled={!dossier.categorySketchSceneId?.trim() || sheetChromeReadOnly}
+                      onClick={() =>
+                        patchActive({ sceneId: dossier.categorySketchSceneId?.trim() || undefined })
+                      }
+                    >
+                      Как в досье
+                    </Button>
+                  </div>
+                  <p className="text-text-secondary mt-2 text-[11px]">
+                    ID сцены в досье артикула:{' '}
+                    <span className="text-text-primary font-mono">
+                      {dossier.categorySketchSceneId ?? '—'}
+                    </span>
                   </p>
                 </div>
-                <div className="space-y-1">
-                  <Label className="text-xs text-slate-600">Заметка к видео</Label>
-                  <Input
-                    className="h-9 text-sm"
-                    placeholder="Что смотреть в ролике"
-                    value={activeSheet.referenceMotionVideoNote ?? ''}
-                    readOnly={sheetChromeReadOnly}
-                    onChange={(e) =>
-                      patchActive({
-                        referenceMotionVideoNote: e.target.value.trim()
-                          ? e.target.value.trim().slice(0, 2000)
-                          : undefined,
-                      })
-                    }
-                  />
-                </div>
-              </div>
-              {activeSheet.referenceMotionVideoUrl?.trim() ? (
-                <p className="text-sm">
-                  <a
-                    href={activeSheet.referenceMotionVideoUrl.trim()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-indigo-600 underline"
-                  >
-                    Открыть видео-референс
-                  </a>
-                </p>
-              ) : null}
+              </section>
+
+              <section className="border-border-subtle space-y-3 border-t pt-4">
+                <h4 className="text-text-secondary text-[11px] font-semibold uppercase tracking-wide">
+                  Задача цеха по этому скетчу
+                </h4>
+                <div className="space-y-3">
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="space-y-1">
+                      <Label className="text-text-secondary text-xs">
+                        Задача цеха по этому виду
+                      </Label>
+                      <Textarea
+                        className="min-h-[72px] text-sm"
+                        placeholder="Коротко: что проверить / сделать на этом ракурсе…"
+                        value={activeSheet.workshopTaskNote ?? ''}
+                        readOnly={sheetChromeReadOnly}
+                        onChange={(e) => patchActive({ workshopTaskNote: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-text-secondary text-xs">
+                        Комментарий к листу (обсуждение)
+                      </Label>
+                      <Textarea
+                        className="min-h-[72px] text-sm"
+                        placeholder="Не привязано к точке — для заметок команды…"
+                        value={activeSheet.sheetComment ?? ''}
+                        readOnly={sheetChromeReadOnly}
+                        onChange={(e) => patchActive({ sheetComment: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="space-y-1">
+                      <Label className="text-text-secondary text-xs">Видео-референс (URL)</Label>
+                      <Input
+                        className="h-9 text-sm"
+                        placeholder="Ссылка на короткое видео посадки / движения"
+                        value={activeSheet.referenceMotionVideoUrl ?? ''}
+                        readOnly={sheetChromeReadOnly}
+                        onChange={(e) =>
+                          patchActive({
+                            referenceMotionVideoUrl: e.target.value.trim()
+                              ? e.target.value.trim().slice(0, 2000)
+                              : undefined,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-text-secondary text-xs">Заметка к видео</Label>
+                      <Input
+                        className="h-9 text-sm"
+                        placeholder="Что смотреть в ролике"
+                        value={activeSheet.referenceMotionVideoNote ?? ''}
+                        readOnly={sheetChromeReadOnly}
+                        onChange={(e) =>
+                          patchActive({
+                            referenceMotionVideoNote: e.target.value.trim()
+                              ? e.target.value.trim().slice(0, 2000)
+                              : undefined,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                  {activeSheet.referenceMotionVideoUrl?.trim() ? (
+                    <p className="text-sm">
+                      <a
+                        href={activeSheet.referenceMotionVideoUrl.trim()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent-primary font-medium underline"
+                      >
+                        Открыть видео-референс
+                      </a>
+                    </p>
+                  ) : null}
                 </div>
               </section>
 
-              <section className="space-y-3 border-t border-slate-100 pt-4">
-                <h4 className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-                  Шаблоны меток на лист
+              <section className="border-border-subtle space-y-3 border-t pt-4">
+                <h4 className="text-text-secondary text-[11px] font-semibold uppercase tracking-wide">
+                  Шаблоны меток (по скетчу)
                 </h4>
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-              <select
-                className="h-9 min-w-[200px] flex-1 rounded-md border border-slate-200 bg-white px-2 text-sm disabled:opacity-60"
-                value={sheetTemplatePickId}
-                disabled={sheetChromeReadOnly}
-                onChange={(e) => setSheetTemplatePickId(e.target.value)}
-                aria-label="Шаблон для листа"
-              >
-                <option value="">— выберите шаблон —</option>
-                {(dossier.sketchPinTemplates ?? []).length > 0 ? (
-                  <optgroup label="Это досье">
-                    {(dossier.sketchPinTemplates ?? []).map((t) => (
-                      <option key={`d:${t.templateId}`} value={`d:${t.templateId}`}>
-                        {t.name} ({t.annotations.length}
-                        {t.viewKind ? ` · ${SKETCH_SHEET_VIEW_LABELS[t.viewKind]}` : ''})
-                      </option>
-                    ))}
-                  </optgroup>
-                ) : null}
-                {orgSketchTemplatesForSheet.length > 0 ? (
-                  <optgroup label="Библиотека коллекции (браузер)">
-                    {orgSketchTemplatesForSheet.map((t) => (
-                      <option key={`o:${t.templateId}`} value={`o:${t.templateId}`}>
-                        {t.name} ({t.annotations.length}
-                        {t.viewKind ? ` · ${SKETCH_SHEET_VIEW_LABELS[t.viewKind]}` : ''})
-                      </option>
-                    ))}
-                  </optgroup>
-                ) : null}
-              </select>
-              <div className="flex flex-wrap gap-1.5">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-8 text-xs"
-                  disabled={!sheetTemplatePickId || sheetChromeReadOnly}
-                  onClick={() => applySheetPinTemplate('merge')}
-                >
-                  + К листу
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-8 text-xs"
-                  disabled={!sheetTemplatePickId || sheetChromeReadOnly}
-                  onClick={() => applySheetPinTemplate('replace')}
-                >
-                  Заменить лист
-                </Button>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  className="h-8 text-xs"
-                  disabled={sheetChromeReadOnly}
-                  onClick={saveActiveSheetPinTemplate}
-                >
-                  В досье
-                </Button>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  className="h-8 text-xs"
-                  disabled={sheetChromeReadOnly}
-                  onClick={saveActiveSheetPinTemplateToOrg}
-                >
-                  В коллекцию
-                </Button>
-              </div>
+                  <select
+                    className="border-border-default h-9 min-w-[200px] flex-1 rounded-md border bg-white px-2 text-sm disabled:opacity-60"
+                    value={sheetTemplatePickId}
+                    disabled={sheetChromeReadOnly}
+                    onChange={(e) => setSheetTemplatePickId(e.target.value)}
+                    aria-label="Шаблон для листа"
+                  >
+                    <option value="">— выберите шаблон —</option>
+                    {(dossier.sketchPinTemplates ?? []).length > 0 ? (
+                      <optgroup label="Это досье">
+                        {(dossier.sketchPinTemplates ?? []).map((t) => (
+                          <option key={`d:${t.templateId}`} value={`d:${t.templateId}`}>
+                            {t.name} ({t.annotations.length}
+                            {t.viewKind ? ` · ${SKETCH_SHEET_VIEW_LABELS[t.viewKind]}` : ''})
+                          </option>
+                        ))}
+                      </optgroup>
+                    ) : null}
+                    {orgSketchTemplatesForSheet.length > 0 ? (
+                      <optgroup label="Библиотека коллекции (браузер)">
+                        {orgSketchTemplatesForSheet.map((t) => (
+                          <option key={`o:${t.templateId}`} value={`o:${t.templateId}`}>
+                            {t.name} ({t.annotations.length}
+                            {t.viewKind ? ` · ${SKETCH_SHEET_VIEW_LABELS[t.viewKind]}` : ''})
+                          </option>
+                        ))}
+                      </optgroup>
+                    ) : null}
+                  </select>
+                  <div className="flex flex-wrap gap-1.5">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 text-xs"
+                      disabled={!sheetTemplatePickId || sheetChromeReadOnly}
+                      onClick={() => applySheetPinTemplate('merge')}
+                    >
+                      + К листу
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-8 text-xs"
+                      disabled={!sheetTemplatePickId || sheetChromeReadOnly}
+                      onClick={() => applySheetPinTemplate('replace')}
+                    >
+                      Заменить лист
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      className="h-8 text-xs"
+                      disabled={sheetChromeReadOnly}
+                      onClick={saveActiveSheetPinTemplate}
+                    >
+                      В досье
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      className="h-8 text-xs"
+                      disabled={sheetChromeReadOnly}
+                      onClick={saveActiveSheetPinTemplateToOrg}
+                    >
+                      В коллекцию
+                    </Button>
+                  </div>
                 </div>
               </section>
             </div>
@@ -1205,9 +1176,11 @@ export function CategorySketchSheetsBlock({
             <div className="space-y-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <div className="flex flex-wrap items-center gap-2">
-                  <Label className="whitespace-nowrap text-xs text-slate-600">Второй лист</Label>
+                  <Label className="text-text-secondary whitespace-nowrap text-xs">
+                    Второй лист
+                  </Label>
                   <select
-                    className="h-9 min-w-[200px] rounded-md border border-slate-200 bg-white px-2 text-sm"
+                    className="border-border-default h-9 min-w-[200px] rounded-md border bg-white px-2 text-sm"
                     value={comparePeerId ?? ''}
                     onChange={(e) => setComparePeerId(e.target.value || null)}
                   >
@@ -1215,13 +1188,21 @@ export function CategorySketchSheetsBlock({
                       .filter((s) => s.sheetId !== activeSheet.sheetId)
                       .map((s) => (
                         <option key={s.sheetId} value={s.sheetId}>
-                          {(s.title?.trim() || SKETCH_SHEET_VIEW_LABELS[s.viewKind ?? 'other']).slice(0, 48)}
+                          {(
+                            s.title?.trim() ||
+                            defaultExtraSketchSheetTitle(
+                              Math.max(
+                                0,
+                                sheets.findIndex((x) => x.sheetId === s.sheetId)
+                              )
+                            )
+                          ).slice(0, 48)}
                         </option>
                       ))}
                   </select>
                 </div>
                 <div className="flex min-w-[200px] flex-1 flex-wrap items-center gap-2">
-                  <Label className="text-xs text-slate-600">Масштаб обоих</Label>
+                  <Label className="text-text-secondary text-xs">Масштаб обоих</Label>
                   <input
                     type="range"
                     min={70}
@@ -1232,7 +1213,9 @@ export function CategorySketchSheetsBlock({
                     onChange={(e) => setCompareZoom(Number(e.target.value) / 100)}
                     aria-label="Масштаб сравнения"
                   />
-                  <span className="tabular-nums text-xs text-slate-500">{Math.round(compareZoom * 100)}%</span>
+                  <span className="text-text-secondary text-xs tabular-nums">
+                    {Math.round(compareZoom * 100)}%
+                  </span>
                 </div>
               </div>
               <div
@@ -1240,11 +1223,11 @@ export function CategorySketchSheetsBlock({
                 style={{ zoom: compareZoom } as CSSProperties}
               >
                 <div className="min-w-0 space-y-1">
-                  <p className="text-[10px] font-semibold uppercase text-slate-500">
-                    {(activeSheet.title?.trim() || SKETCH_SHEET_VIEW_LABELS[activeSheet.viewKind ?? 'other']).slice(
-                      0,
-                      40
-                    )}
+                  <p className="text-text-secondary text-[10px] font-semibold uppercase">
+                    {(
+                      activeSheet.title?.trim() ||
+                      SKETCH_SHEET_VIEW_LABELS[activeSheet.viewKind ?? 'other']
+                    ).slice(0, 40)}
                   </p>
                   <SketchCompareMiniBoard
                     sheet={activeSheet}
@@ -1255,7 +1238,7 @@ export function CategorySketchSheetsBlock({
                 </div>
                 {comparePeerSheet ? (
                   <div className="min-w-0 space-y-1">
-                    <p className="text-[10px] font-semibold uppercase text-slate-500">
+                    <p className="text-text-secondary text-[10px] font-semibold uppercase">
                       {(
                         comparePeerSheet.title?.trim() ||
                         SKETCH_SHEET_VIEW_LABELS[comparePeerSheet.viewKind ?? 'other']
@@ -1269,13 +1252,22 @@ export function CategorySketchSheetsBlock({
                     />
                   </div>
                 ) : (
-                  <p className="text-sm text-slate-500">Выберите второй лист.</p>
+                  <p className="text-text-secondary text-sm">Выберите второй лист.</p>
                 )}
               </div>
             </div>
           ) : null}
         </DialogContent>
       </Dialog>
+    </div>
+  );
+
+  if (!sketchSheetsRail) return mainColumn;
+
+  return (
+    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-4">
+      <div className="shrink-0">{sketchSheetsRail}</div>
+      <div className="min-w-0 flex-1">{mainColumn}</div>
     </div>
   );
 }

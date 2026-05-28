@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "locale": "ru",
+    "updatedAt": "2026-04-19T12:00:00.000Z",
+    "tenantHint": "demo"
+  },
+  "orders": [
+    {
+      "order": "B2B-0013",
+      "status": "Черновик",
+      "shop": "Демо-магазин · Москва 1",
+      "brand": "Syntha Lab",
+      "amount": "0 ₽",
+      "date": "2024-07-29",
+      "deliveryDate": "2024-09-20",
+      "orderMode": "pre_order",
+      "eventId": "fw26",
+      "passportSlotId": "slot-1",
+      "priceTier": "retail_a",
+      "territory": "Moscow",
+      "creditLimit": 2500000,
+      "paymentStatus": "pending"
+    }
+  ],
+  "lineItemsByOrderId": {
+    "B2B-0013": [
+      {
+        "productId": "demo-ss27-01",
+        "size": "M",
+        "quantity": 120,
+        "price": 42000,
+        "currency": "RUB",
+        "deliveryWindowId": "drop1",
+        "lineNotes": "Пример из scripts/examples — строки для GET v1 detail",
+        "lineStatus": "open"
+      },
+      {
+        "productId": "demo-ss27-02",
+        "size": "L",
+        "quantity": 80,
+        "price": 28500,
+        "currency": "RUB",
+        "deliveryWindowId": "drop1",
+        "lineStatus": "open"
+      }
+    ]
+  }
+}

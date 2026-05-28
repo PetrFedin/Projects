@@ -41,8 +41,10 @@ export async function joorGetPriceTypes(config?: JoorConfig | null): Promise<Joo
       headers: { Authorization: `Bearer ${config.accessToken}` },
     });
     if (!res.ok) return [];
-    const data = await res.json();
-    return Array.isArray(data) ? data : data.data ?? data.price_types ?? [];
+    const data = (await res.json()) as
+      | JoorPriceType[]
+      | { data?: JoorPriceType[]; price_types?: JoorPriceType[] };
+    return Array.isArray(data) ? data : (data.data ?? data.price_types ?? []);
   } catch {
     return [];
   }

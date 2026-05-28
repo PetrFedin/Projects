@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "suppliers": [
+    {
+      "id": "sup-ivanovo-textile",
+      "label": "ООО «ИвановоТекстиль»",
+      "region": "Иваново",
+      "roles": ["fabric", "knit"],
+      "capabilities": ["Хлопок", "Шерсть", "Смесовые ткани"],
+      "leadTimeDays": 14
+    },
+    {
+      "id": "sup-volga-tpk",
+      "label": "ТПК «Волга»",
+      "region": "Нижний Новгород",
+      "roles": ["fabric"],
+      "capabilities": ["Хлопок", "Саржа", "Поплин"],
+      "leadTimeDays": 10
+    },
+    {
+      "id": "sup-textile-yug",
+      "label": "ООО «Текстиль-Юг»",
+      "region": "Ростов-на-Дону",
+      "roles": ["fabric", "trim"],
+      "capabilities": ["Синтетика", "Сетка", "Подклад"],
+      "leadTimeDays": 12
+    },
+    {
+      "id": "sup-severnye-polotna",
+      "label": "ЗАО «Северные полотна»",
+      "region": "Санкт-Петербург",
+      "roles": ["lining", "fabric"],
+      "capabilities": ["Вискоза", "Подклад", "Костюмные полотна"],
+      "leadTimeDays": 18
+    },
+    {
+      "id": "sup-italy-import",
+      "label": "Импорт · Италия (подошва / фурнитура)",
+      "region": "Италия",
+      "roles": ["sole", "hardware"],
+      "capabilities": ["EVA", "Резина", "Фурнитура"],
+      "leadTimeDays": 28
+    }
+  ]
+}

@@ -1,10 +1,13 @@
 import { useMemo } from 'react';
 import { useAuth } from '@/providers/auth-provider';
-import { useUIState } from '@/providers/ui-state';
+import { useUIStateOptional } from '@/providers/ui-state';
 import { useUserOrders } from './use-user-orders';
 import { useUserActivity } from './use-user-activity';
-import { subDays, subMonths, subWeeks, startOfDay, endOfDay, isWithinInterval } from 'date-fns';
-import type { Order, Product } from '@/lib/types';
+import { subMonths, isWithinInterval } from 'date-fns';
+import type { CartItem, Lookboard, Order, SubscriptionPlan, WishlistItem } from '@/lib/types';
+
+/** Fields read from auth user for loyalty-related insights (extend here if logic grows). */
+type UserLoyaltyInsightSource = Readonly<{ loyaltyPlan?: SubscriptionPlan }>;
 
 export interface Insight {
   id: string;
@@ -23,7 +26,13 @@ export interface Insight {
 }
 
 export interface BehaviorPattern {
-  type: 'purchase_frequency' | 'category_preference' | 'price_sensitivity' | 'seasonality' | 'brand_loyalty' | 'time_pattern';
+  type:
+    | 'purchase_frequency'
+    | 'category_preference'
+    | 'price_sensitivity'
+    | 'seasonality'
+    | 'brand_loyalty'
+    | 'time_pattern';
   label: string;
   value: string | number;
   description: string;
@@ -55,7 +64,10 @@ export interface Trend {
  */
 export function useUserInsights() {
   const { user } = useAuth();
-  const { wishlist, cart, lookboards } = useUIState();
+  const ui = useUIStateOptional();
+  const wishlist = ui?.wishlist ?? [];
+  const cart = ui?.cart ?? [];
+  const lookboards = ui?.lookboards ?? [];
   const { orders, stats: orderStats } = useUserOrders();
   const activity = useUserActivity();
 
@@ -82,13 +94,13 @@ export function useUserInsights() {
     allInsights.push(...generateWarningsAndOpportunities(orders, activity, user));
 
     // 6. Достижения и вехи
-    allInsights.push(...generateMilestones(orderStats, activity, user));
+    allInsights.push(...generateMilestones(orderStats, activity));
 
     return allInsights.sort((a, b) => {
       const priorityOrder = { high: 3, medium: 2, low: 1 };
       return priorityOrder[b.priority] - priorityOrder[a.priority];
     });
-  }, [user, orders, orderStats, activity, wishlist.length, cart.length, lookboards.length]);
+  }, [user, orders, orderStats, activity, wishlist, cart, lookboards]);
 
   const behaviorPatterns: BehaviorPattern[] = useMemo(() => {
     if (!user || orders.length === 0) return [];
@@ -98,23 +110,25 @@ export function useUserInsights() {
         type: 'brand_loyalty',
         label: 'Лояльность брендам',
         value: '75% Syntha Lab',
-        description: 'Вы предпочитаете технологичные ткани Syntha Lab, дополняя их базой от Nordic Wool.',
-        confidence: 92
+        description:
+          'Вы предпочитаете технологичные ткани Syntha Lab, дополняя их базой от Nordic Wool.',
+        confidence: 92,
       },
       {
         type: 'category_preference',
         label: 'Любимые категории',
         value: 'Верхняя одежда, Трикотаж',
-        description: '80% ваших покупок в Nordic Wool — это пальто и свитеры из натуральной шерсти.',
-        confidence: 88
+        description:
+          '80% ваших покупок в Nordic Wool — это пальто и свитеры из натуральной шерсти.',
+        confidence: 88,
       },
       {
         type: 'price_sensitivity',
         label: 'Ценовой сегмент',
         value: 'Премиум',
         description: 'Вы выбираете качество материалов выше среднего чека Syntha Lab.',
-        confidence: 85
-      }
+        confidence: 85,
+      },
     ];
 
     return patterns;
@@ -126,10 +140,13 @@ export function useUserInsights() {
     const preds: Prediction[] = [];
 
     // Прогноз следующей покупки
+    const at = new Date();
     const avgDaysBetween = calculateAvgDaysBetweenOrders(orders);
-    const lastOrderDate = new Date(orders[0]?.createdAt || Date.now());
-    const daysSinceLastOrder = (Date.now() - lastOrderDate.getTime()) / (1000 * 60 * 60 * 24);
-    const predictedNextPurchase = new Date(lastOrderDate.getTime() + avgDaysBetween * 24 * 60 * 60 * 1000);
+    const lastOrderDate = new Date(orders[0]?.createdAt || at);
+    const daysSinceLastOrder = (at.getTime() - lastOrderDate.getTime()) / (1000 * 60 * 60 * 24);
+    const predictedNextPurchase = new Date(
+      lastOrderDate.getTime() + avgDaysBetween * 24 * 60 * 60 * 1000
+    );
 
     if (avgDaysBetween > 0) {
       preds.push({
@@ -138,7 +155,10 @@ export function useUserInsights() {
         description: `На основе вашей истории покупок, следующая покупка ожидается через ${Math.round(avgDaysBetween - daysSinceLastOrder)} дней`,
         value: formatDate(predictedNextPurchase),
         timeframe: `${Math.round(avgDaysBetween)} дней`,
-        confidence: Math.min(85, Math.max(50, 100 - Math.abs(avgDaysBetween - daysSinceLastOrder) * 2)),
+        confidence: Math.min(
+          85,
+          Math.max(50, 100 - Math.abs(avgDaysBetween - daysSinceLastOrder) * 2)
+        ),
         factors: ['История покупок', 'Средний интервал', 'Активность на платформе'],
       });
     }
@@ -180,27 +200,29 @@ export function useUserInsights() {
     const lastMonth = subMonths(now, 1);
     const twoMonthsAgo = subMonths(now, 2);
 
-    const lastMonthOrders = orders.filter(o => {
+    const lastMonthOrders = orders.filter((o) => {
       const date = new Date(o.createdAt);
       return isWithinInterval(date, { start: lastMonth, end: now });
     });
 
-    const previousMonthOrders = orders.filter(o => {
+    const previousMonthOrders = orders.filter((o) => {
       const date = new Date(o.createdAt);
       return isWithinInterval(date, { start: twoMonthsAgo, end: lastMonth });
     });
 
     const lastMonthSpent = lastMonthOrders.reduce((sum, o) => sum + o.total, 0);
     const previousMonthSpent = previousMonthOrders.reduce((sum, o) => sum + o.total, 0);
-    const spendingChange = previousMonthSpent > 0 
-      ? ((lastMonthSpent - previousMonthSpent) / previousMonthSpent) * 100 
-      : 0;
+    const spendingChange =
+      previousMonthSpent > 0
+        ? ((lastMonthSpent - previousMonthSpent) / previousMonthSpent) * 100
+        : 0;
 
     const lastMonthCount = lastMonthOrders.length;
     const previousMonthCount = previousMonthOrders.length;
-    const ordersChange = previousMonthCount > 0 
-      ? ((lastMonthCount - previousMonthCount) / previousMonthCount) * 100 
-      : 0;
+    const ordersChange =
+      previousMonthCount > 0
+        ? ((lastMonthCount - previousMonthCount) / previousMonthCount) * 100
+        : 0;
 
     return [
       {
@@ -260,7 +282,10 @@ function generateWelcomeInsights(activity: ReturnType<typeof useUserActivity>): 
   return insights;
 }
 
-function analyzePurchasePatterns(orders: Order[], stats: ReturnType<typeof useUserOrders>['stats']): Insight[] {
+function analyzePurchasePatterns(
+  orders: Order[],
+  stats: ReturnType<typeof useUserOrders>['stats']
+): Insight[] {
   const insights: Insight[] = [];
 
   // Анализ среднего чека
@@ -297,7 +322,7 @@ function analyzePurchasePatterns(orders: Order[], stats: ReturnType<typeof useUs
       priority: 'high',
       title: 'Высокий процент возвратов',
       description: `Процент возвратов ${Math.round(stats.returnRate)}%. Рекомендуем использовать размерную сетку`,
-      action: { label: 'Проверить размеры', href: '/u?tab=profile' },
+      action: { label: 'Проверить размеры', href: '/client/me?tab=profile' },
     });
   }
 
@@ -306,9 +331,9 @@ function analyzePurchasePatterns(orders: Order[], stats: ReturnType<typeof useUs
 
 function analyzeActivityPatterns(
   activity: ReturnType<typeof useUserActivity>,
-  wishlist: any[],
-  cart: any[],
-  lookboards: any[]
+  wishlist: WishlistItem[],
+  cart: CartItem[],
+  lookboards: Lookboard[]
 ): Insight[] {
   const insights: Insight[] = [];
 
@@ -319,7 +344,7 @@ function analyzeActivityPatterns(
       priority: 'medium',
       title: 'Большой список желаний',
       description: `У вас ${wishlist.length} товаров в избранном. Возможно, пора что-то купить?`,
-      action: { label: 'Посмотреть избранное', href: '/u?tab=wardrobe' },
+      action: { label: 'Посмотреть избранное', href: '/client/me?tab=wardrobe' },
     });
   }
 
@@ -341,23 +366,27 @@ function analyzeActivityPatterns(
       priority: 'low',
       title: 'Создайте свой первый лукборд',
       description: 'Сохраняйте любимые образы и делитесь ими с сообществом',
-      action: { label: 'Создать лукборд', href: '/u?tab=looks' },
+      action: { label: 'Создать лукборд', href: '/client/me?tab=looks' },
     });
   }
 
   return insights;
 }
 
-function analyzeTrends(orders: Order[], stats: ReturnType<typeof useUserOrders>['stats']): Insight[] {
+function analyzeTrends(
+  orders: Order[],
+  _stats: ReturnType<typeof useUserOrders>['stats']
+): Insight[] {
   const insights: Insight[] = [];
 
   if (orders.length >= 2) {
     const recentOrders = orders.slice(0, 3);
     const recentTotal = recentOrders.reduce((sum, o) => sum + o.total, 0);
     const olderOrders = orders.slice(3, 6);
-    const olderTotal = olderOrders.length > 0 
-      ? olderOrders.reduce((sum, o) => sum + o.total, 0) / olderOrders.length
-      : 0;
+    const olderTotal =
+      olderOrders.length > 0
+        ? olderOrders.reduce((sum, o) => sum + o.total, 0) / olderOrders.length
+        : 0;
 
     if (olderTotal > 0 && recentTotal / recentOrders.length > olderTotal * 1.2) {
       insights.push({
@@ -378,8 +407,8 @@ function analyzeTrends(orders: Order[], stats: ReturnType<typeof useUserOrders>[
 function generateRecommendations(
   orders: Order[],
   activity: ReturnType<typeof useUserActivity>,
-  wishlist: any[],
-  cart: any[]
+  _wishlist: WishlistItem[],
+  _cart: CartItem[]
 ): Insight[] {
   const insights: Insight[] = [];
 
@@ -393,7 +422,10 @@ function generateRecommendations(
       priority: 'medium',
       title: `Новинки в категории "${topCategory.category}"`,
       description: `Мы добавили новые товары в вашей любимой категории`,
-      action: { label: 'Посмотреть новинки', href: `/search?category=${encodeURIComponent(topCategory.category)}` },
+      action: {
+        label: 'Посмотреть новинки',
+        href: `/search?category=${encodeURIComponent(topCategory.category)}`,
+      },
     });
   }
 
@@ -405,7 +437,7 @@ function generateRecommendations(
       priority: 'low',
       title: 'Используйте баллы',
       description: `У вас ${activity.loyaltyPoints} баллов. Используйте их для скидки на следующий заказ`,
-      action: { label: 'Посмотреть предложения', href: '/u?tab=payments' },
+      action: { label: 'Посмотреть предложения', href: '/client/me?tab=payments' },
     });
   }
 
@@ -415,7 +447,7 @@ function generateRecommendations(
 function generateWarningsAndOpportunities(
   orders: Order[],
   activity: ReturnType<typeof useUserActivity>,
-  user: any
+  user: UserLoyaltyInsightSource
 ): Insight[] {
   const insights: Insight[] = [];
 
@@ -423,7 +455,7 @@ function generateWarningsAndOpportunities(
   if (orders.length > 0) {
     const lastOrderDate = new Date(orders[0].createdAt);
     const daysSinceLastOrder = (Date.now() - lastOrderDate.getTime()) / (1000 * 60 * 60 * 24);
-    
+
     if (daysSinceLastOrder > 90) {
       insights.push({
         id: 'inactivity-warning',
@@ -447,7 +479,7 @@ function generateWarningsAndOpportunities(
         title: 'Почти следующий уровень',
         description: `Осталось ${pointsToNext} баллов до следующего уровня лояльности`,
         value: `${pointsToNext} баллов`,
-        action: { label: 'Посмотреть преимущества', href: '/u?tab=payments' },
+        action: { label: 'Посмотреть преимущества', href: '/client/me?tab=payments' },
       });
     }
   }
@@ -457,13 +489,17 @@ function generateWarningsAndOpportunities(
 
 function generateMilestones(
   stats: ReturnType<typeof useUserOrders>['stats'],
-  activity: ReturnType<typeof useUserActivity>,
-  user: any
+  _activity: ReturnType<typeof useUserActivity>
 ): Insight[] {
   const insights: Insight[] = [];
 
   // Вехи по заказам
-  if (stats.totalOrders === 10 || stats.totalOrders === 25 || stats.totalOrders === 50 || stats.totalOrders === 100) {
+  if (
+    stats.totalOrders === 10 ||
+    stats.totalOrders === 25 ||
+    stats.totalOrders === 50 ||
+    stats.totalOrders === 100
+  ) {
     insights.push({
       id: `milestone-${stats.totalOrders}`,
       type: 'achievement',
@@ -493,32 +529,36 @@ function generateMilestones(
 
 function calculateAvgDaysBetweenOrders(orders: Order[]): number {
   if (orders.length < 2) return 0;
-  
-  const sortedOrders = [...orders].sort((a, b) => 
-    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+
+  const sortedOrders = [...orders].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 
   let totalDays = 0;
   for (let i = 0; i < sortedOrders.length - 1; i++) {
-    const days = (new Date(sortedOrders[i].createdAt).getTime() - 
-                  new Date(sortedOrders[i + 1].createdAt).getTime()) / (1000 * 60 * 60 * 24);
+    const days =
+      (new Date(sortedOrders[i].createdAt).getTime() -
+        new Date(sortedOrders[i + 1].createdAt).getTime()) /
+      (1000 * 60 * 60 * 24);
     totalDays += days;
   }
 
   return totalDays / (sortedOrders.length - 1);
 }
 
-function analyzeCategoryPreferences(orders: Order[]): Array<{ category: string; count: number; percentage: number }> {
+function analyzeCategoryPreferences(
+  orders: Order[]
+): Array<{ category: string; count: number; percentage: number }> {
   const categoryMap = new Map<string, number>();
-  
-  orders.forEach(order => {
-    order.items.forEach(item => {
+
+  orders.forEach((order) => {
+    order.items.forEach((item) => {
       categoryMap.set(item.category, (categoryMap.get(item.category) || 0) + 1);
     });
   });
 
   const total = Array.from(categoryMap.values()).reduce((sum, count) => sum + count, 0);
-  
+
   return Array.from(categoryMap.entries())
     .map(([category, count]) => ({
       category,
@@ -528,29 +568,31 @@ function analyzeCategoryPreferences(orders: Order[]): Array<{ category: string; 
     .sort((a, b) => b.count - a.count);
 }
 
-function analyzePriceSensitivity(orders: Order[]): string {
+function _analyzePriceSensitivity(orders: Order[]): string {
   if (orders.length === 0) return 'Средняя';
-  
+
   const avgPrice = orders.reduce((sum, o) => sum + o.total, 0) / orders.length;
-  const hasDiscounts = orders.some(o => o.items.some(i => i.originalPrice && i.originalPrice > i.price));
-  
+  const hasDiscounts = orders.some((o) =>
+    o.items.some((i) => i.originalPrice && i.originalPrice > i.price)
+  );
+
   if (avgPrice > 20000 && !hasDiscounts) return 'Низкая';
   if (avgPrice < 10000 || hasDiscounts) return 'Высокая';
   return 'Средняя';
 }
 
-function analyzeSeasonality(orders: Order[]): { peakSeason: string; description: string } {
+function _analyzeSeasonality(orders: Order[]): { peakSeason: string; description: string } {
   // Упрощенный анализ - можно улучшить
   const monthCounts = new Map<number, number>();
-  
-  orders.forEach(order => {
+
+  orders.forEach((order) => {
     const month = new Date(order.createdAt).getMonth();
     monthCounts.set(month, (monthCounts.get(month) || 0) + 1);
   });
 
   const seasons = ['Зима', 'Весна', 'Лето', 'Осень'];
   const maxMonth = Array.from(monthCounts.entries()).sort((a, b) => b[1] - a[1])[0]?.[0];
-  
+
   if (maxMonth === undefined) {
     return { peakSeason: 'Равномерно', description: 'Покупки распределены равномерно по сезонам' };
   }
@@ -562,12 +604,12 @@ function analyzeSeasonality(orders: Order[]): { peakSeason: string; description:
   };
 }
 
-function analyzeBrandLoyalty(orders: Order[]): string {
+function _analyzeBrandLoyalty(orders: Order[]): string {
   if (orders.length === 0) return 'Средняя';
-  
+
   const brandCounts = new Map<string, number>();
-  orders.forEach(order => {
-    order.items.forEach(item => {
+  orders.forEach((order) => {
+    order.items.forEach((item) => {
       brandCounts.set(item.brand, (brandCounts.get(item.brand) || 0) + 1);
     });
   });
@@ -583,9 +625,9 @@ function analyzeBrandLoyalty(orders: Order[]): string {
 
 function calculateMonthlySpending(orders: Order[]): number {
   if (orders.length === 0) return 0;
-  
+
   const monthlyTotals = new Map<string, number>();
-  orders.forEach(order => {
+  orders.forEach((order) => {
     const monthKey = new Date(order.createdAt).toISOString().substring(0, 7);
     monthlyTotals.set(monthKey, (monthlyTotals.get(monthKey) || 0) + order.total);
   });
@@ -596,7 +638,7 @@ function calculateMonthlySpending(orders: Order[]): number {
 
 function calculatePointsToNextMilestone(currentPoints: number): number {
   const milestones = [1000, 2000, 5000, 10000, 20000, 50000];
-  const nextMilestone = milestones.find(m => m > currentPoints);
+  const nextMilestone = milestones.find((m) => m > currentPoints);
   return nextMilestone ? nextMilestone - currentPoints : 0;
 }
 
@@ -607,7 +649,7 @@ function calculatePointsToNextLevel(plan: string, currentPoints: number): number
     comfort: 5000,
     premium: 10000,
   };
-  
+
   const nextThreshold = thresholds[plan] || 1000;
   return Math.max(0, nextThreshold - currentPoints);
 }
@@ -615,8 +657,3 @@ function calculatePointsToNextLevel(plan: string, currentPoints: number): number
 function formatDate(date: Date): string {
   return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
 }
-
-
-
-
-

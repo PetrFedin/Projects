@@ -1,6 +1,7 @@
 'use server';
 
 import { ai, withTokenAudit, truncateInput } from '@/ai/genkit';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 import { z } from 'zod';
 
 const OptimizeBlogTextInputSchema = z.object({
@@ -15,7 +16,9 @@ const OptimizeBlogTextOutputSchema = z.object({
 export async function optimizeBlogText(
   input: z.infer<typeof OptimizeBlogTextInputSchema>
 ): Promise<z.infer<typeof OptimizeBlogTextOutputSchema>> {
-  return withTokenAudit('optimizeBlogText', input, undefined, undefined, (i) => optimizeBlogTextFlow(i));
+  return withTokenAudit('optimizeBlogText', input, undefined, undefined, (i) =>
+    optimizeBlogTextFlow(i)
+  );
 }
 
 const prompt = ai.definePrompt({
@@ -50,23 +53,26 @@ const optimizeBlogTextFlow = ai.defineFlow(
     inputSchema: OptimizeBlogTextInputSchema,
     outputSchema: OptimizeBlogTextOutputSchema,
   },
-  async input => {
+  async (input) => {
     try {
       // Token Economy: Truncate input text to 5000 chars (approx 1.5k-2k tokens)
       const optimizedInput = {
         ...input,
-        text: truncateInput(input.text, 5000)
+        text: truncateInput(input.text, 5000),
       };
 
       const { output } = await prompt(optimizedInput);
       if (!output) throw new Error('AI failed to generate a response');
       return output;
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Fallback logic if API Key is missing or other provider errors occur
-      console.warn("AI Provider failed, using local heuristic engine:", error.message);
-      
+      console.warn(
+        'AI Provider failed, using local heuristic engine:',
+        getUnknownErrorMessage(error, 'unknown')
+      );
+
       const text = input.text;
-      
+
       // Sophisticated local correction for B2B Fashion
       let optimized = text
         .replace(/офрм/g, 'оформ')
@@ -89,22 +95,35 @@ const optimizeBlogTextFlow = ai.defineFlow(
       }
 
       // Proactive suggestions based on keywords
-      if (optimized.toLowerCase().includes('цена') || optimized.toLowerCase().includes('стоимость')) {
-        optimized += " Предлагаю провести ревизию текущего прайс-листа с учетом сезонных коэффициентов и объема партии, чтобы оптимизировать маржинальность для обеих сторон.";
-      } else if (optimized.toLowerCase().includes('заказ') || optimized.toLowerCase().includes('купить')) {
-        optimized += " Для ускорения процесса предлагаю синхронизировать наши складские остатки в реальном времени через API, что позволит сократить цикл обработки заказа на 25%.";
-      } else if (optimized.toLowerCase().includes('срок') || optimized.toLowerCase().includes('когда')) {
-        optimized += " Мы подготовили обновленный таймлайн производства. Рекомендую зафиксировать дедлайны по критическим этапам (Patterns/QC) до конца текущей недели.";
+      if (
+        optimized.toLowerCase().includes('цена') ||
+        optimized.toLowerCase().includes('стоимость')
+      ) {
+        optimized +=
+          ' Предлагаю провести ревизию текущего прайс-листа с учетом сезонных коэффициентов и объема партии, чтобы оптимизировать маржинальность для обеих сторон.';
+      } else if (
+        optimized.toLowerCase().includes('заказ') ||
+        optimized.toLowerCase().includes('купить')
+      ) {
+        optimized +=
+          ' Для ускорения процесса предлагаю синхронизировать наши складские остатки в реальном времени через API, что позволит сократить цикл обработки заказа на 25%.';
+      } else if (
+        optimized.toLowerCase().includes('срок') ||
+        optimized.toLowerCase().includes('когда')
+      ) {
+        optimized +=
+          ' Мы подготовили обновленный таймлайн производства. Рекомендую зафиксировать дедлайны по критическим этапам (Patterns/QC) до конца текущей недели.';
       } else if (optimized.length < 50) {
-        optimized = "Коллеги, добрый день. " + optimized;
-        optimized += " В рамках нашей стратегии по расширению присутствия на рынке, предлагаю детально проработать данный вопрос и подготовить аналитический отчет к следующей встрече.";
+        optimized = 'Коллеги, добрый день. ' + optimized;
+        optimized +=
+          ' В рамках нашей стратегии по расширению присутствия на рынке, предлагаю детально проработать данный вопрос и подготовить аналитический отчет к следующей встрече.';
       }
 
       return {
         optimizedText: optimized,
-        explanation: "Сработало стратегическое перефразирование (Local Engine): текст усилен профессиональными предложениями, добавлена деловая конкретика и отраслевые термины."
+        explanation:
+          'Сработало стратегическое перефразирование (Local Engine): текст усилен профессиональными предложениями, добавлена деловая конкретика и отраслевые термины.',
       };
     }
   }
 );
-

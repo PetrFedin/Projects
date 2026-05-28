@@ -18,6 +18,6 @@ export function getRemotePresence(sessionId: string): RemotePresenceV1[] {
       isArActive: false,
       viewportX: 10,
       viewportY: 20,
-    }
+    },
   ];
 }

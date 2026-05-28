@@ -8,7 +8,7 @@ export function detectCareCompositionFriction(product: Product): string | null {
   const text = `${comp} ${product.material ?? ''} ${product.description ?? ''}`.slice(0, 2000);
   const dryCleanMention =
     /сух(ая|ую)?\s+чистк|химчистк|только\s+химчист|dry\s*clean|professional\s*clean|do\s+not\s+wash|не\s+стирать/i.test(
-      text,
+      text
     );
   const handWashOnly = /только\s+ручн|hand\s*wash\s*only/i.test(text);
   const ids = resolveCareSymbolIds(product);

@@ -4,14 +4,13 @@ import { useMemo, useState, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlatformDataBanner } from '@/components/client/platform-data-banner';
-import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import { suggestColorHarmony } from '@/lib/fashion/color-harmony';
-import { ArrowLeft, Palette } from 'lucide-react';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { Label } from '@/components/ui/label';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 function ColorStudioInner() {
   const search = useSearchParams();
@@ -21,7 +20,7 @@ function ColorStudioInner() {
   const anchor = useMemo(() => products.find((p) => p.slug === slug) ?? products[0], [slug]);
   const suggestions = useMemo(
     () => (anchor ? suggestColorHarmony(anchor, products, 9) : []),
-    [anchor],
+    [anchor]
   );
 
   if (!anchor) {
@@ -33,7 +32,9 @@ function ColorStudioInner() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Якорный товар</CardTitle>
-          <CardDescription>Цвет и категория влияют на скоринг сочетаний (без компьютерного зрения).</CardDescription>
+          <CardDescription>
+            Цвет и категория влияют на скоринг сочетаний (без компьютерного зрения).
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -51,17 +52,24 @@ function ColorStudioInner() {
               ))}
             </select>
           </div>
-          <div className="flex gap-4 items-start">
+          <div className="flex items-start gap-4">
             <div className="relative h-36 w-28 shrink-0 overflow-hidden rounded-lg border">
-              <Image src={anchor.images[0]?.url || '/placeholder.jpg'} alt="" fill className="object-cover" sizes="120px" />
+              <Image
+                src={anchor.images[0]?.url || '/placeholder.jpg'}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="120px"
+              />
             </div>
-            <div className="text-sm space-y-1">
+            <div className="space-y-1 text-sm">
               <p className="font-medium">{anchor.name}</p>
               <p className="text-muted-foreground">
                 Цвет: <span className="text-foreground">{anchor.color}</span> · {anchor.category}
               </p>
               <p className="text-[11px] text-muted-foreground">
-                API-ready: передайте <code className="bg-muted px-1 rounded">anchorProductId</code> вместо локального списка.
+                API-ready: передайте <code className="rounded bg-muted px-1">anchorProductId</code>{' '}
+                вместо локального списка.
               </p>
             </div>
           </div>
@@ -69,16 +77,22 @@ function ColorStudioInner() {
       </Card>
 
       <div>
-        <h2 className="text-sm font-semibold mb-3">С чем сочетать</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <h2 className="mb-3 text-sm font-semibold">С чем сочетать</h2>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {suggestions.map((s) => (
-            <Link key={s.productId} href={`/products/${s.slug}`} className="group rounded-lg border overflow-hidden bg-card">
+            <Link
+              key={s.productId}
+              href={`/products/${s.slug}`}
+              className="group overflow-hidden rounded-lg border bg-card"
+            >
               <div className="relative aspect-[3/4]">
                 <Image src={s.imageUrl} alt={s.name} fill className="object-cover" sizes="200px" />
               </div>
-              <div className="p-2 space-y-1">
-                <p className="text-xs font-medium line-clamp-2 group-hover:text-primary">{s.name}</p>
-                <p className="text-[10px] text-muted-foreground line-clamp-2">{s.reason}</p>
+              <div className="space-y-1 p-2">
+                <p className="line-clamp-2 text-xs font-medium group-hover:text-primary">
+                  {s.name}
+                </p>
+                <p className="line-clamp-2 text-[10px] text-muted-foreground">{s.reason}</p>
               </div>
             </Link>
           ))}
@@ -90,23 +104,10 @@ function ColorStudioInner() {
 
 export default function ClientColorStudioPage() {
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6 pb-24">
+    <CabinetPageContent maxWidth="4xl">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
-              <Palette className="h-6 w-6" />
-              Цвет и сочетания
-            </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              Эвристики палитры для мерча и витрины; позже — эмбеддинги образов и правила бренда.
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader />
         </div>
         <PlatformDataBanner />
       </div>
@@ -114,6 +115,6 @@ export default function ClientColorStudioPage() {
       <Suspense fallback={<p className="text-sm text-muted-foreground">Загрузка…</p>}>
         <ColorStudioInner />
       </Suspense>
-    </div>
+    </CabinetPageContent>
   );
 }

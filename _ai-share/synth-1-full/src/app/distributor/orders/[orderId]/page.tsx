@@ -1,9 +1,13 @@
-
 'use client';
 
+import { use } from 'react';
 import B2BOrderDetailsPage from '@/app/brand/b2b-orders/[orderId]/page';
 
-export default function DistributorB2BOrderDetailsPage({ params: paramsPromise }: { params: Promise<{ orderId: string }> }) {
-    const params = use(paramsPromise);
-    return <B2BOrderDetailsPage params={params} />;
+export default function DistributorB2BOrderDetailsPage({
+  params: paramsPromise,
+}: {
+  params: Promise<{ orderId: string }>;
+}) {
+  const params = use(paramsPromise);
+  return <B2BOrderDetailsPage params={params} />;
 }

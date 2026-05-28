@@ -1,0 +1,9 @@
+---
+description: Где держать Agent Skills (Go vs Next/TS) — не в репозитории приложения
+alwaysApply: false
+---
+
+# Cursor Skills — политика
+
+- **Next/TypeScript-проекты** (в т.ч. `_ai-share/synth-1-full`): репозитории **Go skills не подключаем** — это не npm-зависимости и не часть приложения.
+- **Go-сервисы:** при работе с Go — по сценарию ставить skills (например [samber/cc-skills-golang](https://github.com/samber/cc-skills-golang)) в **директорию skills Cursor** (`~/.cursor/skills/` или `npx skills add …`), **не** коммитить в репозиторий приложения.

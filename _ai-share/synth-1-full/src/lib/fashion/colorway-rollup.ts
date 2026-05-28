@@ -40,7 +40,11 @@ export function colorwayRollupToCsv(rows: ColorwayRollupRow[]): string {
   const lines = [h.join(',')];
   for (const r of rows) {
     const esc = (s: string) => `"${s.replace(/"/g, '""')}"`;
-    lines.push([esc(r.displayColor), String(r.skuCount), esc(r.categorySample), esc(r.seasonSample)].join(','));
+    lines.push(
+      [esc(r.displayColor), String(r.skuCount), esc(r.categorySample), esc(r.seasonSample)].join(
+        ','
+      )
+    );
   }
   return lines.join('\n');
 }

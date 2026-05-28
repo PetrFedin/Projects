@@ -66,7 +66,9 @@ export function normalizeLinkedTzPanelSectionForNav(
   return key;
 }
 
-export function labelForStoredTzPanelSection(key: Workshop2TzPanelSectionKeyStored | undefined): string {
+export function labelForStoredTzPanelSection(
+  key: Workshop2TzPanelSectionKeyStored | undefined
+): string {
   const n = normalizeLinkedTzPanelSectionForNav(key);
   return n ? TZ_PANEL_SECTION_LABELS[n] : '';
 }
@@ -94,9 +96,7 @@ export function inferVisualReadinessChecklistFromFacts(
     Boolean(dossier.categorySketchImageDataUrl) ||
     (dossier.categorySketchAnnotations?.length ?? 0) > 0 ||
     Boolean(
-      dossier.sketchSheets?.some(
-        (s) => Boolean(s.imageDataUrl) || (s.annotations?.length ?? 0) > 0
-      )
+      dossier.sketchSheets?.some((s) => Boolean(s.imageDataUrl) || (s.annotations?.length ?? 0) > 0)
     );
   if (sketchOk) patch.sketchWithPins = true;
   const intentOk =
@@ -107,7 +107,10 @@ export function inferVisualReadinessChecklistFromFacts(
   if (dossier.canonicalMainPhotoRefId && dossier.canonicalMainSketchTarget) {
     patch.canonicalArtifactSet = true;
   }
-  if ((dossier.visualVersionLog?.length ?? 0) > 0 || (dossier.sketchLabelSnapshots?.length ?? 0) > 0) {
+  if (
+    (dossier.visualVersionLog?.length ?? 0) > 0 ||
+    (dossier.sketchLabelSnapshots?.length ?? 0) > 0
+  ) {
     patch.versionOrSnapshotRecorded = true;
   }
   /** Эталон цеха: подпись производства + зафиксированный снимок меток (без снимка галочку не выводим автоматически). */
@@ -117,7 +120,9 @@ export function inferVisualReadinessChecklistFromFacts(
   ) {
     patch.floorReferenceReady = true;
   }
-  const hasAnyRefComment = (dossier.visualReferences ?? []).some((r) => (r.comments?.length ?? 0) > 0);
+  const hasAnyRefComment = (dossier.visualReferences ?? []).some(
+    (r) => (r.comments?.length ?? 0) > 0
+  );
   const allRefCommentsResolved = (dossier.visualReferences ?? []).every((r) =>
     (r.comments ?? []).every((c) => c.resolved === true)
   );
@@ -189,7 +194,8 @@ export function visualReadinessHints(
     const prodOk = Boolean(dossier.categorySketchProductionApproved?.at);
     const hasFloorSnapshot = (dossier.sketchLabelSnapshots?.length ?? 0) > 0;
     const pinOnMaster = (dossier.categorySketchAnnotations?.length ?? 0) > 0;
-    const pinOnSheets = dossier.sketchSheets?.some((s) => (s.annotations?.length ?? 0) > 0) ?? false;
+    const pinOnSheets =
+      dossier.sketchSheets?.some((s) => (s.annotations?.length ?? 0) > 0) ?? false;
     const hasPins = pinOnMaster || pinOnSheets;
     const customSubstrate = Boolean(dossier.categorySketchImageDataUrl);
     if (prodOk) {
@@ -197,7 +203,8 @@ export function visualReadinessHints(
         ? 'Скетч согласован с производством, снимок меток есть — проверьте ?sketchFloor=1 для линии и отметьте эталон.'
         : 'Подпись производства есть — сохраните снимок меток для архива, откройте страницу с ?sketchFloor=1 и проверьте читаемость номеров; затем отметьте эталон.';
     } else if (hasFloorSnapshot) {
-      out.floorReferenceReady = 'Есть снимок меток — после проверки на цехе можно отметить готовность эталона.';
+      out.floorReferenceReady =
+        'Есть снимок меток — после проверки на цехе можно отметить готовность эталона.';
     } else if (hasPins && customSubstrate) {
       out.floorReferenceReady =
         'Своя подложка и метки — проверьте читаемость в режиме цеха (?sketchFloor=1), затем отметьте.';
@@ -210,7 +217,9 @@ export function visualReadinessHints(
     }
   }
   if (!c.refThreadsResolved) {
-    const refsWithChat = (dossier.visualReferences ?? []).filter((r) => (r.comments?.length ?? 0) > 0);
+    const refsWithChat = (dossier.visualReferences ?? []).filter(
+      (r) => (r.comments?.length ?? 0) > 0
+    );
     if (refsWithChat.length > 0) {
       let openComments = 0;
       for (const r of refsWithChat) {

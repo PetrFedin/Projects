@@ -59,7 +59,7 @@ function deepStrip(x: unknown, cat: Set<string>): unknown {
 
     if (isValueLabelPair(x[0])) {
       return (x as { value: string; label: string }[]).filter(
-        (o) => !shouldDropString(o.value, cat) && !shouldDropString(o.label, cat),
+        (o) => !shouldDropString(o.value, cat) && !shouldDropString(o.label, cat)
       );
     }
 

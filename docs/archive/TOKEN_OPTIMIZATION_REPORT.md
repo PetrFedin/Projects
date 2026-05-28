@@ -5,14 +5,14 @@
 ### Frontend (synth-1) — приоритет 1
 | Файл | Строк | Действие |
 |------|-------|----------|
-| `synth-1/src/app/brand/page.tsx` | **2650** | Разбить на табы-компоненты |
-| `synth-1/src/app/brand/production/production-page-content.tsx` | 1980 | Разбить на панели |
-| `synth-1/src/app/brand/production/tech-pack/[id]/page.tsx` | 1462 | Вынести подкомпоненты |
-| `synth-1/src/app/brand/organization/organization-overview-content.tsx` | 1367 | Разбить |
-| `synth-1/src/app/project-info/product-display/page.tsx` | 1134 | Разбить |
-| `synth-1/src/app/brand/production/page.tsx` | 1095 | Вынести контент |
-| `synth-1/src/app/brand/organization/page-data.ts` | 983 | OK — данные |
-| `synth-1/src/app/project-info/page.tsx` | 964 | Разбить |
+| `_ai-share/synth-1-full/src/app/brand/page.tsx` | **2650** | Разбить на табы-компоненты |
+| `_ai-share/synth-1-full/src/app/brand/production/production-page-content.tsx` | 1980 | Разбить на панели |
+| `_ai-share/synth-1-full/src/app/brand/production/tech-pack/[id]/page.tsx` | 1462 | Вынести подкомпоненты |
+| `_ai-share/synth-1-full/src/app/brand/organization/organization-overview-content.tsx` | 1367 | Разбить |
+| `_ai-share/synth-1-full/src/app/project-info/product-display/page.tsx` | 1134 | Разбить |
+| `_ai-share/synth-1-full/src/app/brand/production/page.tsx` | 1095 | Вынести контент |
+| `_ai-share/synth-1-full/src/app/brand/organization/page-data.ts` | 983 | OK — данные |
+| `_ai-share/synth-1-full/src/app/project-info/page.tsx` | 964 | Разбить |
 
 ### Backend (app)
 | Файл | Строк | Действие |

@@ -5,7 +5,14 @@
 
 export type NotificationChannel = 'email' | 'push';
 
-export type TriggerType = 'sla_overdue' | 'new_qc' | 'po_amendment' | 'deadline';
+export type TriggerType =
+  | 'sla_overdue'
+  | 'new_qc'
+  | 'po_amendment'
+  | 'deadline'
+  | 'po_status_change'
+  | 'raw_material_delay'
+  | 'qc_result';
 
 export interface TriggerConfig {
   id: TriggerType;
@@ -16,8 +23,47 @@ export interface TriggerConfig {
 }
 
 export const DEFAULT_TRIGGERS: TriggerConfig[] = [
-  { id: 'sla_overdue', label: 'Просрочка SLA', description: 'Когда этап сэмпла превышает дедлайн', email: true, push: true },
+  {
+    id: 'sla_overdue',
+    label: 'Просрочка SLA',
+    description: 'Когда этап сэмпла превышает дедлайн',
+    email: true,
+    push: true,
+  },
   { id: 'new_qc', label: 'Новый QC', description: 'Появление QC-отчёта', email: false, push: true },
-  { id: 'po_amendment', label: 'Amendment PO', description: 'Изменение заказа на производство', email: true, push: true },
-  { id: 'deadline', label: 'Дедлайн задачи', description: 'Близкий дедлайн (24ч)', email: true, push: true },
+  {
+    id: 'po_amendment',
+    label: 'Amendment PO',
+    description: 'Изменение заказа на производство',
+    email: true,
+    push: true,
+  },
+  {
+    id: 'deadline',
+    label: 'Дедлайн задачи',
+    description: 'Близкий дедлайн (24ч)',
+    email: true,
+    push: true,
+  },
+  {
+    id: 'po_status_change',
+    label: 'Изменение статуса PO',
+    description: 'Изменение статуса заказа на производство',
+    email: true,
+    push: true,
+  },
+  {
+    id: 'raw_material_delay',
+    label: 'Задержка сырья',
+    description: 'Задержка поставки сырья и материалов',
+    email: true,
+    push: true,
+  },
+  {
+    id: 'qc_result',
+    label: 'Результаты QC',
+    description: 'Результаты контроля качества',
+    email: true,
+    push: true,
+  },
 ];

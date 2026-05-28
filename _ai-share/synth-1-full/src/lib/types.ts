@@ -1,5 +1,12 @@
-
-export type UserRole = 'client' | 'b2b' | 'brand' | 'shop' | 'admin' | 'distributor' | 'supplier' | 'manufacturer';
+export type UserRole =
+  | 'client'
+  | 'b2b'
+  | 'brand'
+  | 'shop'
+  | 'admin'
+  | 'distributor'
+  | 'supplier'
+  | 'manufacturer';
 
 /**
  * Granular Permissions Matrix
@@ -140,30 +147,38 @@ export interface TeamMember {
   liveAction?: string; // Current contextual action (Presence 2.0)
   kpiMetrics?: Record<string, { value: number; label: string; trend?: 'up' | 'down' | 'neutral' }>;
   skills?: string[];
-  partnerAssignments?: Array<{ partnerId: string; partnerName: string; role: 'lead' | 'support' | 'curator' }>;
-  approvalWorkflow?: Array<{ action: string; status: 'auto' | 'manual' | 'restricted'; approverRole?: string }>;
+  partnerAssignments?: Array<{
+    partnerId: string;
+    partnerName: string;
+    role: 'lead' | 'support' | 'curator';
+  }>;
+  approvalWorkflow?: Array<{
+    action: string;
+    status: 'auto' | 'manual' | 'restricted';
+    approverRole?: string;
+  }>;
 }
 
-export type ProfessionalRole = 
-  | 'stylist' 
-  | 'designer' 
-  | 'buyer' 
-  | 'model' 
-  | 'photographer' 
-  | 'seamstress' 
-  | 'tailor' 
-  | 'logistician' 
-  | 'raw_material_buyer' 
-  | 'ai_specialist' 
-  | 'analyst' 
-  | 'creative_director' 
-  | 'visual_merchandiser' 
-  | 'sales_representative'
+export type ProfessionalRole =
+  | 'stylist'
+  | 'designer'
+  | 'buyer'
+  | 'model'
+  | 'photographer'
+  | 'seamstress'
+  | 'tailor'
+  | 'logistician'
+  | 'raw_material_buyer'
+  | 'ai_specialist'
+  | 'analyst'
+  | 'creative_director'
+  | 'visual_merchandiser'
   | 'merchandiser'
-  | 'blogger' 
+  | 'sales_representative'
+  | 'blogger'
   | 'influencer';
 
-/** Media / academy program (see `src/data/programs.ts`). */
+/** Подкасты / программы Academy (данные `src/data/programs.ts`). */
 export interface Program {
   id: string;
   title: string;
@@ -171,10 +186,16 @@ export interface Program {
   coverUrl: string;
   subscribers: number;
   host: { name: string; photoUrl: string; role: string };
-  sponsors: { name: string; logoUrl: string; url: string }[];
+  sponsors: Array<{ name: string; logoUrl: string; url: string }>;
   schedule: { dayOfWeek: string; time: string };
   category: string;
-  pastBroadcasts: { id: string; title: string; date: string; duration: number; imageUrl: string }[];
+  pastBroadcasts: Array<{
+    id: string;
+    title: string;
+    date: string;
+    duration: number;
+    imageUrl: string;
+  }>;
 }
 
 export interface CareerResume {
@@ -210,12 +231,44 @@ export interface EducationCourse {
   level: 'beginner' | 'intermediate' | 'advanced' | 'pro';
   targetRoles: UserRole[];
   category: 'economics' | 'design' | 'production' | 'analytics' | 'management' | 'retail' | 'legal';
-  provider: 'Syntha Academy' | 'External' | 'Partner';
+  /**
+   * Источник записи: платформа Syntha, бренд с маркетплейса или внешняя организация.
+   * Курсы бренда/организации для клиентской витрины проходят модерацию (`moderationStatus`).
+   */
+  catalogSource: 'platform' | 'brand' | 'organization';
+  /**
+   * Для `brand` / `organization`: статус согласования с админами платформы.
+   * У курсов платформы не задаётся — считаются опубликованными.
+   */
+  moderationStatus?: 'draft' | 'pending_review' | 'approved' | 'rejected';
+  /** ID бренда-владельца при `catalogSource === 'brand'` */
+  ownerBrandId?: string;
+  /** ID организации при `catalogSource === 'organization'` */
+  ownerOrganizationId?: string;
+  /** Кто слушатель: частное лицо / индивидуально или профессионалы по ролям партнёров */
+  audienceKind: 'individual' | 'professional';
+  /**
+   * Для `audienceKind === 'professional'`: одна роль или кросс-функциональные команды (несколько ролей).
+   */
+  professionalScope?: 'single_role' | 'role_team';
+  /** Кто выпускает курс: платформа, бренд, школа, университет или партнёр */
+  provider: string;
+  /** Тип организации — для бейджей и фильтров */
+  providerKind?: 'syntha' | 'brand' | 'school' | 'university' | 'partner';
+  /** Бесплатный или платный доступ */
+  access?: 'free' | 'paid';
+  /**
+   * Итог обучения: диплом / ПК / сертификат или лёгкий курс «для себя» без формального документа.
+   */
+  outcomeKind?: 'diploma' | 'qualification' | 'certificate' | 'casual';
   rating: number;
   studentsCount: number;
   isNew?: boolean;
   isRecommended?: boolean;
-  price?: number; // 0 for free
+  /** Курс снят с активного каталога, доступен в архиве витрины */
+  archived?: boolean;
+  /** Стоимость в ₽; при бесплатном курсе обычно 0 или поле не задаётся */
+  price?: number;
   curriculum?: string[];
   media?: Array<{ type: 'video' | 'file'; title: string; url: string; size?: string }>;
   relatedIds?: string[]; // IDs of related courses or articles
@@ -233,6 +286,8 @@ export interface KnowledgeArticle {
   tags: string[];
   relatedIds?: string[];
   attachments?: Array<{ name: string; url: string; type: 'pdf' | 'xls' | 'doc' }>;
+  /** Статья в архиве базы знаний */
+  archived?: boolean;
 }
 
 export interface AcademyEvent {
@@ -245,7 +300,37 @@ export interface AcademyEvent {
   hostName: string;
   status: 'upcoming' | 'live' | 'ended';
   streamUrl?: string;
+  /** ID статьи базы знаний (mockArticles) */
   relatedId?: string;
+  /** ID курса платформы — для блока «Подготовка к эфиру» */
+  relatedCourseId?: string;
+  /** Ссылка на запись после завершения (архив) */
+  recordingUrl?: string;
+}
+
+/** Развёрнутое описание программы (модалка «О программе», справка) */
+export interface LearningPathCourseBlock {
+  courseId: string;
+  /** Зачем этот курс в цепочке */
+  roleInPath: string;
+  narrative: string;
+  keyUnits: string[];
+  labOrProject?: string;
+}
+
+export interface LearningPathProgramDetail {
+  overviewExtended: string;
+  audienceDetail: string;
+  competencies: string[];
+  prerequisites: string[];
+  workload: string;
+  assessmentAndCert: string;
+  certificationDetail: string;
+  tools?: string[];
+  readings?: string[];
+  courseBlocks: LearningPathCourseBlock[];
+  faq: Array<{ question: string; answer: string }>;
+  finePrint?: string;
 }
 
 export interface LearningPath {
@@ -255,6 +340,16 @@ export interface LearningPath {
   courses: string[]; // Course IDs
   totalDuration: string;
   outcome: string; // e.g., "Certified B2B Manager"
+  /** Для кого программа — одна строка для витрины */
+  audience?: string;
+  /** Сложность траектории целиком */
+  level?: EducationCourse['level'];
+  /** Формат: видео, вебинары, самопроверка и т.п. */
+  format?: string;
+  /** Полное описание для модального окна */
+  programDetail?: LearningPathProgramDetail;
+  /** Траектория в архиве: просмотр сохраняется, новые зачисления не активны */
+  archived?: boolean;
 }
 
 export interface Assessment {
@@ -267,6 +362,8 @@ export interface Assessment {
   timeLimitMinutes?: number;
   passingScore: number; // Percentage
   questions: Question[];
+  /** Аттестация снята с публикации / только архив */
+  archived?: boolean;
 }
 
 export interface Question {
@@ -307,6 +404,7 @@ export interface UserProfile {
     city?: string;
     emails?: { primary?: string; secondary?: string };
     phones?: { primary?: string; secondary?: string };
+    verification?: { email?: boolean; phone?: boolean };
     addresses?: { primary?: string; secondary?: string };
     phoneNumbers?: Array<{ value: string; verified: boolean; primary: boolean }>;
     emailAddresses?: Array<{ value: string; verified: boolean; primary: boolean }>;
@@ -319,7 +417,7 @@ export interface UserProfile {
     }>;
   };
   socials?: Record<string, { value?: string; synced?: boolean; verified?: boolean }>;
-  family?: { spouse?: string; children?: string; parents?: string; };
+  family?: { spouse?: string; children?: string; parents?: string };
   sync?: {
     accounts?: Array<{
       role: string;
@@ -351,12 +449,12 @@ export interface UserProfile {
     department?: string;
     isPrivate?: boolean; // Privacy flag
   }>;
-  brands?: Array<{ id: string; name: string; email: string; }>;
+  brands?: Array<{ id: string; name: string; email: string }>;
   partnerName?: string;
   isAnonymous?: boolean;
   loyaltyPlan?: SubscriptionPlan;
   loyaltyPoints?: number;
-  loyaltyPointsBreakdown?: { qualifying: number; nonQualifying: number; };
+  loyaltyPointsBreakdown?: { qualifying: number; nonQualifying: number };
   loyaltyCardIssuedAt?: string;
   subscription?: {
     plan: SubscriptionPlan;
@@ -368,7 +466,7 @@ export interface UserProfile {
   };
   measurements?: Record<string, any>;
   preferences?: Record<string, any>;
-  lifestyle?: { city?: string; occupation?: string; age?: number; };
+  lifestyle?: { city?: string; occupation?: string; age?: number };
   educationHistory?: Array<{
     courseId: string;
     status: 'enrolled' | 'completed';
@@ -383,49 +481,61 @@ export interface UserProfile {
   }>;
 }
 
-export type ProductAudience = 'Мужской' | 'Женский' | 'Унисекс' | 'Детский' | 'Мальчики' | 'Девочки' | 'Новорожденные';
+export type ProductAudience =
+  | 'Мужской'
+  | 'Женский'
+  | 'Унисекс'
+  | 'Детский'
+  | 'Мальчики'
+  | 'Девочки'
+  | 'Новорожденные';
 
 export type GlobalCategory = 'all' | 'women' | 'men' | 'kids' | 'beauty' | 'home';
 
-export type SizeAvailabilityStatus = 'in_stock' | 'pre_order' | 'out_of_stock';
+export type SizeAvailabilityStatus = 'in_stock' | 'pre_order' | 'out_of_stock' | 'coming_soon';
 
 export interface SizeInfo {
-    name: string;
-    measurements?: Record<string, string>;
+  name: string;
+  measurements?: Record<string, string>;
 }
 
 export interface ColorInfo {
-    id: string;
-    name: string;
-    hex: string;
-    colorCode?: string;
-    colorDescription?: string;
-    status: 'active' | 'disabled';
-    isBase: boolean;
-    lifecycleStatus: 'in_stock' | 'outlet' | 'archived';
-    noSale: boolean;
-    carryOver: boolean;
-    discounts?: {
-        percentage: number;
-        startDate: string;
-        endDate: string;
-    }[];
-    sizeAvailability?: {size: string, status: SizeAvailabilityStatus, quantity?: number, preOrderDate?: string}[];
+  id: string;
+  name: string;
+  hex: string;
+  colorCode?: string;
+  colorDescription?: string;
+  status: 'active' | 'disabled';
+  isBase: boolean;
+  lifecycleStatus: 'in_stock' | 'outlet' | 'archived';
+  noSale: boolean;
+  carryOver: boolean;
+  discounts?: {
+    percentage: number;
+    startDate: string;
+    endDate: string;
+  }[];
+  sizeAvailability?: {
+    size: string;
+    status: SizeAvailabilityStatus;
+    quantity?: number;
+    preOrderDate?: string;
+  }[];
 }
 
 export interface ProductImage {
-    id: string;
-    url: string;
-    alt: string;
-    hint: string;
-    colorName?: string;
-    isCover?: boolean;
+  id: string;
+  url: string;
+  alt: string;
+  hint: string;
+  colorName?: string;
+  isCover?: boolean;
 }
 
 export interface Product {
   id: string;
   slug: string;
-  name:string;
+  name: string;
   brand: string;
   price: number;
   originalPrice?: number;
@@ -436,16 +546,25 @@ export interface Product {
   category_group?: string;
   sustainability: string[];
   outlet?: boolean;
+  /** Legacy / CSV — дублирует смысл `outlet`, если задано */
+  is_outlet?: boolean;
+  /** Удобный флаг для фильтров UI */
+  isOutlet?: boolean;
+  discountPrice?: number;
+  /** Идентификатор капсулы для фильтра витрины бренда */
+  capsule?: string;
   hasAR?: boolean;
   sku: string;
   color: string;
   season: string;
+  /** Аудитория / пол для фильтров каталога брендов */
+  gender?: 'women' | 'men' | 'kids' | 'unisex' | string;
   tags?: ('carryover' | 'noSale' | 'newSeason')[];
   rating?: number;
   reviewCount?: number;
   wardrobeCompatibility?: {
-      score: number;
-      comment: string;
+    score: number;
+    comment: string;
   };
   bestsellerRank?: number;
   isPromoted?: boolean;
@@ -455,7 +574,7 @@ export interface Product {
   audience?: ProductAudience;
   subcategory?: string;
   subcategory2?: string;
-  composition?: string | { material: string, percentage: number }[];
+  composition?: string | { material: string; percentage: number }[];
   material?: string;
   videoUrls?: { url: string; label?: string }[];
   attributes?: Record<string, any>;
@@ -473,8 +592,7 @@ export interface CartItem extends Product {
   deliveryDate?: string;
 }
 
-export interface WishlistItem extends Product {
-}
+export interface WishlistItem extends Product {}
 
 export interface WishlistCollection {
   id: string;
@@ -508,10 +626,10 @@ export interface SavedCartOutfit {
 }
 
 export interface SavedComparison {
-    id: string;
-    name: string;
-    items: Product[];
-    createdAt: string;
+  id: string;
+  name: string;
+  items: Product[];
+  createdAt: string;
 }
 
 export interface ComparisonListItem extends Product {}
@@ -579,13 +697,13 @@ export interface Brand {
     phone?: string;
   };
   legal?: {
-      entityName?: string;
-      regNumber?: string;
-      address?: string;
-      bankDetails?: string;
-      representative?: string;
+    entityName?: string;
+    regNumber?: string;
+    address?: string;
+    bankDetails?: string;
+    representative?: string;
   };
-  locations?: { type: 'showroom' | 'store', address: string }[];
+  locations?: { type: 'showroom' | 'store'; address: string }[];
   keyPeople?: { role: string; name: string }[];
   founder?: string;
   ceo?: string;
@@ -631,10 +749,21 @@ export interface Brand {
   team?: { name: string; role: string; bio: string; imageUrl: string; quote?: string }[];
   events?: { title: string; date: string; type: string }[];
   activePromo?: { code: string; description: string; expiry: string };
-  articles?: { title: string; date: string; imageUrl: string; type: 'blog' | 'press'; link?: string; name?: string; logoUrl?: string }[];
+  articles?: {
+    title: string;
+    date: string;
+    imageUrl: string;
+    type: 'blog' | 'press';
+    link?: string;
+    name?: string;
+    logoUrl?: string;
+  }[];
   tags?: string[];
+  /** B2B-витрина / демо-матчинг */
+  matchScore?: number;
+  isVerified?: boolean;
+  avgMargin?: string | number;
 }
-
 
 export interface Look {
   id: string;
@@ -653,15 +782,16 @@ export interface Look {
 }
 
 export interface Lookboard {
-    id: string;
-    title: string;
-    description: string;
-    looks: Look[];
+  id: string;
+  title: string;
+  description: string;
+  looks: Look[];
+  /** UI-обложка для челленджей / ленты */
+  coverImage?: string;
+  itemsCount?: number;
 }
 
-
 export type ActiveFilters = Record<string, string[] | number[]>;
-
 
 export interface ImagePlaceholder {
   id: string;
@@ -677,77 +807,84 @@ export interface ImagePlaceholder {
 }
 
 export interface ProductReview {
-    id: number;
-    productId?: string;
-    author: string;
-    avatar: string;
-    rating: number;
-    date: string;
-    text: string;
-    color?: string;
-    images?: { id: string; url: string; alt: string; }[];
-    userMeasurements?: {
-        height?: number;
-        weight?: number;
-        footLength?: number;
-    }
+  id: number;
+  productId?: string;
+  author: string;
+  avatar: string;
+  rating: number;
+  date: string;
+  text: string;
+  color?: string;
+  images?: { id: string; url: string; alt: string }[];
+  userMeasurements?: {
+    height?: number;
+    weight?: number;
+    footLength?: number;
+  };
 }
 
-export type PromotionType = 
-    | 'catalog_boost' 
-    | 'homepage_banner' 
-    | 'stories_feature' 
-    | 'email_blast'
-    | 'shoppable_video'
-    | 'shop_the_look'
-    | 'live_shopping_event'
-    | 'ugc_sponsorship'
-    | 'kickstarter_boost'
-    | 'outlet_boost';
+export type PromotionType =
+  | 'catalog_boost'
+  | 'homepage_banner'
+  | 'stories_feature'
+  | 'email_blast'
+  | 'shoppable_video'
+  | 'shop_the_look'
+  | 'live_shopping_event'
+  | 'ugc_sponsorship'
+  | 'kickstarter_boost'
+  | 'outlet_boost';
 
 export type Kpi = 'roi' | 'ctr' | 'reach' | 'conversion';
 
-export type PromotionStatus = 'active' | 'pending' | 'frozen' | 'archived' | 'rejected' | 'unpublished' | 'appealed';
+export type PromotionStatus =
+  | 'active'
+  | 'pending'
+  | 'frozen'
+  | 'archived'
+  | 'rejected'
+  | 'unpublished'
+  | 'appealed';
 
 export interface Promotion {
-    id: string;
-    productId: string;
-    productName: string;
-    productSku?: string;
-    targetType?: 'products' | 'categories' | 'brand';
-    brandName: string;
-    type: PromotionType;
-    startDate: string;
-    endDate: string;
-    budget: {
-        value: number;
-        model: 'cpm' | 'cpc' | 'fixed';
-        bid?: number;
-    };
-    status: PromotionStatus;
-    source: 'admin' | 'brand' | 'system';
-    metrics?: {
-        views: number;
-        engagement: number;
-        ctr: number;
-        roi: number;
-    };
-    evaluation?: {
-        aiSummary: string;
-        brandRating: { metric: string; score: number }[];
-    }
+  id: string;
+  productId: string;
+  productName: string;
+  productSku?: string;
+  targetType?: 'products' | 'categories' | 'brand';
+  brandName: string;
+  type: PromotionType;
+  startDate: string;
+  endDate: string;
+  budget: {
+    value: number;
+    model: 'cpm' | 'cpc' | 'fixed';
+    bid?: number;
+  };
+  status: PromotionStatus;
+  source: 'admin' | 'brand' | 'system';
+  metrics?: {
+    views: number;
+    engagement: number;
+    ctr: number;
+    roi: number;
+  };
+  evaluation?: {
+    aiSummary: string;
+    brandRating: { metric: string; score: number }[];
+  };
 }
 
 export interface PromotionCreative {
-    id: string;
-    url: string;
-    performance?: {
-        views: number;
-        clicks: number;
-        ctr: number;
-        roas: number;
-        cpa: number;
-    }
+  id: string;
+  url: string;
+  performance?: {
+    views: number;
+    clicks: number;
+    ctr: number;
+    roas: number;
+    cpa: number;
+  };
 }
 
 /** JOOR Pay: статус оплаты по заказу (не только кредит в матрице) */
@@ -778,7 +915,7 @@ export type B2BOrder = {
   paymentStatus?: B2BOrderPaymentStatus;
   /** Сумма оплачено (мок, для partial) */
   paidAmount?: number;
-}
+};
 
 export type Plan = {
   name: string;
@@ -787,65 +924,65 @@ export type Plan = {
   description: string;
   features: string[];
   buttonText: string;
-  buttonVariant?: "default" | "secondary" | "outline";
+  buttonVariant?: 'default' | 'secondary' | 'outline';
   disabled?: boolean;
   badgeText?: string;
-  periods?: {label: string, price: number, gift?: string}[];
-}
+  periods?: { label: string; price: number; gift?: string }[];
+};
 
 export type CategoryAttributes = {
-    fit?: string[];
-    length?: string[];
-    sleeveLength?: string[];
-    cuff?: string[];
-    collar?: string[];
-    fastening?: string[];
-    waist?: string[];
-    pockets?: string[];
-    lining?: string[];
-    stitching?: string[];
-    decor?: string[];
-    hardware?: string[];
-    fabricTexture?: string[];
-    processingTech?: string[];
-    pattern?: string[];
-    shoulder?: string[];
-    backDetails?: string[];
-    hemType?: string[];
-    waistband?: string[];
-    transformation?: string[];
-    reinforcement?: string[];
-    seam?: string[];
-    combination?: string[];
-    drapery?: string[];
-    hemFinish?: string[];
-    style?: string[];
-    occasion?: string[];
-    heelHeight?: string[];
-    upperMaterial?: string[];
-    soleMaterial?: string[];
-}
+  fit?: string[];
+  length?: string[];
+  sleeveLength?: string[];
+  cuff?: string[];
+  collar?: string[];
+  fastening?: string[];
+  waist?: string[];
+  pockets?: string[];
+  lining?: string[];
+  stitching?: string[];
+  decor?: string[];
+  hardware?: string[];
+  fabricTexture?: string[];
+  processingTech?: string[];
+  pattern?: string[];
+  shoulder?: string[];
+  backDetails?: string[];
+  hemType?: string[];
+  waistband?: string[];
+  transformation?: string[];
+  reinforcement?: string[];
+  seam?: string[];
+  combination?: string[];
+  drapery?: string[];
+  hemFinish?: string[];
+  style?: string[];
+  occasion?: string[];
+  heelHeight?: string[];
+  upperMaterial?: string[];
+  soleMaterial?: string[];
+};
 
 export interface SavedScenario {
-    id: string;
-    name: string;
-    edits: Record<string, Partial<ProductWithAnalytics>>;
+  id: string;
+  name: string;
+  edits: Record<string, Partial<ProductWithAnalytics>>;
 }
 
 export type ProductWithAnalytics = Product & {
-    salesPerWeek: number;
-    stock: number;
-    aiRecommendation: number;
-    aiPotential: 'Хит' | 'Стабильный' | 'Рискованный';
-    riskProfile: 'Низкий' | 'Средний' | 'Высокий';
-    orderQty: number;
-    rrp: number;
-    margin: number;
-    markup: number;
-    forecastRevenue: number;
-    forecastProfit: number;
-    forecastSellOut: number;
-    lifecycleStage: 'New Arrival' | 'Bestseller' | 'Core Item' | 'Last Chance';
+  salesPerWeek: number;
+  stock: number;
+  aiRecommendation: number;
+  aiPotential: 'Хит' | 'Стабильный' | 'Рискованный';
+  riskProfile: 'Низкий' | 'Средний' | 'Высокий';
+  orderQty: number;
+  rrp: number;
+  margin: number;
+  markup: number;
+  forecastRevenue: number;
+  forecastProfit: number;
+  forecastSellOut: number;
+  lifecycleStage: 'New Arrival' | 'Bestseller' | 'Core Item' | 'Last Chance';
 };
 
 export type RailProduct = {
@@ -869,24 +1006,24 @@ export type RailProduct = {
   badges?: {
     newIn?: boolean;
     bestseller?: boolean;
-  }
-}
+  };
+};
 
 export type Capsule = {
   id: string;
   title: string;
   description: string;
   items: (RailProduct | Look)[];
-}
+};
 
 export interface SubscribedSize {
-    productId: string;
-    size: string;
+  productId: string;
+  size: string;
 }
 
 export interface AvailableSubscription {
-    productId: string;
-    size: string;
+  productId: string;
+  size: string;
 }
 
 export interface SegmentInfo {
@@ -912,24 +1049,24 @@ export interface ChatAttachment {
 }
 
 export interface TaskSubtask {
-    id: string;
-    text: string;
-    assignee: string;
-    status: TaskStatus;
+  id: string;
+  text: string;
+  assignee: string;
+  status: TaskStatus;
 }
 
 export interface ChatComment {
-    user: string;
-    text: string;
-    date: string;
+  user: string;
+  text: string;
+  date: string;
 }
 
 export interface HistoryEntry {
-    user: string;
-    action: string;
-    date: string;
-    from?: string;
-    to?: string;
+  user: string;
+  action: string;
+  date: string;
+  from?: string;
+  to?: string;
 }
 
 export interface ChatParticipant {
@@ -947,7 +1084,19 @@ export interface Chat {
   subtitle?: string;
   avatar?: string | string[];
   participantsCount: number;
-  type: 'admin' | 'brand' | 'distributor' | 'supplier' | 'production' | 'shop' | 'team' | 'client' | 'b2b_orders' | 'collections';
+  type:
+    | 'admin'
+    | 'brand'
+    | 'distributor'
+    | 'supplier'
+    | 'production'
+    | 'shop'
+    | 'team'
+    | 'client'
+    | 'b2b_orders'
+    | 'collections'
+    /** Академия: куратор курса и/или группа участников */
+    | 'academy';
   isArchived?: boolean;
   isStarred?: boolean;
   isPinned?: boolean;
@@ -962,63 +1111,89 @@ export interface Chat {
   partnerProfile?: string;
   /** Ссылка в календарь с контекстом партнёра/слоёв */
   calendarHref?: string;
+  /** Академия: id курса из education-data */
+  linkCourseId?: string;
+  /** Академия: канал с куратором или групповой чат участников */
+  academyChatKind?: 'staff' | 'cohort';
 }
 
 export type MessageEntityType = 'order' | 'task' | 'event' | 'escrow' | 'production' | 'product';
 
-export interface ChatMessage {
-    id: number;
-    chatId?: string;
-    user: string;
-    text: string;
-    time: string;
-    type?: 'message' | 'task' | 'scheduled_call' | 'call_recap' | 'system' | 'reminder';
-    /** Ссылка на сущность: заказ, задача, событие, производство, товар */
-    entityId?: string;
-    entityType?: MessageEntityType;
-    isPrivate?: boolean; // Privacy flag for personal notes or sensitive messages
-    status?: TaskStatus;
-    deadline?: Date;
-    attachedProduct?: Product;
-    attachment?: ChatAttachment;
-    isSystem?: boolean;
-    assignees?: string[];
-    likes?: number;
-    dislikes?: number;
-    userReaction?: ReactionType;
-    priority?: TaskPriority;
-    subtasks?: TaskSubtask[];
-    history?: HistoryEntry[];
-    comments?: ChatComment[];
-    parentId?: number;
-    isPinned?: boolean;
-    isStarred?: boolean;
-    isArchived?: boolean;
-    forwardedFromChatId?: string;
-    audio?: { mime: string; url: string };
-    deadlineExtensions?: any[];
-    createdAt?: number;
-    readBy?: string[];
-    sentiment?: 'positive' | 'negative' | 'neutral';
-    urgency?: 'high' | 'medium' | 'low';
-    isDecision?: boolean;
-    widgetTags?: string[];
-    callData?: { theme: string; date: string; time: string; participants: string[]; confirmedBy?: string[]; };
-    reminderData?: {
-        title: string;
-        description: string;
-        date: string;
-        time: string;
-        assignedTo: string[];
-        isSyncedWithCalendar: boolean;
-        reminderType: 'countdown' | 'exact_time';
-    };
-    fileVersions?: Array<{ id: string; url: string; name: string; date: string; user: string }>;
-    transcription?: string;
-    isNegotiationActive?: boolean;
+/** История продлений дедлайна задачи в чате */
+export interface DeadlineExtension {
+  at: number;
+  by: string;
+  from: string | null;
+  to: string;
 }
 
-export type KickstarterStatus = 'draft' | 'upcoming' | 'live' | 'successful' | 'failed' | 'production' | 'fulfilled' | 'cancelled';
+export interface ChatMessage {
+  id: number;
+  chatId?: string;
+  user: string;
+  text: string;
+  time: string;
+  type?: 'message' | 'task' | 'scheduled_call' | 'call_recap' | 'system' | 'reminder';
+  /** Ссылка на сущность: заказ, задача, событие, производство, товар */
+  entityId?: string;
+  entityType?: MessageEntityType;
+  isPrivate?: boolean; // Privacy flag for personal notes or sensitive messages
+  status?: TaskStatus;
+  deadline?: Date;
+  attachedProduct?: Product;
+  attachment?: ChatAttachment;
+  isSystem?: boolean;
+  assignees?: string[];
+  likes?: number;
+  dislikes?: number;
+  userReaction?: ReactionType;
+  priority?: TaskPriority;
+  subtasks?: TaskSubtask[];
+  history?: HistoryEntry[];
+  comments?: ChatComment[];
+  parentId?: number;
+  isPinned?: boolean;
+  isStarred?: boolean;
+  isArchived?: boolean;
+  forwardedFromChatId?: string;
+  audio?: { mime: string; url: string };
+  deadlineExtensions?: DeadlineExtension[];
+  createdAt?: number;
+  readBy?: string[];
+  sentiment?: 'positive' | 'negative' | 'neutral';
+  urgency?: 'high' | 'medium' | 'low';
+  isDecision?: boolean;
+  widgetTags?: string[];
+  callData?: {
+    theme: string;
+    date: string;
+    time: string;
+    participants: string[];
+    confirmedBy?: string[];
+  };
+  reminderData?: {
+    title: string;
+    description: string;
+    date: string;
+    time: string;
+    assignedTo: string[];
+    isSyncedWithCalendar: boolean;
+    reminderType: 'countdown' | 'exact_time';
+  };
+  fileVersions?: Array<{ id: string; url: string; name: string; date: string; user: string }>;
+  transcription?: string;
+  isNegotiationActive?: boolean;
+}
+
+export type KickstarterStatus =
+  | 'draft'
+  | 'upcoming'
+  | 'live'
+  | 'successful'
+  | 'failed'
+  | 'production'
+  | 'fulfilled'
+  | 'cancelled';
 export type PaymentStatus = 'pending' | 'paid' | 'refunded' | 'failed';
 export type FulfillmentStatus = 'pending' | 'in_production' | 'shipped' | 'delivered' | 'cancelled';
 export type KickstarterFundingModel = 'quantity' | 'monetary';
@@ -1045,7 +1220,7 @@ export interface KickstarterUpdate {
   authorBrandUserId: string;
   title: string;
   body: string;
-  media?: { type: 'image' | 'video', url: string }[];
+  media?: { type: 'image' | 'video'; url: string }[];
   createdAt: string;
   forBackersOnly?: boolean;
 }
@@ -1081,7 +1256,7 @@ export interface KickstarterProject {
   productionStartAt?: string;
   productionEndEstAt?: string;
   description: string;
-  media: { type: 'image' | 'video', url: string }[];
+  media: { type: 'image' | 'video'; url: string }[];
   pledged: number; // Duplicates currentRevenue, but let's keep for compatibility with mock
   backers: number; // Duplicates number of pledges, but useful
   daysLeft: number; // Can be derived, but good for display
@@ -1095,11 +1270,13 @@ export interface KickstarterProject {
   updates?: KickstarterUpdate[];
   faqs?: KickstarterFaq[];
   product?: Product; // Added to link to the full product info
-  /** Optional tags from seed JSON (image hint fallback). */
-  tags?: string[];
   segment?: string;
+  tags?: string[];
+  /** Сезон кампании (фильтры витрины) */
+  season?: string;
+  /** Скидка B2B для блока «оптовая бронь», % */
+  b2bDiscount?: number;
 }
-
 
 export interface KickstarterPledge {
   id: string;
@@ -1167,4 +1344,3 @@ export interface Auction {
     matchAnalysis: string;
   };
 }
-    

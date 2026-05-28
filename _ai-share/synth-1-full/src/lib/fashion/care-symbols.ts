@@ -17,7 +17,11 @@ const DEFAULT_CARE_IDS = ['wash_30', 'no_bleach', 'cool_iron', 'no_tumble'];
 export function resolveCareSymbolIds(product: Product): string[] {
   const raw = product.attributes?.care;
   if (Array.isArray(raw) && raw.length) return raw.map(String);
-  if (typeof raw === 'string' && raw.trim()) return raw.split(',').map((s) => s.trim()).filter(Boolean);
+  if (typeof raw === 'string' && raw.trim())
+    return raw
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
   return [...DEFAULT_CARE_IDS];
 }
 

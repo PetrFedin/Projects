@@ -28,37 +28,32 @@ export function QuickStatsCard({
   trend,
   className,
 }: QuickStatsCardProps) {
-  const formattedValue = typeof value === 'number' 
-    ? value.toLocaleString('ru-RU') 
-    : value;
+  const formattedValue = typeof value === 'number' ? value.toLocaleString('ru-RU') : value;
 
   return (
-    <Card className={cn(
-      "border-accent/20 hover:border-accent/40 transition-colors",
-      className
-    )}>
+    <Card className={cn('border-accent/20 transition-colors hover:border-accent/40', className)}>
       <CardContent className="p-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs text-muted-foreground mb-1">{label}</p>
+            <p className="mb-1 text-xs text-muted-foreground">{label}</p>
             <p className="text-sm font-bold">{formattedValue}</p>
             {trend && (
-              <div className={cn(
-                "flex items-center gap-1 text-xs mt-1",
-                trend.isPositive ? "text-green-600" : "text-red-600"
-              )}>
-                <span>{trend.isPositive ? '+' : '-'}{trend.value}</span>
+              <div
+                className={cn(
+                  'mt-1 flex items-center gap-1 text-xs',
+                  trend.isPositive ? 'text-green-600' : 'text-red-600'
+                )}
+              >
+                <span>
+                  {trend.isPositive ? '+' : '-'}
+                  {trend.value}
+                </span>
               </div>
             )}
           </div>
-          <Icon className={cn("h-8 w-8", iconColor)} />
+          <Icon className={cn('h-8 w-8', iconColor)} />
         </div>
       </CardContent>
     </Card>
   );
 }
-
-
-
-
-

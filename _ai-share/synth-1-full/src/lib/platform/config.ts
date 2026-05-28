@@ -5,7 +5,10 @@
 export type PlatformTransport = 'local' | 'api';
 
 export function getPlatformTransport(): PlatformTransport {
-  if (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_SYNTH_PLATFORM_TRANSPORT === 'api') {
+  if (
+    typeof process !== 'undefined' &&
+    process.env.NEXT_PUBLIC_SYNTH_PLATFORM_TRANSPORT === 'api'
+  ) {
     return 'api';
   }
   return 'local';

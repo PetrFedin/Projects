@@ -9,7 +9,7 @@ export function getWholesalePartnerProfile(partnerId: string): WholesalePartnerT
   return {
     partnerId,
     partnerName: `Partner ${partnerId.split('-')[1] || 'Retailer'}`,
-    tier: seed % 4 === 0 ? 'Diamond' : (seed % 4 === 1 ? 'Platinum' : 'Gold'),
+    tier: seed % 4 === 0 ? 'Diamond' : seed % 4 === 1 ? 'Platinum' : 'Gold',
     creditLine,
     unpaidInvoices: unpaid,
     availableLimit: creditLine - unpaid,

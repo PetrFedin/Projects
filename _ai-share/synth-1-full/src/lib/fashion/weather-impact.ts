@@ -16,6 +16,6 @@ export function getStoreWeatherImpact(): StoreWeatherCorrelationV1[] {
       weatherCondition: 'cold',
       trafficImpact: +12,
       recommendedStock: ['SKU-KNIT-05', 'SKU-SCARF-02'],
-    }
+    },
   ];
 }

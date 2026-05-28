@@ -1,9 +1,13 @@
-import { HomeAdminPanel } from "@/components/cms/admin/HomeAdminPanel";
+import { HomeAdminPanel } from '@/components/cms/admin/HomeAdminPanel';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export default function AdminHomePage() {
   return (
-    <div className="p-4 md:p-4 min-h-screen bg-[#fcfdfe] animate-in fade-in duration-700">
+    <CabinetPageContent
+      maxWidth="full"
+      className="min-h-screen bg-[#fcfdfe] p-4 duration-700 animate-in fade-in md:p-4"
+    >
       <HomeAdminPanel />
-    </div>
+    </CabinetPageContent>
   );
 }

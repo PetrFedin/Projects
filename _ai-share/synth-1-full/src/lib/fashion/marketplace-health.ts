@@ -4,7 +4,7 @@ import type { MarketplaceHealthV1 } from './types';
 /** Аналитика здоровья карточки на маркетплейсах РФ (WB/Ozon). */
 export function getMarketplaceHealth(product: Product): MarketplaceHealthV1[] {
   const seed = product.id.length;
-  
+
   return [
     {
       sku: product.sku,
@@ -21,6 +21,6 @@ export function getMarketplaceHealth(product: Product): MarketplaceHealthV1[] {
       ratingTrend: 'stable',
       outOfStockRisk: 20 + (seed % 30),
       buybackRate: 80 + (seed % 10),
-    }
+    },
   ];
 }

@@ -30,7 +30,9 @@ export function buildCollectionStageReviewTasksUrl(input: CollectionStageReviewL
   return `${ROUTES.brand.tasks}?${buildReviewSearchParams(input).toString()}`;
 }
 
-export function buildCollectionStageReviewMessagesUrl(input: CollectionStageReviewLinkInput): string {
+export function buildCollectionStageReviewMessagesUrl(
+  input: CollectionStageReviewLinkInput
+): string {
   return `${ROUTES.brand.messages}?${buildReviewSearchParams(input).toString()}`;
 }
 

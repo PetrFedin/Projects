@@ -185,11 +185,11 @@ export function applyUiPreferences(settings: UserSettings) {
   const root = document.documentElement;
   const pref = settings.ui.theme;
   const systemDark =
-    typeof window.matchMedia === 'function' && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches;
   const shouldDark = pref === 'dark' || (pref === 'system' && systemDark);
   root.classList.toggle('dark', shouldDark);
   root.dataset.density = settings.ui.density;
   root.dataset.locale = settings.ui.locale;
   root.dataset.currency = settings.ui.currency;
 }
-

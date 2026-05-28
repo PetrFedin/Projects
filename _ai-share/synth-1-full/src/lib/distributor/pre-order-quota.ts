@@ -11,13 +11,13 @@ export interface SkuQuota {
   totalUnits: number;
   /** Распределено по дилерам */
   allocated: { distributorId: string; retailerId?: string; units: number; kpiScore?: number }[];
-  reservedFor?: string;   // "VIP", "Key account"
+  reservedFor?: string; // "VIP", "Key account"
 }
 
 export interface PreOrderQuotaCampaign {
   id: string;
   title: string;
-  season?: string;        // SS26, FW26
+  season?: string; // SS26, FW26
   dropId?: string;
   status: QuotaAllocationStatus;
   skuQuotas: SkuQuota[];
@@ -44,8 +44,25 @@ export async function listPreOrderQuotaCampaigns(): Promise<PreOrderQuotaCampaig
       dropId: 'drop1',
       status: 'published',
       skuQuotas: [
-        { skuId: 'SKU-101', skuName: 'Куртка FW26', totalUnits: 500, allocated: [{ distributorId: 'D1', units: 200, kpiScore: 0.9 }, { distributorId: 'D2', units: 150, kpiScore: 0.7 }, { distributorId: 'D3', units: 150 }] },
-        { skuId: 'SKU-102', skuName: 'Платье FW26', totalUnits: 300, allocated: [{ distributorId: 'D1', units: 120 }, { distributorId: 'D2', units: 180, kpiScore: 0.85 }] },
+        {
+          skuId: 'SKU-101',
+          skuName: 'Куртка FW26',
+          totalUnits: 500,
+          allocated: [
+            { distributorId: 'D1', units: 200, kpiScore: 0.9 },
+            { distributorId: 'D2', units: 150, kpiScore: 0.7 },
+            { distributorId: 'D3', units: 150 },
+          ],
+        },
+        {
+          skuId: 'SKU-102',
+          skuName: 'Платье FW26',
+          totalUnits: 300,
+          allocated: [
+            { distributorId: 'D1', units: 120 },
+            { distributorId: 'D2', units: 180, kpiScore: 0.85 },
+          ],
+        },
       ],
       createdAt: now,
       publishedAt: now,

@@ -1,0 +1,373 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Workshop2DossierPersistButton } from '@/components/brand/production/Workshop2DossierPersistButton';
+import { Input } from '@/components/ui/input';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
+import {
+  patchWorkshop2ChangeRequestDecision,
+  postWorkshop2ChangeRequest,
+} from '@/lib/production/workshop2-api-client';
+import {
+  applyWorkshop2ChangeRequestDecision,
+  isWorkshop2ChangeRequestPending,
+} from '@/lib/production/workshop2-change-request-workflow';
+import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { persistWorkshop2ChangeRequestMirrorToDossier } from '@/lib/production/workshop2-change-request-dossier-persist';
+import { putWorkshop2Wave25DossierPatch } from '@/lib/production/workshop2-wave25-persist-client';
+import { summarizeWorkshop2ChangeRequestPgMirror } from '@/lib/production/workshop2-operational-pg-mirror-status';
+import { Workshop2OperationalPgMirrorChip } from '@/components/brand/production/workshop2-operational-panel-chrome';
+import {
+  formatWorkshop2PersistToastDescription,
+  formatWorkshop2PersistToastTitle,
+} from '@/lib/production/workshop2-persist-toast-messages';
+
+type Props = {
+  collectionId: string;
+  articleId: string;
+  dossier: Workshop2DossierPhase1;
+  setDossier: React.Dispatch<React.SetStateAction<Workshop2DossierPhase1>>;
+  tzWriteDisabled?: boolean;
+  actorLabel?: string;
+  /** ÐÑÐ¸ true â PATCH Ð½Ð° ÑÐµÑÐ²ÐµÑ Ð¿Ð¾ÑÐ»Ðµ Ð»Ð¾ÐºÐ°Ð»ÑÐ½Ð¾Ð³Ð¾ merge. */
+  persistToServer?: boolean;
+};
+
+export function Workshop2ChangeRequestsPanel({
+  collectionId,
+  articleId,
+  dossier,
+  setDossier,
+  tzWriteDisabled,
+  actorLabel = 'Ð¢ÐµÐºÑÑÐ¸Ð¹ Ð¿Ð¾Ð»ÑÐ·Ð¾Ð²Ð°ÑÐµÐ»Ñ',
+  persistToServer = true,
+}: Props) {
+  const { toast } = useToast();
+  const crs = dossier.changeRequests || [];
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const [crMirrorBusy, setCrMirrorBusy] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [description, setDescription] = useState('');
+  const [priority, setPriority] = useState<'Low' | 'Medium' | 'High'>('Medium');
+  const [targetNode, setTargetNode] = useState('Material');
+
+  const crPgMirror = useMemo(() => summarizeWorkshop2ChangeRequestPgMirror(dossier), [dossier]);
+
+  const handleCreateCr = async () => {
+    if (!description.trim()) return;
+
+    if (persistToServer) {
+      const res = await postWorkshop2ChangeRequest({
+        collectionId,
+        articleId,
+        description: description.trim(),
+        priority,
+        targetNode,
+        requestedBy: actorLabel,
+      });
+      if (!res.ok) {
+        toast({
+          title: 'CR Ð½Ðµ ÑÐ¾Ð·Ð´Ð°Ð½',
+          description: res.reason,
+          variant: 'destructive',
+        });
+        return;
+      }
+      setDossier((prev) =>
+        persistWorkshop2ChangeRequestMirrorToDossier({
+          ...prev,
+          changeRequests: [...(prev.changeRequests || []), res.changeRequest],
+        })
+      );
+      toast({
+        title: 'CR ÑÐ¾Ð·Ð´Ð°Ð½',
+        description: persistToServer
+          ? 'API ok Â· mirror Ð² UI â Â«CR â PGÂ» Ð¿Ð¾Ð´ÑÐ²ÐµÑÐ¶Ð´Ð°ÐµÑ Ð·Ð°Ð¿Ð¸ÑÑ Ð² Ð´Ð¾ÑÑÐµ.'
+          : 'ÐÐ¾ÐºÐ°Ð»ÑÐ½Ð¾ â Ð±ÐµÐ· PG journal.',
+      });
+    } else {
+      setDossier((prev) => ({
+        ...prev,
+        changeRequests: [
+          ...(prev.changeRequests || []),
+          {
+            id: crypto.randomUUID(),
+            description,
+            priority,
+            targetNode,
+            status: 'pending',
+            requestedBy: actorLabel,
+            createdAt: new Date().toISOString(),
+          },
+        ],
+      }));
+    }
+
+    setIsOpen(false);
+    setDescription('');
+    setPriority('Medium');
+    setTargetNode('Material');
+  };
+
+  const applyDecision = async (crId: string, decision: 'approved' | 'rejected') => {
+    setBusyId(crId);
+    try {
+      if (persistToServer) {
+        const res = await patchWorkshop2ChangeRequestDecision({
+          collectionId,
+          articleId,
+          changeRequestId: crId,
+          decision,
+          decidedBy: actorLabel,
+        });
+        if (!res.ok) {
+          toast({
+            title: 'CR Ð½Ðµ ÑÐ¾ÑÑÐ°Ð½ÑÐ½',
+            description:
+              res.reason === 'version_conflict'
+                ? 'ÐÐ¾Ð½ÑÐ»Ð¸ÐºÑ Ð²ÐµÑÑÐ¸Ð¸ Ð´Ð¾ÑÑÐµ â Ð¾Ð±Ð½Ð¾Ð²Ð¸ÑÐµ ÑÑÑÐ°Ð½Ð¸ÑÑ.'
+                : res.reason,
+            variant: 'destructive',
+          });
+          return;
+        }
+        setDossier((prev) => {
+          const applied = applyWorkshop2ChangeRequestDecision({
+            dossier: prev,
+            changeRequestId: crId,
+            decision,
+            decidedBy: actorLabel,
+          });
+          return applied?.dossier ?? prev;
+        });
+      } else {
+        setDossier((prev) => {
+          const applied = applyWorkshop2ChangeRequestDecision({
+            dossier: prev,
+            changeRequestId: crId,
+            decision,
+            decidedBy: actorLabel,
+          });
+          return applied?.dossier ?? prev;
+        });
+      }
+      toast({
+        title: decision === 'approved' ? 'CR Ð¾Ð´Ð¾Ð±ÑÐµÐ½' : 'CR Ð¾ÑÐºÐ»Ð¾Ð½ÑÐ½',
+        description: 'Ð ÐµÑÐµÐ½Ð¸Ðµ Ð·Ð°Ð¿Ð¸ÑÐ°Ð½Ð¾ Ð² Ð´Ð¾ÑÑÐµ Ð¸ Ð¶ÑÑÐ½Ð°Ð» Ð¢Ð.',
+      });
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const persistCrMirror = async () => {
+    setCrMirrorBusy(true);
+    try {
+      const res = await putWorkshop2Wave25DossierPatch({
+        collectionId,
+        articleId,
+        base: dossier,
+        apply: persistWorkshop2ChangeRequestMirrorToDossier,
+        field: 'change_request_mirror',
+        updatedByLabel: actorLabel,
+      });
+      if (res.ok) setDossier(res.dossier);
+      toast({
+        title: formatWorkshop2PersistToastTitle({ scopeLabelRu: 'CR mirror', ok: res.ok }),
+        description: res.ok
+          ? formatWorkshop2PersistToastDescription({
+              mirrorField: 'changeRequestMirror',
+              ok: true,
+            })
+          : `Mirror fail-closed â ${res.reason ?? 'offline'}`,
+        variant: res.ok ? 'default' : 'destructive',
+      });
+    } finally {
+      setCrMirrorBusy(false);
+    }
+  };
+
+  return (
+    <div className="border-border-subtle bg-bg-surface space-y-4 rounded-xl border p-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="text-text-primary text-sm font-semibold">
+          ÐÐ°Ð¿ÑÐ¾ÑÑ Ð½Ð° Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ (CR)
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          <span data-testid="workshop2-cr-pg-chip">
+            <Workshop2OperationalPgMirrorChip {...crPgMirror} />
+          </span>
+          <Workshop2DossierPersistButton
+            busy={crMirrorBusy}
+            className="h-7 text-[10px]"
+            title="changeRequestMirror â PG"
+            onClick={() => void persistCrMirror()}
+          />
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
+              <Button type="button" size="sm" variant="secondary" disabled={tzWriteDisabled}>
+                Ð¡Ð¾Ð·Ð´Ð°ÑÑ CR
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>ÐÐ¾Ð²ÑÐ¹ Ð·Ð°Ð¿ÑÐ¾Ñ Ð½Ð° Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div className="space-y-2">
+                  <label className="text-text-primary text-sm font-medium">ÐÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ</label>
+                  <Input
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Ð§ÑÐ¾ Ð½ÑÐ¶Ð½Ð¾ Ð¸Ð·Ð¼ÐµÐ½Ð¸ÑÑ?"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-text-primary text-sm font-medium">ÐÑÐ¸Ð¾ÑÐ¸ÑÐµÑ</label>
+                  <Select
+                    value={priority}
+                    onValueChange={(v: 'Low' | 'Medium' | 'High') => setPriority(v)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="ÐÑÐ±ÐµÑÐ¸ÑÐµ Ð¿ÑÐ¸Ð¾ÑÐ¸ÑÐµÑ" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Low">Low (ÐÐ¸Ð·ÐºÐ¸Ð¹)</SelectItem>
+                      <SelectItem value="Medium">Medium (Ð¡ÑÐµÐ´Ð½Ð¸Ð¹)</SelectItem>
+                      <SelectItem value="High">High (ÐÑÑÐ¾ÐºÐ¸Ð¹)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-text-primary text-sm font-medium">
+                    Ð£Ð·ÐµÐ» (Target Node)
+                  </label>
+                  <Select value={targetNode} onValueChange={setTargetNode}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="ÐÑÐ±ÐµÑÐ¸ÑÐµ ÑÐ·ÐµÐ»" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Material">Material (ÐÐ°ÑÐµÑÐ¸Ð°Ð»Ñ)</SelectItem>
+                      <SelectItem value="Construction">Construction (ÐÐ¾Ð½ÑÑÑÑÐºÑÐ¸Ñ)</SelectItem>
+                      <SelectItem value="Visual">Visual (ÐÐ¸Ð·ÑÐ°Ð»)</SelectItem>
+                      <SelectItem value="Measurements">Measurements (ÐÐ·Ð¼ÐµÑÐµÐ½Ð¸Ñ)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button variant="secondary" onClick={() => setIsOpen(false)}>
+                  ÐÑÐ¼ÐµÐ½Ð°
+                </Button>
+                <Button
+                  onClick={() => void handleCreateCr()}
+                  disabled={!description.trim() || tzWriteDisabled}
+                >
+                  Ð¡Ð¾ÑÑÐ°Ð½Ð¸ÑÑ
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
+
+      {crs.length === 0 ? (
+        <p className="text-text-muted text-xs">
+          ÐÐµÑ Ð°ÐºÑÐ¸Ð²Ð½ÑÑ Ð·Ð°Ð¿ÑÐ¾ÑÐ¾Ð² Ð½Ð° Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ.
+        </p>
+      ) : (
+        <div className="space-y-2">
+          {crs.map((cr) => {
+            const pending = isWorkshop2ChangeRequestPending(cr.status);
+            return (
+              <div
+                key={cr.id}
+                className="border-border-default flex flex-col gap-2 rounded-lg border p-3 text-xs sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div className="space-y-1">
+                  <p className="text-text-primary font-medium">{cr.description}</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {cr.priority ? (
+                      <span
+                        className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                          cr.priority === 'High'
+                            ? 'bg-red-100 text-red-800'
+                            : cr.priority === 'Medium'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-green-100 text-green-800'
+                        }`}
+                      >
+                        {cr.priority}
+                      </span>
+                    ) : null}
+                    {cr.targetNode ? (
+                      <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-800">
+                        {cr.targetNode}
+                      </span>
+                    ) : null}
+                    <span
+                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                        cr.status === 'approved'
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : cr.status === 'rejected'
+                            ? 'bg-slate-200 text-slate-700'
+                            : 'bg-amber-100 text-amber-800'
+                      }`}
+                    >
+                      {cr.status}
+                    </span>
+                  </div>
+                  <p className="text-text-muted">
+                    ÐÑ: {cr.requestedBy}
+                    {cr.decidedBy ? ` Â· Ð ÐµÑÐµÐ½Ð¸Ðµ: ${cr.decidedBy}` : ''}
+                    {cr.createdAt ? ` Â· ${new Date(cr.createdAt).toLocaleString('ru-RU')}` : ''}
+                  </p>
+                </div>
+                {pending && !tzWriteDisabled ? (
+                  <div className="flex shrink-0 gap-1">
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="h-7 text-[10px]"
+                      disabled={busyId === cr.id}
+                      onClick={() => void applyDecision(cr.id, 'rejected')}
+                    >
+                      ÐÑÐºÐ»Ð¾Ð½Ð¸ÑÑ
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      className="h-7 text-[10px]"
+                      disabled={busyId === cr.id}
+                      onClick={() => void applyDecision(cr.id, 'approved')}
+                    >
+                      ÐÐ´Ð¾Ð±ÑÐ¸ÑÑ
+                    </Button>
+                  </div>
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}

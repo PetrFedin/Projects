@@ -1,0 +1,12 @@
+{
+  "id": "standard-60",
+  "labelRu": "Стандарт · 60 дней",
+  "offsetsDays": [
+    { "title": "Размещение заказа (PO)", "offsetDays": 0 },
+    { "title": "Поставка материалов", "offsetDays": 14 },
+    { "title": "Лекала", "offsetDays": 18 },
+    { "title": "Раскрой", "offsetDays": 25 },
+    { "title": "Пошив образца", "offsetDays": 40 },
+    { "title": "Финальный review", "offsetDays": 55 }
+  ]
+}

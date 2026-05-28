@@ -3,7 +3,7 @@ Virtual Try-On integration (opentryon / pbelevich pattern).
 Hooks for garment transfer, background removal, pose estimation.
 Production: requires GPU, opentryon or external API.
 
-Eyewear (оправа по фото лица): в web-клиенте synth-1 — MediaPipe Face Landmarker
+Eyewear (оправа по фото лица): в web-клиенте (`_ai-share/synth-1-full`) — MediaPipe Face Landmarker
 и наложение PNG оправы (`/brand/virtual-tryon/glasses`), без этого сервиса.
 """
 from typing import Any, Literal

@@ -48,7 +48,9 @@ function buildSupplyFromHandoff(packets: HandoffPacket[]): SupplySnapshot | unde
 /**
  * Из пакетов dossier → fit: подготавливаем fit reference.
  */
-function buildFitReferenceFromHandoff(packets: HandoffPacket[]): Partial<FitGoldSnapshot> | undefined {
+function buildFitReferenceFromHandoff(
+  packets: HandoffPacket[]
+): Partial<FitGoldSnapshot> | undefined {
   const fitPackets = packets.filter((p) => p.targetTab === 'fit');
   if (fitPackets.length === 0) return undefined;
 
@@ -64,9 +66,7 @@ function buildFitReferenceFromHandoff(packets: HandoffPacket[]): Partial<FitGold
       });
     }
   }
-  return comments.length > 0
-    ? { goldApproved: false, fitComments: comments }
-    : undefined;
+  return comments.length > 0 ? { goldApproved: false, fitComments: comments } : undefined;
 }
 
 /**

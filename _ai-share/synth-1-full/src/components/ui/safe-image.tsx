@@ -9,13 +9,13 @@ interface SafeImageProps extends React.ComponentProps<typeof Image> {
   showFallbackOnError?: boolean;
 }
 
-export function SafeImage({ 
-  src, 
-  alt, 
+export function SafeImage({
+  src,
+  alt,
   fallbackSrc = '/logo_placeholder.svg',
   showFallbackOnError = true,
   className,
-  ...props 
+  ...props
 }: SafeImageProps) {
   const [imgSrc, setImgSrc] = useState(src);
   const [hasError, setHasError] = useState(false);
@@ -28,17 +28,6 @@ export function SafeImage({
   };
 
   return (
-    <Image
-      src={imgSrc}
-      alt={alt}
-      className={cn(className)}
-      onError={handleError}
-      {...props}
-    />
+    <Image src={imgSrc} alt={alt} className={cn(className)} onError={handleError} {...props} />
   );
 }
-
-
-
-
-

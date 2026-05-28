@@ -14,8 +14,9 @@ export async function openSketchA4Print(opts: {
   sceneCaption?: string;
 }): Promise<void> {
   const own = opts.annotations.filter((a) => a.categoryLeafId === opts.leafId);
-  const qrSrc =
-    opts.pageUrl?.trim() ? (await buildSketchQrDataUrl(opts.pageUrl.trim())) ?? '' : '';
+  const qrSrc = opts.pageUrl?.trim()
+    ? ((await buildSketchQrDataUrl(opts.pageUrl.trim())) ?? '')
+    : '';
 
   const pinsHtml = own
     .map((a, idx) => {

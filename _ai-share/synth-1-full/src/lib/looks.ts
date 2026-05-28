@@ -1,4 +1,3 @@
-
 import type { Look } from './types';
 
 export const looks: Look[] = [
@@ -9,16 +8,13 @@ export const looks: Look[] = [
       handle: '@sofia_style',
       avatarUrl: 'https://picsum.photos/seed/look-user1/40/40',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1552874869-5c39ec9288dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzdHJlZXQlMjBzdHlsZSUyMHdvbWFufGVufDB8fHx8MTc2MDgzNTM5MHww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl:
+      'https://images.unsplash.com/photo-1552874869-5c39ec9288dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzdHJlZXQlMjBzdHlsZSUyMHdvbWFufGVufDB8fHx8MTc2MDgzNTM5MHww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'street style woman',
     description: 'Парижский шик',
     likesCount: 10254,
     commentsCount: 32,
-    products: [
-      { productId: '7' },
-      { productId: '1' },
-      { productId: '3' }
-    ]
+    products: [{ productId: '7' }, { productId: '1' }, { productId: '3' }],
   },
   {
     id: '2',
@@ -49,9 +45,9 @@ export const looks: Look[] = [
   {
     id: '4',
     author: {
-      name: 'Acne Studios',
-      handle: '@acnestudios',
-      avatarUrl: 'https://picsum.photos/seed/logo2/40/40',
+      name: 'Nordic Wool',
+      handle: '@nordicwool',
+      avatarUrl: 'https://picsum.photos/seed/nordic-wool/40/40',
     },
     imageUrl: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1000',
     imageHint: 'high fashion editorial acne',
@@ -66,7 +62,8 @@ export const looks: Look[] = [
       handle: '@eva_trends',
       avatarUrl: 'https://picsum.photos/seed/look-user4/40/40',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1525972828884-b74149db49ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzdHJlZXQlMjBzdHlsZSUyMHdvbWFufGVufDB8fHx8MTc2MDgzNTM5MHww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl:
+      'https://images.unsplash.com/photo-1525972828884-b74149db49ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzdHJlZXQlMjBzdHlsZSUyMHdvbWFufGVufDB8fHx8MTc2MDgzNTM5MHww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'street style woman',
     description: 'Уютный трикотаж для прохладных вечеров.',
     likesCount: 978,
@@ -75,24 +72,26 @@ export const looks: Look[] = [
   {
     id: '6',
     author: {
-        name: 'Denis',
-        handle: '@denis_daily',
-        avatarUrl: 'https://picsum.photos/seed/look-user5/40/40',
+      name: 'Denis',
+      handle: '@denis_daily',
+      avatarUrl: 'https://picsum.photos/seed/look-user5/40/40',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1551874259-8e9f29d2b719?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzdHJlZXQlMjBzdHlsZSUyMG1hbnxlbnwwfHx8fDE3NjA4MzU0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl:
+      'https://images.unsplash.com/photo-1551874259-8e9f29d2b719?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzdHJlZXQlMjBzdHlsZSUyMG1hbnxlbnwwfHx8fDE3NjA4MzU0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'street style man',
     description: 'Классика и спорт в одном образе.',
     likesCount: 750,
     commentsCount: 15,
   },
-    {
+  {
     id: '7',
     author: {
-        name: 'Maison Margiela',
-        handle: '@maisonmargiela',
-        avatarUrl: 'https://picsum.photos/seed/logo5/40/40',
+      name: 'Maison Margiela',
+      handle: '@maisonmargiela',
+      avatarUrl: 'https://picsum.photos/seed/logo5/40/40',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1555529771-838f664030a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwY2FtcGFpZ258ZW58MHx8fHwxNzYwODM1NTg5fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl:
+      'https://images.unsplash.com/photo-1555529771-838f664030a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwY2FtcGFpZ258ZW58MHx8fHwxNzYwODM1NTg5fDA&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'fashion campaign',
     description: 'Авангардный взгляд на моду.',
     likesCount: 8901,
@@ -101,14 +100,15 @@ export const looks: Look[] = [
   {
     id: '8',
     author: {
-        name: 'Olga',
-        handle: '@olga_vogue',
-        avatarUrl: 'https://picsum.photos/seed/look-user6/40/40',
+      name: 'Olga',
+      handle: '@olga_vogue',
+      avatarUrl: 'https://picsum.photos/seed/look-user6/40/40',
     },
-    imageUrl: 'https://images.unsplash.com/photo-1539669528938-a23863450974?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzdHJlZXQlMjBzdHlsZSUyMHdvbWFufGVufDB8fHx8MTc2MDgzNTM5MHww&ixlib=rb-4.1.0&q=80&w=1080',
+    imageUrl:
+      'https://images.unsplash.com/photo-1539669528938-a23863450974?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzdHJlZXQlMjBzdHlsZSUyMHdvbWFufGVufDB8fHx8MTc2MDgzNTM5MHww&ixlib=rb-4.1.0&q=80&w=1080',
     imageHint: 'street style woman',
     description: 'Элегантность в каждой детали.',
     likesCount: 1500,
     commentsCount: 45,
-  }
+  },
 ];

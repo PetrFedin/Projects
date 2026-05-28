@@ -11,17 +11,17 @@ export interface SubcontractOrder {
   id: string;
   subcontractorId: string;
   subcontractorName: string;
-  orderId: string;           // основной заказ/PO
+  orderId: string; // основной заказ/PO
   workType: SubcontractWorkType;
-  workTypeLabel: string;      // "Пошив", "Раскрой"
+  workTypeLabel: string; // "Пошив", "Раскрой"
   quantity: number;
-  unit?: string;              // шт, кг
+  unit?: string; // шт, кг
   status: SubcontractWorkStatus;
-  requestedAt: string;       // ISO
+  requestedAt: string; // ISO
   completedAt?: string;
   /** Сумма (руб) при API */
   amountRub?: number;
-  actNumber?: string;        // номер акта выполненных работ
+  actNumber?: string; // номер акта выполненных работ
 }
 
 export const SUBCONTRACTOR_API = {

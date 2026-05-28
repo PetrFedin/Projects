@@ -1,6 +1,13 @@
 /** Доменные типы fashion-слоя (композиция, уход, образ, палитра). */
 
-export type FashionSlot = 'top' | 'bottom' | 'dress' | 'outer' | 'footwear' | 'accessory' | 'unknown';
+export type FashionSlot =
+  | 'top'
+  | 'bottom'
+  | 'dress'
+  | 'outer'
+  | 'footwear'
+  | 'accessory'
+  | 'unknown';
 
 export type OutfitGapResult = {
   filled: FashionSlot[];
@@ -201,7 +208,14 @@ export type SizeMeasurementsV1 = {
   measurements: GarmentMeasurementV1[];
 };
 
-export type OccasionTag = 'office' | 'evening' | 'casual' | 'vacation' | 'sport' | 'wedding' | 'home';
+export type OccasionTag =
+  | 'office'
+  | 'evening'
+  | 'casual'
+  | 'vacation'
+  | 'sport'
+  | 'wedding'
+  | 'home';
 
 export type WaitlistEntryV1 = {
   sku: string;
@@ -295,7 +309,12 @@ export type InventoryTransferV1 = {
   reason: 'oos_prevention' | 'slow_mover_liquidation';
 };
 
-export type StyleArchetypeV1 = 'minimalist' | 'avant-garde' | 'classicist' | 'streetwear' | 'bohemian';
+export type StyleArchetypeV1 =
+  | 'minimalist'
+  | 'avant-garde'
+  | 'classicist'
+  | 'streetwear'
+  | 'bohemian';
 
 export type UserStyleProfileV1 = {
   archetype: StyleArchetypeV1;
@@ -328,8 +347,7 @@ export type AssortmentOverlapV1 = {
   actionHint: string;
 };
 
-/** LocalStorage lookbook list (lookbook-logic). */
-export type LookbookProjectListV1 = {
+export type LookbookProjectV1 = {
   id: string;
   title: string;
   skus: string[];
@@ -346,18 +364,8 @@ export type DesignDnaV1 = {
   pocketType?: string;
 };
 
-/** Supplier list row (supplier-logic). */
-export type SupplierListMetricV1 = {
-  id: string;
-  name: string;
-  qualityScore: number; // 0-100
-  esgGrade: 'A' | 'B' | 'C' | 'D';
-  avgLeadTimeDays: number;
-  onTimeDeliveryPct: number;
-};
-
-/** Aggregated health (assortment-health-logic). */
-export type AssortmentHealthAggregateV1 = {
+/** Агрегированный индекс здоровья ассортимента (портфель). */
+export type PortfolioAssortmentHealthV1 = {
   overallScore: number;
   attributeCompleteness: number;
   salesVelocityTrend: 'up' | 'down' | 'stable';
@@ -425,20 +433,13 @@ export type MarkdownRecommendationV1 = {
   projectedSellThrough: number;
 };
 
-/** Simple list (appointment-logic) + advanced planner (showroom-planner). */
 export type ShowroomAppointmentV1 = {
   id: string;
   partnerName: string;
   date: string;
-  time?: string;
-  type?: 'physical' | 'virtual';
-  location?: 'Moscow Showroom' | 'Almaty Hub' | 'Milan Virtual';
-  selectedSkus?: string[];
-  status: 'confirmed' | 'pending' | 'completed' | 'scheduled' | 'review' | 'order_placed';
-  sampleStatus?: 'ready' | 'missing' | 'in_transit';
-  estimatedPreOrderValue?: number;
-  partnerFeedback?: Record<string, 'love' | 'maybe' | 'skip'>;
-  sessionNotes?: string;
+  time: string;
+  type: 'physical' | 'virtual';
+  status: 'confirmed' | 'pending' | 'completed';
 };
 
 export type TrendSentimentV1 = {
@@ -472,13 +473,6 @@ export type ProductHeritageV1 = {
   sustainabilityHigh: boolean;
 };
 
-export type ResaleEstimateV1 = {
-  estimatedValue: number;
-  conditionGrades: Record<string, number>;
-  carbonSavedKg: number;
-  demandLevel: 'high' | 'medium' | 'low';
-};
-
 export type SizeAffinityV1 = {
   brand: string;
   affinityScore: number; // 0-100
@@ -505,15 +499,6 @@ export type LoyaltyRewardV1 = {
   perks: string[];
 };
 
-/** Tier / pricing campaign (campaign-logic). */
-export type B2BOrderTierCampaignV1 = {
-  id: string;
-  version: 'early_bird' | 'standard' | 'outlet' | 'sample_sale';
-  priceMultiplier: number;
-  accessExpiry: string;
-  moqOverride?: number;
-};
-
 export type CollectionLcaSummaryV1 = {
   totalCo2: number;
   totalWater: number;
@@ -521,62 +506,13 @@ export type CollectionLcaSummaryV1 = {
   topImpactCategory: string;
 };
 
-/** Category-level gap analysis (assortment-gap.ts). */
-export type AssortmentCategoryGapV1 = {
+/** Пробелы ассортимента по категории (цвета, ценовые ярусы). */
+export type CategoryAssortmentGapV1 = {
   category: string;
   missingColors: string[];
   missingPricePoints: string[];
   demandSignal: 'high' | 'medium';
 };
-
-/** Supplier scorecard (supplier-scorecard) + list metrics (supplier-logic). */
-export type SupplierMetricV1 = {
-  name: string;
-  qualityScore: number;
-  id?: string;
-  supplierId?: string;
-  esgGrade?: 'A' | 'B' | 'C' | 'D';
-  complianceGrade?: 'A' | 'B' | 'C' | 'D';
-  avgLeadTimeDays?: number;
-  leadTimeDays?: number;
-  onTimeDeliveryPct?: number;
-  activeOrders?: number;
-};
-
-/** Lookbook: local list (lookbook-logic) + planner row (lookbook-planner). */
-export type LookbookProjectV1 = {
-  id: string;
-  skus: string[];
-  status: string;
-  title?: string;
-  updatedAt?: number;
-  name?: string;
-  shootingDate?: string;
-  location?: string;
-};
-
-/** B2B campaigns: tier pricing (campaign-logic) + catalog rows (b2b-campaigns). */
-export type B2BCampaignV1 = {
-  id: string;
-  version: 'early_bird' | 'standard' | 'outlet' | 'sample_sale' | string;
-  priceMultiplier?: number;
-  accessExpiry?: string;
-  moqOverride?: number;
-  theme?: string;
-  targetMarket?: string;
-  activeStatus?: boolean;
-  publishedAt?: string;
-};
-
-/** Order gaps (assortment-gaps) vs category matrix (assortment-gap). */
-export type AssortmentGapV1 =
-  | {
-      sku: string;
-      recommendation: 'essential' | 'optional' | 'trend_match';
-      reason: string;
-      missingInCurrentOrder: boolean;
-    }
-  | AssortmentCategoryGapV1;
 
 export type PriceLadderBucketV1 = {
   priceRange: string;
@@ -629,16 +565,6 @@ export type VisualMerchSlotV1 = {
   colorHarmonyScore: number;
 };
 
-export type WholesalePartnerTierV1 = {
-  partnerId: string;
-  partnerName: string;
-  tier: 'Diamond' | 'Platinum' | 'Gold' | 'Silver';
-  creditLine: number;
-  unpaidInvoices: number;
-  availableLimit: number;
-  loyaltyPoints: number;
-};
-
 export type WholesalePreOrderV1 = {
   productId: string;
   moq: number; // Minimum Order Quantity
@@ -654,12 +580,41 @@ export type ReturnPredictionV1 = {
   advice: string;
 };
 
+export type SupplierMetricV1 = {
+  supplierId: string;
+  name: string;
+  leadTimeDays: number;
+  qualityScore: number; // 0-100
+  complianceGrade: 'A' | 'B' | 'C' | 'D';
+  activeOrders: number;
+};
+
+/** Карточка поставщика для сводных списков (без привязки к заказу) — `supplier-logic.ts`. */
+export type SupplierScorecardMetricV1 = {
+  id: string;
+  name: string;
+  qualityScore: number;
+  esgGrade: 'A' | 'B' | 'C' | 'D';
+  avgLeadTimeDays: number;
+  onTimeDeliveryPct: number;
+};
+
 export type CannibalizationImpactV1 = {
   primarySku: string;
   competingSku: string;
   overlapScore: number; // 0-100
   riskLevel: 'high' | 'medium' | 'low';
   recommendation: string;
+};
+
+/** Отдельная сущность от `LookbookProjectV1`: съёмка/локация (планировщик). */
+export type LookbookShootScheduleV1 = {
+  id: string;
+  name: string;
+  shootingDate: string;
+  skus: string[];
+  location: string;
+  status: 'draft' | 'confirmed' | 'completed';
 };
 
 export type FashionClvV1 = {
@@ -676,6 +631,24 @@ export type FabricWasteV1 = {
   estimatedWaste: number; // percentage
   cutOptimizationScore: number; // 0-100
   savedMaterialCo2: number; // kg
+};
+
+export type B2BCampaignV1 = {
+  id: string;
+  version: string;
+  theme: string;
+  targetMarket: string;
+  activeStatus: boolean;
+  publishedAt: string;
+};
+
+/** Каталожные ценовые кампании (мультипликаторы, early bird) — `campaign-logic.ts`. */
+export type B2BCatalogPriceCampaignV1 = {
+  id: string;
+  version: 'early_bird' | 'standard' | 'outlet' | 'sample_sale';
+  priceMultiplier: number;
+  accessExpiry: string;
+  moqOverride?: number;
 };
 
 export type HonestMarkStatusV1 = {
@@ -705,7 +678,11 @@ export type BnplInstallmentV1 = {
 };
 
 export type RegionalStockV1 = {
-  warehouse: 'Central (Moscow)' | 'South (Krasnodar)' | 'Ural (Ekaterinburg)' | 'Siberia (Novosibirsk)';
+  warehouse:
+    | 'Central (Moscow)'
+    | 'South (Krasnodar)'
+    | 'Ural (Ekaterinburg)'
+    | 'Siberia (Novosibirsk)';
   quantity: number;
   deliveryDays: number;
   lastSync: string;
@@ -827,7 +804,6 @@ export type CircularityScoreV1 = {
   sku: string;
   recycledContent: number; // percentage
   recyclabilityRate: number; // percentage
-  estimatedResaleValue: number;
   carbonSavings: number; // kg
 };
 
@@ -880,6 +856,20 @@ export type PvzEfficiencyV1 = {
   pvzReturnRate: number; // % returned at PVZ
   avgStayAtPvz: number; // minutes
   logisticLossPerUnit: number; // RUB
+};
+
+/** Расширенная запись шоурума (локация, отбор SKU) — не путать с `ShowroomAppointmentV1`. */
+export type ShowroomAppointmentSessionV1 = {
+  id: string;
+  partnerName: string;
+  date: string;
+  location: 'Moscow Showroom' | 'Almaty Hub' | 'Milan Virtual';
+  selectedSkus: string[];
+  status: 'scheduled' | 'review' | 'order_placed';
+  sampleStatus: 'ready' | 'missing' | 'in_transit';
+  estimatedPreOrderValue?: number;
+  partnerFeedback?: Record<string, 'love' | 'maybe' | 'skip'>;
+  sessionNotes?: string;
 };
 
 export type ShowroomSessionV1 = {
@@ -1004,6 +994,14 @@ export type EdiDocumentV1 = {
   status: 'pending' | 'signed' | 'error';
   ediOperator: 'Diadoc' | 'Sbis' | '1C-Link';
   legalRef: string;
+};
+
+/** Пробелы в строках заказа (рекомендации по SKU). */
+export type OrderLineAssortmentGapV1 = {
+  sku: string;
+  recommendation: 'essential' | 'optional' | 'trend_match';
+  reason: string;
+  missingInCurrentOrder: boolean;
 };
 
 export type EaeuCustomsValueV1 = {
@@ -1214,6 +1212,14 @@ export type B2BTechPackV1 = {
   sizeSpecsCm: Record<string, number>; // e.g. { chest: 54, length: 72 }
 };
 
+export type ProductionMilestoneV1 = {
+  id: string;
+  label: string;
+  status: 'pending' | 'in_progress' | 'completed' | 'delayed';
+  dueDate: string;
+  progressPercent: number;
+};
+
 export type RetailInventoryHealthV1 = {
   storeId: string;
   sku: string;
@@ -1309,12 +1315,32 @@ export type LineSheetV1 = {
   lastExported: string;
 };
 
+/** Здоровье ассортимента в разрезе категории. */
+export type CategoryAssortmentHealthV1 = {
+  category: string;
+  colorBalance: number; // 0-100
+  sizeAvailability: number; // 0-100
+  marginHealth: number; // 0-100
+  recommendations: string[];
+};
+
 export type PartnerTierV1 = {
   partnerId: string;
   tier: 'Platinum' | 'Gold' | 'Silver';
   creditLimit: number;
   paymentTermDays: number;
   discountPercentage: number;
+};
+
+/** Профиль оптового партнёра (кредитная линия, лояльность) — `wholesale-tiers.ts`. */
+export type WholesalePartnerTierV1 = {
+  partnerId: string;
+  partnerName: string;
+  tier: 'Diamond' | 'Platinum' | 'Gold';
+  creditLine: number;
+  unpaidInvoices: number;
+  availableLimit: number;
+  loyaltyPoints: number;
 };
 
 export type LaunchReadinessV1 = {
@@ -1581,18 +1607,13 @@ export type RepairHubRequestV1 = {
   atelierId: string;
 };
 
-/** Sustainability ledger: period rollup OR per-SKU footprint (sustainability-ledger). */
 export type SustainabilityLedgerV1 = {
-  sku?: string;
-  materialOrigin?: string;
-  carbonFootprintKg?: number;
-  waterUsageLiters?: number;
-  isRecyclable?: boolean;
-  certificates?: string[];
-  period?: string;
-  co2SavedKg?: number;
-  materialsRecycledKg?: number;
-  localSourcingBenefitPercent?: number;
+  sku: string;
+  materialOrigin: string;
+  carbonFootprintKg: number;
+  waterUsageLiters: number;
+  isRecyclable: boolean;
+  certificates: string[]; // e.g., ['GOTS', 'OEKO-TEX']
 };
 
 export type B2BQualityClaimV1 = {
@@ -1647,53 +1668,22 @@ export type RegionalHubFulfillmentV1 = {
   nextReplenishmentDate: string;
 };
 
-/** Factory capacity: monthly booking (factory-capacity) or line mix (unused elsewhere). */
 export type FactoryCapacityV1 = {
   factoryId: string;
-  sku?: string;
-  totalMonthlyCapacity?: number;
-  currentBookedQty?: number;
+  sku: string;
+  totalMonthlyCapacity: number;
+  currentBookedQty: number;
   utilizationPercent: number;
-  earliestAvailableSlot?: string;
-  sewingLines?: number;
-  estimatedLeadTimeWeeks?: number;
-  complexityFactor?: number;
+  earliestAvailableSlot: string;
 };
 
-/** Partner credit: B2B risk bands (partner-credit-score) or letter rating (unused). */
 export type PartnerCreditScoreV1 = {
   partnerId: string;
-  creditScore?: number;
-  score?: number;
-  recommendedLimit?: number;
-  maxCreditLimit?: number;
-  availableCredit?: number;
-  defaultProbability?: number;
-  rating?: 'A+' | 'A' | 'B' | 'C' | 'D';
-  riskRating?: 'low' | 'medium' | 'high';
-  paymentHistoryPoints?: number;
+  creditScore: number; // 0-1000
+  recommendedLimit: number;
+  riskRating: 'low' | 'medium' | 'high';
+  paymentHistoryPoints: number;
 };
-
-/** Production milestone tracker (production-milestones). */
-export type ProductionMilestoneV1 = {
-  id: string;
-  label: string;
-  status: string;
-  dueDate?: string;
-  progressPercent?: number;
-  date?: string;
-};
-
-/** Assortment health: aggregate index (assortment-health-logic) or category slice (assortment-health). */
-export type AssortmentHealthV1 =
-  | AssortmentHealthAggregateV1
-  | {
-      category: string;
-      colorBalance: number;
-      sizeAvailability: number;
-      marginHealth: number;
-      recommendations: string[];
-    };
 
 export type ShowroomBuyerPresenceV1 = {
   sessionId: string;
@@ -1748,16 +1738,12 @@ export type B2BOrderSplitV1 = {
   splits: { storeId: string; qty: number; status: 'confirmed' | 'pending' }[];
 };
 
-/** Partner perks: progress bar (partner-perks) or status list (UI block). */
 export type PartnerPerkV1 = {
+  perkId: string;
   title: string;
-  perkId?: string;
-  id?: string;
-  requirementDescription?: string;
-  unlockCondition?: string;
-  isUnlocked?: boolean;
-  progressPercent?: number;
-  status?: 'active' | 'locked' | 'unlocked';
+  requirementDescription: string;
+  isUnlocked: boolean;
+  progressPercent: number;
 };
 
 export type ShowroomVirtualSampleV1 = {
@@ -1821,7 +1807,11 @@ export type B2BReorderSuggestionV1 = {
   sku: string;
   suggestedQty: number;
   confidenceScore: number; // 0-100
-  reason: 'Low Stock in Central Hub' | 'High Velocity in Region' | 'Capsule Completion' | 'Trend Spike';
+  reason:
+    | 'Low Stock in Central Hub'
+    | 'High Velocity in Region'
+    | 'Capsule Completion'
+    | 'Trend Spike';
 };
 
 export type ShowroomSampleStatusV1 = {

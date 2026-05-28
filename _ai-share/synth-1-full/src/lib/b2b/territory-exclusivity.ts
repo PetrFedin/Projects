@@ -16,7 +16,11 @@ export function checkExclusiveConflict(country: string, city?: string): Territor
   const regionKey = (city || country || '').toLowerCase();
   // Мок: в Москве и ЦФО уже эксклюзив
   if (regionKey.includes('москва') || regionKey.includes('мск') || regionKey.includes('цфо')) {
-    return { conflict: true, existingPartnerName: 'Podium (Москва)', region: 'Москва / ЦФО' };
+    return {
+      conflict: true,
+      existingPartnerName: 'Демо-магазин · Москва 1',
+      region: 'Москва / ЦФО',
+    };
   }
   if (regionKey.includes('спб') || regionKey.includes('петербург') || regionKey.includes('сзфо')) {
     return { conflict: true, existingPartnerName: 'Boutique No.7 (СПб)', region: 'СЗФО' };

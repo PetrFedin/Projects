@@ -1,7 +1,39 @@
+import path from 'node:path';
+import type { NextConfig } from 'next';
 
-import type {NextConfig} from 'next';
+const rootDir = process.cwd();
+const isE2e =
+  process.env.E2E === 'true' || process.env.NEXT_PUBLIC_DISABLE_FONTS === '1';
+
+const appFontsAlias = path.join(
+  rootDir,
+  isE2e ? 'src/lib/app-fonts.e2e.ts' : 'src/lib/app-fonts.prod.ts'
+);
+const appFontsAliasRelative = isE2e
+  ? './src/lib/app-fonts.e2e.ts'
+  : './src/lib/app-fonts.prod.ts';
 
 const nextConfig: NextConfig = {
+  /** Изолированная сборка: `NEXT_DIST_DIR=.next-isolated npm run build` (не пересекается с `next dev` в `.next`). */
+  ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
+  /** Turbopack (`dev:fast`) — относительный alias (absolute ломает resolve в 15.3). */
+  turbopack: {
+    resolveAlias: {
+      '@/lib/app-fonts': appFontsAliasRelative,
+    },
+  },
+  webpack: (config, { dev, isServer }) => {
+    /** E2E: stub шрифтов без Google Fonts fetch — стабильный cold compile в Playwright. */
+    config.resolve ??= {};
+    config.resolve.alias ??= {};
+    (config.resolve.alias as Record<string, string>)['@/lib/app-fonts'] = appFontsAlias;
+
+    /** Длинная первая компиляция layout-клиента в dev иначе даёт ChunkLoadError (timeout). */
+    if (dev && !isServer && config.output && typeof config.output === 'object') {
+      (config.output as { chunkLoadTimeout?: number }).chunkLoadTimeout = 300_000;
+    }
+    return config;
+  },
   experimental: {
     /** Меньше модулей в dev/SSR — ниже RAM и время компиляции */
     optimizePackageImports: [
@@ -10,6 +42,7 @@ const nextConfig: NextConfig = {
       'date-fns',
       'recharts',
       'framer-motion',
+      'react-resizable-panels',
     ],
   },
   // Rewrite /data/products.json → API для демо (когда файл отсутствует)
@@ -24,26 +57,23 @@ const nextConfig: NextConfig = {
       { source: '/syntha', destination: '/brand/organization', permanent: false },
     ];
   },
-  // Standalone только для production build
-  ...(process.env.NODE_ENV === 'production' && { output: 'standalone' }),
-  // Пока `npm run typecheck` не зелёный, Next не валит сборку. CI: synth-1/.github/workflows/ci.yml.
+  async headers() {
+    return [
+      {
+        source: '/embed/runway/:path*',
+        headers: [
+          { key: 'Content-Security-Policy', value: 'frame-ancestors *' },
+        ],
+      },
+    ];
+  },
+  // Пока `npm run typecheck` не зелёный, Next не валит сборку. CI: `.github/workflows/synth-1-full-ci.yml` (монорепо).
   // Когда ошибок tsc не останется — поставьте ignoreBuildErrors: false.
   typescript: {
     ignoreBuildErrors: true,
   },
   eslint: {
     ignoreDuringBuilds: true,
-  },
-  // Стабильные ID чанков — deterministic вместо named для совместимости с dev
-  webpack: (config, { dev }) => {
-    if (!dev) {
-      config.optimization = {
-        ...config.optimization,
-        moduleIds: 'deterministic',
-        chunkIds: 'deterministic',
-      };
-    }
-    return config;
   },
   images: {
     unoptimized: true,
@@ -104,6 +134,21 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+function withOptionalBundleAnalyzer(config: NextConfig): NextConfig {
+  if (process.env.ANALYZE !== 'true') return config;
+  try {
+    // Optional devDependency — см. npm run analyze:bundle
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const bundleAnalyzer = require('@next/bundle-analyzer') as (opts: {
+      enabled: boolean;
+    }) => (cfg: NextConfig) => NextConfig;
+    return bundleAnalyzer({ enabled: true })(config);
+  } catch {
+    console.warn('[analyze] @next/bundle-analyzer not installed — run: npm i -D @next/bundle-analyzer');
+    return config;
+  }
+}
+
+export default withOptionalBundleAnalyzer(nextConfig);
 
     

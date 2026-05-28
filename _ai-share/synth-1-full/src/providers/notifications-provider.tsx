@@ -53,21 +53,43 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     const key = 'synth-notifications-seeded';
     if (sessionStorage.getItem(key)) return;
     sessionStorage.setItem(key, '1');
-    addNotification({ type: 'order', title: 'Заказ B2B-0012 зарезервирован', body: 'Syntha · 750 000 ₽', href: '/shop/b2b/orders' });
-    addNotification({ type: 'payment', title: 'Оплата по счёту получена', body: 'B2B-0011 · ЦУМ', href: '/shop/b2b/orders' });
-    addNotification({ type: 'system', title: 'Доступна видео-консультация', body: 'Забронируйте слот со стилистом', href: '/shop/b2b/video-consultation' });
+    addNotification({
+      type: 'order',
+      title: 'Заказ B2B-0012 зарезервирован',
+      body: 'Syntha · 750 000 ₽',
+      href: '/shop/b2b/orders',
+    });
+    addNotification({
+      type: 'payment',
+      title: 'Оплата по счёту получена',
+      body: 'B2B-0011 · ЦУМ',
+      href: '/shop/b2b/orders',
+    });
+    addNotification({
+      type: 'system',
+      title: 'Доступна видео-консультация',
+      body: 'Забронируйте слот со стилистом',
+      href: '/shop/b2b/video-consultation',
+    });
   }, [addNotification]);
 
   // Simulated WebSocket / push — в проде подключить реальный WS
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const handleOnline = () => addNotification({ type: 'system', title: 'Сеть восстановлена', body: 'Синхронизация продолжена' });
+    const handleOnline = () =>
+      addNotification({
+        type: 'system',
+        title: 'Сеть восстановлена',
+        body: 'Синхронизация продолжена',
+      });
     window.addEventListener('online', handleOnline);
     return () => window.removeEventListener('online', handleOnline);
   }, [addNotification]);
 
   return (
-    <NotificationsContext.Provider value={{ notifications, unreadCount, markRead, markAllRead, addNotification }}>
+    <NotificationsContext.Provider
+      value={{ notifications, unreadCount, markRead, markAllRead, addNotification }}
+    >
       {children}
     </NotificationsContext.Provider>
   );

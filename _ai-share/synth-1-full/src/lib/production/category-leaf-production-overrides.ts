@@ -99,19 +99,6 @@ export const LEAF_PRODUCTION_PROFILE_OVERRIDES: Partial<
     ],
     labelLocalesDefault: ['ru', 'en', 'cn'],
   },
-  'catalog-shoes-g12-l0': {
-    productionRouteTemplateId: 'route-footwear-sports',
-    productionRouteTemplateLabel: 'Как кроссовки + усиленный контроль швов и подошвы',
-    marketplaceRefs: [
-      {
-        channelId: 'wildberries',
-        subjectIdVerified: true,
-        subjectId: '151',
-        categoryPathHint: 'Обувь / Спортивная обувь',
-      },
-      { channelId: 'ozon', subjectIdVerified: true, categoryPathHint: 'Обувь / Спортивная' },
-    ],
-  },
   'catalog-bags-g0-l0': {
     productionRouteTemplateId: 'route-bags-leather-textile',
     productionRouteTemplateLabel: 'Раскрой кожи/ткани → сборка → фурнитура → контроль швов',

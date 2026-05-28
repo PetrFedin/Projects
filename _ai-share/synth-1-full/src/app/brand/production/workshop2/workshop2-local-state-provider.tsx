@@ -1,5 +1,7 @@
 'use client';
 
+import { persistWorkshop2ArticleSkuValidationMirrorToDossier } from '@/lib/production/workshop2-article-sku-validation-persist';
+
 import {
   createContext,
   useCallback,
@@ -56,7 +58,10 @@ import {
   removeWorkshop2Phase1Dossier,
   setWorkshop2Phase1Dossier,
 } from '@/lib/production/workshop2-phase1-dossier-storage';
-import { WORKSHOP2_COLLECTION_ID, workshop2MergedItemsForCollectionList } from '@/lib/production/workshop2-articles';
+import {
+  WORKSHOP2_COLLECTION_ID,
+  workshop2MergedItemsForCollectionList,
+} from '@/lib/production/workshop2-articles';
 import {
   skuPipelineStepProgress,
   workshop2CollectionMetrics,
@@ -218,15 +223,16 @@ const Workshop2LocalStateContext = createContext<Workshop2LocalStateApi | null>(
 export function useWorkshop2LocalState(): Workshop2LocalStateApi {
   const v = useContext(Workshop2LocalStateContext);
   if (!v) {
-    throw new Error('useWorkshop2LocalState: оберните страницу в Workshop2LocalStateProvider (layout Цеха 2)');
+    throw new Error(
+      'useWorkshop2LocalState: оберните страницу в Workshop2LocalStateProvider (layout разработки коллекции)'
+    );
   }
   return v;
 }
 
 export function Workshop2LocalStateProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
-  const createdByLabel =
-    user?.displayName?.trim() || user?.email?.trim() || 'Не авторизован';
+  const createdByLabel = user?.displayName?.trim() || user?.email?.trim() || 'Не авторизован';
 
   const [localInventory, setLocalInventory] = useState<LocalCollectionInventory>(() => ({
     v: 1,
@@ -237,7 +243,9 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
     archivedSystemCollectionIds: [],
   }));
 
-  const [flowByCollection, setFlowByCollection] = useState<Record<string, CollectionSkuFlowDoc>>({});
+  const [flowByCollection, setFlowByCollection] = useState<Record<string, CollectionSkuFlowDoc>>(
+    {}
+  );
   const [storageStaleBanner, setStorageStaleBanner] = useState(false);
   const [highlightArticleId, setHighlightArticleId] = useState<string | null>(null);
 
@@ -374,7 +382,9 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
         teamNote: uc.teamNote,
       };
     });
-    if ((localInventory.archivedSystemCollectionIds ?? []).includes(WORKSHOP2_SYSTEM_COLLECTION_ID)) {
+    if (
+      (localInventory.archivedSystemCollectionIds ?? []).includes(WORKSHOP2_SYSTEM_COLLECTION_ID)
+    ) {
       const ss27Raw = workshop2MergedItemsForCollectionList(
         WORKSHOP2_COLLECTION_ID,
         localInventory,
@@ -590,16 +600,20 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
         applied = r;
         return r.ok ? r.inventory : prev;
       });
-      if (applied?.ok && applied.newArticleId) {
-        setHighlightArticleId(applied.newArticleId);
+      if (applied?.ok) {
+        const newArticleId = applied.newArticleId;
+        setHighlightArticleId(newArticleId);
         const key = storageKeyForCollectionId(collectionId);
         const list = applied.inventory.articlesByCollection[key] ?? [];
-        const line = list.find((l) => l.id === applied.newArticleId) as LocalOrderLine | undefined;
+        const line = list.find((l) => l.id === newArticleId) as LocalOrderLine | undefined;
         const nb = normalizeWorkshopTzSignatoryBindings(line?.workshopTzSignatoryBindings);
         if (nb) {
-          const existing = getWorkshop2Phase1Dossier(collectionId, applied.newArticleId);
+          const existing = getWorkshop2Phase1Dossier(collectionId, newArticleId);
           const base = existing ?? emptyWorkshop2DossierPhase1();
-          setWorkshop2Phase1Dossier(collectionId, applied.newArticleId, { ...base, tzSignatoryBindings: nb });
+          setWorkshop2Phase1Dossier(collectionId, newArticleId, {
+            ...base,
+            tzSignatoryBindings: nb,
+          });
         }
         return true;
       }
@@ -609,11 +623,7 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
   );
 
   const handlePatchWorkshop2ArticleLine = useCallback(
-    (
-      collectionId: string,
-      articleId: string,
-      patch: Workshop2ArticleLinePatch
-    ): boolean => {
+    (collectionId: string, articleId: string, patch: Workshop2ArticleLinePatch): boolean => {
       let ok = false;
       setLocalInventory((prev) => {
         const next = patchWorkshop2ArticleLine(prev, collectionId, articleId, patch);
@@ -624,7 +634,7 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
         appendWorkshop2ArticleActivity(
           collectionId,
           articleId,
-          'Изменены данные артикула в составе коллекции (локальный инвентарь Цеха 2)',
+          'Изменены данные артикула в составе коллекции (локальный инвентарь разработки коллекции)',
           createdByLabel
         );
       }
@@ -633,21 +643,24 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
     [createdByLabel]
   );
 
-  const handleRemoveWorkshop2Article = useCallback((collectionId: string, articleId: string) => {
-    removeWorkshop2Phase1Dossier(collectionId, articleId);
-    const key = storageKeyForCollectionId(collectionId);
-    setLocalInventory((prev) => removeArticleFromInventory(prev, key, articleId, collectionId));
-    setFlowByCollection((prev) => {
-      const doc = prev[collectionId] ?? emptyDoc;
-      const next = removeSkuFromUnifiedDoc(doc, articleId);
-      if (next !== doc) {
-        queueMicrotask(() => {
-          void getProductionDataPort().saveSkuFlow(collectionId, next);
-        });
-      }
-      return { ...prev, [collectionId]: next };
-    });
-  }, [emptyDoc]);
+  const handleRemoveWorkshop2Article = useCallback(
+    (collectionId: string, articleId: string) => {
+      removeWorkshop2Phase1Dossier(collectionId, articleId);
+      const key = storageKeyForCollectionId(collectionId);
+      setLocalInventory((prev) => removeArticleFromInventory(prev, key, articleId, collectionId));
+      setFlowByCollection((prev) => {
+        const doc = prev[collectionId] ?? emptyDoc;
+        const next = removeSkuFromUnifiedDoc(doc, articleId);
+        if (next !== doc) {
+          queueMicrotask(() => {
+            void getProductionDataPort().saveSkuFlow(collectionId, next);
+          });
+        }
+        return { ...prev, [collectionId]: next };
+      });
+    },
+    [emptyDoc]
+  );
 
   const reloadInventoryAfterExternalChange = useCallback(() => {
     setLocalInventory(loadLocalCollectionInventory());
@@ -706,6 +719,8 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
   );
 
   return (
-    <Workshop2LocalStateContext.Provider value={value}>{children}</Workshop2LocalStateContext.Provider>
+    <Workshop2LocalStateContext.Provider value={value}>
+      {children}
+    </Workshop2LocalStateContext.Provider>
   );
 }

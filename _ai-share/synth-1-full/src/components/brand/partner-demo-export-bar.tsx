@@ -27,11 +27,11 @@ export function PartnerDemoExportBar({ className }: { className?: string }) {
   return (
     <div className={`flex flex-wrap gap-2 ${className ?? ''}`}>
       <Button type="button" variant="outline" size="sm" onClick={copyJson}>
-        <Copy className="h-4 w-4 mr-2" />
+        <Copy className="mr-2 h-4 w-4" />
         Копировать снимок демо
       </Button>
       <Button type="button" variant="outline" size="sm" onClick={saveJson}>
-        <FileJson className="h-4 w-4 mr-2" />
+        <FileJson className="mr-2 h-4 w-4" />
         Скачать JSON
       </Button>
     </div>

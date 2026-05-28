@@ -7,7 +7,7 @@ export function analyzeSeasonalFit(product: Product): SeasonalMaterialFitV1 {
   const comp = compositionSearchText(product);
   const isNatural = comp.includes('cotton') || comp.includes('wool');
   const gsm = product.category === 'Outerwear' ? 450 : product.category === 'Top' ? 180 : 250;
-  
+
   let range = '+10°C to +25°C';
   let score = 85;
   let advice = 'Optimal for current Central region weather.';

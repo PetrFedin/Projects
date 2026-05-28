@@ -9,54 +9,66 @@ import { getRetailPlanogram } from '@/lib/fashion/retail-planogram';
 
 export const ProductRetailVmBlock: React.FC<{ product: Product }> = ({ product }) => {
   const p = getRetailPlanogram(product);
-  
+
   return (
-    <Card className="p-4 border-2 border-stone-200 bg-stone-50/20 shadow-sm relative overflow-hidden">
-      <div className="absolute -top-2 -right-2 opacity-5">
-        <Layout className="w-16 h-16" />
+    <Card className="relative overflow-hidden border-2 border-stone-200 bg-stone-50/20 p-4 shadow-sm">
+      <div className="absolute -right-2 -top-2 opacity-5">
+        <Layout className="h-16 w-16" />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Map className="w-4 h-4 text-stone-600" />
-          <h4 className="font-bold text-xs uppercase text-stone-700 tracking-tight">Retail Planogram (Store Ops)</h4>
+          <Map className="h-4 w-4 text-stone-600" />
+          <h4 className="text-xs font-bold uppercase tracking-tight text-stone-700">
+            Retail Planogram (Store Ops)
+          </h4>
         </div>
-        <Badge variant="outline" className="text-[9px] h-4 bg-white border-stone-200">STORE: {p.storeId}</Badge>
+        <Badge variant="outline" className="h-4 border-stone-200 bg-white text-[9px]">
+          STORE: {p.storeId}
+        </Badge>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <div className="text-[10px] font-black text-stone-400 uppercase leading-none mb-1.5">Section</div>
+          <div className="mb-1.5 text-[10px] font-black uppercase leading-none text-stone-400">
+            Section
+          </div>
           <div className="text-xs font-bold text-stone-800">{p.section}</div>
         </div>
         <div>
-          <div className="text-[10px] font-black text-stone-400 uppercase leading-none mb-1.5">Shelf Position</div>
+          <div className="mb-1.5 text-[10px] font-black uppercase leading-none text-stone-400">
+            Shelf Position
+          </div>
           <div className="text-xs font-bold text-stone-800">Rank #{p.shelfPosition}</div>
         </div>
       </div>
 
-      <div className="p-3 bg-white rounded-lg border border-stone-100 mb-4">
-        <div className="text-[10px] font-black text-stone-400 uppercase mb-1.5 flex items-center gap-1">
-          <Star className="w-3 h-3 text-yellow-500" /> Cross-Sell Story
+      <div className="mb-4 rounded-lg border border-stone-100 bg-white p-3">
+        <div className="mb-1.5 flex items-center gap-1 text-[10px] font-black uppercase text-stone-400">
+          <Star className="h-3 w-3 text-yellow-500" /> Cross-Sell Story
         </div>
         <div className="flex gap-2">
-          {p.adjacentSkus.map(sku => (
-            <Badge key={sku} variant="secondary" className="text-[9px] h-4 bg-stone-50 border border-stone-100">{sku}</Badge>
+          {p.adjacentSkus.map((sku) => (
+            <Badge
+              key={sku}
+              variant="secondary"
+              className="h-4 border border-stone-100 bg-stone-50 text-[9px]"
+            >
+              {sku}
+            </Badge>
           ))}
         </div>
       </div>
 
-      <div className="flex gap-2 items-start">
-        <div className="p-1 rounded bg-stone-100">
-          <Info className="w-3.5 h-3.5 text-stone-500" />
+      <div className="flex items-start gap-2">
+        <div className="rounded bg-stone-100 p-1">
+          <Info className="h-3.5 w-3.5 text-stone-500" />
         </div>
-        <div className="text-[10px] text-stone-600 leading-tight italic">
-          "{p.visualMerchTip}"
-        </div>
+        <div className="text-[10px] italic leading-tight text-stone-600">"{p.visualMerchTip}"</div>
       </div>
-      
-      <div className="mt-4 pt-3 border-t border-stone-100 flex items-center gap-2 text-[9px] text-stone-400 font-bold uppercase">
-         <Users className="w-3 h-3" /> Staff Instruction v1.2
+
+      <div className="mt-4 flex items-center gap-2 border-t border-stone-100 pt-3 text-[9px] font-bold uppercase text-stone-400">
+        <Users className="h-3 w-3" /> Staff Instruction v1.2
       </div>
     </Card>
   );

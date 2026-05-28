@@ -14,7 +14,7 @@ export function ProductLongevityBlock({ product }: Props) {
   return (
     <Card className="mt-4 border-dashed bg-emerald-50/10">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <ShieldPlus className="h-4 w-4 text-emerald-600" />
           Care & Longevity
         </CardTitle>
@@ -24,23 +24,26 @@ export function ProductLongevityBlock({ product }: Props) {
       </CardHeader>
       <CardContent className="space-y-3">
         {tips.map((tip, i) => (
-          <div key={i} className="flex items-start gap-3 border-b border-emerald-100 pb-2 last:border-0 last:pb-0">
+          <div
+            key={i}
+            className="flex items-start gap-3 border-b border-emerald-100 pb-2 last:border-0 last:pb-0"
+          >
             <div className="mt-0.5 rounded-full bg-emerald-100 p-1">
               <Sparkles className="h-2.5 w-2.5 text-emerald-700" />
             </div>
             <div className="space-y-0.5">
               <p className="text-[11px] font-bold text-emerald-900">{tip.action}</p>
-              <p className="text-[10px] text-muted-foreground leading-tight">{tip.impact}</p>
-              <div className="flex items-center gap-1 text-[9px] text-emerald-700 font-medium pt-0.5">
+              <p className="text-[10px] leading-tight text-muted-foreground">{tip.impact}</p>
+              <div className="flex items-center gap-1 pt-0.5 text-[9px] font-medium text-emerald-700">
                 <Clock className="h-2.5 w-2.5" />
                 <span>+ {tip.estYearsAdded} years of life</span>
               </div>
             </div>
           </div>
         ))}
-        <div className="pt-2 flex items-start gap-2 border-t border-emerald-100 mt-1">
-          <Info className="h-3 w-3 text-muted-foreground shrink-0 mt-0.5" />
-          <p className="text-[9px] text-muted-foreground italic leading-tight uppercase font-bold tracking-tighter">
+        <div className="mt-1 flex items-start gap-2 border-t border-emerald-100 pt-2">
+          <Info className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
+          <p className="text-[9px] font-bold uppercase italic leading-tight tracking-tighter text-muted-foreground">
             Slow Fashion: Reduce, Reuse, Repair.
           </p>
         </div>

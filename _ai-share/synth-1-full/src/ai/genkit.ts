@@ -2,14 +2,13 @@ import { genkit } from 'genkit';
 import { googleAI } from '@genkit-ai/google-genai';
 import { getFromCache, saveToCache, generateCacheKey } from './llm-cache';
 import { checkUserQuota, logTokenUsage } from './token-guard';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 
 /**
  * Centralized AI configuration with token economy and safety rules.
  */
 export const ai = genkit({
-  plugins: [
-    googleAI(),
-  ],
+  plugins: [googleAI()],
   model: 'googleai/gemini-1.5-flash',
 });
 
@@ -21,6 +20,22 @@ export interface TokenUsage {
   completionTokens?: number;
   totalTokens?: number;
   estimatedCostUSD?: number;
+}
+
+function extractTokenUsageFromGenkitResult(result: unknown): TokenUsage {
+  if (!result || typeof result !== 'object') return {};
+  const r = result as Record<string, unknown>;
+  if (!('usage' in r)) return {};
+  const u = r.usage;
+  if (!u || typeof u !== 'object') return {};
+  const o = u as Record<string, unknown>;
+  const promptRaw = o.inputTokens ?? o.promptTokens;
+  const completionRaw = o.outputTokens ?? o.completionTokens;
+  return {
+    promptTokens: typeof promptRaw === 'number' ? promptRaw : undefined,
+    completionTokens: typeof completionRaw === 'number' ? completionRaw : undefined,
+    totalTokens: typeof o.totalTokens === 'number' ? o.totalTokens : undefined,
+  };
 }
 
 /**
@@ -35,7 +50,7 @@ export async function withTokenAudit<I, O>(
 ): Promise<O> {
   const cacheKey = generateCacheKey(flowName, input);
   const cachedResult = await getFromCache<O>(cacheKey);
-  
+
   if (cachedResult) {
     console.log(`[AI_CACHE] Hit for ${flowName}`);
     return cachedResult;
@@ -59,17 +74,9 @@ export async function withTokenAudit<I, O>(
 
     const result = await execution(input);
     const duration = Date.now() - startTime;
-    
-    let usage: TokenUsage = {};
-    if (result && typeof result === 'object' && 'usage' in (result as any)) {
-      const genkitUsage = (result as any).usage;
-      usage = {
-        promptTokens: genkitUsage?.inputTokens || genkitUsage?.promptTokens,
-        completionTokens: genkitUsage?.outputTokens || genkitUsage?.completionTokens,
-        totalTokens: genkitUsage?.totalTokens,
-      };
-    }
-    
+
+    const usage = extractTokenUsageFromGenkitResult(result);
+
     // 2. Logging & Auditing
     logTokenUsage(flowName, usage);
 
@@ -77,19 +84,21 @@ export async function withTokenAudit<I, O>(
     saveToCache(cacheKey, result);
 
     return result;
-  } catch (error: any) {
-    console.error(`[TOKEN_AUDIT_ERROR] Flow: ${flowName}`, error.message);
+  } catch (error: unknown) {
+    console.error(
+      `[TOKEN_AUDIT_ERROR] Flow: ${flowName}`,
+      getUnknownErrorMessage(error, 'unknown')
+    );
     throw error;
   }
 }
-
 
 /**
  * Truncates text to a maximum length to prevent token leakage.
  */
 export function truncateInput(text: string, maxLength: number = 4000): string {
   if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength) + "... [truncated for token economy]";
+  return text.substring(0, maxLength) + '... [truncated for token economy]';
 }
 
 /**
@@ -117,7 +126,7 @@ export async function withRetry<T>(
   maxRetries: number = 2,
   initialDelay: number = 500 // milliseconds
 ): Promise<T> {
-  let lastError: any;
+  let lastError: unknown;
   for (let i = 0; i < maxRetries + 1; i++) {
     try {
       return await fn();
@@ -125,7 +134,7 @@ export async function withRetry<T>(
       lastError = error;
       const delay = initialDelay * Math.pow(2, i);
       console.warn(`Retry attempt ${i + 1}/${maxRetries + 1} failed. Retrying in ${delay}ms...`);
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
   throw lastError; // Re-throw the last error if all retries fail

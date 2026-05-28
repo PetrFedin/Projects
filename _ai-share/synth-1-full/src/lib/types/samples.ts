@@ -2,14 +2,21 @@
  * Sample Tracking & PR Control Types
  */
 
-export type SampleStatus = 'in_stock' | 'with_stylist' | 'in_editorial' | 'in_transit' | 'damaged' | 'lost' | 'archived';
+export type SampleStatus =
+  | 'in_stock'
+  | 'with_stylist'
+  | 'in_editorial'
+  | 'in_transit'
+  | 'damaged'
+  | 'lost'
+  | 'archived';
 
 export interface CollectionSample {
   id: string;
   productId: string;
   sku: string;
   name: string;
-  /** Внутренний артикул (например 6 знаков Цеха 2) — попадает в payload бирки. */
+  /** Внутренний артикул (например 6 знаков из разработки коллекции) — попадает в payload бирки. */
   internalArticleCode?: string;
   size: string;
   color: string;

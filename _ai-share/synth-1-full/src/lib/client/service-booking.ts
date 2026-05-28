@@ -5,7 +5,13 @@
 
 export type ServiceType = 'dry_cleaning' | 'repair' | 'customization' | 'other';
 
-export type ServiceBookingStatus = 'draft' | 'submitted' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
+export type ServiceBookingStatus =
+  | 'draft'
+  | 'submitted'
+  | 'confirmed'
+  | 'in_progress'
+  | 'completed'
+  | 'cancelled';
 
 export interface ServiceOption {
   id: string;

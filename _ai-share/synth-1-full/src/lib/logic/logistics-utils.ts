@@ -16,9 +16,21 @@ export const MOCK_SHIPMENTS: InTransitShipment[] = [
     estimatedArrival: '2026-03-25',
     sellableInTransit: true,
     items: [
-      { sku: 'BL-SLK-M', name: 'Silk Satin Blouse', qty: 500, allocatedToB2B: 200, availableForB2C: 300 },
-      { sku: 'TRS-WOL-M', name: 'Wool Trousers', qty: 300, allocatedToB2B: 100, availableForB2C: 200 },
-    ]
+      {
+        sku: 'BL-SLK-M',
+        name: 'Silk Satin Blouse',
+        qty: 500,
+        allocatedToB2B: 200,
+        availableForB2C: 300,
+      },
+      {
+        sku: 'TRS-WOL-M',
+        name: 'Wool Trousers',
+        qty: 300,
+        allocatedToB2B: 100,
+        availableForB2C: 200,
+      },
+    ],
   },
   {
     id: 'SHIP-AIR-4242',
@@ -31,9 +43,15 @@ export const MOCK_SHIPMENTS: InTransitShipment[] = [
     estimatedArrival: '2026-03-10',
     sellableInTransit: false,
     items: [
-      { sku: 'ACC-BELT-01', name: 'Leather Belt', qty: 1000, allocatedToB2B: 800, availableForB2C: 200 },
-    ]
-  }
+      {
+        sku: 'ACC-BELT-01',
+        name: 'Leather Belt',
+        qty: 1000,
+        allocatedToB2B: 800,
+        availableForB2C: 200,
+      },
+    ],
+  },
 ];
 
 export function calculateTotalInTransit(shipments: InTransitShipment[]): number {
@@ -42,13 +60,17 @@ export function calculateTotalInTransit(shipments: InTransitShipment[]): number 
   }, 0);
 }
 
-export function getShadowATP(sku: string, baseStock: number, shipments: InTransitShipment[]): number {
+export function getShadowATP(
+  sku: string,
+  baseStock: number,
+  shipments: InTransitShipment[]
+): number {
   const inTransit = shipments
-    .filter(s => s.sellableInTransit)
+    .filter((s) => s.sellableInTransit)
     .reduce((sum, s) => {
-      const item = s.items.find(i => i.sku === sku);
+      const item = s.items.find((i) => i.sku === sku);
       return sum + (item ? item.availableForB2C : 0);
     }, 0);
-  
+
   return baseStock + inTransit;
 }

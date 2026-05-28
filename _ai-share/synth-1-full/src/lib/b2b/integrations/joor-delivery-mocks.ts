@@ -31,7 +31,11 @@ export function joorGetDeliveryWindows(): JoorDeliveryWindow[] {
   return MOCK_WINDOWS;
 }
 
-/** NuOrder / Excel Working Order — пока выключено в мок-режиме. */
+/**
+ * Ранее использовалось для показа карточки «Экспорт в NuOrder» на `/shop/b2b/create-order`.
+ * Маршрут `POST /api/b2b/export-order` принимает только `provider: platform`; NuOrder/JOOR — archive.
+ * Экспорт в контур платформы — `ShopB2bPlatformExportCard` (тот же endpoint).
+ */
 export function isNuOrderConfigured(): boolean {
   return false;
 }

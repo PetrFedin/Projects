@@ -20,6 +20,6 @@ export function getLocalPaymentHub(): LocalPaymentV1[] {
       bonusReward: 0,
       isPreferred: false,
       description: 'Оплата в один клик через приложение Т-Банк.',
-    }
+    },
   ];
 }

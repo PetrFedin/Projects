@@ -81,14 +81,17 @@ export function useSchemeEditor(initialDefinition: LiveProcessDefinition | null)
     });
   }, []);
 
-  const loadTemplate = useCallback((template: LiveProcessDefinition, preserveProcessId?: string) => {
-    setDefinition({
-      ...template,
-      id: preserveProcessId ?? template.id + '-custom',
-      meta: { ...template.meta, isTemplate: false },
-      stages: template.stages.map((s, i) => ({ ...s, order: i })),
-    });
-  }, []);
+  const loadTemplate = useCallback(
+    (template: LiveProcessDefinition, preserveProcessId?: string) => {
+      setDefinition({
+        ...template,
+        id: preserveProcessId ?? template.id + '-custom',
+        meta: { ...template.meta, isTemplate: false },
+        stages: template.stages.map((s, i) => ({ ...s, order: i })),
+      });
+    },
+    []
+  );
 
   const createFromScratch = useCallback((name: string, contextKey?: string) => {
     setDefinition({

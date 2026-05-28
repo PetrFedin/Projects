@@ -3,7 +3,10 @@ import fs from 'fs/promises';
 import path from 'path';
 import type { Workshop2DossierMetricsPayload } from '@/lib/production/workshop2-dossier-metrics-ingest';
 import { applyW2MetricsHotSourceRetentionAfterArchive } from '@/lib/server/workshop2-dossier-metrics-retention';
-import { isW2MetricsS3NativeConfigured, putW2MetricsNdjsonToS3 } from '@/lib/server/workshop2-metrics-s3-archive';
+import {
+  isW2MetricsS3NativeConfigured,
+  putW2MetricsNdjsonToS3,
+} from '@/lib/server/workshop2-metrics-s3-archive';
 
 export type W2ArchiveWriteResult =
   | { ok: true; target: 'put_url' | 's3' | 'local_dir' | 'skipped_empty' | 'skipped_duplicate' }

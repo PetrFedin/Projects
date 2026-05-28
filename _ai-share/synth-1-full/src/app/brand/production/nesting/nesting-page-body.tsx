@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 
 type NestingJob = {
   id: string;
@@ -33,9 +35,33 @@ type NestingJob = {
 const NESTING_DEFAULT = {
   v: 1 as const,
   jobs: [
-    { id: 'N-01', po: 'PO-201', fabric: 'Wool melton 1,5 м', markers: 4, pieces: 892, yield: 94.2, status: 'ready' as const },
-    { id: 'N-02', po: 'PO-202', fabric: 'Cotton twill 1,45 м', markers: 6, pieces: 1240, yield: 88.7, status: 'optimizing' as const },
-    { id: 'N-03', po: 'PO-205', fabric: 'Lining viscose', markers: 2, pieces: 310, yield: 91.0, status: 'draft' as const },
+    {
+      id: 'N-01',
+      po: 'PO-201',
+      fabric: 'Wool melton 1,5 м',
+      markers: 4,
+      pieces: 892,
+      yield: 94.2,
+      status: 'ready' as const,
+    },
+    {
+      id: 'N-02',
+      po: 'PO-202',
+      fabric: 'Cotton twill 1,45 м',
+      markers: 6,
+      pieces: 1240,
+      yield: 88.7,
+      status: 'optimizing' as const,
+    },
+    {
+      id: 'N-03',
+      po: 'PO-205',
+      fabric: 'Lining viscose',
+      markers: 2,
+      pieces: 310,
+      yield: 91.0,
+      status: 'draft' as const,
+    },
   ] satisfies NestingJob[],
 };
 
@@ -52,25 +78,35 @@ export function NestingPageBody() {
   };
 
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-6 pb-24">
+    <CabinetPageContent maxWidth="4xl" className="space-y-6 pb-16">
       <SectionInfoCard
-        title="Nesting AI · раскрой"
-        description="Оптимизация раскладки лекал на рулон: после утверждённого плана PO и до запуска смен в цеху. Черновик сохраняется через ProductionDataPort (localStorage / позже API)."
+        title="Nesting ИИ · раскрой"
+        description={
+          <>
+            Оптимизация раскладки лекал на рулон: после утверждённого плана{' '}
+            <AcronymWithTooltip abbr="PO" /> и до запуска смен в цеху. Черновик сохраняется через
+            ProductionDataPort (локальное хранилище / позже <AcronymWithTooltip abbr="API" />
+            ).
+          </>
+        }
         icon={Scissors}
-        iconBg="bg-violet-100"
-        iconColor="text-violet-600"
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
         badges={<ProductionGanttBadges />}
       />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-3">
-          <Link href={ROUTES.brand.production}>
-            <Button variant="ghost" size="icon" aria-label="Назад к цеху">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
-          <h1 className="text-2xl font-bold uppercase tracking-tight">Nesting AI</h1>
-          <Badge variant="outline" className="border-violet-200 bg-violet-50 text-violet-800 text-[10px] font-bold uppercase">
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.production} aria-label="Назад к производству">
+              <ArrowLeft className="h-4 w-4" aria-hidden />
+            </Link>
+          </Button>
+          <h1 className="text-2xl font-bold uppercase tracking-tight">Nesting ИИ</h1>
+          <Badge
+            variant="outline"
+            className="border-accent-primary/25 bg-accent-primary/10 text-accent-primary text-[10px] font-bold uppercase"
+          >
             Раскрой
           </Badge>
         </div>
@@ -80,7 +116,10 @@ export function NestingPageBody() {
           disabled={!hydrated}
           onClick={async () => {
             await save();
-            toast({ title: 'Сохранено', description: 'Задания на раскрой записаны (floor-tab: nesting).' });
+            toast({
+              title: 'Сохранено',
+              description: 'Задания на раскрой записаны (floor-tab: nesting).',
+            });
           }}
         >
           <Save className="h-3.5 w-3.5" /> Сохранить черновик
@@ -93,14 +132,19 @@ export function NestingPageBody() {
             <Layers className="h-4 w-4" />
             Задания на раскрой
           </CardTitle>
-          <CardDescription>Маркеры, выход деталей и статус; правки сохраняются локально до API</CardDescription>
+          <CardDescription>
+            Маркеры, выход деталей и статус; правки сохраняются локально до{' '}
+            <AcronymWithTooltip abbr="API" />
+          </CardDescription>
         </CardHeader>
         <CardContent className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm">
             <thead>
-              <tr className="border-b border-slate-200 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+              <tr className="border-border-default text-text-secondary border-b text-[10px] font-bold uppercase tracking-widest">
                 <th className="pb-2 pr-3">Задание</th>
-                <th className="pb-2 pr-3">PO</th>
+                <th className="pb-2 pr-3">
+                  <AcronymWithTooltip abbr="PO" />
+                </th>
                 <th className="pb-2 pr-3">Ткань</th>
                 <th className="pb-2 pr-2 text-right">Маркеры</th>
                 <th className="pb-2 pr-2 text-right">Деталей</th>
@@ -110,18 +154,27 @@ export function NestingPageBody() {
             </thead>
             <tbody>
               {data.jobs.map((row, i) => (
-                <tr key={row.id} className="border-b border-slate-50">
+                <tr key={row.id} className="border-border-subtle border-b">
                   <td className="py-3 pr-3 font-mono text-[11px] font-bold">{row.id}</td>
                   <td className="py-3 pr-3 text-[11px]">{row.po}</td>
-                  <td className="py-3 pr-3 text-[11px] text-slate-700 max-w-[140px] truncate" title={row.fabric}>
+                  <td
+                    className="text-text-primary max-w-[140px] truncate py-3 pr-3 text-[11px]"
+                    title={row.fabric}
+                  >
                     {row.fabric}
                   </td>
                   <td className="py-3 pr-2 text-right text-[11px]">{row.markers}</td>
                   <td className="py-3 pr-2 text-right text-[11px]">{row.pieces}</td>
-                  <td className="py-3 pr-2 w-36">
+                  <td className="w-36 py-3 pr-2">
                     <div className="flex items-center gap-2">
-                      <Progress value={row.yield} className="h-1.5 flex-1" />
-                      <span className="w-10 text-[10px] font-semibold tabular-nums">{row.yield}%</span>
+                      <Progress
+                        value={row.yield}
+                        className="h-1.5 flex-1"
+                        aria-label={`Выход раскроя задания ${row.id}: ${row.yield}%`}
+                      />
+                      <span className="w-10 text-[10px] font-semibold tabular-nums">
+                        {row.yield}%
+                      </span>
                     </div>
                   </td>
                   <td className="py-3">
@@ -145,6 +198,6 @@ export function NestingPageBody() {
           </table>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

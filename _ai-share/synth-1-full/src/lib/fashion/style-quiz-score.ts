@@ -10,13 +10,18 @@ export function scoreProductForStyleQuiz(product: Product, profile: StyleQuizPro
   if (profile.palette === 'neutral') {
     if (/бел|черн|сер|серый|беж|молоч|navy|black|white|grey|gray|cream|camel/i.test(t)) s += 3;
   } else {
-    if (/красн|син|зел|жёлт|розов|оранж|фукси|ярк|принт|red|blue|green|yellow|pink|violet/i.test(t)) s += 3;
+    if (/красн|син|зел|жёлт|розов|оранж|фукси|ярк|принт|red|blue|green|yellow|pink|violet/i.test(t))
+      s += 3;
   }
 
   if (profile.mood === 'minimal') {
     if (/миним|базов|clean|essential|plain|однотон/i.test(t)) s += 2;
   } else if (profile.mood === 'bold') {
-    if (/принт|логотип|студи|аванг|patch|graphic|logo/i.test(t) || product.tags?.includes('newSeason')) s += 2;
+    if (
+      /принт|логотип|студи|аванг|patch|graphic|logo/i.test(t) ||
+      product.tags?.includes('newSeason')
+    )
+      s += 2;
   } else {
     s += 1;
   }
@@ -34,7 +39,7 @@ export function scoreProductForStyleQuiz(product: Product, profile: StyleQuizPro
 export function reorderForYouFeedByQuiz<T extends FeedWithSlug>(
   feed: T[],
   catalog: Product[],
-  profile: StyleQuizProfileV1,
+  profile: StyleQuizProfileV1
 ): T[] {
   const bySlug = new Map(catalog.map((p) => [p.slug, p]));
   return [...feed].sort((a, b) => {

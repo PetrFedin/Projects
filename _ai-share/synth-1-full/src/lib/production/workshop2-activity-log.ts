@@ -1,5 +1,5 @@
 /**
- * Локальная история действий в Цехе 2 (localStorage), без API.
+ * Локальная история действий в разработке коллекции (localStorage), без API.
  */
 
 const STORAGE_KEY = 'synth.brand.workshop2ActivityLog.v1';
@@ -39,7 +39,8 @@ export function loadWorkshop2Activity(): Workshop2ActivityEntry[] {
     if (p?.v !== 1 || !Array.isArray(p.entries)) return [];
     return p.entries
       .filter(
-        (e) => e && typeof e.id === 'string' && typeof e.line === 'string' && typeof e.at === 'string'
+        (e) =>
+          e && typeof e.id === 'string' && typeof e.line === 'string' && typeof e.at === 'string'
       )
       .map((e) => {
         const rec = e as Record<string, unknown>;
@@ -108,7 +109,8 @@ function activityMatchesArticle(
   const aid = articleId.trim();
   const sku = articleSku?.trim();
   if (e.articleId === aid && (!e.collectionId || e.collectionId === cid)) return true;
-  if (sku && e.line.includes(sku) && (e.line.includes('артикул') || e.line.includes('SKU'))) return true;
+  if (sku && e.line.includes(sku) && (e.line.includes('артикул') || e.line.includes('SKU')))
+    return true;
   return false;
 }
 
@@ -118,7 +120,9 @@ export function loadWorkshop2ArticleActivity(
   articleId: string,
   articleSku?: string
 ): Workshop2ActivityEntry[] {
-  return loadWorkshop2Activity().filter((e) => activityMatchesArticle(e, collectionId, articleId, articleSku));
+  return loadWorkshop2Activity().filter((e) =>
+    activityMatchesArticle(e, collectionId, articleId, articleSku)
+  );
 }
 
 /**
@@ -140,7 +144,7 @@ export function buildWorkshop2ArticleProductionHistory(args: {
     rows.push({
       id: `log-${e.id}`,
       at: e.at,
-      scope: 'Журнал Цеха 2',
+      scope: 'Журнал разработки коллекции',
       summary: e.line,
       actor: e.actor,
     });
@@ -161,7 +165,7 @@ export function buildWorkshop2ArticleProductionHistory(args: {
       id: `inv-add-${args.inventoryAddedAt}`,
       at: args.inventoryAddedAt,
       scope: 'Коллекция · строка',
-      summary: 'Артикул добавлен в состав коллекции в Цехе 2',
+      summary: 'Артикул добавлен в состав коллекции в разработке коллекции',
       actor: args.inventoryActor,
     });
   }

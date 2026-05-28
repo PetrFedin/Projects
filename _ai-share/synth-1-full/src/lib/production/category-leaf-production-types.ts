@@ -64,7 +64,10 @@ export type LabelLocaleBlock =
  * - `node_category_attribute` — поле `CategoryNode.attributes` в `category-handbook.ts` (если заполнено).
  * - `hybrid` — оба слоя; явно зафиксировать в заметке.
  */
-export type CategoryAttributeBindingSource = 'info_pick_matrix' | 'node_category_attribute' | 'hybrid';
+export type CategoryAttributeBindingSource =
+  | 'info_pick_matrix'
+  | 'node_category_attribute'
+  | 'hybrid';
 
 export type LeafProductionProfile = {
   stockUnitDefault: StockUnitKind;

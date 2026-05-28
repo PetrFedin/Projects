@@ -8,7 +8,7 @@ export function FilterToolbar({ className, ...props }: FilterToolbarProps) {
   return (
     <div
       className={cn(
-        'flex flex-wrap items-end gap-2 rounded-xl border border-slate-200 bg-slate-50/50 p-3',
+        'border-border-default bg-bg-surface2/80 flex flex-wrap items-end gap-2 rounded-xl border p-3',
         className
       )}
       {...props}

@@ -1,17 +1,23 @@
 'use client';
 
 import React from 'react';
+import { cn } from '@/lib/utils';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 export function ProductionRoot({
   children,
-  className = 'container mx-auto px-4 py-4 space-y-4 pb-24 max-w-5xl relative',
+  className,
 }: {
   children: React.ReactNode;
   className?: string;
 }) {
   return (
-    <section className={className} aria-label="Production">
+    <CabinetPageContent
+      maxWidth="5xl"
+      className={cn('relative space-y-4 pb-16', className)}
+      aria-label="Production"
+    >
       {children}
-    </section>
+    </CabinetPageContent>
   );
 }

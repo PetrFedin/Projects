@@ -5,7 +5,7 @@ export function getRegionalVelocity(sku: string, region: string): RegionalVeloci
   const seedRaw = sku.split('-')[1] || '100';
   let seed = parseInt(seedRaw, 10);
   if (isNaN(seed)) seed = sku.length * 37;
-  
+
   return {
     region,
     predictedSellThrough: 70 + (seed % 25),
@@ -16,5 +16,5 @@ export function getRegionalVelocity(sku: string, region: string): RegionalVeloci
 
 export function getNationalVelocitySummary(sku: string): RegionalVelocityV1[] {
   const regions = ['Central RF', 'North West', 'Urals', 'Siberia', 'South'];
-  return regions.map(r => getRegionalVelocity(sku, r));
+  return regions.map((r) => getRegionalVelocity(sku, r));
 }

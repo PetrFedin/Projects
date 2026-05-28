@@ -42,14 +42,17 @@ async function fetchErp<T>(path: string, options?: RequestInit): Promise<T> {
 
   const res = await fetch(`${API.replace(/\/$/, '')}${path}`, { ...options, headers });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
+    const err = (await res.json().catch(() => ({}))) as { detail?: string };
     throw new Error(err.detail || `ERP API error: ${res.status}`);
   }
-  return res.json();
+  return (await res.json()) as T;
 }
 
 /** Connect ERP */
-export async function connectErp(type: ErpType, config: ErpConnectionConfig): Promise<ErpConnection> {
+export async function connectErp(
+  type: ErpType,
+  config: ErpConnectionConfig
+): Promise<ErpConnection> {
   try {
     const data = await fetchErp<ErpConnection>('/production/erp/connect', {
       method: 'POST',

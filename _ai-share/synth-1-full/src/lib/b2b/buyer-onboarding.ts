@@ -19,7 +19,7 @@ export interface BuyerApplication {
   city?: string;
   /** Тип: ритейлер, дистрибьютор, байер */
   applicantType: 'retailer' | 'distributor' | 'buyer';
-  /** Текст заявки от байера (Shop / публичная форма) */
+  /** Текст заявки с публичной формы */
   message?: string;
   status: BuyerApplicationStatus;
   /** ID созданного партнёра после апрува (retailerId) */

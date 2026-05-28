@@ -4,15 +4,19 @@
  * AI — генерация персонализированного ответа стилиста после подбора образов
  */
 
-import { ai, withTokenAudit } from "@/ai/genkit";
-import { z } from "zod";
+import { ai, withTokenAudit } from '@/ai/genkit';
+import { z } from 'zod';
 
 const InputSchema = z.object({
   userMessage: z.string().optional(),
-  history: z.array(z.object({
-    role: z.enum(["user", "assistant"]),
-    content: z.string()
-  })).optional(),
+  history: z
+    .array(
+      z.object({
+        role: z.enum(['user', 'assistant']),
+        content: z.string(),
+      })
+    )
+    .optional(),
   occasion: z.string(),
   mood: z.string(),
   season: z.string(),
@@ -20,25 +24,25 @@ const InputSchema = z.object({
   hasPersonalItem: z.boolean().optional(),
   looksCount: z.number(),
   totalPriceRange: z.string().optional(),
-  looksSummary: z.string().optional().describe("Краткое описание образов: названия товаров и цены"),
+  looksSummary: z.string().optional().describe('Краткое описание образов: названия товаров и цены'),
   temperature: z.number().optional(),
 });
 
 const OutputSchema = z.object({
-  reply: z.string().describe("Краткий ответ стилиста на русском (1-2 предложения)"),
+  reply: z.string().describe('Краткий ответ стилиста на русском (1-2 предложения)'),
 });
 
 export async function generateStylistReply(input: z.infer<typeof InputSchema>): Promise<string> {
   try {
     const result = await withTokenAudit(
-      "generateStylistReply",
+      'generateStylistReply',
       input,
       undefined,
       undefined,
       async (i) => {
         const prompt = ai.definePrompt({
-          name: "stylistReplyPrompt",
-          model: "googleai/gemini-1.5-flash",
+          name: 'stylistReplyPrompt',
+          model: 'googleai/gemini-1.5-flash',
           input: { schema: InputSchema },
           output: { schema: OutputSchema },
           config: { maxOutputTokens: 150, temperature: 0.6 },
@@ -65,12 +69,12 @@ export async function generateStylistReply(input: z.infer<typeof InputSchema>): 
 Упомяни конкретные вещи. Без эмодзи.`,
         });
         const { output } = await prompt(i);
-        return output ?? { reply: "" };
+        return output ?? { reply: '' };
       }
     );
-    return result?.reply ?? "";
+    return result?.reply ?? '';
   } catch (e) {
-    console.warn("[generateStylistReply] Genkit failed:", e);
-    return "";
+    console.warn('[generateStylistReply] Genkit failed:', e);
+    return '';
   }
 }

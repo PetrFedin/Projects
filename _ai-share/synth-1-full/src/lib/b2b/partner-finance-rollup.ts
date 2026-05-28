@@ -9,21 +9,13 @@ import { getOrderPayments } from './credit-store';
 import { mockB2BOrders } from '@/lib/order-data';
 import type { B2BOrder, B2BOrderPaymentStatus } from '@/lib/types';
 
-function isAwaitingPaymentStatus(s: B2BOrderPaymentStatus | undefined): s is 'pending' | 'partial' | 'overdue' {
-  return s === 'pending' || s === 'partial' || s === 'overdue';
-}
-
-/** Парсит сумму из строки "750 000 ₽" или "0 ₽" */
-export function parseAmount(s: string): number {
-  if (!s || s === '0 ₽') return 0;
-  const num = s.replace(/\s/g, '').replace(/[^\d.,]/g, '').replace(',', '.');
-  return parseFloat(num) || 0;
-}
-
-/** Заказы с учётом записанных платежей (paidAmount + paymentStatus пересчитаны). */
-export function getOrdersWithPaymentState(): B2BOrder[] {
+/**
+ * Оверлей оплат из `credit-store` на произвольный список заказов.
+ * Позволяет подключать другой базовый источник (файл/БД) на сервере, сохраняя ту же логику rollup.
+ */
+export function applyOrderPaymentsOverlay(orders: B2BOrder[]): B2BOrder[] {
   const payments = getOrderPayments();
-  return mockB2BOrders.map((o) => {
+  return orders.map((o) => {
     const orderTotal = parseAmount(o.amount ?? '0 ₽');
     const basePaid = o.paidAmount ?? 0;
     const effectivePaid = basePaid + (payments[o.order] ?? 0);
@@ -32,6 +24,27 @@ export function getOrdersWithPaymentState(): B2BOrder[] {
     else if (effectivePaid > 0) paymentStatus = 'partial';
     return { ...o, paidAmount: effectivePaid, paymentStatus };
   });
+}
+
+function isAwaitingPaymentStatus(
+  s: B2BOrderPaymentStatus | undefined
+): s is 'pending' | 'partial' | 'overdue' {
+  return s === 'pending' || s === 'partial' || s === 'overdue';
+}
+
+/** Парсит сумму из строки "750 000 ₽" или "0 ₽" */
+export function parseAmount(s: string): number {
+  if (!s || s === '0 ₽') return 0;
+  const num = s
+    .replace(/\s/g, '')
+    .replace(/[^\d.,]/g, '')
+    .replace(',', '.');
+  return parseFloat(num) || 0;
+}
+
+/** Заказы с учётом записанных платежей (paidAmount + paymentStatus пересчитаны). */
+export function getOrdersWithPaymentState(): B2BOrder[] {
+  return applyOrderPaymentsOverlay(mockB2BOrders);
 }
 
 export interface PartnerFinanceRollup {

@@ -10,47 +10,59 @@ import { Button } from '@/components/ui/button';
 
 export const ProductLoyaltyQuestsBlock: React.FC<{ product: Product }> = ({ product }) => {
   const quests = getAvailableQuests(product);
-  
+
   return (
-    <Card className="p-4 border-2 border-amber-50 bg-amber-50/10 shadow-sm relative overflow-hidden">
-      <div className="absolute top-0 right-0 p-2 opacity-5 -rotate-12">
-        <Trophy className="w-16 h-16" />
+    <Card className="relative overflow-hidden border-2 border-amber-50 bg-amber-50/10 p-4 shadow-sm">
+      <div className="absolute right-0 top-0 -rotate-12 p-2 opacity-5">
+        <Trophy className="h-16 w-16" />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
-          <h4 className="font-bold text-xs uppercase text-amber-700 tracking-tight">Миссии и Квесты</h4>
+          <Zap className="h-4 w-4 fill-amber-500 text-amber-500" />
+          <h4 className="text-xs font-bold uppercase tracking-tight text-amber-700">
+            Миссии и Квесты
+          </h4>
         </div>
-        <div className="text-[10px] font-black text-amber-600 uppercase flex items-center gap-1">
+        <div className="flex items-center gap-1 text-[10px] font-black uppercase text-amber-600">
           Бонусы за покупки
         </div>
       </div>
 
       <div className="space-y-3">
         {quests.map((q) => (
-          <div key={q.id} className={`p-3 rounded-lg border transition-all ${q.status === 'in_progress' ? 'bg-white border-amber-200 shadow-md' : 'bg-amber-50/50 border-amber-100 opacity-80'}`}>
-            <div className="flex items-center justify-between mb-1.5">
-              <div className="flex items-center gap-1.5 text-xs font-black text-slate-800 uppercase">
+          <div
+            key={q.id}
+            className={`rounded-lg border p-3 transition-all ${q.status === 'in_progress' ? 'border-amber-200 bg-white shadow-md' : 'border-amber-100 bg-amber-50/50 opacity-80'}`}
+          >
+            <div className="mb-1.5 flex items-center justify-between">
+              <div className="text-text-primary flex items-center gap-1.5 text-xs font-black uppercase">
                 {q.title}
-                {q.status === 'completed' && <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />}
+                {q.status === 'completed' && (
+                  <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+                )}
               </div>
-              <div className="text-[10px] font-black text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-100 flex items-center gap-1">
-                 <Star className="w-2.5 h-2.5 fill-amber-500" /> +{q.rewardPoints}
+              <div className="flex items-center gap-1 rounded border border-amber-100 bg-amber-50 px-1.5 py-0.5 text-[10px] font-black text-amber-600">
+                <Star className="h-2.5 w-2.5 fill-amber-500" /> +{q.rewardPoints}
               </div>
             </div>
-            <div className="text-[10px] text-slate-500 leading-tight mb-3">
-               {q.description}
+            <div className="text-text-secondary mb-3 text-[10px] leading-tight">
+              {q.description}
             </div>
-            
-            <Button variant="outline" size="sm" className="w-full h-7 text-[9px] uppercase font-black border-amber-200 text-amber-700 hover:bg-amber-50">
-               {q.status === 'in_progress' ? 'Продолжить миссию' : 'Начать квест'} <ChevronRight className="w-2.5 h-2.5 ml-1" />
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 w-full border-amber-200 text-[9px] font-black uppercase text-amber-700 hover:bg-amber-50"
+            >
+              {q.status === 'in_progress' ? 'Продолжить миссию' : 'Начать квест'}{' '}
+              <ChevronRight className="ml-1 h-2.5 w-2.5" />
             </Button>
           </div>
         ))}
       </div>
 
-      <div className="mt-4 pt-3 border-t border-amber-100 text-[9px] text-slate-400 font-bold uppercase flex justify-between items-center italic">
+      <div className="text-text-muted mt-4 flex items-center justify-between border-t border-amber-100 pt-3 text-[9px] font-bold uppercase italic">
         <span>Программа лояльности v3.0</span>
         <span className="text-amber-600">Gamification Enabled</span>
       </div>

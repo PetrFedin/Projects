@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "materials": [
+    {
+      "id": "mat-demo-wool-90",
+      "name": "Шерсть 90% / кашемир 10%",
+      "role": "main",
+      "supplier": "ООО «ИвановоТекстиль»",
+      "supplierSku": "IVT-WOOL-90",
+      "composition": "90% шерсть, 10% кашемир",
+      "gsm": 620,
+      "priceUsd": 28.5,
+      "certCode": "OEKO-TEX-100"
+    },
+    {
+      "id": "mat-demo-cotton-140",
+      "name": "Хлопок 100%, саржа",
+      "role": "main",
+      "supplier": "ТПК «Волга»",
+      "supplierSku": "VLG-COT-140",
+      "composition": "100% хлопок",
+      "gsm": 140,
+      "priceUsd": 4.2,
+      "certCode": "GOTS"
+    },
+    {
+      "id": "mat-demo-mesh-snk",
+      "name": "Текстиль верха (сетка + синтетика)",
+      "role": "main",
+      "supplier": "ООО «Текстиль-Юг»",
+      "supplierSku": "TY-MESH-01",
+      "composition": "Полиэстер 60%, текстиль 40%",
+      "priceUsd": 6.8,
+      "certCode": "REACH"
+    },
+    {
+      "id": "mat-demo-lining-viscose",
+      "name": "Подклад вискоза",
+      "role": "lining",
+      "supplier": "ЗАО «Северные полотна»",
+      "supplierSku": "SNP-VIS-22",
+      "composition": "100% вискоза",
+      "gsm": 120,
+      "priceUsd": 3.1,
+      "certCode": "OEKO-TEX-100"
+    },
+    {
+      "id": "mat-demo-sole-eva",
+      "name": "Подошва EVA + резина",
+      "role": "other",
+      "supplier": "Импорт (Италия)",
+      "supplierSku": "IT-EVA-SOLE",
+      "composition": "EVA / резина",
+      "priceUsd": 9.5,
+      "certCode": "REACH"
+    },
+    {
+      "id": "mat-demo-fleece-280",
+      "name": "Флис 280 г/м²",
+      "role": "main",
+      "supplier": "ООО «УралТекстиль»",
+      "supplierSku": "UR-FLEECE-280",
+      "composition": "100% полиэстер",
+      "gsm": 280,
+      "priceUsd": 5.4,
+      "certCode": "GRS"
+    },
+    {
+      "id": "mat-demo-denim-12oz",
+      "name": "Деним 12 oz",
+      "role": "main",
+      "supplier": "Джинсовая фабрика №1",
+      "supplierSku": "DNM-12OZ-B",
+      "composition": "98% хлопок, 2% эластан",
+      "gsm": 410,
+      "priceUsd": 7.9,
+      "certCode": "BCI"
+    },
+    {
+      "id": "mat-demo-ripstop-nylon",
+      "name": "Рипстоп нейлон",
+      "role": "main",
+      "supplier": "ООО «СпортТкани»",
+      "supplierSku": "ST-RIP-NYL",
+      "composition": "100% нейлон",
+      "gsm": 70,
+      "priceUsd": 8.2,
+      "certCode": "bluesign"
+    },
+    {
+      "id": "mat-demo-interlock-200",
+      "name": "Интерлок хлопок 200 г/м²",
+      "role": "main",
+      "supplier": "ТПК «Волга»",
+      "supplierSku": "VLG-INT-200",
+      "composition": "95% хлопок, 5% эластан",
+      "gsm": 200,
+      "priceUsd": 4.8,
+      "certCode": "GOTS"
+    },
+    {
+      "id": "mat-demo-trim-zip-ykk",
+      "name": "Молния YKK #5",
+      "role": "other",
+      "supplier": "YKK RUS",
+      "supplierSku": "YKK-5-VIS",
+      "composition": "Металл / полиэстер",
+      "priceUsd": 0.85,
+      "certCode": "REACH"
+    },
+    {
+      "id": "mat-demo-trim-thread-poly",
+      "name": "Нить полиэстер 120",
+      "role": "other",
+      "supplier": "Coats",
+      "supplierSku": "CT-POLY-120",
+      "composition": "100% полиэстер",
+      "priceUsd": 0.12,
+      "certCode": "OEKO-TEX-100"
+    },
+    {
+      "id": "mat-demo-leather-cow",
+      "name": "Кожа КРС (отделка)",
+      "role": "main",
+      "supplier": "Италия · кожзавод",
+      "supplierSku": "IT-COW-01",
+      "composition": "Натуральная кожа",
+      "priceUsd": 42,
+      "certCode": "LWG"
+    },
+    {
+      "id": "mat-demo-membra-ptfe",
+      "name": "Мембрана PTFE ламинат",
+      "role": "lining",
+      "supplier": "Gore partner",
+      "supplierSku": "MEM-PTFE-2L",
+      "composition": "PTFE / полиэстер",
+      "gsm": 95,
+      "priceUsd": 18.6,
+      "certCode": "bluesign"
+    },
+    {
+      "id": "mat-demo-wadding-poly",
+      "name": "Синтепон 150 г/м²",
+      "role": "lining",
+      "supplier": "ООО «Утеплитель»",
+      "supplierSku": "UT-SINT-150",
+      "composition": "100% полиэстер",
+      "gsm": 150,
+      "priceUsd": 2.3,
+      "certCode": "GRS"
+    },
+    {
+      "id": "mat-demo-elastic-40mm",
+      "name": "Резинка 40 мм",
+      "role": "other",
+      "supplier": "ТрикотажПлюс",
+      "supplierSku": "TK-EL-40",
+      "composition": "ПА + эластан",
+      "priceUsd": 0.45,
+      "certCode": "REACH"
+    },
+    {
+      "id": "mat-demo-label-woven",
+      "name": "Жаккардовая бирка",
+      "role": "other",
+      "supplier": "Brand Labels Co",
+      "supplierSku": "BL-WOVEN-01",
+      "composition": "Полиэстер",
+      "priceUsd": 0.08,
+      "certCode": "OEKO-TEX-100"
+    },
+    {
+      "id": "mat-demo-pack-polybag",
+      "name": "Полиэтиленовый пакет",
+      "role": "other",
+      "supplier": "УпаковкаСервис",
+      "supplierSku": "PK-PE-60",
+      "composition": "LDPE",
+      "priceUsd": 0.05,
+      "certCode": "REACH"
+    },
+    {
+      "id": "mat-demo-knit-merino",
+      "name": "Мериносовая шерсть 18.5 микрон",
+      "role": "main",
+      "supplier": "NZ Wool",
+      "supplierSku": "NZ-MER-185",
+      "composition": "100% меринос",
+      "gsm": 180,
+      "priceUsd": 22,
+      "certCode": "RWS"
+    },
+    {
+      "id": "mat-demo-midsole-phylon",
+      "name": "Промежуточная подошва Phylon",
+      "role": "other",
+      "supplier": "Footwear Components CN",
+      "supplierSku": "FC-PHYLON-M",
+      "composition": "EVA Phylon",
+      "priceUsd": 4.6,
+      "certCode": "REACH"
+    },
+    {
+      "id": "mat-demo-tape-reflect",
+      "name": "Светоотражающая лента",
+      "role": "other",
+      "supplier": "3M Safety",
+      "supplierSku": "3M-REF-ST",
+      "composition": "Полиэстер / микропризма",
+      "priceUsd": 1.2,
+      "certCode": "EN-20471"
+    }
+  ]
+}

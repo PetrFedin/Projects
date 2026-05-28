@@ -29,7 +29,12 @@ const DEFAULT_WEEKS: GanttWeekLabel[] = [
 /** Мок: загрузка линий по неделям. При API — GET /production/gantt?period=... */
 export function getGanttLines(periodKey?: string): GanttLineAssignment[] {
   return [
-    { lineId: 'L1', lineName: 'Линия 1 (Раскрой + Пошив)', orderIds: ['PO-101', 'PO-102'], weeks: [1, 1, 1, 0, 0] },
+    {
+      lineId: 'L1',
+      lineName: 'Линия 1 (Раскрой + Пошив)',
+      orderIds: ['PO-101', 'PO-102'],
+      weeks: [1, 1, 1, 0, 0],
+    },
     { lineId: 'L2', lineName: 'Линия 2', orderIds: ['PO-103'], weeks: [0, 1, 1, 1, 0] },
     { lineId: 'L3', lineName: 'Линия 3', orderIds: ['PO-104', 'PO-105'], weeks: [0, 0, 1, 1, 1] },
     { lineId: 'L4', lineName: 'Линия 4 (Упаковка)', orderIds: [], weeks: [0, 1, 1, 1, 1] },

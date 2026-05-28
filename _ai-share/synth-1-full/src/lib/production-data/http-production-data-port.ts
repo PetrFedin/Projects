@@ -9,12 +9,7 @@
  */
 
 import type { CollectionSkuFlowDoc } from '@/lib/production/unified-sku-flow-store';
-import type {
-  BrandTaskRecord,
-  FloorTabScope,
-  ProductionDataPort,
-  TechPackDraftV1,
-} from './port';
+import type { BrandTaskRecord, FloorTabScope, ProductionDataPort, TechPackDraftV1 } from './port';
 
 export type HttpProductionDataPortOptions = {
   baseUrl: string;
@@ -55,7 +50,9 @@ export class HttpProductionDataPort implements ProductionDataPort {
   }
 
   async getTechPackDraft(styleId: string): Promise<TechPackDraftV1 | null> {
-    const r = await fetch(this.url(`/tech-pack/${encodeURIComponent(styleId)}`), { headers: this.headers() });
+    const r = await fetch(this.url(`/tech-pack/${encodeURIComponent(styleId)}`), {
+      headers: this.headers(),
+    });
     if (r.status === 404) return null;
     if (!r.ok) throw new Error(`getTechPackDraft: ${r.status}`);
     return r.json() as Promise<TechPackDraftV1>;
@@ -86,7 +83,9 @@ export class HttpProductionDataPort implements ProductionDataPort {
   }
 
   async getFloorTabDraft(scope: FloorTabScope): Promise<unknown | null> {
-    const r = await fetch(this.url(`/floor-tabs/${encodeURIComponent(scope)}`), { headers: this.headers() });
+    const r = await fetch(this.url(`/floor-tabs/${encodeURIComponent(scope)}`), {
+      headers: this.headers(),
+    });
     if (r.status === 404) return null;
     if (!r.ok) throw new Error(`getFloorTabDraft: ${r.status}`);
     return r.json() as Promise<unknown>;

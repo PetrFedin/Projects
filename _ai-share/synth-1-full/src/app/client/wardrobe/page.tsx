@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Shirt, ArrowLeft, LayoutGrid } from 'lucide-react';
+import { Shirt, LayoutGrid } from 'lucide-react';
 import { getDigitalWardrobeLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { listWardrobeItems, listWardrobeLooks } from '@/lib/api';
 import type { WardrobeItem, WardrobeLook } from '@/lib/client/digital-wardrobe';
 
@@ -22,14 +23,11 @@ export default function DigitalWardrobePage() {
   }, []);
 
   return (
-    <div className="container max-w-4xl py-6 space-y-6 pb-24">
-      <div className="flex items-center gap-3">
-        <Link href={ROUTES.client.home}><Button variant="ghost" size="icon" aria-label="Назад"><ArrowLeft className="h-4 w-4" /></Button></Link>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Digital Wardrobe</h1>
-          <p className="text-slate-500 text-sm">Виртуальный шкаф купленного + конструктор луков. Заказы, Body Scan, каталог.</p>
-        </div>
-      </div>
+    <div className="container max-w-4xl space-y-6 py-6 pb-24">
+      <ClientCabinetSectionHeader
+        title="Мой гардероб"
+        description="Виртуальный шкаф купленного + конструктор луков. Заказы, Body Scan, каталог."
+      />
 
       <Card className="border-amber-100">
         <CardHeader className="pb-2">
@@ -41,15 +39,24 @@ export default function DigitalWardrobePage() {
         </CardHeader>
         <CardContent className="space-y-2">
           {items.map((i) => (
-            <div key={i.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div
+              key={i.id}
+              className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+            >
               <div>
                 <p className="text-sm font-medium">{i.name}</p>
-                <p className="text-xs text-slate-500">{i.sku} · заказ {i.orderId}</p>
+                <p className="text-text-secondary text-xs">
+                  {i.sku} · заказ {i.orderId}
+                </p>
               </div>
-              <Badge variant="outline" className="text-[10px]">{i.category}</Badge>
+              <Badge variant="outline" className="text-[10px]">
+                {i.category}
+              </Badge>
             </div>
           ))}
-          <p className="text-xs text-slate-400 mt-3">API: DIGITAL_WARDROBE_API — items, sync from orders, recommend.</p>
+          <p className="text-text-muted mt-3 text-xs">
+            API: DIGITAL_WARDROBE_API — items, sync from orders, recommend.
+          </p>
         </CardContent>
       </Card>
 
@@ -64,9 +71,9 @@ export default function DigitalWardrobePage() {
         <CardContent>
           <ul className="space-y-2">
             {looks.map((l) => (
-              <li key={l.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100">
+              <li key={l.id} className="bg-bg-surface2 border-border-subtle rounded-lg border p-3">
                 <p className="text-sm font-medium">{l.name ?? 'Без названия'}</p>
-                <p className="text-xs text-slate-500">Вещей в образе: {l.itemIds.length}</p>
+                <p className="text-text-secondary text-xs">Вещей в образе: {l.itemIds.length}</p>
               </li>
             ))}
           </ul>
@@ -81,7 +88,11 @@ export default function DigitalWardrobePage() {
         <CardContent>
           <ul className="flex flex-wrap gap-2">
             {links.map((l) => (
-              <li key={l.href}><Button variant="outline" size="sm" className="text-xs" asChild><Link href={l.href}>{l.label}</Link></Button></li>
+              <li key={l.href}>
+                <Button variant="outline" size="sm" className="text-xs" asChild>
+                  <Link href={l.href}>{l.label}</Link>
+                </Button>
+              </li>
             ))}
           </ul>
         </CardContent>

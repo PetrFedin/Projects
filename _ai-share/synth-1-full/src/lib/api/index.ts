@@ -6,7 +6,10 @@ export { get, post, api } from './client';
 export { getFactTables, getBuyingSummary } from './analytics-phase2';
 export { listCampaigns } from './style-me-upsell';
 export { listRules } from './territory-protection';
-export { listCampaigns as listPreOrderQuotaCampaigns, getCampaign as getPreOrderQuotaCampaign } from './pre-order-quota';
+export {
+  listCampaigns as listPreOrderQuotaCampaigns,
+  getCampaign as getPreOrderQuotaCampaign,
+} from './pre-order-quota';
 export { listRecords as listCommissionRecords, listAgents } from './sub-agent-commission';
 export { listRfq, getRfq } from './supplier-rfq';
 export { listSnapshots as listBudgetActualSnapshots } from './budget-actual';
@@ -19,4 +22,10 @@ export { listSessions as listCycleCountSessions } from './cycle-counting';
 export { listFeeds as listLiaFeeds } from './local-inventory-ads';
 export { listLooks as listStylistLooks } from './endless-stylist';
 export { listTradeShows, getTradeShow } from './trade-show';
-export { listBuyerApplications, getBuyerApplication, submitBuyerApplication, approveBuyerApplication, rejectBuyerApplication } from './buyer-onboarding';
+export {
+  listBuyerApplications,
+  getBuyerApplication,
+  submitBuyerApplication,
+  approveBuyerApplication,
+  rejectBuyerApplication,
+} from './buyer-onboarding';

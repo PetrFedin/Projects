@@ -42,7 +42,9 @@ function shoeExcludesNewborn(l2: string, l3: string): boolean {
  * Дефолтные галочки по смыслу категории (один общий каталог).
  * Справочник: `src/lib/data/category-handbook.ts` → `npm run gen:category-catalog`.
  */
-export function defaultAudienceFlagsForCatalogLeaf(leaf: HandbookCategoryLeaf): CatalogAudienceFlags {
+export function defaultAudienceFlagsForCatalogLeaf(
+  leaf: HandbookCategoryLeaf
+): CatalogAudienceFlags {
   const l1 = leaf.l1Name.trim();
   const l2 = leaf.l2Name.trim();
   const l3 = leaf.l3Name.trim();

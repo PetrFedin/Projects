@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -11,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ROUTES, collectionById } from '@/lib/routes';
 import { createCollection } from '@/lib/data/collections';
 import { ArrowLeft } from 'lucide-react';
+import { RegistryPageHeader } from '@/components/design-system';
 
 export default function BrandCollectionsNewPage() {
   const router = useRouter();
@@ -41,21 +43,25 @@ export default function BrandCollectionsNewPage() {
   };
 
   return (
-    <div className="container max-w-2xl mx-auto px-4 py-6 pb-24">
-      <div className="mb-4">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href={ROUTES.brand.collections} className="inline-flex items-center gap-1 text-sm">
-            <ArrowLeft className="h-4 w-4" />
-            К списку коллекций
-          </Link>
-        </Button>
-      </div>
-      <Card>
+    <CabinetPageContent maxWidth="full" className="w-full space-y-4 pb-16">
+      <RegistryPageHeader
+        title="Создать карточку коллекции"
+        leadPlain="Заполните название, сезон и описание. Концепция и ДНК можно дописать в карточке коллекции."
+        eyebrow={
+          <Button variant="ghost" size="sm" asChild>
+            <Link
+              href={ROUTES.brand.collections}
+              className="inline-flex items-center gap-1 text-sm"
+            >
+              <ArrowLeft className="h-4 w-4" />К списку коллекций
+            </Link>
+          </Button>
+        }
+      />
+      <Card className="mx-auto max-w-2xl">
         <CardHeader>
-          <CardTitle>Создать карточку коллекции</CardTitle>
-          <CardDescription>
-            Заполните название, сезон и описание. Концепция и ДНК можно дописать в карточке коллекции.
-          </CardDescription>
+          <CardTitle>Данные коллекции</CardTitle>
+          <CardDescription>Название и сезон обязательны.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -125,6 +131,6 @@ export default function BrandCollectionsNewPage() {
           </form>
         </CardContent>
       </Card>
-    </div>
+    </CabinetPageContent>
   );
 }

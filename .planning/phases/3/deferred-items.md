@@ -1,0 +1,6 @@
+- Pre-existing typecheck errors in `_ai-share/synth-1-full`:
+  - `src/app/api/b2b/replenishment/suggest/route.ts`
+  - `src/app/api/brand/workshop2/article-workspace/bundle/route.ts`
+  - `src/components/brand/production/workshop2-article-workspace-supply-panel.tsx`
+  - `src/components/brand/production/workshop2-phase1-dossier-panel-tz-notify-clipboard-handlers.ts`
+  - `src/lib/production/article-workspace/http-port.ts`

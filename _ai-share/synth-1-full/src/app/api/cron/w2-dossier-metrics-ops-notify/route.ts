@@ -3,7 +3,10 @@ import { readW2DossierMetricsUnified } from '@/lib/server/workshop2-dossier-metr
 import { verifyW2MetricsCronRequest } from '@/lib/server/workshop2-dossier-metrics-cron-auth';
 import { aggregateW2DossierMetricsDedupLatest } from '@/lib/server/workshop2-dossier-metrics-store';
 import { applyW2MetricsTimeFilter } from '@/lib/server/workshop2-dossier-metrics-time';
-import { buildW2OpsAlerts, getW2OpsAlertThresholds } from '@/lib/server/workshop2-dossier-metrics-ops';
+import {
+  buildW2OpsAlerts,
+  getW2OpsAlertThresholds,
+} from '@/lib/server/workshop2-dossier-metrics-ops';
 import { postW2MetricsWebhook } from '@/lib/server/workshop2-dossier-metrics-notify';
 
 export const dynamic = 'force-dynamic';
@@ -22,7 +25,10 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const includeInfo = searchParams.get('includeInfo') === '1';
-  const limit = Math.min(Math.max(parseInt(searchParams.get('limit') ?? '4000', 10) || 4000, 1), 5000);
+  const limit = Math.min(
+    Math.max(parseInt(searchParams.get('limit') ?? '4000', 10) || 4000, 1),
+    5000
+  );
   const sinceHours =
     searchParams.get('sinceHours')?.trim() || process.env.W2_OPS_ALERT_SINCE_HOURS?.trim() || '';
 
@@ -76,16 +82,21 @@ export async function GET(request: Request) {
     );
 
     if (!webhook.ok) {
-      return NextResponse.json(
-        { ok: false, webhook, alertsSent: toSend.length },
-        { status: 502 }
-      );
+      return NextResponse.json({ ok: false, webhook, alertsSent: toSend.length }, { status: 502 });
     }
 
-    return NextResponse.json({ ok: true, webhook, alertsSent: toSend.length, rowsLoaded: rows.length });
+    return NextResponse.json({
+      ok: true,
+      webhook,
+      alertsSent: toSend.length,
+      rowsLoaded: rows.length,
+    });
   } catch (e) {
     const err = e instanceof Error ? e.message : String(e);
-    console.error('[w2-ops-notify]', JSON.stringify({ event: 'w2_ops_alerts_dispatch', ok: false, error: err }));
+    console.error(
+      '[w2-ops-notify]',
+      JSON.stringify({ event: 'w2_ops_alerts_dispatch', ok: false, error: err })
+    );
     return NextResponse.json({ ok: false, error: err }, { status: 500 });
   }
 }

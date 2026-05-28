@@ -1,7 +1,7 @@
 import type { LocalCollectionInventory } from '@/lib/production/local-collection-inventory';
 import { storageKeyForCollectionId } from '@/lib/production/local-collection-inventory';
 
-/** Единственная коллекция в интерфейсе «Цех 2» (демо). */
+/** Единственная коллекция в интерфейсе разработки коллекции (демо). */
 export const WORKSHOP2_COLLECTION_ID = 'SS27';
 
 /** Три демо-линии SS27 с ненулевым прогрессом этапов (как в основном цехе). */
@@ -38,7 +38,7 @@ export function itemsForCollectionIdForWorkshop2(
 }
 
 /**
- * Список артикулов для UI Цеха 2: для SS27 демо-строки из сида сохраняют порядок,
+ * Список артикулов для UI разработки коллекции: для SS27 демо-строки из сида сохраняют порядок,
  * локально созданные артикулы не отбрасываются (в отличие от «только демо-SKU»).
  */
 export function workshop2MergedItemsForCollectionList(

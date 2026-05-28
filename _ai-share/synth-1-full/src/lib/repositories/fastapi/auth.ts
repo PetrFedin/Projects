@@ -1,7 +1,7 @@
 import type { AuthRepository } from '../types';
 import type { UserProfile } from '../../types';
 import { mockAuthRepository } from '../mock/auth';
-import { fastApiService } from '../../fastapi-service';
+import { getUnknownErrorName } from '@/lib/unknown-error-message';
 
 export class FastApiAuthRepository implements AuthRepository {
   private listeners: Set<(user: UserProfile | null) => void> = new Set();
@@ -14,7 +14,7 @@ export class FastApiAuthRepository implements AuthRepository {
   }
 
   private notifyListeners(user: UserProfile | null) {
-    this.listeners.forEach(callback => callback(user));
+    this.listeners.forEach((callback) => callback(user));
   }
 
   async updateCurrentUser(patch: Partial<UserProfile>): Promise<UserProfile> {
@@ -36,22 +36,25 @@ export class FastApiAuthRepository implements AuthRepository {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
 
-      const tokenResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1'}/auth/login/access-token`, {
-        method: 'POST',
-        body: formData,
-        signal: controller.signal,
-      });
+      const tokenResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1'}/auth/login/access-token`,
+        {
+          method: 'POST',
+          body: formData,
+          signal: controller.signal,
+        }
+      );
       clearTimeout(timeoutId);
 
       if (tokenResponse.ok) {
-        const { access_token } = await tokenResponse.json();
-        if (typeof localStorage !== 'undefined') {
+        const { access_token } = (await tokenResponse.json()) as { access_token?: string };
+        if (typeof localStorage !== 'undefined' && access_token) {
           localStorage.setItem('syntha_access_token', access_token);
         }
         console.log('FastAPI login success, token stored');
       }
-    } catch (err: any) {
-      if (err?.name === 'AbortError') {
+    } catch (err: unknown) {
+      if (getUnknownErrorName(err) === 'AbortError') {
         console.warn('FastAPI login timeout, using mock auth');
       } else {
         console.warn('FastAPI backend unreachable or login failed, using mock auth only', err);

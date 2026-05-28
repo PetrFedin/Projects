@@ -48,31 +48,35 @@ export const MessageList: React.FC<MessageListProps> = ({
   onScrollToMessage,
   onOpenCreateTask,
   setReminderEditing,
-  setReminderOpen
+  setReminderOpen,
 }) => {
   return (
     <ScrollArea className="flex-1 px-4 sm:px-6" ref={feedRootRef}>
-      <div className="py-6 space-y-6">
+      <div className="space-y-6 py-6">
         {grouped.map((g) => (
           <div key={g.day} className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="h-px flex-1 bg-slate-100" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-300 italic">{g.day}</span>
-              <div className="h-px flex-1 bg-slate-100" />
+              <div className="bg-bg-surface2 h-px flex-1" />
+              <span className="text-text-muted text-[9px] font-bold uppercase italic tracking-[0.2em]">
+                {g.day}
+              </span>
+              <div className="bg-bg-surface2 h-px flex-1" />
             </div>
 
             <div className="space-y-2">
               {g.items.map((m) => {
                 const mine = m.user === currentUser || m.user === currentUserName;
-                
+
                 // Privacy & Ethics Filter
                 // If message is private and not mine, it's hidden or obfuscated
                 if (m.isPrivate && !mine) {
                   return (
-                    <div key={m.id} className="flex justify-center py-1 opacity-40 select-none">
-                      <div className="bg-slate-50 px-3 py-1 rounded-full flex items-center gap-2 border border-slate-100 shadow-sm">
-                        <EyeOff className="h-2.5 w-2.5 text-slate-400" />
-                        <span className="text-[8px] font-bold uppercase tracking-widest text-slate-500 italic">Content hidden by privacy policy</span>
+                    <div key={m.id} className="flex select-none justify-center py-1 opacity-40">
+                      <div className="bg-bg-surface2 border-border-subtle flex items-center gap-2 rounded-full border px-3 py-1 shadow-sm">
+                        <EyeOff className="text-text-muted h-2.5 w-2.5" />
+                        <span className="text-text-secondary text-[8px] font-bold uppercase italic tracking-widest">
+                          Content hidden by privacy policy
+                        </span>
                       </div>
                     </div>
                   );
@@ -83,12 +87,15 @@ export const MessageList: React.FC<MessageListProps> = ({
                 return (
                   <React.Fragment key={m.id}>
                     {showUnreadDivider && (
-                      <div className="flex items-center gap-3 my-6">
-                        <div className="h-px flex-1 bg-indigo-100" />
-                        <Badge variant="outline" className="bg-indigo-600 text-white text-[8px] font-bold px-3 h-4 rounded-md border-none shadow-md tracking-widest uppercase">
+                      <div className="my-6 flex items-center gap-3">
+                        <div className="bg-accent-primary/15 h-px flex-1" />
+                        <Badge
+                          variant="outline"
+                          className="bg-accent-primary h-4 rounded-md border-none px-3 text-[8px] font-bold uppercase tracking-widest text-white shadow-md"
+                        >
                           NEW MESSAGES ({unreadCountActiveChat})
                         </Badge>
-                        <div className="h-px flex-1 bg-indigo-100" />
+                        <div className="bg-accent-primary/15 h-px flex-1" />
                       </div>
                     )}
                     <MessageItem

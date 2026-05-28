@@ -9,48 +9,58 @@ import { getPvzEfficiency } from '@/lib/fashion/pvz-efficiency';
 
 export const ProductPvzEfficiencyBlock: React.FC<{ product: Product }> = ({ product }) => {
   const e = getPvzEfficiency(product);
-  
+
   return (
-    <Card className="p-4 border-2 border-orange-50 bg-orange-50/10 shadow-sm relative overflow-hidden">
-      <div className="absolute top-0 right-0 p-2 opacity-5 rotate-45">
-        <MapPin className="w-12 h-12 text-orange-600" />
+    <Card className="relative overflow-hidden border-2 border-orange-50 bg-orange-50/10 p-4 shadow-sm">
+      <div className="absolute right-0 top-0 rotate-45 p-2 opacity-5">
+        <MapPin className="h-12 w-12 text-orange-600" />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Truck className="w-4 h-4 text-orange-600" />
-          <h4 className="font-bold text-xs uppercase text-orange-700 tracking-tight">PVZ Fitting Efficiency</h4>
+          <Truck className="h-4 w-4 text-orange-600" />
+          <h4 className="text-xs font-bold uppercase tracking-tight text-orange-700">
+            PVZ Fitting Efficiency
+          </h4>
         </div>
-        <div className="text-[10px] font-black text-orange-500 uppercase flex items-center gap-1">
-           Marketplace Logistics
+        <div className="flex items-center gap-1 text-[10px] font-black uppercase text-orange-500">
+          Marketplace Logistics
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <div className="text-2xl font-black text-slate-800">{e.pvzTryOnRate}%</div>
-          <div className="text-[10px] font-black text-slate-400 uppercase leading-none">PVZ Try-on Rate</div>
+          <div className="text-text-primary text-2xl font-black">{e.pvzTryOnRate}%</div>
+          <div className="text-text-muted text-[10px] font-black uppercase leading-none">
+            PVZ Try-on Rate
+          </div>
         </div>
         <div>
           <div className="text-2xl font-black text-rose-600">{e.pvzReturnRate}%</div>
-          <div className="text-[10px] font-black text-slate-400 uppercase leading-none">Instant Return</div>
+          <div className="text-text-muted text-[10px] font-black uppercase leading-none">
+            Instant Return
+          </div>
         </div>
       </div>
 
-      <div className="mt-4 p-3 bg-white rounded-lg border border-orange-100 flex flex-col gap-2 shadow-sm">
-         <div className="flex justify-between items-center text-[10px] font-black text-slate-500 uppercase">
-            <span className="flex items-center gap-1.5"><Timer className="w-3 h-3" /> Avg. Time at PVZ</span>
-            <span className="text-slate-700">{e.avgStayAtPvz} min</span>
-         </div>
-         <div className="flex justify-between items-center text-[10px] font-black text-slate-500 uppercase">
-            <span className="flex items-center gap-1.5"><AlertTriangle className="w-3 h-3 text-rose-500" /> Logistic Loss</span>
-            <span className="text-rose-600">{e.logisticLossPerUnit} ₽ / unit</span>
-         </div>
+      <div className="mt-4 flex flex-col gap-2 rounded-lg border border-orange-100 bg-white p-3 shadow-sm">
+        <div className="text-text-secondary flex items-center justify-between text-[10px] font-black uppercase">
+          <span className="flex items-center gap-1.5">
+            <Timer className="h-3 w-3" /> Avg. Time at PVZ
+          </span>
+          <span className="text-text-primary">{e.avgStayAtPvz} min</span>
+        </div>
+        <div className="text-text-secondary flex items-center justify-between text-[10px] font-black uppercase">
+          <span className="flex items-center gap-1.5">
+            <AlertTriangle className="h-3 w-3 text-rose-500" /> Logistic Loss
+          </span>
+          <span className="text-rose-600">{e.logisticLossPerUnit} ₽ / unit</span>
+        </div>
       </div>
 
-      <div className="mt-4 pt-3 border-t border-orange-100 text-[9px] text-slate-400 font-bold uppercase italic flex justify-between items-center">
-         <span>Data: WB/Ozon PVZ Aggregator</span>
-         <span className="text-orange-600">Risk: {e.pvzReturnRate > 30 ? 'High' : 'Optimal'}</span>
+      <div className="text-text-muted mt-4 flex items-center justify-between border-t border-orange-100 pt-3 text-[9px] font-bold uppercase italic">
+        <span>Data: WB/Ozon PVZ Aggregator</span>
+        <span className="text-orange-600">Risk: {e.pvzReturnRate > 30 ? 'High' : 'Optimal'}</span>
       </div>
     </Card>
   );

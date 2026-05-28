@@ -20,6 +20,6 @@ export function getStoreStockSwapOffers(sku: string): StockSwapOfferV1[] {
       quantity: 5,
       urgency: 'medium',
       status: 'in_transit',
-    }
+    },
   ];
 }

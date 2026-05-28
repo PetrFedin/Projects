@@ -110,15 +110,14 @@ export function summarizeCollectionDossierRollup(
   let bom = 0;
 
   const firstLeafId = articles.find((a) => a.categoryLeafId)?.categoryLeafId;
-  const fallbackLeaf = firstLeafId ? findHandbookLeafById(firstLeafId) ?? null : null;
+  const fallbackLeaf = firstLeafId ? (findHandbookLeafById(firstLeafId) ?? null) : null;
 
   for (const art of articles) {
     const key = workshop2Phase1DossierStorageKey(collectionId, art.id);
     const d = map[key];
     if (!d || !dossierLooksPopulated(d)) continue;
     withD++;
-    const leaf =
-      findHandbookLeafById(art.categoryLeafId ?? '') ?? fallbackLeaf ?? null;
+    const leaf = findHandbookLeafById(art.categoryLeafId ?? '') ?? fallbackLeaf ?? null;
     const r = calculateDossierReadiness(d, leaf);
     pctSum += r.overall.pct;
     if (r.summary.readyForSample) ready++;
@@ -141,7 +140,9 @@ export function summarizeCollectionDossierRollup(
 /**
  * Варианты для поля «BOM ref» метки: канонические материалы / состав из досье + custom_proposed.
  */
-export function buildBomLinePickOptions(dossier: Workshop2DossierPhase1): { value: string; label: string }[] {
+export function buildBomLinePickOptions(
+  dossier: Workshop2DossierPhase1
+): { value: string; label: string }[] {
   const out: { value: string; label: string }[] = [];
   const seen = new Set<string>();
 

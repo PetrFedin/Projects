@@ -1,0 +1,18 @@
+---
+description: Канон Synth — только _ai-share/synth-1-full в монорепо Projects.
+globs:
+  - "**/_ai-share/synth-1-full/**"
+  - "**/role-hub-matrix*.ts"
+  - "**/role-hub-matrix-nav-details.ts"
+alwaysApply: false
+---
+
+# Synth: канон только в full
+
+В монорепозитории **Projects** фронтенд Fashion OS (Next.js) живёт **только** в **`_ai-share/synth-1-full`**.
+
+1. **`_ai-share/synth-1-full`** — единственное дерево приложения: фичи, BFF, доменный канон, E2E, CI. Документы истины: **`AGENTS.md`**, **`docs/CANONICAL_FULL.md`**, **`SOURCE_OF_TRUTH.md`** внутри этого каталога.
+
+2. Субмодуль **`synth-1/`** из корня **удалён**; не ссылаться на путь **`synth-1/...`** как на код в этом репо.
+
+**Правило для агента:** в диффах и инструкциях указывать **`_ai-share/synth-1-full/...`**. Корень воркспейса Cursor — **`Projects`**, чтобы совпадали пути к GSD и правилам (см. **`/.cursor/rules/gsd-superpowers-mcp-monorepo.mdc`**).

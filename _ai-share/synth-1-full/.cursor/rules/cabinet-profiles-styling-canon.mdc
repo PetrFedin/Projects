@@ -1,0 +1,28 @@
+---
+description: Канон оформления кабинетов и профилей — единая ссылка для агентов
+globs: src/app/brand/**/*,src/app/shop/**/*,src/app/client/**/*,src/app/admin/**/*,src/app/distributor/**/*,src/app/factory/**/*,src/app/academy/**/*,src/app/orders/**/*,src/app/wallet/**/*,src/design/**/*,src/lib/ui/cabinet-surface.ts,src/components/layout/cabinet-*.tsx
+alwaysApply: false
+---
+
+# Кабинеты и профили — источник правды
+
+**Перед правками UI кабинетов и профильных страниц прочитать (или держать в контексте нужные разделы):**
+
+**`src/design/CABINET_PROFILES_STYLING_RULES_RU.md`** (от корня репозитория `synth-1-full`)
+
+Там: иерархия документов, хром хаба, токены (`cabinetSurface`, `registryFeedLayout`), вкладки, роли, соответствие Joor/NuORDER, матрица покрытия и пробелы, чеклист PR.
+
+## Код, который часто трогают
+
+- `src/lib/ui/cabinet-surface.ts`, `cabinetHubLayout`
+- `src/components/layout/cabinet-hub-chrome.tsx`, `client-cabinet-shell.tsx`
+- `RegistryPageShell` / `RegistryPageHeader` из `@/components/design-system`
+
+## Как вносить изменения
+
+- **Не** раздувать диффы: тяжёлые страницы (напр. `brand/profile/page.tsx`) — **точечно** по блокам внутри `TabsContent`: карточки, дубли `px`/`py`, случайные классы вместо токенов.
+- Новые экраны — семантические классы (`bg-bg-surface`, `text-text-primary`, …), не произвольные palette-классы без причины.
+
+## Связанные правила в репо
+
+- `cabinet-ui-consistency.mdc` — краткие напоминания; полный канон — только в `CABINET_PROFILES_STYLING_RULES_RU.md`.

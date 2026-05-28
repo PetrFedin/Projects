@@ -1,15 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { ChartCard } from '@/components/design-system/chart-card';
 import { cn } from '@/lib/utils';
 
@@ -43,10 +35,14 @@ export function HistogramCard({
 
   return (
     <ChartCard title={title} description={description} footer={footer} className={className}>
-      <div className={cn('h-[200px] w-full min-h-[160px]')}>
+      <div className={cn('h-[200px] min-h-[160px] w-full')}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200" vertical={false} />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              className="stroke-border-subtle"
+              vertical={false}
+            />
             <XAxis
               dataKey={xKey}
               tick={{ fontSize: 10, fill: 'var(--muted-foreground, #64748b)' }}

@@ -1,5 +1,6 @@
 'use client';
 
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -15,7 +16,7 @@ import { Footprints } from 'lucide-react';
  */
 export default function BrandFootwear360Page() {
   return (
-    <div className="container mx-auto max-w-5xl px-4 py-6 space-y-6 pb-24">
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 pb-16">
       <SectionInfoCard
         title="Обувь: 360° и контексты носки"
         description="Многоракурсные кадры и круговой просмотр, заготовка под GLB из 3D-скана. Блок «с чем носить» — тип низа, материал и цвет для витрины и B2B."
@@ -36,7 +37,10 @@ export default function BrandFootwear360Page() {
           <Link href={ROUTES.brand.productsDigitalTwinTesting}>Digital twin testing</Link>
         </Button>
       </div>
-      <Footwear360PairingModule bundle={DEMO_FOOTWEAR_BUNDLE} pairingPresets={DEMO_PAIRING_PRESETS} />
-    </div>
+      <Footwear360PairingModule
+        bundle={DEMO_FOOTWEAR_BUNDLE}
+        pairingPresets={DEMO_PAIRING_PRESETS}
+      />
+    </CabinetPageContent>
   );
 }

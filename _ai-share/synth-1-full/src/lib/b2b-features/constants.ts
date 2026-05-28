@@ -5,7 +5,10 @@
 import type { ShipWindow, ShipWindowType } from './types';
 
 /** Ship windows — Pre-order / At-Once / Re-order */
-export const SHIP_WINDOWS: Record<ShipWindowType, Omit<ShipWindow, 'id' | 'deliveryDate' | 'deliveryWindow' | 'availableToPromise'>> = {
+export const SHIP_WINDOWS: Record<
+  ShipWindowType,
+  Omit<ShipWindow, 'id' | 'deliveryDate' | 'deliveryWindow' | 'availableToPromise'>
+> = {
   pre_order: { type: 'pre_order', label: 'Предзаказ', labelEn: 'Pre-order', sortOrder: 1 },
   at_once: { type: 'at_once', label: 'Со склада', labelEn: 'At-Once', sortOrder: 2 },
   re_order: { type: 're_order', label: 'Повторный заказ', labelEn: 'Re-order', sortOrder: 3 },

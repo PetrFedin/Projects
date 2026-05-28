@@ -14,7 +14,13 @@ type Props = {
   disabledHint?: string;
 };
 
-export function ProductionFloorTabWithHint({ tab, className, children, disabled, disabledHint }: Props) {
+export function ProductionFloorTabWithHint({
+  tab,
+  className,
+  children,
+  disabled,
+  disabledHint,
+}: Props) {
   const hint = PRODUCTION_FLOOR_STEPS.find((s) => s.id === tab)?.hint ?? '';
   const content = disabled && disabledHint ? disabledHint : hint;
   return (
@@ -28,7 +34,7 @@ export function ProductionFloorTabWithHint({ tab, className, children, disabled,
       </TooltipTrigger>
       <TooltipContent
         side="bottom"
-        className="max-w-[min(100vw-2rem,28rem)] border-slate-200 bg-slate-900 text-slate-50 text-[11px] leading-snug shadow-lg"
+        className="border-border-default bg-text-primary text-text-inverse max-w-[min(100vw-2rem,28rem)] text-[11px] leading-snug shadow-lg"
       >
         {content}
       </TooltipContent>

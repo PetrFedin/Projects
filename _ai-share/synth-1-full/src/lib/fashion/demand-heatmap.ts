@@ -20,6 +20,6 @@ export function getRegionalDemandHeatmap(sku: string): RegionalDemandHeatmapV1[]
       demandIndex: 92,
       trend: 'rising',
       topCategories: ['Linen', 'Dresses'],
-    }
+    },
   ];
 }

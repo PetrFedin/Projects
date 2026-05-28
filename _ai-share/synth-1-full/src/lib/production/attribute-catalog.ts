@@ -1,5 +1,5 @@
 /**
- * Канонический каталог атрибутов для фазы 1 Цеха 2 (инстанс JSON в репо).
+ * Канонический каталог атрибутов для фазы 1 разработки коллекции (инстанс JSON в репо).
  */
 import type {
   AttributeCatalogAttribute,
@@ -10,6 +10,7 @@ import type {
 import type { HandbookCategoryLeaf } from './category-handbook-leaves';
 import { findHandbookLeafById } from './category-handbook-leaves';
 import { inferExtraAttributeIdsForHandbookPath } from './handbook-attribute-infer';
+import { workshop2PolicySuppressesAttribute } from './workshop2-attribute-policy';
 import {
   defaultWorkshopSampleSizeScaleKey,
   getWorkshopParametersForSampleScale,
@@ -57,22 +58,31 @@ type RawCatalogDossierSection = NonNullable<AttributeCatalogAttribute['dossierSe
 
 function normalizeCatalogDossierSectionNav(
   raw: string | undefined
-): 'general' | 'visuals' | 'material' | 'construction' | undefined {
+): 'general' | 'visuals' | 'material' | 'construction' | 'assignment' | undefined {
   if (!raw) return undefined;
   if (raw === 'measurements') return 'construction';
   if (raw === 'packaging') return 'material';
-  if (raw === 'general' || raw === 'visuals' || raw === 'material' || raw === 'construction') return raw;
+  if (
+    raw === 'general' ||
+    raw === 'visuals' ||
+    raw === 'material' ||
+    raw === 'construction' ||
+    raw === 'assignment'
+  )
+    return raw;
   return undefined;
 }
 
 /** Секция навигации ТЗ; устаревшие measurements/packaging из JSON каталога сводятся к construction/material. */
 export function getAttributeDossierSection(
   attributeId: string
-): 'general' | 'visuals' | 'material' | 'construction' | undefined {
+): 'general' | 'visuals' | 'material' | 'construction' | 'assignment' | undefined {
   const attr = attrById.get(attributeId);
   if (!attr) return undefined;
-  const raw = (attr.dossierSection ??
-    GROUP_TO_DOSSIER_SECTION[attr.groupId]) as RawCatalogDossierSection | string | undefined;
+  const raw = (attr.dossierSection ?? GROUP_TO_DOSSIER_SECTION[attr.groupId]) as
+    | RawCatalogDossierSection
+    | string
+    | undefined;
   return normalizeCatalogDossierSectionNav(raw);
 }
 
@@ -94,14 +104,14 @@ export function getWorkshop2ConstructionTabMergedGroupIds(): ReadonlySet<string>
   return out;
 }
 
-/** Заголовок объединённой полосы на конструкции: L2 [· L3] · материалы · конструкция. */
+/** Заголовок объединённой полосы на конструкции: L2 [· L3] без служебных слов «материалы / конструкция». */
 export function workshop2ConstructionMergedStackTitle(
   leaf: Pick<HandbookCategoryLeaf, 'l2Name' | 'l3Name'>
 ): string {
   const l2 = (leaf.l2Name ?? '').trim() || 'Категория';
   const l3 = (leaf.l3Name ?? '').trim();
   const head = l3 && l3 !== l2 ? `${l2} · ${l3}` : l2;
-  return `${head} · материалы · конструкция`;
+  return head;
 }
 
 /**
@@ -111,9 +121,7 @@ export function workshop2ConstructionMergedStackTitle(
 export function resolveAttributeIdsForLeaf(leafId: string, phase: number = 1): string[] {
   const fromJsonLeaf = catalog.leafBindings?.[leafId] ?? [];
   const hb = findHandbookLeafById(leafId);
-  const inferred = hb
-    ? inferExtraAttributeIdsForHandbookPath(hb.l1Name, hb.l2Name, hb.l3Name)
-    : [];
+  const inferred = hb ? inferExtraAttributeIdsForHandbookPath(hb.l1Name, hb.l2Name, hb.l3Name) : [];
   const global = catalog.globalAttributeIds ?? [];
   const seen = new Set<string>();
   const out: string[] = [];
@@ -122,6 +130,17 @@ export function resolveAttributeIdsForLeaf(leafId: string, phase: number = 1): s
     if (!a || seen.has(id)) continue;
     if (a.retiredFromWorkshop) continue;
     if (!attributeInWorkflowPhase(a, phase)) continue;
+    if (
+      workshop2PolicySuppressesAttribute(id, {
+        leafId,
+        l1Name: hb?.l1Name,
+        l2Name: hb?.l2Name,
+        l3Name: hb?.l3Name,
+        phase: phase as 1 | 2 | 3,
+        source: 'catalog',
+      })
+    )
+      continue;
     seen.add(id);
     out.push(id);
   }
@@ -182,8 +201,11 @@ export function resolveEffectiveParametersForLeaf(
  * Ключ шкалы «базовый размер» из справочника производства + сетки габаритов
  * (`workshop-size-handbook`), а не устаревший apparel/footwear из JSON каталога.
  */
-export function defaultSizeScaleIdForLeaf(leaf: HandbookCategoryLeaf | undefined): string {
-  return defaultWorkshopSampleSizeScaleKey(leaf);
+export function defaultSizeScaleIdForLeaf(
+  leaf: HandbookCategoryLeaf | undefined,
+  isUnisex?: boolean
+): string {
+  return defaultWorkshopSampleSizeScaleKey(leaf, isUnisex);
 }
 
 export function getSizeScaleIdsSorted(): { scaleId: string; label: string }[] {
@@ -205,11 +227,12 @@ export function resolveParameterIdsForSizeScale(scaleId: string): string[] {
 export function resolveSampleBaseSizeParametersForLeaf(
   attribute: AttributeCatalogAttribute,
   leaf: HandbookCategoryLeaf | undefined,
-  sizeScaleId: string | undefined
+  sizeScaleId: string | undefined,
+  isUnisex?: boolean
 ): AttributeCatalogParameter[] {
   const effective = resolveEffectiveParametersForLeaf(attribute, leaf);
-  const key = sizeScaleId ?? defaultWorkshopSampleSizeScaleKey(leaf);
-  const workshop = getWorkshopParametersForSampleScale(leaf, key);
+  const key = sizeScaleId ?? defaultWorkshopSampleSizeScaleKey(leaf, isUnisex);
+  const workshop = getWorkshopParametersForSampleScale(leaf, key, isUnisex);
   if (workshop.length) return workshop;
   const legacyScaleId = key.includes('::') ? 'apparel-alpha' : key;
   const scaleIds = resolveParameterIdsForSizeScale(legacyScaleId);
@@ -240,7 +263,9 @@ function sortRowsForPhase1(
       return a.attribute.sortOrder - b.attribute.sortOrder;
     });
   const byId = new Map(rows.map((r) => [r.attribute.attributeId, r]));
-  const head = orderedCore.map((id) => byId.get(id)).filter(Boolean) as ResolvedPhase1AttributeRow[];
+  const head = orderedCore
+    .map((id) => byId.get(id))
+    .filter(Boolean) as ResolvedPhase1AttributeRow[];
   return [...head, ...rest];
 }
 
@@ -306,7 +331,10 @@ export function parameterMatchesAliasSearch(
   return (param.aliases ?? []).some((a) => a.toLowerCase().includes(s));
 }
 
-function mapAttributesToSearchRows(groupById: Map<string, string>, attrs: AttributeCatalogAttribute[]) {
+function mapAttributesToSearchRows(
+  groupById: Map<string, string>,
+  attrs: AttributeCatalogAttribute[]
+) {
   return attrs.map((a) => {
     const parts = [
       a.name,

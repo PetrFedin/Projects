@@ -54,7 +54,7 @@ export default function AIBudgetOptimizer() {
     return (
       <Card>
         <CardContent className="pt-6">
-          <div className="text-center py-4">AI анализирует бюджет...</div>
+          <div className="py-4 text-center">AI анализирует бюджет...</div>
         </CardContent>
       </Card>
     );
@@ -70,28 +70,32 @@ export default function AIBudgetOptimizer() {
           <Wallet className="h-5 w-5 text-accent" />
           AI Оптимизатор бюджета
         </CardTitle>
-        <CardDescription>
-          Умное управление расходами на одежду
-        </CardDescription>
+        <CardDescription>Умное управление расходами на одежду</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
           {/* Monthly Budget */}
           <div>
-            <div className="flex items-center justify-between mb-2">
+            <div className="mb-2 flex items-center justify-between">
               <span className="text-sm font-medium">Бюджет на месяц</span>
               <span className="text-sm text-muted-foreground">
-                {analysis.spent.toLocaleString('ru-RU')} / {analysis.monthlyBudget.toLocaleString('ru-RU')} ₽
+                {analysis.spent.toLocaleString('ru-RU')} /{' '}
+                {analysis.monthlyBudget.toLocaleString('ru-RU')} ₽
               </span>
             </div>
-            <Progress 
-              value={Math.min(100, spentPercentage)} 
-              className={cn("h-3", isOverBudget && "bg-red-500")}
+            <Progress
+              value={Math.min(100, spentPercentage)}
+              className={cn('h-3', isOverBudget && 'bg-red-500')}
             />
-            <div className="flex items-center justify-between mt-2 text-xs">
-              <span className={cn(isOverBudget ? "text-red-600 font-semibold" : "text-muted-foreground")}>
-                {isOverBudget ? `Превышен на ${(analysis.spent - analysis.monthlyBudget).toLocaleString('ru-RU')} ₽` : 
-                 `Осталось ${analysis.remaining.toLocaleString('ru-RU')} ₽`}
+            <div className="mt-2 flex items-center justify-between text-xs">
+              <span
+                className={cn(
+                  isOverBudget ? 'font-semibold text-red-600' : 'text-muted-foreground'
+                )}
+              >
+                {isOverBudget
+                  ? `Превышен на ${(analysis.spent - analysis.monthlyBudget).toLocaleString('ru-RU')} ₽`
+                  : `Осталось ${analysis.remaining.toLocaleString('ru-RU')} ₽`}
               </span>
               <span className="text-muted-foreground">
                 {format(new Date(), 'MMMM yyyy', { locale: ru })}
@@ -101,17 +105,21 @@ export default function AIBudgetOptimizer() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-3 gap-3">
-            <div className="text-center p-3 rounded-lg bg-muted">
-              <p className="text-sm font-bold">{analysis.projectedYearly.toLocaleString('ru-RU')}</p>
-              <p className="text-xs text-muted-foreground mt-1">₽ в год</p>
+            <div className="rounded-lg bg-muted p-3 text-center">
+              <p className="text-sm font-bold">
+                {analysis.projectedYearly.toLocaleString('ru-RU')}
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">₽ в год</p>
             </div>
-            <div className="text-center p-3 rounded-lg bg-muted">
-              <p className="text-sm font-bold text-green-600">{analysis.savings.toLocaleString('ru-RU')}</p>
-              <p className="text-xs text-muted-foreground mt-1">₽ сэкономлено</p>
+            <div className="rounded-lg bg-muted p-3 text-center">
+              <p className="text-sm font-bold text-green-600">
+                {analysis.savings.toLocaleString('ru-RU')}
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">₽ сэкономлено</p>
             </div>
-            <div className="text-center p-3 rounded-lg bg-muted">
+            <div className="rounded-lg bg-muted p-3 text-center">
               <p className="text-sm font-bold">{orders.length}</p>
-              <p className="text-xs text-muted-foreground mt-1">Покупок</p>
+              <p className="mt-1 text-xs text-muted-foreground">Покупок</p>
             </div>
           </div>
 
@@ -122,17 +130,19 @@ export default function AIBudgetOptimizer() {
                 <div
                   key={index}
                   className={cn(
-                    "p-3 rounded-lg border flex items-start gap-2",
-                    alert.type === 'warning' && "bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800",
-                    alert.type === 'info' && "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800"
+                    'flex items-start gap-2 rounded-lg border p-3',
+                    alert.type === 'warning' &&
+                      'border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950/20',
+                    alert.type === 'info' &&
+                      'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20'
                   )}
                 >
                   {alert.type === 'warning' ? (
-                    <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5" />
+                    <AlertTriangle className="mt-0.5 h-4 w-4 text-yellow-600" />
                   ) : (
-                    <CheckCircle className="h-4 w-4 text-blue-600 mt-0.5" />
+                    <CheckCircle className="mt-0.5 h-4 w-4 text-blue-600" />
                   )}
-                  <p className="text-sm flex-1">{alert.message}</p>
+                  <p className="flex-1 text-sm">{alert.message}</p>
                 </div>
               ))}
             </div>
@@ -140,14 +150,14 @@ export default function AIBudgetOptimizer() {
 
           {/* AI Recommendations */}
           <div>
-            <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+            <h4 className="mb-3 flex items-center gap-2 text-sm font-semibold">
               <Target className="h-4 w-4 text-accent" />
               Рекомендации AI
             </h4>
             <div className="space-y-2">
               {analysis.recommendations.map((rec, index) => (
                 <div key={index} className="flex items-start gap-2 text-sm">
-                  <Gift className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
+                  <Gift className="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" />
                   <p className="text-muted-foreground">{rec}</p>
                 </div>
               ))}
@@ -155,10 +165,10 @@ export default function AIBudgetOptimizer() {
           </div>
 
           {/* Actions */}
-          <div className="pt-4 border-t">
+          <div className="border-t pt-4">
             <Button variant="outline" className="w-full" asChild>
               <Link href="/search?outlet=true">
-                <TrendingDown className="h-4 w-4 mr-2" />
+                <TrendingDown className="mr-2 h-4 w-4" />
                 Покупать со скидкой
               </Link>
             </Button>
@@ -175,39 +185,39 @@ function analyzeBudgetData(orders: Order[], loyaltyPoints: number): BudgetAnalys
   const monthEnd = endOfMonth(now);
 
   // Calculate monthly spending
-  const monthlyOrders = orders.filter(order => {
+  const monthlyOrders = orders.filter((order) => {
     const orderDate = new Date(order.createdAt);
     return isWithinInterval(orderDate, { start: monthStart, end: monthEnd });
   });
 
   const spent = monthlyOrders.reduce((sum, order) => sum + order.total, 0);
-  
+
   // Estimate monthly budget (average of last 3 months or default)
   const last3Months = orders
-    .filter(order => {
+    .filter((order) => {
       const orderDate = new Date(order.createdAt);
       const threeMonthsAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
       return orderDate >= threeMonthsAgo;
     })
     .reduce((sum, order) => sum + order.total, 0);
 
-  const monthlyBudget = last3Months > 0 
-    ? Math.round(last3Months / 3)
-    : 20000; // Default budget
+  const monthlyBudget = last3Months > 0 ? Math.round(last3Months / 3) : 20000; // Default budget
 
   const remaining = Math.max(0, monthlyBudget - spent);
   const projectedYearly = Math.round((spent / (now.getDate() / 30)) * 12);
 
   // Calculate savings from loyalty points and discounts
-  const savings = loyaltyPoints + monthlyOrders.reduce((sum, order) => {
-    const discount = order.items.reduce((itemSum, item) => {
-      if (item.originalPrice && item.originalPrice > item.price) {
-        return itemSum + (item.originalPrice - item.price) * item.quantity;
-      }
-      return itemSum;
+  const savings =
+    loyaltyPoints +
+    monthlyOrders.reduce((sum, order) => {
+      const discount = order.items.reduce((itemSum, item) => {
+        if (item.originalPrice && item.originalPrice > item.price) {
+          return itemSum + (item.originalPrice - item.price) * item.quantity;
+        }
+        return itemSum;
+      }, 0);
+      return sum + discount;
     }, 0);
-    return sum + discount;
-  }, 0);
 
   const recommendations: string[] = [];
   const alerts: BudgetAnalysis['alerts'] = [];
@@ -232,7 +242,9 @@ function analyzeBudgetData(orders: Order[], loyaltyPoints: number): BudgetAnalys
   }
 
   if (loyaltyPoints > 1000) {
-    recommendations.push(`Используйте ${loyaltyPoints.toLocaleString('ru-RU')} бонусных баллов для следующей покупки`);
+    recommendations.push(
+      `Используйте ${loyaltyPoints.toLocaleString('ru-RU')} бонусных баллов для следующей покупки`
+    );
   }
 
   recommendations.push('Подпишитесь на уведомления о скидках на товары из избранного');

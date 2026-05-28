@@ -4,7 +4,7 @@ import type { OrderAnomalyV1 } from './types';
 export function detectOrderAnomalies(items: { sku: string; quantity: number }[]): OrderAnomalyV1[] {
   const anomalies: OrderAnomalyV1[] = [];
 
-  items.forEach(item => {
+  items.forEach((item) => {
     // Overstock simulation: quantity > 1000 for single SKU in B2B context
     if (item.quantity > 1000) {
       anomalies.push({
@@ -19,12 +19,12 @@ export function detectOrderAnomalies(items: { sku: string; quantity: number }[])
 
     // Size imbalance simulation: many items, few sizes (simplified)
     if (item.quantity > 50 && item.quantity % 12 !== 0) {
-       anomalies.push({
+      anomalies.push({
         sku: item.sku,
         quantity: item.quantity,
         anomalyType: 'size_imbalance',
         severity: 'medium',
-        reason: 'Order doesn\'t follow full size curve pack rules (multiples of 12).',
+        reason: "Order doesn't follow full size curve pack rules (multiples of 12).",
         suggestion: 'Adjust to nearest pack multiple to optimize logistics.',
       });
     }

@@ -1,4 +1,3 @@
-
 export const colorPalette = [
   { name: 'Черный', hex: '#000000' },
   { name: 'Белый', hex: '#FFFFFF' },

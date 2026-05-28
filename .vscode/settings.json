@@ -9,7 +9,8 @@
     "**/*.log": true,
     "pw-demo/playwright-report": true,
     "pw-demo/test-results": true,
-    "pw-demo/screenshots": true
+    "pw-demo/screenshots": true,
+    "synth-1": true
   },
   "search.exclude": {
     "**/.next": true,
@@ -21,7 +22,8 @@
     "**/*.log": true,
     "pw-demo/playwright-report": true,
     "pw-demo/test-results": true,
-    "pw-demo/screenshots": true
+    "pw-demo/screenshots": true,
+    "synth-1": true
   },
   "files.watcherExclude": {
     "**/.next/**": true,
@@ -35,6 +37,57 @@
     "**/playwright-report/**": true,
     "**/test-results/**": true,
     "**/.eslintcache": true,
-    "**/.venv/**": true
-  }
+    "**/.venv/**": true,
+    "pw-demo/playwright-report/**": true,
+    "pw-demo/test-results/**": true,
+    "pw-demo/screenshots/**": true,
+    "synth-1/**": true
+  },
+  "editor.formatOnSave": false,
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [
+    {
+      "directory": "_ai-share/synth-1-full",
+      "changeProcessCWD": true
+    }
+  ],
+  "prettier.configPath": "_ai-share/synth-1-full/.prettierrc",
+  "prettier.ignorePath": "_ai-share/synth-1-full/.prettierignore",
+  "prettier.requireConfig": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "tailwindCSS.experimental.configFile": "_ai-share/synth-1-full/tailwind.config.ts",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "npm.autoDetect": "on",
+  "npm.scriptExplorerInclude": [
+    "package.json",
+    "_ai-share/synth-1-full/package.json"
+  ]
 }

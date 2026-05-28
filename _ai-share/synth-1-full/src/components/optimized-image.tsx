@@ -66,7 +66,7 @@ export function OptimizedImage({
     return (
       <div
         className={cn(
-          'bg-muted flex items-center justify-center',
+          'flex items-center justify-center bg-muted',
           fill ? 'absolute inset-0' : '',
           className
         )}
@@ -78,10 +78,11 @@ export function OptimizedImage({
   }
 
   return (
-    <div className={cn('relative overflow-hidden', className)} style={aspectRatio ? { aspectRatio } : undefined}>
-      {isLoading && (
-        <Skeleton className={cn('absolute inset-0', fill ? '' : 'w-full h-full')} />
-      )}
+    <div
+      className={cn('relative overflow-hidden', className)}
+      style={aspectRatio ? { aspectRatio } : undefined}
+    >
+      {isLoading && <Skeleton className={cn('absolute inset-0', fill ? '' : 'h-full w-full')} />}
       <Image
         {...imageProps}
         src={src}

@@ -27,7 +27,11 @@ export function extractProductIdentifiers(product: Product): ProductIdentifierFi
 }
 
 /** EAN / UPC / GTIN for tech-pack and marketplace blocks. */
-export function getProductIdentifiers(product: Product): { ean?: string; upc?: string; gtin?: string } {
+export function getProductIdentifiers(product: Product): {
+  ean?: string;
+  upc?: string;
+  gtin?: string;
+} {
   const fields = extractProductIdentifiers(product);
   const byKey = (k: string) => fields.find((f) => f.key === k)?.value;
   return {

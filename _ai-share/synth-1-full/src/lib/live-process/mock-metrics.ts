@@ -13,9 +13,21 @@ export const MOCK_STAGE_METRICS: Record<string, StageMetrics[]> = {
   ],
   b2b: [
     { stageId: 'application', avgDays: 2, totalCompleted: 45, overdueCount: 0, overduePct: 0 },
-    { stageId: 'approval-workflow', avgDays: 5, totalCompleted: 42, overdueCount: 3, overduePct: 7 },
+    {
+      stageId: 'approval-workflow',
+      avgDays: 5,
+      totalCompleted: 42,
+      overdueCount: 3,
+      overduePct: 7,
+    },
     { stageId: 'payment', avgDays: 3, totalCompleted: 40, overdueCount: 1, overduePct: 3 },
-    { stageId: 'allocation-shipment', avgDays: 7, totalCompleted: 38, overdueCount: 2, overduePct: 5 },
+    {
+      stageId: 'allocation-shipment',
+      avgDays: 7,
+      totalCompleted: 38,
+      overdueCount: 2,
+      overduePct: 5,
+    },
   ],
 };
 

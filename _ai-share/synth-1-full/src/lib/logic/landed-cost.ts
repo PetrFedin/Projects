@@ -6,28 +6,22 @@ import { LandedCostInput, LandedCostResult, MarginAnalysis } from '../types/fina
  */
 
 export function calculateLandedCost(input: LandedCostInput): LandedCostResult {
-  const { 
-    baseCost, 
-    freightCost, 
-    insuranceCost, 
-    dutyRate, 
-    vatRate, 
-    handlingFees, 
-    batchSize 
-  } = input;
+  const { baseCost, freightCost, insuranceCost, dutyRate, vatRate, handlingFees, batchSize } =
+    input;
 
   const unitFreight = freightCost / batchSize;
   const unitInsurance = insuranceCost / batchSize;
   const unitHandling = handlingFees / batchSize;
-  
+
   // Пошлина обычно считается от (Base + Freight + Insurance)
   const dutyBase = baseCost + unitFreight + unitInsurance;
   const unitDuty = dutyBase * dutyRate;
-  
+
   // НДС считается от (Duty Base + Duty)
   const unitVat = (dutyBase + unitDuty) * vatRate;
 
-  const totalLandedCost = baseCost + unitFreight + unitInsurance + unitDuty + unitVat + unitHandling;
+  const totalLandedCost =
+    baseCost + unitFreight + unitInsurance + unitDuty + unitVat + unitHandling;
 
   return {
     unitBaseCost: baseCost,
@@ -35,7 +29,7 @@ export function calculateLandedCost(input: LandedCostInput): LandedCostResult {
     unitDuty,
     unitVat,
     unitHandling,
-    totalLandedCost
+    totalLandedCost,
   };
 }
 
@@ -47,6 +41,6 @@ export function calculateMargin(landedCost: number, retailPrice: number): Margin
     landedCost,
     retailPrice,
     profit,
-    marginPercent
+    marginPercent,
   };
 }

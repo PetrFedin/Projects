@@ -4,8 +4,8 @@
 
 **Важно:** большая часть производственного контура — **UI и демо-данные** (в т.ч. `localStorage` в `brand-production`), **без единого production API**. «Реализовано» ниже = **есть экран/тип/логика на фронте**, если не указано иное.
 
-**Роли производства:** `synth-1/src/lib/production-permissions.ts` — `admin`, `brand`, `designer`, `technologist`, `production_manager`, `manufacturer`, `supplier`.  
-**Роли операций (localStorage):** `synth-1/src/lib/brand-production/rbac.ts` — `design`, `production`, `procurement`, `merchandising`, `admin`.
+**Роли производства:** `_ai-share/synth-1-full/src/lib/production-permissions.ts` — `admin`, `brand`, `designer`, `technologist`, `production_manager`, `manufacturer`, `supplier`.  
+**Роли операций (localStorage):** `_ai-share/synth-1-full/src/lib/brand-production/rbac.ts` — `design`, `production`, `procurement`, `merchandising`, `admin`.
 
 ---
 
@@ -25,7 +25,7 @@
 |------|----------------|---------------|--------|
 | Коллекция | `/brand/production` (контекст коллекции), `brand-production` | brand, production_manager, admin | ⚠️ Нет единого backend CRUD коллекций; ведение в UI производства |
 | Стиль / SKU | `/brand/products`, `/brand/products/matrix`, карточка продукта | merchandising, brand | ✅ PIM UI |
-| Tech Pack / BOM | `/brand/production/tech-pack/[id]`, `synth-1/src/lib/types/production.ts` | technologist, brand | ✅ UI; ❌ общий персистентный API |
+| Tech Pack / BOM | `/brand/production/tech-pack/[id]`, `_ai-share/synth-1-full/src/lib/types/production.ts` | technologist, brand | ✅ UI; ❌ общий персистентный API |
 | PO, фабрики | `/brand/production`, `/brand/factories`, `/brand/production/gantt` | production_manager; manufacturer — узко | ✅ UI; ❌ ERP |
 | Сообщения / задачи / календарь | `/brand/messages`, `/brand/tasks`, `/brand/calendar` | команда бренда | ✅; ❌ строгая привязка треда к `styleId`/`poId` — проверять реализацию |
 | Аудит | `/brand/production/operations` | admin | ⚠️ localStorage, не юридический аудит |
@@ -34,7 +34,7 @@
 
 ## 2. Этапы (`collection-steps-catalog.ts` → UI)
 
-Визуализация цеха: `/brand/production?floorTab=…` — `synth-1/src/lib/production/floor-flow.ts`.
+Визуализация цеха: `/brand/production?floorTab=…` — `_ai-share/synth-1-full/src/lib/production/floor-flow.ts`.
 
 **Порядок строк ниже = порядок `COLLECTION_STEPS` в коде** (и матрица «Этапы и зависимости», и мини-цепочка в хабе коллекции). Дорожная карта в гайде бренда — `COLLECTION_BRAND_GUIDE_STEP_IDS` в том же файле (см. `COLLECTION_CONTROL_UNIFIED_RU.md` §3).
 
@@ -115,13 +115,13 @@
 
 ## 7. Файлы
 
-- `synth-1/src/lib/routes.ts`
-- `synth-1/src/lib/production/collection-steps-catalog.ts`
-- `synth-1/src/lib/production/floor-flow.ts`
-- `synth-1/src/lib/production-permissions.ts`
-- `synth-1/src/lib/brand-production/*`
-- `synth-1/src/lib/types/production.ts`
-- `synth-1/src/app/brand/production/production-page-main.tsx`
-- `synth-1/src/app/brand/production/operations/page.tsx`
+- `_ai-share/synth-1-full/src/lib/routes.ts`
+- `_ai-share/synth-1-full/src/lib/production/collection-steps-catalog.ts`
+- `_ai-share/synth-1-full/src/lib/production/floor-flow.ts`
+- `_ai-share/synth-1-full/src/lib/production-permissions.ts`
+- `_ai-share/synth-1-full/src/lib/brand-production/*`
+- `_ai-share/synth-1-full/src/lib/types/production.ts`
+- `_ai-share/synth-1-full/src/app/brand/production/production-page-main.tsx`
+- `_ai-share/synth-1-full/src/app/brand/production/operations/page.tsx`
 
 *Версия: 1.2 (`COLLECTION_BRAND_GUIDE_STEP_IDS` — гайд бренда vs исполнение в матрице.)*

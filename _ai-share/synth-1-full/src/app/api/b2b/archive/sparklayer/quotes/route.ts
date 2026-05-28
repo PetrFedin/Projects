@@ -5,7 +5,10 @@
  */
 
 import { NextResponse } from 'next/server';
-import { sparkLayerGetQuotes, sparkLayerCreateQuote } from '@/lib/b2b/integrations/archive/sparklayer-core';
+import {
+  sparkLayerGetQuotes,
+  sparkLayerCreateQuote,
+} from '@/lib/b2b/integrations/archive/sparklayer-core';
 import type { SparkLayerCreateQuotePayload } from '@/lib/b2b/integrations/archive/sparklayer-core';
 
 export async function GET(request: Request) {

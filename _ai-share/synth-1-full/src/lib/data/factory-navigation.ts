@@ -1,157 +1,385 @@
 'use client';
 
+/**
+ * Manufacturer / Supplier: столпы как у бренда (`FACTORY_MFR_CORE_GROUP_ORDER` / `FACTORY_SUP_CORE_GROUP_ORDER`).
+ * Ядро уплотнено: один столбец «Производство» (операции, Гант, выработка, навыки, раскрой — в подразделах),
+ * одна «Логистика и склад» вместо трёх строк; у поставщика — один столбец «Материалы и RFQ».
+ * Группа `comms` — календарь (со слоями) + сообщения; см. `CROSS_ROLE_FLOWS.md`.
+ */
+
 import {
-  LayoutDashboard, Factory, Package, FileCheck, Truck, PackageSearch, Layers,
-  FileText, BarChart2, Settings, Calendar, Users, Gavel, Zap, Ruler,
+  LayoutDashboard,
+  Factory,
+  Package,
+  FileCheck,
+  Truck,
+  PackageSearch,
+  Layers,
+  FileText,
+  BarChart2,
+  Calendar,
+  Users,
+  UserRound,
+  Zap,
+  MessageSquare,
+  Database,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 
-/** Навигация для роли Manufacturer (производство) */
+/** Производство: team → comms → partners → production → logistics (QC и прочее — архив). */
 export const manufacturerNavGroups = [
   {
     id: 'overview',
     label: 'Обзор',
     icon: LayoutDashboard,
+    clusterId: 'archive' as const,
     links: [
-      { href: '/factory', value: 'dashboard', label: 'Дашборд', icon: LayoutDashboard, description: 'Обзор производства' },
+      {
+        href: '/factory',
+        value: 'dashboard',
+        label: 'Дашборд',
+        icon: LayoutDashboard,
+        description: 'Обзор производства',
+      },
+    ],
+  },
+  {
+    id: 'team',
+    label: 'Команда',
+    icon: UserRound,
+    clusterId: 'syntha-cores' as const,
+    links: [
+      {
+        href: ROUTES.factory.staff,
+        value: 'team',
+        label: 'Команда',
+        icon: Users,
+        description: 'Сотрудники цеха, роли и доступы',
+      },
+    ],
+  },
+  {
+    id: 'comms',
+    label: 'Связь',
+    icon: MessageSquare,
+    clusterId: 'syntha-cores' as const,
+    links: [
+      {
+        href: `${ROUTES.brand.calendar}?layers=tasks,orders,production`,
+        value: 'calendar',
+        label: 'Календарь',
+        icon: Calendar,
+        description: 'Задачи, заказы и этапы производства на одной шкале.',
+      },
+      {
+        href: ROUTES.brand.messages,
+        value: 'messages',
+        label: 'Сообщения',
+        icon: MessageSquare,
+        description: 'Коммуникация',
+      },
+    ],
+  },
+  {
+    id: 'partners',
+    label: 'Партнёры',
+    icon: Factory,
+    clusterId: 'syntha-cores' as const,
+    links: [
+      {
+        href: ROUTES.brand.factories,
+        value: 'factories',
+        label: 'Партнёры и сеть',
+        icon: Factory,
+        description: 'Фабрики и субподряд — одна колонка ядра.',
+        subsections: [
+          { href: ROUTES.brand.factories, label: 'Фабрики', value: 'factories-list' },
+          {
+            href: ROUTES.brand.productionSubcontractor,
+            label: 'Субподряд',
+            value: 'subcontractor',
+          },
+        ],
+      },
     ],
   },
   {
     id: 'production',
     label: 'Производство',
     icon: Factory,
+    clusterId: 'syntha-cores' as const,
     links: [
-      { href: ROUTES.brand.production, value: 'production', label: 'Производство', icon: Factory, description: 'Операции и заказы' },
-      { href: ROUTES.brand.productionOperations, value: 'operations', label: 'Операции', icon: Package, description: 'Коллекции, PO, BOM' },
-      { href: ROUTES.brand.factories, value: 'factories', label: 'Фабрики', icon: Factory, description: 'Производственные мощности' },
-      { href: ROUTES.brand.productionGantt, value: 'gantt', label: 'Диаграмма Ганта', icon: Calendar, description: 'Планирование' },
-      { href: ROUTES.brand.productionDailyOutput, value: 'daily-output', label: 'Дневная выработка', icon: Package, description: 'Объёмы производства' },
-      { href: ROUTES.brand.productionWorkerSkills, value: 'worker-skills', label: 'Навыки работников', icon: Users, description: 'Компетенции' },
-      { href: ROUTES.brand.productionSubcontractor, value: 'subcontractor', label: 'Субподряд', icon: Factory, description: 'Аутсорсинг' },
-      { href: ROUTES.brand.productionReadyMade, value: 'ready-made', label: 'Готовый продукт', icon: Package, description: 'Конфекция' },
-      { href: ROUTES.brand.productionNesting, value: 'nesting', label: 'Раскрой (Nesting)', icon: Ruler, description: 'Оптимизация раскроя' },
+      {
+        href: ROUTES.brand.production,
+        value: 'shop-floor',
+        label: 'Производство',
+        icon: Factory,
+        description:
+          'Цех и исполнение PO: операции, план (Гант), выработка, навыки, конфекция, раскрой — без отдельных строк в сайдбаре.',
+        subsections: [
+          { href: ROUTES.brand.productionOperations, label: 'Операции', value: 'operations' },
+          { href: ROUTES.brand.productionGantt, label: 'Диаграмма Ганта', value: 'gantt' },
+          {
+            href: ROUTES.brand.productionDailyOutput,
+            label: 'Дневная выработка',
+            value: 'daily-output',
+          },
+          {
+            href: ROUTES.brand.productionWorkerSkills,
+            label: 'Навыки работников',
+            value: 'worker-skills',
+          },
+          { href: ROUTES.brand.productionReadyMade, label: 'Готовый продукт', value: 'ready-made' },
+          { href: ROUTES.brand.productionNesting, label: 'Раскрой (Nesting)', value: 'nesting' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'logistics',
+    label: 'Логистика и остатки',
+    icon: Truck,
+    clusterId: 'syntha-cores' as const,
+    links: [
+      {
+        href: ROUTES.brand.logistics,
+        value: 'logistics-hub',
+        label: 'Логистика и склад',
+        icon: Truck,
+        description: 'Хаб перевозок и документов; склад и остатки — через подпункты.',
+        subsections: [
+          { href: ROUTES.brand.warehouse, label: 'Склад', value: 'warehouse' },
+          { href: ROUTES.brand.inventory, label: 'Остатки', value: 'inventory' },
+        ],
+      },
     ],
   },
   {
     id: 'materials',
     label: 'Материалы',
     icon: Layers,
+    clusterId: 'archive' as const,
     links: [
-      { href: ROUTES.brand.materials, value: 'materials', label: 'Каталог материалов', icon: Layers, description: 'Материалы' },
-      { href: ROUTES.brand.materialsReservation, value: 'reservation', label: 'Резервирование', icon: Package, description: 'Резерв материалов' },
-      { href: ROUTES.brand.vmi, value: 'vmi', label: 'VMI', icon: Truck, description: 'Vendor Managed Inventory' },
-    ],
-  },
-  {
-    id: 'orders',
-    label: 'Заказы',
-    icon: Package,
-    links: [
-      { href: ROUTES.brand.b2bOrders, value: 'orders', label: 'B2B Заказы', icon: Package, description: 'Заказы от брендов' },
+      {
+        href: ROUTES.brand.materials,
+        value: 'materials',
+        label: 'Каталог материалов',
+        icon: Layers,
+        description: 'Материалы',
+      },
+      {
+        href: ROUTES.brand.materialsReservation,
+        value: 'reservation',
+        label: 'Резервирование',
+        icon: Package,
+        description: 'Резерв материалов',
+      },
+      {
+        href: ROUTES.brand.vmi,
+        value: 'vmi',
+        label: 'VMI',
+        icon: Truck,
+        description: 'Vendor Managed Inventory',
+      },
     ],
   },
   {
     id: 'qc',
-    label: 'QC и Compliance',
+    label: 'Контроль качества',
     icon: FileCheck,
+    clusterId: 'archive' as const,
     links: [
-      { href: ROUTES.brand.compliance, value: 'compliance', label: 'QC и Compliance', icon: FileCheck, description: 'Контроль качества' },
-      { href: ROUTES.brand.productionQcApp, value: 'qc-app', label: 'QC App', icon: Zap, description: 'Мобильное приложение QC' },
-      { href: ROUTES.brand.productionGoldSample, value: 'gold-sample', label: 'Золотой образец', icon: FileCheck, description: 'Эталон качества' },
-      { href: ROUTES.brand.productionFitComments, value: 'fit-comments', label: 'Комментарии по посадке', icon: FileText, description: 'Фиды по фиту' },
-      { href: ROUTES.brand.productionMilestonesVideo, value: 'milestones-video', label: 'Видео этапов', icon: Package, description: 'Документирование' },
-    ],
-  },
-  {
-    id: 'logistics',
-    label: 'Логистика',
-    icon: Truck,
-    links: [
-      { href: ROUTES.brand.logistics, value: 'logistics', label: 'Логистика', icon: Truck, description: 'Поставки и склады' },
-      { href: ROUTES.brand.warehouse, value: 'warehouse', label: 'Склад', icon: Package, description: 'Складской учёт' },
-      { href: ROUTES.brand.inventory, value: 'inventory', label: 'Остатки', icon: Package, description: 'Инвентарь' },
+      {
+        href: ROUTES.brand.compliance,
+        value: 'compliance',
+        label: 'Контроль качества',
+        icon: FileCheck,
+        description: 'Соответствие и стандарты',
+      },
+      {
+        href: ROUTES.brand.productionQcApp,
+        value: 'qc-app',
+        label: 'QC App',
+        icon: Zap,
+        description: 'Мобильное приложение QC',
+      },
+      {
+        href: ROUTES.brand.productionGoldSample,
+        value: 'gold-sample',
+        label: 'Золотой образец',
+        icon: FileCheck,
+        description: 'Эталон качества',
+      },
+      {
+        href: ROUTES.brand.productionFitComments,
+        value: 'fit-comments',
+        label: 'Комментарии по посадке',
+        icon: FileText,
+        description: 'Фиды по фиту',
+      },
+      {
+        href: ROUTES.brand.productionMilestonesVideo,
+        value: 'milestones-video',
+        label: 'Видео этапов',
+        icon: Package,
+        description: 'Документирование',
+      },
     ],
   },
   {
     id: 'analytics',
     label: 'Аналитика',
     icon: BarChart2,
+    clusterId: 'archive' as const,
     links: [
-      { href: ROUTES.brand.analytics, value: 'analytics', label: 'Аналитика', icon: BarChart2, description: 'Отчёты' },
-    ],
-  },
-  {
-    id: 'management',
-    label: 'Управление',
-    icon: Settings,
-    links: [
-      { href: ROUTES.brand.calendar, value: 'calendar', label: 'Календарь', icon: Calendar, description: 'События' },
-      { href: ROUTES.brand.messages, value: 'messages', label: 'Сообщения', icon: Users, description: 'Коммуникация' },
+      {
+        href: ROUTES.brand.analytics,
+        value: 'analytics',
+        label: 'Аналитика',
+        icon: BarChart2,
+        description: 'Отчёты',
+      },
     ],
   },
 ];
 
-/** Навигация для роли Supplier (поставщик материалов) */
+/** Поставщик: team → comms → partners → pim (материалы) → logistics. */
 export const supplierNavGroups = [
   {
     id: 'overview',
     label: 'Обзор',
     icon: LayoutDashboard,
+    clusterId: 'archive' as const,
     links: [
-      { href: '/factory?role=supplier', value: 'dashboard', label: 'Дашборд', icon: LayoutDashboard, description: 'Обзор поставок' },
+      {
+        href: '/factory?role=supplier',
+        value: 'dashboard',
+        label: 'Дашборд',
+        icon: LayoutDashboard,
+        description: 'Обзор поставок',
+      },
     ],
   },
   {
-    id: 'materials',
-    label: 'Материалы и поставки',
-    icon: Layers,
+    id: 'team',
+    label: 'Команда',
+    icon: UserRound,
+    clusterId: 'syntha-cores' as const,
     links: [
-      { href: ROUTES.brand.materials, value: 'materials', label: 'Каталог материалов', icon: Layers, description: 'Материалы для брендов' },
-      { href: ROUTES.brand.materialsReservation, value: 'reservation', label: 'Резервирование', icon: Package, description: 'Резерв материалов' },
-      { href: ROUTES.brand.suppliersRfq, value: 'rfq', label: 'RFQ и заявки', icon: FileText, description: 'Запросы котировок' },
-      { href: ROUTES.brand.suppliers, value: 'suppliers', label: 'Поставщики', icon: PackageSearch, description: 'Сеть поставщиков' },
-      { href: ROUTES.brand.vmi, value: 'vmi', label: 'VMI', icon: Truck, description: 'Vendor Managed Inventory' },
+      {
+        href: ROUTES.factory.staff,
+        value: 'team',
+        label: 'Команда',
+        icon: Users,
+        description: 'Сотрудники и доступы',
+      },
     ],
   },
   {
-    id: 'orders',
-    label: 'Заказы',
-    icon: Package,
+    id: 'comms',
+    label: 'Связь',
+    icon: MessageSquare,
+    clusterId: 'syntha-cores' as const,
     links: [
-      { href: ROUTES.brand.b2bOrders, value: 'orders', label: 'Заказы', icon: Package, description: 'Заказы на материалы' },
+      {
+        href: `${ROUTES.brand.calendar}?layers=tasks,orders,logistics`,
+        value: 'calendar',
+        label: 'Календарь',
+        icon: Calendar,
+        description: 'Задачи, заказы и поставки — одна временная шкала.',
+      },
+      {
+        href: ROUTES.brand.messages,
+        value: 'messages',
+        label: 'Сообщения',
+        icon: MessageSquare,
+        description: 'Коммуникация',
+      },
     ],
   },
   {
-    id: 'compliance',
-    label: 'Compliance',
-    icon: FileCheck,
+    id: 'partners',
+    label: 'Партнёры',
+    icon: PackageSearch,
+    clusterId: 'syntha-cores' as const,
     links: [
-      { href: ROUTES.brand.compliance, value: 'compliance', label: 'Соответствие', icon: FileCheck, description: 'Сертификаты, стандарты' },
+      {
+        href: ROUTES.brand.suppliers,
+        value: 'suppliers',
+        label: 'Партнёры',
+        icon: PackageSearch,
+        description: 'Сеть поставщиков и кооперация',
+      },
+    ],
+  },
+  {
+    id: 'pim',
+    label: 'Товар',
+    icon: Database,
+    clusterId: 'syntha-cores' as const,
+    links: [
+      {
+        href: ROUTES.brand.materials,
+        value: 'materials-hub',
+        label: 'Материалы и RFQ',
+        icon: Layers,
+        description: 'Каталог, резерв, заявки и VMI — одна колонка ядра.',
+        subsections: [
+          { href: ROUTES.brand.materials, label: 'Каталог материалов', value: 'materials' },
+          {
+            href: ROUTES.brand.materialsReservation,
+            label: 'Резервирование',
+            value: 'reservation',
+          },
+          { href: ROUTES.brand.suppliersRfq, label: 'RFQ и заявки', value: 'rfq' },
+          { href: ROUTES.brand.vmi, label: 'VMI', value: 'vmi' },
+        ],
+      },
     ],
   },
   {
     id: 'logistics',
-    label: 'Логистика',
+    label: 'Логистика и остатки',
     icon: Truck,
+    clusterId: 'syntha-cores' as const,
     links: [
-      { href: ROUTES.brand.logistics, value: 'logistics', label: 'Логистика', icon: Truck, description: 'Доставка материалов' },
+      {
+        href: ROUTES.brand.logistics,
+        value: 'logistics-hub',
+        label: 'Логистика и склад',
+        icon: Truck,
+        description: 'Доставка и согласование поставок материалов.',
+      },
+    ],
+  },
+  {
+    id: 'compliance',
+    label: 'Контроль качества',
+    icon: FileCheck,
+    clusterId: 'archive' as const,
+    links: [
+      {
+        href: ROUTES.brand.compliance,
+        value: 'compliance',
+        label: 'Соответствие требованиям',
+        icon: FileCheck,
+        description: 'Сертификаты, стандарты',
+      },
     ],
   },
   {
     id: 'analytics',
     label: 'Аналитика',
     icon: BarChart2,
+    clusterId: 'archive' as const,
     links: [
-      { href: ROUTES.brand.analytics, value: 'analytics', label: 'Аналитика', icon: BarChart2, description: 'Отчёты' },
-    ],
-  },
-  {
-    id: 'management',
-    label: 'Управление',
-    icon: Settings,
-    links: [
-      { href: ROUTES.brand.calendar, value: 'calendar', label: 'Календарь', icon: Calendar, description: 'События' },
-      { href: ROUTES.brand.messages, value: 'messages', label: 'Сообщения', icon: Users, description: 'Коммуникация' },
+      {
+        href: ROUTES.brand.analytics,
+        value: 'analytics',
+        label: 'Аналитика',
+        icon: BarChart2,
+        description: 'Отчёты',
+      },
     ],
   },
 ];

@@ -41,7 +41,9 @@ export function w2MetricsPostRateOk(ip: string): boolean {
 /**
  * Опциональный секрет записи + rate limit по IP (без platform API).
  */
-export function verifyW2DossierMetricsPostRequest(request: Request): { ok: true } | { ok: false; status: number; error: string } {
+export function verifyW2DossierMetricsPostRequest(
+  request: Request
+): { ok: true } | { ok: false; status: number; error: string } {
   const ip = getW2MetricsClientIp(request);
   if (!w2MetricsPostRateOk(ip)) {
     return { ok: false, status: 429, error: 'rate_limited' };

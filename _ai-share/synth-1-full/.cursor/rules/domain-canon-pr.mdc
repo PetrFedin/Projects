@@ -1,0 +1,15 @@
+---
+description: Доменные изменения требуют обновления канона и чеклистов (канон full)
+alwaysApply: false
+globs: src/app/api/**,src/lib/order/**,docs/domain-model/**,TASK_QUEUE.md
+---
+
+# Домен и PR (synth-1-full)
+
+Если меняются границы домена (Order, Article, Inventory, Availability), DTO/Zod, BFF-маршруты или SoT в этом пакете:
+
+1. Обновить **`docs/domain-model/*`** и отметки в **`TASK_QUEUE.md`** / чеклистах.
+2. Не вводить «тихую» правду только в компонентах — источник типов и контрактов в **`src/lib`** и доках здесь же.
+3. Новый публичный API предпочтительно как **v1** с политикой из **`docs/api-response-contracts.md`**.
+
+При воркспейсе **корня монорепо** то же правило с префиксами путей: **`Projects/.cursor/rules/domain-canon-pr.mdc`**.

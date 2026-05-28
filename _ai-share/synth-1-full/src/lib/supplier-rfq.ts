@@ -12,8 +12,8 @@ export interface RfqItem {
   type: RfqItemType;
   description: string;
   quantity: number;
-  unit: string;              // м, шт, кг
-  techPackRef?: string;      // ссылка на Tech Pack
+  unit: string; // м, шт, кг
+  techPackRef?: string; // ссылка на Tech Pack
 }
 
 export interface RfqQuote {
@@ -21,7 +21,7 @@ export interface RfqQuote {
   supplierName: string;
   amountRub?: number;
   leadTimeDays?: number;
-  validUntil?: string;       // ISO
+  validUntil?: string; // ISO
 }
 
 export interface SupplierRfq {
@@ -53,7 +53,14 @@ export async function listRfq(): Promise<SupplierRfq[]> {
       title: 'Ткань основная FW26',
       status: 'quotes_received',
       items: [
-        { id: 'i1', type: 'fabric', description: 'Шерсть 280 г/м²', quantity: 500, unit: 'м', techPackRef: 'TP-101' },
+        {
+          id: 'i1',
+          type: 'fabric',
+          description: 'Шерсть 280 г/м²',
+          quantity: 500,
+          unit: 'м',
+          techPackRef: 'TP-101',
+        },
         { id: 'i2', type: 'trim', description: 'Пуговицы рог', quantity: 2000, unit: 'шт' },
       ],
       quotes: [

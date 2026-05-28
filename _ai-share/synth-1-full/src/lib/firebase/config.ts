@@ -28,7 +28,7 @@ if (isFirebaseEnabled) {
     auth = getAuth(app);
     storage = getStorage(app);
   } catch (error) {
-    console.warn("Firebase initialization failed:", error);
+    console.warn('Firebase initialization failed:', error);
     // Fallback to mock objects
     db = {};
     auth = {};
@@ -36,7 +36,7 @@ if (isFirebaseEnabled) {
   }
 } else {
   if (typeof window !== 'undefined') {
-    console.warn("Firebase keys missing. Synth-1 running in MOCK mode.");
+    console.warn('Firebase keys missing. Synth-1 running in MOCK mode.');
   }
 }
 

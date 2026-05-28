@@ -4,9 +4,23 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, ArrowRight } from 'lucide-react';
@@ -45,7 +59,7 @@ export default function CheckoutForm() {
       country: 'Россия',
     },
   });
-  
+
   const { isSubmitting } = form.formState;
 
   const onSubmit = async (data: z.infer<typeof checkoutSchema>) => {
@@ -76,11 +90,9 @@ export default function CheckoutForm() {
       const total = subtotal + shipping + tax;
 
       // Create payment intent
-      const { paymentIntentId } = await paymentRepository.createPaymentIntent(
-        total,
-        'RUB',
-        { userId: user.uid }
-      );
+      const { paymentIntentId } = await paymentRepository.createPaymentIntent(total, 'RUB', {
+        userId: user.uid,
+      });
 
       // Confirm payment (mock - always succeeds in demo)
       const paymentResult = await paymentRepository.confirmPayment(paymentIntentId);
@@ -97,6 +109,7 @@ export default function CheckoutForm() {
         shipping,
         tax,
         total,
+        status: 'processing',
         paymentStatus: 'paid',
         shippingAddress: {
           firstName: data.firstName,
@@ -131,121 +144,139 @@ export default function CheckoutForm() {
   };
 
   return (
-     <Card>
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <CardHeader>
-                    <CardTitle>Информация о доставке</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                    <div className="grid sm:grid-cols-2 gap-3">
-                        <FormField
-                            control={form.control}
-                            name="firstName"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Имя</FormLabel>
-                                <FormControl><Input {...field} /></FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="lastName"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Фамилия</FormLabel>
-                                <FormControl><Input {...field} /></FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                     <FormField
-                        control={form.control}
-                        name="address"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Адрес</FormLabel>
-                            <FormControl><Input placeholder="ул. Тверская, д. 1, кв. 10" {...field} /></FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                     <div className="grid sm:grid-cols-3 gap-3">
-                         <FormField
-                            control={form.control}
-                            name="city"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Город</FormLabel>
-                                <FormControl><Input {...field} /></FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="postalCode"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Индекс</FormLabel>
-                                <FormControl><Input {...field} /></FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="country"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Страна</FormLabel>
-                                <FormControl><Input {...field} /></FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                     </div>
-                    <Separator />
-                     <h3 className="text-sm font-medium">Контактная информация</h3>
-                    <div className="grid sm:grid-cols-2 gap-3">
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                <FormControl><Input type="email" {...field} /></FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                         <FormField
-                            control={form.control}
-                            name="phone"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Телефон</FormLabel>
-                                <FormControl><Input type="tel" {...field} /></FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </CardContent>
-                <CardFooter>
-                    <Button type="submit" disabled={isSubmitting} size="lg" className="w-full">
-                        {isSubmitting ? (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                           <>Оплатить <ArrowRight className="ml-2 h-4 w-4" /></>
-                        )}
-                    </Button>
-                </CardFooter>
-            </form>
-        </Form>
-     </Card>
+    <Card>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <CardHeader>
+            <CardTitle>Информация о доставке</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Имя</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Фамилия</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Адрес</FormLabel>
+                  <FormControl>
+                    <Input placeholder="ул. Тверская, д. 1, кв. 10" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="grid gap-3 sm:grid-cols-3">
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Город</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="postalCode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Индекс</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Страна</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <Separator />
+            <h3 className="text-sm font-medium">Контактная информация</h3>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Телефон</FormLabel>
+                    <FormControl>
+                      <Input type="tel" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button type="submit" disabled={isSubmitting} size="lg" className="w-full">
+              {isSubmitting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <>
+                  Оплатить <ArrowRight className="ml-2 h-4 w-4" />
+                </>
+              )}
+            </Button>
+          </CardFooter>
+        </form>
+      </Form>
+    </Card>
   );
 }

@@ -17,13 +17,15 @@ export function ProductFitModelBlock({ product }: Props) {
   return (
     <Card className="mt-4 border-dashed">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <User className="h-4 w-4" />
           Модель на фото
         </CardTitle>
-        <CardDescription className="text-xs">Снижает возвраты по ожиданию длины и объёма.</CardDescription>
+        <CardDescription className="text-xs">
+          Снижает возвраты по ожиданию длины и объёма.
+        </CardDescription>
       </CardHeader>
-      <CardContent className="grid sm:grid-cols-3 gap-3 text-sm">
+      <CardContent className="grid gap-3 text-sm sm:grid-cols-3">
         {name != null && String(name).trim() && (
           <div>
             <p className="text-[10px] uppercase text-muted-foreground">Модель</p>

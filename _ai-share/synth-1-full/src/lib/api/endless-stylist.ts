@@ -9,8 +9,23 @@ import type { StylistLook } from '@/lib/shop/endless-stylist';
 const LIST_LOOKS_PATH = '/api/v1/shop/stylist/looks';
 
 const MOCK_LOOKS: StylistLook[] = [
-  { id: 'l1', items: [{ productId: 'p1', sku: 'DRS-BLK-M', name: 'Платье чёрное' }, { productId: 'p2', sku: 'BAG-001', name: 'Сумка' }], createdAt: '2026-03-11T10:00:00Z' },
-  { id: 'l2', items: [{ productId: 'p3', sku: 'JKT-NAV', name: 'Пиджак' }, { productId: 'p4', name: 'Рубашка' }], customerId: 'cust-1', createdAt: '2026-03-11T09:30:00Z' },
+  {
+    id: 'l1',
+    items: [
+      { productId: 'p1', sku: 'DRS-BLK-M', name: 'Платье чёрное' },
+      { productId: 'p2', sku: 'BAG-001', name: 'Сумка' },
+    ],
+    createdAt: '2026-03-11T10:00:00Z',
+  },
+  {
+    id: 'l2',
+    items: [
+      { productId: 'p3', sku: 'JKT-NAV', name: 'Пиджак' },
+      { productId: 'p4', name: 'Рубашка' },
+    ],
+    customerId: 'cust-1',
+    createdAt: '2026-03-11T09:30:00Z',
+  },
 ];
 
 export async function listLooks(): Promise<StylistLook[]> {

@@ -2,7 +2,7 @@ import type { PartnerContentPackV1 } from './types';
 
 /** Хаб контента для партнеров (VK/TG/Instagram). */
 export function getPartnerContentPacks(skus: string[]): PartnerContentPackV1[] {
-  return skus.map(sku => ({
+  return skus.map((sku) => ({
     sku,
     socialNetworks: ['VK', 'Telegram'],
     assetsCount: 12,

@@ -23,7 +23,14 @@ export interface NuOrderCompanyCode {
 export interface NuOrderOrderPayload {
   company_code?: string;
   buyer?: string;
-  lines?: Array<{ style?: string; sku?: string; color?: string; size?: string; qty?: number; price?: number }>;
+  lines?: Array<{
+    style?: string;
+    sku?: string;
+    color?: string;
+    size?: string;
+    qty?: number;
+    price?: number;
+  }>;
   [key: string]: unknown;
 }
 
@@ -130,7 +137,9 @@ export function getNuOrderConfigFromEnv(): NuOrderConfig | null {
 }
 
 /** Список кодов компаний. На клиенте — мок; на сервере с конфигом вызывайте nuorderServerGetCompanyCodes. */
-export async function nuorderGetCompanyCodes(_config?: NuOrderConfig | null): Promise<NuOrderCompanyCode[]> {
+export async function nuorderGetCompanyCodes(
+  _config?: NuOrderConfig | null
+): Promise<NuOrderCompanyCode[]> {
   return MOCK_COMPANIES;
 }
 

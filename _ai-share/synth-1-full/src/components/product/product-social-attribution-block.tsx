@@ -8,49 +8,54 @@ import { getSocialAttribution } from '@/lib/fashion/social-attribution';
 
 export const ProductSocialAttributionBlock: React.FC<{ product: Product }> = ({ product }) => {
   const social = getSocialAttribution(product);
-  
+
   return (
-    <Card className="p-4 border-2 border-fuchsia-50 bg-fuchsia-50/10 shadow-sm relative overflow-hidden">
-      <div className="absolute top-0 right-0 p-2 opacity-5 -rotate-12">
-        <Megaphone className="w-16 h-16" />
+    <Card className="border-accent-primary/15 bg-accent-primary/10 relative overflow-hidden border-2 p-4 shadow-sm">
+      <div className="absolute right-0 top-0 -rotate-12 p-2 opacity-5">
+        <Megaphone className="h-16 w-16" />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <TrendingUp className="w-4 h-4 text-fuchsia-600" />
-          <h4 className="font-bold text-xs uppercase text-fuchsia-700 tracking-tight">Social Attribution (RF Channels)</h4>
+          <TrendingUp className="text-accent-primary h-4 w-4" />
+          <h4 className="text-accent-primary text-xs font-bold uppercase tracking-tight">
+            Social Attribution (RF Channels)
+          </h4>
         </div>
-        <div className="text-[10px] font-black text-fuchsia-500 uppercase flex items-center gap-1">
-          Active Campaigns: {social.filter(s => s.activeStatus).length}
+        <div className="text-accent-primary flex items-center gap-1 text-[10px] font-black uppercase">
+          Active Campaigns: {social.filter((s) => s.activeStatus).length}
         </div>
       </div>
 
       <div className="space-y-3">
         {social.map((s, idx) => (
-          <div key={idx} className={`p-2.5 rounded-lg border transition-all ${s.activeStatus ? 'bg-white border-fuchsia-100 shadow-sm' : 'bg-slate-50 border-slate-100 opacity-60 grayscale'}`}>
-            <div className="flex items-center justify-between mb-1.5">
-              <div className="flex items-center gap-1.5 text-xs font-black text-slate-800 uppercase">
+          <div
+            key={idx}
+            className={`rounded-lg border p-2.5 transition-all ${s.activeStatus ? 'border-accent-primary/20 bg-white shadow-sm' : 'bg-bg-surface2 border-border-subtle opacity-60 grayscale'}`}
+          >
+            <div className="mb-1.5 flex items-center justify-between">
+              <div className="text-text-primary flex items-center gap-1.5 text-xs font-black uppercase">
                 {s.channel === 'Telegram' ? 'TG' : s.channel === 'Bloggers' ? 'Blog' : s.channel}
-                {s.activeStatus && <CheckCircle className="w-3 h-3 text-green-500" />}
+                {s.activeStatus && <CheckCircle className="h-3 w-3 text-green-500" />}
               </div>
-              <div className="text-[10px] font-black text-fuchsia-600 bg-fuchsia-50 px-1.5 py-0.5 rounded">
+              <div className="text-accent-primary bg-accent-primary/10 rounded px-1.5 py-0.5 text-[10px] font-black">
                 CR: {(s.conversionRate * 100).toFixed(1)}%
               </div>
             </div>
-            
+
             <div className="flex items-center justify-between">
-              <div className="text-[10px] font-semibold text-slate-400">
-                <Users className="w-2.5 h-2.5 inline mr-1" /> Reach: {s.reach.toLocaleString()}
+              <div className="text-text-muted text-[10px] font-semibold">
+                <Users className="mr-1 inline h-2.5 w-2.5" /> Reach: {s.reach.toLocaleString()}
               </div>
-              <div className="text-[10px] font-mono font-bold text-slate-600 bg-slate-50 border px-1.5 rounded">
-                <Zap className="w-2.5 h-2.5 inline mr-1 text-yellow-500" /> {s.promoCode}
+              <div className="text-text-secondary bg-bg-surface2 rounded border px-1.5 font-mono text-[10px] font-bold">
+                <Zap className="mr-1 inline h-2.5 w-2.5 text-yellow-500" /> {s.promoCode}
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-4 pt-3 border-t border-fuchsia-100 flex items-center gap-2 text-[9px] text-slate-400 font-bold uppercase italic">
+      <div className="border-accent-primary/20 text-text-muted mt-4 flex items-center gap-2 border-t pt-3 text-[9px] font-bold uppercase italic">
         Tracking: Last-Click Attribution • RF Market Attribution Model v2.4
       </div>
     </Card>

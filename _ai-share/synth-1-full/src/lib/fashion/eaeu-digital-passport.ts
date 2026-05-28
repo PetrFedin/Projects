@@ -12,6 +12,6 @@ export function getEaeuDigitalPassport(sku: string): EaeuDigitalPassportV1 {
     edoStatus: seed % 5 === 0 ? 'pending' : 'signed',
     customsDeclarationNum: `10113110/${seed % 28}0326/${seed % 999999}`,
     certificationType: seed % 2 === 0 ? 'TR_CU' : 'EAC',
-    originCountry: seed % 3 === 0 ? 'China' : (seed % 2 === 0 ? 'Uzbekistan' : 'Russia'),
+    originCountry: seed % 3 === 0 ? 'China' : seed % 2 === 0 ? 'Uzbekistan' : 'Russia',
   };
 }

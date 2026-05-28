@@ -10,18 +10,29 @@ import { useUIState } from '@/providers/ui-state';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { ordersRepository, paymentRepository, cartRepository } from '@/lib/repositories';
+import { getSewingIntentForOrder } from '@/lib/client/sewing-order-bridge';
 import Link from 'next/link';
+import type { CartItem } from '@/lib/types';
+import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 
-export default function QuickCheckout({ compact = false }: { compact?: boolean }) {
+export default function QuickCheckout({
+  compact = false,
+  scopeItems,
+}: {
+  compact?: boolean;
+  /** Если задано (например образ в корзине), быстрый заказ только по этим позициям. */
+  scopeItems?: CartItem[];
+}) {
   const { user } = useAuth();
   const { cart } = useUIState();
+  const lineItems = scopeItems ?? cart;
   const router = useRouter();
   const { toast } = useToast();
   const [processing, setProcessing] = useState(false);
 
-  const subtotal = useMemo(() => 
-    cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    [cart]
+  const subtotal = useMemo(
+    () => lineItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
+    [lineItems]
   );
   const shipping = subtotal > 10000 ? 0 : 500;
   const tax = (subtotal + shipping) * 0.2;
@@ -33,15 +44,19 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
     setProcessing(true);
     try {
       // Create payment intent
-      const paymentIntent = await paymentRepository.createPaymentIntent(total, 'RUB', { userId: user.uid });
+      const paymentIntent = await paymentRepository.createPaymentIntent(total, 'RUB', {
+        userId: user.uid,
+      });
 
       // Confirm payment (mock - always succeeds)
       await paymentRepository.confirmPayment(paymentIntent.paymentIntentId);
-      
+
+      const sewingSnap = getSewingIntentForOrder();
+
       // Create order
       const order = await ordersRepository.createOrder(user.uid, {
         userId: user.uid,
-        items: cart,
+        items: lineItems,
         subtotal,
         shipping,
         tax,
@@ -58,23 +73,24 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
           postalCode: '101000',
           country: 'Россия',
         },
+        ...sewingSnap,
       });
-      
+
       // Clear cart
-      for (const item of cart) {
+      for (const item of lineItems) {
         await cartRepository.removeItem(user.uid, item.id, item.selectedSize, item.color);
       }
-      
+
       toast({
         title: 'Заказ оформлен!',
         description: 'Ваш заказ успешно создан',
       });
-      
+
       router.push(`/orders/${order.id}`);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Ошибка',
-        description: error.message || 'Не удалось оформить заказ',
+        description: getUnknownErrorMessage(error, 'Не удалось оформить заказ'),
         variant: 'destructive',
       });
     } finally {
@@ -82,7 +98,7 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
     }
   };
 
-  if (!user || cart.length === 0) {
+  if (!user || lineItems.length === 0) {
     return null;
   }
 
@@ -95,23 +111,18 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Итого:</span>
-            <span className="font-bold text-lg">{Math.round(total).toLocaleString('ru-RU')} ₽</span>
+            <span className="text-lg font-bold">{Math.round(total).toLocaleString('ru-RU')} ₽</span>
           </div>
         </div>
-        <Button
-          className="w-full"
-          size="lg"
-          onClick={handleQuickCheckout}
-          disabled={processing}
-        >
+        <Button className="w-full" size="lg" onClick={handleQuickCheckout} disabled={processing}>
           {processing ? (
             <>
-              <Zap className="h-4 w-4 mr-2 animate-pulse" />
+              <Zap className="mr-2 h-4 w-4 animate-pulse" />
               Оформление...
             </>
           ) : (
             <>
-              <Zap className="h-4 w-4 mr-2" />
+              <Zap className="mr-2 h-4 w-4" />
               Быстрое оформление
             </>
           )}
@@ -127,9 +138,7 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
           <Zap className="h-5 w-5 text-accent" />
           Быстрое оформление
         </CardTitle>
-        <CardDescription>
-          Оформите заказ в один клик используя сохраненные данные
-        </CardDescription>
+        <CardDescription>Оформите заказ в один клик используя сохраненные данные</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -137,7 +146,7 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Товаров:</span>
-              <span className="font-medium">{cart.length}</span>
+              <span className="font-medium">{lineItems.length}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Сумма:</span>
@@ -151,14 +160,16 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
             ) : (
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Доставка:</span>
-                <Badge variant="outline" className="text-green-600">Бесплатно</Badge>
+                <Badge variant="outline" className="text-green-600">
+                  Бесплатно
+                </Badge>
               </div>
             )}
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">НДС:</span>
               <span className="font-medium">{Math.round(tax).toLocaleString('ru-RU')} ₽</span>
             </div>
-            <div className="pt-2 border-t">
+            <div className="border-t pt-2">
               <div className="flex items-center justify-between">
                 <span className="font-semibold">Итого:</span>
                 <span className="text-xl font-bold text-accent">
@@ -169,7 +180,7 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
           </div>
 
           {/* Saved Info */}
-          <div className="space-y-2 p-3 rounded-lg bg-muted/50">
+          <div className="space-y-2 rounded-lg bg-muted/50 p-3">
             {hasSavedAddress && (
               <div className="flex items-center gap-2 text-sm">
                 <Truck className="h-4 w-4 text-muted-foreground" />
@@ -187,20 +198,15 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
           </div>
 
           {/* Quick Checkout Button */}
-          <Button
-            className="w-full"
-            size="lg"
-            onClick={handleQuickCheckout}
-            disabled={processing}
-          >
+          <Button className="w-full" size="lg" onClick={handleQuickCheckout} disabled={processing}>
             {processing ? (
               <>
-                <Zap className="h-4 w-4 mr-2 animate-pulse" />
+                <Zap className="mr-2 h-4 w-4 animate-pulse" />
                 Оформление...
               </>
             ) : (
               <>
-                <Zap className="h-4 w-4 mr-2" />
+                <Zap className="mr-2 h-4 w-4" />
                 Оформить заказ
               </>
             )}
@@ -215,13 +221,10 @@ export default function QuickCheckout({ compact = false }: { compact?: boolean }
 
           {/* Link to full checkout */}
           <Button variant="link" className="w-full text-xs" asChild>
-            <Link href="/checkout">
-              Изменить адрес или способ оплаты →
-            </Link>
+            <Link href="/checkout">Изменить адрес или способ оплаты →</Link>
           </Button>
         </div>
       </CardContent>
     </Card>
   );
 }
-

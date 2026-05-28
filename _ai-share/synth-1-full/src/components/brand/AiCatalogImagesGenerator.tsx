@@ -43,12 +43,13 @@ export function AiCatalogImagesGenerator() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-base">
           <ImageIcon className="h-5 w-5" />
           AI-изображения каталога
         </CardTitle>
         <CardDescription>
-          WizCommerce: генерация фото для каталога без съёмки — lifestyle, flat-lay, белый фон, на модели.
+          WizCommerce: генерация фото для каталога без съёмки — lifestyle, flat-lay, белый фон, на
+          модели.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -63,7 +64,7 @@ export function AiCatalogImagesGenerator() {
         </div>
         <div>
           <Label className="text-xs">Тип изображения</Label>
-          <div className="flex flex-wrap gap-2 mt-1">
+          <div className="mt-1 flex flex-wrap gap-2">
             {IMAGE_TYPES.map((t) => (
               <Button
                 key={t}
@@ -86,13 +87,17 @@ export function AiCatalogImagesGenerator() {
           />
         </div>
         <Button onClick={handleGenerate} disabled={loading}>
-          {loading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
+          {loading ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Sparkles className="mr-2 h-4 w-4" />
+          )}
           {loading ? 'Генерация...' : 'Сгенерировать изображение'}
         </Button>
-        {message && <p className="text-xs text-slate-500">{message}</p>}
+        {message && <p className="text-text-secondary text-xs">{message}</p>}
         {resultUrl && (
-          <div className="rounded-lg overflow-hidden border bg-slate-50">
-            <img src={resultUrl} alt="Generated catalog" className="w-full max-h-64 object-cover" />
+          <div className="bg-bg-surface2 overflow-hidden rounded-lg border">
+            <img src={resultUrl} alt="Generated catalog" className="max-h-64 w-full object-cover" />
           </div>
         )}
       </CardContent>

@@ -53,9 +53,10 @@ export function useLiveProcessRuntime(processId: string, contextId: string) {
               : p.assigneeId
                 ? [p.assigneeId]
                 : [];
-            const primaryAssigneeId = p.primaryAssigneeId && assigneeIds.includes(p.primaryAssigneeId)
-              ? p.primaryAssigneeId
-              : assigneeIds[0] ?? null;
+            const primaryAssigneeId =
+              p.primaryAssigneeId && assigneeIds.includes(p.primaryAssigneeId)
+                ? p.primaryAssigneeId
+                : (assigneeIds[0] ?? null);
             merged[id] = {
               ...merged[id],
               ...p,

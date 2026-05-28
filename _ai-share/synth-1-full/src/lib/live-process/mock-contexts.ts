@@ -10,8 +10,18 @@ export const MOCK_COLLECTIONS: ProcessContext[] = [
 
 /** Мок: заказы для contextKey=orderId */
 export const MOCK_ORDERS: ProcessContext[] = [
-  { id: 'ord-1001', type: 'order', label: 'Заказ #1001 — Retailer A', meta: { retailer: 'Retailer A' } },
-  { id: 'ord-1002', type: 'order', label: 'Заказ #1002 — Retailer B', meta: { retailer: 'Retailer B' } },
+  {
+    id: 'ord-1001',
+    type: 'order',
+    label: 'Заказ #1001 — Retailer A',
+    meta: { retailer: 'Retailer A' },
+  },
+  {
+    id: 'ord-1002',
+    type: 'order',
+    label: 'Заказ #1002 — Retailer B',
+    meta: { retailer: 'Retailer B' },
+  },
   { id: 'ord-1003', type: 'order', label: 'Заказ #1003 — Shop C', meta: { retailer: 'Shop C' } },
 ];
 
@@ -54,12 +64,36 @@ export const MOCK_INSTANCES: Record<string, ProcessInstance[]> = {
     },
   ],
   b2b: [
-    { id: 'inst-ord-1001', processId: 'b2b', contextId: 'ord-1001', context: MOCK_ORDERS[0], createdAt: '2026-02-01T00:00:00Z' },
-    { id: 'inst-ord-1002', processId: 'b2b', contextId: 'ord-1002', context: MOCK_ORDERS[1], createdAt: '2026-02-05T00:00:00Z' },
+    {
+      id: 'inst-ord-1001',
+      processId: 'b2b',
+      contextId: 'ord-1001',
+      context: MOCK_ORDERS[0],
+      createdAt: '2026-02-01T00:00:00Z',
+    },
+    {
+      id: 'inst-ord-1002',
+      processId: 'b2b',
+      contextId: 'ord-1002',
+      context: MOCK_ORDERS[1],
+      createdAt: '2026-02-05T00:00:00Z',
+    },
   ],
   sourcing: [
-    { id: 'inst-rfq-201', processId: 'sourcing', contextId: 'rfq-201', context: MOCK_RFQ[0], createdAt: '2026-01-20T00:00:00Z' },
-    { id: 'inst-rfq-202', processId: 'sourcing', contextId: 'rfq-202', context: MOCK_RFQ[1], createdAt: '2026-01-25T00:00:00Z' },
+    {
+      id: 'inst-rfq-201',
+      processId: 'sourcing',
+      contextId: 'rfq-201',
+      context: MOCK_RFQ[0],
+      createdAt: '2026-01-20T00:00:00Z',
+    },
+    {
+      id: 'inst-rfq-202',
+      processId: 'sourcing',
+      contextId: 'rfq-202',
+      context: MOCK_RFQ[1],
+      createdAt: '2026-01-25T00:00:00Z',
+    },
   ],
 };
 

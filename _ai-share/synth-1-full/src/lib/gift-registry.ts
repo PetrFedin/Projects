@@ -29,8 +29,8 @@ export interface GiftRegistry {
   id: string;
   ownerUserId: string;
   eventType: GiftRegistryEventType;
-  eventDate?: string;        // ISO date
-  title: string;               // например «Свадьба Марии и Ивана»
+  eventDate?: string; // ISO date
+  title: string; // например «Свадьба Марии и Ивана»
   description?: string;
   createdAt: string;
   items: GiftRegistryItem[];

@@ -19,15 +19,18 @@ export interface Product {
   description: string;
   images: { id: string; url: string; alt: string; hint: string }[];
   category: string;
-  /** Состав (витрина / PDP) */
-  composition?: string;
   sustainability: string[];
   outlet?: boolean;
   hasAR?: boolean;
   sku: string;
   color: string;
   season: string;
+  /** Для каталога / фильтров по аудитории */
+  gender?: 'women' | 'men' | 'kids' | 'unisex' | string;
   tags?: ('carryover' | 'noSale' | 'newSeason')[];
+  /** Состав материала (строка или разбивка по материалам) */
+  composition?: string | { material: string; percentage: number }[];
+  /** Видео для PDP / медиа */
   videoUrls?: { url: string; label: string }[];
 }
 

@@ -14,10 +14,7 @@ function parseGsm(raw: unknown): number | null {
 export function extractFabricSpec(product: Product): FabricSpecExtract | null {
   const a = product.attributes ?? {};
   const gsm =
-    parseGsm(a.gsm) ??
-    parseGsm(a.fabricGsm) ??
-    parseGsm(a.fabricWeight) ??
-    parseGsm(a.weightGsm);
+    parseGsm(a.gsm) ?? parseGsm(a.fabricGsm) ?? parseGsm(a.fabricWeight) ?? parseGsm(a.weightGsm);
   const construction =
     typeof a.fabricConstruction === 'string'
       ? a.fabricConstruction

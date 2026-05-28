@@ -33,11 +33,16 @@ const STAGE_RU: Record<string, string> = {
 /**
  * Двухстраничный лист передачи в цех: доска + таблица-легенда, ревизия, комплаенс, QR.
  */
-function threadExcerpt(comments: Workshop2SketchPinThreadComment[] | undefined, max: number): string {
+function threadExcerpt(
+  comments: Workshop2SketchPinThreadComment[] | undefined,
+  max: number
+): string {
   if (!comments?.length) return '—';
   const tail = [...comments].slice(-max);
   return tail
-    .map((c) => `${(c.by ?? '').trim()}: ${(c.body ?? '').trim().replace(/\s+/g, ' ').slice(0, 100)}`)
+    .map(
+      (c) => `${(c.by ?? '').trim()}: ${(c.body ?? '').trim().replace(/\s+/g, ' ').slice(0, 100)}`
+    )
     .join(' | ');
 }
 
@@ -61,8 +66,9 @@ export async function openSketchHandoffPackagePrint(opts: {
   threadExcerptLines?: number;
 }): Promise<void> {
   const own = opts.annotations.filter((a) => a.categoryLeafId === opts.leafId);
-  const qrSrc =
-    opts.pageUrl?.trim() ? (await buildSketchQrDataUrl(opts.pageUrl.trim())) ?? '' : '';
+  const qrSrc = opts.pageUrl?.trim()
+    ? ((await buildSketchQrDataUrl(opts.pageUrl.trim())) ?? '')
+    : '';
 
   const pinsHtml = own
     .map((a, idx) => {

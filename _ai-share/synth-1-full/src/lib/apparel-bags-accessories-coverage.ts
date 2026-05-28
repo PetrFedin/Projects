@@ -172,8 +172,7 @@ export const menApparelCoverageRows: FootwearCoverageRow[] = [
   },
 ];
 
-const bagsL2 =
-  'Повседневные · Вечерние · Чемоданы · Рабочные · Спортивные и дорожные · Косметички';
+const bagsL2 = 'Повседневные · Вечерние · Чемоданы · Рабочные · Спортивные и дорожные · Косметички';
 
 export const womenBagsCoverageRows: FootwearCoverageRow[] = [
   {

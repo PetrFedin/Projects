@@ -5,12 +5,31 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  Pin, Star, ThumbsUp, ThumbsDown, Sparkles, Heart, Smile, 
-  FileText, Download, Zap, PlusCircle, Trash2, Forward, Reply, Pencil, MoreVertical,
-  Package, Factory, CreditCard, Calendar, ShoppingCart
+import {
+  Pin,
+  Star,
+  ThumbsUp,
+  ThumbsDown,
+  Sparkles,
+  Heart,
+  Smile,
+  FileText,
+  Download,
+  Zap,
+  PlusCircle,
+  Trash2,
+  Forward,
+  Reply,
+  Pencil,
+  MoreVertical,
+  Package,
+  Factory,
+  CreditCard,
+  Calendar,
+  ShoppingCart,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/lib/routes';
 import { ChatMessage, TaskStatus, TaskPriority, Chat as ChatConversation } from '@/lib/types';
 import { statusConfig, priorityConfig } from './constants';
 import { highlightText } from './utils';
@@ -54,51 +73,104 @@ export const MessageItem: React.FC<MessageItemProps> = ({
   onScrollToMessage,
   onOpenCreateTask,
   setReminderEditing,
-  setReminderOpen
+  setReminderOpen,
 }) => {
   const isTask = m.type === 'task';
   const status = isTask ? statusConfig[(m.status ?? 'pending') as TaskStatus] : null;
 
   return (
-    <div id={`msg_${m.id}`} className={cn('flex items-end gap-3', mine ? 'justify-end' : 'justify-start')}>
+    <div
+      id={`msg_${m.id}`}
+      className={cn('flex items-end gap-3', mine ? 'justify-end' : 'justify-start')}
+    >
       {!mine && (
         <div className="relative">
-          <div className="h-8 w-8 bg-zinc-100 border border-zinc-200 flex items-center justify-center text-[10px] font-black shrink-0 uppercase">
+          <div className="bg-bg-surface2 border-border-default flex h-8 w-8 shrink-0 items-center justify-center border text-[10px] font-black uppercase">
             {String(m.user ?? '?')[0]}
           </div>
           {(() => {
-            const p = activeChat?.participants?.find(p => p.name === m.user);
+            const p = activeChat?.participants?.find((p) => p.name === m.user);
             if (!p) return null;
-            return <span className={cn("absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full border border-white shadow-sm", p.isOnline ? "bg-emerald-500" : "bg-rose-500")} />;
+            return (
+              <span
+                className={cn(
+                  'absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full border border-white shadow-sm',
+                  p.isOnline ? 'bg-emerald-500' : 'bg-rose-500'
+                )}
+              />
+            );
           })()}
         </div>
       )}
 
       <div className="group relative max-w-[min(800px,85%)]">
-        <div className={cn(
-          'rounded-none px-6 py-4 border transition-all relative',
-          mine ? 'bg-zinc-900 text-white border-zinc-800' : 'bg-white text-zinc-800 border-zinc-100',
-          isTask && 'border-l-4 border-l-emerald-500 shadow-lg shadow-emerald-50/50'
-        )}>
-          <div className="flex items-center gap-2 mb-2">
-            <span className={cn("text-[9px] font-black uppercase tracking-widest", mine ? 'text-zinc-500' : 'text-zinc-400')}>
-              {mine ? currentUserName : (activeChat?.participants?.find(p => p.id === m.user)?.name || m.user)}
+        <div
+          className={cn(
+            'relative rounded-none border px-6 py-4 transition-all',
+            mine
+              ? 'bg-text-primary border-white/10 text-white'
+              : 'text-text-primary border-border-subtle bg-white',
+            isTask && 'border-l-4 border-l-emerald-500 shadow-lg shadow-emerald-50/50'
+          )}
+        >
+          <div className="mb-2 flex items-center gap-2">
+            <span
+              className={cn(
+                'text-[9px] font-black uppercase tracking-widest',
+                mine ? 'text-text-secondary' : 'text-text-muted'
+              )}
+            >
+              {mine
+                ? currentUserName
+                : activeChat?.participants?.find((p) => p.id === m.user)?.name || m.user}
             </span>
           </div>
 
           {/* Прикреплённый товар */}
           {m.attachedProduct && (
-            <div className={cn("my-3 p-3 rounded-xl border flex items-center gap-3", mine ? "bg-zinc-800/50 border-zinc-700" : "bg-slate-50 border-slate-200")}>
+            <div
+              className={cn(
+                'my-3 flex items-center gap-3 rounded-xl border p-3',
+                mine
+                  ? 'bg-text-primary/50 border-border-default'
+                  : 'bg-bg-surface2 border-border-default'
+              )}
+            >
               {m.attachedProduct.images?.[0] && (
-                <div className="relative h-14 w-12 shrink-0 rounded-lg overflow-hidden bg-slate-100">
-                  <Image src={m.attachedProduct.images[0].url} alt={m.attachedProduct.name} fill className="object-cover" sizes="48px" />
+                <div className="bg-bg-surface2 relative h-14 w-12 shrink-0 overflow-hidden rounded-lg">
+                  <Image
+                    src={m.attachedProduct.images[0].url}
+                    alt={m.attachedProduct.name}
+                    fill
+                    className="object-cover"
+                    sizes="48px"
+                  />
                 </div>
               )}
-              <div className="flex-1 min-w-0">
-                <p className={cn("text-[11px] font-bold uppercase tracking-tight truncate", mine ? "text-white" : "text-slate-900")}>{m.attachedProduct.name}</p>
-                {m.attachedProduct.sku && <p className={cn("text-[9px] font-bold uppercase tracking-widest", mine ? "text-zinc-400" : "text-slate-500")}>{m.attachedProduct.sku}</p>}
+              <div className="min-w-0 flex-1">
+                <p
+                  className={cn(
+                    'truncate text-[11px] font-bold uppercase tracking-tight',
+                    mine ? 'text-white' : 'text-text-primary'
+                  )}
+                >
+                  {m.attachedProduct.name}
+                </p>
+                {m.attachedProduct.sku && (
+                  <p
+                    className={cn(
+                      'text-[9px] font-bold uppercase tracking-widest',
+                      mine ? 'text-text-muted' : 'text-text-secondary'
+                    )}
+                  >
+                    {m.attachedProduct.sku}
+                  </p>
+                )}
               </div>
-              <Link href="/brand/products" className="shrink-0 text-[8px] font-bold uppercase tracking-widest text-indigo-600 hover:text-indigo-700">
+              <Link
+                href="/brand/products"
+                className="text-accent-primary hover:text-accent-primary shrink-0 text-[8px] font-bold uppercase tracking-widest"
+              >
                 К товару →
               </Link>
             </div>
@@ -106,24 +178,61 @@ export const MessageItem: React.FC<MessageItemProps> = ({
 
           {/* Ссылка на сущность (заказ, производство, оплата) */}
           {m.entityId && m.entityType && (
-            <div className={cn("my-2 flex flex-wrap gap-2", (m.entityType === 'order' || m.entityType === 'escrow') && "mb-3")}>
+            <div
+              className={cn(
+                'my-2 flex flex-wrap gap-2',
+                (m.entityType === 'order' || m.entityType === 'escrow') && 'mb-3'
+              )}
+            >
               {m.entityType === 'order' && (
-                <Link href={`/brand/b2b-orders/${m.entityId}`} className={cn("inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[9px] font-bold uppercase", mine ? "bg-zinc-800/50 border-zinc-600 text-indigo-300 hover:bg-zinc-700" : "bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100")}>
+                <Link
+                  href={ROUTES.brand.b2bOrder(m.entityId)}
+                  className={cn(
+                    'inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[9px] font-bold uppercase',
+                    mine
+                      ? 'bg-text-primary/50 border-border-default text-accent-primary hover:bg-text-primary/90'
+                      : 'bg-accent-primary/10 border-accent-primary/30 text-accent-primary hover:bg-accent-primary/15'
+                  )}
+                >
                   <ShoppingCart className="h-3 w-3" /> ORD-{m.entityId}
                 </Link>
               )}
               {m.entityType === 'production' && (
-                <Link href="/brand/production" className={cn("inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[9px] font-bold uppercase", mine ? "bg-zinc-800/50 border-zinc-600 text-amber-300 hover:bg-zinc-700" : "bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100")}>
+                <Link
+                  href="/brand/production"
+                  className={cn(
+                    'inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[9px] font-bold uppercase',
+                    mine
+                      ? 'bg-text-primary/50 border-border-default hover:bg-text-primary/90 text-amber-300'
+                      : 'border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100'
+                  )}
+                >
                   <Factory className="h-3 w-3" /> Production
                 </Link>
               )}
               {m.entityType === 'escrow' && (
-                <Link href="/brand/finance/escrow" className={cn("inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[9px] font-bold uppercase", mine ? "bg-zinc-800/50 border-zinc-600 text-emerald-300 hover:bg-zinc-700" : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100")}>
+                <Link
+                  href="/brand/finance/escrow"
+                  className={cn(
+                    'inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[9px] font-bold uppercase',
+                    mine
+                      ? 'bg-text-primary/50 border-border-default hover:bg-text-primary/90 text-emerald-300'
+                      : 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                  )}
+                >
                   <CreditCard className="h-3 w-3" /> Escrow
                 </Link>
               )}
               {m.entityType === 'task' && (
-                <Link href="/brand/calendar?layers=tasks" className={cn("inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[9px] font-bold uppercase", mine ? "bg-zinc-800/50 border-zinc-600 text-violet-300 hover:bg-zinc-700" : "bg-violet-50 border-violet-200 text-violet-700 hover:bg-violet-100")}>
+                <Link
+                  href="/brand/calendar?layers=tasks"
+                  className={cn(
+                    'inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[9px] font-bold uppercase',
+                    mine
+                      ? 'bg-text-primary/50 border-border-default text-accent-primary/50 hover:bg-text-primary/90'
+                      : 'bg-accent-primary/10 border-accent-primary/25 text-accent-primary hover:bg-accent-primary/15'
+                  )}
+                >
                   <Calendar className="h-3 w-3" /> Задача
                 </Link>
               )}
@@ -132,37 +241,66 @@ export const MessageItem: React.FC<MessageItemProps> = ({
 
           {/* JOOR Reminder Style */}
           {m.type === 'reminder' && m.reminderData && (
-            <div className="my-3 p-4 bg-zinc-50 border border-zinc-200 rounded-none space-y-5 relative overflow-hidden group/reminder">
+            <div className="bg-bg-surface2 border-border-default group/reminder relative my-3 space-y-5 overflow-hidden rounded-none border p-4">
               <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-2">
-                  <Badge className="bg-zinc-900 text-white border-none text-[8px] font-black uppercase px-2 py-0.5 rounded-none">ОПОПОЩЕНИЕ</Badge>
-                  <span className="text-[8px] font-black uppercase text-zinc-400 tracking-widest">ID: {m.id.toString().slice(-4)}</span>
+                <div className="mb-2 flex items-center gap-3">
+                  <Badge className="bg-text-primary rounded-none border-none px-2 py-0.5 text-[8px] font-black uppercase text-white">
+                    ОПОПОЩЕНИЕ
+                  </Badge>
+                  <span className="text-text-muted text-[8px] font-black uppercase tracking-widest">
+                    ID: {m.id.toString().slice(-4)}
+                  </span>
                 </div>
-                <h4 className="text-base font-black tracking-tight uppercase text-zinc-900 mb-1">{m.reminderData.title}</h4>
+                <h4 className="text-text-primary mb-1 text-base font-black uppercase tracking-tight">
+                  {m.reminderData.title}
+                </h4>
                 {m.reminderData.description && (
-                  <p className="text-[11px] font-medium text-zinc-500 leading-relaxed italic">{m.reminderData.description}</p>
+                  <p className="text-text-secondary text-[11px] font-medium italic leading-relaxed">
+                    {m.reminderData.description}
+                  </p>
                 )}
               </div>
-              <div className="flex items-center justify-between pt-4 border-t border-zinc-200 relative z-10">
+              <div className="border-border-default relative z-10 flex items-center justify-between border-t pt-4">
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col">
-                    <span className="text-[7px] font-black uppercase text-zinc-400 tracking-widest">DATE & TIME</span>
-                    <span className="text-[11px] font-black tracking-tight text-zinc-900 uppercase">{m.reminderData.date} @ {m.reminderData.time}</span>
+                    <span className="text-text-muted text-[7px] font-black uppercase tracking-widest">
+                      DATE & TIME
+                    </span>
+                    <span className="text-text-primary text-[11px] font-black uppercase tracking-tight">
+                      {m.reminderData.date} @ {m.reminderData.time}
+                    </span>
                   </div>
                   {m.reminderData.reminderType === 'countdown' && (
                     <div className="flex flex-col">
-                      <span className="text-[7px] font-black uppercase text-zinc-400 tracking-widest">DUE IN</span>
-                      <span className="text-[11px] font-black tracking-tight text-rose-500 animate-pulse">~ 2H 45M</span>
+                      <span className="text-text-muted text-[7px] font-black uppercase tracking-widest">
+                        DUE IN
+                      </span>
+                      <span className="animate-pulse text-[11px] font-black tracking-tight text-rose-500">
+                        ~ 2H 45M
+                      </span>
                     </div>
                   )}
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex -space-x-1">
                     {(m.reminderData.assignedTo || []).slice(0, 3).map((u: string, i: number) => (
-                      <div key={i} className="h-6 w-6 border border-white bg-zinc-200 flex items-center justify-center text-[7px] font-black text-zinc-600 uppercase">{u[0]}</div>
+                      <div
+                        key={i}
+                        className="bg-border-subtle text-text-secondary flex h-6 w-6 items-center justify-center border border-white text-[7px] font-black uppercase"
+                      >
+                        {u[0]}
+                      </div>
                     ))}
                   </div>
-                  <Button variant="outline" size="sm" className="h-7 px-3 border-zinc-200 text-zinc-500 hover:text-black hover:border-black rounded-none font-black text-[8px] uppercase" onClick={() => { setReminderEditing(m); setReminderOpen(true); }}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-border-default text-text-secondary h-7 rounded-none px-3 text-[8px] font-black uppercase hover:border-black hover:text-black"
+                    onClick={() => {
+                      setReminderEditing(m);
+                      setReminderOpen(true);
+                    }}
+                  >
                     EDIT
                   </Button>
                 </div>
@@ -172,42 +310,63 @@ export const MessageItem: React.FC<MessageItemProps> = ({
 
           {/* Task Metadata & Actions */}
           {isTask && (
-            <div className="mt-4 p-4 bg-slate-50/50 rounded-2xl border border-slate-100/50 space-y-4">
+            <div className="bg-bg-surface2/80 border-border-subtle/50 mt-4 space-y-4 rounded-2xl border p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className={cn("h-2 w-2 rounded-full animate-pulse", status?.color.replace('text-', 'bg-'))} />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-800">
+                  <div
+                    className={cn(
+                      'h-2 w-2 animate-pulse rounded-full',
+                      status?.color.replace('text-', 'bg-')
+                    )}
+                  />
+                  <span className="text-text-primary text-[10px] font-black uppercase tracking-widest">
                     {status?.label}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Badge variant="outline" className={cn("text-[8px] font-black uppercase h-5 rounded-none border-slate-200 px-2", priorityConfig[(m.priority ?? 'medium') as TaskPriority].color)}>
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      'border-border-default h-5 rounded-none px-2 text-[8px] font-black uppercase',
+                      priorityConfig[(m.priority ?? 'medium') as TaskPriority].color
+                    )}
+                  >
                     {priorityConfig[(m.priority ?? 'medium') as TaskPriority].label}
                   </Badge>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="h-7 px-3 text-[9px] font-black uppercase text-blue-600 hover:bg-white border border-transparent hover:border-blue-100 rounded-xl"
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 rounded-xl border border-transparent px-3 text-[9px] font-black uppercase text-blue-600 hover:border-blue-100 hover:bg-white"
                     onClick={() => onOpenTaskProcess(m.id)}
                   >
                     ПЕРЕЙТИ В ЦИКЛ
                   </Button>
                 </div>
               </div>
-              <div className="h-px bg-slate-100/50" />
+              <div className="bg-bg-surface2/50 h-px" />
               <div className="flex items-center justify-between gap-3">
                 <div className="flex -space-x-1.5 overflow-hidden">
                   {(m.assignees || []).map((u, i) => (
-                    <Avatar key={i} className="h-6 w-6 border-2 border-white shadow-sm ring-1 ring-slate-100">
-                      <AvatarFallback className="text-[7px] font-black uppercase bg-slate-100 text-slate-500">{u[0]}</AvatarFallback>
+                    <Avatar
+                      key={i}
+                      className="ring-border-subtle h-6 w-6 border-2 border-white shadow-sm ring-1"
+                    >
+                      <AvatarFallback className="bg-bg-surface2 text-text-secondary text-[7px] font-black uppercase">
+                        {u[0]}
+                      </AvatarFallback>
                     </Avatar>
                   ))}
                 </div>
                 {m.deadline && (
-                  <div className="flex items-center gap-2 px-3 py-1 bg-white border border-slate-100 rounded-lg shadow-sm">
-                    <span className="text-[7px] font-black uppercase text-slate-300 tracking-widest">DEADLINE</span>
-                    <span className="text-[9px] font-black text-slate-600 tabular-nums">
-                      {new Date(m.deadline).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' })}
+                  <div className="border-border-subtle flex items-center gap-2 rounded-lg border bg-white px-3 py-1 shadow-sm">
+                    <span className="text-text-muted text-[7px] font-black uppercase tracking-widest">
+                      DEADLINE
+                    </span>
+                    <span className="text-text-secondary text-[9px] font-black tabular-nums">
+                      {new Date(m.deadline).toLocaleDateString('ru-RU', {
+                        day: '2-digit',
+                        month: '2-digit',
+                      })}
                     </span>
                   </div>
                 )}
@@ -215,41 +374,83 @@ export const MessageItem: React.FC<MessageItemProps> = ({
             </div>
           )}
 
-          <div className="text-sm font-medium leading-relaxed whitespace-pre-wrap break-words">
+          <div className="whitespace-pre-wrap break-words text-sm font-medium leading-relaxed">
             {highlightText(m.text, msgSearch)}
           </div>
 
           <div className="mt-3 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className={cn("text-[9px] font-bold tabular-nums uppercase tracking-widest", mine ? 'text-zinc-500' : 'text-zinc-400')}>
+              <span
+                className={cn(
+                  'text-[9px] font-bold uppercase tabular-nums tracking-widest',
+                  mine ? 'text-text-secondary' : 'text-text-muted'
+                )}
+              >
                 {m.time}
               </span>
               {m.readBy && m.readBy.length > 0 && mine && (
                 <div className="flex items-center gap-1">
-                  <span className="text-[8px] font-black text-blue-400 uppercase tracking-widest">ПРОСМОТРЕНО: {m.readBy.length}</span>
+                  <span className="text-[8px] font-black uppercase tracking-widest text-blue-400">
+                    ПРОСМОТРЕНО: {m.readBy.length}
+                  </span>
                 </div>
               )}
             </div>
 
-            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-slate-100 text-slate-400 hover:text-blue-500" onClick={() => onTogglePin(m.id)}>
-                <Pin className={cn("h-3 w-3 transition-transform", m.isPinned && "fill-blue-500 text-blue-500 rotate-45")} />
+            <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="hover:bg-bg-surface2 text-text-muted h-6 w-6 p-0 hover:text-blue-500"
+                onClick={() => onTogglePin(m.id)}
+              >
+                <Pin
+                  className={cn(
+                    'h-3 w-3 transition-transform',
+                    m.isPinned && 'rotate-45 fill-blue-500 text-blue-500'
+                  )}
+                />
               </Button>
-              <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-slate-100 text-slate-400 hover:text-amber-500" onClick={() => onToggleStar(m.id)}>
-                <Star className={cn("h-3 w-3", m.isStarred && "fill-amber-500 text-amber-500")} />
+              <Button
+                variant="ghost"
+                size="sm"
+                className="hover:bg-bg-surface2 text-text-muted h-6 w-6 p-0 hover:text-amber-500"
+                onClick={() => onToggleStar(m.id)}
+              >
+                <Star className={cn('h-3 w-3', m.isStarred && 'fill-amber-500 text-amber-500')} />
               </Button>
-              <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-slate-100 text-slate-400" onClick={() => onReplyToMessage(m.id)}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="hover:bg-bg-surface2 text-text-muted h-6 w-6 p-0"
+                onClick={() => onReplyToMessage(m.id)}
+              >
                 <Reply className="h-3 w-3" />
               </Button>
-              <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-slate-100 text-slate-400" onClick={() => onForwardMessage(m.id)}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="hover:bg-bg-surface2 text-text-muted h-6 w-6 p-0"
+                onClick={() => onForwardMessage(m.id)}
+              >
                 <Forward className="h-3 w-3" />
               </Button>
               {mine && (
                 <>
-                  <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-slate-100 text-slate-400" onClick={() => onOpenEditTask(m)}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="hover:bg-bg-surface2 text-text-muted h-6 w-6 p-0"
+                    onClick={() => onOpenEditTask(m)}
+                  >
                     <Pencil className="h-3 w-3" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-6 w-6 p-0 hover:bg-slate-100 text-rose-400" onClick={() => onDeleteMessage(m.id)}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="hover:bg-bg-surface2 h-6 w-6 p-0 text-rose-400"
+                    onClick={() => onDeleteMessage(m.id)}
+                  >
                     <Trash2 className="h-3 w-3" />
                   </Button>
                 </>
@@ -259,37 +460,43 @@ export const MessageItem: React.FC<MessageItemProps> = ({
 
           {/* AI Helper Bar */}
           {!mine && (
-            <div className="mt-4 pt-4 border-t border-slate-50 flex flex-col gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="border-border-subtle mt-4 flex flex-col gap-3 border-t pt-4 opacity-0 transition-opacity group-hover:opacity-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="h-5 w-5 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100">
+                  <div className="flex h-5 w-5 items-center justify-center rounded-full border border-blue-100 bg-blue-50">
                     <Sparkles className="h-2.5 w-2.5 text-blue-500" />
                   </div>
-                  <span className="text-[9px] font-black text-blue-600 uppercase tracking-widest">AI ПОМОЩНИК</span>
+                  <span className="text-[9px] font-black uppercase tracking-widest text-blue-600">
+                    AI ПОМОЩНИК
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   {!isTask && (
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <button 
-                            className="h-8 px-3 rounded-full flex items-center justify-center bg-blue-600 text-white hover:bg-blue-700 transition-colors gap-2"
+                          <button
+                            className="flex h-8 items-center justify-center gap-2 rounded-full bg-blue-600 px-3 text-white transition-colors hover:bg-blue-700"
                             onClick={() => {
-                              onOpenCreateTask({ 
-                                text: m.text, 
-                                type: 'task', 
-                                status: 'pending', 
-                                priority: 'medium', 
-                                assignees: [], 
-                                deadline: undefined 
+                              onOpenCreateTask({
+                                text: m.text,
+                                type: 'task',
+                                status: 'pending',
+                                priority: 'medium',
+                                assignees: [],
+                                deadline: undefined,
                               });
                             }}
                           >
                             <PlusCircle className="h-3.5 w-3.5" />
-                            <span className="text-[8px] font-black uppercase tracking-widest">В задачу</span>
+                            <span className="text-[8px] font-black uppercase tracking-widest">
+                              В задачу
+                            </span>
                           </button>
                         </TooltipTrigger>
-                        <TooltipContent className="text-[8px] font-black uppercase">Превратить в задачу</TooltipContent>
+                        <TooltipContent className="text-[8px] font-black uppercase">
+                          Превратить в задачу
+                        </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   )}
@@ -297,11 +504,11 @@ export const MessageItem: React.FC<MessageItemProps> = ({
                     { Icon: ThumbsUp, label: '👍' },
                     { Icon: ThumbsDown, label: '👎' },
                     { Icon: Heart, label: '❤️' },
-                    { Icon: Smile, label: '😊' }
+                    { Icon: Smile, label: '😊' },
                   ].map(({ Icon, label }, idx) => (
-                    <button 
-                      key={idx} 
-                      className="h-8 w-8 rounded-full flex items-center justify-center hover:bg-slate-50 text-slate-400 hover:text-blue-600 transition-colors"
+                    <button
+                      key={idx}
+                      className="hover:bg-bg-surface2 text-text-muted flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:text-blue-600"
                       onClick={() => onAddReaction(m.id, label)}
                     >
                       <Icon className="h-4 w-4" />
@@ -313,21 +520,35 @@ export const MessageItem: React.FC<MessageItemProps> = ({
           )}
 
           {/* AI detected commitment */}
-          {m.type === 'message' && (String(m.text).toLowerCase().includes('сделаю') || String(m.text).toLowerCase().includes('пришлю') || String(m.text).toLowerCase().includes('дедлайн')) && (
-            <div className="mt-4 p-3 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Zap className="h-3 w-3 text-blue-500 fill-blue-500" />
-                <span className="text-[8px] font-black uppercase tracking-widest text-blue-600">AI: Обнаружено обязательство</span>
+          {m.type === 'message' &&
+            (String(m.text).toLowerCase().includes('сделаю') ||
+              String(m.text).toLowerCase().includes('пришлю') ||
+              String(m.text).toLowerCase().includes('дедлайн')) && (
+              <div className="mt-4 flex items-center justify-between rounded-2xl border border-blue-100 bg-blue-50/50 p-3">
+                <div className="flex items-center gap-2">
+                  <Zap className="h-3 w-3 fill-blue-500 text-blue-500" />
+                  <span className="text-[8px] font-black uppercase tracking-widest text-blue-600">
+                    AI: Обнаружено обязательство
+                  </span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 rounded-lg border border-blue-100 bg-white px-2 text-[8px] font-black uppercase text-blue-700 shadow-sm"
+                  onClick={() => onOpenCreateTask({ text: m.text, type: 'task' })}
+                >
+                  В задачи
+                </Button>
               </div>
-              <Button variant="ghost" size="sm" className="h-6 px-2 rounded-lg text-[8px] font-black uppercase text-blue-700 bg-white shadow-sm border border-blue-100" onClick={() => onOpenCreateTask({ text: m.text, type: 'task' })}>В задачи</Button>
-            </div>
-          )}
+            )}
         </div>
       </div>
 
       {mine && (
-        <Avatar className="h-8 w-8 border-2 border-white shadow-sm shrink-0">
-          <AvatarFallback className="text-[10px] font-black bg-slate-900 text-white uppercase">{currentUser[0]}</AvatarFallback>
+        <Avatar className="h-8 w-8 shrink-0 border-2 border-white shadow-sm">
+          <AvatarFallback className="bg-text-primary text-[10px] font-black uppercase text-white">
+            {currentUser[0]}
+          </AvatarFallback>
         </Avatar>
       )}
     </div>

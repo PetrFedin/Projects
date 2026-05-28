@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -8,13 +7,7 @@ import * as z from 'zod';
 import Image from 'next/image';
 import { Video, Loader2, Wand2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -24,16 +17,16 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import type { Product } from '@/lib/types';
-import { generateSocialVideo } from '@/ai/flows/generate-social-video';
+import { socialVideoClient } from '@/lib/ai-client/api';
 
 const formSchema = z.object({
   productId: z.string().min(1, { message: 'Пожалуйста, выберите товар.' }),
@@ -51,51 +44,54 @@ export default function SocialVideoGenerator({ products }: { products: Product[]
   });
 
   const selectedProductId = form.watch('productId');
-  const selectedProduct = products.find(p => p.id === selectedProductId);
+  const selectedProduct = products.find((p) => p.id === selectedProductId);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsGenerating(true);
     setGeneratedVideoUrl(null);
 
-    const product = products.find(p => p.id === values.productId);
+    const product = products.find((p) => p.id === values.productId);
     if (!product) {
-        toast({ variant: 'destructive', title: 'Товар не найден' });
-        setIsGenerating(false);
-        return;
+      toast({ variant: 'destructive', title: 'Товар не найден' });
+      setIsGenerating(false);
+      return;
     }
-    
+
     const response = await fetch(product.images[0].url);
     const blob = await response.blob();
     const reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onloadend = async () => {
-        const base64data = reader.result as string;
+      const base64data = reader.result as string;
 
-        try {
-            toast({ title: 'Начинаем генерацию видео...', description: 'Это может занять несколько минут.' });
-            const result = await generateSocialVideo({
-                productName: product.name,
-                productImageDataUri: base64data,
-                prompt: values.prompt,
-            });
+      try {
+        toast({
+          title: 'Начинаем генерацию видео...',
+          description: 'Это может занять несколько минут.',
+        });
+        const result = await socialVideoClient({
+          productName: product.name,
+          productImageDataUri: base64data,
+          prompt: values.prompt,
+        });
 
-            if (result.videoUrl) {
-                setGeneratedVideoUrl(result.videoUrl);
-                toast({ title: 'Видео для соцсетей готово!' });
-            } else {
-                throw new Error('Не удалось получить видео от AI.');
-            }
-        } catch (error) {
-            console.error('Ошибка генерации видео:', error);
-            toast({
-                variant: 'destructive',
-                title: 'Ошибка генерации',
-                description: 'Не удалось создать видео. Пожалуйста, попробуйте снова.',
-            });
-        } finally {
-            setIsGenerating(false);
+        if (result.videoUrl) {
+          setGeneratedVideoUrl(result.videoUrl);
+          toast({ title: 'Видео для соцсетей готово!' });
+        } else {
+          throw new Error('Не удалось получить видео от AI.');
         }
-    }
+      } catch (error) {
+        console.error('Ошибка генерации видео:', error);
+        toast({
+          variant: 'destructive',
+          title: 'Ошибка генерации',
+          description: 'Не удалось создать видео. Пожалуйста, попробуйте снова.',
+        });
+      } finally {
+        setIsGenerating(false);
+      }
+    };
   }
 
   return (
@@ -106,7 +102,7 @@ export default function SocialVideoGenerator({ products }: { products: Product[]
           Создавайте короткие видеоролики для TikTok, Reels и Shorts, используя AI.
         </CardDescription>
       </CardHeader>
-      <CardContent className="grid md:grid-cols-2 gap-3">
+      <CardContent className="grid gap-3 md:grid-cols-2">
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -123,8 +119,10 @@ export default function SocialVideoGenerator({ products }: { products: Product[]
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {products.map(p => (
-                            <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
+                        {products.map((p) => (
+                          <SelectItem key={p.id} value={p.id}>
+                            {p.name}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -133,15 +131,23 @@ export default function SocialVideoGenerator({ products }: { products: Product[]
                 )}
               />
 
-             {selectedProduct && (
-                <div className="flex items-center gap-3 rounded-md border p-3 bg-muted/30">
-                    <Image src={selectedProduct.images[0].url} alt={selectedProduct.name} width={64} height={64} className="rounded-md aspect-square object-cover" />
-                    <div>
-                        <p className="font-semibold">{selectedProduct.name}</p>
-                        <p className="text-sm text-muted-foreground">{selectedProduct.price.toLocaleString('ru-RU')} ₽</p>
-                    </div>
+              {selectedProduct && (
+                <div className="flex items-center gap-3 rounded-md border bg-muted/30 p-3">
+                  <Image
+                    src={selectedProduct.images[0].url}
+                    alt={selectedProduct.name}
+                    width={64}
+                    height={64}
+                    className="aspect-square rounded-md object-cover"
+                  />
+                  <div>
+                    <p className="font-semibold">{selectedProduct.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {selectedProduct.price.toLocaleString('ru-RU')} ₽
+                    </p>
+                  </div>
                 </div>
-             )}
+              )}
 
               <FormField
                 control={form.control}
@@ -168,30 +174,30 @@ export default function SocialVideoGenerator({ products }: { products: Product[]
             </form>
           </Form>
         </div>
-        <div className="flex items-center justify-center border-2 border-dashed rounded-lg p-4 bg-muted/30 min-h-[300px] aspect-w-9 aspect-h-12">
-            {isGenerating && (
-                <div className="text-center text-muted-foreground">
-                    <Loader2 className="h-8 w-8 animate-spin mx-auto"/>
-                    <p className="mt-2">Генерация видео...</p>
-                    <p className="text-xs">Это может занять до минуты.</p>
-                </div>
-            )}
-            {!isGenerating && generatedVideoUrl && (
-                <video 
-                    src={generatedVideoUrl}
-                    controls
-                    autoPlay
-                    loop
-                    muted
-                    className="w-full h-full object-contain rounded-md"
-                />
-            )}
-             {!isGenerating && !generatedVideoUrl && (
-                <div className="text-center text-muted-foreground">
-                    <Video className="h-10 w-10 mx-auto mb-2" />
-                    <p>Здесь появится ваше видео</p>
-                </div>
-            )}
+        <div className="aspect-w-9 aspect-h-12 flex min-h-[300px] items-center justify-center rounded-lg border-2 border-dashed bg-muted/30 p-4">
+          {isGenerating && (
+            <div className="text-center text-muted-foreground">
+              <Loader2 className="mx-auto h-8 w-8 animate-spin" />
+              <p className="mt-2">Генерация видео...</p>
+              <p className="text-xs">Это может занять до минуты.</p>
+            </div>
+          )}
+          {!isGenerating && generatedVideoUrl && (
+            <video
+              src={generatedVideoUrl}
+              controls
+              autoPlay
+              loop
+              muted
+              className="h-full w-full rounded-md object-contain"
+            />
+          )}
+          {!isGenerating && !generatedVideoUrl && (
+            <div className="text-center text-muted-foreground">
+              <Video className="mx-auto mb-2 h-10 w-10" />
+              <p>Здесь появится ваше видео</p>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

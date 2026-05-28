@@ -44,11 +44,15 @@ function readRuntimesFromStorage(
     stageIds.forEach((id) => {
       if (parsed[id]) {
         const p = parsed[id];
-        const assigneeIds = Array.isArray(p.assigneeIds) ? p.assigneeIds : p.assigneeId ? [p.assigneeId] : [];
+        const assigneeIds = Array.isArray(p.assigneeIds)
+          ? p.assigneeIds
+          : p.assigneeId
+            ? [p.assigneeId]
+            : [];
         const primaryAssigneeId =
           p.primaryAssigneeId && assigneeIds.includes(p.primaryAssigneeId)
             ? p.primaryAssigneeId
-            : assigneeIds[0] ?? null;
+            : (assigneeIds[0] ?? null);
         merged[id] = {
           ...merged[id],
           ...p,
@@ -68,7 +72,12 @@ function readRuntimesFromStorage(
 
 export type AllInstancesRuntimes = Map<
   string,
-  { instanceId: string; contextId: string; contextLabel: string; runtimes: Record<string, LiveProcessStageRuntime> }
+  {
+    instanceId: string;
+    contextId: string;
+    contextLabel: string;
+    runtimes: Record<string, LiveProcessStageRuntime>;
+  }
 >;
 
 /** Читает runtimes всех инстансов процесса из localStorage. Обновляется при изменении refreshToken. */
@@ -82,7 +91,12 @@ export function useAllInstancesRuntimes(
     const stageIds = def?.stages.map((s) => s.id) ?? [];
     const map = new Map<
       string,
-      { instanceId: string; contextId: string; contextLabel: string; runtimes: Record<string, LiveProcessStageRuntime> }
+      {
+        instanceId: string;
+        contextId: string;
+        contextLabel: string;
+        runtimes: Record<string, LiveProcessStageRuntime>;
+      }
     >();
     insts.forEach((inst) => {
       map.set(inst.contextId, {
@@ -101,7 +115,12 @@ export function useAllInstancesRuntimes(
     const ids = def?.stages.map((s) => s.id) ?? [];
     const map = new Map<
       string,
-      { instanceId: string; contextId: string; contextLabel: string; runtimes: Record<string, LiveProcessStageRuntime> }
+      {
+        instanceId: string;
+        contextId: string;
+        contextLabel: string;
+        runtimes: Record<string, LiveProcessStageRuntime>;
+      }
     >();
     insts.forEach((inst) => {
       map.set(inst.contextId, {

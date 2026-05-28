@@ -16,33 +16,37 @@
 
 ## Типографика
 
-| Уровень | Класс | Где |
-|---------|-------|-----|
-| **Page title** | `text-2xl sm:text-3xl font-bold text-slate-900` | H1 |
-| **Section title** | `text-base font-semibold text-slate-900` | H2 |
-| **Block label** | `text-[10px] font-bold uppercase tracking-widest text-slate-500` | H3 |
-| **Body** | `text-sm text-slate-600` | p |
-| **Caption** | `text-xs text-slate-500` | span |
+| Уровень           | Класс                                                            | Где  |
+| ----------------- | ---------------------------------------------------------------- | ---- |
+| **Page title**    | `text-2xl sm:text-3xl font-bold text-slate-900`                  | H1   |
+| **Section title** | `text-base font-semibold text-slate-900`                         | H2   |
+| **Block label**   | `text-[10px] font-bold uppercase tracking-widest text-slate-500` | H3   |
+| **Body**          | `text-sm text-slate-600`                                         | p    |
+| **Caption**       | `text-xs text-slate-500`                                         | span |
 
 ---
 
 ## Секции и блоки
 
 ### Section (раздел)
+
 - Контейнер: `space-y-6` или `space-y-8`
 - Заголовок: иконка + текст
 
 ### Card
+
 - `rounded-xl border border-slate-200/80 bg-white shadow-sm`
 - Padding: `p-5` или `p-6`
 - Hover: `hover:border-slate-300 hover:shadow-md transition-all`
 
 ### Stat card (KPI)
+
 - `rounded-xl border border-slate-100 p-4`
 - Число: `text-2xl font-bold tabular-nums text-slate-900`
 - Метка: `text-xs font-medium text-slate-500 uppercase tracking-wider`
 
 ### Info block
+
 - Иконка 40×40px, заголовок + описание
 - `flex items-start gap-4`
 
@@ -50,13 +54,13 @@
 
 ## Кнопки
 
-| Тип | Стиль |
-|-----|-------|
-| **Primary** | `bg-slate-900 text-white hover:bg-slate-800 rounded-lg` |
-| **Secondary** | `border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-lg` |
-| **Ghost** | `text-slate-600 hover:bg-slate-100 rounded-lg` |
-| **Tab active** | `bg-white shadow-sm border border-slate-200 rounded-xl` |
-| **Tab inactive** | `text-slate-500 hover:bg-white/70 rounded-xl` |
+| Тип              | Стиль                                                                 |
+| ---------------- | --------------------------------------------------------------------- |
+| **Primary**      | `bg-slate-900 text-white hover:bg-slate-800 rounded-lg`               |
+| **Secondary**    | `border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-lg` |
+| **Ghost**        | `text-slate-600 hover:bg-slate-100 rounded-lg`                        |
+| **Tab active**   | `bg-white shadow-sm border border-slate-200 rounded-xl`               |
+| **Tab inactive** | `text-slate-500 hover:bg-white/70 rounded-xl`                         |
 
 ---
 
@@ -90,34 +94,34 @@ import { WidgetCard } from '@/components/ui/widget-card';
 
 ## Таблицы
 
-| Элемент | Класс |
-|---------|-------|
-| **Заголовок** | `text-xs font-bold uppercase tracking-wider text-slate-500` |
-| **Ячейка основная** | `text-sm text-slate-900` |
-| **Ячейка второстепенная** | `text-sm text-slate-600` |
-| **Строка** | `border-b border-slate-100`, `hover:bg-slate-50` |
-| **Контейнер** | `rounded-xl border border-slate-200 overflow-x-auto` (мобильный скролл) |
-| **Мобильный (768px)** | `min-w-[640px]` для таблицы внутри overflow-x-auto — горизонтальный скролл |
+| Элемент                   | Класс                                                                      |
+| ------------------------- | -------------------------------------------------------------------------- |
+| **Заголовок**             | `text-xs font-bold uppercase tracking-wider text-slate-500`                |
+| **Ячейка основная**       | `text-sm text-slate-900`                                                   |
+| **Ячейка второстепенная** | `text-sm text-slate-600`                                                   |
+| **Строка**                | `border-b border-slate-100`, `hover:bg-slate-50`                           |
+| **Контейнер**             | `rounded-xl border border-slate-200 overflow-x-auto` (мобильный скролл)    |
+| **Мобильный (768px)**     | `min-w-[640px]` для таблицы внутри overflow-x-auto — горизонтальный скролл |
 
 ---
 
 ## Контейнеры и сетка
 
-| Тип | max-width | Где |
-|-----|-----------|-----|
-| **Дашборды** | `max-w-7xl` | Brand page, Control Center |
-| **Списки/формы** | `max-w-5xl` или `max-w-4xl` | Academy, интеграции |
-| **Детали** | `max-w-3xl` или `max-w-2xl` | Карточка, настройки |
+| Тип              | max-width                   | Где                        |
+| ---------------- | --------------------------- | -------------------------- |
+| **Дашборды**     | `max-w-7xl`                 | Brand page, Control Center |
+| **Списки/формы** | `max-w-5xl` или `max-w-4xl` | Academy, интеграции        |
+| **Детали**       | `max-w-3xl` или `max-w-2xl` | Карточка, настройки        |
 
 ---
 
 ## Формы
 
-| Элемент | Стиль |
-|---------|-------|
-| **Input** | `rounded-lg border-slate-200 h-11` |
-| **Label** | `text-sm font-medium text-slate-700` |
-| **Error** | `text-xs text-rose-600` |
+| Элемент    | Стиль                                   |
+| ---------- | --------------------------------------- |
+| **Input**  | `rounded-lg border-slate-200 h-11`      |
+| **Label**  | `text-sm font-medium text-slate-700`    |
+| **Error**  | `text-xs text-rose-600`                 |
 | **Select** | `rounded-lg border-slate-200 h-11 px-3` |
 
 ---

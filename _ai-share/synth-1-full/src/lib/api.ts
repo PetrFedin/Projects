@@ -29,7 +29,9 @@ export interface SubmitBuyerApplicationPayload {
 }
 
 /** JOOR Discover: отправка заявки на доступ к каталогу бренда. При API — POST /api/v1/b2b/buyer-applications/submit */
-export async function submitBuyerApplication(payload: SubmitBuyerApplicationPayload): Promise<BuyerApplication> {
+export async function submitBuyerApplication(
+  payload: SubmitBuyerApplicationPayload
+): Promise<BuyerApplication> {
   await new Promise((r) => setTimeout(r, 600));
   const app = submitApplication({
     companyName: payload.companyName,

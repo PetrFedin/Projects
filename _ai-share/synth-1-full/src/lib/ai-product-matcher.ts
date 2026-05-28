@@ -8,22 +8,23 @@ import { productsRepository } from './repositories';
 
 export async function findMatchingProducts(query: string, limit: number = 4): Promise<Product[]> {
   const lowerQuery = query.toLowerCase();
-  
+
   // Extract keywords from query
   const keywords = lowerQuery
     .split(/\s+/)
-    .filter(word => word.length > 2)
-    .filter(word => !['для', 'нужен', 'хочу', 'нужно', 'образ', 'лук', 'outfit'].includes(word));
+    .filter((word) => word.length > 2)
+    .filter((word) => !['для', 'нужен', 'хочу', 'нужно', 'образ', 'лук', 'outfit'].includes(word));
 
   // Get all products
   const allProducts = await productsRepository.getAll();
 
   // Score products based on keyword matches
-  const scoredProducts = allProducts.map(product => {
+  const scoredProducts = allProducts.map((product) => {
     let score = 0;
-    const productText = `${product.name} ${product.brand} ${product.description} ${product.category} ${product.color}`.toLowerCase();
+    const productText =
+      `${product.name} ${product.brand} ${product.description} ${product.category} ${product.color}`.toLowerCase();
 
-    keywords.forEach(keyword => {
+    keywords.forEach((keyword) => {
       if (productText.includes(keyword)) {
         score += 2;
       }
@@ -42,13 +43,8 @@ export async function findMatchingProducts(query: string, limit: number = 4): Pr
 
   // Sort by score and return top matches
   return scoredProducts
-    .filter(item => item.score > 0)
+    .filter((item) => item.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, limit)
-    .map(item => item.product);
+    .map((item) => item.product);
 }
-
-
-
-
-

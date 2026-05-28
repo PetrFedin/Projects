@@ -1,10 +1,8 @@
-
 'use client';
 
-import B2BOrdersPage from '@/components/brand/b2b-orders/page';
+import FactoryOrdersPage from '@/app/factory/production/orders/page';
 
-export default function FactoryOrdersPage() {
-    return (
-        <B2BOrdersPage />
-    );
+/** Короткий URL `/factory/orders` — тот же экран, что `/factory/production/orders`. */
+export default function FactoryOrdersShortcutPage() {
+  return <FactoryOrdersPage />;
 }

@@ -20,9 +20,32 @@ const NEUTRAL = new Set([
   'camel',
 ]);
 
-const WARM = new Set(['коричн', 'терракот', 'ржав', 'охра', 'camel', 'песоч', 'золот', 'оранж', 'brown', 'rust', 'tan']);
+const WARM = new Set([
+  'коричн',
+  'терракот',
+  'ржав',
+  'охра',
+  'camel',
+  'песоч',
+  'золот',
+  'оранж',
+  'brown',
+  'rust',
+  'tan',
+]);
 
-const COOL = new Set(['син', 'голуб', 'бирюз', 'изумруд', 'фиолет', 'лаванд', 'blue', 'teal', 'green', 'indigo']);
+const COOL = new Set([
+  'син',
+  'голуб',
+  'бирюз',
+  'изумруд',
+  'фиолет',
+  'лаванд',
+  'blue',
+  'teal',
+  'green',
+  'indigo',
+]);
 
 function norm(s: string) {
   return s.toLowerCase();
@@ -50,7 +73,11 @@ function categoryDistance(a: string, b: string): number {
 }
 
 /** Эвристика «с чем сочетается» без CV: семья цвета + близость категории + не тот же SKU. */
-export function suggestColorHarmony(anchor: Product, catalog: Product[], limit = 8): ColorHarmonySuggestion[] {
+export function suggestColorHarmony(
+  anchor: Product,
+  catalog: Product[],
+  limit = 8
+): ColorHarmonySuggestion[] {
   const fam = colorFamily(anchor.color || '');
   const scored = catalog
     .filter((p) => p.id !== anchor.id && p.images?.length)

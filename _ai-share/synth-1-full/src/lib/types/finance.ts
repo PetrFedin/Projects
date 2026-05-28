@@ -2,7 +2,7 @@
  * Finance & Costing Types
  */
 
-/** Inputs for per-unit landed cost (logic/landed-cost.ts). */
+/** Вход landed-cost движка (`lib/logic/landed-cost`). */
 export interface LandedCostInput {
   baseCost: number;
   freightCost: number;
@@ -33,25 +33,25 @@ export interface LandedCostBreakdown {
   id: string;
   productId: string;
   currency: string;
-  
+
   // Production Costs
   fabricCost: number;
   cmtCost: number; // Cut, Make, Trim
   trimsCost: number;
   packagingCost: number;
-  
+
   // Logistics & Duties
   freightCost: number;
   dutyRate: number; // %
   calculatedDuty: number;
   insuranceCost: number;
   markingCost: number; // Честный ЗНАК etc.
-  
+
   // Operations
   overheadRate: number; // %
   calculatedOverhead: number;
   amortizationCost: number;
-  
+
   totalLandedCost: number;
   targetRetailPrice: number;
   targetMargin: number; // %

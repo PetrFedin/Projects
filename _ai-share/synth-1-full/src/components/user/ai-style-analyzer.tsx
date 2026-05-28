@@ -5,7 +5,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
-import { Sparkles, TrendingUp, Palette, Shirt, Target, Zap, Lightbulb, BarChart3, Calendar, MapPin, ShoppingBag } from 'lucide-react';
+import {
+  Sparkles,
+  TrendingUp,
+  Palette,
+  Shirt,
+  Target,
+  Zap,
+  Lightbulb,
+  BarChart3,
+  Calendar,
+  MapPin,
+  ShoppingBag,
+} from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
 import { useUIState } from '@/providers/ui-state';
 import { ordersRepository, productsRepository } from '@/lib/repositories';
@@ -49,11 +61,7 @@ export default function AIStyleAnalyzer() {
         setOrders(userOrders);
 
         // Analyze style from orders and wishlist
-        const allItems = [
-          ...userOrders.flatMap(o => o.items),
-          ...wishlist,
-          ...manualWardrobe,
-        ];
+        const allItems = [...userOrders.flatMap((o) => o.items), ...wishlist, ...manualWardrobe];
 
         const profile = generateStyleProfile(allItems, userOrders);
         setStyleProfile(profile);
@@ -75,7 +83,7 @@ export default function AIStyleAnalyzer() {
     return (
       <Card>
         <CardContent className="pt-6">
-          <div className="text-center py-4">AI анализирует ваш стиль...</div>
+          <div className="py-4 text-center">AI анализирует ваш стиль...</div>
         </CardContent>
       </Card>
     );
@@ -90,40 +98,38 @@ export default function AIStyleAnalyzer() {
             <Sparkles className="h-5 w-5 text-accent" />
             AI Профиль Стиля
           </CardTitle>
-          <CardDescription>
-            Персональный анализ ваших предпочтений и стиля
-          </CardDescription>
+          <CardDescription>Персональный анализ ваших предпочтений и стиля</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
             {/* Style Personality Badge */}
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Ваш стиль</p>
-                <Badge variant="outline" className="text-sm px-4 py-2">
+                <p className="mb-1 text-sm text-muted-foreground">Ваш стиль</p>
+                <Badge variant="outline" className="px-4 py-2 text-sm">
                   {getStyleLabel(styleProfile.stylePersonality)}
                 </Badge>
               </div>
               <div className="text-right">
-                <p className="text-sm text-muted-foreground mb-1">Уверенность AI</p>
+                <p className="mb-1 text-sm text-muted-foreground">Уверенность AI</p>
                 <p className="text-sm font-bold text-accent">94%</p>
               </div>
             </div>
 
             {/* Preferred Colors */}
             <div>
-              <p className="text-sm font-medium mb-3">Любимые цвета</p>
+              <p className="mb-3 text-sm font-medium">Любимые цвета</p>
               <div className="space-y-2">
                 {styleProfile.preferredColors.slice(0, 5).map((color, index) => (
                   <div key={index} className="flex items-center gap-3">
-                    <div 
-                      className="w-6 h-6 rounded-full border-2 border-border"
+                    <div
+                      className="h-6 w-6 rounded-full border-2 border-border"
                       style={{ backgroundColor: color.color }}
                     />
                     <div className="flex-1">
                       <Progress value={color.percentage} className="h-2" />
                     </div>
-                    <span className="text-sm text-muted-foreground w-12 text-right">
+                    <span className="w-12 text-right text-sm text-muted-foreground">
                       {Math.round(color.percentage)}%
                     </span>
                   </div>
@@ -133,7 +139,7 @@ export default function AIStyleAnalyzer() {
 
             {/* Preferred Categories */}
             <div>
-              <p className="text-sm font-medium mb-3">Популярные категории</p>
+              <p className="mb-3 text-sm font-medium">Популярные категории</p>
               <div className="flex flex-wrap gap-2">
                 {styleProfile.preferredCategories.slice(0, 6).map((cat, index) => (
                   <Badge key={index} variant="secondary">
@@ -144,19 +150,22 @@ export default function AIStyleAnalyzer() {
             </div>
 
             {/* Price Range */}
-            <div className="grid grid-cols-3 gap-3 pt-4 border-t">
+            <div className="grid grid-cols-3 gap-3 border-t pt-4">
               <div>
-                <p className="text-xs text-muted-foreground mb-1">Средний чек</p>
-                <p className="text-sm font-bold">{Math.round(styleProfile.priceRange.avg).toLocaleString('ru-RU')} ₽</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">Диапазон</p>
-                <p className="text-sm font-medium">
-                  {styleProfile.priceRange.min.toLocaleString('ru-RU')} - {styleProfile.priceRange.max.toLocaleString('ru-RU')} ₽
+                <p className="mb-1 text-xs text-muted-foreground">Средний чек</p>
+                <p className="text-sm font-bold">
+                  {Math.round(styleProfile.priceRange.avg).toLocaleString('ru-RU')} ₽
                 </p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground mb-1">Всего потрачено</p>
+                <p className="mb-1 text-xs text-muted-foreground">Диапазон</p>
+                <p className="text-sm font-medium">
+                  {styleProfile.priceRange.min.toLocaleString('ru-RU')} -{' '}
+                  {styleProfile.priceRange.max.toLocaleString('ru-RU')} ₽
+                </p>
+              </div>
+              <div>
+                <p className="mb-1 text-xs text-muted-foreground">Всего потрачено</p>
                 <p className="text-sm font-bold text-accent">
                   {orders.reduce((sum, o) => sum + o.total, 0).toLocaleString('ru-RU')} ₽
                 </p>
@@ -173,9 +182,7 @@ export default function AIStyleAnalyzer() {
             <Lightbulb className="h-5 w-5 text-accent" />
             AI Предсказания и Рекомендации
           </CardTitle>
-          <CardDescription>
-            Что AI знает о ваших будущих покупках
-          </CardDescription>
+          <CardDescription>Что AI знает о ваших будущих покупках</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -183,28 +190,40 @@ export default function AIStyleAnalyzer() {
               <div
                 key={index}
                 className={cn(
-                  "p-4 rounded-lg border",
-                  prediction.type === 'purchase' && "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800",
-                  prediction.type === 'trend' && "bg-purple-50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-800",
-                  prediction.type === 'opportunity' && "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800",
-                  prediction.type === 'warning' && "bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800"
+                  'rounded-lg border p-4',
+                  prediction.type === 'purchase' &&
+                    'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20',
+                  prediction.type === 'trend' &&
+                    'bg-accent-primary/10 dark:bg-bg-surface2/80 border-accent-primary/25 dark:border-border-default',
+                  prediction.type === 'opportunity' &&
+                    'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20',
+                  prediction.type === 'warning' &&
+                    'border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950/20'
                 )}
               >
-                <div className="flex items-start justify-between mb-2">
+                <div className="mb-2 flex items-start justify-between">
                   <div className="flex items-center gap-2">
-                    {prediction.type === 'purchase' && <ShoppingBag className="h-4 w-4 text-blue-600" />}
-                    {prediction.type === 'trend' && <TrendingUp className="h-4 w-4 text-purple-600" />}
-                    {prediction.type === 'opportunity' && <Zap className="h-4 w-4 text-green-600" />}
-                    {prediction.type === 'warning' && <Target className="h-4 w-4 text-yellow-600" />}
-                    <h4 className="font-semibold text-sm">{prediction.title}</h4>
+                    {prediction.type === 'purchase' && (
+                      <ShoppingBag className="h-4 w-4 text-blue-600" />
+                    )}
+                    {prediction.type === 'trend' && (
+                      <TrendingUp className="text-accent-primary h-4 w-4" />
+                    )}
+                    {prediction.type === 'opportunity' && (
+                      <Zap className="h-4 w-4 text-green-600" />
+                    )}
+                    {prediction.type === 'warning' && (
+                      <Target className="h-4 w-4 text-yellow-600" />
+                    )}
+                    <h4 className="text-sm font-semibold">{prediction.title}</h4>
                   </div>
                   <Badge variant="outline" className="text-xs">
                     {prediction.confidence}% уверенность
                   </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground mb-2">{prediction.description}</p>
+                <p className="mb-2 text-sm text-muted-foreground">{prediction.description}</p>
                 {prediction.timeframe && (
-                  <p className="text-xs text-muted-foreground flex items-center gap-1">
+                  <p className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Calendar className="h-3 w-3" />
                     {prediction.timeframe}
                   </p>
@@ -222,21 +241,21 @@ export default function AIStyleAnalyzer() {
             <BarChart3 className="h-5 w-5" />
             Сродство с брендами
           </CardTitle>
-          <CardDescription>
-            AI определил ваши любимые бренды
-          </CardDescription>
+          <CardDescription>AI определил ваши любимые бренды</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {styleProfile.brandAffinity.slice(0, 5).map((brand, index) => (
               <div key={index} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold",
-                    index === 0 && "bg-accent text-accent-foreground",
-                    index === 1 && "bg-muted",
-                    index >= 2 && "bg-muted/50"
-                  )}>
+                  <div
+                    className={cn(
+                      'flex h-10 w-10 items-center justify-center rounded-full text-xs font-bold',
+                      index === 0 && 'bg-accent text-accent-foreground',
+                      index === 1 && 'bg-muted',
+                      index >= 2 && 'bg-muted/50'
+                    )}
+                  >
                     {index + 1}
                   </div>
                   <div>
@@ -246,7 +265,7 @@ export default function AIStyleAnalyzer() {
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-accent">{Math.round(brand.score)}%</p>
-                  <Progress value={brand.score} className="w-20 h-2 mt-1" />
+                  <Progress value={brand.score} className="mt-1 h-2 w-20" />
                 </div>
               </div>
             ))}
@@ -261,22 +280,20 @@ export default function AIStyleAnalyzer() {
             <Calendar className="h-5 w-5" />
             Сезонная активность
           </CardTitle>
-          <CardDescription>
-            Когда вы покупаете больше всего
-          </CardDescription>
+          <CardDescription>Когда вы покупаете больше всего</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-4 gap-3">
             {styleProfile.seasonality.map((season, index) => (
               <div key={index} className="text-center">
-                <p className="text-sm font-medium mb-2">{season.season}</p>
-                <div className="relative h-24 bg-muted rounded-lg flex items-end justify-center p-2">
-                  <div 
-                    className="w-full bg-accent rounded-t-lg transition-all"
+                <p className="mb-2 text-sm font-medium">{season.season}</p>
+                <div className="relative flex h-24 items-end justify-center rounded-lg bg-muted p-2">
+                  <div
+                    className="w-full rounded-t-lg bg-accent transition-all"
                     style={{ height: `${season.activity}%` }}
                   />
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">{Math.round(season.activity)}%</p>
+                <p className="mt-2 text-xs text-muted-foreground">{Math.round(season.activity)}%</p>
               </div>
             ))}
           </div>
@@ -289,11 +306,11 @@ export default function AIStyleAnalyzer() {
 function generateStyleProfile(items: Product[], orders: Order[]): StyleProfile {
   // Analyze colors
   const colorMap = new Map<string, number>();
-  items.forEach(item => {
+  items.forEach((item) => {
     if (item.color) {
       colorMap.set(item.color, (colorMap.get(item.color) || 0) + 1);
     }
-    item.availableColors?.forEach(color => {
+    item.availableColors?.forEach((color) => {
       colorMap.set(color.name, (colorMap.get(color.name) || 0) + 1);
     });
   });
@@ -308,7 +325,7 @@ function generateStyleProfile(items: Product[], orders: Order[]): StyleProfile {
 
   // Analyze categories
   const categoryMap = new Map<string, number>();
-  items.forEach(item => {
+  items.forEach((item) => {
     categoryMap.set(item.category, (categoryMap.get(item.category) || 0) + 1);
   });
   const preferredCategories = Array.from(categoryMap.entries())
@@ -319,7 +336,7 @@ function generateStyleProfile(items: Product[], orders: Order[]): StyleProfile {
   const stylePersonality = determineStylePersonality(items, preferredCategories);
 
   // Analyze price range
-  const prices = orders.flatMap(o => o.items.map(i => i.price));
+  const prices = orders.flatMap((o) => o.items.map((i) => i.price));
   const priceRange = {
     min: prices.length > 0 ? Math.min(...prices) : 0,
     max: prices.length > 0 ? Math.max(...prices) : 0,
@@ -336,7 +353,7 @@ function generateStyleProfile(items: Product[], orders: Order[]): StyleProfile {
 
   // Brand affinity
   const brandMap = new Map<string, number>();
-  items.forEach(item => {
+  items.forEach((item) => {
     brandMap.set(item.brand, (brandMap.get(item.brand) || 0) + 1);
   });
   const brandAffinity = Array.from(brandMap.entries())
@@ -361,15 +378,15 @@ function determineStylePersonality(
   items: Product[],
   categories: { category: string; count: number }[]
 ): StyleProfile['stylePersonality'] {
-  const categoryNames = categories.map(c => c.category.toLowerCase());
-  
-  if (categoryNames.some(c => c.includes('классик') || c.includes('костюм'))) {
+  const categoryNames = categories.map((c) => c.category.toLowerCase());
+
+  if (categoryNames.some((c) => c.includes('классик') || c.includes('костюм'))) {
     return 'classic';
   }
-  if (categoryNames.some(c => c.includes('спорт') || c.includes('активный'))) {
+  if (categoryNames.some((c) => c.includes('спорт') || c.includes('активный'))) {
     return 'sporty';
   }
-  if (categoryNames.some(c => c.includes('платье') || c.includes('романт'))) {
+  if (categoryNames.some((c) => c.includes('платье') || c.includes('романт'))) {
     return 'romantic';
   }
   if (items.length < 5) {
@@ -392,19 +409,19 @@ function getStyleLabel(personality: StyleProfile['stylePersonality']): string {
 
 function getColorHex(colorName: string): string {
   const colorMap: Record<string, string> = {
-    'черный': '#000000',
-    'белый': '#FFFFFF',
-    'серый': '#808080',
-    'бежевый': '#F5F5DC',
-    'коричневый': '#A52A2A',
-    'синий': '#0000FF',
-    'голубой': '#87CEEB',
-    'красный': '#FF0000',
-    'розовый': '#FFC0CB',
-    'зеленый': '#008000',
-    'желтый': '#FFFF00',
-    'оранжевый': '#FFA500',
-    'фиолетовый': '#800080',
+    черный: '#000000',
+    белый: '#FFFFFF',
+    серый: '#808080',
+    бежевый: '#F5F5DC',
+    коричневый: '#A52A2A',
+    синий: '#0000FF',
+    голубой: '#87CEEB',
+    красный: '#FF0000',
+    розовый: '#FFC0CB',
+    зеленый: '#008000',
+    желтый: '#FFFF00',
+    оранжевый: '#FFA500',
+    фиолетовый: '#800080',
   };
   return colorMap[colorName.toLowerCase()] || '#808080';
 }
@@ -417,9 +434,10 @@ function generateAIPredictions(
   const predictions: AIPrediction[] = [];
 
   // Purchase prediction
-  const daysSinceLastOrder = orders.length > 0
-    ? Math.floor((Date.now() - new Date(orders[0].createdAt).getTime()) / (1000 * 60 * 60 * 24))
-    : 30;
+  const daysSinceLastOrder =
+    orders.length > 0
+      ? Math.floor((Date.now() - new Date(orders[0].createdAt).getTime()) / (1000 * 60 * 60 * 24))
+      : 30;
 
   if (daysSinceLastOrder > 14) {
     predictions.push({
@@ -452,7 +470,7 @@ function generateAIPredictions(
       description: `У ${wishlistCount} товаров из вашего избранного сейчас действуют скидки. Не упустите возможность!`,
       confidence: 92,
       action: 'Посмотреть избранное',
-      actionLink: '/u?tab=wardrobe',
+      actionLink: '/client/me?tab=wardrobe',
     });
   }
 
@@ -465,10 +483,9 @@ function generateAIPredictions(
       description: `Вы потратили ${totalSpent.toLocaleString('ru-RU')} ₽. Еще немного до премиум уровня с дополнительными привилегиями!`,
       confidence: 88,
       action: 'Узнать больше',
-      actionLink: '/u?tab=payments',
+      actionLink: '/client/me?tab=payments',
     });
   }
 
   return predictions;
 }
-

@@ -78,7 +78,11 @@ export function computeProductionAlerts(state: BrandProductionState): Production
   }
 
   for (const bom of state.bomLines) {
-    if (bom.purchaseStatus !== 'received' && bom.purchaseStatus !== 'reserved' && bom.etaToFactory) {
+    if (
+      bom.purchaseStatus !== 'received' &&
+      bom.purchaseStatus !== 'reserved' &&
+      bom.etaToFactory
+    ) {
       const art = state.articles.find((a) => a.id === bom.articleId);
       if (art?.targetCutDate) {
         const cut = new Date(art.targetCutDate);
@@ -97,7 +101,9 @@ export function computeProductionAlerts(state: BrandProductionState): Production
     }
   }
 
-  const failedQc = state.qcInspections.filter((i) => i.blocksShipment && (i.result === 'fail' || i.result === 'rework'));
+  const failedQc = state.qcInspections.filter(
+    (i) => i.blocksShipment && (i.result === 'fail' || i.result === 'rework')
+  );
   for (const i of failedQc) {
     alerts.push({
       id: `qc-${i.id}`,
@@ -122,5 +128,11 @@ export function collectionKpi(state: BrandProductionState, collectionId: string)
   const bomFilled = arts.filter((a) => state.bomLines.some((b) => b.articleId === a.id)).length;
   const bomPct = arts.length ? Math.round((bomFilled / arts.length) * 100) : 0;
   const dropDeadline = state.collections.find((c) => c.id === collectionId)?.targetFirstDropDate;
-  return { totalArticles: arts.length, byStage, bomPct, dropDeadline, labels: ARTICLE_LIFECYCLE_LABELS };
+  return {
+    totalArticles: arts.length,
+    byStage,
+    bomPct,
+    dropDeadline,
+    labels: ARTICLE_LIFECYCLE_LABELS,
+  };
 }

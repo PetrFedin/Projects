@@ -43,33 +43,32 @@ export function BrandSectionHeader({
         title={meta.sectionLabel}
         description={meta.description}
         icon={Icon}
-        iconBg="bg-indigo-100"
-        iconColor="text-indigo-600"
+        iconBg="bg-accent-primary/15"
+        iconColor="text-accent-primary"
         badges={badges}
       >
         {children}
       </SectionInfoCard>
       <div
         className={cn(
-          'flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-4',
+          'text-text-muted mb-4 flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest',
           breadcrumbClassName
         )}
       >
-        <Link
-          href={meta.groupHref}
-          className="hover:text-indigo-600 transition-colors"
-        >
+        <Link href={meta.groupHref} className="hover:text-accent-primary transition-colors">
           {meta.groupLabel}
         </Link>
         <ChevronRight className="h-3 w-3" />
         {meta.subsectionLabel ? (
           <>
-            <Link href={meta.sectionHref} className="hover:text-indigo-600 transition-colors">{meta.sectionLabel}</Link>
+            <Link href={meta.sectionHref} className="hover:text-accent-primary transition-colors">
+              {meta.sectionLabel}
+            </Link>
             <ChevronRight className="h-3 w-3" />
-            <span className="text-indigo-600">{meta.subsectionLabel}</span>
+            <span className="text-accent-primary">{meta.subsectionLabel}</span>
           </>
         ) : (
-          <span className="text-indigo-600">{meta.sectionLabel}</span>
+          <span className="text-accent-primary">{meta.sectionLabel}</span>
         )}
       </div>
     </>

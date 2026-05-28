@@ -13,15 +13,17 @@ export function useProfileAudit() {
   const [auditEvents, setAuditEvents] = useState<AuditEvent[]>([]);
 
   const appendAudit = useCallback((message: string, section?: string) => {
-    setAuditEvents((prev) => [
-      {
-        id: `audit-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
-        message,
-        section,
-        ts: Date.now(),
-      },
-      ...prev,
-    ].slice(0, 50));
+    setAuditEvents((prev) =>
+      [
+        {
+          id: `audit-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+          message,
+          section,
+          ts: Date.now(),
+        },
+        ...prev,
+      ].slice(0, 50)
+    );
   }, []);
 
   return { auditEvents, appendAudit };

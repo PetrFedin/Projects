@@ -66,7 +66,9 @@ describe('workshop2-dossier-nine-gap-infrastructure', () => {
   });
 
   it('filterPassportCriticalAuditLines', () => {
-    expect(filterPassportCriticalAuditLines(['Аудитория (сегмент)', 'Пусто'])).toEqual(['Аудитория (сегмент)']);
+    expect(filterPassportCriticalAuditLines(['Аудитория (сегмент)', 'Пусто'])).toEqual([
+      'Аудитория (сегмент)',
+    ]);
     expect(filterPassportCriticalAuditLines([])).toEqual([]);
   });
 

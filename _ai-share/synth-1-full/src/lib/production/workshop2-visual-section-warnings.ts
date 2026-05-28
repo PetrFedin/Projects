@@ -41,7 +41,9 @@ function phase1AttributeIdSet(leaf: HandbookCategoryLeaf | null | undefined): Se
 }
 
 function hasAssignment(dossier: Workshop2DossierPhase1, attributeId: string): boolean {
-  return dossier.assignments.some((a) => a.attributeId === attributeId && (a.values?.length ?? 0) > 0);
+  return dossier.assignments.some(
+    (a) => a.attributeId === attributeId && (a.values?.length ?? 0) > 0
+  );
 }
 
 /** Пункты гейта с привязкой к якорям — один источник правды для предупреждений и UI. */
@@ -152,7 +154,9 @@ export function workshop2DossierWarningLooksVisual(warning: string): boolean {
 }
 
 /** Рефы, у которых есть комментарии и хотя бы один не помечен resolved. */
-export function countOpenVisualRefThreads(refs: Workshop2Phase1VisualReference[] | undefined): number {
+export function countOpenVisualRefThreads(
+  refs: Workshop2Phase1VisualReference[] | undefined
+): number {
   let n = 0;
   for (const r of refs ?? []) {
     const cs = r.comments ?? [];

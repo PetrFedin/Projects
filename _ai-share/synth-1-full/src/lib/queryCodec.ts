@@ -6,17 +6,17 @@ export function encodeQuery(obj: Record<string, any>) {
 
     if (Array.isArray(v)) {
       if (v.length === 0) continue;
-      p.set(k, v.join(","));
+      p.set(k, v.join(','));
       continue;
     }
 
-    if (typeof v === "boolean") {
+    if (typeof v === 'boolean') {
       if (v === false) continue;
-      p.set(k, "1");
+      p.set(k, '1');
       continue;
     }
 
-    if (v === "") continue;
+    if (v === '') continue;
 
     p.set(k, String(v));
   }
@@ -34,11 +34,11 @@ export function decodeQuery<T extends Record<string, any>>(defaults: T, sp: URLS
     const def = (defaults as any)[key];
 
     if (Array.isArray(def)) {
-      out[key] = raw ? raw.split(",").filter(Boolean) : [];
-    } else if (typeof def === "number") {
+      out[key] = raw ? raw.split(',').filter(Boolean) : [];
+    } else if (typeof def === 'number') {
       out[key] = Number(raw);
-    } else if (typeof def === "boolean") {
-      out[key] = raw === "1" || raw === "true";
+    } else if (typeof def === 'boolean') {
+      out[key] = raw === '1' || raw === 'true';
     } else {
       out[key] = raw;
     }
@@ -46,4 +46,3 @@ export function decodeQuery<T extends Record<string, any>>(defaults: T, sp: URLS
 
   return out as T;
 }
-

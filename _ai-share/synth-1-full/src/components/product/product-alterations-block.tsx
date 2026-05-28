@@ -14,7 +14,7 @@ export function ProductAlterationsBlock({ product }: Props) {
   return (
     <Card className="mt-4 border-dashed">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <Scissors className="h-4 w-4" />
           Подгонка / ателье
         </CardTitle>
@@ -23,15 +23,19 @@ export function ProductAlterationsBlock({ product }: Props) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-2 text-sm">
-        {o.available && <p className="text-emerald-700 font-medium text-xs">Доступна подгонка у партнёра бренда</p>}
+        {o.available && (
+          <p className="text-xs font-medium text-emerald-700">
+            Доступна подгонка у партнёра бренда
+          </p>
+        )}
         {o.services.length > 0 && (
-          <ul className="list-disc pl-4 text-xs text-muted-foreground space-y-0.5">
+          <ul className="list-disc space-y-0.5 pl-4 text-xs text-muted-foreground">
             {o.services.map((s) => (
               <li key={s}>{s}</li>
             ))}
           </ul>
         )}
-        {o.note && <p className="text-xs text-muted-foreground leading-snug">{o.note}</p>}
+        {o.note && <p className="text-xs leading-snug text-muted-foreground">{o.note}</p>}
       </CardContent>
     </Card>
   );

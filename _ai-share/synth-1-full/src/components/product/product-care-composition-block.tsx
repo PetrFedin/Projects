@@ -25,7 +25,7 @@ export function ProductCareCompositionBlock({ product }: Props) {
   return (
     <Card className="mt-4 border-dashed bg-muted/15">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
           <Shirt className="h-4 w-4" />
           Состав и уход
         </CardTitle>
@@ -47,7 +47,9 @@ export function ProductCareCompositionBlock({ product }: Props) {
               <div key={p.material} className="space-y-1">
                 <div className="flex justify-between text-xs">
                   <span className="font-medium">{p.material}</span>
-                  {p.percentage != null && <span className="text-muted-foreground">{p.percentage}%</span>}
+                  {p.percentage != null && (
+                    <span className="text-muted-foreground">{p.percentage}%</span>
+                  )}
                 </div>
                 {p.percentage != null && <Progress value={p.percentage} className="h-1" />}
               </div>
@@ -55,7 +57,7 @@ export function ProductCareCompositionBlock({ product }: Props) {
           </div>
         )}
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+          <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
             Пиктограммы ухода{!hasExplicitCare && parts.length ? ' (типовые для демо)' : ''}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -63,7 +65,7 @@ export function ProductCareCompositionBlock({ product }: Props) {
               <span
                 key={c.id}
                 title={c.label}
-                className="inline-flex h-9 min-w-[2.25rem] items-center justify-center rounded-md border bg-background px-2 text-[11px] font-mono"
+                className="inline-flex h-9 min-w-[2.25rem] items-center justify-center rounded-md border bg-background px-2 font-mono text-[11px]"
               >
                 {c.short}
               </span>

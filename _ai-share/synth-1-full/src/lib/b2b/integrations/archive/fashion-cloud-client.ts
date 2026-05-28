@@ -96,7 +96,8 @@ export async function fashionCloudGet<T = unknown>(
   query: Record<string, string> = {},
   config?: FashionCloudConfig | null
 ): Promise<T> {
-  const token = config?.token || process.env.NEXT_PUBLIC_FASHION_CLOUD_TOKEN || process.env.FASHION_CLOUD_TOKEN;
+  const token =
+    config?.token || process.env.NEXT_PUBLIC_FASHION_CLOUD_TOKEN || process.env.FASHION_CLOUD_TOKEN;
   if (!token) {
     return [] as T;
   }
@@ -116,7 +117,8 @@ export async function fashionCloudPost<T = unknown>(
   data: Record<string, unknown>,
   config?: FashionCloudConfig | null
 ): Promise<T> {
-  const token = config?.token || process.env.NEXT_PUBLIC_FASHION_CLOUD_TOKEN || process.env.FASHION_CLOUD_TOKEN;
+  const token =
+    config?.token || process.env.NEXT_PUBLIC_FASHION_CLOUD_TOKEN || process.env.FASHION_CLOUD_TOKEN;
   if (!token) {
     return { success: false } as T;
   }
@@ -132,7 +134,10 @@ export async function fashionCloudPost<T = unknown>(
 }
 
 /** Продукты по бренду (мок при отсутствии токена). */
-export async function fashionCloudGetProducts(brandId?: string, config?: FashionCloudConfig | null): Promise<FashionCloudProduct[]> {
+export async function fashionCloudGetProducts(
+  brandId?: string,
+  config?: FashionCloudConfig | null
+): Promise<FashionCloudProduct[]> {
   if (!isFashionCloudConfigured() && !config?.token) return [];
   try {
     const q: Record<string, string> = {};
@@ -144,7 +149,10 @@ export async function fashionCloudGetProducts(brandId?: string, config?: Fashion
 }
 
 /** Остатки по GTIN (мок при отсутствии токена). */
-export async function fashionCloudGetStock(gtin?: string, config?: FashionCloudConfig | null): Promise<FashionCloudStockItem[]> {
+export async function fashionCloudGetStock(
+  gtin?: string,
+  config?: FashionCloudConfig | null
+): Promise<FashionCloudStockItem[]> {
   if (!isFashionCloudConfigured() && !config?.token) return [];
   try {
     const q: Record<string, string> = {};
@@ -187,7 +195,15 @@ export async function fashionCloudGetCatalogStatus(
 
 /** Отправить/обновить продукты в Fashion Cloud (синдикация). Поддерживает options и media в продуктах. */
 export async function fashionCloudSyncProducts(
-  products: Array<{ id: string; gtin?: string; name?: string; brandId?: string; options?: FashionCloudProductOption[]; media?: FashionCloudProductMedia[]; [key: string]: unknown }>,
+  products: Array<{
+    id: string;
+    gtin?: string;
+    name?: string;
+    brandId?: string;
+    options?: FashionCloudProductOption[];
+    media?: FashionCloudProductMedia[];
+    [key: string]: unknown;
+  }>,
   config?: FashionCloudConfig | null
 ): Promise<{ success: boolean; synced: number; errors?: string[] }> {
   if (!isFashionCloudConfigured() && !config?.token) {
@@ -222,9 +238,15 @@ export async function fashionCloudGetOrders(
     if (options?.status) q.status = options.status;
     if (options?.since) q.since = options.since;
     if (options?.limit != null) q.limit = String(options.limit);
-    const data = await fashionCloudGet<FashionCloudOrder[] | { data?: FashionCloudOrder[]; orders?: FashionCloudOrder[] }>('orders', q, config);
+    const data = await fashionCloudGet<
+      FashionCloudOrder[] | { data?: FashionCloudOrder[]; orders?: FashionCloudOrder[] }
+    >('orders', q, config);
     if (Array.isArray(data)) return data;
-    return (data as { data?: FashionCloudOrder[] }).data ?? (data as { orders?: FashionCloudOrder[] }).orders ?? [];
+    return (
+      (data as { data?: FashionCloudOrder[] }).data ??
+      (data as { orders?: FashionCloudOrder[] }).orders ??
+      []
+    );
   } catch {
     return [];
   }
@@ -239,9 +261,16 @@ export async function fashionCloudGetDraftOrders(
   try {
     const q: Record<string, string> = {};
     if (brandId) q.brandId = brandId;
-    const data = await fashionCloudGet<FashionCloudDraftOrder[] | { data?: FashionCloudDraftOrder[]; drafts?: FashionCloudDraftOrder[] }>('draft_orders', q, config);
+    const data = await fashionCloudGet<
+      | FashionCloudDraftOrder[]
+      | { data?: FashionCloudDraftOrder[]; drafts?: FashionCloudDraftOrder[] }
+    >('draft_orders', q, config);
     if (Array.isArray(data)) return data;
-    return (data as { data?: FashionCloudDraftOrder[] }).data ?? (data as { drafts?: FashionCloudDraftOrder[] }).drafts ?? [];
+    return (
+      (data as { data?: FashionCloudDraftOrder[] }).data ??
+      (data as { drafts?: FashionCloudDraftOrder[] }).drafts ??
+      []
+    );
   } catch {
     return [];
   }
@@ -261,7 +290,10 @@ export async function fashionCloudBulkUpsertStock(
       { stock: items },
       config
     );
-    const processed = (res as { processed?: number }).processed ?? (res as { count?: number }).count ?? items.length;
+    const processed =
+      (res as { processed?: number }).processed ??
+      (res as { count?: number }).count ??
+      items.length;
     return { success: true, processed };
   } catch (e) {
     return {

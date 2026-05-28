@@ -41,8 +41,14 @@ describe('W2 metrics stamp', () => {
 
 describe('W2 archive fingerprint', () => {
   it('is stable when row order differs', () => {
-    const a = buildW2MetricsArchivePayload([row('2025-01-02T00:00:00.000Z'), row('2025-01-01T00:00:00.000Z')]);
-    const b = buildW2MetricsArchivePayload([row('2025-01-01T00:00:00.000Z'), row('2025-01-02T00:00:00.000Z')]);
+    const a = buildW2MetricsArchivePayload([
+      row('2025-01-02T00:00:00.000Z'),
+      row('2025-01-01T00:00:00.000Z'),
+    ]);
+    const b = buildW2MetricsArchivePayload([
+      row('2025-01-01T00:00:00.000Z'),
+      row('2025-01-02T00:00:00.000Z'),
+    ]);
     expect(a.fingerprint).toBe(b.fingerprint);
   });
 });

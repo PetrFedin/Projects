@@ -1,6 +1,6 @@
 ---
 description: Запрет чтения монстров (>300 строк) без offset/limit
-globs: ["synth-1/**/*.tsx", "synth-1/**/*.ts", "app/**/*.py"]
+globs: ["_ai-share/synth-1-full/**/*.tsx", "_ai-share/synth-1-full/**/*.ts", "app/**/*.py"]
 alwaysApply: false
 ---
 

@@ -1,0 +1,12 @@
+{
+  "id": "complex-120",
+  "labelRu": "Сложное изделие · 120 дней",
+  "offsetsDays": [
+    { "title": "Размещение заказа (PO)", "offsetDays": 0 },
+    { "title": "Поставка материалов", "offsetDays": 28 },
+    { "title": "Лекала + прототип", "offsetDays": 35 },
+    { "title": "Раскрой", "offsetDays": 50 },
+    { "title": "Пошив образца", "offsetDays": 85 },
+    { "title": "Финальный review", "offsetDays": 115 }
+  ]
+}

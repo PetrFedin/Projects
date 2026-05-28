@@ -84,7 +84,10 @@ export async function GET(request: Request) {
         { secret: whSecret }
       );
       if (!webhook.ok) {
-        console.warn('[w2-metrics-archive]', JSON.stringify({ event: 'archive_webhook_failed', ...webhook }));
+        console.warn(
+          '[w2-metrics-archive]',
+          JSON.stringify({ event: 'archive_webhook_failed', ...webhook })
+        );
       }
     }
 

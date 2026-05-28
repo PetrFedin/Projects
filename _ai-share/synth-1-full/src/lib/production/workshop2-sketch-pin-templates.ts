@@ -4,9 +4,16 @@ import type {
   Workshop2SketchPinTemplate,
   Workshop2SketchSheetViewKind,
 } from '@/lib/production/workshop2-dossier-phase1.types';
-import { MAX_ANNOTATIONS_PER_SKETCH_SHEET, normalizeSketchSheets, patchSketchSheet } from '@/lib/production/workshop2-sketch-sheets';
+import {
+  MAX_ANNOTATIONS_PER_SKETCH_SHEET,
+  normalizeSketchSheets,
+  patchSketchSheet,
+} from '@/lib/production/workshop2-sketch-sheets';
 
 const MAX_PIN_TEMPLATES = 24;
+
+/** UI шаблонов master-меток на доске скетча (feature flag). */
+export const WORKSHOP2_MASTER_SKETCH_PIN_TEMPLATES_UI_ENABLED = true;
 
 /** Пустой или отсутствующий leafId в старых данных — считаем метку относящейся к целевой ветке при показе/шаблонах. */
 export function sketchPinBelongsToLeaf(
@@ -92,10 +99,15 @@ export function appendSketchPinTemplate(
   };
 }
 
-export function removeSketchPinTemplate(dossier: Workshop2DossierPhase1, templateId: string): Workshop2DossierPhase1 {
+export function removeSketchPinTemplate(
+  dossier: Workshop2DossierPhase1,
+  templateId: string
+): Workshop2DossierPhase1 {
   return {
     ...dossier,
-    sketchPinTemplates: (dossier.sketchPinTemplates ?? []).filter((t) => t.templateId !== templateId),
+    sketchPinTemplates: (dossier.sketchPinTemplates ?? []).filter(
+      (t) => t.templateId !== templateId
+    ),
   };
 }
 
@@ -112,8 +124,7 @@ export function applySketchPinTemplateToMaster(
   const existing = dossier.categorySketchAnnotations ?? [];
   const others = existing.filter((a) => !sketchPinBelongsToLeaf(a, targetLeafId));
   const sameLeaf = existing.filter((a) => sketchPinBelongsToLeaf(a, targetLeafId));
-  let own =
-    mode === 'replace' ? fresh : [...sameLeaf, ...fresh];
+  let own = mode === 'replace' ? fresh : [...sameLeaf, ...fresh];
   if (own.length > MASTER_PIN_CAP) own = own.slice(0, MASTER_PIN_CAP);
   return {
     ...dossier,
@@ -136,8 +147,7 @@ export function applySketchPinTemplateToSheet(
   const fresh = remapSketchPinsToLeaf(template.annotations, sourceLeafId, targetLeafId);
   const sameLeaf = sheet.annotations.filter((a) => sketchPinBelongsToLeaf(a, targetLeafId));
   const othersInSheet = sheet.annotations.filter((a) => !sketchPinBelongsToLeaf(a, targetLeafId));
-  let own =
-    mode === 'replace' ? fresh : [...sameLeaf, ...fresh];
+  let own = mode === 'replace' ? fresh : [...sameLeaf, ...fresh];
   if (own.length > MAX_ANNOTATIONS_PER_SKETCH_SHEET) {
     own = own.slice(0, MAX_ANNOTATIONS_PER_SKETCH_SHEET);
   }

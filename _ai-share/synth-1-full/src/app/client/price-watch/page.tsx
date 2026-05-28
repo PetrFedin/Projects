@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlatformDataBanner } from '@/components/client/platform-data-banner';
-import { ROUTES } from '@/lib/routes';
 import { products } from '@/lib/products';
 import {
   addOrRefreshPriceWatch,
@@ -16,8 +15,11 @@ import {
   removePriceWatch,
   type PriceWatchEntryV1,
 } from '@/lib/fashion/price-watch-store';
-import { ArrowLeft, Bell, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
+import { ClientCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
 function currentPrice(sku: string): number | null {
   const p = products.find((x) => x.sku === sku);
@@ -68,18 +70,24 @@ function PriceWatchInner() {
         </CardHeader>
         <CardContent className="space-y-3">
           {rows.length === 0 ? (
-            <p className="text-sm text-muted-foreground border border-dashed rounded-lg p-8 text-center">
+            <p className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
               Пусто. На карточке товара нажмите «Следить за ценой».
             </p>
           ) : (
             rows.map(({ e, cur, delta }) => (
-              <div key={e.sku} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3">
+              <div
+                key={e.sku}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3"
+              >
                 <div>
-                  <Link href={`/products/${e.slug}`} className="text-sm font-medium hover:underline">
+                  <Link
+                    href={`/products/${e.slug}`}
+                    className="text-sm font-medium hover:underline"
+                  >
                     {e.nameSnapshot}
                   </Link>
-                  <p className="text-[11px] text-muted-foreground font-mono mt-0.5">{e.sku}</p>
-                  <p className="text-xs mt-1">
+                  <p className="mt-0.5 font-mono text-[11px] text-muted-foreground">{e.sku}</p>
+                  <p className="mt-1 text-xs">
                     Было: <strong>{e.priceSnapshot}</strong>
                     {cur != null && (
                       <>
@@ -91,7 +99,10 @@ function PriceWatchInner() {
                 </div>
                 <div className="flex items-center gap-2">
                   {delta != null && (
-                    <Badge variant={delta < 0 ? 'default' : 'secondary'} className="font-mono text-xs">
+                    <Badge
+                      variant={delta < 0 ? 'default' : 'secondary'}
+                      className="font-mono text-xs"
+                    >
                       {delta > 0 ? '+' : ''}
                       {delta}%
                     </Badge>
@@ -117,21 +128,16 @@ function PriceWatchInner() {
 
 export default function PriceWatchPage() {
   return (
-    <div className="container max-w-lg mx-auto px-4 py-6 space-y-6 pb-24">
+    <CabinetPageContent maxWidth="lg">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.client.home}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
-              <Bell className="h-6 w-6" />
-              Слежение за ценой
-            </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">Локально в браузере; контракт под price-alert API.</p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <ClientCabinetSectionHeader
+            description={
+              <>
+                Локально в браузере; контракт под price-alert <AcronymWithTooltip abbr="API" />.
+              </>
+            }
+          />
         </div>
         <PlatformDataBanner />
       </div>
@@ -139,6 +145,6 @@ export default function PriceWatchPage() {
       <Suspense fallback={<p className="text-sm text-muted-foreground">Загрузка…</p>}>
         <PriceWatchInner />
       </Suspense>
-    </div>
+    </CabinetPageContent>
   );
 }

@@ -16,7 +16,10 @@ export function calculateTrendSentiment(product: Product): TrendSentimentV1 {
     score += 5;
     drivers.push('Classic Hardware');
   }
-  if (product.color.toLowerCase().includes('grey') || product.color.toLowerCase().includes('gray')) {
+  if (
+    product.color.toLowerCase().includes('grey') ||
+    product.color.toLowerCase().includes('gray')
+  ) {
     score += 10;
     drivers.push('Neutral Palette Trend');
   }

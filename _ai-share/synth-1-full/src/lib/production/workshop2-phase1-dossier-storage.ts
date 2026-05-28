@@ -2,7 +2,10 @@
  * Досье фазы 1 в localStorage: один объект на пару (collectionId, articleId).
  * Ключ хранилища фиксирован; внутри — map storageKey → Workshop2DossierPhase1.
  */
-import type { Workshop2DossierPhase1 } from './workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2PassportProductionBrief,
+} from './workshop2-dossier-phase1.types';
 
 const STORAGE_KEY = 'synth.brand.workshop2Phase1Dossier.v1';
 
@@ -71,4 +74,32 @@ export function removeWorkshop2Phase1Dossier(collectionId: string, articleId: st
   if (!(key in map)) return;
   delete map[key];
   saveWorkshop2Phase1DossierMap(map);
+}
+
+const DEFAULT_PASSPORT_MOQ_MAX_PIECES = 1;
+
+/** Эффективный лимит образцов для UI и табеля мерок (минимум 1). */
+export function effectiveMoqTargetMaxPieces(
+  brief: Workshop2PassportProductionBrief | undefined
+): number {
+  const raw = brief?.moqTargetMaxPieces;
+  if (typeof raw === 'number' && Number.isFinite(raw) && raw >= 1) {
+    return Math.floor(raw);
+  }
+  return DEFAULT_PASSPORT_MOQ_MAX_PIECES;
+}
+
+/** При загрузке из localStorage подставляет дефолт MOQ, если поле не задано. */
+export function withWorkshop2PassportMoqDefaultApplied(
+  dossier: Workshop2DossierPhase1
+): Workshop2DossierPhase1 {
+  const brief = dossier.passportProductionBrief;
+  if (brief?.moqTargetMaxPieces != null) return dossier;
+  return {
+    ...dossier,
+    passportProductionBrief: {
+      ...(brief ?? {}),
+      moqTargetMaxPieces: DEFAULT_PASSPORT_MOQ_MAX_PIECES,
+    },
+  };
 }

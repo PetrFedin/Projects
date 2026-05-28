@@ -1,0 +1,31 @@
+/** Barrel export — scroll-switcher subcomponents (production paths only). */
+export { CatalogRunwayBadge } from './CatalogRunwayBadge';
+export { RunwayAttributionNote } from './RunwayAttributionNote';
+export { RunwayAutoTourButton } from './RunwayAutoTourButton';
+export { RunwayBadge } from './RunwayBadge';
+export { RunwayComparePeek } from './RunwayComparePeek';
+export { RunwayKioskQr } from './RunwayKioskQr';
+export { RunwayCompleteLook } from './RunwayCompleteLook';
+export { RunwayEntryCta } from './RunwayEntryCta';
+export { RunwayKeyboardLegend } from './RunwayKeyboardLegend';
+export { RunwayMetaStrip } from './RunwayMetaStrip';
+export { RunwayNextProduct } from './RunwayNextProduct';
+export { RunwayOnboardingHint } from './RunwayOnboardingHint';
+export { RunwayPriceDisplay } from './RunwayPriceDisplay';
+export { RunwayRichInfoPanel } from './RunwayRichInfoPanel';
+export { RunwaySearchHoverPreview } from './RunwaySearchHoverPreview';
+export { RunwaySectionIndicator } from './RunwaySectionIndicator';
+export { RunwaySectionStory } from './RunwaySectionStory';
+export { RunwaySocialProof } from './RunwaySocialProof';
+export { RunwayStickyBar } from './RunwayStickyBar';
+export { RunwayMoreMenu } from './RunwayMoreMenu';
+export { RunwayOptionsPanel, RunwayOptionsContent } from './RunwayOptionsPanel';
+export { RunwayCartUpsellStrip } from './RunwayCartUpsellStrip';
+export { RunwaySectionFavoriteButton } from './RunwaySectionFavoriteButton';
+export { ScrollSwitcherErrorBoundary } from './ScrollSwitcherErrorBoundary';
+export { SwitcherBar } from './SwitcherBar';
+export { SwitcherProgress } from './SwitcherProgress';
+export { SwitcherStage } from './SwitcherStage';
+export { SwitcherToolbar } from './SwitcherToolbar';
+
+export type { RunwayRichInfoPanelProps } from './RunwayRichInfoPanel';
