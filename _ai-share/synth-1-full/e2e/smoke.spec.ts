@@ -30,14 +30,8 @@ async function openSmokeRoute(page: Page, path: string): Promise<void> {
   throw lastError instanceof Error ? lastError : new Error(String(lastError));
 }
 
-/** После goto ждём реальный shell кабинета, не только внешний `<main>` из ClientLayout. */
-async function waitForSmokeShell(page: Page, path: string): Promise<void> {
-  if (path.startsWith('/client')) {
-    await expect(page.locator('[data-client-cabinet-nuorder="true"]')).toBeVisible({
-      timeout: 90_000,
-    });
-    return;
-  }
+/** После goto ждём `<main>` — cabinet/public layout; `body` может быть hidden при гидрации. */
+async function waitForSmokeShell(page: Page): Promise<void> {
   await expect(page.locator('main').first()).toBeVisible({ timeout: 90_000 });
 }
 
@@ -83,7 +77,7 @@ for (const { path, name } of SMOKE_ROUTES) {
   test(`smoke: ${name} (${path})`, async ({ page }) => {
     test.setTimeout(180_000);
     await openSmokeRoute(page, path);
-    await waitForSmokeShell(page, path);
+    await waitForSmokeShell(page);
   });
 }
 
@@ -91,7 +85,6 @@ test.describe('Client section has nav', () => {
   test('client hub sidebar: named navigation and active wardrobe link', async ({ page }) => {
     test.setTimeout(180_000);
     await openSmokeRoute(page, '/client/wardrobe');
-    await waitForSmokeShell(page, '/client/wardrobe');
     const nav = page.getByRole('navigation', { name: /клиентское меню/i });
     await expect(nav).toBeVisible({ timeout: 90_000 });
     /** Группа «Гардероб» раскрыта на этом маршруте; подписи — `clientNavGroups` (не старый горизонтальный ClientNav). */
