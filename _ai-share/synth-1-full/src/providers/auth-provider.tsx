@@ -189,9 +189,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     let cancelled = false;
 
     void (async () => {
-      const token = localStorage.getItem('syntha_access_token');
-      if (!token) return;
-
       const currentUser = await authRepository.getCurrentUser();
       const currentEmail =
         (currentUser as { email?: string } | null)?.email ??

@@ -1,4 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
+import { seedClientAuthOnPage } from './helpers/seed-client-auth';
+import { waitForClientCabinetShell } from './helpers/wait-client-cabinet';
 
 /**
  * Smoke-тесты: ключевые страницы открываются без ошибок и отображают основной контент.
@@ -84,9 +86,10 @@ for (const { path, name } of SMOKE_ROUTES) {
 test.describe('Client section has nav', () => {
   test('client hub sidebar: named navigation and active wardrobe link', async ({ page }) => {
     test.setTimeout(180_000);
+    await seedClientAuthOnPage(page);
     await openSmokeRoute(page, '/client/wardrobe');
+    await waitForClientCabinetShell(page);
     const nav = page.getByRole('navigation', { name: /клиентское меню/i });
-    await expect(nav).toBeVisible({ timeout: 90_000 });
     /** Группа «Гардероб» раскрыта на этом маршруте; подписи — `clientNavGroups` (не старый горизонтальный ClientNav). */
     await expect(nav.getByRole('link', { name: /мой гардероб/i })).toBeVisible();
   });
