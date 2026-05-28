@@ -56,7 +56,7 @@ export async function loadHomeCmsConfig(): Promise<CmsHomeConfig> {
   return inflight;
 }
 
-/** Warmup из shell — пока грузятся lazy mid-fold chunks. */
+/** Warmup из shell — пока грузятся lazy mid-fold chunks. Skip if RSC seed уже в cache. */
 export function prefetchHomeCmsConfig(): void {
   if (typeof window === 'undefined') return;
   if (cachedCms !== undefined || inflight) return;
@@ -74,4 +74,9 @@ export function seedHomeCmsConfigCache(baseline: CmsHomeConfig): void {
   if (cachedCms === undefined && !inflight) {
     cachedCms = baseline;
   }
+}
+
+/** Sync read — guard prefetch / shell warmup when RSC уже прогрел cache. */
+export function readHomeCmsConfigCache(): CmsHomeConfig | undefined {
+  return cachedCms;
 }

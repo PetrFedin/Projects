@@ -7,7 +7,7 @@ import {
   prefetchHomeProductsCatalog,
   readHomeProductsCatalogCache,
 } from '@/components/home/lib/home-products-catalog';
-import { prefetchHomeCmsConfig } from '@/components/home/lib/home-cms-config-cache';
+import { prefetchHomeCmsConfig, readHomeCmsConfigCache } from '@/components/home/lib/home-cms-config-cache';
 
 type UseHomeShellPrefetchOptions = {
   viewRole?: string;
@@ -27,7 +27,9 @@ export function useHomeShellPrefetch({
   useEffect(() => {
     const cancelIdle = scheduleIdleMount(
       () => {
-        prefetchHomeCmsConfig();
+        if (readHomeCmsConfigCache() === undefined) {
+          prefetchHomeCmsConfig();
+        }
         if (
           HOME_ROLES_NEEDING_PRODUCTS.has(viewRole) &&
           readHomeProductsCatalogCache() === undefined

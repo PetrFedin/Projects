@@ -2,7 +2,9 @@ import { DEFAULT_HOME_CMS } from '@/data/cms.home.default';
 import {
   loadHomeCmsConfig,
   prefetchHomeCmsConfig,
+  readHomeCmsConfigCache,
   resetHomeCmsConfigCache,
+  seedHomeCmsConfigCache,
 } from '@/components/home/lib/home-cms-config-cache';
 
 const mockCms = { ...DEFAULT_HOME_CMS, updatedAtISO: '2026-01-01T00:00:00.000Z' };
@@ -50,10 +52,17 @@ describe('home-cms-config-cache', () => {
   });
 
   it('seedHomeCmsConfigCache skips fetch until localStorage checked', async () => {
-    const { seedHomeCmsConfigCache } = await import('@/components/home/lib/home-cms-config-cache');
     seedHomeCmsConfigCache(mockCms);
+    expect(readHomeCmsConfigCache()).toEqual(mockCms);
     const cfg = await loadHomeCmsConfig();
     expect(cfg).toEqual(mockCms);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('prefetchHomeCmsConfig skips when RSC seed already in cache', async () => {
+    seedHomeCmsConfigCache(mockCms);
+    prefetchHomeCmsConfig();
+    prefetchHomeCmsConfig();
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });

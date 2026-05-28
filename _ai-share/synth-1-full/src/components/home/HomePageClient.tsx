@@ -7,6 +7,7 @@ import { HomeB2BDialogsProvider } from '@/components/home/context/HomeB2BDialogs
 import { HomeCmsProvider } from '@/components/home/context/HomeCmsContext';
 import { useHomeShellPrefetch } from '@/components/home/hooks/use-home-shell-prefetch';
 import { useSeedHomeProductsCatalog } from '@/components/home/hooks/use-home-products';
+import { useSeedHomeCmsConfig } from '@/components/home/hooks/use-home-cms-config';
 import type { Product } from '@/lib/types';
 
 import {
@@ -66,6 +67,7 @@ export const HomePageClient = memo(function HomePageClient({
   initialProducts?: Product[];
 }) {
   useSeedHomeProductsCatalog(initialProducts);
+  useSeedHomeCmsConfig(initialCms);
 
   return (
     <HomeCmsProvider initialCms={initialCms}>
