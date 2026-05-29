@@ -22,7 +22,7 @@
 
 ## Фронтенд
 
-Разработка и CI — **`_ai-share/synth-1-full`** (см. **`_ai-share/synth-1-full/AGENTS.md`**). Из корня монорепо: **`npm run smoke`** — быстрый контрактный чек (`smoke:fast` во full); **`npm run lint`** — ESLint только с ошибками (`lint:errors`); **`npm run synth-1:clean`** — очистка `.next*` и кешей во full.
+Разработка и CI — **`_ai-share/synth-1-full`** (см. **`_ai-share/synth-1-full/AGENTS.md`**). Из корня монорепо: **`npm run smoke`** — быстрый контрактный чек (`smoke:fast` во full, incl. **`check:investor-demo-contract`**); **`npm run lint`** — ESLint только с ошибками (`lint:errors`); **`npm run synth-1:clean`** — очистка `.next*` и кешей во full. **Investor demo:** **`_ai-share/synth-1-full/.planning/INVESTOR-DEMO-RUNBOOK-RU.md`**, prep — `npm run workshop2:investor-prep` (в каталоге full).
 
 **Бэкенд (FastAPI, корень репо):** **`npm run test:backend`** — MVP contract (`pytest -m smoke_core`, см. **`docs/MVP_CONTRACT.md`**); **`npm run test:backend:full`** — smoke + unit как в CI. Локально: `poetry install --without ml --with dev` + `poetry run pip install aiosqlite email-validator reportlab`.
 

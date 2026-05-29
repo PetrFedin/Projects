@@ -116,6 +116,10 @@ describe('wave58 — APIs + chrome', () => {
     expect(Array.isArray(brief.blockingGatesRu)).toBe(true);
     expect(Array.isArray(brief.warningsRu)).toBe(true);
     expect(brief.failingAutoGatesRu).toEqual(brief.blockingGatesRu);
+    expect(brief.envCheckApiPath).toBe('/api/workshop2/investor-demo/env-check');
+    expect(brief.runbookPath).toMatch(/INVESTOR-DEMO-RUNBOOK-RU/);
+    expect(brief.prepNpmScript).toBe('workshop2:investor-prep');
+    expect(brief.fullRunnerNpmScript).toBe('workshop2:investor-demo:full');
   });
 
   it('demo mode: production keys only in warningsRu, not blockingGatesRu', () => {
@@ -196,6 +200,13 @@ describe('wave58 — scripts + e2e', () => {
     expect(pkg).toMatch(/"dev:e2e:restart"/);
     expect(pkg).toMatch(/"dev:e2e:investor"/);
     expect(pkg).toMatch(/"workshop2:investor-show"/);
+    expect(pkg).toMatch(/"check:investor-demo-contract"/);
+  });
+
+  it('dev-e2e-investor uses merge-investor-env-local', () => {
+    const mjs = read('scripts/dev-e2e-investor.mjs');
+    expect(mjs).toMatch(/merge-investor-env-local\.mjs/);
+    expect(mjs).toMatch(/mergeInvestorEnvLocal/);
   });
 
   it('.env.e2e.investor.example documents copy to .env.local', () => {
