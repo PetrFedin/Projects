@@ -253,4 +253,14 @@ npm run workshop2:investor-show
 
 ---
 
-*Связанные документы:* [INVESTOR-DEMO-VS-LIVE-RU.md](./INVESTOR-DEMO-VS-LIVE-RU.md) · [INVESTOR-FREEZE-WAVE55.md](./INVESTOR-FREEZE-WAVE55.md) · [workshop2-b2b-joor-parity-matrix.md](./workshop2-b2b-joor-parity-matrix.md)
+## Troubleshooting (кратко)
+
+См. полную таблицу: [INVESTOR-DEMO-RUNBOOK-RU.md](./INVESTOR-DEMO-RUNBOOK-RU.md).
+
+- **`demoMode: false` на brief** — перезапуск `dev:e2e:investor` после merge env (Next читает env только при старте).
+- **`investorDemoReady: false` в probes** — не путать с API `/investor-demo/status`; wave50 `ack_cron` не блокирует localhost demo.
+- **FAIL в last-run при живом сервере** — `.planning/dev-e2e-investor.log`, затем `npm run dev:e2e:wait-ready` и повтор `workshop2:investor-show`.
+
+---
+
+*Связанные документы:* [INVESTOR-DEMO-RUNBOOK-RU.md](./INVESTOR-DEMO-RUNBOOK-RU.md) · [INVESTOR-DEMO-VS-LIVE-RU.md](./INVESTOR-DEMO-VS-LIVE-RU.md) · [INVESTOR-FREEZE-WAVE55.md](./INVESTOR-FREEZE-WAVE55.md) · [workshop2-b2b-joor-parity-matrix.md](./workshop2-b2b-joor-parity-matrix.md)

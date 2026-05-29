@@ -196,6 +196,13 @@ describe('wave58 — scripts + e2e', () => {
     expect(pkg).toMatch(/"dev:e2e:restart"/);
     expect(pkg).toMatch(/"dev:e2e:investor"/);
     expect(pkg).toMatch(/"workshop2:investor-show"/);
+    expect(pkg).toMatch(/"check:investor-demo-contract"/);
+  });
+
+  it('dev-e2e-investor uses merge-investor-env-local', () => {
+    const mjs = read('scripts/dev-e2e-investor.mjs');
+    expect(mjs).toMatch(/merge-investor-env-local\.mjs/);
+    expect(mjs).toMatch(/mergeInvestorEnvLocal/);
   });
 
   it('.env.e2e.investor.example documents copy to .env.local', () => {

@@ -6,10 +6,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const exampleEnvPath = path.join(root, '.env.e2e.investor.example');
-const localEnvPath = path.join(root, '.env.local');
-
 function parseEnvLines(text) {
   const vars = new Map();
   for (const line of text.split('\n')) {
@@ -22,7 +18,13 @@ function parseEnvLines(text) {
   return vars;
 }
 
-export function mergeInvestorEnvLocal() {
+/** @param {{ root?: string }} [options] — root каталога synth-1-full (для unit-тестов во временной директории) */
+export function mergeInvestorEnvLocal(options = {}) {
+  const root =
+    options.root ?? path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+  const exampleEnvPath = path.join(root, '.env.e2e.investor.example');
+  const localEnvPath = path.join(root, '.env.local');
+
   if (!fs.existsSync(exampleEnvPath)) {
     throw new Error(`missing ${exampleEnvPath}`);
   }
