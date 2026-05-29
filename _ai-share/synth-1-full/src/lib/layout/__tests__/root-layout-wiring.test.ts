@@ -54,6 +54,16 @@ describe('root layout provider wiring', () => {
     expect(src).not.toMatch(/from '@\/components\/route-guard'/);
   });
 
+  it('ClientLayout uses RolePanelGate (idle) instead of eager RolePanel', () => {
+    const src = fs.readFileSync(
+      path.join(process.cwd(), 'src/components/layout/client-layout.tsx'),
+      'utf8'
+    );
+    expect(src).toContain('RolePanelGate');
+    expect(src).not.toMatch(/import\(['"]\.\/role-panel['"]\)/);
+    expect(src).not.toMatch(/<RolePanel\s*\/>/);
+  });
+
   it('app/page.tsx passes RSC CMS + products baselines', () => {
     const src = fs.readFileSync(path.join(process.cwd(), 'src/app/page.tsx'), 'utf8');
     expect(src).toContain('getHomeCmsServerBaseline');

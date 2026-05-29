@@ -12,6 +12,7 @@ import { OfflineBanner } from '@/components/brand/production/OfflineBanner';
 import { RegisterServiceWorker } from '@/components/pwa/RegisterServiceWorker';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { RunwayAnalyticsGate } from '@/components/layout/RunwayAnalyticsGate';
+import { RolePanelGate } from '@/components/layout/RolePanelGate';
 import { shouldMountUIStateProvider } from '@/lib/layout/ui-state-route';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
@@ -22,8 +23,6 @@ const CartSheet = dynamic(() => import('@/components/layout/cart-sheet'), { ssr:
 const WishlistSheet = dynamic(() => import('@/components/layout/wishlist-sheet'), { ssr: false });
 const PreOrderSheet = dynamic(() => import('@/components/layout/pre-order-sheet'), { ssr: false });
 const ComparisonPanel = dynamic(() => import('../comparison-panel'), { ssr: false });
-const RolePanel = dynamic(() => import('./role-panel'), { ssr: false });
-
 const CABINET_ROUTES = [
   ROUTES.brand.home,
   ROUTES.admin.home,
@@ -62,7 +61,7 @@ export default function ClientLayout({
             {uiStateChrome ? <PreOrderSheet /> : null}
             {uiStateChrome ? <AiStylist /> : null}
             {uiStateChrome ? <ComparisonPanel /> : null}
-            <RolePanel />
+            <RolePanelGate />
             <Toaster />
           </div>
         </RouteGuardGate>
