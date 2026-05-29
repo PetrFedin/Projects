@@ -4,7 +4,7 @@
 
 | Команда | Результат | Примечание |
 |---------|-----------|------------|
-| `npm run verify:dev-perf` | **PASS** | layout gates **45** + contracts + layout-gates-package guard (post 4b RolePanelGate + route-guard-route in CI suite) |
+| `npm run verify:dev-perf` | **PASS** | layout gates **49** + `typecheck:dev-perf` + contracts + layout-gates-package guard |
 
 ## Фаза 1 — regression (historical)
 
@@ -60,4 +60,13 @@
 | Layout gates **45** incl. `route-guard-route` | **done** — guard в `layout-gates-package-guard.mjs` |
 | `analyze:bundle` HTML client report | **deferred** — локально OOM; top routes зафиксированы в PLAN-05 |
 
-**Next (Phase 6 candidates):** nightly turbopack bench; bundle HTML в CI с большим heap; typecheck subset expansion (не wholesale ~1500 tsc).
+**Next (Phase 6 candidates):** nightly turbopack bench; bundle HTML в CI с большим heap; расширение `typecheck:dev-perf` (Gate `.tsx` — отдельно).
+
+## Фаза 6 — typecheck:dev-perf subset (2026-05-29)
+
+| ID | Статус |
+|----|--------|
+| `tsconfig.dev-perf.json` — route helpers без `routes.ts` | **done** — `cabinet-route-match` literals + parity test |
+| `typecheck:dev-perf` в `check:contracts:ci` | **done** — ~5s, guard `dev-perf-typecheck-guard.mjs` |
+| `cabinet-route-match.test.ts` в layout gates | **done** — 49 Jest tests (+ parity с ROUTES) |
+| AGENTS.md / toolkit — 45→46 gates, ci-heavy | **done** — этот PR |

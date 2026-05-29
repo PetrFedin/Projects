@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/lib/layout/cabinet-route-match.ts",
+    "src/lib/layout/public-shell-route.ts",
+    "src/lib/layout/b2b-state-route.ts",
+    "src/lib/layout/ui-state-route.ts",
+    "src/lib/layout/query-provider-route.ts",
+    "src/lib/layout/brand-center-route.ts",
+    "src/lib/auth/route-guard-route.ts",
+    "src/lib/auth/route-guard-public-path.ts",
+    "src/lib/auth/dev-auth-bootstrap.ts",
+    "src/lib/auth/auth-bootstrap-route.ts",
+    "src/lib/runtime/dev-bootstrap-flags.ts",
+    "src/lib/home/get-home-products-server.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "src/**/__tests__/**",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx"
+  ]
+}
