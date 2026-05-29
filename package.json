@@ -7,6 +7,8 @@
     "synth-1:install": "npm install --no-audit --no-fund --prefix _ai-share/synth-1-full",
     "verify": "npm run verify --prefix _ai-share/synth-1-full",
     "smoke": "npm run smoke:fast --prefix _ai-share/synth-1-full",
+    "test:backend": "bash scripts/run-core-smoke.sh",
+    "test:backend:full": "bash scripts/run-backend-pytest.sh",
     "verify:dev-perf": "bash scripts/dev-verify-perf.sh",
     "verify:dev-perf:full": "bash scripts/dev-verify-perf-full.sh",
     "pre-pr:dev-perf": "bash scripts/pre-pr-dev-perf.sh",

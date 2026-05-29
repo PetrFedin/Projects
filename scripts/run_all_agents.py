@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Run all agents: report agents + orchestrator smoke test."""
+
 import asyncio
 import os
 import sys
@@ -12,6 +13,7 @@ from datetime import datetime
 
 def run_report_agents():
     from app.agents.agent_runner import AgentRunner
+
     print("\n=== REPORT AGENTS ===\n")
     runner = AgentRunner()
     runner.run_all()
@@ -36,9 +38,9 @@ async def run_orchestrator_agents():
 
 
 def main():
-    print(f"\n{'='*50}")
+    print(f"\n{'=' * 50}")
     print(f"  Synth-1 Agent Suite — {datetime.now()}")
-    print(f"{'='*50}")
+    print(f"{'=' * 50}")
 
     run_report_agents()
 
@@ -47,9 +49,9 @@ def main():
     except Exception as e:
         print(f"  Orchestrator smoke test failed: {e}")
 
-    print(f"\n{'='*50}")
+    print(f"\n{'=' * 50}")
     print("  Done. Reports in .ai_reports/")
-    print(f"{'='*50}\n")
+    print(f"{'=' * 50}\n")
 
 
 if __name__ == "__main__":

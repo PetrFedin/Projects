@@ -14,6 +14,7 @@ Semgrep: без machine-local PATH в JSON — см. scripts/mcp-run-semgrep.sh 
   DD_APPLICATION_KEY
   DD_MCP_DOMAIN      — например app.datadoghq.com
 """
+
 from __future__ import annotations
 
 import json
@@ -94,7 +95,9 @@ def main() -> None:
 
     for out, use_token in ((out_project, True), (out_user, False)):
         out.parent.mkdir(parents=True, exist_ok=True)
-        data = {"mcpServers": build_servers(str(repo_path), use_workspace_token=use_token)}
+        data = {
+            "mcpServers": build_servers(str(repo_path), use_workspace_token=use_token)
+        }
         with open(out, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
             f.write("\n")
