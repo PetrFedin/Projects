@@ -21,6 +21,7 @@
 
 ## Метки CI (опционально)
 
-- **`ci-heavy`** — полный API Playwright + verification (см. **`.github/workflows/synth-1-full-ci.yml`**).
-- **`investor-spine-e2e`** — автоматически после **`ci-fast`**: второй **`test:e2e:light`** с **`NEXT_PUBLIC_*_INVESTOR_SPINE=1`** (ручной только прогон — workflow **`investor-spine-e2e-dispatch.yml`**).
+- **`ci-heavy`** — полный API Playwright + unified ecosystem verification (~15 мин): **`test:e2e:verification`** + **`test:e2e:api`**. Навешивайте при изменении B2B/shop API, investor flows или когда нужен полный прогон до merge. Job стартует после **`ci-fast`**; можно добавить **после** открытия PR (события `labeled`/`unlabeled`). Еженедельно по cron (пн 05:00 UTC) и **`workflow_dispatch`** — см. **`.github/workflows/synth-1-full-ci.yml`**.
 - **`ci-visual`** — визуальные снапшоты Playwright.
+
+**Investor spine:** на каждом PR после **`ci-fast`** автоматически идёт **`investor-spine-e2e`** (второй **`test:e2e:light`** с spine env). Ручной только этот прогон — **`investor-spine-e2e-dispatch.yml`**.

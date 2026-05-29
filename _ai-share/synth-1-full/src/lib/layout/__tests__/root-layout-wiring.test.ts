@@ -51,4 +51,13 @@ describe('root layout provider wiring', () => {
     expect(src).toContain('getHomeProductsServerBaseline');
     expect(src).toContain('initialProducts');
   });
+
+  it('HomePageClient seeds CMS + products cache before shell prefetch', () => {
+    const src = fs.readFileSync(
+      path.join(process.cwd(), 'src/components/home/HomePageClient.tsx'),
+      'utf8'
+    );
+    expect(src).toContain('useSeedHomeCmsConfig');
+    expect(src).toContain('useSeedHomeProductsCatalog');
+  });
 });
