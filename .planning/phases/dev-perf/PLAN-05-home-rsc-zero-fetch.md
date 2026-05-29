@@ -14,7 +14,7 @@
 ## Verification
 
 ```bash
-npm run verify:dev-perf          # 32 layout gates
+npm run verify:dev-perf          # 45 layout-gate Jest tests
 npm run dev:fast:clean           # :3000
 npm run dev:bench:routes         # / TTFB vs baseline в VERIFICATION.md
 npm run test:e2e:home            # если есть home-specific e2e

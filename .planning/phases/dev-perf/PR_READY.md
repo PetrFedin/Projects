@@ -10,7 +10,7 @@ git pull origin feat/dev-perf-optimization
 # Workshop2 WIP ломает verify (ai-client-boundary) — не смешивать с PR:
 git status _ai-share/synth-1-full   # должен быть clean или только dev-perf файлы
 
-npm run verify:dev-perf             # PASS: contracts + 36 layout gates
+npm run verify:dev-perf             # PASS: contracts + 45 layout-gate tests
 bash scripts/dev-perf-review-files.sh main HEAD   # focus paths для review
 ```
 

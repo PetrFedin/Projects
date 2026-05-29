@@ -28,7 +28,7 @@
 
 **Cursor / VS Code (корень воркспейса = `Projects`):** рекомендуемые расширения — **`.vscode/extensions.json`** (после clone: **Install Recommended Extensions**). Настройки ESLint / Prettier / Tailwind привязаны к **`_ai-share/synth-1-full`** — **`.vscode/settings.json`**. Быстрые задачи без поиска по NPM-панели — **`.vscode/tasks.json`** (**Run Task** → `synth-1-full: …`). **Error Lens:** для движка VS Code **1.105.x** в Cursor ставьте VSIX **≤ 3.26.0** (см. Open VSX); **3.27+** требуют **1.107+**.
 
-**Запуск Next локально:** Node **20.x–23.x** (`_ai-share/synth-1-full/.nvmrc`). Dev: **`npm run dev:fast`** / **`npm run dev:fast:clean`**. Pre-PR dev-perf: **`npm run pre-pr:dev-perf`**. **Не параллелить** `dev:fast` и **`test:e2e:*`** — общий `.next`. Верификация: **`npm run verify:dev-perf`** (36 layout gates). Застрял :3123 — **`npm run stop:stale-dev`**. PR: **`bash scripts/create-dev-perf-pr.sh`** (нужен `gh auth login` или compare вручную).
+**Запуск Next локально:** Node **20.x–23.x** (`_ai-share/synth-1-full/.nvmrc`). Dev: **`npm run dev:fast`** / **`npm run dev:fast:clean`**. Pre-PR dev-perf: **`npm run pre-pr:dev-perf`**. **Не параллелить** `dev:fast` и **`test:e2e:*`** — общий `.next`. Верификация: **`npm run verify:dev-perf`** (**45** layout-gate Jest-тестов + contracts). Застрял :3123 — **`npm run stop:stale-dev`**. PR: **`bash scripts/create-dev-perf-pr.sh`** (нужен `gh auth login` или compare вручную).
 
 **Git на macOS:** если `git` пишет про Xcode license — **`sudo xcodebuild -license`**, затем **`bash scripts/commit-home-dev-optimization.sh`**. Застрял e2e dev / битый `.next`: **`npm run stop:stale-dev`** (убивает :3123) или **`SYNTHA_STOP_MAIN_DEV=1 npm run stop:stale-dev`**.
 

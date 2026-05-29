@@ -111,12 +111,14 @@ bash scripts/install-cursor-user-mcp.sh
 | Команда (из корня) | Назначение |
 |--------------------|------------|
 | `npm run dev:fast:clean` | Daily dev: Turbopack, skip enterprise bootstrap, убивает e2e **:3123**, clean `.next` |
-| `npm run verify:dev-perf` | Статика ~3s: `smoke` (= `check:contracts:ci` + layout gates) |
+| `npm run verify:dev-perf` | Статика ~3s: `smoke` (= `check:contracts:ci` + **45** layout-gate Jest-тестов) |
+| `npm run test:backend` | MVP contract: `pytest -m smoke_core` (см. `docs/MVP_CONTRACT.md`) |
 | `npm run pre-pr:dev-perf` | Pre-PR: verify + подсказки PR (без e2e) |
 | `npm run pre-pr:dev-perf:e2e` | + `test:e2e:light` (локально может OOM — CI источник правды) |
 | `npm run analyze:bundle` | Production build + bundle report (`npm i -D @next/bundle-analyzer` во full) |
 | `npm run test:e2e:light` | E2E smoke 36 маршрутов (~7 min); pre/post kill **:3123** |
-| `npm run test:e2e:verification` | Unified ecosystem smoke (~210s/test serial); CI: Actions → **unified ecosystem e2e (dispatch)** |
+| `npm run test:e2e:verification` | Unified ecosystem smoke (~210s/test serial); CI: **unified ecosystem e2e (dispatch)** или label **`ci-heavy`** / weekly **`ci-heavy`** job |
+| PR **`investor-spine-e2e`** | После **`ci-fast`**: второй `test:e2e:light` с spine env; ручной — **`investor-spine-e2e-dispatch.yml`** |
 | `npm run dev:bench:routes` | 38 URL, нужен живой dev на **:3000** |
 | `npm run dev:bench:ci` | 9 хабов, strict: fail при &gt;3000 ms или 5xx |
 | `npm run stop:stale-dev` | Убить забытый e2e **:3123** (и **:3010**) |
