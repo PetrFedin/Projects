@@ -3,6 +3,10 @@
 **Канон сценария:** [INVESTOR-DEMO-SCRIPT-RU.md](./INVESTOR-DEMO-SCRIPT-RU.md)  
 **Артефакт прогона:** `.planning/investor-demo-last-run.json` (или `workshop2-investor-demo-last-run.json` — см. runner)
 
+## Preflight runner (до curl)
+
+`npm run workshop2:investor-demo:full` задаёт `WORKSHOP2_INVESTOR_DEMO_MODE` и `WORKSHOP2_UNIT_TESTS_PASSING` в env процесса — runner завершится с ошибкой, если запустить `node scripts/workshop2-investor-demo-full.mjs` без этих флагов. После `dev:e2e:investor` проверяйте live API `env-check` (см. ниже).
+
 ## Быстрый старт (перед встречей)
 
 ```bash

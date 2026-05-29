@@ -1,5 +1,7 @@
 # Инвесторский сценарий — RU Fashion OS (Workshop2 + B2B)
 
+**Runbook (ops):** [INVESTOR-DEMO-RUNBOOK-RU.md](./INVESTOR-DEMO-RUNBOOK-RU.md) · **Корень монорепо:** [AGENTS.md](../../../AGENTS.md)
+
 **Wave 58 · 25 мин · SS27 + JOOR/NuOrder native**  
 **Роли:** ведущий (product/founder) — narrative; ops — терминал, API, честные disclaimer.  
 **Base URL:** `http://127.0.0.1:3123` (или `WORKSHOP2_STAGING_PUBLIC_URL`)

@@ -116,6 +116,10 @@ describe('wave58 — APIs + chrome', () => {
     expect(Array.isArray(brief.blockingGatesRu)).toBe(true);
     expect(Array.isArray(brief.warningsRu)).toBe(true);
     expect(brief.failingAutoGatesRu).toEqual(brief.blockingGatesRu);
+    expect(brief.envCheckApiPath).toBe('/api/workshop2/investor-demo/env-check');
+    expect(brief.runbookPath).toMatch(/INVESTOR-DEMO-RUNBOOK-RU/);
+    expect(brief.prepNpmScript).toBe('workshop2:investor-prep');
+    expect(brief.fullRunnerNpmScript).toBe('workshop2:investor-demo:full');
   });
 
   it('demo mode: production keys only in warningsRu, not blockingGatesRu', () => {

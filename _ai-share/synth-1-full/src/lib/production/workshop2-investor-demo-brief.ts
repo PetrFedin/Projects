@@ -50,8 +50,12 @@ export type Workshop2InvestorDemoBrief = {
   failingAutoGatesRu: string[];
   demoPaths: Array<{ id: string; path: string; labelRu: string }>;
   scriptPath: string;
+  runbookPath: string;
   vsLiveDocPath: string;
   briefPagePath: string;
+  envCheckApiPath: string;
+  prepNpmScript: string;
+  fullRunnerNpmScript: string;
 };
 
 export const WORKSHOP2_INVESTOR_DEMO_PATHS: Workshop2InvestorDemoBrief['demoPaths'] = [
@@ -133,7 +137,11 @@ export function buildWorkshop2InvestorDemoBrief(
     failingAutoGatesRu: status.blockingGatesRu,
     demoPaths: WORKSHOP2_INVESTOR_DEMO_PATHS,
     scriptPath: '.planning/INVESTOR-DEMO-SCRIPT-RU.md',
+    runbookPath: '.planning/INVESTOR-DEMO-RUNBOOK-RU.md',
     vsLiveDocPath: '.planning/INVESTOR-DEMO-VS-LIVE-RU.md',
     briefPagePath: '/brand/production/workshop2/investor-brief',
+    envCheckApiPath: '/api/workshop2/investor-demo/env-check',
+    prepNpmScript: 'workshop2:investor-prep',
+    fullRunnerNpmScript: 'workshop2:investor-demo:full',
   };
 }

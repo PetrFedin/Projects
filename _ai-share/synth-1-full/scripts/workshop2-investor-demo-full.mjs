@@ -2,6 +2,9 @@
 /**
  * Wave 44–48: one-command investor demo — sequential steps + RU pass/fail summary JSON.
  * Usage: npm run workshop2:investor-demo:full
+ * Preflight (fail-fast): WORKSHOP2_INVESTOR_DEMO_MODE + WORKSHOP2_UNIT_TESTS_PASSING в env процесса
+ *   (npm script задаёт оба; без них runner завершится до unit/curl).
+ * Live env-check: GET /api/workshop2/investor-demo/env-check после поднятия dev:e2e.
  * Env:
  *   WORKSHOP2_INVESTOR_DEMO_SKIP_UNIT=1 — пропустить unit
  *   WORKSHOP2_INVESTOR_DEMO_SKIP_STAGING=1 — staging verify/keys только WARN
@@ -50,6 +53,34 @@ function isLocalInvestorDemoEnv() {
   const v = String(process.env.WORKSHOP2_INVESTOR_DEMO_MODE ?? '').trim().toLowerCase();
   return v === 'true' || v === '1' || v === 'yes';
 }
+
+function isTruthyEnvFlag(name) {
+  const v = String(process.env[name] ?? '').trim().toLowerCase();
+  return v === 'true' || v === '1' || v === 'yes';
+}
+
+/** Fail-fast до unit/curl: npm script должен задать investor env в процессе runner. */
+function preflightInvestorDemoRunnerEnv() {
+  const issues = [];
+  if (!isLocalInvestorDemoEnv()) {
+    issues.push(
+      'WORKSHOP2_INVESTOR_DEMO_MODE не true — запускайте npm run workshop2:investor-demo:full (не голый node)'
+    );
+  }
+  if (!isTruthyEnvFlag('WORKSHOP2_UNIT_TESTS_PASSING')) {
+    issues.push(
+      'WORKSHOP2_UNIT_TESTS_PASSING не true — нужен для gates brief/status (или wave35a metrics)'
+    );
+  }
+  if (issues.length) {
+    console.error('[workshop2-investor-demo-full] preflight FAIL:');
+    for (const line of issues) console.error(`  - ${line}`);
+    console.error('  См. .planning/INVESTOR-DEMO-RUNBOOK-RU.md § Env-check');
+    process.exit(1);
+  }
+}
+
+preflightInvestorDemoRunnerEnv();
 
 function loadInvestorScriptStepTitles() {
   if (!fs.existsSync(scriptPath)) return [];
