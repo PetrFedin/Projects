@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
-import { RouteGuard } from '@/components/route-guard';
+import { RouteGuardGate } from '@/components/layout/RouteGuardGate';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { TooltipProvider } from '../ui/tooltip';
@@ -45,7 +45,7 @@ export default function ClientLayout({
   return (
     <ThemeProvider>
       <TooltipProvider>
-        <RouteGuard>
+        <RouteGuardGate>
           <RegisterServiceWorker />
           <RunwayAnalyticsGate />
           <div className="relative flex min-h-screen flex-col">
@@ -65,7 +65,7 @@ export default function ClientLayout({
             <RolePanel />
             <Toaster />
           </div>
-        </RouteGuard>
+        </RouteGuardGate>
       </TooltipProvider>
     </ThemeProvider>
   );

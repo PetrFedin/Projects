@@ -41,7 +41,7 @@
 
 | ID | Статус |
 |----|--------|
-| 4a explore ClientLayout imports | `.planning/research/dev-perf-next-milestone.md` |
+| 4a explore ClientLayout imports | **RouteGuardGate** — skip sync guard on public shell (branch follow-up) |
 | 4b NuqsProviderGate + RunwayAnalyticsGate | **в diff** |
 | 4b RolePanelGate idle | уже было |
 | 4c server CMS prefetch | **`GET /api/home/cms`** + RSC `initialCms` + client seed zero-fetch (#10) ✅ |
