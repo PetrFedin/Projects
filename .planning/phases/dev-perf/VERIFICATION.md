@@ -49,4 +49,15 @@
 | AuthProvider lazy | **done** — `AuthProviderGate` + interactive stub; RouteGuard uses shared public paths |
 | Backend CI smoke | **done** — MVP `smoke_core` pytest + scoped ruff in monorepo CI (#14) ✅ |
 
-**Next:** Phase 5 — `PLAN-05-home-rsc-zero-fetch.md` (bundle audit HTML report).
+## Фаза 5 — home zero-fetch + bundle baseline (2026-05-29)
+
+| ID | Статус |
+|----|--------|
+| RSC `initialCms` + `initialProducts` на `/` | **done** — Phase 4/5 (#10, PLAN-05) ✅ |
+| `GET /api/home/cms` + client seed | **done** ✅ |
+| `dev:bench:routes` `/` warm | **done** — 55ms (2026-05-26) |
+| `build:isolated` + First Load JS baseline | **done** — см. `PLAN-05-home-rsc-zero-fetch.md` |
+| Layout gates **45** incl. `route-guard-route` | **done** — guard в `layout-gates-package-guard.mjs` |
+| `analyze:bundle` HTML client report | **deferred** — локально OOM; top routes зафиксированы в PLAN-05 |
+
+**Next (Phase 6 candidates):** nightly turbopack bench; bundle HTML в CI с большим heap; typecheck subset expansion (не wholesale ~1500 tsc).

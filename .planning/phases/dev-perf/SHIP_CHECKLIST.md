@@ -19,7 +19,7 @@ Scope: `.planning/phases/dev-perf/PR_SCOPE.md` (~198 commits)
 
 ```bash
 export PATH="/Applications/Xcode.app/Contents/Developer/usr/bin:$PATH"
-npm run pre-pr:dev-perf                    # static, 36 layout gates
+npm run pre-pr:dev-perf                    # static, 45 layout-gate tests
 npm run dev-perf:review-files              # focus paths для review
 npm run pre-pr:dev-perf:e2e                # optional; локально может OOM
 ```
