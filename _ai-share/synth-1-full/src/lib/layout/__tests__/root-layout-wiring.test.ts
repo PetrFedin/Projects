@@ -45,6 +45,15 @@ describe('root layout provider wiring', () => {
     expect(src).toContain('onForceLoad={forceLoadProvider}');
   });
 
+  it('ClientLayout uses RouteGuardGate instead of sync RouteGuard', () => {
+    const src = fs.readFileSync(
+      path.join(process.cwd(), 'src/components/layout/client-layout.tsx'),
+      'utf8'
+    );
+    expect(src).toContain('RouteGuardGate');
+    expect(src).not.toMatch(/from '@\/components\/route-guard'/);
+  });
+
   it('app/page.tsx passes RSC CMS + products baselines', () => {
     const src = fs.readFileSync(path.join(process.cwd(), 'src/app/page.tsx'), 'utf8');
     expect(src).toContain('getHomeCmsServerBaseline');
