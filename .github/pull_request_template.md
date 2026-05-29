@@ -6,7 +6,7 @@
 
 - [ ] **Node** из **`_ai-share/synth-1-full/.nvmrc`** (`nvm use` / CI берёт версию из этого файла).
 - [ ] **`npm run check:contracts:ci`** (или **`npm run smoke:fast`**) — без ошибок (как в **`ci-fast`**, live health без URL не ломает прогон).
-- [ ] При правках layout gates / home zero-fetch — **`npm run verify:dev-perf`** из корня **`Projects`** (**38** layout-gate тестов + contracts).
+- [ ] При правках layout gates / home zero-fetch — **`npm run verify:dev-perf`** из корня **`Projects`** (**40** layout-gate тестов + contracts).
 - [ ] **`npm run check:contracts`** — перед merge локально, если трогали контракты, AI/client-границу или хотите совпасть с «полным» набором guard-ов.
 - [ ] При существенных правках домена — **`npm test`**.
 - [ ] При изменении HTTP-контракта health / ops — прогнан **`e2e/domain-events-health-api.spec.ts`** локально или задана **`DOMAIN_EVENTS_HEALTH_URL`** в CI (см. **`_ai-share/synth-1-full/docs/ci/DOMAIN_EVENTS_HEALTH_CI.md`**).
