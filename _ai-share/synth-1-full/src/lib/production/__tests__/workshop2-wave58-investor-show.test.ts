@@ -11,9 +11,7 @@ import {
   parseWorkshop2B2bParityCoverage,
   resolveWorkshop2UnitTestsPassing,
 } from '@/lib/production/workshop2-investor-demo-status';
-import {
-  buildWorkshop2Wave58InvestorShowReadyProbe,
-} from '@/lib/production/workshop2-wave-probes-fs-wave52-57.server';
+import { buildWorkshop2Wave58InvestorShowReadyProbe } from '@/lib/production/workshop2-wave-probes-fs-wave52-57.server';
 import { buildWorkshop2Wave58InvestorShowReadyProbe as liveProbe } from '@/lib/production/workshop2-live-integration-probes';
 
 const root = process.cwd();
@@ -152,14 +150,16 @@ describe('wave58 — APIs + chrome', () => {
     const pkg = JSON.parse(read('package.json')) as { scripts?: Record<string, string> };
     expect(pkg.scripts?.['dev:e2e:investor']).toMatch(/dev-e2e-investor\.mjs/);
     expect(pkg.scripts?.['dev:e2e:investor:restart']).toMatch(/dev:e2e:investor/);
-    expect(pkg.scripts?.['workshop2:investor-demo:full']).toMatch(/WORKSHOP2_INVESTOR_DEMO_MODE=true/);
+    expect(pkg.scripts?.['workshop2:investor-demo:full']).toMatch(
+      /WORKSHOP2_INVESTOR_DEMO_MODE=true/
+    );
     expect(pkg.scripts?.['workshop2:investor-prep']).toMatch(/workshop2-investor-prep/);
   });
 
   it('resolveWorkshop2UnitTestsPassing reads wave35a metrics when failed===0', () => {
-    expect(
-      resolveWorkshop2UnitTestsPassing({ WORKSHOP2_UNIT_TESTS_PASSING: 'false' }, root)
-    ).toBe(true);
+    expect(resolveWorkshop2UnitTestsPassing({ WORKSHOP2_UNIT_TESTS_PASSING: 'false' }, root)).toBe(
+      true
+    );
   });
 });
 
