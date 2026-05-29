@@ -16,6 +16,11 @@ const appFontsAliasRelative = isE2e
 const nextConfig: NextConfig = {
   /** Изолированная сборка: `NEXT_DIST_DIR=.next-isolated npm run build` (не пересекается с `next dev` в `.next`). */
   ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
+  /** Investor demo flags — server bundles read at process start (.env.local + inline npm scripts). */
+  env: {
+    WORKSHOP2_INVESTOR_DEMO_MODE: process.env.WORKSHOP2_INVESTOR_DEMO_MODE,
+    WORKSHOP2_UNIT_TESTS_PASSING: process.env.WORKSHOP2_UNIT_TESTS_PASSING,
+  },
   /** Turbopack (`dev:fast`) — относительный alias (absolute ломает resolve в 15.3). */
   turbopack: {
     resolveAlias: {
