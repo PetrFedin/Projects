@@ -4,7 +4,7 @@
 
 | Команда | Результат | Примечание |
 |---------|-----------|------------|
-| `npm run verify:dev-perf` | **PASS** | layout gates **40** + contracts + layout-gates-package guard (post PLAN-05 #10 + E2E bootstrap) |
+| `npm run verify:dev-perf` | **PASS** | layout gates **45** + contracts + layout-gates-package guard (post 4b RolePanelGate + route-guard-route in CI suite) |
 
 ## Фаза 1 — regression (historical)
 
@@ -42,8 +42,8 @@
 | ID | Статус |
 |----|--------|
 | 4a explore ClientLayout imports | **RouteGuardGate** — skip sync guard on public shell (branch follow-up) |
-| 4b NuqsProviderGate + RunwayAnalyticsGate | **в diff** |
-| 4b RolePanelGate idle | уже было |
+| 4b NuqsProviderGate + RunwayAnalyticsGate | **done** — nuqs removed; RunwayAnalyticsGate idle on public shell |
+| 4b RolePanelGate idle | **RolePanelGate** wired in ClientLayout (branch follow-up) |
 | 4c server CMS prefetch | **`GET /api/home/cms`** + RSC `initialCms` + client seed zero-fetch (#10) ✅ |
 | 4d investor-spine e2e в CI | **`investor-spine-e2e`** после ci-fast (#9); unified verification — **`ci-heavy`** / dispatch |
 | AuthProvider lazy | **done** — `AuthProviderGate` + interactive stub; RouteGuard uses shared public paths |
