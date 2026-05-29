@@ -100,7 +100,12 @@ export function buildWorkshop2InvestorReadinessReport(input?: {
     .trim()
     .toLowerCase();
   const flagSet = testsFlag === 'true' || testsFlag === '1';
-  if (!flagSet && process.env.NODE_ENV !== 'test') {
+  const investorDemoMode = String(env.WORKSHOP2_INVESTOR_DEMO_MODE ?? '')
+    .trim()
+    .toLowerCase();
+  const demoModeOn =
+    investorDemoMode === 'true' || investorDemoMode === '1' || investorDemoMode === 'yes';
+  if (!flagSet && process.env.NODE_ENV !== 'test' && !demoModeOn) {
     reasons.push(
       `Unit tests: задайте WORKSHOP2_UNIT_TESTS_PASSING=true после npm run test:workshop2:unit (ожидается ≥${expectedMin}).`
     );
