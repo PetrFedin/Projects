@@ -9,7 +9,7 @@ export function waitForIdle(timeout = 2000): Promise<void> {
       window.requestIdleCallback(() => resolve(), { timeout });
       return;
     }
-    window.setTimeout(() => resolve(), Math.min(timeout, 800));
+    globalThis.setTimeout(() => resolve(), Math.min(timeout, 800));
   });
 }
 
@@ -21,6 +21,6 @@ export function scheduleIdleMount(onReady: () => void, timeout = 3500, fallbackM
     return () => window.cancelIdleCallback(id);
   }
 
-  const timer = window.setTimeout(onReady, fallbackMs);
-  return () => window.clearTimeout(timer);
+  const timer = globalThis.setTimeout(onReady, fallbackMs);
+  return () => globalThis.clearTimeout(timer);
 }
