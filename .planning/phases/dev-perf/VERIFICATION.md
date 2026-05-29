@@ -37,13 +37,16 @@
 - **Вариант C:** manual `dev:bench:ci` — см. `docs/CURSOR_AGENT_TOOLKIT.md` §6.
 - **Вариант A (nightly):** отложен до стабилизации turbopack.
 
-## Фаза 4 (этот PR / follow-up)
+## Фаза 4 — complete (2026-05-29)
 
 | ID | Статус |
 |----|--------|
-| 4a explore ClientLayout imports | **RouteGuardGate** — skip sync guard on public shell (branch follow-up) |
+| 4a explore ClientLayout imports | **done** — `RouteGuardGate` skips sync guard on public shell (#12) ✅ |
 | 4b NuqsProviderGate + RunwayAnalyticsGate | **done** — nuqs removed; RunwayAnalyticsGate idle on public shell |
-| 4b RolePanelGate idle | **RolePanelGate** wired in ClientLayout (branch follow-up) |
-| 4c server CMS prefetch | **`GET /api/home/cms`** + RSC `initialCms` + client seed zero-fetch (#10) ✅ |
-| 4d investor-spine e2e в CI | **`investor-spine-e2e`** после ci-fast (#9); unified verification — **`ci-heavy`** / dispatch |
+| 4b RolePanelGate idle | **done** — `RolePanelGate` wired in ClientLayout (#13) ✅ |
+| 4c server CMS prefetch | **done** — `GET /api/home/cms` + RSC `initialCms` + client seed zero-fetch (#10) ✅ |
+| 4d investor-spine e2e в CI | **done** — `investor-spine-e2e` после ci-fast (#9); unified verification — **`ci-heavy`** / dispatch |
 | AuthProvider lazy | **done** — `AuthProviderGate` + interactive stub; RouteGuard uses shared public paths |
+| Backend CI smoke | **done** — MVP `smoke_core` pytest + scoped ruff in monorepo CI (#14) ✅ |
+
+**Next:** Phase 5 — `PLAN-05-home-rsc-zero-fetch.md` (bundle audit HTML report).
