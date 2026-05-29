@@ -10,7 +10,21 @@ describe('dev-bootstrap-flags', () => {
   it('never skips in production even when SYNTH_SKIP_ENTERPRISE_BOOTSTRAP=1', () => {
     process.env.NODE_ENV = 'production';
     process.env.SYNTH_SKIP_ENTERPRISE_BOOTSTRAP = '1';
+    delete process.env.E2E;
+    delete process.env.NEXT_PUBLIC_E2E;
     expect(shouldSkipEnterpriseBootstrap()).toBe(false);
+  });
+
+  it('skips in production when E2E=true (Playwright prod webServer)', () => {
+    process.env.NODE_ENV = 'production';
+    process.env.E2E = 'true';
+    expect(shouldSkipEnterpriseBootstrap()).toBe(true);
+  });
+
+  it('skips in production when NEXT_PUBLIC_E2E=true', () => {
+    process.env.NODE_ENV = 'production';
+    process.env.NEXT_PUBLIC_E2E = 'true';
+    expect(shouldSkipEnterpriseBootstrap()).toBe(true);
   });
 
   it('skips in dev when SYNTH_SKIP_ENTERPRISE_BOOTSTRAP=1', () => {
