@@ -1,5 +1,44 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false,
+    "plugins": [],
+    "paths": {
+      "@/components/layout/B2BStateProviderSync": [
+        "./src/lib/layout/dev-perf-typecheck-stubs/b2b-state-provider-sync.stub.tsx"
+      ],
+      "@/components/layout/UIStateProviderSync": [
+        "./src/lib/layout/dev-perf-typecheck-stubs/ui-state-provider-sync.stub.tsx"
+      ],
+      "@/components/layout/NotificationsProviderSync": [
+        "./src/lib/layout/dev-perf-typecheck-stubs/notifications-provider-sync.stub.tsx"
+      ],
+      "@/components/route-guard": [
+        "./src/lib/layout/dev-perf-typecheck-stubs/route-guard.stub.tsx"
+      ],
+      "@/components/layout/role-panel": [
+        "./src/lib/layout/dev-perf-typecheck-stubs/role-panel.stub.tsx"
+      ],
+      "@/providers/query-provider": [
+        "./src/lib/layout/dev-perf-typecheck-stubs/query-provider.stub.tsx"
+      ],
+      "@/providers/brand-center-state": [
+        "./src/lib/layout/dev-perf-typecheck-stubs/brand-center-provider.stub.tsx"
+      ],
+      "@/providers/auth-provider": [
+        "./src/lib/layout/dev-perf-typecheck-stubs/auth-provider.stub.tsx"
+      ],
+      "@/providers/auth-provider-stub": [
+        "./src/lib/layout/dev-perf-typecheck-stubs/auth-provider-stub.stub.tsx"
+      ],
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/providers/*": ["./src/providers/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/ai/*": ["./src/ai/*"]
+    }
+  },
   "include": [
     "src/lib/layout/cabinet-route-match.ts",
     "src/lib/layout/public-shell-route.ts",
@@ -12,13 +51,23 @@
     "src/lib/auth/dev-auth-bootstrap.ts",
     "src/lib/auth/auth-bootstrap-route.ts",
     "src/lib/runtime/dev-bootstrap-flags.ts",
-    "src/lib/home/get-home-products-server.ts"
+    "src/lib/home/get-home-products-server.ts",
+    "src/lib/wait-for-idle.ts",
+    "src/components/layout/AuthProviderGate.tsx",
+    "src/components/layout/B2BStateProviderGate.tsx",
+    "src/components/layout/UIStateProviderGate.tsx",
+    "src/components/layout/QueryProviderGate.tsx",
+    "src/components/layout/NotificationsProviderGate.tsx",
+    "src/components/layout/BrandCenterProviderGate.tsx",
+    "src/components/layout/RouteGuardGate.tsx",
+    "src/components/layout/RolePanelGate.tsx"
   ],
   "exclude": [
     "node_modules",
     ".next",
     "src/**/__tests__/**",
     "src/**/*.test.ts",
-    "src/**/*.test.tsx"
+    "src/**/*.test.tsx",
+    "src/lib/layout/dev-perf-typecheck-stubs/**"
   ]
 }

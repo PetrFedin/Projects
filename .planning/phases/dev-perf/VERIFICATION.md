@@ -60,7 +60,7 @@
 | Layout gates **45** incl. `route-guard-route` | **done** — guard в `layout-gates-package-guard.mjs` |
 | `analyze:bundle` HTML client report | **deferred** — локально OOM; top routes зафиксированы в PLAN-05 |
 
-**Next (Phase 6 candidates):** nightly turbopack bench; bundle HTML в CI с большим heap; расширение `typecheck:dev-perf` (Gate `.tsx` — отдельно).
+**Next (Phase 7+):** nightly turbopack bench; bundle HTML в CI с большим heap.
 
 ## Фаза 6 — typecheck:dev-perf subset (2026-05-29)
 
@@ -69,4 +69,15 @@
 | `tsconfig.dev-perf.json` — route helpers без `routes.ts` | **done** — `cabinet-route-match` literals + parity test |
 | `typecheck:dev-perf` в `check:contracts:ci` | **done** — ~5s, guard `dev-perf-typecheck-guard.mjs` |
 | `cabinet-route-match.test.ts` в layout gates | **done** — 49 Jest tests (+ parity с ROUTES) |
-| AGENTS.md / toolkit — 45→46 gates, ci-heavy | **done** — этот PR |
+| AGENTS.md / toolkit — 45→46 gates, ci-heavy | **done** — #17 ✅ |
+
+## Фаза 7 — typecheck Gate `.tsx` (2026-05-29)
+
+| ID | Статус |
+|----|--------|
+| 8 provider/layout gates в `tsconfig.dev-perf.json` | **done** — Auth/B2B/UI/Query/Notifications/BrandCenter/RouteGuard/RolePanel |
+| Lazy-import stubs (`dev-perf-typecheck-stubs/`) | **done** — path overrides; tsc не тянет auth/workshop2 tree |
+| `dev-perf-typecheck-guard` — gates + stubs | **done** — регрессия wiring в CI |
+| `RolePanelGate` import alias + `globalThis` timers | **done** — path-map + TS DOM narrow fix |
+| Nightly turbopack bench | **deferred** — Phase 3 вариант A |
+| Bundle HTML в CI (большой heap) | **deferred** — PLAN-05 OOM; top routes baseline достаточен для ci-fast |
