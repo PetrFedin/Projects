@@ -18,6 +18,7 @@ const errors = [];
 const requiredGateTests = [
   'root-layout-wiring.test.ts',
   'route-guard-route.test.ts',
+  'cabinet-route-match.test.ts',
 ];
 
 for (const testFile of requiredGateTests) {

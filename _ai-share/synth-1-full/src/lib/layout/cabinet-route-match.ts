@@ -1,18 +1,18 @@
 /**
  * Маршруты с собственным cabinet chrome — без global Header/Footer и B2C overlay.
+ * Префиксы дублируют `ROUTES.*.home` / `ROUTES.academyPlatform` — без импорта `@/lib/routes`
+ * (dev-perf: layout gates typecheck не тянет workshop2 через routes.ts).
  */
-import { ROUTES } from '@/lib/routes';
-
-/** Префиксы path; `/brand` — весь хаб (ROUTES.brand.home = `/brand/profile` уже внутри). */
+/** Префиксы path; `/brand` — весь хаб (`/brand/profile` уже внутри). */
 export const CABINET_PATH_PREFIXES = [
   '/brand',
-  ROUTES.admin.home,
-  ROUTES.shop.home,
-  ROUTES.factory.home,
-  ROUTES.distributor.home,
-  ROUTES.client.home,
-  ROUTES.client.orders,
-  ROUTES.academyPlatform,
+  '/admin',
+  '/shop',
+  '/factory',
+  '/distributor',
+  '/client',
+  '/orders',
+  '/academy',
   '/wallet',
 ] as const;
 

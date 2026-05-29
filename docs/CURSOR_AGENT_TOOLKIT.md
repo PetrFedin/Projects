@@ -111,7 +111,7 @@ bash scripts/install-cursor-user-mcp.sh
 | Команда (из корня) | Назначение |
 |--------------------|------------|
 | `npm run dev:fast:clean` | Daily dev: Turbopack, skip enterprise bootstrap, убивает e2e **:3123**, clean `.next` |
-| `npm run verify:dev-perf` | Статика ~3s: `smoke` (= `check:contracts:ci` + **45** layout-gate Jest-тестов) |
+| `npm run verify:dev-perf` | Статика ~8s: `smoke` (= `check:contracts:ci` + **49** layout-gate Jest-тестов + **`typecheck:dev-perf`**) |
 | `npm run test:backend` | MVP contract: `pytest -m smoke_core` (см. `docs/MVP_CONTRACT.md`) |
 | `npm run pre-pr:dev-perf` | Pre-PR: verify + подсказки PR (без e2e) |
 | `npm run pre-pr:dev-perf:e2e` | + `test:e2e:light` (локально может OOM — CI источник правды) |

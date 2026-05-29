@@ -1,4 +1,21 @@
-import { isCabinetPathname } from '@/lib/layout/cabinet-route-match';
+import { ROUTES } from '@/lib/routes';
+import { CABINET_PATH_PREFIXES, isCabinetPathname } from '@/lib/layout/cabinet-route-match';
+
+describe('CABINET_PATH_PREFIXES', () => {
+  it('stays aligned with ROUTES cabinet homes (no routes.ts import in gate module)', () => {
+    expect(CABINET_PATH_PREFIXES).toEqual([
+      '/brand',
+      ROUTES.admin.home,
+      ROUTES.shop.home,
+      ROUTES.factory.home,
+      ROUTES.distributor.home,
+      ROUTES.client.home,
+      ROUTES.client.orders,
+      ROUTES.academyPlatform,
+      '/wallet',
+    ]);
+  });
+});
 
 describe('isCabinetPathname', () => {
   it('matches hub cabinet roots and nested paths', () => {
