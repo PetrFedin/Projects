@@ -3,6 +3,7 @@
 Study project: run agents, index docs into RAG, optional LLM analysis.
 Usage: python -m scripts.study_project [--agents-only] [--index-only] [--llm]
 """
+
 import argparse
 import asyncio
 import os
@@ -31,7 +32,7 @@ async def index_docs():
         full = os.path.join(PROJECT_ROOT, path)
         if os.path.exists(full):
             try:
-                with open(full, "r", encoding="utf-8", errors="ignore") as f:
+                with open(full, encoding="utf-8", errors="ignore") as f:
                     text = f.read()[:15000]
                 docs.append({"id": path, "text": f"{desc}\n\n{text}", "content": text})
             except Exception as e:
@@ -45,8 +46,8 @@ async def index_docs():
 
 async def run_llm_study():
     """Run orchestrator with study task (requires real LLM API)."""
-    from app.agents.orchestrator_agent import orchestrator_agent
     from app.agents.context_loader import load_project_context
+    from app.agents.orchestrator_agent import orchestrator_agent
 
     ctx = load_project_context()
     task = """Study Synth-1 Fashion OS. From MASTER_PLAN and ARCHITECTURE:
@@ -61,6 +62,7 @@ async def run_llm_study():
 def run_agents():
     """Run all report agents."""
     from app.agents.agent_runner import AgentRunner
+
     runner = AgentRunner()
     runner.run_all()
 
@@ -68,7 +70,9 @@ def run_agents():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--agents-only", action="store_true", help="Only run report agents")
-    ap.add_argument("--index-only", action="store_true", help="Only index docs into RAG")
+    ap.add_argument(
+        "--index-only", action="store_true", help="Only index docs into RAG"
+    )
     ap.add_argument("--llm", action="store_true", help="Run LLM study (needs API key)")
     args = ap.parse_args()
 

@@ -71,6 +71,9 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 pythonpath = ["."]
+markers = [
+    "smoke_core: MVP contract endpoints (docs/MVP_CONTRACT.md); used by scripts/run-core-smoke.sh",
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

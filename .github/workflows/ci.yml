@@ -41,8 +41,16 @@ jobs:
           poetry install --no-interaction --without ml --with dev
           poetry run pip install 'aiosqlite>=0.20.0' 'email-validator>=2.0.0' 'reportlab>=4.0.0'
 
+      - name: Ruff (monorepo scripts)
+        run: |
+          poetry run ruff check scripts/*.py
+          poetry run ruff format --check scripts/*.py
+
       - name: Pytest (smoke + unit)
         run: poetry run python -m pytest tests/smoke tests/unit -q --tb=short
+
+      - name: Pytest (MVP contract / smoke_core)
+        run: poetry run python -m pytest tests/ -m smoke_core -q --tb=short
 
   frontend:
     runs-on: ubuntu-latest

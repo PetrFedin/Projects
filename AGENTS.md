@@ -24,6 +24,8 @@
 
 Разработка и CI — **`_ai-share/synth-1-full`** (см. **`_ai-share/synth-1-full/AGENTS.md`**). Из корня монорепо: **`npm run smoke`** — быстрый контрактный чек (`smoke:fast` во full); **`npm run lint`** — ESLint только с ошибками (`lint:errors`); **`npm run synth-1:clean`** — очистка `.next*` и кешей во full.
 
+**Бэкенд (FastAPI, корень репо):** **`npm run test:backend`** — MVP contract (`pytest -m smoke_core`, см. **`docs/MVP_CONTRACT.md`**); **`npm run test:backend:full`** — smoke + unit как в CI. Локально: `poetry install --without ml --with dev` + `poetry run pip install aiosqlite email-validator reportlab`.
+
 **Cursor / VS Code (корень воркспейса = `Projects`):** рекомендуемые расширения — **`.vscode/extensions.json`** (после clone: **Install Recommended Extensions**). Настройки ESLint / Prettier / Tailwind привязаны к **`_ai-share/synth-1-full`** — **`.vscode/settings.json`**. Быстрые задачи без поиска по NPM-панели — **`.vscode/tasks.json`** (**Run Task** → `synth-1-full: …`). **Error Lens:** для движка VS Code **1.105.x** в Cursor ставьте VSIX **≤ 3.26.0** (см. Open VSX); **3.27+** требуют **1.107+**.
 
 **Запуск Next локально:** Node **20.x–23.x** (`_ai-share/synth-1-full/.nvmrc`). Dev: **`npm run dev:fast`** / **`npm run dev:fast:clean`**. Pre-PR dev-perf: **`npm run pre-pr:dev-perf`**. **Не параллелить** `dev:fast` и **`test:e2e:*`** — общий `.next`. Верификация: **`npm run verify:dev-perf`** (36 layout gates). Застрял :3123 — **`npm run stop:stale-dev`**. PR: **`bash scripts/create-dev-perf-pr.sh`** (нужен `gh auth login` или compare вручную).
