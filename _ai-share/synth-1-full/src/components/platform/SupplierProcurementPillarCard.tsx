@@ -1,0 +1,322 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import { CheckCircle2, Circle, Package } from 'lucide-react';
+import { usePlatformCoreChainStatusPoll } from '@/hooks/use-platform-core-chain-status-poll';
+import { usePillarSnapshot } from '@/hooks/use-pillar-snapshot';
+import { Card, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import {
+  factorySupplierMessagesB2bOrderContextHref,
+  factorySupplierMessagesWorkshop2ArticleContextHref,
+  shopB2bTrackingOrderHref,
+} from '@/lib/routes';
+import {
+  factoryHandoffQueueHrefForDemo,
+  factoryMaterialsProcurementHrefForDemo,
+  getPlatformCoreDemo,
+} from '@/lib/platform-core-hub-matrix';
+import { PlatformCoreTerm } from '@/components/platform/PlatformCoreTerm';
+import { usePlatformCoreDemoContext } from '@/components/platform/usePlatformCoreChainOverview';
+import { Badge } from '@/components/ui/badge';
+import { PlatformCoreChainStatusRefreshBadge } from '@/components/platform/PlatformCoreChainStatusRefreshBadge';
+import {
+  formatWholesaleOrderDisplayId,
+  isIntegrationImportedWholesaleOrderId,
+} from '@/lib/integrations/spine/integration-ui-utils';
+import { SupplierProcurementSpineStrip } from '@/components/integrations/SupplierProcurementSpineStrip';
+import type { SupplierProcurementBomLine } from '@/lib/platform-core-pillar-snapshot.types';
+import { cn } from '@/lib/utils';
+import { resolvePlatformCoreCabinetOrderId } from '@/lib/platform-core-spine-active-order-fallback';
+
+function isBomLineFilled(line: SupplierProcurementBomLine): boolean {
+  if (!line.materialName?.trim()) return false;
+  return (line.yieldPerUnit ?? line.consumption ?? line.quantity ?? 0) > 0;
+}
+
+const linkClass = 'text-accent-primary text-[10px] font-medium hover:underline';
+
+export function SupplierProcurementPillarCard({
+  compact: _compact = false,
+}: {
+  /** @deprecated Hub всегда compact; prop сохранён для совместимости. */
+  compact?: boolean;
+}) {
+  const demo = usePlatformCoreDemoContext();
+  const { collectionId, demoArticleId, factoryId, demoOrderId } = demo;
+  const [spineReloadNonce, setSpineReloadNonce] = useState(0);
+  const pollOrderIds = demoOrderId && !demoOrderId.startsWith('__') ? [demoOrderId] : [];
+  const { tick: chainPollTick, sseConnected } = usePlatformCoreChainStatusPoll(
+    pollOrderIds.length > 0,
+    pollOrderIds
+  );
+
+  const { snapshot } = usePillarSnapshot({
+    collectionId,
+    pillarId: 'order_production',
+    roleId: 'supplier',
+    factoryId,
+    reloadNonce: spineReloadNonce + chainPollTick,
+  });
+
+  const live =
+    snapshot?.pillarId === 'order_production' && 'supplierProcurement' in snapshot
+      ? snapshot.supplierProcurement
+      : null;
+
+  const displayOrderId = live?.orderId ?? '';
+  const productionOrderId = live?.productionOrderId ?? demo.productionOrderId;
+  const isSpineOrder = isIntegrationImportedWholesaleOrderId(displayOrderId);
+  const canonicalDemoOrderId = getPlatformCoreDemo(collectionId).demoOrderId;
+  const cabinetOrderId = resolvePlatformCoreCabinetOrderId(displayOrderId, canonicalDemoOrderId);
+  const demoWithOrder = { ...demo, demoOrderId: cabinetOrderId };
+
+  const bomLines = live?.bomLines ?? [];
+  const chainSteps = live?.chainSteps ?? [];
+  const poReady = live?.poReady ?? null;
+  const poQty = live?.poQty ?? 0;
+  const centricRfqId = live?.procurementSpine?.centricRfq?.rfqId ?? null;
+  const handoffQueueCount = live?.handoffQueueCount ?? null;
+
+  const bomFilled = useMemo(() => bomLines.filter(isBomLineFilled).length, [bomLines]);
+  const bomTotal = bomLines.length;
+  const bomPct = bomTotal > 0 ? Math.round((bomFilled / bomTotal) * 100) : 0;
+  const procurementPct = poReady || bomTotal > 0 ? bomPct : 0;
+  const materialsSuppliedDone =
+    chainSteps.find((s) => s.id === 'materials_supplied')?.done === true;
+  const inventoryReservedDone =
+    chainSteps.find((s) => s.id === 'inventory_reserved')?.done === true;
+
+  return (
+    <Card
+      data-testid="sup-op-cabinet-panel"
+      data-audit-legacy="supplier-procurement-pillar-card"
+      className="border-amber-200/50"
+    >
+      <CardContent className="space-y-2 p-3">
+        <PlatformCoreChainStatusRefreshBadge
+          sseConnected={sseConnected}
+          enabled
+          sseTestId="sup-op-cabinet-sse-live-badge"
+          pollTestId="sup-op-cabinet-poll-badge"
+          sseLegacyTestId="sup-op-chain-sse-live-badge"
+        />
+        {isSpineOrder && live ? (
+          <SupplierProcurementSpineStrip
+            orderId={displayOrderId}
+            procurement={live.procurementSpine}
+            reloadNonce={spineReloadNonce + chainPollTick}
+            compact
+            onAckSuccess={() => setSpineReloadNonce((n) => n + 1)}
+          />
+        ) : null}
+        {poReady != null || bomTotal > 0 ? (
+          <div
+            className="space-y-1.5"
+            data-testid="supplier-procurement-bom-progress"
+            data-audit-section="sup-op-bom-po"
+            data-po-qty={poQty}
+            data-bom-filled={bomFilled}
+            data-bom-total={bomTotal}
+          >
+            <div className="flex items-center justify-between text-xs font-medium">
+              <span>
+                <PlatformCoreTerm term="BOM" /> под <PlatformCoreTerm term="PO" />
+              </span>
+              <span
+                className={cn(
+                  procurementPct >= 100 ? 'text-emerald-600' : 'text-muted-foreground'
+                )}
+              >
+                {poQty > 0 ? `${poQty} ед.` : 'без серии'} · {bomFilled}/{bomTotal || '—'} строк
+              </span>
+            </div>
+            <Progress
+              value={procurementPct}
+              className="h-2 bg-slate-100"
+              indicatorClassName={procurementPct >= 100 ? 'bg-emerald-600' : 'bg-amber-500'}
+            />
+            <p className="text-muted-foreground text-[11px]">
+              {poQty > 0 && bomFilled === bomTotal && bomTotal > 0
+                ? 'BOM готов к расчёту потребности под серию'
+                : poReady
+                  ? 'Дозаполните спецификацию в досье или дождитесь серии производственного заказа'
+                  : 'Ожидание передачи в производство от бренда'}
+            </p>
+          </div>
+        ) : null}
+        {chainSteps.length > 0 ? (
+          <ul
+            className="space-y-1.5 border-t border-amber-100/80 pt-2"
+            data-testid="sup-op-chain-steps"
+            data-audit-legacy="supplier-procurement-chain-steps"
+          >
+            {chainSteps.map((step) => (
+              <li
+                key={step.id}
+                className="flex flex-wrap items-start gap-x-2 gap-y-0.5 text-xs"
+                data-testid={`platform-core-chain-step-${step.id}`}
+                data-done={step.done ? 'true' : 'false'}
+              >
+                {step.done ? (
+                  <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden />
+                ) : (
+                  <Circle className="text-text-muted mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
+                )}
+                <span>{step.labelRu}</span>
+                {step.id === 'materials_supplied' && step.done ? (
+                  <Link
+                    href={factorySupplierMessagesB2bOrderContextHref(displayOrderId)}
+                    data-testid="sup-op-chain-brand-chat-link"
+                    className={linkClass}
+                  >
+                    Чат бренду
+                  </Link>
+                ) : null}
+                {step.id === 'materials_supplied' && !step.done && poReady ? (
+                  <Link
+                    href={factoryMaterialsProcurementHrefForDemo(demoWithOrder, { role: 'supplier' })}
+                    data-testid="sup-op-chain-procurement-link"
+                    className={linkClass}
+                  >
+                    Подтвердить поставку
+                  </Link>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        {chainSteps.some((s) => s.id === 'inventory_reserved') ? (
+          <Badge
+            variant="outline"
+            data-testid="sup-op-cabinet-wms-reserve-badge"
+            className={
+              inventoryReservedDone
+                ? 'h-4 border-emerald-200 bg-emerald-50 px-1.5 text-[9px] text-emerald-800'
+                : 'h-4 border-amber-200 bg-amber-50 px-1.5 text-[9px] text-amber-800'
+            }
+          >
+            {inventoryReservedDone ? 'Резерв WMS оформлен' : 'Резерв WMS ожидается'}
+          </Badge>
+        ) : null}
+        {chainSteps.some((s) => s.id === 'materials_supplied') ? (
+          <Badge
+            variant="outline"
+            data-testid="sup-op-chain-materials-badge"
+            className={
+              materialsSuppliedDone
+                ? 'h-4 border-emerald-200 bg-emerald-50 px-1.5 text-[9px] text-emerald-800'
+                : 'h-4 border-amber-200 bg-amber-50 px-1.5 text-[9px] text-amber-800'
+            }
+          >
+            {materialsSuppliedDone ? 'Материалы подтверждены' : 'Ожидает подтверждение поставщика'}
+          </Badge>
+        ) : null}
+        <div
+          className="flex flex-wrap items-center gap-2"
+          data-testid="sup-op-handoff-read-strip"
+        >
+          {centricRfqId ? (
+            <Badge
+              variant="outline"
+              data-testid="sup-op-centric-rfq-badge"
+              className="h-4 border-violet-200 bg-violet-50 px-1.5 text-[9px] text-violet-900"
+            >
+              PLM · RFQ · {centricRfqId}
+            </Badge>
+          ) : null}
+          {displayOrderId ? (
+            <Badge variant="secondary" className="h-4 px-1.5 text-[9px]">
+              Заказ {formatWholesaleOrderDisplayId(displayOrderId)}
+            </Badge>
+          ) : null}
+          {handoffQueueCount != null && handoffQueueCount > 0 ? (
+            <Badge
+              variant="outline"
+              data-testid="sup-op-handoff-read-queue-count"
+              data-audit-legacy="sup-op-handoff-queue-count"
+              className="h-4 border-amber-200 bg-amber-50 px-1.5 text-[9px] text-amber-900"
+            >
+              <Package className="mr-0.5 inline h-3 w-3" aria-hidden />
+              Очередь передачи · {handoffQueueCount}
+            </Badge>
+          ) : null}
+        </div>
+        {poReady != null ? (
+          <p className="flex flex-wrap items-start gap-x-2 gap-y-1 text-xs">
+            {poReady ? (
+              <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden />
+            ) : (
+              <Circle className="text-text-muted mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
+            )}
+            <span>
+              {poReady
+                ? `Производственный заказ ${productionOrderId} в очереди — можно подтверждать поставку`
+                : 'Ожидание передачи в производство от бренда'}
+            </span>
+            {poReady && productionOrderId && displayOrderId ? (
+              <Link
+                href={factoryHandoffQueueHrefForDemo(demoWithOrder)}
+                data-testid="sup-op-handoff-read-po-link"
+                className={linkClass}
+              >
+                Очередь · {productionOrderId}
+              </Link>
+            ) : null}
+          </p>
+        ) : null}
+        <div className="space-y-1.5 border-t border-amber-100/80 pt-2">
+          <div
+            className="flex flex-wrap gap-x-3 gap-y-1"
+            data-testid="sup-op-cabinet-cta-production"
+          >
+            <Link
+              href={factoryMaterialsProcurementHrefForDemo(demoWithOrder, { role: 'supplier' })}
+              data-testid="sup-op-cabinet-procurement-link"
+              className={linkClass}
+            >
+              Закупка
+            </Link>
+            <Link
+              href={factoryHandoffQueueHrefForDemo(demoWithOrder)}
+              data-testid="sup-op-cabinet-handoff-link"
+              data-audit-legacy="sup-op-handoff-read-queue-link"
+              className={linkClass}
+            >
+              Очередь ПЗ
+            </Link>
+          </div>
+          <div
+            className="flex flex-wrap gap-x-3 gap-y-1"
+            data-testid="sup-op-cabinet-cta-comms"
+          >
+            <Link
+              href={factorySupplierMessagesWorkshop2ArticleContextHref(collectionId, demoArticleId)}
+              data-testid="sup-op-cabinet-article-chat-link"
+              className={linkClass}
+            >
+              Чат · артикул
+            </Link>
+            <Link
+              href={shopB2bTrackingOrderHref(cabinetOrderId)}
+              data-testid="sup-op-cabinet-tracking-link"
+              className={linkClass}
+            >
+              Трекинг магазина
+            </Link>
+            {displayOrderId ? (
+              <Link
+                href={factorySupplierMessagesB2bOrderContextHref(displayOrderId)}
+                data-testid="sup-op-cabinet-brand-chat-link"
+                className={linkClass}
+              >
+                Чат бренду
+              </Link>
+            ) : null}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
