@@ -19,6 +19,47 @@ const memoryOrders = new Map<string, Workshop2B2bOrderRecord>();
 const STORE_FILE = path.join(process.cwd(), 'data', 'workshop2-b2b-orders.json');
 let fileHydrated = false;
 
+const B2B_ORDER_SELECT_COLUMNS = `id, collection_id, article_id, buyer_id, rep_id, status, tier, total_rub,
+              lines, commission_preview, metadata, created_at, updated_at`;
+
+/** PG pin ids per collection — always in brand registry (shop2 bulk handoff e2e). */
+const PLATFORM_CORE_PINNED_B2B_ORDER_IDS: Readonly<Record<string, readonly string[]>> = {
+  SS27: ['B2B-DEMO-SHOP1-SS27', 'B2B-DEMO-SHOP2-SS27'],
+  FW27: ['B2B-DEMO-SHOP1-FW27'],
+};
+
+function isPlatformCoreModeEnv(): boolean {
+  const raw = process.env.NEXT_PUBLIC_PLATFORM_CORE_MODE?.trim().toLowerCase();
+  return raw === '1' || raw === 'true' || raw === 'yes' || raw === 'on';
+}
+
+function mergeB2bOrdersById(
+  primary: Workshop2B2bOrderRecord[],
+  extra: Workshop2B2bOrderRecord[]
+): Workshop2B2bOrderRecord[] {
+  const byId = new Map<string, Workshop2B2bOrderRecord>();
+  for (const order of extra) byId.set(order.id, order);
+  for (const order of primary) {
+    if (!byId.has(order.id)) byId.set(order.id, order);
+  }
+  return [...byId.values()].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+}
+
+async function fetchPinnedPlatformCoreB2bOrdersForCollection(
+  collectionId: string
+): Promise<Workshop2B2bOrderRecord[]> {
+  if (!isPlatformCoreModeEnv()) return [];
+  const pinnedIds = PLATFORM_CORE_PINNED_B2B_ORDER_IDS[collectionId.trim()] ?? [];
+  if (pinnedIds.length === 0) return [];
+  await ensureWorkshop2PgSchema();
+  const res = await getWorkshop2PgPool().query(
+    `SELECT ${B2B_ORDER_SELECT_COLUMNS}
+       FROM workshop2_b2b_orders WHERE collection_id = $1 AND id = ANY($2::text[])`,
+    [collectionId.trim(), pinnedIds]
+  );
+  return res.rows.map(rowToRecord);
+}
+
 function canUseDiskPersistence(): boolean {
   return process.env.NODE_ENV !== 'test' && !isWorkshop2PgOnlyMode();
 }
@@ -253,12 +294,13 @@ export async function listWorkshop2B2bOrdersForCollection(
   if (isWorkshop2PostgresEnabled()) {
     await ensureWorkshop2PgSchema();
     const res = await getWorkshop2PgPool().query(
-      `SELECT id, collection_id, article_id, buyer_id, rep_id, status, tier, total_rub,
-              lines, commission_preview, metadata, created_at, updated_at
+      `SELECT ${B2B_ORDER_SELECT_COLUMNS}
        FROM workshop2_b2b_orders WHERE collection_id = $1 ORDER BY updated_at DESC LIMIT 200`,
       [cid]
     );
-    return res.rows.map(rowToRecord);
+    const recent = res.rows.map(rowToRecord);
+    const pinned = await fetchPinnedPlatformCoreB2bOrdersForCollection(cid);
+    return mergeB2bOrdersById(recent, pinned);
   }
 
   if (isWorkshop2PgOnlyMode()) return [];
