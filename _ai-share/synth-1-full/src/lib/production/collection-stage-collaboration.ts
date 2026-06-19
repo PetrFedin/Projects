@@ -1,6 +1,5 @@
 /**
- * Инфраструктура согласований по модулю этапа коллекции (без реального API).
- * Ссылки в задачи/чат с унифицированными query; порт для будущего POST.
+ * Согласования по модулю этапа коллекции — POST /api/brand/collection-stage-review.
  */
 
 import { ROUTES } from '@/lib/routes';
@@ -66,14 +65,36 @@ export type CollectionStageReviewRequestResult = {
 export async function submitCollectionStageReviewRequest(
   payload: CollectionStageReviewRequestPayload
 ): Promise<CollectionStageReviewRequestResult> {
-  if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-    globalThis.console?.info?.('[collection-stage-review] stub submit', payload);
+  try {
+    const res = await fetch('/api/brand/collection-stage-review', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const json = (await res.json()) as {
+      ok?: boolean;
+      taskRef?: string;
+      messageThreadRef?: string;
+      error?: string;
+    };
+    if (!res.ok || !json.ok) {
+      return {
+        ok: false,
+        mode: 'http',
+        error: json.error ?? `HTTP ${res.status}`,
+      };
+    }
+    return {
+      ok: true,
+      mode: 'http',
+      taskRef: json.taskRef,
+      messageThreadRef: json.messageThreadRef,
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      mode: 'http',
+      error: err instanceof Error ? err.message : 'network_error',
+    };
   }
-  await Promise.resolve();
-  return {
-    ok: true,
-    mode: 'stub',
-    taskRef: `stub-task:${payload.collectionKey}:${payload.stepId}`,
-    messageThreadRef: `stub-thread:${payload.collectionKey}:${payload.stepId}`,
-  };
 }

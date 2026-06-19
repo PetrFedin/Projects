@@ -30,7 +30,7 @@ export function Workshop2ArticleSampleIntakeStockSection({
   mergeBundle: (patch: Partial<ArticleWorkspaceBundle>) => Promise<ArticleWorkspaceBundle>;
   dataMode: string;
 }) {
-  const { ref, bundle, loading, saveDossier } = useArticleWorkspace();
+  const { ref, bundle, loading } = useArticleWorkspace();
   const [dossier, setDossier] = useState<Workshop2DossierPhase1 | null>(null);
 
   useEffect(() => {
@@ -47,15 +47,11 @@ export function Workshop2ArticleSampleIntakeStockSection({
           updatedAt: new Date().toISOString(),
           updatedBy: 'stock-sample-intake',
         };
-        if (saveDossier) {
-          void saveDossier(merged);
-        } else {
-          setWorkshop2Phase1Dossier(ref.collectionId, ref.articleId, merged);
-        }
+        setWorkshop2Phase1Dossier(ref.collectionId, ref.articleId, merged);
         return merged;
       });
     },
-    [ref.articleId, ref.collectionId, saveDossier]
+    [ref.articleId, ref.collectionId]
   );
 
   if (loading || !bundle) return null;

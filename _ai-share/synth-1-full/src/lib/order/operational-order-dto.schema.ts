@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { operationalOrderIntegrationSchema } from '@/lib/integrations/spine/integration-external-ref.schema';
 
 const paymentStatusZ = z.enum(['pending', 'partial', 'paid', 'overdue', 'cancelled']);
 
@@ -18,6 +19,7 @@ export const operationalOrderListRowDtoSchema = z.object({
   creditLimit: z.number().optional(),
   paymentStatus: paymentStatusZ.optional(),
   paidAmount: z.number().optional(),
+  integration: operationalOrderIntegrationSchema.optional(),
 });
 
 export const operationalOrderDetailDtoSchema = operationalOrderListRowDtoSchema.extend({

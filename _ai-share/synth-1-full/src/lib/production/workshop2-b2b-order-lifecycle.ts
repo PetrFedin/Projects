@@ -102,9 +102,41 @@ export type Workshop2B2bOrderRecord = {
   /** Wave 22: условия оплаты RU. */
   paymentTermsRu?: Workshop2B2bPaymentTermsRu;
   paymentTermsDays?: number;
+  /** Shop buyer confirmed delivery receipt (ISO timestamp, metadata PG). */
+  buyerDeliveryAcknowledgedAt?: string;
+  /** PG / import metadata (partner display name, buyer labels). */
+  metadata?: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;
 };
+
+export type Workshop2B2bOrderArticleScope = {
+  collectionId: string;
+  articleId: string;
+};
+
+/** Уникальные артикулы заказа (из lines, fallback — articleId заказа). */
+export function uniqueArticleScopesFromB2bOrder(
+  order: Pick<Workshop2B2bOrderRecord, 'articleId' | 'collectionId' | 'lines'>
+): Workshop2B2bOrderArticleScope[] {
+  const seen = new Set<string>();
+  const out: Workshop2B2bOrderArticleScope[] = [];
+  for (const line of order.lines ?? []) {
+    const articleId = line.articleId?.trim();
+    const collectionId = line.collectionId?.trim();
+    if (!articleId || !collectionId) continue;
+    const key = `${collectionId}:${articleId}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push({ collectionId, articleId });
+  }
+  const fallbackArticle = order.articleId?.trim();
+  const fallbackCollection = order.collectionId?.trim();
+  if (out.length === 0 && fallbackArticle && fallbackCollection) {
+    out.push({ collectionId: fallbackCollection, articleId: fallbackArticle });
+  }
+  return out;
+}
 
 export function cloneWorkshop2B2bOrderAsReorder(input: {
   source: Workshop2B2bOrderRecord;

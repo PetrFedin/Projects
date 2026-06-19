@@ -67,7 +67,10 @@ export function validateWorkshop2VaultGlbUpload(input: {
 
 export function hasWorkshop2VaultGlbInIndex(dossier: Workshop2DossierPhase1): boolean {
   const docs = (dossier.vaultDocuments ?? []).map((d) => {
-    const ext = d as Workshop2Fit3dVaultIndexEntry & { metadata?: Record<string, unknown> };
+    const ext = d as unknown as Workshop2Fit3dVaultIndexEntry & {
+      metadata?: Record<string, unknown>;
+      title?: string;
+    };
     const titleName = typeof d.title === 'string' ? d.title : undefined;
     return {
       documentId: d.id,

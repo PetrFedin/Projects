@@ -37,7 +37,7 @@ export function evaluateWorkshop2PredictiveSupplyRiskFromDossier(
   const now = Date.now();
   let lateTa = 0;
   for (const m of ta) {
-    if (m.status === 'done' || m.actualDate) continue;
+    if (m.status === 'completed' || m.actualDate) continue;
     const target = m.targetDate ? Date.parse(m.targetDate) : NaN;
     if (Number.isFinite(target) && target < now) {
       lateTa += 1;

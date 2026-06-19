@@ -6,18 +6,19 @@ import {
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type Dispatch,
   type ReactNode,
   type SetStateAction,
 } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import * as LucideIcons from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Workshop2Phase1DossierPanel } from '@/components/brand/production/Workshop2Phase1DossierPanel';
 import { findHandbookLeafById, getHandbookCategoryLeaves } from '@/lib/production/category-catalog';
 import {
   calculateDossierReadiness,
@@ -41,6 +42,7 @@ import {
   WORKSHOP2_DOSSIER_SECTION_PARAM,
   WORKSHOP2_DOSSIER_VIEW_PARAM,
   WORKSHOP2_STEP_PARAM,
+  isWorkshop2ArticlePaneAssignmentLegacy,
   parseWorkshop2ArticlePaneParam,
   workshop2ArticleHref,
   workshop2ArticlePath,
@@ -101,8 +103,6 @@ import {
   Workshop2ArticleWorkspaceTabPanels,
   type Workshop2ArticleWorkspaceMainTab,
 } from '@/components/brand/production/Workshop2ArticleWorkspaceTabPanels';
-import { Workshop2DfmCheckPanel } from '@/components/brand/production/workshop2-dfm-check-panel';
-import { Workshop2ContractorMatchmaker } from '@/components/brand/production/workshop2-contractor-matchmaker';
 import {
   PassportTzExtraAssigneeCard,
   W2PassportTzStagesPick,
@@ -125,6 +125,7 @@ import { summarizeWorkshop2WorkspaceHandoffFromApiPayload } from '@/lib/producti
 import { Workshop2ArticleWorkspaceDossierSkeleton } from '@/components/brand/production/workshop2-article-workspace-dossier-skeleton';
 import { Workshop2WorkspaceHeaderDataModeBadge } from '@/components/brand/production/Workshop2WorkspaceHeaderDataModeBadge';
 import { Workshop2DossierPersistButton } from '@/components/brand/production/Workshop2DossierPersistButton';
+import { prefetchWorkshop2ArticleTabChunks } from '@/components/brand/production/workshop2-tab-panel-chunk-boundary';
 import type {
   Workshop2DossierPhase1,
   Workshop2PassportVisualSource,
@@ -177,6 +178,31 @@ import {
   W2_ROUTE_HELP_INFO_BTN_CLASS,
   W2_TZ_PASSPORT_CONTINUE_BTN_CLASS,
 } from '@/components/brand/production/workshop2-article-workspace-ui-constants';
+
+const Workshop2Phase1DossierPanel = dynamic(
+  () =>
+    import('@/components/brand/production/Workshop2Phase1DossierPanel').then((m) => ({
+      default: m.Workshop2Phase1DossierPanel,
+    })),
+  { loading: () => <p className="text-text-secondary px-1 text-sm">Загрузка ТЗ…</p> }
+);
+
+const Workshop2DfmCheckPanel = dynamic(
+  () =>
+    import('@/components/brand/production/workshop2-dfm-check-panel').then((m) => ({
+      default: m.Workshop2DfmCheckPanel,
+    })),
+  { loading: () => null, ssr: false }
+);
+
+const Workshop2ContractorMatchmaker = dynamic(
+  () =>
+    import('@/components/brand/production/workshop2-contractor-matchmaker').then((m) => ({
+      default: m.Workshop2ContractorMatchmaker,
+    })),
+  { loading: () => null, ssr: false }
+);
+
 type MainTab = Workshop2ArticleMainTab;
 
 type Props = {
@@ -802,7 +828,15 @@ function Workshop2ArticleWorkspaceScreen({
   );
 
   const dossierReadiness = useMemo(() => calculateDossierReadiness(dossier, leaf), [dossier, leaf]);
-  const dossierSummary = dossierReadiness.summary;
+  const dossierSummary = dossierReadiness.summary ?? {
+    exists: false,
+    visualsReady: false,
+    materialReady: false,
+    measurementsReady: false,
+    approvalsReady: false,
+    warnings: [] as string[],
+    readyForSample: false,
+  };
   const productionPreflightPulse = useMemo(() => {
     if (!dossier) return null;
     const sku = (tzLineDrafts?.sku ?? article.sku ?? '').trim();
@@ -1214,16 +1248,16 @@ function Workshop2ArticleWorkspaceScreen({
   );
 
   useEffect(() => {
-    if (!ref.collectionId || !ref.articleId) return;
+    if (!collectionId || !article.id) return;
     setDossierFetchPending(true);
-    void fetchWorkshop2HandoffReadiness(ref.collectionId, String(ref.articleId), categoryLeafId)
+    void fetchWorkshop2HandoffReadiness(collectionId, String(article.id), categoryLeafId)
       .then((payload) => {
         if (!payload) return;
         const chip = summarizeWorkshop2WorkspaceHandoffFromApiPayload(payload);
-        setHandoffApiChip({ hintRu: chip.hintRu, state: chip.state });
+        setHandoffApiChip({ hintRu: chip.hintRu ?? '', state: chip.state });
       })
       .finally(() => setDossierFetchPending(false));
-  }, [ref.collectionId, ref.articleId, categoryLeafId]);
+  }, [collectionId, article.id, categoryLeafId]);
   const exportHandoffPdfFromWorkspace = useCallback(async () => {
     if (!dossier || !leaf) return;
     const openVisualGates = buildWorkshop2VisualGateItems(dossier, leaf).length;
@@ -1275,21 +1309,29 @@ function Workshop2ArticleWorkspaceScreen({
             {articleSectionMeta.title}
           </h1>
         </div>
-        <div className="min-w-0 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:thin] sm:overflow-x-visible">
+        <div className="min-w-0">
           <div
-            className="border-border-subtle bg-bg-surface2 grid min-h-9 w-full min-w-[48rem] grid-cols-7 gap-0.5 rounded-xl border p-1 sm:min-w-0"
+            className="border-border-subtle bg-bg-surface2 grid min-h-9 w-full grid-cols-3 gap-0.5 rounded-xl border p-1 sm:grid-cols-[repeat(var(--w2-tabs),minmax(0,1fr))]"
             role="tablist"
             aria-label="Разделы артикула"
-            style={{ gridTemplateColumns: `repeat(${visibleTabs.length}, minmax(0, 1fr))` }}
+            style={{ '--w2-tabs': visibleTabs.length } as CSSProperties}
           >
             {visibleTabs.map((t) => {
               const active = stripActiveTab === t.id;
+              const prefetchTab =
+                t.id === 'tz' || t.id === 'plan' || t.id === 'release' ? t.id : null;
               return (
                 <button
                   key={t.id}
                   type="button"
                   role="tab"
                   aria-selected={active}
+                  onMouseEnter={() => {
+                    if (prefetchTab) prefetchWorkshop2ArticleTabChunks(prefetchTab);
+                  }}
+                  onFocus={() => {
+                    if (prefetchTab) prefetchWorkshop2ArticleTabChunks(prefetchTab);
+                  }}
                   onClick={() => openTab(t.id)}
                   className={cn(
                     cabinetSurface.tabsTrigger,
@@ -1879,6 +1921,7 @@ function Workshop2ArticleWorkspaceScreen({
               <div className="space-y-2">
                 {W2_ARTICLE_PULSE_SECTION_ORDER.map((sec) => {
                   const block = dossierReadiness.sections[sec];
+                  if (!block) return null;
                   const label = W2_PULSE_SECTION_LABEL_RU[sec];
                   const missing =
                     block.warnings.length > 0
@@ -2336,7 +2379,7 @@ function Workshop2ArticleWorkspaceScreen({
         collectionId={collectionId}
         collectionDisplayName={collection.displayName}
         pickerLines={articlePickerLines}
-        onCommit={onCommitWorkshop2Article}
+        onCommit={(colId, commit) => Boolean(onCommitWorkshop2Article(colId, commit))}
         editArticle={{
           articleId: article.id,
           sku: article.sku,
@@ -2358,12 +2401,12 @@ function Workshop2ArticleWorkspaceScreen({
             workshopLineSeason: data.workshopLineSeason,
           });
           if (ok) {
-            const nNext = normalizeLocalSkuCode(data.sku);
+            const nNext = normalizeLocalSkuCode(data.sku ?? article.sku);
             const nPrev = normalizeLocalSkuCode(article.sku);
-            if (nNext && nNext !== nPrev) {
+            if (nNext && nPrev && nNext !== nPrev) {
               const d = getWorkshop2Phase1Dossier(colId, artId) ?? emptyWorkshop2DossierPhase1();
               const withLog = appendWorkshop2TzDossierEditLog(d, createdByLabel, [
-                `SKU артикула: ${data.sku.trim()}`,
+                `SKU артикула: ${(data.sku ?? article.sku ?? '').trim()}`,
               ]);
               setWorkshop2Phase1Dossier(colId, artId, withLog);
               setDossier(withLog);
@@ -2514,13 +2557,20 @@ export function Workshop2ArticleWorkspace({
 
   const w2secParam = query.get(WORKSHOP2_DOSSIER_SECTION_PARAM);
 
-  /** Старые ссылки `?w2sec=…` без `w2pane`: открыть вкладку ТЗ и дописать `w2pane=tz`. */
+  /** Нормализация deep link: `?w2sec=…` без `w2pane`, legacy `?w2pane=assignment`. */
   useEffect(() => {
     if (!article) return;
+    const secFromQuery = parseWorkshop2DossierSection(w2secParam);
+
+    if (isWorkshop2ArticlePaneAssignmentLegacy(w2paneQueryValue)) {
+      syncMainTabToUrl('tz', { dossierSection: secFromQuery ?? 'assignment' });
+      return;
+    }
+
     if (w2paneQueryValue) return;
-    const sec = parseWorkshop2DossierSection(w2secParam);
-    if (!sec) return;
-    syncMainTabToUrl('tz', { dossierSection: sec });
+
+    if (!secFromQuery) return;
+    syncMainTabToUrl('tz', { dossierSection: secFromQuery });
   }, [article?.id, collectionId, syncMainTabToUrl, w2paneQueryValue, w2secParam]);
 
   const articleWorkspaceRef = useMemo(

@@ -88,7 +88,11 @@ export default function BrandSettingsPage() {
                 Узел
               </p>
               <p className="text-[10px] font-bold leading-tight tracking-tight text-slate-900">
-                {profile?.user?.organization_id || user?.activeOrganizationId || 'Syntha HQ'}
+                {String(
+                  (profile?.user as { organization_id?: string } | undefined)?.organization_id ??
+                    user?.activeOrganizationId ??
+                    'Syntha HQ'
+                )}
               </p>
             </div>
           </div>
@@ -101,7 +105,11 @@ export default function BrandSettingsPage() {
                 Роль
               </p>
               <p className="text-[10px] font-bold leading-tight tracking-tight text-slate-900">
-                {profile?.user?.role || user?.roles?.[0] || 'Member'}
+                {String(
+                  (profile?.user as { role?: string } | undefined)?.role ??
+                    (Array.isArray(user?.roles) ? user.roles[0] : undefined) ??
+                    'Member'
+                )}
               </p>
             </div>
           </div>

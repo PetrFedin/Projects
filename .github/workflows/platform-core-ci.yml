@@ -1,0 +1,268 @@
+# Platform Core: 5 pillars × 4 roles — smoke + e2e на :3001 с PG :5433.
+name: Platform Core CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '_ai-share/synth-1-full/src/components/platform/**'
+      - '_ai-share/synth-1-full/src/lib/platform-core*.ts'
+      - '_ai-share/synth-1-full/src/app/**/core/**'
+      - '_ai-share/synth-1-full/src/app/platform/**'
+      - '_ai-share/synth-1-full/src/app/factory/supplier/**'
+      - '_ai-share/synth-1-full/src/app/factory/production/**'
+      - '_ai-share/synth-1-full/src/app/shop/b2b/**'
+      - '_ai-share/synth-1-full/src/app/shop/messages/**'
+      - '_ai-share/synth-1-full/src/app/shop/b2b/calendar/**'
+      - '_ai-share/synth-1-full/src/app/brand/b2b-orders/**'
+      - '_ai-share/synth-1-full/src/components/b2b/B2bOrderChainStatusCard.tsx'
+      - '_ai-share/synth-1-full/e2e/core-*.spec.ts'
+      - '_ai-share/synth-1-full/scripts/smoke-core-platform.mjs'
+      - '_ai-share/synth-1-full/scripts/core-demo-walkthrough.mjs'
+      - '_ai-share/synth-1-full/playwright.core.config.ts'
+      - 'scripts/core-*.sh'
+      - 'scripts/ci-platform-core-verify.sh'
+- 'scripts/ci-platform-core-no-bootstrap-verify.sh'
+      - '.github/workflows/platform-core-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - '_ai-share/synth-1-full/src/components/platform/**'
+      - '_ai-share/synth-1-full/src/lib/platform-core*.ts'
+      - '_ai-share/synth-1-full/src/app/**/core/**'
+      - '_ai-share/synth-1-full/src/app/platform/**'
+      - '_ai-share/synth-1-full/src/app/factory/supplier/**'
+      - '_ai-share/synth-1-full/src/app/factory/production/**'
+      - '_ai-share/synth-1-full/src/app/shop/b2b/**'
+      - '_ai-share/synth-1-full/src/app/shop/messages/**'
+      - '_ai-share/synth-1-full/src/app/shop/b2b/calendar/**'
+      - '_ai-share/synth-1-full/src/app/brand/b2b-orders/**'
+      - '_ai-share/synth-1-full/src/components/b2b/B2bOrderChainStatusCard.tsx'
+      - '_ai-share/synth-1-full/e2e/core-*.spec.ts'
+      - '_ai-share/synth-1-full/scripts/smoke-core-platform.mjs'
+      - '_ai-share/synth-1-full/scripts/core-demo-walkthrough.mjs'
+      - '_ai-share/synth-1-full/playwright.core.config.ts'
+      - 'scripts/core-*.sh'
+      - 'scripts/ci-platform-core-verify.sh'
+- 'scripts/ci-platform-core-no-bootstrap-verify.sh'
+      - '.github/workflows/platform-core-ci.yml'
+
+concurrency:
+  group: platform-core-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  platform-core-verify:
+    name: Platform Core verify (smoke + e2e)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: workshop2
+          POSTGRES_PASSWORD: workshop2_dev
+          POSTGRES_DB: workshop2
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U workshop2 -d workshop2"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      WORKSHOP2_DATABASE_URL: postgresql://workshop2:workshop2_dev@localhost:5433/workshop2
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+
+      - name: Install frontend deps
+        working-directory: _ai-share/synth-1-full
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: _ai-share/synth-1-full
+        run: npx playwright install --with-deps chromium
+
+      - name: Platform Core verify
+        run: bash scripts/ci-platform-core-verify.sh
+
+  platform-core-pg-primary:
+    name: Platform Core PG-primary (ADR-002 cutover)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: workshop2
+          POSTGRES_PASSWORD: workshop2_dev
+          POSTGRES_DB: workshop2
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U workshop2 -d workshop2"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      WORKSHOP2_DATABASE_URL: postgresql://workshop2:workshop2_dev@localhost:5433/workshop2
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+
+      - name: Install frontend deps
+        working-directory: _ai-share/synth-1-full
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: _ai-share/synth-1-full
+        run: npx playwright install --with-deps chromium
+
+      - name: Platform Core PG-primary verify
+        run: bash scripts/ci-platform-core-pg-primary-verify.sh
+
+  platform-core-no-bootstrap:
+    name: Platform Core no-bootstrap (migrate-only honesty)
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: workshop2
+          POSTGRES_PASSWORD: workshop2_dev
+          POSTGRES_DB: workshop2
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U workshop2 -d workshop2"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      WORKSHOP2_DATABASE_URL: postgresql://workshop2:workshop2_dev@localhost:5433/workshop2
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+
+      - name: Install frontend deps
+        working-directory: _ai-share/synth-1-full
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: _ai-share/synth-1-full
+        run: npx playwright install --with-deps chromium
+
+      - name: Platform Core no-bootstrap verify
+        run: bash scripts/ci-platform-core-no-bootstrap-verify.sh
+  platform-core-redis-sse:
+    name: Platform Core Redis SSE
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: workshop2
+          POSTGRES_PASSWORD: workshop2_dev
+          POSTGRES_DB: workshop2
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U workshop2 -d workshop2"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      WORKSHOP2_DATABASE_URL: postgresql://workshop2:workshop2_dev@localhost:5433/workshop2
+      REDIS_URL: redis://127.0.0.1:6379
+      NODE_OPTIONS: --max-old-space-size=4096
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+
+      - name: Install frontend deps
+        working-directory: _ai-share/synth-1-full
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: _ai-share/synth-1-full
+        run: npx playwright install --with-deps chromium
+
+      - name: Platform Core Redis SSE verify
+        run: bash scripts/ci-platform-core-redis-verify.sh
+  platform-core-interactive:
+    name: Platform Core interactive verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: workshop2
+          POSTGRES_PASSWORD: workshop2_dev
+          POSTGRES_DB: workshop2
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U workshop2 -d workshop2"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      WORKSHOP2_DATABASE_URL: postgresql://workshop2:workshop2_dev@localhost:5433/workshop2
+      NODE_OPTIONS: --max-old-space-size=4096
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: _ai-share/synth-1-full/package-lock.json
+
+      - name: Install frontend deps
+        working-directory: _ai-share/synth-1-full
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: _ai-share/synth-1-full
+        run: npx playwright install --with-deps chromium
+
+      - name: Platform Core interactive verify
+        run: bash scripts/ci-platform-core-interactive-verify.sh
+

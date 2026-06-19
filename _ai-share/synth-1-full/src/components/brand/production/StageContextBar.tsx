@@ -18,6 +18,7 @@ import {
 import { workshop2ArticleHrefForCatalogStep } from '@/lib/production/workshop2-core1-stage-routing';
 import { COLLECTION_DEV_ARTICLE_LINK_RU } from '@/lib/production/collection-development-labels';
 import { useProductionStageContext } from '@/hooks/use-production-stage-context';
+import { shouldSuppressCabinetHubLayoutChrome } from '@/lib/platform-core-ui-surfaces';
 
 function stepStatusRu(
   s: 'not_started' | 'in_progress' | 'done' | 'blocked' | 'skipped' | undefined
@@ -43,6 +44,8 @@ function stepStatusRu(
  * Вешается из layout бренд-центра; на матрице этапов и в разработке коллекции скрыт, чтобы не дублировать UI.
  */
 export function StageContextBar() {
+  if (shouldSuppressCabinetHubLayoutChrome()) return null;
+
   const router = useRouter();
   const pathname = usePathname();
   const rawSearch = useSearchParams();

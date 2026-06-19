@@ -19,7 +19,8 @@ export function appendWorkshop2InternalWmsMemoryJournal(
   dossier: Workshop2DossierPhase1,
   entry: Omit<Workshop2InternalWmsMemoryJournalEntry, 'at'> & { at?: string }
 ): Workshop2DossierPhase1 {
-  const prev = dossier.internalWmsMirror?.memoryJournal ?? [];
+  const prevRaw = dossier.internalWmsMirror?.memoryJournal;
+  const prev = Array.isArray(prevRaw) ? prevRaw : [];
   const next: Workshop2InternalWmsMemoryJournalEntry = {
     at: entry.at ?? new Date().toISOString(),
     kind: entry.kind,

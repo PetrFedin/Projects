@@ -110,6 +110,9 @@ describe('workshop2 wave-x must-close', () => {
     expect(panel).toMatch(/workshop2-smart-routing-gate-checks/);
     expect(panel).toMatch(/collectWorkshop2SmartRoutingGateChecks/);
     expect(panel).toMatch(/isWorkshop2SmartRoutingDemoAllowed/);
+    expect(panel).toMatch(/Workshop2GateChecksBlock/);
+    // Regression: bare `testId = …` after component caused ReferenceError at module eval.
+    expect(panel).not.toMatch(/\}\s*\n\s*testId\s*=/);
   });
 
   it('carbon rollup persist honesty warns when not in PG mirror', () => {

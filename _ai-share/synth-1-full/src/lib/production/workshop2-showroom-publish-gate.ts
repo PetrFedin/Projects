@@ -2,6 +2,10 @@
  * B2B шоурум: публикация только при валидной кампании в PG (wave 18 #62).
  */
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2ShowroomPublishInput = {
   published: boolean;
@@ -82,10 +86,12 @@ export function collectWorkshop2B2bPublishGateChecks(input: {
   const mirror = input.dossier?.showroomPublishMirror;
   return evaluateWorkshop2ShowroomPublishGate({
     published: input.published ?? Boolean(mirror?.publishedAt),
-    wholesalePrice: mirror?.wholesalePrice,
-    msrp: mirror?.msrp,
-    moq: mirror?.moq,
-    windowStart: mirror?.windowStart,
-    windowEnd: mirror?.windowEnd,
+    wholesalePrice:
+      workshop2PgMirrorNum(mirror, 'wholesalePrice') ??
+      workshop2PgMirrorStr(mirror, 'wholesalePrice'),
+    msrp: workshop2PgMirrorNum(mirror, 'msrp') ?? workshop2PgMirrorStr(mirror, 'msrp'),
+    moq: workshop2PgMirrorNum(mirror, 'moq') ?? workshop2PgMirrorStr(mirror, 'moq'),
+    windowStart: workshop2PgMirrorStr(mirror, 'windowStart'),
+    windowEnd: workshop2PgMirrorStr(mirror, 'windowEnd'),
   });
 }

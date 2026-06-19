@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Star, Target, Gift } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
+import { withShopB2bCoreLegacyGuard } from '@/app/shop/b2b/shop-b2b-core-legacy-guard';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
@@ -36,7 +37,7 @@ const MOCK_BADGES = [
   { id: '3', name: 'Топ-байер месяца', icon: '🏆', earned: false },
 ];
 
-export default function GamificationPage() {
+function GamificationPageContent() {
   const points = 320;
 
   return (
@@ -133,3 +134,5 @@ export default function GamificationPage() {
     </CabinetPageContent>
   );
 }
+
+export default withShopB2bCoreLegacyGuard(ROUTES.shop.b2bGamification, GamificationPageContent);

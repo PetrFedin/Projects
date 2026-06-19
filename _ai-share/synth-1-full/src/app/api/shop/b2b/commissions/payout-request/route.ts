@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { markWorkshop2B2bCommissionsPayoutPending } from '@/lib/server/workshop2-b2b-commission-repository';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 
 /** POST — пометить commissions rep как payout_pending в PG. */
 export async function POST(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   let body: { repId?: string; orderIds?: string[]; organizationId?: string };
   try {
     body = (await req.json()) as typeof body;

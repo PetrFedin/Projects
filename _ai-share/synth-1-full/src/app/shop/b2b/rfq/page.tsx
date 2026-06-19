@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { withShopB2bCoreLegacyGuard } from '@/app/shop/b2b/shop-b2b-core-legacy-guard';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import type { RfqRequest, RfqStatus } from '@/lib/rf-market/rfq';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
@@ -65,7 +66,7 @@ function StatusBadge({ status }: { status: RfqStatus }) {
   return <Badge variant={c.variant}>{c.label}</Badge>;
 }
 
-export default function RfqPage() {
+function RfqPageContent() {
   return (
     <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="Витрина байера: котировки по материалам и услугам; ответы поставщиков можно сопоставить с производственным хабом и брендовым RFQ." />
@@ -139,3 +140,5 @@ export default function RfqPage() {
     </CabinetPageContent>
   );
 }
+
+export default withShopB2bCoreLegacyGuard(ROUTES.shop.b2bRfq, RfqPageContent);

@@ -1,0 +1,75 @@
+{"role":"user","text":"SYNTHA Platform Core — глубокое сканирование проекта для планировщика развития.\nSession: scan-1781717263496-pdmbxv\nCollection: SS27\nЛокальный аудит уже добавил 0 пункт(ов). Твоя задача — найти дополнительные пробелы в коде и UX.\n\n## Матрица роли × столпы × разделы (канон аудита)\n{\n  \"collectionId\": \"SS27\",\n  \"pillars\": [\n    {\n      \"id\": \"development\",\n      \"title\": \"Разработка\"\n    },\n    {\n      \"id\": \"sample_collection\",\n      \"title\": \"Коллекция и витрина\"\n    },\n    {\n      \"id\": \"collection_order\",\n      \"title\": \"Оптовый заказ\"\n    },\n    {\n      \"id\": \"order_production\",\n      \"title\": \"Производство\"\n    },\n    {\n      \"id\": \"comms\",\n      \"title\": \"Связь\"\n    }\n  ],\n  \"cells\": [\n    {\n      \"roleId\": \"brand\",\n      \"role\": \"Бренд\",\n      \"pillarId\": \"development\",\n      \"active\": true,\n      \"liveScore\": 6.6,\n      \"summary\": \"W2 golden: hub + досье + состав из PG; localStorage overlay для SS27/FW27 отключён в Platform Core.\",\n      \"bad\": [],\n      \"fix\": [],\n      \"workspaceHref\": \"/brand/production/workshop2?w2col=SS27&collection=SS27&orderId=B2B-DEMO-SHOP1-SS27&article=demo-ss27-01&buyerId=shop1\",\n      \"sections\": [\n        {\n          \"id\": \"brand-dev-w2-hub\",\n          \"label\": \"Цех разработки · коллекция\",\n          \"liveScore\": 7.5,\n          \"bad\": [],\n          \"fix\": [\n            \"Investor-summary read-only отдельно\"\n          ],\n          \"href\": \"/brand/production/workshop2?w2col=SS27\"\n        },\n        {\n          \"id\": \"brand-dev-dossier\",\n          \"label\": \"Досье артикула · техзадание\",\n          \"liveScore\": 7.2,\n          \"bad\": [\n            \"Investor-summary read-only отдельно\"\n          ],\n          \"fix\": [],\n          \"href\": \"/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=general\"\n        },\n        {\n          \"id\": \"brand-dev-range\",\n          \"label\": \"Планировщик ассортимента\",\n          \"liveScore\": 7.3,\n          \"bad\": [\n            \"Нет drag-reorder между tier\"\n          ],\n          \"fix\": [\n            \"Drag-","at":"2026-06-17T17:27:43.875Z"}
+{"role":"system","text":"Cursor local agent · cwd /Users/petr/Projects","at":"2026-06-17T17:27:43.875Z"}
+{"role":"assistant","text":"П","at":"2026-06-17T17:27:50.867Z","stream":true}
+{"role":"assistant","text":"ровожу глубокое сканирование репозитория: ищу пробелы в коде и UX, которых нет в матрице ауд","at":"2026-06-17T17:27:50.868Z","stream":true}
+{"role":"assistant","text":"ита","at":"2026-06-17T17:27:50.869Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:27:50.869Z","stream":true}
+{"role":"assistant","text":"З","at":"2026-06-17T17:31:03.642Z","stream":true}
+{"role":"assistant","text":"ап","at":"2026-06-17T17:31:03.644Z","stream":true}
+{"role":"assistant","text":"ис","at":"2026-06-17T17:31:03.644Z","stream":true}
+{"role":"assistant","text":"ы","at":"2026-06-17T17:31:03.644Z","stream":true}
+{"role":"assistant","text":"ва","at":"2026-06-17T17:31:03.644Z","stream":true}
+{"role":"assistant","text":"ю","at":"2026-06-17T17:31:03.644Z","stream":true}
+{"role":"assistant","text":" JSON","at":"2026-06-17T17:31:03.644Z","stream":true}
+{"role":"assistant","text":" с","at":"2026-06-17T17:31:03.644Z","stream":true}
+{"role":"assistant","text":" наход","at":"2026-06-17T17:31:03.645Z","stream":true}
+{"role":"assistant","text":"к","at":"2026-06-17T17:31:03.645Z","stream":true}
+{"role":"assistant","text":"ами","at":"2026-06-17T17:31:03.645Z","stream":true}
+{"role":"assistant","text":" ск","at":"2026-06-17T17:31:03.645Z","stream":true}
+{"role":"assistant","text":"ан","at":"2026-06-17T17:31:03.645Z","stream":true}
+{"role":"assistant","text":"ирован","at":"2026-06-17T17:31:03.645Z","stream":true}
+{"role":"assistant","text":"ия","at":"2026-06-17T17:31:03.645Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:31:03.645Z","stream":true}
+{"role":"assistant","text":"Ф","at":"2026-06-17T17:31:24.980Z","stream":true}
+{"role":"assistant","text":"ай","at":"2026-06-17T17:31:24.981Z","stream":true}
+{"role":"assistant","text":"л","at":"2026-06-17T17:31:24.981Z","stream":true}
+{"role":"assistant","text":" запис","at":"2026-06-17T17:31:24.981Z","stream":true}
+{"role":"assistant","text":"ан","at":"2026-06-17T17:31:24.981Z","stream":true}
+{"role":"assistant","text":":","at":"2026-06-17T17:31:24.981Z","stream":true}
+{"role":"assistant","text":" `_","at":"2026-06-17T17:31:24.981Z","stream":true}
+{"role":"assistant","text":"ai","at":"2026-06-17T17:31:24.981Z","stream":true}
+{"role":"assistant","text":"-share","at":"2026-06-17T17:31:24.981Z","stream":true}
+{"role":"assistant","text":"/s","at":"2026-06-17T17:31:24.981Z","stream":true}
+{"role":"assistant","text":"ynth","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"1","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"-full","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"/.","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"plan","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"ning","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"/pl","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"anner","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"-scan","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"-scan","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"178","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"171","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"726","at":"2026-06-17T17:31:24.982Z","stream":true}
+{"role":"assistant","text":"349","at":"2026-06-17T17:31:24.983Z","stream":true}
+{"role":"assistant","text":"6","at":"2026-06-17T17:31:24.983Z","stream":true}
+{"role":"assistant","text":"-p","at":"2026-06-17T17:31:24.983Z","stream":true}
+{"role":"assistant","text":"d","at":"2026-06-17T17:31:24.983Z","stream":true}
+{"role":"assistant","text":"mbxv.json` — **30 development** + **15 techDebt**.\n\n## Топ-5 находок\n\n1. **P0 — PATCH `/","at":"2026-06-17T17:31:24.983Z","stream":true}
+{"role":"assistant","text":"api/shop/b2b/orders/[id]/status` без auth**  \n   Магазин может перевести заказ в `confirmed` без под","at":"2026-06-17T17:31:24.983Z","stream":true}
+{"role":"assistant","text":"тверждения бренда — обход цепочки SS27.\n\n2. **P0 — Matrix cart только in-memory**  \n   `POST /cart/matrix` п","at":"2026-06-17T17:31:24.983Z","stream":true}
+{"role":"assistant","text":"ишет в `Map`, без `persistWorkshop2B2bCartSessionToFile` — qty теряются после restart/HMR (в отличие","at":"2026-06-17T17:31:24.983Z","stream":true}
+{"role":"assistant","text":" от `cart/lines`).\n\n3. **P1 — Regex `/^B2B-\\d+/` ломает comms для golden order**  \n   `","at":"2026-06-17T17:31:24.983Z","stream":true}
+{"role":"assistant","text":"B2B-DEMO-SHOP1-SS27` не проходит `CommsSectionContextAutoThread` и `section-read-state` — section auto","at":"2026-06-17T17:31:24.983Z","stream":true}
+{"role":"assistant","text":"-thread и read keys не создаются.\n\n4. **P1 — 3D витрина мёртвая**  \n   `stream-token`","at":"2026-06-17T17:31:25.083Z","stream":true}
+{"role":"assistant","text":" не отдаёт `embedUrl` → `B2b3dStreamPanel` возвращает `null`; routes `3d-view` / `3","at":"2026-06-17T17:31:25.182Z","stream":true}
+{"role":"assistant","text":"d-session` отсутствуют.\n\n5. **P1 — Production handoff без gate `materials_supplied`**  \n   `confirmWorkshop2","at":"2026-06-17T17:31:25.298Z","stream":true}
+{"role":"assistant","text":"B2bProductionHandoff` не проверяет requisitions/materials, хотя chain step `materials_supplied` уже считается в","at":"2026-06-17T17:31:25.416Z","stream":true}
+{"role":"assistant","text":" status","at":"2026-06-17T17:31:25.647Z","stream":true}
+{"role":"assistant","text":" API","at":"2026-06-17T17:31:25.647Z","stream":true}
+{"role":"assistant","text":" —","at":"2026-06-17T17:31:25.647Z","stream":true}
+{"role":"assistant","text":" hand","at":"2026-06-17T17:31:25.648Z","stream":true}
+{"role":"assistant","text":"off","at":"2026-06-17T17:31:25.648Z","stream":true}
+{"role":"assistant","text":" возмож","at":"2026-06-17T17:31:25.648Z","stream":true}
+{"role":"assistant","text":"ен","at":"2026-06-17T17:31:25.648Z","stream":true}
+{"role":"assistant","text":" до","at":"2026-06-17T17:31:25.648Z","stream":true}
+{"role":"assistant","text":" зак","at":"2026-06-17T17:31:25.648Z","stream":true}
+{"role":"assistant","text":"уп","at":"2026-06-17T17:31:25.648Z","stream":true}
+{"role":"assistant","text":"ки","at":"2026-06-17T17:31:25.648Z","stream":true}
+{"role":"assistant","text":".","at":"2026-06-17T17:31:25.648Z","stream":true}
+{"role":"assistant","text":"Файл записан: `_ai-share/synth-1-full/.planning/planner-scan-scan-1781717263496-pdmbxv.json` — **30 development** + **15 techDebt**.\n\n## Топ-5 находок\n\n1. **P0 — PATCH `/api/shop/b2b/orders/[id]/status` без auth**  \n   Магазин может перевести заказ в `confirmed` без подтверждения бренда — обход цепочки SS27.\n\n2. **P0 — Matrix cart только in-memory**  \n   `POST /cart/matrix` пишет в `Map`, без `persistWorkshop2B2bCartSessionToFile` — qty теряются после restart/HMR (в отличие от `cart/lines`).\n\n3. **P1 — Regex `/^B2B-\\d+/` ломает comms для golden order**  \n   `B2B-DEMO-SHOP1-SS27` не проходит `CommsSectionContextAutoThread` и `section-read-state` — section auto-thread и read keys не создаются.\n\n4. **P1 — 3D витрина мёртвая**  \n   `stream-token` не отдаёт `embedUrl` → `B2b3dStreamPanel` возвращает `null`; routes `3d-view` / `3d-session` отсутствуют.\n\n5. **P1 — Production handoff без gate `materials_supplied`**  \n   `confirmWorkshop2B2bProductionHandoff` не проверяет requisitions/materials, хотя chain step `materials_supplied` уже считается в status API — handoff возможен до закупки.","at":"2026-06-17T17:31:26.318Z","done":true,"status":"finished"}
+{"role":"system","text":"Сканирование загружено в планировщик: +45 пункт(ов). Обновите вкладку План.","at":"2026-06-17T17:31:26.567Z"}

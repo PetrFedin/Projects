@@ -1,0 +1,76 @@
+---
+description: HTML semantics, BEM structure, section layout for Product Switcher
+globs: ["index.html", "styles/**/*.css"]
+alwaysApply: false
+---
+
+# HTML structure & semantics
+
+Static single-page app. Markup in `index.html`; styles in `styles/main.css`; behavior in `scripts/`.
+
+## Document skeleton
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Switcher</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <nav class="top-nav" aria-label="Main navigation">...</nav>
+  <main class="card">...</main>
+  <!-- scripts: gsap CDN → logo-animation.js → main.js -->
+</body>
+</html>
+```
+
+## Landmark regions
+
+| Region | Element | Notes |
+|--------|---------|-------|
+| Global nav | `<nav class="top-nav">` | Fixed 32px; not inside `<main>` |
+| Primary content | `<main class="card">` | White rounded card |
+| Product media | `#centralArea` | JS injects video or fallback |
+| Product details | `<aside class="info-left">` | Contains sole `<h1>` |
+| Commerce | `<aside class="info-right">` | Price + CTA |
+| Variant picker | `#switcher` | `role="tablist"`; tabs built in JS |
+
+## BEM blocks (do not break)
+
+- `top-nav` → `__group`, `__item`, `__logo`, `__logo-tagline`
+- `card` — layout container
+- `central-area` — media viewport
+- `info-left` / `info-right` — product copy
+- `switcher` → `__thumb`, `__inner` (+ `.active` on thumb)
+
+Logo SVG internal classes: `logo-hook`, `logo-mark`, `logo-mark-inner`, `logo-bar`, `logo-accent`, `logo-glow-group`.
+
+## Dynamic vs static markup
+
+**Keep in HTML:** nav structure, logo SVG, info-left/right static copy, empty `#centralArea` and `#switcher`.
+
+**Build in JS:** switcher thumbs, video element, fallback color div.
+
+## Semantic rules
+
+- One `<h1>` per page (product name in info-left).
+- Interactive controls → `<button type="button">`; decorative labels → `<span>`.
+- Decorative SVG/tagline → `aria-hidden="true"`.
+- Switcher thumbs → `role="tab"`, `aria-selected`, `aria-label="Variant N"`.
+
+## CSS file organization
+
+- All component styles in `styles/main.css` until file exceeds ~400 lines.
+- Future split: `styles/nav.css`, `styles/switcher.css`, `styles/card.css` — mirror BEM blocks.
+- No inline `<style>` in index.html except critical above-the-fold if ever needed.
+
+## Script load order
+
+1. `gsap.min.js` (CDN)
+2. `scripts/logo-animation.js` — exposes `window.ProductSwitcherLogo`
+3. `scripts/main.js` — switcher, video, boot
+
+Do not reorder without updating `feature-integrator` checklist.

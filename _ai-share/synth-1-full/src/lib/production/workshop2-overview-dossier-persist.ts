@@ -4,10 +4,18 @@
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import {
   buildWorkshop2OverviewModel,
+  type Workshop2OverviewBundleSnapshot,
   type Workshop2OverviewModel,
 } from '@/lib/production/workshop2-overview-model';
 import type { ArticleWorkspaceBundle } from '@/lib/production/article-workspace/types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
+
+function overviewBundleFromWorkspace(
+  bundle?: ArticleWorkspaceBundle | null
+): Workshop2OverviewBundleSnapshot | null {
+  return (bundle as Workshop2OverviewBundleSnapshot | null) ?? null;
+}
 
 export function buildWorkshop2OverviewPersistSnapshot(input: {
   dossier: Workshop2DossierPhase1 | null;
@@ -17,7 +25,8 @@ export function buildWorkshop2OverviewPersistSnapshot(input: {
 }): NonNullable<Workshop2DossierPhase1['overviewPersistedSnapshot']> {
   const model: Workshop2OverviewModel = buildWorkshop2OverviewModel({
     dossier: input.dossier,
-    bundle: input.bundle ?? null,
+    leaf: undefined,
+    bundle: overviewBundleFromWorkspace(input.bundle),
     collectionId: input.collectionId,
     articleId: input.articleId,
   });
@@ -58,7 +67,8 @@ export function buildWorkshop2OverviewMirror(input: {
 }): NonNullable<Workshop2DossierPhase1['overviewMirror']> {
   const model = buildWorkshop2OverviewModel({
     dossier: input.dossier,
-    bundle: input.bundle ?? null,
+    leaf: undefined,
+    bundle: overviewBundleFromWorkspace(input.bundle),
     collectionId: input.collectionId,
     articleId: input.articleId,
   });
@@ -117,7 +127,8 @@ export function evaluateWorkshop2OverviewSampleGate(
       id: 'overview.blockers',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ?? `Обзор: ${mirror.blockerCount} блокер(ов) в readiness — дозаполните ТЗ.`,
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        `Обзор: ${mirror.blockerCount} блокер(ов) в readiness — дозаполните ТЗ.`,
     };
   }
   return null;
@@ -133,6 +144,7 @@ export function evaluateWorkshop2OverviewHandoffGate(
     id: 'overview.handoff_blocked',
     severity: 'blocker',
     messageRu:
-      mirror.hintRu ?? 'Обзор SKU: handoff не готов — закройте блокеры readiness перед commit.',
+      workshop2PgMirrorStr(mirror, 'hintRu') ||
+      'Обзор SKU: handoff не готов — закройте блокеры readiness перед commit.',
   };
 }

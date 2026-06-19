@@ -83,6 +83,7 @@ export function Workshop2TechPackHandoffBlock({
   handoffMarksUnlocked,
   handoffLockReason,
   blockTitle = 'Фиксация пакета для фабрики',
+  commitHandoffOnServer,
 }: {
   handoffs: Workshop2TechPackFactoryHandoff[] | undefined;
   attachments: Workshop2Phase1TechPackAttachment[];
@@ -96,6 +97,16 @@ export function Workshop2TechPackHandoffBlock({
   handoffLockReason?: string | null;
   /** Заголовок внутри хаба отправки (родитель задаёт единый сценарий). */
   blockTitle?: string;
+  /** Server commit + B2B order sync (Platform Core P0 spine). */
+  commitHandoffOnServer?: (payload: {
+    revisionLabel: string;
+    windowNote?: string;
+    contactLabel?: string;
+    channel: Workshop2FactoryHandoffChannel;
+    attachmentIds: string[];
+    brandDispatched: { at: string; by: string };
+    factoryReceived: { at: string; by: string };
+  }) => Promise<boolean>;
 }) {
   /** Записи в досье; история внизу показывается только когда «передача» разрешена условиями ТЗ. */
   const storedList = handoffs ?? [];
@@ -111,6 +122,7 @@ export function Workshop2TechPackHandoffBlock({
   const [factoryReceiverBy, setFactoryReceiverBy] = useState('');
   const [brandDispatched, setBrandDispatched] = useState<{ at: string; by: string } | null>(null);
   const [factoryReceived, setFactoryReceived] = useState<{ at: string; by: string } | null>(null);
+  const [committingHandoff, setCommittingHandoff] = useState(false);
 
   useEffect(() => {
     setBrandDispatcherBy((b) => (b.trim() ? b : updatedByLabel.trim()));
@@ -151,12 +163,45 @@ export function Workshop2TechPackHandoffBlock({
     setPicked({});
   }, [tzWriteDisabled]);
 
-  const recordSend = useCallback(() => {
-    if (tzWriteDisabled) return;
+  const resetHandoffDraftMarks = useCallback(() => {
+    setBrandDispatched(null);
+    setFactoryReceived(null);
+    setFactoryReceiverOrg('');
+    setFactoryReceiverBy('');
+    const label = rev.trim() || 'R1';
+    const bump = /^R\s*(\d+)$/i.exec(label);
+    setRev(bump ? `R${Number(bump[1]) + 1}` : 'R2');
+  }, [rev]);
+
+  const recordSend = useCallback(async () => {
+    if (tzWriteDisabled || committingHandoff) return;
     if (!handoffMarksUnlocked) return;
     if (!brandDispatched || !factoryReceived) return;
     const aIds = ids.filter((id) => picked[id]);
     if (aIds.length === 0) return;
+
+    const payload = {
+      revisionLabel: rev.trim() || 'R1',
+      windowNote: windowNote.trim() || undefined,
+      contactLabel: contact.trim() || undefined,
+      channel,
+      attachmentIds: aIds,
+      brandDispatched,
+      factoryReceived,
+    };
+
+    if (commitHandoffOnServer) {
+      setCommittingHandoff(true);
+      try {
+        const ok = await commitHandoffOnServer(payload);
+        if (!ok) return;
+        resetHandoffDraftMarks();
+      } finally {
+        setCommittingHandoff(false);
+      }
+      return;
+    }
+
     const hid = newId();
     const verifiedTechPackAuditAtSend = attachments
       .filter((a) => aIds.includes(a.attachmentId) && a.canonicalSource === 'object_store_verified')
@@ -185,13 +230,8 @@ export function Workshop2TechPackHandoffBlock({
       ...(verifiedTechPackAuditAtSend.length > 0 ? { verifiedTechPackAuditAtSend } : {}),
     };
     onChangeHandoffs([...storedList, row]);
-    setBrandDispatched(null);
-    setFactoryReceived(null);
-    setFactoryReceiverOrg('');
-    setFactoryReceiverBy('');
+    resetHandoffDraftMarks();
     const label = row.packageRevisionLabel.trim() || 'R1';
-    const bump = /^R\s*(\d+)$/i.exec(label);
-    setRev(bump ? `R${Number(bump[1]) + 1}` : 'R2');
     const act: Workshop2TzActionLogPayload = {
       type: 'tech_pack_handoff',
       handoffId: hid,
@@ -202,15 +242,18 @@ export function Workshop2TechPackHandoffBlock({
   }, [
     brandDispatched,
     channel,
+    commitHandoffOnServer,
+    committingHandoff,
     contact,
     factoryReceived,
+    handoffMarksUnlocked,
     ids,
-    storedList,
     onChangeHandoffs,
     onPulse,
     picked,
+    resetHandoffDraftMarks,
     rev,
-    handoffMarksUnlocked,
+    storedList,
     tzWriteDisabled,
     updatedByLabel,
     windowNote,
@@ -300,12 +343,15 @@ export function Workshop2TechPackHandoffBlock({
   const handoffReadyPickedCount = ids.reduce((n, id) => n + (picked[id] ? 1 : 0), 0);
   const handoffCommitDisabled =
     tzWriteDisabled ||
+    committingHandoff ||
     !handoffMarksUnlocked ||
     !brandDispatched ||
     !factoryReceived ||
     handoffReadyPickedCount === 0;
   const handoffCommitHint = handoffCommitDisabled
-    ? tzWriteDisabled
+    ? committingHandoff
+      ? 'Фиксация на сервере…'
+      : tzWriteDisabled
       ? W2_TZ_HINT_PRODUCTION_EDIT
       : !handoffMarksUnlocked
         ? (handoffLockReason ?? W2_TZ_HINT_FOUR_SECTION_SIGNOFFS)
@@ -592,9 +638,9 @@ export function Workshop2TechPackHandoffBlock({
                 size="sm"
                 className="h-8 text-xs"
                 disabled={handoffCommitDisabled}
-                onClick={recordSend}
+                onClick={() => void recordSend()}
               >
-                Зафиксировать передачу
+                {committingHandoff ? 'Фиксация…' : 'Зафиксировать передачу'}
               </Button>
             </HandoffDisabledWrap>
           </div>

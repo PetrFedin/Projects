@@ -20,7 +20,7 @@ export default function Workshop2InspectorOrderPage() {
 
   const reload = useCallback(async () => {
     const loaded = await loadWorkshop2DossierFromApi(collectionId, articleId);
-    setDossierForMirror(loaded?.dossier ?? null);
+    setDossierForMirror(loaded.ok ? loaded.data.dossier : null);
     const report = await fetchWorkshop2InspectorReport({
       collectionId,
       articleId,

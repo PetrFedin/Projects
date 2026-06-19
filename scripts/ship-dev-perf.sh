@@ -26,4 +26,4 @@ git push -u origin HEAD
 echo "=== PR ==="
 bash scripts/create-dev-perf-pr.sh "$BRANCH" main
 
-echo "Done. CI: check:contracts:ci (45 layout-gate tests). Scope: .planning/phases/dev-perf/PR_SCOPE.md"
+echo "Done. CI: check:contracts:ci (36 layout gates). Scope: .planning/phases/dev-perf/PR_SCOPE.md"

@@ -23,47 +23,47 @@ export default function B2bAcceptInvitePage() {
       setMessageRu('Токен приглашения не указан.');
       return;
     }
-    void fetch('/api/shop/b2b/accept-invite', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token }),
-    })
-      .then((r) => r.json())
-      .then(
-        (json: {
+    void (async () => {
+      try {
+        const res = await fetch('/api/shop/b2b/accept-invite', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token }),
+        });
+        const json = (await res.json()) as {
           ok?: boolean;
           messageRu?: string;
           buyerEmail?: string;
           tier?: string;
           sessionId?: string;
-        }) => {
-          if (json.ok) {
-            setStatus('ok');
-            setMessageRu(`Добро пожаловать, ${json.buyerEmail}. Tier: ${json.tier}.`);
-            if (json.sessionId) {
-              try {
-                localStorage.setItem('b2b_partner_session', json.sessionId);
-                localStorage.setItem('b2b_partner_tier', json.tier ?? 'standard');
-              } catch {
-                /* ignore */
-              }
+        };
+        if (json.ok) {
+          setStatus('ok');
+          setMessageRu(`Подключено: ${json.buyerEmail}`);
+          if (json.sessionId) {
+            try {
+              localStorage.setItem('b2b_partner_session', json.sessionId);
+              localStorage.setItem('b2b_partner_tier', json.tier ?? 'standard');
+            } catch {
+              /* ignore */
             }
-          } else {
-            setStatus('error');
-            setMessageRu(json.messageRu ?? 'Ошибка принятия приглашения.');
           }
+          window.setTimeout(() => router.push('/shop/b2b/showroom?collection=SS27'), 1200);
+        } else {
+          setStatus('error');
+          setMessageRu(json.messageRu ?? 'Ошибка принятия приглашения.');
         }
-      )
-      .catch(() => {
+      } catch {
         setStatus('error');
         setMessageRu('Сеть недоступна — повторите позже.');
-      });
+      }
+    })();
   }, [token]);
 
   return (
     <CabinetPageContent maxWidth="md">
       <B2bBuyerShell>
-        <ShopB2bContentHeader lead="Принятие приглашения бренда — partner session для B2B шоурума." />
+        <ShopB2bContentHeader lead="Принятие приглашения бренда." />
         <Card data-testid="b2b-accept-invite">
           <CardHeader>
             <CardTitle className="text-base">Приглашение байера</CardTitle>
@@ -78,7 +78,7 @@ export default function B2bAcceptInvitePage() {
             </p>
             {status === 'ok' ? (
               <Button onClick={() => router.push('/shop/b2b/showroom?collection=SS27')}>
-                Перейти в шоурум
+                Витрина
               </Button>
             ) : null}
           </CardContent>

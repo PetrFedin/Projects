@@ -100,6 +100,8 @@ interface UIState {
   setPulseMode: (mode: 'floating' | 'ticker') => void;
   checkATS: (productId: string, size: string, color?: string) => number;
   toggleCart: () => void;
+  /** Open cart drawer without toggling closed. */
+  openCart: () => void;
   toggleWishlist: () => void;
   togglePreOrder: () => void;
   toggleLikedVideo: (videoUrl: string) => void;
@@ -482,6 +484,7 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
   };
 
   const toggleCart = () => setIsCartOpen(!isCartOpen);
+  const openCart = () => setIsCartOpen(true);
   const toggleWishlist = () => setIsWishlistOpen(!isWishlistOpen);
   const togglePreOrder = () => setIsPreOrderOpen(!isPreOrderOpen);
 
@@ -871,6 +874,7 @@ export function UIStateProvider({ children }: { children: React.ReactNode }) {
       likedVideos,
       toggleLikedVideo,
       toggleCart,
+      openCart,
       toggleWishlist,
       togglePreOrder,
       addCartItem,

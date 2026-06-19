@@ -48,8 +48,11 @@ export function Workshop2MaterialTestingLogsPanel({
         `/api/brand/workshop2/materials/testing?materialId=${materialId}`
       );
       if (!response.ok) throw new Error('Failed to fetch testing logs');
-      const data = await response.json();
-      setLogs(data.testingLogs);
+      const data = (await response.json()) as {
+        testingLogs?: PhysicalTestLog[];
+        testingLog?: PhysicalTestLog;
+      };
+      setLogs(data.testingLogs ?? []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -77,7 +80,7 @@ export function Workshop2MaterialTestingLogsPanel({
 
       if (!response.ok) throw new Error('Failed to add test log');
 
-      const data = await response.json();
+      const data = (await response.json()) as { testingLog: PhysicalTestLog };
       setLogs([data.testingLog, ...logs]);
 
       // Reset form
@@ -85,7 +88,7 @@ export function Workshop2MaterialTestingLogsPanel({
       setNotes('');
       setIsAdding(false);
     } catch (err) {
-      workshop2DevWarn('component', 'Error adding test log:', err);
+      workshop2DevWarn('component', 'Error adding test log:', { cause: err });
       // Could add toast notification here
     } finally {
       setIsSubmitting(false);

@@ -84,6 +84,7 @@ interface ShowroomSectionProps {
   setIsLookDetailsOpen: (open: boolean) => void;
   router: any;
   currency: 'RUB' | 'USD' | 'EUR';
+  showroomLayout?: 'default' | 'platform-core';
 }
 
 function ShowroomSectionComponent({
@@ -103,67 +104,80 @@ function ShowroomSectionComponent({
   setIsLookDetailsOpen,
   router,
   currency,
+  showroomLayout = 'default',
 }: ShowroomSectionProps) {
   const { addB2bActivityLog } = useB2BState();
   const gridTabKey = `${showroomTab}-${showroomViewMode}`;
+  const slim = showroomLayout === 'platform-core';
+
+  const showroomBody = (
+    <>
+      <ShowroomNavigation
+        viewRole={viewRole}
+        showroomTab={showroomTab}
+        setShowroomTab={(tab) => {
+          setShowroomTab(tab);
+          if (viewRole === 'b2b') {
+            addB2bActivityLog({
+              type: 'view_product',
+              actor: { id: 'retailer-1', name: 'Premium Store', type: 'retailer' },
+              target: { id: tab, name: tab === 'all' ? 'Marketroom' : tab, type: 'brand' },
+              details: `Switched showroom tab to ${tab}.`,
+            });
+          }
+        }}
+        showroomViewMode={showroomViewMode}
+        setShowroomViewMode={setShowroomViewMode}
+        toast={toast}
+        carousels={carousels}
+        showroomLayout={showroomLayout}
+      />
+
+      <div className="group/showroom relative -mx-4 px-4">
+        <div
+          id="showroom-scroll"
+          className="custom-scrollbar flex min-h-[400px] snap-x snap-mandatory gap-3 overflow-x-auto overflow-y-hidden scroll-smooth pb-6"
+        >
+          <ShowroomGridPresence tabKey={gridTabKey}>
+            <ShowroomGrid
+              viewRole={viewRole}
+              showroomTab={showroomTab}
+              showroomViewMode={showroomViewMode}
+              filteredShowroomProducts={filteredShowroomProducts}
+              totalLookCards={totalLookCards}
+              isLinesheetMode={isLinesheetMode}
+              selectedLinesheetItems={selectedLinesheetItems}
+              setSelectedLinesheetItems={setSelectedLinesheetItems}
+              setSelectedLook={setSelectedLook}
+              setIsLookDetailsOpen={setIsLookDetailsOpen}
+              router={router}
+              currency={currency}
+            />
+          </ShowroomGridPresence>
+        </div>
+      </div>
+
+      {!slim ? <ShowroomSectionBanner viewRole={viewRole} showroomTab={showroomTab} /> : null}
+    </>
+  );
+
+  if (slim) {
+    return (
+      <div
+        className="relative mx-auto w-full max-w-5xl px-4 py-2 sm:px-6"
+        data-testid="platform-core-b2b-marketroom-catalog"
+      >
+        {showroomBody}
+      </div>
+    );
+  }
 
   return (
     <ShowroomSectionWrapper>
       <div className="relative mx-auto w-full max-w-5xl px-4 sm:px-6">
         <Card className="border-border-subtle group relative flex min-h-[400px] flex-col justify-center rounded-xl border border-none bg-white shadow-2xl shadow-md transition-all">
           <CardContent className="relative z-10 p-4">
-            <ShowroomNavigation
-              viewRole={viewRole}
-              showroomTab={showroomTab}
-              setShowroomTab={(tab) => {
-                setShowroomTab(tab);
-                if (viewRole === 'b2b') {
-                  addB2bActivityLog({
-                    type: 'view_product',
-                    actor: { id: 'retailer-1', name: 'Premium Store', type: 'retailer' },
-                    target: { id: tab, name: tab === 'all' ? 'Marketroom' : tab, type: 'brand' },
-                    details: `Switched showroom tab to ${tab}.`,
-                  });
-                }
-              }}
-              showroomViewMode={showroomViewMode}
-              setShowroomViewMode={setShowroomViewMode}
-              toast={toast}
-              carousels={carousels}
-            />
-
-            <div className="group/showroom relative -mx-4 px-4">
-              <div
-                id="showroom-scroll"
-                className="custom-scrollbar flex min-h-[400px] snap-x snap-mandatory gap-3 overflow-x-auto overflow-y-hidden scroll-smooth pb-6"
-              >
-                <ShowroomGridPresence tabKey={gridTabKey}>
-                  <ShowroomGrid
-                    viewRole={viewRole}
-                    showroomTab={showroomTab}
-                    showroomViewMode={showroomViewMode}
-                    filteredShowroomProducts={filteredShowroomProducts}
-                    totalLookCards={totalLookCards}
-                    isLinesheetMode={isLinesheetMode}
-                    selectedLinesheetItems={selectedLinesheetItems}
-                    setSelectedLinesheetItems={setSelectedLinesheetItems}
-                    setSelectedLook={setSelectedLook}
-                    setIsLookDetailsOpen={setIsLookDetailsOpen}
-                    router={router}
-                    currency={currency}
-                  />
-                </ShowroomGridPresence>
-              </div>
-            </div>
-
-            <ShowroomSectionBanner viewRole={viewRole} showroomTab={showroomTab} />
-
-            <div className="absolute bottom-8 right-10 z-20 flex cursor-default items-center gap-2 opacity-20 transition-opacity hover:opacity-100">
-              <div className="bg-accent-primary h-1 w-1 animate-pulse rounded-full" />
-              <span className="text-text-muted text-[10px] font-medium uppercase tracking-wide">
-                MARKETROOM_ENGINE_v4.2
-              </span>
-            </div>
+            {showroomBody}
           </CardContent>
         </Card>
       </div>

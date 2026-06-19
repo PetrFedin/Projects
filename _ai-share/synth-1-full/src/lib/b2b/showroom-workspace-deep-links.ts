@@ -3,11 +3,10 @@
  */
 import type { LookbookProject } from '@/lib/b2b/lookbook-projects-store';
 import { workshop2ArticleHref } from '@/lib/production/workshop2-url';
-
-/** Демо SS27: первый артикул коллекции для buyer path без отдельного SKU mapping. */
-const SS27_DEFAULT_ARTICLE_BY_COLLECTION: Record<string, string> = {
-  SS27: 'demo-ss27-01',
-};
+import {
+  getPlatformCoreDemo,
+  resolvePlatformCoreCollectionId,
+} from '@/lib/platform-core-hub-matrix';
 
 export function resolveShowroomWorkspaceArticleId(
   project: Pick<LookbookProject, 'collectionId' | 'workspaceArticleId'>
@@ -16,7 +15,10 @@ export function resolveShowroomWorkspaceArticleId(
   if (explicit) return explicit;
   const col = project.collectionId?.trim();
   if (!col) return null;
-  return SS27_DEFAULT_ARTICLE_BY_COLLECTION[col] ?? null;
+  const resolved = resolvePlatformCoreCollectionId(col);
+  const demo = getPlatformCoreDemo(resolved);
+  if (demo.collectionId === resolved) return demo.demoArticleId;
+  return null;
 }
 
 export function resolveShowroomLookbookWorkspaceHref(

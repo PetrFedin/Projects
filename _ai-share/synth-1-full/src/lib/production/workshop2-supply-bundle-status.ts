@@ -35,7 +35,7 @@ export function summarizeWorkshop2SupplyBundleStatus(input: {
   const bomTrimLineCount = model?.trimLines?.length ?? 0;
   const bomLabels = new Set(
     [...(model?.materialLines ?? []), ...(model?.trimLines ?? [])].map((l) =>
-      normalizeLabel(l.materialName ?? '')
+      normalizeLabel('materialName' in l ? l.materialName : l.name)
     )
   );
 

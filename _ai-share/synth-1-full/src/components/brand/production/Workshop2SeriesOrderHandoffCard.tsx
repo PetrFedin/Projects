@@ -6,6 +6,7 @@
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { getWorkshop2HandoffToSeriesLinks } from '@/lib/data/entity-links';
+import { COLLECTION_DEV_HUB_TITLE_RU } from '@/lib/production/collection-development-labels';
 import { Truck } from 'lucide-react';
 
 export function Workshop2SeriesOrderHandoffCard() {
@@ -20,7 +21,7 @@ export function Workshop2SeriesOrderHandoffCard() {
           Серия, заказы и выпуск
         </CardTitle>
         <CardDescription className="text-text-muted max-w-prose text-[11px] leading-snug">
-          Разработка коллекции закрывает контур ТЗ и сэмплов по шкале коллекции (слева ТЗ и
+          {COLLECTION_DEV_HUB_TITLE_RU} закрывает контур ТЗ и сэмплов по артикулу (слева ТЗ и
           согласования, справа — от supply-path: снабжение и выпуск в карточке артикула). После
           утверждений изделие в базе; опт, серию и массовые заказы ведите через разделы ниже — вне
           этого контура.

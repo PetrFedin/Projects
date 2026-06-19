@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import Link from 'next/link';
 import {
   Card,
   CardContent,
@@ -33,12 +34,22 @@ import {
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { products as allProducts } from '@/lib/products';
+import { buildShopReplenishmentSession } from '@/lib/b2b/shop-replenishment-workspace';
+import { hubGadget } from '@/components/platform/platform-core-hub-gadget-styles';
 import { useToast } from '@/hooks/use-toast';
 import { Progress } from '@/components/ui/progress';
 
-export default function SmartReplenishment() {
+type Props = {
+  collectionId?: string;
+  orderId?: string;
+};
+
+export default function SmartReplenishment({ collectionId, orderId }: Props) {
   const { toast } = useToast();
-  const [isOrdering, setIsOrdering] = useState(false);
+  const session = useMemo(
+    () => buildShopReplenishmentSession({ collectionId, orderId }),
+    [collectionId, orderId]
+  );
 
   const replenishmentAlerts = useMemo(() => {
     return allProducts.slice(5, 9).map((p, i) => {
@@ -56,14 +67,10 @@ export default function SmartReplenishment() {
   }, []);
 
   const handleCreateOrders = () => {
-    setIsOrdering(true);
-    setTimeout(() => {
-      setIsOrdering(false);
-      toast({
-        title: 'Заказы на пополнение созданы',
-        description: '4 черновика заказов отправлены брендам на согласование.',
-      });
-    }, 2000);
+    toast({
+      title: 'Заказы на пополнение созданы',
+      description: '4 черновика заказов отправлены брендам на согласование.',
+    });
   };
 
   return (
@@ -81,28 +88,59 @@ export default function SmartReplenishment() {
             сама предложит, что и когда дозаказать.
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <Button
             variant="outline"
             className="border-border-default text-text-secondary hover:bg-bg-surface2 h-12 rounded-xl"
+            asChild
           >
-            <Settings2 className="mr-2 h-4 w-4" />
-            Правила авто-заказа
+            <Link href={session.rulesHref}>Правила авто-заказа</Link>
           </Button>
           <Button
-            onClick={handleCreateOrders}
-            disabled={isOrdering}
-            className="bg-text-primary h-12 rounded-xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl transition-all hover:bg-amber-600"
+            variant="outline"
+            className="border-border-default text-text-secondary hover:bg-bg-surface2 h-12 rounded-xl"
+            asChild
           >
-            {isOrdering ? (
-              <RefreshCcw className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Package className="mr-2 h-4 w-4" />
-            )}
-            Заказать пополнение ({replenishmentAlerts.length})
+            <Link href={session.stockAtpHref}>Stock · ATP</Link>
+          </Button>
+          <Button
+            className="bg-text-primary h-12 rounded-xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl transition-all hover:bg-amber-600"
+            asChild
+          >
+            <Link href={session.matrixHref} onClick={handleCreateOrders}>
+              <Package className="mr-2 h-4 w-4 inline" />
+              Заказать пополнение ({replenishmentAlerts.length})
+            </Link>
           </Button>
         </div>
       </header>
+
+      <div
+        className={hubGadget.goldenPath}
+        data-testid="shop-replenishment-cross-links-strip"
+      >
+        <span className="text-text-muted shrink-0 text-xs">Столп 3 · связи</span>
+        <span className={hubGadget.goldenSep}>·</span>
+        <Link href={session.orderCommsHref} className={hubGadget.goldenLink}>
+          Order tracking
+        </Link>
+        <span className={hubGadget.goldenSep}>·</span>
+        <Link href={session.landedMarginHref} className={hubGadget.goldenLink}>
+          Landed margin
+        </Link>
+        <span className={hubGadget.goldenSep}>·</span>
+        <Link href={session.collaborativeApprovalsHref} className={hubGadget.goldenLink}>
+          Collaborative
+        </Link>
+        <span className={hubGadget.goldenSep}>·</span>
+        <Link href={session.inventoryOverviewHref} className={hubGadget.goldenLink}>
+          Inventory
+        </Link>
+        <span className={hubGadget.goldenSep}>·</span>
+        <Link href={session.platformMarketroomHref} className={hubGadget.goldenLink}>
+          Platform marketroom
+        </Link>
+      </div>
 
       <div className="grid gap-3 lg:grid-cols-12">
         {/* Left: Alerts Feed */}
@@ -241,8 +279,9 @@ export default function SmartReplenishment() {
                       <Button
                         size="sm"
                         className="text-accent-primary border-accent-primary/20 hover:bg-accent-primary h-8 w-full rounded-xl border bg-white text-[9px] font-black uppercase transition-all hover:text-white"
+                        asChild
                       >
-                        В корзину B2B
+                        <Link href={session.matrixHref}>В корзину B2B</Link>
                       </Button>
                     </div>
                   </div>
@@ -291,8 +330,13 @@ export default function SmartReplenishment() {
                 </div>
               </div>
 
-              <Button className="text-text-primary h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-black/20 transition-all hover:bg-amber-500 hover:text-white">
-                View Full Report <ArrowUpRight className="ml-2 h-4 w-4" />
+              <Button
+                className="text-text-primary h-10 w-full rounded-2xl bg-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-black/20 transition-all hover:bg-amber-500 hover:text-white"
+                asChild
+              >
+                <Link href={session.stockAtpHref}>
+                  View Full Report <ArrowUpRight className="ml-2 h-4 w-4 inline" />
+                </Link>
               </Button>
             </div>
           </Card>

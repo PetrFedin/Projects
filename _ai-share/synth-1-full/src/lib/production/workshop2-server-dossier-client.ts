@@ -378,6 +378,7 @@ export async function buildWorkshop2FinalExportHtmlFromSnapshotOnServer(input: {
   collectionId: string;
   articleId: string;
   snapshotId: string;
+  format?: 'final_tz' | 'factory_pack';
 }): Promise<
   | { ok: true; html: string }
   | {

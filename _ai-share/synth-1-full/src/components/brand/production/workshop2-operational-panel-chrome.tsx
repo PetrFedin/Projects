@@ -16,13 +16,19 @@ export function Workshop2OperationalPanelShell({
   children,
   className,
   id,
+  'data-testid': dataTestId,
 }: {
   children: ReactNode;
   className?: string;
   id?: string;
+  'data-testid'?: string;
 }) {
   return (
-    <div id={id} className={cn(W2_OPERATIONAL_PANEL_ROOT, 'space-y-4', className)}>
+    <div
+      id={id}
+      data-testid={dataTestId}
+      className={cn(W2_OPERATIONAL_PANEL_ROOT, 'space-y-4', className)}
+    >
       {children}
     </div>
   );

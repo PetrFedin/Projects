@@ -27,8 +27,11 @@ export function Workshop2Ss27UatChecklistPanel({ collectionId }: { collectionId:
     }
     let cancelled = false;
     void fetch('/api/workshop2/uat/ss27-checklist', { cache: 'no-store' })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: Ss27ChecklistPayload | null) => {
+      .then(async (res) => {
+        if (!res.ok) return null;
+        return (await res.json()) as Ss27ChecklistPayload | null;
+      })
+      .then((data) => {
         if (cancelled) return;
         if (!data) {
           setError(true);

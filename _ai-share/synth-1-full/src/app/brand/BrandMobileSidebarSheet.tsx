@@ -4,12 +4,13 @@ import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { BrandLayoutSidebarPanel } from '@/app/brand/BrandLayoutSidebarPanel';
 import { SidebarOrgHeader } from '@/components/brand/SidebarOrgHeader';
 import { SidebarWidget } from '@/components/brand/SidebarWidget';
+import type { PlatformRole } from '@/lib/rbac';
 import type { Resource, Action } from '@/lib/rbac';
 
 type BrandMobileSidebarSheetProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  role: string;
+  role: PlatformRole;
   can: (resource: Resource, action: Action) => boolean;
 };
 

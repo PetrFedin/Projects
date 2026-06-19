@@ -1,0 +1,763 @@
+{
+  "events": [
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780005685822
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780005770796
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780005781223
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780006609826
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780006631375
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780006861046
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780008306642
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780008311824
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780008312867
+    },
+    {
+      "event": "scroll_experience_section_change",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 1,
+      "timestamp": 1778846400000
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780008321071
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780008661752
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780008663072
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780011717840
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780011969906
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780011973478
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780011974881
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780011977931
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780014525487
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780014533465
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780014534723
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780014543411
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780016224761
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780016239468
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780016246569
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780016306141
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780016756073
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780062560418
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780062565614
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780062567907
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780062572109
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780062936380
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780062938679
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780062942728
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780063367888
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780063373097
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780071380010
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780071382795
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780071383937
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780071386334
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780071749549
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780071751518
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780071754751
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780072276963
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084181832
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084184122
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084184721
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084185921
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "pdp",
+      "timestamp": 1780084191386
+    },
+    {
+      "event": "scroll_experience_section_change",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 1,
+      "sectionId": "silk-midi-dress-s1",
+      "sectionLabel": "Вариант II",
+      "price": 32500,
+      "hasVideo": true,
+      "interactionType": "wheel",
+      "surface": "pdp",
+      "timestamp": 1780084191404
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084208643
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084209483
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084210657
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "pdp",
+      "timestamp": 1780084216259
+    },
+    {
+      "event": "scroll_experience_section_change",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 1,
+      "sectionId": "silk-midi-dress-s1",
+      "sectionLabel": "Вариант II",
+      "price": 32500,
+      "hasVideo": true,
+      "interactionType": "wheel",
+      "surface": "pdp",
+      "timestamp": 1780084216281
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084276683
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084278093
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084278532
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084280599
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084286421
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084290890
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084292291
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084292865
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780084294242
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "pdp",
+      "timestamp": 1780084301913
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085487060
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085489430
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085490355
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085492277
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "pdp",
+      "timestamp": 1780085523661
+    },
+    {
+      "event": "scroll_experience_add_to_cart",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "interactionType": "wheel",
+      "surface": "pdp",
+      "timestamp": 1780085524121
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085555745
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085556702
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085558280
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "pdp",
+      "timestamp": 1780085588079
+    },
+    {
+      "event": "scroll_experience_add_to_cart",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "interactionType": "wheel",
+      "surface": "pdp",
+      "timestamp": 1780085588484
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085676088
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085678132
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085678977
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085680577
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "pdp",
+      "timestamp": 1780085711741
+    },
+    {
+      "event": "scroll_experience_add_to_cart",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "interactionType": "wheel",
+      "surface": "pdp",
+      "timestamp": 1780085712210
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085744262
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085745343
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780085747112
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "pdp",
+      "timestamp": 1780085748693
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780086879903
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780086881871
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780086882684
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780086884104
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "pdp",
+      "timestamp": 1780086896344
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "pdp",
+      "timestamp": 1780086901739
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "runway-playlist",
+      "timestamp": 1780086915396
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780086939196
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780086940175
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780086940627
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780086941321
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "pdp",
+      "timestamp": 1780086957609
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "productId": "4",
+      "brand": "Nordic Wool",
+      "sectionIndex": 0,
+      "sectionId": "silk-midi-dress-s0",
+      "sectionLabel": "Вариант I",
+      "price": 32500,
+      "hasVideo": true,
+      "surface": "runway-playlist",
+      "timestamp": 1780086968387
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "timestamp": 1780087010964
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780087171488
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780087172917
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780087173553
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780087174850
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "timestamp": 1780087209287
+    },
+    {
+      "event": "scroll_experience_view",
+      "productSlug": "silk-midi-dress",
+      "sectionIndex": 0,
+      "timestamp": 1780087368274
+    }
+  ],
+  "updatedAt": "2026-05-29T20:42:48.284Z"
+}

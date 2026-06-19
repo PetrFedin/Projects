@@ -47,6 +47,7 @@ function uid(prefix: string): string {
 
 export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled = false }: Props) {
   const { ref } = useArticleWorkspace();
+  const { toast } = useToast();
   const [persisting, setPersisting] = useState(false);
   const liveBom = useMemo(() => summarizeWorkshop2BomNodesStatus(dossier), [dossier]);
   const bomStatus = useMemo(
@@ -92,7 +93,6 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
     }
   }, [dossier, onChange, ref.articleId, ref.collectionId, toast]);
   const model = ensureWorkshop2ProductionModel(dossier);
-  const { toast } = useToast();
 
   function save(nextModel: typeof model): void {
     onChange({ productionModel: nextModel });
@@ -151,7 +151,11 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
   }
 
   return (
-    <Workshop2OperationalPanelShell id="w2-bom-by-nodes" className="scroll-mt-24 space-y-4">
+    <Workshop2OperationalPanelShell
+      id="w2-bom-by-nodes"
+      data-testid="workshop2-dossier-material-bom-panel"
+      className="scroll-mt-24 space-y-4"
+    >
       <Workshop2OperationalPanelChrome
         icon={LucideIcons.ListTree}
         title="BOM по узлам изделия"
@@ -202,7 +206,9 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
         </div>
 
         <div className="space-y-3">
-          {model.nodes
+          {(() => {
+            let bomMaterialInputIndex = 0;
+            return model.nodes
             .filter((n) => !n.notApplicable)
             .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
             .map((node) => {
@@ -247,6 +253,11 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                   <div className="grid gap-2">
                     {materials.map((m) => {
                       const cost = (m.yieldPerUnit || 0) * (m.landedCost || m.unitCostNet || 0);
+                      const materialNameTestId =
+                        bomMaterialInputIndex === 0
+                          ? 'workshop2-dossier-material-bom-name-0'
+                          : undefined;
+                      bomMaterialInputIndex += 1;
                       return (
                         <div
                           key={m.id}
@@ -258,6 +269,7 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                               placeholder="Материал (название)"
                               value={m.materialName}
                               disabled={disabled}
+                              data-testid={materialNameTestId}
                               onChange={(e) =>
                                 updateMaterial(m.id, { materialName: e.target.value })
                               }
@@ -512,7 +524,8 @@ export function Workshop2ProductionBomByNodesPanel({ dossier, onChange, disabled
                   </div>
                 </div>
               );
-            })}
+            });
+          })()}
         </div>
       </div>
     </Workshop2OperationalPanelShell>

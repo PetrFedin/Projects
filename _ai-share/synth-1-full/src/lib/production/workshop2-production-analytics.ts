@@ -61,8 +61,8 @@ function computeLeadTimeDays(
   history: Workshop2SampleOrderStatusHistoryEntry[] | undefined
 ): number | null {
   if (!history?.length) return null;
-  const draft = history.find((h) => h.status === 'draft') ?? history[0];
-  const approved = [...history].reverse().find((h) => h.status === 'approved');
+  const draft = history.find((h) => h.to === 'draft') ?? history[0];
+  const approved = [...history].reverse().find((h) => h.to === 'approved');
   if (!draft?.at || !approved?.at) return null;
   const start = Date.parse(draft.at);
   const end = Date.parse(approved.at);

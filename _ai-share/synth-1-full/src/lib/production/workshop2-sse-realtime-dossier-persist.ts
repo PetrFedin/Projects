@@ -7,6 +7,9 @@ import type {
   Workshop2ConnectionStatus,
   Workshop2RealtimeTransport,
 } from '@/lib/production/workshop2-realtime-stub';
+import {
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2SseRealtimeMirror(input: {
   transport: Workshop2RealtimeTransport;
@@ -61,20 +64,26 @@ export function evaluateWorkshop2SseRealtimeSampleGate(
       messageRu: 'Realtime snapshot не в досье — откройте артикул после подключения SSE/polling.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  const blockerSampleOrder =
+    mirror.blockerSampleOrder === true ||
+    workshop2PgMirrorStr(mirror, 'blockerSampleOrder') === 'true';
+  if (blockerSampleOrder) {
     return {
       id: 'sse.realtime.offline',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
         'Realtime офлайн — заказ образца на сервере заблокирован до восстановления связи.',
     };
   }
-  if (mirror.transport === 'polling') {
+  const transport = workshop2PgMirrorStr(mirror, 'transport') || String(mirror.transport ?? '');
+  if (transport === 'polling') {
     return {
       id: 'sse.realtime.polling_fallback',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Используется polling fallback — проверьте SSE endpoint.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Используется polling fallback — проверьте SSE endpoint.',
     };
   }
   return null;
@@ -91,11 +100,15 @@ export function evaluateWorkshop2SseRealtimeHandoffGate(
       messageRu: 'Realtime snapshot не в досье — обновите перед передачей в цех.',
     };
   }
-  if (mirror.blockerHandoff) {
+  const blockerHandoff =
+    mirror.blockerHandoff === true ||
+    workshop2PgMirrorStr(mirror, 'blockerHandoff') === 'true';
+  if (blockerHandoff) {
     return {
       id: 'sse.realtime.offline_handoff',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Realtime офлайн — handoff commit заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') || 'Realtime офлайн — handoff commit заблокирован.',
     };
   }
   return null;

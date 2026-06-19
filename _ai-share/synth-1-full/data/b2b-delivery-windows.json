@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "byOrderId": {
+    "INT-JOOR-wave-de-joor-1781222728408": {
+      "wholesaleOrderId": "INT-JOOR-wave-de-joor-1781222728408",
+      "collectionId": "SS27",
+      "label": "2026-09-15",
+      "startAt": "2026-09-15T09:00:00.000Z",
+      "endAt": "2026-09-15T18:00:00.000Z",
+      "updatedAt": "2026-06-12T00:05:39.443Z"
+    }
+  }
+}

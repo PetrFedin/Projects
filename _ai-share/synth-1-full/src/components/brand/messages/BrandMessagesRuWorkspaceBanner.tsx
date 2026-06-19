@@ -2,8 +2,11 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { ROUTES } from '@/lib/routes';
+import { hasCommunicationsUrlContext } from '@/lib/communications/syntha-overlay-context';
 import { isWorkshop2RuMarket } from '@/lib/production/workshop2-market-profile';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 
 type ThreadRow = {
   contextType: string;
@@ -16,14 +19,24 @@ type ThreadRow = {
   workspaceHref?: string;
 };
 
+/** Не монтирует RU-баннер при URL-контексте (избегаем лишнего fetch и дубля с entity banner). */
+export function BrandMessagesRuWorkspaceBannerWhenNoUrl() {
+  if (isPlatformCoreMode()) return null;
+  const searchParams = useSearchParams();
+  if (hasCommunicationsUrlContext(searchParams)) return null;
+  return <BrandMessagesRuWorkspaceBanner />;
+}
+
 /** Wave 11 RU: hub /brand/messages → contextual PG threads или подсказка workspace chat. */
 export function BrandMessagesRuWorkspaceBanner() {
+  const searchParams = useSearchParams();
+  const hasUrlContext = hasCommunicationsUrlContext(searchParams);
   const [threads, setThreads] = useState<ThreadRow[]>([]);
   const [source, setSource] = useState<'postgres' | 'memory' | 'empty'>('empty');
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (!isWorkshop2RuMarket()) {
+    if (hasUrlContext || !isWorkshop2RuMarket()) {
       setLoaded(true);
       return;
     }
@@ -37,9 +50,9 @@ export function BrandMessagesRuWorkspaceBanner() {
         setSource(json?.source ?? 'empty');
       })
       .finally(() => setLoaded(true));
-  }, []);
+  }, [hasUrlContext]);
 
-  if (!isWorkshop2RuMarket() || !loaded) return null;
+  if (hasUrlContext || !isWorkshop2RuMarket() || !loaded) return null;
 
   return (
     <div

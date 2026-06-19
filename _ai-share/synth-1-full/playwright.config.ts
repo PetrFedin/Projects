@@ -61,7 +61,7 @@ export default defineConfig({
     ? undefined
     : {
         command:
-          'env -u npm_config_prefix node scripts/ensure-supported-node.mjs && env -u npm_config_prefix node scripts/kill-e2e-port.cjs && env -u npm_config_prefix E2E_CLEAR_CACHE=1 E2E=true NEXT_PUBLIC_E2E=true NEXT_PUBLIC_DISABLE_FONTS=1 SYNTH_SKIP_ENTERPRISE_BOOTSTRAP=1 NEXT_DIST_DIR=.next-e2e WORKSHOP2_MARKET=ru WORKSHOP2_EDO_PROVIDER=mock WORKSHOP2_EDO_MOCK_STAGING=true NODE_OPTIONS=--max-old-space-size=8192 npm run dev:e2e',
+          'env -u npm_config_prefix node scripts/ensure-supported-node.mjs && env -u npm_config_prefix node scripts/kill-e2e-port.cjs && env -u npm_config_prefix WORKSHOP2_DATABASE_URL="$(node scripts/resolve-workshop2-database-url.mjs)" E2E_CLEAR_CACHE=1 E2E=true NEXT_PUBLIC_E2E=true NEXT_PUBLIC_PLATFORM_CORE_MODE=1 NEXT_PUBLIC_BRAND_NAV_INVESTOR_SPINE=1 NEXT_PUBLIC_SHOP_NAV_INVESTOR_SPINE=1 NEXT_PUBLIC_FACTORY_NAV_INVESTOR_SPINE=1 NEXT_PUBLIC_DISABLE_FONTS=1 SYNTH_SKIP_ENTERPRISE_BOOTSTRAP=1 NEXT_DIST_DIR=.next-e2e WORKSHOP2_DEV_BYPASS_AUTH=true WORKSHOP2_ALLOW_SAME_ORIGIN_BROWSER=true WORKSHOP2_MARKET=ru WORKSHOP2_EDO_PROVIDER=mock WORKSHOP2_EDO_MOCK_STAGING=true NODE_OPTIONS=--max-old-space-size=8192 npm run dev:e2e',
         url: E2E_READY_URL,
         reuseExistingServer: !process.env.CI,
         timeout: 360_000,

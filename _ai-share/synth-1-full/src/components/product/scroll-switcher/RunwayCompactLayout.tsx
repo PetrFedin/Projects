@@ -122,7 +122,7 @@ export function RunwayCompactLayout({
     displayMaterial,
     displayVariant,
     displayDimensions,
-    madeInLabel,
+    madeInLabel: madeInLabel ?? '',
     price,
     originalPrice: resolvedOriginalPrice,
     showStrikePrice,

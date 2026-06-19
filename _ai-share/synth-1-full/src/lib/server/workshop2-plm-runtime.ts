@@ -89,6 +89,7 @@ function tryInvokeExternalPlmRndStateMachine(payload: {
   // Sibling repo plm-system — опционально; webpackIgnore чтобы dev/E2E не падали без checkout
   void import(
     /* webpackIgnore: true */
+    // @ts-expect-error optional sibling plm-system — нет в synth-1-full checkout
     '../../../../plm-system/src/workshop2/rnd-state-machine-bridge'
   )
     .then((plm: { onWorkshop2DossierLifecycleChange?: (p: typeof payload) => void }) => {

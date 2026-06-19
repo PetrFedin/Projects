@@ -27,5 +27,7 @@ export const W2_MATERIAL_SUBPAGE_ANCHORS = {
   fields: 'w2-material-fields',
   mat: 'w2-material-mat',
   composition: 'w2-material-composition',
+  /** Alias for composition label constructor block. */
+  compositionLabel: 'w2-material-composition',
   catalog: 'w2-material-catalog',
 } as const;

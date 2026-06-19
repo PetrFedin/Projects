@@ -43,7 +43,7 @@ export function evaluateWorkshop2InfoPickMatrixFillGaps(
     const attr = getAttributeById(attributeId);
     return {
       attributeId,
-      labelRu: attr?.nameRu ?? attributeId,
+      labelRu: attr?.name?.trim() || attributeId,
       linkedToMatrix: isWorkshop2AttributeLinkedToInfoPickMatrix(attributeId),
       filled: assignmentFilled(dossier, attributeId),
     };

@@ -1,7 +1,10 @@
 /**
  * Wave 37 #50: DPP registry draft в досье + optional staging POST (fail-closed).
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2DppRegistryDraftMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import {
   buildWorkshop2DppExportBlock,
@@ -21,25 +24,7 @@ import {
   type Workshop2CeilingJournalEntry,
 } from '@/lib/production/workshop2-ceiling-staging-core';
 
-export type Workshop2DppRegistryDraftMirror = {
-  draftedAt: string;
-  mirroredAt: string;
-  lastActor: string;
-  passportId: string;
-  registryId: null;
-  scheme: string;
-  exportReady: boolean;
-  stagingMode: 'none' | 'configured' | 'posted' | 'failed';
-  stagingUrl?: string;
-  stagingHttpStatus?: number;
-  stagingError?: string;
-  partnerAckRecorded: boolean;
-  partnerAckId: string | null;
-  ackAt: string | null;
-  stagingContractMode: boolean;
-  journal: Workshop2CeilingJournalEntry[];
-  hintRu?: string;
-};
+export type { Workshop2DppRegistryDraftMirror };
 
 export function resolveWorkshop2DppRegistryUrl(
   env?: Record<string, string | undefined>
@@ -120,7 +105,8 @@ export async function postWorkshop2DppRegistryStaging(input: {
   skipped?: boolean;
 }> {
   const url = resolveWorkshop2DppRegistryUrl(input.env);
-  const prev = input.dossier.dppRegistryDraftMirror?.journal;
+  const prevJournal = input.dossier.dppRegistryDraftMirror?.journal;
+  const prev = Array.isArray(prevJournal) ? prevJournal : undefined;
   if (!url) {
     const journal = appendWorkshop2CeilingJournalEntry(
       prev,

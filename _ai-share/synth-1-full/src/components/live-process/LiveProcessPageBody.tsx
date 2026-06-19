@@ -123,9 +123,29 @@ export function LiveProcessPageBody({
   }, [processId, staticDefinition]);
 
   const [processIdList, setProcessIdList] = useState<string[]>(() => getAllLiveProcessIds());
+  const [workflowPersistenceLabel, setWorkflowPersistenceLabel] = useState(
+    'PostgreSQL или `.data/workflow-store.json` (см. API `/api/processes`)'
+  );
   useEffect(() => {
     fetch('/api/processes')
-      .then((r) => (r.ok ? r.json() : []))
+      .then((r) => {
+        const raw = r.headers.get('X-Workflow-Store');
+        if (raw) {
+          try {
+            const meta = JSON.parse(raw) as { persistence?: string; writesEnabled?: boolean };
+            if (meta.persistence === 'disabled') {
+              setWorkflowPersistenceLabel('только встроенные схемы (WORKFLOW_STORE_DISABLED=1)');
+            } else if (meta.persistence === 'postgres') {
+              setWorkflowPersistenceLabel('PostgreSQL `platform_core_live_workflow_store`');
+            } else if (meta.persistence === 'file') {
+              setWorkflowPersistenceLabel('файл `.data/workflow-store.json` на сервере');
+            }
+          } catch {
+            /* ignore */
+          }
+        }
+        return r.ok ? r.json() : [];
+      })
       .then((list: unknown) => {
         if (!Array.isArray(list) || !list.length) return;
         const ids = (list as { id: string }[]).map((p) => p.id).filter(Boolean);
@@ -372,8 +392,8 @@ export function LiveProcessPageBody({
           <CardTitle className="text-sm uppercase tracking-tight">Прогресс по этапам</CardTitle>
           <CardDescription>
             Ответственные, даты, доступы и обсуждения по каждому этапу. Прогресс — в браузере
-            (localStorage); схема этапов после «Сохранить» в редакторе — в
-            `.data/workflow-store.json` на сервере (см. API `/api/processes`).
+            (localStorage); схема этапов после «Сохранить» в редакторе — в{' '}
+            {workflowPersistenceLabel}.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">

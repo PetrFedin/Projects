@@ -20,6 +20,7 @@ interface CalendarGridProps {
   events: CalendarEvent[];
   onEventClick: (event: CalendarEvent) => void;
   onCellClick: (date: Date) => void;
+  slimCore?: boolean;
 }
 
 export function CalendarGrid({
@@ -28,6 +29,7 @@ export function CalendarGrid({
   events,
   onEventClick,
   onCellClick,
+  slimCore = false,
 }: CalendarGridProps) {
   const renderMonthView = () => {
     const monthStart = startOfMonth(currentDate);
@@ -51,32 +53,42 @@ export function CalendarGrid({
       const dayEvents = events.filter((e) => isSameDay(new Date(e.startAt), day));
       const isCurrentMonth = isSameMonth(day, monthStart);
       const isToday = isSameDay(day, new Date());
+      const maxEvents = slimCore ? 2 : 4;
 
       days.push(
         <div
           key={day.toString()}
           className={cn(
-            'group relative min-h-[100px] cursor-pointer border p-1 transition-colors hover:bg-muted/20',
+            'group relative cursor-pointer border p-1 transition-colors hover:bg-muted/20',
+            slimCore ? 'min-h-14 max-md:min-h-12' : 'min-h-[100px]',
             !isCurrentMonth && 'bg-muted/10 text-muted-foreground',
             isToday && 'bg-accent/5'
           )}
           onClick={() => onCellClick(cloneDay)}
         >
           <div
-            className={cn('p-1 text-right text-xs font-medium', isToday && 'font-bold text-accent')}
+            className={cn(
+              'p-1 text-right font-medium',
+              slimCore ? 'text-[10px]' : 'text-xs',
+              isToday && 'font-bold text-accent'
+            )}
           >
             {formattedDate}
           </div>
-          <div className="mt-1 space-y-1">
-            {dayEvents.slice(0, 4).map((ev) => (
+          <div className="mt-0.5 space-y-0.5">
+            {dayEvents.slice(0, maxEvents).map((ev) => (
               <div
                 key={ev.id}
+                {...(ev.targetChatId || ev.calendarId === 'workshop2-b2b'
+                  ? { 'data-testid': `calendar-b2b-event-${ev.id}` }
+                  : {})}
                 onClick={(e) => {
                   e.stopPropagation();
                   onEventClick(ev);
                 }}
                 className={cn(
-                  'mb-1 flex min-h-[32px] cursor-pointer flex-col justify-center gap-0.5 truncate rounded-md border-l-4 px-2 py-1 text-[10px] font-bold shadow-md transition-all hover:brightness-95',
+                  'mb-0.5 flex min-h-[28px] cursor-pointer flex-col justify-center gap-0.5 truncate rounded-md border-l-4 px-1.5 py-0.5 font-bold shadow-md transition-all hover:brightness-95 max-md:min-h-6 max-md:px-1 max-md:py-0',
+                  slimCore ? 'text-[9px] max-md:text-[8px]' : 'text-[10px]',
                   layerColor(ev.layer),
                   layerBorder(ev.layer),
                   'text-white'
@@ -90,16 +102,16 @@ export function CalendarGrid({
                   {ev.isSpam && <span className="font-black text-white/80">SPAM:</span>}
                   <span className="truncate leading-tight">{ev.title}</span>
                 </div>
-                {ev.description && (
+                {!slimCore && ev.description && (
                   <span className="truncate text-[8px] font-medium leading-none text-white/90">
                     {ev.description}
                   </span>
                 )}
               </div>
             ))}
-            {dayEvents.length > 4 && (
-              <div className="text-center text-[9px] font-medium text-muted-foreground">
-                Еще {dayEvents.length - 4}...
+            {dayEvents.length > maxEvents && (
+              <div className="text-center text-[9px] font-medium text-muted-foreground max-md:text-[8px]">
+                Еще {dayEvents.length - maxEvents}...
               </div>
             )}
           </div>
@@ -122,12 +134,18 @@ export function CalendarGrid({
     }
 
     return (
-      <div className="overflow-hidden rounded-lg border bg-white shadow-sm">
+      <div
+        className="overflow-hidden rounded-lg border bg-white shadow-sm"
+        data-testid={slimCore ? 'platform-core-calendar-month-grid' : undefined}
+      >
         <div className="grid grid-cols-7 border-b bg-muted/40">
           {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map((d) => (
             <div
               key={d}
-              className="p-2 text-center text-xs font-bold uppercase tracking-wider text-muted-foreground"
+              className={cn(
+                'text-center font-bold uppercase tracking-wider text-muted-foreground',
+                slimCore ? 'p-1 text-[9px] max-md:text-[8px]' : 'p-2 text-xs'
+              )}
             >
               {d}
             </div>
@@ -154,11 +172,20 @@ export function CalendarGrid({
     );
 
     return (
-      <div className="space-y-2">
+      <div
+        className="space-y-2"
+        data-testid={slimCore ? 'platform-core-calendar-list' : undefined}
+      >
         {sortedEvents.map((ev) => (
           <div
             key={ev.id}
-            className="flex cursor-pointer items-center gap-3 rounded-lg border bg-white p-3 transition-colors hover:bg-muted/30"
+            {...(ev.targetChatId || ev.calendarId === 'workshop2-b2b'
+              ? { 'data-testid': `calendar-b2b-event-${ev.id}` }
+              : {})}
+            className={cn(
+              'flex cursor-pointer items-center gap-3 rounded-lg border bg-white p-3 transition-colors hover:bg-muted/30',
+              slimCore && 'min-h-11'
+            )}
             onClick={() => onEventClick(ev)}
           >
             <div

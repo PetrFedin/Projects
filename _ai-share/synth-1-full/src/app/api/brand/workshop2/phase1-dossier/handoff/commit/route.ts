@@ -12,6 +12,14 @@ import {
   getWorkshop2ServerDossierRecord,
   putWorkshop2ServerDossierRecord,
 } from '@/lib/server/workshop2-phase1-dossier-server-store';
+import {
+  syncWorkshop2B2bOrderAfterDossierHandoffCommit,
+  type Workshop2DossierHandoffB2bSyncResult,
+} from '@/lib/server/workshop2-b2b-production-handoff';
+import {
+  workshop2DossierPutFailureBody,
+  workshop2DossierPutFailureStatus,
+} from '@/lib/server/workshop2-dossier-put-utils';
 
 function makeId(): string {
   const c = globalThis.crypto;
@@ -40,6 +48,8 @@ export async function POST(req: NextRequest) {
     brandDispatched?: unknown;
     factoryReceived?: unknown;
     actorLabel?: unknown;
+    orderId?: unknown;
+    factoryId?: unknown;
   };
   const collectionId = String(b.collectionId ?? '').trim();
   const articleId = String(b.articleId ?? '').trim();
@@ -196,15 +206,41 @@ export async function POST(req: NextRequest) {
     },
   });
   if (!put.ok) {
-    return NextResponse.json(
-      { ok: false, error: 'version_conflict', currentVersion: put.currentVersion },
-      { status: 409 }
-    );
+    return NextResponse.json(workshop2DossierPutFailureBody(put), {
+      status: workshop2DossierPutFailureStatus(put),
+    });
   }
+
+  let b2bSync: Workshop2DossierHandoffB2bSyncResult = { attempted: false, results: [] };
+  const orderId = String(b.orderId ?? '').trim();
+  const factoryId = String(b.factoryId ?? '').trim();
+  try {
+    b2bSync = await syncWorkshop2B2bOrderAfterDossierHandoffCommit({
+      collectionId,
+      articleId,
+      orderId: orderId || undefined,
+      factoryId: factoryId || undefined,
+    });
+  } catch {
+    b2bSync = {
+      attempted: true,
+      resolvedOrderId: orderId || undefined,
+      results: [
+        {
+          orderId: orderId || 'unknown',
+          ok: false,
+          code: 'b2b_sync_failed',
+          messageRu: 'Handoff зафиксирован, но синх B2B заказа не выполнен.',
+        },
+      ],
+    };
+  }
+
   return NextResponse.json({
     ok: true,
     version: put.record.version,
     updatedAt: put.record.updatedAt,
     dossier: put.record.dossier,
+    b2bSync,
   });
 }

@@ -4,6 +4,10 @@
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import { isWorkshop2LiveTmsConfigured } from '@/lib/production/workshop2-live-integration-probes-env';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2LogisticsMirrorInput = {
   shipmentCount: number;
@@ -63,8 +67,8 @@ export function summarizeWorkshop2LogisticsPanelTrackingUi(input: {
 }): Workshop2LogisticsPanelTrackingUi {
   const mirror = input.dossier?.logisticsShipmentMirror;
   if (mirror) {
-    const active = mirror.shipmentCount > 0;
-    const step = mirror.currentStep ?? mirror.status;
+    const active = workshop2PgMirrorNum(mirror, 'shipmentCount') > 0;
+    const step = workshop2PgMirrorStr(mirror, 'currentStep') || workshop2PgMirrorStr(mirror, 'status');
     return {
       trackingActive: active,
       statusLabelRu: active ? `PG · ${step ?? 'journal'}` : 'Mirror в PG · нет отгрузок',
@@ -102,7 +106,9 @@ export function evaluateWorkshop2LogisticsHandoffGate(
     return {
       id: 'logistics.sample_unlinked_handoff',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Отгрузка без sample order — handoff commit заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ??
+        'Отгрузка без sample order — handoff commit заблокирован.',
     };
   }
   return null;
@@ -133,7 +139,9 @@ export function evaluateWorkshop2LogisticsSampleGate(
     return {
       id: 'logistics.sample_unlinked',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Отгрузка не привязана к sample order — проверьте journal.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ??
+        'Отгрузка не привязана к sample order — проверьте journal.',
     };
   }
   return null;
@@ -155,7 +163,8 @@ export function evaluateWorkshop2LogisticsExportGate(
     return {
       id: 'logistics.export_unlinked',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'ZIP ТЗ: отгрузка без sample order.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ?? 'ZIP ТЗ: отгрузка без sample order.',
     };
   }
   return null;

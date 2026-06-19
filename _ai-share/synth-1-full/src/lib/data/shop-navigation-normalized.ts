@@ -510,7 +510,7 @@ export const shopNavGroups = [
           { href: ROUTES.shop.b2bOrderAnalytics, label: 'По заказам', value: 'order-analytics' },
           { href: ROUTES.shop.b2bReports, label: 'Отчёты партнёра', value: 'b2b-reports' },
           { href: ROUTES.shop.b2bFinance, label: 'Финансы партнёра', value: 'b2b-finance' },
-          { href: ROUTES.shop.b2bPayment, label: 'Оплата (JOOR Pay)', value: 'b2b-payment' },
+          { href: ROUTES.shop.b2bPayment, label: 'Оплата заказов', value: 'b2b-payment' },
         ],
       },
       {

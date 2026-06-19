@@ -51,12 +51,8 @@ export function useWorkshop2BackendStatusHint(active: boolean): Workshop2Backend
 }
 
 export function workshop2BackendStatusHintRu(status: Workshop2BackendStatus): string {
-  if (status === 'loading') return 'Проверка связи с сервером…';
-  if (status === 'server') {
-    return 'Досье и аудит сохраняются в PostgreSQL · состав коллекции — в браузере.';
-  }
-  if (status === 'pg_disabled') {
-    return 'PostgreSQL недоступен — досье на файловом сервере (не PG primary). Поднимите PG: bash scripts/workshop2-pg-bootstrap.sh';
-  }
-  return 'API offline — запись в браузере до восстановления сервера.';
+  if (status === 'loading') return 'Проверка связи…';
+  if (status === 'server') return 'Досье в PostgreSQL.';
+  if (status === 'pg_disabled') return 'PG недоступен — досье на файловом сервере.';
+  return 'API offline — запись в браузере.';
 }

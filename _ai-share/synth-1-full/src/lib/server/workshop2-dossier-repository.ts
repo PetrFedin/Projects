@@ -59,16 +59,21 @@ export async function ensureWorkshop2PgSchema(): Promise<void> {
   if (!isWorkshop2PostgresEnabled()) return;
   if (schemaReadyPromise) return schemaReadyPromise;
   schemaReadyPromise = (async () => {
-    const fs = await import('node:fs');
-    const path = await import('node:path');
-    const dir = path.join(process.cwd(), 'db/migrations');
-    const files = fs
-      .readdirSync(dir)
-      .filter((f) => f.endsWith('.sql'))
-      .sort();
-    for (const file of files) {
-      const sql = fs.readFileSync(path.join(dir, file), 'utf8');
-      await getWorkshop2PgPool().query(sql);
+    try {
+      const fs = await import('node:fs');
+      const path = await import('node:path');
+      const dir = path.join(process.cwd(), 'db/migrations');
+      const files = fs
+        .readdirSync(dir)
+        .filter((f) => f.endsWith('.sql'))
+        .sort();
+      for (const file of files) {
+        const sql = fs.readFileSync(path.join(dir, file), 'utf8');
+        await getWorkshop2PgPool().query(sql);
+      }
+    } catch (err) {
+      schemaReadyPromise = null;
+      throw err;
     }
   })();
   return schemaReadyPromise;

@@ -8,15 +8,25 @@ interface GroupRailProps {
   availableGroups: [string, any][];
   activeGroup: keyof typeof chatGroupConfig;
   setActiveGroup: (group: keyof typeof chatGroupConfig) => void;
+  slimCore?: boolean;
+  className?: string;
 }
 
 export const GroupRail: React.FC<GroupRailProps> = ({
   availableGroups,
   activeGroup,
   setActiveGroup,
+  slimCore = false,
+  className,
 }) => {
   return (
-    <aside className="bg-bg-surface2/80 border-border-subtle flex w-10 shrink-0 flex-col items-center gap-2 rounded-2xl border p-2 shadow-sm transition-all">
+    <aside
+      className={cn(
+        'bg-bg-surface2/80 border-border-subtle flex shrink-0 flex-col items-center gap-1.5 border shadow-sm transition-all',
+        slimCore ? 'w-8 rounded-lg p-1' : 'w-10 rounded-2xl p-2',
+        className
+      )}
+    >
       <TooltipProvider>
         {availableGroups.map(([key, config]) => (
           <Tooltip key={key}>
@@ -25,14 +35,16 @@ export const GroupRail: React.FC<GroupRailProps> = ({
                 variant={activeGroup === (key as any) ? 'default' : 'ghost'}
                 size="icon"
                 className={cn(
-                  'h-10 w-10 rounded-xl transition-all',
+                  'rounded-lg transition-all',
+                  slimCore ? 'h-7 w-7' : 'h-10 w-10 rounded-xl',
                   activeGroup === (key as any)
-                    ? 'bg-text-primary border-text-primary/30 scale-105 border text-white shadow-lg'
-                    : 'text-text-muted hover:text-accent-primary hover:border-accent-primary/20 border border-transparent hover:bg-white'
+                    ? 'bg-text-primary border-text-primary/30 border text-white shadow-md'
+                    : 'text-text-muted hover:text-accent-primary hover:border-accent-primary/20 border border-transparent hover:bg-white',
+                  !slimCore && activeGroup === (key as any) && 'scale-105 shadow-lg'
                 )}
                 onClick={() => setActiveGroup(key as any)}
               >
-                <config.icon className="h-4.5 w-4.5" />
+                <config.icon className={slimCore ? 'h-3.5 w-3.5' : 'h-4 w-4'} />
               </Button>
             </TooltipTrigger>
             <TooltipContent

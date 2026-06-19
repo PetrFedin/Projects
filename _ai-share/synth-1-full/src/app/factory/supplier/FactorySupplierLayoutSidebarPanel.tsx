@@ -5,16 +5,20 @@
  */
 import { useMemo } from 'react';
 import { HubSidebarLazy } from '@/components/hub/HubSidebarLazy';
+import { isFactoryNavInvestorSpineEnabled } from '@/lib/cabinet-nav-env';
 import {
-  applyFactorySupplierInvestorSpineClusterOverrides,
-  isFactoryNavInvestorSpineEnabled,
-} from '@/lib/cabinet-nav-env';
+  applyFactoryNavPipeline,
+  FACTORY_SUP_CORE_PILLARS_NAV_ORDER,
+  filterNavGroupsForCoreSidebar,
+  resolveSidebarClustersForCore,
+  shouldHideNavArchiveCluster,
+} from '@/lib/cabinet-core-mode';
+import { augmentSupplierNavForCoreCabinet } from '@/lib/platform-core-nav-augment';
 import { supplierNavGroups } from '@/lib/data/factory-navigation';
 import {
   FACTORY_SUP_ARCHIVE_GROUP_ORDER,
   FACTORY_SUP_CORE_GROUP_ORDER,
   FACTORY_SUP_INVESTOR_SPINE_CORE_GROUP_ORDER,
-  SYNTHA_SIDEBAR_CLUSTERS,
 } from '@/lib/data/syntha-nav-clusters';
 import { ROUTES } from '@/lib/routes';
 
@@ -26,12 +30,18 @@ export function FactorySupplierLayoutSidebarPanel({
   onNavigate,
 }: FactorySupplierLayoutSidebarPanelProps) {
   const groups = useMemo(
-    () => applyFactorySupplierInvestorSpineClusterOverrides(supplierNavGroups),
+    () =>
+      filterNavGroupsForCoreSidebar(
+        augmentSupplierNavForCoreCabinet(applyFactoryNavPipeline(supplierNavGroups, 'supplier'))
+      ),
     []
   );
-  const coreGroupOrder = isFactoryNavInvestorSpineEnabled()
-    ? FACTORY_SUP_INVESTOR_SPINE_CORE_GROUP_ORDER
-    : FACTORY_SUP_CORE_GROUP_ORDER;
+  const visibleClusters = resolveSidebarClustersForCore();
+  const coreGroupOrder = shouldHideNavArchiveCluster()
+    ? FACTORY_SUP_CORE_PILLARS_NAV_ORDER
+    : isFactoryNavInvestorSpineEnabled()
+      ? FACTORY_SUP_INVESTOR_SPINE_CORE_GROUP_ORDER
+      : FACTORY_SUP_CORE_GROUP_ORDER;
 
   return (
     <HubSidebarLazy
@@ -41,7 +51,7 @@ export function FactorySupplierLayoutSidebarPanel({
       accentClass="text-emerald-600"
       activeBgClass="bg-emerald-600"
       onNavigate={onNavigate}
-      sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
+      sidebarClusters={visibleClusters}
       coreGroupOrder={coreGroupOrder}
       archiveGroupOrder={FACTORY_SUP_ARCHIVE_GROUP_ORDER}
     />

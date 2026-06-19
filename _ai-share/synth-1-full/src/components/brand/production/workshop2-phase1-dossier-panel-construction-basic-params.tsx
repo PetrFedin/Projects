@@ -301,7 +301,9 @@ export function Workshop2DossierConstructionBasicParamsBlock({
                         }
                       }
                     } catch (error) {
-                      workshop2DevWarn('component', 'Failed to calculate tolerances', error);
+                      workshop2DevWarn('component', 'Failed to calculate tolerances', {
+                        cause: error,
+                      });
                     } finally {
                       setTolerancesLoading(false);
                       setTolerancesOpen(false);
@@ -471,7 +473,7 @@ export function Workshop2DossierConstructionBasicParamsBlock({
                         const result = await parseCadFile(file);
                         setCadResult(result);
                       } catch (error) {
-                        workshop2DevWarn('component', 'Failed to parse CAD file', error);
+                        workshop2DevWarn('component', 'Failed to parse CAD file', { cause: error });
                       } finally {
                         setCadParserLoading(false);
                       }

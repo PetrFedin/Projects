@@ -1,0 +1,457 @@
+{
+  "collection": "SS27",
+  "development": [
+    {
+      "id": "scan-dev-shop-order-status-open",
+      "kind": "fix",
+      "priority": "P0",
+      "title": "[Магазин] PATCH order status без auth — shop может confirm/handoff обойти бренд",
+      "evidence": "shop/b2b/orders/[id]/status/route.ts:20-43 PATCH без guardShopB2bCheckoutRoute; lifecycle разрешает submitted→confirmed без actor check",
+      "href": "/shop/b2b/orders/B2B-DEMO-SHOP1-SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-brand-handoff-mutations-open",
+      "kind": "fix",
+      "priority": "P0",
+      "title": "[Бренд] confirm-order и bulk-handoff POST без guardWorkshop2Route",
+      "evidence": "brand/b2b/orders/[id]/confirm-order/route.ts:9 POST без auth; bulk-confirm-production-handoff аналогично — любой клиент может confirm/handoff SS27 demo",
+      "href": "/brand/b2b-orders/B2B-DEMO-SHOP1-SS27?pillar=order_production#production-handoff",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-matrix-cart-memory-only",
+      "kind": "fix",
+      "priority": "P0",
+      "title": "[Магазин] Matrix cart: POST /cart/matrix только in-memory Map, без file persist",
+      "evidence": "workshop2-b2b-wave23-parity.ts:219 cartSessions Map; cart/matrix/route.ts upsert без persistWorkshop2B2bCartSessionToFile (cart/lines/route.ts:313 persist есть)",
+      "href": "/shop/b2b/matrix?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-handoff-no-materials-gate",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд] Production handoff не блокируется при materials_supplied=false",
+      "evidence": "workshop2-b2b-production-handoff.ts:287-329 confirmWorkshop2B2bProductionHandoff — нет проверки requisitions/materials; chain step materials_supplied только в getWorkshop2B2bChainStatus:1273+",
+      "href": "/brand/b2b-orders/B2B-DEMO-SHOP1-SS27?pillar=order_production#production-handoff",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-bulk-handoff-auto-confirm",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Bulk handoff auto-confirm submitted — расходится с single handoff needs_confirm",
+      "evidence": "workshop2-b2b-production-handoff.ts:463-472 bulkConfirm вызывает confirmWorkshop2B2bOrderByBrand для submitted; single handoff:316-321 возвращает needs_confirm",
+      "href": "/brand/b2b-orders?pillar=order_production",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-orders-submit-gate-bypass",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Магазин] orders/submit обходит checkout auth, development gate и buyer resolve",
+      "evidence": "orders/submit/route.ts:34-63 POST без guardShopB2bCheckoutRoute/evaluateWorkshop2B2bCartSubmitDevelopmentGate; buyerId ?? 'buyer-demo' vs cart/lines resolveShopCoreBuyerId",
+      "href": "/shop/b2b/sales-rep-portal?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-comms-demo-order-regex-gap",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд] Comms section auto-thread: /^B2B-\\d+/ пропускает B2B-DEMO-SHOP1-SS27",
+      "evidence": "CommsSectionContextAutoThread.tsx:32 early return; section-read-state/route.ts:22 тот же regex; golden SS27 order не получает ensure thread + read keys",
+      "href": "/brand/messages?contextType=b2b_order&contextId=B2B-DEMO-SHOP1-SS27&pillar=collection_order&section=brand-co-registry",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-comms-fail-closed-shop-factory",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Магазин/Производство] Comms: нет fail-closed при threads source=memory",
+      "evidence": "brand/messages/messages-core.tsx:52-69 brand-messages-core-fail-closed; shop/messages/messages-core.tsx:9-21 и factory/production/messages/messages-core.tsx:18-23 монтируют MessagesPage без guard",
+      "href": "/shop/messages?contextType=b2b_order&contextId=B2B-DEMO-SHOP1-SS27",
+      "roleId": "shop",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-shop-3d-showroom-dead",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Магазин] 3D витрина: stream-token без embedUrl — панель не монтируется",
+      "evidence": "stream-token/route.ts:7-14 возвращает mode/token без embedUrl; B2b3dStreamPanel.tsx:192 early-return null; POST /3d-view и /3d-session routes отсутствуют",
+      "href": "/shop/b2b/showroom?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-brand-calendar-redirect-context",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд] B2B calendar redirect сбрасывает order/collection контекст",
+      "evidence": "brand/b2b-orders/calendar/page.tsx:5 redirect('/brand/calendar?layers=orders,meetings,tasks') — без orderId, collection=SS27",
+      "href": "/brand/b2b-orders/calendar",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-shop-moq-checkout-soft",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Магазин] MOQ: badge в матрице, checkout не блокирует нарушение",
+      "evidence": "CoreWholesaleMatrix.tsx:340 moqOk только для badge; cart/matrix/route.ts:51-52 warnings в moqViolations без reject; checkout-core не валидирует MOQ hard",
+      "href": "/shop/b2b/checkout?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-w2-ta-deeplink-dead",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд] W2 T&A: deep-link w2sec=time-and-action — мёртвая секция",
+      "evidence": "workshop2-article-workspace-ui-constants.ts:41 parseWorkshop2DossierSection('time-and-action') → null; panel-section-body-time-and-action.tsx существует, URL не резолвится",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=time-and-action",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-phase1-dossier-dual-api",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд] Legacy phase1-dossier GET/POST без auth и b2bEditLock",
+      "evidence": "brand/workshop2/phase1-dossier/route.ts:12-38 без guardWorkshop2Route; articles/.../dossier/route.ts:29-32 guard + PUT lock после handoff — два контура записи",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=general",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-stage-review-stub-client",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Collection stage review: API есть, клиент всё ещё stub",
+      "evidence": "collection-stage-collaboration.ts:66-78 submitCollectionStageReviewRequest mode:'stub'; CollectionStepModuleDialog вызывает stub helper, не POST /api/brand/collection-stage-review",
+      "href": "/brand/production/workshop2?w2col=SS27",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-vault-mock-upload",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Vault панель: handleUploadMock вместо presign API",
+      "evidence": "workshop2-article-workspace-vault-panel.tsx:20-28 fake toast; articles/.../vault/presign/route.ts реализован, но не подключён к UI upload",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=vault",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-tz-b2b-handoff-split",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] TZ handoff commit и B2B production handoff — разные API без автосвязки",
+      "evidence": "phase1-dossier/handoff/commit (tech pack) vs bulk-confirm-production-handoff (PO queue) — SS27 chain не линкует автоматически; b2bEditLock только от B2B handoff",
+      "href": "/brand/b2b-orders/B2B-DEMO-SHOP1-SS27?pillar=order_production#production-handoff",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-shop-linesheet-share-404",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Магазин] POST /api/shop/b2b/linesheet/share отсутствует",
+      "evidence": "sales-rep-portal/page.tsx:73 fetch('/api/shop/b2b/linesheet/share') — route file не существует (404 на share CTA)",
+      "href": "/shop/b2b/sales-rep-portal?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-shop-tracking-hash-orphan",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Магазин] Якорь #shop-co-buyer-tracking в URL, но id в DOM нет",
+      "evidence": "RoleCoreCabinetHub.tsx:155 redirect hash; routes.ts:125 shopB2bOrderProductionContextHref; grep id=\"shop-co-buyer-tracking\" — 0 (только sectionId в comms groups)",
+      "href": "/shop/core?pillar=collection_order&collection=SS27#shop-co-buyer-tracking",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-factory-sample-queue-no-live",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Производство] Очередь образцов: fetch только on mount, без poll/SSE",
+      "evidence": "FactoryWorkshop2SampleQueuePanel.tsx:64-66 useEffect loadQueue без interval/SSE; brand-dev-cross ожидает live sample queue для бренда",
+      "href": "/factory/production#sample-queue",
+      "roleId": "manufacturer",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-shop-partner-session-ls",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Магазин] Accept-invite: partner session/tier только в localStorage",
+      "evidence": "shop/b2b/accept-invite/page.tsx:45-46 localStorage b2b_partner_session/tier; checkout resolveShopCoreBuyerId не читает session из PG cookie",
+      "href": "/shop/b2b/accept-invite?token=demo",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-supplier-co-forecast-unreachable",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Поставщик] Forecast panel есть, pillar collection_order недоступен в кабинете",
+      "evidence": "empty-cell-registry.ts:57-65 isRolePillarCabinetSelectable только active pillars; supplier×collection_order kind=inactive — RoleCoreCabinetHub redirect на default",
+      "href": "/factory/supplier/core?pillar=collection_order&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-supplier-hub-calendar-no-order",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Поставщик] Hub matrix calendar CTA без order= контекста",
+      "evidence": "platform-core-hub-matrix-rows.ts:275 factoryCalendarSupplierHref generic; CommsPillarCard использует factorySupplierCalendarB2bOrderContextHref(orderId) — расхождение hub vs cabinet",
+      "href": "/platform?collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-showroom-fetch-error-copy",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Магазин] Showroom API error = «не опубликована» без retry",
+      "evidence": "PlatformCorePublishedShowroom.tsx:257-266 loadState==='error' — тот же copy что empty/unpublished; нет distinction fetch fail vs zero articles",
+      "href": "/shop/b2b/showroom?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-brand-linesheets-error-no-retry",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Linesheets error state без retry и cross-links",
+      "evidence": "linesheets-core.tsx:207-216 brand-sc-linesheets-error — только PLATFORM_CORE_LINESETS_UNAVAILABLE_RU; empty state (L234+) имеет W2/showroom CTAs",
+      "href": "/brand/linesheets?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-shop-tracking-no-chat-cta",
+      "kind": "add",
+      "priority": "P2",
+      "title": "[Магазин] Tracking panel: context strip без CTA «Чат по заказу»",
+      "evidence": "PlatformCoreShopB2bTrackingPanel.tsx:322-328 toolbar calendar link; grep messages/chat в panel — 0 row-level chat href; shop-audit ожидает chat на tracking",
+      "href": "/shop/b2b/tracking?order=B2B-DEMO-SHOP1-SS27",
+      "roleId": "shop",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-shop-comms-prefs-local",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Магазин] Notification prefs: localStorage stub, не влияет на push/SSE",
+      "evidence": "platform-core-comms-notification-prefs.ts:1 комментарий «до PG API»; PlatformCoreShopCommsNotificationPrefsStrip.tsx:31-34 write localStorage only",
+      "href": "/shop/core?pillar=comms&collection=SS27",
+      "roleId": "shop",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-brand-colect-lookbook-stub",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Colect archive: lookbook→matrix без live API",
+      "evidence": "colect-client.ts:81-103 TODO stubs return empty/API not yet available; Key Look add-to-order всегда success:false",
+      "href": "/brand/integrations/archive/colect",
+      "roleId": "brand",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-brand-change-request-manual-mirror",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Change requests: PG mirror требует ручного «CR → PG»",
+      "evidence": "workshop2-change-requests-panel.tsx toast «mirror в UI — CR → PG подтверждает»; summarizeWorkshop2ChangeRequestPgMirror chip отдельно от auto-sync",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=change-requests",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-mfr-dossier-no-supplier-peer",
+      "kind": "add",
+      "priority": "P2",
+      "title": "[Производство] Dossier context strip: нет supplier cabinet/messages peer",
+      "evidence": "FactoryDossierCoreChrome.tsx context strip — Queue/Orders/Закупка/Shop tracking; grep supplier → no href to /factory/supplier/ или materials?view=procurement&role=supplier",
+      "href": "/factory/production/dossier/demo-ss27-01?pillar=order_production&collection=SS27&order=B2B-DEMO-SHOP1-SS27",
+      "roleId": "manufacturer",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-brand-comms-trigger-mock",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] trigger-event API: console.log mock, feed пустой",
+      "evidence": "notifications/trigger-event/route.ts:28-31 Mock dispatching console.log; notifications/feed/route.ts прокси только при USE_FASTAPI — иначе {events:[]}",
+      "href": "/brand/core?pillar=comms&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    }
+  ],
+  "techDebt": [
+    {
+      "id": "scan-td-b2b-order-id-regex-split",
+      "category": "stub",
+      "priority": "P1",
+      "title": "Фрагментация regex B2B order id: B2B-\\d+ vs B2B-DEMO-*",
+      "action": "fix",
+      "hint": "Канонический isPlatformCorePgB2bOrder() для ensure-b2b-order, section-read-state, CommsSectionContextAutoThread, logistics-tracking",
+      "source": "cursor-scan",
+      "evidence": "CommsSectionContextAutoThread.tsx:32; section-read-state/route.ts:22; platform-core-demo-order.ts:14-23"
+    },
+    {
+      "id": "scan-td-shop-status-route-no-auth",
+      "category": "missing-link",
+      "priority": "P0",
+      "title": "shop/b2b/orders/[id]/status PATCH — open mutation endpoint",
+      "action": "fix",
+      "hint": "guardShopB2bCheckoutRoute + role check; запрет submitted→confirmed для shop actor",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/shop/b2b/orders/[id]/status/route.ts:20-43"
+    },
+    {
+      "id": "scan-td-cart-matrix-no-persist",
+      "category": "stub",
+      "priority": "P0",
+      "title": "cart/matrix POST — in-memory only, no persistWorkshop2B2bCartSessionToFile",
+      "action": "fix",
+      "hint": "Вызвать persistWorkshop2B2bCartSessionToFile после upsert как в cart/lines/route.ts:313",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/shop/b2b/cart/matrix/route.ts:48-84; workshop2-b2b-wave23-parity.ts:219-227"
+    },
+    {
+      "id": "scan-td-3d-showroom-api-contract",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "3D showroom: stream-token без embedUrl; routes 3d-view/3d-session отсутствуют",
+      "action": "add",
+      "hint": "resolveWorkshop2B2bShowroom3dStreamToken + embedUrl; создать POST 3d-view, 3d-session; align B2b3dStreamPanel StreamPayload",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/shop/b2b/showroom/stream-token/route.ts:7-14; B2b3dStreamPanel.tsx:192"
+    },
+    {
+      "id": "scan-td-phase1-dossier-legacy-open",
+      "category": "stub",
+      "priority": "P1",
+      "title": "brand/workshop2/phase1-dossier route — GET/POST без guardWorkshop2Route",
+      "action": "fix",
+      "hint": "Deprecate или добавить guard + redirect на articles/.../dossier; убрать dual-write",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/workshop2/phase1-dossier/route.ts:12-38"
+    },
+    {
+      "id": "scan-td-publish-readiness-no-auth",
+      "category": "stub",
+      "priority": "P1",
+      "title": "publish-showroom-readiness POST без auth guard",
+      "action": "fix",
+      "hint": "guardWorkshop2Route как development-status и published-articles routes",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/workshop2/collections/[collectionId]/publish-showroom-readiness/route.ts:11-42"
+    },
+    {
+      "id": "scan-td-w2-ta-section-parse-null",
+      "category": "stub",
+      "priority": "P1",
+      "title": "time-and-action panel exists but parseWorkshop2DossierSection returns null",
+      "action": "fix",
+      "hint": "Вернуть 'time-and-action' в parse или alias; унифицировать с time-and-action/route.ts",
+      "source": "cursor-scan",
+      "evidence": "src/components/brand/production/workshop2-article-workspace-ui-constants.ts:41"
+    },
+    {
+      "id": "scan-td-colect-client-stubs",
+      "category": "stub",
+      "priority": "P2",
+      "title": "colect-client lookbook/content/add-to-order — TODO empty stubs",
+      "action": "fix",
+      "hint": "Wire archive integration или hide Colect surfaces в platform core mode",
+      "source": "cursor-scan",
+      "evidence": "src/lib/b2b/integrations/archive/colect-client.ts:81-103"
+    },
+    {
+      "id": "scan-td-linesheet-share-route-missing",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "POST /api/shop/b2b/linesheet/share — UI fetch без route",
+      "action": "add",
+      "hint": "Implement share endpoint или disable CTA в sales-rep-portal с honest badge",
+      "source": "cursor-scan",
+      "evidence": "src/app/shop/b2b/sales-rep-portal/page.tsx:73"
+    },
+    {
+      "id": "scan-td-collection-stage-review-client",
+      "category": "stub",
+      "priority": "P1",
+      "title": "collection-stage-collaboration submitCollectionStageReviewRequest — mode stub",
+      "action": "fix",
+      "hint": "Wire CollectionStepModuleDialog → fetch POST /api/brand/collection-stage-review",
+      "source": "cursor-scan",
+      "evidence": "src/lib/production/collection-stage-collaboration.ts:66-78"
+    },
+    {
+      "id": "scan-td-no-segment-error-boundaries",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "Нет route-segment error.tsx под brand/shop/factory B2B trees",
+      "action": "add",
+      "hint": "error.tsx в brand/b2b-orders, shop/b2b, factory/production с pillar/collection recovery links",
+      "source": "cursor-scan",
+      "evidence": "src/app/error.tsx единственный; brand/shop/factory — 0 segment error.tsx"
+    },
+    {
+      "id": "scan-td-handoff-no-materials-check",
+      "category": "stub",
+      "priority": "P1",
+      "title": "confirmWorkshop2B2bProductionHandoff — no materials_supplied gate",
+      "action": "fix",
+      "hint": "Block handoff when requisitions/materials not confirmed; align chain step",
+      "source": "cursor-scan",
+      "evidence": "src/lib/server/workshop2-b2b-production-handoff.ts:287-329"
+    },
+    {
+      "id": "scan-td-notifications-trigger-mock",
+      "category": "stub",
+      "priority": "P2",
+      "title": "notifications/trigger-event — console.log mock dispatch",
+      "action": "fix",
+      "hint": "Enqueue domain event или proxy to FastAPI notifications when USE_FASTAPI",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/notifications/trigger-event/route.ts:28-31"
+    },
+    {
+      "id": "scan-td-vault-upload-mock",
+      "category": "stub",
+      "priority": "P2",
+      "title": "Vault panel handleUploadMock — presign API не подключён",
+      "action": "fix",
+      "hint": "Wire upload flow через articles/.../vault/presign PUT + vault route confirm",
+      "source": "cursor-scan",
+      "evidence": "src/components/brand/production/workshop2-article-workspace-vault-panel.tsx:20-28"
+    },
+    {
+      "id": "scan-td-supplier-co-empty-cell-registry",
+      "category": "missing-link",
+      "priority": "P2",
+      "title": "Supplier collection_order forecast panel orphan — inactive pillar not in cabinet nav",
+      "action": "change",
+      "hint": "Promote supplier×collection_order to active peer-insight или embed forecast в development/materials hub",
+      "source": "cursor-scan",
+      "evidence": "src/lib/platform-core-empty-cell-registry.ts:57-65; supplier-collection-order-forecast-panel.tsx:71"
+    }
+  ]
+}

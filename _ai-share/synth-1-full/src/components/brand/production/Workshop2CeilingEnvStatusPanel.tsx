@@ -46,7 +46,7 @@ export function Workshop2CeilingEnvStatusPanel({
       if (c) {
         setConfigured(c.configured);
         setProdLive(Boolean(c.live));
-        setEnvKeys(c.envKeys ?? []);
+        setEnvKeys([...(c.envKeys ?? [])]);
         setUnlockHint(c.unlockHintRu);
         setStagingContractModeProbe(Boolean(c.stagingContractMode));
       }

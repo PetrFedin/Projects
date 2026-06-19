@@ -2,6 +2,7 @@ import {
   dedupeEntityLinksByHref,
   finalizeRelatedModuleLinks,
   getIntegrationsLinks,
+  getShopB2BHubLinks,
 } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 import { SHOP_B2B_ORDERS_HUB_LABEL } from '@/lib/ui/b2b-registry-label';
@@ -30,5 +31,25 @@ describe('entity-links — RelatedModules / B2B shop hub (full contour)', () => 
     const f = finalizeRelatedModuleLinks(getIntegrationsLinks());
     const hub = f.filter((l) => l.label === SHOP_B2B_ORDERS_HUB_LABEL);
     expect(hub.length).toBeLessThanOrEqual(1);
+  });
+
+  it('getShopB2BHubLinks in platform core returns ≤7 PG links without JOOR/NuOrder legacy', () => {
+    const prev = process.env.NEXT_PUBLIC_PLATFORM_CORE_MODE;
+    process.env.NEXT_PUBLIC_PLATFORM_CORE_MODE = '1';
+    try {
+      const links = getShopB2BHubLinks();
+      expect(links.length).toBeLessThanOrEqual(7);
+      expect(links.length).toBeGreaterThanOrEqual(6);
+      const hrefs = links.map((l) => l.href).join(' ');
+      expect(hrefs).toContain(ROUTES.shop.b2bPartnersDiscover);
+      expect(hrefs).not.toContain(ROUTES.shop.b2bDiscover);
+      expect(hrefs).not.toContain(ROUTES.shop.b2bCatalog);
+      expect(hrefs).not.toMatch(/joor|nuorder/i);
+      const labels = links.map((l) => l.label).join(' ');
+      expect(labels).not.toMatch(/JOOR|NuOrder/i);
+    } finally {
+      if (prev === undefined) delete process.env.NEXT_PUBLIC_PLATFORM_CORE_MODE;
+      else process.env.NEXT_PUBLIC_PLATFORM_CORE_MODE = prev;
+    }
   });
 });

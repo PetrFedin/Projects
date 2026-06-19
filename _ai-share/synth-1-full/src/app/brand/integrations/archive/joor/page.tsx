@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   AlertCircle,
 } from 'lucide-react';
+import { BrandSpineWholesaleImportCard } from '@/components/integrations/BrandSpineWholesaleImportCard';
 import { ROUTES } from '@/lib/routes';
 import { jsonAs } from '@/lib/json';
 import {
@@ -130,7 +131,7 @@ export default function BrandIntegrationsJoorPage() {
   const importOrders = async () => {
     setOrdersLoading(true);
     try {
-      const res = await fetch('/api/b2b/joor/orders?limit=20');
+      const res = await fetch('/api/b2b/archive/joor/orders?limit=20');
       const data = res.ok ? await res.json() : [];
       setOrders(
         Array.isArray(data)
@@ -287,47 +288,33 @@ export default function BrandIntegrationsJoorPage() {
         </Card>
 
         {/* Orders import */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
-              <ShoppingCart className="h-4 w-4" /> Импорт заказов
-            </CardTitle>
-            <CardDescription>Загрузка заказов из JOOR в раздел B2B заказов.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm" onClick={importOrders} disabled={ordersLoading}>
-                {ordersLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                Импорт из JOOR
-              </Button>
-              <Link href={ROUTES.brand.b2bOrders}>
-                <Button variant="ghost" size="sm">
-                  B2B заказы
-                </Button>
-              </Link>
-            </div>
-            {orders.length > 0 && (
-              <ul className="divide-y rounded-md border text-sm">
-                {orders.slice(0, 5).map((o) => (
-                  <li key={o.id} className="flex items-center justify-between px-3 py-2">
-                    <span>
-                      {o.orderNumber} — {o.partnerName ?? '—'}
-                    </span>
-                    <Badge variant="secondary">{o.status}</Badge>
-                    {o.total != null && (
-                      <span>
-                        {o.currency ?? ''} {o.total}
-                      </span>
-                    )}
-                  </li>
-                ))}
-                {orders.length > 5 && (
-                  <li className="px-3 py-2 text-slate-500">… ещё {orders.length - 5}</li>
+        <BrandSpineWholesaleImportCard
+          platform="joor"
+          archiveListLabel="Загрузить из JOOR (archive GET)"
+          onLoadArchive={importOrders}
+          archiveLoading={ordersLoading}
+          archiveCount={orders.length}
+        />
+        {orders.length > 0 ? (
+          <ul className="divide-y rounded-md border text-sm">
+            {orders.slice(0, 5).map((o) => (
+              <li key={o.id} className="flex items-center justify-between px-3 py-2">
+                <span>
+                  {o.orderNumber} — {o.partnerName ?? '—'}
+                </span>
+                <Badge variant="secondary">{o.status}</Badge>
+                {o.total != null && (
+                  <span>
+                    {o.currency ?? ''} {o.total}
+                  </span>
                 )}
-              </ul>
+              </li>
+            ))}
+            {orders.length > 5 && (
+              <li className="px-3 py-2 text-slate-500">… ещё {orders.length - 5}</li>
             )}
-          </CardContent>
-        </Card>
+          </ul>
+        ) : null}
 
         {/* Styles */}
         <Card>
@@ -388,6 +375,11 @@ export default function BrandIntegrationsJoorPage() {
         <Link href={ROUTES.brand.b2bOrders}>
           <Button variant="outline" size="sm">
             B2B заказы
+          </Button>
+        </Link>
+        <Link href={ROUTES.brand.integrationsCentric}>
+          <Button variant="ghost" size="sm">
+            Centric PLM
           </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsNuOrder}>

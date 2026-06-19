@@ -211,6 +211,20 @@ describe('workshop2 wave-k — must close', () => {
   });
 
   describe('Wave K — factory ERP error messages', () => {
+    const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+
+    beforeEach(() => {
+      delete process.env.WORKSHOP2_DATABASE_URL;
+      delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
+      clearWorkshop2FactoryErpMemoryForTests();
+      delete process.env.WORKSHOP2_FACTORY_ERP_BASE_URL;
+    });
+
+    afterEach(() => {
+      if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+      else delete process.env.WORKSHOP2_DATABASE_URL;
+    });
+
     it('not_configured when base URL unset', async () => {
       expect(resolveWorkshop2FactoryErpBaseUrl()).toBeUndefined();
       const state = await runWorkshop2FactoryErpSync({

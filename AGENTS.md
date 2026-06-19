@@ -10,6 +10,7 @@
 2. **Superpowers** — уточнение цели, план, TDD где уместно; локально см. **`tools/superpowers/`** ([obra/superpowers](https://github.com/obra/superpowers)). В IDE: **`/add-plugin superpowers`**.
 3. **MCP** — **`scripts/cursor-mcp-sync.py`** обновляет **`.cursor/mcp.json`** и **`~/.cursor/mcp.json`** (stdio + remote: Exa, Figma, Sentry, Linear, Semgrep при наличии CLI). Серверы **git** и **fetch** в конфиге вызываются через **`python3 -m mcp_server_*`** — нужны пакеты **`mcp-server-git`** и **`mcp-server-fetch`** (установка и вариант **`uvx`** — в **`docs/CURSOR_AGENT_TOOLKIT.md`**, раздел *Git / Fetch MCP*). Остальная настройка, agent-browser и OAuth для облачных MCP — там же.
 4. **Стек контекста (rules / skills / intel / артефакты)** — правило **`.cursor/rules/agent-context-stack.mdc`** (в т.ч. **§5–6**: уроки без повторов, проактивные улучшения только от канона); краткий навык **`projects-context-stack`**. Intel: **`intel.enabled`** в **`.planning/config.json`**, индекс после **`/gsd-intel refresh`** в **`.planning/intel/`** (см. **`README.md`** там). После смысловых фаз — **`/gsd-extract_learnings`**.
+5. **Платформенный стек (PostgreSQL, JWT, каталог, Firebase, платежи, AI)** — правило **`.cursor/rules/project.mdc`** (`alwaysApply: true`): канонические пути и «не изобретать параллельный стек».
 
 ## Документы
 
@@ -24,11 +25,19 @@
 
 Разработка и CI — **`_ai-share/synth-1-full`** (см. **`_ai-share/synth-1-full/AGENTS.md`**). Из корня монорепо: **`npm run smoke`** — быстрый контрактный чек (`smoke:fast` во full); **`npm run lint`** — ESLint только с ошибками (`lint:errors`); **`npm run synth-1:clean`** — очистка `.next*` и кешей во full.
 
-**Бэкенд (FastAPI, корень репо):** **`npm run test:backend`** — MVP contract (`pytest -m smoke_core`, см. **`docs/MVP_CONTRACT.md`**); **`npm run test:backend:full`** — smoke + unit как в CI. Локально: `poetry install --without ml --with dev` + `poetry run pip install aiosqlite email-validator reportlab`.
-
 **Cursor / VS Code (корень воркспейса = `Projects`):** рекомендуемые расширения — **`.vscode/extensions.json`** (после clone: **Install Recommended Extensions**). Настройки ESLint / Prettier / Tailwind привязаны к **`_ai-share/synth-1-full`** — **`.vscode/settings.json`**. Быстрые задачи без поиска по NPM-панели — **`.vscode/tasks.json`** (**Run Task** → `synth-1-full: …`). **Error Lens:** для движка VS Code **1.105.x** в Cursor ставьте VSIX **≤ 3.26.0** (см. Open VSX); **3.27+** требуют **1.107+**.
 
-**Запуск Next локально:** Node **20.x–23.x** (`_ai-share/synth-1-full/.nvmrc`). Dev: **`npm run dev:fast`** / **`npm run dev:fast:clean`**. Pre-PR dev-perf: **`npm run pre-pr:dev-perf`**. **Не параллелить** `dev:fast` и **`test:e2e:*`** — общий `.next`. Верификация: **`npm run verify:dev-perf`** (**45** layout-gate Jest-тестов + contracts). Застрял :3123 — **`npm run stop:stale-dev`**. PR: **`bash scripts/create-dev-perf-pr.sh`** (нужен `gh auth login` или compare вручную).
+**Запуск Next локально:** Node **20.x–23.x** (`_ai-share/synth-1-full/.nvmrc`). Dev: **`npm run dev:fast`** / **`npm run dev:fast:clean`**. Pre-PR dev-perf: **`npm run pre-pr:dev-perf`**. **Не параллелить** `dev:fast` и **`test:e2e:*`** — общий `.next`. Верификация: **`npm run verify:dev-perf`** (36 layout gates). Застрял :3123 — **`npm run stop:stale-dev`**. PR: **`bash scripts/create-dev-perf-pr.sh`** (нужен `gh auth login` или compare вручную).
+
+**Platform Core (:3001)** — из **корня** монорепо. Запускайте **по одной строке** (без `#` в той же строке):
+
+```bash
+npm run core:bootstrap
+npm run dev:core
+npm run core:verify
+```
+
+Статус: **`npm run core:status`**. Перезапуск core dev: **`npm run core:restart`**. Если `:5433` / `:3001` уже заняты — скрипты это распознают (не ошибка, если сервисы живы). Env: **`_ai-share/synth-1-full/env.core.example`**. Застрял порт — **`npm run stop:stale-dev`**.
 
 **Git на macOS:** если `git` пишет про Xcode license — **`sudo xcodebuild -license`**, затем **`bash scripts/commit-home-dev-optimization.sh`**. Застрял e2e dev / битый `.next`: **`npm run stop:stale-dev`** (убивает :3123) или **`SYNTHA_STOP_MAIN_DEV=1 npm run stop:stale-dev`**.
 

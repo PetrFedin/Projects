@@ -6,10 +6,12 @@ export type Workshop2RiskFormulaInput = {
   value: string;
 };
 
-export type SupplyRiskPrediction = NonNullable<SupplySnapshot['riskPrediction']> & {
-  /** Какие входы учтены (для UI «эвристика»). */
+export type SupplyRiskPrediction = {
+  predictedDays: number;
+  riskLevel: 'High' | 'Medium' | 'Low';
+  rationale: string;
+  risks: string[];
   inputsUsed?: string[];
-  /** Структурированные входы формулы (для панели плана). */
   formulaInputs?: Workshop2RiskFormulaInput[];
 };
 

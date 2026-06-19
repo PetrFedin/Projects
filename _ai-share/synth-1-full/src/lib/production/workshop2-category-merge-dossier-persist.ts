@@ -4,6 +4,7 @@
 import type { Workshop2AssemblyMergeDiff } from '@/lib/production/workshop2-article-assembler';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2CategoryMergeMirror(input: {
   categoryLeafId: string;
@@ -40,12 +41,12 @@ export function evaluateWorkshop2CategoryMergeSampleGate(
 ): Workshop2HandoffReadinessCheck | null {
   const mirror = dossier.categoryMergeMirror;
   if (!mirror) return null;
-  if (mirror.blockerSampleOrder) {
+  if (mirror.blockerSampleOrder === true) {
     return {
       id: 'category.merge.orphans',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ??
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
         'После смены категории остались сиротские атрибуты — очистите или переназначьте.',
     };
   }
@@ -58,12 +59,13 @@ export function evaluateWorkshop2CategoryMergeHandoffGate(
 ): Workshop2HandoffReadinessCheck | null {
   const mirror = dossier.categoryMergeMirror;
   if (!mirror) return null;
-  if (mirror.blockerSampleOrder) {
+  if (mirror.blockerSampleOrder === true) {
     return {
       id: 'category.merge.orphans',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'Сиротские атрибуты после смены категории — handoff commit заблокирован.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Сиротские атрибуты после смены категории — handoff commit заблокирован.',
     };
   }
   return null;

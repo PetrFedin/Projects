@@ -1,0 +1,62 @@
+---
+description: Product Switcher — fashion UI, BEM naming, a11y, video/fallback conventions
+globs: ["index.html", "styles/**", "scripts/**", "assets/**", "setup-video.sh"]
+alwaysApply: true
+---
+
+# Product Switcher — project conventions
+
+Static fashion product switcher: `index.html` + `styles/main.css` + `scripts/*.js`, GSAP 3.12.7 CDN, vanilla JS IIFE. No build step required; `npm run dev` for local serve.
+
+## Brand & visual language
+
+- **Palette**: black nav bar (`#000`), white card (`#fff`, `border-radius: 40px`), accent gold `#C4A882` (logo accent + section 1).
+- **Section colors** (`SECTION_COLORS`): `#C4A882`, `#C0C0C0`, `#D4C876` — keep in sync across switcher thumbs, fallback lerp, and nav-icon frames.
+- **Typography**: `'Suisse Intl', 'Helvetica Neue', Helvetica, Arial, sans-serif`; nav 12px uppercase; product title/price 40px / 600 / -1.2px tracking.
+- **Layout**: fixed 32px top nav; card inset 8px; central area 680×740px; bottom switcher pill (56px height, 23px radius).
+- **Logo**: inline SVG in `#brandLogo` — hook arc, mark, bar, accent; tagline "Milano · Craft" below.
+
+## BEM naming (strict)
+
+Use block__element modifiers only. Existing blocks — do not rename without reason:
+
+| Block | Elements |
+|-------|----------|
+| `top-nav` | `__group`, `__item`, `__logo`, `__logo-tagline` |
+| `card` | (container) |
+| `central-area` | video / `.fallback-color` |
+| `info-left` | `__title`, `__details`, `__dimensions`, `__more` |
+| `info-right` | `__price`, `__origin`, `__btn` |
+| `switcher` | `__thumb`, `__inner` (+ `.active` on thumb) |
+
+Logo SVG classes: `logo-hook`, `logo-mark`, `logo-mark-inner`, `logo-bar`, `logo-accent`, `logo-glow-group`.
+
+## Product switcher behavior
+
+- **3 sections** (`SECTION_COUNT = 3`): wheel scroll maps progress 0–1; thumbs jump to section midpoints `(index + 0.5) / 3`.
+- **Video mode**: set `VIDEO_SRC` in `scripts/main.js` (patched by `setup-video.sh`); requires range-request server (`npx serve .`). Python `http.server` breaks `video.currentTime` seeking.
+- **Fallback mode**: `VIDEO_SRC = null` — color lerp via `progressToColor()` on `.fallback-color`.
+- **RAF loop** (`tick`): lerp `scrollProgress → targetProgress` (factor 0.15); update active section + switcher UI.
+
+## Accessibility
+
+- Nav: `<nav aria-label="Main navigation">`.
+- Logo: `<button type="button">` with `aria-label="Brand logo — replay animation"`; replay on click, Enter, Space.
+- Switcher: `role="tablist"`; thumbs `role="tab"`, `aria-selected`, `aria-label="Variant N"`.
+- Decorative SVG/tagline: `aria-hidden="true"`.
+- `:focus-visible` on logo (white outline); prefer keyboard parity with click handlers.
+- `@media (prefers-reduced-motion: reduce)`: skip GSAP logo timeline; show final static state.
+
+## Code style
+
+- Vanilla JS in IIFE `'use strict'`; no frameworks unless explicitly requested.
+- GSAP via CDN only: `gsap@3.12.7` — pin version on change.
+- CSS in `styles/main.css`; JS split: `scripts/logo-animation.js` (GSAP logo), `scripts/main.js` (switcher/video).
+- Load order: GSAP CDN → logo-animation.js → main.js.
+- Comments in English for FFmpeg/setup blocks; user-facing copy may stay English (fashion retail tone).
+
+## Do not
+
+- Add API keys, analytics, or backend without explicit request.
+- Break wheel-scroll ↔ video/fallback sync or thumb active state.
+- Use `python -m http.server` for video testing (documented limitation).

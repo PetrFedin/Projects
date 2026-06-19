@@ -66,7 +66,7 @@ export default function ShoppableLookbookPage({
     <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bShowroom}
-        lead="Клик по товару на look'е — добавление в заказ (JOOR Shoppable Lookbook)."
+        lead="Клик по товару на look'е — добавление в оптовый заказ из лукбука."
       />
 
       <div className="mb-4 flex gap-2 overflow-x-auto">

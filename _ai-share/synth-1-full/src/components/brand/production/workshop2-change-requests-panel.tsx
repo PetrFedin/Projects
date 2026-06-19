@@ -45,7 +45,7 @@ type Props = {
   setDossier: React.Dispatch<React.SetStateAction<Workshop2DossierPhase1>>;
   tzWriteDisabled?: boolean;
   actorLabel?: string;
-  /** ÐÑÐ¸ true â PATCH Ð½Ð° ÑÐµÑÐ²ÐµÑ Ð¿Ð¾ÑÐ»Ðµ Ð»Ð¾ÐºÐ°Ð»ÑÐ½Ð¾Ð³Ð¾ merge. */
+  /** При true — PATCH на сервер после локального merge. */
   persistToServer?: boolean;
 };
 
@@ -55,7 +55,7 @@ export function Workshop2ChangeRequestsPanel({
   dossier,
   setDossier,
   tzWriteDisabled,
-  actorLabel = 'Ð¢ÐµÐºÑÑÐ¸Ð¹ Ð¿Ð¾Ð»ÑÐ·Ð¾Ð²Ð°ÑÐµÐ»Ñ',
+  actorLabel = 'Текущий пользователь',
   persistToServer = true,
 }: Props) {
   const { toast } = useToast();
@@ -69,6 +69,11 @@ export function Workshop2ChangeRequestsPanel({
   const [targetNode, setTargetNode] = useState('Material');
 
   const crPgMirror = useMemo(() => summarizeWorkshop2ChangeRequestPgMirror(dossier), [dossier]);
+
+  const normalizePriority = (
+    raw: 'Low' | 'Medium' | 'High'
+  ): NonNullable<Workshop2DossierPhase1['changeRequests']>[number]['priority'] =>
+    raw === 'High' ? 'high' : raw === 'Low' ? 'low' : 'medium';
 
   const handleCreateCr = async () => {
     if (!description.trim()) return;
@@ -84,7 +89,7 @@ export function Workshop2ChangeRequestsPanel({
       });
       if (!res.ok) {
         toast({
-          title: 'CR Ð½Ðµ ÑÐ¾Ð·Ð´Ð°Ð½',
+          title: 'CR не создан',
           description: res.reason,
           variant: 'destructive',
         });
@@ -97,10 +102,10 @@ export function Workshop2ChangeRequestsPanel({
         })
       );
       toast({
-        title: 'CR ÑÐ¾Ð·Ð´Ð°Ð½',
+        title: 'CR создан',
         description: persistToServer
-          ? 'API ok Â· mirror Ð² UI â Â«CR â PGÂ» Ð¿Ð¾Ð´ÑÐ²ÐµÑÐ¶Ð´Ð°ÐµÑ Ð·Ð°Ð¿Ð¸ÑÑ Ð² Ð´Ð¾ÑÑÐµ.'
-          : 'ÐÐ¾ÐºÐ°Ð»ÑÐ½Ð¾ â Ð±ÐµÐ· PG journal.',
+          ? 'API ok · mirror в UI — «CR → PG» подтверждает запись в досье.'
+          : 'Локально — без PG journal.',
       });
     } else {
       setDossier((prev) => ({
@@ -110,7 +115,7 @@ export function Workshop2ChangeRequestsPanel({
           {
             id: crypto.randomUUID(),
             description,
-            priority,
+            priority: normalizePriority(priority),
             targetNode,
             status: 'pending',
             requestedBy: actorLabel,
@@ -139,10 +144,10 @@ export function Workshop2ChangeRequestsPanel({
         });
         if (!res.ok) {
           toast({
-            title: 'CR Ð½Ðµ ÑÐ¾ÑÑÐ°Ð½ÑÐ½',
+            title: 'CR не сохранён',
             description:
               res.reason === 'version_conflict'
-                ? 'ÐÐ¾Ð½ÑÐ»Ð¸ÐºÑ Ð²ÐµÑÑÐ¸Ð¸ Ð´Ð¾ÑÑÐµ â Ð¾Ð±Ð½Ð¾Ð²Ð¸ÑÐµ ÑÑÑÐ°Ð½Ð¸ÑÑ.'
+                ? 'Конфликт версии досье — обновите страницу.'
                 : res.reason,
             variant: 'destructive',
           });
@@ -169,8 +174,8 @@ export function Workshop2ChangeRequestsPanel({
         });
       }
       toast({
-        title: decision === 'approved' ? 'CR Ð¾Ð´Ð¾Ð±ÑÐµÐ½' : 'CR Ð¾ÑÐºÐ»Ð¾Ð½ÑÐ½',
-        description: 'Ð ÐµÑÐµÐ½Ð¸Ðµ Ð·Ð°Ð¿Ð¸ÑÐ°Ð½Ð¾ Ð² Ð´Ð¾ÑÑÐµ Ð¸ Ð¶ÑÑÐ½Ð°Ð» Ð¢Ð.',
+        title: decision === 'approved' ? 'CR одобрен' : 'CR отклонён',
+        description: 'Решение записано в досье и журнал ТЗ.',
       });
     } finally {
       setBusyId(null);
@@ -196,7 +201,7 @@ export function Workshop2ChangeRequestsPanel({
               mirrorField: 'changeRequestMirror',
               ok: true,
             })
-          : `Mirror fail-closed â ${res.reason ?? 'offline'}`,
+          : `Mirror fail-closed — ${res.reason ?? 'offline'}`,
         variant: res.ok ? 'default' : 'destructive',
       });
     } finally {
@@ -208,7 +213,7 @@ export function Workshop2ChangeRequestsPanel({
     <div className="border-border-subtle bg-bg-surface space-y-4 rounded-xl border p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-text-primary text-sm font-semibold">
-          ÐÐ°Ð¿ÑÐ¾ÑÑ Ð½Ð° Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ (CR)
+          Запросы на изменение (CR)
         </h3>
         <div className="flex flex-wrap gap-2">
           <span data-testid="workshop2-cr-pg-chip">
@@ -217,70 +222,70 @@ export function Workshop2ChangeRequestsPanel({
           <Workshop2DossierPersistButton
             busy={crMirrorBusy}
             className="h-7 text-[10px]"
-            title="changeRequestMirror â PG"
+            title="changeRequestMirror → PG"
             onClick={() => void persistCrMirror()}
           />
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
               <Button type="button" size="sm" variant="secondary" disabled={tzWriteDisabled}>
-                Ð¡Ð¾Ð·Ð´Ð°ÑÑ CR
+                Создать CR
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>ÐÐ¾Ð²ÑÐ¹ Ð·Ð°Ð¿ÑÐ¾Ñ Ð½Ð° Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ</DialogTitle>
+                <DialogTitle>Новый запрос на изменение</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
-                  <label className="text-text-primary text-sm font-medium">ÐÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ</label>
+                  <label className="text-text-primary text-sm font-medium">Описание</label>
                   <Input
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Ð§ÑÐ¾ Ð½ÑÐ¶Ð½Ð¾ Ð¸Ð·Ð¼ÐµÐ½Ð¸ÑÑ?"
+                    placeholder="Что нужно изменить?"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-text-primary text-sm font-medium">ÐÑÐ¸Ð¾ÑÐ¸ÑÐµÑ</label>
+                  <label className="text-text-primary text-sm font-medium">Приоритет</label>
                   <Select
                     value={priority}
                     onValueChange={(v: 'Low' | 'Medium' | 'High') => setPriority(v)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="ÐÑÐ±ÐµÑÐ¸ÑÐµ Ð¿ÑÐ¸Ð¾ÑÐ¸ÑÐµÑ" />
+                      <SelectValue placeholder="Выберите приоритет" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Low">Low (ÐÐ¸Ð·ÐºÐ¸Ð¹)</SelectItem>
-                      <SelectItem value="Medium">Medium (Ð¡ÑÐµÐ´Ð½Ð¸Ð¹)</SelectItem>
-                      <SelectItem value="High">High (ÐÑÑÐ¾ÐºÐ¸Ð¹)</SelectItem>
+                      <SelectItem value="Low">Low (Низкий)</SelectItem>
+                      <SelectItem value="Medium">Medium (Средний)</SelectItem>
+                      <SelectItem value="High">High (Высокий)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
                   <label className="text-text-primary text-sm font-medium">
-                    Ð£Ð·ÐµÐ» (Target Node)
+                    Узел (Target Node)
                   </label>
                   <Select value={targetNode} onValueChange={setTargetNode}>
                     <SelectTrigger>
-                      <SelectValue placeholder="ÐÑÐ±ÐµÑÐ¸ÑÐµ ÑÐ·ÐµÐ»" />
+                      <SelectValue placeholder="Выберите узел" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Material">Material (ÐÐ°ÑÐµÑÐ¸Ð°Ð»Ñ)</SelectItem>
-                      <SelectItem value="Construction">Construction (ÐÐ¾Ð½ÑÑÑÑÐºÑÐ¸Ñ)</SelectItem>
-                      <SelectItem value="Visual">Visual (ÐÐ¸Ð·ÑÐ°Ð»)</SelectItem>
-                      <SelectItem value="Measurements">Measurements (ÐÐ·Ð¼ÐµÑÐµÐ½Ð¸Ñ)</SelectItem>
+                      <SelectItem value="Material">Material (Материалы)</SelectItem>
+                      <SelectItem value="Construction">Construction (Конструкция)</SelectItem>
+                      <SelectItem value="Visual">Visual (Визуал)</SelectItem>
+                      <SelectItem value="Measurements">Measurements (Измерения)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <DialogFooter>
                 <Button variant="secondary" onClick={() => setIsOpen(false)}>
-                  ÐÑÐ¼ÐµÐ½Ð°
+                  Отмена
                 </Button>
                 <Button
                   onClick={() => void handleCreateCr()}
                   disabled={!description.trim() || tzWriteDisabled}
                 >
-                  Ð¡Ð¾ÑÑÐ°Ð½Ð¸ÑÑ
+                  Сохранить
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -290,7 +295,7 @@ export function Workshop2ChangeRequestsPanel({
 
       {crs.length === 0 ? (
         <p className="text-text-muted text-xs">
-          ÐÐµÑ Ð°ÐºÑÐ¸Ð²Ð½ÑÑ Ð·Ð°Ð¿ÑÐ¾ÑÐ¾Ð² Ð½Ð° Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ.
+          Нет активных запросов на изменение.
         </p>
       ) : (
         <div className="space-y-2">
@@ -307,9 +312,9 @@ export function Workshop2ChangeRequestsPanel({
                     {cr.priority ? (
                       <span
                         className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                          cr.priority === 'High'
+                          cr.priority === 'high'
                             ? 'bg-red-100 text-red-800'
-                            : cr.priority === 'Medium'
+                            : cr.priority === 'medium'
                               ? 'bg-yellow-100 text-yellow-800'
                               : 'bg-green-100 text-green-800'
                         }`}
@@ -335,9 +340,9 @@ export function Workshop2ChangeRequestsPanel({
                     </span>
                   </div>
                   <p className="text-text-muted">
-                    ÐÑ: {cr.requestedBy}
-                    {cr.decidedBy ? ` Â· Ð ÐµÑÐµÐ½Ð¸Ðµ: ${cr.decidedBy}` : ''}
-                    {cr.createdAt ? ` Â· ${new Date(cr.createdAt).toLocaleString('ru-RU')}` : ''}
+                    От: {cr.requestedBy}
+                    {cr.decidedBy ? ` · Решение: ${cr.decidedBy}` : ''}
+                    {cr.createdAt ? ` · ${new Date(cr.createdAt).toLocaleString('ru-RU')}` : ''}
                   </p>
                 </div>
                 {pending && !tzWriteDisabled ? (
@@ -350,7 +355,7 @@ export function Workshop2ChangeRequestsPanel({
                       disabled={busyId === cr.id}
                       onClick={() => void applyDecision(cr.id, 'rejected')}
                     >
-                      ÐÑÐºÐ»Ð¾Ð½Ð¸ÑÑ
+                      Отклонить
                     </Button>
                     <Button
                       type="button"
@@ -359,7 +364,7 @@ export function Workshop2ChangeRequestsPanel({
                       disabled={busyId === cr.id}
                       onClick={() => void applyDecision(cr.id, 'approved')}
                     >
-                      ÐÐ´Ð¾Ð±ÑÐ¸ÑÑ
+                      Одобрить
                     </Button>
                   </div>
                 ) : null}

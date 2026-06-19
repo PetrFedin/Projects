@@ -32,10 +32,34 @@ class OrchestratorAgent:
         }
 
     async def run(self, task_description: str, context: Optional[Dict] = None) -> AgentResult:
+        ctx = context or {}
+        from app.agents.stack_routing import agents_for_platform_context, pick_agent_for_task
+
+        platform_agents = agents_for_platform_context(
+            pillar=ctx.get("pillar"),
+            role=ctx.get("role"),
+            section_id=ctx.get("section_id"),
+        )
+        if platform_agents:
+            logger.info(
+                "Platform stack agents for pillar=%s role=%s section=%s: %s",
+                ctx.get("pillar"),
+                ctx.get("role"),
+                ctx.get("section_id"),
+                platform_agents,
+            )
+            preferred = pick_agent_for_task(
+                task_description,
+                pillar=ctx.get("pillar"),
+                role=ctx.get("role"),
+                section_id=ctx.get("section_id"),
+            )
+            ctx = {**ctx, "platform_agent_hint": preferred, "platform_agents": platform_agents}
+
         task_type = self._classify_task(task_description)
         logger.info(f"Orchestrator [Task: {task_description}] -> Task Type: {task_type}")
         agent = self.agents.get(task_type, docs_agent)
-        return await agent.run(task_description, context=context)
+        return await agent.run(task_description, context=ctx)
 
     def _classify_task(self, task: str) -> str:
         t_low = task.lower()

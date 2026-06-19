@@ -6,7 +6,17 @@ import path from 'node:path';
 import { ensureWorkshop2PgSchema } from '@/lib/server/workshop2-dossier-repository';
 import { getWorkshop2PgPool, isWorkshop2PostgresEnabled } from '@/lib/server/workshop2-pg-pool';
 import { parseWorkshop2ContextualMentions } from '@/lib/production/workshop2-contextual-chat-utils';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 import { shouldWorkshop2PgOnlySkipFileFallback } from '@/lib/production/workshop2-hub-pg-only-policy';
+import { shouldWorkshop2PersistAuxiliaryJsonToFile } from '@/lib/server/platform-core-pg-primary-file-policy';
+import { isPlatformCoreSpinePgPrimary } from '@/lib/server/platform-core-spine-pg.server';
+import {
+  resolveContextualMessageSender,
+  WORKSHOP2_CONTEXTUAL_SYSTEM_SENDER,
+} from '@/lib/server/workshop2-contextual-message-sender';
+import {
+  getWorkshop2RealtimeHub,
+} from '@/lib/server/workshop2-realtime-hub';
 
 export type Workshop2ContextualMessageRecord = {
   id: string;
@@ -23,36 +33,61 @@ export type Workshop2ContextualMessageRecord = {
   attachmentName?: string;
 };
 
-const memoryStore: Workshop2ContextualMessageRecord[] = [];
 const STORE_FILE = path.join(process.cwd(), 'data', 'workshop2-contextual-messages.json');
-let fileHydrated = false;
 
-function canUseDiskPersistence(): boolean {
-  return process.env.NODE_ENV !== 'test';
+/** Только NODE_ENV=test — без in-process store в runtime (file или PG). */
+let testFallbackStore: Workshop2ContextualMessageRecord[] | null = null;
+
+function contextualFallbackBlocked(): boolean {
+  if (shouldWorkshop2PgOnlySkipFileFallback() || isPlatformCoreSpinePgPrimary()) return true;
+  return isPlatformCoreMode() && process.env.PLATFORM_CORE_SPINE_PG_PRIMARY !== '0';
 }
 
-function hydrateFileIfNeeded(): void {
-  if (fileHydrated) return;
-  fileHydrated = true;
-  if (!canUseDiskPersistence()) return;
+function useContextualPostgresStore(): boolean {
+  return isWorkshop2PostgresEnabled();
+}
+
+function canUseDiskPersistence(): boolean {
+  return (
+    process.env.NODE_ENV !== 'test' &&
+    !useContextualPostgresStore() &&
+    shouldWorkshop2PersistAuxiliaryJsonToFile()
+  );
+}
+
+function readFallbackMessages(): Workshop2ContextualMessageRecord[] {
+  if (process.env.NODE_ENV === 'test') {
+    return testFallbackStore ?? [];
+  }
+  if (!canUseDiskPersistence()) return [];
   try {
-    if (!fs.existsSync(STORE_FILE)) return;
+    if (!fs.existsSync(STORE_FILE)) return [];
     const raw = fs.readFileSync(STORE_FILE, 'utf8');
     const parsed = JSON.parse(raw) as Workshop2ContextualMessageRecord[];
-    if (Array.isArray(parsed)) memoryStore.push(...parsed);
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    /* best-effort */
+    return [];
   }
 }
 
-function flushFile(): void {
+function writeFallbackMessages(records: Workshop2ContextualMessageRecord[]): void {
+  if (process.env.NODE_ENV === 'test') {
+    testFallbackStore = records;
+    return;
+  }
   if (!canUseDiskPersistence()) return;
   try {
     fs.mkdirSync(path.dirname(STORE_FILE), { recursive: true });
-    fs.writeFileSync(STORE_FILE, JSON.stringify(memoryStore, null, 2), 'utf8');
+    fs.writeFileSync(STORE_FILE, JSON.stringify(records, null, 2), 'utf8');
   } catch {
     /* best-effort */
   }
+}
+
+function appendFallbackMessage(record: Workshop2ContextualMessageRecord): void {
+  const rows = readFallbackMessages();
+  rows.push(record);
+  writeFallbackMessages(rows);
 }
 
 function newMessageId(): string {
@@ -69,21 +104,24 @@ export async function listWorkshop2ContextualMessages(input: {
   contextType: string;
   contextId: string;
   organizationId?: string;
+  limit?: number;
 }): Promise<Workshop2ContextualMessageRecord[]> {
   const contextType = input.contextType.trim();
   const contextId = input.contextId.trim();
 
   if (!isWorkshop2PostgresEnabled()) {
-    if (shouldWorkshop2PgOnlySkipFileFallback()) return [];
-    hydrateFileIfNeeded();
-    return memoryStore
+    if (contextualFallbackBlocked()) return [];
+    const rows = readFallbackMessages()
       .filter((m) => m.contextType === contextType && m.contextId === contextId)
       .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
       .map(enrichContextualMessageRecord);
+    const cap = input.limit;
+    return cap != null && cap > 0 ? rows.slice(-cap) : rows;
   }
 
   await ensureWorkshop2PgSchema();
   const org = input.organizationId ?? 'org-brand-001';
+  const limit = input.limit != null && input.limit > 0 ? Math.floor(input.limit) : null;
   const res = await getWorkshop2PgPool().query<{
     id: string;
     context_type: string;
@@ -93,11 +131,17 @@ export async function listWorkshop2ContextualMessages(input: {
     is_system: boolean;
     created_at: Date;
   }>(
-    `SELECT id, context_type, context_id, message, sender, is_system, created_at
+    limit
+      ? `SELECT id, context_type, context_id, message, sender, is_system, created_at
+     FROM workshop2_contextual_messages
+     WHERE organization_id = $1 AND context_type = $2 AND context_id = $3
+     ORDER BY created_at ASC
+     LIMIT $4`
+      : `SELECT id, context_type, context_id, message, sender, is_system, created_at
      FROM workshop2_contextual_messages
      WHERE organization_id = $1 AND context_type = $2 AND context_id = $3
      ORDER BY created_at ASC`,
-    [org, contextType, contextId]
+    limit ? [org, contextType, contextId, limit] : [org, contextType, contextId]
   );
   return res.rows.map((r) =>
     enrichContextualMessageRecord({
@@ -154,6 +198,7 @@ export async function appendWorkshop2ContextualMessage(input: {
   organizationId?: string;
   attachmentUrl?: string;
   attachmentName?: string;
+  headers?: Headers | { get(name: string): string | null };
 }): Promise<Workshop2ContextualMessageRecord> {
   const mentions = parseWorkshop2ContextualMentions(input.message);
   const body = formatMessageWithAttachment(
@@ -166,7 +211,10 @@ export async function appendWorkshop2ContextualMessage(input: {
     contextType: input.contextType.trim(),
     contextId: input.contextId.trim(),
     message: body,
-    sender: input.sender?.trim() || 'Current User',
+    sender: resolveContextualMessageSender({
+      sender: input.sender,
+      headers: input.headers,
+    }),
     isSystem: input.isSystem ?? false,
     createdAt: new Date().toISOString(),
     mentions: mentions.length ? mentions : undefined,
@@ -175,12 +223,11 @@ export async function appendWorkshop2ContextualMessage(input: {
   };
 
   if (!isWorkshop2PostgresEnabled()) {
-    if (shouldWorkshop2PgOnlySkipFileFallback()) {
-      throw new Error('WORKSHOP2_PG_ONLY: contextual messages require PostgreSQL');
+    if (contextualFallbackBlocked()) {
+      throw new Error('Platform Core spine: contextual messages require PostgreSQL');
     }
-    hydrateFileIfNeeded();
-    memoryStore.push(record);
-    flushFile();
+    appendFallbackMessage(record);
+    publishContextualRealtime(record);
     return record;
   }
 
@@ -201,7 +248,28 @@ export async function appendWorkshop2ContextualMessage(input: {
       record.createdAt,
     ]
   );
+  publishContextualRealtime(record);
   return record;
+}
+
+function publishContextualRealtime(record: Workshop2ContextualMessageRecord): void {
+  getWorkshop2RealtimeHub().publishContextualMessageAppended({
+    contextType: record.contextType,
+    contextId: record.contextId,
+    messageId: record.id,
+    sender: record.sender,
+    createdAt: record.createdAt,
+  });
+  void import('@/lib/server/platform-core-b2b-registry-hub')
+    .then(({ bumpPlatformCoreB2bRegistry }) => {
+      bumpPlatformCoreB2bRegistry('contextual_message');
+    })
+    .catch(() => {});
+  void import('@/lib/server/platform-core-comms-inbox-hub')
+    .then(({ bumpPlatformCoreCommsInbox }) => {
+      bumpPlatformCoreCommsInbox('contextual_message');
+    })
+    .catch(() => {});
 }
 
 export async function appendWorkshop2ContextualSystemMessage(input: {
@@ -212,14 +280,13 @@ export async function appendWorkshop2ContextualSystemMessage(input: {
 }): Promise<Workshop2ContextualMessageRecord> {
   return appendWorkshop2ContextualMessage({
     ...input,
-    sender: 'Система',
+    sender: WORKSHOP2_CONTEXTUAL_SYSTEM_SENDER,
     isSystem: true,
   });
 }
 
 export function clearWorkshop2ContextualMessagesMemoryForTests(): void {
-  memoryStore.length = 0;
-  fileHydrated = false;
+  testFallbackStore = [];
 }
 
 export function isWorkshop2ContextualChatPersistConfigured(): boolean {
@@ -270,18 +337,20 @@ function summarizeThreadFromMessages(
 export async function listWorkshop2ContextualMessageThreads(input?: {
   organizationId?: string;
   contextType?: string;
+  contextId?: string;
   limit?: number;
 }): Promise<Workshop2ContextualMessageThreadSummary[]> {
   const limit = Math.min(Math.max(input?.limit ?? 40, 1), 200);
   const contextTypeFilter = input?.contextType?.trim();
+  const contextIdFilter = input?.contextId?.trim();
   const org = input?.organizationId ?? 'org-brand-001';
 
   if (!isWorkshop2PostgresEnabled()) {
-    if (shouldWorkshop2PgOnlySkipFileFallback()) return [];
-    hydrateFileIfNeeded();
+    if (contextualFallbackBlocked()) return [];
     const grouped = new Map<string, Workshop2ContextualMessageRecord[]>();
-    for (const m of memoryStore) {
+    for (const m of readFallbackMessages()) {
       if (contextTypeFilter && m.contextType !== contextTypeFilter) continue;
+      if (contextIdFilter && m.contextId !== contextIdFilter) continue;
       const key = `${m.contextType}::${m.contextId}`;
       const arr = grouped.get(key) ?? [];
       arr.push(m);
@@ -298,10 +367,14 @@ export async function listWorkshop2ContextualMessageThreads(input?: {
 
   await ensureWorkshop2PgSchema();
   const params: unknown[] = [org];
-  let typeClause = '';
+  let filterClause = '';
   if (contextTypeFilter) {
     params.push(contextTypeFilter);
-    typeClause = ` AND context_type = $${params.length}`;
+    filterClause += ` AND context_type = $${params.length}`;
+  }
+  if (contextIdFilter) {
+    params.push(contextIdFilter);
+    filterClause += ` AND context_id = $${params.length}`;
   }
   params.push(limit);
   const res = await getWorkshop2PgPool().query<{
@@ -316,7 +389,7 @@ export async function listWorkshop2ContextualMessageThreads(input?: {
             MAX(created_at) AS last_message_at,
             (ARRAY_AGG(message ORDER BY created_at DESC))[1] AS last_message
      FROM workshop2_contextual_messages
-     WHERE organization_id = $1${typeClause}
+     WHERE organization_id = $1${filterClause}
      GROUP BY context_type, context_id
      ORDER BY MAX(created_at) DESC
      LIMIT $${params.length}`,

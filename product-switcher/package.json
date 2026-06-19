@@ -1,0 +1,24 @@
+{
+  "name": "product-switcher",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fashion product switcher — static HTML + GSAP",
+  "scripts": {
+    "dev": "npx serve . -l 8765",
+    "start": "npx serve . -l 8765",
+    "serve": "npx serve . -l 8765",
+    "setup-video": "bash setup-video.sh",
+    "format": "prettier --write index.html styles/**/*.css scripts/**/*.js",
+    "lint:html": "htmlhint index.html",
+    "lint": "npm run lint:html",
+    "verify": "npm run lint && npm run format -- --check"
+  },
+  "devDependencies": {
+    "htmlhint": "^1.1.4",
+    "prettier": "^3.5.3",
+    "serve": "^14.2.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

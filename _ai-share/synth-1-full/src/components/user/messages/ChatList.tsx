@@ -18,6 +18,10 @@ interface ChatListProps {
   unreadCountByChat: Record<ID, number>;
   typingUsers: Record<ID, string[]>;
   currentUser: string;
+  slimCore?: boolean;
+  threadSearchTestId?: string;
+  className?: string;
+  listTestId?: string;
 }
 
 export const ChatList: React.FC<ChatListProps> = ({
@@ -30,17 +34,31 @@ export const ChatList: React.FC<ChatListProps> = ({
   unreadCountByChat,
   typingUsers,
   currentUser,
+  slimCore = false,
+  threadSearchTestId,
+  className,
+  listTestId,
 }) => {
   return (
-    <aside className="flex w-64 shrink-0 flex-col gap-3 overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition-all">
+    <aside
+      className={cn(
+        'flex shrink-0 flex-col gap-2 overflow-hidden border border-slate-100 bg-white shadow-sm transition-all',
+        slimCore ? 'w-52 rounded-lg p-2' : 'w-64 gap-3 rounded-2xl p-4',
+        className
+      )}
+      data-testid={listTestId}
+    >
       <div className="flex items-center justify-between px-1">
         <h3 className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">
-          Conversations
+          {slimCore ? 'Треды' : 'Conversations'}
         </h3>
         <Button
           size="icon"
           variant="ghost"
-          className="h-7 w-7 rounded-lg border border-slate-100 bg-slate-50 text-indigo-600 shadow-sm transition-all hover:bg-slate-900 hover:text-white"
+          className={cn(
+            'rounded-lg border border-slate-100 bg-slate-50 text-indigo-600 shadow-sm transition-all hover:bg-slate-900 hover:text-white',
+            slimCore ? 'h-9 min-h-11 w-9 min-w-11' : 'h-7 w-7'
+          )}
           onClick={onOpenCreateChat}
         >
           <Plus className="h-4 w-4" />
@@ -50,10 +68,15 @@ export const ChatList: React.FC<ChatListProps> = ({
       <div className="group relative">
         <Search className="absolute left-2.5 top-1/2 h-3 w-3 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-indigo-600" />
         <Input
-          className="h-8 rounded-lg border-transparent bg-slate-100 pl-8 text-[10px] font-bold shadow-inner transition-all placeholder:text-slate-400 focus:border-indigo-100 focus:bg-white"
-          placeholder="ПОИСК КОНТАКТОВ…"
+          data-testid={threadSearchTestId}
+          className={cn(
+            'rounded-lg border-transparent bg-slate-100 pl-8 text-[10px] font-bold shadow-inner transition-all placeholder:text-slate-400 focus:border-indigo-100 focus:bg-white',
+            slimCore ? 'h-11 min-h-11 text-xs' : 'h-8'
+          )}
+          placeholder={slimCore ? 'Поиск тредов…' : 'ПОИСК КОНТАКТОВ…'}
           value={chatQuery}
           onChange={(e) => setChatQuery(e.target.value)}
+          aria-label={slimCore ? 'Поиск тредов' : 'Поиск контактов'}
         />
       </div>
 
@@ -80,8 +103,11 @@ export const ChatList: React.FC<ChatListProps> = ({
                 className="group/chat-item relative w-full overflow-hidden transition-all"
               >
                 <button
+                  type="button"
+                  data-testid={slimCore ? 'platform-core-comms-thread-item' : undefined}
                   className={cn(
                     'relative flex w-full min-w-0 items-center gap-3 rounded-xl border p-2.5 text-left transition-all',
+                    slimCore && 'min-h-11',
                     isActive
                       ? 'border-indigo-100 bg-indigo-50 shadow-sm'
                       : 'border-transparent bg-transparent hover:bg-slate-50'
@@ -89,7 +115,12 @@ export const ChatList: React.FC<ChatListProps> = ({
                   onClick={() => onSwitchChat(c.id)}
                 >
                   <div className="relative shrink-0">
-                    <Avatar className="h-9 w-9 border-2 border-white shadow-sm ring-1 ring-slate-100">
+                    <Avatar
+                      className={cn(
+                        'border-2 border-white shadow-sm ring-1 ring-slate-100',
+                        slimCore ? 'h-7 w-7' : 'h-9 w-9'
+                      )}
+                    >
                       <AvatarFallback className="bg-slate-100 text-[10px] font-bold uppercase text-slate-400">
                         {c.title[0]}
                       </AvatarFallback>

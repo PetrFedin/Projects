@@ -27,7 +27,7 @@ export type Workshop2RefsLoadState = 'idle' | 'loading' | 'ready' | 'error';
 
 function staticColors(): Workshop2RefColorDto[] {
   return getWorkshop2ColorMasterPalette().map((c) => ({
-    code: c.code,
+    code: c.code ?? c.hex,
     name: c.name,
     hex: c.hex,
     ...(c.pantone ? { pantone: c.pantone } : {}),

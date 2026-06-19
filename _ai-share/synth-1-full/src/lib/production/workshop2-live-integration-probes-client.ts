@@ -25,6 +25,9 @@ export type Workshop2IntegrationProbesResponse = {
     ceilingsBelow9: number;
     noteRu: string;
   };
+  wave2Horizontal?: ReturnType<
+    typeof import('@/lib/production/workshop2-live-integration-probes-env').buildWorkshop2Wave2HorizontalProbes
+  >;
   wave4Horizontal?: ReturnType<
     typeof import('@/lib/production/workshop2-live-integration-probes').buildWorkshop2Wave4HorizontalProbes
   >;

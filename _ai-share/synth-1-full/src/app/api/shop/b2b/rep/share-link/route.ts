@@ -7,8 +7,12 @@ import {
   formatWorkshop2B2bCampaignId,
 } from '@/lib/production/workshop2-b2b-wave22-parity';
 import { issueWorkshop2B2bRepShareToken } from '@/lib/server/workshop2-b2b-wishlist-repository';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 
 export async function GET(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   const campaignIdParam = req.nextUrl.searchParams.get('campaignId')?.trim();
   const collectionId = req.nextUrl.searchParams.get('collectionId')?.trim();
   const articleId = req.nextUrl.searchParams.get('articleId')?.trim();

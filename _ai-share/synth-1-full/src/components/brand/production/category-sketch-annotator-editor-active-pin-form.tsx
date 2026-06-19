@@ -763,7 +763,6 @@ export function CategorySketchAnnotatorEditorActivePinForm({
         onReplaceComments={(next) =>
           updateAnnotation(activeAnn.annotationId, { sketchPinComments: next })
         }
-        threadVariant="compact"
       />
       {activePinAuditTrail.length > 0 ? (
         <div className="rounded border border-zinc-200 bg-zinc-50 px-2 py-1.5 text-[10px] text-zinc-700">

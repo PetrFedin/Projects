@@ -49,10 +49,10 @@ export function Workshop2ReleaseRouteNestingChip({
         collectionId,
         articleId: articleUrlSegment,
         orderId: activeOrder.id,
-        patch: { nestingRequest: nextNesting },
+        nestingRequest: nextNesting,
       });
-      if (res.ok && res.order) {
-        onOrderUpdated?.(res.order);
+      if (res) {
+        onOrderUpdated?.(res);
         toast({
           title: 'Nesting request',
           description: nestingLive
@@ -62,7 +62,7 @@ export function Workshop2ReleaseRouteNestingChip({
       } else {
         toast({
           title: 'Nesting request',
-          description: res.messageRu ?? 'Не удалось сохранить заявку.',
+          description: 'Не удалось сохранить заявку.',
           variant: 'destructive',
         });
       }

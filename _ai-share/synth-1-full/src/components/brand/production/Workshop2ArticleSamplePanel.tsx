@@ -40,7 +40,9 @@ import { summarizeWorkshop2SampleOrderStatus } from '@/lib/production/workshop2-
 import {
   evaluateWorkshop2FloorMesReverseSyncBlocked,
   summarizeWorkshop2FloorMesChip,
+  type Workshop2FloorMesPollState,
 } from '@/lib/production/workshop2-floor-mes';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import { Workshop2GateChecksBlock } from '@/components/brand/production/Workshop2GateChecksBlock';
 import type { Workshop2ApiGateCheck } from '@/lib/production/workshop2-api-gate-messages';
 import { workshop2RuMarkingSampleOrderHintRu } from '@/lib/production/workshop2-marking-sample-order-gate';
@@ -277,10 +279,17 @@ export function Workshop2ArticleSamplePanel({
 
   const floorMesChip = useMemo(() => {
     const mirror = dossier?.floorBridgeMirror;
+    const pollRaw =
+      workshop2PgMirrorStr(mirror, 'floorMesPollState') ||
+      String(mirror?.floorMesPollState ?? '');
+    const pollState = (pollRaw || 'fail_closed') as Workshop2FloorMesPollState;
+    const lastPollAt =
+      workshop2PgMirrorStr(mirror, 'floorMesLastPollAt') ||
+      (typeof mirror?.floorMesLastPollAt === 'string' ? mirror.floorMesLastPollAt : undefined);
     return summarizeWorkshop2FloorMesChip({
       configured: Boolean(mirror?.floorMesConfigured),
-      pollState: mirror?.floorMesPollState ?? 'fail_closed',
-      lastPollAt: mirror?.floorMesLastPollAt,
+      pollState,
+      lastPollAt,
     });
   }, [dossier?.floorBridgeMirror]);
 

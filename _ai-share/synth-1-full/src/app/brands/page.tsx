@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import BrandCard from '@/components/brand-card';
 import BrandListItem from '@/components/brand-list-item';
 import { brands } from '@/lib/placeholder-data';
@@ -58,6 +59,8 @@ export default function BrandsPage() {
     viewRole,
     setViewRole,
   } = useUIState();
+  const pathname = usePathname() ?? '';
+  const platformCorePartnersSlim = pathname.startsWith('/platform/b2b/partners');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
   const [activeFilterGroup, setActiveFilterGroup] = useState<string | null>(null);
@@ -233,7 +236,15 @@ export default function BrandsPage() {
   ]);
 
   return (
-    <div className="bg-bg-canvas group/section relative min-h-screen overflow-hidden">
+    <div
+      className={cn(
+        'group/section relative',
+        platformCorePartnersSlim ? 'min-h-0 bg-transparent' : 'bg-bg-canvas min-h-screen overflow-hidden'
+      )}
+      data-testid={platformCorePartnersSlim ? 'platform-core-b2b-partners-directory' : undefined}
+    >
+      {!platformCorePartnersSlim ? (
+        <>
       {/* OS Background Elements */}
       <div className="os-grid-bg pointer-events-none absolute inset-0 opacity-40" />
       <div className="os-calibration-grid pointer-events-none absolute inset-0 opacity-[0.03]" />
@@ -266,7 +277,11 @@ export default function BrandsPage() {
           </div>
         </div>
       </div>
+        </>
+      ) : null}
 
+      {!platformCorePartnersSlim ? (
+        <>
       {/* Decorative OS elements */}
       <div className="os-side-tab group-hover/section:opacity-20">DIRECTORY_BRANDS</div>
       <div className="os-kernel-overlay flex items-center gap-3">
@@ -276,9 +291,16 @@ export default function BrandsPage() {
         </div>
         <div className="os-hex-chip">0xBRND</div>
       </div>
+        </>
+      ) : null}
 
-      <div className="container relative z-10 max-w-[1600px] space-y-6 py-12">
-        {viewRole === 'b2b' && <B2BPartnershipDiscovery />}
+      <div
+        className={cn(
+          'container relative z-10 max-w-[1600px] space-y-6',
+          platformCorePartnersSlim ? 'px-4 py-4' : 'py-12'
+        )}
+      >
+        {viewRole === 'b2b' && !platformCorePartnersSlim ? <B2BPartnershipDiscovery /> : null}
 
         {/* Header Section */}
         <div className="border-border-default flex flex-col gap-3 border-b pb-8 md:flex-row md:items-end md:justify-between">
@@ -288,12 +310,14 @@ export default function BrandsPage() {
                 <Store className="relative z-10 h-5 w-5 text-white" />
                 <div className="from-accent-primary to-accent-hover absolute inset-0 bg-gradient-to-tr opacity-0 transition-opacity group-hover:opacity-100" />
               </div>
-              <Badge
-                variant="outline"
-                className="border-border-strong bg-bg-surface/50 text-text-primary px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest"
-              >
-                {viewRole === 'b2b' ? 'PARTNERS_b2b' : 'PARTNERS_b2c'}
-              </Badge>
+              {!platformCorePartnersSlim ? (
+                <Badge
+                  variant="outline"
+                  className="border-border-strong bg-bg-surface/50 text-text-primary px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest"
+                >
+                  {viewRole === 'b2b' ? 'Партнёры' : 'Бренды'}
+                </Badge>
+              ) : null}
             </div>
 
             <div className="space-y-1">

@@ -199,7 +199,7 @@ describe('workshop2 wave11 — contextual threads aggregate', () => {
     clearWorkshop2ContextualMessagesMemoryForTests();
   });
 
-  it('groups threads in memory store', async () => {
+  it('groups threads in file-fallback store', async () => {
     await appendWorkshop2ContextualMessage({
       contextType: 'workshop2_article',
       contextId: 'SS27:demo-ss27-01',

@@ -87,13 +87,13 @@ export const manufacturerNavGroups = [
     clusterId: 'syntha-cores' as const,
     links: [
       {
-        href: ROUTES.brand.factories,
+        href: ROUTES.factory.production,
         value: 'factories',
         label: 'Партнёры и сеть',
         icon: Factory,
-        description: 'Фабрики и субподряд — одна колонка ядра.',
+        description: 'Очередь цеха и субподряд — без реестра бренда.',
         subsections: [
-          { href: ROUTES.brand.factories, label: 'Фабрики', value: 'factories-list' },
+          { href: ROUTES.factory.production, label: 'Очередь цеха', value: 'factories-list' },
           {
             href: ROUTES.brand.productionSubcontractor,
             label: 'Субподряд',

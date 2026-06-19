@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 import { readJsonBody } from '@/lib/http/read-json-body';
 import { getLiveProcessDefinition } from '@/lib/live-process/process-definitions';
 import { getTemplateById } from '@/lib/live-process/process-templates';
-import { getStoredDefinition, upsertDefinition } from '@/lib/server/process-workflow-store';
+import { getStoredDefinitionAsync, upsertDefinitionAsync } from '@/lib/server/process-workflow-store';
 import type { LiveProcessDefinition } from '@/lib/live-process/types';
 
 export const runtime = 'nodejs';
@@ -17,7 +17,7 @@ export async function GET(
   const { processId } = await params;
 
   try {
-    const stored = getStoredDefinition(processId);
+    const stored = await getStoredDefinitionAsync(processId);
     let process: LiveProcessDefinition | null = stored ?? null;
     if (!process) {
       process = getLiveProcessDefinition(processId);
@@ -44,7 +44,7 @@ export async function PUT(
   try {
     const body = await readJsonBody<Partial<LiveProcessDefinition> & { id?: string }>(request);
     const existing =
-      getStoredDefinition(processId) ??
+      (await getStoredDefinitionAsync(processId)) ??
       getLiveProcessDefinition(processId) ??
       getTemplateById(processId);
     const merged: LiveProcessDefinition = {
@@ -56,7 +56,7 @@ export async function PUT(
       meta: { ...existing?.meta, ...body.meta },
       processLinks: body.processLinks ?? existing?.processLinks,
     };
-    upsertDefinition(merged);
+    await upsertDefinitionAsync(merged);
     return NextResponse.json(merged);
   } catch (e) {
     console.error('PUT /api/processes/[processId]:', e);

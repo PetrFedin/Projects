@@ -4,6 +4,10 @@
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
+import {
   countCadVaultMetadataMeasures,
   extractCadMeasuresFromVaultMetadata,
   isCadVaultDocument,
@@ -86,19 +90,22 @@ export function evaluateWorkshop2CadVaultLinkSampleGate(
       messageRu: 'CAD vault audit не в досье — откройте конструкцию после загрузки Vault CAD.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  if (mirror.blockerSampleOrder === true) {
     return {
       id: 'cad.vault.demo_only',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'CAD не подтвержён в Vault — заказ образца заблокирован до cad-ingest.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'CAD не подтверждён в Vault — заказ образца заблокирован до cad-ingest.',
     };
   }
-  if (!mirror.vaultReady && mirror.vaultCadCount > 0) {
+  const vaultCadCount = workshop2PgMirrorNum(mirror, 'vaultCadCount');
+  if (mirror.vaultReady !== true && vaultCadCount > 0) {
     return {
       id: 'cad.vault.measures_low',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Vault CAD без полного набора measures.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') || 'Vault CAD без полного набора measures.',
     };
   }
   return null;
@@ -115,12 +122,13 @@ export function evaluateWorkshop2CadVaultLinkHandoffGate(
       messageRu: 'CAD vault audit не в досье — обновите перед handoff.',
     };
   }
-  if (mirror.blockerHandoff) {
+  if (mirror.blockerHandoff === true) {
     return {
       id: 'cad.vault.demo_only_handoff',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'CAD demo-only — handoff commit заблокирован до Vault cad-ingest.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'CAD demo-only — handoff commit заблокирован до Vault cad-ingest.',
     };
   }
   return null;
@@ -138,11 +146,12 @@ export function evaluateWorkshop2CadVaultLinkExportGate(
       messageRu: 'ZIP ТЗ: CAD vault audit не в досье.',
     };
   }
-  if (mirror.proprietaryDemoOnly || mirror.cadIngestPath === 'demo_zprj') {
+  if (mirror.proprietaryDemoOnly === true || mirror.cadIngestPath === 'demo_zprj') {
     return {
       id: 'cad.vault.export_demo_only',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'ZIP ТЗ: CAD demo-only заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') || 'ZIP ТЗ: CAD demo-only заблокирован.',
     };
   }
   return null;

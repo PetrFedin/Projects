@@ -5,6 +5,7 @@
 import {
   clampCompareIndices,
   parseCompareParam,
+  parseKioskAutoadvanceMs,
   parseKioskFromUrl,
   resolveKioskMode,
 } from '@/lib/runway/runway-mode-utils';
@@ -23,6 +24,12 @@ describe('runway-mode-utils', () => {
     expect(resolveKioskMode({ kioskParam: '1' })).toBe(true);
     expect(resolveKioskMode({ enableKioskMode: true })).toBe(true);
     expect(resolveKioskMode({ kioskParam: null, enableKioskMode: false })).toBe(false);
+  });
+
+  it('parseKioskAutoadvanceMs converts ?autoadvance seconds to ms', () => {
+    expect(parseKioskAutoadvanceMs('30', 12000)).toBe(30000);
+    expect(parseKioskAutoadvanceMs(null, 12000)).toBe(12000);
+    expect(parseKioskAutoadvanceMs('bad', 12000)).toBe(12000);
   });
 
   it('parseCompareParam parses valid pairs', () => {

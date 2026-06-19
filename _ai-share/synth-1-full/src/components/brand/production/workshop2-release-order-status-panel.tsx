@@ -18,6 +18,7 @@ import { summarizeWorkshop2SampleOrderStatus } from '@/lib/production/workshop2-
 import { getNextWorkshop2SampleOrderStatus } from '@/lib/production/workshop2-sample-order-transitions';
 import { emptyWorkshop2DossierPhase1 } from '@/lib/production/workshop2-phase1-dossier-storage';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import { workshop2ContextToProductionFloorFromSampleOrder } from '@/lib/production/workshop2-floor-bridge';
 import { workshop2ArticleHref, W2_ARTICLE_SECTION_DOM } from '@/lib/production/workshop2-url';
 import { useToast } from '@/hooks/use-toast';
@@ -207,10 +208,10 @@ export function Workshop2ReleaseOrderStatusPanel({
 
       {dossier?.sseRealtimeMirror ? (
         <p className="text-text-muted text-[10px]" data-testid="workshop2-release-order-sse-mirror">
-          Realtime: {dossier.sseRealtimeMirror.transport}
-          {dossier.sseRealtimeMirror.transport === 'sse'
+          Realtime: {workshop2PgMirrorStr(dossier.sseRealtimeMirror, 'transport')}
+          {workshop2PgMirrorStr(dossier.sseRealtimeMirror, 'transport') === 'sse'
             ? ' · обновление без 30 с poll'
-            : dossier.sseRealtimeMirror.transport === 'polling'
+            : workshop2PgMirrorStr(dossier.sseRealtimeMirror, 'transport') === 'polling'
               ? ' · polling fallback'
               : ''}
         </p>

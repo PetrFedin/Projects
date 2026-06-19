@@ -179,6 +179,7 @@ export function Workshop2CompositionLabelConstructorPanel({
             <Textarea
               className="min-h-[52px] text-xs"
               disabled={ro}
+              data-testid="workshop2-dossier-composition-care-supplement"
               value={s.careInstructionsSupplement ?? ''}
               onChange={(e) =>
                 onChange(patchSpec(s, { careInstructionsSupplement: e.target.value }))
@@ -474,6 +475,7 @@ export function Workshop2CompositionLabelConstructorPanel({
                 <Textarea
                   className="min-h-[88px] font-mono text-xs leading-snug"
                   disabled={ro}
+                  data-testid="workshop2-dossier-composition-draft-manual"
                   value={s.draftTextManual ?? ''}
                   onChange={(e) => onChange(patchSpec(s, { draftTextManual: e.target.value }))}
                   placeholder="Пусто — авто из ТЗ. Заполнение вручную заменяет строки; на макете строки можно править кликом."

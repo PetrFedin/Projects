@@ -4,6 +4,10 @@
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { resolveWorkshop2GradingSizesFromDossier } from '@/lib/production/workshop2-grading-apply';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2GradingStatus = {
   ruleCount: number;
@@ -77,28 +81,36 @@ export function summarizeWorkshop2GradingPanelDisplayFromMirror(input: {
   const mirror = input.dossier.gradingApplyMirror;
   const mirrorBlockers: string[] = [];
 
-  if (mirror?.blockerExport) {
+  if (mirror?.blockerExport === true) {
     mirrorBlockers.push(
-      mirror.hintRu ?? 'Шкала задана, но apply log отсутствует — export/handoff заблокирован.'
+      workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Шкала задана, но apply log отсутствует — export/handoff заблокирован.'
     );
-  } else if (mirror?.state === 'partial' && mirror.hintRu) {
-    mirrorBlockers.push(mirror.hintRu);
-  } else if (!mirror?.mirroredAt && input.live.ruleCount > 0) {
+  } else if (mirror?.state === 'partial') {
+    const partialHint = workshop2PgMirrorStr(mirror, 'hintRu');
+    if (partialHint) mirrorBlockers.push(partialHint);
+  } else if (!workshop2PgMirrorStr(mirror, 'mirroredAt') && input.live.ruleCount > 0) {
     mirrorBlockers.push('Mirror градации не в PG — сохраните «Градация → PG».');
   }
 
-  if (!mirror?.mirroredAt) {
+  if (!workshop2PgMirrorStr(mirror, 'mirroredAt')) {
     return { ...input.live, mirrorBlockers };
   }
 
+  const mirrorState = mirror?.state;
+  const state =
+    mirrorState === 'empty' || mirrorState === 'partial' || mirrorState === 'ready'
+      ? mirrorState
+      : input.live.state;
+
   return {
-    ruleCount: mirror.ruleCount ?? input.live.ruleCount,
-    sizeCount: mirror.sizeCount ?? input.live.sizeCount,
+    ruleCount: workshop2PgMirrorNum(mirror, 'ruleCount', input.live.ruleCount),
+    sizeCount: workshop2PgMirrorNum(mirror, 'sizeCount', input.live.sizeCount),
     frozenRuleCount: input.live.frozenRuleCount,
     hasSampleScale: input.live.hasSampleScale,
     measurementPointCount: input.live.measurementPointCount,
-    state: mirror.state ?? input.live.state,
-    hintRu: mirror.hintRu ?? input.live.hintRu,
+    state,
+    hintRu: workshop2PgMirrorStr(mirror, 'hintRu') || input.live.hintRu,
     mirrorBlockers,
   };
 }

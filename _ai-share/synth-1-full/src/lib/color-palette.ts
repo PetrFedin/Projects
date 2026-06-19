@@ -2,12 +2,15 @@
 export interface ColorEntry {
   name: string;
   hex: string;
+  /** ISO-like palette code for BOM/SKU (Wave 32). */
+  code?: string;
   pantone?: string;
 }
 
 export const COLOR_PALETTE: ColorEntry[] = [
-  { name: 'Чёрный', hex: '#000000', pantone: 'Black' },
-  { name: 'Белый', hex: '#FFFFFF', pantone: 'White' },
+  { name: 'Чёрный', code: 'BLK', hex: '#000000', pantone: 'Black' },
+  { name: 'Белый', code: 'WHT', hex: '#FFFFFF', pantone: 'White' },
+  { name: 'Navy', code: 'NVY', hex: '#001F3F', pantone: '289 C' },
   { name: 'Серый', hex: '#808080', pantone: 'Cool Gray 6' },
   { name: 'Тёмно-серый', hex: '#404040', pantone: 'Cool Gray 11' },
   { name: 'Светло-серый', hex: '#C0C0C0', pantone: 'Cool Gray 3' },

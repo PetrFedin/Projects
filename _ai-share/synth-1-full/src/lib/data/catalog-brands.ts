@@ -19,6 +19,10 @@ export interface CatalogBrand {
   tags: string[];
 }
 
+/** Golden path Platform Core — единственный подключённый партнёр магазина. */
+export const PLATFORM_CORE_CONNECTED_BRAND_ID = 'brand_syntha_lab' as const;
+export const PLATFORM_CORE_CONNECTED_BRAND_SLUG = 'syntha-lab' as const;
+
 export const CATALOG_BRANDS: CatalogBrand[] = [
   {
     id: 'brand_syntha_lab',
@@ -49,6 +53,10 @@ export const CATALOG_BRANDS: CatalogBrand[] = [
     tags: ['Merino', 'Heritage', 'Slow Fashion'],
   },
 ];
+
+export function getPlatformCorePartnerBrands(): CatalogBrand[] {
+  return CATALOG_BRANDS.filter((b) => b.id === PLATFORM_CORE_CONNECTED_BRAND_ID);
+}
 
 export function getCatalogBrandBySlug(slug: string): CatalogBrand | undefined {
   return CATALOG_BRANDS.find((b) => b.slug === slug);

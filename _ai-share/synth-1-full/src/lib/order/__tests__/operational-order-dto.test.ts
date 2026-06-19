@@ -28,6 +28,24 @@ describe('operational order DTO', () => {
     expect(parsed.success).toBe(true);
   });
 
+  it('accepts integration block on list row', () => {
+    const src = mockB2BOrders[0];
+    const dto = {
+      ...toOperationalOrderListRowDto(src),
+      integration: {
+        sourcePlatform: 'joor' as const,
+        externalOrderId: 'ext-1',
+        syncHealth: 'ok' as const,
+      },
+    };
+    const parsed = operationalOrdersV1ListSuccessSchema.safeParse({
+      ok: true,
+      data: { orders: [dto] },
+      meta: { requestId: 'r', mode: 'demo', apiVersion: 'v1' },
+    });
+    expect(parsed.success).toBe(true);
+  });
+
   it('accepts v1 PATCH operational-note envelope', () => {
     const parsed = parseOperationalOrderV1PatchResponse({
       ok: true,

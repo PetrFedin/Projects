@@ -35,7 +35,29 @@ type CabinetHubTitleRowProps = {
   badges?: ReactNode;
   /** Правая часть строки: поиск, переключение хабов и т.д. */
   trailing?: ReactNode;
+  /** Syntha demo mark рядом с H1 (legacy prop на layout shell). */
+  showDemoMark?: boolean;
 };
+
+export type { CabinetHubTitleRowProps };
+
+/** Core: мобильное меню без H1/SectionBar (контекст — PlatformCoreContextBar). */
+export function CabinetHubMobileNavOnly({ onOpenMobileNav }: { onOpenMobileNav: () => void }) {
+  return (
+    <div className={cn(cabinetSurface.hubTitleRow, 'border-border-subtle border-b pb-2 lg:hidden')}>
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        className={cabinetSurface.hubMenuButton}
+        onClick={onOpenMobileNav}
+      >
+        <Menu className="text-text-primary size-5" aria-hidden />
+        <span className="sr-only">Открыть меню</span>
+      </Button>
+    </div>
+  );
+}
 
 export function CabinetHubTitleRow({
   className,
@@ -46,6 +68,7 @@ export function CabinetHubTitleRow({
   title,
   badges,
   trailing,
+  showDemoMark = true,
 }: CabinetHubTitleRowProps) {
   return (
     <div className={cn(cabinetSurface.hubTitleRow, className)}>
@@ -68,7 +91,7 @@ export function CabinetHubTitleRow({
         <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-3">
           <h1 className={cabinetSurface.hubH1}>{title}</h1>
           {badges}
-          <SynthaDemoMark compact className="ml-0.5" />
+          {showDemoMark ? <SynthaDemoMark compact className="ml-0.5" /> : null}
         </div>
       </div>
       {trailing ? (

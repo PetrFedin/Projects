@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -38,7 +38,12 @@ import {
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import type { Product } from '@/lib/types';
-import { products as allProducts } from '@/lib/products';
+import { products as staticProducts } from '@/lib/products';
+import { ROUTES } from '@/lib/routes';
+import { buildWorkshop2ApiRequestHeaders } from '@/lib/production/workshop2-api-client-headers';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { resolvePageCollectionId } from '@/lib/platform-core-hub-matrix';
+import { useSearchParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import {
   Dialog,
@@ -51,14 +56,91 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 
+function mapW2ArticleToProduct(input: {
+  articleId: string;
+  name: string;
+  sku?: string;
+  wholesalePriceRub: number;
+}): Product {
+  return {
+    id: input.articleId,
+    slug: input.articleId,
+    name: input.name,
+    brand: 'Workshop2',
+    price: input.wholesalePriceRub,
+    description: 'Опубликован в W2 showroom',
+    images: [
+      {
+        id: `${input.articleId}-cover`,
+        url: '/images/placeholder-product.png',
+        alt: input.name,
+        hint: 'product',
+        isCover: true,
+      },
+    ],
+    category: 'W2',
+    sustainability: [],
+    sku: input.sku ?? input.articleId,
+    color: 'Core',
+    season: 'W2',
+  };
+}
+
 export default function LineSheetGenerator() {
   const { toast } = useToast();
+  const coreMode = isPlatformCoreMode();
+  const searchParams = useSearchParams();
+  const collectionId = resolvePageCollectionId({ collection: searchParams.get('collection') });
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isResultOpen, setIsResultOpen] = useState(false);
-  const [linesheetTitle, setLinesheetTitle] = useState('Лайншит: FW26 Core Collection');
+  const [linesheetTitle, setLinesheetTitle] = useState(`Лайншит: ${collectionId}`);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [catalogSource, setCatalogSource] = useState<'w2' | 'static' | 'error'>(
+    coreMode ? 'static' : 'static'
+  );
+  const [allProducts, setAllProducts] = useState<Product[]>(coreMode ? [] : staticProducts);
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch(
+          `/api/workshop2/collections/${encodeURIComponent(collectionId)}/published-articles`,
+          { headers: buildWorkshop2ApiRequestHeaders() }
+        );
+        const json = (await res.json()) as {
+          ok?: boolean;
+          articles?: Array<{
+            articleId: string;
+            name: string;
+            sku?: string;
+            wholesalePriceRub: number;
+          }>;
+        };
+        if (cancelled) return;
+        if (json.ok && json.articles?.length) {
+          setAllProducts(json.articles.map(mapW2ArticleToProduct));
+          setCatalogSource('w2');
+          setLinesheetTitle(`Лайншит: ${collectionId} · W2 published`);
+          return;
+        }
+        if (coreMode) {
+          setAllProducts([]);
+          setCatalogSource('error');
+        }
+      } catch {
+        if (!cancelled && coreMode) {
+          setAllProducts([]);
+          setCatalogSource('error');
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [collectionId, coreMode]);
 
   const filteredProducts = useMemo(() => {
     return allProducts.filter(
@@ -67,7 +149,7 @@ export default function LineSheetGenerator() {
         p.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.sku?.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }, [searchQuery]);
+  }, [allProducts, searchQuery]);
 
   const toggleProduct = (id: string) => {
     setSelectedProductIds((prev) =>
@@ -78,8 +160,8 @@ export default function LineSheetGenerator() {
   const handleGenerate = () => {
     if (selectedProductIds.length === 0) {
       toast({
-        title: 'No products selected',
-        description: 'Please select at least one product to generate a linesheet.',
+        title: 'Нет выбранных товаров',
+        description: 'Выберите хотя бы один артикул для генерации лайншита.',
         variant: 'destructive',
       });
       return;
@@ -89,15 +171,15 @@ export default function LineSheetGenerator() {
       setIsGenerating(false);
       setIsResultOpen(true);
       toast({
-        title: 'Line Sheet Generated',
-        description: 'Digital Line Sheet is ready for sharing.',
+        title: 'Лайншит готов',
+        description: 'Цифровой лайншит можно отправить партнёрам.',
       });
     }, 2000);
   };
 
   const selectedProducts = useMemo(() => {
     return allProducts.filter((p) => selectedProductIds.includes(p.id));
-  }, [selectedProductIds]);
+  }, [allProducts, selectedProductIds]);
 
   const totalPrice = selectedProducts.reduce((sum, p) => sum + p.price, 0);
   const wholesalePrice = totalPrice * 0.45; // Simulated wholesale value
@@ -113,9 +195,20 @@ export default function LineSheetGenerator() {
             Digital <span className="text-indigo-600">Line Sheet</span> Generator
           </h1>
           <p className="mt-4 max-w-xl font-medium text-slate-500">
-            Создавайте профессиональные цифровые каталоги (Line Sheets) для байеров и ритейлеров за
-            считанные минуты.
+            {catalogSource === 'w2'
+              ? `Источник: опубликованные артикулы W2 · ${collectionId}.`
+              : catalogSource === 'error'
+                ? `Каталог недоступен для ${collectionId}. Запустите npm run core:bootstrap.`
+                : 'Источник: статический каталог (опубликуйте витрину в W2 для live-данных).'}
           </p>
+          {catalogSource === 'w2' ? (
+            <a
+              href={`${ROUTES.brand.showroom}?collection=${collectionId}`}
+              className="text-indigo-600 mt-2 inline-block text-[10px] font-bold uppercase tracking-wider hover:underline"
+            >
+              Открыть showroom →
+            </a>
+          ) : null}
         </div>
         <div className="flex gap-3">
           <Button

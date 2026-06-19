@@ -1,5 +1,6 @@
 'use client';
 
+import type { Ref } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { GitCompare, Maximize2, Minimize2 } from 'lucide-react';
@@ -177,6 +178,7 @@ export function RunwayExperienceOrchestrator({
     onThumbHoverEnd,
     videoFailed,
     isKioskMode,
+    kioskTourIntervalMs,
     exitKioskMode,
     compareViewOpen,
     compareViewIndices,
@@ -194,7 +196,7 @@ export function RunwayExperienceOrchestrator({
 
   const stageContent = (
     <div
-      ref={containerRef}
+      ref={containerRef as Ref<HTMLDivElement>}
       style={themeStyle}
       className={cn(
         'bg-bg-surface2 relative overflow-hidden rounded-lg border border-border text-foreground transition-opacity duration-300',
@@ -326,7 +328,7 @@ export function RunwayExperienceOrchestrator({
         videoRef={videoRef}
         stageBackground={stageBackground}
         prefersReducedMotion={prefersReducedMotion}
-        compact={compact}
+        compact={compact ?? false}
         shouldLoadMedia={shouldLoadMedia}
         enableKenBurns={scrollConfig.enableKenBurns}
         minimalChrome={useMinimalLayout}
@@ -420,7 +422,7 @@ export function RunwayExperienceOrchestrator({
         <SwitcherToolbar
           product={product}
           activeSection={activeSection}
-          isInWishlist={isInWishlist}
+          isInWishlist={isInWishlist ?? false}
           onToggleWishlist={onToggleWishlist ? handleWishlistToggle : undefined}
           showWishlist={showWishlist && Boolean(onToggleWishlist) && !hidePdpChrome}
           showShare={showShare && !isEmbedSurface}
@@ -452,10 +454,10 @@ export function RunwayExperienceOrchestrator({
               displayMaterial={displayMaterial}
               displayVariant={displayVariant}
               displayDimensions={displayDimensions}
-              madeInLabel={madeInLabel}
+              madeInLabel={madeInLabel ?? ''}
               price={price}
               brandHref={brandHref}
-              compact={compact}
+              compact={compact ?? false}
               align="left"
               onMoreDetails={!compact ? handleMoreDetails : undefined}
             />
@@ -505,7 +507,7 @@ export function RunwayExperienceOrchestrator({
               displayMaterial={displayMaterial}
               displayVariant={displayVariant}
               displayDimensions={displayDimensions}
-              madeInLabel={madeInLabel}
+              madeInLabel={madeInLabel ?? ''}
               price={price}
               originalPrice={resolvedOriginalPrice}
               showStrikePrice={showStrikePrice}
@@ -594,6 +596,7 @@ export function RunwayExperienceOrchestrator({
         activeSection={activeSection}
         onSectionChange={(index) => pickSection(index, 'url')}
         onExit={exitKioskMode}
+        tourIntervalMs={kioskTourIntervalMs}
       >
         {stageShell}
       </RunwayKioskShell>

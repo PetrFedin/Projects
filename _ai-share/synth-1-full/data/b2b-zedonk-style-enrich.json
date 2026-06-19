@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "byArticleKey": {
+    "SS27:demo-ss27-01": {
+      "styleId": "ZEDONK-demo-ss27-01",
+      "collectionId": "SS27",
+      "articleId": "demo-ss27-01",
+      "makeCostUsd": 42,
+      "freightUsd": 6.5,
+      "dutyPct": 12,
+      "currency": "USD",
+      "importedAt": "2026-06-12T00:08:56.489Z"
+    }
+  }
+}

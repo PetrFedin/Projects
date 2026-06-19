@@ -8,6 +8,7 @@
  * Публичный API: {@link parseSynthaOverlayContext}, {@link appendSynthaOverlaySearchParams}, бренд/shop-хелперы для сообщений и календаря.
  */
 
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 import { ROUTES } from '@/lib/routes';
 import {
   COLLECTION_ID_PARAM,
@@ -27,27 +28,69 @@ export type SynthaOverlayParsedContext = {
   articleId: string | null;
   catalogStageId: string | null;
   skuCode: string | null;
+  /** workspace/PG thread context type (b2b_order, workshop2_article, …) */
+  contextType?: string | null;
 };
+
+/** `contextType` + `contextId` с workspace/PG threads (b2b_order, workshop2_article). */
+export function parseWorkspaceThreadContext(searchParams: URLSearchParams): {
+  orderId: string | null;
+  collectionId: string | null;
+  articleId: string | null;
+} {
+  const contextType = searchParams.get('contextType')?.trim() || '';
+  const contextId = searchParams.get('contextId')?.trim() || '';
+  if (!contextType || !contextId) {
+    return { orderId: null, collectionId: null, articleId: null };
+  }
+  if (contextType === 'b2b_order') {
+    return { orderId: contextId, collectionId: null, articleId: null };
+  }
+  if (contextType === 'workshop2_article') {
+    const sep = contextId.indexOf(':');
+    if (sep <= 0) return { orderId: null, collectionId: null, articleId: null };
+    return {
+      orderId: null,
+      collectionId: contextId.slice(0, sep).trim() || null,
+      articleId: contextId.slice(sep + 1).trim() || null,
+    };
+  }
+  return { orderId: null, collectionId: null, articleId: null };
+}
 
 export function parseSynthaOverlayContext(
   searchParams: URLSearchParams
 ): SynthaOverlayParsedContext {
+  const workspace = parseWorkspaceThreadContext(searchParams);
   const orderId =
     searchParams.get('orderId')?.trim() ||
     searchParams.get('order')?.trim() ||
     searchParams.get('wholesaleOrderId')?.trim() ||
+    workspace.orderId ||
     null;
   const stagesSku = searchParams.get(STAGES_SKU_PARAM)?.trim() || '';
   const productId = searchParams.get(PRODUCT_ID_PARAM)?.trim() || '';
-  const articleId = stagesSku || productId || null;
+  const articleId = stagesSku || productId || workspace.articleId || null;
+  const collectionId =
+    searchParams.get(COLLECTION_ID_PARAM)?.trim() || workspace.collectionId || null;
   return {
     orderId,
     poRef: searchParams.get(SYNTHA_PO_REF_PARAM)?.trim() || null,
-    collectionId: searchParams.get(COLLECTION_ID_PARAM)?.trim() || null,
+    collectionId,
     articleId,
     catalogStageId: searchParams.get(STAGES_STEP_PARAM)?.trim() || null,
     skuCode: searchParams.get('sku')?.trim() || null,
   };
+}
+
+/** URL-контекст коммуникаций (без core demo fallback) — для скрытия дублей баннеров. */
+export function hasCommunicationsUrlContext(searchParams: URLSearchParams): boolean {
+  const ctx = parseSynthaOverlayContext(searchParams);
+  if (ctx.orderId?.trim()) return true;
+  if (ctx.collectionId?.trim() && ctx.articleId?.trim()) return true;
+  const contextType = searchParams.get('contextType')?.trim() || '';
+  const contextId = searchParams.get('contextId')?.trim() || '';
+  return Boolean(contextType && contextId);
 }
 
 export type SynthaOverlayHrefContext = {
@@ -138,5 +181,6 @@ export function shopCalendarTasksSynthaOverlayHref(ctx: SynthaOverlayHrefContext
   sp.set('layers', 'tasks');
   appendSynthaOverlaySearchParams(sp, ctx);
   const q = sp.toString();
-  return `${ROUTES.shop.calendar}?${q}`;
+  const base = isPlatformCoreMode() ? ROUTES.shop.b2bCalendar : ROUTES.shop.calendar;
+  return `${base}?${q}`;
 }

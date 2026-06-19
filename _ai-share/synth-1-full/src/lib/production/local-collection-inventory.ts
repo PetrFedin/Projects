@@ -8,6 +8,10 @@ import {
   getHandbookCategoryLeaves,
   resolveHandbookLeafId,
 } from '@/lib/production/category-catalog';
+import {
+  PLATFORM_CORE_W2_HYDRATE_COLLECTION_IDS,
+  PLATFORM_CORE_DEMO_PRESETS,
+} from '@/lib/platform-core-demo-context';
 import type { Workshop2TzSignatoryBindings } from '@/lib/production/workshop2-dossier-phase1.types';
 import { normalizeWorkshopTzSignatoryBindings } from '@/lib/production/workshop2-tz-signatory-options';
 
@@ -41,6 +45,9 @@ export type LocalOrderLine = Record<string, unknown> & {
   updatedInWorkshop2At?: string;
   /** Внутренний 6-значный номер артикула (от 100000), уникальный в локальном инвентаре. */
   internalArticleCode?: string;
+  /** Аудитория / unisex для assembleWorkshop2ArticleFromTaxonomy. */
+  workshopAudienceId?: string;
+  workshopIsUnisex?: boolean;
   /** Закрепление подписантов ТЗ (копируется в досье при создании). */
   workshopTzSignatoryBindings?: Workshop2TzSignatoryBindings;
 };
@@ -455,6 +462,25 @@ export function registerUserCollection(
   return { inventory: prependWorkshop2CollectionToOrder(next, id), id };
 }
 
+/** Регистрирует FW27 и др. golden-path коллекции в localStorage перед PG hydrate. */
+export function ensureWorkshop2PlatformCoreCollectionInInventory(
+  inv: LocalCollectionInventory,
+  collectionId: string,
+  createdBy: string
+): LocalCollectionInventory {
+  const cid = collectionId.trim();
+  if (!cid || cid === WORKSHOP2_SYSTEM_COLLECTION_ID) return inv;
+  if (!PLATFORM_CORE_W2_HYDRATE_COLLECTION_IDS.includes(cid)) return inv;
+  if (inv.userCollections.some((c) => c.id === cid)) return inv;
+  const preset = PLATFORM_CORE_DEMO_PRESETS[cid];
+  const displayName = preset?.collectionId ?? cid;
+  return registerUserCollection(inv, cid, displayName, {
+    createdBy,
+    description: 'Platform Core · PostgreSQL',
+    targetSeason: cid,
+  }).inventory;
+}
+
 export type Workshop2UserCollectionUpdate = {
   name: string;
   description?: string;
@@ -626,6 +652,8 @@ export type Workshop2ArticleCommit =
       categoryLeafId: string;
       name?: string;
       comment?: string;
+      audienceId?: string;
+      isUnisex?: boolean;
       attachments?: { name: string; dataUrl: string }[];
       tzSignatoryBindings?: Workshop2TzSignatoryBindings;
     };
@@ -696,6 +724,9 @@ function buildWorkshop2NewArticleLine(
     workshopAttachments: commit.attachments?.length ? commit.attachments : undefined,
     createdInWorkshop2By: createdBy,
     createdInWorkshop2At: new Date().toISOString(),
+    ...(commit.audienceId?.trim()
+      ? { workshopAudienceId: commit.audienceId.trim(), workshopIsUnisex: commit.isUnisex === true }
+      : {}),
     ...(tzB ? { workshopTzSignatoryBindings: tzB } : {}),
   };
 }
@@ -854,12 +885,102 @@ export function applyWorkshop2BulkNewArticles(
   return { inventory: next, added, skippedDuplicates };
 }
 
+/** PG hydrate: добавить опубликованные артикулы с каноническим articleId из PostgreSQL. */
+export function applyWorkshop2PgPublishedArticleRows(
+  inv: LocalCollectionInventory,
+  collectionId: string,
+  rows: { articleId: string; sku?: string; name?: string }[],
+  categoryLeafId: string,
+  createdBy: string
+): {
+  inventory: LocalCollectionInventory;
+  added: number;
+  skippedDuplicates: number;
+  addedArticleIds: string[];
+} {
+  const key = storageKeyForCollectionId(collectionId);
+  let next = inv;
+  let added = 0;
+  let skippedDuplicates = 0;
+  const addedArticleIds: string[] = [];
+  const canonicalLeaf = resolveHandbookLeafId(categoryLeafId.trim());
+  const leaf = findHandbookLeafById(canonicalLeaf) ?? getHandbookCategoryLeaves()[0];
+  if (!leaf) {
+    return { inventory: inv, added: 0, skippedDuplicates: rows.length, addedArticleIds: [] };
+  }
+
+  for (const row of rows) {
+    const articleId = row.articleId.trim();
+    if (!articleId) {
+      skippedDuplicates += 1;
+      continue;
+    }
+    const prev = next.articlesByCollection[key] ?? [];
+    const skuNorm = normalizeLocalSkuCode(row.sku?.trim() || articleId);
+    if (
+      prev.some(
+        (l) => l.id === articleId || (skuNorm && normalizeLocalSkuCode(l.sku) === skuNorm)
+      )
+    ) {
+      skippedDuplicates += 1;
+      continue;
+    }
+    const sku =
+      skuNorm || normalizeLocalSkuCode(articleId) || `W2-${Date.now().toString(36).toUpperCase().slice(-10)}`;
+    const season = collectionId.trim() || 'LOCAL';
+    const [internalCode, invAfterSeq] = takeNextInternalArticleCode(next);
+    next = invAfterSeq;
+    const line: LocalOrderLine = {
+      id: articleId,
+      sku,
+      name: row.name?.trim() || `Артикул · ${sku}`,
+      season,
+      orderedQuantity: 100,
+      price: 18_000,
+      deliveryWindowId: 'drop1',
+      categoryLeafId: leaf.leafId,
+      productionSiteId: 'fab-rf-ivanovo',
+      productionSiteLabel: 'Фабрика · Иваново (РФ)',
+      fabricSuppliers: [],
+      fabricMainFromBrandStock: false,
+      lineStatus: 'open',
+      articleOrigin: 'new',
+      createdInWorkshop2By: createdBy,
+      createdInWorkshop2At: new Date().toISOString(),
+      internalArticleCode: internalCode,
+    };
+    next = {
+      ...next,
+      articlesByCollection: {
+        ...next.articlesByCollection,
+        [key]: [...prev, line],
+      },
+    };
+    added += 1;
+    addedArticleIds.push(articleId);
+  }
+
+  const cid = collectionId.trim();
+  const ucIdx = next.userCollections.findIndex((c) => c.id === cid);
+  if (ucIdx >= 0 && addedArticleIds.length > 0) {
+    const now = new Date().toISOString();
+    const userCollections = [...next.userCollections];
+    userCollections[ucIdx] = { ...userCollections[ucIdx], updatedAt: now };
+    next = { ...next, userCollections };
+  }
+
+  next = touchWorkshop2LinesOnCompositionChange(next, key, new Set(addedArticleIds));
+  return { inventory: next, added, skippedDuplicates, addedArticleIds };
+}
+
 export type Workshop2ArticleLinePatch = {
   workshopComment?: string;
   name?: string;
   sku?: string;
   categoryLeafId?: string;
   workshopAttachments?: { name: string; dataUrl: string }[];
+  workshopTags?: string[];
+  workshopLineSeason?: string;
   /** `null` — снять закрепление подписантов в строке инвентаря. */
   workshopTzSignatoryBindings?: Workshop2TzSignatoryBindings | null;
 };

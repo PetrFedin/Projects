@@ -25,9 +25,11 @@ kill_listen_port() {
 kill_listen_port 3010
 # Playwright e2e webServer — делит .next с dev:fast на :3000
 kill_listen_port "${PLAYWRIGHT_E2E_PORT:-3123}"
+# Platform Core dev (NEXT_PUBLIC_PLATFORM_CORE_MODE=1)
+kill_listen_port 3001
 
 if [[ "${SYNTHA_STOP_MAIN_DEV:-}" == "1" ]]; then
   kill_listen_port 3000
 fi
 
-echo "Готово. Основной dev: npm run dev:fast:clean (порт 3000)."
+echo "Готово. dev:fast → :3000 · dev:core → npm run dev:core (:3001)."

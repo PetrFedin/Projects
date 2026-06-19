@@ -6,6 +6,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { summarizeWorkshop2LogisticsPanelTrackingUi } from '@/lib/production/workshop2-logistics-dossier-persist';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import { workshop2ArticleHref } from '@/lib/production/workshop2-url';
 import { Workshop2ReleaseIntegrationProbeRow } from '@/components/brand/production/workshop2-release-integration-probe-row';
 import { isWorkshop2LiveTmsConfigured } from '@/lib/production/workshop2-live-integration-probes-env';
@@ -23,17 +27,26 @@ export function Workshop2ReleaseLogisticsPanel({
   articleUrlSegment,
 }: Props) {
   const mirror = dossier?.logisticsShipmentMirror;
+  const shipmentCount = workshop2PgMirrorNum(mirror, 'shipmentCount');
+  const currentStepLabel = workshop2PgMirrorStr(mirror, 'currentStep') || undefined;
   const trackingUi = summarizeWorkshop2LogisticsPanelTrackingUi({
     dossier,
-    hasActiveShipment: (mirror?.shipmentCount ?? 0) > 0,
-    currentStepLabel: mirror?.currentStep,
+    hasActiveShipment: shipmentCount > 0,
+    currentStepLabel,
   });
 
   const logisticsHref = workshop2ArticleHref(collectionId, articleUrlSegment, {
     w2pane: 'supply',
   });
   const tmsLive = isWorkshop2LiveTmsConfigured();
-  const logisticsMode = mirror?.logisticsMode ?? (tmsLive ? 'tms_live' : 'journal_only');
+  const logisticsMode =
+    workshop2PgMirrorStr(mirror, 'logisticsMode') || (tmsLive ? 'tms_live' : 'journal_only');
+  const mirroredAt = workshop2PgMirrorStr(mirror, 'mirroredAt');
+  const hintRu = workshop2PgMirrorStr(mirror, 'hintRu');
+  const journalStep =
+    workshop2PgMirrorStr(mirror, 'currentStep') ||
+    workshop2PgMirrorStr(mirror, 'status') ||
+    '—';
 
   return (
     <div
@@ -71,32 +84,30 @@ export function Workshop2ReleaseLogisticsPanel({
         </div>
         <div>
           <dt className="text-text-muted">Отгрузок в mirror</dt>
-          <dd>{mirror?.shipmentCount ?? 0}</dd>
+          <dd>{shipmentCount}</dd>
         </div>
         <div>
           <dt className="text-text-muted">Шаг journal</dt>
-          <dd>{mirror?.currentStep ?? mirror?.status ?? '—'}</dd>
+          <dd>{journalStep}</dd>
         </div>
         <div>
           <dt className="text-text-muted">Режим</dt>
-          <dd>{mirror?.logisticsMode ?? '—'}</dd>
+          <dd>{logisticsMode || '—'}</dd>
         </div>
       </dl>
 
-      {mirror?.hintRu ? (
-        <p className="rounded-md bg-slate-50 px-2 py-1.5 text-[10px] text-slate-700">
-          {mirror.hintRu}
-        </p>
+      {hintRu ? (
+        <p className="rounded-md bg-slate-50 px-2 py-1.5 text-[10px] text-slate-700">{hintRu}</p>
       ) : null}
 
       <div className="flex flex-wrap items-center gap-2">
-        {mirror?.mirroredAt ? (
+        {mirroredAt ? (
           <Badge
             variant="outline"
             className="text-[10px]"
             data-testid="workshop2-release-logistics-pg-chip"
           >
-            PG mirror · {new Date(mirror.mirroredAt).toLocaleString('ru-RU')}
+            PG mirror · {new Date(mirroredAt).toLocaleString('ru-RU')}
           </Badge>
         ) : (
           <Badge variant="secondary" className="text-[10px] text-amber-900">

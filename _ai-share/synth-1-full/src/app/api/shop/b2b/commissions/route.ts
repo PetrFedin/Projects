@@ -3,10 +3,21 @@ import {
   calculateWorkshop2B2bCommission,
   listWorkshop2B2bCommissionsForRep,
 } from '@/lib/production/workshop2-b2b-commission';
-import { listWorkshop2B2bCommissionLinesForRep } from '@/lib/server/workshop2-b2b-commission-repository';
+import { listWorkshop2B2bCommissionLinesForOrganization } from '@/lib/server/workshop2-b2b-commission-repository';
+import { isWorkshop2PostgresEnabled } from '@/lib/server/workshop2-pg-pool';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 
-/** GET — commission по repId: PG first, иначе demo stub. */
+function resolveCommissionMode(lineCount: number): 'postgres' | 'file' | 'memory' | 'empty' {
+  if (lineCount === 0) return 'empty';
+  if (isWorkshop2PostgresEnabled()) return 'postgres';
+  return process.env.NODE_ENV === 'test' ? 'memory' : 'file';
+}
+
+/** GET — commission по repId: persisted ledger (seed on empty). */
 export async function GET(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   const repId = req.nextUrl.searchParams.get('repId')?.trim();
   if (!repId) {
     return NextResponse.json(
@@ -15,8 +26,12 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const pgLines = await listWorkshop2B2bCommissionLinesForRep({ repId });
-  const mode = pgLines.length > 0 ? 'postgres' : 'demo_stub';
+  const pgLines = await listWorkshop2B2bCommissionLinesForOrganization({
+    repId,
+    limit: 100,
+    seedIfEmpty: true,
+  });
+  const mode = resolveCommissionMode(pgLines.length);
   const summary = listWorkshop2B2bCommissionsForRep({
     repId,
     lines: pgLines.length > 0 ? pgLines : undefined,
@@ -31,15 +46,16 @@ export async function GET(req: NextRequest) {
     mode,
     messageRu:
       summary.orderCount > 0
-        ? `${summary.orderCount} заказ(ов) · комиссия ${summary.totalCommissionRub.toLocaleString('ru-RU')} ₽ (${mode === 'postgres' ? 'PG' : 'demo stub'})`
-        : mode === 'postgres'
-          ? 'Нет атрибуции заказов для repId в PG.'
-          : 'Нет атрибуции заказов для repId (demo stub).',
+        ? `${summary.orderCount} заказ(ов) · комиссия ${summary.totalCommissionRub.toLocaleString('ru-RU')} ₽ (${mode === 'postgres' ? 'PG' : mode} ledger).`
+        : 'Нет атрибуции заказов для repId.',
   });
 }
 
 /** POST — рассчитать и persist commission row в PG (optional). */
 export async function POST(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   let body: Record<string, unknown>;
   try {
     body = (await req.json()) as Record<string, unknown>;

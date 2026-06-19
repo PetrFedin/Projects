@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+
 import { B2BPriorityStrategy } from '@/lib/b2b/allocation/allocation-engine';
+import { persistB2bIntakeAllocationPlan } from '@/lib/server/b2b-intake-allocation-repository';
+import {
+  guardWorkshop2Route,
+  WORKSHOP2_WRITE_ROLES,
+} from '@/lib/server/workshop2-route-auth';
 
 const itemSchema = z.object({
   articleId: z.string(),
@@ -29,25 +35,14 @@ const allocatePayloadSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  // Threat Mitigation T-07-02-1: Require warehouse manager role/auth.
-  const authHeader = req.headers.get('Authorization');
-  if (!authHeader || authHeader !== 'Bearer warehouse-manager-token') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES);
+  if (auth instanceof NextResponse) return auth;
 
   try {
     const json = await req.json();
-
-    // Threat Mitigation T-07-02-2: Validate payload with Zod.
     const payload = allocatePayloadSchema.parse(json);
 
-    // Threat Mitigation T-07-02-3: Ensure race conditions are handled via transactions.
-    // SELECT ... FOR UPDATE to lock inventory before allocation
-    // mock transaction: console.log("BEGIN TRANSACTION; SELECT * FROM inventory FOR UPDATE;");
-
     const strategy = new B2BPriorityStrategy();
-
-    // Cast demand to match exact types since Zod drops optionals or makes them union
     const demandProfile = {
       b2bBackorders: payload.demand.b2bBackorders.map((d) => ({
         ...d,
@@ -61,11 +56,23 @@ export async function POST(req: NextRequest) {
     };
 
     const plan = strategy.allocate(payload.batch, demandProfile);
+    const persisted = await persistB2bIntakeAllocationPlan({
+      batchId: payload.batch.batchId,
+      plan,
+    });
 
-    // mock transaction finish: console.log("COMMIT TRANSACTION;");
-
-    return NextResponse.json(plan);
-  } catch (err: any) {
+    return NextResponse.json({
+      ...plan,
+      planId: persisted.planId,
+      persistMode: persisted.mode,
+      messageRu:
+        persisted.mode === 'postgres'
+          ? `План аллокации ${persisted.planId} сохранён в PG.`
+          : persisted.mode === 'pg_only_blocked'
+            ? 'PG-only: план рассчитан, persist заблокирован без PostgreSQL.'
+            : `План аллокации ${persisted.planId} сохранён (${persisted.mode}).`,
+    });
+  } catch (err: unknown) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid payload', details: err.errors }, { status: 400 });
     }

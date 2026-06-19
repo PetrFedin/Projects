@@ -53,7 +53,7 @@ export async function putWorkshop2Wave28DossierPatch(input: {
       };
     }
     setWorkshop2Phase1Dossier(input.collectionId, input.articleId, stamped);
-    const persistedAt = stamped.updatedAt;
+    const persistedAt = stamped.updatedAt ?? new Date().toISOString();
     auditWorkshop2Wave28Persist({
       collectionId: input.collectionId,
       articleId: input.articleId,
@@ -78,7 +78,7 @@ export async function putWorkshop2Wave28DossierPatch(input: {
     articleId: input.articleId,
     dossier: stamped,
   });
-  const persistedAt = stamped.updatedAt;
+  const persistedAt = stamped.updatedAt ?? new Date().toISOString();
   auditWorkshop2Wave28Persist({
     collectionId: input.collectionId,
     articleId: input.articleId,

@@ -13,6 +13,7 @@ import {
   putWorkshop2ServerDossierRecord,
 } from '@/lib/server/workshop2-phase1-dossier-server-store';
 import { guardWorkshop2Route, WORKSHOP2_WRITE_ROLES } from '@/lib/server/workshop2-route-auth';
+import { resolveWorkshop2UpdatedBy } from '@/lib/server/workshop2-api-context';
 
 export async function POST(req: NextRequest) {
   const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES);
@@ -62,7 +63,8 @@ export async function POST(req: NextRequest) {
     return jsonWorkshop2ErrorRu(404, 'dossier_not_found');
   }
 
-  const actor = bodyActor ?? auth.actor ?? 'plm-webhook-receipt';
+  const actor =
+    resolveWorkshop2UpdatedBy(req, bodyActor ?? '', auth.actor) ?? 'plm-webhook-receipt';
   const nextDossier = recordWorkshop2PlmWebhookReceipt({
     dossier: record.dossier,
     actor,

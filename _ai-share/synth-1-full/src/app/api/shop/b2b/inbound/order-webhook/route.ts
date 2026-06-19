@@ -11,13 +11,12 @@ import {
 import { jsonWorkshop2ErrorRu } from '@/lib/production/workshop2-api-error-ru';
 import { putWorkshop2B2bOrder } from '@/lib/server/workshop2-b2b-orders-repository';
 import { enqueueWorkshop2DomainEvent } from '@/lib/server/workshop2-domain-events';
+import { persistWorkshop2B2bInboundCalendarTask } from '@/lib/server/workshop2-b2b-inbound-calendar-persist';
 
 /** POST — inbound B2B order webhook → internal draft (journal_only без PG). */
 export async function POST(req: NextRequest) {
   if (!isWorkshop2B2bInboundWebhookEnabled()) {
-    return jsonWorkshop2ErrorRu({
-      status: 503,
-      error: 'feature_disabled',
+    return jsonWorkshop2ErrorRu(503, 'feature_disabled', {
       messageRu:
         'B2B inbound webhook отключён. Задайте WORKSHOP2_B2B_INBOUND_WEBHOOK_ENABLED=true.',
     });
@@ -29,9 +28,7 @@ export async function POST(req: NextRequest) {
     signatureHeader: req.headers.get('x-b2b-webhook-secret'),
   });
   if (!verify.ok) {
-    return jsonWorkshop2ErrorRu({
-      status: verify.status ?? 401,
-      error: 'unauthorized',
+    return jsonWorkshop2ErrorRu(verify.status ?? 401, 'unauthorized', {
       messageRu: verify.messageRu ?? 'B2B inbound webhook: отказ авторизации.',
     });
   }
@@ -40,18 +37,14 @@ export async function POST(req: NextRequest) {
   try {
     body = rawBody ? JSON.parse(rawBody) : {};
   } catch {
-    return jsonWorkshop2ErrorRu({
-      status: 400,
-      error: 'invalid_json',
+    return jsonWorkshop2ErrorRu(400, 'invalid_json', {
       messageRu: 'Некорректный JSON в теле webhook.',
     });
   }
 
   const payload = parseWorkshop2B2bInboundOrderWebhookBody(body);
   if (!payload) {
-    return jsonWorkshop2ErrorRu({
-      status: 400,
-      error: 'invalid_payload',
+    return jsonWorkshop2ErrorRu(400, 'invalid_payload', {
       messageRu: 'Укажите externalOrderRef в теле webhook.',
     });
   }
@@ -59,6 +52,10 @@ export async function POST(req: NextRequest) {
   const order = buildWorkshop2B2bInboundDraftOrder(payload);
   const persist = await putWorkshop2B2bOrder(order);
   const calendarStub = buildWorkshop2B2bInboundCalendarStubEvent(order, payload.externalOrderRef);
+  const calendarPersist =
+    persist.mode !== 'pg_only_blocked'
+      ? await persistWorkshop2B2bInboundCalendarTask({ stub: calendarStub, order })
+      : { ok: false, mode: 'failed' as const };
   const persistMode = persist.mode === 'pg_only_blocked' ? 'journal_only' : persist.mode;
 
   void enqueueWorkshop2DomainEvent({
@@ -71,6 +68,7 @@ export async function POST(req: NextRequest) {
       provider: payload.provider ?? 'inbound',
       persistMode,
       calendarStub,
+      calendarPersistMode: calendarPersist.mode,
       chatEvent: 'b2b_inbound_order',
       messageRu: summarizeWorkshop2B2bInboundOrderChatRu({
         externalOrderRef: payload.externalOrderRef,
@@ -90,6 +88,7 @@ export async function POST(req: NextRequest) {
       order,
       persistMode: 'journal_only',
       calendarStub,
+      calendarPersistMode: calendarPersist.mode,
       chatEvent: 'b2b_inbound_order',
       messageRu: summarizeWorkshop2B2bInboundOrderChatRu({
         externalOrderRef: payload.externalOrderRef,
@@ -105,8 +104,8 @@ export async function POST(req: NextRequest) {
     persisted: persist.persisted,
     persistMode: persist.mode,
     calendarStub,
+    calendarPersistMode: calendarPersist.mode,
     chatEvent: 'b2b_inbound_order',
-    domainEvent: 'b2b.inbound_order.received',
     messageRu: summarizeWorkshop2B2bInboundOrderChatRu({
       externalOrderRef: payload.externalOrderRef,
       orderId: order.id,

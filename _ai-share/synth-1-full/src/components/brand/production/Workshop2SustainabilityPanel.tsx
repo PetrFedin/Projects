@@ -12,6 +12,7 @@ import {
 import { putWorkshop2Wave20DossierPatch } from '@/lib/production/workshop2-wave20-persist-client';
 import { Leaf } from 'lucide-react';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
 import {
   buildWorkshop2DppExportBlock,
@@ -229,8 +230,14 @@ export function Workshop2SustainabilityPanel({
       <Workshop2CeilingIntegrationBlock
         catalogId={53}
         kind="sustainability"
-        partnerAckId={dossier.sustainabilityStagingMirror?.partnerAckId ?? null}
-        stagingContractMode={dossier.sustainabilityStagingMirror?.stagingContractMode}
+        partnerAckId={
+          workshop2PgMirrorStr(dossier.sustainabilityStagingMirror, 'partnerAckId') || null
+        }
+        stagingContractMode={
+          dossier.sustainabilityStagingMirror?.stagingContractMode === true ||
+          workshop2PgMirrorStr(dossier.sustainabilityStagingMirror, 'stagingContractMode') ===
+            'true'
+        }
         stagingBusy={stagingBusy}
         onStagingAttempt={async () => {
           if (sustainabilityExportBlocked) {

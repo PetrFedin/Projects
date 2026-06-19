@@ -4,6 +4,7 @@
 import { summarizeWorkshop2PomTableStatus } from '@/lib/production/workshop2-pom-table-status';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2PomTableMirror(
   dossier: Workshop2DossierPhase1
@@ -58,7 +59,8 @@ export function evaluateWorkshop2PomTableHandoffGate(
       id: 'pom.table.not_ready',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'Табель POM не готов — handoff commit заблокирован до заполнения мерок.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Табель POM не готов — handoff commit заблокирован до заполнения мерок.',
     };
   }
   return null;

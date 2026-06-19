@@ -7,11 +7,25 @@ import {
   productionFloorTabRequiresArticle,
 } from '@/lib/production/floor-flow';
 import { WORKSHOP2_DEVELOPMENT_FLOOR_TAB_IDS } from '@/lib/production/workshop2-development-scope';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import {
+  MATRIX_ORDER_LABEL,
+  MY_CABINET_LABEL,
+  SHOWROOM_SHOP_LABEL,
+} from '@/lib/platform-core-canonical-labels';
+import { platformCoreEntityLinkHiddenSet } from '@/lib/platform-core-entity-links-registry';
+import { PLATFORM_CORE_DEMO } from '@/lib/platform-core-hub-matrix';
 import { ROUTES, brandProductionFloorHref, withBrandProductionDeepContext } from '@/lib/routes';
 import { COLLECTION_DEV_HUB_TITLE_RU } from '@/lib/production/collection-development-labels';
+import { WORKSHOP2_COL_PARAM } from '@/lib/production/workshop2-url';
 
 /** Связанный модуль: подпись + href (RelatedModulesBlock, дашборды). */
-export type EntityLink = { label: string; href: string };
+export type EntityLink = {
+  label: string;
+  href: string;
+  disabled?: boolean;
+  disabledReasonRu?: string;
+};
 
 /** Схлопывает одинаковый хаб по каноническому href (редирект `/shop/b2b-orders` → `/shop/b2b/orders`). */
 export function dedupeEntityLinksByHref(links: EntityLink[]): EntityLink[] {
@@ -26,9 +40,45 @@ export function dedupeEntityLinksByHref(links: EntityLink[]): EntityLink[] {
   return [...byNorm.values()];
 }
 
+const PLATFORM_CORE_ENTITY_LINK_HIDDEN = platformCoreEntityLinkHiddenSet();
+
+function rewriteEntityLinkForPlatformCore(link: EntityLink): EntityLink | null {
+  const href = link.href as string;
+  if (PLATFORM_CORE_ENTITY_LINK_HIDDEN.has(href)) return null;
+  if (href === ROUTES.shop.b2bDiscover) {
+    return {
+      ...link,
+      href: ROUTES.shop.b2bPartnersDiscover,
+      label: link.label.toLowerCase().includes('discover') ? 'Партнёры брендов' : link.label,
+    };
+  }
+  if (href === ROUTES.shop.b2bCatalog) {
+    return {
+      ...link,
+      href: `${ROUTES.shop.b2bShowroom}?collection=${PLATFORM_CORE_DEMO.collectionId}`,
+      label: SHOWROOM_SHOP_LABEL,
+    };
+  }
+  if (href === ROUTES.brand.production || href === ROUTES.brand.productionOperations) {
+    return { ...link, href: ROUTES.factory.production, label: 'Очередь цеха' };
+  }
+  if (link.label.includes('JOOR Pay')) {
+    return null;
+  }
+  return link;
+}
+
+/** Core: убираем mock/side-path и переписываем legacy href на golden path. */
+export function sanitizeEntityLinksForPlatformCore(links: EntityLink[]): EntityLink[] {
+  if (!isPlatformCoreMode()) return links;
+  return links
+    .map(rewriteEntityLinkForPlatformCore)
+    .filter((l): l is EntityLink => l !== null);
+}
+
 /** Связанные модули: без дублей хаба B2B заказов (legacy + canonical). */
 export function finalizeRelatedModuleLinks(links: EntityLink[]): EntityLink[] {
-  return dedupeEntityLinksByHref(links);
+  return sanitizeEntityLinksForPlatformCore(dedupeEntityLinksByHref(links));
 }
 
 /** Убирает прямые ссылки на списки B2B-заказов из «связанных модулей», чтобы не дублировать реестр (карточки/навигация). */
@@ -259,7 +309,7 @@ export function getProductLinks(): EntityLink[] {
 
 /** Ссылки для B2B заказов — FEATURE_BENCHMARK: ship windows, price lists, RFQ, credit */
 export function getB2BLinks(): EntityLink[] {
-  return filterB2B([
+  return finalizeRelatedModuleLinks(filterB2B([
     { label: 'Предзаказы', href: ROUTES.brand.preOrders },
     { label: 'Прайс-листы', href: ROUTES.brand.priceLists },
     { label: 'RFQ поставщиков', href: ROUTES.brand.suppliersRfq },
@@ -279,7 +329,7 @@ export function getB2BLinks(): EntityLink[] {
     { label: 'Календарь', href: ROUTES.brand.calendar },
     { label: 'Выставки', href: ROUTES.brand.tradeShows },
     { label: 'Партнёры', href: ROUTES.brand.retailers },
-  ]);
+  ]));
 }
 
 /**
@@ -288,6 +338,20 @@ export function getB2BLinks(): EntityLink[] {
  */
 /** Быстрые переходы по трём ядрам с экрана байера (оптовый контур). */
 export function getSynthaThreeCoresQuickLinksForBuyer(): EntityLink[] {
+  if (isPlatformCoreMode()) {
+    return [
+      {
+        label: SHOWROOM_SHOP_LABEL,
+        href: `${ROUTES.shop.b2bShowroom}?collection=${PLATFORM_CORE_DEMO.collectionId}`,
+      },
+      { label: 'Реестр B2B', href: ROUTES.shop.b2bOrders },
+      { label: 'Сообщения', href: ROUTES.shop.messages },
+      {
+        label: 'Календарь',
+        href: `${ROUTES.shop.b2bCalendar}?layers=orders,logistics&collection=${PLATFORM_CORE_DEMO.collectionId}`,
+      },
+    ];
+  }
   return [
     { label: 'Цех и ТЗ (бренд)', href: ROUTES.brand.productionOperations },
     { label: 'Реестр заказов', href: ROUTES.shop.b2bOrders },
@@ -298,6 +362,21 @@ export function getSynthaThreeCoresQuickLinksForBuyer(): EntityLink[] {
 
 /** Быстрые переходы по трём ядрам из кабинета бренда (ТЗ, B2B, надстройка). */
 export function getSynthaThreeCoresQuickLinksForBrand(): EntityLink[] {
+  if (isPlatformCoreMode()) {
+    return [
+      {
+        label: COLLECTION_DEV_HUB_TITLE_RU,
+        href: `${ROUTES.brand.productionWorkshop2}?${WORKSHOP2_COL_PARAM}=${PLATFORM_CORE_DEMO.collectionId}`,
+      },
+      { label: 'Реестр B2B', href: ROUTES.brand.b2bOrders },
+      { label: 'Очередь цеха', href: ROUTES.factory.production },
+      { label: 'Сообщения', href: ROUTES.brand.messages },
+      {
+        label: 'Календарь',
+        href: `${ROUTES.brand.calendar}?layers=tasks,orders,production`,
+      },
+    ];
+  }
   return [
     { label: 'Операции цеха', href: ROUTES.brand.productionOperations },
     { label: COLLECTION_DEV_HUB_TITLE_RU, href: ROUTES.brand.productionWorkshop2 },
@@ -308,8 +387,11 @@ export function getSynthaThreeCoresQuickLinksForBrand(): EntityLink[] {
 }
 
 export function getB2bOrderVerticalCoreLinks(styleId?: string): EntityLink[] {
+  const floorHref = isPlatformCoreMode()
+    ? ROUTES.factory.production
+    : ROUTES.brand.productionOperations;
   const out: EntityLink[] = [
-    { label: 'Цех: задания и PO', href: ROUTES.brand.productionOperations },
+    { label: 'Цех: задания и PO', href: floorHref },
     { label: 'ТЗ: досье разработки коллекции', href: ROUTES.brand.productionWorkshop2 },
     /** Мост к ядру №2: исполнение и статусы оптовых заказов из того же контура. */
     { label: 'Реестр B2B-заказов', href: ROUTES.brand.b2bOrders },
@@ -476,7 +558,7 @@ export function getShopB2bCatalogCrossRoleLinks(): EntityLink[] {
     { label: 'Качество B2B-каталога', href: ROUTES.brand.catalogQuality },
     { label: 'Лайншиты (бренд)', href: ROUTES.brand.b2bLinesheets },
     { label: 'Производственный хаб (factory)', href: ROUTES.factory.production },
-    { label: 'Discover брендов', href: ROUTES.shop.b2bDiscover },
+    { label: 'Discover брендов', href: ROUTES.shop.b2bPartnersDiscover },
   ];
 }
 
@@ -568,7 +650,8 @@ export function getIntegrationsLinks(): EntityLink[] {
     { label: 'Инвентарь (матрица)', href: ROUTES.brand.inventory },
     { label: 'Ритейл: загрузка остатков (CSV)', href: ROUTES.shop.inventory },
     // Тендеры и поиск поставщиков — в секции «Встроенные B2B-фичи» на `/brand/integrations` (без дубля в RelatedModules).
-    { label: 'Рост платформы (демо)', href: ROUTES.brand.growthHub },
+    { label: 'Webhooks & B2B inbound', href: ROUTES.brand.integrationsWebhooks },
+    { label: 'Оптовый реестр', href: ROUTES.brand.b2bOrders },
     { label: 'Логистика', href: ROUTES.brand.logistics },
     { label: 'Производство', href: ROUTES.brand.production },
   ]);
@@ -978,14 +1061,37 @@ export function getShipFromStoreLinks(): EntityLink[] {
   ]);
 }
 
+/** Platform Core: golden path shop B2B hub (7 ссылок вместо 40+ legacy). */
+function getShopB2BHubLinksForPlatformCore(): EntityLink[] {
+  const collectionId = PLATFORM_CORE_DEMO.collectionId;
+  return [
+    { label: MY_CABINET_LABEL, href: ROUTES.shop.coreCabinet },
+    {
+      label: SHOWROOM_SHOP_LABEL,
+      href: `${ROUTES.shop.b2bShowroom}?collection=${collectionId}`,
+    },
+    {
+      label: MATRIX_ORDER_LABEL,
+      href: `${ROUTES.shop.b2bMatrix}?collection=${collectionId}`,
+    },
+    { label: 'Оптовые заказы', href: ROUTES.shop.b2bOrders },
+    { label: 'Партнёры брендов', href: ROUTES.shop.b2bPartnersDiscover },
+    { label: 'Отслеживание заказов', href: ROUTES.shop.b2bTracking },
+    { label: 'Сообщения', href: ROUTES.shop.messages },
+  ];
+}
+
 /** Ссылки для Shop B2B Hub — Фазы 1–4: РФ-специфика, коммерция, AI, удобство байеров */
 export function getShopB2BHubLinks(): EntityLink[] {
+  if (isPlatformCoreMode()) {
+    return finalizeRelatedModuleLinks(getShopB2BHubLinksForPlatformCore());
+  }
   return filterB2B([
     { label: 'Каталог', href: ROUTES.shop.b2bCatalog },
     { label: 'Виртуальный шоурум', href: ROUTES.shop.b2bShowroom },
     { label: 'Заказы', href: ROUTES.shop.b2bOrders },
     { label: 'Финансы партнёра', href: ROUTES.shop.b2bFinance },
-    { label: 'JOOR Pay / оплата', href: ROUTES.shop.b2bPayment },
+    { label: 'Оплата B2B', href: ROUTES.shop.b2bPayment },
     { label: 'Документы B2B', href: ROUTES.shop.b2bDocuments },
     { label: 'Контракты B2B', href: ROUTES.shop.b2bContracts },
     { label: 'Аналитика закупок', href: ROUTES.shop.b2bAnalytics },

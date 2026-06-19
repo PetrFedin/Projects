@@ -1,0 +1,81 @@
+---
+description: Video seeking, color fallback, FFmpeg pipeline, serve requirements
+globs: ["scripts/main.js", "setup-video.sh", "assets/**", "index.html"]
+alwaysApply: false
+---
+
+# Video & media conventions
+
+Product Switcher supports **video scrub mode** (wheel maps to `video.currentTime`) or **color fallback mode** (`VIDEO_SRC = null`).
+
+## VIDEO_SRC configuration
+
+- Defined in `scripts/main.js`: `var VIDEO_SRC = null;`
+- Patched by `setup-video.sh` after FFmpeg pipeline — **not** in index.html.
+- Relative path from project root, e.g. `'assets/product.mp4'`.
+
+## Server requirements
+
+| Server | Range requests | Video seeking |
+|--------|----------------|---------------|
+| `npm run dev` (`serve`) | ✅ | Works |
+| `python -m http.server` | ❌ | **Broken** — do not use for video QA |
+
+Always document this when adding dev instructions.
+
+## FFmpeg pipeline (`setup-video.sh`)
+
+1. Scan `assets/` for first `.mp4` / `.mov`.
+2. Convert `.mov` → H.264 `.mp4` (`libx264`, `yuv420p`, no audio).
+3. Extract 3 thumb frames at duration/6, duration/2, 5×duration/6 → `nav-icon-1..3.png`.
+4. Patch `VIDEO_SRC` in `scripts/main.js`.
+
+Manual commands (also in index.html comment block):
+
+```bash
+ffmpeg -i assets/YOUR_VIDEO.mov -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -an assets/product.mp4
+
+DURATION=$(ffprobe -v error -show_entries format=duration -of csv=p=0 assets/product.mp4)
+T1=$(echo "$DURATION / 6" | bc -l)
+T2=$(echo "$DURATION / 2" | bc -l)
+T3=$(echo "$DURATION * 5 / 6" | bc -l)
+ffmpeg -ss "$T1" -i assets/product.mp4 -frames:v 1 -q:v 2 assets/nav-icon-1.png
+# ... T2, T3 for nav-icon-2, nav-icon-3
+```
+
+Frame times must align with section midpoints: `(index + 0.5) / SECTION_COUNT`.
+
+## Color fallback
+
+- `SECTION_COLORS`: `#C4A882`, `#C0C0C0`, `#D4C876` — sync with switcher thumbs.
+- `progressToColor()` lerps between adjacent colors by scroll progress.
+- `.fallback-color` injected into `#centralArea` with `aria-hidden="true"`.
+
+## Video element setup
+
+```javascript
+videoEl.muted = true;
+videoEl.playsInline = true;
+videoEl.preload = 'auto';
+// RAF: videoEl.currentTime = scrollProgress * videoEl.duration;
+```
+
+- No autoplay with sound.
+- 8s metadata timeout → fallback mode if load fails.
+- On error: remove video element, init fallback, do not leave broken `<video>`.
+
+## Switcher thumbs in video mode
+
+- `backgroundImage: url('assets/nav-icon-N.png')` on `.switcher__inner`.
+- `backgroundColor` still set from `SECTION_COLORS` as fallback if PNG missing.
+
+## ScrollTrigger (optional — not loaded)
+
+Current scrub uses RAF + native `currentTime`, not GSAP ScrollTrigger. If adding scroll-linked GSAP effects later:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+<script>gsap.registerPlugin(ScrollTrigger);</script>
+```
+
+Only add when a feature requires it — see README "Optional: ScrollTrigger".

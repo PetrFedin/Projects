@@ -34,7 +34,7 @@ export default function B2BAssortmentPlanningPage() {
     <CabinetPageContent maxWidth="3xl" className="space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bOrderMode}
-        lead="Распределите бюджет по категориям перед заказом в матрице (NuOrder-style)."
+        lead="Распределите бюджет по категориям перед заказом в матрице."
       />
       <Card>
         <CardHeader>

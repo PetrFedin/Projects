@@ -16,6 +16,9 @@ import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { getAnalyticsLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
+import { PlatformCoreDemoDataBadge } from '@/components/platform/PlatformCoreDemoDataBadge';
+import { PlatformCorePlaceholderSurfaceDisclaimer } from '@/components/platform/PlatformCorePlaceholderSurfaceDisclaimer';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 
 export default function AnalyticsPage() {
   const synthaBrand =
@@ -82,14 +85,21 @@ export default function AnalyticsPage() {
 
   return (
     <div className="container mx-auto max-w-5xl space-y-4 px-4 py-4 pb-24 duration-700 animate-in fade-in">
-      <p
-        className="text-text-muted border-border-default bg-bg-surface2/80 rounded-md border px-3 py-2 text-xs leading-snug"
-        data-testid="brand-analytics-demo-disclaimer"
-      >
-        <span className="text-text-primary font-semibold">Демо.</span> Метрики и отчёты на
-        мок-данных; не финансовая отчётность и не интеграция с OMS. См. реестр ядра:{' '}
-        <code className="text-[10px]">CORE_OPERATING_CHAIN.md</code> §5.
-      </p>
+      {isPlatformCoreMode() ? (
+        <PlatformCorePlaceholderSurfaceDisclaimer route="/brand/analytics" />
+      ) : (
+        <p
+          className="text-text-muted border-border-default bg-bg-surface2/80 rounded-md border px-3 py-2 text-xs leading-snug"
+          data-testid="brand-analytics-demo-disclaimer"
+        >
+          <span className="text-text-primary inline-flex items-center gap-2 font-semibold">
+            Демо.
+            <PlatformCoreDemoDataBadge label="placeholder-data" />
+          </span>{' '}
+          Метрики и отчёты на мок-данных; не финансовая отчётность и не интеграция с OMS. См. реестр
+          ядра: <code className="text-[10px]">CORE_OPERATING_CHAIN.md</code> §5.
+        </p>
+      )}
       {/* Control Panel — без повтора заголовка раздела (шапка из layout) */}
       <div className="flex flex-col items-end justify-end gap-3 border-b border-slate-100 pb-3 md:flex-row">
         <div className="flex w-full flex-wrap items-center gap-2 md:w-auto">

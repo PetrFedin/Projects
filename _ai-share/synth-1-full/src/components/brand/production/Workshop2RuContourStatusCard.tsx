@@ -6,7 +6,6 @@ import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-
 import {
   buildWorkshop2Ss27RuJourneySteps,
   summarizeWorkshop2RuContourStatusLines,
-  WORKSHOP2_SS27_COLLECTION_ID,
 } from '@/lib/production/workshop2-ru-journey-ss27';
 import { summarizeWorkshop2RuStatusStrip } from '@/lib/production/workshop2-ru-status-strip-summary';
 import type { Workshop2HubArticleMiniStatus } from '@/lib/production/workshop2-hub-summary';
@@ -37,8 +36,11 @@ export function Workshop2RuContourStatusCard({
   useEffect(() => {
     let cancelled = false;
     void fetch('/api/workshop2/investor-readiness', { cache: 'no-store' })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: { readyForInvestorDemo?: boolean; stagingNoteRu?: string } | null) => {
+      .then(async (res) => {
+        if (!res.ok) return null;
+        return (await res.json()) as { readyForInvestorDemo?: boolean; stagingNoteRu?: string } | null;
+      })
+      .then((data) => {
         if (cancelled || !data) return;
         setInvestorReady(data.readyForInvestorDemo === true);
         setStagingNoteRu(typeof data.stagingNoteRu === 'string' ? data.stagingNoteRu : null);
@@ -83,12 +85,10 @@ export function Workshop2RuContourStatusCard({
 
   const collapsedHint =
     investorReady === true
-      ? 'контур OK · investor-ready'
+      ? 'контур готов'
       : investorReady === false
-        ? 'staging · см. детали'
-        : cid === WORKSHOP2_SS27_COLLECTION_ID
-          ? 'SS27 · загрузка readiness…'
-          : 'загрузка readiness…';
+        ? 'требует внимания · см. детали'
+        : 'загрузка статуса…';
 
   return (
     <section

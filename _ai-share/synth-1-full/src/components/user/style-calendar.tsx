@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/providers/auth-provider';
+import { calendarMessagesHrefFromThreadChatId } from '@/lib/platform-core-calendar-thread-link';
+import type { UserRole } from '@/lib/types';
 import { useUserOrders } from '@/hooks/use-user-orders';
 import { useUserInsights } from '@/hooks/use-user-insights';
 import { CalendarEvent, Layer, EventType } from '@/lib/types/calendar';
@@ -19,7 +22,13 @@ export default function StyleCalendar({
   externalDate,
   onDateChange,
   externalEvents,
+  externalEventsOnly = false,
   contextSearchSeed,
+  platformCoreTaskContext,
+  onPlatformCoreTaskCreated,
+  platformCoreTaskCreateEnabled = true,
+  slimCore: slimCoreProp,
+  calendarSearchTestId,
 }: {
   initialRole?: any;
   variant?: 'full' | 'compact';
@@ -27,9 +36,25 @@ export default function StyleCalendar({
   onDateChange?: (date: Date) => void;
   /** События из LIVE process, collaboration и др. — объединяются с дефолтными */
   externalEvents?: CalendarEvent[];
+  /** Platform Core: только PG/W2 события, без mock-календаря */
+  externalEventsOnly?: boolean;
   /** Из URL (матрица этапов): предзаполнить поиск артикул / заказ / сезон */
   contextSearchSeed?: string;
+  /** Platform Core: POST user-task + auto-thread при создании события */
+  platformCoreTaskContext?: {
+    collectionId: string;
+    orderId?: string;
+    articleId?: string;
+  };
+  onPlatformCoreTaskCreated?: () => void;
+  /** Platform Core: скрыть создание слота без PostgreSQL */
+  platformCoreTaskCreateEnabled?: boolean;
+  /** Platform Core comms workspace: compact header + month grid на < md */
+  slimCore?: boolean;
+  calendarSearchTestId?: string;
 }) {
+  const slimCore = slimCoreProp ?? externalEventsOnly;
+  const router = useRouter();
   const { user } = useAuth();
   const { orders } = useUserOrders();
   const { predictions } = useUserInsights();
@@ -82,6 +107,8 @@ export default function StyleCalendar({
   });
   const [entityFilters, setEntityFilters] = useState<Record<string, string>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [taskSaving, setTaskSaving] = useState(false);
+  const [taskSaveError, setTaskSaveError] = useState<string | null>(null);
   const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
   const [draft, setDraft] = useState<Partial<CalendarEvent>>({
     title: '',
@@ -336,7 +363,9 @@ export default function StyleCalendar({
       });
     }
 
-    if (externalEvents && externalEvents.length > 0) {
+    if (externalEventsOnly) {
+      setEvents(externalEvents ?? []);
+    } else if (externalEvents && externalEvents.length > 0) {
       const extIds = new Set(externalEvents.map((e) => e.id));
       const merged = [...externalEvents];
       mockEvents.forEach((m) => {
@@ -346,7 +375,7 @@ export default function StyleCalendar({
     } else {
       setEvents(mockEvents);
     }
-  }, [user, orders, predictions, externalEvents]);
+  }, [user, orders, predictions, externalEvents, externalEventsOnly]);
 
   const filteredEvents = useMemo(() => {
     const raw = search.trim().toLowerCase();
@@ -367,6 +396,8 @@ export default function StyleCalendar({
   }, [events, currentRole, layerFilter, search]);
 
   const handleOpenCreateModal = (date?: Date, forcedType?: EventType) => {
+    if (externalEventsOnly && platformCoreTaskContext && !platformCoreTaskCreateEnabled) return;
+    setTaskSaveError(null);
     const start = date ? new Date(date) : new Date();
     start.setHours(12, 0, 0, 0);
     const end = new Date(start.getTime() + 3600000);
@@ -384,6 +415,48 @@ export default function StyleCalendar({
   };
 
   const handleSaveEvent = () => {
+    if (
+      modalMode === 'create' &&
+      externalEventsOnly &&
+      platformCoreTaskContext?.collectionId?.trim()
+    ) {
+      void (async () => {
+        setTaskSaving(true);
+        try {
+          const res = await fetch('/api/workshop2/platform-core/calendar-events/user-task', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              collectionId: platformCoreTaskContext.collectionId,
+              orderId: platformCoreTaskContext.orderId,
+              articleId: platformCoreTaskContext.articleId,
+              ownerRole: currentRole,
+              title: draft.title?.trim() || 'Задача',
+              description: draft.description?.trim(),
+              startAt: draft.startAt,
+              endAt: draft.endAt,
+              eventType: draft.type,
+            }),
+          });
+          const json = (await res.json()) as {
+            ok?: boolean;
+            event?: CalendarEvent;
+            messageRu?: string;
+          };
+          if (json.ok && json.event) {
+            setEvents([...events, json.event]);
+            onPlatformCoreTaskCreated?.();
+          } else {
+            setTaskSaveError(json.messageRu?.trim() || 'Слот не сохранён — нужен PostgreSQL (core:bootstrap).');
+          }
+        } finally {
+          setTaskSaving(false);
+          setIsModalOpen(false);
+        }
+      })();
+      return;
+    }
+
     if (modalMode === 'create') {
       const newEvent: CalendarEvent = {
         ...draft,
@@ -412,6 +485,22 @@ export default function StyleCalendar({
   };
 
   const handleEventClick = (event: CalendarEvent) => {
+    // Бренд / магазин / цех: превью в EventDialog + «Чат»; поставщик — прямой переход в messages.
+    const autoNavigateToThread =
+      externalEventsOnly &&
+      event.calendarId === 'workshop2-b2b' &&
+      event.targetChatId?.trim() &&
+      currentRole === 'supplier';
+    if (autoNavigateToThread) {
+      const href = calendarMessagesHrefFromThreadChatId(
+        event.targetChatId!.trim(),
+        (currentRole as UserRole) || 'shop'
+      );
+      if (href) {
+        router.push(href);
+        return;
+      }
+    }
     setSelectedEventId(event.id);
     setDraft(event);
     setModalMode('edit');
@@ -421,12 +510,16 @@ export default function StyleCalendar({
   return (
     <div
       className={cn(
-        'flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-xl',
+        'flex flex-col overflow-hidden border bg-white',
+        slimCore
+          ? 'rounded-lg border-border-subtle shadow-sm'
+          : 'rounded-3xl border-slate-100 shadow-xl',
         variant === 'full' ? 'h-full' : 'h-[600px]'
       )}
+      data-testid={slimCore ? 'platform-core-calendar-shell' : undefined}
     >
       {variant === 'full' ? (
-        <div className="border-b border-slate-100 p-4">
+        <div className={cn('border-b border-slate-100', slimCore ? 'p-2 md:p-4' : 'p-4')}>
           <CalendarHeader
             state={{
               currentRole,
@@ -454,6 +547,11 @@ export default function StyleCalendar({
               handleOpenCreateModal,
             }}
             user={user}
+            createEventsEnabled={
+              !(externalEventsOnly && platformCoreTaskContext && !platformCoreTaskCreateEnabled)
+            }
+            slimCore={slimCore}
+            calendarSearchTestId={calendarSearchTestId}
           />
         </div>
       ) : (
@@ -469,14 +567,31 @@ export default function StyleCalendar({
       )}
 
       <div
-        className={cn('flex-1 overflow-y-auto bg-slate-50/50', variant === 'full' ? 'p-4' : 'p-2')}
+        className={cn(
+          'flex-1 overflow-y-auto bg-slate-50/50',
+          variant === 'full' ? (slimCore ? 'p-2 md:p-4' : 'p-4') : 'p-2'
+        )}
       >
+        {taskSaveError ? (
+          <p
+            className="mb-2 text-xs text-amber-900"
+            role="alert"
+            data-testid="calendar-task-save-error"
+          >
+            {taskSaveError}
+          </p>
+        ) : null}
         <CalendarGrid
           view={view}
           currentDate={currentDate}
           events={filteredEvents}
           onEventClick={handleEventClick}
-          onCellClick={(date) => handleOpenCreateModal(date)}
+          onCellClick={
+            externalEventsOnly && platformCoreTaskContext && !platformCoreTaskCreateEnabled
+              ? () => {}
+              : (date) => handleOpenCreateModal(date)
+          }
+          slimCore={slimCore}
         />
       </div>
 

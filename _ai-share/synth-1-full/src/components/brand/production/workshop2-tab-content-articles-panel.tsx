@@ -4,10 +4,13 @@ import { fetchWorkshop2HubBatchScores } from '@/lib/production/workshop2-hub-bat
 
 import { Fragment, type MutableRefObject, type Dispatch, type SetStateAction } from 'react';
 import {
+  ArrowDownAZ,
   CircleAlert,
   MessageSquare,
   Paperclip,
   Pencil,
+  Plus,
+  RotateCcw,
   Search,
   SquareSplitHorizontal,
   Trash2,
@@ -18,6 +21,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Workshop2ArticleDateFlip } from '@/components/brand/production/workshop2-article-date-flip';
@@ -40,6 +44,13 @@ import {
   workshop2ArticleDeletable,
   workshop2ArticleStageBucket,
 } from '@/components/brand/production/workshop2-tab-content-utils';
+import {
+  articleMatchesWorkshop2CategoryFacets,
+  collectWorkshop2AudienceOptions,
+  collectWorkshop2CategoryL1Options,
+  collectWorkshop2CategoryL2Options,
+  collectWorkshop2CategoryL3Options,
+} from '@/lib/production/workshop2-article-category-facets';
 import { findHandbookLeafById, getHandbookCategoryLeaves } from '@/lib/production/category-catalog';
 import {
   WORKSHOP2_PIPELINE_SAMPLES_LANE_START_INDEX,
@@ -159,35 +170,27 @@ export function Workshop2TabContentArticlesPanel({
     const tb = b.addedAtIso ? new Date(b.addedAtIso).getTime() : 0;
     return tb - ta;
   });
-  const uniqSorted = (vals: string[]) =>
-    [...new Set(vals)].sort((a, b) => a.localeCompare(b, 'ru'));
-  const audienceOpts = uniqSorted(
-    open.articleRows.map((r) => r.audienceLabel?.trim()).filter((v): v is string => Boolean(v))
-  );
-  const l1Opts = uniqSorted(
-    open.articleRows.map((r) => r.categoryL1?.trim()).filter((v): v is string => Boolean(v))
-  );
-  const l2Opts = uniqSorted(
-    open.articleRows.map((r) => r.categoryL2?.trim()).filter((v): v is string => Boolean(v))
-  );
-  const l3Opts = uniqSorted(
-    open.articleRows.map((r) => r.categoryL3?.trim()).filter((v): v is string => Boolean(v))
-  );
+  const facetSourceRows = open.articleRows;
+  const selectedL1 =
+    articleFacetL1.size === 1 ? [...articleFacetL1][0] : undefined;
+  const selectedL2 =
+    articleFacetL2.size === 1 ? [...articleFacetL2][0] : undefined;
+  const audienceOpts = collectWorkshop2AudienceOptions(facetSourceRows);
+  const l1Opts = collectWorkshop2CategoryL1Options(facetSourceRows);
+  const l2Opts = collectWorkshop2CategoryL2Options(facetSourceRows, selectedL1);
+  const l3Opts = collectWorkshop2CategoryL3Options(facetSourceRows, selectedL1, selectedL2);
   const facAud = ensureFacetSelectionSet(articleFacetAudience);
   const facL1 = ensureFacetSelectionSet(articleFacetL1);
   const facL2 = ensureFacetSelectionSet(articleFacetL2);
   const facL3 = ensureFacetSelectionSet(articleFacetL3);
-  const facetFiltered = rowsSorted.filter((r) => {
-    const aud = r.audienceLabel.trim();
-    const l1 = r.categoryL1.trim();
-    const l2 = r.categoryL2.trim();
-    const l3 = r.categoryL3.trim();
-    if (facAud.size > 0 && !facAud.has(aud)) return false;
-    if (facL1.size > 0 && !facL1.has(l1)) return false;
-    if (facL2.size > 0 && !facL2.has(l2)) return false;
-    if (facL3.size > 0 && !facL3.has(l3)) return false;
-    return true;
-  });
+  const facetFiltered = rowsSorted.filter((r) =>
+    articleMatchesWorkshop2CategoryFacets(r, {
+      audience: facAud,
+      l1: facL1,
+      l2: facL2,
+      l3: facL3,
+    })
+  );
   const q = articleSkuFilter.trim().toLowerCase();
   const filteredRows =
     q.length > 0
@@ -220,35 +223,38 @@ export function Workshop2TabContentArticlesPanel({
               <CardTitle className="text-sm uppercase tracking-tight">
                 Артикулы · {open.displayName}
               </CardTitle>
-              <CardDescription className="text-xs">
+              <CardDescription className="hidden text-xs sm:block">
                 Слева — разработка и ТЗ по каталогу, справа — сэмплы и выпуск. Клик по столбцу
                 подсвечивает артикулы, у которых по матрице открыт этот этап.
               </CardDescription>
             </div>
             <div
-              className="flex w-full min-w-0 flex-nowrap items-end gap-x-2 gap-y-2 overflow-x-auto overscroll-x-contain pb-0.5 [-webkit-overflow-scrolling:touch]"
+              className="flex w-full min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-end"
               onPointerDown={(e) => e.stopPropagation()}
               onClick={(e) => e.stopPropagation()}
             >
-              <Workshop2ArticleFacetPopover
-                label="Аудитория"
-                title={WORKSHOP2_AUDIENCE_FILTER_TITLE}
-                options={audienceOpts}
-                selected={articleFacetAudience}
-                onSelectedChange={setArticleFacetAudience}
-                triggerId={`w2-art-aud-${open.id}`}
-              />
-              <Workshop2ArticleFacetPopover
-                label="Ур. 1"
-                title={WORKSHOP2_CAT_L1_FILTER_TITLE}
-                options={l1Opts}
-                selected={articleFacetL1}
-                onSelectedChange={setArticleFacetL1}
-                triggerId={`w2-art-l1-${open.id}`}
-              />
-              <div className="flex shrink-0 flex-nowrap items-end gap-x-2">
+              <div className="flex min-w-0 flex-wrap items-end gap-1.5 sm:gap-2">
+                <Workshop2ArticleFacetPopover
+                  label="Аудитория"
+                  compactLabel="Ауд"
+                  title={WORKSHOP2_AUDIENCE_FILTER_TITLE}
+                  options={audienceOpts}
+                  selected={articleFacetAudience}
+                  onSelectedChange={setArticleFacetAudience}
+                  triggerId={`w2-art-aud-${open.id}`}
+                />
+                <Workshop2ArticleFacetPopover
+                  label="Ур. 1"
+                  compactLabel="1"
+                  title={WORKSHOP2_CAT_L1_FILTER_TITLE}
+                  options={l1Opts}
+                  selected={articleFacetL1}
+                  onSelectedChange={setArticleFacetL1}
+                  triggerId={`w2-art-l1-${open.id}`}
+                />
                 <Workshop2ArticleFacetPopover
                   label="Ур. 2"
+                  compactLabel="2"
                   title={WORKSHOP2_CAT_L2_FILTER_TITLE}
                   options={l2Opts}
                   selected={articleFacetL2}
@@ -257,6 +263,7 @@ export function Workshop2TabContentArticlesPanel({
                 />
                 <Workshop2ArticleFacetPopover
                   label="Ур. 3"
+                  compactLabel="3"
                   title={WORKSHOP2_CAT_L3_FILTER_TITLE}
                   options={l3Opts}
                   selected={articleFacetL3}
@@ -264,70 +271,141 @@ export function Workshop2TabContentArticlesPanel({
                   triggerId={`w2-art-l3-${open.id}`}
                 />
               </div>
-              <div className="flex shrink-0 flex-col justify-end gap-0.5">
-                <span
-                  className="text-text-secondary flex h-[0.875rem] items-end whitespace-nowrap text-[9px] font-semibold uppercase leading-none tracking-wide"
-                  aria-hidden
-                >
-                  {'\u00a0'}
-                </span>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="text-text-primary h-9 shrink-0 whitespace-nowrap px-2 text-[9px] font-bold uppercase"
-                  onClick={() => {
-                    setArticleFacetAudience(new Set());
-                    setArticleFacetL1(new Set());
-                    setArticleFacetL2(new Set());
-                    setArticleFacetL3(new Set());
-                  }}
-                >
-                  Сбросить фильтр
-                </Button>
+              <div className="flex shrink-0 flex-wrap items-center gap-1.5 sm:gap-2">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="text-text-primary h-9 min-h-9 w-9 shrink-0 p-0 sm:w-auto sm:px-2"
+                      aria-label="Сбросить фильтры"
+                      onClick={() => {
+                        setArticleFacetAudience(new Set());
+                        setArticleFacetL1(new Set());
+                        setArticleFacetL2(new Set());
+                        setArticleFacetL3(new Set());
+                      }}
+                    >
+                      <RotateCcw className="h-4 w-4 shrink-0 sm:hidden" aria-hidden />
+                      <span className="hidden text-[9px] font-bold uppercase sm:inline">
+                        Сбросить фильтр
+                      </span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="sm:hidden">
+                    Сбросить фильтры
+                  </TooltipContent>
+                </Tooltip>
+                <Popover>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <PopoverTrigger asChild>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="text-text-primary h-9 min-h-9 w-9 shrink-0 p-0 sm:hidden"
+                          aria-label="Сортировка списка"
+                        >
+                          <ArrowDownAZ className="h-4 w-4" aria-hidden />
+                        </Button>
+                      </PopoverTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="sm:hidden">
+                      Сортировка
+                    </TooltipContent>
+                  </Tooltip>
+                  <PopoverContent align="end" className="w-44 p-1">
+                    <button
+                      type="button"
+                      className={cn(
+                        'hover:bg-bg-surface2 w-full rounded-md px-2 py-1.5 text-left text-[11px] font-medium',
+                        articleListSort === 'sku' && 'bg-accent-primary/10 text-accent-primary'
+                      )}
+                      onClick={() => setArticleListSort('sku')}
+                    >
+                      SKU A→Я
+                    </button>
+                    <button
+                      type="button"
+                      className={cn(
+                        'hover:bg-bg-surface2 w-full rounded-md px-2 py-1.5 text-left text-[11px] font-medium',
+                        articleListSort === 'added' && 'bg-accent-primary/10 text-accent-primary'
+                      )}
+                      onClick={() => setArticleListSort('added')}
+                    >
+                      Дата добавления
+                    </button>
+                  </PopoverContent>
+                </Popover>
+                <div className="hidden shrink-0 flex-col gap-0.5 sm:flex">
+                  <Label
+                    htmlFor={`w2-art-sort-${open.id}`}
+                    className="text-text-secondary whitespace-nowrap text-[9px] font-semibold uppercase tracking-wide"
+                  >
+                    Сортировка
+                  </Label>
+                  <select
+                    id={`w2-art-sort-${open.id}`}
+                    value={articleListSort}
+                    onChange={(e) =>
+                      setArticleListSort(e.target.value === 'added' ? 'added' : 'sku')
+                    }
+                    className="border-border-default text-text-primary h-9 w-[7.5rem] cursor-pointer rounded-md border bg-white px-1.5 text-[10px] font-semibold"
+                  >
+                    <option value="sku">SKU A→Я</option>
+                    <option value="added">Дата добавления</option>
+                  </select>
+                </div>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-9 min-h-9 w-9 shrink-0 p-0 sm:w-auto sm:gap-1 sm:px-2"
+                      data-testid="brand-w2-bulk-import-btn"
+                      aria-label="Массовый импорт"
+                      onClick={() => {
+                        setBulkCol({ id: open.id, displayName: open.displayName });
+                        setBulkText('');
+                        setBulkOpen(true);
+                      }}
+                    >
+                      <Upload className="h-4 w-4 shrink-0" aria-hidden />
+                      <span className="hidden text-[10px] font-bold uppercase sm:inline">
+                        Массово
+                      </span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="sm:hidden">
+                    Массовый импорт
+                  </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      size="sm"
+                      className="h-9 min-h-9 w-9 shrink-0 p-0 sm:w-auto sm:px-3"
+                      aria-label="Создать артикул"
+                      onClick={() => {
+                        setArticleEditTarget(null);
+                        setArticleDialogCol({ id: open.id, displayName: open.displayName });
+                      }}
+                    >
+                      <Plus className="h-4 w-4 shrink-0" aria-hidden />
+                      <span className="hidden text-[10px] font-bold uppercase sm:inline">
+                        Создать артикул
+                      </span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="sm:hidden">
+                    Создать артикул
+                  </TooltipContent>
+                </Tooltip>
               </div>
-              <div className="flex shrink-0 flex-col gap-0.5">
-                <Label
-                  htmlFor={`w2-art-sort-${open.id}`}
-                  className="text-text-secondary whitespace-nowrap text-[9px] font-semibold uppercase tracking-wide"
-                >
-                  Сортировка
-                </Label>
-                <select
-                  id={`w2-art-sort-${open.id}`}
-                  value={articleListSort}
-                  onChange={(e) => setArticleListSort(e.target.value === 'added' ? 'added' : 'sku')}
-                  className="border-border-default text-text-primary h-9 w-[6.75rem] cursor-pointer rounded-md border bg-white px-1.5 text-[10px] font-semibold sm:w-[7.5rem]"
-                >
-                  <option value="sku">SKU A→Я</option>
-                  <option value="added">Дата добавления</option>
-                </select>
-              </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="h-9 shrink-0 gap-1 text-[10px] font-bold uppercase"
-                onClick={() => {
-                  setBulkCol({ id: open.id, displayName: open.displayName });
-                  setBulkText('');
-                  setBulkOpen(true);
-                }}
-              >
-                <Upload className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                Массово
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                className="h-9 shrink-0 whitespace-nowrap text-[10px] font-bold uppercase"
-                onClick={() => {
-                  setArticleEditTarget(null);
-                  setArticleDialogCol({ id: open.id, displayName: open.displayName });
-                }}
-              >
-                Создать артикул
-              </Button>
             </div>
           </div>
         </CardHeader>
@@ -378,8 +456,11 @@ export function Workshop2TabContentArticlesPanel({
               </Tooltip>
             </div>
             {rowsSorted.length === 0 ? null : (
-              <div className="border-accent-primary/20 w-full min-w-0 overflow-x-auto rounded-md border bg-white/80 p-1.5">
-                <div className="flex min-w-max items-end gap-px">
+              <div
+                className="border-accent-primary/20 w-full min-w-0 rounded-md border bg-white/80 p-1.5"
+                data-testid="brand-dev-w2-hub-gates-strip"
+              >
+                <div className="flex flex-wrap items-end gap-1">
                   {WORKSHOP2_PIPELINE_STEP_IDS.map((sid, idx) => {
                     const step = COLLECTION_STEP_BY_ID.get(sid);
                     const n = articleIds.length;
@@ -539,13 +620,13 @@ export function Workshop2TabContentArticlesPanel({
                       if (node) articleRowRefs.current.set(row.id, node);
                       else articleRowRefs.current.delete(row.id);
                     }}
-                    className="flex min-w-0 flex-row items-stretch gap-2"
+                    className="flex min-w-0 flex-col md:flex-row md:items-stretch md:gap-2"
                   >
                     <button
                       type="button"
                       aria-label={openArticleAriaLabel}
                       className={cn(
-                        'flex min-h-0 min-w-0 flex-1 flex-row items-stretch justify-between gap-2 overflow-hidden px-4 py-3 text-left transition-colors',
+                        'flex min-h-0 min-w-0 flex-1 flex-col md:flex-row md:items-stretch md:justify-between md:gap-2 overflow-hidden px-4 py-3 text-left transition-colors max-md:min-h-11',
                         'hover:bg-accent-primary/10 active:bg-accent-primary/15',
                         isHighlight && 'bg-amber-50/90 ring-2 ring-inset ring-amber-200/90',
                         stageHighlight &&
@@ -624,13 +705,13 @@ export function Workshop2TabContentArticlesPanel({
                           />
                         </div>
                       </div>
-                      <div className="border-border-subtle hidden w-[6.75rem] shrink-0 flex-col justify-center border-l px-2 text-right min-[400px]:flex">
+                      <div className="border-border-subtle hidden w-[6.75rem] shrink-0 flex-col justify-center border-l px-2 text-right md:flex">
                         <Workshop2ArticleDateFlip
                           addedAtIso={row.addedAtIso}
                           updatedAtIso={row.updatedAtIso}
                         />
                       </div>
-                      <div className="border-border-subtle flex w-[7.5rem] min-w-[7rem] shrink-0 flex-col items-end justify-center gap-1.5 border-l pl-2 pr-1">
+                      <div className="border-border-subtle flex w-full shrink-0 flex-row items-center justify-between gap-2 border-t pt-2 md:w-[7.5rem] md:min-w-[7rem] md:flex-col md:items-end md:justify-center md:gap-1.5 md:border-l md:border-t-0 md:pl-2 md:pr-1 md:pt-0">
                         {prog.total === 0 ? (
                           <span className="text-text-secondary w-full break-words text-right text-[9px] font-semibold leading-tight">
                             Нет этапов
@@ -640,13 +721,13 @@ export function Workshop2TabContentArticlesPanel({
                             Этапы не начаты
                           </span>
                         ) : (
-                          <span className="text-accent-primary text-lg font-black tabular-nums leading-none">
+                          <span className="text-accent-primary text-lg font-black tabular-nums leading-none max-md:text-base">
                             {prog.pct}%
                           </span>
                         )}
                         <Progress
                           value={prog.pct}
-                          className="h-1.5 w-full"
+                          className="h-1.5 w-full max-md:max-w-[8rem]"
                           aria-label={
                             prog.total === 0
                               ? 'Прогресс по этапам не задан'
@@ -658,13 +739,13 @@ export function Workshop2TabContentArticlesPanel({
                         </span>
                       </div>
                     </button>
-                    <div className="border-border-subtle bg-bg-surface2/80 relative z-[1] flex w-[6rem] min-w-[6rem] shrink-0 flex-col gap-1 border-l py-2 pl-2 pr-1">
+                    <div className="border-border-subtle bg-bg-surface2/80 relative z-[1] flex w-full min-w-0 shrink-0 flex-row items-center justify-end gap-1 border-t py-2 pl-2 pr-3 md:w-[6rem] md:min-w-[6rem] md:flex-col md:gap-1 md:border-l md:border-t-0 md:py-2 md:pr-1">
                       <div className="flex flex-row items-center justify-end gap-0.5">
                         <Button
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="text-text-secondary hover:text-accent-primary h-7 min-h-7 w-7 min-w-7 shrink-0 p-0"
+                          className="text-text-secondary hover:text-accent-primary h-9 min-h-11 w-9 min-w-11 shrink-0 p-0 md:h-7 md:min-h-7 md:w-7 md:min-w-7"
                           aria-label="Заметки по артикулу"
                           title="Заметки по артикулу (локально в браузере)"
                           onClick={(e) => {
@@ -686,7 +767,7 @@ export function Workshop2TabContentArticlesPanel({
                               type="button"
                               variant="ghost"
                               size="icon"
-                              className="text-text-secondary hover:text-accent-primary h-7 min-h-7 w-7 min-w-7 shrink-0 p-0"
+                              className="text-text-secondary hover:text-accent-primary h-9 min-h-11 w-9 min-w-11 shrink-0 p-0 md:h-7 md:min-h-7 md:w-7 md:min-w-7"
                               aria-label="Редактировать артикул"
                               onClick={(e) => {
                                 e.preventDefault();
@@ -729,7 +810,7 @@ export function Workshop2TabContentArticlesPanel({
                                 type="button"
                                 variant="ghost"
                                 size="icon"
-                                className="h-7 min-h-7 w-7 min-w-7 shrink-0 p-0 text-red-600 hover:bg-red-50 hover:text-red-800"
+                                className="h-9 min-h-11 w-9 min-w-11 shrink-0 p-0 text-red-600 hover:bg-red-50 hover:text-red-800 md:h-7 md:min-h-7 md:w-7 md:min-w-7"
                                 aria-label={`Удалить артикул ${row.sku} из подборки`}
                                 onClick={(e) => {
                                   e.preventDefault();

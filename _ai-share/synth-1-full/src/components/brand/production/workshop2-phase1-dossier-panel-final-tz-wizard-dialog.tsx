@@ -19,26 +19,37 @@ export function Workshop2FinalTzWizardDialog({
   exportLanguage,
   onExportLanguageChange,
   finalTzSpecDocumentHtml,
+  factoryPackDocumentHtml,
   phase1DossierJsonUtf8Bytes,
   tzWriteDisabled,
   onDownloadHtml,
   onPrintPdf,
+  onDownloadFactoryPack,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   exportLanguage: 'ru' | 'ru_en' | 'ru_zh';
   onExportLanguageChange: (lang: 'ru' | 'ru_en' | 'ru_zh') => void;
   finalTzSpecDocumentHtml: string;
+  factoryPackDocumentHtml: string;
   phase1DossierJsonUtf8Bytes: number;
   tzWriteDisabled: boolean;
   onDownloadHtml: () => void;
   onPrintPdf: () => void;
+  onDownloadFactoryPack: () => void;
 }) {
   const [step, setStep] = useState(0);
+  const [previewMode, setPreviewMode] = useState<'final-tz' | 'factory-pack'>('final-tz');
 
   useEffect(() => {
-    if (!open) setStep(0);
+    if (!open) {
+      setStep(0);
+      setPreviewMode('final-tz');
+    }
   }, [open]);
+
+  const previewHtml =
+    previewMode === 'factory-pack' ? factoryPackDocumentHtml : finalTzSpecDocumentHtml;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -118,11 +129,34 @@ export function Workshop2FinalTzWizardDialog({
           ) : null}
           {step === 1 ? (
             <div className="space-y-2">
-              <p className="text-text-secondary text-xs">Предпросмотр (как в скачанном файле).</p>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={previewMode === 'final-tz' ? 'default' : 'outline'}
+                  className="h-7 text-xs"
+                  onClick={() => setPreviewMode('final-tz')}
+                >
+                  Итоговое ТЗ
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={previewMode === 'factory-pack' ? 'default' : 'outline'}
+                  className="h-7 text-xs"
+                  data-testid="workshop2-final-tz-factory-pack-preview"
+                  onClick={() => setPreviewMode('factory-pack')}
+                >
+                  Factory pack · 6 листов
+                </Button>
+              </div>
+              <p className="text-text-secondary text-xs">
+                Предпросмотр ({previewMode === 'factory-pack' ? 'ole_globirds sheets' : 'полное ТЗ'}).
+              </p>
               <iframe
-                title="Предпросмотр итогового ТЗ"
+                title="Предпросмотр экспорта"
                 className="border-border-default h-[min(420px,50vh)] w-full rounded-md border bg-white"
-                srcDoc={finalTzSpecDocumentHtml}
+                srcDoc={previewHtml}
               />
             </div>
           ) : null}
@@ -150,6 +184,18 @@ export function Workshop2FinalTzWizardDialog({
                     </p>
                   </TooltipContent>
                 </Tooltip>
+                {previewMode === 'factory-pack' ? (
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="secondary"
+                    className="text-xs"
+                    data-testid="workshop2-final-tz-download-factory-pack"
+                    onClick={onDownloadFactoryPack}
+                  >
+                    Скачать factory pack
+                  </Button>
+                ) : null}
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span className="inline-flex">

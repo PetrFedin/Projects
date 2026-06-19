@@ -5,7 +5,9 @@
 
 import type { UserRole } from '@/lib/types';
 import { B2B_WHOLESALE_ORDER_CONTEXT_QUERY } from '@/lib/domain/cross-role-entity-ids';
-import { workshop2ArticlePath } from '@/lib/production/workshop2-url';
+import { workshop2ArticleHref, workshop2ArticlePath } from '@/lib/production/workshop2-url';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { PILLAR_CAPABILITY_FEATURE_PARAM } from '@/lib/platform/pillar-capability-workspaces';
 
 const B2B_CTX = B2B_WHOLESALE_ORDER_CONTEXT_QUERY;
 
@@ -14,9 +16,178 @@ export function brandB2bOrderHref(orderId: string): string {
   return `/brand/b2b-orders/${encodeURIComponent(orderId)}`;
 }
 
+/** Карточка заказа бренда · передача в производство (`?pillar=order_production#production-handoff`). */
+export function brandB2bOrderHandoffContextHref(orderId: string): string {
+  return `${brandB2bOrderHref(orderId)}?pillar=order_production#production-handoff`;
+}
+
+/** Реестр B2B бренда · query filter/order/partner (единый реестр collection_order). */
+export function brandB2bOrdersRegistryHref(opts?: {
+  filter?: 'awaiting_handoff' | 'in_production' | null;
+  order?: string | null;
+  partner?: string | null;
+  /** @deprecated ignored — реестр только в collection_order */
+  productionPillar?: boolean;
+}): string {
+  const sp = new URLSearchParams();
+  const filter = opts?.filter ?? null;
+  if (filter) sp.set('filter', filter);
+  const order = opts?.order?.trim();
+  if (order) sp.set('order', order);
+  const partner = opts?.partner?.trim();
+  if (partner && partner !== 'all') sp.set('partner', partner);
+  const qs = sp.toString();
+  return qs ? `${ROUTES.brand.b2bOrders}?${qs}` : ROUTES.brand.b2bOrders;
+}
+
+/** Реестр B2B бренда · заказы, ожидающие передачу в цех. */
+export function brandB2bOrdersAwaitingHandoffRegistryHref(): string {
+  return brandB2bOrdersRegistryHref({ filter: 'awaiting_handoff' });
+}
+
+/** Реестр B2B бренда · заказы в производстве (после handoff). */
+export function brandB2bOrdersProductionRegistryHref(orderId?: string): string {
+  return brandB2bOrdersRegistryHref({
+    filter: 'in_production',
+    order: orderId ?? null,
+  });
+}
+
+/** Реестр B2B бренда · столп «Приём заказов» (без `pillar=order_production`). */
+export function brandB2bOrdersCollectionRegistryHref(orderId?: string | null): string {
+  return brandB2bOrdersRegistryHref({ productionPillar: false, order: orderId ?? null });
+}
+
+/** Кабинет бренда · столп «Выпуск» (`/brand/core?pillar=order_production`). */
+export function brandCoreOrderProductionCabinetHref(collectionId: string): string {
+  return `${ROUTES.brand.coreCabinet}?pillar=order_production&collection=${encodeURIComponent(collectionId)}`;
+}
+
+/** Карточка заказа бренда · мониторинг цепочки/PO (`?pillar=order_production`). */
+export function brandB2bOrderChainContextHref(orderId: string): string {
+  return `${brandB2bOrderHref(orderId)}?pillar=order_production`;
+}
+
+/** Карточка заказа бренда · контекст ТЗ/W2 (`?pillar=order_production#production-dossier`). */
+export function brandB2bOrderDossierContextHref(orderId: string): string {
+  return `${brandB2bOrderHref(orderId)}?pillar=order_production#production-dossier`;
+}
+
+/** W2 артикула · вкладка ТЗ, секция материалов (BOM перед handoff). */
+export function brandW2ProductionTzHref(collectionId: string, articleId: string): string {
+  return workshop2ArticleHref(collectionId, articleId, { w2pane: 'tz', w2sec: 'material' });
+}
+
+/** Досье цеха (read-only peer) с опциональным контекстом коллекции. */
+export function factoryProductionDossierHref(
+  articleId: string,
+  opts?: { collectionId?: string }
+): string {
+  const base = `/factory/production/dossier/${encodeURIComponent(articleId)}`;
+  const cid = opts?.collectionId?.trim();
+  return cid ? `${base}?collection=${encodeURIComponent(cid)}` : base;
+}
+
+/** Досье цеха в контексте столпа «Выпуск» (`?pillar=order_production`, опционально `order=`). */
+export function factoryProductionDossierContextHref(
+  articleId: string,
+  opts?: { collectionId?: string; orderId?: string }
+): string {
+  const sp = new URLSearchParams({ pillar: 'order_production' });
+  const cid = opts?.collectionId?.trim();
+  if (cid) sp.set('collection', cid);
+  const oid = opts?.orderId?.trim();
+  if (oid) sp.set('order', oid);
+  return `/factory/production/dossier/${encodeURIComponent(articleId)}?${sp.toString()}`;
+}
+
+/** Кабинет цеха · столп «Выпуск». */
+export function factoryCoreOrderProductionCabinetHref(collectionId: string): string {
+  return `${ROUTES.factory.productionCoreCabinet}?pillar=order_production&collection=${encodeURIComponent(collectionId)}`;
+}
+
+/** Кабинет поставщика · столп «Выпуск» (закупка). */
+export function factorySupplierCoreOrderProductionCabinetHref(collectionId: string): string {
+  return `${ROUTES.factory.supplierCoreCabinet}?pillar=order_production&collection=${encodeURIComponent(collectionId)}`;
+}
+
 /** Карточка B2B-заказа в кабинете байера (`/shop/b2b/orders/[orderId]`). */
 export function shopB2bOrderHref(orderId: string): string {
   return `/shop/b2b/orders/${encodeURIComponent(orderId)}`;
+}
+
+/** Tracking с якорем на строку заказа (query `order`). */
+export function shopB2bTrackingOrderHref(orderId: string): string {
+  return `${ROUTES.shop.b2bTracking}?order=${encodeURIComponent(orderId)}`;
+}
+
+/** Карточка заказа магазина · статус PO (canonical: detail + buyer-tracking). */
+export function shopB2bOrderProductionContextHref(orderId: string): string {
+  return `${shopB2bOrderHref(orderId)}#shop-co-buyer-tracking`;
+}
+
+/** Реестр заказов магазина · query filter/order (единый реестр collection_order). */
+export function shopB2bOrdersRegistryHref(opts?: {
+  filter?: 'in_production' | null;
+  order?: string | null;
+  /** @deprecated ignored — реестр только в collection_order */
+  productionPillar?: boolean;
+}): string {
+  const sp = new URLSearchParams();
+  const filter = opts?.filter ?? null;
+  if (filter) sp.set('filter', filter);
+  const order = opts?.order?.trim();
+  if (order) sp.set('order', order);
+  const qs = sp.toString();
+  return qs ? `${ROUTES.shop.b2bOrders}?${qs}` : ROUTES.shop.b2bOrders;
+}
+
+/** Реестр заказов магазина · фильтр «В производстве». */
+export function shopB2bOrdersProductionRegistryHref(orderId?: string): string {
+  return shopB2bOrdersRegistryHref({
+    filter: 'in_production',
+    order: orderId ?? null,
+  });
+}
+
+/** Реестр заказов магазина · столп «Оптовый заказ» (без `pillar=order_production`). */
+export function shopB2bOrdersCollectionRegistryHref(orderId?: string | null): string {
+  return shopB2bOrdersRegistryHref({ productionPillar: false, order: orderId ?? null });
+}
+
+/** Реестр производственных серий цеха с контекстом B2B-заказа (`?order=`). */
+export function factoryProductionOrdersOrderContextHref(
+  orderId: string,
+  opts?: { factoryId?: string }
+): string {
+  const sp = new URLSearchParams({ order: orderId });
+  if (opts?.factoryId?.trim()) sp.set('factoryId', opts.factoryId.trim());
+  return `${ROUTES.factory.productionOrders}?${sp.toString()}`;
+}
+
+/** Очередь передачи в цех с контекстом B2B-заказа (workspace tab `pcf=handoff`). */
+export function factoryProductionHandoffQueueHref(
+  orderId: string,
+  opts?: { factoryId?: string; collectionId?: string }
+): string {
+  const sp = new URLSearchParams({ order: orderId });
+  if (opts?.factoryId?.trim()) sp.set('factoryId', opts.factoryId.trim());
+  if (opts?.collectionId?.trim()) sp.set('collection', opts.collectionId.trim());
+  sp.set(PILLAR_CAPABILITY_FEATURE_PARAM, 'handoff');
+  return `${ROUTES.factory.production}?${sp.toString()}#handoff-queue`;
+}
+
+/** Checkout магазина с контекстом коллекции (deep-link из бренда). */
+export function shopB2bCheckoutCollectionHref(
+  collectionId: string,
+  opts?: { buyerId?: string }
+): string {
+  const sp = new URLSearchParams({ collection: collectionId });
+  const buyerId = opts?.buyerId?.trim();
+  if (buyerId && buyerId !== 'shop1') {
+    sp.set('buyer', buyerId);
+  }
+  return `${ROUTES.shop.b2bCheckout}?${sp.toString()}`;
 }
 
 /** Публичный профиль клиента по id/handle (`/client/{id}`). Кабинет «я» — `ROUTES.client.profile` (`/client/me`). */
@@ -92,6 +263,9 @@ export const ROUTES = {
     passport: '/client/passport',
     /** Календарь планов / событий в ЛК клиента (`StyleCalendar`, роль client) */
     calendar: '/client/calendar',
+    /** Конструктор лекал (client workspace). */
+    sewingPatterns: '/client/sewing-patterns',
+    sewingPatternsPresetEditor: '/client/sewing-patterns/preset-editor',
   },
   // —— Brand (бренд) ——
   brand: {
@@ -124,6 +298,8 @@ export const ROUTES = {
     integrationsSparkLayer: '/brand/integrations/archive/sparklayer',
     integrationsColect: '/brand/integrations/archive/colect',
     integrationsZedonk: '/brand/integrations/archive/zedonk',
+    integrationsCentric: '/brand/integrations/archive/centric',
+    integrationsApparelMagic: '/brand/integrations/archive/apparel-magic',
     subscription: '/brand/subscription',
     documents: '/brand/documents',
     quality: '/brand/quality',
@@ -144,6 +320,8 @@ export const ROUTES = {
     complianceStock: '/brand/compliance/stock',
     controlCenter: '/brand/control-center',
     dashboard: '/brand/dashboard',
+    /** Личный кабинет Platform Core — столпы по роли */
+    coreCabinet: '/brand/core',
     products: '/brand/products',
     /** Карточка товара в PIM бренда */
     productsCard: (productId: string) => `/brand/products/${encodeURIComponent(productId)}`,
@@ -452,6 +630,8 @@ export const ROUTES = {
   // —— Shop (магазин) ——
   shop: {
     home: '/shop',
+    /** Личный кабинет Platform Core — столпы по роли */
+    coreCabinet: '/shop/core',
     orders: '/shop/orders',
     /** Карточка розничного заказа: `/shop/orders/[orderId]` */
     order: (orderId: string) => `/shop/orders/${encodeURIComponent(orderId)}`,
@@ -696,8 +876,17 @@ export const ROUTES = {
     /** Сотрудники и доступы цеха / поставщика */
     staff: '/factory/staff',
     production: '/factory/production',
+    /** Личный кабинет Platform Core — производство */
+    productionCoreCabinet: '/factory/production/core',
     supplier: '/factory/supplier',
+    /** Сообщения поставщика (role=supplier по pathname) */
+    supplierMessages: '/factory/supplier/messages',
+    /** Личный кабинет Platform Core — поставщик */
+    supplierCoreCabinet: '/factory/supplier/core',
     supplierCircularHub: '/factory/supplier/circular-hub',
+    messages: '/factory/messages',
+    /** Календарь цеха/поставщика (role=supplier|manufacturer в query; вне production ACL). */
+    calendar: '/factory/calendar',
     productionMaterials: '/factory/production/materials',
     productionCalendar: '/factory/production/calendar',
     productionCatalog: '/factory/production/catalog',
@@ -741,7 +930,7 @@ export function calendarHrefForRole(role: UserRole): string {
     case 'client':
       return ROUTES.client.calendar;
     case 'shop':
-      return ROUTES.shop.calendar;
+      return isPlatformCoreMode() ? ROUTES.shop.b2bCalendar : ROUTES.shop.calendar;
     case 'brand':
       return ROUTES.brand.calendar;
     case 'admin':
@@ -777,25 +966,125 @@ export function processLiveUrl(processId: string, contextId?: string): string {
 /**
  * Сообщения с контекстом B2B-заказа: `order`, `orderId`, `q` — подхватывает {@link MessagesPage} в поиске чатов.
  */
-export function brandMessagesB2bOrderContextHref(orderId: string): string {
+function b2bOrderMessagesQuery(orderId: string): string {
   const id = encodeURIComponent(orderId);
-  return `${ROUTES.brand.messages}?${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}&q=${encodeURIComponent(`B2B ${orderId}`)}`;
+  return `contextType=b2b_order&contextId=${id}&${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}&q=${encodeURIComponent(`B2B ${orderId}`)}`;
+}
+
+export function brandMessagesB2bOrderContextHref(orderId: string): string {
+  return `${ROUTES.brand.messages}?${b2bOrderMessagesQuery(orderId)}`;
+}
+
+/** `/brand/messages` с контекстом артикула W2 (разработка → связь). */
+export function brandMessagesWorkshop2ArticleContextHref(
+  collectionId: string,
+  articleId: string
+): string {
+  const ctx = encodeURIComponent(`${collectionId}:${articleId}`);
+  return `${ROUTES.brand.messages}?contextType=workshop2_article&contextId=${ctx}`;
+}
+
+/** `/brand/calendar` с контекстом артикула W2 — канон core вместо syntha `layers=tasks`. */
+export function brandCalendarWorkshop2ArticleContextHref(
+  collectionId: string,
+  articleId: string
+): string {
+  const ctx = encodeURIComponent(`${collectionId}:${articleId}`);
+  const layers = isPlatformCoreMode() ? 'orders,logistics' : 'tasks';
+  return `${ROUTES.brand.calendar}?layers=${layers}&contextType=workshop2_article&contextId=${ctx}`;
 }
 
 export function shopMessagesB2bOrderContextHref(orderId: string): string {
-  const id = encodeURIComponent(orderId);
-  return `${ROUTES.shop.messages}?${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}&q=${encodeURIComponent(`B2B ${orderId}`)}`;
+  return `${ROUTES.shop.messages}?${b2bOrderMessagesQuery(orderId)}`;
+}
+
+/** `/shop/messages` с контекстом артикула W2 (вопрос по SKU из витрины/матрицы). */
+export function shopMessagesWorkshop2ArticleContextHref(
+  collectionId: string,
+  articleId: string
+): string {
+  const ctx = encodeURIComponent(`${collectionId}:${articleId}`);
+  return `${ROUTES.shop.messages}?contextType=workshop2_article&contextId=${ctx}`;
+}
+
+export type FactoryMessagesRole = 'manufacturer' | 'supplier';
+
+function factoryMessagesRoleQuery(role?: FactoryMessagesRole): string {
+  return role ? `role=${role}` : '';
+}
+
+export function factoryMessagesB2bOrderContextHref(
+  orderId: string,
+  options?: { role?: FactoryMessagesRole }
+): string {
+  const base = `${ROUTES.factory.messages}?${b2bOrderMessagesQuery(orderId)}`;
+  const roleQ = factoryMessagesRoleQuery(options?.role);
+  return roleQ ? `${base}&${roleQ}` : base;
+}
+
+export function factoryMessagesWorkshop2ArticleContextHref(
+  collectionId: string,
+  articleId: string,
+  options?: { role?: FactoryMessagesRole }
+): string {
+  const ctx = encodeURIComponent(`${collectionId}:${articleId}`);
+  const base = `${ROUTES.factory.messages}?contextType=workshop2_article&contextId=${ctx}`;
+  const roleQ = factoryMessagesRoleQuery(options?.role);
+  return roleQ ? `${base}&${roleQ}` : base;
+}
+
+export function factoryMessagesRoleHref(role: FactoryMessagesRole): string {
+  return `${ROUTES.factory.messages}?role=${role}`;
+}
+
+/** `/factory/supplier/messages` с контекстом B2B (pathname → role=supplier). */
+export function factorySupplierMessagesB2bOrderContextHref(orderId: string): string {
+  return `${ROUTES.factory.supplierMessages}?${b2bOrderMessagesQuery(orderId)}`;
+}
+
+/** `/factory/supplier/messages` с контекстом артикула W2 (запрос цены через чат). */
+export function factorySupplierMessagesWorkshop2ArticleContextHref(
+  collectionId: string,
+  articleId: string
+): string {
+  const ctx = encodeURIComponent(`${collectionId}:${articleId}`);
+  return `${ROUTES.factory.supplierMessages}?contextType=workshop2_article&contextId=${ctx}`;
 }
 
 /** Календарь с привязкой к заказу (ручной контекст в URL для фильтров/поиска). */
 export function brandCalendarB2bOrderContextHref(orderId: string): string {
   const id = encodeURIComponent(orderId);
-  return `${ROUTES.brand.calendar}?layers=tasks&${B2B_CTX.order}=${id}`;
+  const layers = isPlatformCoreMode() ? 'orders,logistics' : 'tasks';
+  return `${ROUTES.brand.calendar}?layers=${layers}&${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}`;
 }
 
 export function shopCalendarB2bOrderContextHref(orderId: string): string {
   const id = encodeURIComponent(orderId);
-  return `${ROUTES.shop.calendar}?layers=tasks&${B2B_CTX.order}=${id}`;
+  const base = isPlatformCoreMode() ? ROUTES.shop.b2bCalendar : ROUTES.shop.calendar;
+  const layers = isPlatformCoreMode() ? 'orders,logistics' : 'tasks';
+  return `${base}?layers=${layers}&${B2B_CTX.order}=${id}`;
+}
+
+/** Календарь магазина: в core — B2B-календарь закупок, иначе розничный `/shop/calendar`. */
+export function shopCanonicalCalendarHref(layers = 'orders,logistics'): string {
+  const base = isPlatformCoreMode() ? ROUTES.shop.b2bCalendar : ROUTES.shop.calendar;
+  return layers ? `${base}?layers=${encodeURIComponent(layers)}` : base;
+}
+
+export function factoryCalendarB2bOrderContextHref(orderId: string): string {
+  const id = encodeURIComponent(orderId);
+  return `${ROUTES.factory.productionCalendar}?layers=tasks,orders,production&${B2B_CTX.order}=${id}`;
+}
+
+/** Календарь поставщика с контекстом B2B-заказа (`/factory/calendar`, не production ACL). */
+export function factorySupplierCalendarB2bOrderContextHref(orderId: string): string {
+  const sp = new URLSearchParams({
+    role: 'supplier',
+    layers: 'tasks,orders,logistics',
+  });
+  sp.set(B2B_CTX.order, orderId);
+  sp.set(B2B_CTX.orderId, orderId);
+  return `${ROUTES.factory.calendar}?${sp.toString()}`;
 }
 
 /**
@@ -809,6 +1098,75 @@ export function brandProductsMatrixB2bOrderContextHref(orderId: string): string 
 export function shopB2bMatrixOrderContextHref(orderId: string): string {
   const id = encodeURIComponent(orderId);
   return `${ROUTES.shop.b2bMatrix}?${B2B_CTX.order}=${id}&${B2B_CTX.orderId}=${id}`;
+}
+
+/** Матрица с режимом повторного/изменённого заказа и опциональным контекстом B2B order. */
+export function shopB2bMatrixReorderHref(collectionId: string, orderId?: string): string {
+  const sp = new URLSearchParams({
+    collection: collectionId,
+    mode: 'reorder',
+  });
+  if (orderId?.trim()) {
+    const id = orderId.trim();
+    sp.set(B2B_CTX.order, id);
+    sp.set(B2B_CTX.orderId, id);
+  }
+  return `${ROUTES.shop.b2bMatrix}?${sp.toString()}`;
+}
+
+/** Матрица: вкладка inspector артикула (pcf=inspector + article). */
+export function shopB2bMatrixArticleInspectorHref(
+  collectionId: string,
+  articleId: string,
+  orderId?: string
+): string {
+  const sp = new URLSearchParams({
+    collection: collectionId,
+    article: articleId,
+    pcf: 'inspector',
+  });
+  if (orderId?.trim()) {
+    const id = orderId.trim();
+    sp.set(B2B_CTX.order, id);
+    sp.set(B2B_CTX.orderId, id);
+  }
+  return `${ROUTES.shop.b2bMatrix}?${sp.toString()}`;
+}
+
+/** Матрица: вкладка pre-pack / size curve. */
+export function shopB2bMatrixPrepackHref(collectionId: string, orderId?: string): string {
+  const sp = new URLSearchParams({
+    collection: collectionId,
+    pcf: 'prepack',
+  });
+  if (orderId?.trim()) {
+    const id = orderId.trim();
+    sp.set(B2B_CTX.order, id);
+    sp.set(B2B_CTX.orderId, id);
+  }
+  return `${ROUTES.shop.b2bMatrix}?${sp.toString()}`;
+}
+
+/** Матрица: применить pre-pack breakdown в cart (matrix tab). */
+export function shopB2bMatrixPrepackApplyHref(
+  collectionId: string,
+  articleId: string,
+  packCount: number,
+  orderId?: string
+): string {
+  const sp = new URLSearchParams({
+    collection: collectionId,
+    pcf: 'matrix',
+    prepackApply: '1',
+    prepackArticle: articleId,
+    prepackPacks: String(Math.max(1, packCount)),
+  });
+  if (orderId?.trim()) {
+    const id = orderId.trim();
+    sp.set(B2B_CTX.order, id);
+    sp.set(B2B_CTX.orderId, id);
+  }
+  return `${ROUTES.shop.b2bMatrix}?${sp.toString()}`;
 }
 
 export function shopB2bSelectionBuilderOrderContextHref(orderId: string): string {

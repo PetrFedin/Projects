@@ -57,7 +57,20 @@ export function summarizeWorkshop2SignoffStagesProgress(input: {
   hintRu?: string;
 } {
   const dossier = input.dossier;
-  const signoffs = dossier?.sectionSignoffs;
+  if (!dossier) {
+    return {
+      stagesTotal: input.stages.length,
+      stagesComplete: 0,
+      rows: input.stages.map((stage) => ({
+        stageId: stage.stageId,
+        labelRu: stage.labelRu,
+        complete: false,
+        missingRu: [...stage.sectionKeys],
+      })),
+      hintRu: 'Досье не загружено — signoff недоступен.',
+    };
+  }
+  const signoffs = dossier.sectionSignoffs;
   const rows = input.stages.map((stage) => {
     const missingRu: string[] = [];
     for (const key of stage.sectionKeys) {

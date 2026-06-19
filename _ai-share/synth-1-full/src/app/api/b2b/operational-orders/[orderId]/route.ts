@@ -2,16 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getOrCreateRequestId } from '@/lib/api/response-contract';
 import { getApiContractMode } from '@/lib/runtime-mode';
 import { findOperationalOrderForRequest } from '@/lib/order/b2b-operational-api-server';
+import { ensureSpineImportedOrdersStoreReady } from '@/lib/integrations/spine/imported-orders-persistence';
 
 /**
  * GET /api/b2b/operational-orders/:orderId — legacy detail.
  */
 export async function GET(req: NextRequest, ctx: { params: Promise<{ orderId: string }> }) {
+  await ensureSpineImportedOrdersStoreReady();
   const { orderId } = await ctx.params;
   const requestId = getOrCreateRequestId(req);
   const mode = getApiContractMode();
   const decoded = decodeURIComponent(orderId);
-  const order = findOperationalOrderForRequest(req, decoded);
+  const order = await findOperationalOrderForRequest(req, decoded);
   if (!order) {
     return NextResponse.json(
       {

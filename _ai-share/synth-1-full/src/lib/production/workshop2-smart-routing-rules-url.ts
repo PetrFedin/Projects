@@ -2,6 +2,7 @@
  * Wave 3 P2 #42: smart routing engineKind tiers + optional external rules URL (не ML fake).
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorNum } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2SmartRoutingEngineTier =
   | 'empty'
@@ -61,7 +62,8 @@ export function resolveWorkshop2SmartRoutingEngineTier(input: {
 }): Workshop2SmartRoutingEngineTier {
   const mirror = input.dossier.smartRoutingMirror;
   const rulesUrl = resolveWorkshop2SmartRoutingRulesUrl(input.env);
-  if (rulesUrl && mirror?.stepCount && mirror.stepCount > 0) {
+  const stepCount = mirror ? workshop2PgMirrorNum(mirror, 'stepCount') : 0;
+  if (rulesUrl && stepCount > 0) {
     return 'rules_url';
   }
   return (mirror?.engineKind as Workshop2SmartRoutingEngineTier) ?? 'empty';

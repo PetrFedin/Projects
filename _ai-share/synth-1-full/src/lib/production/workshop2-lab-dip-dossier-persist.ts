@@ -5,6 +5,10 @@ import { summarizeWorkshop2LabDipStatus } from '@/lib/production/workshop2-lab-d
 import { evaluateWorkshop2LabDipSampleGate } from '@/lib/production/workshop2-lab-dip-sample-gate';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2LabDipMirror(
   dossier: Workshop2DossierPhase1
@@ -43,20 +47,27 @@ export function evaluateWorkshop2LabDipMirrorGate(
   if (!mirror) {
     return evaluateWorkshop2LabDipSampleGate(dossier);
   }
-  if (mirror.blockerSampleOrder) {
+  const blockerSampleOrder =
+    mirror.blockerSampleOrder === true ||
+    workshop2PgMirrorStr(mirror, 'blockerSampleOrder') === 'true';
+  const hintRu = workshop2PgMirrorStr(mirror, 'hintRu');
+  const approvedCount = workshop2PgMirrorNum(mirror, 'approvedCount');
+  const colorwayCount = workshop2PgMirrorNum(mirror, 'colorwayCount');
+  const state = workshop2PgMirrorStr(mirror, 'state') || String(mirror.state ?? '');
+
+  if (blockerSampleOrder) {
     return {
       id: 'supply.lab_dip.not_approved',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
-        `Lab dip: одобрено ${mirror.approvedCount}/${mirror.colorwayCount} — согласуйте цвета.`,
+        hintRu || `Lab dip: одобрено ${approvedCount}/${colorwayCount} — согласуйте цвета.`,
     };
   }
-  if (mirror.state === 'blocked') {
+  if (state === 'blocked') {
     return {
       id: 'supply.lab_dip.rejected',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Есть отклонённые lab dip — обновите статусы colorway.',
+      messageRu: hintRu || 'Есть отклонённые lab dip — обновите статусы colorway.',
     };
   }
   return null;

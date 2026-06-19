@@ -1,3 +1,59 @@
+# Fashion Platform
+
+## Local Environment
+
+- Node.js 22
+- Python 3.14
+- FastAPI
+- PostgreSQL 17
+- Redis 8
+- Docker / OrbStack
+- Ollama 0.30.8
+- Firebase
+- Vercel
+
+## Backend
+
+FastAPI + SQLAlchemy + PostgreSQL
+
+## AI
+
+Ollama running on:
+
+http://localhost:11434
+
+Preferred models:
+
+- qwen3
+- llama3.3
+- deepseek-r1
+
+## Infrastructure
+
+Redis for cache and queues.
+PostgreSQL for persistent storage.
+Docker for local development.
+
+## Platform Capabilities
+
+| Area | Where to extend |
+|------|-----------------|
+| PostgreSQL + SQLAlchemy | `app/db/` — models, repositories, `session.py` |
+| Alembic / migrations | `app/db/migrations/`, `_ai-share/synth-1-full/db/migrations/` |
+| JWT auth | `app/core/security.py`, `app/api/deps.py`, `app/api/v1/endpoints/auth.py` |
+| Users | `app/db/models/core.py` |
+| Product catalog | `app/api/v1/endpoints/product.py`, BFF in `_ai-share/synth-1-full/src/app/api/b2b/` |
+| Image upload | `app/api/v1/endpoints/dam.py`, `ingestion.py`, `ai_routes.py` |
+| Firebase Auth | `_ai-share/synth-1-full/src/lib/firebase/` (frontend) |
+| Stripe / ЮKassa | `_ai-share/synth-1-full/src/app/api/integrations/payments/` |
+| AI (Ollama / OpenAI) | `app/ai/`, `app/api/v1/endpoints/ai_routes.py` |
+
+**Platform stack API:** `GET /api/v1/platform/stack/matrix` · **Agent context:** pass `pillar`, `role`, `section_id` to orchestrator.
+
+Cursor rule with full paths: **`.cursor/rules/project.mdc`** (`alwaysApply: true`).
+
+---
+
 # Synth-1 Fashion OS — Backend
 
 FastAPI backend for the Synth-1 Fashion Intelligence Platform. **Next.js UI:** `_ai-share/synth-1-full/`. Онбординг, CI и матрица env: **`docs/RUNBOOK.md`**.

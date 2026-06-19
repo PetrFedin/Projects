@@ -3,6 +3,7 @@
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import {
   summarizeWorkshop2FitSessionsStatus,
   type Workshop2FitSessionsStatus,
@@ -39,11 +40,13 @@ export function evaluateWorkshop2FitSessionsHandoffGate(
       messageRu: 'Сессии примерки не в досье — сохраните «Fit → PG» перед handoff.',
     };
   }
-  if (mirror.blockerHandoff) {
+  if (mirror.blockerHandoff === true) {
     return {
       id: 'fit.sessions.empty_handoff',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Нет сессий примерки — handoff commit заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Нет сессий примерки — handoff commit заблокирован.',
     };
   }
   return null;
@@ -71,18 +74,22 @@ export function evaluateWorkshop2FitSessionsSampleGate(
       messageRu: 'Сессии примерки не в досье — сохраните «Fit → PG» на вкладке Примерка.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  if (mirror.blockerSampleOrder === true) {
     return {
       id: 'fit.sessions.empty',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Нет сессий примерки — рекомендуется proto/SMS перед образцом.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Нет сессий примерки — рекомендуется proto/SMS перед образцом.',
     };
   }
   if (mirror.state === 'partial') {
     return {
       id: 'fit.sessions.partial',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Сессии без vault-фото — AI/дельты посадки могут быть неполными.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Сессии без vault-фото — AI/дельты посадки могут быть неполными.',
     };
   }
   return null;

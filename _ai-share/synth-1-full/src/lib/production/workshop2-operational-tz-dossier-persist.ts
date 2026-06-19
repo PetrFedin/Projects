@@ -11,6 +11,10 @@ import {
 import { WORKSHOP2_OPERATIONAL_TZ_SYNC_MIN_FOCUS_PCT } from '@/lib/production/workshop2-operational-tz-sync-gate';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 function tabFocusPct(
   tab: Workshop2OperationalPipelineTab,
@@ -76,13 +80,26 @@ export function evaluateWorkshop2OperationalTzSampleGate(
       messageRu: 'Operational↔ТЗ не в PG — «TZ bridge → PG» на операционной вкладке.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  const blockerSampleOrder =
+    mirror.blockerSampleOrder === true ||
+    workshop2PgMirrorStr(mirror, 'blockerSampleOrder') === 'true';
+  const hintRu = workshop2PgMirrorStr(mirror, 'hintRu');
+  const tabFocusPctRaw = mirror.tabFocusPct;
+  const supplyFocus =
+    typeof tabFocusPctRaw === 'object' &&
+    tabFocusPctRaw != null &&
+    !Array.isArray(tabFocusPctRaw) &&
+    'supply' in tabFocusPctRaw
+      ? Number((tabFocusPctRaw as Record<string, unknown>).supply) || 0
+      : workshop2PgMirrorNum(mirror, 'supplyFocusPct');
+
+  if (blockerSampleOrder) {
     return {
       id: 'operational.tz.supply_focus_low',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ??
-        `Снабжение: focus ТЗ ${mirror.tabFocusPct.supply ?? 0}% — синхронизация и образец рискованы.`,
+        hintRu ||
+        `Снабжение: focus ТЗ ${supplyFocus}% — синхронизация и образец рискованы.`,
     };
   }
   return null;
@@ -93,12 +110,16 @@ export function evaluateWorkshop2OperationalTzHandoffGate(
 ): Workshop2HandoffReadinessCheck | null {
   const mirror = dossier.operationalTzMirror;
   if (!mirror) return null;
-  if (!mirror.blockerHandoff) return null;
+  const blockerHandoff =
+    mirror.blockerHandoff === true ||
+    workshop2PgMirrorStr(mirror, 'blockerHandoff') === 'true';
+  if (!blockerHandoff) return null;
+  const minFocusPct = workshop2PgMirrorNum(mirror, 'minFocusPct');
   return {
     id: 'operational.tz.min_focus_low',
     severity: 'warning',
     messageRu:
-      mirror.hintRu ??
-      `Операционный мост: минимум ${mirror.minFocusPct}% focus по вкладкам — проверьте ТЗ перед commit.`,
+      workshop2PgMirrorStr(mirror, 'hintRu') ||
+      `Операционный мост: минимум ${minFocusPct}% focus по вкладкам — проверьте ТЗ перед commit.`,
   };
 }

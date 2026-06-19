@@ -12,5 +12,10 @@ export {
 } from './local-storage-port';
 export { loadTechPackDraft, saveTechPackDraft } from './tech-pack-draft-store';
 export { loadBrandTasks, saveBrandTasks, generateTaskId } from './brand-tasks-store';
+export {
+  loadBrandTasksWithMode,
+  persistBrandTasks,
+  resetBrandTasksPersistModeCacheForTests,
+} from './brand-tasks-client';
 export { loadFloorTabDraft, saveFloorTabDraftToStorage } from './floor-tab-draft-store';
 export { HttpProductionDataPort } from './http-production-data-port';

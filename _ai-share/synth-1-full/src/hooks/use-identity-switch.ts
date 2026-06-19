@@ -5,6 +5,7 @@ import { organizations } from '@/components/team/_fixtures/team-data';
 import { useUIStateOptional } from '@/providers/ui-state';
 import { useToast } from '@/hooks/use-toast';
 import { ROUTES } from '@/lib/routes';
+import { getCoreRoleLandingHref } from '@/lib/cabinet-core-mode';
 import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
 import { SYNTH_MOCK_KNOWN_PASSWORD } from '@/lib/auth/dev-auth-bootstrap';
 
@@ -89,7 +90,7 @@ export function useIdentitySwitch() {
         client: ROUTES.client.profile,
       };
 
-      const targetUrl = roleMap[roleKey] ?? ROUTES.client.profile;
+      const targetUrl = getCoreRoleLandingHref(roleKey) ?? roleMap[roleKey] ?? ROUTES.client.profile;
 
       console.log('Identity switch SUCCESS. Final target:', targetUrl, '(roleKey:', roleKey, ')');
 

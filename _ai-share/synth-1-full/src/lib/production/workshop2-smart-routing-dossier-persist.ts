@@ -6,6 +6,9 @@ import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-
 import { buildWorkshop2RoutingStepsFromDossier } from '@/lib/production/workshop2-routing-steps';
 import { isWorkshop2SmartRoutingDemoAllowed } from '@/lib/production/workshop2-smart-routing-demo';
 import { resolveWorkshop2SmartRoutingRulesUrl } from '@/lib/production/workshop2-smart-routing-rules-url';
+import {
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2SmartRoutingMirror(
   dossier: Workshop2DossierPhase1
@@ -77,11 +80,16 @@ export function evaluateWorkshop2SmartRoutingSampleGate(
 ): Workshop2HandoffReadinessCheck | null {
   const mirror = dossier.smartRoutingMirror;
   if (!mirror) return null;
-  if (mirror.blockerSampleOrder) {
+  if (
+    mirror.blockerSampleOrder === true ||
+    workshop2PgMirrorStr(mirror, 'blockerSampleOrder') === 'true'
+  ) {
     return {
       id: 'routing.demo_blocked',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'DEMO-маршрутизация в production — заказ образца заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'DEMO-маршрутизация в production — заказ образца заблокирован.',
     };
   }
   return null;
@@ -107,11 +115,16 @@ export function evaluateWorkshop2SmartRoutingHandoffGate(
       messageRu: 'Снимок маршрутизации не в досье — сохраните «Маршрут → PG» на конструкции.',
     };
   }
-  if (mirror.blockerHandoff) {
+  if (
+    mirror.blockerHandoff === true ||
+    workshop2PgMirrorStr(mirror, 'blockerHandoff') === 'true'
+  ) {
     return {
       id: 'routing.steps.empty',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Нет шагов техпроцесса — handoff commit заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Нет шагов техпроцесса — handoff commit заблокирован.',
     };
   }
   return null;

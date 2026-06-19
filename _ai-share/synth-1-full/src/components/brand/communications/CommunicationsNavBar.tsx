@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
 import { getDefaultUpcomingDeadlines } from '@/lib/data/calendar-events';
 import { RECENT_CHATS_PREVIEW } from '@/lib/data/communications-data';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { usePgCommunicationsUnread } from '@/lib/communications/use-pg-communications-unread';
 
 const COMM_LINKS = [
   { href: '/brand/messages', label: 'Сообщения', icon: MessageSquare },
@@ -29,9 +31,12 @@ export function CommunicationsNavBar({
   unreadCount?: number;
 }) {
   const pathname = usePathname();
+  const pgUnread = usePgCommunicationsUnread('brand', !isPlatformCoreMode());
+  if (isPlatformCoreMode()) return null;
   const deadlines = getDefaultUpcomingDeadlines({ limit: 20 });
   const overdueCount = deadlines.filter((d) => d.isOverdue).length;
-  const unread = unreadCount ?? RECENT_UNREAD;
+  const unread =
+    unreadCount ?? (pgUnread.totalUnread > 0 ? pgUnread.totalUnread : RECENT_UNREAD);
 
   return (
     <>

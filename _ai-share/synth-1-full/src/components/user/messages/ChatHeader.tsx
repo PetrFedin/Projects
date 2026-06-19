@@ -22,6 +22,7 @@ import {
   Package,
   Factory,
   Calendar,
+  ArrowLeft,
 } from 'lucide-react';
 import { Chat as ChatConversation } from '@/lib/types';
 import { ROUTES } from '@/lib/routes';
@@ -35,6 +36,9 @@ interface ChatHeaderProps {
   onOpenParticipants: () => void;
   onOpenArchive: () => void;
   onOpenSettings: () => void;
+  slimCore?: boolean;
+  showMobileBack?: boolean;
+  onMobileBack?: () => void;
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({
@@ -45,13 +49,39 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   onOpenParticipants,
   onOpenArchive,
   onOpenSettings,
+  slimCore = false,
+  showMobileBack = false,
+  onMobileBack,
 }) => {
   if (!activeChat) return null;
 
   return (
-    <header className="border-border-subtle sticky top-0 z-20 flex shrink-0 items-center justify-between border-b bg-white/80 px-6 py-4 shadow-sm backdrop-blur-md">
-      <div className="flex min-w-0 items-center gap-3">
-        <Avatar className="ring-border-subtle size-10 border-2 border-white shadow-md ring-1">
+    <header
+      className={cn(
+        'border-border-subtle sticky top-0 z-20 flex shrink-0 items-center justify-between border-b bg-white/90 shadow-sm backdrop-blur-md',
+        slimCore ? 'px-3 py-2' : 'px-6 py-4'
+      )}
+    >
+      <div className="flex min-w-0 items-center gap-2">
+        {showMobileBack ? (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="h-11 min-h-11 w-11 min-w-11 shrink-0 md:hidden"
+            aria-label="К списку тредов"
+            data-testid="platform-core-comms-chat-back"
+            onClick={onMobileBack}
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden />
+          </Button>
+        ) : null}
+        <Avatar
+          className={cn(
+            'ring-border-subtle border-2 border-white shadow-sm ring-1',
+            slimCore ? 'size-7' : 'size-10 shadow-md'
+          )}
+        >
           <AvatarFallback className="bg-bg-surface2 text-text-muted text-xs font-bold uppercase">
             {activeChat.title[0]}
           </AvatarFallback>
@@ -61,17 +91,24 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         </Avatar>
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h2 className="text-text-primary truncate text-base font-bold uppercase leading-none tracking-tight">
+            <h2
+              className={cn(
+                'text-text-primary truncate font-bold uppercase leading-none tracking-tight',
+                slimCore ? 'text-[11px]' : 'text-base'
+              )}
+            >
               {activeChat.title}
             </h2>
           </div>
           <div className="mt-1 flex items-center gap-2">
+            {!slimCore ? (
             <div className="flex items-center gap-1.5 rounded-full border border-emerald-100 bg-emerald-50 px-1.5 py-0.5">
               <span className="size-1.5 animate-pulse rounded-full bg-emerald-500" />
               <span className="text-[8px] font-bold uppercase tracking-widest text-emerald-600">
                 Active Thread
               </span>
             </div>
+            ) : null}
             <span className="text-text-muted truncate text-[8px] font-bold uppercase tracking-widest opacity-60">
               {activeChat.subtitle}
             </span>
@@ -103,6 +140,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         </div>
       </div>
 
+      {!slimCore ? (
       <div className="flex items-center gap-1.5">
         <TooltipProvider>
           <Tooltip>
@@ -191,6 +229,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      ) : null}
     </header>
   );
 };

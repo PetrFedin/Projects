@@ -147,6 +147,8 @@ export function Workshop2Phase1DossierPanelSectionBody(
         notifyStakeholdersForSectionSignoff={props.notifyStakeholdersForSectionSignoff}
         setSignoffDeadline={props.setSignoffDeadline}
         tzBlockersFooter={props.tzBlockersFooter}
+        collectionId={props.collectionId}
+        articleId={props.articleId}
       />
     );
   }
@@ -303,6 +305,7 @@ export function Workshop2Phase1DossierPanelSectionBody(
         sendPanelProps={props.sendPanelProps}
         handoffBlockProps={props.handoffBlockProps}
         articleId={props.articleId}
+        collectionId={props.collectionId}
         dossier={props.dossier}
         setDossier={props.setDossier}
         onOpenPulse={props.onOpenPulse}

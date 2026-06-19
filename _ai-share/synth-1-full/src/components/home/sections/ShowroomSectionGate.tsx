@@ -39,6 +39,7 @@ export function ShowroomSectionGate() {
       setIsLookDetailsOpen: lookDialog.setIsLookDetailsOpen,
       router: showcase.router,
       currency: showcase.currency,
+      showroomLayout: showcase.showroomLayout,
     }),
     [
       showcase.viewRole,
@@ -57,6 +58,7 @@ export function ShowroomSectionGate() {
       linesheet.setSelectedLinesheetItems,
       lookDialog.setSelectedLook,
       lookDialog.setIsLookDetailsOpen,
+      showcase.showroomLayout,
     ]
   );
 

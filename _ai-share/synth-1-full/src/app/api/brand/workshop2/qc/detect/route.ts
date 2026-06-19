@@ -38,4 +38,8 @@ async function detectDefectsHandler(request: Request) {
   }
 }
 
-export const POST = observeApiRoute(detectDefectsHandler);
+export async function POST(request: Request) {
+  return observeApiRoute(request, '/api/brand/workshop2/qc/detect', () =>
+    detectDefectsHandler(request)
+  );
+}

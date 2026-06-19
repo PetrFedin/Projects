@@ -341,6 +341,7 @@ export function ProjectInfoCategoryHandbookFlatTable() {
           {handbookDialogLeaf ? (
             <Workshop2CategoryHandbookGuidance
               leaf={handbookDialogLeaf}
+              variant="inline"
               className="border-0 bg-transparent p-0"
             />
           ) : null}

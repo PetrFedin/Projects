@@ -9,6 +9,10 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import {
+  isPlatformCoreCabinetNavLink,
+  platformCoreCabinetNavLinkClass,
+} from '@/lib/platform-core-cabinet-chrome';
 import { useNavPins } from '@/hooks/use-nav-pins';
 import { NAV_GROUP_CLUSTERS, type brandNavGroups } from '@/lib/data/brand-navigation';
 import {
@@ -16,6 +20,12 @@ import {
   BRAND_CORE_GROUP_ORDER,
   sortNavGroupsByOrder,
 } from '@/lib/data/syntha-nav-clusters';
+import {
+  BRAND_CORE_PILLARS_NAV_ORDER,
+  filterNavGroupsForCoreSidebar,
+  resolveSidebarClustersForCore,
+  shouldHideNavArchiveCluster,
+} from '@/lib/cabinet-core-mode';
 
 type NavGroup = (typeof brandNavGroups)[number];
 type ClusterId = (typeof NAV_GROUP_CLUSTERS)[number]['id'];
@@ -282,11 +292,14 @@ export function BrandSidebar({
       )}
     >
       <div className="space-y-0.5 p-2">
-        {NAV_GROUP_CLUSTERS.map((cluster) => {
+        {(resolveSidebarClustersForCore()).map((cluster) => {
           const raw = groupsByCluster[cluster.id].filter(Boolean);
+          const coreOrder = shouldHideNavArchiveCluster()
+            ? BRAND_CORE_PILLARS_NAV_ORDER
+            : BRAND_CORE_GROUP_ORDER;
           const clusterGroups = sortNavGroupsByOrder(
             raw,
-            cluster.id === 'syntha-cores' ? BRAND_CORE_GROUP_ORDER : BRAND_ARCHIVE_GROUP_ORDER
+            cluster.id === 'syntha-cores' ? coreOrder : BRAND_ARCHIVE_GROUP_ORDER
           );
           if (clusterGroups.length === 0) return null;
 
@@ -481,6 +494,12 @@ export function BrandSidebar({
                             }
 
                             const active = activeLinkValue === link.value;
+                            const linkClass = cn(
+                              'flex flex-1 items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
+                              active
+                                ? 'bg-text-primary text-white'
+                                : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
+                            );
 
                             return (
                               <div
@@ -494,12 +513,11 @@ export function BrandSidebar({
                                 <Link
                                   href={(link as { href: string }).href}
                                   onClick={onNavigate}
-                                  className={cn(
-                                    'flex flex-1 items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
-                                    active
-                                      ? 'bg-text-primary text-white'
-                                      : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
-                                  )}
+                                  className={
+                                    isPlatformCoreCabinetNavLink(link.value)
+                                      ? platformCoreCabinetNavLinkClass(active, linkClass)
+                                      : linkClass
+                                  }
                                 >
                                   <link.icon className="h-3.5 w-3.5 shrink-0" />
                                   <span className="flex-1 truncate">{link.label}</span>

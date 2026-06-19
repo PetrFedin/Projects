@@ -4,7 +4,10 @@
  */
 import { NextResponse } from 'next/server';
 import { readJsonBody } from '@/lib/http/read-json-body';
-import { getStoredRuntimePayload, upsertRuntime } from '@/lib/server/process-workflow-store';
+import {
+  getStoredRuntimePayloadAsync,
+  upsertRuntimeAsync,
+} from '@/lib/server/process-workflow-store';
 
 export const runtime = 'nodejs';
 
@@ -17,7 +20,7 @@ export async function GET(
   const contextId = searchParams.get('contextId') ?? 'default';
 
   try {
-    const stored = getStoredRuntimePayload(processId, contextId);
+    const stored = await getStoredRuntimePayloadAsync(processId, contextId);
     if (stored && typeof stored === 'object') {
       return NextResponse.json(stored);
     }
@@ -39,7 +42,7 @@ export async function PUT(
   try {
     const body = await readJsonBody<Record<string, unknown>>(request);
     const merged = { processId, contextId, ...body };
-    upsertRuntime(processId, contextId, merged);
+    await upsertRuntimeAsync(processId, contextId, merged);
     return NextResponse.json(merged);
   } catch (e) {
     console.error('PUT /api/processes/[processId]/runtime:', e);

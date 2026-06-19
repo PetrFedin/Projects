@@ -9,6 +9,7 @@ describe('isRouteGuardPublicPath', () => {
     expect(isRouteGuardPublicPath('/login')).toBe(true);
     expect(isRouteGuardPublicPath('/auth/callback')).toBe(true);
     expect(isRouteGuardPublicPath('/b/demo')).toBe(true);
+    expect(isRouteGuardPublicPath('/platform')).toBe(true);
     expect(isRouteGuardPublicPath('/o/order-1')).toBe(true);
     expect(isRouteGuardPublicPath('/s/share')).toBe(true);
   });

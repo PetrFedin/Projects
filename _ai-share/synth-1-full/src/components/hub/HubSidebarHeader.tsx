@@ -23,6 +23,17 @@ export type HubSidebarProfile = {
   profileFooter?: ReactNode;
 };
 
+export type HubSidebarHeaderProps = {
+  href: string;
+  icon: LucideIcon;
+  title: string;
+  badge?: string;
+  badgeClass?: string;
+  iconBgClass?: string;
+  showRole?: boolean;
+  profile?: HubSidebarProfile;
+};
+
 export function HubSidebarHeader({
   href,
   icon: Icon,
@@ -34,16 +45,7 @@ export function HubSidebarHeader({
   showRole = true,
   /** Профиль: квадратное фото как у плитки хаба (36×36), имя и при необходимости строка идентификатора */
   profile,
-}: {
-  href: string;
-  icon: LucideIcon;
-  title: string;
-  badge?: string;
-  badgeClass?: string;
-  iconBgClass?: string;
-  showRole?: boolean;
-  profile?: HubSidebarProfile;
-}) {
+}: HubSidebarHeaderProps) {
   const { role } = useRbac();
   const subline = badge || showRole;
 

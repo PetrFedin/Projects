@@ -22,7 +22,9 @@ import { SectionInfoCard } from '@/components/brand/production/ProductionSection
 import { getTaskLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import type { BrandTaskRecord, BrandTaskStatus } from '@/lib/production-data';
-import { generateTaskId, loadBrandTasks, saveBrandTasks } from '@/lib/production-data';
+import { generateTaskId, getProductionDataPort } from '@/lib/production-data';
+import { loadBrandTasksWithMode, persistBrandTasks } from '@/lib/production-data/brand-tasks-client';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 import { demoTasksForProductionStage } from '@/lib/production/stages-comm-demo';
 import { ROUTES } from '@/lib/routes';
 
@@ -47,7 +49,10 @@ function readDemoTaskStatusOverrides(): Record<string, BrandTaskStatus> {
 function BrandTasksPageInner() {
   const searchParams = useSearchParams();
   const urlFilterApplied = useRef(false);
+  const corePgOnly = isPlatformCoreMode();
   const [tasks, setTasks] = useState<BrandTaskRecord[]>([]);
+  const [persistMode, setPersistMode] = useState<'local' | 'postgres'>('local');
+  const [pgUnavailable, setPgUnavailable] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [listFilter, setListFilter] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -61,9 +66,14 @@ function BrandTasksPageInner() {
   >(() => readDemoTaskStatusOverrides());
 
   useEffect(() => {
-    setTasks(loadBrandTasks());
-    setMounted(true);
-  }, []);
+    void (async () => {
+      const { tasks: loaded, persistMode, pgUnavailable: pgDown } = await loadBrandTasksWithMode();
+      setTasks(loaded);
+      setPersistMode(persistMode);
+      setPgUnavailable(pgDown);
+      setMounted(true);
+    })();
+  }, [corePgOnly]);
 
   useEffect(() => {
     if (urlFilterApplied.current) return;
@@ -81,10 +91,13 @@ function BrandTasksPageInner() {
 
   useEffect(() => {
     if (!mounted) return;
-    saveBrandTasks(tasks);
+    void getProductionDataPort()
+      .saveTasks(tasks)
+      .catch(() => undefined);
   }, [tasks, mounted]);
 
   const stageDemoTasks = useMemo(() => {
+    if (corePgOnly) return [] as BrandTaskRecord[];
     const step = searchParams.get('stagesStep')?.trim();
     if (!step) return [] as BrandTaskRecord[];
     return demoTasksForProductionStage(step, {
@@ -92,7 +105,7 @@ function BrandTasksPageInner() {
       season: searchParams.get('season'),
       order: searchParams.get('order'),
     });
-  }, [searchParams]);
+  }, [searchParams, corePgOnly]);
 
   const mergedTasks = useMemo(() => {
     const seen = new Set<string>();
@@ -156,8 +169,14 @@ function BrandTasksPageInner() {
       });
       return;
     }
-    setTasks((prev) => prev.map((t) => (t.id === taskId ? { ...t, status, updatedAt: now } : t)));
-  }, []);
+    setTasks((prev) => {
+      const next = prev.map((t) => (t.id === taskId ? { ...t, status, updatedAt: now } : t));
+      if (persistMode === 'postgres' && !pgUnavailable) {
+        void persistBrandTasks(next);
+      }
+      return next;
+    });
+  }, [persistMode, pgUnavailable]);
 
   const addTask = useCallback(() => {
     const title = newTitle.trim();
@@ -173,39 +192,89 @@ function BrandTasksPageInner() {
       createdAt: now,
       updatedAt: now,
     };
-    setTasks((prev) => [...prev, row]);
+    setTasks((prev) => {
+      const next = [...prev, row];
+      if (persistMode === 'postgres' && !pgUnavailable) {
+        void persistBrandTasks(next);
+      }
+      return next;
+    });
     setNewTitle('');
     setNewAssignee('');
     setNewDue('');
     setNewProject('Production');
     setDialogOpen(false);
-  }, [newTitle, newAssignee, newDue, newProject]);
+  }, [newTitle, newAssignee, newDue, newProject, persistMode, pgUnavailable]);
 
   return (
     <CabinetPageContent maxWidth="6xl" className="space-y-6 pb-16">
-      <SectionInfoCard
-        title="Задачи команды"
-        description="Kanban с сохранением в localStorage (brand_tasks_kanban_v1). Позже тот же контракт — через ProductionDataPort → API."
-        icon={CheckCircle2}
-        iconBg="bg-accent-primary/15"
-        iconColor="text-accent-primary"
-        badges={
-          <>
-            <Badge variant="outline" className="text-[9px]">
-              Kanban · persist
-            </Badge>
-            <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
-              <Link href={`${ROUTES.brand.calendar}?layers=tasks`}>Календарь задач</Link>
-            </Button>
-          </>
-        }
-      />
+      {!corePgOnly ? (
+        <SectionInfoCard
+          title="Задачи команды"
+          description={
+            persistMode === 'postgres'
+              ? 'Kanban в PostgreSQL (brand_tasks_kanban). Platform Core — без localStorage.'
+              : 'Kanban с сохранением в localStorage (brand_tasks_kanban_v1). При PG — синхронизация через API.'
+          }
+          icon={CheckCircle2}
+          iconBg="bg-accent-primary/15"
+          iconColor="text-accent-primary"
+          badges={
+            <>
+              <Badge variant="outline" className="text-[9px]">
+                {persistMode === 'postgres' ? 'Kanban · PostgreSQL' : 'Kanban · localStorage'}
+              </Badge>
+              {pgUnavailable ? (
+                <Badge variant="destructive" className="text-[9px]">
+                  PG недоступен
+                </Badge>
+              ) : null}
+              <Button variant="outline" size="sm" className="h-7 text-[9px]" asChild>
+                <Link href={`${ROUTES.brand.calendar}?layers=tasks`}>Календарь задач</Link>
+              </Button>
+            </>
+          }
+        />
+      ) : pgUnavailable ? (
+        <p className="text-destructive text-xs" role="status" data-testid="brand-tasks-pg-unavailable">
+          Kanban недоступен без PostgreSQL — запустите core:bootstrap.
+        </p>
+      ) : mounted && tasks.length === 0 ? (
+        <div
+          className="border-border-subtle bg-bg-surface2/50 rounded-lg border px-4 py-3 text-xs"
+          data-testid="brand-tasks-empty-onboarding"
+        >
+          <p className="text-text-secondary">
+            Kanban пуст — задачи сохраняются в PostgreSQL. Создайте первую задачу или откройте цех W2.
+          </p>
+          <Button variant="link" size="sm" className="h-auto px-0 text-[11px]" asChild>
+            <Link href={ROUTES.brand.productionWorkshop2}>Цех разработки W2</Link>
+          </Button>
+        </div>
+      ) : null}
+      {corePgOnly ? (
+        <div
+          className="border-border-subtle bg-bg-surface2/60 flex flex-wrap items-center justify-between gap-2 rounded-lg border px-3 py-2 text-xs"
+          data-testid="brand-tasks-core-calendar-strip"
+        >
+          <span className="text-text-secondary">
+            Platform Core: Kanban в PostgreSQL. Календарь задач — в столпе «Связь».
+          </span>
+          <Button variant="outline" size="sm" className="h-7 text-[10px]" asChild>
+            <Link href={`${ROUTES.brand.calendar}?layers=tasks`}>Календарь задач</Link>
+          </Button>
+        </div>
+      ) : null}
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-2xl font-bold uppercase">Задачи</h1>
-          <p className="text-text-secondary text-sm">
-            Создание, смена статуса и хранение на клиенте до бэкенда
-          </p>
+          {!corePgOnly ? (
+            <p className="text-text-secondary text-sm">
+              {persistMode === 'postgres'
+                ? 'Создание, смена статуса — в PostgreSQL (единый spine с Platform Core)'
+                : 'Создание, смена статуса и хранение на клиенте до бэкенда'}
+            </p>
+          ) : null}
         </div>
         <div className="flex w-full flex-col gap-2 sm:flex-row md:w-auto md:items-center">
           <Input
@@ -281,7 +350,10 @@ function BrandTasksPageInner() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div
+        className="grid grid-cols-1 gap-4 md:grid-cols-3"
+        data-testid={persistMode === 'postgres' && !pgUnavailable ? 'brand-tasks-kanban-pg' : undefined}
+      >
         {columns.map((col) => (
           <Card key={col.id} className="border-border-subtle rounded-xl border">
             <CardHeader className="pb-2">
@@ -340,7 +412,7 @@ function BrandTasksPageInner() {
         ))}
       </div>
 
-      <RelatedModulesBlock links={getTaskLinks()} />
+      {!corePgOnly ? <RelatedModulesBlock links={getTaskLinks()} /> : null}
     </CabinetPageContent>
   );
 }

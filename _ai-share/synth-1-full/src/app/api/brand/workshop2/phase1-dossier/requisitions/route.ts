@@ -1,29 +1,32 @@
 import { NextResponse } from 'next/server';
 
+/** Legacy requisitions endpoint — fail-closed 410/308 → sample-material-request (Wave Y). */
 export async function POST(req: Request) {
+  let body: Record<string, unknown> = {};
   try {
-    const { quantity, materialLines, scrapRate = 0 } = (await req.json()) as any;
-
-    // Mock generation of purchase orders
-    const requisitions = (materialLines || []).map((line: any) => {
-      const yieldPerUnit = line.yieldPerUnit || line.consumption || 1.1; // fallback
-      const pureRequired = quantity * yieldPerUnit;
-      const totalRequired = Math.ceil(pureRequired * (1 + scrapRate / 100)); // including scrap rate buffer
-
-      return {
-        materialName: line.materialName || 'Unknown Material',
-        supplier: line.supplier || 'N/A',
-        yieldPerUnit,
-        unit: line.unit || 'm',
-        pureRequired,
-        totalRequired,
-        scrapRate,
-        nodeId: line.nodeId,
-      };
-    });
-
-    return NextResponse.json({ requisitions });
-  } catch (err) {
-    return NextResponse.json({ error: 'Failed' }, { status: 400 });
+    body = (await req.json()) as Record<string, unknown>;
+  } catch {
+    body = {};
   }
+  const collectionId = String(body.collectionId ?? '').trim();
+  const articleId = String(body.articleId ?? '').trim();
+  if (!collectionId || !articleId) {
+    return NextResponse.json(
+      {
+        message: 'Legacy requisitions removed — use sample-material-request.',
+        messageRu: 'Legacy endpoint удалён — используйте sample-material-request.',
+        canonical: '/api/workshop2/articles/{collectionId}/{articleId}/sample-material-request',
+      },
+      { status: 410 }
+    );
+  }
+  const redirect = `/api/workshop2/articles/${encodeURIComponent(collectionId)}/${encodeURIComponent(articleId)}/sample-material-request`;
+  return NextResponse.json(
+    {
+      message: 'PG sample-material-request',
+      messageRu: 'Перенаправление на canonical sample-material-request.',
+      redirect,
+    },
+    { status: 308, headers: { Location: redirect } }
+  );
 }

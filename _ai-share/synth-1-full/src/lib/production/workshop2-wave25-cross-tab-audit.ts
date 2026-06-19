@@ -10,7 +10,9 @@ export type Workshop2Wave25PersistField =
   | 'grading_apply_handoff_refresh'
   | 'change_request_mirror'
   | 'lab_dip_mirror'
-  | 'documents_index_mirror';
+  | 'documents_index_mirror'
+  | 'matchmaker_mirror'
+  | 'bom_nodes_mirror';
 
 export function auditWorkshop2Wave25Persist(input: {
   collectionId: string;

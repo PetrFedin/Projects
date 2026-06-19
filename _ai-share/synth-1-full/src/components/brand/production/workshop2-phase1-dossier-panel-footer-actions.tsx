@@ -65,6 +65,7 @@ export function Workshop2DossierPanelFooterActions({
             variant="secondary"
             onClick={saveDraft}
             className="h-9 gap-1.5 px-3 text-xs"
+            data-testid="workshop2-dossier-save-draft"
           >
             Сохранить
           </Button>

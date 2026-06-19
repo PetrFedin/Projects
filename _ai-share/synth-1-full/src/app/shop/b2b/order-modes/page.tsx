@@ -41,7 +41,7 @@ export default function OrderModesPage() {
       className="min-h-[200px] space-y-6"
       data-testid={tid.page('shop-b2b-order-modes')}
     >
-      <ShopB2bContentHeader lead="Buy Now, Reorder и Pre-order в одном потоке оформления (NuOrder style)." />
+      <ShopB2bContentHeader lead="Buy Now, Reorder и Pre-order в одном потоке оформления оптового заказа." />
 
       <Card className="border-accent-primary/20">
         <CardHeader>

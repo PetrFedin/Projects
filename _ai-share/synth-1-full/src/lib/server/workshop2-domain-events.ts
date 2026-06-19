@@ -189,6 +189,11 @@ function formatDomainEventChatMessageRu(row: Workshop2DomainEventOutboxRow): str
         row.payload.messageRu ??
           `[Система] B2B inbound: ${String(row.payload.externalOrderRef ?? row.payload.orderId ?? '')}`
       );
+    case 'b2b.oauth_inbound.received':
+      return String(
+        row.payload.messageRu ??
+          `[Система] B2B OAuth inbound: ${String(row.payload.externalOrderRef ?? row.payload.orderId ?? '')} (${String(row.payload.provider ?? 'oauth')})`
+      );
     case 'b2b.order.status_changed':
       return String(
         row.payload.messageRu ??
@@ -216,7 +221,13 @@ async function dispatchRowSubscribers(row: Workshop2DomainEventOutboxRow): Promi
         message: chatMessage,
         organizationId: row.organizationId,
       });
+      const { bumpPlatformCoreChainStatus } =
+        await import('@/lib/server/platform-core-chain-status-hub');
+      bumpPlatformCoreChainStatus([orderId]);
     }
+    const { bumpPlatformCoreB2bRegistry } =
+      await import('@/lib/server/platform-core-b2b-registry-hub');
+    bumpPlatformCoreB2bRegistry(row.eventType);
   }
   await appendWorkshop2ContextualSystemMessage({
     contextType: WORKSHOP2_ARTICLE_CONTEXT_TYPE,
@@ -266,6 +277,22 @@ async function dispatchRowSubscribers(row: Workshop2DomainEventOutboxRow): Promi
   await postDomainEventWebhook(row);
   await postDomainEventSlackMirror(row);
   await postDomainEventTeamsMirror(row);
+
+  if (
+    row.eventType === 'sample_order.status_changed' ||
+    row.eventType === 'showroom.published' ||
+    row.eventType === 'dossier.gate_passed'
+  ) {
+    const { bumpPlatformCoreDevelopmentStatus } =
+      await import('@/lib/server/platform-core-development-status-hub');
+    bumpPlatformCoreDevelopmentStatus([row.collectionId]);
+  }
+
+  if (row.eventType === 'sample_order.status_changed' || row.eventType === 'showroom.published') {
+    const { bumpPlatformCoreCommsInbox } =
+      await import('@/lib/server/platform-core-comms-inbox-hub');
+    bumpPlatformCoreCommsInbox(row.eventType);
+  }
 }
 
 export async function enqueueWorkshop2DomainEvent(input: {
@@ -496,6 +523,82 @@ export async function listWorkshop2DomainEventsForArticle(input: {
      ORDER BY created_at DESC
      LIMIT $${params.length}`,
     input.since?.trim() ? [cid, aid, input.since.trim(), limit] : [cid, aid, limit]
+  );
+
+  return res.rows
+    .filter((r) => isWorkshop2DomainEventType(r.event_type))
+    .map((r) => ({
+      id: String(r.id),
+      type: r.event_type as Workshop2DomainEventType,
+      collectionId: r.collection_id,
+      articleId: r.article_id,
+      payload: r.payload ?? {},
+      createdAt: r.created_at.toISOString(),
+      organizationId: r.organization_id,
+    }));
+}
+
+export async function listWorkshop2DomainEventsForCollection(input: {
+  collectionId: string;
+  eventType?: string;
+  since?: string;
+  limit?: number;
+}): Promise<Workshop2DomainEventEnvelope[]> {
+  const limit = Math.min(Math.max(input.limit ?? 50, 1), 200);
+  const cid = input.collectionId.trim();
+  const eventType = input.eventType?.trim();
+
+  if (!isWorkshop2PostgresEnabled()) {
+    hydrateFileOutboxIfNeeded();
+    const sinceMs = input.since ? Date.parse(input.since) : 0;
+    return memoryOutbox
+      .filter(
+        (r) =>
+          r.collectionId === cid &&
+          (!eventType || r.eventType === eventType) &&
+          (!sinceMs || Date.parse(r.createdAt) > sinceMs)
+      )
+      .slice(-limit)
+      .reverse()
+      .map((r) => ({
+        id: r.id,
+        type: r.eventType,
+        collectionId: r.collectionId,
+        articleId: r.articleId,
+        payload: r.payload,
+        createdAt: r.createdAt,
+        organizationId: r.organizationId,
+      }));
+  }
+
+  await ensureWorkshop2PgSchema();
+  const params: unknown[] = [cid];
+  const filters: string[] = [];
+  if (eventType) {
+    params.push(eventType);
+    filters.push(`event_type = $${params.length}`);
+  }
+  if (input.since?.trim()) {
+    params.push(input.since.trim());
+    filters.push(`created_at > $${params.length}::timestamptz`);
+  }
+  params.push(limit);
+  const whereExtra = filters.length ? ` AND ${filters.join(' AND ')}` : '';
+  const res = await getWorkshop2PgPool().query<{
+    id: number;
+    event_type: string;
+    collection_id: string;
+    article_id: string;
+    payload: Record<string, unknown>;
+    created_at: Date;
+    organization_id: string;
+  }>(
+    `SELECT id, event_type, collection_id, article_id, payload, created_at, organization_id
+     FROM workshop2_domain_event_outbox
+     WHERE collection_id = $1${whereExtra}
+     ORDER BY created_at DESC
+     LIMIT $${params.length}`,
+    params
   );
 
   return res.rows

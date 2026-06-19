@@ -40,6 +40,7 @@ export type ShowroomSectionConnectedProps = {
   setIsLookDetailsOpen: (open: boolean) => void;
   router: ReturnType<typeof useRouter>;
   currency: 'RUB' | 'USD' | 'EUR';
+  showroomLayout?: 'default' | 'platform-core';
 };
 
 function ShowroomSectionConnectedComponent(props: ShowroomSectionConnectedProps) {

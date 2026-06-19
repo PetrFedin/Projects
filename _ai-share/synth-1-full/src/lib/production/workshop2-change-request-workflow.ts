@@ -21,7 +21,7 @@ export function applyWorkshop2ChangeRequestDecision(input: {
   changeRequestId: string;
   decision: Workshop2ChangeRequestDecision;
   decidedBy: string;
-}): { dossier: Workshop2DossierPhase1; changeRequest?: Workshop2ChangeRequest } | null {
+}): { dossier: Workshop2DossierPhase1; changeRequest: Workshop2ChangeRequest } | null {
   const list = input.dossier.changeRequests ?? [];
   const idx = list.findIndex((c) => c.id === input.changeRequestId);
   if (idx === -1) return null;

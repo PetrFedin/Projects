@@ -31,6 +31,7 @@ function djb2Hex(input: string): string {
 export function computeWorkshop2TzSignatureDigest(parts: {
   role: Workshop2TzDigitalSignoffRole | string;
   signerLabel: string;
+  signerOrganization?: string;
   collectionId: string;
   articleId: string;
   articleSku: string;
@@ -39,6 +40,7 @@ export function computeWorkshop2TzSignatureDigest(parts: {
   const seed = [
     parts.role,
     parts.signerLabel.trim().toLowerCase(),
+    (parts.signerOrganization ?? '').trim().toLowerCase(),
     parts.collectionId,
     parts.articleId,
     parts.articleSku.trim(),

@@ -12,7 +12,12 @@ import { isProductRunwayAvailable } from '@/lib/runway/runway-brand-gate';
 import { loadScrollExperienceConfig } from '@/lib/product-scroll-switcher';
 import { useUIState } from '@/providers/ui-state';
 import { t } from '@/lib/runway/runway-i18n';
-import { parseRunwayEmbedAspectRatio, useRunwayEmbedBridge } from '@/hooks/useRunwayEmbedBridge';
+import {
+  parseRunwayEmbedAspectRatio,
+  parseRunwayEmbedSectionIndex,
+  resolveRunwayEmbedCompact,
+  useRunwayEmbedBridge,
+} from '@/hooks/useRunwayEmbedBridge';
 import type { Product } from '@/lib/types';
 
 /**
@@ -36,6 +41,7 @@ export default function EmbedRunwayPage({
 
   const aspectRatio = parseRunwayEmbedAspectRatio(searchParams.get('aspect'));
   const resizeEnabled = searchParams.get('resize') === '1';
+  const embedCompact = resolveRunwayEmbedCompact(searchParams.get('compact'));
 
   useRunwayEmbedBridge({
     slug: params.slug,
@@ -100,6 +106,14 @@ export default function EmbedRunwayPage({
     return () => observer.disconnect();
   }, [loading, tokenDenied, product]);
 
+  /** Deep link ?section=N для embed (syncUrl=false на switcher). */
+  useEffect(() => {
+    if (!product) return;
+    const sectionCount = product.scrollSwitcherSections?.length ?? 0;
+    const fromUrl = parseRunwayEmbedSectionIndex(searchParams.get('section'), sectionCount);
+    if (fromUrl != null) setActiveSection(fromUrl);
+  }, [product, searchParams]);
+
   if (loading) {
     return (
       <div className="flex min-h-[320px] items-center justify-center text-sm text-muted-foreground">
@@ -110,7 +124,10 @@ export default function EmbedRunwayPage({
 
   if (tokenDenied) {
     return (
-      <div className="flex min-h-[320px] items-center justify-center p-6 text-center text-sm text-muted-foreground">
+      <div
+        className="flex min-h-[320px] items-center justify-center p-6 text-center text-sm text-muted-foreground"
+        data-runway-embed-token-denied
+      >
         {t('runway.embedTokenDenied')}
       </div>
     );
@@ -150,6 +167,7 @@ export default function EmbedRunwayPage({
       >
         <ProductScrollSwitcher
           product={product}
+          controlledSectionIndex={activeSection}
           onAddToCart={() => {
             addCartItem(product, defaultSize, 1);
             openCart();
@@ -160,7 +178,7 @@ export default function EmbedRunwayPage({
           syncUrl={false}
           analyticsSurface="embed"
           surface="embed"
-          compact
+          compact={embedCompact}
           showWishlist={false}
           showShare={false}
           onSectionChange={(index) => setActiveSection(index)}

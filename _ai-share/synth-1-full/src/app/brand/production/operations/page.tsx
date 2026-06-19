@@ -1,7 +1,8 @@
 'use client';
 
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -29,7 +30,6 @@ import { computeProductionAlerts, collectionKpi } from '@/lib/brand-production/a
 import { ROLE_LABELS, ROLE_PERMISSIONS } from '@/lib/brand-production/rbac';
 import {
   Factory,
-  Database,
   Package,
   ClipboardList,
   MessageSquare,
@@ -43,11 +43,30 @@ import {
 } from 'lucide-react';
 import { B2bPriorityWorkflowPanel } from '@/components/b2b/B2bPriorityWorkflowPanel';
 import { B2bOrderUrlContextBanner } from '@/components/b2b/B2bOrderUrlContextBanner';
+import { BrandProductionCutTicketPanel } from '@/components/brand/production/BrandProductionCutTicketPanel';
+import { BrandProductionOperationsPanel } from '@/components/brand/production/BrandProductionOperationsPanel';
+import { BrandProductionHandoffPanel } from '@/components/brand/production/BrandProductionHandoffPanel';
+import { BrandProductionQcGatePanel } from '@/components/brand/production/BrandProductionQcGatePanel';
+import {
+  BrandProductionOpsGoldenPathStrip,
+  brandProductionOpsGoldenPathStepFromFeature,
+} from '@/components/brand/production/BrandProductionOpsGoldenPathStrip';
 import { getSynthaThreeCoresFullMatrixGroups } from '@/lib/syntha-priority-cores';
+import { PillarCapabilityWorkspaceChrome } from '@/components/platform/PillarCapabilityWorkspaceChrome';
+import { usePillarCapabilityWorkspace } from '@/hooks/use-pillar-capability-workspace';
+import { resolvePageCollectionId } from '@/lib/platform-core-hub-matrix';
 
-export default function ProductionOperationsPage() {
+function ProductionOperationsPageInner() {
   const [state, setState] = useState<BrandProductionState | null>(null);
   const [selectedCollectionId, setSelectedCollectionId] = useState<string>('');
+  const searchParams = useSearchParams();
+  const orderId =
+    searchParams.get('order') ??
+    searchParams.get('orderId') ??
+    searchParams.get('wholesaleOrderId') ??
+    undefined;
+  const collectionId = resolvePageCollectionId({ collection: searchParams.get('collection') });
+  const { activeFeatureId } = usePillarCapabilityWorkspace('brand-production-ops');
 
   const refresh = useCallback(() => {
     setState(loadBrandProductionState());
@@ -93,52 +112,68 @@ export default function ProductionOperationsPage() {
 
   return (
     <div className="container mx-auto max-w-6xl space-y-6 px-4 py-6 pb-24">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="flex items-center gap-2 text-xl font-bold uppercase tracking-tight">
-            <Database className="h-6 w-6" /> Операции производства
-          </h1>
-          <p className="mt-1 max-w-2xl text-sm text-slate-500">
-            Единая модель без API: данные в localStorage в формате, готовом к замене на
-            REST/GraphQL. Горизонтальные связи: коллекция → артикулы → BOM → PO → QC → склад/B2B.
-            Вертикальные: этапы жизни артикула, аудит, роли.
-          </p>
+      <PillarCapabilityWorkspaceChrome
+        workspaceId="brand-production-ops"
+        ctx={{ orderId, role: 'brand', collectionId: collectionId || selectedCollectionId || undefined }}
+        crossLinksTitle="Производство · связи столпов"
+        beforeTabs={
+          <>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <p className="max-w-2xl text-sm text-slate-500">
+                Единая модель без API: localStorage → REST. Коллекция → артикулы → BOM → PO → QC →
+                B2B.
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[10px] uppercase text-slate-500">Роль (мок):</span>
+                <select
+                  value={state.currentRole}
+                  onChange={(e) => {
+                    const next = setCurrentRole(state, e.target.value as ProductionRole);
+                    setState(next);
+                  }}
+                  className="h-9 rounded-lg border px-2 text-xs"
+                >
+                  {(Object.keys(ROLE_LABELS) as ProductionRole[]).map((r) => (
+                    <option key={r} value={r}>
+                      {ROLE_LABELS[r]}
+                    </option>
+                  ))}
+                </select>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-9 gap-1 text-xs"
+                  onClick={() => setState(resetBrandProductionToSeed())}
+                >
+                  <RefreshCw className="h-3.5 w-3.5" /> Сброс к seed
+                </Button>
+                <Button variant="outline" size="sm" className="h-9 text-xs" asChild>
+                  <Link href={ROUTES.brand.production}>Схема коллекции</Link>
+                </Button>
+              </div>
+            </div>
+            <B2bOrderUrlContextBanner
+              variant="brand"
+              className="rounded-xl border border-slate-200/80 bg-slate-50/90 shadow-sm"
+            />
+          </>
+        }
+      >
+        <div className="mb-4">
+          <BrandProductionOpsGoldenPathStrip
+            orderId={orderId}
+            collectionId={collectionId || selectedCollectionId || undefined}
+            activeStep={brandProductionOpsGoldenPathStepFromFeature(activeFeatureId)}
+          />
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[10px] uppercase text-slate-500">Роль (мок):</span>
-          <select
-            value={state.currentRole}
-            onChange={(e) => {
-              const next = setCurrentRole(state, e.target.value as ProductionRole);
-              setState(next);
-            }}
-            className="h-9 rounded-lg border px-2 text-xs"
-          >
-            {(Object.keys(ROLE_LABELS) as ProductionRole[]).map((r) => (
-              <option key={r} value={r}>
-                {ROLE_LABELS[r]}
-              </option>
-            ))}
-          </select>
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-9 gap-1 text-xs"
-            onClick={() => setState(resetBrandProductionToSeed())}
-          >
-            <RefreshCw className="h-3.5 w-3.5" /> Сброс к seed
-          </Button>
-          <Button variant="outline" size="sm" className="h-9 text-xs" asChild>
-            <Link href={ROUTES.brand.production}>Схема коллекции</Link>
-          </Button>
-        </div>
-      </div>
-
-      <B2bOrderUrlContextBanner
-        variant="brand"
-        className="rounded-xl border border-slate-200/80 bg-slate-50/90 shadow-sm"
+        {activeFeatureId === 'operations' ? (
+          <>
+      <BrandProductionOperationsPanel
+        state={state}
+        selectedCollectionId={collectionId || selectedCollectionId}
+        localSourceCollectionId={selectedCollectionId}
+        orderId={orderId}
       />
-
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList className={cn(cabinetSurface.tabsList, 'h-auto gap-1 shadow-inner')}>
           <TabsTrigger value="overview" className="text-xs">
@@ -684,6 +719,26 @@ export default function ProductionOperationsPage() {
         lead="Та же связка, что на реестрах B2B: вертикаль цеха, оптовый контур, надстройка коммуникаций, горизонталь ролей — из хаба операций производства."
         groups={getSynthaThreeCoresFullMatrixGroups()}
       />
+          </>
+        ) : null}
+        {activeFeatureId === 'handoff' ? (
+          <BrandProductionHandoffPanel
+            state={state}
+            selectedCollectionId={selectedCollectionId}
+            orderId={orderId}
+          />
+        ) : null}
+        {activeFeatureId === 'cut-ticket' ? (
+          <BrandProductionCutTicketPanel
+            state={state}
+            selectedCollectionId={selectedCollectionId}
+            orderId={orderId}
+          />
+        ) : null}
+        {activeFeatureId === 'qc-gate' ? (
+          <BrandProductionQcGatePanel state={state} selectedCollectionId={selectedCollectionId} />
+        ) : null}
+      </PillarCapabilityWorkspaceChrome>
 
       <Card className="border-dashed">
         <CardContent className="flex flex-wrap items-center gap-3 py-3 text-[10px] text-slate-500">
@@ -695,5 +750,13 @@ export default function ProductionOperationsPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function ProductionOperationsPage() {
+  return (
+    <Suspense fallback={null}>
+      <ProductionOperationsPageInner />
+    </Suspense>
   );
 }

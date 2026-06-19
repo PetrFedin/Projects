@@ -10,6 +10,6 @@ export function getProductHeritage(product: Product): ProductHeritageV1 {
       typeof a.heritageHeadline === 'string' ? a.heritageHeadline : 'Crafted with purpose',
     artisanNote: typeof a.artisanNote === 'string' ? a.artisanNote : undefined,
     archiveReference: typeof a.archiveRef === 'string' ? a.archiveRef : undefined,
-    sustainabilityHigh: product.sustainability.length > 2,
+    sustainabilityHigh: (product.sustainability?.length ?? 0) > 2,
   };
 }

@@ -10,6 +10,7 @@ import {
   WORKSHOP2_SURFACE_BANNER_INLINE_WARN_CLASS,
 } from '@/lib/production/workshop2-surface-banner-tokens';
 import { cn } from '@/lib/utils';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import type { Workshop2SupplyBundleStatus } from '@/lib/production/workshop2-supply-bundle-status';
 import type { Workshop2StockBundleStatus } from '@/lib/production/workshop2-stock-bundle-status';
 import type { Workshop2TaMilestonesStatus } from '@/lib/production/workshop2-ta-milestones-status';
@@ -111,7 +112,8 @@ export function Workshop2ReleaseStatusCollapsible({
   dossier?: Workshop2DossierPhase1 | null;
 }) {
   const mirror = dossier?.releaseRoutingMirror;
-  const hasMirrorChip = Boolean(mirror?.mirroredAt);
+  const mirrorAt = mirror ? workshop2PgMirrorStr(mirror, 'mirroredAt') : '';
+  const hasMirrorChip = Boolean(mirrorAt);
   const hasLocalWarning = !hasMirrorChip && routingStatus.routingStepCount > 0;
   const hasRoutingHint = Boolean(routingStatus.hintRu);
   const hasContent = hasRoutingHint || hasMirrorChip || hasLocalWarning;
@@ -149,8 +151,9 @@ export function Workshop2ReleaseStatusCollapsible({
             className={WORKSHOP2_SURFACE_BANNER_INLINE_EMERALD_CLASS}
             data-testid="release-routing-pg-chip"
           >
-            releaseRoutingMirror в PG · {new Date(mirror!.mirroredAt).toLocaleString('ru-RU')} ·{' '}
-            {mirror!.routingSource} · {mirror!.state}
+            releaseRoutingMirror в PG · {new Date(mirrorAt).toLocaleString('ru-RU')} ·{' '}
+            {workshop2PgMirrorStr(mirror!, 'routingSource')} ·{' '}
+            {workshop2PgMirrorStr(mirror!, 'state')}
           </p>
         ) : hasLocalWarning ? (
           <p

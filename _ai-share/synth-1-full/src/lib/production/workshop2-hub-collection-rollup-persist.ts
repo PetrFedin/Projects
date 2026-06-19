@@ -3,6 +3,7 @@
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import type { Workshop2HubPgMetrics } from '@/lib/production/workshop2-hub-pg-metrics';
 
 export type Workshop2HubRollupCollectionCounts = {
@@ -91,7 +92,8 @@ export function evaluateWorkshop2HubRollupExportGate(
     return {
       id: 'hub.rollup.export_ls_fallback',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'ZIP ТЗ: rollup не server-only — «Rollup PG → досье».',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ?? 'ZIP ТЗ: rollup не server-only — «Rollup PG → досье».',
     };
   }
   return null;
@@ -113,7 +115,8 @@ export function evaluateWorkshop2HubRollupSampleGate(
       id: 'hub.rollup.pg_down',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'PG rollup хаба недоступен — заказ образца на сервере заблокирован.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ??
+        'PG rollup хаба недоступен — заказ образца на сервере заблокирован.',
     };
   }
   if (mirror.postgres === 'ok' && mirror.dossierCount === 0) {
@@ -121,7 +124,7 @@ export function evaluateWorkshop2HubRollupSampleGate(
       id: 'hub.rollup.no_dossiers',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ??
+        workshop2PgMirrorStr(mirror, 'hintRu') ??
         'В PostgreSQL 0 досье — заказ образца возможен, но audit коллекции не на сервере.',
     };
   }
@@ -138,7 +141,7 @@ export function evaluateWorkshop2HubRollupHandoffGate(
     id: 'hub.rollup.pg_down',
     severity: 'blocker',
     messageRu:
-      mirror.hintRu ??
+      workshop2PgMirrorStr(mirror, 'hintRu') ??
       'PG rollup хаба недоступен — handoff commit заблокирован до восстановления PG.',
   };
 }

@@ -1,7 +1,10 @@
 /**
  * Wave 4 P1: commission engine stub — % от order total по rep attribution.
  */
+export type Workshop2B2bCommissionPayoutStatus = 'accrued' | 'payout_pending' | 'paid';
+
 export type Workshop2B2bCommissionLine = {
+  id?: string;
   orderId: string;
   repId: string;
   orderTotalRub: number;
@@ -9,6 +12,7 @@ export type Workshop2B2bCommissionLine = {
   commissionRub: number;
   attributedAt: string;
   customerName?: string;
+  payoutStatus?: Workshop2B2bCommissionPayoutStatus;
 };
 
 const DEMO_COMMISSION_PCT = 5;

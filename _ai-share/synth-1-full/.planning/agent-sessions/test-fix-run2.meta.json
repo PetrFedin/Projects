@@ -1,0 +1,10 @@
+{
+  "sessionId": "test-fix-run2",
+  "status": "done",
+  "repoRoot": "/Users/petr/Projects",
+  "taskPromptFile": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/agent-sessions/scan-1781716414024-uv4ehi.prompt.txt",
+  "updatedAt": "2026-06-17T17:17:21.446Z",
+  "cursorAgentId": "agent-67eb1755-3a80-4f26-bb5e-74e0ab71a120",
+  "runId": "run-4972d736-adbd-4378-968a-980f81618707",
+  "runStatus": "finished"
+}

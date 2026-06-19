@@ -11,46 +11,95 @@ import {
   type Workshop2B2bPaymentTermsRu,
 } from '@/lib/production/workshop2-b2b-order-lifecycle';
 import { isWorkshop2B2bPaymentTermsRu } from '@/lib/production/workshop2-b2b-wave22-parity';
+import { resolveWorkshop2RetailerBuyerIds } from '@/lib/b2b/workshop2-retailer-buyer-bridge';
 import { isWorkshop2PgOnlyMode } from '@/lib/production/workshop2-hub-pg-only-policy';
+import { shouldWorkshop2PersistAuxiliaryJsonToFile } from '@/lib/server/platform-core-pg-primary-file-policy';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { PLATFORM_CORE_PINNED_B2B_ORDER_IDS } from '@/lib/platform-core-demo-context';
 import { ensureWorkshop2PgSchema } from '@/lib/server/workshop2-dossier-repository';
 import { getWorkshop2PgPool, isWorkshop2PostgresEnabled } from '@/lib/server/workshop2-pg-pool';
 
-const memoryOrders = new Map<string, Workshop2B2bOrderRecord>();
 const STORE_FILE = path.join(process.cwd(), 'data', 'workshop2-b2b-orders.json');
-let fileHydrated = false;
 
-function canUseDiskPersistence(): boolean {
-  return process.env.NODE_ENV !== 'test' && !isWorkshop2PgOnlyMode();
+/** Только NODE_ENV=test — runtime без in-process Map (file или PG). */
+let testFallbackStore: Map<string, Workshop2B2bOrderRecord> | null = null;
+
+const B2B_ORDER_SELECT_COLUMNS = `id, collection_id, article_id, buyer_id, rep_id, status, tier, total_rub,
+              lines, commission_preview, metadata, created_at, updated_at`;
+
+function mergeB2bOrdersById(
+  primary: Workshop2B2bOrderRecord[],
+  extra: Workshop2B2bOrderRecord[]
+): Workshop2B2bOrderRecord[] {
+  const byId = new Map<string, Workshop2B2bOrderRecord>();
+  for (const order of extra) byId.set(order.id, order);
+  for (const order of primary) {
+    if (!byId.has(order.id)) byId.set(order.id, order);
+  }
+  return [...byId.values()].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 }
 
-function hydrateFileIfNeeded(): void {
-  if (fileHydrated) return;
-  fileHydrated = true;
-  if (!canUseDiskPersistence()) return;
+async function fetchPinnedPlatformCoreB2bOrdersForCollection(
+  collectionId: string
+): Promise<Workshop2B2bOrderRecord[]> {
+  if (!isPlatformCoreMode()) return [];
+  const pinnedIds = PLATFORM_CORE_PINNED_B2B_ORDER_IDS[collectionId.trim()] ?? [];
+  if (pinnedIds.length === 0) return [];
+  await ensureWorkshop2PgSchema();
+  const res = await getWorkshop2PgPool().query(
+    `SELECT ${B2B_ORDER_SELECT_COLUMNS}
+       FROM workshop2_b2b_orders WHERE collection_id = $1 AND id = ANY($2::text[])`,
+    [collectionId.trim(), pinnedIds]
+  );
+  return res.rows.map(rowToRecord);
+}
+
+function canUseDiskPersistence(): boolean {
+  return process.env.NODE_ENV !== 'test' && shouldWorkshop2PersistAuxiliaryJsonToFile();
+}
+
+function readFallbackOrdersFromFile(): Workshop2B2bOrderRecord[] {
+  if (!canUseDiskPersistence()) return [];
   try {
-    if (!fs.existsSync(STORE_FILE)) return;
+    if (!fs.existsSync(STORE_FILE)) return [];
     const parsed = JSON.parse(fs.readFileSync(STORE_FILE, 'utf8')) as Workshop2B2bOrderRecord[];
-    if (Array.isArray(parsed)) {
-      for (const o of parsed) memoryOrders.set(o.id, o);
-    }
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    /* best-effort */
+    return [];
   }
 }
 
-function flushFile(): void {
+function writeFallbackOrdersToFile(orders: Workshop2B2bOrderRecord[]): void {
   if (!canUseDiskPersistence()) return;
   try {
     fs.mkdirSync(path.dirname(STORE_FILE), { recursive: true });
-    fs.writeFileSync(STORE_FILE, JSON.stringify([...memoryOrders.values()], null, 2), 'utf8');
+    fs.writeFileSync(STORE_FILE, JSON.stringify(orders, null, 2), 'utf8');
   } catch {
     /* best-effort */
   }
+}
+
+function readFallbackOrderMap(): Map<string, Workshop2B2bOrderRecord> {
+  if (process.env.NODE_ENV === 'test') {
+    return new Map(testFallbackStore ?? []);
+  }
+  return new Map(readFallbackOrdersFromFile().map((o) => [o.id, o]));
+}
+
+function writeFallbackOrderMap(map: Map<string, Workshop2B2bOrderRecord>): void {
+  if (process.env.NODE_ENV === 'test') {
+    testFallbackStore = map;
+    return;
+  }
+  writeFallbackOrdersToFile([...map.values()]);
 }
 
 function metadataToOrderFields(
   metadata: unknown
-): Pick<Workshop2B2bOrderRecord, 'requestedDeliveryDate' | 'paymentTermsRu' | 'paymentTermsDays'> {
+): Pick<
+  Workshop2B2bOrderRecord,
+  'requestedDeliveryDate' | 'paymentTermsRu' | 'paymentTermsDays' | 'buyerDeliveryAcknowledgedAt'
+> {
   if (!metadata || typeof metadata !== 'object') return {};
   const m = metadata as Record<string, unknown>;
   const paymentTermsRu = String(m.paymentTermsRu ?? '');
@@ -61,6 +110,10 @@ function metadataToOrderFields(
       ? (paymentTermsRu as Workshop2B2bPaymentTermsRu)
       : undefined,
     paymentTermsDays: typeof m.paymentTermsDays === 'number' ? m.paymentTermsDays : undefined,
+    buyerDeliveryAcknowledgedAt:
+      typeof m.buyerDeliveryAcknowledgedAt === 'string'
+        ? m.buyerDeliveryAcknowledgedAt
+        : undefined,
   };
 }
 
@@ -69,6 +122,9 @@ function orderToMetadata(order: Workshop2B2bOrderRecord): Record<string, unknown
   if (order.requestedDeliveryDate) meta.requestedDeliveryDate = order.requestedDeliveryDate;
   if (order.paymentTermsRu) meta.paymentTermsRu = order.paymentTermsRu;
   if (order.paymentTermsDays != null) meta.paymentTermsDays = order.paymentTermsDays;
+  if (order.buyerDeliveryAcknowledgedAt) {
+    meta.buyerDeliveryAcknowledgedAt = order.buyerDeliveryAcknowledgedAt;
+  }
   return meta;
 }
 
@@ -130,8 +186,7 @@ export async function getWorkshop2B2bOrder(
 
   if (isWorkshop2PgOnlyMode()) return null;
 
-  hydrateFileIfNeeded();
-  return memoryOrders.get(id) ?? null;
+  return readFallbackOrderMap().get(id) ?? null;
 }
 
 export async function putWorkshop2B2bOrder(
@@ -174,6 +229,17 @@ export async function putWorkshop2B2bOrder(
         order.updatedAt,
       ]
     );
+    void import('@/lib/server/workshop2-b2b-invoice-repository')
+      .then(({ upsertWorkshop2B2bInvoiceForOrder }) =>
+        upsertWorkshop2B2bInvoiceForOrder({
+          orderId: order.id,
+          brandId: order.brandId,
+          tenantId: order.buyerId ?? order.brandId,
+          totalRub: order.totalRub,
+          status: order.status === 'draft' ? 'draft' : 'issued',
+        })
+      )
+      .catch(() => {});
     return { persisted: true, mode: 'postgres' };
   }
 
@@ -181,9 +247,9 @@ export async function putWorkshop2B2bOrder(
     return { persisted: false, mode: 'pg_only_blocked' };
   }
 
-  hydrateFileIfNeeded();
-  memoryOrders.set(order.id, order);
-  flushFile();
+  const map = readFallbackOrderMap();
+  map.set(order.id, order);
+  writeFallbackOrderMap(map);
   return { persisted: true, mode: canUseDiskPersistence() ? 'file' : 'memory' };
 }
 
@@ -193,7 +259,7 @@ export async function patchWorkshop2B2bOrderStatus(input: {
   commissionPreview?: Workshop2B2bOrderRecord['commissionPreview'];
 }): Promise<
   | { ok: true; order: Workshop2B2bOrderRecord; previousStatus: Workshop2B2bOrderStatus }
-  | { ok: false; code: 'not_found' | 'invalid_transition'; messageRu: string }
+  | { ok: false; code: 'not_found' | 'invalid_transition' | 'qc_gate_blocked'; messageRu: string }
 > {
   const existing = await getWorkshop2B2bOrder(input.orderId);
   if (!existing) {
@@ -209,6 +275,14 @@ export async function patchWorkshop2B2bOrderStatus(input: {
       messageRu: `Переход ${existing.status} → ${input.status} запрещён.`,
     };
   }
+  if (input.status === 'shipped' && existing.status !== 'shipped') {
+    const { assertWorkshop2QcGateAllowsOrderShipment } =
+      await import('@/lib/server/workshop2-qc-gate-repository');
+    const qc = await assertWorkshop2QcGateAllowsOrderShipment(input.orderId);
+    if (!qc.ok) {
+      return { ok: false, code: qc.code, messageRu: qc.messageRu };
+    }
+  }
   const now = new Date().toISOString();
   const next: Workshop2B2bOrderRecord = {
     ...existing,
@@ -217,12 +291,19 @@ export async function patchWorkshop2B2bOrderStatus(input: {
     commissionPreview: input.commissionPreview ?? existing.commissionPreview,
   };
   await putWorkshop2B2bOrder(next);
+  if (existing.status !== next.status) {
+    const { bumpPlatformCoreChainStatus } =
+      await import('@/lib/server/platform-core-chain-status-hub');
+    bumpPlatformCoreChainStatus([next.id]);
+    const { bumpPlatformCoreB2bRegistry } =
+      await import('@/lib/server/platform-core-b2b-registry-hub');
+    bumpPlatformCoreB2bRegistry('b2b.order.status_changed');
+  }
   return { ok: true, order: next, previousStatus: existing.status };
 }
 
 export function clearWorkshop2B2bOrdersMemoryForTests(): void {
-  memoryOrders.clear();
-  fileHydrated = false;
+  testFallbackStore = new Map();
 }
 
 /** Wave 26: все B2B-заказы для credit scoring (file-store / PG). */
@@ -239,8 +320,36 @@ export async function listWorkshop2B2bOrdersAll(): Promise<Workshop2B2bOrderReco
 
   if (isWorkshop2PgOnlyMode()) return [];
 
-  hydrateFileIfNeeded();
-  return [...memoryOrders.values()];
+  return [...readFallbackOrderMap().values()];
+}
+
+/** CRM bridge: заказы по buyerId / repId партнёра. */
+export async function listWorkshop2B2bOrdersForBuyer(
+  buyerId: string
+): Promise<Workshop2B2bOrderRecord[]> {
+  const buyerIds = resolveWorkshop2RetailerBuyerIds(buyerId);
+  if (!buyerIds.length) return [];
+
+  if (isWorkshop2PostgresEnabled()) {
+    await ensureWorkshop2PgSchema();
+    const res = await getWorkshop2PgPool().query(
+      `SELECT id, collection_id, article_id, buyer_id, rep_id, status, tier, total_rub,
+              lines, commission_preview, metadata, created_at, updated_at
+       FROM workshop2_b2b_orders
+       WHERE buyer_id = ANY($1::text[]) OR rep_id = ANY($1::text[])
+       ORDER BY updated_at DESC
+       LIMIT 50`,
+      [buyerIds]
+    );
+    return res.rows.map(rowToRecord);
+  }
+
+  if (isWorkshop2PgOnlyMode()) return [];
+
+  const set = new Set(buyerIds);
+  return [...readFallbackOrderMap().values()].filter(
+    (o) => (o.buyerId && set.has(o.buyerId)) || (o.repId && set.has(o.repId))
+  );
 }
 
 /** Wave 22: заказы коллекции для brand analytics. */
@@ -253,18 +362,18 @@ export async function listWorkshop2B2bOrdersForCollection(
   if (isWorkshop2PostgresEnabled()) {
     await ensureWorkshop2PgSchema();
     const res = await getWorkshop2PgPool().query(
-      `SELECT id, collection_id, article_id, buyer_id, rep_id, status, tier, total_rub,
-              lines, commission_preview, metadata, created_at, updated_at
+      `SELECT ${B2B_ORDER_SELECT_COLUMNS}
        FROM workshop2_b2b_orders WHERE collection_id = $1 ORDER BY updated_at DESC LIMIT 200`,
       [cid]
     );
-    return res.rows.map(rowToRecord);
+    const recent = res.rows.map(rowToRecord);
+    const pinned = await fetchPinnedPlatformCoreB2bOrdersForCollection(cid);
+    return mergeB2bOrdersById(recent, pinned);
   }
 
   if (isWorkshop2PgOnlyMode()) return [];
 
-  hydrateFileIfNeeded();
-  return [...memoryOrders.values()].filter((o) => o.collectionId === cid);
+  return [...readFallbackOrderMap().values()].filter((o) => o.collectionId === cid);
 }
 
 export async function patchWorkshop2B2bOrderCheckoutFields(input: {
@@ -314,8 +423,7 @@ export async function listWorkshop2B2bOrdersForArticle(input: {
 
   if (isWorkshop2PgOnlyMode()) return [];
 
-  hydrateFileIfNeeded();
-  return [...memoryOrders.values()].filter(
+  return [...readFallbackOrderMap().values()].filter(
     (o) => o.articleId === aid || o.lines.some((l) => l.articleId === aid)
   );
 }

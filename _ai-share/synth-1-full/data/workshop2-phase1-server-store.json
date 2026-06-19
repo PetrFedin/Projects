@@ -1,0 +1,1314 @@
+{
+  "SS27::demo-ss27-01": {
+    "collectionId": "SS27",
+    "articleId": "demo-ss27-01",
+    "version": 1,
+    "updatedAt": "2026-05-29T19:37:52.501Z",
+    "dossier": {
+      "schemaVersion": 1,
+      "updatedAt": "2026-05-29T19:37:52.500Z",
+      "updatedBy": "file-store-demo-bootstrap",
+      "selectedAudienceId": "men",
+      "isUnisex": false,
+      "brandNotes": "SS27 · мужское пальто премиум: двубортный силуэт, шерсть 90/10, подклад вискоза. Цель — маржа B2B ≥42%, MOQ 120 шт, дроп EU/РФ до 15.07.2027. ТЗ согласовано с дизайном FW26 пальто-блока.",
+      "passportProductionBrief": {
+        "b2cProductSlug": "ss27-m-coat-01",
+        "markingRequired": true,
+        "gtin": "04601234567890",
+        "targetSampleOrPilotDate": "2026-09-01",
+        "moqTargetMaxPieces": 120,
+        "moqTargetNote": "120 шт · Drop 1",
+        "deadlineCriticality": "hard",
+        "articleCardOwnerRole": "product",
+        "articleCardOwnerName": "Мария (Продакшн)",
+        "plannedLaunchType": "mixed",
+        "lifecycleTaTemplateId": "outerwear-90",
+        "sewingRegionPlanNote": "Пошив: Иваново (РФ), финишные операции — Москва.",
+        "tzRoleResponseDue": {
+          "designer": "2026-05-10",
+          "technologist": "2026-05-12",
+          "manager": "2026-05-15"
+        }
+      },
+      "assignments": [
+        {
+          "assignmentId": "ss27-a-mat",
+          "kind": "canonical",
+          "attributeId": "mat",
+          "values": [
+            {
+              "valueId": "ss27-a-mat-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Основная ткань",
+              "text": "Шерсть 90%, кашемир 10%, плотность 620 г/м"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-a-comp",
+          "kind": "canonical",
+          "attributeId": "composition",
+          "values": [
+            {
+              "valueId": "ss27-a-comp-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Состав (этикетка)",
+              "text": "90% шерсть, 10% кашемир"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-a-silh",
+          "kind": "canonical",
+          "attributeId": "silh",
+          "values": [
+            {
+              "valueId": "ss27-a-silh-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Силуэт",
+              "text": "Двубортное пальто mid-thigh"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-a-fit",
+          "kind": "canonical",
+          "attributeId": "fit_type",
+          "values": [
+            {
+              "valueId": "ss27-a-fit-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Посадка",
+              "text": "Regular, плечо структурное"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-a-clo",
+          "kind": "canonical",
+          "attributeId": "closure",
+          "values": [
+            {
+              "valueId": "ss27-a-clo-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Застёжка",
+              "text": "Прямые пуговицы рог, 6 шт"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-a-pocket",
+          "kind": "canonical",
+          "attributeId": "pocket",
+          "values": [
+            {
+              "valueId": "ss27-a-pocket-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Карманы",
+              "text": "Прорезные с клапаном + внутренний нагрудный"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-a-neck",
+          "kind": "canonical",
+          "attributeId": "neck",
+          "values": [
+            {
+              "valueId": "ss27-a-neck-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Горловина",
+              "text": "Отложной воротник 9 см"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-a-sleeve",
+          "kind": "canonical",
+          "attributeId": "sleeve",
+          "values": [
+            {
+              "valueId": "ss27-a-sleeve-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Рукав",
+              "text": "Двойной шов, литой манжет"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-a-pack",
+          "kind": "canonical",
+          "attributeId": "packaging",
+          "values": [
+            {
+              "valueId": "ss27-a-pack-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Упаковка",
+              "text": "Чехол тканевый + картонная вставка"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-a-lab",
+          "kind": "canonical",
+          "attributeId": "labeling",
+          "values": [
+            {
+              "valueId": "ss27-a-lab-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Этикетка",
+              "text": "Состав + QR DPP"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-a-care",
+          "kind": "canonical",
+          "attributeId": "careWashingClassOptions",
+          "values": [
+            {
+              "valueId": "ss27-a-care-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Уход",
+              "text": "Химчистка P"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-a-temp",
+          "kind": "canonical",
+          "attributeId": "temperatureOptions",
+          "values": [
+            {
+              "valueId": "ss27-a-temp-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Температурный режим",
+              "text": "Профессиональная химчистка"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-uat-color",
+          "kind": "canonical",
+          "attributeId": "primaryColorFamilyOptions",
+          "values": [
+            {
+              "valueId": "ss27-uat-color-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Чёрный",
+              "text": "Чёрный"
+            }
+          ]
+        }
+      ],
+      "techPackAttachments": [
+        {
+          "attachmentId": "ss27-tp-1",
+          "fileName": "SS27-M-COAT-01_techpack_v2.pdf",
+          "mimeType": "application/pdf",
+          "fileSize": 1240000,
+          "previewDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO2WZxkAAAAASUVORK5CYII=",
+          "revisionNote": "v2.0 — лекала плеча и воротника"
+        }
+      ],
+      "visualReferences": [
+        {
+          "refId": "ss27-demo-ref-main",
+          "title": "Референс: пальто Jil Sander SS24",
+          "description": "Принять линию плеча и длину полы.",
+          "previewDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO2WZxkAAAAASUVORK5CYII="
+        }
+      ],
+      "canonicalMainPhotoRefId": "ss27-demo-ref-main",
+      "designerIntent": {
+        "mood": "Тихий люкс, городской минимализм, тёплый серо-коричневый ряд",
+        "bullets": [
+          "Акцент на ткани и крое, без лишнего декора",
+          "Пара с брюками широкого кроя и лоферами",
+          "Капсула Syntha Lab SS27 — «умный гардероб»"
+        ]
+      },
+      "categorySketchImageDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO2WZxkAAAAASUVORK5CYII=",
+      "categorySketchImageFileName": "ss27-coat-master-sketch.png",
+      "categorySketchAnnotations": [
+        {
+          "annotationId": "ss27-demo-ann-01",
+          "categoryLeafId": "catalog-apparel-g0-l0",
+          "xPct": 22,
+          "yPct": 38,
+          "text": "Углублить пройму на 0,5 см для M/L"
+        }
+      ],
+      "sampleSizeScaleId": "women-apparel-shoulder::__BODY_GRID",
+      "sampleBasePerSizeDimensions": {
+        "w2:women-apparel-shoulder:__BODY_GRID:4": {
+          "Обхват груди": "96",
+          "Обхват талии": "76",
+          "Обхват бёдер": "100"
+        }
+      },
+      "tzSignatoryBindings": {
+        "designerDisplayLabel": "Виктория Белова",
+        "technologistDisplayLabel": "Артём Новиков",
+        "managerDisplayLabel": "Мария (Продакшн)",
+        "designerSignStages": {
+          "tz": true,
+          "sample": true
+        },
+        "technologistSignStages": {
+          "tz": true,
+          "sample": true
+        },
+        "managerSignStages": {
+          "tz": true
+        }
+      },
+      "sectionSignoffs": {
+        "general": {
+          "brand": {
+            "by": "Виктория Белова",
+            "at": "2026-04-04T10:00:00.000Z",
+            "signatureDigest": "demo-Виктория Белова"
+          },
+          "tech": {
+            "by": "Артём Новиков",
+            "at": "2026-04-04T10:00:00.000Z",
+            "signatureDigest": "demo-Артём Новиков"
+          }
+        },
+        "visuals": {
+          "brand": {
+            "by": "Виктория Белова",
+            "at": "2026-04-04T10:00:00.000Z",
+            "signatureDigest": "demo-Виктория Белова"
+          },
+          "tech": {
+            "by": "Артём Новиков",
+            "at": "2026-04-04T10:00:00.000Z",
+            "signatureDigest": "demo-Артём Новиков"
+          }
+        },
+        "material": {
+          "brand": {
+            "by": "Виктория Белова",
+            "at": "2026-04-04T10:00:00.000Z",
+            "signatureDigest": "demo-Виктория Белова"
+          },
+          "tech": {
+            "by": "Артём Новиков",
+            "at": "2026-04-04T10:00:00.000Z",
+            "signatureDigest": "demo-Артём Новиков"
+          }
+        },
+        "construction": {
+          "brand": {
+            "by": "Виктория Белова",
+            "at": "2026-04-04T10:00:00.000Z",
+            "signatureDigest": "demo-Виктория Белова"
+          },
+          "tech": {
+            "by": "Артём Новиков",
+            "at": "2026-04-04T10:00:00.000Z",
+            "signatureDigest": "demo-Артём Новиков"
+          }
+        },
+        "assignment": {
+          "brand": {
+            "by": "Мария (Продакшн)",
+            "at": "2026-04-04T10:00:00.000Z",
+            "signatureDigest": "demo-Мария (Продакшн)"
+          },
+          "tech": {
+            "by": "Артём Новиков",
+            "at": "2026-04-04T10:00:00.000Z",
+            "signatureDigest": "demo-Артём Новиков"
+          }
+        }
+      },
+      "isVerifiedByDesigner": true,
+      "isVerifiedByTechnologist": true,
+      "designerSignoff": {
+        "by": "Виктория Белова",
+        "at": "2026-04-03T16:00:00.000Z",
+        "signatureDigest": "demo-designer-ss27"
+      },
+      "technologistSignoff": {
+        "by": "Артём Новиков",
+        "at": "2026-04-03T16:05:00.000Z",
+        "signatureDigest": "demo-tech-ss27"
+      },
+      "managerSignoff": {
+        "by": "Мария (Продакшн)",
+        "at": "2026-04-04T09:00:00.000Z",
+        "signatureDigest": "demo-mgr-ss27"
+      },
+      "edoSignoffMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.500Z",
+        "provider": "mock",
+        "edoStatus": "signed",
+        "requestId": "mock-edo-ss27-staging",
+        "signedAt": "2026-05-29T19:37:52.500Z",
+        "blockerHandoff": false,
+        "statusLabelRu": "Подписано",
+        "hintRu": "ЭП Gold Sample (mock, staging UAT РФ)."
+      },
+      "markingHonestSignMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.500Z",
+        "markingRequired": true,
+        "gtin": "04601234567890",
+        "markingOrderId": "mark-journal-SS27-demo-ss27-01-staging",
+        "status": "journal_only",
+        "journalOnly": true,
+        "hintRu": "Маркировка: journal-only для демо SS27 (без ЦРПТ ACK)."
+      },
+      "sampleWorkflow": {
+        "activeSampleOrderId": "demo-ss27-01-sample-staging",
+        "floorStatusLabel": "synced",
+        "lastSyncedAt": "2026-05-29T19:37:52.500Z"
+      },
+      "taMilestones": [
+        {
+          "id": "ta-outerwear-90-0",
+          "title": "Размещение заказа (PO)",
+          "targetDate": "2026-04-01",
+          "actualDate": null,
+          "status": "pending"
+        },
+        {
+          "id": "ta-outerwear-90-1",
+          "title": "Поставка материалов",
+          "targetDate": "2026-04-22",
+          "actualDate": null,
+          "status": "pending"
+        },
+        {
+          "id": "ta-outerwear-90-2",
+          "title": "Лекала + градация",
+          "targetDate": "2026-04-29",
+          "actualDate": null,
+          "status": "pending"
+        },
+        {
+          "id": "ta-outerwear-90-3",
+          "title": "Раскрой",
+          "targetDate": "2026-05-06",
+          "actualDate": null,
+          "status": "pending"
+        },
+        {
+          "id": "ta-outerwear-90-4",
+          "title": "Пошив образца",
+          "targetDate": "2026-05-31",
+          "actualDate": null,
+          "status": "pending"
+        },
+        {
+          "id": "ta-outerwear-90-5",
+          "title": "Финальный review",
+          "targetDate": "2026-06-25",
+          "actualDate": null,
+          "status": "pending"
+        }
+      ],
+      "taMilestonesPersistedAt": "2026-05-29T19:37:52.500Z",
+      "taMilestonesPersistSource": "dossier_refresh",
+      "hubCollectionRollupMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.500Z",
+        "collectionId": "SS27",
+        "postgres": "ok",
+        "metricsSource": "pg_primary",
+        "serverRollupEnabled": true,
+        "dossierCount": 3,
+        "articleCount": 3,
+        "sampleOrderCount": 1,
+        "blockerSampleOrder": false,
+        "blockerHandoff": false,
+        "hintRu": "SS27 demo rollup — UAT auto-check sample gate."
+      },
+      "showroomB2bMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.500Z",
+        "publishMode": "pg_journal",
+        "pgPublished": true,
+        "campaignName": "SS27 Syntha Lab",
+        "lastPublishAt": "2026-05-29T19:37:52.500Z",
+        "publishJournalCount": 1,
+        "liveWebhookConfigured": false,
+        "liveWebhookAckSimulated": false,
+        "hintRu": "Демо: витрина готова к publish (journal_only, без fake ACK)."
+      },
+      "vaultDocuments": [
+        {
+          "id": "ss27-demo-vault-compliance",
+          "type": "certificate",
+          "title": "Декларация соответствия (демо)",
+          "uploadedAt": "2026-05-29T19:37:52.500Z"
+        }
+      ],
+      "lifecycleState": "handoff_ready",
+      "signoffStagesProgressMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.500Z",
+        "stagesTotal": 2,
+        "stagesComplete": 0,
+        "blockerHandoff": true,
+        "hintRu": "Незавершённые этапы signoff: Ядро ТЗ (4 секции), Задание + handoff."
+      },
+      "sku": "SS27-M-COAT-01",
+      "categoryBindings": [
+        {
+          "categoryLeafId": "catalog-apparel-g0-l0"
+        }
+      ],
+      "passportSewingPlanNote": "Пошив: Иваново (РФ), финишные операции — Москва.",
+      "b2bIntegrationDraft": {
+        "wholesalePrice": 42000,
+        "msrp": 89000,
+        "moq": 120,
+        "startDate": "2026-06-01",
+        "endDate": "2026-08-31",
+        "campaignId": "ss27-syntha-lab"
+      },
+      "productionModel": {
+        "nodes": [
+          {
+            "id": "n-body",
+            "label": "Корпус"
+          }
+        ],
+        "materialLines": [
+          {
+            "id": "m-wool",
+            "nodeId": "n-body",
+            "materialName": "Шерсть 90%",
+            "composition": "90% wool",
+            "yieldPerUnit": 2.1,
+            "unitCost": 1200
+          },
+          {
+            "id": "m-lining",
+            "nodeId": "n-body",
+            "materialName": "Подклад вискоза",
+            "composition": "100% viscose",
+            "yieldPerUnit": 1.4,
+            "unitCost": 320
+          }
+        ],
+        "trimLines": []
+      },
+      "supplyBundleMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.501Z",
+        "supplyBomSyncAt": "2026-05-29T19:37:52.500Z",
+        "lineCount": 0,
+        "linesWithQty": 0,
+        "unlinkedLineCount": 0,
+        "plannedPoQty": 120,
+        "bomMaterialLineCount": 1,
+        "state": "empty",
+        "blockerSampleOrder": true,
+        "hintRu": "Строк снабжения нет — синхронизируйте из BOM или добавьте вручную."
+      },
+      "qcPanelMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.501Z",
+        "batchCount": 1,
+        "pendingBatchCount": 0,
+        "failedBatchCount": 0,
+        "hasSampleOrder": true,
+        "hasInspectorLink": true,
+        "supplierId": "sup-demo-ivanovo",
+        "supplierSource": "purchase_order",
+        "purchaseOrderCount": 1,
+        "poConfirmedCount": 1,
+        "activeSampleOrderId": "demo-ss27-01-sample-staging",
+        "panelState": "ready",
+        "blockerSampleOrder": false,
+        "blockerHandoff": false
+      },
+      "categoryMergeMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.500Z",
+        "categoryLeafId": "catalog-apparel-g0-l0",
+        "hasChanges": false,
+        "orphanAttributeCount": 0,
+        "warningCount": 0,
+        "blockerSampleOrder": false
+      },
+      "infopickMatrixMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.501Z",
+        "leafId": "catalog-apparel-g0-l0",
+        "totalRequired": 20,
+        "missingCount": 16,
+        "missingMatrixCount": 6,
+        "blockerSampleOrder": true,
+        "hintRu": "Пусто 6 обязательных полей из матрицы InfoPick — заполните до handoff."
+      },
+      "visualReferencesMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.501Z",
+        "refCount": 1,
+        "mediaRefCount": 1,
+        "openDiscussionCount": 0,
+        "readyForVisualGate": true,
+        "blockerExport": false,
+        "blockerSampleOrder": false,
+        "blockerHandoff": false,
+        "hintRu": "Выберите главное фото и канонический скетч для handoff."
+      },
+      "planPoBundleSnapshot": {
+        "snapshotAt": "2026-05-29T19:37:52.501Z",
+        "poLineCount": 1,
+        "totalQty": 120,
+        "allClosed": false,
+        "supplierIds": [
+          "sup-demo-ivanovo"
+        ],
+        "blockerHandoff": false,
+        "blockerSampleOrder": false
+      },
+      "assignmentSignoffMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.501Z",
+        "sectionsSigned": 4,
+        "sectionsTotal": 4,
+        "assignmentSectionSigned": true,
+        "state": "partial",
+        "blockerSampleOrder": false,
+        "hintRu": "Подписи есть — отметьте передачу бренда в блоке handoff."
+      },
+      "overviewPersistedSnapshot": {
+        "persistedAt": "2026-05-29T19:37:52.501Z",
+        "tzOverallPct": 0,
+        "readyForHandoff": false,
+        "blockerCount": 3,
+        "warningCount": 2,
+        "primaryTab": "supply",
+        "primaryLabel": "Следующее >",
+        "source": "dossier_readiness"
+      }
+    }
+  },
+  "SS27::demo-ss27-02": {
+    "collectionId": "SS27",
+    "articleId": "demo-ss27-02",
+    "version": 2,
+    "updatedAt": "2026-05-29T19:37:52.632Z",
+    "dossier": {
+      "schemaVersion": 1,
+      "updatedAt": "2026-05-29T19:37:52.501Z",
+      "updatedBy": "file-store-demo-bootstrap",
+      "selectedAudienceId": "women",
+      "isUnisex": false,
+      "brandNotes": "SS27 · платье миди · хлопок · демо ТЗ для хаба разработки.",
+      "passportProductionBrief": {
+        "targetSampleOrPilotDate": "2026-08-15",
+        "moqTargetMaxPieces": 200
+      },
+      "assignments": [
+        {
+          "assignmentId": "ss27-drs-mat",
+          "kind": "canonical",
+          "attributeId": "mat",
+          "values": [
+            {
+              "valueId": "ss27-drs-mat-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Основная ткань",
+              "text": "Хлопок 100%, саржа, 140 г/м²"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-drs-comp",
+          "kind": "canonical",
+          "attributeId": "composition",
+          "values": [
+            {
+              "valueId": "ss27-drs-comp-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Состав",
+              "text": "100% хлопок"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-drs-color",
+          "kind": "canonical",
+          "attributeId": "primaryColorFamilyOptions",
+          "values": [
+            {
+              "valueId": "ss27-drs-color-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Основной цвет",
+              "text": "Чёрный"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-drs-len",
+          "kind": "canonical",
+          "attributeId": "garmentLengthApparelOptions",
+          "values": [
+            {
+              "valueId": "ss27-drs-len-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Длина",
+              "text": "Миди"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-drs-fit",
+          "kind": "canonical",
+          "attributeId": "clothingFitOptions",
+          "values": [
+            {
+              "valueId": "ss27-drs-fit-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Посадка",
+              "text": "Приталенная"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-drs-care",
+          "kind": "canonical",
+          "attributeId": "careWashingClassOptions",
+          "values": [
+            {
+              "valueId": "ss27-drs-care-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Уход",
+              "text": "Стирка 30°C"
+            }
+          ]
+        }
+      ],
+      "sampleSizeScaleId": "women-apparel-shoulder::__BODY_GRID",
+      "categorySketchImageDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO2WZxkAAAAASUVORK5CYII=",
+      "lifecycleState": "draft",
+      "nestingStagingMirror": {
+        "mirroredAt": "2026-05-29T19:37:52.632Z",
+        "lastActor": "Wave S",
+        "lastSource": "local_heuristic",
+        "partnerAckRecorded": false,
+        "partnerAckId": null,
+        "ackAt": null,
+        "stagingContractMode": false,
+        "journal": [
+          {
+            "at": "2026-05-29T19:37:52.632Z",
+            "actor": "Wave S",
+            "event": "nesting_simulate",
+            "outcome": "failed",
+            "error": "nesting_stub_disabled_in_production",
+            "partnerAckRecorded": false,
+            "ackId": null,
+            "ackAt": null
+          }
+        ],
+        "hintRu": "Local heuristic — не CAD engine (8.9 max)."
+      }
+    }
+  },
+  "SS27::demo-ss27-03": {
+    "collectionId": "SS27",
+    "articleId": "demo-ss27-03",
+    "version": 1,
+    "updatedAt": "2026-05-29T19:37:52.501Z",
+    "dossier": {
+      "schemaVersion": 1,
+      "updatedAt": "2026-05-29T19:37:52.501Z",
+      "updatedBy": "file-store-demo-bootstrap",
+      "selectedAudienceId": "men",
+      "isUnisex": true,
+      "brandNotes": "SS27 · кроссовки демисезон · унисекс · демо ТЗ.",
+      "passportProductionBrief": {
+        "targetSampleOrPilotDate": "2026-09-01",
+        "moqTargetMaxPieces": 360
+      },
+      "assignments": [
+        {
+          "assignmentId": "ss27-snk-mat",
+          "kind": "canonical",
+          "attributeId": "mat",
+          "values": [
+            {
+              "valueId": "ss27-snk-mat-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Материал верха",
+              "text": "Текстиль + синтетика, водоотталкивание"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-snk-sole",
+          "kind": "canonical",
+          "attributeId": "sole",
+          "values": [
+            {
+              "valueId": "ss27-snk-sole-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Подошва",
+              "text": "EVA + резина"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-snk-color",
+          "kind": "canonical",
+          "attributeId": "primaryColorFamilyOptions",
+          "values": [
+            {
+              "valueId": "ss27-snk-color-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Основной цвет",
+              "text": "Серый"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-snk-closure",
+          "kind": "canonical",
+          "attributeId": "shoe-closure",
+          "values": [
+            {
+              "valueId": "ss27-snk-closure-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Застёжка",
+              "text": "Шнуровка"
+            }
+          ]
+        },
+        {
+          "assignmentId": "ss27-snk-shaft",
+          "kind": "canonical",
+          "attributeId": "shoe-shaft-height",
+          "values": [
+            {
+              "valueId": "ss27-snk-shaft-v1",
+              "valueSource": "free_text",
+              "displayLabel": "Высота голенища",
+              "text": "Низкие"
+            }
+          ]
+        }
+      ],
+      "sampleSizeScaleId": "women-shoes::EU",
+      "categorySketchImageDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO2WZxkAAAAASUVORK5CYII=",
+      "lifecycleState": "draft"
+    }
+  },
+  "SS27::demo-ss27-04": {
+    "collectionId": "SS27",
+    "articleId": "demo-ss27-04",
+    "version": 1,
+    "updatedAt": "2026-06-11T10:59:25.682Z",
+    "dossier": {
+      "schemaVersion": 1,
+      "assignments": [
+        {
+          "assignmentId": "w2-asm-mat",
+          "kind": "canonical",
+          "attributeId": "mat",
+          "values": [
+            {
+              "valueId": "w2-prefill-mat-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] mat",
+              "displayLabel": "mat"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-color",
+          "kind": "canonical",
+          "attributeId": "color",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-len",
+          "kind": "canonical",
+          "attributeId": "len",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-composition",
+          "kind": "canonical",
+          "attributeId": "composition",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-sampleBaseSize",
+          "kind": "canonical",
+          "attributeId": "sampleBaseSize",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-techPackRef",
+          "kind": "canonical",
+          "attributeId": "techPackRef",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-certificationMarksOptions",
+          "kind": "canonical",
+          "attributeId": "certificationMarksOptions",
+          "values": [
+            {
+              "valueId": "w2-prefill-certificationMarksOptions-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] certificationMarksOptions",
+              "displayLabel": "certificationMarksOptions"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-customsHsDeclarationOptions",
+          "kind": "canonical",
+          "attributeId": "customsHsDeclarationOptions",
+          "values": [
+            {
+              "valueId": "w2-prefill-customsHsDeclarationOptions-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] customsHsDeclarationOptions",
+              "displayLabel": "customsHsDeclarationOptions"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-productBarcodeTypeOptions",
+          "kind": "canonical",
+          "attributeId": "productBarcodeTypeOptions",
+          "values": [
+            {
+              "valueId": "w2-prefill-productBarcodeTypeOptions-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] productBarcodeTypeOptions",
+              "displayLabel": "productBarcodeTypeOptions"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-customsProductGroupOptions",
+          "kind": "canonical",
+          "attributeId": "customsProductGroupOptions",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-customsTnvedCodePrimary",
+          "kind": "canonical",
+          "attributeId": "customsTnvedCodePrimary",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-customsTnvedCodeSecondary",
+          "kind": "canonical",
+          "attributeId": "customsTnvedCodeSecondary",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-customsTnvedCodeTertiary",
+          "kind": "canonical",
+          "attributeId": "customsTnvedCodeTertiary",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-customsTnvedPreliminaryCode",
+          "kind": "canonical",
+          "attributeId": "customsTnvedPreliminaryCode",
+          "values": [
+            {
+              "valueId": "w2-asm-tnved-mq9dxyee",
+              "valueSource": "free_text",
+              "text": "61000000",
+              "displayLabel": "61000000"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-customsTnvedShipmentApprovedCode",
+          "kind": "canonical",
+          "attributeId": "customsTnvedShipmentApprovedCode",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-customsClassificationRationale",
+          "kind": "canonical",
+          "attributeId": "customsClassificationRationale",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-customsValueIncotermsNote",
+          "kind": "canonical",
+          "attributeId": "customsValueIncotermsNote",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-okpd2CodeNote",
+          "kind": "canonical",
+          "attributeId": "okpd2CodeNote",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-countryOfGoodsOriginOptions",
+          "kind": "canonical",
+          "attributeId": "countryOfGoodsOriginOptions",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-nationalMarkingTraceabilityOptions",
+          "kind": "canonical",
+          "attributeId": "nationalMarkingTraceabilityOptions",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-technicalRegulationEaeskOptions",
+          "kind": "canonical",
+          "attributeId": "technicalRegulationEaeskOptions",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-technicalRegulationDocReference",
+          "kind": "canonical",
+          "attributeId": "technicalRegulationDocReference",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-primaryColorFamilyOptions",
+          "kind": "canonical",
+          "attributeId": "primaryColorFamilyOptions",
+          "values": [
+            {
+              "valueId": "w2-prefill-primaryColorFamilyOptions-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] primaryColorFamilyOptions",
+              "displayLabel": "primaryColorFamilyOptions"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-colorReferenceSystemOptions",
+          "kind": "canonical",
+          "attributeId": "colorReferenceSystemOptions",
+          "values": [
+            {
+              "valueId": "w2-prefill-colorReferenceSystemOptions-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] colorReferenceSystemOptions",
+              "displayLabel": "colorReferenceSystemOptions"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-fabricCompositionPresetOptions",
+          "kind": "canonical",
+          "attributeId": "fabricCompositionPresetOptions",
+          "values": [
+            {
+              "valueId": "w2-prefill-fabricCompositionPresetOptions-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] fabricCompositionPresetOptions",
+              "displayLabel": "fabricCompositionPresetOptions"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-fabricCompositionDetailClassOptions",
+          "kind": "canonical",
+          "attributeId": "fabricCompositionDetailClassOptions",
+          "values": [
+            {
+              "valueId": "w2-prefill-fabricCompositionDetailClassOptions-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] fabricCompositionDetailClassOptions",
+              "displayLabel": "fabricCompositionDetailClassOptions"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-careWashingClassOptions",
+          "kind": "canonical",
+          "attributeId": "careWashingClassOptions",
+          "values": [
+            {
+              "valueId": "w2-prefill-careWashingClassOptions-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] careWashingClassOptions",
+              "displayLabel": "careWashingClassOptions"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-fabricWeightGsmPresetOptions",
+          "kind": "canonical",
+          "attributeId": "fabricWeightGsmPresetOptions",
+          "values": [
+            {
+              "valueId": "w2-prefill-fabricWeightGsmPresetOptions-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] fabricWeightGsmPresetOptions",
+              "displayLabel": "fabricWeightGsmPresetOptions"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-patternOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "patternOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-clothingFitOptions",
+          "kind": "canonical",
+          "attributeId": "clothingFitOptions",
+          "values": [
+            {
+              "valueId": "w2-prefill-clothingFitOptions-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] clothingFitOptions",
+              "displayLabel": "clothingFitOptions"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-garmentLengthApparelOptions",
+          "kind": "canonical",
+          "attributeId": "garmentLengthApparelOptions",
+          "values": [
+            {
+              "valueId": "w2-prefill-garmentLengthApparelOptions-mq9dxyep",
+              "valueSource": "free_text",
+              "text": "[заполнить] garmentLengthApparelOptions",
+              "displayLabel": "garmentLengthApparelOptions"
+            }
+          ]
+        },
+        {
+          "assignmentId": "w2-asm-stitchingOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "stitchingOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-seamOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "seamOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-processingTechOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "processingTechOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-pocketOptions",
+          "kind": "canonical",
+          "attributeId": "pocketOptions",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-fasteningOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "fasteningOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-decorOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "decorOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-hardwareOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "hardwareOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-draperyOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "draperyOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-reinforcementOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "reinforcementOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-transformationOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "transformationOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-combinationOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "combinationOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-specialNeedsOptions",
+          "kind": "canonical",
+          "attributeId": "specialNeedsOptions",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-collarOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "collarOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-sleeveOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "sleeveOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-cuffOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "cuffOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-shoulderOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "shoulderOptionsByCategory",
+          "values": []
+        },
+        {
+          "assignmentId": "w2-asm-backDetailOptionsByCategory",
+          "kind": "canonical",
+          "attributeId": "backDetailOptionsByCategory",
+          "values": []
+        }
+      ],
+      "deferredAttrIds": [
+        "w2-brief-planned-launch-custom",
+        "w2-brief-target-retail-price",
+        "w2-brief-target-margin-pct",
+        "w2-brief-target-fob",
+        "w2-brief-packaging-note",
+        "w2-brief-weight-dims",
+        "w2-brief-lifecycle-ta",
+        "w2-brief-production-strategy",
+        "w2-brief-brand-notes",
+        "w2-construction-cad",
+        "w2-construction-sketches",
+        "customsValueIncotermsNote",
+        "countryOfOriginMarketOptions",
+        "productBarcodeTypeOptions",
+        "customsHsDeclarationOptions",
+        "customsProductGroupOptions",
+        "customsTnvedCodePrimary",
+        "customsTnvedCodeSecondary",
+        "customsTnvedCodeTertiary",
+        "customsTnvedPreliminaryCode",
+        "customsClassificationRationale",
+        "customsValueIncotermsNote"
+      ],
+      "categoryBindings": [
+        {
+          "categoryLeafId": "catalog-apparel-g1-l0",
+          "l1Name": "Одежда",
+          "l2Name": "Костюмы и жакеты",
+          "l3Name": "Костюмы",
+          "pathLabel": "Одежда › Костюмы и жакеты › Костюмы",
+          "boundAt": "2026-06-11T10:59:25.667Z"
+        }
+      ],
+      "selectedAudienceId": "women",
+      "isUnisex": false,
+      "pomTemplateSuggested": {
+        "leafId": "catalog-apparel-g1-l0",
+        "suggestedAt": "2026-06-11T10:59:25.667Z",
+        "preMergeAvailable": true
+      },
+      "updatedAt": "2026-06-11T10:59:25.670Z",
+      "updatedBy": "file-store-demo-bootstrap",
+      "sampleSizeScaleId": "women-apparel-shoulder::__BODY_GRID",
+      "passportProductionBrief": {
+        "lifecycleTaTemplateId": "complex-120"
+      },
+      "taMilestones": [
+        {
+          "id": "ta-complex-120-0",
+          "title": "Размещение заказа (PO)",
+          "targetDate": "2026-06-11",
+          "actualDate": null,
+          "status": "pending"
+        },
+        {
+          "id": "ta-complex-120-1",
+          "title": "Поставка материалов",
+          "targetDate": "2026-07-09",
+          "actualDate": null,
+          "status": "pending"
+        },
+        {
+          "id": "ta-complex-120-2",
+          "title": "Лекала + прототип",
+          "targetDate": "2026-07-16",
+          "actualDate": null,
+          "status": "pending"
+        },
+        {
+          "id": "ta-complex-120-3",
+          "title": "Раскрой",
+          "targetDate": "2026-07-31",
+          "actualDate": null,
+          "status": "pending"
+        },
+        {
+          "id": "ta-complex-120-4",
+          "title": "Пошив образца",
+          "targetDate": "2026-09-04",
+          "actualDate": null,
+          "status": "pending"
+        },
+        {
+          "id": "ta-complex-120-5",
+          "title": "Финальный review",
+          "targetDate": "2026-10-04",
+          "actualDate": null,
+          "status": "pending"
+        }
+      ],
+      "assemblyPreviewMirror": {
+        "mirroredAt": "2026-06-11T10:59:25.682Z",
+        "categoryLeafId": "catalog-apparel-g1-l0",
+        "phase1AttributeCount": 48,
+        "pomTemplateRowCount": 0,
+        "taTemplateId": "complex-120",
+        "scaleLabelRu": "EU жен.",
+        "readyForCreate": true
+      },
+      "articleFormMirror": {
+        "mirroredAt": "2026-06-11T10:59:25.682Z",
+        "sku": "SS27-ONBOARD-04",
+        "categoryLeafId": "catalog-apparel-g1-l0",
+        "formState": "ready",
+        "canSubmit": true,
+        "errorCount": 0,
+        "warningCount": 0,
+        "blockerSampleOrder": false
+      },
+      "hubOnboardingState": {
+        "done": true,
+        "workspaceOpened": true,
+        "role": "technologist",
+        "completedAt": "2026-06-11T10:59:25.682Z",
+        "source": "dossier"
+      },
+      "hubOnboardingMirror": {
+        "mirroredAt": "2026-06-11T10:59:25.682Z",
+        "done": true,
+        "workspaceOpened": true,
+        "role": "technologist",
+        "source": "dossier",
+        "driftDetected": false,
+        "pgPrimary": true,
+        "blockerSampleOrder": false,
+        "hintRu": "Онбординг зафиксирован в PG досье (server-first)."
+      }
+    }
+  }
+}

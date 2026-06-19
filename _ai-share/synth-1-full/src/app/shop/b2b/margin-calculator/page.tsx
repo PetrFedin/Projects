@@ -10,11 +10,12 @@ import { Calculator, Percent } from 'lucide-react';
 import { B2BModulePage } from '@/components/shop/B2BModulePage';
 import Link from 'next/link';
 import { ROUTES } from '@/lib/routes';
+import { withShopB2bCoreLegacyGuard } from '@/app/shop/b2b/shop-b2b-core-legacy-guard';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
 
 /** NuOrder: виджет расчёта маржи в корзине. */
-export default function B2BMarginCalculatorPage() {
+function B2BMarginCalculatorPageContent() {
   const [buyPrice, setBuyPrice] = useState(10000);
   const [sellPrice, setSellPrice] = useState(15000);
   const margin = sellPrice > 0 ? (((sellPrice - buyPrice) / sellPrice) * 100).toFixed(1) : '0';
@@ -24,7 +25,7 @@ export default function B2BMarginCalculatorPage() {
       <ShopAnalyticsSegmentErpStrip />
       <B2BModulePage
         title="Margin Calculator"
-        description="Расчёт маржи в корзине (NuOrder)"
+        description="Расчёт маржи в корзине"
         moduleId="margin-calculator"
         icon={Calculator}
         phase={2}
@@ -87,3 +88,8 @@ export default function B2BMarginCalculatorPage() {
     </CabinetPageContent>
   );
 }
+
+export default withShopB2bCoreLegacyGuard(
+  ROUTES.shop.b2bMarginCalculator,
+  B2BMarginCalculatorPageContent
+);

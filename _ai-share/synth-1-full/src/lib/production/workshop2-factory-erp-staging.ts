@@ -1,7 +1,10 @@
 /**
  * Wave 38 #66: Factory ERP staging attempt + journal (не health-as-synced).
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2FactoryErpStagingMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import {
   appendWorkshop2CeilingJournalEntry,
   workshop2CeilingJournalEntry,
@@ -18,21 +21,10 @@ import {
 import {
   buildWorkshop2FactoryErpAuditMirror,
   persistWorkshop2FactoryErpAuditToDossier,
-  type Workshop2PurchaseOrderErpRow,
 } from '@/lib/production/workshop2-factory-erp-audit-trail';
+import type { Workshop2PurchaseOrderErpRow } from '@/lib/production/workshop2-purchase-order-erp-dossier-persist';
 
-export type Workshop2FactoryErpStagingMirror = {
-  mirroredAt: string;
-  lastActor: string;
-  stagingUrl?: string;
-  erpOrderIdAckInPg: boolean;
-  partnerAckRecorded: boolean;
-  partnerAckId: string | null;
-  ackAt: string | null;
-  stagingContractMode: boolean;
-  journal: Workshop2CeilingJournalEntry[];
-  hintRu?: string;
-};
+export type { Workshop2FactoryErpStagingMirror } from '@/lib/production/workshop2-dossier-phase1.types';
 
 function buildWorkshop2FactoryErpStagingMirror(input: {
   actor: string;

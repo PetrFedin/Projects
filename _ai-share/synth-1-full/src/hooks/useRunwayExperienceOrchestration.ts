@@ -16,6 +16,7 @@ import {
   RUNWAY_SECTION_PULSE_MS,
   RUNWAY_CINEMATIC_INTRO_MS,
   RUNWAY_CINEMATIC_INTRO_STORAGE_KEY,
+  RUNWAY_KIOSK_TOUR_INTERVAL_MS,
   RUNWAY_VIEWPORT_INTERSECTION_RATIO,
   RUNWAY_VIEWPORT_THRESHOLDS,
 } from '@/lib/scroll-switcher-constants';
@@ -25,6 +26,7 @@ import { trackScrollExperienceEvent } from '@/lib/scroll-experience-analytics';
 import {
   clampCompareIndices,
   parseCompareParam,
+  parseKioskAutoadvanceMs,
   resolveKioskMode,
 } from '@/lib/runway/runway-mode-utils';
 import { t } from '@/lib/runway/runway-i18n';
@@ -160,6 +162,7 @@ export interface RunwayOrchestrationContext extends ProductScrollSwitcherProps {
   onThumbHoverEnd: () => void;
   markSectionChangeStart: () => void;
   isKioskMode: boolean;
+  kioskTourIntervalMs: number;
   exitKioskMode: () => void;
   compareViewOpen: boolean;
   compareViewIndices: [number, number] | null;
@@ -290,6 +293,10 @@ export function useRunwayExperienceOrchestration(
       kioskParam: searchParams.get('kiosk'),
       enableKioskMode: scrollConfig.enableKioskMode,
     });
+  const kioskTourIntervalMs = parseKioskAutoadvanceMs(
+    searchParams.get('autoadvance'),
+    RUNWAY_KIOSK_TOUR_INTERVAL_MS
+  );
 
   const openCompareView = useCallback((left: number, right: number) => {
     setCompareViewIndices([left, right]);
@@ -701,8 +708,10 @@ export function useRunwayExperienceOrchestration(
     .join(', ');
 
   const showDemoChrome = isDemoMode;
-  const hasDemoAssets = product.scrollSwitcherSections?.some((s) =>
-    s.sectionImageUrl?.includes('/images/demo/runway/')
+  const hasDemoAssets = Boolean(
+    product.scrollSwitcherSections?.some((s) =>
+      s.sectionImageUrl?.includes('/images/demo/runway/')
+    )
   );
 
   return {
@@ -787,6 +796,7 @@ export function useRunwayExperienceOrchestration(
     onThumbHoverEnd,
     markSectionChangeStart,
     isKioskMode,
+    kioskTourIntervalMs,
     exitKioskMode,
     compareViewOpen,
     compareViewIndices,

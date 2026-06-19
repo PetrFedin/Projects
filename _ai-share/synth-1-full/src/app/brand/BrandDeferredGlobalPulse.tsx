@@ -22,8 +22,8 @@ export function BrandDeferredGlobalPulse() {
       const id = window.requestIdleCallback(() => setMounted(true), { timeout: 3000 });
       return () => window.cancelIdleCallback(id);
     }
-    const timer = window.setTimeout(() => setMounted(true), 1500);
-    return () => window.clearTimeout(timer);
+    const timer = setTimeout(() => setMounted(true), 1500);
+    return () => clearTimeout(timer);
   }, [isProductionHub]);
 
   if (!isProductionHub || !mounted) return null;

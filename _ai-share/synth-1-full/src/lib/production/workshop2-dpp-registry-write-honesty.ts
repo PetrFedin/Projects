@@ -27,7 +27,8 @@ export function evaluateWorkshop2DppRegistryWriteHonesty(input: {
   const liveConfigured = isWorkshop2LiveDppConfigured(input.env);
   const stagingContract = isWorkshop2StagingContractModeEnabled(input.env);
   const mirror = input.dossier.dppRegistryDraftMirror;
-  const registryStubOnly = block.registryStub.status !== 'live' && mirror?.registryId == null;
+  const registryStubOnly =
+    block.registryStub.status === 'draft_export' && mirror?.registryId == null;
 
   if (!liveConfigured && !stagingContract && registryStubOnly) {
     return {

@@ -43,6 +43,8 @@ import {
   resolveDossierLifecycleState,
   calculateDossierReadiness,
 } from '@/lib/production/dossier-readiness-engine';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { isPlatformCoreGoldenCollectionId } from '@/lib/platform-core-demo-context';
 
 type ToastFn = (opts: {
   title: string;
@@ -84,11 +86,15 @@ export type UseWorkshop2Phase1DossierPersistInput = {
   onVersionConflict?: (payload: { currentVersion: number; conflictFieldsRu?: string[] }) => void;
 };
 
+export type Workshop2DossierPersistOptions = {
+  freezeUpdatedAt?: boolean;
+  skipServerSync?: boolean;
+  /** Явное «Сохранить черновик» — без debounce, актуальный снимок из ref. */
+  immediate?: boolean;
+};
+
 export type UseWorkshop2Phase1DossierPersistResult = {
-  persist: (
-    next: Workshop2DossierPhase1,
-    opts?: { freezeUpdatedAt?: boolean; skipServerSync?: boolean }
-  ) => void;
+  persist: (next: Workshop2DossierPhase1, opts?: Workshop2DossierPersistOptions) => void;
   lastPersistedDossierRef: MutableRefObject<Workshop2DossierPhase1 | null>;
 };
 
@@ -149,7 +155,7 @@ export function useWorkshop2Phase1DossierPersist(
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingPersistRef = useRef<{
     next: Workshop2DossierPhase1;
-    opts?: { freezeUpdatedAt?: boolean; skipServerSync?: boolean };
+    opts?: Workshop2DossierPersistOptions;
   } | null>(null);
 
   const persistImmediate = useCallback(
@@ -219,8 +225,11 @@ export function useWorkshop2Phase1DossierPersist(
         }
       }
 
-      const savedOk =
-        apiSynced || apiOffline
+      const coreGolden =
+        isPlatformCoreMode() && isPlatformCoreGoldenCollectionId(collectionId);
+      const savedOk = apiSynced
+        ? coreGolden || setWorkshop2Phase1Dossier(collectionId, articleId, stamped)
+        : apiOffline && !coreGolden
           ? setWorkshop2Phase1Dossier(collectionId, articleId, stamped)
           : false;
 
@@ -266,9 +275,9 @@ export function useWorkshop2Phase1DossierPersist(
       setSaveError(
         filePersistOnly
           ? null
-          : apiSynced && !savedOk
+          : apiSynced && !savedOk && !coreGolden
             ? 'Сервер сохранил досье, но localStorage недоступен. Продолжайте работу онлайн.'
-            : apiOffline
+            : apiOffline && !coreGolden
               ? 'Офлайн-кэш (localStorage)'
               : null
       );
@@ -288,13 +297,17 @@ export function useWorkshop2Phase1DossierPersist(
             ? (saveMessageRu ??
               'PostgreSQL недоступен — запись на файловом сервере (не PG primary).')
             : apiSynced
-              ? workshop2DossierStoreModeMessageRu('server_postgres')
-              : 'Сеть недоступна — запись только в localStorage.',
+              ? coreGolden
+                ? 'Досье в PostgreSQL (Platform Core).'
+                : workshop2DossierStoreModeMessageRu('server_postgres')
+              : coreGolden
+                ? 'PostgreSQL недоступен — нужен npm run core:bootstrap.'
+                : 'Сеть недоступна — запись только в localStorage.',
           variant: filePersistOnly ? 'destructive' : 'default',
         });
       }
       setSavedHint(filePersistOnly ? 'Файл (PG off)' : apiSynced ? 'На сервере' : 'Офлайн-кэш');
-      window.setTimeout(() => setSavedHint(null), 4000);
+      window.setTimeout(() => setSavedHint(null), 6000);
     },
     [
       collectionId,
@@ -312,11 +325,8 @@ export function useWorkshop2Phase1DossierPersist(
   );
 
   const persist = useCallback(
-    (
-      next: Workshop2DossierPhase1,
-      opts?: { freezeUpdatedAt?: boolean; skipServerSync?: boolean }
-    ) => {
-      if (opts?.freezeUpdatedAt) {
+    (next: Workshop2DossierPhase1, opts?: Workshop2DossierPersistOptions) => {
+      if (opts?.freezeUpdatedAt || opts?.immediate) {
         if (debounceTimerRef.current) {
           clearTimeout(debounceTimerRef.current);
           debounceTimerRef.current = null;

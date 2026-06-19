@@ -5,11 +5,17 @@ import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getUpcomingEvents } from '@/lib/b2b/trade-show-calendar';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { ShopB2bLegacyTailCorePage } from '@/app/shop/b2b/shop-b2b-legacy-tail-core';
 import { ROUTES } from '@/lib/routes';
 import { ArrowRight } from 'lucide-react';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 export default function ShopTradeShowsPage() {
+  if (isPlatformCoreMode()) {
+    return <ShopB2bLegacyTailCorePage legacyPath={ROUTES.shop.b2bTradeShows} />;
+  }
+
   const events = getUpcomingEvents();
 
   return (

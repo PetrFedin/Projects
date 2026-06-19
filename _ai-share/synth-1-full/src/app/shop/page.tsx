@@ -30,6 +30,13 @@ import { tid } from '@/lib/ui/test-ids';
 import { Button } from '@/components/ui/button';
 import { ShopCabinetSectionHeader } from '@/components/layout/cabinet-profile-section-headers';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import {
+  getShopCoreHubTodayActions,
+  getShopCoreOverviewSections,
+  getShopCoreRetailerB2bQuickSections,
+} from '@/lib/platform-core-nav-augment';
+import { PlatformCorePlaceholderSurfaceDisclaimer } from '@/components/platform/PlatformCorePlaceholderSurfaceDisclaimer';
 
 const SHOP_PANEL_ALERTS: HubAlert[] = [
   { level: 'info', text: 'Внешние интеграции в demo-режиме до задания ключей в .env.' },
@@ -122,6 +129,7 @@ const overviewSections: { title: string; items: OverviewItem[] }[] = [
 ];
 
 export default function ShopHubPage() {
+  const coreMode = isPlatformCoreMode();
   const { kpis, source, loading } = useDashboardHubPanel('shop');
   const alerts = hubAlertsForSource(USE_FASTAPI, loading ? undefined : source, SHOP_PANEL_ALERTS);
   const { currentOrg, canSwitchOrg, isRetailer, isBrand, isBuyer } = useUserContext();
@@ -130,6 +138,17 @@ export default function ShopHubPage() {
     () => resolveB2bWorkspaceRole(role, { isRetailer, isBrand, isBuyer }),
     [role, isRetailer, isBrand, isBuyer]
   );
+  const hubTodayActions = coreMode
+    ? getShopCoreHubTodayActions()
+    : [
+        { label: 'Открыть B2B заказы', href: ROUTES.shop.b2bOrders, desc: 'Статусы и отгрузки' },
+        { label: 'Discover брендов', href: ROUTES.shop.b2bDiscover, desc: 'Поиск и доступ' },
+        { label: 'Создать заказ', href: ROUTES.shop.b2bCreateOrder, desc: 'По коллекции' },
+      ];
+  const sectionsForOverview = coreMode ? getShopCoreOverviewSections() : overviewSections;
+  const retailerQuickSections = coreMode
+    ? getShopCoreRetailerB2bQuickSections()
+    : RETAILER_B2B_QUICK_LINK_SECTIONS;
 
   return (
     <CabinetPageContent
@@ -137,33 +156,36 @@ export default function ShopHubPage() {
       className="space-y-10 px-4 py-6 pb-24 sm:px-6"
       data-testid={tid.page('shop-retail-dashboard')}
     >
-      <ShopCabinetSectionHeader showBack={false} />
+      {!coreMode ? <ShopCabinetSectionHeader showBack={false} /> : null}
+      {coreMode ? (
+        <PlatformCorePlaceholderSurfaceDisclaimer route="/shop" className="mb-2" />
+      ) : null}
       <HubTodayPanel
         e2eVariant="shop"
         hubLabel="ритейл-центр"
         accentClass="text-rose-600"
         kpis={kpis}
-        actions={[
-          { label: 'Открыть B2B заказы', href: ROUTES.shop.b2bOrders, desc: 'Статусы и отгрузки' },
-          { label: 'Discover брендов', href: ROUTES.shop.b2bDiscover, desc: 'Поиск и доступ' },
-          { label: 'Создать заказ', href: ROUTES.shop.b2bCreateOrder, desc: 'По коллекции' },
-        ]}
+        actions={hubTodayActions}
         alerts={alerts}
       />
 
-      <div className="space-y-2">
-        <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">Аналитика</p>
-        <ShopAnalyticsSegmentErpStrip showErpBanner={false} />
-      </div>
+      {!coreMode ? (
+        <div className="space-y-2">
+          <p className="text-text-muted text-[9px] font-black uppercase tracking-widest">Аналитика</p>
+          <ShopAnalyticsSegmentErpStrip showErpBanner={false} />
+        </div>
+      ) : null}
 
-      <div className="flex flex-wrap gap-2">
-        <Button variant="outline" size="sm" className="text-[10px] font-black uppercase" asChild>
-          <Link href={ROUTES.shop.b2bWorkspaceMap}>
-            <Map className="mr-2 size-3.5" />
-            Карта процессов B2B
-          </Link>
-        </Button>
-      </div>
+      {!coreMode ? (
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" size="sm" className="text-[10px] font-black uppercase" asChild>
+            <Link href={ROUTES.shop.b2bWorkspaceMap}>
+              <Map className="mr-2 size-3.5" />
+              Карта процессов B2B
+            </Link>
+          </Button>
+        </div>
+      ) : null}
 
       <QuickReorderBar />
 
@@ -189,7 +211,7 @@ export default function ShopHubPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        {overviewSections.map((section) => (
+        {sectionsForOverview.map((section) => (
           <div
             key={section.title}
             className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
@@ -231,7 +253,7 @@ export default function ShopHubPage() {
           меню «Новый заказ»).
         </p>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {RETAILER_B2B_QUICK_LINK_SECTIONS.map((section) => (
+          {retailerQuickSections.map((section) => (
             <div
               key={section.title}
               className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
@@ -264,17 +286,21 @@ export default function ShopHubPage() {
         </div>
       </div>
 
-      <B2BWorkspaceModuleGrid
-        primaryRole={workspaceRole}
-        className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
-        lead="Те же модули, что на матрице B2B: вкладка фильтрует карточки, роль — из вашего контекста (организация / RBAC)."
-      />
+      {!coreMode ? (
+        <B2BWorkspaceModuleGrid
+          primaryRole={workspaceRole}
+          className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
+          lead="Те же модули, что на матрице B2B: вкладка фильтрует карточки, роль — из вашего контекста (организация / RBAC)."
+        />
+      ) : null}
 
-      <RelatedModulesBlock
-        links={getShopB2bDashboardCrossRoleLinks()}
-        title="Связь с брендом, каталогом и производством"
-        className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
-      />
+      {!coreMode ? (
+        <RelatedModulesBlock
+          links={getShopB2bDashboardCrossRoleLinks()}
+          title="Связь с брендом, каталогом и производством"
+          className="border-border-default rounded-lg border bg-white p-4 shadow-sm"
+        />
+      ) : null}
 
       <div className="space-y-4">
         <h2 className="text-text-secondary text-[11px] font-black uppercase tracking-[0.2em]">

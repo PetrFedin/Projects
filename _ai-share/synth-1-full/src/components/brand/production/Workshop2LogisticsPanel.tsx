@@ -29,6 +29,7 @@ import {
 } from '@/lib/production/workshop2-logistics-dossier-persist';
 import { useToast } from '@/hooks/use-toast';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 const STEPS = [
   { id: 'factory', label: 'Производство (Бишкек)', icon: Factory },
   { id: 'truck_load', label: 'Погрузка (Фура)', icon: Truck },
@@ -62,8 +63,6 @@ const getTruckPosition = (stepIndex: number) => {
   }
 };
 
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
-
 export function Workshop2LogisticsPanel({
   dossier = null,
 }: {
@@ -81,9 +80,10 @@ export function Workshop2LogisticsPanel({
   );
   const logisticsPgMirror = useMemo(() => {
     const mirror = dossier?.logisticsShipmentMirror;
+    const hintRu = workshop2PgMirrorStr(mirror, 'hintRu');
     if (!mirror?.mirroredAt)
-      return { label: 'Logistics: не в PG', tone: 'slate' as const, title: mirror?.hintRu };
-    return { label: 'Logistics: PG', tone: 'emerald' as const, title: mirror.hintRu };
+      return { label: 'Logistics: не в PG', tone: 'slate' as const, title: hintRu };
+    return { label: 'Logistics: PG', tone: 'emerald' as const, title: hintRu };
   }, [dossier]);
 
   return (

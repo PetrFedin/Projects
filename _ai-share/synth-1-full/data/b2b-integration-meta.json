@@ -1,0 +1,740 @@
+{
+  "schemaVersion": 1,
+  "byWholesaleOrderId": {
+    "INT-JOOR-golden-joor-1781221952520": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "golden-joor-1781221952520",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-11T23:52:41.360Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-golden-joor-1781221969198": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "golden-joor-1781221969198",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-11T23:52:49.265Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-e2e-joor-1781221972211": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "e2e-joor-1781221972211",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-11T23:52:52.253Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-e2e-joor-1781221972941": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "e2e-joor-1781221972941",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-11T23:52:52.992Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-golden-joor-1781222010277": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "golden-joor-1781222010277",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-11T23:53:40.834Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-golden-joor-1781222026810": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "golden-joor-1781222026810",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-11T23:53:46.868Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-golden-joor-1781222095045": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "golden-joor-1781222095045",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-11T23:55:06.381Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-e2e-joor-1781222113955": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "e2e-joor-1781222113955",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-11T23:55:14.011Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-golden-joor-1781222284603": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "golden-joor-1781222284603",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-11T23:58:12.644Z",
+      "syncHealth": "ok"
+    },
+    "INT-NUORDER-e2e-nuorder-1781222297834": {
+      "sourcePlatform": "nuorder",
+      "externalOrderId": "e2e-nuorder-1781222297834",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-11T23:58:17.881Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wave-d-joor-1781222436069": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wave-d-joor-1781222436069",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:00:43.620Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wave-de-joor-1781222671720": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wave-de-joor-1781222671720",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:04:39.359Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wave-de-joor-1781222680545": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wave-de-joor-1781222680545",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:04:40.601Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wave-de-joor-1781222728408": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wave-de-joor-1781222728408",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:05:35.856Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wave-b3d6-joor-1781222944024": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wave-b3d6-joor-1781222944024",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:09:06.569Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781223255906": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781223255906",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:14:15.907Z",
+      "syncHealth": "ok"
+    },
+    "INT-ZEDONK-z-child-1": {
+      "sourcePlatform": "zedonk",
+      "externalOrderId": "z-child-1",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T14:20:47.966Z",
+      "syncHealth": "ok"
+    },
+    "INT-ZEDONK-z-child-2": {
+      "sourcePlatform": "zedonk",
+      "externalOrderId": "z-child-2",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T14:20:47.967Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781223264082": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781223264082",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:14:24.083Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wave-ext-joor-1781223298625": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wave-ext-joor-1781223298625",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:15:06.177Z",
+      "syncHealth": "ok"
+    },
+    "INT-ZEDONK-z-a-1781223312889": {
+      "sourcePlatform": "zedonk",
+      "externalOrderId": "z-a-1781223312889",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:15:13.800Z",
+      "syncHealth": "ok"
+    },
+    "INT-ZEDONK-z-b-1781223312889": {
+      "sourcePlatform": "zedonk",
+      "externalOrderId": "z-b-1781223312889",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:15:13.801Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781223381878": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781223381878",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:16:21.879Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-reexp-1781223381884": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-reexp-1781223381884",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:16:21.884Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wave-ext-joor-1781223449120": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wave-ext-joor-1781223449120",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:17:37.520Z",
+      "syncHealth": "ok"
+    },
+    "INT-ZEDONK-z-a-1781223464411": {
+      "sourcePlatform": "zedonk",
+      "externalOrderId": "z-a-1781223464411",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:17:45.314Z",
+      "syncHealth": "ok"
+    },
+    "INT-ZEDONK-z-b-1781223464411": {
+      "sourcePlatform": "zedonk",
+      "externalOrderId": "z-b-1781223464411",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:17:45.315Z",
+      "syncHealth": "ok"
+    },
+    "INT-NUORDER-wave-ext-nu-1781223465407": {
+      "sourcePlatform": "nuorder",
+      "externalOrderId": "wave-ext-nu-1781223465407",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:17:45.454Z",
+      "syncHealth": "ok"
+    },
+    "INT-NUORDER-nu-inbound-1781223718730": {
+      "sourcePlatform": "nuorder",
+      "externalOrderId": "nu-inbound-1781223718730",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:21:58.730Z",
+      "syncHealth": "ok"
+    },
+    "INT-NUORDER-wave-ef-nu-1781223758945": {
+      "sourcePlatform": "nuorder",
+      "externalOrderId": "wave-ef-nu-1781223758945",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:22:40.260Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-inbound-1781223877018": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-inbound-1781223877018",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:24:37.018Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-autopull-1781223877021": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-autopull-1781223877021",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:24:37.021Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wave-g-joor-1781223909163": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wave-g-joor-1781223909163",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:25:17.323Z",
+      "syncHealth": "ok"
+    },
+    "INT-NUORDER-wh-nu-1781223988021": {
+      "sourcePlatform": "nuorder",
+      "externalOrderId": "wh-nu-1781223988021",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:26:28.021Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wh-joor-1781223988023": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wh-joor-1781223988023",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T00:26:28.024Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wave-h-joor-1781224036832": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wave-h-joor-1781224036832",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:27:24.532Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wave-i-joor-1781224202783": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wave-i-joor-1781224202783",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:30:04.498Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wave-j-joor-1781224531772": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wave-j-joor-1781224531772",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-12T00:35:33.224Z",
+      "syncHealth": "ok"
+    },
+    "INT-NUORDER-wh-nu-1781230111181": {
+      "sourcePlatform": "nuorder",
+      "externalOrderId": "wh-nu-1781230111181",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:08:31.182Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wh-joor-1781230111185": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wh-joor-1781230111185",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:08:31.185Z",
+      "syncHealth": "ok"
+    },
+    "INT-NUORDER-wh-nu-1781230367483": {
+      "sourcePlatform": "nuorder",
+      "externalOrderId": "wh-nu-1781230367483",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:12:47.484Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-wh-joor-1781230367491": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "wh-joor-1781230367491",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:12:47.492Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781231667286": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781231667286",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:34:27.289Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-reexp-1781231667332": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-reexp-1781231667332",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:34:27.333Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-inbound-1781232196547": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-inbound-1781232196547",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:43:16.550Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-autopull-1781232196553": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-autopull-1781232196553",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:43:16.554Z",
+      "syncHealth": "ok"
+    },
+    "INT-NUORDER-nu-inbound-1781232196737": {
+      "sourcePlatform": "nuorder",
+      "externalOrderId": "nu-inbound-1781232196737",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:43:16.737Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-inbound-1781232289849": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-inbound-1781232289849",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:44:49.850Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-autopull-1781232289853": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-autopull-1781232289853",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:44:49.854Z",
+      "syncHealth": "ok"
+    },
+    "INT-NUORDER-nu-inbound-1781232289860": {
+      "sourcePlatform": "nuorder",
+      "externalOrderId": "nu-inbound-1781232289860",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:44:49.861Z",
+      "syncHealth": "ok"
+    },
+    "INT-NUORDER-nu-inbound-1781232633895": {
+      "sourcePlatform": "nuorder",
+      "externalOrderId": "nu-inbound-1781232633895",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:50:33.897Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-inbound-1781232633962": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-inbound-1781232633962",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:50:33.963Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-autopull-1781232633964": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-autopull-1781232633964",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:50:33.965Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-inbound-1781232813454": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-inbound-1781232813454",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:53:33.456Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-autopull-1781232813458": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-autopull-1781232813458",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:53:33.459Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-inbound-1781233116500": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-inbound-1781233116500",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:58:36.502Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-autopull-1781233116503": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-autopull-1781233116503",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T02:58:36.504Z",
+      "syncHealth": "ok"
+    },
+    "INT-NUORDER-nu-inbound-1781233228924": {
+      "sourcePlatform": "nuorder",
+      "externalOrderId": "nu-inbound-1781233228924",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T03:00:28.926Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-inbound-1781233229069": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-inbound-1781233229069",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T03:00:29.070Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-autopull-1781233229071": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-autopull-1781233229071",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T03:00:29.073Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781253111209": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781253111209",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T08:31:51.210Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-reexp-1781253111221": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-reexp-1781253111221",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T08:31:51.221Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781253643517": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781253643517",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T08:40:43.519Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-reexp-1781253643527": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-reexp-1781253643527",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T08:40:43.528Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781255465905": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781255465905",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T09:11:05.907Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-reexp-1781255465914": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-reexp-1781255465914",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T09:11:05.915Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781256209242": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781256209242",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T09:23:29.246Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-reexp-1781256209288": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-reexp-1781256209288",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T09:23:29.290Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781258149719": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781258149719",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T09:55:49.721Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-reexp-1781258149732": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-reexp-1781258149732",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T09:55:49.732Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781272013523": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781272013523",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T13:46:53.525Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-reexp-1781272013537": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-reexp-1781272013537",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T13:46:53.538Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781273515312": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781273515312",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T14:11:55.315Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-reexp-1781273515335": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-reexp-1781273515335",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T14:11:55.335Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781273898629": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781273898629",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T14:18:18.631Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-reexp-1781273898642": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-reexp-1781273898642",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T14:18:18.642Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-export-1781274047955": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-export-1781274047955",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T14:20:47.956Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-joor-reexp-1781274047968": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "joor-reexp-1781274047968",
+      "externalStatus": "approved",
+      "lastSyncedAt": "2026-06-12T14:20:47.968Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781335819738": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781335819738",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T07:30:20.211Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781335821094": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781335821094",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T07:30:21.140Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781335975842": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781335975842",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T07:32:56.072Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781335978728": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781335978728",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T07:32:58.939Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-1781335994": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-1781335994",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T07:33:14.925Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-1781336092": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-1781336092",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T07:34:52.266Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32b-1781336242": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32b-1781336242",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T07:37:22.928Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781336389553": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781336389553",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T07:39:50.204Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781336847412": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781336847412",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T07:47:28.092Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781337717137": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781337717137",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T08:01:57.406Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781337727646": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781337727646",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T08:02:08.801Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781337775798": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781337775798",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T08:02:56.097Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781339665432": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781339665432",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T08:34:26.004Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781358356131": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781358356131",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T13:45:58.178Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781358359850": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781358359850",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-13T13:45:59.901Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781562411129": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781562411129",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-15T22:26:53.023Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781562415426": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781562415426",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-15T22:26:55.472Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781576595781": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781576595781",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-16T02:23:22.787Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781576619996": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781576619996",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-16T02:23:43.328Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781579163241": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781579163241",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-16T03:06:50.742Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781579163191": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781579163191",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-16T03:06:50.757Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781579215382": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781579215382",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-16T03:06:55.641Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781579215418": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781579215418",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-16T03:06:55.672Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781579216715": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781579216715",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-16T03:06:56.859Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781579216719": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781579216719",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-16T03:06:56.863Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core32-joor-1781797236512": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core32-joor-1781797236512",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-18T15:41:00.964Z",
+      "syncHealth": "ok"
+    },
+    "INT-JOOR-core33-joor-1781797329615": {
+      "sourcePlatform": "joor",
+      "externalOrderId": "core33-joor-1781797329615",
+      "externalStatus": "pending",
+      "lastSyncedAt": "2026-06-18T15:42:09.772Z",
+      "syncHealth": "ok"
+    }
+  }
+}

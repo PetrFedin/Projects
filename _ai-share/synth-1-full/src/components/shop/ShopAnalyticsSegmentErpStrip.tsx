@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils';
 import { ErpAccountingSyncBanner } from '@/components/shop/ErpAccountingSyncBanner';
 import { ShopAnalyticsSegmentNav } from '@/components/shop/ShopAnalyticsSegmentNav';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 
 export type ShopAnalyticsSegmentErpStripProps = {
   className?: string;
@@ -24,6 +25,8 @@ export function ShopAnalyticsSegmentErpStrip({
   showErpBanner = true,
   hideSettingsLink,
 }: ShopAnalyticsSegmentErpStripProps) {
+  if (isPlatformCoreMode()) return null;
+
   return (
     <div
       className={cn(

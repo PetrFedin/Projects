@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SYNTHA — preview</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --bar: #1a2332;
+      --accent: #0b63ce;
+      --text: #e8edf4;
+      --muted: #8b9cb3;
+      --frame: #1c1c1e;
+      --bezel: #2c2c2e;
+      --live: #22c55e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    body { display: flex; flex-direction: column; }
+    .toolbar {
+      display: flex; align-items: center; gap: 8px; padding: 10px 16px;
+      background: var(--bar); border-bottom: 1px solid #2a3548; flex-shrink: 0; flex-wrap: wrap;
+    }
+    .toolbar .brand { font-weight: 700; letter-spacing: 0.06em; margin-right: 8px; font-size: 13px; }
+    .toolbar button, .toolbar label.live {
+      border: 1px solid #3d4f66; background: transparent; color: var(--text);
+      padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 13px;
+      display: inline-flex; align-items: center; gap: 6px; user-select: none;
+    }
+    .toolbar button:hover { border-color: var(--accent); }
+    .toolbar button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .toolbar button:disabled { opacity: 0.35; cursor: not-allowed; }
+    .toolbar label.live { cursor: pointer; }
+    .toolbar label.live input { accent-color: var(--accent); }
+    .toolbar .url { flex: 1; min-width: 200px; max-width: 420px; margin: 0 8px; }
+    .toolbar input[type=text] {
+      width: 100%; padding: 6px 10px; border-radius: 6px; border: 1px solid #3d4f66;
+      background: #0f1419; color: var(--text); font-size: 12px;
+    }
+    .status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); margin-left: auto; }
+    .status .dot { width: 8px; height: 8px; border-radius: 50%; background: #64748b; }
+    .status .dot.live { background: var(--live); box-shadow: 0 0 8px rgba(34,197,94,0.6); }
+    .status .dot.off { background: #ef4444; }
+    .stage {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      overflow: auto; padding: 24px; min-height: 0;
+    }
+    .device-wrap { transition: transform 0.2s ease; }
+    .device-label { text-align: center; font-size: 11px; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.04em; }
+    .device-iphone .shell {
+      width: 393px; padding: 12px 10px 14px; background: var(--frame);
+      border-radius: 44px; box-shadow: 0 24px 80px rgba(0,0,0,0.55), inset 0 0 0 2px var(--bezel);
+    }
+    .device-iphone .notch { width: 120px; height: 28px; background: #000; border-radius: 0 0 18px 18px; margin: 0 auto 8px; }
+    .device-iphone iframe { width: 373px; height: 812px; border: none; border-radius: 32px; background: #fff; display: block; }
+    .device-iphone .home-bar { width: 120px; height: 4px; background: #666; border-radius: 2px; margin: 10px auto 0; }
+    .device-ipad .shell {
+      width: 834px; padding: 18px; background: var(--frame);
+      border-radius: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.5), inset 0 0 0 2px var(--bezel);
+    }
+    .device-ipad iframe { width: 834px; height: 1194px; border: none; border-radius: 8px; background: #fff; display: block; }
+    .device-ipad .device-wrap { transform-origin: top center; }
+    .stage--fit { overflow: hidden; }
+  </style>
+</head>
+<body>
+  <header class="toolbar">
+    <span class="brand">SYNTHA</span>
+    <button type="button" id="btnBack" title="Назад (⌘[)" disabled>←</button>
+    <button type="button" id="btnForward" title="Вперёд (⌘])" disabled>→</button>
+    <button type="button" data-device="iphone">iPhone</button>
+    <button type="button" data-device="ipad">iPad</button>
+    <button type="button" data-device="macbook">MacBook</button>
+    <button type="button" id="btnRefresh" class="primary" title="Cmd+R">↻ Обновить</button>
+    <label class="live"><input type="checkbox" id="liveSync" checked /> Live</label>
+    <div class="url"><input id="targetUrl" type="text" spellcheck="false" /></div>
+    <span class="status"><span class="dot" id="statusDot"></span><span id="statusText">—</span></span>
+  </header>
+  <main class="stage" id="stage">
+    <div class="device-wrap" id="deviceWrap">
+      <div class="device-label" id="deviceLabel"></div>
+      <div id="shell"></div>
+    </div>
+  </main>
+  <script>
+    const DEFAULT_URL = '/platform';
+    const DEVICES = {
+      iphone: { label: 'iPhone 15 Pro · 393×812' },
+      ipad: { label: 'iPad 11" · 834×1194' },
+    };
+
+    const params = new URLSearchParams(location.search);
+    let targetUrl = params.get('url') || DEFAULT_URL;
+    let device = params.get('device') || localStorage.getItem('syntha.device') || 'iphone';
+    if (device === 'macbook-full') device = 'macbook';
+    if (device === 'macbook') {
+      const raw = targetUrl.startsWith('http') ? targetUrl : location.origin + targetUrl;
+      const u = new URL(raw, location.origin);
+      u.searchParams.set('synthaEmbed', '1');
+      location.replace(u.toString());
+    }
+    let liveSync = localStorage.getItem('syntha.liveSync') !== '0';
+    let lastReloadToken = null;
+    let lastManualReload = 0;
+    let focusTimer = null;
+
+    const shell = document.getElementById('shell');
+    const deviceWrap = document.getElementById('deviceWrap');
+    const stage = document.getElementById('stage');
+    const deviceLabel = document.getElementById('deviceLabel');
+    const urlInput = document.getElementById('targetUrl');
+    const statusDot = document.getElementById('statusDot');
+    const statusText = document.getElementById('statusText');
+    const liveSyncEl = document.getElementById('liveSync');
+    liveSyncEl.checked = liveSync;
+
+    urlInput.value = targetUrl.startsWith('http') ? targetUrl : location.origin + targetUrl;
+
+    function embedUrl(raw) {
+      const u = new URL(raw, location.origin);
+      u.searchParams.set('synthaEmbed', '1');
+      return u.toString();
+    }
+
+    function escapeAttr(s) {
+      return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    }
+
+    function getFrame() {
+      return document.getElementById('appFrame');
+    }
+
+    const btnBack = document.getElementById('btnBack');
+    const btnForward = document.getElementById('btnForward');
+
+    function syncUrlFromFrame() {
+      const frame = getFrame();
+      if (!frame) return;
+      try {
+        const path = frame.contentWindow.location.pathname + frame.contentWindow.location.search;
+        targetUrl = path;
+        urlInput.value = location.origin + path;
+      } catch {
+        /* cross-origin guard */
+      }
+    }
+
+    function updateNavButtons() {
+      const frame = getFrame();
+      const ready = !!(frame && frame.contentWindow);
+      btnBack.disabled = !ready;
+      btnForward.disabled = !ready;
+    }
+
+    function navBack() {
+      const frame = getFrame();
+      if (!frame?.contentWindow) return;
+      try {
+        frame.contentWindow.history.back();
+        setTimeout(() => { syncUrlFromFrame(); updateNavButtons(); }, 120);
+      } catch {
+        /* ignore */
+      }
+    }
+
+    function navForward() {
+      const frame = getFrame();
+      if (!frame?.contentWindow) return;
+      try {
+        frame.contentWindow.history.forward();
+        setTimeout(() => { syncUrlFromFrame(); updateNavButtons(); }, 120);
+      } catch {
+        /* ignore */
+      }
+    }
+
+    function attachFrameListeners() {
+      const frame = getFrame();
+      if (!frame) return;
+      frame.addEventListener('load', () => {
+        syncUrlFromFrame();
+        updateNavButtons();
+      });
+      updateNavButtons();
+    }
+
+    function setStatus(mode, text) {
+      statusDot.className = 'dot ' + (mode || '');
+      statusText.textContent = text;
+    }
+
+    function reloadFrame(hard) {
+      const frame = getFrame();
+      if (!frame) return;
+      lastManualReload = Date.now();
+      if (hard) {
+        const src = frame.src;
+        frame.src = 'about:blank';
+        requestAnimationFrame(() => { frame.src = src; });
+      } else {
+        try {
+          frame.contentWindow.location.reload();
+        } catch {
+          frame.src = frame.src;
+        }
+      }
+      setStatus('live', 'Обновлено');
+    }
+
+    function deviceFrameHeight() {
+      if (device === 'ipad') return 1194 + 36;
+      return 12 + 28 + 8 + 812 + 10 + 4 + 14;
+    }
+
+    function fitDeviceScale() {
+      if (!deviceWrap || !stage) return;
+      const toolbar = document.querySelector('.toolbar');
+      const toolbarH = toolbar ? toolbar.offsetHeight : 52;
+      const labelH = 28;
+      const pad = 48;
+      const avail = window.innerHeight - toolbarH - pad - labelH;
+      const frameH = deviceFrameHeight();
+      const scale = Math.min(device === 'iphone' ? 1 : 0.92, avail / frameH);
+      const clamped = Math.max(0.58, Math.min(1, scale));
+      deviceWrap.style.transform = clamped < 0.999 ? 'scale(' + clamped + ')' : '';
+      deviceWrap.style.transformOrigin = 'top center';
+      stage.classList.toggle('stage--fit', clamped < 0.999);
+    }
+
+    function render() {
+      document.body.className = 'device-' + device;
+      deviceWrap.className = 'device-wrap device-' + device;
+      const meta = DEVICES[device] || DEVICES.iphone;
+      deviceLabel.textContent = meta.label;
+      document.querySelectorAll('.toolbar button[data-device]').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.device === device);
+      });
+
+      const src = embedUrl(targetUrl.startsWith('http') ? targetUrl : location.origin + targetUrl);
+
+      let inner = '';
+      if (device === 'iphone') {
+        inner = '<div class="shell"><div class="notch"></div><iframe id="appFrame" title="SYNTHA" src="' + escapeAttr(src) + '"></iframe><div class="home-bar"></div></div>';
+      } else {
+        inner = '<div class="shell"><iframe id="appFrame" title="SYNTHA" src="' + escapeAttr(src) + '"></iframe></div>';
+      }
+      shell.innerHTML = inner;
+      attachFrameListeners();
+      requestAnimationFrame(fitDeviceScale);
+    }
+
+    function openMacBookApp() {
+      const raw = targetUrl.startsWith('http') ? targetUrl : location.origin + targetUrl;
+      const u = new URL(raw, location.origin);
+      u.searchParams.set('synthaEmbed', '1');
+      localStorage.setItem('syntha.device', 'macbook');
+      location.href = u.toString();
+    }
+
+    function setDevice(d) {
+      if (d === 'macbook' || d === 'macbook-full') {
+        openMacBookApp();
+        return;
+      }
+      device = d;
+      localStorage.setItem('syntha.device', d);
+      const u = new URL(location.href);
+      u.searchParams.set('device', d);
+      history.replaceState(null, '', u);
+      render();
+    }
+
+    async function pollDevStatus() {
+      if (!liveSync) return;
+      try {
+        const r = await fetch('/api/dev/syntha-status', { cache: 'no-store' });
+        if (!r.ok) throw new Error('offline');
+        const j = await r.json();
+        if (lastReloadToken && j.reloadToken !== lastReloadToken) {
+          reloadFrame(true);
+          setStatus('live', 'Dev-сервер перезапущен');
+        }
+        lastReloadToken = j.reloadToken;
+        if (statusText.textContent === '—' || statusText.textContent === 'Offline') {
+          setStatus('live', 'Live · HMR');
+        }
+      } catch {
+        setStatus('off', 'Offline');
+      }
+    }
+
+    document.getElementById('btnRefresh').addEventListener('click', () => reloadFrame(true));
+    btnBack.addEventListener('click', () => navBack());
+    btnForward.addEventListener('click', () => navForward());
+
+    document.querySelectorAll('.toolbar button[data-device]').forEach((btn) => {
+      btn.addEventListener('click', () => setDevice(btn.dataset.device));
+    });
+
+    urlInput.addEventListener('change', () => {
+      const v = urlInput.value.trim();
+      targetUrl = v.startsWith('http') ? v.replace(location.origin, '') || '/platform' : v || DEFAULT_URL;
+      if (!targetUrl.startsWith('/')) targetUrl = '/' + targetUrl.replace(/^\/+/, '');
+      render();
+    });
+
+    liveSyncEl.addEventListener('change', () => {
+      liveSync = liveSyncEl.checked;
+      localStorage.setItem('syntha.liveSync', liveSync ? '1' : '0');
+      if (liveSync) pollDevStatus();
+    });
+
+    window.addEventListener('focus', () => {
+      if (!liveSync) return;
+      clearTimeout(focusTimer);
+      focusTimer = setTimeout(() => {
+        if (Date.now() - lastManualReload < 1500) return;
+        reloadFrame(false);
+      }, 400);
+    });
+
+    window.addEventListener('message', (ev) => {
+      if (!ev.data || typeof ev.data !== 'object') return;
+      if (ev.data.type === 'syntha:update') {
+        setStatus('live', 'Live · только что');
+      } else if (ev.data.type === 'syntha:ready') {
+        setStatus('live', 'Live · HMR');
+        updateNavButtons();
+      } else if (ev.data.type === 'syntha:navigate' && ev.data.path) {
+        targetUrl = ev.data.path;
+        urlInput.value = location.origin + ev.data.path;
+        updateNavButtons();
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'r') {
+        e.preventDefault();
+        reloadFrame(true);
+        return;
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === '[') {
+        e.preventDefault();
+        navBack();
+        return;
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === ']') {
+        e.preventDefault();
+        navForward();
+      }
+    });
+
+    if (!DEVICES[device]) device = 'iphone';
+    render();
+    window.addEventListener('resize', fitDeviceScale);
+    pollDevStatus();
+    setInterval(pollDevStatus, 4000);
+  </script>
+</body>
+</html>

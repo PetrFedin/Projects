@@ -1,0 +1,37 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Synth-1 Runway API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/api/runway"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Runway health snapshot"
+      }
+    },
+    "/analytics": {
+      "get": {
+        "summary": "Analytics dashboard"
+      },
+      "post": {
+        "summary": "Ingest scroll experience events"
+      }
+    },
+    "/upload/presign": {
+      "post": {
+        "summary": "Presigned upload URL"
+      }
+    },
+    "/config/brand-cdn": {
+      "get": {
+        "summary": "Brand CDN overrides"
+      }
+    }
+  }
+}

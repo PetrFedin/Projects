@@ -65,7 +65,18 @@ describe('workshop2 wave21 b2b — order lifecycle', () => {
 });
 
 describe('workshop2 wave21 b2b — repository', () => {
-  beforeEach(() => clearWorkshop2B2bOrdersMemoryForTests());
+  const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+
+  beforeEach(() => {
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
+    clearWorkshop2B2bOrdersMemoryForTests();
+  });
+
+  afterEach(() => {
+    if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+    else delete process.env.WORKSHOP2_DATABASE_URL;
+  });
 
   it('persists and patches status in memory mode', async () => {
     const now = new Date().toISOString();

@@ -112,7 +112,16 @@ describe('workshop2 wave8 — assortment risk rollup', () => {
 });
 
 describe('workshop2 wave8 — brand notifications hub', () => {
+  const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+
+  afterEach(() => {
+    if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+    else delete process.env.WORKSHOP2_DATABASE_URL;
+  });
+
   it('builds summary with numeric counts', async () => {
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
     const summary = await buildWorkshop2BrandNotificationsSummary({
       collectionId: 'SS27',
       articles: [],
@@ -175,7 +184,16 @@ describe('workshop2 wave8 — EDO kontur depth', () => {
 });
 
 describe('workshop2 wave8 — commission ERP export', () => {
+  const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+
+  afterEach(() => {
+    if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+    else delete process.env.WORKSHOP2_DATABASE_URL;
+  });
+
   it('journal stub without ERP URL', async () => {
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
     delete process.env.WORKSHOP2_FACTORY_ERP_COMMISSION_URL;
     delete process.env.WORKSHOP2_FACTORY_ERP_BASE_URL;
     const res = await exportWorkshop2CommissionBatchToErp({ repId: 'rep-1' });

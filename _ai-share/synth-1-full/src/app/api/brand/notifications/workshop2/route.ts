@@ -6,7 +6,7 @@ import { buildWorkshop2BrandNotificationsSummary } from '@/lib/production/worksh
 import { guardWorkshop2Route } from '@/lib/server/workshop2-route-auth';
 
 export async function GET(req: NextRequest) {
-  const auth = await guardWorkshop2Route(req);
+  const auth = await guardWorkshop2Route(req, ['brand']);
   if (auth instanceof NextResponse) return auth;
 
   const collectionId = req.nextUrl.searchParams.get('collectionId')?.trim() ?? 'SS27';

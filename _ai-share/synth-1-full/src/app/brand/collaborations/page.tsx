@@ -15,6 +15,7 @@ import { fetchWithHttpDeadline } from '@/lib/http/http-fetch-deadline';
 import { ROUTES } from '@/lib/routes';
 import { B2B_ORDERS_REGISTRY_LABEL } from '@/lib/ui/b2b-registry-label';
 import { RegistryPageHeader } from '@/components/design-system';
+import { PlatformCorePlaceholderSurfaceDisclaimer } from '@/components/platform/PlatformCorePlaceholderSurfaceDisclaimer';
 
 export default function CollaborationsPage() {
   const synthaBrand =
@@ -91,6 +92,7 @@ export default function CollaborationsPage() {
           </div>
         }
       />
+      <PlatformCorePlaceholderSurfaceDisclaimer route="/brand/collaborations" />
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-2">
           <CollaborationInsights brand={brand} allProducts={allProducts} />

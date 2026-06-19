@@ -27,6 +27,8 @@ interface RunwayOptionsPanelProps {
   onToggleFullscreen?: () => void;
   /** Встроить toggles без gear-trigger (RunwayMoreMenu). */
   embedded?: boolean;
+  /** Показать легенду клавиш (RunwayMoreMenu может отключать). */
+  showKeyboardLegend?: boolean;
 }
 
 /** Содержимое настроек — переиспользуется в gear popover и RunwayMoreMenu. */

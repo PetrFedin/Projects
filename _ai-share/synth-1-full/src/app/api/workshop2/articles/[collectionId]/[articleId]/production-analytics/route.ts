@@ -6,6 +6,7 @@ import { buildWorkshop2ProductionAnalyticsCsv } from '@/lib/production/workshop2
 import { jsonWorkshop2ErrorRu } from '@/lib/production/workshop2-api-error-ru';
 import { withWorkshop2ApiErrorRu } from '@/lib/production/workshop2-api-route-ru';
 import { buildWorkshop2ProductionAnalyticsSnapshot } from '@/lib/production/workshop2-production-analytics';
+import { mapDossierProductionModelToReleaseOperations } from '@/lib/production/article-workspace/sync-operational-from-dossier';
 import {
   buildWorkshop2ProductionSparklineFromSnapshot,
   buildWorkshop2ProductionSparklineSeries,
@@ -55,7 +56,9 @@ async function buildAnalyticsResponse(input: {
     from: input.from,
     to: input.to,
     dossier: record?.dossier ?? null,
-    releaseOperations: record?.dossier?.productionModel?.operations ?? null,
+    releaseOperations: record?.dossier
+      ? mapDossierProductionModelToReleaseOperations(record.dossier)
+      : null,
     statusHistory: activeOrder?.statusHistory,
     qcDefects: defects.map((d) => ({
       defectCode: d.defectCode,

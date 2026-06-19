@@ -1,6 +1,14 @@
 /** Параметры раздела разработки коллекции (workshop2): выбранная коллекция и артикул внутри неё. */
 export const WORKSHOP2_COL_PARAM = 'w2col';
 export const WORKSHOP2_ART_PARAM = 'w2art';
+/** `1` — открыть диалог «Создать артикул» (Range Planner bridge). */
+export const WORKSHOP2_CREATE_PARAM = 'w2create';
+/** Range Planner: core | trend | novelty */
+export const WORKSHOP2_TIER_PARAM = 'w2tier';
+/** Range Planner: бюджет tier (₽) */
+export const WORKSHOP2_BUDGET_PARAM = 'w2budget';
+/** Range Planner: целевая маржа (%) */
+export const WORKSHOP2_MARGIN_PARAM = 'w2margin';
 /** `active` | `archive` */
 export const WORKSHOP2_TAB_PARAM = 'w2tab';
 /** Шаг карточки артикула: `1` — досье фазы 1, `2` — атрибуты следующей фазы. */
@@ -44,9 +52,16 @@ export function resolveWorkshop2ArticlePaneScrollHash(raw: string | null): strin
   return undefined;
 }
 
+/** Legacy deep link: `w2pane=assignment` → вкладка ТЗ (секция — `w2sec` или `assignment` по умолчанию). */
+export function isWorkshop2ArticlePaneAssignmentLegacy(raw: string | null): boolean {
+  return raw === 'assignment';
+}
+
 /** `null` — параметра нет или значение неизвестно. */
 export function parseWorkshop2ArticlePaneParam(raw: string | null): string | null {
-  if (!raw || !W2_ARTICLE_PANE_VALUES.has(raw)) return null;
+  if (!raw) return null;
+  if (raw === 'assignment') return 'tz';
+  if (!W2_ARTICLE_PANE_VALUES.has(raw)) return null;
   if (raw === 'documents') return 'vault';
   if (raw === 'sample' || raw === 'nesting') return 'plan';
   return raw;

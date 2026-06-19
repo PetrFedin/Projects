@@ -9,7 +9,12 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     
     # AI Config
-    AI_MODEL: str = "gemini-1.5-flash"
+    LLM_PROVIDER: str = "ollama"  # ollama | openai | gemini
+    AI_MODEL: str = "qwen3"
+    OLLAMA_BASE_URL: str = "http://localhost:11434"
+    OLLAMA_MODEL: str = "qwen3"
+    OPENAI_API_KEY: Optional[str] = None
+    OPENAI_MODEL: str = "gpt-4o-mini"
     GEMINI_API_KEY: Optional[str] = None
     AI_MAX_TOKENS: int = 2000
     AI_TEMPERATURE: float = 0.0
@@ -22,17 +27,20 @@ class Settings(BaseSettings):
     # - [completed] Define Task & AgentState models
     # - [completed] Implement BaseRepository pattern
     
-    # Database Config
-    DATABASE_URL: str = "sqlite+aiosqlite:///./synth1.db"
+    # Database Config — PostgreSQL canon; SQLite only for local/test fallback
+    DATABASE_URL: str = "postgresql+asyncpg://petr@localhost:5432/synth1"
     REDIS_URL: Optional[str] = None
+    MEDIA_UPLOAD_DIR: str = "static/media"
 
     # Security
     ENVIRONMENT: str = "development"
     CORS_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001"
     AUTH_RATE_LIMIT: int = 10
     AUTH_RATE_WINDOW: int = 60
+    AUTH_USE_DB: bool = False
     SECRET_KEY: str = "SUPER_SECRET_KEY_FOR_DEVELOPMENT_ONLY"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8  # 8 days
+    FIREBASE_SERVICE_ACCOUNT_JSON: Optional[str] = None
 
     # --- РФ Интеграции ---
     # Честный ЗНАК (CRPT)
@@ -57,11 +65,15 @@ class Settings(BaseSettings):
     CDEK_CLIENT_ID: Optional[str] = None
     CDEK_CLIENT_SECRET: Optional[str] = None
 
-    # Оплата (СБП / Эквайринг)
+    # Оплата (СБП / Эквайринг / ЮKassa / Stripe)
     PAYMENT_PROVIDER: str = "tinkoff"
     TINKOFF_TERMINAL_KEY: Optional[str] = None
     TINKOFF_SECRET_KEY: Optional[str] = None
     SBP_MERCHANT_ID: Optional[str] = None
+    YUKASSA_SHOP_ID: Optional[str] = None
+    YUKASSA_SECRET_KEY: Optional[str] = None
+    STRIPE_SECRET_KEY: Optional[str] = None
+    STRIPE_WEBHOOK_SECRET: Optional[str] = None
 
     # Endpoint usage audit (CLEANUP_PLAN Phase 5)
     ENABLE_ENDPOINT_STATS: bool = False

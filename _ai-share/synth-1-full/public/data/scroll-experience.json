@@ -1,0 +1,38 @@
+{
+  "version": 3,
+  "layout": "minimal",
+  "featuredMode": "compact",
+  "featuredProductSlug": "silk-midi-dress",
+  "heroProductSlugs": [
+    "silk-midi-dress",
+    "cashmere-crewneck-sweater",
+    "tech-anorak-men"
+  ],
+  "abTestFlagshipSlugs": [
+    "silk-midi-dress"
+  ],
+  "abTestRunwayDefault": false,
+  "runwayBadgeHeroOnly": true,
+  "features": {
+    "autoTour": false,
+    "comparePeek": false,
+    "kenBurns": true,
+    "searchHoverPreview": false,
+    "stickyBar": true,
+    "socialProof": false,
+    "entryCta": true,
+    "priceDeltaHighlight": false,
+    "kioskMode": false
+  },
+  "enableCatalogBadge": true,
+  "enableQuickViewEntry": true,
+  "enableUserOptions": false,
+  "enableInvestorBanner": false,
+  "brandRunwayEnabled": {
+    "Nordic Wool": true,
+    "Syntha Lab": true
+  },
+  "brandFeatured": {
+    "Nordic Wool": "silk-midi-dress"
+  }
+}

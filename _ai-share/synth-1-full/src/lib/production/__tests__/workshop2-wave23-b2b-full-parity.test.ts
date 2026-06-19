@@ -190,7 +190,18 @@ describe('workshop2 wave23 b2b — compare & invites', () => {
 });
 
 describe('workshop2 wave23 b2b — development gate & export', () => {
-  beforeEach(() => clearWorkshop2B2bOrdersMemoryForTests());
+  const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+
+  beforeEach(() => {
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
+    clearWorkshop2B2bOrdersMemoryForTests();
+  });
+
+  afterEach(() => {
+    if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+    else delete process.env.WORKSHOP2_DATABASE_URL;
+  });
 
   it('blocks cart submit on empty dossier', () => {
     const gate = evaluateWorkshop2B2bCartSubmitDevelopmentGate({

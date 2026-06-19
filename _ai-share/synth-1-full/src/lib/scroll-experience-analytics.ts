@@ -70,7 +70,8 @@ function readMetrics(): ScrollExperienceMetricsSnapshot {
   try {
     const raw = window.localStorage.getItem(SCROLL_EXPERIENCE_METRICS_KEY);
     if (!raw) return empty;
-    return { ...empty, ...JSON.parse(raw) };
+    const parsed = JSON.parse(raw) as Partial<ScrollExperienceMetricsSnapshot>;
+    return { ...empty, ...parsed };
   } catch {
     return empty;
   }
@@ -104,7 +105,9 @@ function migrateLegacyEventLog(): ScrollExperienceEventLogEntry[] {
     const legacy = JSON.parse(legacyRaw) as ScrollExperienceEventLogEntry[];
     if (!Array.isArray(legacy) || legacy.length === 0) return [];
     const currentRaw = window.localStorage.getItem(RUNWAY_ANALYTICS_EVENTS_KEY);
-    const current: ScrollExperienceEventLogEntry[] = currentRaw ? JSON.parse(currentRaw) : [];
+    const current: ScrollExperienceEventLogEntry[] = currentRaw
+      ? (JSON.parse(currentRaw) as ScrollExperienceEventLogEntry[])
+      : [];
     const merged = [...current, ...legacy].slice(-RUNWAY_ANALYTICS_EVENTS_MAX);
     window.localStorage.setItem(RUNWAY_ANALYTICS_EVENTS_KEY, JSON.stringify(merged));
     window.localStorage.removeItem(LEGACY_SCROLL_EXPERIENCE_EVENTS_KEY);
@@ -122,7 +125,9 @@ function appendEventLog(entry: ScrollExperienceEventLogEntry): void {
       migrateLegacyEventLog();
       raw = window.localStorage.getItem(RUNWAY_ANALYTICS_EVENTS_KEY);
     }
-    const list: ScrollExperienceEventLogEntry[] = raw ? JSON.parse(raw) : [];
+    const list: ScrollExperienceEventLogEntry[] = raw
+      ? (JSON.parse(raw) as ScrollExperienceEventLogEntry[])
+      : [];
     list.push(entry);
     const trimmed = list.slice(-RUNWAY_ANALYTICS_EVENTS_MAX);
     window.localStorage.setItem(RUNWAY_ANALYTICS_EVENTS_KEY, JSON.stringify(trimmed));
@@ -141,8 +146,8 @@ export function readScrollExperienceEventLog(): ScrollExperienceEventLogEntry[] 
       if (migrated.length > 0) return migrated;
       return [];
     }
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    const parsed = JSON.parse(raw) as unknown;
+    return Array.isArray(parsed) ? (parsed as ScrollExperienceEventLogEntry[]) : [];
   } catch {
     return [];
   }

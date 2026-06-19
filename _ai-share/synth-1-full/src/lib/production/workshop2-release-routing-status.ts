@@ -7,6 +7,10 @@ import {
   buildWorkshop2RoutingStepsFromDossier,
   computeWorkshop2RoutingPipelineMetrics,
 } from '@/lib/production/workshop2-routing-steps';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2ReleaseRoutingStatus = {
   routingStepCount: number;
@@ -87,15 +91,29 @@ export function summarizeWorkshop2ReleaseRoutingPanelDisplay(input: {
   const live = summarizeWorkshop2ReleaseRoutingStatus(input);
   const mirror = input.dossier?.releaseRoutingMirror;
   if (mirror) {
+    const routingSourceRaw = workshop2PgMirrorStr(mirror, 'routingSource');
+    const routingSource =
+      routingSourceRaw === 'persisted' ||
+      routingSourceRaw === 'derived' ||
+      routingSourceRaw === 'empty'
+        ? routingSourceRaw
+        : live.routingSource;
+    const stateRaw = workshop2PgMirrorStr(mirror, 'state');
+    const state =
+      stateRaw === 'empty' || stateRaw === 'partial' || stateRaw === 'ready'
+        ? stateRaw
+        : live.state;
+    const hintRaw = workshop2PgMirrorStr(mirror, 'hintRu');
     return {
-      routingStepCount: mirror.routingStepCount,
+      routingStepCount: workshop2PgMirrorNum(mirror, 'routingStepCount') || live.routingStepCount,
       totalSashMin: live.totalSashMin,
-      releaseOperationCount: mirror.releaseOperationCount,
+      releaseOperationCount:
+        workshop2PgMirrorNum(mirror, 'releaseOperationCount') || live.releaseOperationCount,
       completedOperations: live.completedOperations,
       kanbanStatus: live.kanbanStatus,
-      routingSource: mirror.routingSource,
-      state: mirror.state,
-      hintRu: mirror.hintRu ?? live.hintRu,
+      routingSource,
+      state,
+      hintRu: hintRaw || live.hintRu,
       mirrorInPg: true,
     };
   }

@@ -8,6 +8,10 @@ import {
 } from '@/lib/production/workshop2-tech-pack-visual-gate-summary';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2TechPackVisualMirror(
   dossier: Workshop2DossierPhase1,
@@ -62,23 +66,27 @@ function checkFromMirror(
   ids: { empty: string; visual: string },
   handoff?: boolean
 ): Workshop2HandoffReadinessCheck | null {
-  if (mirror.state === 'empty') {
+  const state = workshop2PgMirrorStr(mirror, 'state') || String(mirror.state ?? '');
+  const hintRu = workshop2PgMirrorStr(mirror, 'hintRu');
+  const openVisualGateCount = workshop2PgMirrorNum(mirror, 'openVisualGateCount');
+
+  if (state === 'empty') {
     return {
       id: ids.empty,
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
+        hintRu ||
         (handoff
           ? 'Нет вложений tech pack — добавьте CAD/PDF на конструкции.'
           : 'ZIP ТЗ: нет вложений tech pack на конструкции.'),
     };
   }
-  if (mirror.openVisualGateCount > 0) {
+  if (openVisualGateCount > 0) {
     return {
       id: ids.visual,
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? `Визуальный gate: ${mirror.openVisualGateCount} открытых предупреждений.`,
+        hintRu || `Визуальный gate: ${openVisualGateCount} открытых предупреждений.`,
     };
   }
   return null;

@@ -10,7 +10,8 @@ export type Workshop2Wave20PersistField =
   | 'supplier_qc_snapshot'
   | 'hub_activity_mirror'
   | 'sustainability_lca_snapshot'
-  | 'matchmaker_handoff_ack';
+  | 'matchmaker_handoff_ack'
+  | 'sustainability_carbon_rollup';
 
 export function auditWorkshop2Wave20Persist(input: {
   collectionId: string;

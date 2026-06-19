@@ -4,6 +4,7 @@
 import { summarizeWorkshop2BomNodesStatus } from '@/lib/production/workshop2-bom-nodes-status';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2BomNodesMirror(
   dossier: Workshop2DossierPhase1
@@ -43,12 +44,12 @@ export function evaluateWorkshop2BomNodesSampleGate(
       messageRu: 'BOM snapshot не в досье — «BOM → PG» на материалах.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  if (mirror.blockerSampleOrder === true) {
     return {
       id: 'bom.nodes.incomplete',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
         'BOM не готов (пустой или частичный) — заказ образца заблокирован до синхронизации из mat.',
     };
   }

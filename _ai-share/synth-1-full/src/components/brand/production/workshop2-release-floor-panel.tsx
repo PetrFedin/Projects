@@ -16,6 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Workshop2ReleaseIntegrationProbeRow } from '@/components/brand/production/workshop2-release-integration-probe-row';
 import { isWorkshop2LiveErpConfigured } from '@/lib/production/workshop2-live-integration-probes-env';
 import { attemptWorkshop2FactoryErpStaging } from '@/lib/production/workshop2-factory-erp-staging';
+import type { Workshop2PurchaseOrderErpRow } from '@/lib/production/workshop2-purchase-order-erp-dossier-persist';
 import { isWorkshop2FloorMesConfigured } from '@/lib/production/workshop2-floor-mes';
 
 type Props = {
@@ -122,6 +123,7 @@ export function Workshop2ReleaseFloorPanel({
     (activeOrder ? labelWorkshop2SampleOrderStatusRu(activeOrder.status) : null);
 
   const erpLive = isWorkshop2LiveErpConfigured();
+  const purchaseOrders: Workshop2PurchaseOrderErpRow[] = [];
 
   const handleErpStagingProbe = async () => {
     if (!dossier || !collectionId) return;
@@ -284,7 +286,7 @@ export function Workshop2ReleaseFloorPanel({
           <div>
             <dt className="text-text-muted">Последняя синхронизация</dt>
             <dd data-testid="workshop2-floor-last-sync">
-              {lastSyncedAt
+              {typeof lastSyncedAt === 'string' && lastSyncedAt
                 ? new Date(lastSyncedAt).toLocaleString('ru-RU')
                 : 'Ещё не синхронизировали'}
             </dd>

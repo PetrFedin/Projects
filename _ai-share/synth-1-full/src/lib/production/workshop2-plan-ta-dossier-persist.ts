@@ -6,6 +6,10 @@ import { summarizeWorkshop2TaMilestonesStatus } from '@/lib/production/workshop2
 import { buildWorkshop2TaPlanFactSummary } from '@/lib/production/workshop2-ta-plan-fact';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorStr,
+  workshop2PgMirrorNum,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2PlanTaMirror(
   dossier: Workshop2DossierPhase1,
@@ -54,27 +58,35 @@ export function evaluateWorkshop2PlanTaSampleGate(
       messageRu: 'T&A плана не в PG — «Plan T&A → PG» на вкладке План заказа.',
     };
   }
-  if (mirror.state === 'empty') {
+  const state = workshop2PgMirrorStr(mirror, 'state');
+  const hintRu = workshop2PgMirrorStr(mirror, 'hintRu');
+  const delayedCount = workshop2PgMirrorNum(mirror, 'delayedCount');
+  const overdueCount = workshop2PgMirrorNum(mirror, 'overdueCount');
+  const persistedAt = workshop2PgMirrorStr(mirror, 'persistedAt');
+  const blockerSampleOrder =
+    mirror.blockerSampleOrder === true ||
+    workshop2PgMirrorStr(mirror, 'blockerSampleOrder') === 'true';
+
+  if (state === 'empty') {
     return {
       id: 'plan.ta.empty',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Календарь T&A пуст на плане — добавьте вехи до заказа образца.',
+      messageRu: hintRu || 'Календарь T&A пуст на плане — добавьте вехи до заказа образца.',
     };
   }
-  if (mirror.blockerSampleOrder && mirror.state === 'at_risk') {
+  if (blockerSampleOrder && state === 'at_risk') {
     return {
       id: 'plan.ta.at_risk',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ??
-        `T&A плана: ${mirror.delayedCount} задержек, ${mirror.overdueCount} просрочено.`,
+        hintRu ?? `T&A плана: ${delayedCount} задержек, ${overdueCount} просрочено.`,
     };
   }
-  if (!mirror.persistedAt) {
+  if (!persistedAt && !dossier.taMilestonesPersistedAt) {
     return {
       id: 'plan.ta.not_persisted',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Вехи только в workspace — «Сохранить T&A в досье» на плане.',
+      messageRu: hintRu || 'Вехи только в workspace — «Сохранить T&A в досье» на плане.',
     };
   }
   return null;

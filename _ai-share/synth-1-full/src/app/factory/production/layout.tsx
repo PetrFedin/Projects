@@ -26,6 +26,7 @@ import { HubSidebarHeader } from '@/components/hub/HubSidebarHeader';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import {
   CabinetHubMain,
+  CabinetHubMobileNavOnly,
   CabinetHubSectionBar,
   CabinetHubTitleRow,
 } from '@/components/layout/cabinet-hub-chrome';
@@ -34,6 +35,9 @@ import { cabinetHubLayout, cabinetSidebarLayout, cabinetSurface } from '@/lib/ui
 import { resolveCabinetActiveNavLink } from '@/lib/ui/cabinet-nav-active';
 import { cabinetRoleLabelRu } from '@/lib/ui/cabinet-role-labels';
 import { ROUTES } from '@/lib/routes';
+import { shouldBypassHubRbacForCoreCabinet } from '@/lib/platform-core-cabinet-route';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { FactoryProductionLayoutSidebarPanel } from '@/app/factory/production/FactoryProductionLayoutSidebarPanel';
 
 const FACTORY_PRODUCTION_ROLES = [
   'manufacturer',
@@ -45,6 +49,7 @@ const FACTORY_PRODUCTION_ROLES = [
 ];
 
 function FactoryProductionLayoutContent({ children }: { children: React.ReactNode }) {
+  const platformCore = isPlatformCoreMode();
   const pathname = usePathname();
   const { loading } = useAuth();
   const { role } = useRbac();
@@ -84,7 +89,7 @@ function FactoryProductionLayoutContent({ children }: { children: React.ReactNod
     );
   }
 
-  if (!hasAccess) {
+  if (!hasAccess && !shouldBypassHubRbacForCoreCabinet(pathname)) {
     return (
       <div className={cabinetSurface.hubAccessDeniedShell}>
         <p className="text-text-secondary mb-2 font-medium">
@@ -119,15 +124,19 @@ function FactoryProductionLayoutContent({ children }: { children: React.ReactNod
             iconBgClass="bg-emerald-900"
           />
           <div className="scrollbar-hide min-h-0 flex-1 overflow-y-auto">
-            <HubSidebar
-              groups={adjustedManufacturerNavGroups}
-              basePath={ROUTES.factory.production}
-              accentClass="text-emerald-600"
-              activeBgClass="bg-emerald-600"
-              sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
-              coreGroupOrder={factoryMfrCoreOrder}
-              archiveGroupOrder={FACTORY_MFR_ARCHIVE_GROUP_ORDER}
-            />
+            {platformCore ? (
+              <FactoryProductionLayoutSidebarPanel />
+            ) : (
+              <HubSidebar
+                groups={adjustedManufacturerNavGroups}
+                basePath={ROUTES.factory.production}
+                accentClass="text-emerald-600"
+                activeBgClass="bg-emerald-600"
+                sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
+                coreGroupOrder={factoryMfrCoreOrder}
+                archiveGroupOrder={FACTORY_MFR_ARCHIVE_GROUP_ORDER}
+              />
+            )}
           </div>
         </aside>
 
@@ -149,59 +158,68 @@ function FactoryProductionLayoutContent({ children }: { children: React.ReactNod
               </p>
             </div>
             <div className="min-h-0 flex-1 overflow-y-auto">
-              <HubSidebar
-                groups={adjustedManufacturerNavGroups}
-                basePath={ROUTES.factory.production}
-                accentClass="text-emerald-600"
-                activeBgClass="bg-emerald-600"
-                onNavigate={() => setSidebarOpen(false)}
-                sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
-                coreGroupOrder={factoryMfrCoreOrder}
-                archiveGroupOrder={FACTORY_MFR_ARCHIVE_GROUP_ORDER}
-              />
+              {platformCore ? (
+                <FactoryProductionLayoutSidebarPanel onNavigate={() => setSidebarOpen(false)} />
+              ) : (
+                <HubSidebar
+                  groups={adjustedManufacturerNavGroups}
+                  basePath={ROUTES.factory.production}
+                  accentClass="text-emerald-600"
+                  activeBgClass="bg-emerald-600"
+                  onNavigate={() => setSidebarOpen(false)}
+                  sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
+                  coreGroupOrder={factoryMfrCoreOrder}
+                  archiveGroupOrder={FACTORY_MFR_ARCHIVE_GROUP_ORDER}
+                />
+              )}
             </div>
           </SheetContent>
         </Sheet>
 
         <div className={cn('min-w-0 flex-1', cabinetSidebarLayout.mainPaddingLeftStandard)}>
           <CabinetHubMain className="space-y-2 pt-2">
-            <CabinetHubTitleRow
-              className="border-border-subtle gap-2 border-b pb-2"
-              onOpenMobileNav={() => setSidebarOpen(true)}
-              hubIcon={Factory}
-              iconTileClassName="bg-emerald-900 text-white shadow-sm ring-1 ring-border-subtle"
-              title="Кабинет производства"
-              badges={
-                <Badge
-                  variant="outline"
-                  className="shrink-0 border-emerald-200 text-[8px] font-bold text-emerald-700"
-                >
-                  {cabinetRoleLabelRu(role)}
-                </Badge>
-              }
-              showDemoMark
-              trailing={
-                <nav className="flex flex-wrap items-center gap-2" aria-label="Переключение хабов">
-                  {hubs.map((hub) => {
-                    const HubIcon = hub.icon;
-                    return (
-                      <Link
-                        key={hub.href}
-                        href={hub.href}
-                        className={cabinetHubLayout.hubSwitcherLink}
-                      >
-                        <HubIcon className="size-3.5" aria-hidden /> {hub.label}
-                      </Link>
-                    );
-                  })}
-                </nav>
-              }
-            />
-            <CabinetHubSectionBar
-              accentClassName="bg-emerald-500"
-              breadcrumbItems={['Аккаунт', 'Завод', 'Производство', sectionLabel]}
-              sectionTitle={sectionLabel}
-            />
+            {platformCore ? (
+              <CabinetHubMobileNavOnly onOpenMobileNav={() => setSidebarOpen(true)} />
+            ) : (
+              <>
+                <CabinetHubTitleRow
+                  className="border-border-subtle gap-2 border-b pb-2"
+                  onOpenMobileNav={() => setSidebarOpen(true)}
+                  hubIcon={Factory}
+                  iconTileClassName="bg-emerald-900 text-white shadow-sm ring-1 ring-border-subtle"
+                  title="Кабинет производства"
+                  badges={
+                    <Badge
+                      variant="outline"
+                      className="shrink-0 border-emerald-200 text-[8px] font-bold text-emerald-700"
+                    >
+                      {cabinetRoleLabelRu(role)}
+                    </Badge>
+                  }
+                  trailing={
+                    <nav className="flex flex-wrap items-center gap-2" aria-label="Переключение хабов">
+                      {hubs.map((hub) => {
+                        const HubIcon = hub.icon;
+                        return (
+                          <Link
+                            key={hub.href}
+                            href={hub.href}
+                            className={cabinetHubLayout.hubSwitcherLink}
+                          >
+                            <HubIcon className="size-3.5" aria-hidden /> {hub.label}
+                          </Link>
+                        );
+                      })}
+                    </nav>
+                  }
+                />
+                <CabinetHubSectionBar
+                  accentClassName="bg-emerald-500"
+                  breadcrumbItems={['Аккаунт', 'Завод', 'Производство', sectionLabel]}
+                  sectionTitle={sectionLabel}
+                />
+              </>
+            )}
 
             <main className={cabinetHubLayout.mainInner}>
               <ErrorBoundary>{children}</ErrorBoundary>

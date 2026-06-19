@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { TriggerType, DEFAULT_TRIGGERS } from '@/lib/notifications/triggers';
 
+type TriggerEventRequestBody = {
+  type?: TriggerType;
+  title?: string;
+  body?: string;
+};
+
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as TriggerEventRequestBody;
     const { type, title, body: messageBody } = body;
 
     if (!type || !title || !messageBody) {

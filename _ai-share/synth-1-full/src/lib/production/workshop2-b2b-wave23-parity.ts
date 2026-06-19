@@ -12,6 +12,8 @@ import type {
   Workshop2B2bOrderLine,
   Workshop2B2bOrderRecord,
 } from '@/lib/production/workshop2-b2b-order-lifecycle';
+import type { Workshop2ShowroomLinesheetPayload } from '@/lib/production/workshop2-showroom-linesheet-payload';
+import type { Workshop2ShowroomCampaign } from '@/lib/server/workshop2-showroom-repository';
 
 export type Workshop2B2bQtyPriceBreak = {
   minQty: number;
@@ -197,9 +199,11 @@ export function validateWorkshop2B2bPrebookDeliveryDate(input: {
 export function evaluateWorkshop2B2bCartSubmitDevelopmentGate(input: {
   dossier: Workshop2DossierPhase1;
   articleId: string;
+  collectionId?: string;
 }): { allowed: true } | { allowed: false; messageRu: string } {
   const gate = evaluateWorkshop2BulkShowroomPublishForArticle({
     articleId: input.articleId,
+    collectionId: input.collectionId,
     dossier: input.dossier,
     publish: { published: true },
   });
@@ -212,8 +216,35 @@ export function evaluateWorkshop2B2bCartSubmitDevelopmentGate(input: {
   };
 }
 
+export function collectWorkshop2B2bCartMoqViolations(
+  session: Pick<Workshop2B2bCartSession, 'lines'>
+): string[] {
+  const violations: string[] = [];
+  for (const line of session.lines) {
+    if (line.qty <= 0) continue;
+    const moq = Math.max(1, line.moq ?? 1);
+    if (line.qty < moq) {
+      violations.push(
+        `${line.articleId} · ${line.colorCode}/${line.size}: MOQ ${moq} шт., указано ${line.qty}`
+      );
+    }
+  }
+  return violations;
+}
+
+export function collectWorkshop2B2bOrderLineMoqViolations(lines: Workshop2B2bOrderLine[]): string[] {
+  return collectWorkshop2B2bCartMoqViolations({ lines });
+}
+
 export function getWorkshop2B2bCartSession(sessionId: string): Workshop2B2bCartSession | null {
   return cartSessions.get(sessionId.trim()) ?? null;
+}
+
+/** Восстановление сессии из file-store (dev HMR / e2e). */
+export function hydrateWorkshop2B2bCartSession(session: Workshop2B2bCartSession): void {
+  const sid = session.sessionId?.trim();
+  if (!sid) return;
+  cartSessions.set(sid, session);
 }
 
 export function upsertWorkshop2B2bCartLine(input: {

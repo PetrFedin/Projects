@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { syncLegacyCartToWorkshop2 } from '@/lib/b2b/workshop2-cart-bridge';
+import {
+  WORKSHOP2_B2B_MATRIX_FALLBACK_IMAGE,
+  fetchWorkshop2MatrixProducts,
+} from '@/lib/b2b/workshop2-b2b-matrix-catalog';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft,
@@ -20,6 +26,7 @@ import {
   Calendar,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ROUTES } from '@/lib/routes';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -75,6 +82,8 @@ export function WholesaleOrderMatrix({
   pimBrandContext: _pimBrandContext,
   collectionId: _collectionId,
 }: WholesaleOrderMatrixProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { activeCurrency } = useUIState();
   const { b2bCart, setB2bCart, updateB2bOrderItemQuantity, removeB2bOrderItem } = useB2BState();
   const [activeTab, setActiveTab] = useState<
@@ -88,6 +97,32 @@ export function WholesaleOrderMatrix({
   const [tryBeforeBuy, setTryBeforeBuy] = useState(false);
   /** JOOR: заметки к заказу */
   const [orderNotes, setOrderNotes] = useState('');
+  const [cartSyncing, setCartSyncing] = useState(false);
+  const [w2MatrixProducts, setW2MatrixProducts] = useState<any[]>([]);
+  const matrixCollectionId = (
+    _collectionId ??
+    searchParams.get('collectionId') ??
+    searchParams.get('collection') ??
+    'SS27'
+  ).trim();
+
+  useEffect(() => {
+    if (!matrixCollectionId) return;
+    let cancelled = false;
+    void fetchWorkshop2MatrixProducts(matrixCollectionId).then((rows) => {
+      if (!cancelled) setW2MatrixProducts(rows);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [matrixCollectionId]);
+
+  const coreMode = isPlatformCoreMode();
+  const coreBuyerId = coreMode ? 'shop1' : 'buyer-demo';
+
+  useEffect(() => {
+    if (coreMode && orderMode !== 'buy_now') setOrderMode('buy_now');
+  }, [coreMode, orderMode]);
 
   /** NuORDER: eventId/priceTier/territory из URL или партнёра — показываем в шапке и уходим в payload. */
   const displayEventId = initialEventId;
@@ -96,10 +131,18 @@ export function WholesaleOrderMatrix({
 
   /** NuORDER: права по территории/каналу — в матрице байер видит только доступные ему продукты. */
   const buyerRights = useMemo(() => getCurrentBuyerRights(), []);
-  const visibleProducts = useMemo(
+  const legacyVisibleProducts = useMemo(
     () => getProductsVisibleToBuyer(allProductsData, buyerRights),
     [buyerRights]
   );
+
+  const visibleProducts = useMemo(() => {
+    if (coreMode) return w2MatrixProducts;
+    if (w2MatrixProducts.length === 0) return legacyVisibleProducts;
+    const w2Ids = new Set(w2MatrixProducts.map((p) => p.id));
+    const rest = legacyVisibleProducts.filter((p: { id: string }) => !w2Ids.has(p.id));
+    return [...w2MatrixProducts, ...rest];
+  }, [legacyVisibleProducts, w2MatrixProducts, coreMode]);
 
   /** JOOR: окна доставки (дропы) — Start Ship Date / Complete Ship Date */
   const drops = JOOR_DELIVERY_WINDOWS.map((w) => w.label);
@@ -189,8 +232,9 @@ export function WholesaleOrderMatrix({
                 Массовый ввод заказа (Bulk edit)
               </DialogTitle>
               <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
-                Вставьте список артикулов или загрузите XLS для быстрого заказа. NuOrder-style:
-                массовое изменение qty/размера.
+                {coreMode
+                  ? 'Массовый ввод qty по размерам (demo).'
+                  : 'Вставьте список артикулов или загрузите XLS для быстрого заказа.'}
               </p>
             </div>
           </div>
@@ -221,6 +265,7 @@ export function WholesaleOrderMatrix({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="bg-bg-surface2 fixed inset-0 z-[150] flex flex-col text-left"
+      data-testid={coreMode ? 'shop-b2b-matrix-shell' : undefined}
     >
       {renderBulkEntry()}
       <div className="border-border-subtle flex h-24 items-center justify-between border-b bg-white px-10">
@@ -235,14 +280,16 @@ export function WholesaleOrderMatrix({
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <Badge className="bg-accent-primary border-none px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-white">
-                Order_Matrix_v1.2
+                {coreMode ? 'B2B · PostgreSQL' : 'Order_Matrix_v1.2'}
               </Badge>
               <h2 className="text-text-primary text-base font-black uppercase tracking-tight">
-                Настройка Оптового Заказа
+                {coreMode ? 'Матрица заказа' : 'Настройка Оптового Заказа'}
               </h2>
             </div>
             <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
-              Коллекция: NEURAL NOMAD FW26 • Ритейлер: {activeRetailer?.name || 'Партнер'}
+              {coreMode
+                ? `Коллекция: ${matrixCollectionId} · Партнёр: ${activeRetailer?.name || 'Магазин'}`
+                : `Коллекция: NEURAL NOMAD FW26 • Ритейлер: ${activeRetailer?.name || 'Партнер'}`}
               {displayEventId && ` • Событие: ${displayEventId}`}
               {displayPriceTier && ` • ${PRICE_TIER_LABELS[displayPriceTier]}`}
               {displayTerritory && ` • Территория: ${displayTerritory}`}
@@ -262,7 +309,7 @@ export function WholesaleOrderMatrix({
               Всего {totals.units} ед.
             </p>
           </div>
-          {orderMode === 'pre_order' && (
+          {orderMode === 'pre_order' && !coreMode && (
             <Link
               href={ROUTES.shop.b2bPreOrder}
               className="text-accent-primary flex items-center gap-1 text-[9px] font-bold hover:underline"
@@ -270,19 +317,45 @@ export function WholesaleOrderMatrix({
               <Calendar className="h-3.5 w-3.5" /> Каталог Pre-order
             </Link>
           )}
-          <Button
-            variant="outline"
-            className="border-border-default h-12 gap-2 rounded-2xl bg-white px-6 text-[10px] font-black uppercase tracking-widest"
-          >
-            <Save className="h-4 w-4" /> Сохранить черновик
-          </Button>
+          {!coreMode ? (
+            <Button
+              variant="outline"
+              className="border-border-default h-12 gap-2 rounded-2xl bg-white px-6 text-[10px] font-black uppercase tracking-widest"
+            >
+              <Save className="h-4 w-4" /> Сохранить черновик
+            </Button>
+          ) : null}
           <Button
             className="bg-text-primary h-12 gap-2 rounded-2xl px-8 text-[10px] font-black uppercase tracking-widest text-white shadow-md shadow-xl"
             data-order-mode={orderMode}
             data-drop={activeDrop}
             data-try-before-buy={tryBeforeBuy}
+            data-testid={coreMode ? 'shop-b2b-matrix-to-checkout' : undefined}
+            disabled={b2bCart.length === 0 || cartSyncing}
+            onClick={() => {
+              if (b2bCart.length === 0 || cartSyncing) return;
+              void (async () => {
+                setCartSyncing(true);
+                try {
+                  const tier = orderMode === 'pre_order' ? 'prebook' : 'standard';
+                  await syncLegacyCartToWorkshop2({
+                    items: b2bCart,
+                    collectionId: matrixCollectionId,
+                    tier,
+                    buyerId: activeRetailer?.id ?? coreBuyerId,
+                  });
+                  const checkoutHref = matrixCollectionId
+                    ? `${ROUTES.shop.b2bCheckout}?collection=${encodeURIComponent(matrixCollectionId)}`
+                    : ROUTES.shop.b2bCheckout;
+                  router.push(checkoutHref);
+                } finally {
+                  setCartSyncing(false);
+                }
+              })();
+            }}
           >
-            Подтвердить заказ {orderMode === 'pre_order' ? '(Предзаказ)' : ''}{' '}
+            {cartSyncing ? 'Синхронизация…' : 'Подтвердить заказ'}{' '}
+            {orderMode === 'pre_order' ? '(Предзаказ)' : ''}{' '}
             {tryBeforeBuy ? '· Try Before Buy' : ''} <FileCheck className="h-4 w-4" />
           </Button>
         </div>
@@ -292,56 +365,63 @@ export function WholesaleOrderMatrix({
         <div className="mx-auto max-w-[1400px] space-y-4">
           <div className="border-border-subtle flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm">
             <div className="flex flex-wrap items-center gap-3">
-              <div className="flex flex-col gap-1">
-                <span className="text-text-muted ml-1 text-[8px] font-black uppercase tracking-[0.2em]">
-                  Режим заказа
-                </span>
-                <div className="bg-bg-surface2 flex items-center gap-1 rounded-xl p-1">
-                  {(['buy_now', 'reorder', 'pre_order'] as const).map((mode) => (
-                    <button
-                      key={mode}
-                      onClick={() => setOrderMode(mode)}
-                      className={cn(
-                        'rounded-lg px-3 py-2 text-[9px] font-black uppercase tracking-widest transition-all',
-                        orderMode === mode
-                          ? 'bg-accent-primary text-white shadow-lg'
-                          : 'text-text-muted hover:text-text-secondary'
-                      )}
-                    >
-                      {orderModeLabels[mode]}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div className="bg-bg-surface2 mx-1 h-10 w-[1px]" />
-              <div className="flex flex-col gap-1">
-                <span className="text-text-muted ml-1 text-[8px] font-black uppercase tracking-[0.2em]">
-                  Активная поставка (Drop)
-                </span>
-                <div className="bg-bg-surface2 flex items-center gap-2 rounded-xl p-1">
-                  {drops.map((drop) => (
-                    <button
-                      key={drop}
-                      onClick={() => setActiveDrop(drop)}
-                      className={cn(
-                        'rounded-lg px-4 py-2 text-[9px] font-black uppercase tracking-widest transition-all',
-                        activeDrop === drop
-                          ? 'bg-text-primary text-white shadow-lg'
-                          : 'text-text-muted hover:text-text-secondary'
-                      )}
-                    >
-                      {drop.split(':')[0].replace('Drop', 'Дроп')}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              {orderMode === 'pre_order' && (
-                <Badge className="border-amber-200 bg-amber-100 text-[8px] font-black uppercase text-amber-800">
-                  Предзаказ · Поступление по дропу
+              {coreMode ? (
+                <Badge className="border-emerald-200 bg-emerald-50 text-[8px] font-black uppercase text-emerald-800">
+                  Заказ · {matrixCollectionId} · W2 (PostgreSQL)
                 </Badge>
+              ) : (
+                <>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-text-muted ml-1 text-[8px] font-black uppercase tracking-[0.2em]">
+                      Режим заказа
+                    </span>
+                    <div className="bg-bg-surface2 flex items-center gap-1 rounded-xl p-1">
+                      {(['buy_now', 'reorder', 'pre_order'] as const).map((mode) => (
+                        <button
+                          key={mode}
+                          onClick={() => setOrderMode(mode)}
+                          className={cn(
+                            'rounded-lg px-3 py-2 text-[9px] font-black uppercase tracking-widest transition-all',
+                            orderMode === mode
+                              ? 'bg-accent-primary text-white shadow-lg'
+                              : 'text-text-muted hover:text-text-secondary'
+                          )}
+                        >
+                          {orderModeLabels[mode]}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="bg-bg-surface2 mx-1 h-10 w-[1px]" />
+                  <div className="flex flex-col gap-1">
+                    <span className="text-text-muted ml-1 text-[8px] font-black uppercase tracking-[0.2em]">
+                      Активная поставка (Drop)
+                    </span>
+                    <div className="bg-bg-surface2 flex items-center gap-2 rounded-xl p-1">
+                      {drops.map((drop) => (
+                        <button
+                          key={drop}
+                          onClick={() => setActiveDrop(drop)}
+                          className={cn(
+                            'rounded-lg px-4 py-2 text-[9px] font-black uppercase tracking-widest transition-all',
+                            activeDrop === drop
+                              ? 'bg-text-primary text-white shadow-lg'
+                              : 'text-text-muted hover:text-text-secondary'
+                          )}
+                        >
+                          {drop.split(':')[0].replace('Drop', 'Дроп')}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  {orderMode === 'pre_order' && (
+                    <Badge className="border-amber-200 bg-amber-100 text-[8px] font-black uppercase text-amber-800">
+                      Предзаказ · Поступление по дропу
+                    </Badge>
+                  )}
+                  <div className="bg-bg-surface2 mx-2 h-10 w-[1px]" />
+                </>
               )}
-
-              <div className="bg-bg-surface2 mx-2 h-10 w-[1px]" />
 
               <div className="relative w-64">
                 <Search className="text-text-muted absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2" />
@@ -353,13 +433,20 @@ export function WholesaleOrderMatrix({
             </div>
 
             <div className="bg-bg-surface2 flex flex-wrap items-center gap-1.5 rounded-xl p-1">
-              {[
-                { id: 'matrix', label: 'Матрица размеров', icon: Grid3X3 },
-                { id: 'replenish', label: 'Умное пополнение', icon: RefreshCcw },
-                { id: 'allocation', label: 'Распределение', icon: MapPin },
-                { id: 'summary', label: 'Итого', icon: ShoppingBag },
-                { id: 'analytics', label: 'AI Аналитика', icon: BarChart3 },
-              ].map((tab) => (
+              {(
+                coreMode
+                  ? [
+                      { id: 'matrix', label: 'Матрица размеров', icon: Grid3X3 },
+                      { id: 'summary', label: 'Итого', icon: ShoppingBag },
+                    ]
+                  : [
+                      { id: 'matrix', label: 'Матрица размеров', icon: Grid3X3 },
+                      { id: 'replenish', label: 'Умное пополнение', icon: RefreshCcw },
+                      { id: 'allocation', label: 'Распределение', icon: MapPin },
+                      { id: 'summary', label: 'Итого', icon: ShoppingBag },
+                      { id: 'analytics', label: 'AI Аналитика', icon: BarChart3 },
+                    ]
+              ).map((tab) => (
                 <Button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
@@ -373,20 +460,22 @@ export function WholesaleOrderMatrix({
                   {tab.label}
                 </Button>
               ))}
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 h-10 rounded-lg text-[9px] font-black uppercase tracking-widest"
-                asChild
-              >
-                <Link href={ROUTES.shop.b2bWorkingOrder}>
-                  <FileSpreadsheet className="mr-1.5 h-3.5 w-3.5" /> Working Order
-                </Link>
-              </Button>
+              {coreMode ? null : (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-accent-primary/30 text-accent-primary hover:bg-accent-primary/10 h-10 rounded-lg text-[9px] font-black uppercase tracking-widest"
+                  asChild
+                >
+                  <Link href={ROUTES.shop.b2bWorkingOrder}>
+                    <FileSpreadsheet className="mr-1.5 h-3.5 w-3.5" /> Working Order
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
 
-          {moqViolation && (
+          {!coreMode && moqViolation && (
             <div className="flex items-center justify-between rounded-xl border border-amber-100 bg-amber-50 p-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-amber-600">
@@ -394,7 +483,7 @@ export function WholesaleOrderMatrix({
                 </div>
                 <div className="space-y-0.5 text-left">
                   <p className="text-[10px] font-black uppercase tracking-tight text-amber-900">
-                    JOOR: минимальный заказ (MOQ)
+                    Минимальный заказ (MOQ)
                   </p>
                   <p className="text-[9px] font-bold uppercase text-amber-600">
                     Нужно еще {moqViolation.required - moqViolation.current} ед. по стилю для
@@ -410,7 +499,7 @@ export function WholesaleOrderMatrix({
               </Button>
             </div>
           )}
-          {hasAtsViolation && (
+          {!coreMode && hasAtsViolation && (
             <div className="flex items-center gap-3 rounded-xl border border-rose-100 bg-rose-50 p-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-100 text-rose-600">
                 <AlertTriangle className="h-5 w-5" />
@@ -426,17 +515,19 @@ export function WholesaleOrderMatrix({
               </div>
             </div>
           )}
-          <div className="bg-bg-surface2 border-border-subtle rounded-xl border p-3">
-            <label className="text-text-muted ml-1 text-[8px] font-black uppercase tracking-[0.2em]">
-              JOOR: Заметки к заказу
-            </label>
-            <textarea
-              value={orderNotes}
-              onChange={(e) => setOrderNotes(e.target.value)}
-              placeholder="Комментарий для бренда (сроки, склад, особые пожелания)…"
-              className="border-border-default mt-1 min-h-[60px] w-full resize-y rounded-lg border bg-white p-3 text-sm"
-            />
-          </div>
+          {coreMode ? null : (
+            <div className="bg-bg-surface2 border-border-subtle rounded-xl border p-3">
+              <label className="text-text-muted ml-1 text-[8px] font-black uppercase tracking-[0.2em]">
+                Заметки к заказу
+              </label>
+              <textarea
+                value={orderNotes}
+                onChange={(e) => setOrderNotes(e.target.value)}
+                placeholder="Комментарий для бренда (сроки, склад, особые пожелания)…"
+                className="border-border-default mt-1 min-h-[60px] w-full resize-y rounded-lg border bg-white p-3 text-sm"
+              />
+            </div>
+          )}
 
           <div className="min-h-[500px]">
             {activeTab === 'analytics' && <OrderAnalyticsTab />}
@@ -462,6 +553,7 @@ export function WholesaleOrderMatrix({
                   return (
                     <Card
                       key={product.id}
+                      data-testid={coreMode ? `shop-b2b-matrix-row-${product.id}` : undefined}
                       className={cn(
                         'overflow-hidden rounded-xl border-none bg-white shadow-xl',
                         lineBlock.blocked && 'opacity-95 ring-1 ring-rose-200'
@@ -470,15 +562,12 @@ export function WholesaleOrderMatrix({
                       <div className="flex h-full flex-col md:flex-row">
                         <div className="bg-bg-surface2 relative h-64 w-full shrink-0 md:w-64">
                           <img
-                            src={
-                              product.images?.[0]?.url ||
-                              'https://placehold.co/400x400/f1f5f9/94a3b8?text=Product'
-                            }
+                            src={product.images?.[0]?.url || WORKSHOP2_B2B_MATRIX_FALLBACK_IMAGE}
                             className="h-full w-full object-cover"
                           />
                           <div className="absolute left-4 top-4">
                             <Badge className="text-text-primary border-none bg-white/90 px-3 py-1 text-[8px] font-black uppercase tracking-widest backdrop-blur-md">
-                              FW26
+                              {coreMode ? matrixCollectionId : 'FW26'}
                             </Badge>
                           </div>
                         </div>
@@ -575,6 +664,11 @@ export function WholesaleOrderMatrix({
                                         min="0"
                                         value={quantity || ''}
                                         disabled={lineBlock.blocked}
+                                        data-testid={
+                                          coreMode
+                                            ? `shop-b2b-matrix-qty-${product.id}-${size}`
+                                            : undefined
+                                        }
                                         onChange={(e) => {
                                           const val = parseInt(e.target.value) || 0;
                                           updateB2bOrderItemQuantity(
@@ -613,7 +707,7 @@ export function WholesaleOrderMatrix({
                             </div>
                           </div>
 
-                          {lineBlock.reasons.length > 0 && (
+                          {!coreMode && lineBlock.reasons.length > 0 && (
                             <div
                               className={cn(
                                 'mt-4 rounded-lg border px-3 py-2',
@@ -639,18 +733,29 @@ export function WholesaleOrderMatrix({
                           )}
                           <div className="border-border-subtle mt-8 flex items-center justify-between border-t pt-6">
                             <div className="flex gap-3">
-                              <Badge
-                                variant="outline"
-                                className="border-border-default h-5 rounded-md text-[10px] font-bold uppercase"
-                              >
-                                JOOR MOQ: {getMoqForProduct(product.id)}
-                              </Badge>
-                              <Badge
-                                variant="outline"
-                                className="border-border-default h-5 rounded-md text-[10px] font-bold uppercase"
-                              >
-                                Окно: {activeDrop}
-                              </Badge>
+                              {coreMode ? (
+                                <Badge
+                                  variant="outline"
+                                  className="border-border-default h-5 rounded-md text-[10px] font-bold uppercase"
+                                >
+                                  W2 · {matrixCollectionId}
+                                </Badge>
+                              ) : (
+                                <>
+                                  <Badge
+                                    variant="outline"
+                                    className="border-border-default h-5 rounded-md text-[10px] font-bold uppercase"
+                                  >
+                                    MOQ: {getMoqForProduct(product.id)}
+                                  </Badge>
+                                  <Badge
+                                    variant="outline"
+                                    className="border-border-default h-5 rounded-md text-[10px] font-bold uppercase"
+                                  >
+                                    Окно: {activeDrop}
+                                  </Badge>
+                                </>
+                              )}
                             </div>
                             <div className="flex items-center gap-2">
                               <p className="text-text-muted text-[10px] font-black uppercase">
@@ -766,7 +871,10 @@ export function WholesaleOrderMatrix({
                                     <div className="flex items-center gap-3">
                                       <div className="bg-bg-surface2 border-border-subtle h-12 w-12 overflow-hidden rounded-2xl border">
                                         <img
-                                          src={item.images?.[0]?.url}
+                                          src={
+                                            item.images?.[0]?.url ||
+                                            WORKSHOP2_B2B_MATRIX_FALLBACK_IMAGE
+                                          }
                                           className="h-full w-full object-cover"
                                         />
                                       </div>

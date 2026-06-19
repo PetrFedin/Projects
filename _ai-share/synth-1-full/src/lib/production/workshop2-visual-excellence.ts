@@ -54,6 +54,7 @@ export const TZ_PANEL_SECTION_LABELS: Record<Workshop2TzPanelSectionId, string> 
   visuals: 'Визуал / эскиз',
   material: 'Материалы (BOM)',
   construction: 'Конструкция',
+  assignment: 'Задание в цех',
 };
 
 /** Ссылки с меток: старые measurements/packaging → актуальные вкладки. */

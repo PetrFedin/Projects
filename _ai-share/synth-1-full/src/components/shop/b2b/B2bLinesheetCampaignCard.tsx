@@ -22,8 +22,11 @@ export function B2bLinesheetCampaignCard({ campaign }: { campaign: Workshop2B2bC
   useEffect(() => {
     let cancelled = false;
     void fetch('/api/shop/b2b/wishlist', { cache: 'no-store' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((json: { items?: { campaignId: string }[] } | null) => {
+      .then(async (r) => {
+        if (!r.ok) return null;
+        return (await r.json()) as { items?: { campaignId: string }[] };
+      })
+      .then((json) => {
         if (cancelled || !json?.items) return;
         setWishlisted(json.items.some((i) => i.campaignId === campaignId));
       })

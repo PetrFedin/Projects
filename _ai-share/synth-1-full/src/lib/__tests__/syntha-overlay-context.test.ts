@@ -72,7 +72,7 @@ describe('syntha-overlay-context', () => {
   it('shop overlay hrefs mirror brand routes', () => {
     const ctx = { orderId: 'o99', collectionId: 'c1', catalogStageId: 'tech-pack' };
     expect(shopMessagesSynthaOverlayHref(ctx)).toContain('/shop/messages');
-    expect(shopCalendarTasksSynthaOverlayHref(ctx)).toContain('/shop/calendar');
+    expect(shopCalendarTasksSynthaOverlayHref(ctx)).toMatch(/\/shop\/(b2b\/)?calendar/);
     expect(shopMessagesSynthaOverlayHref(ctx)).toContain('order=o99');
   });
 });

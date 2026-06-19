@@ -9,12 +9,16 @@ import {
   splitWorkshop2B2bCartByBrand,
   summarizeWorkshop2B2bMixedBrandCheckoutRu,
 } from '@/lib/production/workshop2-b2b-wave23-parity';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 
 function resolveSessionId(req: NextRequest, bodySessionId?: string): string {
   return bodySessionId?.trim() || req.cookies.get('b2b_cart_session')?.value?.trim() || '';
 }
 
 export async function POST(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   let body: { sessionId?: string } = {};
   try {
     body = (await req.json()) as typeof body;

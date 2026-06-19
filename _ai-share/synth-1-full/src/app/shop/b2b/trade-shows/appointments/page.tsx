@@ -10,10 +10,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getTradeShowById, getUpcomingEvents } from '@/lib/b2b/trade-show-calendar';
 import { getAppointments, createAppointment } from '@/lib/b2b/trade-show-appointments';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { ShopB2bLegacyTailCorePage } from '@/app/shop/b2b/shop-b2b-legacy-tail-core';
 import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 
 export default function TradeShowAppointmentsPage() {
+  if (isPlatformCoreMode()) {
+    return <ShopB2bLegacyTailCorePage legacyPath={ROUTES.shop.b2bTradeShowAppointments} />;
+  }
+
   const searchParams = useSearchParams();
   const eventId = searchParams.get('event');
   const event = eventId ? getTradeShowById(eventId) : null;

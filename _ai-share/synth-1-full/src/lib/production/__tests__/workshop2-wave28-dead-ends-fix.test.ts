@@ -19,6 +19,14 @@ function readSrc(rel: string): string {
 }
 
 describe('workshop2 wave28 — brand messages PG threads (no demo)', () => {
+  it('parses w2ctx chat id', () => {
+    const { parseBrandPgContextChatId } = require('@/lib/brand/brand-messages-pg-threads');
+    expect(parseBrandPgContextChatId('w2ctx:workshop2_article:SS27:demo-ss27-01')).toEqual({
+      contextType: 'workshop2_article',
+      contextId: 'SS27:demo-ss27-01',
+    });
+  });
+
   it('maps PG threads to Chat without initialConversations ids', () => {
     const chats = mapBrandPgThreadsToChats([
       {

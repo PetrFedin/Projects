@@ -28,9 +28,10 @@ export class InteractionLinkageService {
 
   constructor() {
     // [Phase 3] Подписка на события риска для авто-создания чатов
-    eventBus.subscribe(DomainEventTypes.control.riskAlert, (event: RiskAlertEvent) => {
-      if (event.payload.autoCreateInteraction) {
-        this.autoCreateChatForRisk(event);
+    eventBus.subscribe(DomainEventTypes.control.riskAlert, (event) => {
+      const riskEvent = event as RiskAlertEvent;
+      if (riskEvent.payload.autoCreateInteraction) {
+        this.autoCreateChatForRisk(riskEvent);
       }
     });
   }

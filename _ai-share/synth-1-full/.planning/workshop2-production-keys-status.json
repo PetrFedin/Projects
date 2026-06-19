@@ -1,0 +1,68 @@
+{
+  "generatedAt": "2026-05-28T21:53:48.719Z",
+  "configuredCount": 0,
+  "total": 10,
+  "keys": [
+    {
+      "id": "kontur_diadoc",
+      "env": "WORKSHOP2_KONTUR_DIADOC_TOKEN",
+      "labelRu": "Контур Диадок token",
+      "configured": false
+    },
+    {
+      "id": "marking_api",
+      "env": "WORKSHOP2_MARKING_API_TOKEN",
+      "labelRu": "ЦРПТ marking API token",
+      "configured": false
+    },
+    {
+      "id": "matterport_sdk",
+      "env": "WORKSHOP2_MATTERPORT_SDK_KEY",
+      "labelRu": "Matterport SDK key",
+      "configured": false
+    },
+    {
+      "id": "matterport_space",
+      "env": "WORKSHOP2_MATTERPORT_SPACE_ID",
+      "labelRu": "Matterport spaceId",
+      "configured": false
+    },
+    {
+      "id": "sentry_dsn",
+      "env": "SENTRY_DSN",
+      "labelRu": "Sentry DSN",
+      "configured": false
+    },
+    {
+      "id": "ack_archive_s3",
+      "env": "WORKSHOP2_ACK_ARCHIVE_S3_BUCKET",
+      "labelRu": "ACK archive S3 bucket",
+      "configured": false
+    },
+    {
+      "id": "production_public_url",
+      "env": "WORKSHOP2_PRODUCTION_PUBLIC_URL",
+      "labelRu": "Production public URL",
+      "configured": false
+    },
+    {
+      "id": "staging_public_url",
+      "env": "WORKSHOP2_STAGING_PUBLIC_URL",
+      "labelRu": "Staging public URL",
+      "configured": false
+    },
+    {
+      "id": "brand_tenant_registry",
+      "env": "WORKSHOP2_BRAND_TENANT_REGISTRY_JSON",
+      "labelRu": "Brand tenant registry JSON",
+      "configured": false
+    },
+    {
+      "id": "oauth_vault_webhook",
+      "env": "WORKSHOP2_B2B_OAUTH_VAULT_WEBHOOK_SECRET",
+      "labelRu": "OAuth vault webhook secret",
+      "configured": false
+    }
+  ],
+  "labelRu": "0/10 production keys configured (fail-closed без fake ACK)."
+}

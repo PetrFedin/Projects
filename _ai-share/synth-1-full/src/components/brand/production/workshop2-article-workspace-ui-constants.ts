@@ -51,6 +51,7 @@ export const W2_PULSE_SECTION_LABEL_RU: Record<DossierSection, string> = {
   packaging: 'Упаковка',
   sample_intake: 'Приёмка сэмпла',
   assignment: 'Задание',
+  b2b_sales: 'B2B',
 };
 
 export const W2_ROUTE_STAGE_TILE_ICONS: Record<
@@ -85,6 +86,7 @@ export const W2_DECISION_SNAPSHOT_ICONS: Record<
   packaging: LucideIcons.Tags,
   sample_intake: LucideIcons.ClipboardCheck,
   assignment: LucideIcons.FileCheck,
+  b2b_sales: LucideIcons.Store,
 };
 
 export const W2_ROUTE_HELP_INFO_BTN_CLASS =

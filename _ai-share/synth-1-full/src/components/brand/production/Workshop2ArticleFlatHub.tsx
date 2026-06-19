@@ -24,9 +24,21 @@ import {
   type Workshop2HubCardFinalization,
 } from '@/lib/production/workshop2-hub-card-finalization';
 import { loadWorkshop2Phase1DossierMap } from '@/lib/production/workshop2-phase1-dossier-storage';
+import {
+  collectWorkshop2CategoryL1Options,
+  collectWorkshop2CategoryL2Options,
+  collectWorkshop2CategoryL3Options,
+  enrichWorkshop2ArticleRowFacets,
+} from '@/lib/production/workshop2-article-category-facets';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { CollectionSkuFlowDoc } from '@/lib/production/unified-sku-flow-store';
 import type { Workshop2ArticleRow, Workshop2CollectionListItem } from './Workshop2TabContent';
+
+const W2_HUB_FILTER_SELECT =
+  'border-border-default text-text-primary h-9 w-full min-w-0 rounded-md border bg-background px-1.5 text-[11px] transition-colors focus:outline-none focus-visible:border-accent-primary/40 focus-visible:ring-1 focus-visible:ring-accent-primary/20 sm:h-8';
+
+const W2_HUB_FILTER_INPUT =
+  'h-9 min-w-0 text-xs focus-visible:border-accent-primary/40 focus-visible:ring-1 focus-visible:ring-accent-primary/20 sm:h-8';
 
 /** Не дублировать в «аудитория · сезон» то же, что в названии подборки/её целевом сезоне. */
 function lineSeasonLabelForCard(
@@ -120,7 +132,8 @@ function buildEntries(
     const doc = getSkuFlowDoc(col.id);
     const hubGroupTagLabel = hubGroupTagFromTargetChannel(col.targetChannel);
     for (const row of col.articleRows) {
-      const skuKey = resolveWorkshop2ArticleFlowSkuKey(doc, row);
+      const enrichedRow = enrichWorkshop2ArticleRowFacets(col.id, row, dossierMap);
+      const skuKey = resolveWorkshop2ArticleFlowSkuKey(doc, enrichedRow);
       const { pct } = skuPipelineStepProgress(doc, skuKey);
       const ts = col.targetSeason?.trim();
       out.push({
@@ -128,10 +141,10 @@ function buildEntries(
         collectionName: col.displayName,
         ...(ts ? { collectionTargetSeason: ts } : {}),
         ...(hubGroupTagLabel ? { hubGroupTagLabel } : {}),
-        row,
+        row: enrichedRow,
         progressPct: pct,
         isComplete: pct >= 100,
-        hubFinalization: getWorkshop2HubCardFinalization(col.id, row.id, dossierMap),
+        hubFinalization: getWorkshop2HubCardFinalization(col.id, enrichedRow.id, dossierMap),
       });
     }
   }
@@ -206,32 +219,19 @@ export function Workshop2ArticleFlatHub({
     return allEntries.filter((e) => e.isComplete);
   }, [allEntries, articleStatusFilter]);
 
-  const l1Options = useMemo(() => {
-    const s = new Set<string>();
-    for (const e of scopeEntries) {
-      if (e.row.categoryL1?.trim()) s.add(e.row.categoryL1.trim());
-    }
-    return [...s].sort((a, b) => a.localeCompare(b, 'ru'));
-  }, [scopeEntries]);
+  const facetRows = useMemo(() => allEntries.map((e) => e.row), [allEntries]);
 
-  const l2Options = useMemo(() => {
-    const s = new Set<string>();
-    for (const e of scopeEntries) {
-      if (catL1 && (e.row.categoryL1?.trim() || '') !== catL1) continue;
-      if (e.row.categoryL2?.trim()) s.add(e.row.categoryL2.trim());
-    }
-    return [...s].sort((a, b) => a.localeCompare(b, 'ru'));
-  }, [scopeEntries, catL1]);
+  const l1Options = useMemo(() => collectWorkshop2CategoryL1Options(facetRows), [facetRows]);
 
-  const l3Options = useMemo(() => {
-    const s = new Set<string>();
-    for (const e of scopeEntries) {
-      if (catL1 && (e.row.categoryL1?.trim() || '') !== catL1) continue;
-      if (catL2 && (e.row.categoryL2?.trim() || '') !== catL2) continue;
-      if (e.row.categoryL3?.trim()) s.add(e.row.categoryL3.trim());
-    }
-    return [...s].sort((a, b) => a.localeCompare(b, 'ru'));
-  }, [scopeEntries, catL1, catL2]);
+  const l2Options = useMemo(
+    () => collectWorkshop2CategoryL2Options(facetRows, catL1),
+    [facetRows, catL1]
+  );
+
+  const l3Options = useMemo(
+    () => collectWorkshop2CategoryL3Options(facetRows, catL1, catL2),
+    [facetRows, catL1, catL2]
+  );
 
   const articleOptions = useMemo(() => {
     return scopeEntries
@@ -347,111 +347,108 @@ export function Workshop2ArticleFlatHub({
   return (
     <div className="space-y-4" data-testid="workshop2-article-flat-hub">
       <FilterToolbar className="border-border-default bg-bg-surface2/70 flex flex-col gap-1.5 p-1.5 sm:p-2">
-        {/* Одна строка, 5 равных колонок; на узком экране — горизонтальная прокрутка. py/px внутри, чтобы кольцо фокуса не обрезалось overflow-x. */}
-        <div className="w-full min-w-0 overflow-x-auto px-0.5 py-1.5 [-webkit-overflow-scrolling:touch]">
-          <div className="grid w-full min-w-0 grid-cols-5 gap-1.5 max-sm:min-w-[42rem]">
-            <div className="flex min-w-0 flex-col gap-0.5">
-              <span className="text-text-secondary text-[8px] font-semibold uppercase leading-none">
-                Поиск
-              </span>
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="SKU, название, подборка, тег…"
-                className="h-7 min-w-0 text-xs"
-                aria-label="Поиск по артикулам"
-              />
-            </div>
-            <div className="flex min-w-0 flex-col gap-0.5">
-              <Label
-                htmlFor="w2-hub-art"
-                className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
-                title="Один артикул из списка"
-              >
-                Артикул
-              </Label>
-              <select
-                id="w2-hub-art"
-                className="border-border-default text-text-primary h-7 w-full min-w-0 rounded-md border bg-background px-1.5 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-background"
-                value={articleFilter}
-                onChange={(e) => setArticleFilter(e.target.value)}
-              >
-                <option value={ARTICLE_FILTER_ALL}>Все</option>
-                {articleOptions.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex min-w-0 flex-col gap-0.5">
-              <Label
-                htmlFor="w2-hub-l1"
-                className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
-                title="Категория, уровень 1"
-              >
-                Ур.1
-              </Label>
-              <select
-                id="w2-hub-l1"
-                className="border-border-default h-7 w-full min-w-0 rounded-md border bg-background px-1 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-background"
-                value={catL1}
-                onChange={(e) => setCatL1(e.target.value)}
-              >
-                <option value="">Все</option>
-                {l1Options.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex min-w-0 flex-col gap-0.5">
-              <Label
-                htmlFor="w2-hub-l2"
-                className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
-                title="Категория, уровень 2"
-              >
-                Ур.2
-              </Label>
-              <select
-                id="w2-hub-l2"
-                className="border-border-default h-7 w-full min-w-0 rounded-md border bg-background px-1 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-background"
-                value={catL2}
-                onChange={(e) => setCatL2(e.target.value)}
-                disabled={l2Options.length === 0}
-              >
-                <option value="">Все</option>
-                {l2Options.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex min-w-0 flex-col gap-0.5">
-              <Label
-                htmlFor="w2-hub-l3"
-                className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
-                title="Категория, уровень 3"
-              >
-                Ур.3
-              </Label>
-              <select
-                id="w2-hub-l3"
-                className="border-border-default h-7 w-full min-w-0 rounded-md border bg-background px-1 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-background"
-                value={catL3}
-                onChange={(e) => setCatL3(e.target.value)}
-                disabled={l3Options.length === 0}
-              >
-                <option value="">Все</option>
-                {l3Options.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </select>
-            </div>
+        <div className="grid w-full min-w-0 grid-cols-2 gap-1.5 sm:grid-cols-5">
+          <div className="col-span-2 flex min-w-0 flex-col gap-0.5 sm:col-span-1">
+            <span className="text-text-secondary text-[8px] font-semibold uppercase leading-none">
+              Поиск
+            </span>
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="SKU, название…"
+              className={cn(W2_HUB_FILTER_INPUT)}
+              aria-label="Поиск по артикулам"
+            />
+          </div>
+          <div className="flex min-w-0 flex-col gap-0.5 sm:col-span-1">
+            <Label
+              htmlFor="w2-hub-art"
+              className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
+              title="Один артикул из списка"
+            >
+              Артикул
+            </Label>
+            <select
+              id="w2-hub-art"
+              className={W2_HUB_FILTER_SELECT}
+              value={articleFilter}
+              onChange={(e) => setArticleFilter(e.target.value)}
+            >
+              <option value={ARTICLE_FILTER_ALL}>Все</option>
+              {articleOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex min-w-0 flex-col gap-0.5 sm:col-span-1">
+            <Label
+              htmlFor="w2-hub-l1"
+              className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
+              title="Категория, уровень 1"
+            >
+              Ур.1
+            </Label>
+            <select
+              id="w2-hub-l1"
+              className={W2_HUB_FILTER_SELECT}
+              value={catL1}
+              onChange={(e) => setCatL1(e.target.value)}
+            >
+              <option value="">Все</option>
+              {l1Options.map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex min-w-0 flex-col gap-0.5 sm:col-span-1">
+            <Label
+              htmlFor="w2-hub-l2"
+              className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
+              title="Категория, уровень 2"
+            >
+              Ур.2
+            </Label>
+            <select
+              id="w2-hub-l2"
+              className={W2_HUB_FILTER_SELECT}
+              value={catL2}
+              onChange={(e) => setCatL2(e.target.value)}
+              disabled={l2Options.length === 0}
+            >
+              <option value="">Все</option>
+              {l2Options.map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex min-w-0 flex-col gap-0.5 sm:col-span-1">
+            <Label
+              htmlFor="w2-hub-l3"
+              className="text-text-secondary text-[8px] font-semibold uppercase leading-none"
+              title="Категория, уровень 3"
+            >
+              Ур.3
+            </Label>
+            <select
+              id="w2-hub-l3"
+              className={W2_HUB_FILTER_SELECT}
+              value={catL3}
+              onChange={(e) => setCatL3(e.target.value)}
+              disabled={l3Options.length === 0}
+            >
+              <option value="">Все</option>
+              {l3Options.map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         {allScopeTags.length > 0 ? (
@@ -685,7 +682,7 @@ function ArticleCard({
               <span
                 className={cn(
                   'pointer-events-none tabular-nums',
-                  isComplete ? 'text-emerald-700' : 'text-accent-primary'
+                  isComplete ? 'text-emerald-700' : 'text-text-primary'
                 )}
                 title="Готовность этапов по матрице коллекции"
               >

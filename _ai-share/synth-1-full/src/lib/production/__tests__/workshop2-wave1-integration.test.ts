@@ -98,9 +98,18 @@ describe('workshop2 wave1 — linesheet payload', () => {
 });
 
 describe('workshop2 wave1 — domain events + chat mirror', () => {
+  const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+
   beforeEach(() => {
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
     clearWorkshop2DomainEventOutboxMemoryForTests();
     clearWorkshop2ContextualMessagesMemoryForTests();
+  });
+
+  afterEach(() => {
+    if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+    else delete process.env.WORKSHOP2_DATABASE_URL;
   });
 
   it('enqueue dispatches system chat message', async () => {

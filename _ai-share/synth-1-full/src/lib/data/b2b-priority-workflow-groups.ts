@@ -279,14 +279,16 @@ export function getShopB2bCollaborationProcessGroups(): PriorityWorkflowGroup[] 
     },
     {
       id: 'analytics-shop',
-      title: 'Анализ, прогноз, обзоры',
-      subtitle: 'Заказы · маржа · розница · сезон',
+      title: 'Анализ, прогноз, пополнение',
+      subtitle: 'Replenishment · маржа · розница · сезон',
       variant: 'execution',
       links: [
+        { label: 'Replenishment workspace', href: ROUTES.shop.b2bReplenishment },
         { label: 'Аналитика по заказам', href: ROUTES.shop.b2bOrderAnalytics },
         { label: 'Маржа по брендам', href: ROUTES.shop.b2bMarginReport },
         { label: 'Аналитика розницы', href: ROUTES.shop.analytics },
         { label: 'Трафик по зонам', href: ROUTES.shop.analyticsFootfall },
+        { label: 'Остатки ритейла', href: ROUTES.shop.inventory },
       ],
     },
     {

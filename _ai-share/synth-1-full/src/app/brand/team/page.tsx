@@ -37,7 +37,13 @@ import { getTeamLinks } from '@/lib/data/entity-links';
 import { ROUTES } from '@/lib/routes';
 
 const MessagesContent = dynamic(() => import('@/app/brand/messages/page'), { ssr: false });
-const CalendarContent = dynamic(() => import('@/app/brand/calendar/page'), { ssr: false });
+const CalendarContent = dynamic(
+  () =>
+    import('@/app/brand/calendar/calendar-page-client').then((m) => ({
+      default: m.BrandCalendarPageClient,
+    })),
+  { ssr: false }
+);
 
 const ORG_CHART_DATA = {
   ceo: { name: 'Александр Ветров', position: 'CEO', avatar: 'AV', team: [] },

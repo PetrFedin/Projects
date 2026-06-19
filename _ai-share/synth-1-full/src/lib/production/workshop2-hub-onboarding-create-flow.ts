@@ -68,7 +68,10 @@ export function runWorkshop2HubOnboardingCreateFlow(input: {
   );
 
   if (!commitResult.ok || !commitResult.newArticleId) {
-    return { ok: false, reason: commitResult.reason ?? 'commit_failed' };
+    return {
+      ok: false,
+      reason: commitResult.ok ? 'commit_failed' : commitResult.reason,
+    };
   }
 
   const articleId = WORKSHOP2_HUB_ONBOARDING_DEMO_ARTICLE_ID;

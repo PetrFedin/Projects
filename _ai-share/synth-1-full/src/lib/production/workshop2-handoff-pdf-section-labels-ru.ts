@@ -30,6 +30,7 @@ export function workshop2TzBundleFileLabelRu(fileKey: string): string | undefine
     'grading-table.json': `${WORKSHOP2_HANDOFF_PDF_SECTION_LABELS_RU.grading} (gradingRules + sizes)`,
     'marking/gtin.txt': `${WORKSHOP2_HANDOFF_PDF_SECTION_LABELS_RU.marking} · GTIN ЧЗ`,
     'dpp/passport.jsonld': `${WORKSHOP2_HANDOFF_PDF_SECTION_LABELS_RU.passport} · JSON-LD DPP`,
+    'tz-handoff-summary.pdf': 'Краткая PDF-сводка handoff (jsPDF)',
   };
   return map[fileKey];
 }

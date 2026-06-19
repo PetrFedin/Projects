@@ -79,6 +79,7 @@ export function Workshop2CompositionLabelFiberConstructorBlock({
           </div>
         )}
         <span
+          data-testid="workshop2-dossier-composition-fiber-sum"
           className={cn(
             'ml-auto text-xs font-medium tabular-nums',
             sumAlert
@@ -96,6 +97,7 @@ export function Workshop2CompositionLabelFiberConstructorBlock({
         {rows.map((row, idx) => (
           <div
             key={idx}
+            data-testid={`workshop2-dossier-composition-fiber-row-${idx}`}
             className="border-border-subtle/50 mb-2 grid gap-2 border-b pb-2 last:mb-0 last:border-0 last:pb-0 sm:grid-cols-[1fr_88px_auto] sm:items-end"
           >
             <div className="space-y-1">
@@ -109,7 +111,10 @@ export function Workshop2CompositionLabelFiberConstructorBlock({
                   setRows(next);
                 }}
               >
-                <SelectTrigger className="h-9 text-xs">
+                <SelectTrigger
+                  className="h-9 text-xs"
+                  data-testid={`workshop2-dossier-composition-fiber-id-${idx}`}
+                >
                   <SelectValue placeholder="Выберите" />
                 </SelectTrigger>
                 <SelectContent>
@@ -130,6 +135,7 @@ export function Workshop2CompositionLabelFiberConstructorBlock({
                 className="h-9 text-xs tabular-nums"
                 inputMode="decimal"
                 disabled={ro}
+                data-testid={`workshop2-dossier-composition-fiber-percent-${idx}`}
                 value={row.percent ? String(row.percent) : ''}
                 onChange={(e) => {
                   const raw = e.target.value.replace(',', '.');
@@ -164,6 +170,7 @@ export function Workshop2CompositionLabelFiberConstructorBlock({
         size="sm"
         className="h-9 text-xs"
         disabled={ro}
+        data-testid="workshop2-dossier-composition-fiber-add"
         onClick={() => setRows([...rows, { fiberId: '', percent: 0 }])}
       >
         Добавить компонент

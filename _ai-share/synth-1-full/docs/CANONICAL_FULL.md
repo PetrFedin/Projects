@@ -23,5 +23,6 @@
 ## Связанные файлы
 
 - `AGENTS.md` (в full) — операционные правила.
+- `docs/platform-core-cabinet-responsive.md` — Platform Core UI: breakpoints 393 / 834 / 1280 (кабинет, workspace, e2e `core-92`).
 - `SOURCE_OF_TRUTH.md` — указатели канона и CI.
 - `Projects/docs/MIGRATION_FULL_CUTOVER.md` — отказ от субмодуля `synth-1/`.

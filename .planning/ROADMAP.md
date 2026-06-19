@@ -146,6 +146,21 @@ Plans:
 
 ## Backlog
 
+### Phase 999.0: Platform Core 5×4 — guided chain SS27 → B2B (BACKLOG)
+
+**SoT:** `.planning/PLATFORM-CORE-AUDIT.md`, `.planning/PLATFORM-CORE-PATH-PLAN.md` (пути 5×4 + чеклист агентов), `src/lib/platform-core-readiness-audit.ts` (CELL_AUDIT), `platform-core-ui-surfaces.ts`.
+
+**Честно сейчас:** цепочка ~7.0, cross-role ~6.8, UI-дедуп ~8.0. Слабое звено — бренд 6.7; сильнее — магазин golden path.
+
+| Волна | Фокус | Ключевые задачи по ячейкам |
+|-------|--------|----------------------------|
+| **1** Честность продукта | W2 + hub + slim workspace | brand·1: UI round-trip ТЗ + e2e; range-planner без mock на SS27; ~~hub Business view~~ ✓; slim CardHeader: brand b2b-orders, checkout, tracking, materials tabs |
+| **2** Связность цепочки | Резерв + comms + handoff | shop·3: Wave D inventory hold; shop·5 + brand·5: тред из реестра, «Чат» в brand calendar; brand·4 + mfg·4: handoff retry + bulk confirm |
+| **3** Cross-role + realtime | Push + idempotency + e2e | SSE/push chain-status; supplier·4: idempotency UI; e2e чистая PG без seed; FW27/EMPTY27 полный проход |
+| **4** Продуктовая зрелость | Side-paths + nav | ~20 shop B2B URL → guard/close; entity-links core-only filter; один календарь shop; SHOWROOM_SHOP_LEAD off core-path |
+
+**Автопроверка:** `npm run audit:platform-core-ui` (10 checks), `npm test -- --testPathPattern=platform-core`.
+
 ### Phase 999.1: Боевой PO ↔ ядро №1 (матрица, stepId, бандл) (BACKLOG)
 
 **Goal:** Связать заказы поставщику (PO) из ERP/внешнего API с единым контуром ядра №1.

@@ -3,9 +3,16 @@
 import { summarizeWorkshop2ReleaseRoutingPanelDisplay } from '@/lib/production/workshop2-release-routing-status';
 import { Workshop2ReleaseStatusCollapsible } from '@/components/brand/production/workshop2-panel-status-banners';
 import { fetchWorkshop2SampleOrders } from '@/lib/production/workshop2-sample-api-client';
+import type { Workshop2SampleOrderDto } from '@/lib/production/workshop2-sample-api-client';
 import { formatWorkshop2PersistToastTitle } from '@/lib/production/workshop2-persist-toast-messages';
+import {
+  parseWorkshop2ReleaseSubParam,
+  WORKSHOP2_RELEASE_SUB_PARAM,
+  type Workshop2ReleaseSubTab,
+} from '@/lib/production/workshop2-release-sub-param';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import * as LucideIcons from 'lucide-react';
 import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
 import { Badge } from '@/components/ui/badge';
@@ -29,6 +36,7 @@ import { Workshop2RoutingSheetPrint } from './workshop2-routing-sheet-print';
 import { Workshop2OperationMedia } from './workshop2-operation-media';
 import { Workshop2BottleneckDashboard } from './workshop2-bottleneck-dashboard';
 import { Workshop2ReleaseSubNav } from '@/components/brand/production/workshop2-release-sub-nav';
+import { Workshop2ReleaseOrderStatusPanel } from '@/components/brand/production/workshop2-release-order-status-panel';
 
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 
@@ -39,7 +47,39 @@ export function Workshop2ArticleReleasePanel({
 }: {
   dossier?: Workshop2DossierPhase1 | null;
 } = {}) {
-  const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { bundle, loading, mergeBundle, dataMode, ref } = useArticleWorkspace();
+  const subTab = parseWorkshop2ReleaseSubParam(searchParams?.get(WORKSHOP2_RELEASE_SUB_PARAM) ?? null);
+  const articleUrlSegment = String(ref.articleId);
+  const [sampleOrders, setSampleOrders] = useState<Workshop2SampleOrderDto[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(false);
+
+  const reloadSampleOrders = useCallback(async () => {
+    setOrdersLoading(true);
+    try {
+      const list = await fetchWorkshop2SampleOrders(ref.collectionId, articleUrlSegment);
+      setSampleOrders(list);
+    } finally {
+      setOrdersLoading(false);
+    }
+  }, [articleUrlSegment, ref.collectionId]);
+
+  useEffect(() => {
+    if (subTab === 'order') void reloadSampleOrders();
+  }, [reloadSampleOrders, subTab]);
+
+  const setReleaseSubTab = useCallback(
+    (tab: Workshop2ReleaseSubTab) => {
+      const params = new URLSearchParams(searchParams?.toString() ?? '');
+      params.set(WORKSHOP2_RELEASE_SUB_PARAM, tab);
+      const qs = params.toString();
+      router.replace(qs ? `${window.location.pathname}?${qs}` : window.location.pathname, {
+        scroll: false,
+      });
+    },
+    [router, searchParams]
+  );
 
   const [syncDialogOpen, setSyncDialogOpen] = useState(false);
   const [printDialogOpen, setPrintDialogOpen] = useState(false);
@@ -52,7 +92,7 @@ export function Workshop2ArticleReleasePanel({
   const totalSewingCostPerUnit = operations.reduce((acc, op) => acc + (op.costPerUnit || 0), 0);
   const totalSASH = operations.reduce((acc, op) => acc + (op.sash || 0), 0);
 
-  const bundleId = bundle?.id || bundle?.articleId || '';
+  const bundleId = articleUrlSegment;
 
   const handleSyncFromTz = () => {
     const modelOps = dossier?.productionModel?.operations || [];
@@ -90,13 +130,9 @@ export function Workshop2ArticleReleasePanel({
     setSyncDialogOpen(false);
   };
 
-  const releaseRoutingStatus = summarizeWorkshop2ReleaseRoutingPanelDisplay({ dossier, bundle });
-  void fetchWorkshop2SampleOrders;
-  return (
+  const releaseRoutingStatus = summarizeWorkshop2ReleaseRoutingPanelDisplay({ dossier, release: rel });
+  const routingBody = (
     <>
-      <div data-testid="workshop2-release-production-strip">
-        <Workshop2ReleaseSubNav active="routing" />
-      </div>
       <Workshop2ReleaseStatusCollapsible routingStatus={releaseRoutingStatus} dossier={dossier} />
       <div className="border-border-default rounded-xl border bg-white p-4 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-2">
@@ -544,7 +580,7 @@ export function Workshop2ArticleReleasePanel({
                 <Workshop2RoutingSheetPrint
                   bundleId={bundleId}
                   operations={operations}
-                  articleId={bundle?.articleId}
+                  articleId={articleUrlSegment}
                 />
               </div>
             </div>
@@ -597,6 +633,27 @@ export function Workshop2ArticleReleasePanel({
       </div>
     </>
   );
-}
 
-void formatWorkshop2PersistToastTitle;
+  return (
+    <>
+      <div data-testid="workshop2-release-production-strip">
+        <Workshop2ReleaseSubNav value={subTab} onChange={setReleaseSubTab} />
+      </div>
+      {subTab === 'order' ? (
+        <Workshop2ReleaseOrderStatusPanel
+          dossier={dossier}
+          collectionId={ref.collectionId}
+          articleUrlSegment={articleUrlSegment}
+          orders={sampleOrders}
+          activeOrder={sampleOrders[0] ?? null}
+          ordersLoading={ordersLoading}
+          onOrderUpdated={(order) => {
+            setSampleOrders((prev) => prev.map((o) => (o.id === order.id ? order : o)));
+          }}
+        />
+      ) : (
+        routingBody
+      )}
+    </>
+  );
+}

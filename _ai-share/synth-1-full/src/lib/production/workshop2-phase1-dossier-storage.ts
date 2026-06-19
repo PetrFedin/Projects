@@ -103,3 +103,10 @@ export function withWorkshop2PassportMoqDefaultApplied(
     },
   };
 }
+
+/** Оценка размера JSON досье в UTF-8 байтах (dev banner / persist guard). */
+export function estimateWorkshop2Phase1DossierJsonUtf8Bytes(
+  dossier: Workshop2DossierPhase1
+): number {
+  return new TextEncoder().encode(JSON.stringify(dossier)).length;
+}

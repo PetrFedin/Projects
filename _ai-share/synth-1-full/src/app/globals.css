@@ -193,6 +193,19 @@
   @apply border-slate-200 bg-white text-slate-400 hover:border-black hover:bg-black hover:text-white;
 }
 
+.pb-safe {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+/* iframe device preview: safe-area часто 0 — запас под home indicator */
+html[data-syntha-embed='1'] .pb-safe {
+  padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 20px));
+}
+
+html[data-platform-core='1'] {
+  color-scheme: light dark;
+}
+
 .section-spacing {
   @apply py-2.5 md:py-4;
 }
@@ -433,4 +446,12 @@ td {
   .strategic-planner-print .grid {
     break-inside: avoid;
   }
+}
+
+/* SYNTHA device preview — чище кадр без Next dev overlay */
+html[data-syntha-embed='1'] [data-nextjs-toast],
+html[data-syntha-embed='1'] nextjs-portal,
+html[data-syntha-embed='1'] #__next-build-watcher,
+html[data-syntha-embed='1'] [data-nextjs-dialog-overlay] {
+  display: none !important;
 }

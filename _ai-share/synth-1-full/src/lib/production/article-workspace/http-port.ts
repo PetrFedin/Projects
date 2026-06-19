@@ -36,7 +36,7 @@ export function createHttpArticleWorkspacePort(
         throw new Error(`ArticleWorkspace HTTP loadBundle failed: ${res.status} ${res.statusText}`);
       }
 
-      const data = await res.json();
+      const data = (await res.json()) as ArticleWorkspaceBundle;
       return normalizeArticleWorkspaceBundle(ref, data);
     },
     async mergeBundle(
@@ -67,7 +67,7 @@ export function createHttpArticleWorkspacePort(
         );
       }
 
-      const data = await res.json();
+      const data = (await res.json()) as ArticleWorkspaceBundle;
       return normalizeArticleWorkspaceBundle(ref, data);
     },
   };

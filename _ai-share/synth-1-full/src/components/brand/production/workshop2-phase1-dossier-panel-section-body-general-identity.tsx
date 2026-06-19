@@ -256,6 +256,7 @@ export function Workshop2DossierGeneralIdentityBlock({
               />
               <div className="grid gap-1.5 sm:col-span-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start lg:col-span-3">
                 <DossierAttributeInput
+                  inputTestId="workshop2-dossier-model-name"
                   attribute={{
                     attributeId: 'name',
                     groupId: 'general',
@@ -575,6 +576,7 @@ export function Workshop2DossierGeneralIdentityBlock({
                         }
                       />
                       <DossierAttributeInput
+                        inputTestId="workshop2-dossier-planned-launch-note"
                         attribute={{
                           attributeId: 'plannedLaunchCustomNote',
                           groupId: 'productionBrief',
@@ -600,6 +602,7 @@ export function Workshop2DossierGeneralIdentityBlock({
                         }
                       />
                       <DossierAttributeInput
+                        inputTestId="workshop2-dossier-packaging-note"
                         attribute={{
                           attributeId: 'packagingAndLabelingNote',
                           groupId: 'productionBrief',
@@ -627,6 +630,7 @@ export function Workshop2DossierGeneralIdentityBlock({
                         }
                       />
                       <DossierAttributeInput
+                        inputTestId="workshop2-dossier-weight-dimensions-note"
                         attribute={{
                           attributeId: 'weightAndDimensionsNote',
                           groupId: 'productionBrief',

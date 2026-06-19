@@ -11,6 +11,10 @@ import {
   getWorkshop2ServerDossierRecord,
   putWorkshop2ServerDossierRecord,
 } from '@/lib/server/workshop2-phase1-dossier-server-store';
+import {
+  workshop2DossierPutFailureBody,
+  workshop2DossierPutFailureStatus,
+} from '@/lib/server/workshop2-dossier-put-utils';
 import { guardWorkshop2Route, WORKSHOP2_WRITE_ROLES } from '@/lib/server/workshop2-route-auth';
 import { resolveWorkshop2UpdatedBy } from '@/lib/server/workshop2-api-context';
 
@@ -50,11 +54,13 @@ export const POST = withWorkshop2ApiErrorRu(async function postChangeRequest(
     auth.actor?.actorLabel ??
     'cr-create-api';
 
-  const priority = (['Low', 'Medium', 'High'] as const).includes(
-    b.priority as 'Low' | 'Medium' | 'High'
-  )
-    ? (b.priority as 'Low' | 'Medium' | 'High')
-    : 'Medium';
+  const priorityRaw = String(b.priority ?? 'Medium');
+  const priority =
+    priorityRaw === 'Low' || priorityRaw === 'low'
+      ? 'low'
+      : priorityRaw === 'High' || priorityRaw === 'high'
+        ? 'high'
+        : 'medium';
 
   const targetNode = typeof b.targetNode === 'string' ? b.targetNode.trim() : 'Material';
 
@@ -86,10 +92,9 @@ export const POST = withWorkshop2ApiErrorRu(async function postChangeRequest(
     txMeta: { eventType: 'workshop2_change_request_create' },
   });
   if (!saved.ok) {
-    return NextResponse.json(
-      { ok: false, error: 'version_conflict', currentVersion: saved.currentVersion },
-      { status: 409 }
-    );
+    return NextResponse.json(workshop2DossierPutFailureBody(saved), {
+      status: workshop2DossierPutFailureStatus(saved),
+    });
   }
 
   return NextResponse.json({

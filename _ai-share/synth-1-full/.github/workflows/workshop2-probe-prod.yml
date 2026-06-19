@@ -1,0 +1,39 @@
+name: workshop2-probe-prod
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  probe-prod:
+    if: ${{ secrets.WORKSHOP2_PRODUCTION_PUBLIC_URL != '' || secrets.WORKSHOP2_STAGING_PUBLIC_URL != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: probe-alert hourly
+        env:
+          WORKSHOP2_PROBE_BASE_URL: ${{ secrets.WORKSHOP2_PRODUCTION_PUBLIC_URL || secrets.WORKSHOP2_STAGING_PUBLIC_URL }}
+        run: node scripts/workshop2-probe-alert.mjs "$WORKSHOP2_PROBE_BASE_URL"
+      - name: probe-prod daily gov paths
+        if: github.event.schedule == '0 6 * * *' || github.event_name == 'workflow_dispatch'
+        env:
+          WORKSHOP2_PRODUCTION_PUBLIC_URL: ${{ secrets.WORKSHOP2_PRODUCTION_PUBLIC_URL }}
+        run: |
+          if [ -n "$WORKSHOP2_PRODUCTION_PUBLIC_URL" ]; then
+            node scripts/workshop2-probe-prod.mjs
+          else
+            echo "skip probe-prod — WORKSHOP2_PRODUCTION_PUBLIC_URL unset"
+          fi
+      - name: probe-escalation on failure
+        if: failure()
+        env:
+          WORKSHOP2_PAGERDUTY_WEBHOOK_URL: ${{ secrets.WORKSHOP2_PAGERDUTY_WEBHOOK_URL }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+        run: node scripts/workshop2-probe-escalation.mjs "$WORKSHOP2_PROBE_BASE_URL"

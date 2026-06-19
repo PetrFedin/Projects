@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## 1. Правила
 
-- Соблюдай **`.cursor/rules/`**: в первую очередь **`gsd-superpowers-mcp-monorepo`**, **`synth-canonical-paths`**, **`token-economy`**, предметные (`domain-canon-pr`, `frontend-ai-tooling`, …).
+- Соблюдай **`.cursor/rules/`**: в первую очередь **`gsd-superpowers-mcp-monorepo`**, **`project`** (PostgreSQL, auth, каталог, AI), **`synth-canonical-paths`**, **`token-economy`**, предметные (`domain-canon-pr`, `frontend-ai-tooling`, …).
 - Не обходи явные запреты и канон путей (фронт только **`_ai-share/synth-1-full`**).
 
 ## 2. Skills

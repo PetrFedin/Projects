@@ -50,8 +50,8 @@ export function Workshop2ArticleStockPanel({
         body: JSON.stringify({ purchaseOrderId: 'PO-123', epcs }),
       });
       if (res.ok) {
-        const data = await res.json();
-        setReconcileStatus(data.status);
+        const data = (await res.json()) as { status?: string };
+        setReconcileStatus(data.status ?? '');
       }
     } catch (e) {
       setReconcileStatus('ERROR');

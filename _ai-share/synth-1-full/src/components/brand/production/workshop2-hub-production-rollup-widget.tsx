@@ -51,8 +51,11 @@ export function Workshop2HubProductionRollupWidget({ collectionId, articleScope 
       headers: buildWorkshop2ApiRequestHeaders(),
       cache: 'no-store',
     })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data: RollupResponse | null) => {
+      .then(async (r) => {
+        if (!r.ok) return null;
+        return (await r.json()) as RollupResponse;
+      })
+      .then((data) => {
         if (!cancelled) setRollup(data);
       })
       .catch(() => {

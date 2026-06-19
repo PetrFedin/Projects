@@ -61,7 +61,10 @@ export function GlobalPulse() {
 
   if (pulseMode === 'ticker') {
     return (
-      <div className="bg-text-primary pointer-events-auto fixed bottom-0 left-0 right-0 z-[200] flex h-10 items-center overflow-hidden border-t border-white/10">
+      <div
+        data-testid="global-pulse"
+        className="bg-text-primary pointer-events-auto fixed bottom-0 left-0 right-0 z-[200] flex h-10 items-center overflow-hidden border-t border-white/10"
+      >
         <Link
           href="/"
           className="bg-accent-primary hover:bg-accent-primary group/pulse z-10 flex h-full shrink-0 cursor-pointer items-center gap-2 px-6 shadow-[10px_0_20px_rgba(0,0,0,0.5)] transition-colors"
@@ -120,7 +123,10 @@ export function GlobalPulse() {
   }
 
   return (
-    <div className="pointer-events-none fixed right-6 top-4 z-[200] flex flex-col items-end gap-3 duration-300 animate-in fade-in slide-in-from-right-4">
+    <div
+      data-testid="global-pulse"
+      className="pointer-events-none fixed right-6 top-4 z-[200] flex flex-col items-end gap-3 duration-300 animate-in fade-in slide-in-from-right-4"
+    >
       {/* Floating Pulse Trigger */}
       <div className="pointer-events-auto">
         <button

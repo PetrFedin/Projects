@@ -37,6 +37,7 @@ interface ShowroomNavigationProps {
   setShowroomViewMode: (mode: any) => void;
   toast: any;
   carousels: any[];
+  showroomLayout?: 'default' | 'platform-core';
 }
 
 export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
@@ -47,7 +48,9 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
   setShowroomViewMode,
   toast,
   carousels,
+  showroomLayout = 'default',
 }) => {
+  const slim = showroomLayout === 'platform-core';
   const { isConstellationOpen, setIsConstellationOpen } = useUIState();
   const { addB2bActivityLog, assortmentPlan } = useB2BState();
   const [isRunwayOpen, setIsRunwayOpen] = React.useState(false);
@@ -121,22 +124,18 @@ export const ShowroomNavigation: React.FC<ShowroomNavigationProps> = ({
                 <LayoutGrid className="h-4 w-4 text-white" />
               )}
             </div>
+            {!slim ? (
             <Badge
               variant="outline"
               className="border-border-default text-text-primary px-2 py-0.5 text-[11px] font-bold uppercase tracking-normal"
             >
               {showroomTab === 'kickstarter'
-                ? viewRole === 'b2b'
-                  ? 'LABORATORY_B2B'
-                  : 'LABORATORY_B2C'
+                ? 'Лаборатория'
                 : showroomTab === 'outlet'
-                  ? viewRole === 'b2b'
-                    ? 'OUTLET_b2b'
-                    : 'OUTLET_b2c'
-                  : viewRole === 'b2b'
-                    ? 'SHOWCASE_b2b'
-                    : 'SHOWCASE_b2c'}
+                  ? 'Аутлет'
+                  : 'Витрина'}
             </Badge>
+            ) : null}
           </div>
           <h2 className="text-text-primary text-2xl font-bold uppercase leading-tight tracking-tight md:text-4xl">
             {tabs.find((t) => t.id === showroomTab)?.title}

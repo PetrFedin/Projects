@@ -21,6 +21,7 @@ import {
   type StoredWorkshop2HubOnboardingRole,
 } from '@/lib/production/workshop2-hub-onboarding-storage';
 import { fetchWorkshop2ReferencesStatus } from '@/lib/production/workshop2-references-client';
+import { COLLECTION_DEV_HUB_TITLE_RU } from '@/lib/production/collection-development-labels';
 import {
   buildWorkshop2HubOnboardingChecklist,
   computeWorkshop2HubOnboardingProgressPct,
@@ -136,7 +137,7 @@ export function Workshop2HubOnboardingDialog({ hasArticle = false }: { hasArticl
         data-testid="workshop2-hub-onboarding"
       >
         <DialogHeader className="border-border-subtle space-y-1 border-b px-4 py-3">
-          <DialogTitle className="text-base">Разработка коллекции · быстрый старт</DialogTitle>
+          <DialogTitle className="text-base">{COLLECTION_DEV_HUB_TITLE_RU} · быстрый старт</DialogTitle>
           <DialogDescription className="text-xs">
             Шаг {step + 1} из {STEPS.length} · прогресс {progressPct}% · можно пропустить
           </DialogDescription>

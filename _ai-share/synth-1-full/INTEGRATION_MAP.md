@@ -4,6 +4,16 @@
 
 ---
 
+## 0. Внешние платформы (PLM / wholesale / ERP)
+
+Контракты полей, SoT по доменам и **очередь спринтов по Platform Core столбам** — **[ADR-002](./docs/architecture/ADR-002-integration-map-wholesale-plm-platforms.md)** (Centric, Lectra, NuOrder, JOOR, Apparel Magic, Zedonk, AIMS360, Colect/Fashion Cloud).
+
+**Реестр возможностей × столпы × роли (cross-links):** **[docs/PILLAR_CAPABILITY_REGISTRY.md](./docs/PILLAR_CAPABILITY_REGISTRY.md)** · код: `src/lib/platform/pillar-capability-registry.ts`.
+
+Код: prod — `src/lib/b2b/integrations/`; western clients — `src/lib/b2b/integrations/archive/`; целевой каталог v1 API — `src/lib/integrations/` (см. ADR).
+
+---
+
 ## 1. Источники правды
 
 | Сущность           | Файл                      | Описание                                                      |

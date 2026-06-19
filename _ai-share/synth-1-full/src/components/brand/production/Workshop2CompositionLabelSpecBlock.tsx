@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -193,6 +193,17 @@ export function Workshop2CompositionLabelSpecBlock({
 }) {
   const ro = Boolean(tzWriteDisabled);
   const s = spec ?? {};
+  const specRef = useRef(s);
+  useEffect(() => {
+    specRef.current = s;
+  }, [s]);
+  const emitSpec = useCallback(
+    (next: Workshop2CompositionLabelSpec) => {
+      specRef.current = next;
+      onChange(next);
+    },
+    [onChange]
+  );
 
   const needs = compositionLabelSpecMissingSections(dossier ?? null, s);
   const need = new Set(needs);
@@ -256,6 +267,7 @@ export function Workshop2CompositionLabelSpecBlock({
   return (
     <div
       id={W2_MATERIAL_SUBPAGE_ANCHORS.compositionLabel}
+      data-testid="workshop2-dossier-composition-label-panel"
       className={cn(
         'border-border-subtle scroll-mt-24 space-y-3 rounded-lg border bg-white/80 p-3',
         className
@@ -331,7 +343,7 @@ export function Workshop2CompositionLabelSpecBlock({
         >
           <Workshop2CompositionLabelDimensionsSection
             spec={s}
-            onChange={onChange}
+            onChange={emitSpec}
             readOnly={ro}
             need={need}
             dossierMissing={!dossier}

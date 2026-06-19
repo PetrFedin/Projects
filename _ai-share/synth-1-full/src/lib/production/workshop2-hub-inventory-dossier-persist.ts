@@ -3,6 +3,7 @@
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2HubInventoryMirror(
   dossier: Workshop2DossierPhase1,
@@ -50,11 +51,13 @@ export function evaluateWorkshop2HubInventoryHandoffGate(
       messageRu: 'PG overlay инвентаря не зафиксирован — «Inventory → PG» перед handoff.',
     };
   }
-  if (mirror.driftDetected) {
+  if (mirror.driftDetected === true) {
     return {
       id: 'hub.inventory.drift_handoff',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Drift local↔PG overlay — синхронизируйте перед handoff.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Drift local↔PG overlay — синхронизируйте перед handoff.',
     };
   }
   return null;
@@ -71,18 +74,22 @@ export function evaluateWorkshop2HubInventorySampleGate(
       messageRu: 'Inventory overlay не в PG — «Inventory → PG» после загрузки досье с сервера.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  if (mirror.blockerSampleOrder === true) {
     return {
       id: 'hub.inventory.no_overlay',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Нет PG overlay — sample-order возможен только из local cache.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Нет PG overlay — sample-order возможен только из local cache.',
     };
   }
-  if (mirror.driftDetected) {
+  if (mirror.driftDetected === true) {
     return {
       id: 'hub.inventory.drift',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Drift local↔PG — синхронизируйте overlay перед образцом.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Drift local↔PG — синхронизируйте overlay перед образцом.',
     };
   }
   return null;

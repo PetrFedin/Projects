@@ -2,6 +2,7 @@
  * Wave 39: после изменения BOM — явный prompt на re-sync supply + WMS (не silent drift).
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2BomResyncPrompt = {
   shouldPrompt: boolean;
@@ -16,12 +17,12 @@ export function evaluateWorkshop2BomResyncPrompt(
 ): Workshop2BomResyncPrompt {
   const supplySyncedAt =
     input?.supplyBomSyncAt?.trim() ||
-    dossier.supplyBundleMirror?.supplyBomSyncAt?.trim() ||
-    dossier.supplyBundleMirror?.mirroredAt?.trim() ||
+    workshop2PgMirrorStr(dossier.supplyBundleMirror, 'supplyBomSyncAt') ||
+    workshop2PgMirrorStr(dossier.supplyBundleMirror, 'mirroredAt') ||
     dossier.bomMatSyncAt?.trim();
   const bomTouchedAt =
     dossier.updatedAt?.trim() ||
-    dossier.bomNodesMirror?.mirroredAt?.trim() ||
+    workshop2PgMirrorStr(dossier.bomNodesMirror, 'mirroredAt') ||
     dossier.bomMatSyncAt?.trim();
   const hasSupplyOrWms = Boolean(
     supplySyncedAt || dossier.internalWmsMirror || dossier.stockWmsLedger?.mirroredAt

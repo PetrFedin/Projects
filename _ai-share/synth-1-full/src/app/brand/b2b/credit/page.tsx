@@ -6,6 +6,8 @@ import { listWorkshop2B2bOrdersAll } from '@/lib/server/workshop2-b2b-orders-rep
 import { evaluateWorkshop2B2bCreditHold } from '@/lib/production/workshop2-b2b-credit-hold';
 import { buildWorkshop2B2bCreditScoreRows } from '@/lib/production/workshop2-b2b-credit-scoring';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'B2B — credit hold и скоринг',
 };

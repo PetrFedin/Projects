@@ -2,6 +2,7 @@
  * Снимки вкладок страницы артикула в разработке коллекции.
  * Контракт рассчитан на последующую замену локального адаптера на HTTP без смены UI.
  */
+import type { Workshop2TaMilestone } from '@/lib/production/workshop2-dossier-phase1.types';
 
 export type ArticleRef = {
   collectionId: string;
@@ -68,6 +69,8 @@ export type FitSession = {
   measurementsDelta: Record<string, number>;
   comments: FitSessionComment[];
   cadVersionId?: string | null;
+  /** Vault document id for fit photo (PG-backed, not blob: URL). */
+  photoVaultDocumentId?: string;
   aiFitAnalysis?: {
     wrinklesDetected: string[];
     recommendations: string[];
@@ -90,6 +93,7 @@ export type PoLine = {
   qty?: string;
   dueNote?: string;
   status: 'draft' | 'sent' | 'confirmed' | 'closed';
+  supplierId?: string;
 };
 
 export type PlanPoSnapshot = {
@@ -153,6 +157,7 @@ export type ProductionOperation = {
   id: string;
   name: string;
   sash: number; // Стандартное время (мин/ед)
+  actualSash?: number;
   machineSetupTime?: number; // Время переналадки (мин)
   costPerUnit: number;
   status: 'pending' | 'in_progress' | 'completed';
@@ -166,6 +171,14 @@ export type ReleaseSnapshot = {
   subcontractNote?: string;
   sampleMaterialsNote?: string; // Материалы для отшива образца
   operations?: ProductionOperation[];
+  kanbanStatus?: string;
+};
+
+/** T&A milestones в workspace bundle (до persist в dossier.taMilestones). */
+import type { Workshop2SampleEconomicsDraft } from '@/lib/production/workshop2-sample-economics.types';
+
+export type TimeAndActionSnapshot = {
+  milestones: Workshop2TaMilestone[];
 };
 
 export type ArticleWorkspaceBundle = {
@@ -180,6 +193,9 @@ export type ArticleWorkspaceBundle = {
   release?: ReleaseSnapshot;
   qc?: QcSnapshot;
   stock?: StockSnapshot;
+  timeAndAction?: TimeAndActionSnapshot;
+  /** Rollup экономики образца в workspace bundle (до persist в sampleEconomicsDraft). */
+  sampleEconomics?: Workshop2SampleEconomicsDraft;
 };
 
 export type ArticleWorkspaceDataMode = 'local' | 'http';

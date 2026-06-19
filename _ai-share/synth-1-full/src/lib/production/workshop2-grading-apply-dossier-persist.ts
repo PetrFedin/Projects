@@ -4,6 +4,7 @@
 import { summarizeWorkshop2GradingStatus } from '@/lib/production/workshop2-grading-status';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2GradingApplyMirror(
   dossier: Workshop2DossierPhase1
@@ -45,19 +46,22 @@ export function evaluateWorkshop2GradingApplyExportGate(
       messageRu: 'Градация не зафиксирована в PG — «Градация → PG» на конструкции.',
     };
   }
-  if (mirror.blockerExport) {
+  if (mirror.blockerExport === true) {
     return {
       id: 'grading.apply.missing',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'Шкала задана, но градация не применена — ZIP ТЗ заблокирован до apply.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Шкала задана, но градация не применена — ZIP ТЗ заблокирован до apply.',
     };
   }
   if (mirror.state === 'partial') {
     return {
       id: 'grading.apply.partial',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Градация частична — проверьте правила и размерные строки.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Градация частична — проверьте правила и размерные строки.',
     };
   }
   return null;

@@ -5,6 +5,10 @@ import type { Workshop2ReadinessSnapshot } from '@/lib/production/workshop2-read
 import { summarizeWorkshop2WorkspaceHeaderPulseStatus } from '@/lib/production/workshop2-workspace-header-pulse-status';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2ReadinessPulseMirror(
   snapshot: Workshop2ReadinessSnapshot
@@ -47,20 +51,29 @@ export function evaluateWorkshop2ReadinessPulseSampleGate(
       messageRu: 'Пульс готовности не в PG — откройте артикул для синхронизации snapshot.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  const blockerSampleOrder =
+    mirror.blockerSampleOrder === true ||
+    workshop2PgMirrorStr(mirror, 'blockerSampleOrder') === 'true';
+  const hintRu = workshop2PgMirrorStr(mirror, 'hintRu');
+  const pulseState = workshop2PgMirrorStr(mirror, 'pulseState') || String(mirror.pulseState ?? '');
+  const preflightBlockerCount = workshop2PgMirrorNum(mirror, 'preflightBlockerCount');
+  const tzOverallPct = workshop2PgMirrorNum(mirror, 'tzOverallPct');
+  const preflightScore = workshop2PgMirrorNum(mirror, 'preflightScore');
+
+  if (blockerSampleOrder) {
     return {
       id: 'readiness.pulse.misaligned',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'Разрыв % ТЗ и pre-flight пульса — устраните блокеры перед образцом.',
+        hintRu || 'Разрыв % ТЗ и pre-flight пульса — устраните блокеры перед образцом.',
     };
   }
-  if (mirror.pulseState === 'at_risk' && mirror.preflightBlockerCount === 0) {
+  if (pulseState === 'at_risk' && preflightBlockerCount === 0) {
     return {
       id: 'readiness.pulse.gap',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ?? `Разрыв ТЗ ${mirror.tzOverallPct}% vs пульс ${mirror.preflightScore}/100.`,
+        hintRu || `Разрыв ТЗ ${tzOverallPct}% vs пульс ${preflightScore}/100.`,
     };
   }
   return null;
@@ -78,12 +91,16 @@ export function evaluateWorkshop2ReadinessPulseHandoffGate(
       messageRu: 'Пульс не в PG — «Пульс → PG» в шапке workspace.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  if (
+    mirror.blockerSampleOrder === true ||
+    workshop2PgMirrorStr(mirror, 'blockerSampleOrder') === 'true'
+  ) {
     return {
       id: 'readiness.pulse.misaligned',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'Пульс pre-flight не согласован с ТЗ — handoff commit заблокирован.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Пульс pre-flight не согласован с ТЗ — handoff commit заблокирован.',
     };
   }
   return null;

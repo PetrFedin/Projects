@@ -18,10 +18,12 @@ import {
   DISTRIBUTOR_INVESTOR_SPINE_CORE_GROUP_ORDER,
   SYNTHA_SIDEBAR_CLUSTERS,
 } from '@/lib/data/syntha-nav-clusters';
+import { isDistributorNavInvestorSpineEnabled } from '@/lib/cabinet-nav-env';
 import {
-  applyDistributorInvestorSpineClusterOverrides,
-  isDistributorNavInvestorSpineEnabled,
-} from '@/lib/cabinet-nav-env';
+  applyDistributorNavPipeline,
+  shouldHideNavArchiveCluster,
+} from '@/lib/cabinet-core-mode';
+import { augmentDistributorNavForCoreCabinet } from '@/lib/platform-core-nav-augment';
 import { HubSidebar } from '@/components/hub/HubSidebar';
 import { HubSidebarHeader } from '@/components/hub/HubSidebarHeader';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
@@ -62,9 +64,13 @@ export default function DistributorLayout({ children }: { children: React.ReactN
   ].filter((h) => canAccessHub(role, h.hub));
 
   const adjustedDistributorNavGroups = useMemo(
-    () => applyDistributorInvestorSpineClusterOverrides(distributorNavGroups),
+    () =>
+      augmentDistributorNavForCoreCabinet(applyDistributorNavPipeline(distributorNavGroups)),
     []
   );
+  const visibleClusters = shouldHideNavArchiveCluster()
+    ? SYNTHA_SIDEBAR_CLUSTERS.filter((c) => c.id === 'syntha-cores')
+    : SYNTHA_SIDEBAR_CLUSTERS;
   const distributorCoreOrder = isDistributorNavInvestorSpineEnabled()
     ? DISTRIBUTOR_INVESTOR_SPINE_CORE_GROUP_ORDER
     : DISTRIBUTOR_CORE_GROUP_ORDER;
@@ -114,7 +120,7 @@ export default function DistributorLayout({ children }: { children: React.ReactN
               basePath={ROUTES.distributor.home}
               accentClass="text-amber-600"
               activeBgClass="bg-amber-600"
-              sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
+              sidebarClusters={visibleClusters}
               coreGroupOrder={distributorCoreOrder}
               archiveGroupOrder={DISTRIBUTOR_ARCHIVE_GROUP_ORDER}
             />
@@ -146,7 +152,7 @@ export default function DistributorLayout({ children }: { children: React.ReactN
                 accentClass="text-amber-600"
                 activeBgClass="bg-amber-600"
                 onNavigate={() => setSidebarOpen(false)}
-                sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
+                sidebarClusters={visibleClusters}
                 coreGroupOrder={distributorCoreOrder}
                 archiveGroupOrder={DISTRIBUTOR_ARCHIVE_GROUP_ORDER}
               />

@@ -29,8 +29,8 @@ export function BrandSidebarWidgetGate() {
       const id = window.requestIdleCallback(() => setMounted(true), { timeout: 3500 });
       return () => window.cancelIdleCallback(id);
     }
-    const timer = window.setTimeout(() => setMounted(true), 1800);
-    return () => window.clearTimeout(timer);
+    const timer = setTimeout(() => setMounted(true), 1800);
+    return () => clearTimeout(timer);
   }, []);
 
   if (!mounted) return null;

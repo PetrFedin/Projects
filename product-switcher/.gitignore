@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor — keep shared workspace settings
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# Video pipeline — source files optional; generated thumbs are committed if needed
+assets/*.mov
+assets/*.MOV
+assets/*-raw.mp4
+
+# Large video cache (keep product.mp4 if committed intentionally)
+# Uncomment if videos should not be in git:
+# assets/*.mp4
+
+# Cursor local state (keep rules/agents in git)
+.cursor/*.log
+
+# Temp
+tmp/
+.cache/

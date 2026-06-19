@@ -1,0 +1,14 @@
+{
+  "entries": [
+    {
+      "id": "inv-stub-1780005169282",
+      "orderId": "B2B-001",
+      "brandId": "demo-brand",
+      "tenantId": "tenant-demo",
+      "totalRub": 100000,
+      "pdfPathPlaceholderRu": "/api/shop/b2b/orders/B2B-001/invoice-stub.pdf",
+      "mode": "journal_only",
+      "at": "2026-05-28T21:52:49.282Z"
+    }
+  ]
+}

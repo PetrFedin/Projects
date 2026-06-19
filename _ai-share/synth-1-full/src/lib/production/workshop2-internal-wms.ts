@@ -6,6 +6,10 @@ import type { StockSnapshot } from '@/lib/production/article-workspace/types';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import { buildWorkshop2StockWmsLedgerFromBundle } from '@/lib/production/workshop2-stock-wms-ledger-persist';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2ProcessEnvLike = Record<string, string | undefined>;
 
@@ -92,12 +96,13 @@ export function persistWorkshop2InternalWmsToDossier(
     stock: input.stock,
     dossier,
   });
+  const existingJournal = dossier.internalWmsMirror?.memoryJournal;
   return {
     ...dossier,
     internalWmsMirror: {
       ...input.mirror,
-      ...(dossier.internalWmsMirror?.memoryJournal?.length
-        ? { memoryJournal: dossier.internalWmsMirror.memoryJournal }
+      ...(Array.isArray(existingJournal) && existingJournal.length
+        ? { memoryJournal: existingJournal }
         : {}),
     },
     stockWmsLedger: {
@@ -109,8 +114,15 @@ export function persistWorkshop2InternalWmsToDossier(
               ledger.wmsSyncStatus === 'draft_local'
             ? 'internal_pg'
             : ledger.wmsSyncStatus,
-      movementCount: Math.max(ledger.movementCount, input.mirror.movementCount),
-      hintRu: input.mirror.hintRu ?? ledger.hintRu,
+      movementCount: Math.max(
+        workshop2PgMirrorNum(ledger, 'movementCount') ||
+          (typeof ledger.movementCount === 'number' ? ledger.movementCount : 0),
+        input.mirror.movementCount
+      ),
+      hintRu:
+        input.mirror.hintRu ??
+        (workshop2PgMirrorStr(ledger, 'hintRu') ||
+          (typeof ledger.hintRu === 'string' ? ledger.hintRu : undefined)),
     },
   };
 }
@@ -147,13 +159,16 @@ export function evaluateWorkshop2StockWmsDeficitReserveGate(input: {
 }): Workshop2HandoffReadinessCheck | null {
   const mirror = input.dossier.internalWmsMirror;
   if (!mirror) return null;
-  if ((mirror.reserveDeficitCount ?? 0) <= 0) return null;
+  if ((mirror.reserveDeficitCount ?? workshop2PgMirrorNum(mirror, 'reserveDeficitCount')) <= 0)
+    return null;
+  const deficitCount =
+    mirror.reserveDeficitCount ?? workshop2PgMirrorNum(mirror, 'reserveDeficitCount');
+  const hintRu = workshop2PgMirrorStr(mirror, 'hintRu') || undefined;
   return {
     id: 'stock.wms.deficit_reserve',
     severity: 'warning',
     messageRu:
-      mirror.hintRu ??
-      `Дефицит резерва на ${mirror.reserveDeficitCount} поз. — пополните склад или уточните BOM.`,
+      hintRu || `Дефицит резерва на ${deficitCount} поз. — пополните склад или уточните BOM.`,
   };
 }
 

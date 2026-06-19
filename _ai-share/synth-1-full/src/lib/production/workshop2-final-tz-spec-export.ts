@@ -735,7 +735,8 @@ function formatRangeCell(cell: Workshop2Phase1DimensionRangeCell | undefined): s
   return min || max || nom || '—';
 }
 
-function buildMeasurementsSectionHtml(
+/** Таблица POM / sample size для экспорта (итоговое ТЗ и factory pack лист 6). */
+export function buildWorkshop2MeasurementsExportHtml(
   dossier: Workshop2DossierPhase1,
   leaf: HandbookCategoryLeaf
 ): string {
@@ -872,6 +873,50 @@ export type Workshop2FinalTzSpecExportContext = {
   gateLifecycleState: string;
   exportLanguage?: 'ru' | 'ru_en' | 'ru_zh';
 };
+
+/** Метаданные итогового ТЗ из PG-досье (без mock «Тестовое изделие» на factory portal). */
+export function buildWorkshop2FinalTzExportContextFromDossier(
+  dossier: Workshop2DossierPhase1,
+  input?: { articleId?: string; exportLanguage?: 'ru' | 'ru_en' | 'ru_zh' }
+): Workshop2FinalTzSpecExportContext {
+  const lastExport = dossier.finalTzDocumentLastExport;
+  const mirror = dossier.articleFormMirror;
+  const categoryLeafId =
+    mirror?.categoryLeafId?.trim() ||
+    dossier.categorySketchAnnotations?.find((a) => a.categoryLeafId?.trim())?.categoryLeafId?.trim() ||
+    'catalog-unassigned';
+  const leaf = findHandbookLeafById(categoryLeafId);
+  const pathLabel = lastExport?.pathLabelSnapshot?.trim() || leaf?.pathLabel || '—';
+  const l2Name = leaf?.l2Name || '—';
+  const articleSku =
+    mirror?.sku?.trim() ||
+    lastExport?.articleSkuSnapshot?.trim() ||
+    input?.articleId?.trim() ||
+    '—';
+  const articleName =
+    lastExport?.articleNameSnapshot?.trim() ||
+    dossier.optionalNote?.trim()?.split('\n')[0] ||
+    (input?.articleId ? `Артикул ${input.articleId}` : '—');
+  const preflight = buildWorkshop2ProductionPreflightSnapshot(dossier);
+  const gateSnapshot = buildWorkshop2TzGateSnapshot(dossier, {
+    activeCategoryLeafId: categoryLeafId,
+  });
+
+  return {
+    articleSku,
+    articleName,
+    pathLabel,
+    l2Name,
+    tzPhase: '1',
+    categoryLeafId,
+    measurementsLeaf: leaf ?? null,
+    preflightOk: preflight.canSendToFactory,
+    preflightIssueCount: preflight.issues.length,
+    sectionSignoffsFull: gateSnapshot.sectionSignoffsFull,
+    gateLifecycleState: gateSnapshot.state,
+    exportLanguage: input?.exportLanguage ?? 'ru_en',
+  };
+}
 
 /**
  * Единый HTML-документ «Итоговое ТЗ» по артикулу (оглавление + блоки по порядку).
@@ -1010,7 +1055,7 @@ export function buildWorkshop2FinalTzSpecDocumentHtml(
   `;
 
   const measurementsHtml = ctx.measurementsLeaf
-    ? buildMeasurementsSectionHtml(dossier, ctx.measurementsLeaf)
+    ? buildWorkshop2MeasurementsExportHtml(dossier, ctx.measurementsLeaf)
     : '<p class="muted">Мерки по листу каталога не переданы в контекст экспорта.</p>';
 
   const visualChecklistHtml = buildVisualChecklistExcerptHtml(dossier);

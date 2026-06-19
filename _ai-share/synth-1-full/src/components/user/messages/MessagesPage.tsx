@@ -23,7 +23,6 @@ import { ChatList } from './ChatList';
 import { ChatHeader } from './ChatHeader';
 import { MessageList } from './MessageList';
 import { Composer } from './Composer';
-import { WidgetsPanel } from './WidgetsPanel';
 import { TaskHub } from './TaskHub';
 
 // Dialogs
@@ -31,14 +30,41 @@ import { ConfirmDialog } from './Dialogs/ConfirmDialog';
 import { CreateChatDialog } from './Dialogs/CreateChatDialog';
 import { TaskEditDialog } from './Dialogs/TaskEditDialog';
 import { SUPPLY_AND_STUDIO_STEP_IDS } from '@/lib/production/stages-comm-demo';
-import { useBrandCommunicationsUnread } from '@/lib/communications/use-communications-unread';
+import {
+  useBrandCommunicationsUnread,
+  useShopCommunicationsUnread,
+} from '@/lib/communications/use-communications-unread';
+import { usePgCommunicationsUnread } from '@/lib/communications/use-pg-communications-unread';
+import { PlatformCoreB2bMessageTemplates } from '@/components/platform/PlatformCoreB2bMessageTemplates';
 import type { ChatMessage } from '@/lib/types';
+import type { ID } from './types';
 
-export default function MessagesPage({ initialRole }: { initialRole?: string }) {
-  const { unreadByChat } = useBrandCommunicationsUnread();
+export default function MessagesPage({
+  initialRole,
+  slimCore = false,
+}: {
+  initialRole?: string;
+  /** Platform Core: hide AI/widgets/recording and legacy Intelligence OS chrome. */
+  slimCore?: boolean;
+}) {
+  const brandUnread = useBrandCommunicationsUnread();
+  const shopUnread = useShopCommunicationsUnread();
+  const factoryUnread = usePgCommunicationsUnread('factory', slimCore);
   const searchParams = useSearchParams() ?? new URLSearchParams();
   const urlCommContextApplied = React.useRef(false);
   const chatState = useChatState(initialRole);
+  const unreadByChat = React.useMemo(() => {
+    const role = initialRole ?? chatState.currentRole;
+    if (role === 'shop' || role === 'b2b') return shopUnread.unreadByChat;
+    if (role === 'manufacturer' || role === 'supplier') return factoryUnread.unreadByChat;
+    return brandUnread.unreadByChat;
+  }, [
+    initialRole,
+    chatState.currentRole,
+    brandUnread.unreadByChat,
+    shopUnread.unreadByChat,
+    factoryUnread.unreadByChat,
+  ]);
   const {
     currentRole,
     setCurrentRole,
@@ -67,12 +93,13 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
     const order = searchParams.get('order')?.trim() || '';
     const orderId = searchParams.get('orderId')?.trim() || '';
     const step = searchParams.get('stagesStep')?.trim() || '';
-    const line = [q, sku, season, order, orderId, step].filter(Boolean).join(' ').trim();
-    if (!line) return;
-    setChatQuery((prev) => (prev.trim() ? prev : line));
-    setMsgSearch((prev) => (prev.trim() ? prev : line));
+    const msgLine = [q, sku, season, order, orderId, step].filter(Boolean).join(' ').trim();
+    if (!msgLine && !q) return;
+    if (q) setChatQuery((prev) => (prev.trim() ? prev : q));
+    if (!slimCore && msgLine) setChatQuery((prev) => (prev.trim() ? prev : msgLine));
+    if (msgLine) setMsgSearch((prev) => (prev.trim() ? prev : msgLine));
     urlCommContextApplied.current = true;
-  }, [searchParams, setChatQuery, setMsgSearch]);
+  }, [searchParams, setChatQuery, setMsgSearch, slimCore]);
 
   const { toggleStar, togglePin, deleteMessage, addReaction } = useMessageActions(
     activeChatId,
@@ -81,17 +108,15 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
   );
   const { taskThreads, taskStages, saveTask, updateTask, setTaskStatus } = useTaskActions(
     'user_petr',
-    setMessages,
-    {
-      activeChatId,
-      calendarOwnerRole: currentRole,
-    }
+    setMessages
   );
   const { isAiProcessing, processAiCorrection } = useAIActions(
     chatState.composerText,
     chatState.setComposerText
   );
   const { recording, startRecording, stopRecording } = useRecording();
+  const showAiChrome = !slimCore;
+  const showRecording = !slimCore;
 
   const feedRootRef = React.useRef<HTMLDivElement>(null);
   const [isAlertVisible, setIsAlertVisible] = React.useState(true);
@@ -99,11 +124,43 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
   const [tasksHubOpen, setTasksHubOpen] = React.useState(false);
   const [taskEditOpen, setTaskEditOpen] = React.useState(false);
   const [taskEditing, setTaskEditing] = React.useState<any>(null);
+  const [mobileCommsPane, setMobileCommsPane] = React.useState<'list' | 'chat'>('list');
+
+  const handleSwitchChat = React.useCallback(
+    (id: ID) => {
+      switchChat(id);
+      if (slimCore) setMobileCommsPane('chat');
+    },
+    [switchChat, slimCore]
+  );
+
+  const handleMobileBackToList = React.useCallback(() => {
+    setMobileCommsPane('list');
+  }, []);
+
+  React.useEffect(() => {
+    if (!slimCore) return;
+    const hasDeepLink =
+      Boolean(searchParams.get('contextType')?.trim()) ||
+      Boolean(searchParams.get('contextId')?.trim()) ||
+      Boolean(searchParams.get('order')?.trim()) ||
+      Boolean(searchParams.get('orderId')?.trim()) ||
+      Boolean(searchParams.get('chat')?.trim());
+    if (hasDeepLink) setMobileCommsPane('chat');
+  }, [slimCore, searchParams]);
 
   const [productionPhase] = React.useState(65);
   const [riskLevel] = React.useState(15);
 
   const stagesStepParam = searchParams.get('stagesStep') || '';
+
+  const cmThreadSearchTestId = React.useMemo(() => {
+    const role = initialRole ?? currentRole;
+    if (role === 'shop' || role === 'b2b') return 'shop-cm-thread-search';
+    if (role === 'supplier') return 'sup-cm-thread-search';
+    if (role === 'manufacturer') return 'mfr-cm-thread-search';
+    return 'brand-cm-thread-search';
+  }, [initialRole, currentRole]);
 
   const visibleChats = React.useMemo(() => {
     const raw = chatQuery.trim().toLowerCase();
@@ -145,12 +202,17 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
   return (
     <div
       className={cn(
-        'flex flex-col gap-3 overflow-hidden border border-slate-200 bg-white p-4 shadow-sm',
-        'h-[calc(100vh-2rem)] min-h-[700px] rounded-xl font-sans text-slate-900 duration-700 animate-in fade-in'
+        'flex flex-col overflow-hidden border bg-white font-sans text-slate-900 duration-700 animate-in fade-in',
+        slimCore
+          ? 'border-border-subtle max-h-[min(72vh,640px)] min-h-[360px] gap-2 rounded-lg p-2 shadow-sm max-md:max-h-[min(72vh,640px)] max-md:min-h-[min(60vh,520px)]'
+          : 'h-[calc(100vh-2rem)] min-h-[700px] gap-3 rounded-xl border-slate-200 p-4 shadow-sm'
       )}
+      data-testid={slimCore ? 'platform-core-comms-inbox-shell' : undefined}
     >
       <TooltipProvider>
-        <AlertsFabric isVisible={isAlertVisible} onClose={() => setIsAlertVisible(false)} />
+        {!slimCore && (
+          <AlertsFabric isVisible={isAlertVisible} onClose={() => setIsAlertVisible(false)} />
+        )}
 
         <MessagesHeader
           currentRole={currentRole}
@@ -163,28 +225,46 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
           onOpenTasksHub={() => setTab('tasks')}
           onOpenSettings={() => {}}
           onOpenCreateChat={() => setCreateChatOpen(true)}
+          slimCore={slimCore}
         />
 
-        <div className="flex min-h-0 flex-1 gap-3">
+        <div className={cn('flex min-h-0 min-w-0 flex-1', slimCore ? 'gap-1.5' : 'gap-3')}>
           <GroupRail
             availableGroups={availableGroups}
             activeGroup={activeGroup as any}
             setActiveGroup={setActiveGroup as any}
+            slimCore={slimCore}
+            className={slimCore ? 'max-md:hidden' : undefined}
           />
 
           <ChatList
             visibleChats={visibleChats}
             activeChatId={activeChatId}
-            onSwitchChat={switchChat}
+            onSwitchChat={handleSwitchChat}
             onOpenCreateChat={() => setCreateChatOpen(true)}
             chatQuery={chatQuery}
             setChatQuery={setChatQuery}
             unreadCountByChat={unreadByChat}
             typingUsers={{}}
             currentUser="user_petr"
+            slimCore={slimCore}
+            threadSearchTestId={slimCore ? cmThreadSearchTestId : undefined}
+            listTestId={slimCore ? 'platform-core-comms-thread-list' : undefined}
+            className={cn(
+              slimCore && 'max-md:w-full max-md:max-w-none max-md:flex-1',
+              slimCore && mobileCommsPane === 'chat' && 'max-md:hidden'
+            )}
           />
 
-          <main className="relative flex min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-100 bg-slate-50/30 shadow-inner transition-all">
+          <main
+            data-testid={slimCore ? 'platform-core-comms-chat-pane' : undefined}
+            className={cn(
+              'relative flex min-w-0 flex-1 flex-col overflow-hidden border bg-slate-50/30 shadow-inner transition-all',
+              slimCore ? 'rounded-lg border-border-subtle' : 'rounded-2xl border-slate-100',
+              slimCore && mobileCommsPane === 'list' && 'max-md:hidden',
+              slimCore && 'max-md:w-full'
+            )}
+          >
             {activeChat && (
               <ChatHeader
                 activeChat={activeChat}
@@ -194,6 +274,9 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                 onOpenParticipants={() => {}}
                 onOpenArchive={() => {}}
                 onOpenSettings={() => {}}
+                slimCore={slimCore}
+                showMobileBack={slimCore && mobileCommsPane === 'chat'}
+                onMobileBack={handleMobileBackToList}
               />
             )}
 
@@ -202,6 +285,23 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                 <TaskHub
                   chatTasks={messages.filter((m) => m.type === 'task')}
                   currentUser="user_petr"
+                  onOpenCreateTask={() => {
+                    const draft: ChatMessage = {
+                      id: Date.now(),
+                      user: 'user_petr',
+                      chatId: activeChatId,
+                      text: '',
+                      time: new Date().toLocaleTimeString('ru-RU', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      }),
+                      type: 'task',
+                      status: 'pending',
+                      priority: 'medium',
+                    };
+                    setTaskEditing(draft);
+                    setTaskEditOpen(true);
+                  }}
                   onOpenEditTask={(m) => {
                     setTaskEditing(m);
                     setTaskEditOpen(true);
@@ -251,6 +351,12 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                     setReminderEditing={() => {}}
                     setReminderOpen={() => {}}
                   />
+                  {slimCore ? (
+                    <PlatformCoreB2bMessageTemplates
+                      draftText={chatState.composerText}
+                      onInsert={(text) => chatState.setComposerText(text)}
+                    />
+                  ) : null}
                   <Composer
                     activeChat={activeChat}
                     composerText={chatState.composerText}
@@ -260,19 +366,23 @@ export default function MessagesPage({ initialRole }: { initialRole?: string }) 
                     onSendMessage={chatState.onSendMessage}
                     onSmartReply={() => {}}
                     onOpenNegotiation={() => {}}
-                    onStartRecording={startRecording}
-                    onStopRecording={stopRecording}
-                    recording={recording}
-                    isAiProcessing={isAiProcessing}
-                    onProcessAiCorrection={processAiCorrection}
+                    onStartRecording={showRecording ? startRecording : () => {}}
+                    onStopRecording={showRecording ? stopRecording : () => {}}
+                    recording={showRecording ? recording : false}
+                    isAiProcessing={showAiChrome ? isAiProcessing : false}
+                    onProcessAiCorrection={showAiChrome ? processAiCorrection : () => {}}
                     onFileClick={() => {}}
                     onUnarchiveChat={() => {}}
-                    onAttachProduct={() =>
-                      chatState.setComposerText((prev) =>
-                        prev
-                          ? `${prev}\n[Обсуждаю товар — прикрепите из каталога]`
-                          : '[Обсуждаю товар — прикрепите из каталога]'
-                      )
+                    slimCore={slimCore}
+                    onAttachProduct={
+                      slimCore
+                        ? undefined
+                        : () =>
+                            chatState.setComposerText((prev) =>
+                              prev
+                                ? `${prev}\n[Обсуждаю товар — прикрепите из каталога]`
+                                : '[Обсуждаю товар — прикрепите из каталога]'
+                            )
                     }
                   />
                 </>

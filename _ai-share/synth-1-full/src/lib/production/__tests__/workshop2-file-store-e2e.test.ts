@@ -527,19 +527,31 @@ describe('workshop2 file-store e2e (Wave P, PG off)', () => {
 
   describe('Wave Q — WMS file-mode reserve honesty', () => {
     it('503 when internal WMS disabled includes honesty fields', async () => {
+      const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+      const prevWms = process.env.WORKSHOP2_INTERNAL_WMS;
+      delete process.env.WORKSHOP2_DATABASE_URL;
+      delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
       delete process.env.WORKSHOP2_INTERNAL_WMS;
-      const res = await wmsReservePost(
-        new NextRequest(
-          'http://localhost/api/workshop2/articles/SS27/demo-ss27-01/wms/reserve-sample',
-          { method: 'POST', headers: W2_HEADERS, body: '{}' }
-        ),
-        routeCtx('SS27', 'demo-ss27-01')
-      );
-      expect(res.status).toBe(503);
-      const json = await res.json();
-      expect(json.error).toBe('internal_wms_disabled');
-      expect(json.wmsSyncStatus).toBe('disabled');
-      expect(json.messageRu).toMatch(/WORKSHOP2_INTERNAL_WMS|503/i);
+
+      try {
+        const res = await wmsReservePost(
+          new NextRequest(
+            'http://localhost/api/workshop2/articles/SS27/demo-ss27-01/wms/reserve-sample',
+            { method: 'POST', headers: W2_HEADERS, body: '{}' }
+          ),
+          routeCtx('SS27', 'demo-ss27-01')
+        );
+        expect(res.status).toBe(503);
+        const json = await res.json();
+        expect(json.error).toBe('internal_wms_disabled');
+        expect(json.wmsSyncStatus).toBe('disabled');
+        expect(json.messageRu).toMatch(/WORKSHOP2_INTERNAL_WMS|503/i);
+      } finally {
+        if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+        else delete process.env.WORKSHOP2_DATABASE_URL;
+        if (prevWms) process.env.WORKSHOP2_INTERNAL_WMS = prevWms;
+        else delete process.env.WORKSHOP2_INTERNAL_WMS;
+      }
     });
 
     it('buildWorkshop2WmsFileModeHonesty memory simulation copy', () => {

@@ -14,6 +14,7 @@ import {
   CheckCircle2,
   AlertCircle,
 } from 'lucide-react';
+import { BrandSpineWholesaleImportCard } from '@/components/integrations/BrandSpineWholesaleImportCard';
 import { ROUTES } from '@/lib/routes';
 import { jsonAs } from '@/lib/json';
 import {
@@ -40,13 +41,37 @@ export default function BrandIntegrationsNuorderPage() {
   const [orderIdEdit, setOrderIdEdit] = useState('');
   const [replenishmentMsg, setReplenishmentMsg] = useState<ArchiveIntegrationMessage | null>(null);
   const [replenishmentLoading, setReplenishmentLoading] = useState(false);
+  const [nuOrders, setNuOrders] = useState<
+    Array<{ id: string; status: string; customer_name?: string; total?: number }>
+  >([]);
+  const [nuOrdersLoading, setNuOrdersLoading] = useState(false);
+
+  const loadNuOrders = async () => {
+    setNuOrdersLoading(true);
+    try {
+      const res = await fetch('/api/b2b/archive/nuorder/orders?limit=20');
+      const data = res.ok
+        ? ((await res.json()) as Array<{
+            id: string;
+            status: string;
+            customer_name?: string;
+            total?: number;
+          }>)
+        : [];
+      setNuOrders(Array.isArray(data) ? data : []);
+    } catch {
+      setNuOrders([]);
+    } finally {
+      setNuOrdersLoading(false);
+    }
+  };
 
   const pushInventory = useCallback(async () => {
     await runArchiveAction({
       setMsg: setInventoryMsg,
       setLoading: setInventoryLoading,
       work: async () => {
-        const res = await fetch('/api/b2b/nuorder/inventory', {
+        const res = await fetch('/api/b2b/archive/nuorder/inventory', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -65,11 +90,12 @@ export default function BrandIntegrationsNuorderPage() {
       setMsg: setShipmentMsg,
       setLoading: setShipmentLoading,
       work: async () => {
-        const res = await fetch('/api/b2b/nuorder/shipment', {
+        const res = await fetch('/api/b2b/archive/nuorder/shipment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             order_id: orderIdShipment || 'demo-order-id',
+            wholesaleOrderId: orderIdShipment.startsWith('INT-') ? orderIdShipment : undefined,
             tracking_number: '1Z999AA10123456784',
             carrier: 'UPS',
             status: 'shipped',
@@ -90,7 +116,7 @@ export default function BrandIntegrationsNuorderPage() {
       setMsg: setEditMsg,
       setLoading: setEditLoading,
       work: async () => {
-        const res = await fetch('/api/b2b/nuorder/order-edit', {
+        const res = await fetch('/api/b2b/archive/nuorder/order-edit', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -110,7 +136,7 @@ export default function BrandIntegrationsNuorderPage() {
       setMsg: setReplenishmentMsg,
       setLoading: setReplenishmentLoading,
       work: async () => {
-        const res = await fetch('/api/b2b/nuorder/replenishment', {
+        const res = await fetch('/api/b2b/archive/nuorder/replenishment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -166,6 +192,24 @@ export default function BrandIntegrationsNuorderPage() {
             )}
           </CardContent>
         </Card>
+
+        <BrandSpineWholesaleImportCard
+          platform="nuorder"
+          archiveListLabel="Загрузить из NuOrder archive"
+          onLoadArchive={loadNuOrders}
+          archiveLoading={nuOrdersLoading}
+          archiveCount={nuOrders.length}
+        />
+        {nuOrders.length > 0 ? (
+          <ul className="divide-y rounded-md border text-sm">
+            {nuOrders.slice(0, 5).map((o) => (
+              <li key={o.id} className="flex items-center justify-between px-3 py-2">
+                <span>{o.id}</span>
+                <span>{o.status}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
 
         <Card>
           <CardHeader className="pb-2">
@@ -269,6 +313,11 @@ export default function BrandIntegrationsNuorderPage() {
         <Link href={ROUTES.brand.b2bOrders}>
           <Button variant="outline" size="sm">
             B2B заказы
+          </Button>
+        </Link>
+        <Link href={ROUTES.brand.integrationsCentric}>
+          <Button variant="ghost" size="sm">
+            Centric PLM
           </Button>
         </Link>
         <Link href={ROUTES.brand.integrationsJoor}>

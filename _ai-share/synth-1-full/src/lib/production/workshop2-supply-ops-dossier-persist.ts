@@ -12,6 +12,7 @@ import {
   getNextWorkshop2CutTicketStatus,
   validateWorkshop2CutTicketTransition,
 } from '@/lib/production/workshop2-cut-ticket-status-machine';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function isWorkshop2CutTicketGateEnabled(env?: Record<string, string | undefined>): boolean {
   return (
@@ -133,6 +134,7 @@ export function evaluateWorkshop2CutTicketBulkPoGate(
     id: 'supply.cut_ticket.required',
     severity: 'blocker',
     messageRu:
-      mirror.hintRu ?? 'Cut ticket обязателен перед bulk PO — добавьте на вкладке «Выпуск».',
+      workshop2PgMirrorStr(mirror, 'hintRu') ||
+      'Cut ticket обязателен перед bulk PO — добавьте на вкладке «Выпуск».',
   };
 }

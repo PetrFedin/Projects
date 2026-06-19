@@ -1,5 +1,5 @@
 from datetime import datetime
-from app.core.datetime_util import utc_now
+from app.core.datetime_util import utc_now_naive
 from typing import Optional
 from sqlalchemy import String, DateTime, JSON, Integer
 from sqlalchemy.orm import Mapped, mapped_column
@@ -15,8 +15,8 @@ class User(Base):
     role: Mapped[str] = mapped_column(String, default="buyer")
     is_active: Mapped[bool] = mapped_column(default=True)
     organization_id: Mapped[Optional[str]] = mapped_column(String, index=True, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now_naive)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now_naive, onupdate=utc_now_naive)
 
 class Organization(Base):
     __tablename__ = "organizations"
@@ -27,8 +27,8 @@ class Organization(Base):
     is_active: Mapped[bool] = mapped_column(default=True)
     metadata_json: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
     attention_dismiss_json: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now_naive)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now_naive, onupdate=utc_now_naive)
 
 class PlatformDispute(Base):
     __tablename__ = "platform_disputes"
@@ -40,8 +40,8 @@ class PlatformDispute(Base):
     description: Mapped[str] = mapped_column(String)
     status: Mapped[str] = mapped_column(String, default="open") # open, investigating, resolved, rejected
     resolution_notes: Mapped[Optional[str]] = mapped_column(String, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now_naive)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now_naive, onupdate=utc_now_naive)
 
 class PlatformAnnouncement(Base):
     __tablename__ = "platform_announcements"
@@ -50,4 +50,4 @@ class PlatformAnnouncement(Base):
     content: Mapped[str] = mapped_column(String)
     target_role: Mapped[Optional[str]] = mapped_column(String, nullable=True) # e.g., "brand", null for all
     is_active: Mapped[bool] = mapped_column(default=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now_naive)

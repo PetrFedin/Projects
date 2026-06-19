@@ -1,0 +1,47 @@
+# Platform Core — очередь агентов (planner)
+
+When `dev:core` is running on `:3001`, agents **must** pull work from the live planner queue (not ad-hoc scope).
+
+## API (development only)
+
+| Method | Path | Action |
+|--------|------|--------|
+| GET | `/api/dev/platform-core/planner` | Full snapshot + statuses |
+| GET | `/api/dev/platform-core/planner/next` | Next open task (P0 first) |
+| POST | `/api/dev/platform-core/planner/claim` | `{ "by": "cursor-agent", "id?": "..." }` → in_progress |
+| POST | `/api/dev/platform-core/planner/run-agents` | Claim + dispatch prompt → `.planning/platform-core-agent-dispatch.json` |
+| POST | `/api/dev/platform-core/planner/analyze` | Honest scan → up to 10 new items (dev + tech-debt) |
+| POST | `/api/dev/platform-core/planner/complete` | `{ "id": "...", "by": "...", "note?": "..." }` → done |
+
+Runtime state: `_ai-share/synth-1-full/.planning/platform-core-planner-runtime.json`
+
+## Agent workflow
+
+1. Ensure `npm run dev:core` / SYNTHA is up (`GET /api/dev/syntha-status`).
+2. `GET .../planner/next` or `POST .../planner/claim` with `"by": "cursor-agent"`.
+3. Implement **only** the claimed task in canonical paths (`_ai-share/synth-1-full`, FastAPI in `app/`).
+4. Verify (lint / smoke for touched area).
+5. `POST .../planner/complete` with task `id` and short `note`.
+6. Repeat while user session is active and `open` count &gt; 0.
+
+## UI
+
+Hub `/platform` → tab **План** — polls every 5s; **Агенты · online** when API reachable.
+
+**UI buttons:**
+- **▶ Запустить агентов (чат)** — claim + **Cursor SDK local agent** + live chat panel (poll `/api/dev/platform-core/planner/session/{id}`)
+- Requires: `npm run planner:agent:install` + `CURSOR_API_KEY` in `.env.local` (cursor.com/dashboard/integrations)
+- **🔍 Проанализировать (+10)** — section audit gaps + code TODO/stub scan (no LLM hype)
+- Per-row **▶ Агентам** — claim that task + open chat
+
+## CLI (from monorepo root)
+
+```bash
+npm run planner:next
+npm run planner:claim
+npm run planner:complete -- <task-id> "note"
+```
+
+## Adding manual items
+
+Edit `src/lib/platform-core-planner-agent.ts` → `PLATFORM_CORE_PLANNER_AGENT_ITEMS`.

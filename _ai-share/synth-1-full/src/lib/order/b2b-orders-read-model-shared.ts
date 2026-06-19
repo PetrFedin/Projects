@@ -3,6 +3,7 @@
  * Используется и клиентским read-model (сид), и серверным (снимок из файла).
  */
 import { isDemoBrandName } from '@/lib/data/demo-platform-brands';
+import { isIntegrationImportedWholesaleOrderId } from '@/lib/integrations/spine/integration-ui-utils';
 import type { B2BOrder } from '@/lib/types';
 import type { PlatformRole } from '@/lib/rbac';
 
@@ -17,11 +18,15 @@ export function filterB2BOrdersByOperationalActor(
   if (!options?.actorRole) return orders;
 
   if (options.actorRole === 'brand') {
-    return orders.filter((o) => isDemoBrandName(o.brand));
+    return orders.filter(
+      (o) => isIntegrationImportedWholesaleOrderId(o.order) || isDemoBrandName(o.brand)
+    );
   }
 
   if (options.actorRole === 'retailer' || options.actorRole === 'buyer') {
-    return orders.filter((o) => o.shop.startsWith('Демо-магазин'));
+    return orders.filter(
+      (o) => isIntegrationImportedWholesaleOrderId(o.order) || o.shop.startsWith('Демо-магазин')
+    );
   }
 
   return orders;

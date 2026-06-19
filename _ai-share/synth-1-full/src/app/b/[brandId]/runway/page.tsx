@@ -48,8 +48,10 @@ export default function BrandRunwayGalleryPage({ params }: BrandRunwayGalleryPag
 
   useEffect(() => {
     fetch('/data/products.json')
-      .then((r) => r.json())
-      .then((data: Product[]) => setProducts(data))
+      .then(async (r) => {
+        const data = (await r.json()) as Product[];
+        setProducts(data);
+      })
       .catch(() => setProducts([]))
       .finally(() => setLoading(false));
   }, []);

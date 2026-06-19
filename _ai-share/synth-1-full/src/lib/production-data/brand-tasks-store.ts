@@ -1,8 +1,12 @@
 'use client';
 
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 import type { BrandTaskRecord } from './port';
 
-const STORAGE_KEY = 'brand_tasks_kanban_v1';
+/** PG-first Kanban в Platform Core; localStorage только вне core mode. */
+export const BRAND_TASKS_KANBAN_STORAGE_KEY = 'brand_tasks_kanban_v1';
+
+const STORAGE_KEY = BRAND_TASKS_KANBAN_STORAGE_KEY;
 
 const SEED: BrandTaskRecord[] = [
   {
@@ -48,6 +52,7 @@ const SEED: BrandTaskRecord[] = [
 ];
 
 export function loadBrandTasks(): BrandTaskRecord[] {
+  if (isPlatformCoreMode()) return [];
   if (typeof window === 'undefined') return SEED;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
@@ -64,6 +69,7 @@ export function loadBrandTasks(): BrandTaskRecord[] {
 }
 
 export function saveBrandTasks(tasks: BrandTaskRecord[]): void {
+  if (isPlatformCoreMode()) return;
   if (typeof window === 'undefined') return;
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
 }

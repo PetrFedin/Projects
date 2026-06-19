@@ -29,7 +29,7 @@ export default function PartnerFinancePage() {
 
   return (
     <CabinetPageContent maxWidth="4xl" className="space-y-6">
-      <ShopB2bContentHeader lead="Заказы по статусам, кредитный лимит, ожидаемые и оплаченные платежи, JOOR Pay и документы." />
+      <ShopB2bContentHeader lead="Заказы по статусам, кредитный лимит, ожидаемые и оплаченные платежи, корпоративная оплата и документы." />
       <ShopAnalyticsSegmentErpStrip />
 
       <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -124,7 +124,7 @@ export default function PartnerFinancePage() {
             )}
             <Button variant="outline" size="sm" className="mt-4 rounded-lg" asChild>
               <Link href={ROUTES.shop.b2bPayment}>
-                <CreditCard className="mr-1.5 h-3.5 w-3.5" /> Оплатить (JOOR Pay)
+                <CreditCard className="mr-1.5 h-3.5 w-3.5" /> Оплатить онлайн
               </Link>
             </Button>
           </CardContent>
@@ -201,7 +201,7 @@ export default function PartnerFinancePage() {
       <div className="mt-4 flex flex-wrap gap-2">
         <Button asChild className="rounded-xl">
           <Link href={ROUTES.shop.b2bPayment}>
-            <CreditCard className="mr-2 h-4 w-4" /> Оплата заказов (JOOR Pay)
+            <CreditCard className="mr-2 h-4 w-4" /> Оплата заказов
           </Link>
         </Button>
         <Button variant="outline" asChild className="rounded-xl">

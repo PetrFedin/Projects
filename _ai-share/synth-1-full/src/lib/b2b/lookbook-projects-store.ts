@@ -22,6 +22,8 @@ export interface LookbookProject {
   visibleUntil: string;
   createdAt: string;
   collectionId?: string;
+  /** Явный workspace article для deep link в workshop2 (Wave 11). */
+  workspaceArticleId?: string;
   /** Сезон для виртуального шоурума (FW26, SS26 и т.д.) */
   season?: string;
 }

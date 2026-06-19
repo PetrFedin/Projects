@@ -4,6 +4,7 @@ import { Workshop2TechPackHandoffBlock } from '@/components/brand/production/Wor
 import { W2_CONSTRUCTION_SUBPAGE_ANCHORS } from '@/lib/production/workshop2-construction-dossier-anchors';
 import type {
   Workshop2DossierPhase1,
+  Workshop2FactoryHandoffChannel,
   Workshop2TzActionLogPayload,
   Workshop2TzSignoffSectionKey,
 } from '@/lib/production/workshop2-dossier-phase1.types';
@@ -13,7 +14,19 @@ export type Workshop2AssignmentSendPanelBundle = Omit<
   'children'
 >;
 
-export type Workshop2AssignmentHandoffBundle = ComponentProps<typeof Workshop2TechPackHandoffBlock>;
+export type Workshop2AssignmentHandoffBundle = ComponentProps<typeof Workshop2TechPackHandoffBlock> & {
+  techPackReady?: boolean;
+};
+
+export type Workshop2HandoffCommitOnServerFn = (payload: {
+  revisionLabel: string;
+  windowNote?: string;
+  contactLabel?: string;
+  channel: Workshop2FactoryHandoffChannel;
+  attachmentIds: string[];
+  brandDispatched: { at: string; by: string };
+  factoryReceived: { at: string; by: string };
+}) => Promise<boolean>;
 
 type AssignmentHubPreview = Workshop2AssignmentSendPanelBundle['factorySendHubPreview'];
 export type BuildWorkshop2AssignmentSendPanelBundleInput = {
@@ -88,6 +101,7 @@ export type BuildWorkshop2AssignmentHandoffBundleInput = {
   fourTzLevelsFullySignedByAll: boolean;
   handoffBlockedByProduction: boolean;
   productionPreflightBlockerCount: number;
+  commitHandoffOnServer?: Workshop2HandoffCommitOnServerFn;
 };
 
 /** Пропсы блока handoff внутри вкладки «Задание». */
@@ -109,5 +123,7 @@ export function buildWorkshop2AssignmentHandoffBundle(
     handoffLockReason: input.handoffBlockedByProduction
       ? `Передача в handoff заблокирована: ${input.productionPreflightBlockerCount} blocker(ов) production pre-flight. Сначала закройте блокеры в «Материалы/Конструкция».`
       : null,
+    techPackReady: input.fourTzLevelsFullySignedByAll,
+    commitHandoffOnServer: input.commitHandoffOnServer,
   };
 }

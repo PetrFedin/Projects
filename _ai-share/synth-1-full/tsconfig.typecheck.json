@@ -21,6 +21,18 @@
     ".next-isolated",
     "src/**/__tests__/**",
     "src/**/*.test.ts",
-    "src/**/*.test.tsx"
+    "src/**/*.test.tsx",
+    "src/_archive/**",
+    "**/_archive/**",
+    "src/lib/runway/**",
+    "src/lib/runway-metadata.ts",
+    "src/lib/scroll-experience-analytics.ts",
+    "src/components/product/scroll-switcher/**",
+    "src/components/product/BrandRunwayHeroStrip.tsx",
+    "src/components/product/ProductScrollSwitcherFeatured.tsx",
+    "src/hooks/useRunwayExperienceOrchestration.ts",
+    "src/app/api/runway/**",
+    "src/app/embed/runway/**",
+    "src/components/layout/RunwayAnalyticsGate.tsx"
   ]
 }

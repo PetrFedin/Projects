@@ -81,7 +81,7 @@ export default function AgentConsolidatedOrderPage() {
     <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader
         backHref={ROUTES.shop.b2bAgentCabinet}
-        lead="Корзина по нескольким брендам для агентов и дистрибьюторов; MOV/MOQ по бренду (Zedonk-style)."
+        lead="Корзина по нескольким брендам для агентов и дистрибьюторов; MOV/MOQ по каждому бренду."
       />
 
       <Card className="mb-6">

@@ -29,9 +29,10 @@ export function Workshop2BrandNotificationsBell({ className }: { className?: str
           : '') ||
         'SS27';
       void fetch(`/api/brand/notifications/workshop2?collectionId=${encodeURIComponent(cid)}`)
-        .then((r) => (r.ok ? r.json() : null))
-        .then((data) => {
-          if (!cancelled) setCount(Number(data?.bellCount ?? data?.totalCount ?? 0));
+        .then(async (r) => {
+          if (!r.ok) return;
+          const data = (await r.json()) as { bellCount?: number; totalCount?: number };
+          if (!cancelled) setCount(Number(data.bellCount ?? data.totalCount ?? 0));
         })
         .catch(() => {
           if (!cancelled) setCount(0);

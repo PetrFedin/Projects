@@ -24,6 +24,8 @@ import { LAYERS } from '../constants';
 import { ParticipantPicker } from './ParticipantPicker';
 import { useAuth } from '@/providers/auth-provider';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { calendarMessagesHrefFromThreadChatId } from '@/lib/platform-core-calendar-thread-link';
 
 interface EventDialogProps {
   isOpen: boolean;
@@ -53,17 +55,33 @@ export function EventDialog({
   onReject,
   isPendingInvitee = false,
 }: EventDialogProps) {
+  const router = useRouter();
   const { user } = useAuth();
   const participants = draft.participants ?? [];
   const readOnly = isPendingInvitee;
+  const threadOwnerRole = (draft.ownerRole ?? currentRole) as CalendarEvent['ownerRole'];
+  const threadMessagesHref =
+    draft.targetChatId && threadOwnerRole
+      ? calendarMessagesHrefFromThreadChatId(draft.targetChatId, threadOwnerRole)
+      : undefined;
+  const isPlatformB2bEvent = draft.calendarId === 'workshop2-b2b';
+  const platformEventReadOnly = isPlatformB2bEvent || readOnly;
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>
-            {mode === 'create' ? 'Новое событие' : 'Редактирование события'}
+            {isPlatformB2bEvent
+              ? 'Событие цепочки'
+              : mode === 'create'
+                ? 'Новое событие'
+                : 'Редактирование события'}
           </DialogTitle>
-          <DialogDescription>Заполните детали события для календаря.</DialogDescription>
+          <DialogDescription>
+            {isPlatformB2bEvent
+              ? 'Слот из оптовых заказов и производства — редактирование недоступно.'
+              : 'Заполните детали события для календаря.'}
+          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-3 py-4">
           <div key="title" className="grid gap-2">
@@ -71,9 +89,9 @@ export function EventDialog({
             <Input
               id="title"
               value={draft.title}
-              onChange={(e) => !readOnly && setDraft({ ...draft, title: e.target.value })}
+              onChange={(e) => !platformEventReadOnly && setDraft({ ...draft, title: e.target.value })}
               placeholder="Название события"
-              readOnly={readOnly}
+              readOnly={platformEventReadOnly}
             />
           </div>
           <div key="description" className="grid gap-2">
@@ -81,11 +99,25 @@ export function EventDialog({
             <Textarea
               id="description"
               value={draft.description ?? ''}
-              onChange={(e) => !readOnly && setDraft({ ...draft, description: e.target.value })}
+              onChange={(e) =>
+                !platformEventReadOnly && setDraft({ ...draft, description: e.target.value })
+              }
               placeholder="Описание события"
-              readOnly={readOnly}
+              readOnly={platformEventReadOnly}
             />
           </div>
+          {threadMessagesHref ? (
+            <div className="border-border-subtle bg-bg-surface2/80 rounded-md border p-2 text-xs">
+              <p className="text-text-secondary mb-1">Переписка по этому событию</p>
+              <Link
+                href={threadMessagesHref}
+                data-testid="calendar-event-thread-link"
+                className="text-accent-primary font-medium underline underline-offset-2"
+              >
+                Открыть чат
+              </Link>
+            </div>
+          ) : null}
           {(draft.linkedPinId || draft.sketchPageUrl) && (
             <div className="border-accent-primary/20 bg-accent-primary/10 text-accent-primary rounded-md border p-2 text-xs">
               {draft.linkedPinId ? (
@@ -198,7 +230,26 @@ export function EventDialog({
           )}
         </div>
         <DialogFooter className="gap-2 sm:gap-0">
-          {isPendingInvitee && onAccept && onReject ? (
+          {isPlatformB2bEvent ? (
+            <div className="flex w-full justify-end gap-2">
+              {threadMessagesHref ? (
+                <Button
+                  type="button"
+                  data-testid="calendar-event-chat-button"
+                  data-href={threadMessagesHref}
+                  onClick={() => {
+                    onOpenChange(false);
+                    router.push(threadMessagesHref);
+                  }}
+                >
+                  Чат
+                </Button>
+              ) : null}
+              <Button variant="outline" onClick={() => onOpenChange(false)}>
+                Закрыть
+              </Button>
+            </div>
+          ) : isPendingInvitee && onAccept && onReject ? (
             <div className="flex w-full gap-2 sm:justify-end">
               <Button variant="outline" onClick={onReject}>
                 Отклонить
@@ -216,7 +267,9 @@ export function EventDialog({
                 <Button variant="outline" onClick={() => onOpenChange(false)}>
                   Отмена
                 </Button>
-                <Button onClick={onSave}>Сохранить</Button>
+                <Button onClick={onSave} data-testid="calendar-event-save-btn">
+                  Сохранить
+                </Button>
               </div>
             </>
           )}

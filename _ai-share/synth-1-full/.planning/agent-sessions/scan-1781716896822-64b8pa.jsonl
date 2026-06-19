@@ -1,0 +1,180 @@
+{"role":"user","text":"SYNTHA Platform Core — глубокое сканирование проекта для планировщика развития.\nSession: scan-1781716896822-64b8pa\nCollection: SS27\nЛокальный аудит уже добавил 0 пункт(ов). Твоя задача — найти дополнительные пробелы в коде и UX.\n\n## Матрица роли × столпы × разделы (канон аудита)\n{\n  \"collectionId\": \"SS27\",\n  \"pillars\": [\n    {\n      \"id\": \"development\",\n      \"title\": \"Разработка\"\n    },\n    {\n      \"id\": \"sample_collection\",\n      \"title\": \"Коллекция и витрина\"\n    },\n    {\n      \"id\": \"collection_order\",\n      \"title\": \"Оптовый заказ\"\n    },\n    {\n      \"id\": \"order_production\",\n      \"title\": \"Производство\"\n    },\n    {\n      \"id\": \"comms\",\n      \"title\": \"Связь\"\n    }\n  ],\n  \"cells\": [\n    {\n      \"roleId\": \"brand\",\n      \"role\": \"Бренд\",\n      \"pillarId\": \"development\",\n      \"active\": true,\n      \"liveScore\": 6.6,\n      \"summary\": \"W2 golden: hub + досье + состав из PG; localStorage overlay для SS27/FW27 отключён в Platform Core.\",\n      \"bad\": [],\n      \"fix\": [],\n      \"workspaceHref\": \"/brand/production/workshop2?w2col=SS27&collection=SS27&orderId=B2B-DEMO-SHOP1-SS27&article=demo-ss27-01&buyerId=shop1\",\n      \"sections\": [\n        {\n          \"id\": \"brand-dev-w2-hub\",\n          \"label\": \"Цех разработки · коллекция\",\n          \"liveScore\": 7.5,\n          \"bad\": [],\n          \"fix\": [\n            \"Investor-summary read-only отдельно\"\n          ],\n          \"href\": \"/brand/production/workshop2?w2col=SS27\"\n        },\n        {\n          \"id\": \"brand-dev-dossier\",\n          \"label\": \"Досье артикула · техзадание\",\n          \"liveScore\": 7.2,\n          \"bad\": [\n            \"Investor-summary read-only отдельно\"\n          ],\n          \"fix\": [],\n          \"href\": \"/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=general\"\n        },\n        {\n          \"id\": \"brand-dev-range\",\n          \"label\": \"Планировщик ассортимента\",\n          \"liveScore\": 7.3,\n          \"bad\": [\n            \"Нет drag-reorder между tier\"\n          ],\n          \"fix\": [\n            \"Drag-","at":"2026-06-17T17:21:37.147Z"}
+{"role":"system","text":"Cursor local agent · cwd /Users/petr/Projects","at":"2026-06-17T17:21:37.147Z"}
+{"role":"assistant","text":"П","at":"2026-06-17T17:21:45.406Z","stream":true}
+{"role":"assistant","text":"ровожу г","at":"2026-06-17T17:21:45.408Z","stream":true}
+{"role":"assistant","text":"лубокое ск","at":"2026-06-17T17:21:45.409Z","stream":true}
+{"role":"assistant","text":"анирование ре","at":"2026-06-17T17:21:45.409Z","stream":true}
+{"role":"assistant","text":"позитория","at":"2026-06-17T17:21:45.410Z","stream":true}
+{"role":"assistant","text":": и","at":"2026-06-17T17:21:45.411Z","stream":true}
+{"role":"assistant","text":"щу проб","at":"2026-06-17T17:21:45.426Z","stream":true}
+{"role":"assistant","text":"елы в","at":"2026-06-17T17:21:45.438Z","stream":true}
+{"role":"assistant","text":" коде и","at":"2026-06-17T17:21:45.450Z","stream":true}
+{"role":"assistant","text":" UX, котор","at":"2026-06-17T17:21:45.487Z","stream":true}
+{"role":"assistant","text":"ых нет в","at":"2026-06-17T17:21:45.487Z","stream":true}
+{"role":"assistant","text":" матрице ауд","at":"2026-06-17T17:21:45.506Z","stream":true}
+{"role":"assistant","text":"ита","at":"2026-06-17T17:21:45.506Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:21:45.506Z","stream":true}
+{"role":"assistant","text":"П","at":"2026-06-17T17:23:35.605Z","stream":true}
+{"role":"assistant","text":"роверяю","at":"2026-06-17T17:23:35.605Z","stream":true}
+{"role":"assistant","text":" ключевые наход","at":"2026-06-17T17:23:35.606Z","stream":true}
+{"role":"assistant","text":"ки и фор","at":"2026-06-17T17:23:35.606Z","stream":true}
+{"role":"assistant","text":"мат существующ","at":"2026-06-17T17:23:35.607Z","stream":true}
+{"role":"assistant","text":"его scan","at":"2026-06-17T17:23:35.607Z","stream":true}
+{"role":"assistant","text":"-файла","at":"2026-06-17T17:23:35.607Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:23:35.607Z","stream":true}
+{"role":"assistant","text":"Ф","at":"2026-06-17T17:24:26.054Z","stream":true}
+{"role":"assistant","text":"ормирую","at":"2026-06-17T17:24:26.055Z","stream":true}
+{"role":"assistant","text":" JSON с","at":"2026-06-17T17:24:26.055Z","stream":true}
+{"role":"assistant","text":" нов","at":"2026-06-17T17:24:26.055Z","stream":true}
+{"role":"assistant","text":"ыми находк","at":"2026-06-17T17:24:26.055Z","stream":true}
+{"role":"assistant","text":"ами, без","at":"2026-06-17T17:24:26.055Z","stream":true}
+{"role":"assistant","text":" дублир","at":"2026-06-17T17:24:26.055Z","stream":true}
+{"role":"assistant","text":"ования матрицы","at":"2026-06-17T17:24:26.056Z","stream":true}
+{"role":"assistant","text":" и предыд","at":"2026-06-17T17:24:26.056Z","stream":true}
+{"role":"assistant","text":"ущего scan","at":"2026-06-17T17:24:26.056Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:24:26.056Z","stream":true}
+{"role":"assistant","text":"файла.\n","at":"2026-06-17T17:24:26.056Z","stream":true}
+{"role":"assistant","text":"Scan","at":"2026-06-17T17:24:47.186Z","stream":true}
+{"role":"assistant","text":" зав","at":"2026-06-17T17:24:47.187Z","stream":true}
+{"role":"assistant","text":"ершён.","at":"2026-06-17T17:24:47.187Z","stream":true}
+{"role":"assistant","text":" Файл запис","at":"2026-06-17T17:24:47.187Z","stream":true}
+{"role":"assistant","text":"ан: [`","at":"2026-06-17T17:24:47.187Z","stream":true}
+{"role":"assistant","text":"_ai-share/s","at":"2026-06-17T17:24:47.194Z","stream":true}
+{"role":"assistant","text":"ynth-1-full","at":"2026-06-17T17:24:47.195Z","stream":true}
+{"role":"assistant","text":"/.planning/pl","at":"2026-06-17T17:24:47.196Z","stream":true}
+{"role":"assistant","text":"anner-scan-scan-","at":"2026-06-17T17:24:47.196Z","stream":true}
+{"role":"assistant","text":"178171689682","at":"2026-06-17T17:24:47.196Z","stream":true}
+{"role":"assistant","text":"2-64b","at":"2026-06-17T17:24:47.197Z","stream":true}
+{"role":"assistant","text":"8pa.json`](","at":"2026-06-17T17:24:47.197Z","stream":true}
+{"role":"assistant","text":"_ai-share/s","at":"2026-06-17T17:24:47.201Z","stream":true}
+{"role":"assistant","text":"ynth-1-full","at":"2026-06-17T17:24:47.239Z","stream":true}
+{"role":"assistant","text":"/.planning/pl","at":"2026-06-17T17:24:47.240Z","stream":true}
+{"role":"assistant","text":"anner-scan-scan-","at":"2026-06-17T17:24:47.240Z","stream":true}
+{"role":"assistant","text":"178171689682","at":"2026-06-17T17:24:47.240Z","stream":true}
+{"role":"assistant","text":"2-64b","at":"2026-06-17T17:24:47.241Z","stream":true}
+{"role":"assistant","text":"8pa.json)\n\n","at":"2026-06-17T17:24:47.263Z","stream":true}
+{"role":"assistant","text":"**29","at":"2026-06-17T17:24:47.264Z","stream":true}
+{"role":"assistant","text":" development","at":"2026-06-17T17:24:47.271Z","stream":true}
+{"role":"assistant","text":" +","at":"2026-06-17T17:24:47.282Z","stream":true}
+{"role":"assistant","text":" 16","at":"2026-06-17T17:24:47.290Z","stream":true}
+{"role":"assistant","text":" techDebt**","at":"2026-06-17T17:24:47.299Z","stream":true}
+{"role":"assistant","text":" — только","at":"2026-06-17T17:24:47.326Z","stream":true}
+{"role":"assistant","text":" новые пункт","at":"2026-06-17T17:24:47.327Z","stream":true}
+{"role":"assistant","text":"ы, без","at":"2026-06-17T17:24:47.329Z","stream":true}
+{"role":"assistant","text":" д","at":"2026-06-17T17:24:47.338Z","stream":true}
+{"role":"assistant","text":"ублирования","at":"2026-06-17T17:24:47.368Z","stream":true}
+{"role":"assistant","text":" матрицы и","at":"2026-06-17T17:24:47.369Z","stream":true}
+{"role":"assistant","text":" предыдущ","at":"2026-06-17T17:24:47.369Z","stream":true}
+{"role":"assistant","text":"его scan (`","at":"2026-06-17T17:24:47.379Z","stream":true}
+{"role":"assistant","text":"uv4ehi","at":"2026-06-17T17:24:47.389Z","stream":true}
+{"role":"assistant","text":"`).\n\n### Т","at":"2026-06-17T17:24:47.398Z","stream":true}
+{"role":"assistant","text":"оп-5 наход","at":"2026-06-17T17:24:47.409Z","stream":true}
+{"role":"assistant","text":"ок\n\n1.","at":"2026-06-17T17:24:47.416Z","stream":true}
+{"role":"assistant","text":" **P0 —","at":"2026-06-17T17:24:47.425Z","stream":true}
+{"role":"assistant","text":" W2 hub","at":"2026-06-17T17:24:47.468Z","stream":true}
+{"role":"assistant","text":" при с","at":"2026-06-17T17:24:47.468Z","stream":true}
+{"role":"assistant","text":"бое PG**","at":"2026-06-17T17:24:47.468Z","stream":true}
+{"role":"assistant","text":" пер","at":"2026-06-17T17:24:47.468Z","stream":true}
+{"role":"assistant","text":"еключается на","at":"2026-06-17T17:24:47.475Z","stream":true}
+{"role":"assistant","text":" `localStorage`","at":"2026-06-17T17:24:47.484Z","stream":true}
+{"role":"assistant","text":" overlay (`workshop","at":"2026-06-17T17:24:47.492Z","stream":true}
+{"role":"assistant","text":"2-local-state-provider","at":"2026-06-17T17:24:47.502Z","stream":true}
+{"role":"assistant","text":".tsx:879`),","at":"2026-06-17T17:24:47.512Z","stream":true}
+{"role":"assistant","text":" SS27 может рас","at":"2026-06-17T17:24:47.524Z","stream":true}
+{"role":"assistant","text":"ходиться между с","at":"2026-06-17T17:24:47.531Z","stream":true}
+{"role":"assistant","text":"ессиями/","at":"2026-06-17T17:24:47.541Z","stream":true}
+{"role":"assistant","text":"браузера","at":"2026-06-17T17:24:47.550Z","stream":true}
+{"role":"assistant","text":"ми.\n\n2.","at":"2026-06-17T17:24:47.560Z","stream":true}
+{"role":"assistant","text":" **Shop","at":"2026-06-17T17:24:47.570Z","stream":true}
+{"role":"assistant","text":" → Brand","at":"2026-06-17T17:24:47.579Z","stream":true}
+{"role":"assistant","text":" sample path","at":"2026-06-17T17:24:47.588Z","stream":true}
+{"role":"assistant","text":" об","at":"2026-06-17T17:24:47.598Z","stream":true}
+{"role":"assistant","text":"рыва","at":"2026-06-17T17:24:47.608Z","stream":true}
+{"role":"assistant","text":"ется в","at":"2026-06-17T17:24:47.617Z","stream":true}
+{"role":"assistant","text":" UI** — `","at":"2026-06-17T17:24:47.628Z","stream":true}
+{"role":"assistant","text":"POST /api/","at":"2026-06-17T17:24:47.636Z","stream":true}
+{"role":"assistant","text":"shop/b2b","at":"2026-06-17T17:24:47.645Z","stream":true}
+{"role":"assistant","text":"/sample-request` пол","at":"2026-06-17T17:24:47.655Z","stream":true}
+{"role":"assistant","text":"ностью реализ","at":"2026-06-17T17:24:47.666Z","stream":true}
+{"role":"assistant","text":"ован (requisition","at":"2026-06-17T17:24:47.675Z","stream":true}
+{"role":"assistant","text":" + dossier flag","at":"2026-06-17T17:24:47.684Z","stream":true}
+{"role":"assistant","text":" + chat),","at":"2026-06-17T17:24:47.694Z","stream":true}
+{"role":"assistant","text":" но ни","at":"2026-06-17T17:24:47.703Z","stream":true}
+{"role":"assistant","text":" showroom, ни matrix","at":"2026-06-17T17:24:47.713Z","stream":true}
+{"role":"assistant","text":" не вызыва","at":"2026-06-17T17:24:47.722Z","stream":true}
+{"role":"assistant","text":"ют endpoint","at":"2026-06-17T17:24:47.732Z","stream":true}
+{"role":"assistant","text":".\n\n3.","at":"2026-06-17T17:24:47.742Z","stream":true}
+{"role":"assistant","text":" **Factory","at":"2026-06-17T17:24:47.750Z","stream":true}
+{"role":"assistant","text":" tech-pack","at":"2026-06-17T17:24:47.765Z","stream":true}
+{"role":"assistant","text":" ack без","at":"2026-06-17T17:24:47.770Z","stream":true}
+{"role":"assistant","text":" UI** — `","at":"2026-06-17T17:24:47.782Z","stream":true}
+{"role":"assistant","text":"handoff/factory","at":"2026-06-17T17:24:47.793Z","stream":true}
+{"role":"assistant","text":"-ack` п","at":"2026-06-17T17:24:47.799Z","stream":true}
+{"role":"assistant","text":"ишет `factory","at":"2026-06-17T17:24:47.810Z","stream":true}
+{"role":"assistant","text":"ReceivedAt`, brand","at":"2026-06-17T17:24:47.819Z","stream":true}
+{"role":"assistant","text":" dispatch есть","at":"2026-06-17T17:24:47.829Z","stream":true}
+{"role":"assistant","text":";","at":"2026-06-17T17:24:47.837Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:24:47.847Z","stream":true}
+{"role":"assistant","text":" `/","at":"2026-06-17T17:24:47.856Z","stream":true}
+{"role":"assistant","text":"factory/production/d","at":"2026-06-17T17:24:47.869Z","stream":true}
+{"role":"assistant","text":"ossier` н","at":"2026-06-17T17:24:47.878Z","stream":true}
+{"role":"assistant","text":"ет CTA.","at":"2026-06-17T17:24:47.885Z","stream":true}
+{"role":"assistant","text":" CTA «","at":"2026-06-17T17:24:47.899Z","stream":true}
+{"role":"assistant","text":"Принять","at":"2026-06-17T17:24:47.905Z","stream":true}
+{"role":"assistant","text":" образец» в","at":"2026-06-17T17:24:47.932Z","stream":true}
+{"role":"assistant","text":"едёт на","at":"2026-06-17T17:24:47.932Z","stream":true}
+{"role":"assistant","text":" sample-queue,","at":"2026-06-17T17:24:47.936Z","stream":true}
+{"role":"assistant","text":" не на при","at":"2026-06-17T17:24:47.943Z","stream":true}
+{"role":"assistant","text":"ёмку Т","at":"2026-06-17T17:24:47.952Z","stream":true}
+{"role":"assistant","text":"З.\n\n4.","at":"2026-06-17T17:24:47.963Z","stream":true}
+{"role":"assistant","text":" **Shop","at":"2026-06-17T17:24:47.975Z","stream":true}
+{"role":"assistant","text":" comms:","at":"2026-06-17T17:24:47.982Z","stream":true}
+{"role":"assistant","text":" notification strip только","at":"2026-06-17T17:24:47.991Z","stream":true}
+{"role":"assistant","text":" на","at":"2026-06-17T17:24:48.000Z","stream":true}
+{"role":"assistant","text":" hub**","at":"2026-06-17T17:24:48.009Z","stream":true}
+{"role":"assistant","text":" — `Comms","at":"2026-06-17T17:24:48.024Z","stream":true}
+{"role":"assistant","text":"NotificationCenterStrip`","at":"2026-06-17T17:24:48.028Z","stream":true}
+{"role":"assistant","text":" с","at":"2026-06-17T17:24:48.065Z","stream":true}
+{"role":"assistant","text":"монтирован л","at":"2026-06-17T17:24:48.065Z","stream":true}
+{"role":"assistant","text":"ишь в `","at":"2026-06-17T17:24:48.070Z","stream":true}
+{"role":"assistant","text":"CommsPillar","at":"2026-06-17T17:24:48.071Z","stream":true}
+{"role":"assistant","text":"Card`;","at":"2026-06-17T17:24:48.080Z","stream":true}
+{"role":"assistant","text":" `/","at":"2026-06-17T17:24:48.088Z","stream":true}
+{"role":"assistant","text":"shop/messages`","at":"2026-06-17T17:24:48.097Z","stream":true}
+{"role":"assistant","text":" и tracking chrome","at":"2026-06-17T17:24:48.106Z","stream":true}
+{"role":"assistant","text":" без него (","at":"2026-06-17T17:24:48.116Z","stream":true}
+{"role":"assistant","text":"с","at":"2026-06-17T17:24:48.126Z","stream":true}
+{"role":"assistant","text":"вязано","at":"2026-06-17T17:24:48.135Z","stream":true}
+{"role":"assistant","text":" с gap «notification","at":"2026-06-17T17:24:48.143Z","stream":true}
+{"role":"assistant","text":" center» из","at":"2026-06-17T17:24:48.153Z","stream":true}
+{"role":"assistant","text":" матрицы,","at":"2026-06-17T17:24:48.163Z","stream":true}
+{"role":"assistant","text":" но с другим","at":"2026-06-17T17:24:48.174Z","stream":true}
+{"role":"assistant","text":" углом —","at":"2026-06-17T17:24:48.181Z","stream":true}
+{"role":"assistant","text":" workspace","at":"2026-06-17T17:24:48.191Z","stream":true}
+{"role":"assistant","text":" vs","at":"2026-06-17T17:24:48.201Z","stream":true}
+{"role":"assistant","text":" hub).\n\n5","at":"2026-06-17T17:24:48.211Z","stream":true}
+{"role":"assistant","text":". **Shop","at":"2026-06-17T17:24:48.220Z","stream":true}
+{"role":"assistant","text":" entity-links leak","at":"2026-06-17T17:24:48.231Z","stream":true}
+{"role":"assistant","text":" side","at":"2026-06-17T17:24:48.247Z","stream":true}
+{"role":"assistant","text":"-paths** —","at":"2026-06-17T17:24:48.249Z","stream":true}
+{"role":"assistant","text":" `tenders`","at":"2026-06-17T17:24:48.260Z","stream":true}
+{"role":"assistant","text":" / `documents`","at":"2026-06-17T17:24:48.269Z","stream":true}
+{"role":"assistant","text":" / `custom assort","at":"2026-06-17T17:24:48.278Z","stream":true}
+{"role":"assistant","text":"ments` не","at":"2026-06-17T17:24:48.288Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:24:48.298Z","stream":true}
+{"role":"assistant","text":" `PLATFORM_CORE_ENTITY","at":"2026-06-17T17:24:48.355Z","stream":true}
+{"role":"assistant","text":"_LINK_HIDDEN_HRE","at":"2026-06-17T17:24:48.355Z","stream":true}
+{"role":"assistant","text":"FS`;","at":"2026-06-17T17:24:48.356Z","stream":true}
+{"role":"assistant","text":" Related","at":"2026-06-17T17:24:48.356Z","stream":true}
+{"role":"assistant","text":"Modules может","at":"2026-06-17T17:24:48.356Z","stream":true}
+{"role":"assistant","text":" у","at":"2026-06-17T17:24:48.391Z","stream":true}
+{"role":"assistant","text":"вод","at":"2026-06-17T17:24:48.402Z","stream":true}
+{"role":"assistant","text":"ить с","at":"2026-06-17T17:24:48.403Z","stream":true}
+{"role":"assistant","text":" golden","at":"2026-06-17T17:24:48.403Z","stream":true}
+{"role":"assistant","text":" path SS","at":"2026-06-17T17:24:48.403Z","stream":true}
+{"role":"assistant","text":"27 за","at":"2026-06-17T17:24:48.403Z","stream":true}
+{"role":"assistant","text":" пределы layout","at":"2026-06-17T17:24:48.412Z","stream":true}
+{"role":"assistant","text":"-g","at":"2026-06-17T17:24:48.423Z","stream":true}
+{"role":"assistant","text":"uard.","at":"2026-06-17T17:24:48.434Z","stream":true}
+{"role":"assistant","text":"Scan завершён. Файл записан: [`_ai-share/synth-1-full/.planning/planner-scan-scan-1781716896822-64b8pa.json`](_ai-share/synth-1-full/.planning/planner-scan-scan-1781716896822-64b8pa.json)\n\n**29 development + 16 techDebt** — только новые пункты, без дублирования матрицы и предыдущего scan (`uv4ehi`).\n\n### Топ-5 находок\n\n1. **P0 — W2 hub при сбое PG** переключается на `localStorage` overlay (`workshop2-local-state-provider.tsx:879`), SS27 может расходиться между сессиями/браузерами.\n\n2. **Shop → Brand sample path обрывается в UI** — `POST /api/shop/b2b/sample-request` полностью реализован (requisition + dossier flag + chat), но ни showroom, ни matrix не вызывают endpoint.\n\n3. **Factory tech-pack ack без UI** — `handoff/factory-ack` пишет `factoryReceivedAt`, brand dispatch есть; в `/factory/production/dossier` нет CTA. CTA «Принять образец» ведёт на sample-queue, не на приёмку ТЗ.\n\n4. **Shop comms: notification strip только на hub** — `CommsNotificationCenterStrip` смонтирован лишь в `CommsPillarCard`; `/shop/messages` и tracking chrome без него (связано с gap «notification center» из матрицы, но с другим углом — workspace vs hub).\n\n5. **Shop entity-links leak side-paths** — `tenders` / `documents` / `custom assortments` не в `PLATFORM_CORE_ENTITY_LINK_HIDDEN_HREFS`; RelatedModules может уводить с golden path SS27 за пределы layout-guard.","at":"2026-06-17T17:24:49.675Z","done":true,"status":"finished"}
+{"role":"system","text":"Сканирование загружено в планировщик: +45 пункт(ов). Обновите вкладку План.","at":"2026-06-17T17:24:50.061Z"}

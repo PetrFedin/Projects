@@ -6,6 +6,7 @@ import type {
   Workshop2DossierPhase1,
   Workshop2TaMilestone,
 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2TaMilestoneSource = 'dossier' | 'bundle' | 'empty';
 
@@ -91,7 +92,7 @@ export function summarizeWorkshop2TaMilestonesStatus(input: {
       'Вехи только в bundle workspace — сохраните досье (PUT), чтобы PG/API отдавали тот же календарь.';
   } else if (input.dossier?.taMilestonesMirror && !input.dossier.taMilestonesMirror.persistedAt) {
     hintRu =
-      input.dossier.taMilestonesMirror.hintRu ??
+      workshop2PgMirrorStr(input.dossier.taMilestonesMirror, 'hintRu') ||
       'T&A mirror в досье без persistedAt — «T&A → PG» на плане.';
   } else if (state === 'partial' && inProgressCount === 0) {
     hintRu = 'Этапы заведены — отметьте in_progress/completed по факту поставщика.';

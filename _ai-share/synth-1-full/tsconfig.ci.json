@@ -25,7 +25,21 @@
     "src/lib/logic/**/*.ts",
     "src/lib/types/**/*.ts",
     "src/lib/b2b-features/**/*.ts",
-    "src/lib/communications/**/*.ts"
+    "src/lib/communications/**/*.ts",
+    "src/lib/platform-core*.ts",
+    "src/lib/platform-core/**/*.ts",
+    "src/lib/server/platform-core*.ts",
+    "src/lib/server/platform-core/**/*.ts",
+    "src/components/platform/PlatformCorePublishedShowroom.tsx",
+    "src/components/platform/PlatformCoreShopB2bTrackingPanel.tsx",
+    "src/components/integrations/ShopOrderShipmentTrackingStrip.tsx"
   ],
-  "exclude": ["node_modules", ".next", "backup_duplicates"]
+  "exclude": [
+    "node_modules",
+    ".next",
+    "backup_duplicates",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
 }

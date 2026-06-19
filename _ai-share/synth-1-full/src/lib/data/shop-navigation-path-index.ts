@@ -4,6 +4,9 @@
  * Синхронизация: npm run shop-nav:sync-path-index.
  */
 
+import { shopCanonicalCalendarHref } from '@/lib/routes';
+import { SHOP_CANONICAL_CALENDAR_LAYERS } from '@/lib/platform-core-canonical-labels';
+
 export type ShopNavPathCandidate = {
   href: string;
   value: string;
@@ -22,7 +25,7 @@ export const shopNavPathCandidates: readonly ShopNavPathCandidate[] = [
     label: 'Сообщения',
   },
   {
-    href: '/shop/calendar?layers=orders,logistics',
+    href: shopCanonicalCalendarHref(SHOP_CANONICAL_CALENDAR_LAYERS),
     value: 'calendar',
     label: 'Календарь',
   },

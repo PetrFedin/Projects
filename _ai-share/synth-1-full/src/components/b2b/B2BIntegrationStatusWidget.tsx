@@ -5,68 +5,70 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Zap, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-
-export interface B2BIntegrationStatusItem {
-  id: string;
-  name: string;
-  configured: boolean;
-  docsUrl?: string;
-  description?: string;
-}
+import { ROUTES } from '@/lib/routes';
 
 interface B2BIntegrationStatusWidgetProps {
-  /** Ссылка на настройки интеграций (бренд: /brand/integrations, магазин: /shop/b2b/settings). */
+  /** Ссылка на hub webhooks / каналов. */
   settingsHref?: string;
 }
 
-/** Виджет статуса B2B-интеграций (JOOR, NuOrder, Fashion Cloud, SparkLayer, Colect, Zedonk). Для брендов, дистрибуторов, магазинов, поставщиков. */
-export function B2BIntegrationStatusWidget({ settingsHref }: B2BIntegrationStatusWidgetProps = {}) {
-  const [items, setItems] = useState<B2BIntegrationStatusItem[]>([]);
+/** Статус подключённых B2B-каналов (из spine status API). */
+export function B2BIntegrationStatusWidget({
+  settingsHref = ROUTES.brand.integrationsWebhooks,
+}: B2BIntegrationStatusWidgetProps = {}) {
+  const [labels, setLabels] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/b2b/integrations/status')
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data: unknown) =>
-        setItems(Array.isArray(data) ? (data as B2BIntegrationStatusItem[]) : [])
-      )
-      .catch(() => setItems([]))
-      .finally(() => setLoading(false));
+    void (async () => {
+      try {
+        const res = await fetch('/api/integrations/v1/status', { cache: 'no-store' });
+        const json = (await res.json()) as {
+          data?: { connectors?: Array<{ label: string; configured: boolean; platform: string }> };
+        };
+        if (res.ok && json.data?.connectors) {
+          const wholesale = json.data.connectors.filter(
+            (c) =>
+              c.configured &&
+              ['joor', 'nuorder', 'zedonk', 'apparel_magic', 'aims360'].includes(c.platform)
+          );
+          setLabels(wholesale.map((c) => c.label));
+        }
+      } catch {
+        setLabels([]);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
-  if (loading || items.length === 0) return null;
-
-  const allowedIds = ['joor', 'nuorder', 'fashion_cloud', 'sparklayer', 'colect', 'zedonk'];
-  const configured = items.filter((i) => i.configured && allowedIds.includes(i.id));
-  if (configured.length === 0) return null;
+  if (loading) return null;
 
   return (
-    <Card className="border-dashed">
+    <Card className="border-dashed" data-testid="b2b-integration-status-widget">
       <CardHeader className="py-3">
         <CardTitle className="flex items-center gap-2 text-sm font-bold">
-          <Zap className="h-4 w-4 text-amber-500" /> B2B интеграции
+          <Zap className="h-4 w-4 text-amber-500" /> B2B-каналы
         </CardTitle>
-        <CardDescription>Подключённые платформы для заказов, каталога и прайсов.</CardDescription>
+        <CardDescription>
+          {labels.length > 0
+            ? 'Подключённые каналы оптовых заказов и синхронизации.'
+            : 'Настройте credentials каналов — метрики вовлечённости появятся после синхронизации.'}
+        </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-wrap gap-2 pt-0">
-        {configured.map((i) => (
-          <Badge
-            key={i.id}
-            variant="secondary"
-            className="cursor-default text-xs font-medium"
-            title={i.description}
-          >
-            {i.name}
+      <CardContent className="flex flex-wrap items-center gap-2 pt-0">
+        {labels.map((label) => (
+          <Badge key={label} variant="secondary" className="text-xs font-medium">
+            {label}
           </Badge>
         ))}
-        {settingsHref && (
-          <Link
-            href={settingsHref}
-            className="ml-1 inline-flex items-center gap-1 text-xs text-muted-foreground hover:underline"
-          >
-            Настройки <ExternalLink className="h-3 w-3" />
-          </Link>
-        )}
+        <Link
+          href={settingsHref}
+          className="ml-1 inline-flex items-center gap-1 text-xs text-muted-foreground hover:underline"
+          data-testid="b2b-integration-status-settings-link"
+        >
+          Настройки <ExternalLink className="h-3 w-3" />
+        </Link>
       </CardContent>
     </Card>
   );

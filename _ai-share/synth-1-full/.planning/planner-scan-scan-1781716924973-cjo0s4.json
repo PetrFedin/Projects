@@ -1,0 +1,447 @@
+{
+  "collection": "SS27",
+  "development": [
+    {
+      "id": "scan-dev-w2-ta-section-dead",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд] W2 T&A: deep-link w2sec=time-and-action — мёртвая секция",
+      "evidence": "workshop2-article-workspace-ui-constants.ts:41 parseWorkshop2DossierSection('time-and-action') → null; panel-section-body-time-and-action.tsx существует, но URL не резолвится",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=time-and-action",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-shop-moq-checkout-gap",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Магазин] MOQ: badge в матрице, checkout не блокирует нарушение",
+      "evidence": "CoreWholesaleMatrix.tsx:336-340 moqOk только для badge; checkout-core.tsx проверяет b2bCart.length; cart/lines/route.ts — warnings без reject MOQ",
+      "href": "/shop/b2b/checkout?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-shop-matrix-integration-ats",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Магазин] Core matrix: DEMO NuOrder/JOOR/AM/AIMS badges в Platform Core",
+      "evidence": "CoreWholesaleMatrix.tsx:129-132 useMatrixIntegrationInventory ×4; inventory-adapters.ts DEMO_NUORDER; readiness-audit ожидает «без сторонних платформ в core»",
+      "href": "/shop/b2b/matrix?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-comms-fail-closed-asymmetric",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Магазин/Производство] Comms: нет fail-closed при source=memory (только brand)",
+      "evidence": "brand/messages/messages-core.tsx:52-69 brand-messages-core-fail-closed; shop/messages/messages-core.tsx и factory/messages/messages-core.tsx монтируют MessagesPage без guard",
+      "href": "/shop/messages?contextType=b2b_order&contextId=B2B-DEMO-SHOP1-SS27",
+      "roleId": "shop",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-brand-b2b-calendar-context-drop",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд] B2B calendar redirect сбрасывает order/collection контекст",
+      "evidence": "brand/b2b-orders/calendar/page.tsx:5 redirect('/brand/calendar?layers=orders,meetings,tasks') — без orderId, collection=SS27",
+      "href": "/brand/b2b-orders/calendar",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-brand-linesheets-error-recovery",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Linesheets: error state без retry и cross-links",
+      "evidence": "linesheets-core.tsx:207-216 brand-sc-linesheets-error — только PLATFORM_CORE_LINESETS_UNAVAILABLE_RU; empty state (L234+) имеет W2/showroom CTAs",
+      "href": "/brand/linesheets?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-showroom-error-mislabel",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд/Магазин] Showroom API error = «не опубликована» без retry",
+      "evidence": "PlatformCorePublishedShowroom.tsx:257-266 loadState==='error' — тот же copy что empty/unpublished; нет distinction fetch fail vs zero articles",
+      "href": "/shop/b2b/showroom?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-brand-sc-cabinet-error-deadend",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд] Кабинет sample_collection: error без escape links",
+      "evidence": "BrandSampleCollectionMini.tsx:50-53 brand-sc-cabinet-error — «Статус недоступен.»; e2e core-06 ожидает brand-sc-cabinet-error-linesheet-link/showroom-link — testids отсутствуют",
+      "href": "/brand/core?pillar=sample_collection&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-brand-b2b-mock-side-registry",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] B2B side-paths: approval/shipments/amendments на MOCK_* без PG",
+      "evidence": "order-approval-workflow/page.tsx:15 MOCK_APPROVALS; shipments/page.tsx:16 MOCK_ASN; order-amendments/page.tsx:15 MOCK_AMENDMENTS — reachable, не связаны с B2B-DEMO-SHOP1-SS27 spine",
+      "href": "/brand/b2b/order-approval-workflow",
+      "roleId": "brand",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-brand-order-detail-no-procurement",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Бренд] Карточка заказа: materials_supplied без CTA закупки",
+      "evidence": "PlatformCoreB2bOrderDetailFacts.tsx:148-149 читает materials_supplied step; grep procurement/supplier/materials href — нет cross-role link на factory/production/materials?view=procurement",
+      "href": "/brand/b2b-orders/B2B-DEMO-SHOP1-SS27?pillar=order_production",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-brand-op-compact-procurement-hidden",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] order_production hub: materials step link только в full card",
+      "evidence": "OrderProductionPillarCard.tsx:173-177 brand-op-cabinet-materials-step-link внутри !compact block; hub всегда compact — SS27 handoff→закупка peer скрыт",
+      "href": "/brand/core?pillar=order_production&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-range-planner-error-fallback",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд] Range planner: API error → mock tiers без error UI",
+      "evidence": "range-planner-core.tsx:78-86 setLoadState('error') но snapshot=parse(null); L256+ demo-notice/mock board рендерится — нет retry panel при loadState==='error'",
+      "href": "/brand/range-planner?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-range-supplier-materials-link",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Бренд] Range planner context strip: нет supplier BOM peer",
+      "evidence": "range-planner-core.tsx:210-253 brand-dev-range-context-strip — W2, dossier, factory dossier, showroom; нет factory/production/materials?view=development",
+      "href": "/brand/range-planner?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-lab-dips-mock",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Lab dips panel: in-memory mock, не dossier PG",
+      "evidence": "api/brand/workshop2/materials/lab-dips/route.ts:5 mockLabDips placehold.co; Workshop2MaterialLabDipsPanel.tsx fetch без articleId/collectionId binding",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=materials",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-fit-sessions-memory",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Fit sessions: in-memory store, теряются при restart",
+      "evidence": "api/brand/workshop2/fit-sessions/route.ts:4 comment «мок-хранилище в памяти»; не связаны с dossier fit section PG events",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=fit",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-cad-mock-bom",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] CAD preview: mockMaterialLines heuristic, не parsed BOM",
+      "evidence": "workshop2-phase1-dossier-panel-construction-basic-params.tsx:385-435 cadResult.mockMaterialLines + «Добавлено N строк» без vault CAD ingest mirror",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=construction",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-sustainability-random",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Sustainability panel: Math.random() eco scores",
+      "evidence": "api/brand/workshop2/phase1-dossier/sustainability/route.ts:7-28 «Mock calculating sustainability» — carbon/water/ecoScore random",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=sustainability",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-moodboard-stub",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] AI moodboard: 4 фиксированных Unsplash URL",
+      "evidence": "api/brand/workshop2/ai/moodboard/route.ts:10-28 fixed refs; workshop2-phase1-dossier-panel-visual-references-block.tsx:1276+ treats as AI output",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=visuals",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-floor-mock-summaries",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Production floor tab: FLOOR_MOCK_QC/MILESTONES до live API",
+      "evidence": "use-brand-production-workshop-floor-mocks.ts:14-20 импорт FLOOR_MOCK_*; production-page-floor-mock-summaries.ts — inject в floor risk UI",
+      "href": "/brand/production?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-brand-returns-mock-fallback",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Returns/claims: mockClaimsFallback при пустом PG",
+      "evidence": "brand/returns-claims/page.tsx:32-132 mockClaimsFallback RMA rows when getRmaList() empty — не связано с B2B order spine",
+      "href": "/brand/returns-claims",
+      "roleId": "brand",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-brand-linesheet-creator-mock",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] LinesheetCreator: новый лист с products ['1','2'] mock",
+      "evidence": "LinesheetCreator.tsx:53 products: ['1', '2'] // Mock products — не SS27 published articles",
+      "href": "/brand/linesheets?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-shop-contracts-mock-chat",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Магазин] Contracts: mockContracts + OrderChat seed history",
+      "evidence": "shop/b2b/contracts/page.tsx:26 mockContracts static; contracts/[contractId]/page.tsx:17 OrderChat from order-chat.tsx:10 mockChat — не threads API",
+      "href": "/shop/b2b/contracts",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-shop-tracking-list-no-calendar",
+      "kind": "add",
+      "priority": "P2",
+      "title": "[Магазин] Tracking list без ?order=: нет calendar CTA на строках",
+      "evidence": "PlatformCoreShopB2bTrackingPanel.tsx:301-330 shop-co-tracking-calendar-link только при focusOrderId; row links (L411+) — order detail/production/chat, без calendar per row",
+      "href": "/shop/b2b/tracking?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-comms-unread-mock-fallback",
+      "kind": "fix",
+      "priority": "P2",
+      "title": "[Бренд] Unread badge: mockChatHistories когда PG threads пуст",
+      "evidence": "use-communications-unread.ts:4,22 buildUnreadCountByChat(mockChatHistories) fallback — phantom unread в hub nav",
+      "href": "/brand/core?pillar=comms&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-mfr-dossier-supplier-peer",
+      "kind": "add",
+      "priority": "P2",
+      "title": "[Производство] Dossier context strip: нет supplier cabinet/messages peer",
+      "evidence": "FactoryDossierCoreChrome.tsx:177-221 mfr-op-dossier-context-strip — Queue/Orders/Закупка/Shop tracking; grep supplier → no href to /factory/supplier/",
+      "href": "/factory/production/dossier/demo-ss27-01?pillar=order_production&collection=SS27&order=B2B-DEMO-SHOP1-SS27",
+      "roleId": "manufacturer",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-mfr-slot-auction-mock",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Производство] Slot auction board: MOCK_SLOTS capacity",
+      "evidence": "components/factory/slot-auction.tsx:28-110 MOCK_SLOTS — не связан с handoff queue или factory calendar",
+      "href": "/factory/production",
+      "roleId": "manufacturer",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-sup-circular-hub-mock",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Поставщик] Circular hub: MOCK_MATERIAL_LISTINGS/TRANSACTIONS",
+      "evidence": "supplier/circular-hub/page.tsx:40-331 static listings; дубль factory/supplier/circular-hub — вне core procurement spine",
+      "href": "/factory/supplier/circular-hub",
+      "roleId": "supplier",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-e2e-amend-missing",
+      "kind": "add",
+      "priority": "P2",
+      "title": "[Бренд/Магазин] Amend approve/reject: UI testids без e2e",
+      "evidence": "B2bOrderAmendmentPanel.tsx brand-b2b-amend-approve/reject, shop-b2b-amend-request-*; grep e2e/ amend → 0 matches",
+      "href": "/brand/b2b-orders/B2B-DEMO-SHOP1-SS27",
+      "roleId": "brand",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-e2e-procurement-wizard-missing",
+      "kind": "add",
+      "priority": "P2",
+      "title": "[Поставщик] Multi-article procurement wizard: testids без e2e",
+      "evidence": "materials-core.tsx:736-770 sup-op-procurement-article-wizard, confirmAllArticles; grep e2e procurement-article-wizard → 0",
+      "href": "/factory/production/materials?collection=SS27&article=demo-ss27-01&view=procurement&po=PO-B2B-B2B-DEMO-SHOP1-SS27&role=supplier",
+      "roleId": "supplier",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-shop-supplier-discovery-static",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Магазин] Supplier discovery: статичный demo catalog",
+      "evidence": "shop/b2b/supplier-discovery/page.tsx:17-37 hardcoded suppliers с MOQ/region — не PG onboarding path из partners/discover",
+      "href": "/shop/b2b/supplier-discovery",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    }
+  ],
+  "techDebt": [
+    {
+      "id": "scan-td-w2-ta-api-drift",
+      "category": "stub",
+      "priority": "P1",
+      "title": "time-and-action route: mock milestones vs test expects 503 dossier_required",
+      "action": "fix",
+      "hint": "Унифицировать GET с fail-closed PG или вернуть parseWorkshop2DossierSection('time-and-action')",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/workshop2/phase1-dossier/time-and-action/route.ts:4-48; workshop2-legacy-api-routes.test.ts:9-14"
+    },
+    {
+      "id": "scan-td-no-segment-error-tsx",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "Нет route-segment error.tsx под B2B/production trees",
+      "action": "add",
+      "hint": "Добавить error.tsx в brand/b2b-orders, shop/b2b, factory/production/dossier с pillar/collection recovery",
+      "source": "cursor-scan",
+      "evidence": "src/app/error.tsx (единственный); brand/layout.tsx ErrorBoundary без route-specific messaging"
+    },
+    {
+      "id": "scan-td-fashion-cloud-webhook",
+      "category": "stub",
+      "priority": "P1",
+      "title": "Fashion Cloud webhook: TODO persist order, только { received: true }",
+      "action": "fix",
+      "hint": "Validate signature + ingest в shop/b2b operational orders spine",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/b2b/archive/fashion-cloud/webhook/route.ts:11-12"
+    },
+    {
+      "id": "scan-td-lab-dips-memory-store",
+      "category": "stub",
+      "priority": "P1",
+      "title": "materials/lab-dips — module-level mockLabDips array",
+      "action": "fix",
+      "hint": "Persist в dossier material_colorways или PG lab_dip_requests",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/workshop2/materials/lab-dips/route.ts:5-67"
+    },
+    {
+      "id": "scan-td-fit-sessions-memory-store",
+      "category": "stub",
+      "priority": "P1",
+      "title": "fit-sessions route — in-memory sessions, restart loss",
+      "action": "fix",
+      "hint": "workshop2_fit_sessions table или dossier fit_events JSONB",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/workshop2/fit-sessions/route.ts:4-43"
+    },
+    {
+      "id": "scan-td-bids-add-mock-bid",
+      "category": "stub",
+      "priority": "P2",
+      "title": "phase1-dossier/bids add_mock_bid — random factory/CMT",
+      "action": "remove",
+      "hint": "Replace с vendor RFQ из supply panel PG или hide action в core mode",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/workshop2/phase1-dossier/bids/route.ts:13-29"
+    },
+    {
+      "id": "scan-td-sustainability-random",
+      "category": "stub",
+      "priority": "P2",
+      "title": "sustainability route — Math.random() LCA scores",
+      "action": "fix",
+      "hint": "Read from dossier sustainability section or external LCA provider",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/workshop2/phase1-dossier/sustainability/route.ts:7-28"
+    },
+    {
+      "id": "scan-td-moodboard-stub-api",
+      "category": "stub",
+      "priority": "P2",
+      "title": "ai/moodboard — fixed Unsplash URLs, не generative",
+      "action": "change",
+      "hint": "Wire to WORKSHOP2_MOODBOARD_API_URL или badge «demo refs»",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/workshop2/ai/moodboard/route.ts:10-28"
+    },
+    {
+      "id": "scan-td-marketplace-inbound-stub",
+      "category": "stub",
+      "priority": "P2",
+      "title": "marketplace/inbound — buildWorkshop2B2bMarketplaceOrderStub journal",
+      "action": "fix",
+      "hint": "Full PG ingest + chain step bump для JOOR/NuORDER parity",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/integrations/b2b/marketplace/inbound/route.ts:3-8"
+    },
+    {
+      "id": "scan-td-wip-strip-silent-fail",
+      "category": "missing-link",
+      "priority": "P2",
+      "title": "IntegrationProductionWipStrip — null WIP при API fail, нет dossier fallback",
+      "action": "fix",
+      "hint": "Fallback на workshop2 production-analytics или explicit error chip",
+      "source": "cursor-scan",
+      "evidence": "src/app/factory/production/orders/factory-production-orders-core.tsx:710-715"
+    },
+    {
+      "id": "scan-td-brand-kpi-fastapi-warn",
+      "category": "stub",
+      "priority": "P2",
+      "title": "Brand layout: console.warn FastAPI KPI fetch, silent fallback",
+      "action": "fix",
+      "hint": "Fail-closed badge в hub или disable KPI widget when FASTAPI_URL unset",
+      "source": "cursor-scan",
+      "evidence": "src/app/brand/layout.tsx:251"
+    },
+    {
+      "id": "scan-td-cad-mock-material-lines",
+      "category": "stub",
+      "priority": "P2",
+      "title": "CAD construction preview — mockMaterialLines heuristic BOM",
+      "action": "fix",
+      "hint": "Parse vault/cad-ingest output или disable «Добавить строки» без real ingest",
+      "source": "cursor-scan",
+      "evidence": "src/components/brand/production/workshop2-phase1-dossier-panel-construction-basic-params.tsx:385-435"
+    },
+    {
+      "id": "scan-td-monster-workshop2-article-workspace",
+      "category": "monster-file",
+      "priority": "P2",
+      "title": "Workshop2ArticleWorkspace.tsx — ~2500+ строк, tab panels monolith",
+      "action": "merge",
+      "hint": "Lazy-load section bodies (T&A, fit, supply, nesting) как отдельные chunks",
+      "source": "cursor-scan",
+      "evidence": "src/components/brand/production/Workshop2ArticleWorkspace.tsx"
+    },
+    {
+      "id": "scan-td-qc-supplier-id-hardcoded",
+      "category": "stub",
+      "priority": "P2",
+      "title": "QC panel supplierId=\"supplier-demo\" hardcoded",
+      "action": "fix",
+      "hint": "Resolve from dossier supply BOM or PO materials_supplied event",
+      "source": "cursor-scan",
+      "evidence": "src/components/brand/production/workshop2-article-workspace-qc-panel.tsx:44"
+    }
+  ]
+}

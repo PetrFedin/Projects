@@ -1,15 +1,22 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-import { resolveWorkshop2B2bShowroom3dStreamToken } from '@/lib/production/workshop2-b2b-showroom-3d-stream';
+import { buildWorkshop2B2bShowroom3dStreamPayload } from '@/lib/production/workshop2-b2b-showroom-3d-stream';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 
-/** GET — 3D showroom stream token scaffold (placeholder | live). */
-export async function GET() {
-  const resolved = resolveWorkshop2B2bShowroom3dStreamToken();
-  return NextResponse.json({
-    ok: true,
-    mode: resolved.mode,
-    ...(resolved.token ? { token: resolved.token } : {}),
-    streamUrlConfigured: resolved.streamUrlConfigured,
-    hintRu: resolved.hintRu,
+/** GET — 3D showroom stream token + embed payload для B2b3dStreamPanel. */
+export async function GET(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
+  const collectionId = req.nextUrl.searchParams.get('collectionId')?.trim();
+  const articleId = req.nextUrl.searchParams.get('articleId')?.trim();
+  const origin = req.nextUrl.origin || 'http://localhost:3001';
+
+  const payload = buildWorkshop2B2bShowroom3dStreamPayload({
+    collectionId,
+    articleId,
+    origin,
   });
+
+  return NextResponse.json(payload);
 }

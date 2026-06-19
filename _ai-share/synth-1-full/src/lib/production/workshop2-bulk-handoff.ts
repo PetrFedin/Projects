@@ -4,6 +4,7 @@
 import { evaluateWorkshop2FactoryHandoffCommitGate } from '@/lib/production/workshop2-factory-handoff-commit-gate';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { countWorkshop2VaultDocumentsForRelatedStrip } from '@/lib/production/workshop2-related-vault-enrichment';
 
 export type Workshop2BulkHandoffArticleResult = {
   articleId: string;
@@ -43,6 +44,7 @@ export function evaluateWorkshop2BulkHandoffForArticle(input: {
   const gate = evaluateWorkshop2FactoryHandoffCommitGate({
     dossier: input.dossier,
     categoryLeafId: input.categoryLeafId,
+    vaultFileCount: countWorkshop2VaultDocumentsForRelatedStrip(input.dossier),
   });
   const blockers = gate.readiness.checks.filter((c) => c.severity === 'blocker');
   const passed = gate.allowed && blockers.length === 0;

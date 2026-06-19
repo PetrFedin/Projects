@@ -27,7 +27,7 @@ export function appendWorkshop2QcAutoChangeRequest(
   const cr: Workshop2ChangeRequest = {
     id: `cr-qc-${Date.now().toString(36)}`,
     description: description.slice(0, 500),
-    priority: input.severity === 'critical' ? 'High' : 'Medium',
+    priority: input.severity === 'critical' ? 'high' : 'medium',
     status: 'pending',
     requestedBy: 'qc-auto',
     createdAt: new Date().toISOString(),

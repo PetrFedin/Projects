@@ -35,7 +35,7 @@ export const WORKSHOP2_FILE_STORE_DEMO_ARTICLES: Workshop2FileStoreDemoArticleSp
     categoryLeafId: 'catalog-apparel-g0-l0',
     build: (by) =>
       buildWorkshop2Ss27MenCoat01FullTzDemoDossier(
-        findHandbookLeafById('catalog-apparel-g0-l0'),
+        findHandbookLeafById('catalog-apparel-g0-l0') ?? null,
         by
       ),
   },
@@ -44,7 +44,10 @@ export const WORKSHOP2_FILE_STORE_DEMO_ARTICLES: Workshop2FileStoreDemoArticleSp
     sku: 'SS27-W-DRS-02',
     categoryLeafId: 'catalog-apparel-g2-l0',
     build: (by) =>
-      buildWorkshop2Ss27WomenDress02DemoDossier(findHandbookLeafById('catalog-apparel-g2-l0'), by),
+      buildWorkshop2Ss27WomenDress02DemoDossier(
+        findHandbookLeafById('catalog-apparel-g2-l0') ?? null,
+        by
+      ),
   },
   {
     articleId: 'demo-ss27-03',
@@ -52,7 +55,7 @@ export const WORKSHOP2_FILE_STORE_DEMO_ARTICLES: Workshop2FileStoreDemoArticleSp
     categoryLeafId: 'catalog-shoes-g0-l0',
     build: (by) =>
       buildWorkshop2Ss27UnisexSneakers03DemoDossier(
-        findHandbookLeafById('catalog-shoes-g0-l0'),
+        findHandbookLeafById('catalog-shoes-g0-l0') ?? null,
         by
       ),
   },

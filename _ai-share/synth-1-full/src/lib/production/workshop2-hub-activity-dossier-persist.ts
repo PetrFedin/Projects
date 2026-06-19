@@ -5,6 +5,7 @@ import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-
 import type { Workshop2ActivityEntry } from '@/lib/production/workshop2-activity-log';
 import { summarizeWorkshop2HubActivityStatus } from '@/lib/production/workshop2-hub-activity-status';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2HubActivityMirrorFromEntries(
   entries: Workshop2ActivityEntry[],
@@ -68,11 +69,13 @@ export function evaluateWorkshop2HubActivitySampleGate(
       messageRu: 'Activity mirror не в PG — откройте артикул после загрузки events.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  if (mirror.blockerSampleOrder === true) {
     return {
       id: 'hub.activity.local_only',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Журнал активности не на сервере — образец без PG audit trail.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Журнал активности не на сервере — образец без PG audit trail.',
     };
   }
   return null;
@@ -89,18 +92,20 @@ export function evaluateWorkshop2HubActivityHandoffGate(
       messageRu: 'Activity mirror не в досье — синхронизируйте PG events.',
     };
   }
-  if (!mirror.serverWorkflowEnabled) {
+  if (mirror.serverWorkflowEnabled !== true) {
     return {
       id: 'hub.activity.no_server_audit',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Нет PG audit — handoff без server events.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') || 'Нет PG audit — handoff без server events.',
     };
   }
-  if (mirror.blockerHandoff) {
+  if (mirror.blockerHandoff === true) {
     return {
       id: 'hub.activity.no_server_events',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Нет server events в журнале.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') || 'Нет server events в журнале.',
     };
   }
   return null;
@@ -111,11 +116,13 @@ export function evaluateWorkshop2HubActivityExportGate(
   dossier: Workshop2DossierPhase1
 ): Workshop2HandoffReadinessCheck | null {
   const mirror = dossier.hubActivityMirror;
-  if (!mirror?.serverWorkflowEnabled) {
+  if (mirror?.serverWorkflowEnabled !== true) {
     return {
       id: 'hub.activity.export_no_pg_audit',
       severity: 'warning',
-      messageRu: mirror?.hintRu ?? 'ZIP ТЗ: activity без PG audit — «Activity PG → досье».',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'ZIP ТЗ: activity без PG audit — «Activity PG → досье».',
     };
   }
   return null;

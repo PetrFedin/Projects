@@ -4,10 +4,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { buildWorkshop2B2bOrderConfirmationPdfBytes } from '@/lib/production/workshop2-b2b-order-confirmation-pdf';
 import { getWorkshop2B2bOrder } from '@/lib/server/workshop2-b2b-orders-repository';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 
 type RouteCtx = { params: Promise<{ id: string }> };
 
-export async function GET(_req: NextRequest, ctx: RouteCtx) {
+export async function GET(req: NextRequest, ctx: RouteCtx) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   const { id } = await ctx.params;
   const orderId = id.trim();
   if (!orderId) {

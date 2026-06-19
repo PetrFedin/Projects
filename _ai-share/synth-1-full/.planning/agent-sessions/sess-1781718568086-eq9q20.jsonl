@@ -1,0 +1,493 @@
+{"role":"user","text":"SYNTHA Platform Core — задача для Cursor SDK (local agent, cwd=Projects).\nID: scan-7157zx-b2b-demo-logistics-blind\nПриоритет: P0\nЗадача: [Бренд] ТТН/logistics strip скрыт для B2B-DEMO-SHOP1-SS27\nИсточник: agent\nМаршрут в продукте: /brand/b2b-orders/B2B-DEMO-SHOP1-SS27\nРепозиторий: монорепо Projects — фронт _ai-share/synth-1-full, бэкенд app/\nПосле реализации:\n1. Минимальный diff, канон путей, без параллельных стеков\n2. read_lints / smoke по затронутой зоне\n3. POST http://127.0.0.1:3001/api/dev/platform-core/planner/complete\n   body: {\"id\":\"scan-7157zx-b2b-demo-logistics-blind\",\"note\":\"кратко что сделано\",\"by\":\"cursor-agent\"}\n4. Следующая задача: GET /api/dev/platform-core/planner/next","at":"2026-06-17T17:49:28.441Z"}
+{"role":"system","text":"Cursor local agent · cwd /Users/petr/Projects","at":"2026-06-17T17:49:28.446Z"}
+{"role":"assistant","text":"И","at":"2026-06-17T17:49:35.014Z","stream":true}
+{"role":"assistant","text":"щ","at":"2026-06-17T17:49:35.015Z","stream":true}
+{"role":"assistant","text":"у","at":"2026-06-17T17:49:35.015Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:49:35.015Z","stream":true}
+{"role":"assistant","text":" код","at":"2026-06-17T17:49:35.016Z","stream":true}
+{"role":"assistant","text":"е","at":"2026-06-17T17:49:35.016Z","stream":true}
+{"role":"assistant","text":",","at":"2026-06-17T17:49:35.016Z","stream":true}
+{"role":"assistant","text":" где","at":"2026-06-17T17:49:35.016Z","stream":true}
+{"role":"assistant","text":" ск","at":"2026-06-17T17:49:35.017Z","stream":true}
+{"role":"assistant","text":"ры","at":"2026-06-17T17:49:35.017Z","stream":true}
+{"role":"assistant","text":"ва","at":"2026-06-17T17:49:35.017Z","stream":true}
+{"role":"assistant","text":"ется","at":"2026-06-17T17:49:35.017Z","stream":true}
+{"role":"assistant","text":" Т","at":"2026-06-17T17:49:35.017Z","stream":true}
+{"role":"assistant","text":"Т","at":"2026-06-17T17:49:35.017Z","stream":true}
+{"role":"assistant","text":"Н","at":"2026-06-17T17:49:35.018Z","stream":true}
+{"role":"assistant","text":"/log","at":"2026-06-17T17:49:35.018Z","stream":true}
+{"role":"assistant","text":"istics","at":"2026-06-17T17:49:35.018Z","stream":true}
+{"role":"assistant","text":" strip","at":"2026-06-17T17:49:35.018Z","stream":true}
+{"role":"assistant","text":" для","at":"2026-06-17T17:49:35.018Z","stream":true}
+{"role":"assistant","text":" B","at":"2026-06-17T17:49:35.018Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:49:35.019Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:49:35.019Z","stream":true}
+{"role":"assistant","text":"-D","at":"2026-06-17T17:49:35.019Z","stream":true}
+{"role":"assistant","text":"EMO","at":"2026-06-17T17:49:35.019Z","stream":true}
+{"role":"assistant","text":"-S","at":"2026-06-17T17:49:35.019Z","stream":true}
+{"role":"assistant","text":"H","at":"2026-06-17T17:49:35.019Z","stream":true}
+{"role":"assistant","text":"OP","at":"2026-06-17T17:49:35.019Z","stream":true}
+{"role":"assistant","text":"1","at":"2026-06-17T17:49:35.019Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:49:35.019Z","stream":true}
+{"role":"assistant","text":"SS","at":"2026-06-17T17:49:35.019Z","stream":true}
+{"role":"assistant","text":"27","at":"2026-06-17T17:49:35.020Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:49:35.020Z","stream":true}
+{"role":"assistant","text":"Д","at":"2026-06-17T17:50:31.336Z","stream":true}
+{"role":"assistant","text":"об","at":"2026-06-17T17:50:31.337Z","stream":true}
+{"role":"assistant","text":"ав","at":"2026-06-17T17:50:31.337Z","stream":true}
+{"role":"assistant","text":"ля","at":"2026-06-17T17:50:31.337Z","stream":true}
+{"role":"assistant","text":"ю","at":"2026-06-17T17:50:31.337Z","stream":true}
+{"role":"assistant","text":" общ","at":"2026-06-17T17:50:31.337Z","stream":true}
+{"role":"assistant","text":"ий","at":"2026-06-17T17:50:31.337Z","stream":true}
+{"role":"assistant","text":" х","at":"2026-06-17T17:50:31.337Z","stream":true}
+{"role":"assistant","text":"ел","at":"2026-06-17T17:50:31.338Z","stream":true}
+{"role":"assistant","text":"пер","at":"2026-06-17T17:50:31.338Z","stream":true}
+{"role":"assistant","text":" для","at":"2026-06-17T17:50:31.338Z","stream":true}
+{"role":"assistant","text":" demo","at":"2026-06-17T17:50:31.338Z","stream":true}
+{"role":"assistant","text":" pin","at":"2026-06-17T17:50:31.338Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:50:31.338Z","stream":true}
+{"role":"assistant","text":" PG","at":"2026-06-17T17:50:31.339Z","stream":true}
+{"role":"assistant","text":" checkout","at":"2026-06-17T17:50:31.339Z","stream":true}
+{"role":"assistant","text":",","at":"2026-06-17T17:50:31.339Z","stream":true}
+{"role":"assistant","text":" зат","at":"2026-06-17T17:50:31.339Z","stream":true}
+{"role":"assistant","text":"ем","at":"2026-06-17T17:50:31.339Z","stream":true}
+{"role":"assistant","text":" об","at":"2026-06-17T17:50:31.339Z","stream":true}
+{"role":"assistant","text":"нов","at":"2026-06-17T17:50:31.339Z","stream":true}
+{"role":"assistant","text":"лю","at":"2026-06-17T17:50:31.340Z","stream":true}
+{"role":"assistant","text":" UI","at":"2026-06-17T17:50:31.340Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:50:31.340Z","stream":true}
+{"role":"assistant","text":" API","at":"2026-06-17T17:50:31.340Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:50:31.340Z","stream":true}
+{"role":"assistant","text":"**","at":"2026-06-17T17:50:59.614Z","stream":true}
+{"role":"assistant","text":"Г","at":"2026-06-17T17:50:59.615Z","stream":true}
+{"role":"assistant","text":"от","at":"2026-06-17T17:50:59.615Z","stream":true}
+{"role":"assistant","text":"ово","at":"2026-06-17T17:50:59.615Z","stream":true}
+{"role":"assistant","text":".**","at":"2026-06-17T17:50:59.616Z","stream":true}
+{"role":"assistant","text":" Т","at":"2026-06-17T17:50:59.616Z","stream":true}
+{"role":"assistant","text":"Т","at":"2026-06-17T17:50:59.616Z","stream":true}
+{"role":"assistant","text":"Н","at":"2026-06-17T17:50:59.616Z","stream":true}
+{"role":"assistant","text":"/log","at":"2026-06-17T17:50:59.616Z","stream":true}
+{"role":"assistant","text":"istics","at":"2026-06-17T17:50:59.616Z","stream":true}
+{"role":"assistant","text":" strip","at":"2026-06-17T17:50:59.616Z","stream":true}
+{"role":"assistant","text":" для","at":"2026-06-17T17:50:59.617Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:50:59.617Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.617Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:50:59.617Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.617Z","stream":true}
+{"role":"assistant","text":"-D","at":"2026-06-17T17:50:59.617Z","stream":true}
+{"role":"assistant","text":"EMO","at":"2026-06-17T17:50:59.617Z","stream":true}
+{"role":"assistant","text":"-S","at":"2026-06-17T17:50:59.617Z","stream":true}
+{"role":"assistant","text":"H","at":"2026-06-17T17:50:59.617Z","stream":true}
+{"role":"assistant","text":"OP","at":"2026-06-17T17:50:59.617Z","stream":true}
+{"role":"assistant","text":"1","at":"2026-06-17T17:50:59.618Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:50:59.618Z","stream":true}
+{"role":"assistant","text":"SS","at":"2026-06-17T17:50:59.618Z","stream":true}
+{"role":"assistant","text":"27","at":"2026-06-17T17:50:59.618Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:50:59.618Z","stream":true}
+{"role":"assistant","text":" б","at":"2026-06-17T17:50:59.618Z","stream":true}
+{"role":"assistant","text":"оль","at":"2026-06-17T17:50:59.618Z","stream":true}
+{"role":"assistant","text":"ше","at":"2026-06-17T17:50:59.618Z","stream":true}
+{"role":"assistant","text":" не","at":"2026-06-17T17:50:59.618Z","stream":true}
+{"role":"assistant","text":" блок","at":"2026-06-17T17:50:59.618Z","stream":true}
+{"role":"assistant","text":"иру","at":"2026-06-17T17:50:59.619Z","stream":true}
+{"role":"assistant","text":"ется","at":"2026-06-17T17:50:59.619Z","stream":true}
+{"role":"assistant","text":" regex","at":"2026-06-17T17:50:59.619Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:50:59.619Z","stream":true}
+{"role":"assistant","text":"^","at":"2026-06-17T17:50:59.619Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.619Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:50:59.619Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"-\\","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"d","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"+$","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"`.\n\n","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"##","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":" При","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"ч","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"ина","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"\n\n","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"Brand","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:50:59.620Z","stream":true}
+{"role":"assistant","text":"b","at":"2026-06-17T17:50:59.621Z","stream":true}
+{"role":"assistant","text":"Pg","at":"2026-06-17T17:50:59.621Z","stream":true}
+{"role":"assistant","text":"Log","at":"2026-06-17T17:50:59.621Z","stream":true}
+{"role":"assistant","text":"istics","at":"2026-06-17T17:50:59.621Z","stream":true}
+{"role":"assistant","text":"Tracking","at":"2026-06-17T17:50:59.621Z","stream":true}
+{"role":"assistant","text":"Strip","at":"2026-06-17T17:50:59.621Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:50:59.621Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:50:59.621Z","stream":true}
+{"role":"assistant","text":" сер","at":"2026-06-17T17:50:59.622Z","stream":true}
+{"role":"assistant","text":"вер","at":"2026-06-17T17:50:59.622Z","stream":true}
+{"role":"assistant","text":"ный","at":"2026-06-17T17:50:59.622Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:50:59.622Z","stream":true}
+{"role":"assistant","text":"sync","at":"2026-06-17T17:50:59.622Z","stream":true}
+{"role":"assistant","text":"Work","at":"2026-06-17T17:50:59.622Z","stream":true}
+{"role":"assistant","text":"shop","at":"2026-06-17T17:50:59.622Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:50:59.622Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.622Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:50:59.622Z","stream":true}
+{"role":"assistant","text":"b","at":"2026-06-17T17:50:59.622Z","stream":true}
+{"role":"assistant","text":"Order","at":"2026-06-17T17:50:59.623Z","stream":true}
+{"role":"assistant","text":"Log","at":"2026-06-17T17:50:59.623Z","stream":true}
+{"role":"assistant","text":"istics","at":"2026-06-17T17:50:59.623Z","stream":true}
+{"role":"assistant","text":"Tracking","at":"2026-06-17T17:50:59.623Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:50:59.624Z","stream":true}
+{"role":"assistant","text":" прин","at":"2026-06-17T17:50:59.624Z","stream":true}
+{"role":"assistant","text":"им","at":"2026-06-17T17:50:59.624Z","stream":true}
+{"role":"assistant","text":"али","at":"2026-06-17T17:50:59.624Z","stream":true}
+{"role":"assistant","text":" только","at":"2026-06-17T17:50:59.625Z","stream":true}
+{"role":"assistant","text":" checkout","at":"2026-06-17T17:50:59.625Z","stream":true}
+{"role":"assistant","text":"-id","at":"2026-06-17T17:50:59.625Z","stream":true}
+{"role":"assistant","text":" ви","at":"2026-06-17T17:50:59.625Z","stream":true}
+{"role":"assistant","text":"да","at":"2026-06-17T17:50:59.625Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:50:59.625Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.626Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:50:59.626Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.626Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:50:59.626Z","stream":true}
+{"role":"assistant","text":"123","at":"2026-06-17T17:50:59.634Z","stream":true}
+{"role":"assistant","text":"`,","at":"2026-06-17T17:50:59.634Z","stream":true}
+{"role":"assistant","text":" по","at":"2026-06-17T17:50:59.647Z","stream":true}
+{"role":"assistant","text":"эт","at":"2026-06-17T17:50:59.661Z","stream":true}
+{"role":"assistant","text":"ому","at":"2026-06-17T17:50:59.661Z","stream":true}
+{"role":"assistant","text":" golden","at":"2026-06-17T17:50:59.662Z","stream":true}
+{"role":"assistant","text":" demo","at":"2026-06-17T17:50:59.676Z","stream":true}
+{"role":"assistant","text":" pin","at":"2026-06-17T17:50:59.676Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:50:59.676Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.677Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:50:59.677Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.677Z","stream":true}
+{"role":"assistant","text":"-D","at":"2026-06-17T17:50:59.688Z","stream":true}
+{"role":"assistant","text":"EMO","at":"2026-06-17T17:50:59.688Z","stream":true}
+{"role":"assistant","text":"-S","at":"2026-06-17T17:50:59.689Z","stream":true}
+{"role":"assistant","text":"H","at":"2026-06-17T17:50:59.689Z","stream":true}
+{"role":"assistant","text":"OP","at":"2026-06-17T17:50:59.689Z","stream":true}
+{"role":"assistant","text":"1","at":"2026-06-17T17:50:59.690Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:50:59.702Z","stream":true}
+{"role":"assistant","text":"SS","at":"2026-06-17T17:50:59.705Z","stream":true}
+{"role":"assistant","text":"27","at":"2026-06-17T17:50:59.705Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:50:59.705Z","stream":true}
+{"role":"assistant","text":" не","at":"2026-06-17T17:50:59.705Z","stream":true}
+{"role":"assistant","text":" получ","at":"2026-06-17T17:50:59.705Z","stream":true}
+{"role":"assistant","text":"ал","at":"2026-06-17T17:50:59.715Z","stream":true}
+{"role":"assistant","text":" ни","at":"2026-06-17T17:50:59.715Z","stream":true}
+{"role":"assistant","text":" UI","at":"2026-06-17T17:50:59.730Z","stream":true}
+{"role":"assistant","text":",","at":"2026-06-17T17:50:59.730Z","stream":true}
+{"role":"assistant","text":" ни","at":"2026-06-17T17:50:59.730Z","stream":true}
+{"role":"assistant","text":" API","at":"2026-06-17T17:50:59.730Z","stream":true}
+{"role":"assistant","text":".\n\n","at":"2026-06-17T17:50:59.742Z","stream":true}
+{"role":"assistant","text":"##","at":"2026-06-17T17:50:59.743Z","stream":true}
+{"role":"assistant","text":" И","at":"2026-06-17T17:50:59.743Z","stream":true}
+{"role":"assistant","text":"сп","at":"2026-06-17T17:50:59.756Z","stream":true}
+{"role":"assistant","text":"рав","at":"2026-06-17T17:50:59.759Z","stream":true}
+{"role":"assistant","text":"ление","at":"2026-06-17T17:50:59.760Z","stream":true}
+{"role":"assistant","text":"\n\n","at":"2026-06-17T17:50:59.760Z","stream":true}
+{"role":"assistant","text":"Д","at":"2026-06-17T17:50:59.760Z","stream":true}
+{"role":"assistant","text":"об","at":"2026-06-17T17:50:59.761Z","stream":true}
+{"role":"assistant","text":"ав","at":"2026-06-17T17:50:59.778Z","stream":true}
+{"role":"assistant","text":"лен","at":"2026-06-17T17:50:59.781Z","stream":true}
+{"role":"assistant","text":" кан","at":"2026-06-17T17:50:59.781Z","stream":true}
+{"role":"assistant","text":"он","at":"2026-06-17T17:50:59.798Z","stream":true}
+{"role":"assistant","text":"ический","at":"2026-06-17T17:50:59.799Z","stream":true}
+{"role":"assistant","text":" х","at":"2026-06-17T17:50:59.799Z","stream":true}
+{"role":"assistant","text":"ел","at":"2026-06-17T17:50:59.800Z","stream":true}
+{"role":"assistant","text":"пер","at":"2026-06-17T17:50:59.800Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:50:59.802Z","stream":true}
+{"role":"assistant","text":"is","at":"2026-06-17T17:50:59.819Z","stream":true}
+{"role":"assistant","text":"Platform","at":"2026-06-17T17:50:59.822Z","stream":true}
+{"role":"assistant","text":"Core","at":"2026-06-17T17:50:59.823Z","stream":true}
+{"role":"assistant","text":"Pg","at":"2026-06-17T17:50:59.823Z","stream":true}
+{"role":"assistant","text":"Log","at":"2026-06-17T17:50:59.823Z","stream":true}
+{"role":"assistant","text":"istics","at":"2026-06-17T17:50:59.823Z","stream":true}
+{"role":"assistant","text":"Wh","at":"2026-06-17T17:50:59.835Z","stream":true}
+{"role":"assistant","text":"olesale","at":"2026-06-17T17:50:59.836Z","stream":true}
+{"role":"assistant","text":"Order","at":"2026-06-17T17:50:59.837Z","stream":true}
+{"role":"assistant","text":"Id","at":"2026-06-17T17:50:59.837Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:50:59.837Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:50:59.837Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:50:59.849Z","stream":true}
+{"role":"assistant","text":"platform","at":"2026-06-17T17:50:59.849Z","stream":true}
+{"role":"assistant","text":"-core","at":"2026-06-17T17:50:59.849Z","stream":true}
+{"role":"assistant","text":"-sp","at":"2026-06-17T17:50:59.849Z","stream":true}
+{"role":"assistant","text":"ine","at":"2026-06-17T17:50:59.849Z","stream":true}
+{"role":"assistant","text":"-active","at":"2026-06-17T17:50:59.849Z","stream":true}
+{"role":"assistant","text":"-order","at":"2026-06-17T17:50:59.860Z","stream":true}
+{"role":"assistant","text":"-f","at":"2026-06-17T17:50:59.861Z","stream":true}
+{"role":"assistant","text":"allback","at":"2026-06-17T17:50:59.861Z","stream":true}
+{"role":"assistant","text":".ts","at":"2026-06-17T17:50:59.863Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:50:59.863Z","stream":true}
+{"role":"assistant","text":" —","at":"2026-06-17T17:50:59.863Z","stream":true}
+{"role":"assistant","text":" пок","at":"2026-06-17T17:50:59.872Z","stream":true}
+{"role":"assistant","text":"ры","at":"2026-06-17T17:50:59.885Z","stream":true}
+{"role":"assistant","text":"вает","at":"2026-06-17T17:50:59.888Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:50:59.889Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.889Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:50:59.889Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.889Z","stream":true}
+{"role":"assistant","text":"-\\","at":"2026-06-17T17:50:59.897Z","stream":true}
+{"role":"assistant","text":"d","at":"2026-06-17T17:50:59.897Z","stream":true}
+{"role":"assistant","text":"+","at":"2026-06-17T17:50:59.897Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:50:59.909Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:50:59.909Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:50:59.922Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.922Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:50:59.922Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.923Z","stream":true}
+{"role":"assistant","text":"-D","at":"2026-06-17T17:50:59.923Z","stream":true}
+{"role":"assistant","text":"EMO","at":"2026-06-17T17:50:59.923Z","stream":true}
+{"role":"assistant","text":"-*","at":"2026-06-17T17:50:59.935Z","stream":true}
+{"role":"assistant","text":"`.\n\n","at":"2026-06-17T17:50:59.937Z","stream":true}
+{"role":"assistant","text":"И","at":"2026-06-17T17:50:59.938Z","stream":true}
+{"role":"assistant","text":"сп","at":"2026-06-17T17:50:59.938Z","stream":true}
+{"role":"assistant","text":"ольз","at":"2026-06-17T17:50:59.938Z","stream":true}
+{"role":"assistant","text":"ован","at":"2026-06-17T17:50:59.938Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:50:59.949Z","stream":true}
+{"role":"assistant","text":":\n","at":"2026-06-17T17:50:59.949Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:50:59.949Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:50:59.949Z","stream":true}
+{"role":"assistant","text":"Brand","at":"2026-06-17T17:50:59.949Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:50:59.949Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:50:59.961Z","stream":true}
+{"role":"assistant","text":"b","at":"2026-06-17T17:50:59.961Z","stream":true}
+{"role":"assistant","text":"Pg","at":"2026-06-17T17:50:59.961Z","stream":true}
+{"role":"assistant","text":"Log","at":"2026-06-17T17:50:59.961Z","stream":true}
+{"role":"assistant","text":"istics","at":"2026-06-17T17:50:59.961Z","stream":true}
+{"role":"assistant","text":"Tracking","at":"2026-06-17T17:50:59.961Z","stream":true}
+{"role":"assistant","text":"Strip","at":"2026-06-17T17:50:59.972Z","stream":true}
+{"role":"assistant","text":".tsx","at":"2026-06-17T17:50:59.972Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:50:59.972Z","stream":true}
+{"role":"assistant","text":" —","at":"2026-06-17T17:50:59.973Z","stream":true}
+{"role":"assistant","text":" strip","at":"2026-06-17T17:50:59.973Z","stream":true}
+{"role":"assistant","text":" р","at":"2026-06-17T17:50:59.973Z","stream":true}
+{"role":"assistant","text":"ен","at":"2026-06-17T17:50:59.984Z","stream":true}
+{"role":"assistant","text":"дер","at":"2026-06-17T17:50:59.984Z","stream":true}
+{"role":"assistant","text":"ится","at":"2026-06-17T17:50:59.984Z","stream":true}
+{"role":"assistant","text":" для","at":"2026-06-17T17:50:59.985Z","stream":true}
+{"role":"assistant","text":" demo","at":"2026-06-17T17:50:59.996Z","stream":true}
+{"role":"assistant","text":" pin","at":"2026-06-17T17:51:00.000Z","stream":true}
+{"role":"assistant","text":"\n","at":"2026-06-17T17:51:00.000Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:51:00.000Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:51:00.000Z","stream":true}
+{"role":"assistant","text":"work","at":"2026-06-17T17:51:00.000Z","stream":true}
+{"role":"assistant","text":"shop","at":"2026-06-17T17:51:00.010Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:51:00.010Z","stream":true}
+{"role":"assistant","text":"-b","at":"2026-06-17T17:51:00.010Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:51:00.011Z","stream":true}
+{"role":"assistant","text":"b","at":"2026-06-17T17:51:00.011Z","stream":true}
+{"role":"assistant","text":"-order","at":"2026-06-17T17:51:00.011Z","stream":true}
+{"role":"assistant","text":"-log","at":"2026-06-17T17:51:00.024Z","stream":true}
+{"role":"assistant","text":"istics","at":"2026-06-17T17:51:00.024Z","stream":true}
+{"role":"assistant","text":"-tracking","at":"2026-06-17T17:51:00.024Z","stream":true}
+{"role":"assistant","text":".ts","at":"2026-06-17T17:51:00.025Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:51:00.025Z","stream":true}
+{"role":"assistant","text":" —","at":"2026-06-17T17:51:00.025Z","stream":true}
+{"role":"assistant","text":" POST","at":"2026-06-17T17:51:00.035Z","stream":true}
+{"role":"assistant","text":"/","at":"2026-06-17T17:51:00.035Z","stream":true}
+{"role":"assistant","text":"GET","at":"2026-06-17T17:51:00.071Z","stream":true}
+{"role":"assistant","text":" прин","at":"2026-06-17T17:51:00.072Z","stream":true}
+{"role":"assistant","text":"им","at":"2026-06-17T17:51:00.075Z","stream":true}
+{"role":"assistant","text":"ает","at":"2026-06-17T17:51:00.075Z","stream":true}
+{"role":"assistant","text":" demo","at":"2026-06-17T17:51:00.075Z","stream":true}
+{"role":"assistant","text":" pin","at":"2026-06-17T17:51:00.075Z","stream":true}
+{"role":"assistant","text":"\n","at":"2026-06-17T17:51:00.075Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:51:00.076Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:51:00.076Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:51:00.076Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:51:00.082Z","stream":true}
+{"role":"assistant","text":"b","at":"2026-06-17T17:51:00.085Z","stream":true}
+{"role":"assistant","text":"Order","at":"2026-06-17T17:51:00.086Z","stream":true}
+{"role":"assistant","text":"Chain","at":"2026-06-17T17:51:00.086Z","stream":true}
+{"role":"assistant","text":"Status","at":"2026-06-17T17:51:00.086Z","stream":true}
+{"role":"assistant","text":"Card","at":"2026-06-17T17:51:00.086Z","stream":true}
+{"role":"assistant","text":".tsx","at":"2026-06-17T17:51:00.094Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:51:00.095Z","stream":true}
+{"role":"assistant","text":" —","at":"2026-06-17T17:51:00.096Z","stream":true}
+{"role":"assistant","text":" shop","at":"2026-06-17T17:51:00.096Z","stream":true}
+{"role":"assistant","text":" mirror","at":"2026-06-17T17:51:00.096Z","stream":true}
+{"role":"assistant","text":" tracking","at":"2026-06-17T17:51:00.106Z","stream":true}
+{"role":"assistant","text":"\n","at":"2026-06-17T17:51:00.107Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:51:00.121Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:51:00.122Z","stream":true}
+{"role":"assistant","text":"integrations","at":"2026-06-17T17:51:00.122Z","stream":true}
+{"role":"assistant","text":"/v","at":"2026-06-17T17:51:00.122Z","stream":true}
+{"role":"assistant","text":"1","at":"2026-06-17T17:51:00.122Z","stream":true}
+{"role":"assistant","text":"/","at":"2026-06-17T17:51:00.122Z","stream":true}
+{"role":"assistant","text":"orders","at":"2026-06-17T17:51:00.132Z","stream":true}
+{"role":"assistant","text":"/[","at":"2026-06-17T17:51:00.132Z","stream":true}
+{"role":"assistant","text":"order","at":"2026-06-17T17:51:00.132Z","stream":true}
+{"role":"assistant","text":"Id","at":"2026-06-17T17:51:00.144Z","stream":true}
+{"role":"assistant","text":"]/","at":"2026-06-17T17:51:00.145Z","stream":true}
+{"role":"assistant","text":"tracking","at":"2026-06-17T17:51:00.145Z","stream":true}
+{"role":"assistant","text":"/route","at":"2026-06-17T17:51:00.145Z","stream":true}
+{"role":"assistant","text":".ts","at":"2026-06-17T17:51:00.156Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:51:00.157Z","stream":true}
+{"role":"assistant","text":" —","at":"2026-06-17T17:51:00.157Z","stream":true}
+{"role":"assistant","text":" spine","at":"2026-06-17T17:51:00.158Z","stream":true}
+{"role":"assistant","text":" fallback","at":"2026-06-17T17:51:00.168Z","stream":true}
+{"role":"assistant","text":" для","at":"2026-06-17T17:51:00.169Z","stream":true}
+{"role":"assistant","text":" demo","at":"2026-06-17T17:51:00.169Z","stream":true}
+{"role":"assistant","text":"\n\n","at":"2026-06-17T17:51:00.181Z","stream":true}
+{"role":"assistant","text":"##","at":"2026-06-17T17:51:00.181Z","stream":true}
+{"role":"assistant","text":" П","at":"2026-06-17T17:51:00.182Z","stream":true}
+{"role":"assistant","text":"ров","at":"2026-06-17T17:51:00.182Z","stream":true}
+{"role":"assistant","text":"ер","at":"2026-06-17T17:51:00.182Z","stream":true}
+{"role":"assistant","text":"ки","at":"2026-06-17T17:51:00.182Z","stream":true}
+{"role":"assistant","text":"\n\n","at":"2026-06-17T17:51:00.193Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:51:00.194Z","stream":true}
+{"role":"assistant","text":" Unit","at":"2026-06-17T17:51:00.194Z","stream":true}
+{"role":"assistant","text":"-т","at":"2026-06-17T17:51:00.206Z","stream":true}
+{"role":"assistant","text":"ест","at":"2026-06-17T17:51:00.218Z","stream":true}
+{"role":"assistant","text":"ы","at":"2026-06-17T17:51:00.219Z","stream":true}
+{"role":"assistant","text":":","at":"2026-06-17T17:51:00.219Z","stream":true}
+{"role":"assistant","text":" ","at":"2026-06-17T17:51:00.219Z","stream":true}
+{"role":"assistant","text":"13","at":"2026-06-17T17:51:00.219Z","stream":true}
+{"role":"assistant","text":" passed","at":"2026-06-17T17:51:00.230Z","stream":true}
+{"role":"assistant","text":"\n","at":"2026-06-17T17:51:00.232Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:51:00.232Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:51:00.232Z","stream":true}
+{"role":"assistant","text":"read","at":"2026-06-17T17:51:00.232Z","stream":true}
+{"role":"assistant","text":"_l","at":"2026-06-17T17:51:00.232Z","stream":true}
+{"role":"assistant","text":"ints","at":"2026-06-17T17:51:00.242Z","stream":true}
+{"role":"assistant","text":"`:","at":"2026-06-17T17:51:00.243Z","stream":true}
+{"role":"assistant","text":" без","at":"2026-06-17T17:51:00.255Z","stream":true}
+{"role":"assistant","text":" ошиб","at":"2026-06-17T17:51:00.256Z","stream":true}
+{"role":"assistant","text":"ок","at":"2026-06-17T17:51:00.267Z","stream":true}
+{"role":"assistant","text":"\n","at":"2026-06-17T17:51:00.268Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:51:00.268Z","stream":true}
+{"role":"assistant","text":" Smoke","at":"2026-06-17T17:51:00.268Z","stream":true}
+{"role":"assistant","text":" API","at":"2026-06-17T17:51:00.279Z","stream":true}
+{"role":"assistant","text":":\n","at":"2026-06-17T17:51:00.280Z","stream":true}
+{"role":"assistant","text":" ","at":"2026-06-17T17:51:00.292Z","stream":true}
+{"role":"assistant","text":" -","at":"2026-06-17T17:51:00.293Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:51:00.293Z","stream":true}
+{"role":"assistant","text":"POST","at":"2026-06-17T17:51:00.294Z","stream":true}
+{"role":"assistant","text":" ...","at":"2026-06-17T17:51:00.294Z","stream":true}
+{"role":"assistant","text":"/","at":"2026-06-17T17:51:00.304Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:51:00.304Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:51:00.316Z","stream":true}
+{"role":"assistant","text":"B","at":"2026-06-17T17:51:00.317Z","stream":true}
+{"role":"assistant","text":"-D","at":"2026-06-17T17:51:00.318Z","stream":true}
+{"role":"assistant","text":"EMO","at":"2026-06-17T17:51:00.319Z","stream":true}
+{"role":"assistant","text":"-S","at":"2026-06-17T17:51:00.319Z","stream":true}
+{"role":"assistant","text":"H","at":"2026-06-17T17:51:00.319Z","stream":true}
+{"role":"assistant","text":"OP","at":"2026-06-17T17:51:00.329Z","stream":true}
+{"role":"assistant","text":"1","at":"2026-06-17T17:51:00.329Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:51:00.330Z","stream":true}
+{"role":"assistant","text":"SS","at":"2026-06-17T17:51:00.330Z","stream":true}
+{"role":"assistant","text":"27","at":"2026-06-17T17:51:00.330Z","stream":true}
+{"role":"assistant","text":"/log","at":"2026-06-17T17:51:00.331Z","stream":true}
+{"role":"assistant","text":"istics","at":"2026-06-17T17:51:00.341Z","stream":true}
+{"role":"assistant","text":"-tracking","at":"2026-06-17T17:51:00.341Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:51:00.342Z","stream":true}
+{"role":"assistant","text":" →","at":"2026-06-17T17:51:00.342Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:51:00.342Z","stream":true}
+{"role":"assistant","text":"ok","at":"2026-06-17T17:51:00.343Z","stream":true}
+{"role":"assistant","text":":","at":"2026-06-17T17:51:00.353Z","stream":true}
+{"role":"assistant","text":" true","at":"2026-06-17T17:51:00.357Z","stream":true}
+{"role":"assistant","text":"`\n","at":"2026-06-17T17:51:00.357Z","stream":true}
+{"role":"assistant","text":" ","at":"2026-06-17T17:51:00.358Z","stream":true}
+{"role":"assistant","text":" -","at":"2026-06-17T17:51:00.358Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:51:00.358Z","stream":true}
+{"role":"assistant","text":"GET","at":"2026-06-17T17:51:00.369Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:51:00.369Z","stream":true}
+{"role":"assistant","text":" →","at":"2026-06-17T17:51:00.386Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:51:00.398Z","stream":true}
+{"role":"assistant","text":"tracking","at":"2026-06-17T17:51:00.399Z","stream":true}
+{"role":"assistant","text":"Number","at":"2026-06-17T17:51:00.411Z","stream":true}
+{"role":"assistant","text":":","at":"2026-06-17T17:51:00.412Z","stream":true}
+{"role":"assistant","text":" S","at":"2026-06-17T17:51:00.412Z","stream":true}
+{"role":"assistant","text":"MO","at":"2026-06-17T17:51:00.412Z","stream":true}
+{"role":"assistant","text":"KE","at":"2026-06-17T17:51:00.420Z","stream":true}
+{"role":"assistant","text":"-D","at":"2026-06-17T17:51:00.421Z","stream":true}
+{"role":"assistant","text":"EMO","at":"2026-06-17T17:51:00.422Z","stream":true}
+{"role":"assistant","text":"-T","at":"2026-06-17T17:51:00.422Z","stream":true}
+{"role":"assistant","text":"TN","at":"2026-06-17T17:51:00.422Z","stream":true}
+{"role":"assistant","text":"`\n\n","at":"2026-06-17T17:51:00.422Z","stream":true}
+{"role":"assistant","text":"##","at":"2026-06-17T17:51:00.423Z","stream":true}
+{"role":"assistant","text":" Planner","at":"2026-06-17T17:51:00.428Z","stream":true}
+{"role":"assistant","text":"\n\n","at":"2026-06-17T17:51:00.431Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:51:00.432Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:51:00.439Z","stream":true}
+{"role":"assistant","text":"scan","at":"2026-06-17T17:51:00.455Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:51:00.455Z","stream":true}
+{"role":"assistant","text":"715","at":"2026-06-17T17:51:00.456Z","stream":true}
+{"role":"assistant","text":"7","at":"2026-06-17T17:51:00.456Z","stream":true}
+{"role":"assistant","text":"zx","at":"2026-06-17T17:51:00.456Z","stream":true}
+{"role":"assistant","text":"-b","at":"2026-06-17T17:51:00.456Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:51:00.464Z","stream":true}
+{"role":"assistant","text":"b","at":"2026-06-17T17:51:00.464Z","stream":true}
+{"role":"assistant","text":"-demo","at":"2026-06-17T17:51:00.465Z","stream":true}
+{"role":"assistant","text":"-log","at":"2026-06-17T17:51:00.466Z","stream":true}
+{"role":"assistant","text":"istics","at":"2026-06-17T17:51:00.467Z","stream":true}
+{"role":"assistant","text":"-bl","at":"2026-06-17T17:51:00.467Z","stream":true}
+{"role":"assistant","text":"ind","at":"2026-06-17T17:51:00.477Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:51:00.477Z","stream":true}
+{"role":"assistant","text":" —","at":"2026-06-17T17:51:00.479Z","stream":true}
+{"role":"assistant","text":" **","at":"2026-06-17T17:51:00.480Z","stream":true}
+{"role":"assistant","text":"complete","at":"2026-06-17T17:51:00.488Z","stream":true}
+{"role":"assistant","text":"**\n","at":"2026-06-17T17:51:00.502Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:51:00.503Z","stream":true}
+{"role":"assistant","text":" С","at":"2026-06-17T17:51:00.504Z","stream":true}
+{"role":"assistant","text":"лед","at":"2026-06-17T17:51:00.519Z","stream":true}
+{"role":"assistant","text":"ующ","at":"2026-06-17T17:51:00.523Z","stream":true}
+{"role":"assistant","text":"ая","at":"2026-06-17T17:51:00.524Z","stream":true}
+{"role":"assistant","text":" зада","at":"2026-06-17T17:51:00.524Z","stream":true}
+{"role":"assistant","text":"ча","at":"2026-06-17T17:51:00.524Z","stream":true}
+{"role":"assistant","text":":","at":"2026-06-17T17:51:00.524Z","stream":true}
+{"role":"assistant","text":" **`","at":"2026-06-17T17:51:00.525Z","stream":true}
+{"role":"assistant","text":"scan","at":"2026-06-17T17:51:00.527Z","stream":true}
+{"role":"assistant","text":"-dev","at":"2026-06-17T17:51:00.527Z","stream":true}
+{"role":"assistant","text":"-shop","at":"2026-06-17T17:51:00.540Z","stream":true}
+{"role":"assistant","text":"-sample","at":"2026-06-17T17:51:00.543Z","stream":true}
+{"role":"assistant","text":"-request","at":"2026-06-17T17:51:00.552Z","stream":true}
+{"role":"assistant","text":"-api","at":"2026-06-17T17:51:00.553Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:51:00.554Z","stream":true}
+{"role":"assistant","text":"orph","at":"2026-06-17T17:51:00.554Z","stream":true}
+{"role":"assistant","text":"an","at":"2026-06-17T17:51:00.554Z","stream":true}
+{"role":"assistant","text":"`**","at":"2026-06-17T17:51:00.555Z","stream":true}
+{"role":"assistant","text":" —","at":"2026-06-17T17:51:00.565Z","stream":true}
+{"role":"assistant","text":" [","at":"2026-06-17T17:51:00.566Z","stream":true}
+{"role":"assistant","text":"М","at":"2026-06-17T17:51:00.566Z","stream":true}
+{"role":"assistant","text":"аг","at":"2026-06-17T17:51:00.656Z","stream":true}
+{"role":"assistant","text":"аз","at":"2026-06-17T17:51:00.657Z","stream":true}
+{"role":"assistant","text":"ин","at":"2026-06-17T17:51:00.657Z","stream":true}
+{"role":"assistant","text":"]","at":"2026-06-17T17:51:00.657Z","stream":true}
+{"role":"assistant","text":" POST","at":"2026-06-17T17:51:00.657Z","stream":true}
+{"role":"assistant","text":" `/","at":"2026-06-17T17:51:00.658Z","stream":true}
+{"role":"assistant","text":"api","at":"2026-06-17T17:51:00.658Z","stream":true}
+{"role":"assistant","text":"/","at":"2026-06-17T17:51:00.658Z","stream":true}
+{"role":"assistant","text":"shop","at":"2026-06-17T17:51:00.658Z","stream":true}
+{"role":"assistant","text":"/b","at":"2026-06-17T17:51:00.659Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:51:00.659Z","stream":true}
+{"role":"assistant","text":"b","at":"2026-06-17T17:51:00.659Z","stream":true}
+{"role":"assistant","text":"/sample","at":"2026-06-17T17:51:00.659Z","stream":true}
+{"role":"assistant","text":"-request","at":"2026-06-17T17:51:00.659Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:51:00.659Z","stream":true}
+{"role":"assistant","text":" ре","at":"2026-06-17T17:51:00.659Z","stream":true}
+{"role":"assistant","text":"ализ","at":"2026-06-17T17:51:00.659Z","stream":true}
+{"role":"assistant","text":"ован","at":"2026-06-17T17:51:00.660Z","stream":true}
+{"role":"assistant","text":",","at":"2026-06-17T17:51:00.660Z","stream":true}
+{"role":"assistant","text":" UI","at":"2026-06-17T17:51:00.660Z","stream":true}
+{"role":"assistant","text":" showroom","at":"2026-06-17T17:51:00.660Z","stream":true}
+{"role":"assistant","text":"/matrix","at":"2026-06-17T17:51:00.660Z","stream":true}
+{"role":"assistant","text":" не","at":"2026-06-17T17:51:00.660Z","stream":true}
+{"role":"assistant","text":" вы","at":"2026-06-17T17:51:00.660Z","stream":true}
+{"role":"assistant","text":"зы","at":"2026-06-17T17:51:00.660Z","stream":true}
+{"role":"assistant","text":"вает","at":"2026-06-17T17:51:00.660Z","stream":true}
+{"role":"assistant","text":" →","at":"2026-06-17T17:51:00.660Z","stream":true}
+{"role":"assistant","text":" `/","at":"2026-06-17T17:51:00.660Z","stream":true}
+{"role":"assistant","text":"shop","at":"2026-06-17T17:51:00.664Z","stream":true}
+{"role":"assistant","text":"/b","at":"2026-06-17T17:51:00.664Z","stream":true}
+{"role":"assistant","text":"2","at":"2026-06-17T17:51:00.664Z","stream":true}
+{"role":"assistant","text":"b","at":"2026-06-17T17:51:00.664Z","stream":true}
+{"role":"assistant","text":"/show","at":"2026-06-17T17:51:00.664Z","stream":true}
+{"role":"assistant","text":"room","at":"2026-06-17T17:51:00.676Z","stream":true}
+{"role":"assistant","text":"?","at":"2026-06-17T17:51:00.698Z","stream":true}
+{"role":"assistant","text":"collection","at":"2026-06-17T17:51:00.698Z","stream":true}
+{"role":"assistant","text":"=","at":"2026-06-17T17:51:00.699Z","stream":true}
+{"role":"assistant","text":"SS","at":"2026-06-17T17:51:00.699Z","stream":true}
+{"role":"assistant","text":"27","at":"2026-06-17T17:51:00.700Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:51:00.701Z","stream":true}
+{"role":"assistant","text":"**Готово.** ТТН/logistics strip для `B2B-DEMO-SHOP1-SS27` больше не блокируется regex `^B2B-\\d+$`.\n\n## Причина\n\n`BrandB2bPgLogisticsTrackingStrip` и серверный `syncWorkshop2B2bOrderLogisticsTracking` принимали только checkout-id вида `B2B-123`, поэтому golden demo pin `B2B-DEMO-SHOP1-SS27` не получал ни UI, ни API.\n\n## Исправление\n\nДобавлен канонический хелпер `isPlatformCorePgLogisticsWholesaleOrderId` в `platform-core-spine-active-order-fallback.ts` — покрывает `B2B-\\d+` и `B2B-DEMO-*`.\n\nИспользован в:\n- `BrandB2bPgLogisticsTrackingStrip.tsx` — strip рендерится для demo pin\n- `workshop2-b2b-order-logistics-tracking.ts` — POST/GET принимает demo pin\n- `B2bOrderChainStatusCard.tsx` — shop mirror tracking\n- `integrations/v1/orders/[orderId]/tracking/route.ts` — spine fallback для demo\n\n## Проверки\n\n- Unit-тесты: 13 passed\n- `read_lints`: без ошибок\n- Smoke API:\n  - `POST .../B2B-DEMO-SHOP1-SS27/logistics-tracking` → `ok: true`\n  - `GET` → `trackingNumber: SMOKE-DEMO-TTN`\n\n## Planner\n\n- `scan-7157zx-b2b-demo-logistics-blind` — **complete**\n- Следующая задача: **`scan-dev-shop-sample-request-api-orphan`** — [Магазин] POST `/api/shop/b2b/sample-request` реализован, UI showroom/matrix не вызывает → `/shop/b2b/showroom?collection=SS27`","at":"2026-06-17T17:51:00.955Z","done":true,"status":"finished"}

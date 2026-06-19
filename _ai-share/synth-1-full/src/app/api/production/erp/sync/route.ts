@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { ErpProvider } from '@/lib/production/erp-integration';
-import { erpSync } from '@/lib/integrations/erp-backend-proxy';
+import { erpSync, getErpConfig } from '@/lib/integrations/erp-backend-proxy';
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,9 +15,22 @@ export async function POST(request: NextRequest) {
       collectionIds?: string[];
     };
     const erpProvider = provider as '1c' | 'sap' | 'moysklad';
+    const configured = getErpConfig(erpProvider) != null;
+
+    if (!configured) {
+      return NextResponse.json({
+        success: false,
+        configured: false,
+        noOp: true,
+        messageRu: 'ERP не настроен — задайте URL провайдера (fail-closed).',
+        scope,
+      });
+    }
+
     const result = await erpSync(erpProvider, scope, collectionIds);
     return NextResponse.json({
       success: result.success,
+      configured: true,
       scope,
       ordersSync: result.ordersSync,
       stockSync: result.stockSync,
@@ -26,7 +39,11 @@ export async function POST(request: NextRequest) {
     });
   } catch (e) {
     return NextResponse.json(
-      { success: false, errors: [e instanceof Error ? e.message : 'Sync failed'] },
+      {
+        success: false,
+        configured: false,
+        errors: [e instanceof Error ? e.message : 'Sync failed'],
+      },
       { status: 400 }
     );
   }

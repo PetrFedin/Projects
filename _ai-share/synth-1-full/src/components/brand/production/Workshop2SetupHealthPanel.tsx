@@ -59,7 +59,7 @@ export function Workshop2SetupHealthPanel() {
         const total = probes.wave12RuJourney?.checks?.length ?? 0;
         if (total > 0) {
           setProbesOneLiner(
-            `Связность Wave 12: ${okCount}/${total} проверок OK — подробнее в integration-probes (wave12RuJourney).`
+            `Связность: ${okCount}/${total} проверок OK — подробнее в integration-probes.`
           );
         }
       }

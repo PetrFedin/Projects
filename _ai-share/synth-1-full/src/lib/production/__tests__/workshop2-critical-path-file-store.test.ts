@@ -171,26 +171,39 @@ describe('workshop2 critical path file-store (Wave R)', () => {
   });
 
   it('WMS reserve + GRN routes fail-closed without 500 when internal WMS off', async () => {
-    await getWorkshop2ServerDossierRecord('SS27', 'demo-ss27-01');
+    const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+    const prevWms = process.env.WORKSHOP2_INTERNAL_WMS;
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
+    delete process.env.WORKSHOP2_INTERNAL_WMS;
 
-    const reserve = await wmsReservePost(
-      new NextRequest(
-        'http://localhost/api/workshop2/articles/SS27/demo-ss27-01/wms/reserve-sample',
-        { method: 'POST', headers: W2_HEADERS, body: '{}' }
-      ),
-      routeCtx('SS27', 'demo-ss27-01')
-    );
-    expect(reserve.status).toBe(503);
+    try {
+      await getWorkshop2ServerDossierRecord('SS27', 'demo-ss27-01');
 
-    const grn = await grnPost(
-      new NextRequest('http://localhost/api/workshop2/articles/SS27/demo-ss27-01/wms/grn-receipt', {
-        method: 'POST',
-        headers: W2_HEADERS,
-        body: JSON.stringify({ supplyLineId: 'line-1', qty: 1 }),
-      }),
-      routeCtx('SS27', 'demo-ss27-01')
-    );
-    expect(grn.status).toBe(503);
+      const reserve = await wmsReservePost(
+        new NextRequest(
+          'http://localhost/api/workshop2/articles/SS27/demo-ss27-01/wms/reserve-sample',
+          { method: 'POST', headers: W2_HEADERS, body: '{}' }
+        ),
+        routeCtx('SS27', 'demo-ss27-01')
+      );
+      expect(reserve.status).toBe(503);
+
+      const grn = await grnPost(
+        new NextRequest('http://localhost/api/workshop2/articles/SS27/demo-ss27-01/wms/grn-receipt', {
+          method: 'POST',
+          headers: W2_HEADERS,
+          body: JSON.stringify({ supplyLineId: 'line-1', qty: 1 }),
+        }),
+        routeCtx('SS27', 'demo-ss27-01')
+      );
+      expect(grn.status).toBe(503);
+    } finally {
+      if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+      else delete process.env.WORKSHOP2_DATABASE_URL;
+      if (prevWms) process.env.WORKSHOP2_INTERNAL_WMS = prevWms;
+      else delete process.env.WORKSHOP2_INTERNAL_WMS;
+    }
   });
 
   it('handoff PDF + readiness GET on demo-ss27-01 (200|409, not 500)', async () => {

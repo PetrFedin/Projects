@@ -112,8 +112,7 @@ export function RhythmSection() {
     }
 
     if (role === 'shop') {
-      if (title.includes('Байер')) return '/shop/b2b/calendar';
-      return '/shop/calendar';
+      return '/shop/b2b/calendar';
     }
 
     return item.link;

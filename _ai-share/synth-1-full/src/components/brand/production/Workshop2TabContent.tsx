@@ -4,7 +4,7 @@ import { formatWorkshop2HubActivityDetailRu } from '@/lib/production/workshop2-h
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { History, MessageSquare, Pencil, Plus, Trash2, Upload } from 'lucide-react';
+import { CircleCheck, Clock3, History, LayoutGrid, MessageSquare, Pencil, Plus, Trash2, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,9 +29,14 @@ import { WORKSHOP2_SYSTEM_COLLECTION_ID } from '@/lib/production/local-collectio
 import { COLLECTION_DEV_HUB_TITLE_RU } from '@/lib/production/collection-development-labels';
 import { type CollectionSkuFlowDoc } from '@/lib/production/unified-sku-flow-store';
 import { deriveStagesArticleFacets } from '@/lib/production/stages-tab-facets';
+import { parseRangePlannerPrefillFromSearchParams } from '@/lib/production/workshop2-range-planner-bridge';
+import { commitWorkshop2HubDialogArticleViaApi } from '@/lib/production/workshop2-hub-dialog-create-client';
+import { isPlatformCoreGoldenCollectionId } from '@/lib/platform-core-demo-context';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 import {
   WORKSHOP2_ART_PARAM,
   WORKSHOP2_COL_PARAM,
+  WORKSHOP2_CREATE_PARAM,
   WORKSHOP2_STEP_PARAM,
   WORKSHOP2_TAB_PARAM,
   workshop2ArticlePath,
@@ -71,6 +76,12 @@ import {
   WORKSHOP2_TAB_CONTENT_PAGE_SUBTITLE,
   WORKSHOP2_TARGET_CHANNEL_SUGGESTIONS,
 } from '@/components/brand/production/workshop2-tab-content-constants';
+
+const ARTICLE_HUB_STATUS_FILTERS = [
+  { id: 'all' as const, label: 'Все', Icon: LayoutGrid },
+  { id: 'in_work' as const, label: 'В работе', Icon: Clock3 },
+  { id: 'done' as const, label: 'Разработано', Icon: CircleCheck },
+];
 import type {
   Workshop2ArticleRow,
   Workshop2CollectionListItem,
@@ -177,6 +188,10 @@ export function Workshop2TabContent({
 
   const w2col = searchParams.get(WORKSHOP2_COL_PARAM) ?? '';
   const legacyW2Art = searchParams.get(WORKSHOP2_ART_PARAM) ?? '';
+  const rangePlannerPrefill = useMemo(
+    () => parseRangePlannerPrefillFromSearchParams(searchParams),
+    [searchParams]
+  );
   /** Вкладка «Архив» на хабе разработки отключена — только артикулы в работе. */
   const listTab = 'active' as const;
 
@@ -329,12 +344,19 @@ export function Workshop2TabContent({
   } | null>(null);
 
   const openCreateArticle = useCallback(() => {
-    const col = collectionsForLookup.find((c) => c.id === WORKSHOP2_SYSTEM_COLLECTION_ID);
+    const targetCol = w2col.trim() || WORKSHOP2_SYSTEM_COLLECTION_ID;
+    const col = collectionsForLookup.find((c) => c.id === targetCol);
     setArticleDialogCol({
-      id: WORKSHOP2_SYSTEM_COLLECTION_ID,
-      displayName: col?.displayName ?? 'SS27',
+      id: targetCol,
+      displayName: col?.displayName ?? targetCol,
     });
-  }, [collectionsForLookup]);
+  }, [collectionsForLookup, w2col]);
+
+  useEffect(() => {
+    if (searchParams.get(WORKSHOP2_CREATE_PARAM) === '1') {
+      openCreateArticle();
+    }
+  }, [openCreateArticle, searchParams]);
 
   const [articleSkuFilter, setArticleSkuFilter] = useState('');
   const [archiveConfirm, setArchiveConfirm] = useState<{
@@ -953,73 +975,84 @@ export function Workshop2TabContent({
             <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
               {COLLECTION_DEV_HUB_TITLE_RU}
             </h1>
-            <p className="max-w-2xl text-sm text-slate-600">
+            <p className="text-slate-600 line-clamp-1 max-w-2xl text-xs sm:line-clamp-none sm:text-sm">
               {WORKSHOP2_TAB_CONTENT_PAGE_SUBTITLE}
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-2 pt-1">
-            <span className="text-text-secondary mr-1 text-xs font-medium">Показать:</span>
-            <Button
-              type="button"
-              size="sm"
-              variant={articleHubStatusFilter === 'all' ? 'default' : 'outline'}
-              className="h-9 min-w-[8.5rem] text-[10px] font-semibold"
-              onClick={() => setArticleHubStatusFilter('all')}
-              aria-pressed={articleHubStatusFilter === 'all'}
+          <div className="flex items-center justify-between gap-2 pt-1 max-md:gap-1.5">
+            <div
+              className="flex items-center gap-1.5 max-md:gap-1"
+              role="group"
+              aria-label="Фильтр артикулов"
             >
-              Все
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant={articleHubStatusFilter === 'in_work' ? 'default' : 'outline'}
-              className="h-9 min-w-[8.5rem] text-[10px] font-semibold"
-              onClick={() => setArticleHubStatusFilter('in_work')}
-              aria-pressed={articleHubStatusFilter === 'in_work'}
-            >
-              В работе
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant={articleHubStatusFilter === 'done' ? 'default' : 'outline'}
-              className="h-9 min-w-[8.5rem] text-[10px] font-semibold"
-              onClick={() => setArticleHubStatusFilter('done')}
-              aria-pressed={articleHubStatusFilter === 'done'}
-            >
-              Разработано
-            </Button>
-            <span
-              className="bg-border-default/80 mx-0.5 hidden h-6 w-px shrink-0 sm:inline-block"
-              aria-hidden
-            />
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  className="h-9 w-9 shrink-0"
-                  aria-label="История действий"
-                  onClick={() => {
-                    setHistoryEntries(loadWorkshop2Activity());
-                    setHistoryOpen(true);
-                  }}
-                >
-                  <History className="h-4 w-4" aria-hidden />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">История</TooltipContent>
-            </Tooltip>
-            <Button
-              type="button"
-              size="sm"
-              className="h-9 gap-1.5 text-[10px] font-black uppercase"
-              onClick={openCreateArticle}
-            >
-              <Plus className="h-4 w-4" aria-hidden />
-              Создать артикул
-            </Button>
+              <span className="text-text-secondary mr-0.5 hidden shrink-0 text-xs font-medium sm:inline">
+                Показать:
+              </span>
+              {ARTICLE_HUB_STATUS_FILTERS.map(({ id, label, Icon }) => {
+                const active = articleHubStatusFilter === id;
+                return (
+                  <Tooltip key={id}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={active ? 'default' : 'outline'}
+                        className="h-9 min-h-9 w-9 shrink-0 p-0 sm:min-w-[8.5rem] sm:px-3"
+                        onClick={() => setArticleHubStatusFilter(id)}
+                        aria-pressed={active}
+                        aria-label={label}
+                      >
+                        <Icon className="h-4 w-4 shrink-0 sm:hidden" aria-hidden />
+                        <span className="hidden text-[10px] font-semibold sm:inline">{label}</span>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="sm:hidden">
+                      {label}
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              })}
+            </div>
+            <div className="flex shrink-0 items-center gap-1.5 max-md:gap-1">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-9 min-h-9 w-9 shrink-0"
+                    aria-label="История действий"
+                    onClick={() => {
+                      setHistoryEntries(loadWorkshop2Activity());
+                      setHistoryOpen(true);
+                    }}
+                  >
+                    <History className="h-4 w-4" aria-hidden />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">История</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    size="sm"
+                    className="h-9 min-h-9 w-9 shrink-0 p-0 sm:w-auto sm:gap-1.5 sm:px-3"
+                    onClick={openCreateArticle}
+                    data-testid="brand-w2-create-article-btn"
+                    aria-label="Создать артикул"
+                  >
+                    <Plus className="h-4 w-4 shrink-0" aria-hidden />
+                    <span className="hidden text-[10px] font-black uppercase sm:inline">
+                      Создать артикул
+                    </span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="sm:hidden">
+                  Создать артикул
+                </TooltipContent>
+              </Tooltip>
+            </div>
           </div>
         </div>
 
@@ -1525,6 +1558,7 @@ export function Workshop2TabContent({
           <DialogContent
             className="flex max-h-[90vh] flex-col sm:max-w-lg"
             aria-describedby="w2-bulk-desc"
+            data-testid="brand-w2-bulk-import-dialog"
           >
             <DialogHeader>
               <DialogTitle>Массовое добавление · {bulkCol?.displayName ?? ''}</DialogTitle>
@@ -1616,6 +1650,7 @@ export function Workshop2TabContent({
                 rows={8}
                 className="min-h-[140px] font-mono text-xs"
                 aria-label="Список SKU для импорта"
+                data-testid="brand-w2-bulk-import-textarea"
               />
               {(() => {
                 const preview = bulkText.trim() ? parseWorkshop2BulkPaste(bulkText) : [];
@@ -1655,6 +1690,7 @@ export function Workshop2TabContent({
               <Button
                 type="button"
                 disabled={!bulkCol || parseWorkshop2BulkPaste(bulkText).length === 0}
+                data-testid="brand-w2-bulk-import-submit-btn"
                 onClick={() => {
                   if (!bulkCol) return;
                   const parsed = parseWorkshop2BulkPaste(bulkText);
@@ -1785,7 +1821,7 @@ export function Workshop2TabContent({
                           second: '2-digit',
                         })}
                       </span>
-                      <span className="text-accent-primary mb-0.5 block text-[10px] font-semibold">
+                      <span className="text-text-primary mb-0.5 block text-[10px] font-semibold">
                         {e.actor?.trim() ? e.actor : '—'}
                       </span>
                       {e.line}
@@ -1827,13 +1863,32 @@ export function Workshop2TabContent({
             articleDialogCol?.displayName ?? articleEditTarget?.displayName ?? ''
           }
           pickerLines={articlePickerLines}
-          onCommit={(colId, commit) => {
+          onCommit={async (colId, commit) => {
             const r = onCommitWorkshop2Article(colId, commit);
-            if (typeof r === 'string') {
+            if (typeof r === 'string' && r) {
               router.push(workshop2ArticlePath(colId, r));
+              return true;
             }
-            return r;
+            if (
+              commit.kind === 'new' &&
+              isPlatformCoreMode() &&
+              isPlatformCoreGoldenCollectionId(colId)
+            ) {
+              const api = await commitWorkshop2HubDialogArticleViaApi({
+                collectionId: colId,
+                sku: commit.sku,
+                categoryLeafId: commit.categoryLeafId,
+                name: commit.name,
+                comment: commit.comment,
+              });
+              if (api.ok && api.href) {
+                router.push(api.href);
+                return true;
+              }
+            }
+            return false;
           }}
+          rangePrefill={rangePlannerPrefill}
           editArticle={
             articleEditTarget
               ? {
@@ -1860,7 +1915,7 @@ export function Workshop2TabContent({
               workshopLineSeason: data.workshopLineSeason,
             });
             if (ok && prevSku) {
-              const nNext = normalizeLocalSkuCode(data.sku);
+              const nNext = normalizeLocalSkuCode(data.sku ?? prevSku);
               const nPrev = normalizeLocalSkuCode(prevSku);
               if (nNext && nNext !== nPrev) {
                 const d =
@@ -1870,7 +1925,7 @@ export function Workshop2TabContent({
                   collectionId,
                   articleId,
                   appendWorkshop2TzDossierEditLog(d, createdByLabel, [
-                    `SKU артикула: ${data.sku.trim()}`,
+                    `SKU артикула: ${(data.sku ?? prevSku).trim()}`,
                   ])
                 );
               }

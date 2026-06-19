@@ -39,7 +39,7 @@ export const POST = withWorkshop2ApiErrorRu(async function postSampleOrderTransi
   }
 
   const b = body as Record<string, unknown>;
-  const auth = guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
     bodyActorLabel: String(b.actor ?? ''),
   });
   if (auth instanceof NextResponse) return auth;

@@ -1,0 +1,2104 @@
+{
+  "packs": [
+    {
+      "packId": "offline-rep-w56-1780017265411",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T01:14:25.411Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780019240948",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T01:47:20.948Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780019305058",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T01:48:25.058Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780019748470",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T01:55:48.470Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780020730408",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T02:12:10.408Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780026547078",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T03:49:07.078Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780028255082",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T04:17:35.082Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780033859120",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T05:50:59.120Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780034986135",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T06:09:46.135Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780035015968",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T06:10:15.968Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780055688937",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T11:54:48.937Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780055708136",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T11:55:08.136Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780055731769",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T11:55:31.769Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780055757582",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T11:55:57.582Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780055780953",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T11:56:20.953Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780055859368",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T11:57:39.368Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780055882350",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T11:58:02.350Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780055905202",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T11:58:25.202Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780055925246",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T11:58:45.246Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780055946805",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T11:59:06.805Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780055966815",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T11:59:26.815Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780056783920",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T12:13:03.920Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780057306300",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T12:21:46.300Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780057388412",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T12:23:08.412Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780057732151",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T12:28:52.151Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780057799319",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T12:29:59.319Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780058268228",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T12:37:48.228Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780058594419",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T12:43:14.419Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780059227572",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T12:53:47.572Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780071908287",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T16:25:08.287Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780072014220",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T16:26:54.220Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780072049449",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T16:27:29.449Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780072098788",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T16:28:18.788Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780072209898",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T16:30:09.898Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780072829472",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T16:40:29.472Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780072907637",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T16:41:47.637Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780074896169",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T17:14:56.169Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780076814534",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T17:46:54.534Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780078103754",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T18:08:23.754Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780078110104",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T18:08:30.104Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780080608456",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T18:50:08.456Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780082761908",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T19:26:01.908Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780082995956",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T19:29:55.956Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780083179310",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T19:32:59.310Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1780083477237",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-05-29T19:37:57.237Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1781253836341",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-06-12T08:43:56.341Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1781253875258",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-06-12T08:44:35.258Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1781254635900",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-06-12T08:57:15.900Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1781255415722",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-06-12T09:10:15.722Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    },
+    {
+      "packId": "offline-rep-w56-1781646508389",
+      "season": "SS27",
+      "repId": "rep-w56",
+      "tenantId": "tenant-demo",
+      "brandId": "demo-brand",
+      "generatedAt": "2026-06-16T21:48:28.390Z",
+      "mode": "journal_only",
+      "linesheet": {
+        "collectionId": "SS27",
+        "articles": [
+          {
+            "articleId": "demo-ss27-01",
+            "labelRu": "SS27 Look 01",
+            "wholesaleRub": 12500
+          },
+          {
+            "articleId": "demo-ss27-02",
+            "labelRu": "SS27 Look 02",
+            "wholesaleRub": 14200
+          },
+          {
+            "articleId": "demo-ss27-03",
+            "labelRu": "SS27 Look 03",
+            "wholesaleRub": 9800
+          }
+        ]
+      },
+      "cartSnapshot": {
+        "sessionId": "rep-offline-rep-w56",
+        "lineCount": 1,
+        "totalRub": 25000,
+        "lines": [
+          {
+            "articleId": "demo-ss27-01",
+            "qty": 2,
+            "wholesalePriceRub": 12500
+          }
+        ]
+      },
+      "messageRu": "Offline pack SS27 — journal_only. Синхронизация через POST cart при online; service worker не требуется."
+    }
+  ]
+}

@@ -5,10 +5,9 @@
  */
 import { useMemo } from 'react';
 import { BrandSidebarLazy } from '@/components/brand/BrandSidebarLazy';
-import {
-  applyBrandInvestorSpineClusterOverrides,
-  isBrandNavInvestorSpineEnabled,
-} from '@/lib/cabinet-nav-env';
+import { applyBrandNavPipeline, filterNavGroupsForCoreSidebar } from '@/lib/cabinet-core-mode';
+import { augmentBrandNavGroupsForCore } from '@/lib/brand-core-nav-augment';
+import { augmentBrandNavForCoreCabinet } from '@/lib/platform-core-nav-augment';
 import { filterWorkshop2BrandNavGroupsForMarket } from '@/lib/production/workshop2-brand-nav-market-filter';
 import {
   brandNavGroups,
@@ -28,11 +27,9 @@ type BrandLayoutSidebarPanelProps = {
 
 export function BrandLayoutSidebarPanel({ role, can, onNavigate }: BrandLayoutSidebarPanelProps) {
   const { filteredNavGroups, secondaryNavItems } = useMemo(() => {
-    let groupsToFilter = brandNavGroups;
-
-    if (isBrandNavInvestorSpineEnabled()) {
-      groupsToFilter = applyBrandInvestorSpineClusterOverrides(brandNavGroups);
-    }
+    let groupsToFilter = applyBrandNavPipeline(brandNavGroups);
+    groupsToFilter = augmentBrandNavGroupsForCore(groupsToFilter);
+    groupsToFilter = augmentBrandNavForCoreCabinet(groupsToFilter);
     groupsToFilter = filterWorkshop2BrandNavGroupsForMarket(groupsToFilter);
 
     const filteredFull = groupsToFilter
@@ -49,9 +46,14 @@ export function BrandLayoutSidebarPanel({ role, can, onNavigate }: BrandLayoutSi
     };
   }, [role, can]);
 
+  const sidebarGroups = useMemo(
+    () => filterNavGroupsForCoreSidebar(filteredNavGroups),
+    [filteredNavGroups]
+  );
+
   return (
     <BrandSidebarLazy
-      groups={filteredNavGroups}
+      groups={sidebarGroups}
       secondaryItems={secondaryNavItems}
       businessMode={BRAND_HUB_BUSINESS_MODE}
       onNavigate={onNavigate}

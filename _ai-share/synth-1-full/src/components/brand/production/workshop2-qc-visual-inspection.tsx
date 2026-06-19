@@ -70,7 +70,13 @@ export function Workshop2QcVisualInspection({ imageUrl }: { imageUrl?: string | 
         body: JSON.stringify({ imageBase64: imageUrl }),
       });
       if (!response.ok) throw new Error('API Error');
-      const { defects } = await response.json();
+      const { defects } = (await response.json()) as {
+        defects?: Array<{
+          boundingBox?: { x?: number; y?: number; width?: number; height?: number };
+          type?: string;
+          description?: string;
+        }>;
+      };
 
       if (Array.isArray(defects)) {
         const aiPins: DefectPin[] = defects.map((d: any) => ({
@@ -86,7 +92,7 @@ export function Workshop2QcVisualInspection({ imageUrl }: { imageUrl?: string | 
         setPins((prev) => [...prev, ...aiPins]);
       }
     } catch (err) {
-      workshop2DevWarn('component', 'AI Scan failed', err);
+      workshop2DevWarn('component', 'AI Scan failed', { cause: err });
     } finally {
       setIsAiScanning(false);
     }

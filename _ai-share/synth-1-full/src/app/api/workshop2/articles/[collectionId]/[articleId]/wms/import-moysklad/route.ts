@@ -40,6 +40,13 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
     ? syncWorkshop2SupplyLinesFromDossierBom({ dossier: record.dossier })
     : null;
   const supplyLines = supplySynced?.supply.lines ?? [];
+  const supplyLinesForHints = supplyLines.map((line) => ({
+    id: line.id,
+    label: line.label,
+    qty: line.qty ?? 0,
+    unit: line.unit ?? 'ед.',
+    sourceNote: line.sourceNote,
+  }));
 
   const cfg = resolveWorkshop2MoySkladConfig();
   if (!cfg.configured) {
@@ -51,7 +58,7 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
         messageRu:
           'МойСклад не настроен: задайте MOYSKLAD_TOKEN (см. docs). Импорт не блокирует заказ образца.',
         dryRunSupported: true,
-        mappedHints: mapWorkshop2MoySkladStockToWmsHints({ stockRows: [], supplyLines }),
+        mappedHints: mapWorkshop2MoySkladStockToWmsHints({ stockRows: [], supplyLines: supplyLinesForHints }),
         importedCount: 0,
       },
       { status: 501 }
@@ -65,7 +72,7 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
 
   const mappedHints = mapWorkshop2MoySkladStockToWmsHints({
     stockRows: snapshot.rows,
-    supplyLines,
+    supplyLines: supplyLinesForHints,
   });
 
   const summary = buildWorkshop2MoySkladImportSummary({

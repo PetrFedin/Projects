@@ -43,8 +43,11 @@ export const SUPPLIER_RFQ_API = {
   award: '/api/v1/suppliers/rfq/:id/award',
 } as const;
 
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+
 /** Список RFQ. При API — GET SUPPLIER_RFQ_API.list */
 export async function listRfq(): Promise<SupplierRfq[]> {
+  if (isPlatformCoreMode()) return [];
   await new Promise((r) => setTimeout(r, 200));
   const now = new Date().toISOString();
   return [

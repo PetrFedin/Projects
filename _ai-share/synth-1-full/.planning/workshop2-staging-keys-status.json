@@ -1,0 +1,51 @@
+{
+  "generatedAt": "2026-05-29T18:08:41.436Z",
+  "envSource": ".env.staging.live.ru.example",
+  "configuredCount": 1,
+  "total": 6,
+  "keys": [
+    {
+      "id": "kontur_diadoc_url",
+      "env": "WORKSHOP2_KONTUR_DIADOC_URL",
+      "labelRu": "Контур Diadoc URL",
+      "configured": false,
+      "valuePresent": true
+    },
+    {
+      "id": "kontur_diadoc_token",
+      "env": "WORKSHOP2_KONTUR_DIADOC_TOKEN",
+      "labelRu": "Контур Diadoc token",
+      "configured": false,
+      "valuePresent": false
+    },
+    {
+      "id": "marking_api_url",
+      "env": "WORKSHOP2_MARKING_API_URL",
+      "labelRu": "ЧЗ API URL",
+      "configured": false,
+      "valuePresent": true
+    },
+    {
+      "id": "marking_api_token",
+      "env": "WORKSHOP2_MARKING_API_TOKEN",
+      "labelRu": "ЧЗ API token",
+      "configured": false,
+      "valuePresent": false
+    },
+    {
+      "id": "staging_public_url",
+      "env": "WORKSHOP2_STAGING_PUBLIC_URL",
+      "labelRu": "Staging public URL",
+      "configured": true,
+      "valuePresent": true
+    },
+    {
+      "id": "production_public_url",
+      "env": "WORKSHOP2_PRODUCTION_PUBLIC_URL",
+      "labelRu": "Production public URL",
+      "configured": false,
+      "valuePresent": false
+    }
+  ],
+  "labelRu": "1/6 staging keys configured (investor demo: warning-only)."
+}

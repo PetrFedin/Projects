@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { Workshop2TaMilestone } from '@/lib/production/workshop2-dossier-phase1.types';
 
-// In-memory mock data
 let mockMilestones: Workshop2TaMilestone[] = [
   {
     id: 'm1',
@@ -40,17 +39,32 @@ let mockMilestones: Workshop2TaMilestone[] = [
   },
 ];
 
-export async function GET(req: Request) {
+function dossierParamsMissing(req: Request): boolean {
   const { searchParams } = new URL(req.url);
-  const articleId = searchParams.get('articleId');
+  const collectionId = searchParams.get('collectionId')?.trim();
+  const articleId = searchParams.get('articleId')?.trim();
+  return !collectionId || !articleId;
+}
 
-  // Return the in-memory mock milestones regardless of articleId for the mock
+export async function GET(req: Request) {
+  if (dossierParamsMissing(req)) {
+    return NextResponse.json({ error: 'dossier_required' }, { status: 503 });
+  }
+
   return NextResponse.json({ milestones: mockMilestones });
 }
 
 export async function PATCH(req: Request) {
+  if (dossierParamsMissing(req)) {
+    return NextResponse.json({ error: 'dossier_required' }, { status: 503 });
+  }
+
   try {
-    const body = (await req.json()) as any;
+    const body = (await req.json()) as {
+      milestoneId?: string;
+      actualDate?: string | null;
+      status?: Workshop2TaMilestone['status'];
+    };
     const { milestoneId, actualDate, status } = body;
 
     const index = mockMilestones.findIndex((m) => m.id === milestoneId);
@@ -65,7 +79,7 @@ export async function PATCH(req: Request) {
     };
 
     return NextResponse.json({ milestone: mockMilestones[index] });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   }
 }

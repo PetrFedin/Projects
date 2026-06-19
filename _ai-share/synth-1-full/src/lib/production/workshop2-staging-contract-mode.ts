@@ -2,7 +2,10 @@
  * Wave 40: documented staging contract path → strict 9.0 (localhost mock + PG partnerAck).
  * Prod без live env остаётся fail-closed; success только при HTTP 200 + ack id в journal.
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2DossierPgMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2CeilingJournalEntry } from '@/lib/production/workshop2-ceiling-staging-core';
 import type {
   Workshop2IntegrationCeilingCatalogId,
@@ -126,47 +129,34 @@ export function hasWorkshop2CeilingStagingContractAckInDossier(
   catalogId: Workshop2IntegrationCeilingCatalogId
 ): boolean {
   if (!dossier) return false;
+  const hasPartnerAck = (
+    mirror: Workshop2DossierPgMirror | undefined,
+    opts?: { registryAck?: boolean; erpAck?: boolean }
+  ): boolean => {
+    if (!mirror) return false;
+    if (mirror.partnerAckRecorded === true && mirror.ackId) return true;
+    if (opts?.registryAck && mirror.registryAckRecorded === true) return true;
+    if (opts?.erpAck && mirror.erpOrderIdAckInPg === true) return true;
+    const journal = mirror.journal;
+    if (!Array.isArray(journal)) return false;
+    return journal.some((entry) => {
+      const j = entry as Workshop2CeilingJournalEntry;
+      return Boolean(j.partnerAckRecorded && j.ackId);
+    });
+  };
   switch (catalogId) {
-    case 50: {
-      const m = dossier.dppRegistryDraftMirror;
-      return Boolean(
-        m?.partnerAckRecorded || m?.journal?.some((j) => j.partnerAckRecorded && j.ackId)
-      );
-    }
-    case 53: {
-      const m = dossier.sustainabilityStagingMirror;
-      return Boolean(
-        m?.partnerAckRecorded ||
-        m?.registryAckRecorded ||
-        m?.journal?.some((j) => j.partnerAckRecorded && j.ackId)
-      );
-    }
-    case 55: {
-      const m = dossier.fit3dStagingMirror;
-      return Boolean(
-        m?.partnerAckRecorded || m?.journal?.some((j) => j.partnerAckRecorded && j.ackId)
-      );
-    }
-    case 63: {
-      const m = dossier.nestingStagingMirror;
-      return Boolean(
-        m?.partnerAckRecorded || m?.journal?.some((j) => j.partnerAckRecorded && j.ackId)
-      );
-    }
-    case 66: {
-      const m = dossier.factoryErpStagingMirror;
-      return Boolean(
-        m?.erpOrderIdAckInPg ||
-        m?.partnerAckRecorded ||
-        m?.journal?.some((j) => j.partnerAckRecorded && j.ackId)
-      );
-    }
-    case 78: {
-      const m = dossier.plmTransportJournalMirror;
-      return Boolean(
-        m?.partnerAckRecorded || m?.journal?.some((j) => j.partnerAckRecorded && j.ackId)
-      );
-    }
+    case 50:
+      return hasPartnerAck(dossier.dppRegistryDraftMirror);
+    case 53:
+      return hasPartnerAck(dossier.sustainabilityStagingMirror, { registryAck: true });
+    case 55:
+      return hasPartnerAck(dossier.fit3dStagingMirror);
+    case 63:
+      return hasPartnerAck(dossier.nestingStagingMirror);
+    case 66:
+      return hasPartnerAck(dossier.factoryErpStagingMirror, { erpAck: true });
+    case 78:
+      return hasPartnerAck(dossier.plmTransportJournalMirror);
     default:
       return false;
   }

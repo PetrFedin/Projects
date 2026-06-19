@@ -61,7 +61,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { CATEGORY_HANDBOOK } from '@/lib/data/category-handbook';
+import { getCategoryHandbookFilterTree } from '@/lib/production/category-handbook-filter-tree';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -434,7 +434,7 @@ export function AssortmentPlm({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Все (Аудитория)</SelectItem>
-                    {CATEGORY_HANDBOOK.map((a) => (
+                    {getCategoryHandbookFilterTree().map((a) => (
                       <SelectItem key={a.id} value={a.id}>
                         {a.name}
                       </SelectItem>
@@ -453,7 +453,7 @@ export function AssortmentPlm({
                   <SelectContent>
                     <SelectItem value="all">Уровень 1 (Все)</SelectItem>
                     {filters.audience !== 'all' &&
-                      CATEGORY_HANDBOOK.find((a) => a.id === filters.audience)?.categories.map(
+                      getCategoryHandbookFilterTree().find((a) => a.id === filters.audience)?.categories.map(
                         (c) => (
                           <SelectItem key={c.id} value={c.id}>
                             {c.name}
@@ -473,7 +473,7 @@ export function AssortmentPlm({
                     <SelectItem value="all">Уровень 2 (Все)</SelectItem>
                     {filters.cat1 !== 'all' &&
                       filters.audience !== 'all' &&
-                      CATEGORY_HANDBOOK.find((a) => a.id === filters.audience)
+                      getCategoryHandbookFilterTree().find((a) => a.id === filters.audience)
                         ?.categories.find((c) => c.id === filters.cat1)
                         ?.children?.map((sub) => (
                           <SelectItem key={sub.id} value={sub.id}>
@@ -493,7 +493,7 @@ export function AssortmentPlm({
                     <SelectItem value="all">Уровень 3 (Все)</SelectItem>
                     {filters.cat2 !== 'all' &&
                       filters.audience !== 'all' &&
-                      CATEGORY_HANDBOOK.find((a) => a.id === filters.audience)
+                      getCategoryHandbookFilterTree().find((a) => a.id === filters.audience)
                         ?.categories.find((c) => c.id === filters.cat1)
                         ?.children?.find((s) => s.id === filters.cat2)
                         ?.children?.map((leaf) => (

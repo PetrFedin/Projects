@@ -15,6 +15,37 @@ export function isWorkshop2PostgresEnabled(): boolean {
   return getWorkshop2DatabaseUrl().length > 0;
 }
 
+/** ECONNREFUSED / timeout — PG URL задан, но инстанс не поднят (OrbStack off). */
+export function isWorkshop2PgConnectionError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') return false;
+  const e = error as { code?: string; message?: string; errors?: Array<{ code?: string }> };
+  const codes = new Set(['ECONNREFUSED', 'ETIMEDOUT', 'ENOTFOUND', 'ECONNRESET', '57P01']);
+  if (e.code && codes.has(e.code)) return true;
+  if (Array.isArray(e.errors)) {
+    if (e.errors.some((x) => x.code && codes.has(x.code))) return true;
+  }
+  const msg = typeof e.message === 'string' ? e.message.toLowerCase() : '';
+  if (
+    msg.includes('connection terminated') ||
+    msg.includes('timeout expired') ||
+    msg.includes('connect etimedout') ||
+    msg.includes('econnrefused')
+  ) {
+    return true;
+  }
+  return false;
+}
+
+export async function probeWorkshop2PgReachable(): Promise<boolean> {
+  if (!isWorkshop2PostgresEnabled()) return false;
+  try {
+    await getWorkshop2PgPool().query('SELECT 1');
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 let pgPool: Pool | null = null;
 
 export function getWorkshop2PgPool(): Pool {

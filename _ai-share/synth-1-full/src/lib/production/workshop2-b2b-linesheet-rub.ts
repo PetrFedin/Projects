@@ -29,8 +29,15 @@ export function buildWorkshop2ShowroomLinesheetRubPayload(input: {
   const base = buildWorkshop2ShowroomLinesheetPayload(input);
   const env = input.env ?? process.env;
   const moq = base.moq ?? input.dossier.passportProductionBrief?.moqTargetMaxPieces ?? undefined;
-  const wholesale = base.wholesalePrice ?? input.dossier.passportProductionBrief?.targetFob;
-  const msrp = base.msrp ?? input.dossier.passportProductionBrief?.targetRetailPrice;
+  const wholesaleRaw = base.wholesalePrice ?? input.dossier.passportProductionBrief?.targetFob;
+  const msrpRaw = base.msrp ?? input.dossier.passportProductionBrief?.targetRetailPrice;
+  const toNum = (v: string | number | undefined): number | undefined => {
+    if (v == null) return undefined;
+    const n = typeof v === 'number' ? v : Number(String(v).replace(',', '.'));
+    return Number.isFinite(n) ? n : undefined;
+  };
+  const wholesale = toNum(wholesaleRaw);
+  const msrp = toNum(msrpRaw);
   const rubMarket = isWorkshop2RuMarket(env);
   return {
     ...base,

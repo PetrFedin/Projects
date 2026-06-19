@@ -19,7 +19,7 @@ type Workshop2VendorBiddingPanelProps = {
 };
 
 /**
- * Wave 7 #10: vendor bids Ð¸Ð· dossier PG mirror (heuristic min CMT, Ð±ÐµÐ· fake ML).
+ * Wave 7 #10: vendor bids из dossier PG mirror (heuristic min CMT, без fake ML).
  */
 export function Workshop2VendorBiddingPanel({
   collectionId,
@@ -75,7 +75,7 @@ export function Workshop2VendorBiddingPanel({
       };
       if (!json.ok) {
         toast({
-          title: 'ÐÑÐ¸Ð±ÐºÐ° ÑÑÐ°Ð²ÐºÐ¸',
+          title: 'Ошибка ставки',
           description: json.messageRu,
           variant: 'destructive',
         });
@@ -84,7 +84,7 @@ export function Workshop2VendorBiddingPanel({
       const next = json.bids ?? localBids;
       setLocalBids(next);
       onBidsUpdate?.(next);
-      toast({ title: 'Ð¡ÑÐ°Ð²ÐºÐ° ÑÐ¾ÑÑÐ°Ð½ÐµÐ½Ð° Ð² PG', description: json.messageRu });
+      toast({ title: 'Ставка сохранена в PG', description: json.messageRu });
     } finally {
       setBusy(false);
     }
@@ -104,10 +104,10 @@ export function Workshop2VendorBiddingPanel({
           <LucideIcons.Landmark className="h-4 w-4" aria-hidden />
         </div>
         <div className="min-w-0 flex-1">
-          <h2 className="text-text-primary text-base font-semibold">ÐÑÐºÑÐ¸Ð¾Ð½ / ÑÐµÐ½Ð´ÐµÑ</h2>
+          <h2 className="text-text-primary text-base font-semibold">Аукцион / тендер</h2>
           <p className="text-text-secondary text-[11px]">
-            Ð¡ÑÐ°Ð²ÐºÐ¸ Ð² dossier.bids (PG mirror). Heuristic winner â Ð¼Ð¸Ð½Ð¸Ð¼Ð°Ð»ÑÐ½ÑÐ¹ CMT,
-            Ð±ÐµÐ· ML.
+            Ставки в dossier.bids (PG mirror). Heuristic winner — минимальный CMT,
+            без ML.
           </p>
           {hasDossierBidLink ? (
             <Badge variant="outline" className="mt-1 text-[10px]">
@@ -119,18 +119,18 @@ export function Workshop2VendorBiddingPanel({
 
       {lowest ? (
         <p className="mb-2 text-[11px] text-emerald-800">
-          ÐÐ¸Ð½. CMT: {lowest.vendorName} â {lowest.cmtPrice} {lowest.currency}
+          Мин. CMT: {lowest.vendorName} — {lowest.cmtPrice} {lowest.currency}
         </p>
       ) : null}
 
       <ul className="mb-3 max-h-32 space-y-1 overflow-y-auto text-[11px]">
         {localBids.length === 0 ? (
-          <li className="text-text-muted">Ð¡ÑÐ°Ð²Ð¾Ðº Ð¿Ð¾ÐºÐ° Ð½ÐµÑ.</li>
+          <li className="text-text-muted">Ставок пока нет.</li>
         ) : (
           localBids.map((b) => (
             <li key={b.id} className="flex justify-between rounded border px-2 py-1">
               <span>
-                {b.vendorName} Â· {b.cmtPrice} {b.currency}
+                {b.vendorName} · {b.cmtPrice} {b.currency}
               </span>
               <Badge variant="outline">{b.status}</Badge>
             </li>
@@ -146,7 +146,7 @@ export function Workshop2VendorBiddingPanel({
           className="h-8 text-[11px]"
         />
         <Input
-          placeholder="ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ ÑÐ°Ð±ÑÐ¸ÐºÐ¸"
+          placeholder="Название фабрики"
           value={form.vendorName}
           onChange={(e) => setForm((f) => ({ ...f, vendorName: e.target.value }))}
           className="h-8 text-[11px]"
@@ -171,7 +171,7 @@ export function Workshop2VendorBiddingPanel({
         disabled={busy}
         onClick={() => void postBid()}
       >
-        {busy ? 'â¦' : 'POST bid â PG'}
+        {busy ? '…' : 'POST bid → PG'}
       </Button>
     </div>
   );

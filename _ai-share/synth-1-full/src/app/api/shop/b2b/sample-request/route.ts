@@ -14,8 +14,13 @@ import {
   getWorkshop2ServerDossierRecord,
   putWorkshop2ServerDossierRecord,
 } from '@/lib/server/workshop2-phase1-dossier-server-store';
+import { resolveShopCoreBuyerIdFromRequest } from '@/lib/order/shop-core-buyer-context';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 
 export async function POST(req: NextRequest) {
+  const auth = await guardShopB2bCheckoutRoute(req);
+  if (auth instanceof NextResponse) return auth;
+
   let body: Record<string, unknown> = {};
   try {
     body = (await req.json()) as Record<string, unknown>;
@@ -25,7 +30,7 @@ export async function POST(req: NextRequest) {
 
   const collectionId = String(body.collectionId ?? '').trim();
   const articleId = String(body.articleId ?? '').trim();
-  const buyerId = String(body.buyerId ?? 'buyer-demo').trim();
+  const buyerId = resolveShopCoreBuyerIdFromRequest(req, String(body.buyerId ?? ''));
   const orderId = String(body.orderId ?? '').trim();
   const note = String(body.note ?? '').trim();
 

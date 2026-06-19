@@ -84,7 +84,7 @@ export default function OrderAnalyticsPage() {
   return (
     <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader
-        lead="NuOrder: топ стилей, тренды по категориям, заказы по месяцам."
+        lead="Топ стилей, тренды по категориям и заказы по месяцам."
         trailing={
           <div>
             <label className="text-text-secondary mb-1 block text-xs">Бренд</label>

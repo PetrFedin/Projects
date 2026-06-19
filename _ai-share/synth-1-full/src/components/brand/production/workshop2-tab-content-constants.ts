@@ -1,8 +1,8 @@
 import { COLLECTION_STEPS } from '@/lib/production/collection-steps-catalog';
+import { COLLECTION_DEV_HUB_LEAD_RU } from '@/lib/production/collection-development-labels';
 
-/** Подзаголовок хаба коллекций Workshop2. */
-export const WORKSHOP2_TAB_CONTENT_PAGE_SUBTITLE =
-  'Разработка артикулов: ТЗ и маршрут до образца. Подборка и сезон — ориентир для фильтров.';
+/** Подзаголовок хаба Workshop2 (одна строка на узком экране). */
+export const WORKSHOP2_TAB_CONTENT_PAGE_SUBTITLE = COLLECTION_DEV_HUB_LEAD_RU;
 
 export const READINESS_HELP =
   'Показатель заполнения этапов по подборке: число завершённых пар «артикул × этап» (done/skipped) к общему числу таких пар. Диапазон 0–100%. На мини-шкале слева — разработка и ТЗ (в каталоге — в т.ч. tech-pack и gate-all-stakeholders), справа — от supply-path: сэмплы и выпуск (в досье артикула те же контуры: обзор/ТЗ vs снабжение и далее).';

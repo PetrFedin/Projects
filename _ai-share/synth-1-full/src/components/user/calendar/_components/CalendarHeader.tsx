@@ -38,9 +38,19 @@ interface CalendarHeaderProps {
   state: CalendarState;
   actions: CalendarActions;
   user: any;
+  createEventsEnabled?: boolean;
+  slimCore?: boolean;
+  calendarSearchTestId?: string;
 }
 
-export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
+export function CalendarHeader({
+  state,
+  actions,
+  user,
+  createEventsEnabled = true,
+  slimCore = false,
+  calendarSearchTestId,
+}: CalendarHeaderProps) {
   const {
     currentRole,
     view,
@@ -67,15 +77,26 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
   } = actions;
 
   return (
-    <div className="mb-6 flex flex-col gap-3">
+    <div className={cn('flex flex-col gap-3', slimCore && 'mb-0 md:mb-6')}>
       <div className="flex flex-col items-start justify-between gap-3 md:flex-row md:items-center">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 rounded-lg bg-muted/50 p-1">
+        <div
+          className={cn(
+            'flex w-full min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3',
+            slimCore && 'max-md:gap-2'
+          )}
+        >
+          <div
+            className={cn(
+              'flex items-center gap-2 rounded-lg bg-muted/50 p-1',
+              slimCore &&
+                'max-md:w-full max-md:overflow-x-auto max-md:overscroll-x-contain max-md:[-webkit-overflow-scrolling:touch] max-md:[scrollbar-width:none] max-md:[&::-webkit-scrollbar]:hidden'
+            )}
+          >
             <Button
               variant={view === 'month' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setView('month')}
-              className="text-xs"
+              className={cn('text-xs', slimCore && 'min-h-11 shrink-0 max-md:min-h-11')}
             >
               Месяц
             </Button>
@@ -83,7 +104,7 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
               variant={view === 'week' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setView('week')}
-              className="text-xs"
+              className={cn('text-xs', slimCore && 'min-h-11 shrink-0 max-md:hidden')}
             >
               Неделя
             </Button>
@@ -91,7 +112,7 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
               variant={view === 'day' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setView('day')}
-              className="text-xs"
+              className={cn('text-xs', slimCore && 'min-h-11 shrink-0 max-md:hidden')}
             >
               День
             </Button>
@@ -99,7 +120,7 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
               variant={view === 'list' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setView('list')}
-              className="text-xs"
+              className={cn('text-xs', slimCore && 'min-h-11 shrink-0 max-md:min-h-11')}
             >
               Список
             </Button>
@@ -109,6 +130,7 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
             <Button
               variant="outline"
               size="icon"
+              className={cn(slimCore && 'min-h-11 min-w-11')}
               onClick={() =>
                 setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)))
               }
@@ -117,9 +139,12 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
             </Button>
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="min-w-[140px] font-bold">
+                <Button
+                  variant="outline"
+                  className={cn('min-w-[140px] font-bold', slimCore && 'max-md:min-h-11 max-md:text-xs')}
+                >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {format(currentDate, 'LLLL yyyy', { locale: ru })}
+                  {format(currentDate, slimCore ? 'LLL yyyy' : 'LLLL yyyy', { locale: ru })}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
@@ -134,6 +159,7 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
             <Button
               variant="outline"
               size="icon"
+              className={cn(slimCore && 'min-h-11 min-w-11')}
               onClick={() =>
                 setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)))
               }
@@ -144,13 +170,15 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
         </div>
 
         <div className="flex w-full items-center gap-2 md:w-auto">
-          <div className="relative flex-1 md:w-64">
+          <div className="relative min-w-0 flex-1 md:w-64">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Поиск событий..."
-              className="pl-9"
+              className={cn('pl-9', slimCore && 'min-h-11')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              data-testid={calendarSearchTestId}
+              aria-label="Поиск событий"
             />
           </div>
 
@@ -159,7 +187,10 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
               <Button
                 variant="outline"
                 size="icon"
-                className={cn(spamFilterEnabled && 'border-red-500 text-red-500')}
+                className={cn(
+                  spamFilterEnabled && 'border-red-500 text-red-500',
+                  slimCore && 'min-h-11 min-w-11 shrink-0'
+                )}
               >
                 <Filter className="h-4 w-4" />
               </Button>
@@ -205,13 +236,20 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
             </PopoverContent>
           </Popover>
 
-          <Button onClick={() => handleOpenCreateModal()}>
-            <Plus className="mr-2 h-4 w-4" />
-            Событие
-          </Button>
+          {createEventsEnabled ? (
+            <Button
+              onClick={() => handleOpenCreateModal()}
+              data-testid="calendar-create-event-btn"
+              className={cn(slimCore && 'min-h-11 shrink-0')}
+            >
+              <Plus className={cn('h-4 w-4', !slimCore && 'mr-2')} />
+              <span className={cn(slimCore && 'max-md:sr-only')}>Событие</span>
+            </Button>
+          ) : null}
         </div>
       </div>
 
+      {!slimCore ? (
       <div className="bg-bg-surface2 border-border-subtle flex flex-wrap items-center justify-between gap-2 rounded-xl border p-2">
         <div className="no-scrollbar flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
           {user?.roles && user.roles.length > 1 && (
@@ -287,6 +325,7 @@ export function CalendarHeader({ state, actions, user }: CalendarHeaderProps) {
           </Button>
         </div>
       </div>
+      ) : null}
     </div>
   );
 }

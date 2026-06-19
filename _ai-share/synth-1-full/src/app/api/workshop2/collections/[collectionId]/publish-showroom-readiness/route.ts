@@ -4,11 +4,15 @@ import { evaluateWorkshop2CollectionShowroomPublishReadiness } from '@/lib/produ
 import { getWorkshop2ServerDossierRecord } from '@/lib/server/workshop2-phase1-dossier-server-store';
 import { jsonWorkshop2ErrorRu } from '@/lib/production/workshop2-api-error-ru';
 import { withWorkshop2ApiErrorRu } from '@/lib/production/workshop2-api-route-ru';
+import { guardWorkshop2Route, WORKSHOP2_WRITE_ROLES } from '@/lib/server/workshop2-route-auth';
 
 type RouteParams = { params: Promise<{ collectionId: string }> };
 
 /** POST Wave 14: проверка showroom publish gate по артикулам коллекции. */
 async function postPublishShowroomReadiness(req: NextRequest, ctx: RouteParams) {
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES);
+  if (auth instanceof NextResponse) return auth;
+
   const { collectionId: rawCollectionId } = await ctx.params;
   const collectionId = rawCollectionId?.trim();
   if (!collectionId) {

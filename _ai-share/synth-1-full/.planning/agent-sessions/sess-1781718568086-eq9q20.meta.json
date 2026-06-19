@@ -1,0 +1,14 @@
+{
+  "sessionId": "sess-1781718568086-eq9q20",
+  "taskId": "scan-7157zx-b2b-demo-logistics-blind",
+  "taskTitle": "[Бренд] ТТН/logistics strip скрыт для B2B-DEMO-SHOP1-SS27",
+  "status": "done",
+  "startedAt": "2026-06-17T17:49:28.128Z",
+  "pid": 83704,
+  "repoRoot": "/Users/petr/Projects",
+  "taskPromptFile": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/agent-sessions/sess-1781718568086-eq9q20.prompt.txt",
+  "updatedAt": "2026-06-17T17:51:00.956Z",
+  "cursorAgentId": "agent-fefe5124-f89c-4af9-ba9e-16da91246e0a",
+  "runId": "run-052619ec-499e-40bf-a439-00b98a900f34",
+  "runStatus": "finished"
+}

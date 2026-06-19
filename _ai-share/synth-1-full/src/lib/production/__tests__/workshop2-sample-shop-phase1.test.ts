@@ -9,6 +9,7 @@ import {
 import {
   parseWorkshop2FactorySampleQueueStatusFilter,
   isWorkshop2FactorySampleQueueItemOverdue,
+  sortWorkshop2FactorySampleQueueItems,
 } from '@/lib/production/workshop2-factory-sample-queue';
 import { summarizeWorkshop2ReleaseOperationsPlanFact } from '@/lib/production/workshop2-release-operations-plan-fact';
 import { buildWorkshop2ReleaseOperationsSyncAudit } from '@/lib/production/workshop2-release-operations-sync-audit';
@@ -71,6 +72,15 @@ describe('workshop2 factory sample queue helpers', () => {
     expect(parseWorkshop2FactorySampleQueueStatusFilter('invalid')).toBeUndefined();
   });
 
+  it('sorts queue by overdue then due date then status', () => {
+    const sorted = sortWorkshop2FactorySampleQueueItems([
+      { orderId: 'a', status: 'draft', dueDate: '2026-12-01' },
+      { orderId: 'b', status: 'sent', dueDate: '2026-06-01', dueOverdue: true },
+      { orderId: 'c', status: 'in_progress', dueDate: '2026-07-01' },
+    ]);
+    expect(sorted.map((i) => i.orderId)).toEqual(['b', 'c', 'a']);
+  });
+
   it('detects overdue non-terminal orders', () => {
     expect(
       isWorkshop2FactorySampleQueueItemOverdue({
@@ -105,8 +115,17 @@ describe('workshop2 release operations plan-fact', () => {
 });
 
 describe('workshop2 sample order repository transitions (memory)', () => {
+  const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+
   beforeEach(() => {
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
     clearWorkshop2SampleOrdersMemoryForTests();
+  });
+
+  afterEach(() => {
+    if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+    else delete process.env.WORKSHOP2_DATABASE_URL;
   });
 
   it('transitionWorkshop2SampleOrder updates status and history', async () => {

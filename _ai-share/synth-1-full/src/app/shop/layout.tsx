@@ -14,6 +14,8 @@ import {
 import { useAuth } from '@/providers/auth-provider';
 import { useRbac } from '@/hooks/useRbac';
 import { canSeeShopNavGroup } from '@/lib/data/profile-page-features';
+import { applyShopNavPipeline, isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { augmentShopNavForCoreCabinet } from '@/lib/platform-core-nav-augment';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { ShopSidebar } from '@/components/shop/ShopSidebar';
 import { ShopSidebarHeader } from '@/components/shop/ShopSidebarHeader';
@@ -21,6 +23,7 @@ import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { SearchBar } from '@/components/search/SearchBar';
 import {
   CabinetHubMain,
+  CabinetHubMobileNavOnly,
   CabinetHubSectionBar,
   CabinetHubTitleRow,
 } from '@/components/layout/cabinet-hub-chrome';
@@ -29,14 +32,16 @@ import { cn } from '@/lib/utils';
 import { cabinetHubLayout, cabinetSidebarLayout } from '@/lib/ui/cabinet-surface';
 
 function ShopLayoutContent({ children }: { children: React.ReactNode }) {
+  const platformCore = isPlatformCoreMode();
   const pathname = usePathname() ?? '';
   const { profile } = useAuth();
   const { role, can } = useRbac();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const rbacFiltered = shopNavGroups.filter((g) => canSeeShopNavGroup(role, g.id, can));
+  const shopNavPiped = augmentShopNavForCoreCabinet(applyShopNavPipeline(shopNavGroups));
+  const rbacFiltered = shopNavPiped.filter((g) => canSeeShopNavGroup(role, g.id, can));
   /** Если матрица RBAC не даёт ни одной группы (напр. designer/technologist), не блокируем весь Shop — показываем полное меню как в демо. */
-  const afterRbac = rbacFiltered.length > 0 ? rbacFiltered : shopNavGroups;
+  const afterRbac = rbacFiltered.length > 0 ? rbacFiltered : shopNavPiped;
   const sidebarGroups = filterShopNavGroupsByTier(afterRbac, getShopNavDisplayMode());
 
   const getShopCurrentTab = () => getMainShopNavTabValue(pathname);
@@ -76,48 +81,54 @@ function ShopLayoutContent({ children }: { children: React.ReactNode }) {
         {/* Основная область */}
         <div className={cn('min-w-0 flex-1', cabinetSidebarLayout.mainPaddingLeftStandard)}>
           <CabinetHubMain className="space-y-2 pt-2">
-            <CabinetHubTitleRow
-              className="border-border-subtle gap-2 border-b pb-2"
-              onOpenMobileNav={() => setSidebarOpen(true)}
-              hubIcon={ShoppingCart}
-              iconTileClassName="bg-text-primary text-text-inverse shadow-xl shadow-black/15 ring-1 ring-border-subtle"
-              title="Ритейл-центр"
-              badges={
-                <>
-                  <Badge className="hidden shrink-0 rounded-sm border-none bg-rose-50 px-2 py-0.5 text-[8px] font-black tracking-widest text-rose-600 hover:bg-rose-50 sm:inline-flex">
-                    Магазин
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="border-border-subtle text-text-secondary shrink-0 text-[8px] font-bold"
-                  >
-                    {cabinetRoleLabelRu(role)}
-                  </Badge>
-                </>
-              }
-              showDemoMark
-              trailing={<SearchBar />}
-            />
-            <CabinetHubSectionBar
-              accentClassName="bg-rose-500"
-              breadcrumbItems={['Аккаунт', 'Кабинет магазина', activeLink?.label || 'Дашборд']}
-              sectionTitle={activeLink?.label || 'Дашборд'}
-              trailing={
-                <>
-                  {(Array.isArray(profile?.alerts) ? profile.alerts : []).map(
-                    (alert: any, idx: number) => (
-                      <Badge
-                        key={idx}
-                        variant="outline"
-                        className="h-7 animate-pulse border-rose-100 bg-rose-50/30 px-2 text-[7px] font-black uppercase tracking-widest text-rose-600"
-                      >
-                        {alert.message}
+            {platformCore ? (
+              <CabinetHubMobileNavOnly onOpenMobileNav={() => setSidebarOpen(true)} />
+            ) : (
+              <>
+                <CabinetHubTitleRow
+                  className="border-border-subtle gap-2 border-b pb-2"
+                  onOpenMobileNav={() => setSidebarOpen(true)}
+                  hubIcon={ShoppingCart}
+                  iconTileClassName="bg-text-primary text-text-inverse shadow-xl shadow-black/15 ring-1 ring-border-subtle"
+                  title="Ритейл-центр"
+                  badges={
+                    <>
+                      <Badge className="hidden shrink-0 rounded-sm border-none bg-rose-50 px-2 py-0.5 text-[8px] font-black tracking-widest text-rose-600 hover:bg-rose-50 sm:inline-flex">
+                        Магазин
                       </Badge>
-                    )
-                  )}
-                </>
-              }
-            />
+                      <Badge
+                        variant="outline"
+                        className="border-border-subtle text-text-secondary shrink-0 text-[8px] font-bold"
+                      >
+                        {cabinetRoleLabelRu(role)}
+                      </Badge>
+                    </>
+                  }
+                  showDemoMark
+                  trailing={<SearchBar />}
+                />
+                <CabinetHubSectionBar
+                  accentClassName="bg-rose-500"
+                  breadcrumbItems={['Аккаунт', 'Кабинет магазина', activeLink?.label || 'Дашборд']}
+                  sectionTitle={activeLink?.label || 'Дашборд'}
+                  trailing={
+                    <>
+                      {(Array.isArray(profile?.alerts) ? profile.alerts : []).map(
+                        (alert: any, idx: number) => (
+                          <Badge
+                            key={idx}
+                            variant="outline"
+                            className="h-7 animate-pulse border-rose-100 bg-rose-50/30 px-2 text-[7px] font-black uppercase tracking-widest text-rose-600"
+                          >
+                            {alert.message}
+                          </Badge>
+                        )
+                      )}
+                    </>
+                  }
+                />
+              </>
+            )}
 
             <main className={cabinetHubLayout.mainInner}>
               <ErrorBoundary>

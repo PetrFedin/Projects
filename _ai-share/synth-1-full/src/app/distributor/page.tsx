@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { getShopCoreRetailerB2bQuickSections } from '@/lib/platform-core-nav-augment';
 
 const overviewSections = [
   {
@@ -40,6 +42,9 @@ const overviewSections = [
 ];
 
 export default function DistributorHubPage() {
+  const coreMode = isPlatformCoreMode();
+  const sections = coreMode ? getShopCoreRetailerB2bQuickSections() : overviewSections;
+
   return (
     <CabinetPageContent maxWidth="full" className="space-y-6">
       <div>
@@ -47,12 +52,14 @@ export default function DistributorHubPage() {
           Обзор
         </h2>
         <p className="text-sm text-slate-700">
-          Используйте навигацию слева для перехода в разделы. Ключевые направления:
+          {coreMode
+            ? 'Golden path опта: showroom, матрица и реестр B2B из PostgreSQL.'
+            : 'Используйте навигацию слева для перехода в разделы. Ключевые направления:'}
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {overviewSections.map((section) => (
+      <div className={`grid gap-6 ${coreMode ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
+        {sections.map((section) => (
           <div
             key={section.title}
             className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm"

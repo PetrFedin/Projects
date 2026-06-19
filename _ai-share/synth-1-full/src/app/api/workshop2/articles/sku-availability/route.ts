@@ -14,7 +14,7 @@ import { isWorkshop2PostgresEnabled } from '@/lib/server/workshop2-pg-pool';
 import { guardWorkshop2Route, WORKSHOP2_READ_ROLES } from '@/lib/server/workshop2-route-auth';
 
 async function getSkuAvailability(req: NextRequest) {
-  const auth = guardWorkshop2Route(req, WORKSHOP2_READ_ROLES);
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_READ_ROLES);
   if (auth instanceof NextResponse) return auth;
 
   const u = new URL(req.url);

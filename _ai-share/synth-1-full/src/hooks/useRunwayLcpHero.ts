@@ -37,7 +37,7 @@ export function useRunwayLcpHero({
       return;
     }
 
-    const payload = buildRunwayLcpHeroPayload();
+    const payload = buildRunwayLcpHeroPayload(productSlug);
     trackScrollExperienceEvent('runway_lcp_hero', {
       productSlug,
       msSinceNavigation: payload.msSinceNavigation,

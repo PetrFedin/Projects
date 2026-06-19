@@ -1,7 +1,10 @@
 /**
  * Wave 38 #78: PLM transport journal + webhook receipt (без fake partner ACK).
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2PlmTransportJournalMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import {
   appendWorkshop2CeilingJournalEntry,
@@ -20,19 +23,7 @@ import {
   workshop2StagingContractMirrorAckFields,
 } from '@/lib/production/workshop2-staging-contract-mode';
 
-export type Workshop2PlmTransportJournalMirror = {
-  mirroredAt: string;
-  lastActor: string;
-  transportKind: 'outbox_journal' | 'live_partner' | 'staging_contract';
-  webhookConfigured: boolean;
-  partnerAckRecorded: boolean;
-  partnerAckId: string | null;
-  ackAt: string | null;
-  stagingContractMode: boolean;
-  lastReceiptAt?: string;
-  journal: Workshop2CeilingJournalEntry[];
-  hintRu?: string;
-};
+export type { Workshop2PlmTransportJournalMirror };
 
 function resolvePlmPartnerAckUrl(env?: Workshop2ProcessEnvLike): string | undefined {
   const e = env ?? (typeof process !== 'undefined' ? process.env : {});
@@ -94,7 +85,8 @@ export function recordWorkshop2PlmWebhookReceipt(input: {
   eventId: string;
   payloadPreview?: Record<string, unknown>;
 }): Workshop2DossierPhase1 {
-  const prev = input.dossier.plmTransportJournalMirror?.journal;
+  const prevJournal = input.dossier.plmTransportJournalMirror?.journal;
+  const prev = Array.isArray(prevJournal) ? prevJournal : undefined;
   const entry = workshop2CeilingJournalEntry({
     actor: input.actor,
     event: 'webhook_receipt',
@@ -129,7 +121,8 @@ export async function attemptWorkshop2PlmPartnerAckStaging(input: {
   skipped?: boolean;
 }> {
   const ackUrl = resolvePlmPartnerAckUrl(input.env);
-  const prev = input.dossier.plmTransportJournalMirror?.journal;
+  const prevJournal = input.dossier.plmTransportJournalMirror?.journal;
+  const prev = Array.isArray(prevJournal) ? prevJournal : undefined;
   if (!ackUrl) {
     const journal = appendWorkshop2CeilingJournalEntry(
       prev,

@@ -33,7 +33,7 @@ export function Workshop2SetupAttributeBridge() {
                   <td className="px-2 py-1 font-mono">{infoPickId}</td>
                   <td className="px-2 py-1 font-mono">{catalogId}</td>
                   <td className="px-2 py-1 text-slate-700">
-                    {getAttributeById(catalogId)?.label ?? '—'}
+                    {getAttributeById(catalogId)?.name ?? '—'}
                   </td>
                 </tr>
               ))}

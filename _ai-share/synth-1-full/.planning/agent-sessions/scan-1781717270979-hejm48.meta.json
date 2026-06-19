@@ -1,0 +1,14 @@
+{
+  "sessionId": "scan-1781717270979-hejm48",
+  "taskId": "scan-project",
+  "taskTitle": "Сканирование проекта (роли × столпы × разделы)",
+  "status": "done",
+  "startedAt": "2026-06-17T17:27:50.980Z",
+  "pid": 57451,
+  "repoRoot": "/Users/petr/Projects",
+  "taskPromptFile": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/agent-sessions/scan-1781717270979-hejm48.prompt.txt",
+  "updatedAt": "2026-06-17T17:31:20.639Z",
+  "cursorAgentId": "agent-3ec81dfc-e0b9-44a2-98b2-e92387d4f6a0",
+  "runId": "run-0b16e8ba-f345-4172-ae2c-5451cfa3de46",
+  "runStatus": "finished"
+}

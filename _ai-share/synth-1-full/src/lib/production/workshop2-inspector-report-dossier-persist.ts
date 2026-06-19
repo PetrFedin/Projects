@@ -3,6 +3,7 @@
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import type { Workshop2InspectorReportDto } from '@/lib/production/workshop2-inspector-report-client';
 import {
   buildWorkshop2MobileInspectorChecklist,
@@ -137,14 +138,18 @@ export function evaluateWorkshop2InspectorReportSampleGate(
     return {
       id: 'qc.inspector.offline_only',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Инспектор не синхронизирован с PG — образец заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Инспектор не синхронизирован с PG — образец заблокирован.',
     };
   }
   if (mirror.blockerSampleOrder) {
     return {
       id: 'qc.inspector.not_ready_sample',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Чек-лист инспектора не готов для sample-order.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Чек-лист инспектора не готов для sample-order.',
     };
   }
   return null;
@@ -166,7 +171,8 @@ export function evaluateWorkshop2InspectorReportHandoffGate(
       id: 'qc.inspector.not_ready_handoff',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'Инспектор блокирует handoff: offline, незакрытые обязательные пункты.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Инспектор блокирует handoff: offline, незакрытые обязательные пункты.',
     };
   }
   return null;

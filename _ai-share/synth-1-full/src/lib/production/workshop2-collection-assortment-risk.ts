@@ -4,6 +4,7 @@
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { evaluateWorkshop2PredictiveSupplyRiskFromDossier } from '@/lib/production/workshop2-predictive-supply-risk';
 import { evaluateWorkshop2SampleOrderGate } from '@/lib/production/workshop2-sample-order-gate';
+import { countWorkshop2VaultDocumentsForRelatedStrip } from '@/lib/production/workshop2-related-vault-enrichment';
 
 export type Workshop2AssortmentRiskArticleRow = {
   collectionId: string;
@@ -35,8 +36,7 @@ function countBlockedGatesForArticle(input: {
 }): { count: number; ids: string[] } {
   const gate = evaluateWorkshop2SampleOrderGate({
     dossier: input.dossier,
-    collectionId: input.collectionId,
-    articleId: input.articleId,
+    vaultFileCount: countWorkshop2VaultDocumentsForRelatedStrip(input.dossier),
   });
   const blockers = gate.readiness.checks.filter((c) => c.severity === 'blocker');
   return {

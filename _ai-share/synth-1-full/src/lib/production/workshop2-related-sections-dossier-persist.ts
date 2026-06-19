@@ -9,6 +9,7 @@ import { countWorkshop2VaultDocumentsForRelatedStrip } from '@/lib/production/wo
 import type { Workshop2ArticleMainTab } from '@/lib/production/workshop2-collection-metrics';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import type { Workshop2RelatedNextStep } from '@/lib/production/workshop2-related-next-step';
 
 export function buildWorkshop2RelatedSectionsMirror(input: {
@@ -81,7 +82,8 @@ export function evaluateWorkshop2RelatedSectionsSampleGate(
       id: 'related.sections.vault_empty',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ?? 'Vault пуст в зеркале related — загрузите документы перед образцом.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Vault пуст в зеркале related — загрузите документы перед образцом.',
     };
   }
   return null;

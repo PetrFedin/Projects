@@ -44,7 +44,92 @@
     "outlet": false,
     "hasAR": true,
     "audience": "Женский",
-    "category_group": "Одежда"
+    "category_group": "Одежда",
+    "displayMode": "scroll-video",
+    "scrollVideoUrl": "/videos/sections/cashmere-0.mp4",
+    "scrollSwitcherSections": [
+      {
+        "id": "cashmere-crewneck-sweater-s0",
+        "label": "Вариант I",
+        "color": "#C4A882",
+        "sectionImageUrl": "/images/demo/runway/cashmere-crewneck-sweater-section-0.jpg",
+        "posterUrl": "/images/demo/runway/cashmere-crewneck-sweater-section-0.jpg",
+        "sectionVideoUrl": "/videos/sections/cashmere-0.mp4",
+        "sectionStory": "История секции 1 для cashmere-crewneck-sweater.",
+        "sectionTitle": "Заголовок 1",
+        "sectionDescription": "Описание варианта 1.",
+        "sectionLookItems": [
+          {
+            "name": "Look Item A",
+            "price": 8900,
+            "imageUrl": "/images/demo/runway/look-a.jpg",
+            "slug": "look-item-a",
+            "sortOrder": 0
+          },
+          {
+            "name": "Look Item B",
+            "price": 12900,
+            "imageUrl": "/images/demo/runway/look-b.jpg",
+            "slug": "look-item-b",
+            "sortOrder": 1
+          }
+        ]
+      },
+      {
+        "id": "cashmere-crewneck-sweater-s1",
+        "label": "Вариант II",
+        "color": "#C0C0C0",
+        "sectionImageUrl": "/images/demo/runway/cashmere-crewneck-sweater-section-1.jpg",
+        "posterUrl": "/images/demo/runway/cashmere-crewneck-sweater-section-1.jpg",
+        "sectionVideoUrl": "/videos/sections/cashmere-1.mp4",
+        "sectionStory": "История секции 2 для cashmere-crewneck-sweater.",
+        "sectionTitle": "Заголовок 2",
+        "sectionDescription": "Описание варианта 2.",
+        "sectionLookItems": [
+          {
+            "name": "Look Item A",
+            "price": 8900,
+            "imageUrl": "/images/demo/runway/look-a.jpg",
+            "slug": "look-item-a",
+            "sortOrder": 0
+          },
+          {
+            "name": "Look Item B",
+            "price": 12900,
+            "imageUrl": "/images/demo/runway/look-b.jpg",
+            "slug": "look-item-b",
+            "sortOrder": 1
+          }
+        ]
+      },
+      {
+        "id": "cashmere-crewneck-sweater-s2",
+        "label": "Вариант III",
+        "color": "#D4C876",
+        "sectionImageUrl": "/images/demo/runway/cashmere-crewneck-sweater-section-2.jpg",
+        "posterUrl": "/images/demo/runway/cashmere-crewneck-sweater-section-2.jpg",
+        "sectionVideoUrl": "/videos/sections/cashmere-2.mp4",
+        "sectionStory": "История секции 3 для cashmere-crewneck-sweater.",
+        "sectionTitle": "Заголовок 3",
+        "sectionDescription": "Описание варианта 3.",
+        "sectionLookItems": [
+          {
+            "name": "Look Item A",
+            "price": 8900,
+            "imageUrl": "/images/demo/runway/look-a.jpg",
+            "slug": "look-item-a",
+            "sortOrder": 0
+          },
+          {
+            "name": "Look Item B",
+            "price": 12900,
+            "imageUrl": "/images/demo/runway/look-b.jpg",
+            "slug": "look-item-b",
+            "sortOrder": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "2",
@@ -139,7 +224,92 @@
     "category": "Платья",
     "outlet": false,
     "audience": "Женский",
-    "category_group": "Одежда"
+    "category_group": "Одежда",
+    "displayMode": "scroll-video",
+    "scrollVideoUrl": "/videos/sections/silk-0.mp4",
+    "scrollSwitcherSections": [
+      {
+        "id": "silk-midi-dress-s0",
+        "label": "Вариант I",
+        "color": "#C4A882",
+        "sectionImageUrl": "/images/demo/runway/silk-midi-dress-section-0.jpg",
+        "posterUrl": "/images/demo/runway/silk-midi-dress-section-0.jpg",
+        "sectionVideoUrl": "/videos/sections/silk-0.mp4",
+        "sectionStory": "История секции 1 для silk-midi-dress.",
+        "sectionTitle": "Заголовок 1",
+        "sectionDescription": "Описание варианта 1.",
+        "sectionLookItems": [
+          {
+            "name": "Look Item A",
+            "price": 8900,
+            "imageUrl": "/images/demo/runway/look-a.jpg",
+            "slug": "look-item-a",
+            "sortOrder": 0
+          },
+          {
+            "name": "Look Item B",
+            "price": 12900,
+            "imageUrl": "/images/demo/runway/look-b.jpg",
+            "slug": "look-item-b",
+            "sortOrder": 1
+          }
+        ]
+      },
+      {
+        "id": "silk-midi-dress-s1",
+        "label": "Вариант II",
+        "color": "#C0C0C0",
+        "sectionImageUrl": "/images/demo/runway/silk-midi-dress-section-1.jpg",
+        "posterUrl": "/images/demo/runway/silk-midi-dress-section-1.jpg",
+        "sectionVideoUrl": "/videos/sections/silk-1.mp4",
+        "sectionStory": "История секции 2 для silk-midi-dress.",
+        "sectionTitle": "Заголовок 2",
+        "sectionDescription": "Описание варианта 2.",
+        "sectionLookItems": [
+          {
+            "name": "Look Item A",
+            "price": 8900,
+            "imageUrl": "/images/demo/runway/look-a.jpg",
+            "slug": "look-item-a",
+            "sortOrder": 0
+          },
+          {
+            "name": "Look Item B",
+            "price": 12900,
+            "imageUrl": "/images/demo/runway/look-b.jpg",
+            "slug": "look-item-b",
+            "sortOrder": 1
+          }
+        ]
+      },
+      {
+        "id": "silk-midi-dress-s2",
+        "label": "Вариант III",
+        "color": "#D4C876",
+        "sectionImageUrl": "/images/demo/runway/silk-midi-dress-section-2.jpg",
+        "posterUrl": "/images/demo/runway/silk-midi-dress-section-2.jpg",
+        "sectionVideoUrl": "/videos/sections/silk-2.mp4",
+        "sectionStory": "История секции 3 для silk-midi-dress.",
+        "sectionTitle": "Заголовок 3",
+        "sectionDescription": "Описание варианта 3.",
+        "sectionLookItems": [
+          {
+            "name": "Look Item A",
+            "price": 8900,
+            "imageUrl": "/images/demo/runway/look-a.jpg",
+            "slug": "look-item-a",
+            "sortOrder": 0
+          },
+          {
+            "name": "Look Item B",
+            "price": 12900,
+            "imageUrl": "/images/demo/runway/look-b.jpg",
+            "slug": "look-item-b",
+            "sortOrder": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "5",
@@ -191,7 +361,92 @@
     "category": "Верхняя одежда",
     "outlet": true,
     "audience": "Мужской",
-    "category_group": "Одежда"
+    "category_group": "Одежда",
+    "displayMode": "scroll-video",
+    "scrollVideoUrl": "/videos/sections/anorak-0.mp4",
+    "scrollSwitcherSections": [
+      {
+        "id": "tech-anorak-men-s0",
+        "label": "Вариант I",
+        "color": "#C4A882",
+        "sectionImageUrl": "/images/demo/runway/tech-anorak-men-section-0.jpg",
+        "posterUrl": "/images/demo/runway/tech-anorak-men-section-0.jpg",
+        "sectionVideoUrl": "/videos/sections/anorak-0.mp4",
+        "sectionStory": "История секции 1 для tech-anorak-men.",
+        "sectionTitle": "Заголовок 1",
+        "sectionDescription": "Описание варианта 1.",
+        "sectionLookItems": [
+          {
+            "name": "Look Item A",
+            "price": 8900,
+            "imageUrl": "/images/demo/runway/look-a.jpg",
+            "slug": "look-item-a",
+            "sortOrder": 0
+          },
+          {
+            "name": "Look Item B",
+            "price": 12900,
+            "imageUrl": "/images/demo/runway/look-b.jpg",
+            "slug": "look-item-b",
+            "sortOrder": 1
+          }
+        ]
+      },
+      {
+        "id": "tech-anorak-men-s1",
+        "label": "Вариант II",
+        "color": "#C0C0C0",
+        "sectionImageUrl": "/images/demo/runway/tech-anorak-men-section-1.jpg",
+        "posterUrl": "/images/demo/runway/tech-anorak-men-section-1.jpg",
+        "sectionVideoUrl": "/videos/sections/anorak-1.mp4",
+        "sectionStory": "История секции 2 для tech-anorak-men.",
+        "sectionTitle": "Заголовок 2",
+        "sectionDescription": "Описание варианта 2.",
+        "sectionLookItems": [
+          {
+            "name": "Look Item A",
+            "price": 8900,
+            "imageUrl": "/images/demo/runway/look-a.jpg",
+            "slug": "look-item-a",
+            "sortOrder": 0
+          },
+          {
+            "name": "Look Item B",
+            "price": 12900,
+            "imageUrl": "/images/demo/runway/look-b.jpg",
+            "slug": "look-item-b",
+            "sortOrder": 1
+          }
+        ]
+      },
+      {
+        "id": "tech-anorak-men-s2",
+        "label": "Вариант III",
+        "color": "#D4C876",
+        "sectionImageUrl": "/images/demo/runway/tech-anorak-men-section-2.jpg",
+        "posterUrl": "/images/demo/runway/tech-anorak-men-section-2.jpg",
+        "sectionVideoUrl": "/videos/sections/anorak-2.mp4",
+        "sectionStory": "История секции 3 для tech-anorak-men.",
+        "sectionTitle": "Заголовок 3",
+        "sectionDescription": "Описание варианта 3.",
+        "sectionLookItems": [
+          {
+            "name": "Look Item A",
+            "price": 8900,
+            "imageUrl": "/images/demo/runway/look-a.jpg",
+            "slug": "look-item-a",
+            "sortOrder": 0
+          },
+          {
+            "name": "Look Item B",
+            "price": 12900,
+            "imageUrl": "/images/demo/runway/look-b.jpg",
+            "slug": "look-item-b",
+            "sortOrder": 1
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "7",

@@ -95,7 +95,9 @@ export function resolveWorkshop2Fit3dModel(input: {
   return {
     modelUrl: WORKSHOP2_FIT3D_PLACEHOLDER_GLB,
     isPlaceholder: true,
-    viewerEnabled: prod ? allowDemoPlaceholder && (envEnable || input.forceEnable) : viewerEnabled,
+    viewerEnabled: prod
+      ? Boolean(allowDemoPlaceholder && (envEnable || input.forceEnable))
+      : Boolean(viewerEnabled),
     hintRu: prod
       ? 'Демо placeholder.glb — только с WORKSHOP2_FIT3D_ALLOW_PLACEHOLDER=1.'
       : 'Демо-модель placeholder.glb. Загрузите .glb через Vault → CAD ingest или укажите cadVersionId сессии.',

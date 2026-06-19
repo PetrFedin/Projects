@@ -32,6 +32,18 @@ const HomePageClientShell = memo(function HomePageClientShell() {
   const isDropsUnlocked = followedBrands.length >= 2 || viewRole === 'admin';
   useHomeShellPrefetch({ viewRole });
 
+  if (viewRole === 'b2b') {
+    return (
+      <HomeB2BDialogsProvider viewRole={viewRole}>
+        <div
+          data-testid="home-b2b-empty"
+          className="relative flex min-h-[60vh] flex-col bg-[#f8fafc] font-sans"
+          aria-label="B2B главная — контент скоро"
+        />
+      </HomeB2BDialogsProvider>
+    );
+  }
+
   return (
     <HomeB2BDialogsProvider viewRole={viewRole}>
       <div className="relative flex flex-col bg-[#f8fafc] font-sans">
@@ -45,7 +57,7 @@ const HomePageClientShell = memo(function HomePageClientShell() {
 
         <HomeMidFoldStack
           viewRole={viewRole}
-          isFlowMapOpen={isFlowMapOpen}
+          isFlowMapOpen={Boolean(isFlowMapOpen)}
           isCalendarOpen={isCalendarOpen}
           isMediaRadarOpen={isMediaRadarOpen}
           isConstellationOpen={isConstellationOpen}

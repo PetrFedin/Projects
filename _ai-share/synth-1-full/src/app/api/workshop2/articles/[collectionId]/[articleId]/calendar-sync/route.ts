@@ -52,7 +52,7 @@ export const POST = withWorkshop2ApiErrorRu(async function postCalendarSync(
   req: NextRequest,
   ctx: RouteCtx
 ) {
-  const auth = guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES);
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES);
   if (auth instanceof NextResponse) return auth;
 
   const { collectionId, articleId } = await ctx.params;
@@ -62,11 +62,12 @@ export const POST = withWorkshop2ApiErrorRu(async function postCalendarSync(
     return jsonWorkshop2ErrorRu(400, 'invalid_path');
   }
 
-  const org = resolveWorkshop2OrganizationId(req);
-  const record = await getWorkshop2ServerDossierRecord(cid, aid, org);
+  const record = await getWorkshop2ServerDossierRecord(cid, aid);
   if (!record) {
     return jsonWorkshop2ErrorRu(404, 'dossier_not_found');
   }
+
+  const org = resolveWorkshop2OrganizationId(req);
 
   const orders = await listWorkshop2SampleOrders({
     collectionId: cid,

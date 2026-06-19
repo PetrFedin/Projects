@@ -14,8 +14,12 @@ import {
 import { enrichWorkshop2B2bMatrixWithAvailability } from '@/lib/production/workshop2-b2b-wave22-parity';
 import { getWorkshop2ServerDossierRecord } from '@/lib/server/workshop2-phase1-dossier-server-store';
 import { getWorkshop2ShowroomCampaign } from '@/lib/server/workshop2-showroom-repository';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 
 export async function GET(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   const collectionId = req.nextUrl.searchParams.get('collectionId')?.trim();
   const articleId = req.nextUrl.searchParams.get('articleId')?.trim() ?? 'demo-ss27-01';
   if (!collectionId) {

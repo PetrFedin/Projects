@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/routes';
 import { operationalLayoutContract as o } from '@/lib/ui/operational-layout-contract';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 
 type Variant = 'brand' | 'shop';
 
@@ -35,6 +36,8 @@ export function CommunicationsOperationalStrip({
   variant: Variant;
   className?: string;
 }) {
+  if (isPlatformCoreMode()) return null;
+
   const links = variant === 'brand' ? BRAND_LINKS : SHOP_LINKS;
 
   return (

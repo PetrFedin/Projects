@@ -1,8 +1,11 @@
 'use client';
 
-import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
-import { useEffect, useState } from 'react';
+import { Suspense } from 'react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +17,18 @@ import { ROUTES } from '@/lib/routes';
 import { getSupplierLinks } from '@/lib/data/entity-links';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { listRfq, type SupplierRfq } from '@/lib/supplier-rfq';
+import { PillarCapabilityWorkspaceChrome } from '@/components/platform/PillarCapabilityWorkspaceChrome';
+import {
+  BrandSupplierBomLinesPanel,
+  BrandSupplierBomProcurementPanel,
+} from '@/components/brand/merch/BrandSupplierBomPanels';
+import {
+  BrandSupplierBomGoldenPathStrip,
+  brandSupplierBomGoldenPathStepFromFeature,
+} from '@/components/brand/merch/BrandSupplierBomGoldenPathStrip';
+import { usePillarCapabilityWorkspace } from '@/hooks/use-pillar-capability-workspace';
+import { resolvePageCollectionId } from '@/lib/platform-core-hub-matrix';
+import { PLATFORM_CORE_DEMO } from '@/lib/platform-core-demo-context';
 
 const statusLabels: Record<SupplierRfq['status'], string> = {
   draft: 'Черновик',
@@ -23,7 +38,7 @@ const statusLabels: Record<SupplierRfq['status'], string> = {
   cancelled: 'Отменено',
 };
 
-export default function SupplierRfqPage() {
+function SupplierRfqLegacyBody() {
   const [rfqList, setRfqList] = useState<SupplierRfq[]>([]);
   const [catalogSummary, setCatalogSummary] = useState<{
     productCount: number;
@@ -54,7 +69,7 @@ export default function SupplierRfqPage() {
   const rfq = rfqList[0];
 
   return (
-    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
+    <>
       <SectionInfoCard
         title="Supplier RFQ Engine"
         description="Тендеры на ткань и фурнитуру. Создание запроса из Tech Pack, получение предложений, присуждение. Связь с Materials и поставщиками. РФ: рубли, ЭДО."
@@ -139,6 +154,62 @@ export default function SupplierRfqPage() {
         </CardContent>
       </Card>
       <RelatedModulesBlock links={getSupplierLinks()} />
+    </>
+  );
+}
+
+function SupplierRfqWorkspaceBody() {
+  const searchParams = useSearchParams();
+  const collectionId = resolvePageCollectionId({ collection: searchParams.get('collection') });
+  const articleId = searchParams.get('article')?.trim() || PLATFORM_CORE_DEMO.demoArticleId;
+  const ctx = { collectionId, articleId };
+  const { activeFeatureId } = usePillarCapabilityWorkspace('brand-supplier-bom');
+
+  return (
+    <PillarCapabilityWorkspaceChrome
+      workspaceId="brand-supplier-bom"
+      ctx={ctx}
+      crossLinksTitle="BOM → RFQ → material passport"
+      beforeTabs={
+        <div className="flex items-center gap-3">
+          <Link href={ROUTES.brand.suppliers}>
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <FileSearch className="text-text-muted h-5 w-5" aria-hidden />
+        </div>
+      }
+    >
+      <div className="mb-4">
+        <BrandSupplierBomGoldenPathStrip
+          collectionId={collectionId}
+          articleId={articleId}
+          activeStep={brandSupplierBomGoldenPathStepFromFeature(activeFeatureId)}
+        />
+      </div>
+      {activeFeatureId === 'bom' ? (
+        <BrandSupplierBomLinesPanel collectionId={collectionId} articleId={articleId} />
+      ) : null}
+      {activeFeatureId === 'procurement' ? (
+        <BrandSupplierBomProcurementPanel collectionId={collectionId} articleId={articleId} />
+      ) : null}
+    </PillarCapabilityWorkspaceChrome>
+  );
+}
+
+export default function SupplierRfqPage() {
+  const core = isPlatformCoreMode();
+
+  return (
+    <CabinetPageContent maxWidth="5xl" className="space-y-6 px-4 py-6 pb-24 sm:px-6">
+      {core ? (
+        <Suspense fallback={null}>
+          <SupplierRfqWorkspaceBody />
+        </Suspense>
+      ) : (
+        <SupplierRfqLegacyBody />
+      )}
     </CabinetPageContent>
   );
 }

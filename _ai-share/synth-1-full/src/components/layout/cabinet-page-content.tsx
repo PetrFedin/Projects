@@ -1,6 +1,7 @@
 'use client';
 
 import type { HTMLAttributes, ReactNode } from 'react';
+import { resolveCabinetPageMaxWidth } from '@/lib/cabinet-core-mode';
 import { cn } from '@/lib/utils';
 
 const MAX_WIDTH_CLASS = {
@@ -37,10 +38,11 @@ export function CabinetPageContent({
   children,
   ...rest
 }: CabinetPageContentProps) {
-  const mw = MAX_WIDTH_CLASS[maxWidth];
+  const resolved = resolveCabinetPageMaxWidth(maxWidth);
+  const mw = MAX_WIDTH_CLASS[resolved];
   return (
     <div
-      className={cn('w-full space-y-6 pb-20 pt-1', mw, maxWidth !== 'full' && 'mx-auto', className)}
+      className={cn('w-full space-y-6 pb-20 pt-1', mw, resolved !== 'full' && 'mx-auto', className)}
       {...rest}
     >
       {children}

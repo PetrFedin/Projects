@@ -1,0 +1,142 @@
+{"role":"user","text":"SYNTHA Platform Core — глубокое сканирование проекта для планировщика развития.\nSession: scan-1781717270979-hejm48\nCollection: SS27\nЛокальный аудит уже добавил 0 пункт(ов). Твоя задача — найти дополнительные пробелы в коде и UX.\n\n## Матрица роли × столпы × разделы (канон аудита)\n{\n  \"collectionId\": \"SS27\",\n  \"pillars\": [\n    {\n      \"id\": \"development\",\n      \"title\": \"Разработка\"\n    },\n    {\n      \"id\": \"sample_collection\",\n      \"title\": \"Коллекция и витрина\"\n    },\n    {\n      \"id\": \"collection_order\",\n      \"title\": \"Оптовый заказ\"\n    },\n    {\n      \"id\": \"order_production\",\n      \"title\": \"Производство\"\n    },\n    {\n      \"id\": \"comms\",\n      \"title\": \"Связь\"\n    }\n  ],\n  \"cells\": [\n    {\n      \"roleId\": \"brand\",\n      \"role\": \"Бренд\",\n      \"pillarId\": \"development\",\n      \"active\": true,\n      \"liveScore\": 6.6,\n      \"summary\": \"W2 golden: hub + досье + состав из PG; localStorage overlay для SS27/FW27 отключён в Platform Core.\",\n      \"bad\": [],\n      \"fix\": [],\n      \"workspaceHref\": \"/brand/production/workshop2?w2col=SS27&collection=SS27&orderId=B2B-DEMO-SHOP1-SS27&article=demo-ss27-01&buyerId=shop1\",\n      \"sections\": [\n        {\n          \"id\": \"brand-dev-w2-hub\",\n          \"label\": \"Цех разработки · коллекция\",\n          \"liveScore\": 7.5,\n          \"bad\": [],\n          \"fix\": [\n            \"Investor-summary read-only отдельно\"\n          ],\n          \"href\": \"/brand/production/workshop2?w2col=SS27\"\n        },\n        {\n          \"id\": \"brand-dev-dossier\",\n          \"label\": \"Досье артикула · техзадание\",\n          \"liveScore\": 7.2,\n          \"bad\": [\n            \"Investor-summary read-only отдельно\"\n          ],\n          \"fix\": [],\n          \"href\": \"/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=general\"\n        },\n        {\n          \"id\": \"brand-dev-range\",\n          \"label\": \"Планировщик ассортимента\",\n          \"liveScore\": 7.3,\n          \"bad\": [\n            \"Нет drag-reorder между tier\"\n          ],\n          \"fix\": [\n            \"Drag-","at":"2026-06-17T17:27:51.778Z"}
+{"role":"system","text":"Cursor local agent · cwd /Users/petr/Projects","at":"2026-06-17T17:27:51.778Z"}
+{"role":"assistant","text":"З","at":"2026-06-17T17:28:00.297Z","stream":true}
+{"role":"assistant","text":"ап","at":"2026-06-17T17:28:00.299Z","stream":true}
+{"role":"assistant","text":"уск","at":"2026-06-17T17:28:00.300Z","stream":true}
+{"role":"assistant","text":"а","at":"2026-06-17T17:28:00.300Z","stream":true}
+{"role":"assistant","text":"ю","at":"2026-06-17T17:28:00.301Z","stream":true}
+{"role":"assistant","text":" г","at":"2026-06-17T17:28:00.302Z","stream":true}
+{"role":"assistant","text":"луб","at":"2026-06-17T17:28:00.304Z","stream":true}
+{"role":"assistant","text":"ок","at":"2026-06-17T17:28:00.305Z","stream":true}
+{"role":"assistant","text":"ое","at":"2026-06-17T17:28:00.306Z","stream":true}
+{"role":"assistant","text":" ск","at":"2026-06-17T17:28:00.306Z","stream":true}
+{"role":"assistant","text":"ан","at":"2026-06-17T17:28:00.307Z","stream":true}
+{"role":"assistant","text":"ирован","at":"2026-06-17T17:28:00.307Z","stream":true}
+{"role":"assistant","text":"ие","at":"2026-06-17T17:28:00.307Z","stream":true}
+{"role":"assistant","text":" ре","at":"2026-06-17T17:28:00.308Z","stream":true}
+{"role":"assistant","text":"п","at":"2026-06-17T17:28:00.308Z","stream":true}
+{"role":"assistant","text":"оз","at":"2026-06-17T17:28:00.308Z","stream":true}
+{"role":"assistant","text":"итор","at":"2026-06-17T17:28:00.308Z","stream":true}
+{"role":"assistant","text":"ия","at":"2026-06-17T17:28:00.309Z","stream":true}
+{"role":"assistant","text":":","at":"2026-06-17T17:28:00.309Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:28:00.309Z","stream":true}
+{"role":"assistant","text":"щ","at":"2026-06-17T17:28:00.309Z","stream":true}
+{"role":"assistant","text":"у","at":"2026-06-17T17:28:00.310Z","stream":true}
+{"role":"assistant","text":" проб","at":"2026-06-17T17:28:00.310Z","stream":true}
+{"role":"assistant","text":"ел","at":"2026-06-17T17:28:00.310Z","stream":true}
+{"role":"assistant","text":"ы","at":"2026-06-17T17:28:00.310Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:28:00.310Z","stream":true}
+{"role":"assistant","text":" код","at":"2026-06-17T17:28:00.310Z","stream":true}
+{"role":"assistant","text":"е","at":"2026-06-17T17:28:00.311Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:28:00.311Z","stream":true}
+{"role":"assistant","text":" UX","at":"2026-06-17T17:28:00.311Z","stream":true}
+{"role":"assistant","text":",","at":"2026-06-17T17:28:00.311Z","stream":true}
+{"role":"assistant","text":" котор","at":"2026-06-17T17:28:00.311Z","stream":true}
+{"role":"assistant","text":"ых","at":"2026-06-17T17:28:00.311Z","stream":true}
+{"role":"assistant","text":" н","at":"2026-06-17T17:28:00.312Z","stream":true}
+{"role":"assistant","text":"ет","at":"2026-06-17T17:28:00.312Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:28:00.312Z","stream":true}
+{"role":"assistant","text":" мат","at":"2026-06-17T17:28:00.312Z","stream":true}
+{"role":"assistant","text":"ри","at":"2026-06-17T17:28:00.312Z","stream":true}
+{"role":"assistant","text":"це","at":"2026-06-17T17:28:00.312Z","stream":true}
+{"role":"assistant","text":" ауд","at":"2026-06-17T17:28:00.312Z","stream":true}
+{"role":"assistant","text":"ита","at":"2026-06-17T17:28:00.313Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:28:00.313Z","stream":true}
+{"role":"assistant","text":"П","at":"2026-06-17T17:29:46.703Z","stream":true}
+{"role":"assistant","text":"ров","at":"2026-06-17T17:29:46.704Z","stream":true}
+{"role":"assistant","text":"ер","at":"2026-06-17T17:29:46.705Z","stream":true}
+{"role":"assistant","text":"я","at":"2026-06-17T17:29:46.706Z","stream":true}
+{"role":"assistant","text":"ю","at":"2026-06-17T17:29:46.706Z","stream":true}
+{"role":"assistant","text":" фор","at":"2026-06-17T17:29:46.706Z","stream":true}
+{"role":"assistant","text":"мат","at":"2026-06-17T17:29:46.707Z","stream":true}
+{"role":"assistant","text":" с","at":"2026-06-17T17:29:46.707Z","stream":true}
+{"role":"assistant","text":"уществ","at":"2026-06-17T17:29:46.707Z","stream":true}
+{"role":"assistant","text":"ующ","at":"2026-06-17T17:29:46.707Z","stream":true}
+{"role":"assistant","text":"их","at":"2026-06-17T17:29:46.707Z","stream":true}
+{"role":"assistant","text":" scan","at":"2026-06-17T17:29:46.708Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:29:46.708Z","stream":true}
+{"role":"assistant","text":"ф","at":"2026-06-17T17:29:46.708Z","stream":true}
+{"role":"assistant","text":"ай","at":"2026-06-17T17:29:46.708Z","stream":true}
+{"role":"assistant","text":"лов","at":"2026-06-17T17:29:46.709Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:29:46.709Z","stream":true}
+{"role":"assistant","text":" ключ","at":"2026-06-17T17:29:46.709Z","stream":true}
+{"role":"assistant","text":"ев","at":"2026-06-17T17:29:46.709Z","stream":true}
+{"role":"assistant","text":"ые","at":"2026-06-17T17:29:46.709Z","stream":true}
+{"role":"assistant","text":" наход","at":"2026-06-17T17:29:46.709Z","stream":true}
+{"role":"assistant","text":"ки","at":"2026-06-17T17:29:46.709Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:29:46.709Z","stream":true}
+{"role":"assistant","text":" код","at":"2026-06-17T17:29:46.709Z","stream":true}
+{"role":"assistant","text":"е","at":"2026-06-17T17:29:46.710Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:29:46.710Z","stream":true}
+{"role":"assistant","text":"Ф","at":"2026-06-17T17:30:57.254Z","stream":true}
+{"role":"assistant","text":"ор","at":"2026-06-17T17:30:57.255Z","stream":true}
+{"role":"assistant","text":"ми","at":"2026-06-17T17:30:57.255Z","stream":true}
+{"role":"assistant","text":"ру","at":"2026-06-17T17:30:57.256Z","stream":true}
+{"role":"assistant","text":"ю","at":"2026-06-17T17:30:57.256Z","stream":true}
+{"role":"assistant","text":" JSON","at":"2026-06-17T17:30:57.256Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:30:57.256Z","stream":true}
+{"role":"assistant","text":"ф","at":"2026-06-17T17:30:57.256Z","stream":true}
+{"role":"assistant","text":"ай","at":"2026-06-17T17:30:57.257Z","stream":true}
+{"role":"assistant","text":"л","at":"2026-06-17T17:30:57.257Z","stream":true}
+{"role":"assistant","text":" с","at":"2026-06-17T17:30:57.257Z","stream":true}
+{"role":"assistant","text":" у","at":"2026-06-17T17:30:57.257Z","stream":true}
+{"role":"assistant","text":"ник","at":"2026-06-17T17:30:57.257Z","stream":true}
+{"role":"assistant","text":"аль","at":"2026-06-17T17:30:57.257Z","stream":true}
+{"role":"assistant","text":"ными","at":"2026-06-17T17:30:57.258Z","stream":true}
+{"role":"assistant","text":" наход","at":"2026-06-17T17:30:57.258Z","stream":true}
+{"role":"assistant","text":"к","at":"2026-06-17T17:30:57.258Z","stream":true}
+{"role":"assistant","text":"ами","at":"2026-06-17T17:30:57.258Z","stream":true}
+{"role":"assistant","text":",","at":"2026-06-17T17:30:57.259Z","stream":true}
+{"role":"assistant","text":" не","at":"2026-06-17T17:30:57.259Z","stream":true}
+{"role":"assistant","text":" д","at":"2026-06-17T17:30:57.259Z","stream":true}
+{"role":"assistant","text":"уб","at":"2026-06-17T17:30:57.259Z","stream":true}
+{"role":"assistant","text":"ли","at":"2026-06-17T17:30:57.259Z","stream":true}
+{"role":"assistant","text":"ру","at":"2026-06-17T17:30:57.259Z","stream":true}
+{"role":"assistant","text":"я","at":"2026-06-17T17:30:57.259Z","stream":true}
+{"role":"assistant","text":" пре","at":"2026-06-17T17:30:57.259Z","stream":true}
+{"role":"assistant","text":"ды","at":"2026-06-17T17:30:57.260Z","stream":true}
+{"role":"assistant","text":"д","at":"2026-06-17T17:30:57.260Z","stream":true}
+{"role":"assistant","text":"ущ","at":"2026-06-17T17:30:57.260Z","stream":true}
+{"role":"assistant","text":"ий","at":"2026-06-17T17:30:57.260Z","stream":true}
+{"role":"assistant","text":" scan","at":"2026-06-17T17:30:57.260Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:30:57.260Z","stream":true}
+{"role":"assistant","text":" мат","at":"2026-06-17T17:30:57.260Z","stream":true}
+{"role":"assistant","text":"ри","at":"2026-06-17T17:30:57.260Z","stream":true}
+{"role":"assistant","text":"ц","at":"2026-06-17T17:30:57.260Z","stream":true}
+{"role":"assistant","text":"у","at":"2026-06-17T17:30:57.261Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:30:57.261Z","stream":true}
+{"role":"assistant","text":"Ф","at":"2026-06-17T17:31:18.482Z","stream":true}
+{"role":"assistant","text":"ай","at":"2026-06-17T17:31:18.482Z","stream":true}
+{"role":"assistant","text":"л","at":"2026-06-17T17:31:18.483Z","stream":true}
+{"role":"assistant","text":" записан: `_ai-share/synth-1-full/.planning/planner-scan-scan-1781717270979-hejm48.json`\n\n**30 development** +","at":"2026-06-17T17:31:18.484Z","stream":true}
+{"role":"assistant","text":" **13 techDebt** — только новые пункты относительно матрицы и предыдущего scan (`scan-178171692","at":"2026-06-17T17:31:18.484Z","stream":true}
+{"role":"assistant","text":"4973-cjo0s4`).\n\n### Топ-5 находок\n\n1. **P0 — W2 PG fallback на localStorage**  \n   При недоступности PG hub","at":"2026-06-17T17:31:18.485Z","stream":true}
+{"role":"assistant","text":" переключает `readPath` на `localStorage` и подмешивает local inventory —","at":"2026-06-17T17:31:18.486Z","stream":true}
+{"role":"assistant","text":" риск расхождения SS27 с PG-primary.\n\n2. **P0 — Orphan API sample-request**  \n   `POST /api/shop/b","at":"2026-06-17T17:31:18.488Z","stream":true}
+{"role":"assistant","text":"2b/sample-request` полностью реализован (requisition + dossier + chat), но showroom/matrix его не вызывают — разрыв golden","at":"2026-06-17T17:31:18.585Z","stream":true}
+{"role":"assistant","text":" path «запрос образца байера».\n\n3. **P1 — factory-ack только на бренде**  \n   API","at":"2026-06-17T17:31:18.700Z","stream":true}
+{"role":"assistant","text":" `handoff/factory-ack` есть, но factory dossier его не использует; «Производство приняло» сим","at":"2026-06-17T17:31:18.868Z","stream":true}
+{"role":"assistant","text":"улируется в `Workshop2TechPackHandoffBlock` на стороне бренда.\n\n4. **P1 — Interactive Tech Pack эфемерен**  \n   Pins","at":"2026-06-17T17:31:18.933Z","stream":true}
+{"role":"assistant","text":" и accept/reject в factory portal живут только в React state сессии — после reload комментарии и","at":"2026-06-17T17:31:19.153Z","stream":true}
+{"role":"assistant","text":" статус ТЗ теряются.\n\n5. **P0 tech — virus-scan блокирует handoff в prod**  \n","at":"2026-06-17T17:31:19.166Z","stream":true}
+{"role":"assistant","text":"   Без `WORKSHOP2_VIRUS_SCAN_URL` vault scan остаётся `pending` в production и блокирует handoff gate — пот","at":"2026-06-17T17:31:19.274Z","stream":true}
+{"role":"assistant","text":"ен","at":"2026-06-17T17:31:19.335Z","stream":true}
+{"role":"assistant","text":"ци","at":"2026-06-17T17:31:19.336Z","stream":true}
+{"role":"assistant","text":"альный","at":"2026-06-17T17:31:19.337Z","stream":true}
+{"role":"assistant","text":" блок","at":"2026-06-17T17:31:19.338Z","stream":true}
+{"role":"assistant","text":"ер","at":"2026-06-17T17:31:19.339Z","stream":true}
+{"role":"assistant","text":" ц","at":"2026-06-17T17:31:19.339Z","stream":true}
+{"role":"assistant","text":"еп","at":"2026-06-17T17:31:19.339Z","stream":true}
+{"role":"assistant","text":"оч","at":"2026-06-17T17:31:19.339Z","stream":true}
+{"role":"assistant","text":"ки","at":"2026-06-17T17:31:19.340Z","stream":true}
+{"role":"assistant","text":" зак","at":"2026-06-17T17:31:19.340Z","stream":true}
+{"role":"assistant","text":"аз","at":"2026-06-17T17:31:19.340Z","stream":true}
+{"role":"assistant","text":"→","at":"2026-06-17T17:31:19.340Z","stream":true}
+{"role":"assistant","text":"п","at":"2026-06-17T17:31:19.340Z","stream":true}
+{"role":"assistant","text":"ро","at":"2026-06-17T17:31:19.341Z","stream":true}
+{"role":"assistant","text":"из","at":"2026-06-17T17:31:19.341Z","stream":true}
+{"role":"assistant","text":"вод","at":"2026-06-17T17:31:19.341Z","stream":true}
+{"role":"assistant","text":"ство","at":"2026-06-17T17:31:19.341Z","stream":true}
+{"role":"assistant","text":".","at":"2026-06-17T17:31:19.341Z","stream":true}
+{"role":"assistant","text":"Файл записан: `_ai-share/synth-1-full/.planning/planner-scan-scan-1781717270979-hejm48.json`\n\n**30 development** + **13 techDebt** — только новые пункты относительно матрицы и предыдущего scan (`scan-1781716924973-cjo0s4`).\n\n### Топ-5 находок\n\n1. **P0 — W2 PG fallback на localStorage**  \n   При недоступности PG hub переключает `readPath` на `localStorage` и подмешивает local inventory — риск расхождения SS27 с PG-primary.\n\n2. **P0 — Orphan API sample-request**  \n   `POST /api/shop/b2b/sample-request` полностью реализован (requisition + dossier + chat), но showroom/matrix его не вызывают — разрыв golden path «запрос образца байера».\n\n3. **P1 — factory-ack только на бренде**  \n   API `handoff/factory-ack` есть, но factory dossier его не использует; «Производство приняло» симулируется в `Workshop2TechPackHandoffBlock` на стороне бренда.\n\n4. **P1 — Interactive Tech Pack эфемерен**  \n   Pins и accept/reject в factory portal живут только в React state сессии — после reload комментарии и статус ТЗ теряются.\n\n5. **P0 tech — virus-scan блокирует handoff в prod**  \n   Без `WORKSHOP2_VIRUS_SCAN_URL` vault scan остаётся `pending` в production и блокирует handoff gate — потенциальный блокер цепочки заказ→производство.","at":"2026-06-17T17:31:20.207Z","done":true,"status":"finished"}
+{"role":"system","text":"Сканирование загружено в планировщик: +43 пункт(ов). Обновите вкладку План.","at":"2026-06-17T17:31:20.639Z"}

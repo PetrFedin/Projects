@@ -9,9 +9,18 @@ import {
 import { evaluateWorkshop2LiveErpPostResponse } from '@/lib/production/workshop2-live-erp-e2e-contract';
 
 describe('workshop2 ERP live smoke (mocked Response)', () => {
+  const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+
   beforeEach(() => {
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
     clearWorkshop2FactoryErpMemoryForTests();
     delete process.env.WORKSHOP2_FACTORY_ERP_BASE_URL;
+  });
+
+  afterEach(() => {
+    if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+    else delete process.env.WORKSHOP2_DATABASE_URL;
   });
 
   it('resolveErpOrderIdFromResponse picks erpOrderId | externalId | id', () => {

@@ -116,10 +116,10 @@ describe('workshop2 wave-m — must close', () => {
       ).toBe('pg_disabled');
     });
 
-    it('pg_disabled hint mentions PG bootstrap (no fake online)', () => {
+    it('pg_disabled hint is honest file fallback (no fake online)', () => {
       const hint = workshop2BackendStatusHintRu('pg_disabled');
-      expect(hint).toMatch(/PostgreSQL недоступен/);
-      expect(hint).toMatch(/workshop2-pg-bootstrap/);
+      expect(hint).toMatch(/PG недоступен/);
+      expect(hint).toMatch(/файловом/);
     });
 
     it('postgres ok → server', () => {

@@ -6,6 +6,10 @@ import { workshop2ArticleHref, workshop2CollectionListHref } from '@/lib/product
 import { workshop2ContextToProductionFloorHubHref } from '@/lib/production/workshop2-floor-bridge';
 import { workshop2MobileInspectorHref } from '@/lib/production/workshop2-mobile-inspector-checklist';
 import { workshop2EdoStatusLabelRu } from '@/lib/production/workshop2-edo-signoff';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export const WORKSHOP2_SS27_COLLECTION_ID = 'SS27';
 
@@ -45,10 +49,20 @@ export function buildWorkshop2Ss27RuJourneySteps(
   const hasSampleOrder = Boolean(d?.sampleWorkflow?.activeSampleOrderId?.trim());
   const goldApproved = d?.goldSampleStatus?.status === 'approved';
   const edoSigned = d?.edoSignoffMirror?.edoStatus === 'signed';
-  const tzReady = Boolean(
-    d?.readinessPulseMirror?.overallPct != null && d.readinessPulseMirror.overallPct >= 70
+  const overallPct = workshop2PgMirrorNum(
+    d?.readinessPulseMirror,
+    'overallPct',
+    typeof d?.readinessPulseMirror?.overallPct === 'number'
+      ? d.readinessPulseMirror.overallPct
+      : Number.NaN
   );
-  const floorLinked = Boolean(d?.floorBridgeMirror?.lastFloorTab?.trim());
+  const tzReady = Boolean(Number.isFinite(overallPct) && overallPct >= 70);
+  const floorTab =
+    workshop2PgMirrorStr(d?.floorBridgeMirror, 'lastFloorTab') ||
+    (typeof d?.floorBridgeMirror?.lastFloorTab === 'string'
+      ? d.floorBridgeMirror.lastFloorTab
+      : '');
+  const floorLinked = Boolean(floorTab.trim());
 
   const collectionStatus: Workshop2RuJourneyStepStatus = 'done';
   const workspaceStatus: Workshop2RuJourneyStepStatus = tzReady

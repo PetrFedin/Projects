@@ -7,6 +7,10 @@ import {
 } from '@/lib/production/workshop2-pending-change-requests';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2ChangeRequestMirror(
   dossier: Workshop2DossierPhase1
@@ -45,13 +49,13 @@ export function evaluateWorkshop2ChangeRequestMirrorGate(
   if (!mirror) {
     return evaluateWorkshop2PendingChangeRequestGate(dossier);
   }
-  if (mirror.blockerSampleOrder) {
+  if (mirror.blockerSampleOrder === true) {
     return {
       id: 'change_requests.pending',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
-        `Закройте ${mirror.pendingCount} запрос(ов) на изменение перед заказом образца.`,
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        `Закройте ${workshop2PgMirrorNum(mirror, 'pendingCount')} запрос(ов) на изменение перед заказом образца.`,
     };
   }
   return null;

@@ -14,6 +14,8 @@ export interface RunwayKioskShellProps {
   activeSection: number;
   onSectionChange: (index: number) => void;
   onExit: () => void;
+  /** Интервал auto-tour (мс); ?autoadvance=N в URL или дефолт 12s. */
+  tourIntervalMs?: number;
   children: React.ReactNode;
   className?: string;
 }
@@ -28,6 +30,7 @@ export function RunwayKioskShell({
   activeSection,
   onSectionChange,
   onExit,
+  tourIntervalMs = RUNWAY_KIOSK_TOUR_INTERVAL_MS,
   children,
   className,
 }: RunwayKioskShellProps) {
@@ -42,11 +45,11 @@ export function RunwayKioskShell({
   useEffect(() => {
     if (!active || sectionCount < 2) return;
 
-    timerRef.current = setInterval(advanceSection, RUNWAY_KIOSK_TOUR_INTERVAL_MS);
+    timerRef.current = setInterval(advanceSection, tourIntervalMs);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [active, sectionCount, advanceSection]);
+  }, [active, sectionCount, advanceSection, tourIntervalMs]);
 
   useEffect(() => {
     if (!active) return;
@@ -71,6 +74,7 @@ export function RunwayKioskShell({
         className
       )}
       data-runway-kiosk
+      data-runway-kiosk-tour-ms={String(tourIntervalMs)}
     >
       <div className="pointer-events-none absolute left-4 top-4 z-[110]">
         <span className="rounded-full border border-border bg-background/90 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground backdrop-blur-sm">

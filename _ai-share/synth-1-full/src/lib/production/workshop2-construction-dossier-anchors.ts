@@ -10,6 +10,12 @@ export const W2_CONSTRUCTION_SUBPAGE_ANCHORS = {
   export: 'w2-construction-export',
   /** Подпись секции + отсылка к панели этапа ТЗ. */
   signoff: 'w2-construction-signoff',
+  /** CAD / лекала / pattern files block. */
+  patternFiles: 'w2-construction-pattern-files',
+  /** Панель отправки в цех (assignment send). */
+  send: 'w2-construction-send',
+  /** 3D/CAD viewer embed. */
+  cadViewer: 'w2-construction-cad-viewer',
 } as const;
 
 /** Липкая панель «этап ТЗ» над телом секции (подписи brand/tech по активной вкладке). */

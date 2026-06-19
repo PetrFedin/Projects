@@ -43,6 +43,7 @@ const linesheets = [
     totalValue: '12,500,000 ₽',
     created: '2024-06-01',
     type: 'Public',
+    collectionId: 'SS27',
   },
   {
     id: 'ls-ss25',
@@ -53,6 +54,7 @@ const linesheets = [
     created: '2024-07-15',
     type: 'Private',
     target: 'TSUM, Podium',
+    collectionId: 'SS27',
   },
   {
     id: 'ls-outlet',
@@ -205,12 +207,26 @@ export default function LinesheetsPage() {
                         <Eye className="mr-2 size-3.5" /> Просмотр
                       </Link>
                     </Button>
-                    <Button
-                      variant="secondary"
-                      className="border-border-subtle bg-bg-surface2 hover:bg-bg-surface2 h-10 rounded-xl border text-xs font-black uppercase"
-                    >
-                      <Share2 className="mr-2 size-3.5" /> Поделиться
-                    </Button>
+                    {ls.status === 'Активен' && 'collectionId' in ls && ls.collectionId ? (
+                      <Button
+                        variant="secondary"
+                        className="border-border-subtle bg-bg-surface2 hover:bg-bg-surface2 h-10 rounded-xl border text-xs font-black uppercase"
+                        asChild
+                      >
+                        <Link
+                          href={`${ROUTES.shop.b2bShowroom}?collection=${encodeURIComponent(ls.collectionId)}`}
+                        >
+                          <Share2 className="mr-2 size-3.5" /> В шоурум
+                        </Link>
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="secondary"
+                        className="border-border-subtle bg-bg-surface2 hover:bg-bg-surface2 h-10 rounded-xl border text-xs font-black uppercase"
+                      >
+                        <Share2 className="mr-2 size-3.5" /> Поделиться
+                      </Button>
+                    )}
                   </CardFooter>
                 </Card>
               ))}

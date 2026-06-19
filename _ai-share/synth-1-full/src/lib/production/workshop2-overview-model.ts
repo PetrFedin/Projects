@@ -496,6 +496,16 @@ export const WORKSHOP2_DOSSIER_SECTION_GUIDANCE: Record<
     purpose: 'Спецификация упаковки и маркировки для отгрузки и учёта на складе.',
     essentials: ['Короб / полиэтилен', 'Этикетки и штрихкод'],
   },
+  assignment: {
+    headline: 'Задание в цех',
+    purpose: 'Подписи секций ТЗ и передача tech pack / handoff bundle на производство.',
+    essentials: ['Подписи бренд + технолог', 'Handoff commit и журнал передачи'],
+  },
+  b2b_sales: {
+    headline: 'B2B / шоурум',
+    purpose: 'Оптовые цены, MOQ и кампания linesheet для buyer portal.',
+    essentials: ['Wholesale / MSRP', 'Окно preorder', 'Публикация showroom'],
+  },
   sample_intake: {
     headline: 'Приёмка сэмпла в коллекцию',
     purpose:

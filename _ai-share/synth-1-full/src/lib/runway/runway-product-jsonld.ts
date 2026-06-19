@@ -32,7 +32,7 @@ export function buildRunwayProductJsonLd(
     ? imagePath
     : `${siteOrigin}${imagePath?.startsWith('/') ? '' : '/'}${imagePath ?? ''}`;
 
-  const price = resolveSectionPrice(product, section, sectionIndex);
+  const price = resolveSectionPrice(product, section);
   const colorLabel = section.label || section.colorName || product.color;
 
   return {

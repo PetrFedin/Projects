@@ -7,14 +7,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { rollupWorkshop2CollectionAssortmentRisk } from '@/lib/production/workshop2-collection-assortment-risk';
 import { getWorkshop2ServerDossierRecord } from '@/lib/server/workshop2-phase1-dossier-server-store';
-import { guardWorkshop2Route } from '@/lib/server/workshop2-route-auth';
+import { guardWorkshop2Route, WORKSHOP2_READ_ROLES } from '@/lib/server/workshop2-route-auth';
 
 type RouteCtx = { params: Promise<{ collectionId: string }> };
 
 const DEFAULT_SS27_ARTICLES = ['demo-ss27-01', 'demo-ss27-02'];
 
 async function getAssortmentRisk(req: NextRequest, ctx: RouteCtx) {
-  const auth = await guardWorkshop2Route(req);
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_READ_ROLES);
   if (auth instanceof NextResponse) return auth;
 
   const { collectionId } = await ctx.params;

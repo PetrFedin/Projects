@@ -10,6 +10,7 @@ import { evaluateWorkshop2BulkShowroomPublishForArticle } from '@/lib/production
 import { getWorkshop2MarketProfile } from '@/lib/production/workshop2-market-profile';
 import { summarizeWorkshop2FitCommentsLog } from '@/lib/production/workshop2-fit-comments-log';
 import { isWorkshop2Ss27UatDemoSeedDossier } from '@/lib/production/workshop2-ss27-uat-demo-seed';
+import { workshop2PgMirrorNum } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2Ss27B2bUatAutoCheck = {
   id: string;
@@ -152,18 +153,23 @@ export function autoCheckWorkshop2Ss27UatItems(input: {
               : item.noteRu,
         };
       }
-      case 9:
+      case 9: {
+        const sampleOrderCount = workshop2PgMirrorNum(
+          primary?.hubCollectionRollupMirror,
+          'sampleOrderCount',
+          typeof primary?.hubCollectionRollupMirror?.sampleOrderCount === 'number'
+            ? primary.hubCollectionRollupMirror.sampleOrderCount
+            : 0
+        );
         return {
           ...item,
-          autoChecked: Boolean((primary?.hubCollectionRollupMirror?.sampleOrderCount ?? 0) > 0),
-          status:
-            (primary?.hubCollectionRollupMirror?.sampleOrderCount ?? 0) > 0
-              ? 'auto_pass'
-              : 'manual',
+          autoChecked: sampleOrderCount > 0,
+          status: sampleOrderCount > 0 ? 'auto_pass' : 'manual',
           noteRu: primary?.hubCollectionRollupMirror
             ? `sampleOrderCount=${primary.hubCollectionRollupMirror.sampleOrderCount}`
             : item.noteRu,
         };
+      }
       case 10:
         return {
           ...item,

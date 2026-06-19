@@ -17,6 +17,7 @@ import {
   workshop2StagingContractMirrorAckFields,
 } from '@/lib/production/workshop2-staging-contract-mode';
 import { hasWorkshop2VaultGlbInIndex } from '@/lib/production/workshop2-fit3d-vault-gate';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function resolveWorkshop2Fit3dPipelineUrl(
   env?: Record<string, string | undefined>
@@ -56,7 +57,10 @@ export async function attemptWorkshop2Fit3dStagingProbe(input: {
   skipped?: boolean;
 }> {
   const url = resolveWorkshop2Fit3dPipelineUrl(input.env);
-  const prev = input.dossier.fit3dStagingMirror?.journal;
+  const prevJournal = input.dossier.fit3dStagingMirror?.journal;
+  const prev = Array.isArray(prevJournal)
+    ? (prevJournal as Workshop2CeilingJournalEntry[])
+    : undefined;
   const vaultGlbIndexed = hasWorkshop2VaultGlbInIndex(input.dossier);
 
   if (!url) {
@@ -191,11 +195,15 @@ export function evaluateWorkshop2Fit3dStagingExportGate(input: {
       messageRu: 'Fit3D staging journal не в досье.',
     };
   }
-  if (mirror.journal.some((j) => j.outcome === 'failed')) {
+  if (
+    Array.isArray(mirror.journal) &&
+    (mirror.journal as Workshop2CeilingJournalEntry[]).some((j) => j.outcome === 'failed')
+  ) {
     return {
       id: 'fit3d.staging.probe_failed',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Fit3D pipeline probe failed.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') || 'Fit3D pipeline probe failed.',
     };
   }
   return null;

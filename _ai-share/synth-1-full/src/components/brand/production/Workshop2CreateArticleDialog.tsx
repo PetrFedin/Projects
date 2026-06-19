@@ -6,6 +6,11 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useState, type ReactN
 import { AcronymWithTooltip } from '@/components/ui/acronym-with-tooltip';
 import { Button } from '@/components/ui/button';
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -17,6 +22,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Workshop2CategoryHandbookGuidance } from '@/components/brand/production/Workshop2CategoryHandbookGuidance';
+import {
+  WorkshopInlineHintIcon,
+  WorkshopLabelWithHint,
+} from '@/components/brand/production/WorkshopFieldHints';
 import {
   findHandbookLeafById,
   getHandbookAudiencesWorkshop2,
@@ -32,6 +41,7 @@ import type {
   LocalOrderLine,
   Workshop2ArticleCommit,
 } from '@/lib/production/local-collection-inventory';
+import type { Workshop2RangePlannerPrefill } from '@/lib/production/workshop2-range-planner-bridge';
 import type {
   Workshop2TzSignatoryBindings,
   Workshop2TzSignatoryExtraRow,
@@ -45,7 +55,7 @@ import {
   type Workshop2TzExtraRolePresetId,
 } from '@/lib/production/workshop2-tz-signatory-options';
 import { cn } from '@/lib/utils';
-import { X } from 'lucide-react';
+import { ChevronDown, X } from 'lucide-react';
 
 const ATTACH_MAX_BYTES = 400_000;
 const ATTACH_MAX_FILES = 5;
@@ -81,6 +91,8 @@ export type Workshop2EditArticlePayload = {
   comment: string;
   categoryLeafId: string;
   workshopAttachments: { name: string; dataUrl: string }[];
+  workshopTags?: string[];
+  workshopLineSeason?: string;
 };
 
 type Props = {
@@ -89,8 +101,11 @@ type Props = {
   collectionId: string;
   collectionDisplayName: string;
   pickerLines: LocalOrderLine[];
-  /** false — дубликат SKU в этой коллекции (нормализованный код). */
-  onCommit: (collectionId: string, commit: Workshop2ArticleCommit) => boolean;
+  /** false — дубликат SKU или ошибка PG; true — успех (навигация — у родителя). */
+  onCommit: (
+    collectionId: string,
+    commit: Workshop2ArticleCommit
+  ) => boolean | Promise<boolean>;
   /** Редактирование существующей строки — те же поля, что при «Новый». */
   editArticle?: Workshop2EditArticlePayload | null;
   onSaveEdit?: (
@@ -98,13 +113,18 @@ type Props = {
     articleId: string,
     patch: {
       name: string;
+      sku?: string;
       workshopComment: string;
       categoryLeafId: string;
       workshopAttachments: { name: string; dataUrl: string }[];
+      workshopTags?: string[];
+      workshopLineSeason?: string;
     }
   ) => boolean;
   /** Кто записывается в историю действий. */
   activityActorLabel?: string;
+  /** Prefill из Range Planner (w2tier / w2budget / w2margin). */
+  rangePrefill?: Workshop2RangePlannerPrefill | null;
 };
 
 function CreateArticleDialogTzExtraRow({
@@ -190,6 +210,7 @@ export function Workshop2CreateArticleDialog({
   editArticle = null,
   onSaveEdit,
   activityActorLabel,
+  rangePrefill = null,
 }: Props) {
   const isEdit = Boolean(editArticle);
   const [mode, setMode] = useState<'base' | 'new'>('new');
@@ -329,7 +350,7 @@ export function Workshop2CreateArticleDialog({
   }, [pickerLines, baseSearch]);
 
   useLayoutEffect(() => {
-    if (!open || !collectionId || isEdit) return;
+    if (!open || !collectionId || isEdit || rangePrefill) return;
     try {
       const raw = localStorage.getItem(workshop2ArticleDraftKey(collectionId));
       if (!raw) return;
@@ -359,10 +380,35 @@ export function Workshop2CreateArticleDialog({
     } catch {
       /* ignore */
     }
-  }, [open, collectionId, isEdit]);
+  }, [open, collectionId, isEdit, rangePrefill]);
+
+  useLayoutEffect(() => {
+    if (!open || isEdit || !rangePrefill) return;
+    setMode('new');
+    setBaseLineId('');
+    setBaseSearch('');
+    setSku(rangePrefill.sku);
+    setName(rangePrefill.name);
+    setComment(rangePrefill.comment);
+    setAttachError(null);
+    setPendingFiles([]);
+    setDuplicateSkuError(false);
+    const leaf = findHandbookLeafById(rangePrefill.categoryLeafId);
+    if (leaf) {
+      setAudienceId(leaf.audienceId);
+      setL1Name(leaf.l1Name);
+      setL2Name(leaf.l2Name);
+      setL3Name(leaf.l3Name);
+    } else {
+      setAudienceId(rangePrefill.audienceId);
+      setL1Name('');
+      setL2Name('');
+      setL3Name('');
+    }
+  }, [open, isEdit, rangePrefill]);
 
   useEffect(() => {
-    if (!open || !collectionId || isEdit) return;
+    if (!open || !collectionId || isEdit || rangePrefill) return;
     const t = window.setTimeout(() => {
       try {
         const payload: ArticleDraftV1 = {
@@ -524,7 +570,7 @@ export function Workshop2CreateArticleDialog({
     setPendingFiles((p) => [...p, ...next].slice(0, ATTACH_MAX_FILES));
   }, []);
 
-  const submit = useCallback(() => {
+  const submit = useCallback(async () => {
     setDuplicateSkuError(false);
     if (isEdit && editArticle && onSaveEdit) {
       if (!resolvedLeafId) return;
@@ -566,11 +612,13 @@ export function Workshop2CreateArticleDialog({
     if (mode === 'base') {
       const src = pickerLines.find((l) => l.id === baseLineId);
       if (!src) return;
-      const ok = onCommit(collectionId, {
-        kind: 'clone',
-        source: src,
-        tzSignatoryBindings: tzPayload,
-      });
+      const ok = await Promise.resolve(
+        onCommit(collectionId, {
+          kind: 'clone',
+          source: src,
+          tzSignatoryBindings: tzPayload,
+        })
+      );
       if (!ok) {
         setDuplicateSkuError(true);
         return;
@@ -582,15 +630,17 @@ export function Workshop2CreateArticleDialog({
     } else {
       if (!sku.trim() || !resolvedLeafId) return;
       const tzB = normalizeWorkshopTzSignatoryBindings(tzPayload);
-      const ok = onCommit(collectionId, {
-        kind: 'new',
-        sku: sku.trim(),
-        categoryLeafId: resolveHandbookLeafId(resolvedLeafId),
-        name: name.trim() || undefined,
-        comment: comment.trim() || undefined,
-        attachments: pendingFiles.length ? pendingFiles : undefined,
-        ...(tzB ? { tzSignatoryBindings: tzB } : {}),
-      });
+      const ok = await Promise.resolve(
+        onCommit(collectionId, {
+          kind: 'new',
+          sku: sku.trim(),
+          categoryLeafId: resolveHandbookLeafId(resolvedLeafId),
+          name: name.trim() || undefined,
+          comment: comment.trim() || undefined,
+          attachments: pendingFiles.length ? pendingFiles : undefined,
+          ...(tzB ? { tzSignatoryBindings: tzB } : {}),
+        })
+      );
       if (!ok) {
         setDuplicateSkuError(true);
         return;
@@ -643,22 +693,31 @@ export function Workshop2CreateArticleDialog({
       <DialogContent
         className="max-h-[90vh] overflow-y-auto sm:max-w-xl"
         aria-describedby="w2-art-desc"
+        data-testid="brand-w2-create-article-dialog"
       >
-        <DialogHeader>
-          <DialogTitle>
-            {isEdit
-              ? `Редактировать артикул · ${editArticle?.sku ?? ''}`
-              : `Артикул в «${collectionDisplayName}»`}
-          </DialogTitle>
-          <DialogDescription id="w2-art-desc">
-            {isEdit ? (
-              <>
-                Те же поля, что при создании нового артикула. Код <AcronymWithTooltip abbr="SKU" />{' '}
-                не меняется. Данные — локально в браузере.
-              </>
-            ) : (
-              'Добавьте из ранее созданных или заведите новый. Данные и вложения — локально в браузере.'
-            )}
+        <DialogHeader className="space-y-0">
+          <div className="flex items-start gap-1">
+            <DialogTitle className="min-w-0 flex-1 text-base leading-snug">
+              {isEdit
+                ? `Редактировать · ${editArticle?.sku ?? ''}`
+                : `Новый артикул · ${collectionDisplayName}`}
+            </DialogTitle>
+            <WorkshopInlineHintIcon label="Создание артикула">
+              {isEdit ? (
+                <p>
+                  Те же поля, что при создании. Код <AcronymWithTooltip abbr="SKU" /> не меняется.
+                  Данные хранятся локально в браузере.
+                </p>
+              ) : (
+                <p>
+                  Заведите новый SKU или выберите позицию из базы. Категория L1–L3 задаёт каркас
+                  досье и подсказки ТЗ. Данные и вложения — локально в браузере.
+                </p>
+              )}
+            </WorkshopInlineHintIcon>
+          </div>
+          <DialogDescription id="w2-art-desc" className="sr-only">
+            {isEdit ? 'Редактирование артикула' : 'Создание артикула в подборке'}
           </DialogDescription>
         </DialogHeader>
 
@@ -740,23 +799,30 @@ export function Workshop2CreateArticleDialog({
               )}
             </div>
             {baseLineHandbookLeaf ? (
-              <Workshop2CategoryHandbookGuidance leaf={baseLineHandbookLeaf} className="mt-2" />
+              <Workshop2CategoryHandbookGuidance leaf={baseLineHandbookLeaf} className="mt-1" />
             ) : baseLineId ? (
-              <p className="mt-2 text-[10px] text-amber-800/90">
-                У выбранной строки нет сопоставления со справочником категорий (проверьте поле{' '}
-                <span className="font-mono">categoryLeafId</span> в данных строки).
-              </p>
+              <p className="text-text-muted mt-1 text-[10px]">Категория не сопоставлена со справочником.</p>
             ) : null}
           </div>
         ) : (
           <div className="grid gap-3">
             <div className="flex flex-wrap items-end gap-2">
               <div className="grid min-w-[8rem] flex-1 gap-1">
-                <Label htmlFor="w2-art-sku" className="inline-flex flex-wrap items-center gap-1">
+                <WorkshopLabelWithHint
+                  htmlFor="w2-art-sku"
+                  labelClassName="text-xs font-semibold"
+                  hint={
+                    <p>
+                      Уникальный код артикула в подборке. Можно сгенерировать автоматически или
+                      ввести вручную (например W2-ABC12).
+                    </p>
+                  }
+                >
                   Код <AcronymWithTooltip abbr="SKU" />
-                </Label>
+                </WorkshopLabelWithHint>
                 <Input
                   id="w2-art-sku"
+                  data-testid="brand-w2-create-article-sku"
                   value={sku}
                   onChange={(e) => setSku(e.target.value)}
                   readOnly={isEdit}
@@ -781,23 +847,22 @@ export function Workshop2CreateArticleDialog({
                 </Button>
               )}
             </div>
-            {!isEdit && !sku.trim() ? (
-              <p className="text-[10px] text-amber-800/90">
-                Обязательно: укажите код <AcronymWithTooltip abbr="SKU" /> или нажмите
-                «Сгенерировать».
-              </p>
-            ) : null}
             <div className="grid gap-1">
-              <Label htmlFor="w2-art-name">Название (необязательно)</Label>
+              <Label htmlFor="w2-art-name" className="text-xs font-semibold">
+                Название
+              </Label>
               <Input
                 id="w2-art-name"
+                data-testid="brand-w2-create-article-name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="text-sm"
               />
             </div>
             <div className="grid gap-1">
-              <Label htmlFor="w2-art-aud">Аудитория</Label>
+              <Label htmlFor="w2-art-aud" className="text-xs font-semibold">
+                Аудитория
+              </Label>
               <select
                 id="w2-art-aud"
                 className="flex h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
@@ -819,13 +884,25 @@ export function Workshop2CreateArticleDialog({
             </div>
 
             <div className="grid gap-1">
-              <Label htmlFor="w2-art-cat-search">Поиск категории (L1 / L2 / L3)</Label>
+              <WorkshopLabelWithHint
+                htmlFor="w2-art-cat-search"
+                labelClassName="text-xs font-semibold"
+                hint={
+                  <p>
+                    Три уровня категории из справочника (L1 → L2 → L3). Поиск или выпадающие списки
+                    ниже — от них зависят поля ТЗ и подсказки.
+                  </p>
+                }
+              >
+                Категория
+              </WorkshopLabelWithHint>
               <div className="relative">
                 <Input
                   id="w2-art-cat-search"
+                  data-testid="brand-w2-create-article-cat-search"
                   value={catSearch}
                   onChange={(e) => setCatSearch(e.target.value)}
-                  placeholder="Начните вводить: платья, пальто, брюки…"
+                  placeholder="Платья, пальто, брюки…"
                   className="pr-8 text-sm"
                   autoComplete="off"
                 />
@@ -868,7 +945,9 @@ export function Workshop2CreateArticleDialog({
 
             <div className="grid gap-1.5 sm:grid-cols-3 sm:gap-2">
               <div className="grid gap-1">
-                <Label htmlFor="w2-art-l1">Ур. 1</Label>
+                <Label htmlFor="w2-art-l1" className="text-[10px] font-semibold uppercase tracking-wide">
+                  Ур. 1
+                </Label>
                 <select
                   id="w2-art-l1"
                   className="flex h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
@@ -891,7 +970,9 @@ export function Workshop2CreateArticleDialog({
                 </select>
               </div>
               <div className="grid gap-1">
-                <Label htmlFor="w2-art-l2">Ур. 2</Label>
+                <Label htmlFor="w2-art-l2" className="text-[10px] font-semibold uppercase tracking-wide">
+                  Ур. 2
+                </Label>
                 <select
                   id="w2-art-l2"
                   className="flex h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
@@ -914,7 +995,9 @@ export function Workshop2CreateArticleDialog({
                 </select>
               </div>
               <div className="grid gap-1 sm:col-span-1">
-                <Label htmlFor="w2-art-l3">Ур. 3</Label>
+                <Label htmlFor="w2-art-l3" className="text-[10px] font-semibold uppercase tracking-wide">
+                  Ур. 3
+                </Label>
                 <select
                   id="w2-art-l3"
                   className="flex h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
@@ -934,29 +1017,30 @@ export function Workshop2CreateArticleDialog({
                 </select>
               </div>
             </div>
-            {!resolvedLeafId ? (
-              <p className="text-[10px] text-amber-800/90">
-                Обязательно: выберите аудиторию и три уровня категории (L1 → L2 → L3).
-              </p>
-            ) : null}
             {resolvedLeaf ? (
-              <Workshop2CategoryHandbookGuidance leaf={resolvedLeaf} className="mt-1" />
+              <Workshop2CategoryHandbookGuidance leaf={resolvedLeaf} />
             ) : null}
             <div className="grid gap-1">
-              <Label htmlFor="w2-art-com">Комментарий</Label>
+              <Label htmlFor="w2-art-com" className="text-xs font-semibold">
+                Комментарий
+              </Label>
               <Textarea
                 id="w2-art-com"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 rows={2}
                 className="resize-none text-sm"
-                placeholder="Уточнение задачи, референсы словами…"
+                placeholder="Референсы, уточнения…"
               />
             </div>
             <div className="grid gap-1">
-              <Label htmlFor="w2-art-files">
-                Файлы (мудборды, фото, до {ATTACH_MAX_FILES} шт.)
-              </Label>
+              <WorkshopLabelWithHint
+                htmlFor="w2-art-files"
+                labelClassName="text-xs font-semibold"
+                hint={<p>Мудборды и фото до {ATTACH_MAX_FILES} файлов, до ~400 КБ каждый.</p>}
+              >
+                Файлы
+              </WorkshopLabelWithHint>
               <Input
                 id="w2-art-files"
                 type="file"
@@ -977,18 +1061,28 @@ export function Workshop2CreateArticleDialog({
         )}
 
         {!isEdit ? (
-          <div className="border-accent-primary/20 bg-accent-primary/10 space-y-3 rounded-lg border p-3">
-            <div className="space-y-0.5">
-              <p className="text-accent-primary text-[11px] font-semibold">
-                Подписанты ТЗ по артикулу
-              </p>
-              <p className="text-text-secondary text-[10px] leading-snug">
-                По желанию закрепите уровни цифровой подписи за конкретными людьми (команда бренда и
-                партнёры). Пустое значение — подписать может любой пользователь с соответствующим
-                правом в{' '}
-                <span className="text-text-primary font-medium">Команда → права доступа</span>.
-              </p>
-            </div>
+          <Collapsible className="border-border-subtle rounded-lg border">
+            <CollapsibleTrigger className="group flex w-full items-center justify-between gap-2 px-3 py-2.5 text-left">
+              <span className="text-xs font-semibold">
+                Подписанты ТЗ
+                <span className="text-text-muted ml-1.5 font-normal">· необязательно</span>
+              </span>
+              <ChevronDown
+                className="text-text-muted h-4 w-4 shrink-0 transition-transform group-data-[state=open]:rotate-180"
+                aria-hidden
+              />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="space-y-3 border-t border-border-subtle px-3 pb-3 pt-2">
+              <div className="flex items-center gap-1">
+                <p className="text-text-muted text-[10px]">Закрепление подписей по ролям</p>
+                <WorkshopInlineHintIcon label="Подписанты ТЗ">
+                  <p>
+                    По желанию назначьте ответственных за цифровую подпись этапов ТЗ. Пустое поле —
+                    подписать может любой с правом в Команда → права доступа. Дополнительные роли
+                    настраиваются так же, как в паспорте артикула.
+                  </p>
+                </WorkshopInlineHintIcon>
+              </div>
             <div className="grid gap-2 sm:grid-cols-3 sm:gap-3">
               <div className="grid gap-1">
                 <Label htmlFor="w2-tz-des">Дизайн</Label>
@@ -1024,13 +1118,7 @@ export function Workshop2CreateArticleDialog({
                 </select>
               </div>
             </div>
-            <div className="border-accent-primary/20 space-y-2 border-t pt-2">
-              <p className="text-text-secondary text-[10px] font-medium">
-                Дополнительные роли — те же данные, что в паспорте артикула; участие по этапам
-                настраивается там. Базовый минимум подписей ТЗ — дизайн, технолог, менеджер;
-                продакт, снабжение, ОТК, маркировка и производственный контакт добавляйте по
-                необходимости (по умолчанию без отдельной подписи на этапе «ТЗ»).
-              </p>
+            <div className="space-y-2">
               <div className="flex flex-wrap gap-1">
                 {WORKSHOP2_TZ_EXTRA_ROLE_PRESET_DEFS.map((p) => (
                   <Button
@@ -1068,7 +1156,12 @@ export function Workshop2CreateArticleDialog({
                 + Добавить роль
               </Button>
             </div>
-          </div>
+            </CollapsibleContent>
+          </Collapsible>
+        ) : null}
+
+        {!isEdit && mode === 'new' && (!sku.trim() || !resolvedLeafId) ? (
+          <p className="text-text-muted text-[10px]">Укажите SKU и категорию L1–L3.</p>
         ) : null}
 
         {!isEdit && duplicateSkuError ? (
@@ -1084,7 +1177,8 @@ export function Workshop2CreateArticleDialog({
           </Button>
           <Button
             type="button"
-            onClick={submit}
+            data-testid="brand-w2-create-article-submit"
+            onClick={() => void submit()}
             disabled={
               isEdit
                 ? !resolvedLeafId || !!attachError

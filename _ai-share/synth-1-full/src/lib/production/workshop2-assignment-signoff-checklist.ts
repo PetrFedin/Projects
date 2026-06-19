@@ -39,6 +39,7 @@ const SECTION_LABEL_RU: Record<Workshop2TzSignoffSectionKey, string> = {
   construction: 'Конструкция',
   visuals: 'Визуал',
   assignment: 'Задание',
+  b2b_sales: 'B2B / продажи',
 };
 
 export function summarizeWorkshop2AssignmentSignoffChecklist(

@@ -24,10 +24,12 @@ import {
   WORKSHOP2_HANDOFF_PDF_SECTION_LABELS_RU,
   workshop2TzBundleFileLabelRu,
 } from '@/lib/production/workshop2-handoff-pdf-section-labels-ru';
+import { buildWorkshop2TzHandoffSummaryPdfBytes } from '@/lib/production/workshop2-tz-handoff-summary-pdf';
 import {
   buildWorkshop2ProductionAnalyticsExportSnippet,
   type Workshop2ProductionAnalyticsSnapshot,
 } from '@/lib/production/workshop2-production-analytics';
+import type { Workshop2NestingFactoryExport } from '@/lib/production/workshop2-nesting-request';
 
 export type Workshop2TzExportBundleInput = {
   collectionId: string;
@@ -107,6 +109,7 @@ function assemblySummaryLines(input: Workshop2TzExportBundleInput): string[] {
   lines.push('  vault/manifest.json — список файлов vault');
   lines.push('  vault/files/* — бинарники из S3 (если настроено)');
   lines.push('  README.txt — этот файл');
+  lines.push('  tz-handoff-summary.pdf — краткая PDF-сводка handoff (jsPDF)');
   lines.push('  dpp/export-block.json — блок DPP для досье');
   lines.push('  dpp/passport.jsonld — JSON-LD stub (EU DPP / schema.org)');
   if (input.nestingFactoryExport) {
@@ -148,6 +151,7 @@ export async function buildWorkshop2TzExportBundleZip(
           toc: buildWorkshop2HandoffPdfTocLinesRu(),
           sections: WORKSHOP2_HANDOFF_PDF_SECTION_LABELS_RU,
           bundleFiles: {
+            'tz-handoff-summary.pdf': workshop2TzBundleFileLabelRu('tz-handoff-summary.pdf'),
             'routing-steps.json': workshop2TzBundleFileLabelRu('routing-steps.json'),
             'grading-table.json': workshop2TzBundleFileLabelRu('grading-table.json'),
             'marking/gtin.txt': workshop2TzBundleFileLabelRu('marking/gtin.txt'),
@@ -192,6 +196,22 @@ export async function buildWorkshop2TzExportBundleZip(
     );
   }
   zip.file('README.txt', assemblySummaryLines(input).join('\n'));
+
+  const tocLines = buildWorkshop2HandoffPdfTocLinesRu();
+  zip.file(
+    'tz-handoff-summary.pdf',
+    buildWorkshop2TzHandoffSummaryPdfBytes({
+      collectionId: input.collectionId,
+      articleId: input.articleId,
+      articleSku: input.articleSku,
+      articleName: input.articleName,
+      version: input.version,
+      updatedAt: input.updatedAt,
+      tzOverallPct: readiness.tzOverallPct,
+      preflightScore: readiness.preflightScore,
+      tocLines,
+    })
+  );
 
   const dppBlock = buildWorkshop2DppExportBlock({
     dossier: input.dossier,

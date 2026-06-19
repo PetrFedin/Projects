@@ -1,0 +1,9 @@
+{
+  "sessionId": "test-fix-run",
+  "status": "error",
+  "repoRoot": "/Users/petr/Projects",
+  "taskPromptFile": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/agent-sessions/scan-1781716414024-uv4ehi.prompt.txt",
+  "updatedAt": "2026-06-17T17:14:10.810Z",
+  "cursorAgentId": "agent-aa80c7f8-1f7a-4ed4-9e2d-136c29e6f803",
+  "error": "Cursor SDK: Cannot find package '@connectrpc/connect-node' imported from /Users/petr/Projects/scripts/planner-cursor-agent/node_modules/@cursor/sdk/dist/esm/index.js"
+}

@@ -1,7 +1,11 @@
 /**
  * Wave 37 #62: PG journal publish для B2B шоурума — без имитации live webhook ACK.
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2ShowroomB2bMirror,
+  Workshop2ShowroomPublishMode,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import {
   isWorkshop2LiveShowroomConfigured,
@@ -9,20 +13,10 @@ import {
 } from '@/lib/production/workshop2-live-integration-probes-env';
 import type { Workshop2ShowroomCampaign } from '@/lib/server/workshop2-showroom-repository';
 
-export type Workshop2ShowroomPublishMode = 'pg_journal' | 'live_webhook';
-
-export type Workshop2ShowroomB2bMirror = {
-  mirroredAt: string;
-  publishMode: Workshop2ShowroomPublishMode;
-  pgPublished: boolean;
-  campaignName?: string;
-  lastPublishAt?: string;
-  publishJournalCount: number;
-  liveWebhookConfigured: boolean;
-  /** Никогда true без реального webhook ACK — только PG persist. */
-  liveWebhookAckSimulated: false;
-  hintRu?: string;
-};
+export type {
+  Workshop2ShowroomPublishMode,
+  Workshop2ShowroomB2bMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 
 export function buildWorkshop2ShowroomB2bMirror(input: {
   campaign: Workshop2ShowroomCampaign | null;

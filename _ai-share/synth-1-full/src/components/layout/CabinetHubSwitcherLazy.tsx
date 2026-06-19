@@ -24,8 +24,8 @@ export function CabinetHubSwitcherNav(props: CabinetHubSwitcherNavProps) {
       const id = window.requestIdleCallback(() => setMounted(true), { timeout: 2500 });
       return () => window.cancelIdleCallback(id);
     }
-    const timer = window.setTimeout(() => setMounted(true), 1200);
-    return () => window.clearTimeout(timer);
+    const timer = globalThis.setTimeout(() => setMounted(true), 1200);
+    return () => globalThis.clearTimeout(timer);
   }, []);
 
   if (!mounted) return null;

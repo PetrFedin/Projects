@@ -200,11 +200,6 @@ export function useWorkshop2Phase1DossierPulseSlotLayoutEffect(p: {
               }
             : undefined
         }
-        compositionLabelSpec={dossier.compositionLabelSpec}
-        onCompositionLabelSpecChange={(next) =>
-          setDossier((prev: Workshop2DossierPhase1) => ({ ...prev, compositionLabelSpec: next }))
-        }
-        compositionLabelDossier={dossier}
       />
     );
     const minimalSections: { key: DossierSection; label: string }[] = [

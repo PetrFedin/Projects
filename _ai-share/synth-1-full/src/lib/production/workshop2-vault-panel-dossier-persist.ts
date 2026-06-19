@@ -6,6 +6,10 @@ import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import { WORKSHOP2_HANDOFF_DEFAULT_MIN_VAULT_FILES } from '@/lib/production/workshop2-handoff-readiness';
 import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
+import {
   evaluateWorkshop2VaultVirusScanExportGate,
   evaluateWorkshop2VaultVirusScanHandoffGate,
 } from '@/lib/production/workshop2-vault-virus-scan';
@@ -73,16 +77,18 @@ export function evaluateWorkshop2VaultPanelExportGate(
     return {
       id: 'export.vault.s3_prod_blocked',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'ZIP ТЗ: S3 обязателен в production для vault binaries.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'ZIP ТЗ: S3 обязателен в production для vault binaries.',
     };
   }
-  if (!mirror.handoffVaultOk && mirror.withStoragePath < mirror.minVaultRequired) {
+  if (!mirror.handoffVaultOk && workshop2PgMirrorNum(mirror, 'withStoragePath') < workshop2PgMirrorNum(mirror, 'minVaultRequired')) {
     return {
       id: 'export.vault.min_files',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ??
-        `ZIP ТЗ: vault ${mirror.withStoragePath}/${mirror.minVaultRequired} storage_path.`,
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        `ZIP ТЗ: vault ${workshop2PgMirrorNum(mirror, 'withStoragePath')}/${workshop2PgMirrorNum(mirror, 'minVaultRequired')} storage_path.`,
     };
   }
   return null;

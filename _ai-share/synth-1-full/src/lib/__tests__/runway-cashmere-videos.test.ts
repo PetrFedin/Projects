@@ -1,5 +1,5 @@
 /**
- * Cashmere hero SKU — отдельные sectionVideoUrl, не silk-* reuse.
+ * Hero SKU section videos — cashmere и anorak не переиспользуют silk-* пути.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -46,12 +46,49 @@ describe('runway cashmere section videos', () => {
     }
   });
 
-  it('validate-runway-content.mjs rejects silk paths on cashmere', () => {
+  it('validate-runway-content.mjs rejects silk paths on cashmere and anorak', () => {
     const src = fs.readFileSync(
       path.join(process.cwd(), 'scripts/validate-runway-content.mjs'),
       'utf8'
     );
     expect(src).toContain('cashmere_reuses_silk_video');
     expect(src).toContain('assertCashmereDoesNotReuseSilkVideos');
+    expect(src).toContain('anorak_reuses_silk_video');
+    expect(src).toContain('assertAnorakDoesNotReuseSilkVideos');
+  });
+
+  it('tech-anorak-men sectionVideoUrl paths are anorak-* and unique vs silk', () => {
+    const products = loadScrollVideoProducts();
+    const silk = products.find((p) => p.slug === 'silk-midi-dress');
+    const anorak = products.find((p) => p.slug === 'tech-anorak-men');
+
+    expect(silk).toBeDefined();
+    expect(anorak).toBeDefined();
+
+    const silkUrls = (silk!.scrollSwitcherSections ?? [])
+      .map((s) => s.sectionVideoUrl)
+      .filter(Boolean);
+    const anorakUrls = (anorak!.scrollSwitcherSections ?? [])
+      .map((s) => s.sectionVideoUrl)
+      .filter(Boolean);
+
+    expect(anorakUrls).toHaveLength(3);
+    for (const url of anorakUrls) {
+      expect(url).toMatch(/\/videos\/sections\/anorak-\d+\.mp4$/);
+      expect(url).not.toMatch(/\/videos\/sections\/silk-\d+\./);
+      expect(silkUrls).not.toContain(url);
+    }
+    expect(new Set(anorakUrls).size).toBe(3);
+  });
+
+  it('tech-anorak-men section mp4 files exist on disk', () => {
+    const products = loadScrollVideoProducts();
+    const anorak = products.find((p) => p.slug === 'tech-anorak-men');
+    for (const s of anorak?.scrollSwitcherSections ?? []) {
+      const url = s.sectionVideoUrl;
+      if (!url?.startsWith('/')) continue;
+      const disk = path.join(process.cwd(), 'public', url);
+      expect(fs.existsSync(disk)).toBe(true);
+    }
   });
 });

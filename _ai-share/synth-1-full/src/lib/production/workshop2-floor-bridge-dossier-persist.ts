@@ -5,6 +5,7 @@ import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-
 import type { Workshop2SampleOrderStatus } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import { workshop2SampleOrderStatusToFloorTab } from '@/lib/production/workshop2-floor-bridge-sync';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import {
   isWorkshop2FloorMesConfigured,
   isWorkshop2FloorMesReverseSyncAllowed,
@@ -63,6 +64,8 @@ export function applyWorkshop2FloorBridgeSyncToDossier(
   }
 ): Workshop2DossierPhase1 {
   const mirror = buildWorkshop2FloorBridgeMirror(input);
+  const lastFloorTab =
+    input.floorTab?.trim() || workshop2SampleOrderStatusToFloorTab(input.orderStatus);
   const floorStatusLabel =
     input.orderStatus === 'approved'
       ? 'Утверждён (пол)'
@@ -82,7 +85,7 @@ export function applyWorkshop2FloorBridgeSyncToDossier(
       activeSampleOrderId: input.orderId ?? dossier.sampleWorkflow?.activeSampleOrderId,
       floorStatusLabel,
       lastSyncedAt: input.syncedAt,
-      lastFloorTab: mirror.floorTab,
+      lastFloorTab,
     },
   };
 
@@ -120,12 +123,12 @@ export function evaluateWorkshop2FloorBridgeSampleGate(
         'Мост на пол не синхронизирован — после работы на полу нажмите «Сохранить с пола в досье».',
     };
   }
-  if (!mirror.reverseSyncEnabled) {
+  if (mirror.reverseSyncEnabled !== true) {
     return {
       id: 'floor.bridge.disabled',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ??
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
         'Обратная синхронизация с пола отключена (WORKSHOP2_FLOOR_MES_URL fail-closed).',
     };
   }

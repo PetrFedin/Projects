@@ -6,10 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { ContextualChatThread } from '@/components/brand/messages/ContextualChatThread';
+import Link from 'next/link';
 import {
   WORKSHOP2_ARTICLE_CONTEXT_TYPE,
   workshop2ArticleContextId,
 } from '@/lib/production/workshop2-domain-event-types';
+import { brandMessagesWorkshop2ArticleContextHref } from '@/lib/routes';
 import {
   countWorkshop2ContextualChatUnread,
   readWorkshop2ContextualChatLastReadAt,
@@ -26,6 +28,7 @@ export function Workshop2ArticleWorkspaceChatPanel({ collectionId, articleId }: 
   const contextId = workshop2ArticleContextId(collectionId, articleId);
   const [unreadCount, setUnreadCount] = useState(0);
   const [open, setOpen] = useState(false);
+  const [inboxSseConnected, setInboxSseConnected] = useState(false);
 
   const refreshUnread = useCallback(async () => {
     try {
@@ -53,8 +56,21 @@ export function Workshop2ArticleWorkspaceChatPanel({ collectionId, articleId }: 
 
   useEffect(() => {
     void refreshUnread();
-    const timer = window.setInterval(() => void refreshUnread(), 30_000);
-    return () => window.clearInterval(timer);
+  }, [refreshUnread]);
+
+  useEffect(() => {
+    if (typeof EventSource === 'undefined') return;
+    const es = new EventSource('/api/platform-core/comms/inbox-stream');
+    es.onopen = () => setInboxSseConnected(true);
+    es.onmessage = () => void refreshUnread();
+    es.onerror = () => {
+      setInboxSseConnected(false);
+      es.close();
+    };
+    return () => {
+      setInboxSseConnected(false);
+      es.close();
+    };
   }, [refreshUnread]);
 
   useEffect(() => {
@@ -77,6 +93,15 @@ export function Workshop2ArticleWorkspaceChatPanel({ collectionId, articleId }: 
         >
           <MessageSquare className="h-3.5 w-3.5" aria-hidden />
           Чат
+          {!inboxSseConnected ? (
+            <Badge
+              variant="outline"
+              className="ml-0.5 h-4 px-1 text-[8px] font-normal"
+              data-testid="workshop2-article-chat-poll-badge"
+            >
+              poll
+            </Badge>
+          ) : null}
           {unreadCount > 0 ? (
             <Badge
               variant="destructive"
@@ -97,10 +122,17 @@ export function Workshop2ArticleWorkspaceChatPanel({ collectionId, articleId }: 
           <ContextualChatThread
             contextType={WORKSHOP2_ARTICLE_CONTEXT_TYPE}
             contextId={contextId}
-            collectionId={collectionId}
-            articleId={articleId}
             className="h-[calc(100vh-7rem)]"
           />
+        </div>
+        <div className="border-border-subtle shrink-0 border-t px-4 py-2">
+          <Link
+            href={brandMessagesWorkshop2ArticleContextHref(collectionId, articleId)}
+            data-testid="brand-cm-article-messages-link"
+            className="text-accent-primary text-[11px] font-semibold hover:underline"
+          >
+            Открыть в сообщениях →
+          </Link>
         </div>
       </SheetContent>
     </Sheet>

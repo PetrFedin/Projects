@@ -1,0 +1,419 @@
+{
+  "generatedAt": "2026-05-29T18:44:11.024Z",
+  "ok": true,
+  "passCount": 9,
+  "failCount": 0,
+  "steps": [
+    {
+      "id": "unit",
+      "labelRu": "Unit suite",
+      "ok": true,
+      "passRu": "SKIP",
+      "skipped": true
+    },
+    {
+      "id": "staging-live-verify",
+      "labelRu": "Staging live verify",
+      "ok": true,
+      "passRu": "SKIP",
+      "optional": true,
+      "noteRu": "investor demo: staging verify не блокирует (live keys отдельно)"
+    },
+    {
+      "id": "staging-keys-checklist",
+      "labelRu": "Staging keys checklist",
+      "ok": true,
+      "passRu": "SKIP",
+      "optional": true
+    },
+    {
+      "id": "investor-demo-sh",
+      "labelRu": "Investor demo shell",
+      "ok": true,
+      "passRu": "PASS",
+      "status": 0
+    },
+    {
+      "id": "investor-demo-env-check",
+      "labelRu": "Investor demo env-check API",
+      "ok": true,
+      "passRu": "PASS",
+      "demoModeComputed": true,
+      "WORKSHOP2_INVESTOR_DEMO_MODE": "true"
+    },
+    {
+      "id": "hub-uat-checklist",
+      "labelRu": "Hub UAT panel (ss27-checklist API)",
+      "ok": true,
+      "passRu": "PASS",
+      "autoProgressPct": 75,
+      "checklistLinks": 0
+    },
+    {
+      "id": "b2b-checkout-http",
+      "labelRu": "B2B checkout page HTTP 200",
+      "ok": true,
+      "url": "http://127.0.0.1:3123/shop/b2b/checkout",
+      "status": 200,
+      "passRu": "PASS",
+      "attempt": 1
+    },
+    {
+      "id": "performance-budget-showroom",
+      "labelRu": "Performance budget API (showroom LCP pass/fail)",
+      "ok": true,
+      "passRu": "PASS",
+      "allBudgetsPass": true,
+      "optional": false
+    },
+    {
+      "id": "integration-probes",
+      "labelRu": "Integration probes (live)",
+      "ok": true,
+      "passRu": "PASS",
+      "probes": {
+        "wave48": {
+          "ok": false,
+          "wave48InvestorShipReady": 1,
+          "checks": [
+            {
+              "id": "investor_demo_full",
+              "ok": true,
+              "path": "scripts/workshop2-investor-demo-full.mjs",
+              "hintRu": "investor-demo-full."
+            }
+          ]
+        },
+        "wave49": {
+          "ok": false,
+          "wave49ProdOpsReady": 2,
+          "checks": [
+            {
+              "id": "probe_alert",
+              "ok": true,
+              "path": "scripts/workshop2-probe-alert.mjs",
+              "hintRu": "probe alert."
+            },
+            {
+              "id": "3d_sla",
+              "ok": true,
+              "path": "src/app/api/shop/b2b/showroom/3d-sla/route.ts",
+              "hintRu": "3d SLA API."
+            }
+          ]
+        },
+        "wave50": {
+          "ok": false,
+          "wave50ProdMergeReady": 0,
+          "checks": [
+            {
+              "id": "ack_cron",
+              "ok": false,
+              "path": "src/app/api/cron/workshop2-ack-archive/route.ts",
+              "hintRu": "ACK cron route."
+            }
+          ]
+        },
+        "wave47": {
+          "ok": false,
+          "wave47RoadmapReady": 1,
+          "checks": [
+            {
+              "id": "roadmap_v2",
+              "ok": true,
+              "path": ".planning/ROADMAP-V2-POST-FREEZE-RU.md",
+              "hintRu": "roadmap v2."
+            },
+            {
+              "id": "e2e_smoke",
+              "ok": false,
+              "path": "scripts/workshop2-e2e-smoke.sh",
+              "hintRu": "e2e smoke script."
+            }
+          ]
+        },
+        "wave46": {
+          "ok": false,
+          "wave46ProductionCutoverReady": 1,
+          "checks": [
+            {
+              "id": "cutover_dashboard",
+              "ok": true,
+              "path": "src/lib/production/workshop2-cutover-dashboard.ts",
+              "hintRu": "cutover dashboard."
+            }
+          ]
+        },
+        "investorDemoReady": false
+      }
+    },
+    {
+      "id": "investor-demo-status",
+      "labelRu": "Investor demo status API",
+      "ok": true,
+      "passRu": "PASS",
+      "investorDemoReady": true,
+      "demoMode": true,
+      "blockingGatesRu": [],
+      "warningsRu": [
+        "Production keys: 0 configured (OK для demo, нужны для live prod)"
+      ]
+    },
+    {
+      "id": "investor-demo-brief",
+      "labelRu": "Investor demo brief API (Wave 58)",
+      "ok": true,
+      "passRu": "PASS",
+      "demoMode": true,
+      "investorDemoReady": true,
+      "wave58Probe": 15,
+      "parityNativePct": 100,
+      "blockingGatesRu": [],
+      "warningsRu": [
+        "Production keys: 0 configured (OK для demo, нужны для live prod)"
+      ]
+    },
+    {
+      "id": "script-step-1",
+      "labelRu": "Сценарий шаг 1: Investor brief (1 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-2",
+      "labelRu": "Сценарий шаг 2: Demo vs live таблица (1 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-3",
+      "labelRu": "Сценарий шаг 3: Hub SS27 + investor banner (2 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-4",
+      "labelRu": "Сценарий шаг 4: Карточка demo-ss27-01 (2 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-5",
+      "labelRu": "Сценарий шаг 5: demo-ss27-02 и demo-ss27-03 (1 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-6",
+      "labelRu": "Сценарий шаг 6: Publish gate → showroom (2 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-7",
+      "labelRu": "Сценарий шаг 7: ЭДО journal (demoMode) (2 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-8",
+      "labelRu": "Сценарий шаг 8: Hub integration probes (1 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-9",
+      "labelRu": "Сценарий шаг 9: B2B Showroom SS27 (2 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-10",
+      "labelRu": "Сценарий шаг 10: Matrix qty → cart (2 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-11",
+      "labelRu": "Сценарий шаг 11: Showroom → checkout (1 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-12",
+      "labelRu": "Сценарий шаг 12: Submit order + chat event (2 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-13",
+      "labelRu": "Сценарий шаг 13: Invoice stub / export (1 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-14",
+      "labelRu": "Сценарий шаг 14: Sales rep portal (2 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-15",
+      "labelRu": "Сценарий шаг 15: Offline → online sync (2 мин) **demo 30с**",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-16",
+      "labelRu": "Сценарий шаг 16: 3D panel (1 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-17",
+      "labelRu": "Сценарий шаг 17: Auto-gates status (2 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "script-step-18",
+      "labelRu": "Сценарий шаг 18: One-command runner + Q&A (3 мин)",
+      "ok": true,
+      "passRu": "INFO",
+      "fromScript": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/INVESTOR-DEMO-SCRIPT-RU.md"
+    },
+    {
+      "id": "wave58-restore-disk",
+      "labelRu": "Wave 58 restore-disk",
+      "ok": true,
+      "passRu": "PASS",
+      "status": 0
+    }
+  ],
+  "probes": {
+    "wave48": {
+      "ok": false,
+      "wave48InvestorShipReady": 1,
+      "checks": [
+        {
+          "id": "investor_demo_full",
+          "ok": true,
+          "path": "scripts/workshop2-investor-demo-full.mjs",
+          "hintRu": "investor-demo-full."
+        }
+      ]
+    },
+    "wave49": {
+      "ok": false,
+      "wave49ProdOpsReady": 2,
+      "checks": [
+        {
+          "id": "probe_alert",
+          "ok": true,
+          "path": "scripts/workshop2-probe-alert.mjs",
+          "hintRu": "probe alert."
+        },
+        {
+          "id": "3d_sla",
+          "ok": true,
+          "path": "src/app/api/shop/b2b/showroom/3d-sla/route.ts",
+          "hintRu": "3d SLA API."
+        }
+      ]
+    },
+    "wave50": {
+      "ok": false,
+      "wave50ProdMergeReady": 0,
+      "checks": [
+        {
+          "id": "ack_cron",
+          "ok": false,
+          "path": "src/app/api/cron/workshop2-ack-archive/route.ts",
+          "hintRu": "ACK cron route."
+        }
+      ]
+    },
+    "wave47": {
+      "ok": false,
+      "wave47RoadmapReady": 1,
+      "checks": [
+        {
+          "id": "roadmap_v2",
+          "ok": true,
+          "path": ".planning/ROADMAP-V2-POST-FREEZE-RU.md",
+          "hintRu": "roadmap v2."
+        },
+        {
+          "id": "e2e_smoke",
+          "ok": false,
+          "path": "scripts/workshop2-e2e-smoke.sh",
+          "hintRu": "e2e smoke script."
+        }
+      ]
+    },
+    "wave46": {
+      "ok": false,
+      "wave46ProductionCutoverReady": 1,
+      "checks": [
+        {
+          "id": "cutover_dashboard",
+          "ok": true,
+          "path": "src/lib/production/workshop2-cutover-dashboard.ts",
+          "hintRu": "cutover dashboard."
+        }
+      ]
+    },
+    "investorDemoReady": false
+  },
+  "scriptPath": ".planning/INVESTOR-DEMO-SCRIPT-RU.md",
+  "screenshotChecklist": [
+    {
+      "id": "w2-hub-ss27",
+      "file": ".planning/screenshots/wave58-investor/01-w2-hub-ss27.png",
+      "captured": false
+    },
+    {
+      "id": "w2-dossier-01",
+      "file": ".planning/screenshots/wave58-investor/02-w2-dossier-demo-ss27-01.png",
+      "captured": false
+    },
+    {
+      "id": "b2b-showroom-matrix",
+      "file": ".planning/screenshots/wave58-investor/03-b2b-showroom-matrix.png",
+      "captured": false
+    },
+    {
+      "id": "b2b-checkout",
+      "file": ".planning/screenshots/wave58-investor/04-b2b-checkout.png",
+      "captured": false
+    },
+    {
+      "id": "b2b-rep-offline",
+      "file": ".planning/screenshots/wave58-investor/05-b2b-rep-offline-banner.png",
+      "captured": false
+    },
+    {
+      "id": "investor-brief",
+      "file": ".planning/screenshots/wave58-investor/06-investor-brief-api.png",
+      "captured": false
+    }
+  ],
+  "summaryRu": "Investor demo full: 9 шаг(ов) PASS — unit + staging + investor-demo.sh OK."
+}

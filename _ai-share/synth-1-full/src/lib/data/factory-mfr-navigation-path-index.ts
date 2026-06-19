@@ -23,12 +23,12 @@ export const factoryMfrNavPathCandidates: readonly CabinetNavPathCandidate[] = [
     label: 'Сообщения',
   },
   {
-    href: '/brand/factories',
+    href: '/factory/production',
     label: 'Партнёры и сеть',
   },
   {
-    href: '/brand/factories',
-    label: 'Фабрики',
+    href: '/factory/production',
+    label: 'Очередь цеха',
   },
   {
     href: '/brand/production/subcontractor',

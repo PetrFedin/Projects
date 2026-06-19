@@ -4,8 +4,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createWorkshop2B2bBuyerInviteToken } from '@/lib/production/workshop2-b2b-wave23-parity';
+import { guardWorkshop2Route, WORKSHOP2_WRITE_ROLES } from '@/lib/server/workshop2-route-auth';
 
 export async function POST(req: NextRequest) {
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES);
+  if (auth instanceof NextResponse) return auth;
+
   let body: { buyerEmail?: string; tier?: 'standard' | 'vip' | 'prebook' } = {};
   try {
     body = (await req.json()) as typeof body;

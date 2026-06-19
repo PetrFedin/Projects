@@ -14,9 +14,16 @@ export type Workshop2InspectorOfflineQueueEntry = {
   lastError?: string;
 };
 
+export type Workshop2InspectorOfflineFlushFailureReason = 'network' | 'http' | 'pg_unavailable';
+
 export type Workshop2InspectorOfflineFlushResult =
   | { ok: true; report: Workshop2InspectorReportDto; entryId: string }
-  | { ok: false; entryId: string; reason: 'network' | 'http' | 'pg_unavailable'; status?: number };
+  | {
+      ok: false;
+      entryId: string;
+      reason: Workshop2InspectorOfflineFlushFailureReason;
+      status?: number;
+    };
 
 const MAX_ATTEMPTS = 5;
 const RETRY_BASE_MS = 400;
@@ -75,7 +82,12 @@ export async function hydrateWorkshop2InspectorOfflineQueueFromIndexedDb(): Prom
   const entries = await new Promise<Workshop2InspectorOfflineQueueEntry[]>((resolve) => {
     const tx = db.transaction(IDB_STORE, 'readonly');
     const req = tx.objectStore(IDB_STORE).getAll();
-    req.onsuccess = () => resolve(Array.isArray(req.result) ? req.result : []);
+    req.onsuccess = () =>
+      resolve(
+        Array.isArray(req.result)
+          ? (req.result as Workshop2InspectorOfflineQueueEntry[])
+          : []
+      );
     req.onerror = () => resolve([]);
   });
   db.close();
@@ -180,7 +192,7 @@ export function removeWorkshop2InspectorOfflineEntry(entryId: string): void {
   saveQueueToBrowser(listWorkshop2InspectorOfflineQueue().filter((e) => e.id !== entryId));
 }
 
-function classifyFlushFailure(status?: number): Workshop2InspectorOfflineFlushResult['reason'] {
+function classifyFlushFailure(status?: number): Workshop2InspectorOfflineFlushFailureReason {
   if (status === 503 || status === 502) return 'pg_unavailable';
   if (status && status >= 400) return 'http';
   return 'network';

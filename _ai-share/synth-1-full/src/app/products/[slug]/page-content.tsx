@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ProductSizeAffinityBlock } from '@/components/product/product-size-affinity-block';
 import Image from 'next/image';
 import { useState, useMemo, useEffect } from 'react';
@@ -65,6 +65,8 @@ import { Input } from '@/components/ui/input';
 import { ArViewerDialog } from '@/components/ar-viewer-dialog';
 import PriceComparisonTable from '@/components/price-comparison-table';
 import { ProductImageViewer } from '@/components/product-image-viewer';
+import { ProductRunwayPdpMediaColumn } from '@/components/product/ProductRunwayPdpMediaColumn';
+import { Skeleton } from '@/components/ui/skeleton';
 import ProductReviews from '@/components/product-reviews';
 import { ProductReviewsDialog } from '@/components/product-reviews-dialog';
 import { ProductFitFeedbackBlock } from '@/components/product/product-fit-feedback-block';
@@ -562,61 +564,100 @@ export default function ProductPageContent({
           isQuickView ? 'grid-cols-1 md:grid-cols-2' : 'md:grid-cols-2'
         )}
       >
-        {/* Image Gallery */}
-        <div className="flex flex-col gap-3">
-          <div
-            className="relative aspect-[4/5] w-full cursor-pointer overflow-hidden rounded-lg border"
-            onClick={() =>
-              handleOpenImageViewer(
-                imagesForCurrentColor.findIndex((img) => img.id === activeImage.id)
-              )
-            }
-          >
-            <Image
-              src={activeImage.url}
-              alt={activeImage.alt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-            <div className="absolute left-3 top-3 flex items-center gap-2">
-              {product.isPromoted && (
-                <Badge variant="default" className="bg-accent text-sm text-accent-foreground">
-                  Промо
-                </Badge>
-              )}
-              {product.outlet && discountPercent > 0 && (
-                <Badge variant="destructive">-{discountPercent}%</Badge>
-              )}
+        {/* Image Gallery / Runway — Suspense: useSearchParams в ProductRunwayPdpMediaColumn */}
+        <Suspense
+          fallback={
+            <div className="flex flex-col gap-3">
+              <Skeleton className="h-9 w-full max-w-xs rounded-md" />
+              <Skeleton className="aspect-[4/5] w-full rounded-lg" />
             </div>
-            {product.bestsellerRank && !isQuickView && (
-              <Badge
-                variant="destructive"
-                className="absolute right-3 top-3 cursor-pointer text-sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsBestsellerOpen(true);
-                }}
-              >
-                #{product.bestsellerRank} в категории
-              </Badge>
-            )}
-          </div>
-          <div className="grid grid-cols-4 gap-3">
-            {imagesForCurrentColor.map((image, index) => (
+          }
+        >
+          <ProductRunwayPdpMediaColumn
+            product={product}
+            activeColor={activeColor}
+            onColorChange={(colorName) =>
+              setActiveColorSelection({ productId: product.id, colorName })
+            }
+            selectedSize={selectedSize}
+            onSizeSelect={handleSelectSize}
+            onAddToCart={handleAddToCart}
+            onSizeGuideClick={() => setIsSizeGuideOpen(true)}
+            isInWishlist={isInWishlist}
+            onToggleWishlist={() => {
+              const defaultCollection = wishlistCollections[0];
+              if (!defaultCollection) return;
+              if (isInWishlist) {
+                removeWishlistItem(product, defaultCollection.id);
+              } else {
+                addWishlistItem(product, defaultCollection.id);
+              }
+            }}
+            allSizes={allSizes}
+            gallery={
+            <>
               <div
-                key={image.id}
-                className={cn(
-                  'relative aspect-square w-full cursor-pointer overflow-hidden rounded-md border-2',
-                  activeImage.id === image.id ? 'border-primary' : 'border-transparent'
-                )}
-                onClick={() => setActiveImage(image)}
+                className="relative aspect-[4/5] w-full cursor-pointer overflow-hidden rounded-lg border"
+                onClick={() =>
+                  handleOpenImageViewer(
+                    imagesForCurrentColor.findIndex((img) => img.id === activeImage.id)
+                  )
+                }
               >
-                <Image src={image.url} alt={image.alt} fill className="object-cover" sizes="25vw" />
+                <Image
+                  src={activeImage.url}
+                  alt={activeImage.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute left-3 top-3 flex items-center gap-2">
+                  {product.isPromoted && (
+                    <Badge variant="default" className="bg-accent text-sm text-accent-foreground">
+                      Промо
+                    </Badge>
+                  )}
+                  {product.outlet && discountPercent > 0 && (
+                    <Badge variant="destructive">-{discountPercent}%</Badge>
+                  )}
+                </div>
+                {product.bestsellerRank && !isQuickView && (
+                  <Badge
+                    variant="destructive"
+                    className="absolute right-3 top-3 cursor-pointer text-sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsBestsellerOpen(true);
+                    }}
+                  >
+                    #{product.bestsellerRank} в категории
+                  </Badge>
+                )}
               </div>
-            ))}
-          </div>
-        </div>
+              <div className="grid grid-cols-4 gap-3">
+                {imagesForCurrentColor.map((image, index) => (
+                  <div
+                    key={image.id}
+                    className={cn(
+                      'relative aspect-square w-full cursor-pointer overflow-hidden rounded-md border-2',
+                      activeImage.id === image.id ? 'border-primary' : 'border-transparent'
+                    )}
+                    onClick={() => setActiveImage(image)}
+                  >
+                    <Image
+                      src={image.url}
+                      alt={image.alt}
+                      fill
+                      className="object-cover"
+                      sizes="25vw"
+                    />
+                  </div>
+                ))}
+              </div>
+            </>
+          }
+        />
+        </Suspense>
 
         {/* Product Info */}
         <div className="py-4">
@@ -883,7 +924,7 @@ export default function ProductPageContent({
           <ProductLocalDeliveryBlock />
           <ProductCostPerWearBlock product={product} />
           <ProductLoyaltyQuestsBlock product={product} />
-          <ProductClvPredictorBlock user={user!} />
+          {user ? <ProductClvPredictorBlock user={user} /> : null}
           <ProductLoyaltyRewardBlock product={product} />
           <ProductTrendInsightBlock product={product} />
           <ProductSizeAffinityBlock product={product} />

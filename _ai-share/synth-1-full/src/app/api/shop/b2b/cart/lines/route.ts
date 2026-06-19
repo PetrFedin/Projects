@@ -7,12 +7,18 @@ import { buildWorkshop2B2bDeliveryCalendarEventFromOrder } from '@/lib/productio
 import {
   evaluateWorkshop2B2bCartMixedBrandGate,
   evaluateWorkshop2B2bCartSubmitDevelopmentGate,
+  collectWorkshop2B2bCartMoqViolations,
   getWorkshop2B2bCartSession,
+  hydrateWorkshop2B2bCartSession,
   mergeWorkshop2B2bCartToOrder,
   summarizeWorkshop2B2bMixedBrandCheckoutRu,
   upsertWorkshop2B2bCartLine,
   validateWorkshop2B2bPrebookDeliveryDate,
 } from '@/lib/production/workshop2-b2b-wave23-parity';
+import {
+  persistWorkshop2B2bCartSessionToFile,
+  readWorkshop2B2bCartSessionFromFile,
+} from '@/lib/server/workshop2-b2b-cart-session-file-store';
 import {
   buildWorkshop2B2bCatalogMatrix,
   buildWorkshop2B2bCampaign,
@@ -26,6 +32,14 @@ import {
 } from '@/lib/server/workshop2-b2b-orders-repository';
 import { summarizeWorkshop2B2bWorkspaceHeaderRu } from '@/lib/production/workshop2-b2b-wave23-parity';
 import { enqueueWorkshop2DomainEvent } from '@/lib/server/workshop2-domain-events';
+import { appendWorkshop2ContextualSystemMessage } from '@/lib/server/workshop2-contextual-messages-repository';
+import {
+  WORKSHOP2_B2B_ORDER_CONTEXT_TYPE,
+  summarizeWorkshop2B2bOrderStatusChangeRu,
+  workshop2B2bOrderContextId,
+} from '@/lib/production/workshop2-b2b-order-lifecycle';
+import { resolveShopCoreBuyerIdFromRequest } from '@/lib/order/shop-core-buyer-context';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 
 function resolveSessionId(req: NextRequest, bodySessionId?: string): string {
   return (
@@ -35,7 +49,22 @@ function resolveSessionId(req: NextRequest, bodySessionId?: string): string {
   );
 }
 
+function resolveWorkshop2B2bCartSession(sessionId: string) {
+  const sid = sessionId.trim();
+  const inMemory = getWorkshop2B2bCartSession(sid);
+  if (inMemory) return inMemory;
+  const fromFile = readWorkshop2B2bCartSessionFromFile(sid);
+  if (fromFile) {
+    hydrateWorkshop2B2bCartSession(fromFile);
+    return fromFile;
+  }
+  return null;
+}
+
 export async function GET(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   const articleId = req.nextUrl.searchParams.get('articleId')?.trim();
   if (articleId) {
     const orders = await listWorkshop2B2bOrdersForArticle({ articleId });
@@ -51,7 +80,7 @@ export async function GET(req: NextRequest) {
   }
 
   const sessionId = resolveSessionId(req, req.nextUrl.searchParams.get('sessionId') ?? undefined);
-  const session = getWorkshop2B2bCartSession(sessionId);
+  const session = resolveWorkshop2B2bCartSession(sessionId);
   const emptySession = {
     sessionId,
     tier: 'standard' as const,
@@ -108,7 +137,10 @@ export async function POST(req: NextRequest) {
   const action = body.action ?? 'upsert';
 
   if (action === 'checkout') {
-    const session = getWorkshop2B2bCartSession(sessionId);
+    const checkoutAuth = await guardShopB2bCheckoutRoute(req, body.buyerId);
+    if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+    const resolvedBuyerId = checkoutAuth.buyerId;
+    const session = resolveWorkshop2B2bCartSession(sessionId);
     if (!session?.lines.length) {
       return NextResponse.json({ ok: false, messageRu: 'Корзина пуста.' }, { status: 400 });
     }
@@ -118,6 +150,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { ok: false, messageRu: brandGate.messageRu, brandIds: brandGate.brandIds },
         { status: 409 }
+      );
+    }
+
+    const moqViolations = collectWorkshop2B2bCartMoqViolations(session);
+    if (moqViolations.length > 0) {
+      return NextResponse.json(
+        {
+          ok: false,
+          code: 'moq_violation',
+          moqViolations,
+          messageRu: `Checkout заблокирован: MOQ — ${moqViolations[0]}`,
+        },
+        { status: 400 }
       );
     }
 
@@ -134,6 +179,7 @@ export async function POST(req: NextRequest) {
       const gate = evaluateWorkshop2B2bCartSubmitDevelopmentGate({
         dossier: record.dossier,
         articleId,
+        collectionId: line0.collectionId,
       });
       if (!gate.allowed) {
         return NextResponse.json({ ok: false, messageRu: gate.messageRu }, { status: 409 });
@@ -141,22 +187,43 @@ export async function POST(req: NextRequest) {
     }
 
     const orderId = body.orderId?.trim() || `B2B-${Date.now()}`;
+    if (session.buyerId !== resolvedBuyerId) {
+      session.buyerId = resolvedBuyerId;
+    }
     const order = mergeWorkshop2B2bCartToOrder({ session, orderId });
+    order.buyerId = resolvedBuyerId;
+    order.status = 'submitted';
     await putWorkshop2B2bOrder(order);
 
     const calendarEvent = buildWorkshop2B2bDeliveryCalendarEventFromOrder(order);
+    const statusMessage = summarizeWorkshop2B2bOrderStatusChangeRu({
+      orderId: order.id,
+      from: 'draft',
+      to: 'submitted',
+    });
     void enqueueWorkshop2DomainEvent({
       type: 'b2b.order.status_changed',
       collectionId: order.collectionId ?? session.lines[0]?.collectionId,
       articleId: order.articleId ?? session.lines[0]?.articleId,
       payload: {
         orderId: order.id,
-        status: order.status,
+        from: 'draft',
+        to: 'submitted',
         previousStatus: 'draft',
+        status: 'submitted',
         source: 'b2b_cart_checkout',
         totalRub: order.totalRub,
         lineCount: order.lines.length,
+        messageRu: statusMessage,
       },
+      dispatchNow: true,
+    }).catch(() => {
+      /* best-effort */
+    });
+    void appendWorkshop2ContextualSystemMessage({
+      contextType: WORKSHOP2_B2B_ORDER_CONTEXT_TYPE,
+      contextId: workshop2B2bOrderContextId(order.id),
+      message: statusMessage,
     }).catch(() => {
       /* best-effort */
     });
@@ -179,8 +246,14 @@ export async function POST(req: NextRequest) {
       messageRu: `Заказ ${orderId} создан из ${order.lines.length} строк (${articleIds.length} артикулов).`,
     });
     res.cookies.set('b2b_cart_session', sessionId, { path: '/', maxAge: 60 * 60 * 24 * 30 });
+    res.cookies.set('shop_b2b_buyer_id', resolvedBuyerId, { path: '/', maxAge: 60 * 60 * 24 * 30 });
+    if (checkoutAuth.mode === 'jwt') {
+      res.headers.set('X-Shop-B2b-Checkout-Auth', 'jwt');
+    }
     return res;
   }
+
+  const resolvedBuyerId = resolveShopCoreBuyerIdFromRequest(req, body.buyerId);
 
   const line = body.line;
   if (!line?.collectionId?.trim() || !line.articleId?.trim()) {
@@ -238,7 +311,7 @@ export async function POST(req: NextRequest) {
 
   const session = upsertWorkshop2B2bCartLine({
     sessionId,
-    buyerId: body.buyerId,
+    buyerId: resolvedBuyerId,
     tier: body.tier,
     line: {
       collectionId: line.collectionId.trim(),
@@ -254,6 +327,7 @@ export async function POST(req: NextRequest) {
       brandId: line.brandId?.trim() || undefined,
     },
   });
+  persistWorkshop2B2bCartSessionToFile(session);
 
   const res = NextResponse.json({
     ok: true,
@@ -262,5 +336,6 @@ export async function POST(req: NextRequest) {
     messageRu: `Строка добавлена · опт ₽${wholesalePriceRub.toLocaleString('ru-RU')}.`,
   });
   res.cookies.set('b2b_cart_session', sessionId, { path: '/', maxAge: 60 * 60 * 24 * 30 });
+  res.cookies.set('shop_b2b_buyer_id', resolvedBuyerId, { path: '/', maxAge: 60 * 60 * 24 * 30 });
   return res;
 }

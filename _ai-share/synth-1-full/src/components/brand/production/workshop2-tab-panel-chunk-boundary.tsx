@@ -77,8 +77,18 @@ export class Workshop2TabPanelChunkBoundary extends Component<Props, State> {
   }
 }
 
-/** Prefetch тяжёлых чанков plan/release до клика (Wave N #14). */
-export function prefetchWorkshop2ArticleTabChunks(tab: 'plan' | 'release'): void {
+/** Prefetch тяжёлого чанка ТЗ (Phase1 dossier) до клика на вкладку. */
+export function prefetchWorkshop2DossierPanel(): void {
+  if (typeof window === 'undefined') return;
+  void import('@/components/brand/production/Workshop2Phase1DossierPanel').catch(() => undefined);
+}
+
+/** Prefetch тяжёлых чанков plan/release/tz до клика (Wave N #14). */
+export function prefetchWorkshop2ArticleTabChunks(tab: 'plan' | 'release' | 'tz'): void {
+  if (tab === 'tz') {
+    prefetchWorkshop2DossierPanel();
+    return;
+  }
   if (typeof window === 'undefined') return;
   const loaders: Record<'plan' | 'release', Array<() => Promise<unknown>>> = {
     plan: [

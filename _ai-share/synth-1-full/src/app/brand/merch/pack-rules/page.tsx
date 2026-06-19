@@ -1,8 +1,27 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
+import { PillarCapabilityWorkspaceChrome } from '@/components/platform/PillarCapabilityWorkspaceChrome';
+import {
+  BrandPackRulesCurvePanel,
+  BrandPackRulesShopPrepackPanel,
+  BrandPackRulesTablePanel,
+} from '@/components/brand/merch/BrandPackRulesWorkspacePanels';
+import {
+  BrandPackRulesGoldenPathStrip,
+  brandPackRulesGoldenPathStepFromFeature,
+} from '@/components/brand/merch/BrandPackRulesGoldenPathStrip';
+import { usePillarCapabilityWorkspace } from '@/hooks/use-pillar-capability-workspace';
+import { resolvePageCollectionId } from '@/lib/platform-core-hub-matrix';
+import { ROUTES } from '@/lib/routes';
+import { ArrowLeft, Package } from 'lucide-react';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { products } from '@/lib/products';
+import { buildPackRuleRow, packRulesToCsv } from '@/lib/fashion/pack-rules-rollup';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -12,18 +31,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ROUTES } from '@/lib/routes';
-import { products } from '@/lib/products';
-import { buildPackRuleRow, packRulesToCsv } from '@/lib/fashion/pack-rules-rollup';
-import { ArrowLeft, Package } from 'lucide-react';
-import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 
-export default function PackRulesPage() {
+function PackRulesLegacyPage() {
   const rows = useMemo(() => products.map(buildPackRuleRow), []);
-  const withAny = rows.filter(
-    (r) => r.moq != null || r.casePack != null || r.leadWeeks != null || r.incoterm || r.shipFrom
-  );
-
   const downloadCsv = () => {
     const csv = packRulesToCsv(rows);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
@@ -48,65 +58,90 @@ export default function PackRulesPage() {
             <Package className="h-6 w-6" />
             MOQ и короба
           </h1>
-          <p className="text-sm text-muted-foreground">
-            Поля <code className="rounded bg-muted px-1 text-[10px]">attributes.moq</code>,
-            casePack, leadTimeWeeks, incoterm, shipFrom.
-          </p>
         </div>
       </div>
-
-      <div className="flex flex-wrap gap-2">
-        <Button type="button" onClick={downloadCsv}>
-          CSV по всем SKU
-        </Button>
-        <span className="self-center text-xs text-muted-foreground">
-          С заполненными B2B-полями: {withAny.length} / {rows.length}
-        </span>
-        <Button variant="outline" size="sm" asChild>
-          <Link href={ROUTES.brand.assortmentMix}>Микс категорий</Link>
-        </Button>
-      </div>
-
+      <Button type="button" onClick={downloadCsv}>
+        CSV по всем SKU
+      </Button>
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Таблица</CardTitle>
-          <CardDescription>
-            Пустые ячейки — нет данных в демо; заполните PIM для выгрузки байерам.
-          </CardDescription>
+          <CardDescription>Legacy view без workspace tabs.</CardDescription>
         </CardHeader>
-        <CardContent className="max-h-[520px] overflow-x-auto overflow-y-auto">
+        <CardContent className="max-h-[520px] overflow-auto">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>SKU</TableHead>
                 <TableHead>MOQ</TableHead>
-                <TableHead>Короб</TableHead>
-                <TableHead>Нед.</TableHead>
-                <TableHead>Incoterm</TableHead>
-                <TableHead>Откуда</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {rows.map((r) => (
+              {rows.slice(0, 30).map((r) => (
                 <TableRow key={r.sku}>
-                  <TableCell>
-                    <Link href={`/products/${r.slug}`} className="font-mono text-xs underline">
-                      {r.sku}
-                    </Link>
-                  </TableCell>
+                  <TableCell className="font-mono text-xs">{r.sku}</TableCell>
                   <TableCell className="font-mono text-xs">{r.moq ?? '—'}</TableCell>
-                  <TableCell className="font-mono text-xs">{r.casePack ?? '—'}</TableCell>
-                  <TableCell className="font-mono text-xs">{r.leadWeeks ?? '—'}</TableCell>
-                  <TableCell className="text-xs">{r.incoterm || '—'}</TableCell>
-                  <TableCell className="max-w-[160px] truncate text-xs" title={r.shipFrom}>
-                    {r.shipFrom || '—'}
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
+    </CabinetPageContent>
+  );
+}
+
+function PackRulesWorkspaceBody() {
+  const searchParams = useSearchParams();
+  const collectionId = resolvePageCollectionId({ collection: searchParams.get('collection') });
+  const ctx = { collectionId, role: 'brand' as const };
+  const { activeFeatureId } = usePillarCapabilityWorkspace('brand-pack-rules');
+
+  return (
+    <PillarCapabilityWorkspaceChrome
+      workspaceId="brand-pack-rules"
+      ctx={ctx}
+      crossLinksTitle="Curve → shop pre-pack → matrix"
+      beforeTabs={
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.brand.growthHub}>
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Package className="text-text-muted h-5 w-5" aria-hidden />
+        </div>
+      }
+    >
+      <div className="mb-4">
+        <BrandPackRulesGoldenPathStrip
+          collectionId={collectionId}
+          activeStep={brandPackRulesGoldenPathStepFromFeature(activeFeatureId)}
+        />
+      </div>
+      {activeFeatureId === 'rules' ? (
+        <BrandPackRulesTablePanel collectionId={collectionId} />
+      ) : null}
+      {activeFeatureId === 'curve' ? (
+        <BrandPackRulesCurvePanel collectionId={collectionId} />
+      ) : null}
+      {activeFeatureId === 'shop-prepack' ? (
+        <BrandPackRulesShopPrepackPanel collectionId={collectionId} />
+      ) : null}
+    </PillarCapabilityWorkspaceChrome>
+  );
+}
+
+export default function PackRulesPage() {
+  if (!isPlatformCoreMode()) {
+    return <PackRulesLegacyPage />;
+  }
+
+  return (
+    <CabinetPageContent maxWidth="5xl" className="space-y-6">
+      <Suspense fallback={null}>
+        <PackRulesWorkspaceBody />
+      </Suspense>
     </CabinetPageContent>
   );
 }

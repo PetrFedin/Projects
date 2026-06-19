@@ -67,7 +67,7 @@ export const POST = withWorkshop2ApiErrorRu(async function postPurchaseOrders(
   }
 
   const b = body as Record<string, unknown>;
-  const auth = guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
     bodyActorLabel: String(b.createdBy ?? ''),
   });
   if (auth instanceof NextResponse) return auth;
@@ -81,7 +81,7 @@ export const POST = withWorkshop2ApiErrorRu(async function postPurchaseOrders(
   const source = String(b.source ?? 'manual');
 
   if (source === 'requisitions' || source === 'bom_requisition') {
-    const record = getWorkshop2ServerDossierRecord(cid, aid);
+    const record = await getWorkshop2ServerDossierRecord(cid, aid);
     const dossier = record?.dossier;
     const requisitions = await listWorkshop2MaterialRequisitions({
       collectionId: cid,
@@ -98,12 +98,15 @@ export const POST = withWorkshop2ApiErrorRu(async function postPurchaseOrders(
             unit: r.unit,
             requisitionId: r.id,
           }))
-        : Object.entries(bomRefs).map(([lineRef, ref]) => ({
-            lineRef,
-            materialLabel: ref.materialLabel,
-            quantity: 1,
-            requisitionId: ref.id,
-          }));
+        : Object.entries(bomRefs).map(([lineRef, ref]) => {
+            const row = ref as { materialLabel?: string; id?: string };
+            return {
+              lineRef,
+              materialLabel: row.materialLabel ?? lineRef,
+              quantity: 1,
+              requisitionId: row.id ?? lineRef,
+            };
+          });
 
     if (lines.length === 0) {
       return jsonWorkshop2ErrorRu(400, 'no_requisitions', {

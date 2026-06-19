@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { CabinetDesktopOnly } from '@/components/layout/CabinetDesktopOnly';
-import type { Resource, Action } from '@/lib/rbac';
+import type { Resource, Action, PlatformRole } from '@/lib/rbac';
 import { ShopDesktopSidebarPlaceholder } from '@/app/shop/ShopDesktopSidebar';
 
 const ShopDesktopSidebar = dynamic(
@@ -14,7 +14,7 @@ const ShopDesktopSidebar = dynamic(
 );
 
 type ShopDesktopSidebarGateProps = {
-  role: string;
+  role: PlatformRole;
   can: (resource: Resource, action: Action) => boolean;
 };
 

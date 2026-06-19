@@ -29,9 +29,13 @@ export function Workshop2RuConnectivityCheckButton() {
         fetch('/api/workshop2/uat/ss27-checklist', { cache: 'no-store' }),
       ]);
 
-      const probes = probesRes.ok ? await probesRes.json() : null;
-      const readiness = readinessRes.ok ? await readinessRes.json() : null;
-      const uat = uatRes.ok ? await uatRes.json() : null;
+      const probes = probesRes.ok
+        ? ((await probesRes.json()) as Record<string, unknown>)
+        : null;
+      const readiness = readinessRes.ok
+        ? ((await readinessRes.json()) as Record<string, unknown>)
+        : null;
+      const uat = uatRes.ok ? ((await uatRes.json()) as Record<string, unknown>) : null;
 
       const built = await buildWorkshop2SetupConnectivityRows({ probes, readiness, uat });
       setRows(built.rows);

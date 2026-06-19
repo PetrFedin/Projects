@@ -1,46 +1,75 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Users, Share2 } from 'lucide-react';
-import { B2BModulePage } from '@/components/shop/B2BModulePage';
-import Link from 'next/link';
-import { ROUTES } from '@/lib/routes';
+import { B2bOrderUrlContextBanner } from '@/components/b2b/B2bOrderUrlContextBanner';
+import { PillarCapabilityWorkspaceChrome } from '@/components/platform/PillarCapabilityWorkspaceChrome';
+import {
+  ShopCollaborativeOrderApprovalsPanel,
+  ShopCollaborativeOrderCommsPanel,
+  ShopCollaborativeOrderSessionPanel,
+} from '@/components/shop/b2b/ShopCollaborativeOrderPanels';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { usePillarCapabilityWorkspace } from '@/hooks/use-pillar-capability-workspace';
+import {
+  ShopCollaborativeOrderGoldenPathStrip,
+  shopCollaborativeGoldenPathStepFromFeature,
+} from '@/components/shop/b2b/ShopCollaborativeOrderGoldenPathStrip';
+import { ShopCollaborativeOrderExtendedPeerStrip } from '@/components/platform/ShopCollaborativeOrderExtendedPeerStrip';
 
-/** NuOrder: Collaborative Buying — совместное редактирование заказа несколькими байерами. */
-export default function B2BCollaborativeOrderPage() {
+const ShopB2bCollaborativeOrderLegacyPage = dynamic(
+  () =>
+    import(
+      '@/_archive/platform-core-legacy/app/shop/b2b/collaborative-order/collaborative-order-legacy'
+    ).then((m) => m.ShopB2bCollaborativeOrderLegacyPage),
+  { ssr: false }
+);
+
+function CollaborativeOrderWorkspaceBody() {
+  const searchParams = useSearchParams();
+  const collectionId = searchParams.get('collection') ?? searchParams.get('collectionId') ?? undefined;
+  const orderId =
+    searchParams.get('order') ?? searchParams.get('orderId') ?? searchParams.get('wholesaleOrderId') ?? undefined;
+  const ctx = { collectionId, orderId, role: 'shop' as const };
+  const { activeFeatureId } = usePillarCapabilityWorkspace('shop-collaborative-order');
+
   return (
-    <CabinetPageContent maxWidth="4xl" className="space-y-6">
-      <B2BModulePage
-        title="Collaborative Buying"
-        description="Совместное редактирование заказа несколькими байерами (NuOrder)"
-        moduleId="collaborative-order"
-        icon={Users}
-        phase={2}
-      >
-        <Card>
-          <CardHeader>
-            <CardTitle>Совместный заказ</CardTitle>
-            <CardDescription>
-              Пригласите коллег для совместного формирования заказа. Изменения синхронизируются в
-              реальном времени.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="text-text-secondary flex items-center gap-2 text-sm">
-              <Share2 className="h-4 w-4" />
-              <span>Ссылка для приглашения генерируется в матрице заказа.</span>
-            </div>
-            <Button asChild>
-              <Link href={ROUTES.shop.b2bMatrix}>Открыть матрицу заказа</Link>
-            </Button>
-            <Button variant="outline" size="sm" asChild>
-              <Link href={ROUTES.shop.b2bMarginCalculator}>Margin Calculator</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </B2BModulePage>
+    <PillarCapabilityWorkspaceChrome
+      workspaceId="shop-collaborative-order"
+      ctx={ctx}
+      crossLinksTitle="Матрица → согласование → comms"
+      beforeTabs={<B2bOrderUrlContextBanner variant="shop" />}
+    >
+      <div className="mb-4">
+        <ShopCollaborativeOrderGoldenPathStrip
+          orderId={orderId}
+          collectionId={collectionId}
+          activeStep={shopCollaborativeGoldenPathStepFromFeature(activeFeatureId)}
+        />
+        <ShopCollaborativeOrderExtendedPeerStrip collectionId={collectionId ?? 'SS27'} orderId={orderId} />
+      </div>
+      {activeFeatureId === 'session' ? <ShopCollaborativeOrderSessionPanel /> : null}
+      {activeFeatureId === 'approvals' ? <ShopCollaborativeOrderApprovalsPanel /> : null}
+      {activeFeatureId === 'comms' ? <ShopCollaborativeOrderCommsPanel /> : null}
+    </PillarCapabilityWorkspaceChrome>
+  );
+}
+
+function CollaborativeOrderCorePage() {
+  return (
+    <CabinetPageContent maxWidth="5xl" className="space-y-6">
+      <Suspense fallback={null}>
+        <CollaborativeOrderWorkspaceBody />
+      </Suspense>
     </CabinetPageContent>
   );
+}
+
+export default function B2BCollaborativeOrderPage() {
+  if (isPlatformCoreMode()) {
+    return <CollaborativeOrderCorePage />;
+  }
+  return <ShopB2bCollaborativeOrderLegacyPage />;
 }

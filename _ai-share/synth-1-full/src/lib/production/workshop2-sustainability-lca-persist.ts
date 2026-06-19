@@ -63,7 +63,7 @@ export function evaluateWorkshop2SustainabilityExportGate(input: {
       messageRu: 'LCA snapshot в досье устарел (>14 дн.) — обновите перед export ZIP.',
     };
   }
-  if (status.registryStub && snap.materialLineCount > 0) {
+  if (status.registryStub && (snap.materialLineCount ?? 0) > 0) {
     return {
       id: 'sustainability.registry.stub',
       severity: 'warning',

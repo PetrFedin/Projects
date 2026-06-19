@@ -6,6 +6,9 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { MessageSquarePlus, CheckCircle2, XCircle } from 'lucide-react';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { hubCabinet } from '@/lib/platform-core-cabinet-chrome';
+import { cn } from '@/lib/utils';
 
 export type FactoryPin = {
   id: string;
@@ -19,12 +22,15 @@ export type FactoryPin = {
 
 export function Workshop2InteractiveFactoryPortal({
   htmlContent,
+  factoryPackHtml,
   articleId,
 }: {
   htmlContent: string;
+  factoryPackHtml?: string;
   articleId: string;
 }) {
   const { toast } = useToast();
+  const [docView, setDocView] = useState<'final-tz' | 'factory-pack'>('factory-pack');
   const [isPinMode, setIsPinMode] = useState(false);
   const [pins, setPins] = useState<FactoryPin[]>([]);
   const [status, setStatus] = useState<'pending' | 'rejected' | 'accepted'>('pending');
@@ -93,16 +99,67 @@ export function Workshop2InteractiveFactoryPortal({
     });
   };
 
+  const displayHtml =
+    docView === 'factory-pack' && factoryPackHtml ? factoryPackHtml : htmlContent;
+  const coreMode = isPlatformCoreMode();
+
   return (
-    <div className="container mx-auto max-w-5xl space-y-6 py-8">
-      <div className="sticky top-4 z-50 flex items-start justify-between rounded-xl border bg-white p-4 shadow-sm">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight">Interactive Tech Pack</h1>
-          <p className="text-text-secondary mt-1 text-sm">
-            Артикул: {articleId} · {pins.length} комментариев
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
+    <div
+      className="min-w-0 w-full space-y-4 py-3 md:mx-auto md:max-w-5xl md:space-y-6 md:py-6"
+      data-testid="factory-portal-panel"
+    >
+      <div
+        className={cn(
+          'rounded-xl border bg-white p-3 shadow-sm md:p-4',
+          coreMode ? hubCabinet.workspaceStickyHead : 'sticky top-4 z-50'
+        )}
+      >
+        <div className="flex min-w-0 flex-col gap-3 md:flex-row md:items-start md:justify-between">
+          <div className="min-w-0">
+            {coreMode ? (
+              <p
+                className="text-text-primary text-sm font-semibold leading-snug"
+                data-testid="factory-portal-status"
+              >
+                Артикул: {articleId} · {pins.length} комментариев ·{' '}
+                {docView === 'factory-pack' ? 'Factory pack · 6 листов' : 'Итоговое ТЗ'}
+              </p>
+            ) : (
+              <>
+                <h1 className="text-xl font-bold tracking-tight">Interactive Tech Pack</h1>
+                <p className="text-text-secondary mt-1 text-sm">
+                  Артикул: {articleId} · {pins.length} комментариев ·{' '}
+                  {docView === 'factory-pack' ? 'Factory pack · 6 листов' : 'Итоговое ТЗ'}
+                </p>
+              </>
+            )}
+          </div>
+          <div className="flex max-md:-mx-1 max-md:overflow-x-auto max-md:overscroll-x-contain max-md:pb-1 max-md:[-webkit-overflow-scrolling:touch] min-w-0 flex-wrap items-center gap-2 md:gap-3 max-md:flex-nowrap">
+          {factoryPackHtml ? (
+            <>
+              <Button
+                type="button"
+                size="sm"
+                variant={docView === 'factory-pack' ? 'default' : 'outline'}
+                className="min-h-11 shrink-0 text-xs max-md:min-h-11"
+                data-testid="factory-portal-view-factory-pack"
+                onClick={() => setDocView('factory-pack')}
+              >
+                Factory pack
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant={docView === 'final-tz' ? 'default' : 'outline'}
+                className="min-h-11 shrink-0 text-xs max-md:min-h-11"
+                data-testid="factory-portal-view-final-tz"
+                onClick={() => setDocView('final-tz')}
+              >
+                Full TZ
+              </Button>
+              <div className="bg-border-default mx-1 hidden h-6 w-px shrink-0 sm:block" />
+            </>
+          ) : null}
           {status === 'pending' && (
             <Badge className="border-amber-200 bg-amber-100 text-amber-800">
               Ожидает согласования
@@ -119,7 +176,7 @@ export function Workshop2InteractiveFactoryPortal({
             </Badge>
           )}
 
-          <div className="bg-border-default mx-1 h-6 w-px" />
+          <div className="bg-border-default mx-1 hidden h-6 w-px shrink-0 md:block" />
 
           <Button
             variant={isPinMode ? 'default' : 'outline'}
@@ -127,26 +184,33 @@ export function Workshop2InteractiveFactoryPortal({
               setIsPinMode(!isPinMode);
               setDraftPin(null);
             }}
-            className={isPinMode ? 'bg-blue-600 hover:bg-blue-700' : ''}
+            className={cn(
+              'min-h-11 shrink-0 max-md:min-h-11',
+              isPinMode ? 'bg-blue-600 hover:bg-blue-700' : ''
+            )}
           >
-            <MessageSquarePlus className="mr-2 h-4 w-4" />
-            {isPinMode ? 'Отменить Pin' : 'Добавить Pin (комментарий)'}
+            <MessageSquarePlus className="mr-2 h-4 w-4 shrink-0" />
+            {isPinMode ? 'Отменить Pin' : 'Добавить Pin'}
           </Button>
 
           {status === 'pending' && (
             <>
               <Button
                 variant="outline"
-                className="border-rose-200 text-rose-700 hover:bg-rose-50"
+                className="min-h-11 shrink-0 border-rose-200 text-rose-700 hover:bg-rose-50 max-md:min-h-11"
                 onClick={rejectTz}
               >
                 Нужны правки
               </Button>
-              <Button className="bg-emerald-600 text-white hover:bg-emerald-700" onClick={acceptTz}>
-                ТЗ принято в работу
+              <Button
+                className="min-h-11 shrink-0 bg-emerald-600 text-white hover:bg-emerald-700 max-md:min-h-11"
+                onClick={acceptTz}
+              >
+                ТЗ принято
               </Button>
             </>
           )}
+          </div>
         </div>
       </div>
 
@@ -160,10 +224,10 @@ export function Workshop2InteractiveFactoryPortal({
       <div
         ref={containerRef}
         onClick={handleContainerClick}
-        className={`relative overflow-hidden rounded-xl border bg-white shadow-sm transition-all duration-200 ${isPinMode ? 'cursor-crosshair ring-2 ring-blue-500 ring-offset-4' : ''}`}
+        className={`relative min-w-0 overflow-x-auto rounded-xl border bg-white shadow-sm transition-all duration-200 ${isPinMode ? 'cursor-crosshair ring-2 ring-blue-500 ring-offset-4' : ''}`}
       >
-        <div className="prose prose-sm prose-headings:border-b prose-headings:pb-2 prose-a:text-blue-600 pointer-events-none max-w-none select-none p-8">
-          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+        <div className="prose prose-sm prose-headings:border-b prose-headings:pb-2 prose-a:text-blue-600 pointer-events-none max-w-none min-w-0 select-none p-4 md:p-8">
+          <div dangerouslySetInnerHTML={{ __html: displayHtml }} />
         </div>
 
         {/* Отрисовка сохраненных пинов */}

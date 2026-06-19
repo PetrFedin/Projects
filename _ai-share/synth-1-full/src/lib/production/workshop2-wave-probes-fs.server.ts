@@ -241,3 +241,12 @@ export function buildWorkshop2Wave29ModuleHealthProbe(env: Workshop2ProcessEnvLi
   const wave29ModuleHealth = checks.filter((c) => c.ok).length;
   return { ok: wave29ModuleHealth >= 12, wave29ModuleHealth, checks };
 }
+export {
+  buildWorkshop2Wave52ProdLiveReadyProbe,
+  buildWorkshop2Wave53ProdSlaReadyProbe,
+  buildWorkshop2Wave54ProdHardeningReadyProbe,
+  buildWorkshop2Wave55InvestorFreezeReadyProbe,
+  buildWorkshop2Wave56PostFreezeReadyProbe,
+  buildWorkshop2Wave57PostFreezeLiveProbe,
+  buildWorkshop2Wave58InvestorShowReadyProbe,
+} from '@/lib/production/workshop2-wave-probes-fs-wave52-57.server';

@@ -3,6 +3,10 @@
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import type { Workshop2HubFilterPresetSnapshot } from '@/lib/production/workshop2-hub-filter-preset-storage';
 
 export function buildWorkshop2HubFilterMirror(input: {
@@ -77,8 +81,8 @@ export function evaluateWorkshop2HubFilterSampleGate(
       id: 'hub.filter.tz_low',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
-        `Готовность ТЗ ${mirror.tzOverallPct}% — заказ образца заблокирован (порог hub filter 30%).`,
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        `Готовность ТЗ ${workshop2PgMirrorNum(mirror, 'tzOverallPct', typeof mirror.tzOverallPct === 'number' ? mirror.tzOverallPct : 0)}% — заказ образца заблокирован (порог hub filter 30%).`,
     };
   }
   return null;

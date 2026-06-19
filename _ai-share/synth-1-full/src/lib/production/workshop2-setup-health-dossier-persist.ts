@@ -3,6 +3,7 @@
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import {
   buildWorkshop2SetupHealthRows,
   type Workshop2SetupHealthInput,
@@ -43,12 +44,15 @@ export function evaluateWorkshop2SetupHealthHandoffGate(
       messageRu: 'Health setup не зафиксирован в досье — обновите зеркало перед handoff commit.',
     };
   }
-  if (mirror.blockerHandoff) {
+  if (
+    mirror.blockerHandoff === true ||
+    workshop2PgMirrorStr(mirror, 'blockerHandoff') === 'true'
+  ) {
     return {
       id: 'setup.health.pg_down_handoff',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
         'PostgreSQL недоступен — передача в цех заблокирована до восстановления PG.',
     };
   }
@@ -77,12 +81,15 @@ export function evaluateWorkshop2SetupHealthSampleGate(
         'Health setup не зафиксирован в досье — откройте артикул после проверки /setup или обновите зеркало.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  if (
+    mirror.blockerSampleOrder === true ||
+    workshop2PgMirrorStr(mirror, 'blockerSampleOrder') === 'true'
+  ) {
     return {
       id: 'setup.health.pg_down',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
         'PostgreSQL недоступен — заказ образца на сервере заблокирован до восстановления PG.',
     };
   }

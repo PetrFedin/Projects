@@ -1,28 +1,23 @@
 /**
  * Wave 37 #66: journal audit trail для PO ERP (без UI «synced» без erpOrderId).
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2FactoryErpAuditEntry,
+  Workshop2FactoryErpAuditMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import {
   buildWorkshop2PurchaseOrderErpMirror,
-  type Workshop2PurchaseOrderErpRow,
 } from '@/lib/production/workshop2-purchase-order-erp-dossier-persist';
+import type { Workshop2PurchaseOrderErpRow } from '@/lib/production/workshop2-purchase-order-erp-dossier-persist';
 import { resolveWorkshop2PurchaseOrderErpDisplayStatus } from '@/lib/production/workshop2-purchase-order-erp-display';
+import { workshop2PgMirrorNum } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
-export type Workshop2FactoryErpAuditEntry = {
-  at: string;
-  poId: string;
-  status: string;
-  erpExternalId?: string | null;
-  displayCode: string;
-  event: 'mirror_sync' | 'ui_label';
-};
-
-export type Workshop2FactoryErpAuditMirror = {
-  mirroredAt: string;
-  entries: Workshop2FactoryErpAuditEntry[];
-  blocksFakeSyncedUi: boolean;
-  journalOnly: boolean;
-};
+export type {
+  Workshop2FactoryErpAuditEntry,
+  Workshop2FactoryErpAuditMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
+export type { Workshop2PurchaseOrderErpRow } from '@/lib/production/workshop2-purchase-order-erp-dossier-persist';
 
 export function buildWorkshop2FactoryErpAuditMirror(input: {
   purchaseOrders: Workshop2PurchaseOrderErpRow[];
@@ -47,7 +42,7 @@ export function buildWorkshop2FactoryErpAuditMirror(input: {
     };
   });
   const blocksFakeSyncedUi =
-    base.fakeSyncedCount > 0 ||
+    workshop2PgMirrorNum(base, 'fakeSyncedCount') > 0 ||
     entries.some((e) => e.status === 'synced' && !e.erpExternalId?.trim());
   return {
     mirroredAt: at,

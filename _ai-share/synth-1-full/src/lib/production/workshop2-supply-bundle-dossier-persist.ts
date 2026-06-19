@@ -5,6 +5,7 @@ import type { SupplySnapshot } from '@/lib/production/article-workspace/types';
 import { summarizeWorkshop2SupplyBundleStatus } from '@/lib/production/workshop2-supply-bundle-status';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2SupplyBundleMirror(input: {
   dossier: Workshop2DossierPhase1;
@@ -24,7 +25,7 @@ export function buildWorkshop2SupplyBundleMirror(input: {
 
   const supplyBomSyncAt =
     input.supplyBomSyncAt?.trim() ||
-    input.dossier.supplyBundleMirror?.supplyBomSyncAt?.trim() ||
+    workshop2PgMirrorStr(input.dossier.supplyBundleMirror, 'supplyBomSyncAt') ||
     undefined;
 
   return {

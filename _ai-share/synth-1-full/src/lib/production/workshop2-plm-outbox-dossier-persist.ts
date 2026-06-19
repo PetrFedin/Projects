@@ -8,6 +8,10 @@ import {
   type Workshop2PlmOutboxBadgeInput,
 } from '@/lib/production/workshop2-plm-outbox-badge';
 import { isWorkshop2LivePlmTransportConfigured } from '@/lib/production/workshop2-live-integration-probes-env';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2PlmOutboxAuditFromCounts(
   input: Workshop2PlmOutboxBadgeInput
@@ -85,19 +89,23 @@ export function evaluateWorkshop2PlmOutboxSampleGate(
       messageRu: 'PLM outbox не в PG — «PLM → PG» в шапке перед образцом.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  if (mirror.blockerSampleOrder === true) {
     return {
       id: 'plm.outbox.failed',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? `PLM outbox: ${mirror.failed} failed — исправьте очередь перед образцом.`,
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        `PLM outbox: ${workshop2PgMirrorNum(mirror, 'failed')} failed — исправьте очередь перед образцом.`,
     };
   }
-  if (mirror.pending > 5) {
+  const pending = workshop2PgMirrorNum(mirror, 'pending');
+  if (pending > 5) {
     return {
       id: 'plm.outbox.pending_high',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? `PLM: ${mirror.pending} pending — process outbox перед образцом.`,
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        `PLM: ${pending} pending — process outbox перед образцом.`,
     };
   }
   return null;
@@ -115,11 +123,12 @@ export function evaluateWorkshop2PlmOutboxExportGate(
       messageRu: 'ZIP ТЗ: PLM outbox не в досье.',
     };
   }
-  if (mirror.failed > 0) {
+  const failed = workshop2PgMirrorNum(mirror, 'failed');
+  if (failed > 0) {
     return {
       id: 'plm.outbox.export_failed',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'ZIP ТЗ: PLM outbox failed.',
+      messageRu: workshop2PgMirrorStr(mirror, 'hintRu') || 'ZIP ТЗ: PLM outbox failed.',
     };
   }
   return null;
@@ -138,22 +147,36 @@ export function evaluateWorkshop2PlmOutboxHandoffGate(
         'PLM outbox не зафиксирован в досье — нажмите «Аудит PLM в досье» в шапке перед передачей в цех.',
     };
   }
-  if (audit.failed > 0) {
+  const auditFailed =
+    'failed' in audit && typeof audit.failed === 'number'
+      ? audit.failed
+      : workshop2PgMirrorNum(audit as Workshop2DossierPhase1['plmOutboxMirror'], 'failed');
+  if (auditFailed > 0) {
     return {
       id: 'plm.outbox.failed',
       severity: 'blocker',
-      messageRu: `PLM outbox: ${audit.failed} событий failed — retry failed и process перед handoff.`,
+      messageRu: `PLM outbox: ${auditFailed} событий failed — retry failed и process перед handoff.`,
     };
   }
-  if (audit.pending > 0 || audit.awaitingAck > 0) {
+  const auditPending =
+    'pending' in audit && typeof audit.pending === 'number'
+      ? audit.pending
+      : workshop2PgMirrorNum(audit as Workshop2DossierPhase1['plmOutboxMirror'], 'pending');
+  const auditAwaitingAck =
+    'awaitingAck' in audit && typeof audit.awaitingAck === 'number'
+      ? audit.awaitingAck
+      : workshop2PgMirrorNum(audit as Workshop2DossierPhase1['plmOutboxMirror'], 'awaitingAck');
+  if (auditPending > 0 || auditAwaitingAck > 0) {
     const auditedAt =
-      'auditedAt' in audit ? audit.auditedAt : (audit as { mirroredAt: string }).mirroredAt;
-    const ageMs = Date.now() - new Date(auditedAt).getTime();
+      'auditedAt' in audit && typeof audit.auditedAt === 'string'
+        ? audit.auditedAt
+        : workshop2PgMirrorStr(audit as Workshop2DossierPhase1['plmOutboxMirror'], 'mirroredAt');
+    const ageMs = auditedAt ? Date.now() - new Date(auditedAt).getTime() : 0;
     if (ageMs > 24 * 60 * 60 * 1000) {
       return {
         id: 'plm.outbox.stale_audit',
         severity: 'warning',
-        messageRu: `PLM: ${audit.pending} pending, ${audit.awaitingAck} ждут ACK — обновите аудит в досье.`,
+        messageRu: `PLM: ${auditPending} pending, ${auditAwaitingAck} ждут ACK — обновите аудит в досье.`,
       };
     }
   }

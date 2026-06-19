@@ -4,6 +4,7 @@ import type {
   Workshop2MaterialAlternativeDraft,
 } from '@/lib/production/workshop2-dossier-view-infrastructure';
 import type { Workshop2SampleEconomicsDraft } from '@/lib/production/workshop2-sample-economics.types';
+import type { Workshop2CeilingJournalEntry } from '@/lib/production/workshop2-ceiling-staging-core';
 
 /**
  * Модель досье фазы 1 разработки коллекции — соответствует schemas/workshop2-dossier-phase1.json.
@@ -15,6 +16,7 @@ export type Workshop2Phase1AttributeValue = {
   valueId: string;
   valueSource: Workshop2Phase1ValueSource;
   parameterId?: string;
+  handbookEntryId?: string;
   text?: string;
   number?: number;
   displayLabel: string;
@@ -615,6 +617,10 @@ export type Workshop2PassportProductionBrief = {
   passportFirstShipWindowNote?: string;
   /** Жёсткие ограничения для снабжения и производства (MOQ, сроки, сертификация узла и т.п.). */
   passportSupplyOrProductionConstraintNote?: string;
+  /** GTIN / EAN для маркировки и экспорта (Honest Sign, DPP). */
+  gtin?: string;
+  /** ID заказа маркировки (Честный ЗНАК / MES bridge). */
+  markingOrderId?: string;
   /** Транспортная и индивидуальная упаковка (коробки, полибеги, штрихкоды и т.д.) */
   packagingAndLabelingNote?: string;
   /** Весогабаритные характеристики (расчетный вес, габариты упаковки и т.д.) */
@@ -627,6 +633,31 @@ export type Workshop2PassportProductionBrief = {
     technologist?: string;
     manager?: string;
   };
+  /** Шаблон T&A из lifecycle handbook (assembler / create-article). */
+  lifecycleTaTemplateId?: string;
+  /** Slug B2C витрины для showroom / runway link. */
+  b2cProductSlug?: string;
+  /** Требуется маркировка (Честный ЗНАК) для артикула. */
+  markingRequired?: boolean;
+  /** Зеркало costingRub из BOM rollup (Wave 10 RU). */
+  costingRub?: Workshop2PassportCostingRubMirror;
+  /** Целевой FOB из паспорта (руб), если нет BOM rollup. */
+  targetFob?: number;
+  /** Целевая маржа % для delta band в costing. */
+  targetMarginPct?: number;
+  /** SKU из паспорта (factory TZ preview). */
+  sku?: string;
+  /** Розничная цена (MSRP) для B2B/linesheet. */
+  targetRetailPrice?: string | number;
+};
+
+export type Workshop2PassportCostingRubMirror = {
+  estimatedFobRub: number;
+  materialsRub: number;
+  trimsRub: number;
+  operationsRub: number;
+  syncedAt: string;
+  source: 'bom_rollup' | 'passport_target_fob';
 };
 
 /** Черновик снабжения по материалу в секции «Материалы» (локально, до API каталога партнёра). */
@@ -996,6 +1027,26 @@ export type Workshop2GradingRow = {
   gradingFrozen?: boolean;
 };
 
+/** Audit entry for smart grading apply (persisted in dossier). */
+export type Workshop2GradingApplyRecord = {
+  id: string;
+  appliedAt: string;
+  appliedFrom?: string;
+  sizeCount: number;
+  ruleCount: number;
+  addedRuleCount?: number;
+  categoryLeafId?: string;
+};
+
+export type Workshop2PlmOutboxAudit = {
+  auditedAt: string;
+  pending: number;
+  awaitingAck: number;
+  failed: number;
+  autoAckEnabled: boolean;
+  tone: 'ok' | 'pending' | 'awaiting_ack' | 'failed';
+};
+
 /** Строка техпоследовательности (умная маршрутизация), хранится в досье для экспорта и повторного открытия. */
 export type Workshop2SmartRoutingOperation = {
   id: string;
@@ -1016,6 +1067,8 @@ export type Workshop2ProductionModel = {
   operations: Workshop2ProductionOperation[];
   measurements: Workshop2ProductionMeasurement[];
   notesForFactory?: string;
+  /** Eco / certification hints from BOM (optional). */
+  ecoAttributes?: Record<string, unknown>;
 
   /** Плановая или фактическая логистика */
   logisticsCost?: number;
@@ -1064,6 +1117,19 @@ export type Workshop2ProductionTzExportMeta = {
   dossierUpdatedAtSnapshot?: string;
 };
 
+/** Метаданные последнего factory pack export (6 листов ole_globirds). */
+export type Workshop2FactoryPackExportMeta = {
+  exportedAt: string;
+  exportedBy?: string;
+  format: 'html' | 'pdf' | 'server_snapshot';
+  snapshotId?: string;
+  sheetsReady: number;
+  sheetsTotal: number;
+  qtyBridged: boolean;
+  dossierUpdatedAtSnapshot?: string;
+  articleSkuSnapshot?: string;
+};
+
 export type Workshop2VendorBid = {
   id: string;
   vendorId: string;
@@ -1084,7 +1150,559 @@ export type Workshop2TaMilestone = {
   status: 'pending' | 'in_progress' | 'completed' | 'delayed';
 };
 
+export type Workshop2RoutingStep = {
+  stepNo: number;
+  name: string;
+  category?: string;
+  equipment?: string;
+  sashMin?: number;
+  partnerLabel?: string;
+  regionCode?: string;
+  source: 'smart_routing' | 'production_model' | 'sewing_plan';
+};
+
+export type Workshop2SewingPlan = {
+  partnerId?: string;
+  partnerLabel?: string;
+  partnerName?: string;
+  regionCode?: string;
+  operationsNote?: string;
+};
+
+export type Workshop2PomTemplateSuggestion = {
+  leafId: string;
+  suggestedAt: string;
+  preMergeAvailable?: boolean;
+  templateId?: string;
+};
+
 export type Workshop2ChangeRequestStatus = 'pending' | 'approved' | 'rejected';
+
+/** Параметры раскладки на заказе образца. */
+export type Workshop2NestingRequest = {
+  fabricWidthCm?: number;
+  efficiencyPct?: number;
+  notes?: string;
+  updatedAt?: string;
+  updatedBy?: string;
+  simulationYieldPct?: number;
+  simulationNote?: string;
+};
+
+/** Размер → кол-во шт на заказе образца. */
+export type Workshop2SampleOrderSizes = Record<string, number>;
+
+export type Workshop2CategoryBinding = {
+  categoryLeafId: string;
+  [key: string]: unknown;
+};
+
+export type Workshop2ArticleFormMirror = {
+  mirroredAt?: string;
+  categoryLeafId?: string;
+  sku?: string;
+  formState?: string;
+  canSubmit?: boolean;
+  errorCount?: number;
+  warningCount?: number;
+  blockerSampleOrder?: boolean;
+  hintRu?: string;
+};
+
+/** Journal mirror for «Честный ЗНАК» marking orders. */
+export type Workshop2MarkingHonestSignMirror = {
+  mirroredAt: string;
+  markingRequired: boolean;
+  gtin: string | null;
+  markingOrderId: string | null;
+  status: 'draft' | 'journal_only' | 'pending_external' | 'registered' | (string & {});
+  journalOnly: boolean;
+  actor?: string;
+  hintRu?: string;
+};
+
+export type Workshop2SampleWorkflowState = {
+  activeSampleOrderId?: string;
+  floorStatusLabel?: string;
+  lastSyncedAt?: string;
+  lastFloorTab?: string;
+  [key: string]: unknown;
+};
+
+export type Workshop2GoldSampleStatus = {
+  status: 'pending' | 'approved' | 'rejected' | (string & {});
+  approvedAt?: string;
+  approvedBy?: string;
+  linkedSampleOrderId?: string;
+};
+
+export type Workshop2InternalWmsMirror = {
+  reserveDeficitCount?: number;
+  [key: string]: unknown;
+};
+
+export type Workshop2BomCostingSnapshot = {
+  computedAt: string;
+  materialsTotal: number;
+  trimsTotal: number;
+  operationsTotal: number;
+  estimatedFob: number;
+  currency: string;
+  targetFob?: number;
+  deltaBand: 'on_target' | 'over' | 'under' | 'no_target';
+  deltaPct?: number;
+};
+
+/** Hub onboarding state persisted in PG dossier (primary SoT). */
+export type Workshop2HubOnboardingState = {
+  done: boolean;
+  workspaceOpened: boolean;
+  role: 'designer' | 'technologist' | 'manager';
+  source: 'dossier' | 'browser_storage';
+  completedAt?: string;
+};
+
+export type Workshop2CutTicketStatus = 'draft' | 'issued' | 'cut' | 'cancelled';
+
+export type Workshop2CutTicket = {
+  id: string;
+  ticketNo: string;
+  qty: number;
+  status: Workshop2CutTicketStatus;
+  createdAt: string;
+};
+
+export type Workshop2FabricRoll = {
+  id: string;
+  rollLot: string;
+  lengthM?: number;
+  status: string;
+  createdAt: string;
+};
+
+export type Workshop2GarmentDyeOp = {
+  id: string;
+  colorwayLabel: string;
+  process: string;
+  status: string;
+  createdAt: string;
+};
+
+export type Workshop2MatchmakerPersistedResult = {
+  recommendedContractorId?: string;
+  recommendedLabel?: string;
+  confidence?: number;
+  rationale?: string;
+  syncedAt: string;
+  raw?: Record<string, unknown>;
+};
+
+export type Workshop2ArticleDevelopmentPathStep =
+  | 'sample_order'
+  | 'wms_reserve'
+  | 'movement_in_transit'
+  | 'movement_received'
+  | 'gold_approved'
+  | 'intake_ready';
+
+export type Workshop2ArticleDevelopmentStateMirror = {
+  mirroredAt: string;
+  lastActor: string;
+  steps: Workshop2ArticleDevelopmentPathStep[];
+  sample: {
+    hasOrder: boolean;
+    orderId?: string;
+    orderStatus?: string;
+    movementStatus?: 'created' | 'in_transit' | 'received';
+    movementLogEntries: number;
+    movementState?: string;
+  };
+  wms: {
+    enabled: boolean;
+    syncStatus?: string;
+    reservedQty?: number;
+    reserveDeficitCount?: number;
+    itemCount?: number;
+    lastSampleReserveOrderId?: string;
+  };
+  gold: {
+    status?: string;
+    approved: boolean;
+  };
+  intake: {
+    state: 'blocked' | 'partial' | 'ready';
+    missingCount: number;
+    chainMode?: string;
+    chainModeLabel?: string;
+    barcodeFilled: boolean;
+  };
+  readiness: {
+    tzOverallPct: number;
+    preflightScore: number;
+    handoffReady: boolean;
+    vaultFileCount: number;
+  };
+  criticalPathReady: boolean;
+  hintRu?: string;
+};
+
+export type Workshop2EdoSignoffMirror = {
+  mirroredAt: string;
+  provider: string;
+  edoStatus: 'draft' | 'pending' | 'signed' | 'rejected' | 'error';
+  requestId: string | null;
+  signedAt: string | null;
+  blockerHandoff: boolean;
+  hintRu?: string;
+  statusLabelRu?: string;
+};
+
+export type Workshop2SupplierQcSnapshot = {
+  snapshotAt: string;
+  supplierId: string;
+  totalBatches: number;
+  passRate: number;
+  failed: number;
+  source: string;
+  blockerSampleOrder: boolean;
+  blockerHandoff: boolean;
+  hintRu?: string;
+};
+
+export type Workshop2SupplyBundleMirror = {
+  mirroredAt: string;
+  supplyBomSyncAt?: string;
+  lineCount: number;
+  linesWithQty: number;
+  unlinkedLineCount: number;
+  plannedPoQty: number;
+  bomMaterialLineCount: number;
+  state: string;
+  blockerSampleOrder: boolean;
+  hintRu?: string;
+};
+
+export type Workshop2QcAqlInspectionRecord = {
+  id: string;
+  recordedAt: string;
+  recordedBy?: string;
+  orderQty: number;
+  qtySource: 'sample_order' | 'batch' | 'manual' | (string & {});
+  aqlLevel: string;
+  sampleSize: number;
+  criticalFound: number;
+  majorFound: number;
+  minorFound: number;
+  majorRejectLimit: number;
+  minorRejectLimit: number;
+  isFail: boolean;
+  batchId?: string;
+};
+
+export type Workshop2VaultPanelMirror = {
+  mirroredAt: string;
+  totalDocs: number;
+  withStoragePath: number;
+  minVaultRequired: number;
+  handoffVaultOk: boolean;
+  backendMode: 'server' | 'local';
+  state: string;
+  blockerHandoff: boolean;
+  s3PresignGuard?: string;
+  virusScanPendingCount?: number;
+  virusScanFailedCount?: number;
+  orphanPresignCount?: number;
+  pgIndexedOk?: boolean;
+  heroPreviewUrl?: string;
+  hintRu?: string;
+};
+
+export type Workshop2SustainabilityLcaSnapshot = {
+  snapshotAt: string;
+  ecoScore?: number;
+  recycledContentPct?: number;
+  carbonFootprintKg?: number;
+  materialLineCount?: number;
+  registryStub?: boolean;
+  source?: string;
+  certifiedSource?: string;
+  certificationBody?: string;
+  certificationRef?: string;
+  certifiedAt?: string;
+  carbonRollupAt?: string;
+  carbonRollupEngine?: string;
+  carbonThresholdWarnings?: string[];
+};
+
+export type Workshop2SustainabilityCarbonRollupMirror = {
+  computedAt: string;
+  engine: 'heuristic_bom_v1';
+  carbonFootprintKg: number;
+  recycledContentPct: number;
+  ecoScore: number;
+  materialLineCount: number;
+  thresholdWarnings: string[];
+  warnings: string[];
+  hintRu: string;
+};
+
+export type Workshop2DppExportValidation = {
+  validatedAt: string;
+  state: 'ready' | 'blocked';
+  hintRu?: string;
+  schemaState?: string;
+  issueCount?: number;
+  previewAvailable?: boolean;
+};
+
+export type Workshop2OverviewPersistedSnapshot = {
+  persistedAt: string;
+  tzOverallPct: number;
+  readyForHandoff: boolean;
+  blockerCount: number;
+  warningCount: number;
+  primaryTab: string;
+  primaryLabel: string;
+  source: string;
+};
+
+export type Workshop2SupplyRiskPersistedSnapshot = {
+  predictedDays: number;
+  riskLevel: string;
+  rationale: string;
+  risks?: unknown[];
+  computedAt: string;
+  source: 'dossier_bom';
+};
+
+export type Workshop2SupplyRiskMirror = {
+  mirroredAt: string;
+  engineKind: string;
+  riskLevel: string;
+  predictedDays: number;
+  blockerHandoff: boolean;
+  hintRu?: string;
+};
+
+export type Workshop2PlmTransportJournalMirror = {
+  mirroredAt: string;
+  lastActor: string;
+  transportKind: 'outbox_journal' | 'live_partner' | 'staging_contract';
+  webhookConfigured: boolean;
+  partnerAckRecorded: boolean;
+  partnerAckId: string | null;
+  ackAt: string | null;
+  stagingContractMode: boolean;
+  lastReceiptAt?: string;
+  journal: Workshop2CeilingJournalEntry[];
+  hintRu?: string;
+};
+
+export type Workshop2PlmManualPartnerAckMirror = {
+  mirroredAt: string;
+  lastActor: string;
+  manualPartnerAckId: string | null;
+  labeledAs: 'manual_ack_id';
+  replayExportReady: boolean;
+  journalRowCount: number;
+  hintRu: string;
+};
+
+export type Workshop2PurchaseOrderErpMirror = {
+  mirroredAt: string;
+  poCount: number;
+  fakeSyncedCount: number;
+  errorCount: number;
+  pendingCount: number;
+  erpConfigured: boolean;
+  erpSyncMode: 'journal_only' | 'live_factory_erp';
+  serverWorkflowEnabled: boolean;
+  blockerSampleOrder: boolean;
+  blockerHandoff: boolean;
+  hintRu?: string;
+  lastCreateErpAttempt?: {
+    at: string;
+    outcome: 'success' | 'failed' | 'journal_only' | 'skipped';
+    erpExternalId?: string | null;
+    error?: string;
+  };
+};
+
+export type Workshop2CadVaultLinkMirror = {
+  mirroredAt: string;
+  vaultCadCount: number;
+  vaultMeasureCount: number;
+  vaultReady: boolean;
+  proprietaryDemoOnly: boolean;
+  cadIngestPath: 'vault_cad_ingest' | 'demo_zprj' | 'none';
+  serverWorkflowEnabled: boolean;
+  blockerSampleOrder: boolean;
+  blockerHandoff: boolean;
+  hintRu?: string;
+};
+
+export type Workshop2CadPomImportMeta = {
+  lastImportedAt: string;
+  importedCellCount: number;
+  sizeKeys: string[];
+};
+
+export type Workshop2ArticleSkuValidationMirror = {
+  mirroredAt: string;
+  sku: string;
+  available: boolean;
+  source: string;
+  blockerSampleOrder: boolean;
+  blockerHandoff: boolean;
+  hintRu?: string;
+};
+
+export type Workshop2PlanPoBundleSnapshot = {
+  snapshotAt: string;
+  poLineCount: number;
+  totalQty: number;
+  allClosed: boolean;
+  supplierIds: string[];
+  blockerHandoff: boolean;
+  blockerSampleOrder: boolean;
+  hintRu?: string;
+};
+
+export type Workshop2Fit3dReadiness = {
+  validatedAt: string;
+  state: 'blocked' | 'placeholder' | 'vault';
+  cadVersionId?: string;
+  waived?: boolean;
+  viewerEnabled: boolean;
+  hintRu?: string;
+};
+
+export type Workshop2PomTemplateApplyRecord = {
+  id: string;
+  appliedAt: string;
+  categoryLeafId: string;
+  mode: 'replace' | 'merge';
+  templateLabel: string;
+  addedMeasurementCount: number;
+  totalMeasurements: number;
+};
+
+export type Workshop2DppRegistryDraftMirror = {
+  draftedAt: string;
+  mirroredAt: string;
+  lastActor: string;
+  passportId: string;
+  registryId: null;
+  scheme: string;
+  exportReady: boolean;
+  stagingMode: 'none' | 'configured' | 'posted' | 'failed';
+  stagingUrl?: string;
+  stagingHttpStatus?: number;
+  stagingError?: string;
+  partnerAckRecorded: boolean;
+  partnerAckId: string | null;
+  ackAt: string | null;
+  stagingContractMode: boolean;
+  journal: Workshop2CeilingJournalEntry[];
+  hintRu?: string;
+};
+
+export type Workshop2NestingStagingMirror = {
+  mirroredAt: string;
+  lastActor: string;
+  lastSource?: 'external_api' | 'local_heuristic';
+  partnerAckRecorded: boolean;
+  partnerAckId: string | null;
+  ackAt: string | null;
+  stagingContractMode: boolean;
+  journal: Workshop2CeilingJournalEntry[];
+  hintRu?: string;
+};
+
+export type Workshop2ShowroomPublishMode = 'pg_journal' | 'live_webhook';
+
+export type Workshop2ShowroomB2bMirror = {
+  mirroredAt: string;
+  publishMode: Workshop2ShowroomPublishMode;
+  pgPublished: boolean;
+  campaignName?: string;
+  lastPublishAt?: string;
+  publishJournalCount: number;
+  liveWebhookConfigured: boolean;
+  liveWebhookAckSimulated: false;
+  hintRu?: string;
+};
+
+export type Workshop2FactoryErpAuditEntry = {
+  at: string;
+  poId: string;
+  status: string;
+  erpExternalId?: string | null;
+  displayCode: string;
+  event: 'mirror_sync' | 'ui_label';
+};
+
+export type Workshop2FactoryErpAuditMirror = {
+  mirroredAt: string;
+  entries: Workshop2FactoryErpAuditEntry[];
+  blocksFakeSyncedUi: boolean;
+  journalOnly: boolean;
+  hintRu?: string;
+};
+
+export type Workshop2FactoryErpManualAckMirror = {
+  mirroredAt: string;
+  lastActor: string;
+  manualErpOrderId: string | null;
+  source: 'user_manual' | 'po_row';
+  poWithErpIdCount: number;
+  manualEntryCount: number;
+  auditExportReady: boolean;
+  hintRu: string;
+};
+
+export type Workshop2FactoryErpStagingMirror = {
+  mirroredAt: string;
+  lastActor: string;
+  stagingUrl?: string;
+  erpOrderIdAckInPg: boolean;
+  partnerAckRecorded: boolean;
+  partnerAckId: string | null;
+  ackAt: string | null;
+  stagingContractMode: boolean;
+  journal: Workshop2CeilingJournalEntry[];
+  hintRu?: string;
+};
+
+/** Generic PG mirror blob persisted in dossier JSON. */
+export type Workshop2DossierPgMirror = Record<string, unknown>;
+
+export type Workshop2FitCommentPin = {
+  xPct: number;
+  yPct: number;
+  sketchAttachmentId?: string;
+};
+
+export type Workshop2FitCommentLogEntry = {
+  commentId: string;
+  text: string;
+  author: string;
+  at: string;
+  vaultAttachmentId?: string;
+  pin?: Workshop2FitCommentPin;
+  resolved?: boolean;
+  resolvedAt?: string;
+  resolvedBy?: string;
+};
+
+/** Статус заказа образца (PG `workshop2_sample_orders.status`). */
+export type Workshop2SampleOrderStatus =
+  | 'draft'
+  | 'sent'
+  | 'in_progress'
+  | 'received'
+  | 'approved'
+  | 'cancelled';
 
 export type Workshop2ChangeRequest = {
   id: string;
@@ -1092,6 +1710,10 @@ export type Workshop2ChangeRequest = {
   status: Workshop2ChangeRequestStatus;
   requestedBy: string;
   createdAt: string;
+  priority?: 'low' | 'medium' | 'high';
+  targetNode?: string;
+  decidedBy?: string;
+  decidedAt?: string;
 };
 
 export type Workshop2DossierPhase1 = {
@@ -1111,6 +1733,10 @@ export type Workshop2DossierPhase1 = {
   optionalNote?: string;
   updatedAt?: string;
   updatedBy?: string;
+  /** SKU артикула (инвентарь / UAT seed). */
+  sku?: string;
+  /** Лист справочника категории (handbook leafId). */
+  categoryLeafId?: string;
   /** Рабочая аудитория для brand-flow; может жить отдельно от leafId, если handbook snapshot еще не разведен по сегментам. */
   selectedAudienceId?: string;
   /** Модель унисекс (паспорт артикула). Без поля или false = нет. */
@@ -1212,6 +1838,11 @@ export type Workshop2DossierPhase1 = {
    * Ранее хранились в localStorage, теперь в досье.
    */
   deferredAttrIds?: string[];
+  fillNowAttrIds?: string[];
+  pomTemplateSuggested?: Workshop2PomTemplateSuggestion;
+  sewingPlan?: Workshop2SewingPlan;
+  routingSteps?: Workshop2RoutingStep[];
+  routingStepsPersistedAt?: string;
   isVerifiedByDesigner?: boolean;
   isVerifiedByTechnologist?: boolean;
   isVerifiedByManager?: boolean;
@@ -1293,6 +1924,7 @@ export type Workshop2DossierPhase1 = {
   sampleIntakeRelease?: Workshop2SampleIntakeRelease;
 
   gradingRules?: Workshop2GradingRow[];
+  gradingApplyLog?: Workshop2GradingApplyRecord[];
   gradingSizes?: string[];
   /** Сохранённая цепочка операций из блока «Умная маршрутизация» (конструктив). */
   smartRoutingSequence?: Workshop2SmartRoutingOperation[];
@@ -1302,18 +1934,30 @@ export type Workshop2DossierPhase1 = {
    * Не смешивается с % готовности паспорта «Общее»; условия поставки из ТЗ — только ссылка/заметка, без дубля Incoterms.
    */
   sampleEconomicsDraft?: Workshop2SampleEconomicsDraft;
+  pomTemplateApplyLog?: Workshop2PomTemplateApplyRecord[];
+  articleSkuValidationMirror?: Workshop2ArticleSkuValidationMirror;
+  planPoBundleSnapshot?: Workshop2PlanPoBundleSnapshot;
+  fit3dReadiness?: Workshop2Fit3dReadiness;
+  dppExportValidation?: Workshop2DppExportValidation;
+  overviewPersistedSnapshot?: Workshop2OverviewPersistedSnapshot;
+  supplyRiskSnapshot?: Workshop2SupplyRiskPersistedSnapshot;
+  supplyRiskMirror?: Workshop2SupplyRiskMirror;
 
   /**
    * Бирка состава / care label: габариты, материал бирки и что тянуть из ТЗ vs вручную для финального текста.
    * Основной ввод — вкладка «Материалы»; при передаче в цех согласовать с блоком «Отправка».
    */
   compositionLabelSpec?: Workshop2CompositionLabelSpec;
+  /** Выбранные construction note presets для factory pack sketch sheets. */
+  techPackConstructionNotePresetIds?: string[];
   /** Производственная карта изделия: узлы, материалы, операции, мерки, контроль. */
   productionModel?: Workshop2ProductionModel;
   /** Снимок последнего производственного pre-flight. */
   productionPreflightLastSnapshot?: Workshop2ProductionPreflightSnapshot;
   /** Последняя сборка итогового производственного ТЗ. */
   productionTzLastExport?: Workshop2ProductionTzExportMeta;
+  /** Последний factory pack export (6 листов). */
+  factoryPackLastExport?: Workshop2FactoryPackExportMeta;
 
   /** Альтернативы материала / узла BOM (персистентно в досье до API). */
   materialAlternativeDrafts?: Workshop2MaterialAlternativeDraft[];
@@ -1347,9 +1991,18 @@ export type Workshop2DossierPhase1 = {
 
   /** Time & Action Calendar: этапы производства после выбора подрядчика. */
   taMilestones?: Workshop2TaMilestone[];
+  taMilestonesPersistedAt?: string;
+  taMilestonesPersistSource?: 'dossier_refresh' | 'workspace_bundle';
+  taMilestonesMirror?: Workshop2DossierPgMirror;
+  matchmakerResult?: Workshop2MatchmakerPersistedResult;
+
+  /** Gold sample approval state (fit / floor bridge). */
+  goldSampleStatus?: Workshop2GoldSampleStatus;
 
   /** Производственная стратегия */
   productionStrategy?: 'fpp' | 'cmt' | 'hybrid' | 'blank_customization';
+  /** Wave 22: маршрут собран из DEMO-шаблона (gate в production). */
+  smartRoutingFromDemo?: boolean;
   /** Настройки B2B-интеграции (оптовые продажи и предзаказ) */
   b2bIntegrationDraft?: {
     isLive?: boolean;
@@ -1358,6 +2011,15 @@ export type Workshop2DossierPhase1 = {
     moq?: string;
     startDate?: string;
     endDate?: string;
+    lastSyncAt?: string;
+    campaignId?: string;
+    lastMarketplaceOrderId?: string;
+    lastMarketplaceProvider?: string;
+    qtyBreaks?: Array<{ minQty: number; priceRub: number }>;
+    linesheetVersion?: number;
+    linesheetSupersedesId?: string;
+    buyerSampleRequested?: boolean;
+    buyerSampleRequestedAt?: string;
   };
 
   /** Единое хранилище (Vault) для документов */
@@ -1367,7 +2029,130 @@ export type Workshop2DossierPhase1 = {
     title: string;
     fileUrl?: string;
     amount?: number;
+    uploadedAt?: string;
+    storagePath?: string;
   }[];
+
+  /** PG / hub mirrors and extension fields (persisted in dossier JSON). */
+  hubOnboardingState?: Workshop2HubOnboardingState;
+  cutTickets?: Workshop2CutTicket[];
+  fabricRolls?: Workshop2FabricRoll[];
+  garmentDyeOps?: Workshop2GarmentDyeOp[];
+  hubPgOverlayAt?: string;
+  hubPgOverlayMeta?: Workshop2DossierPgMirror;
+  vaultSnapshotVersion?: number;
+  vaultSnapshotAt?: string;
+  vaultSnapshotBy?: string;
+  bomCostingSnapshot?: Workshop2BomCostingSnapshot;
+  /** Краткая заметка о плане пошива (паспорт / identity gate). */
+  passportSewingPlanNote?: string;
+  /** Снимок SKU для release strip (PG mirror fallback). */
+  articleSkuSnapshot?: string;
+  /** Зеркало B2B showroom publish (linesheet gate). */
+  showroomPublishMirror?: Workshop2DossierPgMirror;
+  bomMatSyncAt?: string;
+  dossierLayoutPreference?: 'full' | 'dense';
+  dossierLayoutPersistedAt?: string;
+  categoryBindings?: Workshop2CategoryBinding[];
+  articleFormMirror?: Workshop2ArticleFormMirror;
+  finalTzDocumentExportMeta?: Workshop2FinalTzDocumentExportMeta;
+  edoSignoffMirror?: Workshop2EdoSignoffMirror;
+  markingHonestSignMirror?: Workshop2MarkingHonestSignMirror;
+  sampleWorkflow?: Workshop2SampleWorkflowState;
+  dppRegistryDraftMirror?: Workshop2DppRegistryDraftMirror;
+  factoryErpSync?: Workshop2DossierPgMirror;
+  factoryErpStagingMirror?: Workshop2FactoryErpStagingMirror;
+  factoryErpAuditMirror?: Workshop2FactoryErpAuditMirror;
+  factoryErpManualAckMirror?: Workshop2FactoryErpManualAckMirror;
+  fitComments?: Workshop2FitCommentLogEntry[];
+  fitCommentsMirror?: Workshop2DossierPgMirror;
+  fit3dStagingMirror?: Workshop2DossierPgMirror;
+  articleDevelopmentStateMirror?: Workshop2ArticleDevelopmentStateMirror;
+  assemblyPreviewMirror?: Workshop2DossierPgMirror;
+  assignmentSignoffMirror?: Workshop2DossierPgMirror;
+  backendHealthMirror?: Workshop2DossierPgMirror;
+  bomNodesMirror?: Workshop2DossierPgMirror;
+  categoryMergeMirror?: Workshop2DossierPgMirror;
+  changeRequestMirror?: Workshop2DossierPgMirror;
+  documentsIndexMirror?: Workshop2DossierPgMirror;
+  dossierLayoutMirror?: Workshop2DossierPgMirror;
+  factoryHandoffBundleMirror?: Workshop2DossierPgMirror;
+  fitSessions?: Array<{ id?: string; cadVersionId?: string }>;
+  fitSessionsMirror?: Workshop2DossierPgMirror;
+  floorBridgeMirror?: Workshop2DossierPgMirror;
+  gradingApplyMirror?: Workshop2DossierPgMirror;
+  handoffPdfMirror?: Workshop2DossierPgMirror;
+  hubActivityMirror?: Workshop2DossierPgMirror;
+  hubCollectionRollupMirror?: Workshop2DossierPgMirror;
+  hubFilterMirror?: Workshop2DossierPgMirror;
+  hubInventoryMirror?: Workshop2DossierPgMirror;
+  hubOnboardingMirror?: Workshop2DossierPgMirror;
+  infopickMatrixMirror?: Workshop2DossierPgMirror;
+  inspectorReportMirror?: Workshop2DossierPgMirror;
+  labDipMirror?: Workshop2DossierPgMirror;
+  /** Lab dip status keyed by colorway palette code. */
+  colorLabDipStatuses?: Record<string, 'pending' | 'approved' | 'rejected'>;
+  colorLabDipSyncedAt?: string;
+  colorMasterLabDipMirror?: {
+    syncedAt: string;
+    source: 'runtime' | 'static';
+    linkCount: number;
+    pendingCount: number;
+    links: Array<{
+      colorwayLabel: string;
+      colorCode: string | null;
+      hex: string | null;
+      labDipStatus: 'pending' | 'approved' | 'rejected' | 'missing';
+      linked: boolean;
+    }>;
+  };
+  logisticsShipmentMirror?: Workshop2DossierPgMirror;
+  matchmakerMirror?: Workshop2DossierPgMirror;
+  nestingStagingMirror?: Workshop2NestingStagingMirror;
+  /** Снимок параметров раскладки на заказе образца (wave 18). */
+  nestingRequestSnapshot?: Workshop2NestingRequest;
+  nestingSnapshotPersistedAt?: string;
+  operationalTzMirror?: Workshop2DossierPgMirror;
+  overviewMirror?: Workshop2DossierPgMirror;
+  planTaMirror?: Workshop2DossierPgMirror;
+  plmOutboxAudit?: Workshop2PlmOutboxAudit;
+  plmOutboxMirror?: Workshop2DossierPgMirror;
+  plmTransportJournalMirror?: Workshop2PlmTransportJournalMirror;
+  plmManualPartnerAckMirror?: Workshop2PlmManualPartnerAckMirror;
+  pomTableMirror?: Workshop2DossierPgMirror;
+  purchaseOrderErpMirror?: Workshop2PurchaseOrderErpMirror;
+  qcAqlMirror?: Workshop2DossierPgMirror;
+  qcAqlInspectionLog?: Workshop2QcAqlInspectionRecord[];
+  qcPanelMirror?: Workshop2DossierPgMirror;
+  readinessPulseMirror?: Workshop2DossierPgMirror;
+  referencesMirror?: Workshop2DossierPgMirror;
+  relatedSectionsMirror?: Workshop2DossierPgMirror;
+  releaseRoutingMirror?: Workshop2DossierPgMirror;
+  rndLifecycleMirror?: Workshop2DossierPgMirror;
+  setupHealthMirror?: Workshop2DossierPgMirror;
+  signoffStagesProgressMirror?: Workshop2DossierPgMirror;
+  sketchCoverageMirror?: Workshop2DossierPgMirror;
+  smartRoutingMirror?: Workshop2DossierPgMirror;
+  sseRealtimeMirror?: Workshop2DossierPgMirror;
+  supplierQcSnapshot?: Workshop2SupplierQcSnapshot;
+  supplyBundleMirror?: Workshop2SupplyBundleMirror;
+  showroomB2bMirror?: Workshop2ShowroomB2bMirror;
+  sustainabilityLcaSnapshot?: Workshop2SustainabilityLcaSnapshot;
+  sustainabilityCarbonRollupMirror?: Workshop2SustainabilityCarbonRollupMirror;
+  vaultPanelMirror?: Workshop2VaultPanelMirror;
+  supplyOpsMirror?: Workshop2DossierPgMirror;
+  sustainabilityStagingMirror?: Workshop2DossierPgMirror;
+  techPackVisualMirror?: Workshop2DossierPgMirror;
+  cadVaultLinkMirror?: Workshop2CadVaultLinkMirror;
+  cadPomImport?: Workshop2CadPomImportMeta;
+  vendorBidsMirror?: Workshop2DossierPgMirror;
+  visualReferencesMirror?: Workshop2DossierPgMirror;
+  internalWmsMirror?: Workshop2InternalWmsMirror;
+  stockWmsLedger?: Workshop2DossierPgMirror;
+  bomRequisitionByLineRef?: Record<
+    string,
+    { id?: string; materialLabel?: string; [key: string]: unknown }
+  >;
 };
 
 export type Workshop2DossierSignoffMeta = {
@@ -1452,6 +2237,17 @@ export type Workshop2TzActionLogPayload =
       format: 'html' | 'pdf';
       dossierUpdatedAtSnapshot: string;
       pathLabel?: string;
+    }
+  /** Factory pack · 6 листов ole_globirds (browser или PG snapshot). */
+  | {
+      type: 'factory_pack_export';
+      format: 'html' | 'pdf' | 'server_snapshot';
+      snapshotId?: string;
+      sheetsReady: number;
+      sheetsTotal: number;
+      qtyBridged: boolean;
+      releaseGateReady: boolean;
+      dossierUpdatedAtSnapshot: string;
     };
 
 export type Workshop2TzActionLogEntry = {

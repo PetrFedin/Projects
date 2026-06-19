@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
@@ -205,6 +206,18 @@ export function BrandTabs({
         >
           Сотрудничество
         </TabsTrigger>
+        {brand?.slug ? (
+          <Link
+            href={`/b/${brand.slug}/runway`}
+            data-testid="brand-runway-presentation-link"
+            className={cn(
+              cabinetSurface.tabsTrigger,
+              'ml-auto inline-flex h-9 items-center px-4 text-[11px] font-black tracking-wider'
+            )}
+          >
+            Презентация товаров
+          </Link>
+        ) : null}
       </TabsList>
 
       <AboutTab

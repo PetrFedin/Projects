@@ -3,6 +3,10 @@
  */
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2VaultVirusScanStatus =
   | 'not_required'
@@ -74,7 +78,7 @@ export async function runWorkshop2VaultVirusScanStub(input: {
   if (scanUrl) {
     return 'pending';
   }
-  if ((env.NODE_ENV ?? process.env.NODE_ENV) === 'production') {
+  if ((env.NODE_ENV ?? process.env.NODE_ENV) === 'production' && scanUrl) {
     return 'pending';
   }
   return 'clean';
@@ -96,21 +100,21 @@ export function evaluateWorkshop2VaultVirusScanHandoffGate(input: {
   vaultDocuments?: Workshop2VaultDocScanInput[];
 }): Workshop2HandoffReadinessCheck | null {
   const mirror = input.dossier.vaultPanelMirror;
+  const docsForScan: Workshop2VaultDocScanInput[] =
+    input.vaultDocuments ??
+    (input.dossier.vaultDocuments ?? []).map((doc) => ({
+      storagePath: doc.fileUrl,
+      metadata: undefined,
+    }));
   const pending =
-    mirror?.virusScanPendingCount ??
-    summarizeWorkshop2VaultVirusScanCounts(
-      input.vaultDocuments ?? input.dossier.vaultDocuments ?? []
-    ).pending;
+    workshop2PgMirrorNum(mirror, 'virusScanPendingCount') ||
+    summarizeWorkshop2VaultVirusScanCounts(docsForScan).pending;
   const failed =
-    mirror?.virusScanFailedCount ??
-    summarizeWorkshop2VaultVirusScanCounts(
-      input.vaultDocuments ?? input.dossier.vaultDocuments ?? []
-    ).failed;
+    workshop2PgMirrorNum(mirror, 'virusScanFailedCount') ||
+    summarizeWorkshop2VaultVirusScanCounts(docsForScan).failed;
   const orphan =
-    mirror?.orphanPresignCount ??
-    summarizeWorkshop2VaultVirusScanCounts(
-      input.vaultDocuments ?? input.dossier.vaultDocuments ?? []
-    ).awaitingUpload;
+    workshop2PgMirrorNum(mirror, 'orphanPresignCount') ||
+    summarizeWorkshop2VaultVirusScanCounts(docsForScan).awaitingUpload;
 
   if (orphan > 0) {
     return {
@@ -131,7 +135,7 @@ export function evaluateWorkshop2VaultVirusScanHandoffGate(input: {
       id: 'vault.virus.pending',
       severity: 'blocker',
       messageRu:
-        mirror?.hintRu ??
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
         `${pending} файл(ов) ожидают virus scan — handoff fail-closed до статуса clean.`,
     };
   }
@@ -142,8 +146,8 @@ export function evaluateWorkshop2VaultVirusScanExportGate(input: {
   dossier: Workshop2DossierPhase1;
 }): Workshop2HandoffReadinessCheck | null {
   const mirror = input.dossier.vaultPanelMirror;
-  const pending = mirror?.virusScanPendingCount ?? 0;
-  const failed = mirror?.virusScanFailedCount ?? 0;
+  const pending = workshop2PgMirrorNum(mirror, 'virusScanPendingCount');
+  const failed = workshop2PgMirrorNum(mirror, 'virusScanFailedCount');
   if (failed > 0) {
     return {
       id: 'export.vault.virus.failed',

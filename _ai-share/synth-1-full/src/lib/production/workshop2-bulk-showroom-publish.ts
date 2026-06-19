@@ -3,11 +3,14 @@
  */
 import { evaluateWorkshop2ShowroomPublishGate } from '@/lib/production/workshop2-showroom-publish-gate';
 import { evaluateWorkshop2SampleOrderGate } from '@/lib/production/workshop2-sample-order-gate';
+import { isWorkshop2FileStoreDemoArticle } from '@/lib/production/workshop2-file-store-demo-bootstrap';
 import { isWorkshop2Ss27UatDemoSeedDossier } from '@/lib/production/workshop2-ss27-uat-demo-seed';
+import { countWorkshop2VaultDocumentsForRelatedStrip } from '@/lib/production/workshop2-related-vault-enrichment';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 
 export type Workshop2BulkShowroomPublishArticleInput = {
   articleId: string;
+  collectionId?: string;
   dossier: Workshop2DossierPhase1 | null;
   publish?: {
     published?: boolean;
@@ -63,10 +66,19 @@ export function evaluateWorkshop2BulkShowroomPublishForArticle(
   const reasons = blockers.map((c) => c.messageRu);
 
   let devGateAllowed = true;
-  if (!isWorkshop2Ss27UatDemoSeedDossier(input.dossier)) {
+  const skipDevGate =
+    isWorkshop2Ss27UatDemoSeedDossier(input.dossier) ||
+    (input.collectionId
+      ? isWorkshop2FileStoreDemoArticle(input.collectionId, {
+          id: input.articleId,
+          sku: input.dossier.sku,
+        })
+      : false);
+  if (!skipDevGate) {
     const devGate = evaluateWorkshop2SampleOrderGate({
       dossier: input.dossier,
       categoryLeafId: 'catalog-apparel-g0-l0',
+      vaultFileCount: countWorkshop2VaultDocumentsForRelatedStrip(input.dossier),
     });
     devGateAllowed = devGate.allowed;
     if (!devGate.allowed) {

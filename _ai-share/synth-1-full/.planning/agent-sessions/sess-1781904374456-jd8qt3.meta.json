@@ -1,0 +1,14 @@
+{
+  "sessionId": "sess-1781904374456-jd8qt3",
+  "taskId": "scan-dev-auth-bulk-handoff",
+  "taskTitle": "[Бренд] bulk-confirm-production-handoff POST без auth guard",
+  "status": "done",
+  "startedAt": "2026-06-19T21:26:14.457Z",
+  "pid": 74298,
+  "repoRoot": "/Users/petr/Projects",
+  "taskPromptFile": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/agent-sessions/sess-1781904374456-jd8qt3.prompt.txt",
+  "updatedAt": "2026-06-19T21:27:47.102Z",
+  "cursorAgentId": "agent-e9a9e674-ee96-472d-89c2-192726170feb",
+  "runId": "run-b6abc67b-abc8-43fd-a79d-a4c4b3cee1a3",
+  "runStatus": "finished"
+}

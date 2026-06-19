@@ -148,6 +148,7 @@ export function ProductScrollSwitcherFeatured({ products }: ProductScrollSwitche
               compact
               deferMedia
               isMediaVisible={isVisible}
+              onAddToCart={() => {}}
             />
           </div>
         )}

@@ -1,0 +1,67 @@
+---
+description: GSAP 3.12.7 — timelines, reduced-motion, performance for Product Switcher
+globs: ["scripts/logo-animation.js", "scripts/**/*.js", "index.html"]
+alwaysApply: false
+---
+
+# GSAP animation conventions
+
+Project uses **GSAP 3.12.7** from CDN (`gsap.min.js` only — no ScrollTrigger in current scope).
+
+Official plugin skills available in Cursor: `gsap-core`, `gsap-timeline`, `gsap-performance`, `gsap-scrolltrigger`, `gsap-plugins`. Prefer those when reviewing or extending animations.
+
+## Current animation: logo hook (`playLogoHookAnimation`)
+
+- Store timeline in `logoTimeline`; **kill before replay**: `logoTimeline.kill()`.
+- Use `gsap.timeline({ defaults: { ease: 'power2.out' } })` for shared defaults.
+- Sequence with **labels**: `.addLabel('hook-catch', 0.45)` then relative positions `'hook-catch+=0.02'`.
+- **transformOrigin** required for hook rotation, mark scale, bar `scaleX`.
+- Prefer transform aliases: `x`, `y`, `scale`, `scaleX`, `rotation`, `opacity`, `autoAlpha` — not raw `transform` strings.
+- SVG filter glow: animate `glowGroup` opacity, not filter URL at runtime.
+
+## Reduced motion (mandatory)
+
+```javascript
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduceMotion) {
+  gsap.set([...targets], { clearProps: 'all' });
+  gsap.set([...targets], { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0 });
+  return; // skip timeline
+}
+```
+
+Also mirror in CSS where applicable (e.g. tagline visible without animation).
+
+## Performance
+
+- Animate **transform + opacity** only; avoid layout properties (`width`, `height`, `top`, `left`) in GSAP tweens.
+- CSS transitions on `.switcher__inner` (22px ↔ 32px) are acceptable — thumb size is not GSAP-driven.
+- Video scrubbing uses RAF + `video.currentTime` — do not add GSAP tickers for the same property.
+- Reuse one timeline instance; avoid creating tweens every frame.
+- Guard: `if (typeof gsap === 'undefined') return;` before any GSAP call.
+
+## Easing patterns in this project
+
+| Element | Ease |
+|---------|------|
+| Hook swing | `back.out(2.4)` → `elastic.out(1, 0.55)` |
+| Mark | `elastic.out(1.15, 0.45)` |
+| Bar scaleX | `elastic.out(1, 0.42)` |
+| Accent pulse | `sine.inOut` yoyo |
+| Tagline fade | `power1.out` |
+
+## Adding new animations
+
+1. Check `prefers-reduced-motion` first.
+2. Use timeline for multi-step; single `gsap.to()` for isolated effects.
+3. Scope selectors to `#brandLogo` or injected DOM — no global `.to('*')`.
+4. On unmount/navigation (if split to modules): `timeline.kill()` and `gsap.killTweensOf(targets)`.
+5. For scroll-linked effects later: add ScrollTrigger plugin explicitly — not bundled in current CDN script.
+
+## Review checklist (for gsap-reviewer agent)
+
+- [ ] Timeline killed on replay / re-init
+- [ ] reduced-motion branch sets final state
+- [ ] transformOrigin set where rotation/scale used
+- [ ] No layout-thrashing properties animated
+- [ ] CDN version pinned; no duplicate GSAP loads

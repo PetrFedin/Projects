@@ -3,6 +3,7 @@
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 const MATCHMAKER_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 
@@ -60,12 +61,16 @@ export function evaluateWorkshop2MatchmakerMirrorSampleGate(
       messageRu: 'Matchmaker не в PG — сохраните подбор и «Matchmaker → PG» на снабжении.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  if (
+    mirror.blockerSampleOrder === true ||
+    workshop2PgMirrorStr(mirror, 'blockerSampleOrder') === 'true'
+  ) {
     return {
       id: 'matchmaker.result.missing',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ?? 'Нет рекомендованного подрядчика — запустите matchmaker перед образцом.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Нет рекомендованного подрядчика — запустите matchmaker перед образцом.',
     };
   }
   return null;
@@ -76,11 +81,17 @@ export function evaluateWorkshop2MatchmakerMirrorHandoffGate(
 ): Workshop2HandoffReadinessCheck | null {
   const mirror = dossier.matchmakerMirror;
   if (!mirror) return null;
-  if (!mirror.blockerHandoff) return null;
-  return {
-    id: 'matchmaker.mirror_stale_or_low',
-    severity: 'warning',
-    messageRu:
-      mirror.hintRu ?? 'Matchmaker в PG устарел или с низкой уверенностью — обновите перед commit.',
-  };
+  if (
+    mirror.blockerHandoff === true ||
+    workshop2PgMirrorStr(mirror, 'blockerHandoff') === 'true'
+  ) {
+    return {
+      id: 'matchmaker.mirror_stale_or_low',
+      severity: 'warning',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Matchmaker в PG устарел или с низкой уверенностью — обновите перед commit.',
+    };
+  }
+  return null;
 }

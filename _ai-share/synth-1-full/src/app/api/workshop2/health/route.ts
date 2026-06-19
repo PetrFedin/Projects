@@ -6,6 +6,7 @@ import { isWorkshop2VaultS3Configured } from '@/lib/server/workshop2-vault-s3';
 import { workshop2DevBypassAuthEnabled } from '@/lib/server/workshop2-api-auth';
 import { getWorkshop2GenkitApiKeyStatus } from '@/lib/server/workshop2-genkit-health';
 import { isWorkshop2InternalWmsEnabled } from '@/lib/production/workshop2-internal-wms';
+import { shouldPlatformCorePersistAuxiliaryToFile } from '@/lib/server/platform-core-pg-primary-file-policy';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,11 +25,17 @@ export async function GET() {
   const genkit = getWorkshop2GenkitApiKeyStatus();
   const internalWms = isWorkshop2InternalWmsEnabled();
   const ok = postgres !== 'down';
+  const calendarTasksStore =
+    postgres === 'ok' ? 'postgres' : shouldPlatformCorePersistAuxiliaryToFile() ? 'file' : 'memory';
   return NextResponse.json(
     {
       ok,
       storeMode: getWorkshop2ServerDossierStoreMode(),
       postgres,
+      auxiliaryStores: {
+        calendarTasks: calendarTasksStore,
+        brandKanban: postgres === 'ok' ? 'postgres' : 'unavailable',
+      },
       internalWms: internalWms ? 'enabled' : 'disabled',
       redis: isWorkshop2RedisConfigured() ? 'configured' : 'off',
       vaultS3: isWorkshop2VaultS3Configured() ? 'configured' : 'off',

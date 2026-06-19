@@ -32,6 +32,17 @@ export function resolveKioskMode(input: KioskModeInput): boolean {
   return Boolean(input.enableKioskMode);
 }
 
+/** ?autoadvance=30 → интервал kiosk auto-tour в мс (секунды в URL). */
+export function parseKioskAutoadvanceMs(
+  autoadvanceParam: string | null | undefined,
+  fallbackMs: number
+): number {
+  if (!autoadvanceParam?.trim()) return fallbackMs;
+  const seconds = Number(autoadvanceParam);
+  if (!Number.isFinite(seconds) || seconds <= 0) return fallbackMs;
+  return Math.round(seconds * 1000);
+}
+
 /** Нормализует compare-индексы под количество секций. */
 export function clampCompareIndices(
   pair: [number, number],

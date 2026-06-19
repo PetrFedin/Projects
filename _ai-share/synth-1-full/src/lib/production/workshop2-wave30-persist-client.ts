@@ -40,7 +40,7 @@ export async function putWorkshop2Wave30DossierPatch(input: {
     articleId: input.articleId,
     dossier: stamped,
   });
-  const persistedAt = stamped.updatedAt;
+  const persistedAt = stamped.updatedAt ?? new Date().toISOString();
   auditWorkshop2Wave30Persist({
     collectionId: input.collectionId,
     articleId: input.articleId,

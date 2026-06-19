@@ -4,6 +4,11 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import {
+  getFactoryCoreManufacturerSections,
+  getFactoryCoreSupplierSections,
+} from '@/lib/platform-core-nav-augment';
 
 const manufacturerSections = [
   {
@@ -46,7 +51,14 @@ const supplierSections = [
 export default function FactoryHubPage() {
   const searchParams = useSearchParams();
   const isSupplier = searchParams?.get('role') === 'supplier';
-  const sections = isSupplier ? supplierSections : manufacturerSections;
+  const coreMode = isPlatformCoreMode();
+  const sections = coreMode
+    ? isSupplier
+      ? getFactoryCoreSupplierSections()
+      : getFactoryCoreManufacturerSections()
+    : isSupplier
+      ? supplierSections
+      : manufacturerSections;
 
   return (
     <div className="space-y-6">
@@ -55,12 +67,16 @@ export default function FactoryHubPage() {
           Обзор
         </h2>
         <p className="text-sm text-slate-700">
-          {isSupplier ? 'Поставки материалов для брендов. ' : 'Производство и цепочка поставок. '}
-          Используйте навигацию слева для перехода в разделы.
+          {coreMode
+            ? 'Golden path SS27/FW27 — цех, досье и связь без legacy PLM.'
+            : isSupplier
+              ? 'Поставки материалов для брендов. '
+              : 'Производство и цепочка поставок. '}
+          {!coreMode ? 'Используйте навигацию слева для перехода в разделы.' : null}
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className={`grid gap-6 ${coreMode ? 'md:grid-cols-2' : 'md:grid-cols-2'}`}>
         {sections.map((section) => (
           <div
             key={section.title}

@@ -2,6 +2,7 @@
  * Wave 9–10 RU: ТТН / УПД — JSON шаблон; PDF в workshop2-rf-logistics-pdf.ts (без fake ФНС ACK).
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2RfLogisticsDocKind = 'ttn' | 'upd';
 
@@ -29,7 +30,8 @@ export function buildWorkshop2RfLogisticsDocTemplate(input: {
   vatRatePct?: number;
 }): Workshop2RfLogisticsDocTemplate {
   const vat = input.vatRatePct ?? 20;
-  const linkedMovementId = input.dossier.logisticsShipmentMirror?.currentStep?.trim() || null;
+  const linkedMovementId =
+    workshop2PgMirrorStr(input.dossier.logisticsShipmentMirror, 'currentStep') || null;
 
   const matAssignments = (input.dossier.assignments ?? []).filter(
     (a) => a.attributeId === 'mat' || a.values.some((v) => v.displayLabel)

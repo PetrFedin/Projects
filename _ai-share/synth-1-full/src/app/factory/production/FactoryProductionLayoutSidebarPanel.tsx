@@ -5,16 +5,20 @@
  */
 import { useMemo } from 'react';
 import { HubSidebarLazy } from '@/components/hub/HubSidebarLazy';
+import { isFactoryNavInvestorSpineEnabled } from '@/lib/cabinet-nav-env';
 import {
-  applyFactoryManufacturerInvestorSpineClusterOverrides,
-  isFactoryNavInvestorSpineEnabled,
-} from '@/lib/cabinet-nav-env';
+  applyFactoryNavPipeline,
+  FACTORY_MFR_CORE_PILLARS_NAV_ORDER,
+  filterNavGroupsForCoreSidebar,
+  resolveSidebarClustersForCore,
+  shouldHideNavArchiveCluster,
+} from '@/lib/cabinet-core-mode';
+import { augmentManufacturerNavForCoreCabinet } from '@/lib/platform-core-nav-augment';
 import { manufacturerNavGroups } from '@/lib/data/factory-navigation';
 import {
   FACTORY_MFR_ARCHIVE_GROUP_ORDER,
   FACTORY_MFR_CORE_GROUP_ORDER,
   FACTORY_MFR_INVESTOR_SPINE_CORE_GROUP_ORDER,
-  SYNTHA_SIDEBAR_CLUSTERS,
 } from '@/lib/data/syntha-nav-clusters';
 import { ROUTES } from '@/lib/routes';
 
@@ -26,12 +30,20 @@ export function FactoryProductionLayoutSidebarPanel({
   onNavigate,
 }: FactoryProductionLayoutSidebarPanelProps) {
   const groups = useMemo(
-    () => applyFactoryManufacturerInvestorSpineClusterOverrides(manufacturerNavGroups),
+    () =>
+      filterNavGroupsForCoreSidebar(
+        augmentManufacturerNavForCoreCabinet(
+          applyFactoryNavPipeline(manufacturerNavGroups, 'manufacturer')
+        )
+      ),
     []
   );
-  const coreGroupOrder = isFactoryNavInvestorSpineEnabled()
-    ? FACTORY_MFR_INVESTOR_SPINE_CORE_GROUP_ORDER
-    : FACTORY_MFR_CORE_GROUP_ORDER;
+  const visibleClusters = resolveSidebarClustersForCore();
+  const coreGroupOrder = shouldHideNavArchiveCluster()
+    ? FACTORY_MFR_CORE_PILLARS_NAV_ORDER
+    : isFactoryNavInvestorSpineEnabled()
+      ? FACTORY_MFR_INVESTOR_SPINE_CORE_GROUP_ORDER
+      : FACTORY_MFR_CORE_GROUP_ORDER;
 
   return (
     <HubSidebarLazy
@@ -41,7 +53,7 @@ export function FactoryProductionLayoutSidebarPanel({
       accentClass="text-emerald-600"
       activeBgClass="bg-emerald-600"
       onNavigate={onNavigate}
-      sidebarClusters={SYNTHA_SIDEBAR_CLUSTERS}
+      sidebarClusters={visibleClusters}
       coreGroupOrder={coreGroupOrder}
       archiveGroupOrder={FACTORY_MFR_ARCHIVE_GROUP_ORDER}
     />

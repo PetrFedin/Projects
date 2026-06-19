@@ -1,5 +1,17 @@
 import { readSewingPatternIntentV1 } from '@/lib/pattern-drafting/sewing-pattern-leaf-storage';
+import type { SewingPatternIntentV1 } from '@/lib/pattern-drafting/sewing-pattern-leaf-storage';
 import type { OrderSewingIntentSnapshot } from '@/lib/types';
+
+function sewingIntentMeasuresAsNumbers(
+  measures: SewingPatternIntentV1['measures']
+): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const [key, raw] of Object.entries(measures)) {
+    const n = Number.parseFloat(String(raw).replace(',', '.'));
+    if (Number.isFinite(n)) out[key] = n;
+  }
+  return out;
+}
 
 /**
  * Снимок категории+мерок из localStorage для передачи в `createOrder` (мок-репозиторий, далее OMS/CRM).
@@ -13,6 +25,6 @@ export function getSewingIntentForOrder(): OrderSewingIntentSnapshot | null {
     clientSewingIntentHandbookLeafId: i.handbookLeafId,
     clientSewingIntentPathLabel: i.pathLabel,
     clientSewingIntentSnapshotAt: i.updatedAt,
-    clientSewingIntentMeasures: { ...i.measures },
+    clientSewingIntentMeasures: sewingIntentMeasuresAsNumbers(i.measures),
   };
 }

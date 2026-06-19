@@ -7,7 +7,10 @@ jest.mock('@/lib/server/workshop2-dossier-repository', () => ({
 }));
 
 import { evaluateWorkshop2HandoffReadiness } from '@/lib/production/workshop2-handoff-readiness';
-import { mergeWorkshop2DossierWithServerWinsPolicy } from '@/lib/production/workshop2-dossier-version-merge-policy';
+import {
+  mergeWorkshop2DossierWithServerWinsPolicy,
+  preserveWorkshop2ServerWinsFieldsOnDossierPut,
+} from '@/lib/production/workshop2-dossier-version-merge-policy';
 import { getWorkshop2VaultS3ProdBanner } from '@/lib/production/workshop2-vault-prod-banner';
 import { isWorkshop2SmartRoutingDemoAllowed } from '@/lib/production/workshop2-smart-routing-demo';
 import { readWorkshop2PomOnCreatePolicyDefault } from '@/lib/production/workshop2-pom-create-policy';
@@ -83,6 +86,30 @@ describe('workshop2 critical path to sample (8.x → 9.0)', () => {
     const merged = mergeWorkshop2DossierWithServerWinsPolicy(server, local);
     expect(merged.goldSampleStatus).toBe('approved');
     expect(merged.lifecycleState).toBe('handoff_ready');
+  });
+
+  it('PUT preserve keeps productionModel when client omits BOM', () => {
+    const prior = {
+      ...emptyWorkshop2DossierPhase1(),
+      productionModel: {
+        nodes: [{ id: 'n-body', label: 'Корпус' }],
+        materialLines: [
+          { id: 'm-wool', nodeId: 'n-body', materialName: 'Шерсть 90%', yieldPerUnit: 2.1 },
+        ],
+        trimLines: [],
+      },
+      tzSignatoryBindings: { designerDisplayLabel: 'Сервер' },
+    };
+    const incoming = {
+      ...emptyWorkshop2DossierPhase1(),
+      brandNotes: 'e2e-ui-marker',
+      lifecycleState: 'in_progress' as const,
+    };
+    const preserved = preserveWorkshop2ServerWinsFieldsOnDossierPut(prior, incoming);
+    expect(preserved.productionModel?.materialLines).toHaveLength(1);
+    expect(preserved.tzSignatoryBindings?.designerDisplayLabel).toBe('Сервер');
+    expect(preserved.lifecycleState).toBe('in_progress');
+    expect(preserved.brandNotes).toBe('e2e-ui-marker');
   });
 
   it('vault S3 prod banner when not configured', () => {

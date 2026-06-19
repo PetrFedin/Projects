@@ -1263,9 +1263,18 @@ export const PRODUCTION_PARAMS_BY_CATEGORY: CategoryProductionParams[] = [
   },
 ];
 
-/** Получить параметры производства по catLevel1Id (L1) */
+/** Legacy-алиасы catL1Id для CSV/import (women-apparel → shoulder). Wave 41. */
+const PRODUCTION_PARAMS_CAT_L1_ALIASES: Record<string, string> = {
+  'women-apparel': 'women-apparel-shoulder',
+  'men-apparel': 'men-apparel-shoulder',
+  'kids-apparel': 'kids-apparel-shoulder',
+  'unisex-apparel': 'unisex-apparel-shoulder',
+};
+
+/** Получить параметры производства по catLevel1Id (L1) с legacy-алиасами импорта. */
 export function getProductionParamsByCategory(
   catL1Id: string
 ): CategoryProductionParams | undefined {
-  return PRODUCTION_PARAMS_BY_CATEGORY.find((p) => p.catL1Id === catL1Id);
+  const resolved = PRODUCTION_PARAMS_CAT_L1_ALIASES[catL1Id] ?? catL1Id;
+  return PRODUCTION_PARAMS_BY_CATEGORY.find((p) => p.catL1Id === resolved);
 }

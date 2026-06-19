@@ -1,10 +1,27 @@
 'use client';
-import StyleCalendar from '@/components/user/style-calendar';
-import { useSearchParams } from 'next/navigation';
+
+import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { FactoryCalendarCorePage } from '@/app/factory/calendar/calendar-core';
+
+const FactoryCalendarLegacyPage = dynamic(
+  () =>
+    import('@/_archive/platform-core-legacy/app/factory/calendar/calendar-legacy').then(
+      (m) => m.FactoryCalendarLegacyPage
+    ),
+  { ssr: false }
+);
+
+function FactoryCalendarPageInner() {
+  if (isPlatformCoreMode()) return <FactoryCalendarCorePage />;
+  return <FactoryCalendarLegacyPage />;
+}
 
 export default function FactoryCalendarPage() {
-  const searchParams = useSearchParams();
-  const activeRole = (searchParams.get('role') as 'manufacturer' | 'supplier') || 'manufacturer';
-
-  return <StyleCalendar initialRole={activeRole} />;
+  return (
+    <Suspense fallback={null}>
+      <FactoryCalendarPageInner />
+    </Suspense>
+  );
 }

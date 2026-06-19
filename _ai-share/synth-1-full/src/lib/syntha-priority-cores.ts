@@ -31,7 +31,29 @@ export {
   getWorkshop2HandoffToSeriesLinks,
 } from '@/lib/data/entity-links';
 
-export { WORKSHOP2_DEVELOPMENT_FLOOR_TAB_IDS } from '@/lib/production/workshop2-development-scope';
+export {
+  getPillarCapabilityCrossLinks,
+  getShopReplenishmentWorkflowLinks,
+  getBrandDevelopmentReleaseLinks,
+  getPillarScreenCrossLinks,
+} from '@/lib/platform/pillar-capability-links';
+export {
+  getPillarCapabilityById,
+  listPillarCapabilities,
+  PILLAR_CAPABILITY_REGISTRY,
+} from '@/lib/platform/pillar-capability-registry';
+export type {
+  PillarCapabilityContext,
+  PillarCapabilityEntry,
+} from '@/lib/platform/pillar-capability-registry';
+export {
+  getPillarCapabilityWorkspace,
+  PILLAR_CAPABILITY_FEATURE_PARAM,
+  PILLAR_CAPABILITY_WORKSPACES,
+} from '@/lib/platform/pillar-capability-workspaces';
+export { getPillarWorkspaceCrossLinks } from '@/lib/platform/pillar-capability-workspace-nav';
+export { PillarCapabilityWorkspaceChrome } from '@/components/platform/PillarCapabilityWorkspaceChrome';
+export { PillarCapabilityCrossLinksStrip } from '@/components/platform/PillarCapabilityCrossLinksStrip';
 
 /** Шкала этапов каталога в разработке коллекции: разработка и ТЗ слева от `supply-path`, сэмплы и выпуск справа. */
 export {

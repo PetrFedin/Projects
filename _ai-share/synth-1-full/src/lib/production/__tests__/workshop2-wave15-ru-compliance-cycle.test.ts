@@ -22,6 +22,7 @@ import {
 import {
   applyWorkshop2MaterialRequisitionStatusToDossier,
   clearWorkshop2MaterialRequisitionsMemoryForTests,
+  areWorkshop2MaterialRequisitionsConfirmedForArticles,
   createWorkshop2MaterialRequisition,
   patchWorkshop2MaterialRequisitionSupplierStatus,
 } from '@/lib/server/workshop2-material-requisition-repository';
@@ -68,6 +69,36 @@ describe('workshop2 wave15 — compliance pack zip', () => {
 
 describe('workshop2 wave15 — supplier material request cycle', () => {
   beforeEach(() => clearWorkshop2MaterialRequisitionsMemoryForTests());
+
+  it('areWorkshop2MaterialRequisitionsConfirmedForArticles requires all line articles', async () => {
+    await createWorkshop2MaterialRequisition({
+      collectionId: 'SS27',
+      articleId: 'demo-ss27-01',
+      materialLabel: 'Shell',
+    });
+    const partial = await areWorkshop2MaterialRequisitionsConfirmedForArticles({
+      collectionId: 'SS27',
+      articleIds: ['demo-ss27-01', 'demo-ss27-02'],
+    });
+    expect(partial.allConfirmed).toBe(false);
+    expect(partial.confirmedArticleIds).toEqual([]);
+
+    const created = await createWorkshop2MaterialRequisition({
+      collectionId: 'SS27',
+      articleId: 'demo-ss27-01',
+      materialLabel: 'Lining',
+    });
+    await patchWorkshop2MaterialRequisitionSupplierStatus({
+      id: created.id,
+      status: 'confirmed',
+    });
+    const one = await areWorkshop2MaterialRequisitionsConfirmedForArticles({
+      collectionId: 'SS27',
+      articleIds: ['demo-ss27-01'],
+    });
+    expect(one.allConfirmed).toBe(true);
+    expect(one.confirmedArticleIds).toEqual(['demo-ss27-01']);
+  });
 
   it('patches supplier status to supplier_confirmed', async () => {
     const created = await createWorkshop2MaterialRequisition({

@@ -1,0 +1,256 @@
+'use client';
+
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
+import type { CoreChainRoleId, CoreHubPillarId } from '@/lib/platform-core-hub-matrix';
+import {
+  PLATFORM_CORE_DEMO,
+  PLATFORM_CORE_PILLARS,
+  PLATFORM_CORE_ROLE_LABELS,
+  factoryHandoffQueueHrefForDemo,
+  getDefaultPillarForRole,
+  getDemoTrailPrimaryHrefForDemo,
+  isPlatformCoreEmptyChainDemo,
+  platformCoreRolePillarHref,
+  resolvePageCollectionId,
+} from '@/lib/platform-core-hub-matrix';
+import { isPlatformCoreDemoPinOrderId } from '@/lib/platform-core-spine-active-order-fallback';
+import { usePlatformCoreDemoContext } from '@/components/platform/usePlatformCoreChainOverview';
+import { PLATFORM_CORE_HUB_TITLE } from '@/lib/platform-core-canonical-labels';
+import {
+  ROUTES,
+  brandB2bOrderHref,
+  shopB2bOrderHref,
+} from '@/lib/routes';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { hubCabinet } from '@/lib/platform-core-cabinet-chrome';
+
+type Props = {
+  roleId: CoreChainRoleId;
+  pillarId?: CoreHubPillarId;
+  /** Demo-контекст (orderId, articleId, …) */
+  entityLabel?: string;
+  /** Переопределение orderId на странице детализации */
+  orderId?: string;
+  /** Сквозные кликабельные id: collection · article · order · PO */
+  showDemoIdStrip?: boolean;
+  /** Core workspace: ← кабинет в одной строке с контекстом */
+  showWorkspaceBack?: boolean;
+  workspaceBackHref?: string;
+  workspaceBackLabel?: string;
+};
+
+function DemoIdChip({
+  label,
+  value,
+  href,
+  testId,
+}: {
+  label: string;
+  value: string;
+  href: string;
+  testId: string;
+}) {
+  return (
+    <Link
+      href={href}
+      data-testid={testId}
+      title={`${label}: ${value}`}
+      className="bg-bg-surface2 text-text-muted hover:text-text-primary hover:bg-bg-surface inline-flex items-center gap-1 rounded-md border border-border-subtle px-2 py-0.5 font-mono text-[9px] transition-colors hover:underline"
+    >
+      <span className="text-text-muted font-sans text-[8px] font-bold uppercase tracking-wide">
+        {label}
+      </span>
+      {value}
+    </Link>
+  );
+}
+
+export function PlatformCoreContextBar({
+  roleId,
+  pillarId,
+  entityLabel,
+  orderId: orderIdProp,
+  showDemoIdStrip = true,
+  showWorkspaceBack = false,
+  workspaceBackHref,
+  workspaceBackLabel = 'Кабинет',
+}: Props) {
+  const demo = usePlatformCoreDemoContext();
+  const coreMode = isPlatformCoreMode();
+  const emptyChain = isPlatformCoreEmptyChainDemo(demo);
+  const collectionId = resolvePageCollectionId({ collection: demo.collectionId });
+  const collectionParam =
+    collectionId !== PLATFORM_CORE_DEMO.collectionId ? collectionId : undefined;
+  const pillarTitle = pillarId
+    ? PLATFORM_CORE_PILLARS.find((p) => p.id === pillarId)?.title
+    : null;
+  const entityHref = pillarId ? getDemoTrailPrimaryHrefForDemo(pillarId, demo) : undefined;
+  const cabinetHref =
+    workspaceBackHref ??
+    platformCoreRolePillarHref(
+      roleId,
+      pillarId ?? getDefaultPillarForRole(roleId),
+      collectionParam
+    );
+
+  const orderId = (orderIdProp ?? demo.demoOrderId).trim();
+  const showOrderChip =
+    orderId.length > 0 &&
+    (!isPlatformCoreDemoPinOrderId(orderId) || orderId === demo.demoOrderId.trim());
+  const orderHref =
+    roleId === 'shop' ? shopB2bOrderHref(orderId) : brandB2bOrderHref(orderId);
+  const brandW2ArticleHref = `${ROUTES.brand.productionWorkshop2}?w2col=${encodeURIComponent(demo.collectionId)}&article=${encodeURIComponent(demo.demoArticleId)}`;
+  const articleHref =
+    roleId === 'brand' || roleId === 'shop'
+      ? brandW2ArticleHref
+      : `/factory/production/dossier/${encodeURIComponent(demo.demoArticleId)}?collection=${encodeURIComponent(demo.collectionId)}`;
+  const collectionHref = `/platform?collection=${encodeURIComponent(collectionId)}`;
+  const poHref = factoryHandoffQueueHrefForDemo(demo);
+
+  if (coreMode && showWorkspaceBack) {
+    return (
+      <div className="min-w-0" data-testid="platform-core-context-bar-wrap">
+        <nav
+          data-testid="platform-core-context-bar"
+          aria-label="Контекст Platform Core"
+          className={hubCabinet.contextBar}
+        >
+          <Link
+            href={cabinetHref}
+            data-testid="platform-core-workspace-back"
+            className={hubCabinet.contextBarBack}
+          >
+            <ArrowLeft className="h-3 w-3 shrink-0" aria-hidden />
+            {workspaceBackLabel}
+          </Link>
+          <span className={hubCabinet.contextBarSep} aria-hidden>
+            ·
+          </span>
+          <span className="text-text-primary shrink-0 font-semibold">
+            {PLATFORM_CORE_ROLE_LABELS[roleId]}
+          </span>
+          {pillarTitle ? (
+            <>
+              <span className={hubCabinet.contextBarSep} aria-hidden>
+                ·
+              </span>
+              <span className="text-text-primary shrink-0 font-medium">{pillarTitle}</span>
+            </>
+          ) : null}
+          {entityLabel ? (
+            <>
+              <span className={hubCabinet.contextBarSep} aria-hidden>
+                ·
+              </span>
+              {entityHref ? (
+                <Link
+                  href={entityHref}
+                  data-testid="platform-core-context-entity"
+                  title={`Контекст столпа · ${pillarTitle ?? pillarId}`}
+                  className={hubCabinet.contextBarEntity}
+                >
+                  {entityLabel}
+                </Link>
+              ) : (
+                <code
+                  data-testid="platform-core-context-entity"
+                  className={hubCabinet.contextBarEntity}
+                >
+                  {entityLabel}
+                </code>
+              )}
+            </>
+          ) : null}
+        </nav>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-1.5" data-testid="platform-core-context-bar-wrap">
+      <nav
+        data-testid="platform-core-context-bar"
+        aria-label="Контекст Platform Core"
+        className="text-text-muted flex flex-wrap items-center gap-1.5 text-[10px] font-medium"
+      >
+        <Link href="/platform" className="text-text-secondary hover:text-text-primary hover:underline">
+          {PLATFORM_CORE_HUB_TITLE}
+        </Link>
+        <span aria-hidden>/</span>
+        <Link
+          href={platformCoreRolePillarHref(
+            roleId,
+            pillarId ?? getDefaultPillarForRole(roleId),
+            collectionParam
+          )}
+          className="hover:underline"
+        >
+          {PLATFORM_CORE_ROLE_LABELS[roleId]}
+        </Link>
+        {pillarTitle ? (
+          <>
+            <span aria-hidden>/</span>
+            <span className="text-text-primary font-semibold">{pillarTitle}</span>
+          </>
+        ) : null}
+        {entityLabel ? (
+          <>
+            <span aria-hidden>/</span>
+            {entityHref ? (
+              <Link
+                href={entityHref}
+                data-testid="platform-core-context-entity"
+                title={`Контекст столпа · ${pillarTitle ?? pillarId}`}
+                className="bg-bg-surface2 text-text-muted hover:text-text-primary rounded px-1.5 py-0.5 text-[9px] font-medium transition-colors hover:underline"
+              >
+                {entityLabel}
+              </Link>
+            ) : (
+              <code
+                data-testid="platform-core-context-entity"
+                className="bg-bg-surface2 text-text-muted rounded px-1.5 py-0.5 text-[9px] font-medium"
+              >
+                {entityLabel}
+              </code>
+            )}
+          </>
+        ) : null}
+      </nav>
+      {showDemoIdStrip && !emptyChain ? (
+        <div
+          data-testid="platform-core-demo-id-strip"
+          className="flex flex-wrap items-center gap-1.5"
+          aria-label="Сквозные идентификаторы цепочки"
+        >
+          <DemoIdChip
+            label="col"
+            value={collectionId}
+            href={collectionHref}
+            testId="platform-core-ctx-collection"
+          />
+          <DemoIdChip
+            label="art"
+            value={demo.demoArticleId}
+            href={articleHref}
+            testId="platform-core-ctx-article"
+          />
+          {showOrderChip ? (
+            <DemoIdChip
+              label="ord"
+              value={orderId}
+              href={orderHref}
+              testId="platform-core-ctx-order"
+            />
+          ) : null}
+          <DemoIdChip
+            label="PO"
+            value={demo.productionOrderId}
+            href={poHref}
+            testId="platform-core-ctx-po"
+          />
+        </div>
+      ) : null}
+    </div>
+  );
+}

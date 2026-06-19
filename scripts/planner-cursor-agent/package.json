@@ -1,0 +1,9 @@
+{
+  "name": "planner-cursor-agent",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@connectrpc/connect-node": "^2.0.0",
+    "@cursor/sdk": "^1.0.0"
+  }
+}

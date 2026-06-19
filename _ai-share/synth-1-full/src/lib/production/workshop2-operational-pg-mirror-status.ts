@@ -2,6 +2,10 @@
  * Wave E: единый chip «PG mirror» для operational panels — реальный статус, не amber-success.
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2OperationalPgMirrorTone = 'emerald' | 'amber' | 'slate' | 'rose';
 
@@ -21,6 +25,15 @@ function toneFromSynced(
   return synced ? 'emerald' : 'slate';
 }
 
+function mirrorTitle(
+  mirror: Record<string, unknown> | undefined,
+  key: string,
+  fallback?: string
+): string | undefined {
+  const value = workshop2PgMirrorStr(mirror, key);
+  return value || fallback;
+}
+
 /** Hub onboarding mirror (#4). */
 export function summarizeWorkshop2HubOnboardingPgMirror(
   dossier: Workshop2DossierPhase1 | null | undefined
@@ -33,24 +46,27 @@ export function summarizeWorkshop2HubOnboardingPgMirror(
       title: 'Откройте workspace после онбординга для PUT hub_onboarding_mirror.',
     };
   }
-  if (mirror.driftDetected) {
+  if (mirror.driftDetected === true) {
     return {
       label: 'Онбординг: drift local↔PG',
       tone: 'amber',
-      title: mirror.hintRu,
+      title: mirrorTitle(mirror, 'hintRu'),
     };
   }
-  if (mirror.pgPrimary && mirror.done) {
+  if (mirror.pgPrimary === true && mirror.done === true) {
     return {
       label: 'Онбординг: PG',
       tone: 'emerald',
-      title: mirror.hintRu,
+      title: mirrorTitle(mirror, 'hintRu'),
     };
   }
   return {
-    label: mirror.source === 'browser_storage' ? 'Онбординг: LS cache' : 'Онбординг: pending PG',
+    label:
+      workshop2PgMirrorStr(mirror, 'source') === 'browser_storage'
+        ? 'Онбординг: LS cache'
+        : 'Онбординг: pending PG',
     tone: 'amber',
-    title: mirror.hintRu ?? 'Завершите онбординг и сохраните mirror в PG.',
+    title: mirrorTitle(mirror, 'hintRu', 'Завершите онбординг и сохраните mirror в PG.'),
   };
 }
 
@@ -66,17 +82,19 @@ export function summarizeWorkshop2InspectorPgMirror(
       title: 'Сохраните отчёт инспектора (PWA или кнопка в workspace).',
     };
   }
-  if (mirror.offlineOnly || !mirror.pgSynced) {
+  if (mirror.offlineOnly === true || mirror.pgSynced !== true) {
     return {
       label: 'Инспектор: offline/queue',
       tone: 'rose',
-      title: mirror.hintRu,
+      title: mirrorTitle(mirror, 'hintRu'),
     };
   }
+  const checkedCount = workshop2PgMirrorNum(mirror, 'checkedCount');
+  const totalItems = workshop2PgMirrorNum(mirror, 'totalItems');
   return {
-    label: `Инспектор: PG · ${mirror.checkedCount}/${mirror.totalItems}`,
+    label: `Инспектор: PG · ${checkedCount}/${totalItems}`,
     tone: toneFromSynced(true),
-    title: mirror.hintRu,
+    title: mirrorTitle(mirror, 'hintRu'),
   };
 }
 
@@ -88,21 +106,23 @@ export function summarizeWorkshop2FactoryErpPgMirror(input: {
 }): Workshop2OperationalPgMirrorChip {
   const staging = input.dossier?.factoryErpStagingMirror;
   const sync = input.dossier?.factoryErpSync;
-  const erpId = input.erpOrderId ?? sync?.erpOrderId;
+  const erpId =
+    (input.erpOrderId ?? workshop2PgMirrorStr(sync, 'erpOrderId')).trim() || undefined;
 
-  if (erpId?.trim()) {
+  if (erpId) {
     return {
-      label: `ERP: ${erpId.trim()}`,
+      label: `ERP: ${erpId}`,
       tone: 'emerald',
-      title: sync?.hintRu ?? 'erpOrderId подтверждён в PG (live POST или manual ack).',
+      title: mirrorTitle(sync, 'hintRu', 'erpOrderId подтверждён в PG (live POST или manual ack).'),
     };
   }
 
-  if (staging?.partnerAckRecorded && staging.partnerAckId) {
+  const partnerAckId = workshop2PgMirrorStr(staging, 'partnerAckId');
+  if (staging?.partnerAckRecorded === true && partnerAckId) {
     return {
-      label: `ERP staging: ${staging.partnerAckId}`,
+      label: `ERP staging: ${partnerAckId}`,
       tone: 'amber',
-      title: staging.hintRu ?? 'Staging contract ACK — prod live POST отдельно.',
+      title: mirrorTitle(staging, 'hintRu', 'Staging contract ACK — prod live POST отдельно.'),
     };
   }
 
@@ -119,7 +139,10 @@ export function summarizeWorkshop2FactoryErpPgMirror(input: {
     return {
       label: 'ERP: error',
       tone: 'rose',
-      title: sync?.lastError ?? sync?.hintRu ?? 'POST /purchase-orders без erpOrderId.',
+      title:
+        mirrorTitle(sync, 'lastError') ||
+        mirrorTitle(sync, 'hintRu') ||
+        'POST /purchase-orders без erpOrderId.',
     };
   }
 
@@ -135,24 +158,28 @@ export function summarizeWorkshop2AqlPgMirror(
   dossier: Workshop2DossierPhase1 | null | undefined
 ): Workshop2OperationalPgMirrorChip {
   const mirror = dossier?.qcAqlMirror;
-  if (!mirror?.recordedAt) {
+  if (!workshop2PgMirrorStr(mirror, 'recordedAt')) {
     return {
       label: 'AQL: не в PG',
       tone: 'slate',
       title: 'Сохраните расчёт AQL — «AQL → PG» на вкладке ОТК.',
     };
   }
-  if (mirror.isFail) {
+  if (mirror?.isFail === true) {
     return {
       label: 'AQL: брак в PG',
       tone: 'rose',
-      title: mirror.hintRu ?? 'AQL fail — sample/handoff gates заблокированы.',
+      title: mirrorTitle(mirror, 'hintRu', 'AQL fail — sample/handoff gates заблокированы.'),
     };
   }
+  const sampleSize = workshop2PgMirrorNum(mirror, 'sampleSize');
+  const recordedAt = workshop2PgMirrorStr(mirror, 'recordedAt');
+  const orderQty = workshop2PgMirrorNum(mirror, 'orderQty');
   return {
-    label: `AQL: PG · n=${mirror.sampleSize}`,
+    label: `AQL: PG · n=${sampleSize}`,
     tone: 'emerald',
-    title: mirror.hintRu ?? `Запись ${mirror.recordedAt} · qty ${mirror.orderQty}.`,
+    title:
+      mirrorTitle(mirror, 'hintRu') || `Запись ${recordedAt} · qty ${orderQty || '—'}.`,
   };
 }
 
@@ -161,31 +188,36 @@ export function summarizeWorkshop2GradingApplyPgMirror(
   dossier: Workshop2DossierPhase1 | null | undefined
 ): Workshop2OperationalPgMirrorChip {
   const mirror = dossier?.gradingApplyMirror;
-  if (!mirror?.mirroredAt) {
+  if (!workshop2PgMirrorStr(mirror, 'mirroredAt')) {
     return {
       label: 'Градация: не в PG',
       tone: 'slate',
       title: '«Градация → PG» после apply smart grading.',
     };
   }
-  if (mirror.blockerExport || mirror.state === 'partial') {
+  const state = workshop2PgMirrorStr(mirror, 'state');
+  if (mirror?.blockerExport === true || state === 'partial') {
     return {
-      label: `Градация: ${mirror.state}`,
+      label: `Градация: ${state || 'partial'}`,
       tone: 'amber',
-      title: mirror.hintRu ?? 'Градация частична — export/handoff gates.',
+      title: mirrorTitle(mirror, 'hintRu', 'Градация частична — export/handoff gates.'),
     };
   }
-  if (mirror.state === 'empty') {
+  if (state === 'empty') {
     return {
       label: 'Градация: пусто',
       tone: 'slate',
-      title: mirror.hintRu ?? 'Нет правил градации в mirror.',
+      title: mirrorTitle(mirror, 'hintRu', 'Нет правил градации в mirror.'),
     };
   }
+  const ruleCount = workshop2PgMirrorNum(mirror, 'ruleCount');
+  const sizeCount = workshop2PgMirrorNum(mirror, 'sizeCount');
+  const lastAppliedAt = workshop2PgMirrorStr(mirror, 'lastAppliedAt');
+  const mirroredAt = workshop2PgMirrorStr(mirror, 'mirroredAt');
   return {
-    label: `Градация: PG · ${mirror.ruleCount}×${mirror.sizeCount}`,
+    label: `Градация: PG · ${ruleCount}×${sizeCount}`,
     tone: 'emerald',
-    title: mirror.hintRu ?? `Apply ${mirror.lastAppliedAt ?? mirror.mirroredAt}.`,
+    title: mirrorTitle(mirror, 'hintRu') || `Apply ${lastAppliedAt || mirroredAt}.`,
   };
 }
 
@@ -194,26 +226,31 @@ export function summarizeWorkshop2BomNodesPgMirror(
   dossier: Workshop2DossierPhase1 | null | undefined
 ): Workshop2OperationalPgMirrorChip {
   const mirror = dossier?.bomNodesMirror;
-  if (!mirror?.mirroredAt) {
+  if (!workshop2PgMirrorStr(mirror, 'mirroredAt')) {
     return {
       label: 'BOM: не в PG',
       tone: 'slate',
       title: '«BOM → PG» после синхронизации mat → BOM.',
     };
   }
-  if (mirror.blockerSampleOrder || mirror.state !== 'ready') {
+  const state = workshop2PgMirrorStr(mirror, 'state');
+  const nodeCount = workshop2PgMirrorNum(mirror, 'nodeCount');
+  const materialLineCount = workshop2PgMirrorNum(mirror, 'materialLineCount');
+  if (mirror?.blockerSampleOrder === true || state !== 'ready') {
     return {
-      label: `BOM: ${mirror.state}`,
-      tone: mirror.state === 'empty' ? 'slate' : 'amber',
+      label: `BOM: ${state || 'partial'}`,
+      tone: state === 'empty' ? 'slate' : 'amber',
       title:
-        mirror.hintRu ??
-        `Узлов ${mirror.nodeCount} · мат. ${mirror.materialLineCount} — дозаполните BOM.`,
+        mirrorTitle(mirror, 'hintRu') ||
+        `Узлов ${nodeCount} · мат. ${materialLineCount} — дозаполните BOM.`,
     };
   }
+  const estimatedFob = workshop2PgMirrorNum(mirror, 'estimatedFob');
+  const fobLabel = estimatedFob > 0 ? estimatedFob.toFixed(2) : '—';
   return {
-    label: `BOM: PG · ${mirror.nodeCount}/${mirror.materialLineCount}`,
+    label: `BOM: PG · ${nodeCount}/${materialLineCount}`,
     tone: 'emerald',
-    title: mirror.hintRu ?? `FOB ~${mirror.estimatedFob?.toFixed(2) ?? '—'}.`,
+    title: mirrorTitle(mirror, 'hintRu') || `FOB ~${fobLabel}.`,
   };
 }
 
@@ -222,24 +259,26 @@ export function summarizeWorkshop2ChangeRequestPgMirror(
   dossier: Workshop2DossierPhase1 | null | undefined
 ): Workshop2OperationalPgMirrorChip {
   const mirror = dossier?.changeRequestMirror;
-  if (!mirror?.mirroredAt) {
+  if (!workshop2PgMirrorStr(mirror, 'mirroredAt')) {
     return {
       label: 'CR: не в PG',
       tone: 'slate',
       title: '«CR → PG» — mirror для sample-order gate.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  const pendingCount = workshop2PgMirrorNum(mirror, 'pendingCount');
+  const totalRequests = workshop2PgMirrorNum(mirror, 'totalRequests');
+  if (mirror?.blockerSampleOrder === true) {
     return {
-      label: `CR: pending ${mirror.pendingCount}`,
+      label: `CR: pending ${pendingCount}`,
       tone: 'rose',
-      title: mirror.hintRu ?? 'Открытые CR блокируют sample-order.',
+      title: mirrorTitle(mirror, 'hintRu', 'Открытые CR блокируют sample-order.'),
     };
   }
   return {
-    label: mirror.totalRequests > 0 ? `CR: PG · ${mirror.totalRequests}` : 'CR: PG · 0',
+    label: totalRequests > 0 ? `CR: PG · ${totalRequests}` : 'CR: PG · 0',
     tone: 'emerald',
-    title: mirror.hintRu ?? 'Все CR закрыты.',
+    title: mirrorTitle(mirror, 'hintRu', 'Все CR закрыты.'),
   };
 }
 
@@ -259,25 +298,35 @@ export function summarizeWorkshop2StockWmsPgMirror(input: {
     };
   }
 
-  if (internal?.mirroredAt) {
-    const deficit = internal.reserveDeficitCount ?? 0;
+  if (workshop2PgMirrorStr(internal, 'mirroredAt')) {
+    const deficit = workshop2PgMirrorNum(internal, 'reserveDeficitCount');
+    const reservedQty = workshop2PgMirrorNum(internal, 'reservedQty');
+    const itemCount = workshop2PgMirrorNum(internal, 'itemCount');
+    const onHandQty = workshop2PgMirrorNum(internal, 'onHandQty');
     return {
-      label: deficit > 0 ? `WMS: дефицит ${deficit}` : `WMS: резерв ${internal.reservedQty ?? 0}`,
+      label: deficit > 0 ? `WMS: дефицит ${deficit}` : `WMS: резерв ${reservedQty}`,
       tone: deficit > 0 ? 'amber' : 'emerald',
       title:
-        internal.hintRu ?? `Позиций ${internal.itemCount} · on-hand ${internal.onHandQty ?? '—'}.`,
+        mirrorTitle(internal, 'hintRu') ||
+        `Позиций ${itemCount} · on-hand ${onHandQty > 0 ? onHandQty : '—'}.`,
     };
   }
 
-  if (ledger?.ledgerAt) {
+  if (workshop2PgMirrorStr(ledger, 'ledgerAt')) {
+    const movementCount = workshop2PgMirrorNum(ledger, 'movementCount');
+    const qtyOnHand = workshop2PgMirrorStr(ledger, 'qtyOnHand') || workshop2PgMirrorNum(ledger, 'qtyOnHand');
+    const wmsSyncStatus = workshop2PgMirrorStr(ledger, 'wmsSyncStatus');
     return {
-      label: ledger.negativeBalance ? 'WMS: ledger −' : 'WMS: ledger draft',
-      tone: ledger.negativeBalance
-        ? 'rose'
-        : ledger.wmsSyncStatus === 'internal_pg'
-          ? 'emerald'
-          : 'amber',
-      title: ledger.hintRu ?? `Движений ${ledger.movementCount} · остаток ${ledger.qtyOnHand}.`,
+      label: ledger?.negativeBalance === true ? 'WMS: ledger −' : 'WMS: ledger draft',
+      tone:
+        ledger?.negativeBalance === true
+          ? 'rose'
+          : wmsSyncStatus === 'internal_pg'
+            ? 'emerald'
+            : 'amber',
+      title:
+        mirrorTitle(ledger, 'hintRu') ||
+        `Движений ${movementCount} · остаток ${qtyOnHand || '—'}.`,
     };
   }
 
@@ -293,26 +342,29 @@ export function summarizeWorkshop2SupplierQcPgMirror(
   dossier: Workshop2DossierPhase1 | null | undefined
 ): Workshop2OperationalPgMirrorChip {
   const snap = dossier?.supplierQcSnapshot;
-  if (!snap?.snapshotAt) {
+  if (!workshop2PgMirrorStr(snap, 'snapshotAt')) {
     return {
       label: 'Scorecard: не в PG',
       tone: 'slate',
       title: 'Снимок PO scorecard не записан — «Сохранить в досье» на панели ОТК.',
     };
   }
-  if (snap.passRate != null && snap.passRate < 85) {
+  const passRate = workshop2PgMirrorNum(snap, 'passRate');
+  if (passRate > 0 && passRate < 85) {
     return {
-      label: `Scorecard: ${snap.passRate.toFixed(0)}% pass`,
+      label: `Scorecard: ${passRate.toFixed(0)}% pass`,
       tone: 'amber',
-      title: snap.hintRu ?? 'Pass rate ниже порога handoff — проверьте PO.',
+      title: mirrorTitle(snap, 'hintRu', 'Pass rate ниже порога handoff — проверьте PO.'),
     };
   }
+  const totalBatches = workshop2PgMirrorNum(snap, 'totalBatches');
+  const source = workshop2PgMirrorStr(snap, 'source') || 'purchase_orders';
+  const passLabel = passRate > 0 ? `${passRate.toFixed(0)}%` : '—';
   return {
-    label: `Scorecard: PG · ${snap.passRate?.toFixed(0) ?? '—'}%`,
+    label: `Scorecard: PG · ${passLabel}`,
     tone: 'emerald',
     title:
-      snap.hintRu ??
-      `Партий ${snap.totalBatches ?? 0} · source ${snap.source ?? 'purchase_orders'}.`,
+      mirrorTitle(snap, 'hintRu') || `Партий ${totalBatches} · source ${source}.`,
   };
 }
 
@@ -321,18 +373,20 @@ export function summarizeWorkshop2TzGeneralPgMirror(
   dossier: Workshop2DossierPhase1 | null | undefined
 ): Workshop2OperationalPgMirrorChip {
   const mirror = dossier?.infopickMatrixMirror;
-  if (!mirror?.mirroredAt) {
+  if (!workshop2PgMirrorStr(mirror, 'mirroredAt')) {
     return {
       label: 'InfoPick: не в PG',
       tone: 'slate',
       title: 'Матрица InfoPick — сохраните mirror в досье с вкладки «Паспорт».',
     };
   }
-  const gaps = mirror.missingCount ?? mirror.missingMatrixCount ?? 0;
+  const gaps =
+    workshop2PgMirrorNum(mirror, 'missingCount') ||
+    workshop2PgMirrorNum(mirror, 'missingMatrixCount');
   return {
     label: gaps ? `InfoPick: PG · ${gaps} gap` : 'InfoPick: PG',
     tone: gaps ? 'amber' : 'emerald',
-    title: mirror.hintRu,
+    title: mirrorTitle(mirror, 'hintRu'),
   };
 }
 
@@ -341,24 +395,25 @@ export function summarizeWorkshop2TzConstructionPgMirror(
   dossier: Workshop2DossierPhase1 | null | undefined
 ): Workshop2OperationalPgMirrorChip {
   const mirror = dossier?.cadVaultLinkMirror;
-  if (!mirror?.mirroredAt) {
+  if (!workshop2PgMirrorStr(mirror, 'mirroredAt')) {
     return {
       label: 'CAD: не в PG',
       tone: 'slate',
       title: 'cadVaultLinkMirror отсутствует — загрузите CAD и сохраните mirror.',
     };
   }
-  if (!mirror.vaultReady || mirror.proprietaryDemoOnly) {
+  if (mirror?.vaultReady !== true || mirror?.proprietaryDemoOnly === true) {
     return {
-      label: mirror.proprietaryDemoOnly ? 'CAD: demo only' : 'CAD: partial',
+      label: mirror?.proprietaryDemoOnly === true ? 'CAD: demo only' : 'CAD: partial',
       tone: 'amber',
-      title: mirror.hintRu ?? 'Production .glb ingest не завершён.',
+      title: mirrorTitle(mirror, 'hintRu', 'Production .glb ingest не завершён.'),
     };
   }
+  const vaultCadCount = workshop2PgMirrorNum(mirror, 'vaultCadCount');
   return {
-    label: mirror.vaultCadCount ? `CAD: PG · ${mirror.vaultCadCount} doc` : 'CAD: PG',
+    label: vaultCadCount ? `CAD: PG · ${vaultCadCount} doc` : 'CAD: PG',
     tone: 'emerald',
-    title: mirror.hintRu,
+    title: mirrorTitle(mirror, 'hintRu'),
   };
 }
 
@@ -367,24 +422,26 @@ export function summarizeWorkshop2TzAssignmentPgMirror(
   dossier: Workshop2DossierPhase1 | null | undefined
 ): Workshop2OperationalPgMirrorChip {
   const mirror = dossier?.factoryHandoffBundleMirror;
-  if (!mirror?.mirroredAt) {
+  if (!workshop2PgMirrorStr(mirror, 'mirroredAt')) {
     return {
       label: 'Handoff: не в PG',
       tone: 'slate',
       title: 'factoryHandoffBundleMirror — commit gate + «Сохранить в досье» на вкладке «Задание».',
     };
   }
-  if (mirror.bundleState === 'draft' || mirror.pendingAckCount > 0) {
+  const pendingAckCount = workshop2PgMirrorNum(mirror, 'pendingAckCount');
+  const bundleState = workshop2PgMirrorStr(mirror, 'bundleState');
+  if (bundleState === 'draft' || pendingAckCount > 0) {
     return {
       label: 'Handoff: partial PG',
       tone: 'amber',
-      title: mirror.hintRu ?? 'Пакет передачи неполный — проверьте gate checks.',
+      title: mirrorTitle(mirror, 'hintRu', 'Пакет передачи неполный — проверьте gate checks.'),
     };
   }
   return {
     label: 'Handoff: PG',
     tone: 'emerald',
-    title: mirror.hintRu,
+    title: mirrorTitle(mirror, 'hintRu'),
   };
 }
 
@@ -393,17 +450,18 @@ export function summarizeWorkshop2TzTimeAndActionPgMirror(
   dossier: Workshop2DossierPhase1 | null | undefined
 ): Workshop2OperationalPgMirrorChip {
   const mirror = dossier?.taMilestonesMirror;
-  if (!mirror?.mirroredAt) {
+  if (!workshop2PgMirrorStr(mirror, 'mirroredAt')) {
     return {
       label: 'T&A: не в PG',
       tone: 'slate',
       title: 'taMilestonesMirror — сохраните milestones на вкладке «План заказа».',
     };
   }
+  const milestoneCount = workshop2PgMirrorNum(mirror, 'milestoneCount');
   return {
-    label: `T&A: PG · ${mirror.milestoneCount ?? 0} вех`,
+    label: `T&A: PG · ${milestoneCount} вех`,
     tone: 'emerald',
-    title: mirror.hintRu,
+    title: mirrorTitle(mirror, 'hintRu'),
   };
 }
 
@@ -420,16 +478,17 @@ export function summarizeWorkshop2MatchmakerPgMirror(
       title: 'Подбор подрядчика ещё не выполнялся.',
     };
   }
-  if (!mirror?.mirroredAt) {
+  if (!workshop2PgMirrorStr(mirror, 'mirroredAt')) {
     return {
       label: 'Matchmaker: не в PG',
       tone: 'amber',
       title: 'Результат в досье · mirror не записан — «Matchmaker → PG».',
     };
   }
+  const recommendedContractorId = workshop2PgMirrorStr(mirror, 'recommendedContractorId');
   return {
-    label: mirror.recommendedContractorId
-      ? `Matchmaker: PG · ${mirror.recommendedContractorId}`
+    label: recommendedContractorId
+      ? `Matchmaker: PG · ${recommendedContractorId}`
       : 'Matchmaker: PG',
     tone: 'emerald',
     title: dossier?.matchmakerResult?.syncedAt

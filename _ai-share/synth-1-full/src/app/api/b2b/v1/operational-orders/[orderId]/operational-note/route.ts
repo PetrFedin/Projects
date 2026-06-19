@@ -67,7 +67,7 @@ export async function PATCH(req: NextRequest, ctx: { params: Promise<{ orderId: 
     );
   }
 
-  const row = findOperationalOrderForRequest(req, decoded);
+  const row = await findOperationalOrderForRequest(req, decoded);
   if (!row) {
     return NextResponse.json(
       {

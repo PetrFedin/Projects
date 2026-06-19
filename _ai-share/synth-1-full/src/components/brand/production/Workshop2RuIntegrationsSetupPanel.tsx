@@ -130,7 +130,7 @@ export function Workshop2RuIntegrationsSetupPanel() {
         className="rounded-md border border-indigo-200/80 bg-white/80 p-3"
         data-testid="workshop2-kontur-edo-setup-wizard"
       >
-        <p className="text-xs font-semibold text-indigo-950">Подключение Контур (Wave 32)</p>
+        <p className="text-xs font-semibold text-indigo-950">Подключение Контур</p>
         <ol className="mt-2 list-decimal space-y-1 pl-5 text-[11px] text-slate-700">
           {konturWizard.map((step) => (
             <li key={step.id} className={step.done ? 'text-emerald-800' : undefined}>

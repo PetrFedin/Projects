@@ -28,7 +28,7 @@ export function useWorkshop2Phase1DossierTzFocusAndHashScrollEffects(p: {
   } = p;
 
   useEffect(() => {
-    if (!isPhase1 || !focusDossierSection) return;
+    if (!focusDossierSection) return;
     if (focusDossierSection === 'visuals') {
       setActiveSection('construction');
       return;
@@ -36,7 +36,7 @@ export function useWorkshop2Phase1DossierTzFocusAndHashScrollEffects(p: {
     if (TZ_TAB_SECTIONS.some((s) => s.id === focusDossierSection)) {
       setActiveSection(focusDossierSection as Workshop2TzSignoffSectionKey);
     }
-  }, [focusDossierSection, isPhase1]);
+  }, [focusDossierSection, setActiveSection]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;

@@ -1,0 +1,77 @@
+---
+description: Platform Core — один набор данных на экран, без дублей chrome/кабинет/cards
+globs:
+  - _ai-share/synth-1-full/src/components/platform/**
+  - _ai-share/synth-1-full/src/app/**/core/**
+  - _ai-share/synth-1-full/src/app/brand/layout.tsx
+  - _ai-share/synth-1-full/src/app/shop/layout.tsx
+  - _ai-share/synth-1-full/src/app/factory/**/layout.tsx
+  - _ai-share/synth-1-full/src/lib/platform-core-*.ts
+alwaysApply: false
+---
+
+# Platform Core — дедуп UI
+
+SoT поверхностей: `src/lib/platform-core-ui-surfaces.ts`, аудит `.planning/PLATFORM-CORE-AUDIT.md`.
+
+## Четыре поверхности — один слой данных каждая
+
+| Поверхность | Что показываем | Чего не дублировать |
+|-------------|----------------|-------------------|
+| **hub** `/platform` | Матрица 5×4 + компактные блоки ролей | Итоги матрицы, chain-strip, телеметрия рядом с /10 |
+| **cabinet** `*/core` | Context bar + nav столпов + **insight card (compact)** + **один** primary CTA + **compact** cross-role | Заголовок «Мой кабинет», lead hub-ячейки, secondary hub actions, ссылки в pillar card |
+| **workspace** | Context bar + pillar strip + **контент страницы** + compact cross-role внизу | HandoffStrip, второй cross-role, demo-id strip (`showDemoIdStrip={false}`) |
+| **order-detail** | Как workspace, pillar = заказ | Cross-role на том же столпе, что экран |
+
+## Pillar cards
+
+- В кабинете всегда `compact` — **без CardHeader** (название столпа уже в aside), только статус/шаги, без ряда ссылок и без дубля primary CTA.
+- Полные CTA — только на **рабочем экране** (не в `RoleCoreCabinetHub`).
+- Исключение cross-role в mini: `brand-sample-collection-mini-matrix` (одна ссылка на матрицу магазина).
+
+## Cross-role
+
+- Один блок `RolePillarCrossRoleLinks` на экран: `variant="compact"` (чипы активных ролей).
+- Не встраивать full cross-role в empty panels, если кабинет/workspace уже рендерит блок (`embedCrossRole={false}` по умолчанию в кабинете).
+
+## Навигация
+
+- Кабинет: **aside** столпов.
+- Workspace: **pillar strip** (горизонталь).
+- Не смешивать aside + strip на одном экране.
+
+## Comms / calendar workspace
+
+- Один `PlatformCoreListChrome` + контент **внутри** `children` + `PlatformCoreCommsWorkspaceExtras` (`platformCoreWorkspace`).
+- Slim banner: только id заказа; CTA — в pillar strip и compact cross-role.
+- Не ставить `ShopB2bToolHeader`, policy strip и полный `CommunicationsEntityContextBanner` на core-path.
+- `BrandMessagesRuWorkspaceBannerWhenNoUrl` → `null` при `isPlatformCoreMode()` (дубль slim banner).
+
+## Hub
+
+- Матрица без subtitle в заголовках столбцов; tooltip ячейки — **summary + ссылка**, детали только в «разделы».
+- Lead hub без disclaimer PG (режим — строка матрицы).
+- Блоки ролей — вход в кабинет без дубля chips столпов (матрица выше).
+
+## Dev
+
+- `npm run dev:core` использует `.next`, не `.next-e2e` (`scripts/core-dev.sh` переопределяет `NEXT_DIST_DIR` из `.env.local`).
+
+## Layout кабинетов (brand / shop / factory)
+
+- При `isPlatformCoreMode()` — **не** рендерить `CabinetHubTitleRow` и `CabinetHubSectionBar`; только `CabinetHubMobileNavOnly` (lg:hidden).
+- Контекст пути — **только** `PlatformCoreContextBar` внутри Platform Core chrome.
+- `BrandSectionHeaderBlock` и `StageContextBar` — `shouldSuppressCabinetHubLayoutChrome()` → `null`.
+
+## Workspace / order-detail
+
+- Контент страницы — **children** `PlatformCoreListChrome` / `PlatformCoreOrderDetailChrome`; cross-role **после** контента.
+- Без `ShopB2bContentHeader` lead, без `RegistryPageHeader` title/lead на core-path (только actions-toolbar при необходимости).
+- `showDemoIdStrip={false}` на context-bar.
+
+## Перед PR
+
+1. `npm test -- --testPathPattern=platform-core-ui-dedup-audit` — статический аудит core-path.
+2. `npm test -- --testPathPattern=platform-core` — контрактные тесты golden path.
+3. `grep` по `PLATFORM_CORE_UI_FORBIDDEN_DUPES` в `platform-core-ui-surfaces.ts`.
+4. Визуально: кабинет каждой роли + один workspace столпа — нет повторов заголовка столпа, lead, CTA.

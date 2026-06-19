@@ -55,7 +55,7 @@ export const RETAILER_B2B_QUICK_LINK_SECTIONS: RetailerB2bOverviewSection[] = [
     title: 'Финансы и условия',
     items: [
       { href: ROUTES.shop.b2bFinance, label: 'Финансы партнёра', desc: 'Оплаты и лимиты' },
-      { href: ROUTES.shop.b2bPayment, label: 'Оплата (JOOR Pay)', desc: 'Инвойсы и счета' },
+      { href: ROUTES.shop.b2bPayment, label: 'Оплата заказов', desc: 'Инвойсы и счета' },
       {
         href: ROUTES.shop.b2bCollectionTerms,
         label: 'Условия по коллекциям',

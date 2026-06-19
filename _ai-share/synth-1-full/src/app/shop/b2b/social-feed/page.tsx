@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Heart, MessageCircle } from 'lucide-react';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { ShopB2bLegacyTailCorePage } from '@/app/shop/b2b/shop-b2b-legacy-tail-core';
 import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
@@ -41,6 +43,10 @@ const MOCK_POSTS = [
 ];
 
 export default function SocialFeedPage() {
+  if (isPlatformCoreMode()) {
+    return <ShopB2bLegacyTailCorePage legacyPath={ROUTES.shop.b2bSocialFeed} />;
+  }
+
   const [subscribed, setSubscribed] = useState<Record<string, boolean>>({});
 
   return (

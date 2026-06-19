@@ -6,14 +6,24 @@ import {
   isWorkshop2B2bPaymentTermsRu,
   resolveWorkshop2B2bPaymentTermsDays,
 } from '@/lib/production/workshop2-b2b-wave22-parity';
+import {
+  collectWorkshop2B2bOrderLineMoqViolations,
+  evaluateWorkshop2B2bCartSubmitDevelopmentGate,
+} from '@/lib/production/workshop2-b2b-wave23-parity';
 import type { Workshop2B2bOrderLine } from '@/lib/production/workshop2-b2b-order-lifecycle';
 import {
   listWorkshop2B2bOrdersForArticle,
   patchWorkshop2B2bOrderCheckoutFields,
   putWorkshop2B2bOrder,
 } from '@/lib/server/workshop2-b2b-orders-repository';
+import { getWorkshop2ServerDossierRecord } from '@/lib/server/workshop2-phase1-dossier-server-store';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
+import { resolveShopCoreBuyerIdFromRequest } from '@/lib/order/shop-core-buyer-context';
 
 export async function GET(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   const articleId = req.nextUrl.searchParams.get('articleId')?.trim();
   const collectionId = req.nextUrl.searchParams.get('collectionId')?.trim();
   if (!articleId) {
@@ -32,6 +42,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   let body: Record<string, unknown> = {};
   try {
     body = (await req.json()) as Record<string, unknown>;
@@ -55,12 +68,49 @@ export async function POST(req: NextRequest) {
       ? body.paymentTermsDays
       : resolveWorkshop2B2bPaymentTermsDays(paymentTermsRu);
 
+  const explicitBuyer = String(body.buyerId ?? '').trim();
+  const resolvedBuyerId =
+    checkoutAuth.mode === 'jwt'
+      ? checkoutAuth.buyerId
+      : explicitBuyer || resolveShopCoreBuyerIdFromRequest(req) || checkoutAuth.buyerId;
+
+  const moqViolations = collectWorkshop2B2bOrderLineMoqViolations(lines);
+  if (moqViolations.length > 0) {
+    return NextResponse.json(
+      {
+        ok: false,
+        code: 'moq_violation',
+        moqViolations,
+        messageRu: `Checkout заблокирован: MOQ — ${moqViolations[0]}`,
+      },
+      { status: 400 }
+    );
+  }
+
+  if (articleId && collectionId) {
+    const record = await getWorkshop2ServerDossierRecord(collectionId, articleId);
+    if (!record?.dossier) {
+      return NextResponse.json(
+        { ok: false, messageRu: `Досье ${articleId} не найдено — синхронизируйте W2.` },
+        { status: 404 }
+      );
+    }
+    const gate = evaluateWorkshop2B2bCartSubmitDevelopmentGate({
+      dossier: record.dossier,
+      articleId,
+      collectionId,
+    });
+    if (!gate.allowed) {
+      return NextResponse.json({ ok: false, messageRu: gate.messageRu }, { status: 409 });
+    }
+  }
+
   const now = new Date().toISOString();
   await putWorkshop2B2bOrder({
     id: orderId,
     collectionId: collectionId || undefined,
     articleId: articleId || undefined,
-    buyerId: String(body.buyerId ?? 'buyer-demo'),
+    buyerId: resolvedBuyerId,
     repId: body.repId != null ? String(body.repId) : undefined,
     status: 'submitted',
     tier: 'standard',
@@ -83,6 +133,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     ok: true,
     order: patched.ok ? patched.order : null,
+    buyerId: resolvedBuyerId,
     messageRu: 'Заказ отправлен · дата отгрузки и условия оплаты сохранены.',
   });
 }

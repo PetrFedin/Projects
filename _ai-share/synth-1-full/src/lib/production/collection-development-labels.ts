@@ -4,7 +4,10 @@
  */
 
 /** Заголовок раздела: навигация, крошки, пункты матрицы ядер. */
-export const COLLECTION_DEV_HUB_TITLE_RU = 'Разработка коллекции';
+export const COLLECTION_DEV_HUB_TITLE_RU = 'Разработка';
+
+/** Подзаголовок хаба: что делает раздел (коротко, без жаргона фильтров). */
+export const COLLECTION_DEV_HUB_LEAD_RU = 'Создание артикулов и доведение до образца';
 
 /** Пункт бренд-сайдбара: workshop разработки артикула (ТЗ → образец). */
 export const COLLECTION_DEV_SIDEBAR_LINK_RU = 'Разработка';

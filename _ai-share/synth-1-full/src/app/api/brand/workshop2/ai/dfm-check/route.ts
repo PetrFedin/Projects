@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { analyzeDfm } from '@/ai/flows/analyze-dfm-flow';
 import { z } from 'zod';
 import { getUnknownErrorMessage } from '@/lib/unknown-error-message';
+import { isWorkshop2AiConfigured } from '@/lib/server/workshop2-genkit-health';
 
 const RequestSchema = z.object({
   articleDescription: z.string(),
@@ -9,6 +10,13 @@ const RequestSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  if (!isWorkshop2AiConfigured()) {
+    return NextResponse.json(
+      { error: 'Workshop2 AI (Genkit) is not configured' },
+      { status: 503 }
+    );
+  }
+
   try {
     const body = await request.json();
     const parsed = RequestSchema.safeParse(body);
@@ -20,7 +28,7 @@ export async function POST(request: Request) {
     const result = await analyzeDfm({
       articleDescription: parsed.data.articleDescription,
       photoUrl: parsed.data.photoUrl,
-      userId: 'system', // Or extract from session if available
+      userId: 'system',
     });
 
     return NextResponse.json(result);

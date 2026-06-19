@@ -1,5 +1,7 @@
 'use client';
 
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { ShopB2bLegacyTailCorePage } from '@/app/shop/b2b/shop-b2b-legacy-tail-core';
 import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -44,6 +46,10 @@ const MOCK_TEMPLATES = [
 ];
 
 export default function OrderTemplatesPage() {
+  if (isPlatformCoreMode()) {
+    return <ShopB2bLegacyTailCorePage legacyPath={ROUTES.shop.b2bOrderTemplates} />;
+  }
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const saveFromOrderId = searchParams.get('saveFrom');
@@ -68,7 +74,7 @@ export default function OrderTemplatesPage() {
 
   return (
     <CabinetPageContent maxWidth="3xl" className="space-y-6">
-      <ShopB2bContentHeader lead="JOOR: сохраняйте наборы позиций по коллекции и повторяйте заказ в один клик." />
+      <ShopB2bContentHeader lead="Сохраняйте наборы позиций по коллекции и повторяйте заказ в один клик." />
 
       {showSaveFrom && (
         <Card className="border-accent-primary/30 bg-accent-primary/10 mb-6">

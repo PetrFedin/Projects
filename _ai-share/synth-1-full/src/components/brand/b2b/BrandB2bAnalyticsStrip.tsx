@@ -23,11 +23,17 @@ export function BrandB2bAnalyticsStrip({ collectionId = 'SS27' }: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    void fetch(`/api/brand/b2b/analytics?collectionId=${encodeURIComponent(collectionId)}`)
-      .then((r) => r.json())
-      .then((json: AnalyticsPayload) => setData(json))
-      .catch(() => setData({ ok: false, messageRu: 'B2B analytics недоступна' }))
-      .finally(() => setLoading(false));
+    void (async () => {
+      try {
+        const r = await fetch(`/api/brand/b2b/analytics?collectionId=${encodeURIComponent(collectionId)}`);
+        const json = (await r.json()) as AnalyticsPayload;
+        setData(json);
+      } catch {
+        setData({ ok: false, messageRu: 'B2B analytics недоступна' });
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, [collectionId]);
 
   const orders = data?.orderCount ?? 0;

@@ -183,11 +183,20 @@ describe('workshop2 wave-w must-close', () => {
   });
 
   it('demo-ss27-04 GET dossier auto-seeds in file-store', async () => {
-    const record = await getWorkshop2ServerDossierRecord(
-      'SS27',
-      WORKSHOP2_HUB_ONBOARDING_DEMO_ARTICLE_ID
-    );
-    expect(record).not.toBeNull();
-    expect(record?.dossier.hubOnboardingState?.done).toBe(true);
+    const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
+
+    try {
+      const record = await getWorkshop2ServerDossierRecord(
+        'SS27',
+        WORKSHOP2_HUB_ONBOARDING_DEMO_ARTICLE_ID
+      );
+      expect(record).not.toBeNull();
+      expect(record?.dossier.hubOnboardingState?.done).toBe(true);
+    } finally {
+      if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+      else delete process.env.WORKSHOP2_DATABASE_URL;
+    }
   });
 });

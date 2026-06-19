@@ -2,6 +2,8 @@
  * Wave 17 RU: одна строка статуса вкладки «Приёмка» — internal WMS + подсказка МойСклад (reuse dossier mirrors).
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
+import type { Workshop2InternalWmsMemoryJournalEntry } from '@/lib/production/workshop2-internal-wms-memory-journal';
 
 /** Сводка подключения склада без новых API — только mirrors / PG balances count. */
 export function summarizeWorkshop2StockPaneConnectedStatusRu(input: {
@@ -29,13 +31,23 @@ export function summarizeWorkshop2StockPaneConnectedStatusRu(input: {
     parts.push('Internal WMS: не подключён — резерв на «Снабжение»');
   }
 
-  const moyJournal = [...(internal?.memoryJournal ?? [])]
+  const memoryJournal = internal?.memoryJournal;
+  const journalRows: Workshop2InternalWmsMemoryJournalEntry[] = Array.isArray(memoryJournal)
+    ? (memoryJournal as Workshop2InternalWmsMemoryJournalEntry[])
+    : [];
+  const moyJournal = [...journalRows]
     .reverse()
-    .find((j) => j.messageRu?.includes('МойСклад') || j.kind === 'sync');
-  if (moyJournal?.messageRu?.trim()) {
-    parts.push(`МойСклад: ${moyJournal.messageRu.trim()}`);
-  } else if (ledger?.hintRu?.includes('МойСклад')) {
-    parts.push(`МойСклад: ${ledger.hintRu.trim()}`);
+    .find((j) => {
+      const msg = typeof j?.messageRu === 'string' ? j.messageRu : '';
+      return msg.includes('МойСклад') || j?.kind === 'sync';
+    });
+  const moyMsg =
+    typeof moyJournal?.messageRu === 'string' ? moyJournal.messageRu.trim() : '';
+  const ledgerHint = ledger ? workshop2PgMirrorStr(ledger, 'hintRu') : '';
+  if (moyMsg) {
+    parts.push(`МойСклад: ${moyMsg}`);
+  } else if (ledgerHint.includes('МойСклад')) {
+    parts.push(`МойСклад: ${ledgerHint.trim()}`);
   } else {
     parts.push('МойСклад: импорт остатков — кнопка на «Снабжение»');
   }

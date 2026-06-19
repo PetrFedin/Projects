@@ -10,6 +10,10 @@ import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-
 import { evaluateWorkshop2BomNodesSampleGate } from '@/lib/production/workshop2-bom-nodes-dossier-persist';
 import { collectWorkshop2PanelExportGateChecks } from '@/lib/production/workshop2-panel-gate-ui';
 import type { Workshop2ApiGateCheck } from '@/lib/production/workshop2-api-gate-messages';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2BomNodesStatus = {
   nodeCount: number;
@@ -102,16 +106,23 @@ export function summarizeWorkshop2BomPanelDisplayFromMirror(input: {
   const mirror = input.dossier.bomNodesMirror;
   if (!mirror?.mirroredAt) return input.live;
 
+  const stateRaw = workshop2PgMirrorStr(mirror, 'state');
+  const state =
+    stateRaw === 'empty' || stateRaw === 'partial' || stateRaw === 'ready'
+      ? stateRaw
+      : input.live.state;
+
   return {
-    nodeCount: mirror.nodeCount ?? input.live.nodeCount,
-    materialLineCount: mirror.materialLineCount ?? input.live.materialLineCount,
+    nodeCount: workshop2PgMirrorNum(mirror, 'nodeCount') || input.live.nodeCount,
+    materialLineCount:
+      workshop2PgMirrorNum(mirror, 'materialLineCount') || input.live.materialLineCount,
     trimLineCount: input.live.trimLineCount,
     orphanMaterialLineCount: input.live.orphanMaterialLineCount,
     linesMissingYield: input.live.linesMissingYield,
-    estimatedFob: mirror.estimatedFob ?? input.live.estimatedFob,
+    estimatedFob: workshop2PgMirrorNum(mirror, 'estimatedFob') || input.live.estimatedFob,
     deltaBand: input.live.deltaBand,
-    state: mirror.state ?? input.live.state,
-    hintRu: mirror.hintRu ?? input.live.hintRu,
+    state,
+    hintRu: workshop2PgMirrorStr(mirror, 'hintRu') || input.live.hintRu,
   };
 }
 

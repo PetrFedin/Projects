@@ -179,7 +179,9 @@ const returnsData = [
   { name: 'Отличается цвет', value: 15, fill: 'hsl(var(--chart-3))' },
 ];
 
-export default function B2BAnalyticsPage() {
+import { withShopB2bCoreLegacyGuard } from '@/app/shop/b2b/shop-b2b-core-legacy-guard';
+
+function B2BAnalyticsPageContent() {
   const allBrandProducts = useMemo(
     () => allMockProducts.filter((p) => isDemoBrandName(p.brand)),
     []
@@ -696,3 +698,5 @@ export default function B2BAnalyticsPage() {
     </CabinetPageContent>
   );
 }
+
+export default withShopB2bCoreLegacyGuard(ROUTES.shop.b2bAnalytics, B2BAnalyticsPageContent);

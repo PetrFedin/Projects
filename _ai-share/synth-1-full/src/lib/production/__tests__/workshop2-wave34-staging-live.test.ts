@@ -14,6 +14,7 @@ import {
   verifyWorkshop2B2bInboundWebhookHmac,
 } from '@/lib/production/workshop2-b2b-inbound-webhook';
 import {
+  buildWorkshop2B2bShowroom3dStreamPayload,
   resolveWorkshop2B2bShowroom3dStreamToken,
   workshop2B2bShowroom3dStreamTooltipRu,
 } from '@/lib/production/workshop2-b2b-showroom-3d-stream';
@@ -135,6 +136,21 @@ describe('wave34 — 3D showroom stream scaffold', () => {
     });
     expect(resolved.mode).toBe('live');
     expect(resolved.token).toMatch(/^w2-3d-/);
+  });
+
+  it('buildWorkshop2B2bShowroom3dStreamPayload always includes embedUrl', () => {
+    const payload = buildWorkshop2B2bShowroom3dStreamPayload({
+      collectionId: 'SS27',
+      articleId: 'demo-ss27-01',
+      origin: 'http://localhost:3001',
+    });
+    expect(payload.embedUrl).toBeTruthy();
+    expect(payload.embedMode).toBeTruthy();
+  });
+
+  it('domain event types b2b.3d.* registered', () => {
+    expect(isWorkshop2DomainEventType('b2b.3d.view')).toBe(true);
+    expect(isWorkshop2DomainEventType('b2b.3d.session')).toBe(true);
   });
 
   it('RU tooltip mentions env key when unset', () => {

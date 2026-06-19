@@ -6,6 +6,10 @@ import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import { evaluateWorkshop2StockWmsDeficitReserveGate } from '@/lib/production/workshop2-internal-wms';
 import { summarizeWorkshop2StockBundleStatus } from '@/lib/production/workshop2-stock-bundle-status';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2StockWmsLedgerFromBundle(input: {
   stock?: StockSnapshot | null;
@@ -17,7 +21,7 @@ export function buildWorkshop2StockWmsLedgerFromBundle(input: {
     kind: m.kind,
     qty: Number(m.qty) || 0,
     at: m.at,
-    note: m.note,
+    note: m.label,
   }));
   const internal = input.dossier?.internalWmsMirror;
   const wmsSyncStatus =
@@ -67,10 +71,14 @@ export function evaluateWorkshop2StockWmsLedgerGate(input: {
     stock: input.stock,
     dossier: input.dossier,
   });
-  const negative = ledger?.negativeBalance ?? status.negativeBalance;
+  const negative = ledger
+    ? workshop2PgMirrorStr(ledger, 'negativeBalance') === 'true' || status.negativeBalance
+    : status.negativeBalance;
   if (!negative) return null;
-  if (ledger?.ledgerAt && ledger.qtyOnHand != null && ledger.qtyOnHand < 0) {
-    const ageMs = Date.now() - new Date(ledger.ledgerAt).getTime();
+  const ledgerAt = ledger ? workshop2PgMirrorStr(ledger, 'ledgerAt') : '';
+  const qtyOnHand = ledger ? workshop2PgMirrorNum(ledger, 'qtyOnHand') : status.qtyOnHand;
+  if (ledgerAt && qtyOnHand < 0) {
+    const ageMs = Date.now() - new Date(ledgerAt).getTime();
     if (ageMs < 7 * 24 * 60 * 60 * 1000) return null;
   }
   return {
@@ -94,12 +102,16 @@ export function evaluateWorkshop2StockWmsHandoffGate(input: {
       messageRu: 'WMS ledger не в досье — «WMS ledger → PG» на вкладке Склад перед handoff.',
     };
   }
-  if (ledger.negativeBalance) {
+  if (
+    ledger &&
+    (workshop2PgMirrorStr(ledger, 'negativeBalance') === 'true' || ledger.negativeBalance === true)
+  ) {
     return {
       id: 'stock.wms.negative_handoff',
       severity: 'blocker',
       messageRu:
-        ledger.hintRu ?? 'Отрицательный остаток в WMS ledger — handoff commit заблокирован.',
+        workshop2PgMirrorStr(ledger, 'hintRu') ??
+        'Отрицательный остаток в WMS ledger — handoff commit заблокирован.',
     };
   }
   return null;

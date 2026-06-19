@@ -40,7 +40,7 @@ export function prefillWorkshop2AssignmentsFromRequiredMatrix(
     const row = byId.get(attributeId);
     if (!row || assignmentHasValue(row)) continue;
     const attr = getAttributeById(attributeId);
-    const label = attr?.nameRu?.trim() || attributeId;
+    const label = attr?.name?.trim() || attributeId;
     byId.set(attributeId, {
       ...row,
       values: [

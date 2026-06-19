@@ -1,0 +1,162 @@
+---
+description: Локальное окружение, стек бэкенда и платформенные возможности (PostgreSQL, auth, каталог, платежи, AI).
+alwaysApply: true
+---
+
+# Project Environment
+
+Development machine:
+
+- macOS
+- Cursor IDE
+- Node.js 22.22.3 (nvm)
+- Python 3.14
+- PostgreSQL 17 (running locally)
+- Redis 8 (running locally)
+- Docker (OrbStack)
+- Ollama 0.30.8 (http://localhost:11434)
+- Firebase CLI installed
+- Vercel CLI installed
+- Git installed
+
+Backend stack:
+
+- FastAPI
+- SQLAlchemy 2.x (async)
+- PostgreSQL 17
+- Redis 8
+- Alembic (dependency in `pyproject.toml`)
+- Docker
+
+Rules:
+
+- Use PostgreSQL as the primary database (`DATABASE_URL=postgresql+asyncpg://…`).
+- Use Redis for caching and background jobs (`REDIS_URL`).
+- Prefer Docker containers for local services (OrbStack).
+- Use Ollama for local AI inference when possible; OpenAI/Gemini only when keys are set.
+- Do not suggest MongoDB, Kafka, Kubernetes, or Terraform unless explicitly requested.
+- Generate production-grade code.
+- Use environment variables from `.env`.
+- Use async FastAPI patterns when appropriate.
+- Extend existing modules — do not introduce parallel stacks for the same concern.
+
+---
+
+# Platform stack registry (pillar × capability × agent)
+- Backend: `app/platform/stack_registry.py`, probes: `app/platform/stack_probe.py`
+- API: `GET /api/v1/platform/stack/matrix|health|section/{id}|agents/routing`
+- Frontend mirror: `_ai-share/synth-1-full/src/lib/platform-stack-integration.ts`
+- Agent routing: `app/agents/stack_routing.py` (orchestrator reads `pillar`, `role`, `section_id` in context)
+
+## Platform Core pillars × stack (summary)
+
+| Pillar | RU title | Primary stack capabilities |
+|--------|----------|----------------------------|
+| `development` | ТЗ → образец | PostgreSQL, SQLAlchemy, Alembic, catalog, image upload, AI |
+| `sample_collection` | Образец → коллекция | PostgreSQL, catalog, image upload, AI |
+| `collection_order` | Коллекция → заказ | PostgreSQL, catalog, payments (Stripe/ЮKassa), AI |
+| `order_production` | Заказ → производство | PostgreSQL, SQLAlchemy, Alembic |
+| `comms` | Связь | JWT, users, Firebase Auth |
+
+**Roles:** `brand`, `shop`, `manufacturer`, `supplier` — see `platform-core-hub-matrix.ts`.
+
+**Horizontal (all roles):** auth/users via JWT; PG as SoT; AI agents via `app/agents/` + Ollama.
+
+---
+
+## 1. PostgreSQL
+
+- Engine/session: `app/db/session.py`
+- Models: `app/db/models/` (e.g. `core.py`, `product.py`)
+- Local: PostgreSQL 17; Platform Core / Workshop2 PG: `docker-compose.workshop2.yml` (port **5433**)
+- Env: `DATABASE_URL` in `.env` (prefer `postgresql+asyncpg://…`, not SQLite in new work)
+
+## 2. SQLAlchemy
+
+- Async sessions via `app/api/deps.py` → `get_db()`
+- Repository pattern: `app/db/repositories/`
+- Base model: `app/db/models/base.py`
+- Prefer `Mapped[]` / SQLAlchemy 2.0 style already used in models
+
+## 3. Alembic (migrations)
+
+- Package: `alembic` in `pyproject.toml`
+- Existing Python migration scripts: `app/db/migrations/` (see `app/db/migrations/README.md`)
+- Frontend / Platform Core SQL: `_ai-share/synth-1-full/db/migrations/`
+- **New schema changes:** prefer Alembic revisions; until `alembic/` is bootstrapped, follow existing `app/db/migrations/` or `_ai-share/synth-1-full/db/migrations/` patterns — do not add ad-hoc DDL in route handlers
+
+## 4. JWT authorization
+
+- Token create/verify: `app/core/security.py` (`create_access_token`, `ALGORITHM = HS256`)
+- OAuth2 bearer + `get_current_user`: `app/api/deps.py`
+- Login endpoint: `app/api/v1/endpoints/auth.py`
+- Env: `SECRET_KEY`, `ACCESS_TOKEN_EXPIRE_MINUTES`
+- Do not add a second JWT library or parallel auth middleware
+
+## 5. Users
+
+- Model: `app/db/models/core.py` → `User`, `Organization`
+- Schemas: `app/api/schemas/user.py`
+- Roles enum: `app/api/deps.py` → `UserRole`
+- Auth routes: `app/api/v1/endpoints/auth.py`
+
+## 6. Product catalog
+
+- Backend API: `app/api/v1/endpoints/product.py`, repositories in `app/db/repositories/product.py`
+- Product/SKU models: `app/db/models/product.py`, `app/db/models/base.py`
+- B2B catalog (frontend BFF): `_ai-share/synth-1-full/src/app/api/b2b/`, `src/lib/b2b/integrations/catalog-summary-source.ts`
+- Marketplace sync base: `app/integrations/marketplace/base.py`
+- Extend existing PIM/product routes — do not create a separate catalog service
+
+## 7. Image / file upload
+
+- DAM assets: `app/api/v1/endpoints/dam.py` + `app/services/dam_service.py`
+- Bulk ingestion: `app/api/v1/endpoints/ingestion.py` (`UploadFile`)
+- AI visual search by upload: `app/api/v1/endpoints/ai_routes.py`
+- PLM documents: `app/api/v1/endpoints/plm/routes.py`
+- W2 tech pack (S3 presign): `_ai-share/synth-1-full/docs/W2_TECHPACK_PILOT.md`
+- Prefer existing DAM/ingestion endpoints; use Firebase Storage only on the frontend when Firebase is enabled
+
+## 8. Firebase Auth
+
+- Frontend only (canonical Next.js tree): `_ai-share/synth-1-full/src/lib/firebase/config.ts`, `firebase-env.ts`
+- Lazy init; mock mode when keys missing; PG-only mode skips Firebase (`isWorkshop2PgOnlyMode`)
+- Env: `NEXT_PUBLIC_FIREBASE_*` in full app `.env`
+- Backend auth stays JWT/FastAPI — do not duplicate user store in Firestore unless explicitly scoped
+
+## 9. Stripe / ЮKassa (payments)
+
+- **ЮKassa (RU):** stub + probes in `_ai-share/synth-1-full/src/lib/production/workshop2-yukassa-stub.ts`, routes under `_ai-share/synth-1-full/src/app/api/integrations/payments/yukassa/`
+- Env (full): `YUKASSA_SHOP_ID`, `YUKASSA_SECRET_KEY`
+- Backend payment config (Tinkoff/SBP): `app/core/config.py` → `PAYMENT_PROVIDER`, `TINKOFF_*`, `SBP_MERCHANT_ID`
+- **Stripe:** not implemented yet — add via existing integrations pattern under `_ai-share/synth-1-full/src/app/api/integrations/payments/` (mirror YuKassa stub/probe layout); international cards → Stripe, RU market → ЮKassa
+- Never hardcode payment secrets; gate with env and stub when keys absent
+
+## 10. AI module (OpenAI / Ollama)
+
+- Entry: `app/ai/llm_client.py`, router: `app/ai/llm_router.py`, config: `app/ai/ai_config.py`
+- HTTP routes: `app/api/v1/endpoints/ai_routes.py`
+- Embeddings / visual search: `app/ai/embeddings_search.py`, `app/ai/services/visual_similarity_service.py`
+- Agents: `app/agents/`
+- **Local (preferred):** Ollama at `http://localhost:11434` — models: `qwen3`, `llama3.3`, `deepseek-r1`
+- **Cloud fallback:** `OPENAI_API_KEY`, `GEMINI_API_KEY` / `AI_MODEL` in `app/core/config.py`
+- Extend `LLMClient` for Ollama/OpenAI — do not add a second AI client abstraction
+
+---
+
+# New Chat Prompt (optional)
+
+```
+Analyze this project.
+
+Use:
+- FastAPI + SQLAlchemy + PostgreSQL 17
+- Redis, Docker, Alembic
+- JWT auth, existing User/Product modules
+- Firebase Auth (frontend), Stripe/ЮKassa (integrations)
+- Ollama for local AI
+
+All services are installed locally.
+Reuse canonical paths from .cursor/rules/project.mdc.
+Generate code compatible with this environment.
+```

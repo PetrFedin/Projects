@@ -1,0 +1,42 @@
+openapi: 3.1.0
+info:
+  title: Synth-1 Runway API
+  version: 1.0.0
+  description: Product Scroll Switcher — analytics, health, upload presign, brand CDN config
+servers:
+  - url: /api/runway
+paths:
+  /health:
+    get:
+      summary: Runway health snapshot
+      operationId: getRunwayHealth
+      responses:
+        '200':
+          description: Operational status
+  /analytics:
+    get:
+      summary: Analytics dashboard
+      operationId: getRunwayAnalytics
+      responses:
+        '200':
+          description: Metrics and funnel
+    post:
+      summary: Ingest scroll experience events
+      operationId: postRunwayAnalytics
+      responses:
+        '200':
+          description: Events accepted
+  /upload/presign:
+    post:
+      summary: Presigned upload URL for brand hero video
+      operationId: postRunwayUploadPresign
+      responses:
+        '200':
+          description: Presign payload
+  /config/brand-cdn:
+    get:
+      summary: Brand CDN base URL overrides
+      operationId: getRunwayBrandCdn
+      responses:
+        '200':
+          description: CDN config map

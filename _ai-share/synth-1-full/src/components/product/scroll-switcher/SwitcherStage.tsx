@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState, type Ref } from 'react';
 import { Loader2, PictureInPicture2, Play, Volume2, VolumeX } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -262,7 +262,7 @@ function SwitcherStageInner({
                     ? `section-video-${activeSection}-${activeVideoUrl}`
                     : 'shared-video'
                 }
-                ref={videoRef}
+                ref={videoRef as Ref<HTMLVideoElement>}
                 className={cn(
                   'absolute inset-0 h-full w-full object-cover',
                   usePerSectionVideo

@@ -397,10 +397,12 @@ describe('runway iteration3 — embed bridge page contract', () => {
       'utf8'
     );
     expect(src).toContain('useRunwayEmbedBridge');
-    expect(src).toContain('data-runway-embed');
-    expect(src).toContain('aspectRatio');
+    expect(src).toContain('parseRunwayEmbedAspectRatio');
     expect(src).toContain('parseRunwayEmbedSectionIndex');
     expect(src).toContain('resolveRunwayEmbedCompact');
+    expect(src).toContain('data-runway-embed');
+    expect(src).toContain('aspectRatio');
+    expect(src).toContain('controlledSectionIndex');
   });
 });
 

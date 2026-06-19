@@ -27,4 +27,8 @@ async function supplierScorecardHandler(request: Request) {
   return NextResponse.json(mockData);
 }
 
-export const GET = observeApiRoute(supplierScorecardHandler);
+export async function GET(request: Request) {
+  return observeApiRoute(request, '/api/brand/workshop2/qc/supplier-scorecard', () =>
+    supplierScorecardHandler(request)
+  );
+}

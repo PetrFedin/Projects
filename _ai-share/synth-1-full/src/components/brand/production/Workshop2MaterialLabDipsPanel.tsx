@@ -26,8 +26,8 @@ export function Workshop2MaterialLabDipsPanel({ materialId }: Workshop2MaterialL
           `/api/brand/workshop2/materials/lab-dips?materialId=${materialId}`
         );
         if (!response.ok) throw new Error('Failed to fetch lab dips');
-        const data = await response.json();
-        setLabDips(data.labDips);
+        const data = (await response.json()) as { labDips?: LabDip[] };
+        setLabDips(data.labDips ?? []);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
@@ -56,7 +56,7 @@ export function Workshop2MaterialLabDipsPanel({ materialId }: Workshop2MaterialL
         throw new Error('Failed to update status');
       }
     } catch (err) {
-      workshop2DevWarn('component', 'Error updating lab dip:', err);
+      workshop2DevWarn('component', 'Error updating lab dip:', { cause: err });
       // Revert on failure
       setLabDips(previousDips);
     }

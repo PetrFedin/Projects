@@ -46,7 +46,7 @@ export function Workshop2DfmCheckPanel({
           throw new Error('Failed to run DFM check');
         }
       }
-      setResult(await res.json());
+      setResult((await res.json()) as AnalyzeDfmOutput);
     } catch {
       if (!canWorkshop2UseAiDemoFallback()) setResult(null);
       toast({

@@ -7,6 +7,7 @@ import {
 } from '@/lib/production/workshop2-sketch-coverage';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2SketchCoverageMirror(
   dossier: Workshop2DossierPhase1,
@@ -61,23 +62,25 @@ function checkFromMirror(
   ids: { empty: string; partial: string },
   messageHandoff?: boolean
 ): Workshop2HandoffReadinessCheck | null {
-  if (mirror.state === 'empty') {
+  const state = workshop2PgMirrorStr(mirror, 'state') || String(mirror.state ?? '');
+  const hintRu = workshop2PgMirrorStr(mirror, 'hintRu');
+  if (state === 'empty') {
     return {
       id: ids.empty,
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
+        hintRu ||
         (messageHandoff
           ? 'Скетч не готов — загрузите канон или лист с подложкой перед передачей в цех.'
           : 'ZIP ТЗ: нет скетча — загрузите канон или лист с подложкой.'),
     };
   }
-  if (mirror.state === 'partial') {
+  if (state === 'partial') {
     return {
       id: ids.partial,
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
+        hintRu ||
         (messageHandoff
           ? 'Скетч частично готов — расставьте метки BOM и зафиксируйте ревизию.'
           : 'ZIP ТЗ: скетч неполный — метки BOM и ревизия обязательны.'),
@@ -121,7 +124,12 @@ export function evaluateWorkshop2SketchCoverageHandoffGate(
         live.hintRu ?? 'Скетч частично готов — расставьте метки BOM и зафиксируйте ревизию.',
     };
   }
-  if (!mirror.blockerHandoff) return null;
+  if (
+    mirror.blockerHandoff !== true &&
+    workshop2PgMirrorStr(mirror, 'blockerHandoff') !== 'true'
+  ) {
+    return null;
+  }
   return checkFromMirror(
     mirror,
     {

@@ -8,7 +8,7 @@ import CollaborationProjects from '@/components/brand/collaboration-projects';
 import { SectionInfoCard } from '@/components/brand/production/ProductionSectionEnhancements';
 import { ProductionSectionHeader } from '@/app/brand/production/production-page-content-chrome';
 import { cabinetSurface } from '@/lib/ui/cabinet-surface';
-import { CATEGORY_HANDBOOK } from '@/lib/data/category-handbook';
+import { getHandbookAudiences } from '@/lib/production/category-catalog';
 
 type CnFn = (...args: (string | boolean | undefined | null)[]) => string;
 
@@ -80,7 +80,7 @@ export function ProductionPageContentTabHandbooks({
               <div>
                 <p className="text-[12px] font-black uppercase">Категории</p>
                 <p className="text-text-secondary text-[10px]">
-                  {CATEGORY_HANDBOOK?.length || 0} категорий
+                  {getHandbookAudiences().length} категорий
                 </p>
               </div>
             </div>

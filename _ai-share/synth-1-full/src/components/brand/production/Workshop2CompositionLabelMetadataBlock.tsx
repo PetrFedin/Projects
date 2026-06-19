@@ -110,6 +110,7 @@ export function Workshop2CompositionLabelMetadataBlock({
           <Input
             className="h-9 text-xs"
             disabled={ro}
+            data-testid="workshop2-dossier-composition-label-size"
             value={s.labelGarmentSizeText ?? ''}
             onChange={(e) => onChange(patchSpec(s, { labelGarmentSizeText: e.target.value }))}
             placeholder="M, 48, или код шкалы из досье"

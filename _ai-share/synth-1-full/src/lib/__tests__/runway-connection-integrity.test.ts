@@ -1,5 +1,5 @@
 /**
- * LEAN runway — связность каталога, hero SKU и eligibility бейджа.
+ * LEAN runway — связность каталога, 3 hero SKU и eligibility бейджа.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -21,7 +21,7 @@ import type { Product, ScrollExperienceConfig } from '@/lib/types';
 const catalogPath = path.join(process.cwd(), 'public/data/products.json');
 const scrollConfigPath = path.join(process.cwd(), 'public/data/scroll-experience.json');
 
-const HERO_SLUGS = ['silk-midi-dress', 'cashmere-crewneck-sweater'] as const;
+const HERO_SLUGS = ['silk-midi-dress', 'cashmere-crewneck-sweater', 'tech-anorak-men'] as const;
 const DEMOTED_SLUG = 'oversized-hoodie-women';
 
 function mockRunwayFetch(catalog: Product[], scrollConfig: ScrollExperienceConfig) {
@@ -40,7 +40,7 @@ function mockRunwayFetch(catalog: Product[], scrollConfig: ScrollExperienceConfi
   }) as typeof fetch;
 }
 
-describe('runway connection integrity (lean 2 SKU)', () => {
+describe('runway connection integrity (lean 3 SKU)', () => {
   let catalog: Product[];
   let scrollConfig: ScrollExperienceConfig;
 
@@ -53,16 +53,16 @@ describe('runway connection integrity (lean 2 SKU)', () => {
     mockRunwayFetch(catalog, scrollConfig);
   });
 
-  it('loadAllScrollVideoProducts() count === 2', async () => {
+  it('loadAllScrollVideoProducts() count === 3', async () => {
     const products = await loadAllScrollVideoProducts();
-    expect(products).toHaveLength(2);
+    expect(products).toHaveLength(3);
     expect(products.map((p) => p.slug).sort()).toEqual([...HERO_SLUGS].sort());
   });
 
-  it('loadRunwayProducts() merged catalog содержит ровно 2 scroll-video SKU', async () => {
+  it('loadRunwayProducts() merged catalog содержит ровно 3 scroll-video SKU', async () => {
     const products = await loadRunwayProducts();
     const scrollVideo = filterScrollVideoProducts(products);
-    expect(scrollVideo).toHaveLength(2);
+    expect(scrollVideo).toHaveLength(3);
     expect(scrollVideo.map((p) => p.slug).sort()).toEqual([...HERO_SLUGS].sort());
   });
 
@@ -70,9 +70,34 @@ describe('runway connection integrity (lean 2 SKU)', () => {
     const scrollSlugs = new Set(filterScrollVideoProducts(catalog).map((p) => p.slug));
     const heroSlugs = resolveHeroProductSlugs(scrollConfig);
 
-    expect(heroSlugs).toHaveLength(2);
+    expect(heroSlugs).toHaveLength(3);
     for (const slug of heroSlugs) {
       expect(scrollSlugs.has(slug)).toBe(true);
+    }
+  });
+
+  it('PDP page-content wired to ProductRunwayPdpMediaColumn (regression guard)', () => {
+    const pageContentSrc = fs.readFileSync(
+      path.join(process.cwd(), 'src/app/products/[slug]/page-content.tsx'),
+      'utf8'
+    );
+    expect(pageContentSrc).toContain('ProductRunwayPdpMediaColumn');
+    expect(pageContentSrc).toContain("from '@/components/product/ProductRunwayPdpMediaColumn'");
+    expect(pageContentSrc).toContain('<ProductRunwayPdpMediaColumn');
+  });
+
+  it('tech-anorak-men sectionVideoUrl использует anorak-* пути, не silk-*', () => {
+    const anorak = catalog.find((p) => p.slug === 'tech-anorak-men');
+    expect(anorak).toBeDefined();
+
+    const urls = (anorak!.scrollSwitcherSections ?? [])
+      .map((s) => s.sectionVideoUrl)
+      .filter(Boolean);
+
+    expect(urls).toHaveLength(3);
+    for (const url of urls) {
+      expect(url).toMatch(/\/videos\/sections\/anorak-\d+\.mp4$/);
+      expect(url).not.toMatch(/\/videos\/sections\/silk-\d+\./);
     }
   });
 

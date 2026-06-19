@@ -2,7 +2,7 @@
  * Wave 12 RU: gate подсказка на заказ образца — markingRequired без GTIN (Честный ЗНАК).
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
-import type { Workshop2ApiGateCheck } from '@/lib/production/workshop2-api-gate-messages';
+import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import {
   isWorkshop2MarkingRegisteredForSampleGate,
   resolveWorkshop2PassportMarkingFields,
@@ -12,7 +12,7 @@ import { getWorkshop2MarketProfile } from '@/lib/production/workshop2-market-pro
 export function evaluateWorkshop2RuMarkingSampleOrderGate(
   dossier: Workshop2DossierPhase1,
   env: Record<string, string | undefined> = process.env
-): Workshop2ApiGateCheck | null {
+): Workshop2HandoffReadinessCheck | null {
   if (getWorkshop2MarketProfile(env) !== 'ru') return null;
   const f = resolveWorkshop2PassportMarkingFields(dossier);
   if (!f.markingRequired) return null;

@@ -1,0 +1,90 @@
+{"role":"user","text":"SYNTHA Platform Core — глубокое сканирование проекта для планировщика развития.\nSession: scan-1781716892516-u2lum9\nCollection: SS27\nЛокальный аудит уже добавил 0 пункт(ов). Твоя задача — найти дополнительные пробелы в коде и UX.\n\n## Матрица роли × столпы × разделы (канон аудита)\n{\n  \"collectionId\": \"SS27\",\n  \"pillars\": [\n    {\n      \"id\": \"development\",\n      \"title\": \"Разработка\"\n    },\n    {\n      \"id\": \"sample_collection\",\n      \"title\": \"Коллекция и витрина\"\n    },\n    {\n      \"id\": \"collection_order\",\n      \"title\": \"Оптовый заказ\"\n    },\n    {\n      \"id\": \"order_production\",\n      \"title\": \"Производство\"\n    },\n    {\n      \"id\": \"comms\",\n      \"title\": \"Связь\"\n    }\n  ],\n  \"cells\": [\n    {\n      \"roleId\": \"brand\",\n      \"role\": \"Бренд\",\n      \"pillarId\": \"development\",\n      \"active\": true,\n      \"liveScore\": 6.6,\n      \"summary\": \"W2 golden: hub + досье + состав из PG; localStorage overlay для SS27/FW27 отключён в Platform Core.\",\n      \"bad\": [],\n      \"fix\": [],\n      \"workspaceHref\": \"/brand/production/workshop2?w2col=SS27&collection=SS27&orderId=B2B-DEMO-SHOP1-SS27&article=demo-ss27-01&buyerId=shop1\",\n      \"sections\": [\n        {\n          \"id\": \"brand-dev-w2-hub\",\n          \"label\": \"Цех разработки · коллекция\",\n          \"liveScore\": 7.5,\n          \"bad\": [],\n          \"fix\": [\n            \"Investor-summary read-only отдельно\"\n          ],\n          \"href\": \"/brand/production/workshop2?w2col=SS27\"\n        },\n        {\n          \"id\": \"brand-dev-dossier\",\n          \"label\": \"Досье артикула · техзадание\",\n          \"liveScore\": 7.2,\n          \"bad\": [\n            \"Investor-summary read-only отдельно\"\n          ],\n          \"fix\": [],\n          \"href\": \"/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=general\"\n        },\n        {\n          \"id\": \"brand-dev-range\",\n          \"label\": \"Планировщик ассортимента\",\n          \"liveScore\": 7.3,\n          \"bad\": [\n            \"Нет drag-reorder между tier\"\n          ],\n          \"fix\": [\n            \"Drag-","at":"2026-06-17T17:21:32.795Z"}
+{"role":"system","text":"Cursor local agent · cwd /Users/petr/Projects","at":"2026-06-17T17:21:32.796Z"}
+{"role":"assistant","text":"Запускаю глубокое сканирование репозитория: ищу пробелы в коде и UX, котор","at":"2026-06-17T17:21:40.707Z","stream":true}
+{"role":"assistant","text":"ых","at":"2026-06-17T17:21:40.708Z","stream":true}
+{"role":"assistant","text":" н","at":"2026-06-17T17:21:40.708Z","stream":true}
+{"role":"assistant","text":"ет","at":"2026-06-17T17:21:40.708Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:21:40.708Z","stream":true}
+{"role":"assistant","text":" мат","at":"2026-06-17T17:21:40.709Z","stream":true}
+{"role":"assistant","text":"ри","at":"2026-06-17T17:21:40.709Z","stream":true}
+{"role":"assistant","text":"це","at":"2026-06-17T17:21:40.710Z","stream":true}
+{"role":"assistant","text":" ауд","at":"2026-06-17T17:21:40.710Z","stream":true}
+{"role":"assistant","text":"ита","at":"2026-06-17T17:21:40.710Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:21:40.711Z","stream":true}
+{"role":"assistant","text":"С","at":"2026-06-17T17:24:40.699Z","stream":true}
+{"role":"assistant","text":"об","at":"2026-06-17T17:24:40.700Z","stream":true}
+{"role":"assistant","text":"ира","at":"2026-06-17T17:24:40.700Z","stream":true}
+{"role":"assistant","text":"ю","at":"2026-06-17T17:24:40.700Z","stream":true}
+{"role":"assistant","text":" JSON","at":"2026-06-17T17:24:40.701Z","stream":true}
+{"role":"assistant","text":" из","at":"2026-06-17T17:24:40.701Z","stream":true}
+{"role":"assistant","text":" пров","at":"2026-06-17T17:24:40.701Z","stream":true}
+{"role":"assistant","text":"ерен","at":"2026-06-17T17:24:40.703Z","stream":true}
+{"role":"assistant","text":"ных","at":"2026-06-17T17:24:40.704Z","stream":true}
+{"role":"assistant","text":" наход","at":"2026-06-17T17:24:40.704Z","stream":true}
+{"role":"assistant","text":"ок","at":"2026-06-17T17:24:40.704Z","stream":true}
+{"role":"assistant","text":",","at":"2026-06-17T17:24:40.705Z","stream":true}
+{"role":"assistant","text":" без","at":"2026-06-17T17:24:40.705Z","stream":true}
+{"role":"assistant","text":" д","at":"2026-06-17T17:24:40.705Z","stream":true}
+{"role":"assistant","text":"убл","at":"2026-06-17T17:24:40.706Z","stream":true}
+{"role":"assistant","text":"ей","at":"2026-06-17T17:24:40.706Z","stream":true}
+{"role":"assistant","text":" из","at":"2026-06-17T17:24:40.706Z","stream":true}
+{"role":"assistant","text":" мат","at":"2026-06-17T17:24:40.707Z","stream":true}
+{"role":"assistant","text":"ри","at":"2026-06-17T17:24:40.707Z","stream":true}
+{"role":"assistant","text":"цы","at":"2026-06-17T17:24:40.707Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:24:40.707Z","stream":true}
+{"role":"assistant","text":" пре","at":"2026-06-17T17:24:40.708Z","stream":true}
+{"role":"assistant","text":"ды","at":"2026-06-17T17:24:40.708Z","stream":true}
+{"role":"assistant","text":"д","at":"2026-06-17T17:24:40.708Z","stream":true}
+{"role":"assistant","text":"ущ","at":"2026-06-17T17:24:40.708Z","stream":true}
+{"role":"assistant","text":"его","at":"2026-06-17T17:24:40.709Z","stream":true}
+{"role":"assistant","text":" ск","at":"2026-06-17T17:24:40.709Z","stream":true}
+{"role":"assistant","text":"ана","at":"2026-06-17T17:24:40.709Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:24:40.709Z","stream":true}
+{"role":"assistant","text":"З","at":"2026-06-17T17:25:03.132Z","stream":true}
+{"role":"assistant","text":"ап","at":"2026-06-17T17:25:03.133Z","stream":true}
+{"role":"assistant","text":"ис","at":"2026-06-17T17:25:03.133Z","stream":true}
+{"role":"assistant","text":"ан","at":"2026-06-17T17:25:03.134Z","stream":true}
+{"role":"assistant","text":" файл","at":"2026-06-17T17:25:03.134Z","stream":true}
+{"role":"assistant","text":" `_","at":"2026-06-17T17:25:03.134Z","stream":true}
+{"role":"assistant","text":"ai","at":"2026-06-17T17:25:03.135Z","stream":true}
+{"role":"assistant","text":"-share","at":"2026-06-17T17:25:03.135Z","stream":true}
+{"role":"assistant","text":"/s","at":"2026-06-17T17:25:03.135Z","stream":true}
+{"role":"assistant","text":"ynth","at":"2026-06-17T17:25:03.135Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:25:03.136Z","stream":true}
+{"role":"assistant","text":"1","at":"2026-06-17T17:25:03.136Z","stream":true}
+{"role":"assistant","text":"-full","at":"2026-06-17T17:25:03.136Z","stream":true}
+{"role":"assistant","text":"/.","at":"2026-06-17T17:25:03.136Z","stream":true}
+{"role":"assistant","text":"plan","at":"2026-06-17T17:25:03.137Z","stream":true}
+{"role":"assistant","text":"ning","at":"2026-06-17T17:25:03.137Z","stream":true}
+{"role":"assistant","text":"/pl","at":"2026-06-17T17:25:03.137Z","stream":true}
+{"role":"assistant","text":"anner","at":"2026-06-17T17:25:03.137Z","stream":true}
+{"role":"assistant","text":"-scan","at":"2026-06-17T17:25:03.138Z","stream":true}
+{"role":"assistant","text":"-scan","at":"2026-06-17T17:25:03.138Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:25:03.138Z","stream":true}
+{"role":"assistant","text":"1781716892516-u2lum9.json`: **26 development** + **13 techDebt** (новые пункты, без дублей из матри","at":"2026-06-17T17:25:03.193Z","stream":true}
+{"role":"assistant","text":"цы и предыдущего скана).\n\n## Топ-5 находок\n\n1. **Auth cluster (P0)** — `/api/messages/context","at":"2026-06-17T17:25:03.323Z","stream":true}
+{"role":"assistant","text":"ual` GET/POST открыты без guard; рядом threads, calendar, retailers, cart","at":"2026-06-17T17:25:03.439Z","stream":true}
+{"role":"assistant","text":" GET, bulk handoff, invites, partnerships, delivery-ack — единый пробел безопасности platform-core B2B","at":"2026-06-17T17:25:03.540Z","stream":true}
+{"role":"assistant","text":"/comms.\n\n2. **Supplier/manufacturer layout nav (P0/P1)** — `factory/supplier/layout.tsx` и `factory/production/layout.tsx` рендерят с","at":"2026-06-17T17:25:03.637Z","stream":true}
+{"role":"assistant","text":"ырой `HubSidebar`; `augment*NavForCoreCabinet` есть только в `*LayoutSidebarPanel`, но gate","at":"2026-06-17T17:25:03.732Z","stream":true}
+{"role":"assistant","text":"-компоненты не подключены → dead-ends на brand routes.\n\n3. **Shop dual cart (P1)** —","at":"2026-06-17T17:25:03.833Z","stream":true}
+{"role":"assistant","text":" витрина «+ в матрицу» и `CoreWholesaleMatrix` пишут в `useB2BState`; PG `/api/shop/b","at":"2026-06-17T17:25:03.935Z","stream":true}
+{"role":"assistant","text":"2b/cart/lines` используется только при checkout через `syncLegacyCartToWorkshop2` — qty теряется до sync","at":"2026-06-17T17:25:04.037Z","stream":true}
+{"role":"assistant","text":".\n\n4. **canShopAmend split (P1)** — hub (`CollectionOrderPillarCard`) смотрит chain steps `shop_sent && !brand_confirmed","at":"2026-06-17T17:25:04.499Z","stream":true}
+{"role":"assistant","text":"`, order detail (`PlatformCoreB2bOrderDetailFacts`) — `order.status === 'submitted'`; amend CTA может рас","at":"2026-06-17T17:25:04.617Z","stream":true}
+{"role":"assistant","text":"ходиться.\n\n5. **Supplier nav + orphan route (P1)** — `filterSupplierNavForPlatformCore` не переписывает","at":"2026-06-17T17:25:04.717Z","stream":true}
+{"role":"assistant","text":" partners/logistics (`ROUTES.brand.*`); дубль `/supplier/circular-hub` с breadcrumb на несуществующий `/supplier`","at":"2026-06-17T17:25:04.840Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:25:04.901Z","stream":true}
+{"role":"assistant","text":"мест","at":"2026-06-17T17:25:04.902Z","stream":true}
+{"role":"assistant","text":"о","at":"2026-06-17T17:25:04.902Z","stream":true}
+{"role":"assistant","text":" canonical","at":"2026-06-17T17:25:04.902Z","stream":true}
+{"role":"assistant","text":" `/","at":"2026-06-17T17:25:04.902Z","stream":true}
+{"role":"assistant","text":"factory","at":"2026-06-17T17:25:04.902Z","stream":true}
+{"role":"assistant","text":"/sup","at":"2026-06-17T17:25:04.902Z","stream":true}
+{"role":"assistant","text":"plier","at":"2026-06-17T17:25:04.902Z","stream":true}
+{"role":"assistant","text":"/c","at":"2026-06-17T17:25:04.902Z","stream":true}
+{"role":"assistant","text":"ircular","at":"2026-06-17T17:25:04.903Z","stream":true}
+{"role":"assistant","text":"-hub","at":"2026-06-17T17:25:04.903Z","stream":true}
+{"role":"assistant","text":"`.","at":"2026-06-17T17:25:04.903Z","stream":true}
+{"role":"assistant","text":"Записан файл `_ai-share/synth-1-full/.planning/planner-scan-scan-1781716892516-u2lum9.json`: **26 development** + **13 techDebt** (новые пункты, без дублей из матрицы и предыдущего скана).\n\n## Топ-5 находок\n\n1. **Auth cluster (P0)** — `/api/messages/contextual` GET/POST открыты без guard; рядом threads, calendar, retailers, cart GET, bulk handoff, invites, partnerships, delivery-ack — единый пробел безопасности platform-core B2B/comms.\n\n2. **Supplier/manufacturer layout nav (P0/P1)** — `factory/supplier/layout.tsx` и `factory/production/layout.tsx` рендерят сырой `HubSidebar`; `augment*NavForCoreCabinet` есть только в `*LayoutSidebarPanel`, но gate-компоненты не подключены → dead-ends на brand routes.\n\n3. **Shop dual cart (P1)** — витрина «+ в матрицу» и `CoreWholesaleMatrix` пишут в `useB2BState`; PG `/api/shop/b2b/cart/lines` используется только при checkout через `syncLegacyCartToWorkshop2` — qty теряется до sync.\n\n4. **canShopAmend split (P1)** — hub (`CollectionOrderPillarCard`) смотрит chain steps `shop_sent && !brand_confirmed`, order detail (`PlatformCoreB2bOrderDetailFacts`) — `order.status === 'submitted'`; amend CTA может расходиться.\n\n5. **Supplier nav + orphan route (P1)** — `filterSupplierNavForPlatformCore` не переписывает partners/logistics (`ROUTES.brand.*`); дубль `/supplier/circular-hub` с breadcrumb на несуществующий `/supplier` вместо canonical `/factory/supplier/circular-hub`.","at":"2026-06-17T17:25:05.598Z","done":true,"status":"finished"}
+{"role":"system","text":"Сканирование загружено в планировщик: +39 пункт(ов). Обновите вкладку План.","at":"2026-06-17T17:25:05.904Z"}

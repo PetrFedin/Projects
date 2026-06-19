@@ -5,8 +5,11 @@ import { Calendar, ChevronRight, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getDefaultUpcomingDeadlines, buildCalendarUrl } from '@/lib/data/calendar-events';
 import { ROUTES } from '@/lib/routes';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 
 export function CommunicationsUpcomingStrip({ limit = 5 }: { limit?: number }) {
+  if (isPlatformCoreMode()) return null;
+
   const items = getDefaultUpcomingDeadlines({ limit });
   return (
     <div className="bg-bg-surface2 border-border-subtle flex items-center gap-3 overflow-x-auto rounded-xl border px-4 py-2.5">

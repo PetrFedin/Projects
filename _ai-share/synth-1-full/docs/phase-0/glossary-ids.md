@@ -15,6 +15,10 @@
 | `productionBatchId` | Партия производства | Производство / бренд | Приёмка брендом до отгрузки в магазин |
 | `shipmentId` | Отгрузка / перевозка | Логистика | Трекинг, приёмка |
 | `threadId` | Поток чата с контекстом сущности | Система | Привязка к `wholesaleOrderId`, `collectionId`, … |
+| `integration.externalOrderId` | Внешний id заказа (JOOR/NuOrder/Zedonk/AM) | Внешняя платформа | Только ref; канон сделки — `wholesaleOrderId` (ADR-002) |
+| `IntegrationExternalRef` | Связь ext id ↔ syntha entity | Connector | `platform`, `externalId`, `synthaEntityType`, `synthaEntityId` |
+| `eligibleForCollection` | SKU допущен в showroom/matrix | Бренд / Centric Approved | Gate F-ELIGIBLE; API `GET …/integrations/v1/articles/:col/:art/eligible` |
+| `sourcePlatform` | Источник wholesale-заказа | OO DTO `integration` | `syntha` \| `joor` \| `nuorder` \| … |
 | `calendarEventId` | Событие календаря | Система | Сроки ЭДО, отгрузки, встречи, дедлайны гейтов |
 | `supplierId` | Поставщик сырья/фурнитуры | Бренд (контракт) | RFQ, поставки на фабрику — **не** прямая линия к магазину |
 | `manual` / `partial` | Пометка источника себестоимости | Бренд / финконтур | Прозрачность для инвестора и аудита |
@@ -33,6 +37,8 @@
 | `wholesaleOrderId` | Тип `WholesaleOrderId`; в `B2BOrder` поле **`order`**; извлечение: `getWholesaleOrderIdFromB2BOrder()` | Один канон на сделку |
 | Query чата/контекста заказа | `B2B_WHOLESALE_ORDER_CONTEXT_QUERY`: `order`, `orderId` | Не менять рассинхронно с `routes.ts` |
 | `collectionId` (бренд) / shop `collection` | `SHOP_B2B_COLLECTION_QUERY_PARAM` = `'collection'` | Один id сущности, разные имена параметра по контуру |
+| `integration.*` / `IntegrationExternalRef` | `OperationalOrderIntegration` в `operational-order-dto.schema.ts`; refs в `src/lib/integrations/spine/` | ADR-002 Wave A5+ |
+| `eligibleForCollection` | `GET /api/integrations/v1/articles/:collectionId/:articleId/eligible` | Centric Approved **or** W2 signoff/lifecycle |
 | `cogsAcknowledgedAt` / `cogsAcknowledgedBy` | *Пока нет в DTO* | Ввод в этапе 2 по [ADR-0001](./ADR/ADR-0001-cost-confirmation-without-full-cogs.md) |
 
 Остальные id из таблицы выше (`skuId`, `poId`, `threadId`, …) — в глоссарии как **продуктовые**; при появлении расхождений с типами/API обновлять эту секцию и чеклист A3.

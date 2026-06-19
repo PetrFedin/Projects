@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { cloneWorkshop2B2bOrderAsReorder } from '@/lib/production/workshop2-b2b-order-lifecycle';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 import {
   getWorkshop2B2bOrder,
   putWorkshop2B2bOrder,
@@ -12,6 +13,9 @@ import {
 type RouteCtx = { params: Promise<{ id: string }> };
 
 export async function POST(req: NextRequest, ctx: RouteCtx) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   const { id } = await ctx.params;
   const sourceId = id?.trim();
   if (!sourceId) {

@@ -4,6 +4,7 @@
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import { normalizeWorkshop2LifecycleState } from '@/lib/production/workshop2-lifecycle-transition';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2RndLifecycleMirror(
   dossier: Workshop2DossierPhase1
@@ -59,7 +60,9 @@ export function evaluateWorkshop2RndLifecycleSampleGate(
     return {
       id: 'rnd.lifecycle.rework',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Статус rework_requested — заказ образца заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Статус rework_requested — заказ образца заблокирован.',
     };
   }
   return null;
@@ -81,7 +84,8 @@ export function evaluateWorkshop2RndLifecycleHandoffGate(
       id: 'rnd.lifecycle.not_ready',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? `Lifecycle «${mirror.lifecycleState}» — handoff commit заблокирован.`,
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        `Lifecycle «${workshop2PgMirrorStr(mirror, 'lifecycleState') || String(mirror.lifecycleState ?? '')}» — handoff commit заблокирован.`,
     };
   }
   return null;

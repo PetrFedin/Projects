@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { ShopB2bLegacyTailCorePage } from '@/app/shop/b2b/shop-b2b-legacy-tail-core';
 import { ROUTES } from '@/lib/routes';
 import {
   getAgentBrands,
@@ -20,6 +22,10 @@ import { UserCircle, Percent, FileText, ShoppingCart, BarChart3, Filter } from '
 import { ReplenishmentRecommendationsBlock } from '@/components/b2b/ReplenishmentRecommendationsBlock';
 
 export default function AgentCabinetPage() {
+  if (isPlatformCoreMode()) {
+    return <ShopB2bLegacyTailCorePage legacyPath={ROUTES.shop.b2bAgentCabinet} />;
+  }
+
   const brands = getAgentBrands();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -46,7 +52,7 @@ export default function AgentCabinetPage() {
 
   return (
     <CabinetPageContent maxWidth="3xl" className="space-y-6">
-      <ShopB2bContentHeader lead="Zedonk: один логин, несколько брендов — переключение контекста, комиссии и отчёты по брендам." />
+      <ShopB2bContentHeader lead="Агентский кабинет: один вход, несколько брендов — переключение контекста, комиссии и отчёты." />
 
       <Card className="mb-6">
         <CardHeader>

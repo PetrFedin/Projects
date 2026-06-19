@@ -1,8 +1,8 @@
 import './globals.css';
 import 'yet-another-react-lightbox/styles.css';
 import type { Metadata } from 'next';
-import { Fira_Sans, Fira_Code, Playfair_Display } from 'next/font/google';
 import { RootClientProviders } from '@/components/layout/RootClientProviders';
+import { bodyClassName, fontVariables } from '@/lib/app-fonts';
 
 export const metadata: Metadata = {
   title: 'Syntha',
@@ -18,51 +18,14 @@ export const viewport = {
   userScalable: true,
 };
 
-/** Design system: design-system/synth-1-fashion-os/MASTER.md — fonts applied automatically */
-/** next/font требует литералы в `subsets`; выбор dev/prod — через два экземпляра (см. ниже). */
-const firaSansLatin = Fira_Sans({
-  weight: ['300', '400', '500', '600', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-body',
-});
-const firaSansLatinCyrillic = Fira_Sans({
-  weight: ['300', '400', '500', '600', '700'],
-  subsets: ['latin', 'cyrillic'],
-  display: 'swap',
-  variable: '--font-body',
-});
-const firaSans = process.env.NODE_ENV === 'development' ? firaSansLatin : firaSansLatinCyrillic;
-
-const firaCode = Fira_Code({
-  weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-code',
-});
-
-const playfairLatin = Playfair_Display({
-  weight: ['600', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-logo',
-});
-const playfairLatinCyrillic = Playfair_Display({
-  weight: ['600', '700'],
-  subsets: ['latin', 'cyrillic'],
-  display: 'swap',
-  variable: '--font-logo',
-});
-const playfair = process.env.NODE_ENV === 'development' ? playfairLatin : playfairLatinCyrillic;
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="ru"
       suppressHydrationWarning
-      className={`${firaSans.variable} ${firaCode.variable} ${playfair.variable}`}
+      className={fontVariables}
     >
-      <body className={firaSans.className}>
+      <body className={bodyClassName}>
         {/* Dev: ранний reload при ChunkLoadError — клиентский чанк layout может не загрузиться до монтирования ChunkLoadRecovery. */}
         {process.env.NODE_ENV === 'development' ? (
           <script

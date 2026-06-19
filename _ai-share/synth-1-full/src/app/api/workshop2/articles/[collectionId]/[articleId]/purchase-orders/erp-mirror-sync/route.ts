@@ -10,6 +10,10 @@ import {
   getWorkshop2ServerDossierRecord,
   putWorkshop2ServerDossierRecord,
 } from '@/lib/server/workshop2-phase1-dossier-server-store';
+import {
+  workshop2DossierPutFailureMessageRu,
+  workshop2DossierPutFailureStatus,
+} from '@/lib/server/workshop2-dossier-put-utils';
 import { guardWorkshop2Route, WORKSHOP2_WRITE_ROLES } from '@/lib/server/workshop2-route-auth';
 import {
   resolveWorkshop2OrganizationId,
@@ -62,7 +66,7 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
   });
 
   if (!saved.ok) {
-    return jsonWorkshop2ErrorRu(409, String(saved.reason));
+    return jsonWorkshop2ErrorRu(workshop2DossierPutFailureStatus(saved), workshop2DossierPutFailureMessageRu(saved));
   }
 
   return NextResponse.json({

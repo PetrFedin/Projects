@@ -37,6 +37,7 @@ describe('workshop2 wave39 — development depth', () => {
     }
     expect(parseWorkshop2ArticlePaneParam('invalid')).toBeNull();
     expect(parseWorkshop2ArticlePaneParam('documents')).toBe('vault');
+    expect(parseWorkshop2ArticlePaneParam('assignment')).toBe('tz');
   });
 
   it('workshop2ArticleHref builds w2pane query for every tab', () => {

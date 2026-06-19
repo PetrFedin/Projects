@@ -6,8 +6,9 @@
 import { NextResponse } from 'next/server';
 import { readJsonBody } from '@/lib/http/read-json-body';
 import {
-  mergeAllProcessDefinitionsForApi,
-  upsertDefinition,
+  mergeAllProcessDefinitionsForApiAsync,
+  upsertDefinitionAsync,
+  workflowStoreMeta,
 } from '@/lib/server/process-workflow-store';
 import { PROCESS_TEMPLATES } from '@/lib/live-process/process-templates';
 import type { LiveProcessDefinition } from '@/lib/live-process/types';
@@ -24,8 +25,10 @@ export async function GET(request: Request) {
       return NextResponse.json(templates);
     }
 
-    const processes = mergeAllProcessDefinitionsForApi();
-    return NextResponse.json(processes);
+    const processes = await mergeAllProcessDefinitionsForApiAsync();
+    return NextResponse.json(processes, {
+      headers: { 'X-Workflow-Store': JSON.stringify(workflowStoreMeta()) },
+    });
   } catch (e) {
     console.error('GET /api/processes:', e);
     return NextResponse.json({ error: 'Failed to fetch processes' }, { status: 500 });
@@ -51,7 +54,7 @@ export async function POST(request: Request) {
       meta: { isTemplate: false },
     };
 
-    upsertDefinition(process);
+    await upsertDefinitionAsync(process);
     return NextResponse.json(process, { status: 201 });
   } catch (e) {
     console.error('POST /api/processes:', e);

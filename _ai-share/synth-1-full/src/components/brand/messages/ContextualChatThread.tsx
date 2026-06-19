@@ -1,16 +1,48 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Send, Loader2 } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
+import { Send, Loader2, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { ContextualMessage } from '@/app/api/messages/contextual/route';
+import { useContextualChatPoll } from '@/lib/communications/use-contextual-chat-poll';
+import { useContextualChatSse } from '@/lib/communications/use-contextual-chat-sse';
+import { buildWorkshop2ApiRequestHeaders } from '@/lib/production/workshop2-api-client-headers';
 
 interface ContextualChatThreadProps {
   contextType: string;
   contextId: string;
   className?: string;
+}
+
+function renderMessageBody(message: string) {
+  const linkRe = /\[📎 ([^\]]+)\]\(([^)]+)\)/g;
+  const parts: React.ReactNode[] = [];
+  let last = 0;
+  let match: RegExpExecArray | null;
+  while ((match = linkRe.exec(message)) !== null) {
+    if (match.index > last) {
+      parts.push(message.slice(last, match.index));
+    }
+    const label = match[1];
+    const href = match[2];
+    parts.push(
+      <a
+        key={`${match.index}-${href}`}
+        href={href}
+        className="text-accent-primary font-medium underline"
+        data-testid="contextual-chat-attachment-link"
+        download
+      >
+        📎 {label}
+      </a>
+    );
+    last = match.index + match[0].length;
+  }
+  if (last < message.length) parts.push(message.slice(last));
+  return parts.length ? parts : message;
 }
 
 export function ContextualChatThread({
@@ -24,25 +56,40 @@ export function ContextualChatThread({
   const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback(async () => {
     try {
       const res = await fetch(
-        `/api/messages/contextual?contextType=${contextType}&contextId=${contextId}`
+        `/api/messages/contextual?contextType=${encodeURIComponent(contextType)}&contextId=${encodeURIComponent(contextId)}`,
+        { cache: 'no-store' }
       );
       if (res.ok) {
-        const data = await res.json();
-        setMessages(data.messages || []);
+        const data = (await res.json()) as { messages?: ContextualMessage[] };
+        setMessages(data.messages ?? []);
       }
     } catch (error) {
       console.error('Failed to fetch messages:', error);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [contextType, contextId]);
 
   useEffect(() => {
-    fetchMessages();
-  }, [contextType, contextId]);
+    setIsLoading(true);
+    void fetchMessages();
+  }, [fetchMessages]);
+
+  const { live: sseLive } = useContextualChatSse(contextType, contextId, () => {
+    void fetchMessages();
+  });
+
+  const { polling } = useContextualChatPoll(
+    contextType,
+    contextId,
+    () => {
+      void fetchMessages();
+    },
+    sseLive ? 45_000 : 15_000
+  );
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -56,9 +103,7 @@ export function ContextualChatThread({
     try {
       const res = await fetch('/api/messages/contextual', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: buildWorkshop2ApiRequestHeaders(),
         body: JSON.stringify({
           contextType,
           contextId,
@@ -67,7 +112,7 @@ export function ContextualChatThread({
       });
 
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as { message: ContextualMessage };
         setMessages((prev) => [...prev, data.message]);
         setNewMessage('');
       }
@@ -84,7 +129,26 @@ export function ContextualChatThread({
         'bg-bg-surface border-border-default flex h-full flex-col overflow-hidden rounded-md border',
         className
       )}
+      data-testid="contextual-chat-thread"
     >
+      <div className="border-border-default flex items-center gap-2 border-b px-3 py-1.5">
+        <RefreshCw
+          className={cn('h-3 w-3', sseLive || polling ? 'text-emerald-600' : 'text-text-muted')}
+          aria-hidden
+        />
+        {sseLive ? (
+          <span
+            className="text-emerald-700 text-[10px] font-medium"
+            data-testid="contextual-chat-sse-live-badge"
+          >
+            live · SSE
+          </span>
+        ) : (
+          <span className="text-text-muted text-[10px]">
+            {polling ? 'обновление каждые 15 с' : 'ожидание контекста'}
+          </span>
+        )}
+      </div>
       <div className="flex-1 space-y-4 overflow-y-auto p-4">
         {isLoading ? (
           <div className="flex h-full items-center justify-center">
@@ -106,8 +170,13 @@ export function ContextualChatThread({
                   })}
                 </span>
               </div>
-              <div className="bg-bg-surface2 text-text-primary rounded-md rounded-tl-none p-3 text-sm">
-                {msg.message}
+              <div
+                className="bg-bg-surface2 text-text-primary rounded-md rounded-tl-none p-3 text-sm"
+                data-testid={
+                  msg.message.includes('[📎 ') ? 'contextual-chat-message-with-attachment' : undefined
+                }
+              >
+                {renderMessageBody(msg.message)}
               </div>
             </div>
           ))

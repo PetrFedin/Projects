@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Body
+from fastapi import APIRouter, Depends, HTTPException, status, Body, File, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional, Any
 from datetime import datetime
@@ -9,6 +9,7 @@ from app.api.schemas.base import GenericResponse
 from app.db.repositories.base import BaseRepository
 from app.api.schemas.dam import MediaAsset, MediaAssetCreate, AssetProcessingRequest
 from app.services.dam_service import DAMService
+from app.services.storage_backend import storage_backend
 from app.core.logging import logger
 
 class MediaRepository(BaseRepository[AssetModel]):
@@ -35,6 +36,27 @@ async def upload_asset(
     repo = MediaRepository(db, current_user=current_user)
     new_asset = AssetModel(**asset_in.model_dump())
     created = await repo.create(new_asset)
+    return GenericResponse(data=created)
+
+@router.post("/upload", response_model=GenericResponse[MediaAsset])
+async def upload_binary_asset(
+    file: UploadFile = File(...),
+    title: str | None = None,
+    current_user: User = Depends(deps.get_current_active_user),
+    db: AsyncSession = Depends(deps.get_db),
+) -> Any:
+    """Binary upload → local static/media → MediaAsset row."""
+    rel_path, url = await storage_backend.save_upload(file, subdir="dam")
+    repo = MediaRepository(db, current_user=current_user)
+    asset = AssetModel(
+        title=title or file.filename or rel_path,
+        original_url=url,
+        processed_url=url,
+        asset_type="image" if (file.content_type or "").startswith("image/") else "file",
+        organization_id=current_user.organization_id,
+    )
+    created = await repo.create(asset)
+    logger.info("DAM upload saved: %s → %s", rel_path, url)
     return GenericResponse(data=created)
 
 @router.post("/{asset_id}/process", response_model=GenericResponse[MediaAsset])

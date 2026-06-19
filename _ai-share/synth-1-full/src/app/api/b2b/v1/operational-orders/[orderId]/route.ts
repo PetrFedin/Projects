@@ -5,16 +5,18 @@ import {
   findOperationalOrderForRequest,
   toV1DetailDto,
 } from '@/lib/order/b2b-operational-api-server';
+import { ensureSpineImportedOrdersStoreReady } from '@/lib/integrations/spine/imported-orders-persistence';
 
 /**
  * GET /api/b2b/v1/operational-orders/:orderId — detail DTO.
  */
 export async function GET(req: NextRequest, ctx: { params: Promise<{ orderId: string }> }) {
+  await ensureSpineImportedOrdersStoreReady();
   const { orderId } = await ctx.params;
   const requestId = getOrCreateRequestId(req);
   const mode = getApiContractMode();
   const decoded = decodeURIComponent(orderId);
-  const row = findOperationalOrderForRequest(req, decoded);
+  const row = await findOperationalOrderForRequest(req, decoded);
   if (!row) {
     return NextResponse.json(
       {
@@ -28,7 +30,7 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ orderId: st
   return NextResponse.json(
     {
       ok: true as const,
-      data: { order: toV1DetailDto(row) },
+      data: { order: await toV1DetailDto(row) },
       meta: { requestId, mode, apiVersion: 'v1' as const },
     },
     { headers: { 'x-request-id': requestId } }

@@ -12,6 +12,7 @@ import {
   resolveWorkshop2B2bBestWholesalePriceRub,
   type Workshop2B2bQtyPriceBreak,
 } from '@/lib/production/workshop2-b2b-wave23-parity';
+import { resolveWorkshop2B2bArticleHeroImageUrl } from '@/lib/production/workshop2-b2b-article-hero-image';
 
 export type Workshop2B2bBuyerTier = 'standard' | 'vip' | 'prebook';
 
@@ -75,8 +76,7 @@ export function buildWorkshop2B2bCampaign(input: {
     (input.campaign?.visibilityTier && isWorkshop2B2bBuyerTier(input.campaign.visibilityTier)
       ? input.campaign.visibilityTier
       : 'standard');
-  const vaultUrl = (input.dossier as { vaultPanelMirror?: { heroPreviewUrl?: string } })
-    .vaultPanelMirror?.heroPreviewUrl;
+  const heroImageUrl = resolveWorkshop2B2bArticleHeroImageUrl(input.dossier);
   return {
     collectionId: input.collectionId,
     articleId: input.articleId,
@@ -92,7 +92,7 @@ export function buildWorkshop2B2bCampaign(input: {
       input.articleIds ??
       syncWorkshop2CampaignArticleIdsFromDossier(input.dossier, input.articleId),
     linesheet,
-    heroImageUrl: typeof vaultUrl === 'string' ? vaultUrl : undefined,
+    heroImageUrl,
   };
 }
 
@@ -177,6 +177,8 @@ export type Workshop2B2bCalendarEvent = {
   id: string;
   collectionId: string;
   articleId?: string;
+  /** Оптовый заказ — привязка события к чату `b2b_order`. */
+  b2bOrderId?: string;
   source: 'b2b';
   title: string;
   startAt: string;

@@ -6,8 +6,12 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, ShoppingCart, Building2, Layers, Loader2 } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { ArrowLeft, ShoppingCart, Building2, Layers, Loader2, Truck } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { BrandZedonkConsolidatedImportButton } from '@/components/integrations/BrandZedonkConsolidatedImportButton';
+import { BrandSpineWholesaleImportCard } from '@/components/integrations/BrandSpineWholesaleImportCard';
+import { BrandZedonkStyleEnrichPanel } from '@/components/integrations/BrandZedonkStyleEnrichPanel';
 import { RegistryPageHeader } from '@/components/design-system';
 
 export default function BrandIntegrationsZedonkPage() {
@@ -29,11 +33,39 @@ export default function BrandIntegrationsZedonkPage() {
     Array<{ id: string; total?: number; brandOrders?: unknown[] }>
   >([]);
   const [consolidatedLoading, setConsolidatedLoading] = useState(false);
+  const [trackingOrderId, setTrackingOrderId] = useState('');
+  const [trackingNumber, setTrackingNumber] = useState('');
+  const [trackingBusy, setTrackingBusy] = useState(false);
+  const [trackingMsg, setTrackingMsg] = useState<string | null>(null);
+
+  const syncTracking = async () => {
+    const wholesaleOrderId = trackingOrderId.trim();
+    if (!wholesaleOrderId) return;
+    setTrackingBusy(true);
+    setTrackingMsg(null);
+    try {
+      const res = await fetch('/api/integrations/v1/zedonk/tracking/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          wholesaleOrderId,
+          trackingNumber: trackingNumber.trim() || `ZD-${Date.now()}`,
+          carrier: 'Zedonk Logistics',
+          status: 'in_transit',
+        }),
+      });
+      setTrackingMsg(res.ok ? 'Tracking синхронизирован в shop spine' : 'Ошибка sync');
+    } catch {
+      setTrackingMsg('Ошибка сети');
+    } finally {
+      setTrackingBusy(false);
+    }
+  };
 
   const loadOrders = async () => {
     setOrdersLoading(true);
     try {
-      const res = await fetch('/api/b2b/zedonk/orders?limit=20');
+      const res = await fetch('/api/b2b/archive/zedonk/orders?limit=20');
       const data = res.ok ? await res.json() : [];
       setOrders(Array.isArray(data) ? (data as typeof orders) : []);
     } catch {
@@ -46,7 +78,7 @@ export default function BrandIntegrationsZedonkPage() {
   const loadBrands = async () => {
     setBrandsLoading(true);
     try {
-      const res = await fetch('/api/b2b/zedonk/brands');
+      const res = await fetch('/api/b2b/archive/zedonk/brands');
       const data = res.ok ? await res.json() : [];
       setBrands(Array.isArray(data) ? (data as typeof brands) : []);
     } catch {
@@ -59,7 +91,7 @@ export default function BrandIntegrationsZedonkPage() {
   const loadConsolidated = async () => {
     setConsolidatedLoading(true);
     try {
-      const res = await fetch('/api/b2b/zedonk/consolidated-orders?limit=20');
+      const res = await fetch('/api/b2b/archive/zedonk/consolidated-orders?limit=20');
       const data = res.ok ? await res.json() : [];
       setConsolidated(Array.isArray(data) ? (data as typeof consolidated) : []);
     } catch {
@@ -84,6 +116,7 @@ export default function BrandIntegrationsZedonkPage() {
       />
 
       <div className="grid gap-4">
+        <BrandZedonkStyleEnrichPanel />
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
@@ -126,6 +159,45 @@ export default function BrandIntegrationsZedonkPage() {
                 )}
               </ul>
             )}
+          </CardContent>
+        </Card>
+
+        <BrandSpineWholesaleImportCard
+          platform="zedonk"
+          archiveListLabel="Загрузить заказы (archive GET)"
+          onLoadArchive={loadOrders}
+          archiveLoading={ordersLoading}
+          archiveCount={orders.length}
+        />
+
+        <Card data-testid="brand-zedonk-tracking-sync-card">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
+              <Truck className="h-4 w-4" /> F-TRACKING · отгрузка
+            </CardTitle>
+            <CardDescription>
+              Wave D2: tracking → `/shop/b2b/tracking?order={'{wholesaleOrderId}'}` (INT-* после
+              handoff).
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <Input
+              placeholder="wholesaleOrderId (INT-ZEDONK-…)"
+              value={trackingOrderId}
+              onChange={(e) => setTrackingOrderId(e.target.value)}
+              className="text-sm"
+            />
+            <Input
+              placeholder="Tracking number"
+              value={trackingNumber}
+              onChange={(e) => setTrackingNumber(e.target.value)}
+              className="text-sm"
+            />
+            <Button size="sm" disabled={trackingBusy} onClick={() => void syncTracking()}>
+              {trackingBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              Sync tracking
+            </Button>
+            {trackingMsg ? <p className="text-xs text-emerald-700">{trackingMsg}</p> : null}
           </CardContent>
         </Card>
 
@@ -178,9 +250,17 @@ export default function BrandIntegrationsZedonkPage() {
             {consolidated.length > 0 && (
               <ul className="divide-y rounded-md border text-sm">
                 {consolidated.slice(0, 5).map((c) => (
-                  <li key={c.id} className="px-3 py-2">
-                    {c.id} {c.total != null && `· ${c.total}`} · брендов:{' '}
-                    {c.brandOrders?.length ?? 0}
+                  <li key={c.id} className="space-y-2 px-3 py-2">
+                    <div>
+                      {c.id} {c.total != null && `· ${c.total}`} · брендов:{' '}
+                      {c.brandOrders?.length ?? 0}
+                    </div>
+                    {c.brandOrders?.length ? (
+                      <BrandZedonkConsolidatedImportButton
+                        consolidatedId={c.id}
+                        brandOrders={c.brandOrders as Array<{ brandId: string; orderId: string; total?: number }>}
+                      />
+                    ) : null}
                   </li>
                 ))}
                 {consolidated.length > 5 && (

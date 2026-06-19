@@ -4,7 +4,7 @@ import { JOOR_DELIVERY_WINDOWS } from '@/lib/b2b/joor-constants';
 import type { B2BOrderLineStatus } from '@/lib/order/b2b-order-payload';
 
 /**
- * Три артикула в одном сезоне SS27, российские площадки (2+1 по производителям), по 2 поставщика ткани;
+ * Четыре demo-артикула SS27 (01–04, последний — hub onboarding seed), российские площадки (2+1 по производителям), по 2 поставщика ткани;
  * у одного артикула основная ткань со склада бренда (учёт на складе у производства).
  * Статусы этапов — investor-demo-flow-seed: 2 SKU на брифе, 1 на этапе «Материалы» (после брифа, PIM, хаба, себестоимости).
  */
@@ -65,6 +65,25 @@ export const initialOrderItems = [
     fabricMainFromBrandStock: true,
     investorDemo: true,
     internalArticleCode: '100002',
+  },
+  {
+    ...products[0],
+    id: 'demo-ss27-04',
+    sku: 'SS27-M-JKT-04',
+    name: 'Онбординг · demo-ss27-04',
+    orderedQuantity: 80,
+    price: 35_000,
+    deliveryWindowId: 'drop1',
+    lineNotes: 'SS27 · hub onboarding · file-store seed',
+    lineStatus: 'open' as B2BOrderLineStatus,
+    season: 'SS27',
+    categoryLeafId: 'catalog-apparel-g0-l0',
+    productionSiteId: 'fab-rf-ivanovo',
+    productionSiteLabel: 'Фабрика · Иваново (РФ)',
+    fabricSuppliers: ['ООО «ИвановоТекстиль»'],
+    fabricMainFromBrandStock: false,
+    investorDemo: true,
+    internalArticleCode: '100003',
   },
 ].map((p: any) => ({
   ...p,

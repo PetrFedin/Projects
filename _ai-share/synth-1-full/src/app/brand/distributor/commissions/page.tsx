@@ -1,12 +1,13 @@
 'use client';
 
-import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Suspense, useEffect, useState } from 'react';
+import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { DollarSign, ArrowLeft } from 'lucide-react';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 import { PartnersFinanceDistributorsBadges } from '@/components/brand/SectionBadgeCta';
 import { B2BIntegrationStatusWidget } from '@/components/b2b/B2BIntegrationStatusWidget';
 import { getSubAgentCommissionLinks } from '@/lib/data/entity-links';
@@ -17,6 +18,17 @@ import {
   type CommissionRecord,
 } from '@/lib/distributor/sub-agent-commission';
 import { RegistryPageHeader } from '@/components/design-system';
+import { PillarCapabilityWorkspaceChrome } from '@/components/platform/PillarCapabilityWorkspaceChrome';
+import {
+  BrandAgentRepLedgerPanel,
+  BrandAgentRepRepsPanel,
+  BrandAgentRepShopPortalPanel,
+} from '@/components/brand/distributor/BrandAgentRepWorkspacePanels';
+import {
+  BrandAgentRepGoldenPathStrip,
+  brandAgentRepGoldenPathStepFromFeature,
+} from '@/components/brand/distributor/BrandAgentRepGoldenPathStrip';
+import { usePillarCapabilityWorkspace } from '@/hooks/use-pillar-capability-workspace';
 
 const statusLabels: Record<CommissionRecord['status'], string> = {
   pending: 'На согласовании',
@@ -24,7 +36,7 @@ const statusLabels: Record<CommissionRecord['status'], string> = {
   paid: 'Выплачено',
 };
 
-export default function SubAgentCommissionPage() {
+function CommissionsLegacyPage() {
   const [records, setRecords] = useState<CommissionRecord[]>([]);
 
   useEffect(() => {
@@ -35,10 +47,10 @@ export default function SubAgentCommissionPage() {
     <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
       <RegistryPageHeader
         title="Sub-Agent Commission"
-        leadPlain="Расчёт комиссий торговых представителей. Связь с партнёрами, финансами и дистрибуцией. При API — утверждение и отметка о выплате."
+        leadPlain="Расчёт комиссий торговых представителей."
         eyebrow={
           <Button variant="ghost" size="icon" asChild>
-            <Link href={ROUTES.brand.distributors} aria-label="Назад к дистрибьюторам">
+            <Link href={ROUTES.brand.distributors} aria-label="Назад">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
@@ -50,52 +62,73 @@ export default function SubAgentCommissionPage() {
           </div>
         }
       />
-
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <DollarSign className="h-5 w-5" /> Комиссии по периодам
-          </CardTitle>
-          <CardDescription>
-            Выручка и комиссия по представителям. Zedonk: комиссия по строке или по заказу —
-            настраивается по агенту. Утверждение и выплата.
-          </CardDescription>
+          <CardTitle>Комиссии по периодам</CardTitle>
         </CardHeader>
         <CardContent>
-          <ul className="space-y-3">
+          <ul className="space-y-2">
             {records.map((r) => (
-              <li
-                key={r.id}
-                className="border-border-subtle bg-bg-surface2 flex flex-wrap items-center justify-between gap-3 rounded-xl border p-3"
-              >
-                <div>
-                  <p className="font-medium">{r.subAgentName}</p>
-                  <p className="text-text-secondary text-xs">
-                    {r.period} · Выручка {r.revenueRub.toLocaleString('ru-RU')} ₽ · Комиссия{' '}
-                    {r.commissionRub.toLocaleString('ru-RU')} ₽{' '}
-                    {r.commissionType === 'per_line'
-                      ? '(по строке)'
-                      : r.commissionType === 'per_order'
-                        ? '(по заказу)'
-                        : ''}
-                  </p>
-                </div>
-                <Badge variant="outline" className="text-[10px]">
-                  {statusLabels[r.status]}
-                </Badge>
+              <li key={r.id} className="flex justify-between rounded-lg border p-3 text-sm">
+                <span>{r.subAgentName}</span>
+                <Badge variant="outline">{statusLabels[r.status]}</Badge>
               </li>
             ))}
           </ul>
-          <p className="text-text-muted mt-3 text-xs">
-            API: SUB_AGENT_COMMISSION_API — агенты, записи, approve, markPaid.
-          </p>
         </CardContent>
       </Card>
       <B2BIntegrationStatusWidget settingsHref={ROUTES.brand.integrations} />
-      <RelatedModulesBlock
-        links={getSubAgentCommissionLinks()}
-        title="Партнёры, финансы, дистрибуция"
-      />
+      <RelatedModulesBlock links={getSubAgentCommissionLinks()} title="Партнёры" />
+    </CabinetPageContent>
+  );
+}
+
+function CommissionsWorkspaceBody() {
+  const { activeFeatureId } = usePillarCapabilityWorkspace('brand-agent-rep');
+
+  return (
+    <PillarCapabilityWorkspaceChrome
+      workspaceId="brand-agent-rep"
+      crossLinksTitle="Brand ledger ↔ shop rep portal"
+      beforeTabs={
+        <RegistryPageHeader
+          title="Rep oversight"
+          leadPlain="Brand-side mirror co-agent-rep: ledger · reps · shop portal links."
+          eyebrow={
+            <Button variant="ghost" size="icon" asChild>
+              <Link href={ROUTES.brand.distributors} aria-label="Назад">
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
+            </Button>
+          }
+          actions={<PartnersFinanceDistributorsBadges />}
+        />
+      }
+    >
+      <div className="mb-4">
+        <BrandAgentRepGoldenPathStrip
+          activeStep={brandAgentRepGoldenPathStepFromFeature(activeFeatureId)}
+        />
+      </div>
+      {activeFeatureId === 'ledger' ? <BrandAgentRepLedgerPanel /> : null}
+      {activeFeatureId === 'reps' ? <BrandAgentRepRepsPanel /> : null}
+      {activeFeatureId === 'shop-portal' ? <BrandAgentRepShopPortalPanel /> : null}
+    </PillarCapabilityWorkspaceChrome>
+  );
+}
+
+export default function SubAgentCommissionPage() {
+  if (!isPlatformCoreMode()) {
+    return <CommissionsLegacyPage />;
+  }
+
+  return (
+    <CabinetPageContent maxWidth="full" className="w-full space-y-6 pb-16">
+      <Suspense fallback={null}>
+        <CommissionsWorkspaceBody />
+      </Suspense>
+      <B2BIntegrationStatusWidget settingsHref={ROUTES.brand.integrations} />
+      <RelatedModulesBlock links={getSubAgentCommissionLinks()} title="Партнёры, финансы" />
     </CabinetPageContent>
   );
 }

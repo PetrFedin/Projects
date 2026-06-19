@@ -1,0 +1,32 @@
+{
+  "videos": {
+    "demo-runway-hero": "File:Michaela DePrince for Teen Vogue.ogv — CC BY",
+    "demo-runway-secondary": "File:GREENPEACE The Fashion Duel.webm — CC",
+    "demo-runway-tertiary": "File:Prangsta VENGEANCE fashion film.webm — CC",
+    "silk-0": "File:Michaela DePrince for Teen Vogue.ogv — CC",
+    "silk-1": "File:GREENPEACE The Fashion Duel.webm — CC",
+    "silk-2": "File:Prangsta VENGEANCE fashion film.webm — CC",
+    "cashmere-0": "File:GREENPEACE The Fashion Duel.webm — CC",
+    "cashmere-1": "File:Prangsta VENGEANCE fashion film.webm — CC",
+    "cashmere-2": "File:Michaela DePrince for Teen Vogue.ogv — CC",
+    "anorak-0": "File:Prangsta VENGEANCE fashion film.webm — CC",
+    "anorak-1": "File:Michaela DePrince for Teen Vogue.ogv — CC",
+    "anorak-2": "File:GREENPEACE The Fashion Duel.webm — CC"
+  },
+  "images": {
+    "File:Miriam Sánchez at the Paco Rabanne Fall Winter 2019-20 show.jpg": "silk-midi-dress-section-0.jpg",
+    "File:Paris Fashion Week Spring Summer 2013 - Flickr - Dior.jpg": "silk-midi-dress-section-1.jpg",
+    "File:Gigi Hadid for Rabanne.png": "silk-midi-dress-section-2.jpg",
+    "File:Cashmere Wool Scarves.jpg": "cashmere-crewneck-sweater-section-0.jpg",
+    "File:Wool.jpg": "cashmere-crewneck-sweater-section-1.jpg",
+    "File:Oma strickt Strümpfe.jpg": "cashmere-crewneck-sweater-section-2.jpg",
+    "File:Hoodie.jpg": "oversized-hoodie-women-section-0.jpg",
+    "File:Street fashion in Tokyo.jpg": "oversized-hoodie-women-section-1.jpg",
+    "File:Fashion model.jpg": "oversized-hoodie-women-section-2.jpg",
+    "File:Anorak.jpg": "tech-anorak-men-section-2.jpg",
+    "File:Windbreaker Jacket, Hood Stowed.jpg": "tech-anorak-men-section-1.jpg",
+    "File:Sneakers.jpg": "urban-sneakers-wool-section-0.jpg",
+    "File:Running shoes.jpg": "urban-sneakers-wool-section-2.jpg"
+  },
+  "updatedAt": "2026-05-29T19:40:15.815Z"
+}

@@ -34,10 +34,10 @@ async function getEdoStatus(req: NextRequest, ctx: RouteCtx) {
     return jsonWorkshop2ErrorRu(404, 'dossier_not_found');
   }
 
+  const mirrorReqId = record.dossier.edoSignoffMirror?.requestId;
   const requestId =
     req.nextUrl.searchParams.get('requestId')?.trim() ??
-    record.dossier.edoSignoffMirror?.requestId ??
-    null;
+    (typeof mirrorReqId === 'string' ? mirrorReqId.trim() : null);
 
   const konturProbe =
     resolveWorkshop2EdoProvider() === 'kontur'

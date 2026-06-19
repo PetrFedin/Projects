@@ -6,6 +6,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { computeWorkshop2RiskFromDossier } from '@/lib/production/workshop2-risk-from-dossier';
 import { getWorkshop2ServerDossierRecord } from '@/lib/server/workshop2-phase1-dossier-server-store';
 import { putWorkshop2ServerDossierRecord } from '@/lib/server/workshop2-phase1-dossier-server-store';
+import {
+  workshop2DossierPutFailureBody,
+  workshop2DossierPutFailureStatus,
+} from '@/lib/server/workshop2-dossier-put-utils';
 import { guardWorkshop2Route, WORKSHOP2_WRITE_ROLES } from '@/lib/server/workshop2-route-auth';
 import { resolveWorkshop2UpdatedBy } from '@/lib/server/workshop2-api-context';
 
@@ -23,7 +27,7 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
     /* пустое тело */
   }
 
-  const auth = guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
     bodyActorLabel: String(body.updatedBy ?? ''),
   });
   if (auth instanceof NextResponse) return auth;
@@ -50,10 +54,9 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
   });
 
   if (!saved.ok) {
-    return NextResponse.json(
-      { ok: false, error: 'version_conflict', currentVersion: saved.currentVersion },
-      { status: 409 }
-    );
+    return NextResponse.json(workshop2DossierPutFailureBody(saved), {
+      status: workshop2DossierPutFailureStatus(saved),
+    });
   }
 
   return NextResponse.json({

@@ -1,0 +1,82 @@
+{
+  "SS27": [
+    {
+      "id": "supplier-delivery-B2B-1781341087161",
+      "collectionId": "SS27",
+      "ownerRole": "supplier",
+      "title": "Поставка подтверждена · B2B-1781341087161",
+      "description": "Поставщик подтвердил 2 строк BOM по артикулу demo-ss27-01.",
+      "startAt": "2026-06-13T08:58:59.051Z",
+      "endAt": "2026-06-13T09:58:59.051Z",
+      "orderId": "B2B-1781341087161",
+      "articleId": "demo-ss27-01",
+      "eventType": "delivery",
+      "createdAt": "2026-06-13T08:58:59.072Z"
+    },
+    {
+      "id": "supplier-delivery-B2B-1781341148867",
+      "collectionId": "SS27",
+      "ownerRole": "supplier",
+      "title": "Поставка подтверждена · B2B-1781341148867",
+      "description": "Поставщик подтвердил 2 строк BOM по артикулу demo-ss27-01.",
+      "startAt": "2026-06-13T08:59:15.428Z",
+      "endAt": "2026-06-13T09:59:15.428Z",
+      "orderId": "B2B-1781341148867",
+      "articleId": "demo-ss27-01",
+      "eventType": "delivery",
+      "createdAt": "2026-06-13T08:59:15.456Z"
+    },
+    {
+      "id": "supplier-delivery-B2B-1781341171945",
+      "collectionId": "SS27",
+      "ownerRole": "supplier",
+      "title": "Поставка подтверждена · B2B-1781341171945",
+      "description": "Поставщик подтвердил 2 строк BOM по артикулу demo-ss27-01.",
+      "startAt": "2026-06-13T08:59:36.495Z",
+      "endAt": "2026-06-13T09:59:36.495Z",
+      "orderId": "B2B-1781341171945",
+      "articleId": "demo-ss27-01",
+      "eventType": "delivery",
+      "createdAt": "2026-06-13T08:59:36.548Z"
+    },
+    {
+      "id": "supplier-delivery-B2B-1781341375375",
+      "collectionId": "SS27",
+      "ownerRole": "supplier",
+      "title": "Поставка подтверждена · B2B-1781341375375",
+      "description": "Поставщик подтвердил 2 строк BOM по артикулу demo-ss27-01.",
+      "startAt": "2026-06-13T09:03:08.797Z",
+      "endAt": "2026-06-13T10:03:08.797Z",
+      "orderId": "B2B-1781341375375",
+      "articleId": "demo-ss27-01",
+      "eventType": "delivery",
+      "createdAt": "2026-06-13T09:03:08.804Z"
+    },
+    {
+      "id": "supplier-delivery-B2B-1781341396331",
+      "collectionId": "SS27",
+      "ownerRole": "supplier",
+      "title": "Поставка подтверждена · B2B-1781341396331",
+      "description": "Поставщик подтвердил 2 строк BOM по артикулу demo-ss27-01.",
+      "startAt": "2026-06-13T09:03:23.960Z",
+      "endAt": "2026-06-13T10:03:23.960Z",
+      "orderId": "B2B-1781341396331",
+      "articleId": "demo-ss27-01",
+      "eventType": "delivery",
+      "createdAt": "2026-06-13T09:03:23.976Z"
+    },
+    {
+      "id": "supplier-delivery-B2B-1781341447140",
+      "collectionId": "SS27",
+      "ownerRole": "supplier",
+      "title": "Поставка подтверждена · B2B-1781341447140",
+      "description": "Поставщик подтвердил 2 строк BOM по артикулу demo-ss27-01.",
+      "startAt": "2026-06-13T09:04:14.856Z",
+      "endAt": "2026-06-13T10:04:14.856Z",
+      "orderId": "B2B-1781341447140",
+      "articleId": "demo-ss27-01",
+      "eventType": "delivery",
+      "createdAt": "2026-06-13T09:04:15.101Z"
+    }
+  ]
+}

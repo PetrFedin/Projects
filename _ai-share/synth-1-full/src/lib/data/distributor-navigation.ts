@@ -78,7 +78,7 @@ export const distributorNavGroups = [
           { href: ROUTES.shop.b2bPartnersDiscover, label: 'Поиск брендов', value: 'discover' },
           { href: ROUTES.shop.b2bContracts, label: 'Контракты', value: 'contracts' },
           { href: ROUTES.shop.b2bDocuments, label: 'Документы', value: 'documents' },
-          { href: ROUTES.shop.b2bDiscover, label: 'Подбор брендов', value: 'marketplace' },
+          { href: ROUTES.shop.b2bPartnersDiscover, label: 'Discover брендов', value: 'marketplace' },
           {
             href: ROUTES.shop.b2bTradeShows,
             label: 'Выставки и события',
@@ -186,7 +186,7 @@ export const distributorNavGroups = [
         value: 'payment',
         label: 'Оплата заказов',
         icon: CreditCard,
-        description: 'JOOR Pay',
+        description: 'Инвойсы и этапы оплаты',
       },
       {
         href: ROUTES.shop.b2bMarginCalculator,

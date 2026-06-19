@@ -7,7 +7,7 @@ import {
 } from '@/lib/production/unified-sku-flow-store';
 import type { BrandTaskRecord, ProductionDataPort, TechPackDraftV1 } from './port';
 import { loadTechPackDraft, saveTechPackDraft as persistTechPack } from './tech-pack-draft-store';
-import { loadBrandTasks, saveBrandTasks } from './brand-tasks-store';
+import { loadBrandTasksWithMode, persistBrandTasks } from './brand-tasks-client';
 import { loadFloorTabDraft, saveFloorTabDraftToStorage } from './floor-tab-draft-store';
 import type { FloorTabScope } from './port';
 
@@ -29,11 +29,12 @@ export class LocalStorageProductionDataPort implements ProductionDataPort {
   }
 
   async listTasks(): Promise<BrandTaskRecord[]> {
-    return loadBrandTasks();
+    const { tasks } = await loadBrandTasksWithMode();
+    return tasks;
   }
 
   async saveTasks(tasks: BrandTaskRecord[]): Promise<void> {
-    saveBrandTasks(tasks);
+    await persistBrandTasks(tasks);
   }
 
   async getFloorTabDraft(scope: FloorTabScope): Promise<unknown | null> {

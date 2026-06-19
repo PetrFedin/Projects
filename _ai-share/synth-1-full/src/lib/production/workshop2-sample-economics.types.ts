@@ -50,6 +50,17 @@ export type Workshop2SampleEconomicsDraft = {
   tzCommerceLinkNote?: string;
   internalNotes?: string;
 
+  /** Снимок BOM rollup при синхронизации из costing. */
+  bomRollup?: {
+    syncedAt: string;
+    estimatedFob: number;
+    targetFob?: number;
+    targetMarginPct?: number;
+    deltaBand?: string;
+    deltaPct?: number;
+    currency?: string;
+  };
+
   // Comprehensive calculation controls
   logisticsCost?: number;
   customsCost?: number;

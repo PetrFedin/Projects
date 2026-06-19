@@ -10,6 +10,7 @@ from app.core import security
 from app.core.config import settings
 from app.api.schemas.user import TokenPayload
 from app.db.models.base import User
+from app.core.datetime_util import utc_now
 
 class UserRole(str, Enum):
     PLATFORM_ADMIN = "platform_admin"
@@ -48,17 +49,42 @@ async def get_current_user(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Could not validate credentials",
         )
-    # Updated mock to use token data:
-    user = User(
-        id=token_data.sub, 
-        email=token_data.sub or "test@example.com", 
-        role=token_data.role or UserRole.BRAND_ADMIN,
-        organization_id=token_data.org_id or "test_org_1",
-        full_name=token_data.sub.split('@')[0].replace('_', ' ').title() if token_data.sub else "Test User",
-        is_active=True
+
+    from app.db.repositories.user import UserRepository
+    from app.services.auth_service import resolve_mock_role_org
+
+    user_repo = UserRepository(db)
+    db_user = None
+    if token_data.sub:
+        db_user = await user_repo.get_by_id(token_data.sub)
+        if not db_user:
+            db_user = await user_repo.get_by_email(token_data.sub)
+
+    if db_user:
+        return db_user
+
+    role_str = token_data.role or UserRole.BRAND_ADMIN
+    if isinstance(role_str, str):
+        try:
+            role = UserRole(role_str)
+        except ValueError:
+            role = UserRole.BRAND_ADMIN
+    else:
+        role = role_str
+
+    email = token_data.sub if "@" in (token_data.sub or "") else f"{token_data.sub}@example.com"
+    now = utc_now()
+    return User(
+        id=token_data.sub or "mock-user",
+        email=email,
+        hashed_password="",
+        role=role.value if hasattr(role, "value") else str(role),
+        organization_id=token_data.org_id or resolve_mock_role_org(email)[1],
+        full_name=(token_data.sub or "User").split("@")[0].replace("_", " ").title(),
+        is_active=True,
+        created_at=now,
+        updated_at=now,
     )
-    # Ensure user is attached to session if needed, but for mock it's usually fine.
-    return user
 
 def get_current_active_user(
     current_user: User = Depends(get_current_user),

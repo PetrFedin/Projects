@@ -3,6 +3,7 @@
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import {
   appendWorkshop2QcAqlInspectionToDossier,
   type Workshop2QcAqlPersistInput,
@@ -70,7 +71,9 @@ export function evaluateWorkshop2QcAqlSampleGate(
     return {
       id: 'qc.aql.fail',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Последний AQL — брак; заказ образца заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Последний AQL — брак; заказ образца заблокирован.',
     };
   }
   return null;
@@ -85,7 +88,9 @@ export function evaluateWorkshop2QcAqlHandoffGate(
     return {
       id: 'qc.aql.fail_handoff',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'AQL брак в досье — handoff commit заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'AQL брак в досье — handoff commit заблокирован.',
     };
   }
   return null;

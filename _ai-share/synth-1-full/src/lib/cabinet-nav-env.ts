@@ -12,43 +12,41 @@ function isPublicOn(raw: string | undefined): boolean {
 
 /** `NEXT_PUBLIC_BRAND_NAV_INVESTOR_SPINE` — сужение сайдбара бренда (см. `applyBrandInvestorSpineClusterOverrides`). */
 export function isBrandNavInvestorSpineEnabled(): boolean {
-  const isEnabled = isPublicOn(
+  return isPublicOn(
     typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_BRAND_NAV_INVESTOR_SPINE : undefined
   );
-  console.log('DEBUG: NEXT_PUBLIC_BRAND_NAV_INVESTOR_SPINE', isEnabled);
-  return isEnabled;
 }
 
 /** `NEXT_PUBLIC_SHOP_NAV_INVESTOR_SPINE` — аналог для shop (не отменяет `NEXT_PUBLIC_SHOP_NAV_MVP`). */
 export function isShopNavInvestorSpineEnabled(): boolean {
-  const isEnabled = isPublicOn(
+  return isPublicOn(
     typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_SHOP_NAV_INVESTOR_SPINE : undefined
   );
-  console.log('DEBUG: NEXT_PUBLIC_SHOP_NAV_INVESTOR_SPINE', isEnabled);
-  return isEnabled;
 }
 
 /** `NEXT_PUBLIC_FACTORY_NAV_INVESTOR_SPINE` — опционально для демо второй ролью (фабрика). */
 export function isFactoryNavInvestorSpineEnabled(): boolean {
-  const isEnabled = isPublicOn(
+  return isPublicOn(
     typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_FACTORY_NAV_INVESTOR_SPINE : undefined
   );
-  console.log('DEBUG: NEXT_PUBLIC_FACTORY_NAV_INVESTOR_SPINE', isEnabled);
-  return isEnabled;
 }
 
 /** `NEXT_PUBLIC_DISTRIBUTOR_NAV_INVESTOR_SPINE` — сужение сайдбара дистрибутора (`applyDistributorInvestorSpineClusterOverrides`). */
 export function isDistributorNavInvestorSpineEnabled(): boolean {
-  const isEnabled = isPublicOn(
+  return isPublicOn(
     typeof process !== 'undefined'
       ? process.env.NEXT_PUBLIC_DISTRIBUTOR_NAV_INVESTOR_SPINE
       : undefined
   );
-  console.log('DEBUG: NEXT_PUBLIC_DISTRIBUTOR_NAV_INVESTOR_SPINE', isEnabled);
-  return isEnabled;
 }
 
 type NavGroupLike = { id: string; clusterId?: string };
+
+function withClusterId<G extends NavGroupLike>(g: G, clusterId: string): G {
+  const next = Object.assign({}, g);
+  next.clusterId = clusterId;
+  return next;
+}
 
 /**
  * Режим investor для бренда: A→B→C в основном контуре, вторичное (команда / партнёры / логистика) — в архив;
@@ -57,11 +55,14 @@ type NavGroupLike = { id: string; clusterId?: string };
 export function applyBrandInvestorSpineClusterOverrides<T extends NavGroupLike>(
   groups: readonly T[]
 ): T[] {
-  if (!isBrandNavInvestorSpineEnabled()) return [...groups];
+  if (!isBrandNavInvestorSpineEnabled()) return Array.from(groups);
   return groups.map((g) => {
-    if (g.id === 'team' || g.id === 'partners' || g.id === 'logistics')
-      return { ...g, clusterId: 'archive' } as T;
-    if (g.id === 'brand-admin') return { ...g, clusterId: 'syntha-cores' } as T;
+    if (g.id === 'team' || g.id === 'partners' || g.id === 'logistics') {
+      return withClusterId(g, 'archive');
+    }
+    if (g.id === 'brand-admin') {
+      return withClusterId(g, 'syntha-cores');
+    }
     return g;
   });
 }
@@ -70,9 +71,11 @@ export function applyBrandInvestorSpineClusterOverrides<T extends NavGroupLike>(
 export function applyShopInvestorSpineClusterOverrides<T extends NavGroupLike>(
   groups: readonly T[]
 ): T[] {
-  if (!isShopNavInvestorSpineEnabled()) return [...groups];
+  if (!isShopNavInvestorSpineEnabled()) return Array.from(groups);
   return groups.map((g) => {
-    if (g.id === 'partners' || g.id === 'logistics') return { ...g, clusterId: 'archive' } as T;
+    if (g.id === 'partners' || g.id === 'logistics') {
+      return withClusterId(g, 'archive');
+    }
     return g;
   });
 }
@@ -84,9 +87,11 @@ export function applyShopInvestorSpineClusterOverrides<T extends NavGroupLike>(
 export function applyFactoryManufacturerInvestorSpineClusterOverrides<T extends NavGroupLike>(
   groups: readonly T[]
 ): T[] {
-  if (!isFactoryNavInvestorSpineEnabled()) return [...groups];
+  if (!isFactoryNavInvestorSpineEnabled()) return Array.from(groups);
   return groups.map((g) => {
-    if (g.id === 'team' || g.id === 'partners') return { ...g, clusterId: 'archive' } as T;
+    if (g.id === 'team' || g.id === 'partners') {
+      return withClusterId(g, 'archive');
+    }
     return g;
   });
 }
@@ -95,9 +100,11 @@ export function applyFactoryManufacturerInvestorSpineClusterOverrides<T extends 
 export function applyFactorySupplierInvestorSpineClusterOverrides<T extends NavGroupLike>(
   groups: readonly T[]
 ): T[] {
-  if (!isFactoryNavInvestorSpineEnabled()) return [...groups];
+  if (!isFactoryNavInvestorSpineEnabled()) return Array.from(groups);
   return groups.map((g) => {
-    if (g.id === 'partners') return { ...g, clusterId: 'archive' } as T;
+    if (g.id === 'partners') {
+      return withClusterId(g, 'archive');
+    }
     return g;
   });
 }
@@ -106,9 +113,11 @@ export function applyFactorySupplierInvestorSpineClusterOverrides<T extends NavG
 export function applyDistributorInvestorSpineClusterOverrides<T extends NavGroupLike>(
   groups: readonly T[]
 ): T[] {
-  if (!isDistributorNavInvestorSpineEnabled()) return [...groups];
+  if (!isDistributorNavInvestorSpineEnabled()) return Array.from(groups);
   return groups.map((g) => {
-    if (g.id === 'team' || g.id === 'partners') return { ...g, clusterId: 'archive' } as T;
+    if (g.id === 'team' || g.id === 'partners') {
+      return withClusterId(g, 'archive');
+    }
     return g;
   });
 }

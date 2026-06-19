@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/table';
 import { FileSpreadsheet, TrendingUp, Package, Target, Download, RefreshCw } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { withShopB2bCoreLegacyGuard } from '@/app/shop/b2b/shop-b2b-core-legacy-guard';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
 import { ShopAnalyticsSegmentErpStrip } from '@/components/shop/ShopAnalyticsSegmentErpStrip';
 import { B2bMarginAnalysisHubButton } from '@/components/shop/B2bMarginAnalysisHubButton';
@@ -37,7 +38,7 @@ const SEASON_OPTIONS = ['', 'SS26', 'FW25'];
 const BRAND_OPTIONS = ['', 'Syntha Lab', 'Nordic Wool'];
 
 /** JOOR/FashioNexus: аналитика и отчёты для партнёра. Фильтры в URL, инфраструктура под API. */
-export default function PartnerReportsPage() {
+function PartnerReportsPageContent() {
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParamsNonNull();
@@ -199,7 +200,7 @@ export default function PartnerReportsPage() {
     <CabinetPageContent maxWidth="5xl" className="space-y-6">
       <div className="mb-6 flex flex-col gap-4">
         <ShopB2bContentHeader
-          lead="JOOR / FashioNexus: продажи по брендам, топ SKU, sell-through, план/факт закупок. Экспорт в CSV."
+          lead="Продажи по брендам, топ SKU, sell-through, план/факт закупок. Экспорт в CSV."
           trailing={
             <>
               <Button
@@ -532,3 +533,5 @@ export default function PartnerReportsPage() {
     </CabinetPageContent>
   );
 }
+
+export default withShopB2bCoreLegacyGuard(ROUTES.shop.b2bReports, PartnerReportsPageContent);

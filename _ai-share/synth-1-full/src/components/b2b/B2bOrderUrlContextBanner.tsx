@@ -12,11 +12,20 @@ import {
   brandB2bOrderHref,
   brandProductsMatrixB2bOrderContextHref,
   brandProductionOperationsB2bOrderContextHref,
+  factoryProductionDossierContextHref,
+  factoryProductionHandoffQueueHref,
   shopB2bOrderHref,
   shopB2bMatrixOrderContextHref,
   shopB2bSelectionBuilderOrderContextHref,
   shopB2bWhiteboardOrderContextHref,
+  shopB2bWorkingOrderOrderContextHref,
+  ROUTES,
 } from '@/lib/routes';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { PLATFORM_CORE_DEMO } from '@/lib/platform-core-hub-matrix';
+import { PILLAR_CAPABILITY_FEATURE_PARAM } from '@/lib/platform/pillar-capability-workspaces';
+import { WORKSHOP2_COL_PARAM } from '@/lib/production/workshop2-url';
+import { COLLECTION_DEV_HUB_TITLE_RU } from '@/lib/production/collection-development-labels';
 import {
   brandCalendarTasksSynthaOverlayHref,
   brandMessagesSynthaOverlayHref,
@@ -30,7 +39,7 @@ export function B2bOrderUrlContextBanner({
   className,
   showWorkspaceShortcuts = true,
 }: {
-  variant: 'brand' | 'shop';
+  variant: 'brand' | 'shop' | 'manufacturer';
   className?: string;
   /** Матрица · подборки · доска (shop) или матрица · операции цеха (brand). */
   showWorkspaceShortcuts?: boolean;
@@ -38,7 +47,106 @@ export function B2bOrderUrlContextBanner({
   const searchParams = useSearchParams();
   const overlayCtx = parseSynthaOverlayContext(searchParams);
   const orderId = overlayCtx.orderId?.trim() ?? '';
+  const collectionId =
+    overlayCtx.collectionId?.trim() ||
+    searchParams.get('collection')?.trim() ||
+    searchParams.get('w2col')?.trim() ||
+    PLATFORM_CORE_DEMO.collectionId;
+  const coreMode = isPlatformCoreMode();
+  const workshop2Href = `${ROUTES.brand.productionWorkshop2}?${WORKSHOP2_COL_PARAM}=${encodeURIComponent(collectionId)}`;
+  const articleId =
+    overlayCtx.articleId?.trim() ||
+    searchParams.get('article')?.trim() ||
+    searchParams.get('articleId')?.trim() ||
+    PLATFORM_CORE_DEMO.demoArticleId;
+  const factoryId = searchParams.get('factoryId')?.trim() || PLATFORM_CORE_DEMO.factoryId;
 
+  if (coreMode) {
+    return (
+      <div
+        className={cn(
+          o.panel,
+          'border-border-default/80 flex flex-col gap-2 px-3 py-2 shadow-sm',
+          className
+        )}
+        data-testid="platform-wholesale-order-context-banner"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="min-w-0">
+            <div className="text-text-muted text-[9px] font-black uppercase tracking-[0.18em]">
+              Wholesale spine · Platform Core
+            </div>
+            <div className="text-text-primary mt-0.5 flex flex-wrap gap-x-3 gap-y-0.5 font-mono text-[11px]">
+              <span>col: {collectionId}</span>
+              <span className={orderId ? '' : 'text-amber-700'}>
+                order: {orderId || '— (добавьте ?order=)'}
+              </span>
+            </div>
+            {!orderId ? (
+              <p
+                className="text-amber-800 mt-1 text-[10px] font-medium"
+                data-testid="platform-wholesale-order-context-cross-link-hint"
+              >
+                Cross-links с контекстом заказа отключены без <code>?order=</code>
+              </p>
+            ) : null}
+          </div>
+          <div className="flex flex-wrap gap-1.5 text-[10px] font-semibold">
+            {variant === 'shop' ? (
+              <>
+                <Link
+                  href={shopB2bMatrixOrderContextHref(orderId || PLATFORM_CORE_DEMO.demoOrderId)}
+                  className="border-border-subtle hover:bg-bg-surface2 rounded-md border px-2 py-1"
+                >
+                  Matrix
+                </Link>
+                <Link
+                  href={shopB2bWorkingOrderOrderContextHref(
+                    orderId || PLATFORM_CORE_DEMO.demoOrderId
+                  )}
+                  className="border-border-subtle hover:bg-bg-surface2 rounded-md border px-2 py-1"
+                >
+                  Working order
+                </Link>
+              </>
+            ) : variant === 'manufacturer' ? (
+              <>
+                <Link
+                  href={factoryProductionHandoffQueueHref(orderId || PLATFORM_CORE_DEMO.demoOrderId, {
+                    collectionId,
+                    factoryId,
+                  })}
+                  className="border-border-subtle hover:bg-bg-surface2 rounded-md border px-2 py-1"
+                >
+                  Handoff queue
+                </Link>
+                <Link
+                  href={factoryProductionDossierContextHref(articleId, { collectionId, orderId: orderId || undefined })}
+                  className="border-border-subtle hover:bg-bg-surface2 rounded-md border px-2 py-1"
+                >
+                  Dossier
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href={workshop2Href} className="border-border-subtle hover:bg-bg-surface2 rounded-md border px-2 py-1">
+                  W2 dossier
+                </Link>
+                <Link
+                  href={`${ROUTES.brand.launchReadiness}?${PILLAR_CAPABILITY_FEATURE_PARAM}=techpack-gate`}
+                  className="border-border-subtle hover:bg-bg-surface2 rounded-md border px-2 py-1"
+                >
+                  Factory pack gate
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /** Legacy cabinet — прежний overlay banner. */
   if (!orderId) return null;
 
   const orderHref = variant === 'brand' ? brandB2bOrderHref(orderId) : shopB2bOrderHref(orderId);
@@ -116,23 +224,50 @@ export function B2bOrderUrlContextBanner({
           data-testid="b2b-order-url-context-workspace-shortcuts"
         >
           {variant === 'brand' ? (
-            <>
-              <Link
-                href={matrixBrandHref}
-                className="underline-offset-2 hover:text-foreground hover:underline"
-              >
-                Матрица SKU
-              </Link>
-              <span className="text-border-default" aria-hidden>
-                ·
-              </span>
-              <Link
-                href={prodOpsHref}
-                className="underline-offset-2 hover:text-foreground hover:underline"
-              >
-                Операции цеха
-              </Link>
-            </>
+            coreMode ? (
+              <>
+                <Link
+                  href={workshop2Href}
+                  className="underline-offset-2 hover:text-foreground hover:underline"
+                >
+                  {COLLECTION_DEV_HUB_TITLE_RU}
+                </Link>
+                <span className="text-border-default" aria-hidden>
+                  ·
+                </span>
+                <Link
+                  href={ROUTES.factory.production}
+                  className="underline-offset-2 hover:text-foreground hover:underline"
+                >
+                  Очередь цеха
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href={matrixBrandHref}
+                  className="underline-offset-2 hover:text-foreground hover:underline"
+                >
+                  Матрица SKU
+                </Link>
+                <span className="text-border-default" aria-hidden>
+                  ·
+                </span>
+                <Link
+                  href={prodOpsHref}
+                  className="underline-offset-2 hover:text-foreground hover:underline"
+                >
+                  Операции цеха
+                </Link>
+              </>
+            )
+          ) : coreMode ? (
+            <Link
+              href={matrixShopHref}
+              className="underline-offset-2 hover:text-foreground hover:underline"
+            >
+              Матрица заказа
+            </Link>
           ) : (
             <>
               <Link

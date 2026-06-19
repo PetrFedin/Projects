@@ -2,64 +2,26 @@
  * Wave 39: единый снимок critical path «Разработка» — sample → WMS → movement → gold → intake.
  * Persist в досье PG; handoff-readiness API и gates читают этот mirror.
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2ArticleDevelopmentPathStep,
+  Workshop2ArticleDevelopmentStateMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2SampleGoodsMovementStatus } from '@/lib/production/workshop2-sample-goods-movement';
 import { evaluateWorkshop2HandoffReadiness } from '@/lib/production/workshop2-handoff-readiness';
 import { isWorkshop2InternalWmsEnabled } from '@/lib/production/workshop2-internal-wms';
 import { summarizeWorkshop2SampleIntakeStatus } from '@/lib/production/workshop2-sample-intake-status';
 import { summarizeWorkshop2SampleMovementStatus } from '@/lib/production/workshop2-sample-movement-status';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
-export type Workshop2ArticleDevelopmentPathStep =
-  | 'sample_order'
-  | 'wms_reserve'
-  | 'movement_in_transit'
-  | 'movement_received'
-  | 'gold_approved'
-  | 'intake_ready';
-
-export type Workshop2ArticleDevelopmentStateMirror = {
-  mirroredAt: string;
-  lastActor: string;
-  /** Порядок шагов critical path для UI/API. */
-  steps: Workshop2ArticleDevelopmentPathStep[];
-  sample: {
-    hasOrder: boolean;
-    orderId?: string;
-    orderStatus?: string;
-    movementStatus?: Workshop2SampleGoodsMovementStatus;
-    movementLogEntries: number;
-    movementState?: string;
-  };
-  wms: {
-    enabled: boolean;
-    syncStatus?: string;
-    reservedQty?: number;
-    reserveDeficitCount?: number;
-    itemCount?: number;
-    lastSampleReserveOrderId?: string;
-  };
-  gold: {
-    status?: string;
-    approved: boolean;
-  };
-  intake: {
-    state: 'blocked' | 'partial' | 'ready';
-    missingCount: number;
-    chainMode?: string;
-    chainModeLabel?: string;
-    barcodeFilled: boolean;
-  };
-  readiness: {
-    tzOverallPct: number;
-    preflightScore: number;
-    handoffReady: boolean;
-    vaultFileCount: number;
-  };
-  /** true — все обязательные шаги critical path для handoff закрыты. */
-  criticalPathReady: boolean;
-  hintRu?: string;
-};
+export type {
+  Workshop2ArticleDevelopmentPathStep,
+  Workshop2ArticleDevelopmentStateMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 
 export function buildWorkshop2ArticleDevelopmentState(input: {
   dossier: Workshop2DossierPhase1;
@@ -85,10 +47,11 @@ export function buildWorkshop2ArticleDevelopmentState(input: {
   const wmsEnabled = isWorkshop2InternalWmsEnabled();
   const internal = input.dossier.internalWmsMirror;
   const ledger = input.dossier.stockWmsLedger;
+  const internalSync = workshop2PgMirrorStr(internal, 'wmsSyncStatus');
+  const ledgerSync = workshop2PgMirrorStr(ledger, 'wmsSyncStatus');
+  const reservedQty = workshop2PgMirrorNum(internal, 'reservedQty');
   const reserveSynced =
-    internal?.wmsSyncStatus === 'internal_pg' ||
-    ledger?.wmsSyncStatus === 'internal_pg' ||
-    (internal?.reservedQty ?? 0) > 0;
+    internalSync === 'internal_pg' || ledgerSync === 'internal_pg' || reservedQty > 0;
   const intake = summarizeWorkshop2SampleIntakeStatus(input.dossier);
   const handoff = evaluateWorkshop2HandoffReadiness({
     dossier: input.dossier,
@@ -145,10 +108,10 @@ export function buildWorkshop2ArticleDevelopmentState(input: {
     },
     wms: {
       enabled: wmsEnabled,
-      syncStatus: internal?.wmsSyncStatus ?? ledger?.wmsSyncStatus,
-      reservedQty: internal?.reservedQty,
-      reserveDeficitCount: internal?.reserveDeficitCount,
-      itemCount: internal?.itemCount,
+      syncStatus: internalSync || ledgerSync || undefined,
+      reservedQty: reservedQty || undefined,
+      reserveDeficitCount: workshop2PgMirrorNum(internal, 'reserveDeficitCount') || undefined,
+      itemCount: workshop2PgMirrorNum(internal, 'itemCount') || undefined,
       lastSampleReserveOrderId: order?.id,
     },
     gold: {

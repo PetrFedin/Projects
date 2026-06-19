@@ -15,7 +15,7 @@ const heroAds = [
     type: 'system',
     title: 'Syntha',
     subtitle: 'ИНТЕЛЛЕКТ СТИЛЯ',
-    description: 'Интеллектуальная цифровая платформа для персонального стиля и шопинга.',
+    description: 'Интеллектуальная цифровая платформа.',
     imageUrl: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=2000',
     ctaText: 'К покупкам',
     ctaLink: '/search',

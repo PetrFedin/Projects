@@ -4,6 +4,7 @@
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { emptyWorkshop2DossierPhase1 } from '@/lib/production/workshop2-phase1-dossier-storage';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import {
   buildWorkshop2HubOnboardingMirrorPgFirst,
   resolveWorkshop2HubOnboardingStatePgFirst,
@@ -110,14 +111,18 @@ export function evaluateWorkshop2HubOnboardingSampleGate(
     return {
       id: 'hub.onboarding.drift',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Drift онбординга local↔PG — синхронизируйте через workspace.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Drift онбординга local↔PG — синхронизируйте через workspace.',
     };
   }
   if (mirror.blockerSampleOrder) {
     return {
       id: 'hub.onboarding.incomplete',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Онбординг хаба не завершён — закройте диалог «Первый вход».',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Онбординг хаба не завершён — закройте диалог «Первый вход».',
     };
   }
   return null;

@@ -56,7 +56,7 @@ export const POST = withWorkshop2ApiErrorRu(async function postSampleMovement(
   }
 
   const b = body as Record<string, unknown>;
-  const auth = guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
     bodyActorLabel: String(b.actor ?? ''),
   });
   if (auth instanceof NextResponse) return auth;
@@ -108,7 +108,8 @@ export const POST = withWorkshop2ApiErrorRu(async function postSampleMovement(
     );
   }
 
-  const actor = resolveWorkshop2UpdatedBy(req, String(b.actor ?? ''), auth.actor);
+  const actor =
+    resolveWorkshop2UpdatedBy(req, String(b.actor ?? ''), auth.actor) ?? 'sample-movement-api';
   const order = await advanceWorkshop2SampleOrderMovement({
     id: oid,
     collectionId: cid,

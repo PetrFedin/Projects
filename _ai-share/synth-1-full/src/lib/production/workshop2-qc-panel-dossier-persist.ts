@@ -7,6 +7,17 @@ import {
   summarizeWorkshop2QcPanelStatus,
   type Workshop2QcPanelStatus,
 } from '@/lib/production/workshop2-qc-panel-status';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
+
+function workshop2QcPanelSupplierSource(
+  mirror: Workshop2DossierPhase1['qcPanelMirror']
+): Workshop2QcPanelMirrorInput['supplierSource'] {
+  const raw = workshop2PgMirrorStr(mirror, 'supplierSource');
+  return raw === 'purchase_order' || raw === 'seed_default' || raw === 'none' ? raw : 'none';
+}
 
 export type Workshop2QcPanelMirrorInput = {
   batchCount: number;
@@ -87,15 +98,15 @@ export function syncWorkshop2QcPanelMirrorAfterInspectorPut(input: {
 }): Workshop2DossierPhase1 {
   const prev = input.dossier.qcPanelMirror;
   return persistWorkshop2QcPanelMirrorToDossier(input.dossier, {
-    batchCount: prev?.batchCount ?? 0,
-    pendingBatchCount: prev?.pendingBatchCount ?? 0,
-    failedBatchCount: prev?.failedBatchCount ?? 0,
+    batchCount: workshop2PgMirrorNum(prev, 'batchCount'),
+    pendingBatchCount: workshop2PgMirrorNum(prev, 'pendingBatchCount'),
+    failedBatchCount: workshop2PgMirrorNum(prev, 'failedBatchCount'),
     hasSampleOrder: true,
     hasInspectorLink: true,
-    supplierId: prev?.supplierId ?? '',
-    supplierSource: prev?.supplierSource ?? 'none',
-    purchaseOrderCount: prev?.purchaseOrderCount ?? 0,
-    poConfirmedCount: prev?.poConfirmedCount ?? 0,
+    supplierId: workshop2PgMirrorStr(prev, 'supplierId'),
+    supplierSource: workshop2QcPanelSupplierSource(prev),
+    purchaseOrderCount: workshop2PgMirrorNum(prev, 'purchaseOrderCount'),
+    poConfirmedCount: workshop2PgMirrorNum(prev, 'poConfirmedCount'),
     activeSampleOrderId: input.sampleOrderId,
   });
 }
@@ -115,14 +126,16 @@ export function evaluateWorkshop2QcPanelSampleGate(
     return {
       id: 'qc.panel.not_ready_sample',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'ОТК не готов: нет sample-order, pending партий или инспектора.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'ОТК не готов: нет sample-order, pending партий или инспектора.',
     };
   }
   if (mirror.panelState === 'partial') {
     return {
       id: 'qc.panel.partial',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'ОТК частично готов — проверьте партии и scorecard.',
+      messageRu: workshop2PgMirrorStr(mirror, 'hintRu') || 'ОТК частично готов — проверьте партии и scorecard.',
     };
   }
   return null;
@@ -144,7 +157,8 @@ export function evaluateWorkshop2QcPanelHandoffGate(
       id: 'qc.panel.not_ready_handoff',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'ОТК блокирует handoff: pending/брак/parties или поставщик из PO.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'ОТК блокирует handoff: pending/брак/parties или поставщик из PO.',
     };
   }
   return null;

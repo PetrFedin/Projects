@@ -1,18 +1,13 @@
 /**
  * Wave 41 #66: ручной erpOrderId в PG (user-entered, не fake sync).
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2FactoryErpManualAckMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
-export type Workshop2FactoryErpManualAckMirror = {
-  mirroredAt: string;
-  lastActor: string;
-  manualErpOrderId: string | null;
-  source: 'user_manual' | 'po_row';
-  poWithErpIdCount: number;
-  manualEntryCount: number;
-  auditExportReady: boolean;
-  hintRu: string;
-};
+export type { Workshop2FactoryErpManualAckMirror } from '@/lib/production/workshop2-dossier-phase1.types';
 
 export function summarizeWorkshop2FactoryErpManualAck(dossier: Workshop2DossierPhase1): {
   manualErpOrderId: string | null;
@@ -25,7 +20,9 @@ export function summarizeWorkshop2FactoryErpManualAck(dossier: Workshop2DossierP
     dossier.factoryErpAuditMirror?.entries.filter((e) => Boolean(e.erpExternalId?.trim())).length ??
     0;
   const manual =
-    mirror?.manualErpOrderId?.trim() || dossier.factoryErpSync?.erpOrderId?.trim() || null;
+    mirror?.manualErpOrderId?.trim() ||
+    workshop2PgMirrorStr(dossier.factoryErpSync, 'erpOrderId') ||
+    null;
   const manualEntryCount = manual ? 1 : 0;
   return {
     manualErpOrderId: manual,
@@ -85,8 +82,9 @@ export function persistWorkshop2FactoryErpManualAckToDossier(input: {
     ...input.dossier,
     factoryErpManualAckMirror: mirror,
     factoryErpSync: {
-      ...input.dossier.factoryErpSync,
-      erpOrderId: id || input.dossier.factoryErpSync?.erpOrderId,
+      ...(input.dossier.factoryErpSync ?? {}),
+      erpOrderId:
+        id || workshop2PgMirrorStr(input.dossier.factoryErpSync, 'erpOrderId') || undefined,
       validatedAt: new Date().toISOString(),
       hintRu: mirror.hintRu,
     },

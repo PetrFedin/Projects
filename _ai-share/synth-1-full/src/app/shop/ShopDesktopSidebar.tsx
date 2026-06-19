@@ -2,10 +2,10 @@
 
 import { ShopSidebarHeader } from '@/components/shop/ShopSidebarHeader';
 import { ShopLayoutSidebarPanel } from '@/app/shop/ShopLayoutSidebarPanel';
-import type { Resource, Action } from '@/lib/rbac';
+import type { Resource, Action, PlatformRole } from '@/lib/rbac';
 
 type ShopDesktopSidebarProps = {
-  role: string;
+  role: PlatformRole;
   can: (resource: Resource, action: Action) => boolean;
 };
 

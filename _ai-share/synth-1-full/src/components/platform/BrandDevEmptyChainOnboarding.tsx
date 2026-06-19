@@ -1,0 +1,64 @@
+'use client';
+
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { hubGadget } from '@/components/platform/platform-core-hub-gadget-styles';
+import { ROUTES } from '@/lib/routes';
+import { getPlatformCoreCollectionLabel } from '@/lib/platform-core-hub-matrix';
+import { WORKSHOP2_COL_PARAM, WORKSHOP2_CREATE_PARAM } from '@/lib/production/workshop2-url';
+
+type Props = {
+  collectionId: string;
+  /** cabinet | w2-hub — один testid, разный layout не нужен */
+  variant?: 'cabinet' | 'w2-hub';
+};
+
+/** EMPTY27 / пустая цепочка: один путь старта без лишних CTA. */
+export function BrandDevEmptyChainOnboarding({ collectionId, variant = 'cabinet' }: Props) {
+  const rangeHref = `${ROUTES.brand.rangePlanner}?collection=${encodeURIComponent(collectionId)}`;
+  const createHref = `${ROUTES.brand.productionWorkshop2}?${WORKSHOP2_COL_PARAM}=${encodeURIComponent(collectionId)}&${WORKSHOP2_CREATE_PARAM}=1`;
+  const ss27W2Href = `${ROUTES.brand.productionWorkshop2}?${WORKSHOP2_COL_PARAM}=SS27`;
+  const ss27RangeHref = `${ROUTES.brand.rangePlanner}?collection=SS27`;
+
+  return (
+    <div
+      className={
+        variant === 'w2-hub'
+          ? 'border-amber-200/80 bg-amber-50/40 rounded-lg border p-2.5'
+          : hubGadget.pillarCard + ' ' + hubGadget.pillarBody
+      }
+      data-testid="brand-dev-empty-onboarding"
+      data-audit-section="brand-dev-empty-chain"
+    >
+      <p className="text-text-primary text-[11px] font-medium">
+        {getPlatformCoreCollectionLabel(collectionId)} — нет артикулов
+      </p>
+      <p className={hubGadget.muted}>Создайте SKU или откройте golden SS27</p>
+      <div className="flex flex-wrap items-center gap-2">
+        <Button asChild size="sm" variant="default" className="h-7 text-[10px] font-semibold">
+          <Link href={createHref} data-testid="brand-dev-empty-create-sku-link">
+            + SKU
+          </Link>
+        </Button>
+        <Button asChild size="sm" variant="outline" className="h-7 text-[10px] font-semibold">
+          <Link href={rangeHref} data-testid="brand-dev-empty-range-link">
+            План
+          </Link>
+        </Button>
+        <span className={hubGadget.muted}>
+          <Link href={ss27W2Href} data-testid="brand-dev-empty-ss27-w2-link" className={hubGadget.ctaLink}>
+            SS27 W2
+          </Link>
+          <span className={hubGadget.goldenSep}> · </span>
+          <Link
+            href={ss27RangeHref}
+            data-testid="brand-dev-empty-ss27-range-link"
+            className={hubGadget.ctaLink}
+          >
+            SS27 план
+          </Link>
+        </span>
+      </div>
+    </div>
+  );
+}

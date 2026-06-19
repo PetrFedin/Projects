@@ -26,8 +26,12 @@ export default function BrandCollectionTnaBoardPage() {
       fetch(`/api/brand/calendar/b2b-events?collectionId=${encodeURIComponent(collectionId)}`),
     ])
       .then(async ([w2Res, b2bRes]) => {
-        const w2Data = w2Res.ok ? await w2Res.json() : null;
-        const b2bData = b2bRes.ok ? await b2bRes.json() : null;
+        const w2Data = w2Res.ok
+          ? ((await w2Res.json()) as { w2Events?: Workshop2BrandCalendarSyncEvent[] })
+          : null;
+        const b2bData = b2bRes.ok
+          ? ((await b2bRes.json()) as { events?: Workshop2B2bCalendarEvent[] })
+          : null;
         const w2Events = (w2Data?.w2Events ?? []) as Workshop2BrandCalendarSyncEvent[];
         const b2bEvents = (b2bData?.events ?? []) as Workshop2B2bCalendarEvent[];
         setEvents(mergeWorkshop2B2bEventsIntoBrandCalendar({ w2Events, b2bEvents }));

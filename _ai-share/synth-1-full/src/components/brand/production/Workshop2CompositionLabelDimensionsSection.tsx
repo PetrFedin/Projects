@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -44,6 +45,12 @@ export function Workshop2CompositionLabelDimensionsSection({
 }) {
   const ro = readOnly;
   const s = spec ?? {};
+  const specRef = useRef(s);
+  useEffect(() => {
+    specRef.current = s;
+  }, [s]);
+  const patch = (delta: Partial<Workshop2CompositionLabelSpec>) =>
+    onChange(patchSpec(specRef.current, delta));
   const physical = (s.physicalMaterial ?? '') as Workshop2CompositionLabelPhysicalKind | '';
   const sourcesAlert =
     need.has('fiber_tz_gap') ||
@@ -76,7 +83,7 @@ export function Workshop2CompositionLabelDimensionsSection({
               disabled={ro}
               value={s.labelWidthMm ?? ''}
               onChange={(e) =>
-                onChange(patchSpec(s, { labelWidthMm: e.target.value, labelSizePresetId: '' }))
+                patch({ labelWidthMm: e.target.value, labelSizePresetId: '' })
               }
               placeholder="напр. 50"
             />
@@ -93,7 +100,7 @@ export function Workshop2CompositionLabelDimensionsSection({
               disabled={ro}
               value={s.labelHeightMm ?? ''}
               onChange={(e) =>
-                onChange(patchSpec(s, { labelHeightMm: e.target.value, labelSizePresetId: '' }))
+                patch({ labelHeightMm: e.target.value, labelSizePresetId: '' })
               }
               placeholder="напр. 120"
             />
@@ -108,7 +115,7 @@ export function Workshop2CompositionLabelDimensionsSection({
               inputMode="decimal"
               disabled={ro}
               value={s.labelBleedMm ?? ''}
-              onChange={(e) => onChange(patchSpec(s, { labelBleedMm: e.target.value }))}
+              onChange={(e) => patch({ labelBleedMm: e.target.value })}
               placeholder="напр. 2"
             />
           </div>
@@ -119,7 +126,7 @@ export function Workshop2CompositionLabelDimensionsSection({
               inputMode="decimal"
               disabled={ro}
               value={s.labelSafeInsetMm ?? ''}
-              onChange={(e) => onChange(patchSpec(s, { labelSafeInsetMm: e.target.value }))}
+              onChange={(e) => patch({ labelSafeInsetMm: e.target.value })}
               placeholder="напр. 3"
             />
           </div>
@@ -132,9 +139,7 @@ export function Workshop2CompositionLabelDimensionsSection({
               disabled={ro}
               value={(s.printColorMode ?? '') || 'unset'}
               onValueChange={(v) =>
-                onChange(
-                  patchSpec(s, { printColorMode: v === 'unset' ? '' : (v as PrintColorMode) })
-                )
+                patch({ printColorMode: v === 'unset' ? '' : (v as PrintColorMode) })
               }
             >
               <SelectTrigger className="h-9 text-xs">
@@ -165,7 +170,7 @@ export function Workshop2CompositionLabelDimensionsSection({
               className="h-9 text-xs"
               disabled={ro}
               value={s.printDpiNote ?? ''}
-              onChange={(e) => onChange(patchSpec(s, { printDpiNote: e.target.value }))}
+              onChange={(e) => patch({ printDpiNote: e.target.value })}
               placeholder="напр. 300 DPI, 55 LPI жаккард"
             />
           </div>
@@ -182,12 +187,10 @@ export function Workshop2CompositionLabelDimensionsSection({
               disabled={ro}
               value={physical || 'unset'}
               onValueChange={(v) =>
-                onChange(
-                  patchSpec(s, {
-                    physicalMaterial:
-                      v === 'unset' ? '' : (v as Workshop2CompositionLabelPhysicalKind),
-                  })
-                )
+                patch({
+                  physicalMaterial:
+                    v === 'unset' ? '' : (v as Workshop2CompositionLabelPhysicalKind),
+                })
               }
             >
               <SelectTrigger className="h-9 text-xs">
@@ -213,7 +216,7 @@ export function Workshop2CompositionLabelDimensionsSection({
               className="h-9 text-xs"
               disabled={ro}
               value={s.physicalMaterialNote ?? ''}
-              onChange={(e) => onChange(patchSpec(s, { physicalMaterialNote: e.target.value }))}
+              onChange={(e) => patch({ physicalMaterialNote: e.target.value })}
               placeholder="При «Другое» — обязательно; иначе уточнение к выбранному типу"
             />
           </div>
@@ -232,7 +235,7 @@ export function Workshop2CompositionLabelDimensionsSection({
               disabled={ro}
               checked={Boolean(s.includeFiberCompositionFromTz)}
               onCheckedChange={(v) =>
-                onChange(patchSpec(s, { includeFiberCompositionFromTz: v === true }))
+                patch({ includeFiberCompositionFromTz: v === true })
               }
             />
             <span>
@@ -257,7 +260,7 @@ export function Workshop2CompositionLabelDimensionsSection({
               disabled={ro}
               checked={Boolean(s.includeCareSymbolsFromTz)}
               onCheckedChange={(v) =>
-                onChange(patchSpec(s, { includeCareSymbolsFromTz: v === true }))
+                patch({ includeCareSymbolsFromTz: v === true })
               }
             />
             <span>
@@ -278,7 +281,7 @@ export function Workshop2CompositionLabelDimensionsSection({
               disabled={ro}
               checked={Boolean(s.includeManufacturerFromTz)}
               onCheckedChange={(v) =>
-                onChange(patchSpec(s, { includeManufacturerFromTz: v === true }))
+                patch({ includeManufacturerFromTz: v === true })
               }
             />
             <span>
@@ -303,7 +306,7 @@ export function Workshop2CompositionLabelDimensionsSection({
           className="min-h-[72px] text-xs"
           disabled={ro}
           value={s.extraLegalLines ?? ''}
-          onChange={(e) => onChange(patchSpec(s, { extraLegalLines: e.target.value }))}
+          onChange={(e) => patch({ extraLegalLines: e.target.value })}
           placeholder="Юридический адрес, регистрационный знак, EAC, артикул на бирке, телефон горячей линии…"
         />
       </div>
@@ -313,8 +316,9 @@ export function Workshop2CompositionLabelDimensionsSection({
         <Textarea
           className="min-h-[64px] text-xs"
           disabled={ro}
+          data-testid="workshop2-dossier-composition-technologist-notes"
           value={s.technologistNotes ?? ''}
-          onChange={(e) => onChange(patchSpec(s, { technologistNotes: e.target.value }))}
+          onChange={(e) => patch({ technologistNotes: e.target.value })}
           placeholder="Особенности печати, двухсторонняя бирка, языки, запреты формулировок…"
         />
       </div>

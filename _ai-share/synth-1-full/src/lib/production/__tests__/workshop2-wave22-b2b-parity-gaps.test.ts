@@ -19,6 +19,7 @@ import {
   buildWorkshop2B2bCatalogMatrix,
 } from '@/lib/production/workshop2-b2b-campaign-hub';
 import { buildWorkshop2B2bLinesheetPdfBytes } from '@/lib/production/workshop2-b2b-linesheet-pdf';
+import { buildWorkshop2CollectionLinesheetPdfBytes } from '@/lib/production/workshop2-collection-linesheet-pdf';
 import { buildWorkshop2B2bOrderConfirmationPdfBytes } from '@/lib/production/workshop2-b2b-order-confirmation-pdf';
 import {
   buildWorkshop2B2bDeliveryCalendarEventFromOrder,
@@ -71,9 +72,18 @@ describe('workshop2 wave22 b2b — campaign id & payment terms', () => {
 });
 
 describe('workshop2 wave22 b2b — wishlist store', () => {
+  const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+
   beforeEach(() => {
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
     clearWorkshop2B2bWishlistMemoryForTests();
     clearWorkshop2B2bRepShareMemoryForTests();
+  });
+
+  afterEach(() => {
+    if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+    else delete process.env.WORKSHOP2_DATABASE_URL;
   });
 
   it('adds and lists wishlist entries', async () => {
@@ -127,7 +137,7 @@ describe('workshop2 wave22 b2b — matrix availability & PDF', () => {
     expect(hint.onRequest).toBe(true);
   });
 
-  it('builds linesheet and confirmation PDF bytes', () => {
+  it('builds linesheet and confirmation PDF bytes', async () => {
     const campaign = buildWorkshop2B2bCampaign({
       collectionId: 'SS27',
       articleId: 'demo-ss27-01',
@@ -147,11 +157,37 @@ describe('workshop2 wave22 b2b — matrix availability & PDF', () => {
       updatedAt: new Date().toISOString(),
     });
     expect(confirmPdf.byteLength).toBeGreaterThan(400);
+    const collectionPdf = await buildWorkshop2CollectionLinesheetPdfBytes({
+      collectionId: 'FW27',
+      articles: [
+        {
+          collectionId: 'FW27',
+          articleId: 'demo-fw27-01',
+          name: 'FW27 Demo Coat',
+          wholesalePriceRub: 4500,
+          moq: 6,
+          heroImageUrl:
+            'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+        },
+      ],
+    });
+    expect(collectionPdf.byteLength).toBeGreaterThan(400);
   });
 });
 
 describe('workshop2 wave22 b2b — orders analytics & calendar merge', () => {
-  beforeEach(() => clearWorkshop2B2bOrdersMemoryForTests());
+  const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+
+  beforeEach(() => {
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
+    clearWorkshop2B2bOrdersMemoryForTests();
+  });
+
+  afterEach(() => {
+    if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+    else delete process.env.WORKSHOP2_DATABASE_URL;
+  });
 
   it('aggregates brand analytics from orders', async () => {
     const now = new Date().toISOString();

@@ -1,0 +1,266 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: "Suisse Intl", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Top nav — black bar above white card */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  padding: 0 31px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.top-nav__group {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.top-nav__item {
+  font-weight: 500;
+  font-size: 12px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  cursor: default;
+  user-select: none;
+}
+
+.top-nav__logo {
+  position: relative;
+  width: 76px;
+  height: 17px;
+  display: block;
+  cursor: pointer;
+  overflow: visible;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.top-nav__logo:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.65);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.top-nav__logo svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.top-nav__logo-tagline {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 4px);
+  transform: translateX(-50%);
+  font-size: 6px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .top-nav__logo-tagline {
+    opacity: 1;
+  }
+}
+
+/* White card */
+.card {
+  position: absolute;
+  top: 32px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  background: #fff;
+  border-radius: 40px;
+  overflow: hidden;
+}
+
+/* Central area — video or color fallback */
+.central-area {
+  position: absolute;
+  top: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 680px;
+  height: 740px;
+  overflow: hidden;
+}
+
+.central-area video,
+.central-area .fallback-color {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: background-color 0.15s ease;
+}
+
+.central-area video {
+  background: #f5f5f5;
+}
+
+/* Left info block */
+.info-left {
+  position: absolute;
+  left: 32px;
+  top: 378px;
+  z-index: 2;
+}
+
+.info-left__title {
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -1.2px;
+  line-height: 1;
+  color: #000;
+}
+
+.info-left__details {
+  margin-top: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: #000;
+}
+
+.info-left__dimensions {
+  margin-top: 12px;
+}
+
+.info-left__more {
+  margin-top: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Right info block */
+.info-right {
+  position: absolute;
+  right: 32px;
+  top: 378px;
+  text-align: right;
+  z-index: 2;
+}
+
+.info-right__price {
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -1.2px;
+  line-height: 1;
+  color: #000;
+}
+
+.info-right__origin {
+  margin-top: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.info-right__btn {
+  margin-top: 20px;
+  height: 32px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 23px;
+  padding: 5px 12px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+
+.info-right__btn:hover {
+  opacity: 0.85;
+}
+
+.info-right__btn:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 3px;
+}
+
+/* Bottom switcher */
+.switcher {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: #000;
+  border-radius: 23px;
+  padding: 3px;
+  height: 56px;
+  z-index: 3;
+}
+
+.switcher__thumb {
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.switcher__thumb:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 2px;
+}
+
+.switcher__inner {
+  border-radius: 6px;
+  background-size: cover;
+  background-position: center;
+  transition:
+    width 0.3s ease,
+    height 0.3s ease;
+  width: 22px;
+  height: 22px;
+}
+
+.switcher__thumb.active .switcher__inner {
+  width: 32px;
+  height: 32px;
+}

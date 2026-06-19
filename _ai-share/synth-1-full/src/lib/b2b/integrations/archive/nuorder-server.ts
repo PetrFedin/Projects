@@ -131,6 +131,97 @@ export async function nuorderServerPushInventory(
   }
 }
 
+export type NuOrderInboundShipment = {
+  order_id: string;
+  tracking_number?: string;
+  carrier?: string;
+  status?: string;
+  shipped_at?: string;
+  estimated_delivery?: string;
+};
+
+export type NuOrderUpstreamOrderRaw = {
+  id?: string;
+  _id?: string;
+  order_id?: string;
+  order_number?: string;
+  status?: string;
+  company_name?: string;
+  customer_name?: string;
+  created_at?: string;
+  total?: number;
+  currency?: string;
+  lines?: unknown[];
+  line_items?: unknown[];
+  [key: string]: unknown;
+};
+
+/** List orders by status — GET /api/orders/{status}/detail (Orders Export feed). */
+export async function nuorderServerFetchOrdersByStatus(
+  config: NuOrderConfig,
+  options?: { status?: string; limit?: number }
+): Promise<{ success: boolean; orders: NuOrderUpstreamOrderRaw[]; error?: string }> {
+  const status = (options?.status?.trim() || 'approved').toLowerCase();
+  const limit = Math.min(50, Math.max(1, options?.limit ?? 20));
+  try {
+    const url = `${getBaseUrl(config)}/api/orders/${encodeURIComponent(status)}/detail`;
+    const auth = buildOAuth1Header('GET', url, oauth(config));
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: { Authorization: auth, Accept: 'application/json' },
+    });
+    if (!res.ok) {
+      return { success: false, orders: [], error: `HTTP ${res.status}` };
+    }
+    const parsed = (await res.json()) as unknown;
+    const rows: NuOrderUpstreamOrderRaw[] = Array.isArray(parsed)
+      ? (parsed as NuOrderUpstreamOrderRaw[])
+      : ((parsed as { orders?: NuOrderUpstreamOrderRaw[]; data?: NuOrderUpstreamOrderRaw[] })
+          .orders ??
+        (parsed as { data?: NuOrderUpstreamOrderRaw[] }).data ??
+        []);
+    return { success: true, orders: rows.slice(0, limit) };
+  } catch (e) {
+    return {
+      success: false,
+      orders: [],
+      error: getUnknownErrorMessage(e, 'NuOrder orders list failed'),
+    };
+  }
+}
+
+/** Inbound · fetch shipment status from B2B-каталог upstream (no demo stub). */
+export async function nuorderServerFetchOrderShipments(
+  config: NuOrderConfig,
+  orderId: string
+): Promise<{ success: boolean; shipments: NuOrderInboundShipment[]; error?: string }> {
+  const oid = orderId.trim();
+  if (!oid) return { success: false, shipments: [], error: 'order_id required' };
+
+  try {
+    const url = `${getBaseUrl(config)}/api/order/${encodeURIComponent(oid)}/shipments`;
+    const auth = buildOAuth1Header('GET', url, oauth(config));
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: { Authorization: auth, Accept: 'application/json' },
+    });
+    if (!res.ok) {
+      return { success: false, shipments: [], error: `HTTP ${res.status}` };
+    }
+    const data = (await res.json()) as
+      | NuOrderInboundShipment[]
+      | { shipments?: NuOrderInboundShipment[] };
+    const shipments = Array.isArray(data) ? data : (data.shipments ?? []);
+    return { success: true, shipments };
+  } catch (e) {
+    return {
+      success: false,
+      shipments: [],
+      error: getUnknownErrorMessage(e, 'Upstream shipment fetch failed'),
+    };
+  }
+}
+
 /** Отправка статуса отгрузки в NuOrder (Orders Shipments). */
 export async function nuorderServerSendShipment(
   config: NuOrderConfig,

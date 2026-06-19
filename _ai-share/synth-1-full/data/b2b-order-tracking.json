@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "byWholesaleOrderId": {
+    "INT-JOOR-wave-d-joor-1781222436069": {
+      "status": "in_transit",
+      "carrier": "Demo Carrier",
+      "platform": "zedonk",
+      "shippedAt": "2026-06-12T00:00:48.272Z",
+      "updatedAt": "2026-06-12T00:00:48.272Z",
+      "trackingNumber": "WAVE-D-TRACK-1",
+      "wholesaleOrderId": "INT-JOOR-wave-d-joor-1781222436069"
+    },
+    "INT-NUORDER-wave-ext-nu-1781223465407": {
+      "status": "shipped",
+      "carrier": "FedEx",
+      "platform": "nuorder",
+      "shippedAt": "2026-06-12T00:17:46.281Z",
+      "updatedAt": "2026-06-12T00:17:46.281Z",
+      "trackingNumber": "NU-TRK-1781223465456",
+      "wholesaleOrderId": "INT-NUORDER-wave-ext-nu-1781223465407"
+    },
+    "INT-NUORDER-nu-inbound-1781223718730": {
+      "status": "in_transit",
+      "carrier": "NuOrder Logistics",
+      "platform": "nuorder",
+      "shippedAt": "2026-06-12T00:21:58.732Z",
+      "updatedAt": "2026-06-12T00:21:58.732Z",
+      "trackingNumber": "NU-IN-23718730",
+      "wholesaleOrderId": "INT-NUORDER-nu-inbound-1781223718730",
+      "estimatedDelivery": "2026-06-19"
+    },
+    "INT-NUORDER-wave-ef-nu-1781223758945": {
+      "status": "in_transit",
+      "carrier": "NuOrder Logistics",
+      "platform": "nuorder",
+      "shippedAt": "2026-06-12T00:22:41.629Z",
+      "updatedAt": "2026-06-12T00:22:41.629Z",
+      "trackingNumber": "NU-IN-23758945",
+      "wholesaleOrderId": "INT-NUORDER-wave-ef-nu-1781223758945",
+      "estimatedDelivery": "2026-06-19"
+    },
+    "INT-JOOR-joor-inbound-1781223877018": {
+      "status": "in_transit",
+      "carrier": "JOOR Logistics",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T00:24:37.019Z",
+      "updatedAt": "2026-06-12T00:24:37.019Z",
+      "trackingNumber": "JOOR-IN-23877018",
+      "wholesaleOrderId": "INT-JOOR-joor-inbound-1781223877018",
+      "estimatedDelivery": "2026-06-17"
+    },
+    "INT-JOOR-joor-autopull-1781223877021": {
+      "status": "in_transit",
+      "carrier": "JOOR Logistics",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T00:24:37.022Z",
+      "updatedAt": "2026-06-12T00:24:37.022Z",
+      "trackingNumber": "JOOR-IN-23877021",
+      "wholesaleOrderId": "INT-JOOR-joor-autopull-1781223877021",
+      "estimatedDelivery": "2026-06-17"
+    },
+    "INT-JOOR-wave-g-joor-1781223909163": {
+      "status": "in_transit",
+      "carrier": "JOOR Logistics",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T00:25:23.442Z",
+      "updatedAt": "2026-06-12T00:25:23.442Z",
+      "trackingNumber": "JOOR-IN-23909163",
+      "wholesaleOrderId": "INT-JOOR-wave-g-joor-1781223909163",
+      "estimatedDelivery": "2026-06-17"
+    },
+    "INT-NUORDER-wh-nu-1781223988021": {
+      "status": "shipped",
+      "carrier": "FedEx",
+      "platform": "nuorder",
+      "shippedAt": "2026-06-12T00:26:28.022Z",
+      "updatedAt": "2026-06-12T00:26:28.022Z",
+      "trackingNumber": "WH-NU-1781223988022",
+      "wholesaleOrderId": "INT-NUORDER-wh-nu-1781223988021"
+    },
+    "INT-JOOR-wh-joor-1781223988023": {
+      "status": "in_transit",
+      "carrier": "DHL",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T00:26:28.024Z",
+      "updatedAt": "2026-06-12T00:26:28.024Z",
+      "trackingNumber": "WH-JOOR-123",
+      "wholesaleOrderId": "INT-JOOR-wh-joor-1781223988023"
+    },
+    "INT-JOOR-wave-h-joor-1781224036832": {
+      "status": "shipped",
+      "carrier": "DHL Express",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T00:27:26.042Z",
+      "updatedAt": "2026-06-12T00:27:26.042Z",
+      "trackingNumber": "WH-TRK-1781224044538",
+      "wholesaleOrderId": "INT-JOOR-wave-h-joor-1781224036832"
+    },
+    "INT-NUORDER-wh-nu-1781230111181": {
+      "status": "shipped",
+      "carrier": "FedEx",
+      "platform": "nuorder",
+      "shippedAt": "2026-06-12T02:08:31.183Z",
+      "updatedAt": "2026-06-12T02:08:31.183Z",
+      "trackingNumber": "WH-NU-1781230111183",
+      "wholesaleOrderId": "INT-NUORDER-wh-nu-1781230111181"
+    },
+    "INT-JOOR-wh-joor-1781230111185": {
+      "status": "in_transit",
+      "carrier": "DHL",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T02:08:31.186Z",
+      "updatedAt": "2026-06-12T02:08:31.186Z",
+      "trackingNumber": "WH-JOOR-123",
+      "wholesaleOrderId": "INT-JOOR-wh-joor-1781230111185"
+    },
+    "INT-NUORDER-wh-nu-1781230367483": {
+      "status": "shipped",
+      "carrier": "FedEx",
+      "platform": "nuorder",
+      "shippedAt": "2026-06-12T02:12:47.487Z",
+      "updatedAt": "2026-06-12T02:12:47.487Z",
+      "trackingNumber": "WH-NU-1781230367486",
+      "wholesaleOrderId": "INT-NUORDER-wh-nu-1781230367483"
+    },
+    "INT-JOOR-wh-joor-1781230367491": {
+      "status": "in_transit",
+      "carrier": "DHL",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T02:12:47.494Z",
+      "updatedAt": "2026-06-12T02:12:47.494Z",
+      "trackingNumber": "WH-JOOR-123",
+      "wholesaleOrderId": "INT-JOOR-wh-joor-1781230367491"
+    },
+    "INT-JOOR-joor-inbound-1781232196547": {
+      "status": "in_transit",
+      "carrier": "Carrier",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T02:43:16.551Z",
+      "updatedAt": "2026-06-12T02:43:16.551Z",
+      "trackingNumber": "SYN-JOOR-001",
+      "wholesaleOrderId": "INT-JOOR-joor-inbound-1781232196547"
+    },
+    "INT-NUORDER-nu-inbound-1781232196737": {
+      "status": "in_transit",
+      "carrier": "Carrier",
+      "platform": "nuorder",
+      "shippedAt": "2026-06-12T02:43:16.738Z",
+      "updatedAt": "2026-06-12T02:43:16.738Z",
+      "trackingNumber": "SYN-IN-001",
+      "wholesaleOrderId": "INT-NUORDER-nu-inbound-1781232196737"
+    },
+    "INT-JOOR-joor-inbound-1781232289849": {
+      "status": "in_transit",
+      "carrier": "Carrier",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T02:44:49.851Z",
+      "updatedAt": "2026-06-12T02:44:49.851Z",
+      "trackingNumber": "SYN-JOOR-001",
+      "wholesaleOrderId": "INT-JOOR-joor-inbound-1781232289849"
+    },
+    "INT-NUORDER-nu-inbound-1781232289860": {
+      "status": "in_transit",
+      "carrier": "Carrier",
+      "platform": "nuorder",
+      "shippedAt": "2026-06-12T02:44:49.862Z",
+      "updatedAt": "2026-06-12T02:44:49.862Z",
+      "trackingNumber": "SYN-IN-001",
+      "wholesaleOrderId": "INT-NUORDER-nu-inbound-1781232289860"
+    },
+    "INT-NUORDER-nu-inbound-1781232633895": {
+      "status": "in_transit",
+      "carrier": "Carrier",
+      "platform": "nuorder",
+      "shippedAt": "2026-06-12T02:50:33.898Z",
+      "updatedAt": "2026-06-12T02:50:33.898Z",
+      "trackingNumber": "SYN-IN-001",
+      "wholesaleOrderId": "INT-NUORDER-nu-inbound-1781232633895"
+    },
+    "INT-JOOR-joor-inbound-1781232633962": {
+      "status": "in_transit",
+      "carrier": "Carrier",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T02:50:33.964Z",
+      "updatedAt": "2026-06-12T02:50:33.964Z",
+      "trackingNumber": "SYN-JOOR-001",
+      "wholesaleOrderId": "INT-JOOR-joor-inbound-1781232633962"
+    },
+    "INT-JOOR-joor-inbound-1781232813454": {
+      "status": "in_transit",
+      "carrier": "Carrier",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T02:53:33.457Z",
+      "updatedAt": "2026-06-12T02:53:33.457Z",
+      "trackingNumber": "SYN-JOOR-001",
+      "wholesaleOrderId": "INT-JOOR-joor-inbound-1781232813454"
+    },
+    "INT-JOOR-joor-inbound-1781233116500": {
+      "status": "in_transit",
+      "carrier": "Carrier",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T02:58:36.502Z",
+      "updatedAt": "2026-06-12T02:58:36.502Z",
+      "trackingNumber": "SYN-JOOR-001",
+      "wholesaleOrderId": "INT-JOOR-joor-inbound-1781233116500"
+    },
+    "INT-NUORDER-nu-inbound-1781233228924": {
+      "status": "in_transit",
+      "carrier": "Carrier",
+      "platform": "nuorder",
+      "shippedAt": "2026-06-12T03:00:28.927Z",
+      "updatedAt": "2026-06-12T03:00:28.927Z",
+      "trackingNumber": "SYN-IN-001",
+      "wholesaleOrderId": "INT-NUORDER-nu-inbound-1781233228924"
+    },
+    "INT-JOOR-joor-inbound-1781233229069": {
+      "status": "in_transit",
+      "carrier": "Carrier",
+      "platform": "joor",
+      "shippedAt": "2026-06-12T03:00:29.070Z",
+      "updatedAt": "2026-06-12T03:00:29.070Z",
+      "trackingNumber": "SYN-JOOR-001",
+      "wholesaleOrderId": "INT-JOOR-joor-inbound-1781233229069"
+    },
+    "B2B-1781707911386": {
+      "status": "in_transit",
+      "carrier": "DHL Express",
+      "platform": "syntha",
+      "shippedAt": "2026-06-17T14:51:56.651Z",
+      "updatedAt": "2026-06-17T14:51:56.651Z",
+      "trackingNumber": "TTN-CORE56-1781707913212",
+      "wholesaleOrderId": "B2B-1781707911386"
+    },
+    "B2B-1781707988040": {
+      "status": "in_transit",
+      "carrier": "DHL Express",
+      "platform": "syntha",
+      "shippedAt": "2026-06-17T14:53:09.723Z",
+      "updatedAt": "2026-06-17T14:53:09.723Z",
+      "trackingNumber": "TTN-CORE56-1781707988794",
+      "wholesaleOrderId": "B2B-1781707988040"
+    },
+    "B2B-1781708108547": {
+      "status": "in_transit",
+      "carrier": "DHL Express",
+      "platform": "syntha",
+      "shippedAt": "2026-06-17T14:55:10.520Z",
+      "updatedAt": "2026-06-17T14:55:10.520Z",
+      "trackingNumber": "TTN-CORE56-1781708109283",
+      "wholesaleOrderId": "B2B-1781708108547"
+    },
+    "B2B-DEMO-SHOP1-SS27": {
+      "status": "in_transit",
+      "carrier": "CDEK",
+      "platform": "syntha",
+      "shippedAt": "2026-06-17T17:50:53.258Z",
+      "updatedAt": "2026-06-17T17:50:53.258Z",
+      "trackingNumber": "SMOKE-DEMO-TTN",
+      "wholesaleOrderId": "B2B-DEMO-SHOP1-SS27"
+    }
+  }
+}

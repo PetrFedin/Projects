@@ -7,6 +7,10 @@ import {
   summarizeWorkshop2ReferencesStatus,
   type Workshop2ReferencesStatusInput,
 } from '@/lib/production/workshop2-references-status-summary';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2ReferencesMirrorFromStatus(
   input: Workshop2ReferencesStatusInput
@@ -43,10 +47,11 @@ export function evaluateWorkshop2ReferencesSampleGate(
       id: 'references.pg_down',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'Справочники на static — PG недоступен, заказ образца заблокирован.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ??
+        'Справочники на static — PG недоступен, заказ образца заблокирован.',
     };
   }
-  if (mirror.staticDirectoryCount > 0 && mirror.postgresDirectoryCount === 0) {
+  if (workshop2PgMirrorNum(mirror, 'staticDirectoryCount') > 0 && mirror.postgresDirectoryCount === 0) {
     return {
       id: 'references.static_only',
       severity: 'warning',
@@ -82,11 +87,11 @@ export function evaluateWorkshop2ReferencesHandoffGate(
       id: 'references.pg_down',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
+        workshop2PgMirrorStr(mirror, 'hintRu') ??
         'Справочники на static seeds — PG недоступен, handoff commit заблокирован.',
     };
   }
-  if (mirror.staticDirectoryCount > 0 && mirror.postgresDirectoryCount === 0) {
+  if (workshop2PgMirrorNum(mirror, 'staticDirectoryCount') > 0 && mirror.postgresDirectoryCount === 0) {
     return {
       id: 'references.static_only',
       severity: 'warning',

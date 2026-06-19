@@ -5,12 +5,12 @@ import { jsonWorkshop2ErrorRu } from '@/lib/production/workshop2-api-error-ru';
 import { NextRequest, NextResponse } from 'next/server';
 import { buildWorkshop2MarkingHonestSignCsv } from '@/lib/production/workshop2-marking-honest-sign';
 import { getWorkshop2ServerDossierRecord } from '@/lib/server/workshop2-phase1-dossier-server-store';
-import { guardWorkshop2Route } from '@/lib/server/workshop2-route-auth';
+import { guardWorkshop2Route, WORKSHOP2_READ_ROLES } from '@/lib/server/workshop2-route-auth';
 
 type RouteCtx = { params: Promise<{ collectionId: string; articleId: string }> };
 
 export async function GET(req: NextRequest, ctx: RouteCtx) {
-  const auth = await guardWorkshop2Route(req);
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_READ_ROLES);
   if (auth instanceof NextResponse) return auth;
 
   const { collectionId, articleId } = await ctx.params;

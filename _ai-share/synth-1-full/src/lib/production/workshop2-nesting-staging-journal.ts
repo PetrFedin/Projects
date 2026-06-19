@@ -1,7 +1,10 @@
 /**
  * Wave 38 #63: nesting simulate journal persist (external_api fail-closed).
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2NestingStagingMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
 import {
   appendWorkshop2CeilingJournalEntry,
@@ -17,17 +20,7 @@ import {
   workshop2StagingContractMirrorAckFields,
 } from '@/lib/production/workshop2-staging-contract-mode';
 
-export type Workshop2NestingStagingMirror = {
-  mirroredAt: string;
-  lastActor: string;
-  lastSource?: 'external_api' | 'local_heuristic';
-  partnerAckRecorded: boolean;
-  partnerAckId: string | null;
-  ackAt: string | null;
-  stagingContractMode: boolean;
-  journal: Workshop2CeilingJournalEntry[];
-  hintRu?: string;
-};
+export type { Workshop2NestingStagingMirror };
 
 export async function runWorkshop2NestingStagingWithJournal(input: {
   dossier: Workshop2DossierPhase1;
@@ -60,7 +53,8 @@ export async function runWorkshop2NestingStagingWithJournal(input: {
   const ackId =
     contractAck && result.ok ? extractWorkshop2StagingPartnerAckId('nesting', result.json) : null;
   const partnerAckRecorded = Boolean(contractAck && result.ok && ackId);
-  const prev = input.dossier.nestingStagingMirror?.journal;
+  const prevJournal = input.dossier.nestingStagingMirror?.journal;
+  const prev = Array.isArray(prevJournal) ? prevJournal : undefined;
   const journal = appendWorkshop2CeilingJournalEntry(
     prev,
     workshop2CeilingJournalEntry({

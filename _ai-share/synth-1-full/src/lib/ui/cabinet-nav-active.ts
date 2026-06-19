@@ -12,6 +12,13 @@ export type CabinetNavLink = {
   subsections?: { href: string; label: string }[];
 };
 
+/** Path-index для breadcrumbs / recent без полного nav chunk. */
+export type CabinetNavPathCandidate = {
+  href: string;
+  label: string;
+  description?: string;
+};
+
 export function normalizePath(p: string) {
   return (p || '').replace(/\/$/, '') || '/';
 }
@@ -57,6 +64,20 @@ export function resolveCabinetActiveNavLink<T extends CabinetNavLink>(
     if (h === '/client' || h === '/shop' || h === '/admin') return p === h;
     return p === h || p.startsWith(`${h}/`);
   });
+}
+
+export function resolveCabinetSectionLabelFromPathIndex(
+  pathname: string | null | undefined,
+  candidates: ReadonlyArray<CabinetNavPathCandidate>,
+  fallback: string
+): string {
+  const p = normalizePath(pathname ?? '');
+  const sorted = [...candidates].sort((a, b) => hrefPath(b.href).length - hrefPath(a.href).length);
+  const hit = sorted.find((c) => {
+    const h = hrefPath(c.href);
+    return p === h || p.startsWith(`${h}/`);
+  });
+  return hit?.label ?? fallback;
 }
 
 export function getCabinetNavSectionLabel(

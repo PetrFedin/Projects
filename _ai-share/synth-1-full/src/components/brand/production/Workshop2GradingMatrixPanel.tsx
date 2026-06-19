@@ -1,5 +1,6 @@
 'use client';
 
+import { WORKSHOP2_SURFACE_BANNER_OUTLINE_ACTION_CLASS } from '@/lib/production/workshop2-surface-banner-tokens';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -35,6 +36,7 @@ import {
   pushGradingRulesToSampleDimensions,
   workshop2SampleBaseSizeRowParts,
 } from '@/lib/production/workshop2-grading-from-sample-base';
+import type { Workshop2GradingStatus } from '@/lib/production/workshop2-grading-status';
 import { summarizeWorkshop2GradingPanelDisplayFromMirror } from '@/lib/production/workshop2-grading-status';
 import { summarizeWorkshop2GradingApplyPgMirror } from '@/lib/production/workshop2-operational-pg-mirror-status';
 import {
@@ -770,7 +772,7 @@ export function Workshop2GradingMatrixPanel({
   };
 
   const gradingLiveStatus = useMemo(
-    () => ({
+    (): Workshop2GradingStatus => ({
       ruleCount: rules.length,
       sizeCount: sizes.length,
       frozenRuleCount: rules.filter((r) => r.gradingFrozen).length,
@@ -814,7 +816,7 @@ export function Workshop2GradingMatrixPanel({
       : scaleSyncBlocked
         ? ['Линейка из справочника не применена — см. действия ниже']
         : undefined,
-    nextAction: gradingDisplay.nextActionRu,
+    nextAction: gradingDisplay.hintRu,
   };
 
   const dynamicStrLabel = dynamicSizes?.join(', ') ?? '';
@@ -1137,4 +1139,3 @@ export function Workshop2GradingMatrixPanel({
   );
 }
 
-void WORKSHOP2_SURFACE_BANNER_OUTLINE_ACTION_CLASS;

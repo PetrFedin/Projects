@@ -346,3 +346,30 @@ export async function listWorkshop2LogisticsInTransitArticleKeys(): Promise<stri
 export function clearWorkshop2LogisticsMemoryForTests(): void {
   memoryShipments.clear();
 }
+
+/** Отгрузка, привязанная к B2B/sample order id (для cross-role tracking). */
+export async function findWorkshop2LogisticsShipmentBySampleOrderId(
+  sampleOrderId: string
+): Promise<Workshop2LogisticsShipment | null> {
+  const id = sampleOrderId.trim();
+  if (!id) return null;
+
+  if (!isWorkshop2PostgresEnabled()) {
+    for (const list of memoryShipments.values()) {
+      const hit = list.find((s) => s.sampleOrderId?.trim() === id);
+      if (hit) return hit;
+    }
+    return null;
+  }
+
+  await ensureWorkshop2PgSchema();
+  const res = await getWorkshop2PgPool().query(
+    `SELECT * FROM workshop2_logistics_shipments
+     WHERE sample_order_id = $1
+     ORDER BY updated_at DESC
+     LIMIT 1`,
+    [id]
+  );
+  const row = res.rows[0];
+  return row ? mapPgRow(row as Parameters<typeof mapPgRow>[0]) : null;
+}

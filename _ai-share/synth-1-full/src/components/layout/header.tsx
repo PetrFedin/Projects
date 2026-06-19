@@ -13,7 +13,6 @@ import {
   Globe,
   ShieldCheck,
   Clock,
-  Users,
   ChevronDown,
   Shield,
   Store,
@@ -77,7 +76,6 @@ export default function Header() {
   const wishlistCollections = ui?.wishlistCollections ?? [];
   const preOrders = ui?.preOrders ?? [];
   const viewRole = ui?.viewRole ?? 'client';
-  const setViewRole = ui?.setViewRole ?? (() => {});
   const isFlowMapOpen = ui?.isFlowMapOpen ?? false;
   const isCalendarOpen = ui?.isCalendarOpen ?? false;
   const isMediaRadarOpen = ui?.isMediaRadarOpen ?? false;
@@ -210,37 +208,7 @@ export default function Header() {
           </SheetTrigger>
           <SheetContent side="left" className="flex w-[300px] flex-col sm:w-[400px]">
             <SheetTitle className="sr-only">Главное меню</SheetTitle>
-            <div className="mt-4 flex w-fit items-center gap-1 rounded-xl border border-slate-800 bg-slate-900 p-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  'flex h-8 items-center gap-2 rounded-lg px-4 text-[9px] font-black uppercase tracking-widest transition-all',
-                  viewRole === 'client'
-                    ? 'bg-white text-black shadow-lg'
-                    : 'text-white/40 hover:text-white'
-                )}
-                onClick={() => setViewRole('client')}
-              >
-                <Users className="h-3.5 w-3.5" />
-                Режим B2C
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  'flex h-8 items-center gap-2 rounded-lg px-4 text-[9px] font-black uppercase tracking-widest transition-all',
-                  viewRole === 'b2b'
-                    ? 'bg-white text-black shadow-lg'
-                    : 'text-white/40 hover:text-white'
-                )}
-                onClick={() => setViewRole('b2b')}
-              >
-                <ShieldCheck className="h-3.5 w-3.5" />
-                Режим B2B
-              </Button>
-            </div>
-            <nav className="mt-8 flex flex-1 flex-col gap-3">
+            <nav className="mt-4 flex flex-1 flex-col gap-3">
               {mobileSheetNavLinks.map((link) => {
                 const liveHere = link.href === '/live' && liveBroadcastOn;
                 return (
@@ -306,39 +274,6 @@ export default function Header() {
           </Link>
 
           <SearchBar />
-
-          {user?.roles?.includes('admin') && (
-            <div className="mx-1 flex scale-95 items-center gap-0.5 rounded-lg border border-slate-800 bg-slate-900 p-0.5">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  'flex h-5 items-center gap-1 rounded-md px-2 text-[9px] font-bold uppercase tracking-normal transition-all',
-                  viewRole === 'client'
-                    ? 'bg-white text-black shadow-lg'
-                    : 'text-white/40 hover:text-white'
-                )}
-                onClick={() => setViewRole('client')}
-              >
-                <Users className="h-2 w-2" />
-                B2C
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  'flex h-5 items-center gap-1 rounded-md px-2 text-[9px] font-bold uppercase tracking-normal transition-all',
-                  viewRole === 'b2b'
-                    ? 'bg-white text-black shadow-lg'
-                    : 'text-white/40 hover:text-white'
-                )}
-                onClick={() => setViewRole('b2b')}
-              >
-                <ShieldCheck className="h-2 w-2" />
-                B2B
-              </Button>
-            </div>
-          )}
 
           <Button
             variant="ghost"

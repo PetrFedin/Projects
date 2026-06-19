@@ -47,7 +47,7 @@ export function Workshop2DossierTzDenseSectionNav({
   return (
     <div id={W2_PASSPORT_SUBPAGE_ANCHORS.denseView} className="scroll-mt-24">
       <div className="flex flex-nowrap items-stretch gap-2">
-        <div className="border-border-subtle bg-bg-surface2 flex min-h-9 w-full min-w-0 flex-1 flex-nowrap gap-0.5 overflow-x-auto rounded-xl border p-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="border-border-subtle bg-bg-surface2 flex min-h-9 w-full min-w-0 flex-1 flex-wrap gap-0.5 rounded-xl border p-1 sm:flex-nowrap sm:overflow-x-auto sm:[-ms-overflow-style:none] sm:[scrollbar-width:none] sm:[&::-webkit-scrollbar]:hidden">
           {dossierNavPrimarySections.map((s) => {
             const isActive = activeSection === s.id;
             const primaryForView =
@@ -76,7 +76,7 @@ export function Workshop2DossierTzDenseSectionNav({
                 onClick={() => onSelectSection(s.id)}
                 className={cn(
                   cabinetSurface.tabsTrigger,
-                  'h-8 min-h-8 min-w-0 flex-1 basis-0 justify-center gap-1 border px-1.5 text-center text-[10px] font-semibold !normal-case leading-tight transition-colors',
+                  'h-8 min-h-8 min-w-[calc(33.33%-4px)] flex-1 basis-[calc(33.33%-4px)] justify-center gap-1 border px-1.5 text-center text-[10px] font-semibold !normal-case leading-tight transition-colors sm:min-w-0 sm:basis-0',
                   isActive &&
                     'border-accent-primary/45 bg-accent-primary/5 text-accent-primary shadow-none',
                   !isActive &&

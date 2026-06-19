@@ -5,7 +5,8 @@ import {
 } from '@/lib/production/workshop2-smart-routing-gate-checks';
 import { isWorkshop2SmartRoutingDemoAllowed } from '@/lib/production/workshop2-smart-routing-demo';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Workshop2GateChecksBlock } from '@/components/brand/production/Workshop2GateChecksBlock';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
@@ -214,7 +215,23 @@ export function Workshop2SmartRoutingPanel({
     [setDossier]
   );
 
+  const smartRoutingGateChecks = useMemo(
+    () => collectWorkshop2SmartRoutingGateChecks({ dossier }),
+    [dossier]
+  );
+  const smartRoutingGateBlocked = workshop2SmartRoutingGateBlocked(smartRoutingGateChecks);
+  const smartRoutingDemoAllowed = isWorkshop2SmartRoutingDemoAllowed();
+
   const handleGenerate = () => {
+    if (!smartRoutingDemoAllowed) {
+      toast({
+        title: 'Маршрутизация',
+        description:
+          'DEMO-шаблон недоступен в production. Задайте WORKSHOP2_SMART_ROUTING_DEMO=1 или соберите маршрут вручную.',
+        variant: 'destructive',
+      });
+      return;
+    }
     setLoading(true);
     window.setTimeout(() => {
       const l1 = currentLeaf?.l1Name?.toLowerCase() || '';
@@ -303,8 +320,14 @@ export function Workshop2SmartRoutingPanel({
   return (
     <div
       id="w2-smart-routing"
+      data-testid="workshop2-smart-routing-panel"
       className="border-border-default scroll-mt-24 space-y-3 rounded-xl border bg-white p-4 shadow-sm"
     >
+      <Workshop2GateChecksBlock
+        checks={smartRoutingGateChecks}
+        title="Smart routing gate"
+        testId="workshop2-smart-routing-gate-checks"
+      />
       <div className="flex items-start gap-3">
         <div className="bg-accent-primary/10 text-accent-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
           <Workshop2DossierPersistButton
@@ -338,8 +361,9 @@ export function Workshop2SmartRoutingPanel({
                 Добавить операцию
               </Button>
               <Button
+                data-testid="workshop2-smart-routing-load-template"
                 onClick={handleGenerate}
-                disabled={loading || disabled}
+                disabled={loading || disabled || smartRoutingGateBlocked || !smartRoutingDemoAllowed}
                 variant="outline"
                 size="sm"
                 className="h-8 shrink-0 gap-1.5 border-indigo-200 text-xs text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700"
@@ -375,7 +399,7 @@ export function Workshop2SmartRoutingPanel({
           </div>
           <div className="p-3">
             <ul className="space-y-0">
-              {operations.map((op) => (
+              {operations.map((op, opIndex) => (
                 <li
                   key={op.id}
                   className="border-border-subtle/50 group flex flex-col border-b py-2 pr-2 transition-colors last:border-0 last:pb-0 hover:bg-slate-50 sm:flex-row sm:items-center sm:justify-between"
@@ -423,6 +447,11 @@ export function Workshop2SmartRoutingPanel({
                         value={op.equipment}
                         disabled={disabled}
                         onChange={(e) => updateOpEquipment(op.id, e.target.value)}
+                        data-testid={
+                          opIndex === 0
+                            ? 'workshop2-dossier-construction-routing-equipment-0'
+                            : undefined
+                        }
                         className="text-text-secondary placeholder:text-text-muted w-[120px] bg-transparent text-[10px] outline-none disabled:opacity-50"
                         placeholder="Оборудование..."
                       />
@@ -479,9 +508,3 @@ export function Workshop2SmartRoutingPanel({
     </div>
   );
 }
-
-testId = 'workshop2-smart-routing-gate-checks';
-
-void collectWorkshop2SmartRoutingGateChecks;
-void workshop2SmartRoutingGateBlocked;
-void isWorkshop2SmartRoutingDemoAllowed;

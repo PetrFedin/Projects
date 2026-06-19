@@ -2,6 +2,7 @@ import type {
   Workshop2DossierPhase1,
   Workshop2FactoryHandoffChannel,
 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type { Workshop2DossierHandoffB2bSyncResult } from '@/lib/server/workshop2-b2b-production-handoff';
 
 export async function commitWorkshop2HandoffOnServer(input: {
   collectionId: string;
@@ -14,8 +15,18 @@ export async function commitWorkshop2HandoffOnServer(input: {
   attachmentIds: string[];
   brandDispatched: { at: string; by: string };
   factoryReceived: { at: string; by: string };
+  orderId?: string;
+  factoryId?: string;
 }): Promise<
-  | { ok: true; data: { version: number; updatedAt: string; dossier: Workshop2DossierPhase1 } }
+  | {
+      ok: true;
+      data: {
+        version: number;
+        updatedAt: string;
+        dossier: Workshop2DossierPhase1;
+        b2bSync?: Workshop2DossierHandoffB2bSyncResult;
+      };
+    }
   | { ok: false; reason: string; sectionErrors?: string[] }
 > {
   try {
@@ -31,6 +42,7 @@ export async function commitWorkshop2HandoffOnServer(input: {
       updatedAt?: string;
       dossier?: Workshop2DossierPhase1;
       sectionErrors?: string[];
+      b2bSync?: Workshop2DossierHandoffB2bSyncResult;
     };
     if (!res.ok) {
       return {
@@ -50,7 +62,12 @@ export async function commitWorkshop2HandoffOnServer(input: {
     }
     return {
       ok: true,
-      data: { version: json.version, updatedAt: json.updatedAt, dossier: json.dossier },
+      data: {
+        version: json.version,
+        updatedAt: json.updatedAt,
+        dossier: json.dossier,
+        b2bSync: json.b2bSync,
+      },
     };
   } catch {
     return { ok: false, reason: 'network_or_server_error' };

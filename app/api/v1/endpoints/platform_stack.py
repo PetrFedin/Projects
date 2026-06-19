@@ -1,0 +1,73 @@
+"""Platform stack API — registry + live probes for all 10 capabilities."""
+
+from typing import Any
+
+from fastapi import APIRouter, Query
+
+from app.platform.stack_probe import build_stack_matrix, probe_all_capabilities
+from app.platform.stack_registry import get_capability_for_section, get_agents_for_capability, StackCapabilityId
+
+router = APIRouter()
+
+
+@router.get("/matrix")
+async def get_stack_matrix() -> Any:
+    """Capability → pillar × role × section × agent mapping."""
+    return {"capabilities": build_stack_matrix()}
+
+
+@router.get("/health")
+async def get_stack_health() -> Any:
+    """Live probes for PostgreSQL, AI, payments, etc."""
+    probes = await probe_all_capabilities()
+    degraded = [k for k, v in probes.items() if v.get("status") in ("error", "not_configured")]
+    return {
+        "ok": len(degraded) == 0,
+        "degraded": degraded,
+        "probes": probes,
+    }
+
+
+@router.get("/section/{section_id}")
+async def get_section_capabilities(section_id: str) -> Any:
+    """Resolve which stack capabilities a Platform Core section depends on."""
+    caps = get_capability_for_section(section_id)
+    return {
+        "section_id": section_id,
+        "capabilities": [c.value for c in caps],
+        "agents": sorted({a for c in caps for a in get_agents_for_capability(c)}),
+    }
+
+
+@router.get("/capability/{capability_id}/agents")
+async def get_capability_agents(capability_id: str) -> Any:
+    try:
+        cap = StackCapabilityId(capability_id)
+    except ValueError:
+        return {"error": "unknown_capability", "capability_id": capability_id}
+    return {"capability_id": capability_id, "agent_ids": get_agents_for_capability(cap)}
+
+
+@router.get("/agents/routing")
+async def get_agent_routing(
+    pillar: str | None = Query(None),
+    role: str | None = Query(None),
+) -> Any:
+    """Agents filtered by pillar/role via stack registry."""
+    matrix = build_stack_matrix()
+    out: list[dict] = []
+    for row in matrix:
+        if pillar and pillar not in row["pillars"]:
+            continue
+        if role and role not in row["roles"]:
+            continue
+        for agent_id in row["agent_ids"]:
+            out.append(
+                {
+                    "agent_id": agent_id,
+                    "capability_id": row["id"],
+                    "pillars": row["pillars"],
+                    "roles": row["roles"],
+                }
+            )
+    return {"agents": out, "pillar": pillar, "role": role}

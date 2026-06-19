@@ -4,6 +4,10 @@
 import { summarizeWorkshop2DocumentsIndexStatus } from '@/lib/production/workshop2-documents-index-status';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2DocumentsIndexMirror(input: {
   collectionId: string;
@@ -75,20 +79,24 @@ export function evaluateWorkshop2DocumentsIndexExportGate(
       messageRu: 'Индекс документов не в PG — «Индекс → PG» на вкладке Vault.',
     };
   }
-  if (mirror.blockerExport) {
+  if (mirror.blockerExport === true) {
     return {
       id: 'documents.index.empty',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Нет vault/tech-pack в индексе — пакет ТЗ может быть неполным.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Нет vault/tech-pack в индексе — пакет ТЗ может быть неполным.',
     };
   }
   if (mirror.state === 'partial') {
+    const vaultDocCount = workshop2PgMirrorNum(mirror, 'vaultDocCount');
+    const vaultIndexedCount = workshop2PgMirrorNum(mirror, 'vaultIndexedCount');
     return {
       id: 'documents.index.partial',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ??
-        `${mirror.vaultDocCount - mirror.vaultIndexedCount} vault без storage_path — не попадут в ZIP.`,
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        `${vaultDocCount - vaultIndexedCount} vault без storage_path — не попадут в ZIP.`,
     };
   }
   return null;

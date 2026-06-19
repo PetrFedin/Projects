@@ -13,8 +13,9 @@ export function Workshop2NetworkAnalyticsCard() {
 
   useEffect(() => {
     void fetch('/api/brand/analytics/workshop2-network', { cache: 'no-store' })
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((data: { snapshot?: Workshop2NetworkAnalyticsSnapshot }) => {
+      .then(async (r) => {
+        if (!r.ok) throw new Error(String(r.status));
+        const data = (await r.json()) as { snapshot?: Workshop2NetworkAnalyticsSnapshot };
         if (data.snapshot) setSnapshot(data.snapshot);
       })
       .catch((e) => setError(e instanceof Error ? e.message : 'load_failed'));

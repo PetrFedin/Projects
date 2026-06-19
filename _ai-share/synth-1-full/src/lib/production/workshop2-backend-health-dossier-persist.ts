@@ -3,6 +3,7 @@
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import { isWorkshop2FilePersistStoreMode } from '@/lib/production/workshop2-dossier-store-mode';
 
 export function buildWorkshop2BackendHealthMirror(input: {
@@ -50,11 +51,13 @@ export function evaluateWorkshop2BackendHealthHandoffGate(
       messageRu: 'Backend health не зафиксирован в досье — обновите перед handoff commit.',
     };
   }
-  if (mirror.blockerHandoff) {
+  if (mirror.blockerHandoff === true) {
     return {
       id: 'backend.health.not_server_handoff',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Серверный режим досье недоступен — handoff commit заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Серверный режим досье недоступен — handoff commit заблокирован.',
     };
   }
   return null;
@@ -81,12 +84,13 @@ export function evaluateWorkshop2BackendHealthSampleGate(
       messageRu: 'Backend health не зафиксирован в досье — откройте артикул после проверки API.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  if (mirror.blockerSampleOrder === true) {
     return {
       id: 'backend.health.not_server',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ?? 'Серверный режим досье недоступен — заказ образца на PG заблокирован.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Серверный режим досье недоступен — заказ образца на PG заблокирован.',
     };
   }
   return null;

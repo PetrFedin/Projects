@@ -1,0 +1,397 @@
+{
+  "collection": "SS27",
+  "development": [
+    {
+      "id": "scan-dev-supplier-layout-raw-nav",
+      "kind": "fix",
+      "priority": "P0",
+      "title": "[Поставщик] Layout sidebar: raw supplierNavGroups без augmentSupplierNavForCoreCabinet",
+      "evidence": "factory/supplier/layout.tsx:116-124 рендерит HubSidebar с adjustedSupplierNavGroups (только investor spine); augmentSupplierNavForCoreCabinet есть в FactorySupplierLayoutSidebarPanel.tsx:33, но layout его не использует — brand dead-ends в comms/partners/pim",
+      "href": "/factory/supplier/core?pillar=development&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-mfr-layout-raw-nav",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Производство] Layout sidebar: raw manufacturerNavGroups без augmentManufacturerNavForCoreCabinet",
+      "evidence": "factory/production/layout.tsx:126-131 — HubSidebar(manufacturerNavGroups); augmented nav только в FactoryProductionLayoutSidebarPanel.tsx:33, не подключён к layout shell",
+      "href": "/factory/production/core?pillar=order_production&collection=SS27",
+      "roleId": "manufacturer",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-contextual-messages-api-open",
+      "kind": "add",
+      "priority": "P0",
+      "title": "[Бренд] Contextual chat GET/POST без auth — открытая запись/чтение по contextId",
+      "evidence": "api/messages/contextual/route.ts:16-72 — нет guardWorkshop2Route; любой contextType+contextId читается и дополняется POST без проверки роли",
+      "href": "/brand/messages?contextType=b2b_order&contextId=B2B-DEMO-SHOP1-SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-contextual-read-state-spoof",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Магазин] read-state POST: readerId из заголовка без auth guard",
+      "evidence": "api/messages/contextual/read-state/route.ts:40-43 принимает x-w2-actor-id/x-synth-actor-id без guardShopB2bCheckoutRoute — spoof unread для чужого actorId",
+      "href": "/shop/messages?contextType=b2b_order&contextId=B2B-DEMO-SHOP1-SS27",
+      "roleId": "shop",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-threads-api-open",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Бренд] Threads API brand/shop/factory без auth guard",
+      "evidence": "api/brand/messages/threads/route.ts:4-6 напрямую buildPgContextualThreadsResponse; аналоги shop/messages/threads и factory/messages/threads — PG inbox без role binding",
+      "href": "/brand/core?pillar=comms&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-brand-calendar-api-open",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Бренд] Calendar w2-events/b2b-events GET без auth",
+      "evidence": "api/brand/calendar/w2-events/route.ts и b2b-events/route.ts — открытые read endpoints; calendar/collection/[collectionId]/page.tsx:25-26 fetch без credentials guard",
+      "href": "/brand/calendar/collection/SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-brand-retailers-api-open",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Бренд] Retailers B2B summary/detail API без auth",
+      "evidence": "api/brand/retailers/b2b-orders-summary/route.ts:6-16 и retailers/[id]/b2b-orders/route.ts — агрегаты заказов всех buyerId доступны без guard",
+      "href": "/brand/retailers",
+      "roleId": "brand",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-brand-tasks-api-open",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Бренд] Kanban /api/brand/tasks GET/PUT без auth guard",
+      "evidence": "api/brand/tasks/route.ts:11-43 — replaceBrandTasksKanban доступен без guardWorkshop2Route; brand-tasks-client.ts:25 fetch без role check",
+      "href": "/brand/tasks",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-bulk-handoff-open",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Бренд] bulk-confirm-production-handoff POST без auth",
+      "evidence": "api/brand/b2b/orders/bulk-confirm-production-handoff/route.ts:13-32 — bulkConfirmWorkshop2B2bProductionHandoff по orderIds без guard; P0 chain risk при dev bypass",
+      "href": "/brand/b2b-orders?filter=awaiting_handoff",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-brand-invites-api-open",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Бренд] B2B buyer invites POST без auth — генерация accept-token",
+      "evidence": "api/brand/b2b/invites/route.ts:8-38 createWorkshop2B2bBuyerInviteToken без guard; BrandB2bRetailerInvitePanel.tsx:23 fetch без signed brand context",
+      "href": "/brand/retailers",
+      "roleId": "brand",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-shop-partnerships-open",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Магазин] partnerships GET/POST без buyer auth guard",
+      "evidence": "api/shop/b2b/partnerships/route.ts:13-40 — listShopB2bPartnerships/connectShopB2bPartnershipDemo по buyerId из query/body без guardShopB2bCheckoutRoute",
+      "href": "/shop/b2b/partners/discover",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-shop-cart-get-open",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Магазин] cart/lines GET без buyer guard (checkout POST guarded)",
+      "evidence": "api/shop/b2b/cart/lines/route.ts:63-101 GET resolveSessionId по cookie без auth; POST checkout:135-137 использует guardShopB2bCheckoutRoute — asymmetry",
+      "href": "/shop/b2b/matrix?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-shop-delivery-ack-open",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Магазин] delivery-ack/batch POST без auth",
+      "evidence": "api/shop/b2b/orders/delivery-ack/batch/route.ts:7-29 bulkAcknowledgeWorkshop2B2bBuyerDelivery по orderIds без buyer guard; ShopBuyerDeliveryBatchAckPanel.tsx:53",
+      "href": "/shop/core?pillar=collection_order&collection=SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-ensure-b2b-thread-open",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Магазин] ensure-b2b-order contextual thread POST без auth",
+      "evidence": "api/messages/contextual/ensure-b2b-order/route.ts:14-39 ensureB2bOrderContextualThread для любого B2B-* orderId без checkout guard",
+      "href": "/shop/b2b/checkout?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-shop-showroom-quick-add-client-only",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Магазин] Showroom «+ в матрицу»: только useB2BState, не PG cart API",
+      "evidence": "PlatformCorePublishedShowroom.tsx:349-394 setB2bCart(local) + router.push matrix; не POST /api/shop/b2b/cart/lines — потеря qty при refresh до syncLegacyCartToWorkshop2",
+      "href": "/shop/b2b/showroom?collection=SS27&article=demo-ss27-01",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-shop-matrix-dual-cart",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Магазин] Матрица: qty в client cart до checkout-bridge, не live PG session",
+      "evidence": "CoreWholesaleMatrix.tsx:92-109 setB2bCart на каждый qty; syncLegacyCartToWorkshop2 только в goCheckout:144 — расхождение с server cart session и multi-tab",
+      "href": "/shop/b2b/matrix?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-shop-amend-rules-split",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Магазин] Amend CTA: hub vs order detail — разные правила canShopAmend",
+      "evidence": "CollectionOrderPillarCard.tsx:116-118 chain steps shop_sent&&!brand_confirmed; PlatformCoreB2bOrderDetailFacts.tsx:152 order.status==='submitted'&&!poHandedOff — hub может скрыть amend при расхождении chain/status",
+      "href": "/shop/core?pillar=collection_order&collection=SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-supplier-nav-brand-partners",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Поставщик] Nav partners/logistics ведут на brand.suppliers/logistics",
+      "evidence": "factory-navigation.ts:307-352 supplierNavGroups partners→ROUTES.brand.suppliers, logistics→ROUTES.brand.logistics; filterSupplierNavForPlatformCore не переписывает эти группы — только comms/pim",
+      "href": "/factory/supplier/messages?contextType=workshop2_article&contextId=SS27%3Ademo-ss27-01",
+      "roleId": "supplier",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-orphan-supplier-circular",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Поставщик] Orphan /supplier/circular-hub vs canonical /factory/supplier/circular-hub",
+      "evidence": "src/app/supplier/circular-hub/page.tsx:55 breadcrumb Link href='/supplier' — нет src/app/supplier/page.tsx; canonical ROUTES.factory.supplierCircularHub",
+      "href": "/supplier/circular-hub",
+      "roleId": "supplier",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-tasks-pg-down-empty",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Tasks Kanban: PG down → пустая доска без degraded seed",
+      "evidence": "brand-tasks-client.ts:33-35 corePgOnly возвращает tasks:[] pgUnavailable:true; /brand/tasks UI без fallback unlike non-core localStorage path",
+      "href": "/brand/tasks",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-rfid-reconcile-mock",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] W2 stock panel: RFID reconcile на MOCK_PO_DB, не PG PO",
+      "evidence": "workshop2-article-workspace-stock-panel.tsx:47 POST /api/b2b/intake/reconcile; rfid-reconciliation-logic.ts:8-16 MOCK_PO_DB только PO-123 — SS27 PO не reconcile",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=stock",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-subcontractor-local-floor",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Subcontractor: floor-tab draft localStorage + static seed",
+      "evidence": "brand/production/subcontractor/page.tsx:31-72 SUB_DEFAULT + useFloorTabDraftState; /api/brand/sewing-contractors без auth, reference-data fallback placeholder brands",
+      "href": "/brand/production/subcontractor",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-w2-hub-localstorage-readpath",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] W2 hub: publishedArticlesReadPath=api|localStorage при PG flap",
+      "evidence": "workshop2-local-state-provider.tsx:879-888 readPath localStorage когда workshop2PgServerAvailable false — hub tiers могут расходиться с PG без явного banner",
+      "href": "/brand/production/workshop2?w2col=SS27",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-shop-rep-offline-local",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Магазин] Sales-rep offline queue: localStorage drafts до sync",
+      "evidence": "shop/b2b/sales-rep-portal/page.tsx:94-116 WORKSHOP2_B2B_OFFLINE_DRAFT_STORAGE_KEY; fetch /api/shop/b2b/linesheet/share — route отсутствует (404 на share CTA)",
+      "href": "/shop/b2b/sales-rep-portal",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-mfr-sidebar-gate-unwired",
+      "kind": "fix",
+      "priority": "P2",
+      "title": "[Производство] FactoryProductionDesktopSidebarGate не подключён к layout",
+      "evidence": "FactoryProductionDesktopSidebarGate.tsx экспортирован, zero imports кроме self; layout использует inline HubSidebar вместо FactoryProductionSidebarChrome с augmented nav",
+      "href": "/factory/production/core?pillar=development&collection=SS27",
+      "roleId": "manufacturer",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-supplier-sidebar-gate-unwired",
+      "kind": "fix",
+      "priority": "P2",
+      "title": "[Поставщик] FactorySupplierDesktopSidebarGate не подключён к layout",
+      "evidence": "FactorySupplierDesktopSidebarGate.tsx:24 — dynamic import FactorySupplierSidebarChrome, но factory/supplier/layout.tsx рендерит raw HubSidebar; augmented panel только в неиспользуемом gate path",
+      "href": "/factory/supplier/core?pillar=comms&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "comms"
+    }
+  ],
+  "techDebt": [
+    {
+      "id": "scan-td-auth-cluster-platform-core",
+      "category": "missing-link",
+      "priority": "P0",
+      "title": "Auth cluster: contextual messages + threads + calendar + retailers + cart GET + handoff bulk",
+      "action": "fix",
+      "hint": "Единый pass guardWorkshop2Route/guardShopB2bCheckoutRoute на platform-core B2B/comms routes; inbox-stream уже guarded — выровнять остальные",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/messages/contextual/route.ts:16; src/app/api/brand/messages/threads/route.ts:4; src/app/api/shop/b2b/cart/lines/route.ts:63"
+    },
+    {
+      "id": "scan-td-dead-factory-sidebar-gates",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "Factory sidebar gates (mfr+supplier) не wired в layout shells",
+      "action": "fix",
+      "hint": "Заменить inline HubSidebar в production/layout.tsx и supplier/layout.tsx на Factory*SidebarChrome или подключить DesktopSidebarGate",
+      "source": "cursor-scan",
+      "evidence": "src/app/factory/FactoryProductionDesktopSidebarGate.tsx:24; src/app/factory/production/layout.tsx:126"
+    },
+    {
+      "id": "scan-td-orphan-supplier-circular-route",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "Дублирующий route /supplier/circular-hub вне factory/supplier ACL",
+      "action": "remove",
+      "hint": "Redirect /supplier/circular-hub → ROUTES.factory.supplierCircularHub; удалить src/app/supplier/*",
+      "source": "cursor-scan",
+      "evidence": "src/app/supplier/circular-hub/page.tsx:55; src/lib/routes.ts:884"
+    },
+    {
+      "id": "scan-td-supplier-nav-filter-incomplete",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "filterSupplierNavForPlatformCore не фильтрует partners/logistics brand hrefs",
+      "action": "fix",
+      "hint": "Расширить platform-core-nav-augment.ts: hide или rewrite partners/logistics для supplier role",
+      "source": "cursor-scan",
+      "evidence": "src/lib/platform-core-nav-augment.ts:248-300; src/lib/data/factory-navigation.ts:300-354"
+    },
+    {
+      "id": "scan-td-monster-b2b-orders-core",
+      "category": "monster-file",
+      "priority": "P1",
+      "title": "Monster file b2b-orders-core.tsx (~810 строк)",
+      "action": "merge",
+      "hint": "Split registry table, spine overlay strip, handoff filter chips",
+      "source": "cursor-scan",
+      "evidence": "src/app/brand/b2b-orders/b2b-orders-core.tsx"
+    },
+    {
+      "id": "scan-td-monster-factory-production-orders-core",
+      "category": "monster-file",
+      "priority": "P1",
+      "title": "Monster file factory-production-orders-core.tsx (~803 строк)",
+      "action": "merge",
+      "hint": "Extract MES/ERP bulk-ack panel vs orders registry",
+      "source": "cursor-scan",
+      "evidence": "src/app/factory/production/orders/factory-production-orders-core.tsx"
+    },
+    {
+      "id": "scan-td-monster-w2-local-state-provider",
+      "category": "monster-file",
+      "priority": "P2",
+      "title": "Monster file workshop2-local-state-provider.tsx (~942 строк)",
+      "action": "merge",
+      "hint": "Extract PG hydrate, range overlay sync, publishedArticlesReadPath policy",
+      "source": "cursor-scan",
+      "evidence": "src/app/brand/production/workshop2/workshop2-local-state-provider.tsx:879"
+    },
+    {
+      "id": "scan-td-rfid-reconcile-mock-po",
+      "category": "stub",
+      "priority": "P2",
+      "title": "b2b/intake/reconcile — MOCK_PO_DB hardcoded PO-123",
+      "action": "fix",
+      "hint": "Wire reconcilePO к workshop2 PO lines / spine WIP; убрать MOCK_PO_DB из production path",
+      "source": "cursor-scan",
+      "evidence": "src/lib/b2b/intake/rfid-reconciliation-logic.ts:8-16"
+    },
+    {
+      "id": "scan-td-health-devauth-exposes",
+      "category": "error",
+      "priority": "P2",
+      "title": "/api/workshop2/health отдаёт devAuthBypass без auth",
+      "action": "change",
+      "hint": "Скрыть devAuthBypass в prod или требовать admin guard; use-workshop2-backend-status-hint.ts:32 публичный fetch",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/workshop2/health/route.ts:48; src/components/brand/production/use-workshop2-backend-status-hint.ts:32"
+    },
+    {
+      "id": "scan-td-shop-dual-cart-bridge",
+      "category": "stub",
+      "priority": "P1",
+      "title": "Shop golden path: legacy useB2BState + syncLegacyCartToWorkshop2 bridge",
+      "action": "change",
+      "hint": "Matrix/showroom писать напрямую в /api/shop/b2b/cart/lines upsert; deprecate client-only b2bCart as source of truth",
+      "source": "cursor-scan",
+      "evidence": "src/lib/b2b/workshop2-cart-bridge.ts:65; src/components/b2b/CoreWholesaleMatrix.tsx:92-157"
+    },
+    {
+      "id": "scan-td-shop-amend-rules-dual",
+      "category": "error",
+      "priority": "P2",
+      "title": "canShopAmend: hub chain-steps vs detail order.status — две формулы",
+      "action": "fix",
+      "hint": "Единый helper canShopAmendOrder(order, chain) для CollectionOrderPillarCard и PlatformCoreB2bOrderDetailFacts",
+      "source": "cursor-scan",
+      "evidence": "src/components/platform/CollectionOrderPillarCard.tsx:116-118; src/components/platform/PlatformCoreB2bOrderDetailFacts.tsx:152"
+    },
+    {
+      "id": "scan-td-stub-supplier-circular-mock",
+      "category": "stub",
+      "priority": "P2",
+      "title": "Circular hub MOCK_MATERIAL_LISTINGS / MOCK_CIRCULAR_TRANSACTIONS",
+      "action": "change",
+      "hint": "PG circular listings или PlatformCoreDemoDataBadge на обоих routes factory/supplier и orphan /supplier",
+      "source": "cursor-scan",
+      "evidence": "src/app/factory/supplier/circular-hub/page.tsx:42-46; src/app/supplier/circular-hub/page.tsx:40-44"
+    },
+    {
+      "id": "scan-td-brand-invites-open-endpoint",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "brand/b2b/invites POST без auth — open invite token mint",
+      "action": "fix",
+      "hint": "guardWorkshop2Route WRITE + brand org binding перед createWorkshop2B2bBuyerInviteToken",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/b2b/invites/route.ts:8-30"
+    }
+  ]
+}

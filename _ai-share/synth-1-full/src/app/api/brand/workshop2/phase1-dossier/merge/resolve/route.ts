@@ -7,6 +7,10 @@ import {
   getWorkshop2ServerDossierRecord,
   putWorkshop2ServerDossierRecord,
 } from '@/lib/server/workshop2-phase1-dossier-server-store';
+import {
+  workshop2DossierPutFailureBody,
+  workshop2DossierPutFailureStatus,
+} from '@/lib/server/workshop2-dossier-put-utils';
 import { actorHasAnyRole, resolveWorkshop2ServerActor } from '@/lib/server/workshop2-server-actor';
 
 type ResolutionChoice = 'server' | 'local';
@@ -141,10 +145,9 @@ export async function POST(req: NextRequest) {
     },
   });
   if (!put.ok) {
-    return NextResponse.json(
-      { ok: false, error: 'version_conflict', currentVersion: put.currentVersion },
-      { status: 409 }
-    );
+    return NextResponse.json(workshop2DossierPutFailureBody(put), {
+      status: workshop2DossierPutFailureStatus(put),
+    });
   }
   return NextResponse.json({
     ok: true,

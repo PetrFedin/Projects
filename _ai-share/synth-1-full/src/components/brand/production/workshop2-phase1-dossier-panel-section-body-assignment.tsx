@@ -10,7 +10,7 @@ import {
   type SetStateAction,
 } from 'react';
 import type { ResolvedPhase1AttributeRow } from '@/lib/production/attribute-catalog';
-import { Workshop2TechPackHandoffBlock } from '@/components/brand/production/Workshop2TechPackHandoffBlock';
+import type { Workshop2AssignmentHandoffBundle } from '@/components/brand/production/workshop2-phase1-dossier-panel-assignment-body-bundles';
 import { Workshop2DossierAssignmentSendPanel } from '@/components/brand/production/workshop2-phase1-dossier-panel-assignment-send-panel';
 import { Workshop2DossierAssignmentStatusBanner } from '@/components/brand/production/workshop2-phase1-dossier-panel-assignment-status-banner';
 import type {
@@ -18,6 +18,7 @@ import type {
   Workshop2DossierSectionRowsSharedBundle,
 } from '@/components/brand/production/workshop2-phase1-dossier-panel-section-rows';
 import { Workshop2VendorBiddingPanel } from '@/components/brand/production/Workshop2VendorBiddingPanel';
+import { Workshop2TechPackHandoffBlock } from '@/components/brand/production/Workshop2TechPackHandoffBlock';
 import type {
   Workshop2DossierPhase1,
   Workshop2VendorBid,
@@ -27,6 +28,10 @@ import { summarizeWorkshop2AssignmentSignoffChecklist } from '@/lib/production/w
 import { summarizeWorkshop2FactoryHandoffBundleStatus } from '@/lib/production/workshop2-factory-handoff-bundle-status';
 import { evaluateWorkshop2FactoryHandoffCommitGate } from '@/lib/production/workshop2-factory-handoff-commit-gate';
 import { persistWorkshop2FactoryHandoffBundleMirrorToDossier } from '@/lib/production/workshop2-factory-handoff-bundle-dossier-persist';
+import { buildWorkshop2FinalTzExportContextFromDossier } from '@/lib/production/workshop2-final-tz-spec-export';
+import { BrandWorkshop2FactoryPackPreviewPanel } from '@/components/brand/production/BrandWorkshop2FactoryPackPreviewPanel';
+import { PILLAR_CAPABILITY_FEATURE_PARAM } from '@/lib/platform/pillar-capability-workspaces';
+import { useSearchParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import {
   formatWorkshop2PersistToastDescription,
@@ -35,9 +40,10 @@ import {
 import { Workshop2GateChecksBlock } from '@/components/brand/production/Workshop2GateChecksBlock';
 import { Workshop2OperationalPgMirrorChip } from '@/components/brand/production/workshop2-operational-panel-chrome';
 import { summarizeWorkshop2TzAssignmentPgMirror } from '@/lib/production/workshop2-operational-pg-mirror-status';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 type AssignmentSendPanelProps = ComponentProps<typeof Workshop2DossierAssignmentSendPanel>;
-type HandoffBlockProps = ComponentProps<typeof Workshop2TechPackHandoffBlock>;
+type HandoffBlockProps = Workshop2AssignmentHandoffBundle;
 
 export function Workshop2DossierSectionBodyAssignment({
   onOpenProblemBlock,
@@ -74,8 +80,8 @@ export function Workshop2DossierSectionBodyAssignment({
   const assignmentHubReady =
     !sendPanelProps.factorySendHubPreview.firstUnmet && sendPanelProps.tzPreflight.ok;
   const statusText = assignmentHubReady
-    ? 'Ð¨Ð°Ð³ Ð³Ð¾ÑÐ¾Ð² Ðº Ð¿ÐµÑÐµÐ´Ð°ÑÐµ Ð² ÑÐµÑ.'
-    : `ÐÐ°Ð»ÑÑÐµ: ${sendPanelProps.factorySendHubPreview.firstUnmet?.label ?? sendPanelProps.tzPreflight.issues[0]?.title ?? 'Ð·Ð°ÐºÑÐ¾Ð¹ÑÐµ Ð±Ð»Ð¾ÐºÐµÑÑ Ð¿ÐµÑÐµÐ´Ð°ÑÐ¸'}.`;
+    ? 'Шаг готов к передаче в цех.'
+    : `Дальше: ${sendPanelProps.factorySendHubPreview.firstUnmet?.label ?? sendPanelProps.tzPreflight.issues[0]?.title ?? 'закройте блокеры передачи'}.`;
 
   const assignmentPgMirror = useMemo(
     () => summarizeWorkshop2TzAssignmentPgMirror(dossier),
@@ -101,17 +107,18 @@ export function Workshop2DossierSectionBodyAssignment({
 
   const persistHandoffMirror = useCallback(() => {
     setHandoffMirrorBusy(true);
-    const next = persistWorkshop2FactoryHandoffBundleMirrorToDossier(dossier, {
-      bundleState: handoffStatus?.state ?? 'pending',
-      techPackReady: handoffBlockProps.techPackReady,
-    });
+    const next = persistWorkshop2FactoryHandoffBundleMirrorToDossier(dossier);
     setDossier(next);
     setHandoffMirrorBusy(false);
     toast({
-      title: formatWorkshop2PersistToastTitle('Handoff bundle'),
-      description: formatWorkshop2PersistToastDescription(next.factoryHandoffBundleMirror),
+      title: formatWorkshop2PersistToastTitle({ scopeLabelRu: 'Handoff bundle', ok: true }),
+      description: formatWorkshop2PersistToastDescription({
+        mirrorField: 'factoryHandoffBundleMirror',
+        ok: true,
+        okHintRu: workshop2PgMirrorStr(next.factoryHandoffBundleMirror, 'hintRu'),
+      }),
     });
-  }, [dossier, handoffBlockProps.techPackReady, handoffStatus?.state, setDossier, toast]);
+  }, [dossier, setDossier, toast]);
 
   const handleBidsUpdate = (updatedBids: Workshop2VendorBid[]) => {
     setDossier((prev) => ({
@@ -119,6 +126,18 @@ export function Workshop2DossierSectionBodyAssignment({
       bids: updatedBids,
     }));
   };
+
+  const searchParams = useSearchParams();
+  const factoryPackTab =
+    searchParams.get(PILLAR_CAPABILITY_FEATURE_PARAM) === 'factory-pack';
+  const factoryPackExportContext = useMemo(
+    () =>
+      buildWorkshop2FinalTzExportContextFromDossier(dossier, {
+        articleId,
+        exportLanguage: 'ru_en',
+      }),
+    [dossier, articleId]
+  );
 
   return (
     <div className="space-y-4">
@@ -147,7 +166,7 @@ export function Workshop2DossierSectionBodyAssignment({
         <Workshop2GateChecksBlock
           checks={handoffGate.readiness.checks}
           testId="workshop2-factory-handoff-gate-checks"
-          title="ÐÐ¾ÑÐ¾ÑÐ° Ð¿ÐµÑÐµÐ´Ð°ÑÐ¸ Ð² ÑÐµÑ"
+          title="Ворота передачи в цех"
           collectionId={collectionId}
           articleUrlSegment={articleId}
         />
@@ -156,7 +175,24 @@ export function Workshop2DossierSectionBodyAssignment({
       <Workshop2DossierAssignmentSendPanel {...sendPanelProps}>
         <Workshop2TechPackHandoffBlock {...handoffBlockProps} />
       </Workshop2DossierAssignmentSendPanel>
+
+      {factoryPackTab ? (
+        <BrandWorkshop2FactoryPackPreviewPanel
+          dossier={dossier}
+          exportContext={factoryPackExportContext}
+          articleId={articleId}
+          collectionId={collectionId}
+          setDossier={setDossier}
+          updatedByLabel={handoffBlockProps.updatedByLabel}
+          tzWriteDisabled={handoffBlockProps.tzWriteDisabled}
+          onExportNotice={(message) =>
+            toast({ title: 'Factory pack', description: message })
+          }
+        />
+      ) : null}
+
       <Workshop2VendorBiddingPanel
+        collectionId={collectionId}
         articleId={articleId}
         bids={dossier.bids}
         onBidsUpdate={handleBidsUpdate}

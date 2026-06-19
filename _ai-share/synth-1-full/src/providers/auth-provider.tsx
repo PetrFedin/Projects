@@ -95,9 +95,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       safetyTimer =
         typeof window !== 'undefined'
-          ? window.setTimeout(() => {
+          ? (globalThis.setTimeout(() => {
               if (mounted) setLoading(false);
-            }, 12000)
+            }, 12000) as ReturnType<typeof setTimeout>)
           : undefined;
 
       (async () => {

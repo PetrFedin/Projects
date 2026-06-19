@@ -22,8 +22,8 @@ export function BrandDeferredAiVoiceAssistant() {
       const id = window.requestIdleCallback(() => setMounted(true), { timeout: 4000 });
       return () => window.cancelIdleCallback(id);
     }
-    const timer = window.setTimeout(() => setMounted(true), 2000);
-    return () => window.clearTimeout(timer);
+    const timer = setTimeout(() => setMounted(true), 2000);
+    return () => clearTimeout(timer);
   }, [isProductionHub]);
 
   if (!isProductionHub || !mounted) return null;

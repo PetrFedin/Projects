@@ -34,6 +34,10 @@ export type DossierSection =
   | 'measurements'
   | 'construction'
   | 'packaging'
+  /** Задание / передача в цех (вкладка assignment). */
+  | 'assignment'
+  /** B2B / шоурум / оптовые продажи. */
+  | 'b2b_sales'
   /** Поля таможни / маркировки / финального ТН ВЭД — только на этапе приёмки сэмпла (вкладка Fit), не в навигации ТЗ. */
   | 'sample_intake';
 
@@ -233,6 +237,24 @@ export const SECTION_ROLES: Record<DossierSection, SectionRole> = {
     sourceFields: ['assignments[packaging]', 'assignments[labeling]', 'assignments[barcode]'],
     handoffTargets: [],
     summaryFields: ['hasPackaging', 'hasLabeling'],
+  },
+  assignment: {
+    section: 'assignment',
+    label: 'Задание в цех',
+    owner: 'Технолог / бренд',
+    sourceFields: ['sectionSignoffs[assignment]', 'techPackFactoryHandoffs'],
+    handoffTargets: [
+      { tab: 'release', label: 'Релиз', dataContract: 'Handoff bundle → factory floor queue' },
+    ],
+    summaryFields: ['assignmentSigned', 'handoffDispatched'],
+  },
+  b2b_sales: {
+    section: 'b2b_sales',
+    label: 'B2B / шоурум',
+    owner: 'Коммерция',
+    sourceFields: ['b2bIntegrationDraft', 'showroomB2bMirror'],
+    handoffTargets: [],
+    summaryFields: ['wholesalePrice', 'moq', 'campaignLive'],
   },
   sample_intake: {
     section: 'sample_intake',

@@ -74,7 +74,10 @@ export function AiVoiceAssistant() {
   };
 
   return (
-    <div className="fixed bottom-10 right-10 z-[100] flex flex-col items-end gap-3">
+    <div
+      data-testid="ai-voice-assistant"
+      className="fixed bottom-10 right-10 z-[100] flex flex-col items-end gap-3"
+    >
       {/* Assistant Window */}
       <AnimatePresence>
         {isActive && (

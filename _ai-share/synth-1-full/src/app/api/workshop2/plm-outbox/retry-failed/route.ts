@@ -7,7 +7,7 @@ import { retryWorkshop2PlmOutboxFailed } from '@/lib/server/workshop2-plm-outbox
 import { guardWorkshop2Route, WORKSHOP2_WRITE_ROLES } from '@/lib/server/workshop2-route-auth';
 
 async function postPlmOutboxRetryFailed(req: NextRequest) {
-  const auth = guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES);
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES);
   if (auth instanceof NextResponse) return auth;
 
   let limit = 20;

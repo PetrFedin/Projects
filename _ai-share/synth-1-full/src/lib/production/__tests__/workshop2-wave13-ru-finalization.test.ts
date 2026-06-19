@@ -106,7 +106,16 @@ describe('workshop2 wave13 — setup RU integration toggles', () => {
 });
 
 describe('workshop2 wave13 — factory sample queue', () => {
+  const prevDb = process.env.WORKSHOP2_DATABASE_URL;
+
+  afterEach(() => {
+    if (prevDb) process.env.WORKSHOP2_DATABASE_URL = prevDb;
+    else delete process.env.WORKSHOP2_DATABASE_URL;
+  });
+
   it('returns SS27 demo orders for fact-1', async () => {
+    delete process.env.WORKSHOP2_DATABASE_URL;
+    delete process.env.WORKSHOP2_DOSSIER_DATABASE_URL;
     const queue = await listWorkshop2FactorySampleQueue({ factoryId: 'fact-1' });
     expect(queue.items.length).toBeGreaterThan(0);
     expect(queue.items[0]?.workspaceFitQcHref).toMatch(/w2pane=fit/);

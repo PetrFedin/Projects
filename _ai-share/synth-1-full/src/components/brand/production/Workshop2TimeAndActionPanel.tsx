@@ -39,6 +39,7 @@ import { useToast } from '@/hooks/use-toast';
 import { showWorkshop2PersistToast } from '@/lib/production/workshop2-persist-toast-messages';
 import { summarizeWorkshop2TzTimeAndActionPgMirror } from '@/lib/production/workshop2-operational-pg-mirror-status';
 import { Workshop2TaMilestonesStatusBanner } from '@/components/brand/production/workshop2-panel-status-banners';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 interface Workshop2TimeAndActionPanelProps {
   articleId: string;
@@ -124,7 +125,7 @@ export function Workshop2TimeAndActionPanel({
         milestones,
       });
       if (collectionId && articleId) {
-        await saveWorkshop2DossierToApi(collectionId, articleId, next);
+        await saveWorkshop2DossierToApi({ collectionId, articleId, dossier: next });
         const mirrored = persistWorkshop2TaMilestonesMirrorToDossier(
           next,
           bundle?.timeAndAction ?? null
@@ -243,8 +244,8 @@ export function Workshop2TimeAndActionPanel({
     readiness:
       taStatus.milestoneCount > 0
         ? `Milestones: ${taStatus.milestoneCount} · done ${taStatus.completedCount} · source ${taStatus.source}`
-        : dossier?.taMilestonesMirror?.hintRu,
-    nextAction: dossier?.taMilestonesMirror?.persistedAt
+        : workshop2PgMirrorStr(dossier?.taMilestonesMirror, 'hintRu') || undefined,
+    nextAction: workshop2PgMirrorStr(dossier?.taMilestonesMirror, 'persistedAt')
       ? 'Mirror в PG — обновите при изменении milestones'
       : 'Сохраните T&A mirror в досье при изменении milestones',
   };

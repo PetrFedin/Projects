@@ -1,0 +1,125 @@
+{"role":"user","text":"SYNTHA Platform Core — задача для Cursor SDK (local agent, cwd=Projects).\nID: scan-dev-cabinet-compact-golden-path-hidden\nПриоритет: P0\nЗадача: [Бренд/Магазин] Кабинет compact: golden-path strips скрыты, e2e расходится с UI\nИсточник: agent\nМаршрут в продукте: /brand/core?pillar=sample_collection&collection=SS27\nРепозиторий: монорепо Projects — фронт _ai-share/synth-1-full, бэкенд app/\nПосле реализации:\n1. Минимальный diff, канон путей, без параллельных стеков\n2. read_lints / smoke по затронутой зоне\n3. POST http://127.0.0.1:3001/api/dev/platform-core/planner/complete\n   body: {\"id\":\"scan-dev-cabinet-compact-golden-path-hidden\",\"note\":\"кратко что сделано\",\"by\":\"cursor-agent\"}\n4. Следующая задача: GET /api/dev/platform-core/planner/next","at":"2026-06-17T17:48:12.946Z"}
+{"role":"system","text":"Cursor local agent · cwd /Users/petr/Projects","at":"2026-06-17T17:48:12.946Z"}
+{"role":"assistant","text":"Invest","at":"2026-06-17T17:48:19.790Z","stream":true}
+{"role":"assistant","text":"igating the compact cabinet","at":"2026-06-17T17:48:19.792Z","stream":true}
+{"role":"assistant","text":" golden-path strips","at":"2026-06-17T17:48:19.793Z","stream":true}
+{"role":"assistant","text":" issue:","at":"2026-06-17T17:48:19.794Z","stream":true}
+{"role":"assistant","text":" locating","at":"2026-06-17T17:48:19.794Z","stream":true}
+{"role":"assistant","text":" relevant","at":"2026-06-17T17:48:19.795Z","stream":true}
+{"role":"assistant","text":" UI and e","at":"2026-06-17T17:48:19.795Z","stream":true}
+{"role":"assistant","text":"2e code","at":"2026-06-17T17:48:19.795Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:48:19.795Z","stream":true}
+{"role":"assistant","text":"Showing","at":"2026-06-17T17:48:34.706Z","stream":true}
+{"role":"assistant","text":" golden-path strips in","at":"2026-06-17T17:48:34.706Z","stream":true}
+{"role":"assistant","text":" compact core","at":"2026-06-17T17:48:34.706Z","stream":true}
+{"role":"assistant","text":" cabinet mode,","at":"2026-06-17T17:48:34.706Z","stream":true}
+{"role":"assistant","text":" matching OrderProductionP","at":"2026-06-17T17:48:34.706Z","stream":true}
+{"role":"assistant","text":"illarCard.\n","at":"2026-06-17T17:48:34.707Z","stream":true}
+{"role":"assistant","text":"Comple","at":"2026-06-17T17:48:40.875Z","stream":true}
+{"role":"assistant","text":"ting the planner","at":"2026-06-17T17:48:40.876Z","stream":true}
+{"role":"assistant","text":" task and fetching","at":"2026-06-17T17:48:40.876Z","stream":true}
+{"role":"assistant","text":" the next one","at":"2026-06-17T17:48:40.876Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:48:40.878Z","stream":true}
+{"role":"assistant","text":"**","at":"2026-06-17T17:48:44.685Z","stream":true}
+{"role":"assistant","text":"Исправлен","at":"2026-06-17T17:48:44.688Z","stream":true}
+{"role":"assistant","text":"о:** golden-path","at":"2026-06-17T17:48:44.688Z","stream":true}
+{"role":"assistant","text":" strips в compact-","at":"2026-06-17T17:48:44.688Z","stream":true}
+{"role":"assistant","text":"кабинете","at":"2026-06-17T17:48:44.688Z","stream":true}
+{"role":"assistant","text":" hub","at":"2026-06-17T17:48:44.688Z","stream":true}
+{"role":"assistant","text":".\n\n**При","at":"2026-06-17T17:48:44.688Z","stream":true}
+{"role":"assistant","text":"чина:** `","at":"2026-06-17T17:48:44.689Z","stream":true}
+{"role":"assistant","text":"RoleCoreCabinet","at":"2026-06-17T17:48:44.689Z","stream":true}
+{"role":"assistant","text":"Hub` вс","at":"2026-06-17T17:48:44.689Z","stream":true}
+{"role":"assistant","text":"егда пер","at":"2026-06-17T17:48:44.689Z","stream":true}
+{"role":"assistant","text":"едаёт `compact","at":"2026-06-17T17:48:44.689Z","stream":true}
+{"role":"assistant","text":"`,","at":"2026-06-17T17:48:44.689Z","stream":true}
+{"role":"assistant","text":" а `Brand","at":"2026-06-17T17:48:44.690Z","stream":true}
+{"role":"assistant","text":"SampleCollectionMini`","at":"2026-06-17T17:48:44.690Z","stream":true}
+{"role":"assistant","text":" и `ShopShow","at":"2026-06-17T17:48:44.690Z","stream":true}
+{"role":"assistant","text":"roomMini` р","at":"2026-06-17T17:48:44.690Z","stream":true}
+{"role":"assistant","text":"ендерили strip","at":"2026-06-17T17:48:44.690Z","stream":true}
+{"role":"assistant","text":" только при `!","at":"2026-06-17T17:48:44.691Z","stream":true}
+{"role":"assistant","text":"compact`.","at":"2026-06-17T17:48:44.691Z","stream":true}
+{"role":"assistant","text":" E2e","at":"2026-06-17T17:48:44.691Z","stream":true}
+{"role":"assistant","text":" (`core-01","at":"2026-06-17T17:48:44.691Z","stream":true}
+{"role":"assistant","text":"`, `core-","at":"2026-06-17T17:48:44.691Z","stream":true}
+{"role":"assistant","text":"52`) ож","at":"2026-06-17T17:48:44.691Z","stream":true}
+{"role":"assistant","text":"идали `brand","at":"2026-06-17T17:48:44.691Z","stream":true}
+{"role":"assistant","text":"-sc-unified-a","at":"2026-06-17T17:48:44.691Z","stream":true}
+{"role":"assistant","text":"udit-path` и","at":"2026-06-17T17:48:44.692Z","stream":true}
+{"role":"assistant","text":" `shop-sc-c","at":"2026-06-17T17:48:44.692Z","stream":true}
+{"role":"assistant","text":"abinet-golden","at":"2026-06-17T17:48:44.692Z","stream":true}
+{"role":"assistant","text":"-path` на `/","at":"2026-06-17T17:48:44.692Z","stream":true}
+{"role":"assistant","text":"brand|","at":"2026-06-17T17:48:44.692Z","stream":true}
+{"role":"assistant","text":"shop/core?pillar","at":"2026-06-17T17:48:44.692Z","stream":true}
+{"role":"assistant","text":"=sample_collection`.\n\n","at":"2026-06-17T17:48:44.692Z","stream":true}
+{"role":"assistant","text":"**Изменение","at":"2026-06-17T17:48:44.692Z","stream":true}
+{"role":"assistant","text":":** по","at":"2026-06-17T17:48:44.692Z","stream":true}
+{"role":"assistant","text":" а","at":"2026-06-17T17:48:44.692Z","stream":true}
+{"role":"assistant","text":"налогии с","at":"2026-06-17T17:48:44.693Z","stream":true}
+{"role":"assistant","text":" `OrderProductionP","at":"2026-06-17T17:48:44.693Z","stream":true}
+{"role":"assistant","text":"illarCard` —","at":"2026-06-17T17:48:44.842Z","stream":true}
+{"role":"assistant","text":" strip","at":"2026-06-17T17:48:44.882Z","stream":true}
+{"role":"assistant","text":" показыва","at":"2026-06-17T17:48:44.896Z","stream":true}
+{"role":"assistant","text":"ется при `","at":"2026-06-17T17:48:44.915Z","stream":true}
+{"role":"assistant","text":"!compact || core","at":"2026-06-17T17:48:44.917Z","stream":true}
+{"role":"assistant","text":"Mode`:\n\n","at":"2026-06-17T17:48:44.928Z","stream":true}
+{"role":"assistant","text":"```43","at":"2026-06-17T17:48:44.940Z","stream":true}
+{"role":"assistant","text":":45","at":"2026-06-17T17:48:44.953Z","stream":true}
+{"role":"assistant","text":":_","at":"2026-06-17T17:48:44.961Z","stream":true}
+{"role":"assistant","text":"ai-share/synth","at":"2026-06-17T17:48:44.972Z","stream":true}
+{"role":"assistant","text":"-1-full/src","at":"2026-06-17T17:48:44.984Z","stream":true}
+{"role":"assistant","text":"/components/platform/Brand","at":"2026-06-17T17:48:44.995Z","stream":true}
+{"role":"assistant","text":"SampleCollectionMini.tsx","at":"2026-06-17T17:48:45.006Z","stream":true}
+{"role":"assistant","text":"\n      {!compact","at":"2026-06-17T17:48:45.016Z","stream":true}
+{"role":"assistant","text":" || coreMode ?","at":"2026-06-17T17:48:45.028Z","stream":true}
+{"role":"assistant","text":" (\n        <Brand","at":"2026-06-17T17:48:45.041Z","stream":true}
+{"role":"assistant","text":"ScCabinetGolden","at":"2026-06-17T17:48:45.051Z","stream":true}
+{"role":"assistant","text":"PathStrip collectionId","at":"2026-06-17T17:48:45.069Z","stream":true}
+{"role":"assistant","text":"={collectionId}","at":"2026-06-17T17:48:45.071Z","stream":true}
+{"role":"assistant","text":" />\n      ) :","at":"2026-06-17T17:48:45.083Z","stream":true}
+{"role":"assistant","text":" null}\n```\n\nТ","at":"2026-06-17T17:48:45.096Z","stream":true}
+{"role":"assistant","text":"о же в","at":"2026-06-17T17:48:45.105Z","stream":true}
+{"role":"assistant","text":" `ShopShowroom","at":"2026-06-17T17:48:45.116Z","stream":true}
+{"role":"assistant","text":"Mini.tsx`. Об","at":"2026-06-17T17:48:45.128Z","stream":true}
+{"role":"assistant","text":"новлён audit","at":"2026-06-17T17:48:45.138Z","stream":true}
+{"role":"assistant","text":"-тест в","at":"2026-06-17T17:48:45.148Z","stream":true}
+{"role":"assistant","text":" `platform-core-ui","at":"2026-06-17T17:48:45.159Z","stream":true}
+{"role":"assistant","text":"-dedup-a","at":"2026-06-17T17:48:45.173Z","stream":true}
+{"role":"assistant","text":"udit.test.ts`.\n\n","at":"2026-06-17T17:48:45.197Z","stream":true}
+{"role":"assistant","text":"**Провер","at":"2026-06-17T17:48:45.197Z","stream":true}
+{"role":"assistant","text":"ки:** l","at":"2026-06-17T17:48:45.203Z","stream":true}
+{"role":"assistant","text":"ints ч","at":"2026-06-17T17:48:45.214Z","stream":true}
+{"role":"assistant","text":"истые; `","at":"2026-06-17T17:48:45.226Z","stream":true}
+{"role":"assistant","text":"platform-core-ui-d","at":"2026-06-17T17:48:45.236Z","stream":true}
+{"role":"assistant","text":"edup-audit","at":"2026-06-17T17:48:45.249Z","stream":true}
+{"role":"assistant","text":"` — 37","at":"2026-06-17T17:48:45.258Z","stream":true}
+{"role":"assistant","text":"/37 passed.\n\n","at":"2026-06-17T17:48:45.268Z","stream":true}
+{"role":"assistant","text":"**Planner:** зада","at":"2026-06-17T17:48:45.280Z","stream":true}
+{"role":"assistant","text":"ча `scan-dev","at":"2026-06-17T17:48:45.291Z","stream":true}
+{"role":"assistant","text":"-cabinet-comp","at":"2026-06-17T17:48:45.301Z","stream":true}
+{"role":"assistant","text":"act-golden-path","at":"2026-06-17T17:48:45.312Z","stream":true}
+{"role":"assistant","text":"-hidden` зак","at":"2026-06-17T17:48:45.325Z","stream":true}
+{"role":"assistant","text":"рыта.\n\n**","at":"2026-06-17T17:48:45.337Z","stream":true}
+{"role":"assistant","text":"Следующая","at":"2026-06-17T17:48:45.346Z","stream":true}
+{"role":"assistant","text":" задача (","at":"2026-06-17T17:48:45.356Z","stream":true}
+{"role":"assistant","text":"P0):**","at":"2026-06-17T17:48:45.368Z","stream":true}
+{"role":"assistant","text":" `scan-dev-shop","at":"2026-06-17T17:48:45.379Z","stream":true}
+{"role":"assistant","text":"-sample-request-api-","at":"2026-06-17T17:48:45.390Z","stream":true}
+{"role":"assistant","text":"orphan` —","at":"2026-06-17T17:48:45.400Z","stream":true}
+{"role":"assistant","text":" `[","at":"2026-06-17T17:48:45.413Z","stream":true}
+{"role":"assistant","text":"М","at":"2026-06-17T17:48:45.423Z","stream":true}
+{"role":"assistant","text":"агазин]","at":"2026-06-17T17:48:45.434Z","stream":true}
+{"role":"assistant","text":" POST /api/","at":"2026-06-17T17:48:45.444Z","stream":true}
+{"role":"assistant","text":"shop/b2b","at":"2026-06-17T17:48:45.726Z","stream":true}
+{"role":"assistant","text":"/sample-request реализ","at":"2026-06-17T17:48:45.727Z","stream":true}
+{"role":"assistant","text":"ован, UI showroom","at":"2026-06-17T17:48:45.727Z","stream":true}
+{"role":"assistant","text":"/matrix не вызы","at":"2026-06-17T17:48:45.727Z","stream":true}
+{"role":"assistant","text":"вает`  \n","at":"2026-06-17T17:48:45.727Z","stream":true}
+{"role":"assistant","text":"М","at":"2026-06-17T17:48:45.727Z","stream":true}
+{"role":"assistant","text":"аршрут:","at":"2026-06-17T17:48:45.727Z","stream":true}
+{"role":"assistant","text":" `/shop/b2","at":"2026-06-17T17:48:45.727Z","stream":true}
+{"role":"assistant","text":"b/showroom?","at":"2026-06-17T17:48:45.727Z","stream":true}
+{"role":"assistant","text":"collection=SS27","at":"2026-06-17T17:48:45.727Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:48:45.728Z","stream":true}
+{"role":"assistant","text":"**Исправлено:** golden-path strips в compact-кабинете hub.\n\n**Причина:** `RoleCoreCabinetHub` всегда передаёт `compact`, а `BrandSampleCollectionMini` и `ShopShowroomMini` рендерили strip только при `!compact`. E2e (`core-01`, `core-52`) ожидали `brand-sc-unified-audit-path` и `shop-sc-cabinet-golden-path` на `/brand|shop/core?pillar=sample_collection`.\n\n**Изменение:** по аналогии с `OrderProductionPillarCard` — strip показывается при `!compact || coreMode`:\n\n```43:45:_ai-share/synth-1-full/src/components/platform/BrandSampleCollectionMini.tsx\n      {!compact || coreMode ? (\n        <BrandScCabinetGoldenPathStrip collectionId={collectionId} />\n      ) : null}\n```\n\nТо же в `ShopShowroomMini.tsx`. Обновлён audit-тест в `platform-core-ui-dedup-audit.test.ts`.\n\n**Проверки:** lints чистые; `platform-core-ui-dedup-audit` — 37/37 passed.\n\n**Planner:** задача `scan-dev-cabinet-compact-golden-path-hidden` закрыта.\n\n**Следующая задача (P0):** `scan-dev-shop-sample-request-api-orphan` — `[Магазин] POST /api/shop/b2b/sample-request реализован, UI showroom/matrix не вызывает`  \nМаршрут: `/shop/b2b/showroom?collection=SS27`","at":"2026-06-17T17:48:45.972Z","done":true,"status":"finished"}

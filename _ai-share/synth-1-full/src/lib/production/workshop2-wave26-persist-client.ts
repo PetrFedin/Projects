@@ -45,7 +45,7 @@ export async function putWorkshop2Wave26DossierPatch(input: {
     reason: api.ok ? undefined : api.reason,
   });
   setWorkshop2Phase1Dossier(input.collectionId, input.articleId, stamped);
-  const persistedAt = stamped.updatedAt;
+  const persistedAt = stamped.updatedAt ?? new Date().toISOString();
   auditWorkshop2Wave26Persist({
     collectionId: input.collectionId,
     articleId: input.articleId,

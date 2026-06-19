@@ -1,5 +1,4 @@
 'use client';
-import { formatWorkshop2PersistToastTitle } from '@/lib/production/workshop2-persist-toast-messages';
 
 import { Fragment } from 'react';
 import { useState } from 'react';
@@ -26,6 +25,7 @@ import {
   W2_ARTICLE_WORKSPACE_TAB_FIELD_CLASS as field,
   newW2ArticleTabPanelRowId as newRowId,
 } from '@/components/brand/production/workshop2-article-workspace-tab-panels-shared';
+import { WORKSHOP2_SURFACE_BANNER_INLINE_META_CLASS } from '@/lib/production/workshop2-surface-banner-tokens';
 
 /** inline meta uses shared banner token */
 export function Workshop2ArticleSupplyPanel({
@@ -62,11 +62,13 @@ export function Workshop2ArticleSupplyPanel({
         }),
       });
       if (!res.ok) throw new Error('API Error');
-      const data = await res.json();
+      const data = (await res.json()) as {
+        suggestions?: Array<{ lineId?: string; suggestedQty?: number }>;
+      };
 
       const newLines = supply.lines.map((line) => {
         const suggestion = data.suggestions?.find((s: any) => s.lineId === line.id);
-        if (suggestion && suggestion.suggestedQty > 0) {
+        if (suggestion && (suggestion.suggestedQty ?? 0) > 0) {
           return { ...line, qty: suggestion.suggestedQty };
         }
         return line;
@@ -74,7 +76,9 @@ export function Workshop2ArticleSupplyPanel({
 
       void mergeBundle({ supply: { ...supply, lines: newLines } });
     } catch (e) {
-      import('@/lib/production/workshop2-dev-log').then((m) => m.workshop2DevWarn('supply', e));
+      import('@/lib/production/workshop2-dev-log').then((m) =>
+        m.workshop2DevWarn('supply', 'suggest qty failed', { cause: e })
+      );
     } finally {
       setIsSuggesting(false);
     }
@@ -152,7 +156,12 @@ export function Workshop2ArticleSupplyPanel({
           {blockers.length > 0 ? (
             <div className="max-w-full rounded border border-amber-200/80 bg-amber-50/60 px-2 py-1.5">
               <p className="text-[9px] font-bold tracking-wide text-amber-700">Риски</p>
-              <ul className="mt-0.5 list-inside list-disc space-y-0.5 pl-0.5 text-[10px] text-amber-950">
+              <ul
+                className={cn(
+                  'mt-0.5 list-inside list-disc space-y-0.5 pl-0.5',
+                  WORKSHOP2_SURFACE_BANNER_INLINE_META_CLASS
+                )}
+              >
                 {blockers.map((blocker) => (
                   <li key={blocker}>{blocker}</li>
                 ))}
@@ -785,7 +794,3 @@ function VendorConnectSupplyLine({
     </li>
   );
 }
-
-<span className={WORKSHOP2_SURFACE_BANNER_INLINE_META_CLASS} />;
-
-void formatWorkshop2PersistToastTitle;

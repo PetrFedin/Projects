@@ -3,8 +3,12 @@
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { exportWorkshop2CommissionBatchToErp } from '@/lib/production/workshop2-commission-erp-export';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 
 export async function POST(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   let body: Record<string, unknown>;
   try {
     body = (await req.json()) as Record<string, unknown>;
@@ -27,5 +31,5 @@ export async function POST(req: NextRequest) {
   const result = await exportWorkshop2CommissionBatchToErp({ repId });
   const status = result.ok ? 200 : result.mode === 'journal_stub' ? 503 : 502;
 
-  return NextResponse.json({ ok: result.ok, ...result }, { status });
+  return NextResponse.json(result, { status });
 }

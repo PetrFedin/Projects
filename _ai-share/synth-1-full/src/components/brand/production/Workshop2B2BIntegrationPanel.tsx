@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import * as LucideIcons from 'lucide-react';
+import type { Workshop2ApiGateCheck } from '@/lib/production/workshop2-api-gate-messages';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
 import { Workshop2CeilingIntegrationBlock } from '@/components/brand/production/Workshop2CeilingIntegrationBlock';

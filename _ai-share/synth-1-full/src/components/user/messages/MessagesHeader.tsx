@@ -27,6 +27,7 @@ interface MessagesHeaderProps {
   onOpenTasksHub: () => void;
   onOpenSettings: () => void;
   onOpenCreateChat: () => void;
+  slimCore?: boolean;
 }
 
 export const MessagesHeader: React.FC<MessagesHeaderProps> = ({
@@ -40,50 +41,70 @@ export const MessagesHeader: React.FC<MessagesHeaderProps> = ({
   onOpenTasksHub,
   onOpenSettings,
   onOpenCreateChat,
+  slimCore = false,
 }) => {
   return (
-    <div className="border-border-subtle flex flex-col items-start justify-between gap-3 border-b pb-4 lg:flex-row">
+    <div
+      className={cn(
+        'border-border-subtle flex flex-col items-start justify-between border-b lg:flex-row',
+        slimCore ? 'gap-1 pb-2' : 'gap-3 pb-4'
+      )}
+    >
       <div className="space-y-0.5">
         <div className="mb-1 flex items-center gap-2">
-          <h1 className="text-text-primary font-headline text-base font-bold uppercase leading-none tracking-tighter">
-            Intelligence OS
-          </h1>
-          <Badge
-            variant="outline"
-            className="bg-bg-surface2 text-text-muted border-border-subtle h-4 px-1.5 text-[8px] font-bold uppercase tracking-[0.2em] shadow-sm"
+          <h1
+            className={cn(
+              'text-text-primary font-headline font-bold uppercase leading-none tracking-tighter',
+              slimCore ? 'text-xs' : 'text-base'
+            )}
           >
-            v2.0 AI-CORE
-          </Badge>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="h-6.5 bg-accent-primary/10 border-accent-primary/20 group/engine flex shrink-0 cursor-default items-center gap-1.5 rounded-lg border px-2">
-            <div className="bg-accent-primary h-1.5 w-1.5 shrink-0 animate-pulse rounded-full" />
-            <span className="text-accent-primary whitespace-nowrap text-[9px] font-bold uppercase tracking-widest">
-              ENGINE: ACTIVE
-            </span>
-          </div>
-
-          <div className="bg-bg-surface2 border-border-default h-6.5 flex items-center rounded-lg border px-1 shadow-inner">
-            <select
-              className="text-text-secondary hover:text-accent-primary cursor-pointer bg-transparent px-1.5 text-[9px] font-bold uppercase tracking-widest outline-none transition-colors"
-              value={currentRole}
-              onChange={(e) => setCurrentRole(e.target.value as UserRole)}
+            {slimCore ? 'Сообщения' : 'Intelligence OS'}
+          </h1>
+          {!slimCore && (
+            <Badge
+              variant="outline"
+              className="bg-bg-surface2 text-text-muted border-border-subtle h-4 px-1.5 text-[8px] font-bold uppercase tracking-[0.2em] shadow-sm"
             >
-              {Object.entries(ROLE_LABELS).map(([role, label]) => (
-                <option key={role} value={role}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
+              v2.0 AI-CORE
+            </Badge>
+          )}
+        </div>
+        <div className={cn('flex flex-wrap items-center gap-2', slimCore && 'hidden')}>
+          {!slimCore && (
+            <div className="h-6.5 bg-accent-primary/10 border-accent-primary/20 group/engine flex shrink-0 cursor-default items-center gap-1.5 rounded-lg border px-2">
+              <div className="bg-accent-primary h-1.5 w-1.5 shrink-0 animate-pulse rounded-full" />
+              <span className="text-accent-primary whitespace-nowrap text-[9px] font-bold uppercase tracking-widest">
+                ENGINE: ACTIVE
+              </span>
+            </div>
+          )}
 
+          {!slimCore && (
+            <div className="bg-bg-surface2 border-border-default h-6.5 flex items-center rounded-lg border px-1 shadow-inner">
+              <select
+                className="text-text-secondary hover:text-accent-primary cursor-pointer bg-transparent px-1.5 text-[9px] font-bold uppercase tracking-widest outline-none transition-colors"
+                value={currentRole}
+                onChange={(e) => setCurrentRole(e.target.value as UserRole)}
+              >
+                {Object.entries(ROLE_LABELS).map(([role, label]) => (
+                  <option key={role} value={role}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {!slimCore ? (
           <div className="h-6.5 bg-text-primary border-text-primary/30 flex items-center gap-1 rounded-lg border px-2 shadow-md">
             <Shield className="text-accent-primary h-2.5 w-2.5" />
             <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-white">
               SCOPED
             </span>
           </div>
+          ) : null}
 
+          {!slimCore ? (
           <div className="border-border-default h-6.5 group/status hover:border-accent-primary/30 flex shrink-0 items-center gap-1.5 rounded-lg border bg-white px-2 shadow-sm transition-all">
             <div
               className={cn(
@@ -103,7 +124,9 @@ export const MessagesHeader: React.FC<MessagesHeaderProps> = ({
               ))}
             </select>
           </div>
+          ) : null}
 
+          {!slimCore ? (
           <div
             className="h-6.5 bg-bg-surface2 border-border-default hover:border-accent-primary/30 group/risk hidden cursor-pointer items-center gap-3 rounded-lg border px-3 transition-all hover:bg-white sm:flex"
             onClick={onOpenTeam}
@@ -140,10 +163,11 @@ export const MessagesHeader: React.FC<MessagesHeaderProps> = ({
               </div>
             </div>
           </div>
+          ) : null}
         </div>
       </div>
 
-      <div className="flex items-center gap-1.5">
+      <div className={cn('flex items-center gap-1.5', slimCore && 'hidden')}>
         <Button
           variant="ghost"
           size="icon"

@@ -21,6 +21,7 @@ import { Workshop2Phase1DeferLaterToggle } from '@/components/brand/production/w
 import { isWorkshop2DeferLaterChecked } from '@/lib/production/workshop2-phase1-field-deferral';
 import type { DossierSection } from '@/lib/production/dossier-readiness-engine';
 import { showWorkshop2PersistToast } from '@/lib/production/workshop2-persist-toast-messages';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2DossierGeneralDesignVisualBlockProps = {
   isPhase1: boolean;
@@ -95,7 +96,7 @@ export function Workshop2DossierGeneralDesignVisualBlock({
       });
       if (res.ok) setDossier(res.dossier);
       showWorkshop2PersistToast(toast, {
-        scopeLabelRu: 'Ð ÐµÑÐµÑÐµÐ½ÑÑ',
+        scopeLabelRu: 'Референсы',
         ok: res.ok,
         mirrorField: 'visualReferencesMirror',
         reason: res.reason,
@@ -135,10 +136,6 @@ export function Workshop2DossierGeneralDesignVisualBlock({
                 setDossier((prev: Workshop2DossierPhase1) => ({ ...prev, brandNotes: value }))
               }
               onSaveDraft={saveDraft}
-              dossierContext={{
-                category: currentLeaf?.l3Name,
-                isUnisex: dossier.isUnisex,
-              }}
             />
           </div>
           <div
@@ -151,12 +148,15 @@ export function Workshop2DossierGeneralDesignVisualBlock({
                 disabled={!collectionId || !articleId}
                 className="h-8 text-[11px]"
                 onClick={() => void persistVisualRefsToPg()}
-                title="visualReferencesMirror â PG"
+                title="visualReferencesMirror → PG"
               />
-              {dossier.visualReferencesMirror?.mirroredAt ? (
+              {dossier.visualReferencesMirror &&
+              workshop2PgMirrorStr(dossier.visualReferencesMirror, 'mirroredAt') ? (
                 <span className="text-text-muted font-mono text-[10px]">
                   PG{' '}
-                  {new Date(dossier.visualReferencesMirror.mirroredAt).toLocaleString('ru-RU', {
+                  {new Date(
+                    workshop2PgMirrorStr(dossier.visualReferencesMirror, 'mirroredAt')
+                  ).toLocaleString('ru-RU', {
                     dateStyle: 'short',
                     timeStyle: 'short',
                   })}
@@ -178,7 +178,6 @@ export function Workshop2DossierGeneralDesignVisualBlock({
                 updatedByLabel
               }
               canonicalMainPhotoRefId={dossier.canonicalMainPhotoRefId}
-              canonicalMainSketchTarget={dossier.canonicalMainSketchTarget}
               onSetCanonicalMainPhoto={(refId) =>
                 setDossier((p: Workshop2DossierPhase1) => ({
                   ...p,
@@ -205,11 +204,11 @@ export function Workshop2DossierGeneralDesignVisualBlock({
                   </div>
                   <div className="min-w-0 flex-1 space-y-1">
                     <h2 className="text-text-primary text-base font-semibold">
-                      Ð¦Ð²ÐµÑ Ð¸ Ð¿Ð°Ð»Ð¸ÑÑÐ°
+                      Цвет и палитра
                     </h2>
                     <p className="text-text-secondary text-[11px] leading-snug">
-                      ÐÑÐ½Ð¾Ð²Ð½Ð¾Ð¹ ÑÐ²ÐµÑ, ÑÐµÑÐµÑÐµÐ½Ñ ÑÐ¸ÑÑÐµÐ¼Ñ, Ð¿Ð°Ð»Ð¸ÑÑÐ°, Ð³ÑÐ°Ð´Ð¸ÐµÐ½Ñ
-                      Ð¸ ÑÐ²Ð¾Ð¸ Ð¾ÑÑÐµÐ½ÐºÐ¸.
+                      Основной цвет, референс системы, палитра, градиент
+                      и свои оттенки.
                     </p>
                   </div>
                 </div>

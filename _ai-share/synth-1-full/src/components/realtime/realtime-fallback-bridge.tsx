@@ -19,7 +19,10 @@ export function RealtimeFallbackBridge() {
   addRef.current = addNotification;
 
   useEffect(() => {
-    if (WS_URL || typeof window === 'undefined') return;
+    const disablePoll =
+      process.env.NEXT_PUBLIC_WORKSHOP2_DISABLE_NOTIFICATIONS_POLL === 'true' ||
+      process.env.NEXT_PUBLIC_WORKSHOP2_INVESTOR_DEMO_MODE === 'true';
+    if (WS_URL || typeof window === 'undefined' || disablePoll) return;
 
     const poll = async () => {
       if (inFlightRef.current) return;

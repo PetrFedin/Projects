@@ -10,6 +10,8 @@ import {
   userRolesAllowShopInventoryCrossCabinet,
 } from '@/lib/auth/shop-inventory-cross-cabinet';
 import { isRouteGuardPublicPath } from '@/lib/auth/route-guard-public-path';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { shouldBypassHubRbacForCoreCabinet } from '@/lib/platform-core-cabinet-route';
 import { ROUTES } from '@/lib/routes';
 
 /** Roles allowed for each route prefix. Profile keys: admin, brand, shop, retailer, distributor, manufacturer, supplier, client */
@@ -90,6 +92,10 @@ export function RouteGuard({ children }: { children: ReactNode }) {
       isShopInventoryCrossCabinetPath(pathname) &&
       userRolesAllowShopInventoryCrossCabinet(userRoles)
     ) {
+      return;
+    }
+    /** Platform Core investor walkthrough: cross-role peers (досье, messages, calendar). */
+    if (isPlatformCoreMode() && shouldBypassHubRbacForCoreCabinet(pathname)) {
       return;
     }
     const allowed = Object.entries(ROUTE_ROLES).find(([prefix]) => pathname.startsWith(prefix));

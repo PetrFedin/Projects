@@ -174,9 +174,9 @@ export function PassportTzExtraAssigneeCard({
           <span className="inline-block h-4 w-4 shrink-0" aria-hidden />
         )}
       </div>
-      <div className="flex min-w-0 flex-nowrap items-center gap-1.5 overflow-x-auto">
+      <div className="flex min-w-0 flex-wrap items-center gap-1.5 sm:flex-nowrap">
         <select
-          className="h-8 min-w-[7rem] flex-1 rounded-md border border-input bg-background px-1.5 text-[11px]"
+          className="h-8 min-w-0 flex-1 basis-full rounded-md border border-input bg-background px-1.5 text-[11px] sm:min-w-[7rem] sm:basis-auto"
           value={ex.assigneeDisplayLabel ?? ''}
           onChange={(e) => onPatchAssignee(e.target.value)}
           aria-label={`Ответственный: ${trimmedTitle || 'роль'}`}

@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-05-29T18:08:41.200Z",
+  "envSource": ".env.staging.live.ru.example",
+  "market": "ru",
+  "ok": true,
+  "probes": [
+    {
+      "id": "marking_api",
+      "url": "https://YOUR-DIADOC-API.example/v3",
+      "probed": false,
+      "ok": false,
+      "expectedFailClosed": true,
+      "messageRu": "Контур Diadoc: URL не заполнен в example — probe пропущен."
+    },
+    {
+      "id": "marking_api",
+      "url": "https://YOUR-CRPT-API.example",
+      "probed": false,
+      "ok": false,
+      "expectedFailClosed": true,
+      "messageRu": "Честный ЗНАК API: URL не заполнен в example — probe пропущен."
+    }
+  ],
+  "summaryRu": "Staging live verify: fail-closed без ключей — без crash."
+}

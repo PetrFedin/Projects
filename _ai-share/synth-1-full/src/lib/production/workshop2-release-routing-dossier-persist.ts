@@ -5,6 +5,7 @@ import { summarizeWorkshop2ReleaseRoutingStatus } from '@/lib/production/worksho
 import type { ReleaseSnapshot } from '@/lib/production/article-workspace/types';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2ReleaseRoutingMirror(input: {
   dossier: Workshop2DossierPhase1;
@@ -60,14 +61,17 @@ export function evaluateWorkshop2ReleaseRoutingExportGate(
       id: 'release.routing.empty',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ?? 'Нет шагов техпроцесса в PG — ZIP может не содержать routing-steps.json.',
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Нет шагов техпроцесса в PG — ZIP может не содержать routing-steps.json.',
     };
   }
   if (mirror.routingSource === 'derived') {
     return {
       id: 'release.routing.derived_only',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'routingSteps не persist в PG — только derived из досье.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ??
+        'routingSteps не persist в PG — только derived из досье.',
     };
   }
   return null;

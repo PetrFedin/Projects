@@ -4,6 +4,7 @@
  */
 
 import { get } from './client';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 import { SUPPLIER_RFQ_API } from '@/lib/supplier-rfq';
 import type { SupplierRfq } from '@/lib/supplier-rfq';
 
@@ -33,6 +34,7 @@ const MOCK_RFQ_LIST: SupplierRfq[] = [
 ];
 
 export async function listRfq(): Promise<SupplierRfq[]> {
+  if (isPlatformCoreMode()) return [];
   try {
     return await get<SupplierRfq[]>(SUPPLIER_RFQ_API.list);
   } catch {
@@ -41,6 +43,7 @@ export async function listRfq(): Promise<SupplierRfq[]> {
 }
 
 export async function getRfq(id: string): Promise<SupplierRfq | null> {
+  if (isPlatformCoreMode()) return null;
   try {
     return await get<SupplierRfq>(SUPPLIER_RFQ_API.get.replace(':id', id));
   } catch {

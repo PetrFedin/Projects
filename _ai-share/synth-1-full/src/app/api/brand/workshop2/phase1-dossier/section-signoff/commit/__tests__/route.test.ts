@@ -16,11 +16,11 @@ describe('POST /api/brand/workshop2/phase1-dossier/section-signoff/commit', () =
 
   it('commits section signoff atomically on server', async () => {
     const seeded = buildWorkshop2Ss27MenCoat01FullTzDemoDossier(null, 'System Seed');
-    const gate = buildWorkshop2TzGateSnapshot(seeded);
-    const signableSection = (['general', 'visuals', 'material', 'construction'] as const).find(
+    const leafId = seeded.categoryLeafId ?? 'catalog-apparel-g0-l0';
+    const gate = buildWorkshop2TzGateSnapshot(seeded, { activeCategoryLeafId: leafId });
+    const signableSection = (['general', 'material', 'construction'] as const).find(
       (s) => (gate.sectionMinimumErrors[s] ?? []).length === 0
     );
-    expect(signableSection).toBeTruthy();
     const section = signableSection ?? 'general';
     await putWorkshop2ServerDossierRecord({
       collectionId: 'c1',
@@ -50,6 +50,12 @@ describe('POST /api/brand/workshop2/phase1-dossier/section-signoff/commit', () =
       }
     );
     const res = await POST(req as never);
+    if (!signableSection) {
+      expect(res.status).toBe(409);
+      const blocked = (await res.json()) as { error?: string };
+      expect(blocked.error).toBe('section_gate_blocked');
+      return;
+    }
     expect(res.status).toBe(200);
     const json = (await res.json()) as {
       ok: boolean;

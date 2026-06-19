@@ -5,6 +5,7 @@ import { resolveWorkshop2TaMilestones } from '@/lib/production/workshop2-ta-mile
 import type { TimeAndActionSnapshot } from '@/lib/production/article-workspace/types';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2TaMilestonesMirror(
   dossier: Workshop2DossierPhase1,
@@ -61,18 +62,27 @@ export function evaluateWorkshop2TaMilestonesSampleGate(
       messageRu: 'T&A snapshot не в PG — «T&A → PG» на плане или снабжении.',
     };
   }
-  if (mirror.blockerSampleOrder) {
+  if (
+    mirror.blockerSampleOrder === true ||
+    workshop2PgMirrorStr(mirror, 'blockerSampleOrder') === 'true'
+  ) {
     return {
       id: 'ta.milestones.empty',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'Нет milestones T&A — заполните календарь плана.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Нет milestones T&A — заполните календарь плана.',
     };
   }
-  if (!mirror.persistedAt) {
+  const persistedAt =
+    workshop2PgMirrorStr(mirror, 'persistedAt') || dossier.taMilestonesPersistedAt;
+  if (!persistedAt) {
     return {
       id: 'ta.milestones.not_persisted',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'T&A не сохранён в PG — нажмите «Сохранить T&A в досье».',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'T&A не сохранён в PG — нажмите «Сохранить T&A в досье».',
     };
   }
   return null;

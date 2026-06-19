@@ -1,0 +1,397 @@
+{
+  "collection": "SS27",
+  "development": [
+    {
+      "id": "scan-dev-auth-bulk-handoff",
+      "kind": "add",
+      "priority": "P0",
+      "title": "[Бренд] bulk-confirm-production-handoff POST без auth guard",
+      "evidence": "brand/b2b/orders/bulk-confirm-production-handoff/route.ts:13 — нет guardWorkshop2Route; любой клиент может передать orderIds[] в PO queue",
+      "href": "/brand/b2b-orders?pillar=order_production&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-auth-confirm-order",
+      "kind": "add",
+      "priority": "P0",
+      "title": "[Бренд] confirm-order POST без auth — подтверждение заказа открыто",
+      "evidence": "brand/b2b/orders/[id]/confirm-order/route.ts:9 — POST без guard; B2bOrderChainStatusCard вызывает с UI, но API не защищён",
+      "href": "/brand/b2b-orders/B2B-DEMO-SHOP1-SS27?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-auth-confirm-handoff",
+      "kind": "add",
+      "priority": "P0",
+      "title": "[Бренд] confirm-production-handoff POST без auth guard",
+      "evidence": "brand/b2b/orders/[id]/confirm-production-handoff/route.ts:9 — второй шаг цепочки (handoff) без role guard, симметрично confirm-order",
+      "href": "/brand/b2b-orders/B2B-DEMO-SHOP1-SS27?pillar=order_production#production-handoff",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-auth-delivery-ack",
+      "kind": "add",
+      "priority": "P0",
+      "title": "[Магазин] delivery-ack/batch POST без buyer auth",
+      "evidence": "shop/b2b/orders/delivery-ack/batch/route.ts:7 — bulkAcknowledge без guardShopB2b; ShopBuyerDeliveryBatchAckPanel:53 вызывает открытый endpoint",
+      "href": "/shop/b2b/tracking?order=B2B-DEMO-SHOP1-SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-comms-demo-order-regex",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд] Section auto-thread: regex ^B2B-\\d+ отсекает B2B-DEMO-SHOP1-SS27",
+      "evidence": "CommsSectionContextAutoThread.tsx:32 — early return; section-read-state/route.ts:22 — тот же паттерн; SS27 golden order не получает ensure thread + read keys",
+      "href": "/brand/core?pillar=comms&collection=SS27&section=brand-co-registry&order=B2B-DEMO-SHOP1-SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-hub-comms-compact-ctas",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Все роли] Hub comms: compact скрывает Чат/Календарь CTAs",
+      "evidence": "CommsPillarCard.tsx:257-327 — compact показывает только «Все сообщения»; RoleCoreCabinetHub.tsx:331 всегда передаёт compact в insight cards",
+      "href": "/brand/core?pillar=comms&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-hub-comms-section-groups",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Section-groups picker недоступен в hub comms",
+      "evidence": "CommsPillarCard.tsx:221-231 — CommsSectionGroupsPicker только при !compact; hub cabinet всегда compact → picker не монтируется на SS27",
+      "href": "/brand/core?pillar=comms&collection=SS27&section=brand-co-registry",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-hub-sc-golden-path-hidden",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд/Магазин] Golden-path strip скрыт в hub compact",
+      "evidence": "BrandSampleCollectionMini.tsx:43 и ShopShowroomMini.tsx:84 — strip при !compact; e2e core-01/core-52 ожидают shop-sc-cabinet-golden-path на hub",
+      "href": "/shop/core?pillar=sample_collection&collection=SS27",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-sup-forecast-unreachable",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Поставщик] Forecast panel реализован, но не в empty-cell registry",
+      "evidence": "PlatformCoreEmptyCellPanels.tsx:90-97 монтирует SupplierCollectionOrderForecast; hasEmptyCellInsightPanel (platform-core-empty-cell-registry.ts:16-24) не включает supplier×collection_order → UI dead",
+      "href": "/factory/supplier/core?pillar=collection_order&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-sup-op-spine-poll",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Поставщик] OP pillar poll по demoOrderId, не spine-resolved",
+      "evidence": "SupplierProcurementPillarCard.tsx:51-55 — pollOrderIds из demo.demoOrderId; CollectionOrderPillarCard использует useSpineActiveWholesaleOrderId с resolveFrom",
+      "href": "/factory/supplier/core?pillar=order_production&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-auth-retailers-summary",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Бренд] retailers/b2b-orders-summary GET без auth",
+      "evidence": "brand/retailers/b2b-orders-summary/route.ts:6 — открытый GET W2 агрегатов; CollectionOrderPillarCard.tsx:62 fetch для partner count в hub",
+      "href": "/brand/core?pillar=collection_order&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-auth-brand-orders-list",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Поставщик] Supplier BOM weighting через открытый GET brand/b2b/orders",
+      "evidence": "SupplierBomPreview.tsx:127-132 — fetch /api/brand/b2b/orders; route.ts:8 без guard — qty weighting из чужого API",
+      "href": "/factory/supplier/core?pillar=development&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-auth-ensure-thread",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Все роли] ensure-b2b-order POST без actor guard",
+      "evidence": "messages/contextual/ensure-b2b-order/route.ts:14 — idempotent PG thread create без auth; CommsSectionContextAutoThread.tsx:38 POST после checkout/registry",
+      "href": "/brand/messages?contextType=b2b_order&contextId=B2B-DEMO-SHOP1-SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-auth-calendar-events",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Все роли] platform-core/calendar-events GET без auth",
+      "evidence": "workshop2/platform-core/calendar-events/route.ts:16 — открытый GET chain-derived events; CommsNotificationCenterStrip.tsx:109 и style-calendar.tsx:420",
+      "href": "/brand/calendar?layers=orders,logistics&order=B2B-DEMO-SHOP1-SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-sup-quote-hidden-hub",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Поставщик] Material quote card скрыт в hub comms compact",
+      "evidence": "CommsPillarCard.tsx:254-256 — SupplierMaterialQuoteCard только !compact; supplier comms hub теряет quote CTA на SS27",
+      "href": "/factory/supplier/core?pillar=comms&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-shop-amend-cta-missing",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Магазин] canShopAmend вычислен, но amend CTA не в cabinet",
+      "evidence": "CollectionOrderPillarCard.tsx:118 — canShopAmend=true до brand_confirmed, но переменная нигде не используется; amend-request API существует",
+      "href": "/shop/core?pillar=collection_order&collection=SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-auth-amend-request",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Магазин] amend-request POST без shop buyer guard",
+      "evidence": "shop/b2b/orders/[id]/amend-request/route.ts:8 — submitShopWorkshop2B2bAmendmentRequest без guardShopB2bCheckoutRoute",
+      "href": "/shop/b2b/orders/B2B-DEMO-SHOP1-SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-auth-contextual-messages",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Все роли] messages/contextual GET/POST без role guard",
+      "evidence": "messages/contextual/route.ts:16-48 — list/append PG threads open; brand-pg-contextual-chat-client.ts:72,102 использует без signed room",
+      "href": "/factory/messages?contextType=b2b_order&contextId=B2B-DEMO-SHOP1-SS27",
+      "roleId": "manufacturer",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-brand-matrix-no-buyer",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Cross-role matrix link без buyerId в UAT strip",
+      "evidence": "CollectionOrderPillarCard.tsx:393-397 — matrixHref без buyer; checkout presets (406-414) имеют buyerId только для альтернативных buyer",
+      "href": "/brand/core?pillar=collection_order&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-sup-forecast-shop-link",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Поставщик] Forecast panel: ссылка на shop order page из supplier UI",
+      "evidence": "supplier-collection-order-forecast-panel.tsx:83-88 — shopB2bOrderHref(activeOrderId) без role context; cross-role dead-end для supplier actor",
+      "href": "/factory/supplier/core?pillar=collection_order&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-sup-bom-brand-actor",
+      "kind": "fix",
+      "priority": "P2",
+      "title": "[Поставщик] BOM preview резолвит spine как actorRole brand",
+      "evidence": "SupplierBomPreview.tsx:98-103 — useSpineActiveWholesaleOrderId({ actorRole: 'brand' }) внутри supplier dev hub; multi-buyer qty может быть неверным",
+      "href": "/factory/supplier/core?pillar=development&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-mfr-dev-single-step",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Производство] Hub dev card: compact фильтрует до factory_samples",
+      "evidence": "DevelopmentPillarCard.tsx:228 — (status?.steps ?? []).filter(step => step.id === 'factory_samples') в compact manufacturer; остальные шаги бренда скрыты без пояснения",
+      "href": "/factory/production/core?pillar=development&collection=SS27",
+      "roleId": "manufacturer",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-sup-dev-bom-only",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Поставщик] Dev hub — только SupplierBomPreview, без DevelopmentPillarCard",
+      "evidence": "RoleCoreCabinetHub.tsx:405-406 — supplier×development → SupplierBomPreview compact hardcoded; нет sample-status / PG sync parity с brand/mfr",
+      "href": "/factory/supplier/core?pillar=development&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-op-pillar-strips-compact",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд/Производство] OP hub скрывает BOM/WIP/disclosure strips",
+      "evidence": "OrderProductionPillarCard.tsx:213-290 — inventory_reserved, bom preview, ManufacturerSpineWipCabinetStrip за !compact; hub всегда compact",
+      "href": "/brand/core?pillar=order_production&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-brand-sc-import-core-hidden",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Centric/linesheet import панели скрыты в Platform Core mode",
+      "evidence": "BrandSampleCollectionMini.tsx:70-81 — BrandCentricStyleImportPanel и BrandLinesheetGenPanel только при !coreMode; hub sample_collection без upstream import UX",
+      "href": "/brand/core?pillar=sample_collection&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-shop-dev-bridge-external-w2",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Магазин] Dev bridge: техпак — hard navigation на brand W2 без preview",
+      "evidence": "shop-development-bridge-panel.tsx:96-102 — Link на brandW2Href без modal/iframe; peer role switch без контекста buyer/order",
+      "href": "/shop/core?pillar=development&collection=SS27",
+      "roleId": "shop",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-e2e-golden-path-compact",
+      "kind": "fix",
+      "priority": "P2",
+      "title": "[Магазин] E2E golden-path vs hub compact mismatch",
+      "evidence": "e2e/core-52-p0-wave-gaps.spec.ts:74 ожидает shop-sc-cabinet-golden-path; ShopShowroomMini.tsx:84 strip gated !compact → flaky/hidden на hub",
+      "href": "/shop/core?pillar=sample_collection&collection=SS27",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    }
+  ],
+  "techDebt": [
+    {
+      "id": "scan-td-auth-platform-routes-split",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "Auth split: W2 routes guarded, platform B2B/comms routes open",
+      "action": "fix",
+      "hint": "Единый guardWorkshop2Route / guardShopB2b на confirm-order, bulk-handoff, delivery-ack, ensure-b2b-order, calendar-events, brand/b2b/orders",
+      "source": "cursor-scan",
+      "evidence": "workshop2-route-auth.ts vs brand/b2b/orders/route.ts:8; bulk-confirm-production-handoff/route.ts:13"
+    },
+    {
+      "id": "scan-td-compact-hub-architecture",
+      "category": "demo-dupe",
+      "priority": "P1",
+      "title": "RoleCoreCabinetHub всегда compact — деградация insight cards",
+      "action": "change",
+      "hint": "compact={false} для hub или inline CTAs/strips в compact-режиме; deprecated prop в OrderProductionPillarCard:49",
+      "source": "cursor-scan",
+      "evidence": "RoleCoreCabinetHub.tsx:331; CommsPillarCard.tsx:257-327"
+    },
+    {
+      "id": "scan-td-b2b-order-id-regex-fragmentation",
+      "category": "stub",
+      "priority": "P1",
+      "title": "B2B order ID regex: B2B-\\d+ vs B2B-DEMO vs B2B-*",
+      "action": "fix",
+      "hint": "Канонический isWholesaleOrderId() для ensure-b2b-order, section-read-state, CommsSectionContextAutoThread; SS27 demo ID",
+      "source": "cursor-scan",
+      "evidence": "CommsSectionContextAutoThread.tsx:32; section-read-state/route.ts:22; ensure-b2b-order/route.ts:21"
+    },
+    {
+      "id": "scan-td-empty-cell-registry-supplier-co",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "supplier×collection_order forecast не в hasEmptyCellInsightPanel",
+      "action": "fix",
+      "hint": "Добавить в platform-core-empty-cell-registry.ts или удалить мёртвый SupplierCollectionOrderForecastPanel",
+      "source": "cursor-scan",
+      "evidence": "platform-core-empty-cell-registry.ts:16-24; PlatformCoreEmptyCellPanels.tsx:90-97"
+    },
+    {
+      "id": "scan-td-orphan-sample-collection-pillar-card",
+      "category": "demo-dupe",
+      "priority": "P2",
+      "title": "SampleCollectionPillarCard — orphan, не импортируется",
+      "action": "remove",
+      "hint": "Удалить или wire в RoleCorePillarInsightCards вместо BrandSampleCollectionMini/ShopShowroomMini",
+      "source": "cursor-scan",
+      "evidence": "SampleCollectionPillarCard.tsx:33 — единственное упоминание в repo"
+    },
+    {
+      "id": "scan-td-shop-showroom-duplicate-fetch",
+      "category": "demo-dupe",
+      "priority": "P2",
+      "title": "ShopShowroomMini: дубль fetch published-articles",
+      "action": "merge",
+      "hint": "Использовать только useWorkshop2PublishedArticleCount; убрать useEffect fetch строки 53-79",
+      "source": "cursor-scan",
+      "evidence": "ShopShowroomMini.tsx:37-38 vs 53-79"
+    },
+    {
+      "id": "scan-td-placeholder-surfaces-gaps",
+      "category": "stub",
+      "priority": "P2",
+      "title": "platform-core-placeholder-surfaces — 6 routes, mock B2B вне реестра",
+      "action": "change",
+      "hint": "Добавить /shop/b2b/documents, order-analytics, tenders, margin-report + PlatformCoreDemoDataBadge",
+      "source": "cursor-scan",
+      "evidence": "platform-core-placeholder-surfaces.ts:12-46; shop/b2b/documents/page.tsx mockDocuments"
+    },
+    {
+      "id": "scan-td-e2e-testid-drift-brand-sc",
+      "category": "missing-link",
+      "priority": "P2",
+      "title": "E2E testid drift: brand-sc-cabinet-linesheets-link vs audit-path-linesheet",
+      "action": "fix",
+      "hint": "Align BrandScCabinetGoldenPathStrip testId или e2e/core-01-platform-smoke.spec.ts:605",
+      "source": "cursor-scan",
+      "evidence": "BrandScCabinetGoldenPathStrip.tsx:34; e2e/core-01-platform-smoke.spec.ts:605"
+    },
+    {
+      "id": "scan-td-supplier-dev-hardcoded-compact",
+      "category": "demo-dupe",
+      "priority": "P2",
+      "title": "Supplier dev insight: compact prop hardcoded",
+      "action": "change",
+      "hint": "RoleCoreCabinetHub.tsx:406 — передать compact={compact} как у других pillar cards",
+      "source": "cursor-scan",
+      "evidence": "RoleCoreCabinetHub.tsx:406"
+    },
+    {
+      "id": "scan-td-contextual-messages-open-api",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "messages/contextual — open read/write PG chat room",
+      "action": "fix",
+      "hint": "guard + signed context token; complement inbox-stream auth pattern",
+      "source": "cursor-scan",
+      "evidence": "messages/contextual/route.ts:16-48"
+    },
+    {
+      "id": "scan-td-can-shop-amend-dead-code",
+      "category": "stub",
+      "priority": "P2",
+      "title": "canShopAmend computed but unused in CollectionOrderPillarCard",
+      "action": "fix",
+      "hint": "Wire amend CTA + testid shop-co-cabinet-amend-link до brand_confirmed",
+      "source": "cursor-scan",
+      "evidence": "CollectionOrderPillarCard.tsx:118"
+    },
+    {
+      "id": "scan-td-supplier-spine-actor-mismatch",
+      "category": "stub",
+      "priority": "P2",
+      "title": "Supplier BOM/OP cards resolve spine with brand actorRole",
+      "action": "fix",
+      "hint": "actorRole:'supplier' + buyerId context в SupplierBomPreview и SupplierProcurementPillarCard poll",
+      "source": "cursor-scan",
+      "evidence": "SupplierBomPreview.tsx:102; SupplierProcurementPillarCard.tsx:51-55"
+    }
+  ]
+}

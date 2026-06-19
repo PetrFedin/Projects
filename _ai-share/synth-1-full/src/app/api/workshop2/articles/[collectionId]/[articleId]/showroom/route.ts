@@ -63,7 +63,7 @@ export const PUT = withWorkshop2ApiErrorRu(async function putShowroom(
     return jsonWorkshop2ErrorRu(400, 'invalid_json');
   }
 
-  const auth = guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
     bodyActorLabel: String(body.updatedBy ?? ''),
   });
   if (auth instanceof NextResponse) return auth;
@@ -89,6 +89,7 @@ export const PUT = withWorkshop2ApiErrorRu(async function putShowroom(
       const devGate = evaluateWorkshop2SampleOrderGate({
         dossier: recordPre.dossier,
         categoryLeafId: 'catalog-apparel-g0-l0',
+        vaultFileCount: recordPre.dossier.vaultDocuments?.length ?? 0,
       });
       if (!devGate.allowed) {
         const devBlocker = devGate.readiness.checks.find((c) => c.severity === 'blocker');

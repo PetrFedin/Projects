@@ -7,10 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { AiVoiceAssistant } from '@/components/admin/voice-assistant';
 import { GlobalPulse } from '@/components/global/global-pulse';
 import { cn } from '@/lib/utils';
-import {
-  isBrandNavInvestorSpineEnabled,
-  applyBrandInvestorSpineClusterOverrides,
-} from '@/lib/cabinet-nav-env';
+import { applyBrandNavPipeline, isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { augmentBrandNavGroupsForCore } from '@/lib/brand-core-nav-augment';
+import { augmentBrandNavForCoreCabinet } from '@/lib/platform-core-nav-augment';
 import { BRAND_SIDEBAR_W, cabinetHubLayout, cabinetSidebarLayout } from '@/lib/ui/cabinet-surface';
 import {
   brandNavGroups,
@@ -32,6 +31,7 @@ import { USE_FASTAPI } from '@/lib/syntha-api-mode';
 import { useUIState } from '@/providers/ui-state';
 import { useAuth } from '@/providers/auth-provider';
 import { ErrorBoundary } from '@/components/error-boundary';
+import { PlatformCoreBrandB2bLegacyGuard } from '@/components/platform/PlatformCoreBrandB2bLegacyGuard';
 import { useBrandCenter } from '@/providers/brand-center-state';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
@@ -67,6 +67,7 @@ import { StageContextBar } from '@/components/brand/production/StageContextBar';
 import { PageContainer } from '@/components/design-system';
 import {
   CabinetHubMain,
+  CabinetHubMobileNavOnly,
   CabinetHubSectionBar,
   CabinetHubTitleRow,
   type BreadcrumbItem,
@@ -472,12 +473,11 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
   }, [kpiData.length]);
 
   const { role, can } = useRbac();
+  const platformCore = isPlatformCoreMode();
   const filteredFull = useMemo(() => {
-    let groupsToFilter = navGroups;
-
-    if (isBrandNavInvestorSpineEnabled()) {
-      groupsToFilter = applyBrandInvestorSpineClusterOverrides(navGroups);
-    }
+    let groupsToFilter = applyBrandNavPipeline(navGroups);
+    groupsToFilter = augmentBrandNavGroupsForCore(groupsToFilter);
+    groupsToFilter = augmentBrandNavForCoreCabinet(groupsToFilter);
 
     return groupsToFilter
       .filter(
@@ -566,11 +566,15 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
 
         {/* Основная область */}
         <div className={cn('min-w-0 flex-1', cabinetSidebarLayout.mainPaddingLeftBrand)}>
-          {profile?.navigation && Array.isArray(profile.navigation) ? (
+          {!platformCore && profile?.navigation && Array.isArray(profile.navigation) ? (
             <GlobalHubNav navigation={profile.navigation as any[]} />
           ) : null}
           <BrandSectionActionsProvider>
             <CabinetHubMain className="space-y-2 pt-2">
+              {platformCore ? (
+                <CabinetHubMobileNavOnly onOpenMobileNav={() => setSidebarOpen(true)} />
+              ) : (
+              <>
               <CabinetHubTitleRow
                 className="border-border-subtle gap-2 border-b pb-2"
                 onOpenMobileNav={() => setSidebarOpen(true)}
@@ -579,7 +583,7 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                 title="Бренд-центр"
                 trailing={
                   <div className="flex w-full min-w-0 shrink-0 flex-wrap items-center justify-end gap-2 sm:w-auto">
-                    {/* Live Intelligence + переключающиеся KPI — одна линия до поиска */}
+                    {!platformCore ? (
                     <div className="border-border-subtle mr-0.5 hidden min-w-0 max-w-full items-center gap-2 border-r pr-2 2xl:flex">
                       <p className="text-text-secondary flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[9px] font-black uppercase tracking-widest">
                         <Activity className="text-accent-primary h-3 w-3 shrink-0" /> Центр
@@ -840,25 +844,27 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
-                    <SearchBar />
+                    ) : null}
+                    {!platformCore ? <SearchBar /> : null}
                   </div>
                 }
               />
 
-              <CabinetHubSectionBar
-                accentClassName="bg-accent-primary"
-                breadcrumbItems={
-                  hubBreadcrumbRow ?? (['Аккаунт', 'Кабинет бренда', hubBreadcrumbLeaf] as const)
-                }
-                sectionTitle={
-                  (pathname || '').startsWith('/brand/production/workshop2')
-                    ? undefined
-                    : hubBreadcrumbLeaf
-                }
-                trailing={
-                  <>
-                    {(Array.isArray(profile?.alerts) ? profile.alerts : []).map(
-                      (alert: any, idx: number) => (
+              {!platformCore ? (
+                <CabinetHubSectionBar
+                  accentClassName="bg-accent-primary"
+                  breadcrumbItems={
+                    hubBreadcrumbRow ?? (['Аккаунт', 'Кабинет бренда', hubBreadcrumbLeaf] as const)
+                  }
+                  sectionTitle={
+                    (pathname || '').startsWith('/brand/production/workshop2')
+                      ? undefined
+                      : hubBreadcrumbLeaf
+                  }
+                  trailing={
+                    <>
+                      {(Array.isArray(profile?.alerts) ? profile.alerts : []).map(
+                        (alert: any, idx: number) => (
                         <Badge
                           key={idx}
                           variant="outline"
@@ -866,13 +872,16 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                         >
                           {alert.message}
                         </Badge>
-                      )
-                    )}
-                  </>
-                }
-              />
+                        )
+                      )}
+                    </>
+                  }
+                />
+              ) : null}
+              </>
+              )}
 
-              <BrandSectionHeaderBlock />
+              {!platformCore ? <BrandSectionHeaderBlock /> : null}
               <StageContextBar />
               <main className={cn('mt-2 slide-in-from-bottom-2', cabinetHubLayout.mainInner)}>
                 <PageContainer
@@ -881,14 +890,16 @@ function BrandLayoutContent({ children }: { children: React.ReactNode }) {
                     '!mx-0 w-full max-w-none !px-0 !py-4 sm:!py-5'
                   }
                 >
-                  <ErrorBoundary>{children}</ErrorBoundary>
+                  <ErrorBoundary>
+                    <PlatformCoreBrandB2bLegacyGuard>{children}</PlatformCoreBrandB2bLegacyGuard>
+                  </ErrorBoundary>
                 </PageContainer>
               </main>
             </CabinetHubMain>
           </BrandSectionActionsProvider>
 
-          <AiVoiceAssistant />
-          <GlobalPulse />
+          {!platformCore ? <AiVoiceAssistant /> : null}
+          {!platformCore ? <GlobalPulse /> : null}
         </div>
       </div>
     </ErrorBoundary>

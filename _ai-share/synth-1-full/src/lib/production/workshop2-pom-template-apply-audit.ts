@@ -7,8 +7,8 @@ import type {
 } from '@/lib/production/workshop2-dossier-phase1.types';
 import {
   mergeWorkshop2PomTemplateIntoDossier,
-  type Workshop2PomTemplateRow,
 } from '@/lib/production/workshop2-pom-template-apply';
+import type { Workshop2PomTemplateRow } from '@/lib/production/workshop2-reference-seeds';
 
 function uid(): string {
   return `pom-apply-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;

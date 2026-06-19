@@ -10,6 +10,7 @@ import {
   type Workshop2CeilingFetchFn,
   type Workshop2CeilingJournalEntry,
 } from '@/lib/production/workshop2-ceiling-staging-core';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import { isWorkshop2LiveSustainabilityConfigured } from '@/lib/production/workshop2-live-integration-probes-env';
 import {
   extractWorkshop2StagingPartnerAckId,
@@ -90,7 +91,10 @@ export async function attemptWorkshop2SustainabilityStaging(input: {
   skipped?: boolean;
 }> {
   const url = resolveWorkshop2LcaStagingUrl(input.env);
-  const prev = input.dossier.sustainabilityStagingMirror?.journal;
+  const prevJournal = input.dossier.sustainabilityStagingMirror?.journal;
+  const prev = Array.isArray(prevJournal)
+    ? (prevJournal as import('@/lib/production/workshop2-ceiling-staging-core').Workshop2CeilingJournalEntry[])
+    : undefined;
   if (!url) {
     const journal = appendWorkshop2CeilingJournalEntry(
       prev,
@@ -199,11 +203,15 @@ export function evaluateWorkshop2SustainabilityStagingExportGate(input: {
       messageRu: 'LCA staging journal не в досье — «LCA staging → PG» на снабжении.',
     };
   }
-  if (mirror.journal.some((j) => j.outcome === 'failed')) {
+  if (
+    Array.isArray(mirror.journal) &&
+    (mirror.journal as Workshop2CeilingJournalEntry[]).some((j) => j.outcome === 'failed')
+  ) {
     return {
       id: 'sustainability.staging.failed',
       severity: 'warning',
-      messageRu: mirror.hintRu ?? 'LCA staging failed — export warning.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') || 'LCA staging failed — export warning.',
     };
   }
   return null;

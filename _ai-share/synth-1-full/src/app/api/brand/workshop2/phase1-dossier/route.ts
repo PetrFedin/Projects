@@ -1,29 +1,23 @@
-import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { NextRequest, NextResponse } from 'next/server';
+import {
+  getWorkshop2ServerDossierRecord,
+  putWorkshop2ServerDossierRecord,
+} from '@/lib/server/workshop2-phase1-dossier-server-store';
+import {
+  guardWorkshop2Route,
+  WORKSHOP2_READ_ROLES,
+  WORKSHOP2_WRITE_ROLES,
+} from '@/lib/server/workshop2-route-auth';
+import {
+  workshop2DossierPutFailureBody,
+  workshop2DossierPutFailureStatus,
+} from '@/lib/server/workshop2-dossier-put-utils';
+import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 
-const MOCK_DB_PATH = path.join(process.cwd(), 'tmp-dossier-db.json');
+export async function GET(request: NextRequest) {
+  const auth = await guardWorkshop2Route(request, WORKSHOP2_READ_ROLES);
+  if (auth instanceof NextResponse) return auth;
 
-async function readDb(): Promise<Record<string, any>> {
-  try {
-    const data = await fs.readFile(MOCK_DB_PATH, 'utf8');
-    return JSON.parse(data) as Record<string, any>;
-  } catch (err) {
-    // If file doesn't exist or is invalid JSON, return empty object
-    return {};
-  }
-}
-
-async function writeDb(data: Record<string, any>): Promise<void> {
-  await fs.writeFile(MOCK_DB_PATH, JSON.stringify(data, null, 2), 'utf8');
-}
-
-function getStorageKey(collectionId: string, articleId: string): string {
-  const safeSegment = (id: string) => id.replace(/:/g, '_');
-  return `${safeSegment(collectionId)}::${safeSegment(articleId)}`;
-}
-
-export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const collectionId = searchParams.get('collectionId');
   const articleId = searchParams.get('articleId');
@@ -32,18 +26,18 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Missing collectionId or articleId' }, { status: 400 });
   }
 
-  const db = await readDb();
-  const key = getStorageKey(collectionId, articleId);
-  const dossier = db[key];
-
-  if (!dossier) {
+  const record = await getWorkshop2ServerDossierRecord(collectionId, articleId);
+  if (!record?.dossier) {
     return NextResponse.json(null);
   }
 
-  return NextResponse.json(dossier);
+  return NextResponse.json(record.dossier);
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const auth = await guardWorkshop2Route(request, WORKSHOP2_WRITE_ROLES);
+  if (auth instanceof NextResponse) return auth;
+
   const { searchParams } = new URL(request.url);
   const collectionId = searchParams.get('collectionId');
   const articleId = searchParams.get('articleId');
@@ -52,18 +46,29 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Missing collectionId or articleId' }, { status: 400 });
   }
 
-  let dossier;
+  let dossier: Workshop2DossierPhase1;
   try {
-    dossier = await request.json();
-  } catch (err) {
+    dossier = (await request.json()) as Workshop2DossierPhase1;
+  } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  const db = await readDb();
-  const key = getStorageKey(collectionId, articleId);
-  db[key] = dossier;
+  if (!dossier || !Array.isArray(dossier.assignments)) {
+    return NextResponse.json({ error: 'Invalid dossier payload' }, { status: 400 });
+  }
 
-  await writeDb(db);
+  const existing = await getWorkshop2ServerDossierRecord(collectionId, articleId);
+  const result = await putWorkshop2ServerDossierRecord({
+    collectionId,
+    articleId,
+    dossier,
+    baseVersion: existing?.version,
+  });
+  if (!result.ok) {
+    return NextResponse.json(workshop2DossierPutFailureBody(result), {
+      status: workshop2DossierPutFailureStatus(result),
+    });
+  }
 
   return NextResponse.json({ success: true });
 }

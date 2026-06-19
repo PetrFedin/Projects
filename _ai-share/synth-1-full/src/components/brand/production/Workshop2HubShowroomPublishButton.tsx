@@ -105,10 +105,15 @@ export function Workshop2HubShowroomPublishButton({
   };
 
   const canPublish = ready === true && !checking && !busy && articleIds.length > 0;
-  const linesheetHref = `${ROUTES.shop.b2bShowroom}?collection=${encodeURIComponent(collectionId)}`;
+  const shopShowroomHref = `${ROUTES.shop.b2bShowroom}?collection=${encodeURIComponent(collectionId)}`;
+  const brandLinesheetsHref = `/brand/linesheets?collection=${encodeURIComponent(collectionId)}`;
 
   return (
-    <div className="flex flex-col gap-1.5" data-testid="workshop2-hub-showroom-publish">
+    <div
+      className="flex flex-col gap-1.5"
+      data-testid="brand-sc-publish-hub"
+      data-audit-legacy="workshop2-hub-showroom-publish"
+    >
       <div className="flex flex-wrap items-center gap-2">
         <Button
           type="button"
@@ -116,6 +121,7 @@ export function Workshop2HubShowroomPublishButton({
           variant="default"
           className="h-7 gap-1 text-[10px]"
           disabled={disabled || !canPublish || busy}
+          data-testid="brand-sc-publish-button"
           onClick={() => void runPublish()}
         >
           <Store className="h-3 w-3" aria-hidden />
@@ -127,18 +133,29 @@ export function Workshop2HubShowroomPublishButton({
           variant="outline"
           className="h-7 text-[10px]"
           disabled={checking || busy}
+          data-testid="brand-sc-publish-readiness-button"
           onClick={() => void runReadiness()}
         >
           {checking ? 'Проверка…' : 'Проверить gates'}
         </Button>
         {published ? (
-          <Link
-            href={linesheetHref}
-            className="text-[10px] font-medium text-indigo-700 underline underline-offset-2"
-            data-testid="workshop2-hub-b2b-linesheet-link"
-          >
-            B2B linesheet →
-          </Link>
+          <>
+            <Link
+              href={shopShowroomHref}
+              className="text-[10px] font-medium text-indigo-700 underline underline-offset-2"
+              data-testid="brand-sc-publish-shop-showroom-link"
+            >
+              Витрина магазина →
+            </Link>
+            <Link
+              href={brandLinesheetsHref}
+              className="text-[10px] font-medium text-indigo-700 underline underline-offset-2"
+              data-testid="brand-sc-publish-linesheets-link"
+              data-audit-legacy="workshop2-hub-b2b-linesheet-link"
+            >
+              Лайншиты →
+            </Link>
+          </>
         ) : null}
       </div>
       {blocked.length > 0 ? (

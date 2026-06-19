@@ -8,7 +8,10 @@ import { Button } from '@/components/ui/button';
 import { Package, Tag } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
-import { JOOR_DELIVERY_WINDOWS, JOOR_MOQ_BY_PRODUCT } from '@/lib/b2b/joor-constants';
+import {
+  WHOLESALE_DELIVERY_WINDOWS,
+  WHOLESALE_MOQ_BY_PRODUCT,
+} from '@/lib/b2b/wholesale-order-terms';
 import { getOrderRulesForPartner } from '@/lib/b2b/order-rules';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { B2BIntegrationStatusWidget } from '@/components/b2b/B2BIntegrationStatusWidget';
@@ -18,7 +21,7 @@ const MOV_DEFAULT = 150_000; // минимальная сумма заказа (
 
 export default function B2BCollectionTermsPage() {
   const rules = getOrderRulesForPartner();
-  const moqEntries = Object.entries(JOOR_MOQ_BY_PRODUCT);
+  const moqEntries = Object.entries(WHOLESALE_MOQ_BY_PRODUCT);
   const [priceLists, setPriceLists] = useState<{ slug: string; name: string; currency?: string }[]>(
     []
   );
@@ -36,7 +39,7 @@ export default function B2BCollectionTermsPage() {
 
   return (
     <CabinetPageContent maxWidth="4xl" className="space-y-6">
-      <ShopB2bContentHeader lead="NuOrder / JOOR: дедлайны заказа, MOQ по стилю, минимальная сумма заказа (MOV)." />
+      <ShopB2bContentHeader lead="Условия коллекции: дедлайны заказа, MOQ по стилю, минимальная сумма заказа (MOV) и прайс-листы." />
 
       <Card className="mb-6">
         <CardHeader>
@@ -100,7 +103,7 @@ export default function B2BCollectionTermsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
-          {JOOR_DELIVERY_WINDOWS.map((w) => (
+          {WHOLESALE_DELIVERY_WINDOWS.map((w) => (
             <div key={w.id} className="bg-bg-surface2 rounded-lg px-3 py-2 text-sm">
               <span className="font-bold">{w.label}</span>
               <span className="text-text-secondary ml-2">
@@ -108,6 +111,9 @@ export default function B2BCollectionTermsPage() {
               </span>
             </div>
           ))}
+          <Button variant="link" size="sm" className="h-auto px-0 text-xs" asChild>
+            <Link href={ROUTES.shop.b2bDeliveryCalendar}>Актуальные окна по заказам →</Link>
+          </Button>
         </CardContent>
       </Card>
 
@@ -115,7 +121,7 @@ export default function B2BCollectionTermsPage() {
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-sm font-black uppercase">
-              <Tag className="h-4 w-4" /> Прайс-листы (SparkLayer)
+              <Tag className="h-4 w-4" /> Прайс-листы партнёра
             </CardTitle>
             <CardDescription>
               Доступные прайс-листы для расчёта цен в матрице заказа.

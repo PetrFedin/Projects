@@ -1,4 +1,5 @@
 import type { B2BOrder, B2BOrderPaymentStatus } from '@/lib/types';
+import type { OperationalOrderIntegration } from '@/lib/integrations/spine/integration-external-ref.schema';
 import type { B2BOrderLineItem } from './b2b-order-payload';
 
 /**
@@ -32,6 +33,8 @@ export type OperationalOrderListRowDto = {
   paymentStatus?: B2BOrderPaymentStatus;
   /** Projection (rollup). */
   paidAmount?: number;
+  /** Wave A5: external wholesale platform metadata (ADR-002). */
+  integration?: OperationalOrderIntegration;
 };
 
 /** **Detail DTO** — коммерческая деталь заказа (линии, заметки). */

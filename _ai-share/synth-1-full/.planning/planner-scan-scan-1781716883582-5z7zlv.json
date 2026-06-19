@@ -1,0 +1,417 @@
+{
+  "collection": "SS27",
+  "development": [
+    {
+      "id": "scan-dev-cabinet-compact-golden-path-hidden",
+      "kind": "fix",
+      "priority": "P0",
+      "title": "[Бренд/Магазин] Кабинет compact: golden-path strips скрыты, e2e расходится с UI",
+      "evidence": "RoleCoreCabinetHub.tsx:328-331 всегда compact; BrandSampleCollectionMini.tsx:43 и ShopShowroomMini.tsx:84 рендерят golden-path только при !compact; core-01/core-52 ожидают brand-sc-unified-audit-path и shop-sc-cabinet-golden-path на /brand|shop/core?pillar=sample_collection",
+      "href": "/brand/core?pillar=sample_collection&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-pillar-snapshot-file-tracking",
+      "kind": "fix",
+      "priority": "P0",
+      "title": "[Бренд/Магазин/Производство] pillar-snapshot: tracking/WIP/delivery из file-store при PG-primary",
+      "evidence": "platform-core-pillar-snapshot.ts:27-32 импортирует order-tracking-persistence.file, production-wip-persistence.file, delivery-window-persistence.file — chain badges в кабинете co/op/comms могут быть пустыми при гидратации только PG",
+      "href": "/brand/core?pillar=collection_order&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-active-cells-no-cross-role",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Все роли] Active-ячейки кабинета без RolePillarCrossRoleLinks — только empty + comms list",
+      "evidence": "RoleCoreCabinetHub.tsx:320-342 active branch — insight cards + primary CTA, без cross-role; PlatformCoreListChrome.tsx:73-78 RolePillarCrossRoleLinks только pillarId===comms; platform-core-ui-dedup-audit.test.ts фиксирует отсутствие cross-role в hub active",
+      "href": "/brand/core?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-role-strip-drops-collection",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Все роли] Role cabinet strip: переключение роли сбрасывает collection=SS27",
+      "evidence": "PlatformCoreRoleCabinetStrip.tsx:30-32 href={row.landingHref} без query collection; PLATFORM_CORE_HUB_ROWS landingHref — /brand/core, /shop/core без SS27 context",
+      "href": "/brand/core?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-sample-collection-pillar-orphan",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Бренд/Магазин] SampleCollectionPillarCard — orphan с href='#' при загрузке",
+      "evidence": "SampleCollectionPillarCard.tsx:103 href={status?.workshop2Href ?? '#'} — компонент нигде не импортируется (grep только self); кабинет использует BrandSampleCollectionMini/ShopShowroomMini через pillar-snapshot",
+      "href": "/brand/core?pillar=sample_collection&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-brand-co-compact-no-shop-peer",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] collection_order compact: нет CTA shop tracking/matrix peer",
+      "evidence": "CollectionOrderPillarCard.tsx:307-417 brand→shop tracking/matrix strips только !compact; hub всегда compact — brand-co-chain peer виден только на full workspace",
+      "href": "/brand/core?pillar=collection_order&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-brand-dev-compact-no-supplier-peer",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] development compact: supplier BOM / factory dossier peer скрыты",
+      "evidence": "DevelopmentPillarCard.tsx:196,320 — development-supplier-bom-cta и factory peer strips только !compact; SS27 hub не показывает cross-role к supplier materials",
+      "href": "/brand/core?pillar=development&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-comms-card-compact-strips",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд/Магазин/Производство] CommsPillarCard: SSE/spine/delivery strips только в full mode",
+      "evidence": "CommsPillarCard.tsx — 10+ блоков с !compact guard (L191-320): commsSseLive, deliveryWindow, po-inbox, factory queue snippet не видны в hub cabinet",
+      "href": "/brand/core?pillar=comms&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-sup-bom-demo-qty-blind",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Поставщик] BOM preview: qty по заказу пропускается для B2B-DEMO-* pin",
+      "evidence": "SupplierBomPreview.tsx:122-125 if orderId.startsWith('B2B-DEMO-') setOrderQty(null); SS27 golden path использует B2B-DEMO-SHOP1-SS27 — sup×dev без контекста объёма заказа",
+      "href": "/factory/supplier/core?pillar=development&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-shop-partnerships-memory-fallback",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Магазин] Партнёрства showroom: memoryRows Map при отсутствии PG",
+      "evidence": "shop-b2b-partnerships-repository.ts:20,61 — in-memory Map fallback; ShopShowroomMini/useShopB2bPartnerships hero/logo может отличаться от PG без явного badge",
+      "href": "/shop/b2b/showroom?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-shop-tracking-working-order-deadend",
+      "kind": "fix",
+      "priority": "P1",
+      "title": "[Магазин] Tracking/chain: ссылка working-order на скрытый side-path",
+      "evidence": "PlatformCoreShopB2bTrackingPanel.tsx:477 shop-co-tracking-working-order-link; B2bOrderChainStatusCard.tsx:502 — ROUTES.shop.b2bWorkingOrder в PLATFORM_CORE_ENTITY_LINK_HIDDEN_HREFS без legacy redirect",
+      "href": "/shop/b2b/tracking?order=B2B-DEMO-SHOP1-SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-range-overlay-localstorage-drift",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Range planner overlay: localStorage sync может расходиться с PG tier",
+      "evidence": "workshop2-range-planner-overlay.ts STORAGE_KEY synth.brand.workshop2RangePlannerOverlay.v1; workshop2-range-planner-pg.test.ts:205 syncs PG snapshot tiers into localStorage overlay; workshop2-local-state-provider.tsx:878 подмешивает overlay в hub state",
+      "href": "/brand/range-planner?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-b2b-message-templates-local",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Бренд/Магазин/Производство] B2B message templates: localStorage, не shared PG store",
+      "evidence": "platform-core-b2b-message-templates-storage.ts — browser-only persist; PlatformCoreB2bMessageTemplates.tsx data-testid platform-core-b2b-message-templates в comms workspace без server sync",
+      "href": "/brand/messages?contextType=b2b_order&contextId=B2B-DEMO-SHOP1-SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-mfr-brand-w2-acl-gap",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Производство] Cross-role link в brand W2 из manufacturer cabinet без e2e ACL",
+      "evidence": "DevelopmentPillarCard.tsx:147-155 mfr-dev-cabinet-brand-w2-link → /brand/production/workshop2?w2col=SS27; platform-core-hub-matrix.test.ts ожидает href, но нет e2e на read/navigate без 403 в manufacturer session",
+      "href": "/factory/production/core?pillar=development&collection=SS27",
+      "roleId": "manufacturer",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-mfr-op-compact-handoff-snippet",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Производство] order_production compact: handoff queue snippet и materials CTA скрыты",
+      "evidence": "OrderProductionPillarCard.tsx:260-296 manufacturer handoff/materials/inventory strips только !compact; mfr×op cabinet показывает counts без inline queue expand",
+      "href": "/factory/production/core?pillar=order_production&collection=SS27",
+      "roleId": "manufacturer",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-brand-materials-testing-mock-api",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Material testing API: in-memory mockTestingLogs, не PG dossier events",
+      "evidence": "api/brand/workshop2/materials/testing/route.ts:5-69 let mockTestingLogs — GET/POST без repository; W2 supply/BOM spine ожидает PG-primary для SS27",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=materials",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-qc-scorecard-mock",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Supplier QC scorecard: hardcoded mockData в API",
+      "evidence": "api/brand/workshop2/qc/supplier-scorecard/route.ts:12-27 const mockData — не связан с supplier materials confirm или dossier QC defects PG",
+      "href": "/brand/production/workshop2?w2col=SS27&article=demo-ss27-01",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-dossier-dual-write-offline",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] phase1-dossier: dual-write PG PUT + localStorage persist при offline",
+      "evidence": "use-workshop2-phase1-dossier-persist.ts + workshop2-phase1-dossier-storage.ts — client cache может расходиться с PG version merge на articles/dossier PUT",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=general",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-hub-multi-buyer-shop2-weak",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд/Магазин] Hub context: B2B-DEMO-SHOP2-SS27 pinned, но demoBuyerId=shop1 по умолчанию",
+      "evidence": "platform-core-demo-context.ts demoBuyerId shop1; PLATFORM_CORE_DEMO_PINNED_B2B_ORDER_IDS включает SHOP2; resolvePlatformCoreCabinetOrderId не переключает buyer в hub cards без explicit query",
+      "href": "/shop/core?pillar=collection_order&collection=SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-brand-allocation-badge-compact",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] BrandCollectionAllocationQueueBadge только в full collection_order card",
+      "evidence": "CollectionOrderPillarCard.tsx:240 BrandCollectionAllocationQueueBadge рендерится при !compact; hub compact скрывает allocation queue signal для brand×co",
+      "href": "/brand/b2b-orders/B2B-DEMO-SHOP1-SS27",
+      "roleId": "brand",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-sup-dev-cross-wrong-pillar",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Поставщик] SupplierBomPreview cross-role на pillar sample_collection вместо development",
+      "evidence": "SupplierBomPreview.tsx:323 RolePillarCrossRoleLinks pillarId=sample_collection при active sup×dev; getCrossRolePeerDemoHrefForDemo sample_collection не мапит supplier peers к brand W2",
+      "href": "/factory/supplier/core?pillar=development&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-shop-side-paths-reachable",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Магазин] Hidden side-paths (assortment-planning, replenishment) доступны по прямому URL",
+      "evidence": "platform-core-side-paths-registry.ts:47-57 shop PIM paths скрыты из nav; shop/b2b/assortment-planning/page.tsx:17-26 static categories JSON без redirect/badge",
+      "href": "/shop/b2b/assortment-planning",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-brand-tasks-kanban-local",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Tasks Kanban seed в localStorage вне Platform Core PG",
+      "evidence": "brand-tasks-store.ts:6-50 STORAGE_KEY synth.brand.tasksKanban — calendar/comms tasks memory-only when PG URL unset (связано с brand-cm-section-groups bad)",
+      "href": "/brand/calendar?layers=orders,logistics&order=B2B-DEMO-SHOP1-SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-mfr-chestny-znak-mock",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Производство] Честный ЗНАК sync: mock codes, нет BullMQ/CryptoPro",
+      "evidence": "chestny-znak-sync.ts:14-23 console.log + MOCKSERIAL codes; api/compliance/sync/route.ts fire-and-forget без chain step bump",
+      "href": "/factory/production/dossier/demo-ss27-01?pillar=order_production&collection=SS27",
+      "roleId": "manufacturer",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-shop-co-detail-chain-duplicate-audit",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Магазин] Order detail + tracking panel: дубль chain status без единого deep-link calendar",
+      "evidence": "shop-audit shop-co-detail bad «Дубль аудита с shop-op-order-status»; PlatformCoreShopB2bTrackingPanel и B2bOrderChainStatusCard оба рендерят steps — tracking card без calendar row CTA (shop-cm bad)",
+      "href": "/shop/b2b/orders/B2B-DEMO-SHOP1-SS27",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-process-runtime-local",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Live process runtime: client localStorage + JSON file API без PG sync",
+      "evidence": "LiveProcessPageBody.tsx:394-396 localStorage persist; api/processes/[processId]/runtime/route.ts — file-based JSON; platform-core-planner TECH_DEBT multi-instance sync P2",
+      "href": "/brand/processes",
+      "roleId": "brand",
+      "pillarId": "comms"
+    }
+  ],
+  "techDebt": [
+    {
+      "id": "scan-td-monster-integration-probes",
+      "category": "monster-file",
+      "priority": "P1",
+      "title": "Monster file workshop2-live-integration-probes.ts (~3078 строк)",
+      "action": "merge",
+      "hint": "Split ERP/MES/EDO/TMS/PLM probe modules; SS27 chain badges зависят от env URL probes",
+      "source": "cursor-scan",
+      "evidence": "src/lib/production/workshop2-live-integration-probes.ts"
+    },
+    {
+      "id": "scan-td-materials-testing-mock-store",
+      "category": "stub",
+      "priority": "P1",
+      "title": "materials/testing route — in-memory mockTestingLogs без PG",
+      "action": "fix",
+      "hint": "Persist в workshop2_material_tests или dossier_events; убрать module-level let array",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/workshop2/materials/testing/route.ts:5-69"
+    },
+    {
+      "id": "scan-td-qc-supplier-scorecard-mock",
+      "category": "stub",
+      "priority": "P1",
+      "title": "qc/supplier-scorecard — hardcoded mockData",
+      "action": "fix",
+      "hint": "Read from workshop2_qc_defects-repository или supplier confirm events",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/workshop2/qc/supplier-scorecard/route.ts:12-27"
+    },
+    {
+      "id": "scan-td-sample-collection-pillar-orphan",
+      "category": "demo-dupe",
+      "priority": "P1",
+      "title": "SampleCollectionPillarCard — dead component, дублирует Mini panels",
+      "action": "remove",
+      "hint": "Удалить или wire в RoleCorePillarInsightCards; убрать href='#' fallback",
+      "source": "cursor-scan",
+      "evidence": "src/components/platform/SampleCollectionPillarCard.tsx:33,103"
+    },
+    {
+      "id": "scan-td-range-planner-overlay-storage",
+      "category": "stub",
+      "priority": "P1",
+      "title": "Range planner overlay localStorage map — browser SoT drift",
+      "action": "change",
+      "hint": "Read-through PG only в core mode; overlay write только offline queue",
+      "source": "cursor-scan",
+      "evidence": "src/lib/production/workshop2-range-planner-overlay.ts:10-118"
+    },
+    {
+      "id": "scan-td-b2b-message-templates-local",
+      "category": "stub",
+      "priority": "P1",
+      "title": "platform-core-b2b-message-templates-storage — localStorage only",
+      "action": "fix",
+      "hint": "PG table или Redis shared store для cross-device templates в comms",
+      "source": "cursor-scan",
+      "evidence": "src/lib/communications/platform-core-b2b-message-templates-storage.ts:1-53"
+    },
+    {
+      "id": "scan-td-pillar-snapshot-file-deps",
+      "category": "missing-link",
+      "priority": "P1",
+      "title": "pillar-snapshot импортирует spine *.file persistence вместо PG read path",
+      "action": "fix",
+      "hint": "При isPlatformCoreSpinePgPrimary() читать tracking/WIP/delivery из spine-operational-persistence.pg",
+      "source": "cursor-scan",
+      "evidence": "src/lib/server/platform-core-pillar-snapshot.ts:27-32,278,361-363"
+    },
+    {
+      "id": "scan-td-shop-partnerships-memory",
+      "category": "stub",
+      "priority": "P2",
+      "title": "shop-b2b-partnerships-repository memoryRows Map fallback",
+      "action": "change",
+      "hint": "Fail-closed empty + demo badge вместо silent memory seed для showroom hero",
+      "source": "cursor-scan",
+      "evidence": "src/lib/server/shop-b2b-partnerships-repository.ts:20-103"
+    },
+    {
+      "id": "scan-td-chestny-znak-mock-sync",
+      "category": "stub",
+      "priority": "P2",
+      "title": "chestny-znak-sync — mock serial codes, TODO BullMQ/CryptoPro",
+      "action": "fix",
+      "hint": "Wire marking export chain step; block handoff until real ACK",
+      "source": "cursor-scan",
+      "evidence": "src/lib/compliance/chestny-znak-sync.ts:10-28"
+    },
+    {
+      "id": "scan-td-inbound-order-webhook-journal",
+      "category": "stub",
+      "priority": "P2",
+      "title": "shop/b2b/inbound/order-webhook — journal_only без PG ingest",
+      "action": "fix",
+      "hint": "Mirror operational-import-handoff.service для external wholesale orders",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/shop/b2b/inbound/order-webhook/route.ts:15"
+    },
+    {
+      "id": "scan-td-commissions-export-erp-503",
+      "category": "stub",
+      "priority": "P2",
+      "title": "commissions/export-erp — journal_stub returns 503",
+      "action": "change",
+      "hint": "Honest UI chip на sales-rep-portal; wire ERP export когда URL set",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/shop/b2b/commissions/export-erp/route.ts:28"
+    },
+    {
+      "id": "scan-td-vault-virus-scan-stub",
+      "category": "stub",
+      "priority": "P2",
+      "title": "workshop2-vault-virus-scan — hook stub блокирует handoff",
+      "action": "fix",
+      "hint": "Integrate ClamAV/lambda scan или disable gate в dev с explicit badge",
+      "source": "cursor-scan",
+      "evidence": "src/lib/production/workshop2-vault-virus-scan.ts:1-2"
+    },
+    {
+      "id": "scan-td-process-runtime-json-file",
+      "category": "stub",
+      "priority": "P2",
+      "title": "processes runtime API — JSON file store + client localStorage",
+      "action": "change",
+      "hint": "Migrate to PG process_instances; Redis bump for multi-tab",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/processes/[processId]/runtime/route.ts:2-4; LiveProcessPageBody.tsx:394-396"
+    },
+    {
+      "id": "scan-td-hub-matrix-monolith",
+      "category": "monster-file",
+      "priority": "P2",
+      "title": "platform-core-hub-matrix.ts (~657 строк) — config monolith",
+      "action": "merge",
+      "hint": "Split demo context, cross-role href resolver, readiness sections per role",
+      "source": "cursor-scan",
+      "evidence": "src/lib/platform-core-hub-matrix.ts"
+    },
+    {
+      "id": "scan-td-working-order-hidden-link",
+      "category": "navigation-dead-end",
+      "priority": "P2",
+      "title": "working-order route linked from tracking but in ENTITY_LINK_HIDDEN_HREFS",
+      "action": "fix",
+      "hint": "Redirect to matrix/orders detail или remove links from PlatformCoreShopB2bTrackingPanel",
+      "source": "cursor-scan",
+      "evidence": "src/lib/routes.ts:799; PlatformCoreShopB2bTrackingPanel.tsx:477; platform-core-entity-link-hidden.ts"
+    }
+  ]
+}

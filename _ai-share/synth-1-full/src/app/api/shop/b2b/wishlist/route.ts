@@ -6,18 +6,23 @@ import {
   formatWorkshop2B2bCampaignId,
   parseWorkshop2B2bCampaignId,
 } from '@/lib/production/workshop2-b2b-wave22-parity';
+import { resolveShopCoreBuyerIdFromRequest } from '@/lib/order/shop-core-buyer-context';
+import { guardShopB2bCheckoutRoute } from '@/lib/server/shop-b2b-checkout-route-auth';
 import {
   addWorkshop2B2bWishlistEntry,
   listWorkshop2B2bWishlist,
   removeWorkshop2B2bWishlistEntry,
 } from '@/lib/server/workshop2-b2b-wishlist-repository';
 
-function resolveBuyerId(req: NextRequest, bodyBuyerId?: string): string {
-  return bodyBuyerId?.trim() || req.nextUrl.searchParams.get('buyerId')?.trim() || 'buyer-demo';
+function resolveBuyerId(req: NextRequest, checkoutBuyerId: string, bodyBuyerId?: string): string {
+  return resolveShopCoreBuyerIdFromRequest(req, bodyBuyerId ?? req.nextUrl.searchParams.get('buyerId') ?? checkoutBuyerId);
 }
 
 export async function GET(req: NextRequest) {
-  const buyerId = resolveBuyerId(req);
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
+  const buyerId = resolveBuyerId(req, checkoutAuth.buyerId);
   const items = await listWorkshop2B2bWishlist(buyerId);
   return NextResponse.json({
     ok: true,
@@ -29,6 +34,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
   let body: Record<string, unknown> = {};
   try {
     body = (await req.json()) as Record<string, unknown>;
@@ -36,7 +44,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, messageRu: 'Некорректный JSON.' }, { status: 400 });
   }
 
-  const buyerId = resolveBuyerId(req, String(body.buyerId ?? ''));
+  const buyerId = resolveBuyerId(req, checkoutAuth.buyerId, String(body.buyerId ?? ''));
   const campaignId =
     String(body.campaignId ?? '').trim() ||
     (body.collectionId && body.articleId
@@ -67,7 +75,10 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const buyerId = resolveBuyerId(req);
+  const checkoutAuth = await guardShopB2bCheckoutRoute(req);
+  if (checkoutAuth instanceof NextResponse) return checkoutAuth;
+
+  const buyerId = resolveBuyerId(req, checkoutAuth.buyerId);
   const campaignId = req.nextUrl.searchParams.get('campaignId')?.trim() ?? '';
   if (!campaignId) {
     return NextResponse.json({ ok: false, messageRu: 'Укажите campaignId.' }, { status: 400 });

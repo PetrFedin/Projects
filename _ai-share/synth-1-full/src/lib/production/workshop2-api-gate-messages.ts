@@ -13,21 +13,15 @@ export function parseWorkshop2ApiGateChecksFromJson(json: unknown): Workshop2Api
   if (!json || typeof json !== 'object') return [];
   const checks = (json as { checks?: unknown }).checks;
   if (!Array.isArray(checks)) return [];
-  const parsed = checks
-    .map((c) => {
-      if (!c || typeof c !== 'object') return null;
-      const row = c as { id?: string; severity?: string; messageRu?: string };
-      const messageRu = row.messageRu?.trim();
-      if (!messageRu) return null;
-      const severity =
-        row.severity === 'warning' || row.severity === 'blocker' ? row.severity : undefined;
-      return {
-        id: row.id,
-        severity,
-        messageRu,
-      };
-    })
-    .filter((c): c is Workshop2ApiGateCheck => c != null);
+  const parsed: Workshop2ApiGateCheck[] = checks.flatMap((c) => {
+    if (!c || typeof c !== 'object') return [];
+    const row = c as { id?: string; severity?: string; messageRu?: string };
+    const messageRu = row.messageRu?.trim();
+    if (!messageRu) return [];
+    const severity =
+      row.severity === 'warning' || row.severity === 'blocker' ? row.severity : undefined;
+    return [{ id: row.id, severity, messageRu }];
+  });
   return localizeWorkshop2GateChecks(parsed);
 }
 

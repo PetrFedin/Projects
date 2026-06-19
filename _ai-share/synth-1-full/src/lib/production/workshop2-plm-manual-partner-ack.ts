@@ -1,18 +1,13 @@
 /**
  * Wave 41 #78: manual partner ack id + journal CSV export (honest, не fake transport).
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2PlmManualPartnerAckMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2CeilingJournalEntry } from '@/lib/production/workshop2-ceiling-staging-core';
 
-export type Workshop2PlmManualPartnerAckMirror = {
-  mirroredAt: string;
-  lastActor: string;
-  manualPartnerAckId: string | null;
-  labeledAs: 'manual_ack_id';
-  replayExportReady: boolean;
-  journalRowCount: number;
-  hintRu: string;
-};
+export type { Workshop2PlmManualPartnerAckMirror };
 
 export function buildWorkshop2PlmTransportJournalCsv(
   journal: Workshop2CeilingJournalEntry[] | undefined

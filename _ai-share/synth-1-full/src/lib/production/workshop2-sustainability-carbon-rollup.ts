@@ -27,9 +27,9 @@ export function evaluateWorkshop2SustainabilityCarbonRollup(input: {
   articleId: string;
 }): Workshop2SustainabilityCarbonRollup {
   const block = buildWorkshop2DppExportBlock(input);
-  const carbon = Number.parseFloat(block.metrics.carbonFootprint) || 0;
-  const recycled = block.metrics.recycledContentPct ?? 0;
-  const eco = block.metrics.ecoScore ?? 0;
+  const carbon = Number.parseFloat(String(block.metrics.carbonFootprint)) || 0;
+  const recycled = Number(block.metrics.recycledContentPct ?? 0) || 0;
+  const eco = Number(block.metrics.ecoScore ?? 0) || 0;
   const lines = input.dossier.productionModel?.materialLines?.length ?? 0;
   const thresholdWarnings: string[] = [];
   const warnings: string[] = [];

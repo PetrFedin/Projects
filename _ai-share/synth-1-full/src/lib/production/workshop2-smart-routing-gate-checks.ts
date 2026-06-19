@@ -8,6 +8,7 @@ import {
   evaluateWorkshop2SmartRoutingSampleGate,
   persistWorkshop2SmartRoutingMirrorToDossier,
 } from '@/lib/production/workshop2-smart-routing-dossier-persist';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import {
   resolveWorkshop2SmartRoutingProductionEngineKind,
   shouldShowWorkshop2SmartRoutingDemoWarning,
@@ -26,7 +27,7 @@ export function collectWorkshop2SmartRoutingGateChecks(input: {
       id: 'routing.demo_blocked_prod',
       severity: 'blocker',
       messageRu:
-        withMirror.smartRoutingMirror?.hintRu ??
+        workshop2PgMirrorStr(withMirror.smartRoutingMirror, 'hintRu') ||
         'DEMO-маршрутизация в production — задайте WORKSHOP2_SMART_ROUTING_DEMO=1 или соберите маршрут вручную.',
     });
   }

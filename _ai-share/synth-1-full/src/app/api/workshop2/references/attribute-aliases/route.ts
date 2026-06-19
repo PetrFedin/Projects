@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 /** GET ?leafId= — реестр алиасов info-pick ↔ catalog + неразрешённые ключи листа. */
 async function getAttributeAliases(req: NextRequest) {
-  const auth = guardWorkshop2Route(req, WORKSHOP2_READ_ROLES);
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_READ_ROLES);
   if (auth instanceof NextResponse) return auth;
 
   const leafId = req.nextUrl.searchParams.get('leafId')?.trim() || undefined;

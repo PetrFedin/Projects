@@ -4,6 +4,10 @@
 import { summarizeWorkshop2FactoryHandoffBundleStatus } from '@/lib/production/workshop2-factory-handoff-bundle-status';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2FactoryHandoffBundleMirror(
   dossier: Workshop2DossierPhase1
@@ -51,19 +55,23 @@ export function evaluateWorkshop2FactoryHandoffBundleCommitGate(
       messageRu: 'Handoff bundle snapshot не в PG — «Handoff → PG» на задании.',
     };
   }
-  if (mirror.blockerHandoffCommit) {
+  if (mirror.blockerHandoffCommit === true) {
     return {
       id: 'handoff.bundle.not_dispatched',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Пакет handoff не подтверждён цехом — commit заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Пакет handoff не подтверждён цехом — commit заблокирован.',
     };
   }
-  if (mirror.pendingAckCount > 0) {
+  const pendingAckCount = workshop2PgMirrorNum(mirror, 'pendingAckCount');
+  if (pendingAckCount > 0) {
     return {
       id: 'handoff.bundle.pending_ack',
       severity: 'warning',
       messageRu:
-        mirror.hintRu ?? `${mirror.pendingAckCount} передач без ACK фабрики — проверьте статус.`,
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        `${pendingAckCount} передач без ACK фабрики — проверьте статус.`,
     };
   }
   return null;

@@ -46,8 +46,8 @@ export function summarizeWorkshop2SustainabilityStatus(input: {
 
   return {
     materialLineCount: materials.length,
-    ecoScore: block.metrics.ecoScore,
-    recycledContentPct: block.metrics.recycledContentPct,
+    ecoScore: Number(block.metrics.ecoScore) || 0,
+    recycledContentPct: Number(block.metrics.recycledContentPct) || 0,
     registryStub,
     state,
     hintRu,

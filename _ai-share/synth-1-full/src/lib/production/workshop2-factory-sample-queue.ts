@@ -10,6 +10,17 @@ import { getWorkshop2ServerDossierRecord } from '@/lib/server/workshop2-phase1-d
 import { workshop2ArticleHref } from '@/lib/production/workshop2-url';
 import { summarizeWorkshop2InspectorPgMirror } from '@/lib/production/workshop2-operational-pg-mirror-status';
 import { isWorkshop2PostgresEnabled } from '@/lib/server/workshop2-pg-pool';
+import {
+  isWorkshop2FactorySampleQueueItemOverdue,
+  parseWorkshop2FactorySampleQueueStatusFilter,
+  sortWorkshop2FactorySampleQueueItems,
+} from '@/lib/production/workshop2-factory-sample-queue-utils';
+
+export {
+  isWorkshop2FactorySampleQueueItemOverdue,
+  parseWorkshop2FactorySampleQueueStatusFilter,
+  sortWorkshop2FactorySampleQueueItems,
+} from '@/lib/production/workshop2-factory-sample-queue-utils';
 
 export type Workshop2FactorySampleQueueItem = {
   orderId: string;
@@ -38,46 +49,6 @@ export type Workshop2FactorySampleQueueResult = {
   statusFilter?: Workshop2SampleOrderStatus[];
 };
 
-/** Просрочен, если due_date < сегодня и заказ не завершён. */
-export function isWorkshop2FactorySampleQueueItemOverdue(input: {
-  dueDate?: string;
-  status?: string;
-  now?: Date;
-}): boolean {
-  const due = input.dueDate?.trim();
-  if (!due) return false;
-  const terminal = new Set(['received', 'approved', 'cancelled']);
-  if (input.status && terminal.has(input.status)) return false;
-  const dueMs = Date.parse(`${due}T23:59:59`);
-  if (!Number.isFinite(dueMs)) return false;
-  const now = input.now ?? new Date();
-  const todayEnd = new Date(now);
-  todayEnd.setHours(23, 59, 59, 999);
-  return dueMs < todayEnd.getTime();
-}
-
-export function parseWorkshop2FactorySampleQueueStatusFilter(
-  raw: string | null | undefined
-): Workshop2SampleOrderStatus[] | undefined {
-  const tokens = raw
-    ?.split(',')
-    .map((s) => s.trim())
-    .filter(Boolean);
-  if (!tokens?.length) return undefined;
-  const allowed = new Set<Workshop2SampleOrderStatus>([
-    'draft',
-    'sent',
-    'in_progress',
-    'received',
-    'approved',
-    'cancelled',
-  ]);
-  const filtered = tokens.filter((t): t is Workshop2SampleOrderStatus =>
-    allowed.has(t as Workshop2SampleOrderStatus)
-  );
-  return filtered.length ? filtered : undefined;
-}
-
 export async function listWorkshop2FactorySampleQueue(input: {
   factoryId: string;
   organizationId?: string;
@@ -102,7 +73,7 @@ export async function listWorkshop2FactorySampleQueue(input: {
 
   return {
     factoryId,
-    items,
+    items: sortWorkshop2FactorySampleQueueItems(items),
     source: pgEnabled ? 'pg' : 'memory',
     statusFilter: input.statusFilter,
   };

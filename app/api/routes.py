@@ -7,7 +7,7 @@ from app.api.v1.endpoints import (
     global_compliance, sustainability, smart_contracts,
     auth, dashboard, orders, seasons, showrooms, dam, profile, buyer, plm, collections, pricing, inventory,
     client, distributor, ai_routes, alerts, search, ingestion, organization, brand,
-    auctions, marketplace,
+    auctions, marketplace, platform_stack,
 )
 
 router = APIRouter()
@@ -63,6 +63,7 @@ router.include_router(assets.router, prefix="/assets", tags=["assets"])
 router.include_router(admin.router, prefix="/admin", tags=["admin"])
 router.include_router(auctions.router, prefix="/auctions", tags=["auctions"])
 router.include_router(marketplace.router, prefix="/marketplace", tags=["marketplace"])
+router.include_router(platform_stack.router, prefix="/platform/stack", tags=["platform-stack"])
 router.include_router(forecasting.router, prefix="/forecasting", tags=["forecasting"])
 router.include_router(size_curves.router, prefix="/size-curves", tags=["size-curves"])
 router.include_router(global_compliance.router, prefix="/global-compliance", tags=["global-compliance"])

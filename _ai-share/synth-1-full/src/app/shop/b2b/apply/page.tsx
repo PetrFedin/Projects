@@ -10,6 +10,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { UserPlus, CheckCircle, AlertTriangle } from 'lucide-react';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { ShopB2bLegacyTailCorePage } from '@/app/shop/b2b/shop-b2b-legacy-tail-core';
 import { ROUTES } from '@/lib/routes';
 import { submitBuyerApplication } from '@/lib/api';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
@@ -18,6 +20,10 @@ import type { BuyerApplication } from '@/lib/b2b/buyer-onboarding';
 import { checkExclusiveConflict } from '@/lib/b2b/territory-exclusivity';
 
 export default function ShopB2BApplyPage() {
+  if (isPlatformCoreMode()) {
+    return <ShopB2bLegacyTailCorePage legacyPath={ROUTES.shop.b2bApply} />;
+  }
+
   const searchParams = useSearchParamsNonNull();
   const [sent, setSent] = useState(false);
   const [result, setResult] = useState<BuyerApplication | null>(null);
@@ -218,7 +224,7 @@ export default function ShopB2BApplyPage() {
                     <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
                     <div>
                       <p className="text-sm font-medium text-amber-900">
-                        Colect/Zedonk: в вашем регионе уже есть эксклюзивный партнёр
+                        В вашем регионе уже назначен эксклюзивный партнёр
                       </p>
                       <p className="mt-1 text-xs text-amber-700">
                         Партнёр: <strong>{conflict.existingPartnerName}</strong> ({conflict.region}

@@ -23,7 +23,7 @@ import {
 type RouteCtx = { params: Promise<{ collectionId: string; articleId: string }> };
 
 async function getVault(req: NextRequest, ctx: RouteCtx) {
-  const auth = guardWorkshop2Route(req, WORKSHOP2_READ_ROLES);
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_READ_ROLES);
   if (auth instanceof NextResponse) return auth;
 
   const { collectionId, articleId } = await ctx.params;
@@ -64,7 +64,7 @@ async function putVault(req: NextRequest, ctx: RouteCtx) {
   }
 
   const b = body as Record<string, unknown>;
-  const auth = guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
     bodyActorLabel: String(b.createdBy ?? b.updatedBy ?? ''),
   });
   if (auth instanceof NextResponse) return auth;

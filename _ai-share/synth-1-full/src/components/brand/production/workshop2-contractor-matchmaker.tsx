@@ -20,6 +20,7 @@ import { persistWorkshop2MatchmakerMirrorToDossier } from '@/lib/production/work
 import { putWorkshop2Wave25DossierPatch } from '@/lib/production/workshop2-wave25-persist-client';
 import { summarizeWorkshop2MatchmakerSyncUi } from '@/lib/production/workshop2-no-demo-deadends';
 import { workshop2DevWarn } from '@/lib/production/workshop2-dev-log';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import {
   formatWorkshop2PersistToastDescription,
   formatWorkshop2PersistToastTitle,
@@ -50,7 +51,9 @@ export function Workshop2ContractorMatchmaker({
         const data = payload as Workshop2SewingContractorsPayload;
         if (data?.partners) setContractors(data.partners);
       })
-      .catch((err) => workshop2DevWarn('matchmaker.contractors_fetch', err));
+      .catch((err) =>
+        workshop2DevWarn('matchmaker.contractors_fetch', 'fetch failed', { cause: err })
+      );
   }, []);
 
   const matchmakerPgMirror = useMemo(
@@ -62,7 +65,7 @@ export function Workshop2ContractorMatchmaker({
       summarizeWorkshop2MatchmakerSyncUi({
         hasMatchmakerResult: Boolean(result || dossier?.matchmakerResult),
         hasMatchmakerMirror: Boolean(dossier?.matchmakerMirror?.mirroredAt),
-        lastRunAt: dossier?.matchmakerMirror?.mirroredAt,
+        lastRunAt: workshop2PgMirrorStr(dossier?.matchmakerMirror, 'mirroredAt') || undefined,
       }),
     [result, dossier]
   );
@@ -107,7 +110,7 @@ export function Workshop2ContractorMatchmaker({
       setResult(data);
       toast({ title: 'Анализ завершен', description: 'Подобраны рекомендации подрядчиков.' });
     } catch (error) {
-      workshop2DevWarn('matchmaker.run', error);
+      workshop2DevWarn('matchmaker.run', 'run failed', { cause: error });
       toast({
         title: 'Ошибка',
         description: 'Не удалось подобрать подрядчиков',

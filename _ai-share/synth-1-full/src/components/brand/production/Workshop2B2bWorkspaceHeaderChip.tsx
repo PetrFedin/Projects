@@ -18,8 +18,8 @@ export function Workshop2B2bWorkspaceHeaderChip({
 
   useEffect(() => {
     void fetch(`/api/shop/b2b/cart/lines?articleId=${encodeURIComponent(articleId)}`)
-      .then((r) => r.json())
-      .then((json: { ok?: boolean; labelRu?: string; orderCount?: number }) => {
+      .then(async (r) => {
+        const json = (await r.json()) as { ok?: boolean; labelRu?: string; orderCount?: number };
         if (json.ok && (json.orderCount ?? 0) > 0) setLabelRu(json.labelRu ?? null);
         else setLabelRu(null);
       })

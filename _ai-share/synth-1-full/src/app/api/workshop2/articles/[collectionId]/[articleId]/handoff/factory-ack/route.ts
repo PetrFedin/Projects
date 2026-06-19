@@ -8,6 +8,10 @@ import {
   getWorkshop2ServerDossierRecord,
   putWorkshop2ServerDossierRecord,
 } from '@/lib/server/workshop2-phase1-dossier-server-store';
+import {
+  workshop2DossierPutFailureBody,
+  workshop2DossierPutFailureStatus,
+} from '@/lib/server/workshop2-dossier-put-utils';
 import { guardWorkshop2Route, WORKSHOP2_WRITE_ROLES } from '@/lib/server/workshop2-route-auth';
 import { resolveWorkshop2UpdatedBy } from '@/lib/server/workshop2-api-context';
 
@@ -66,10 +70,9 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
     txMeta: { eventType: 'workshop2_factory_handoff_ack' },
   });
   if (!saved.ok) {
-    return NextResponse.json(
-      { ok: false, error: 'version_conflict', currentVersion: saved.currentVersion },
-      { status: 409 }
-    );
+    return NextResponse.json(workshop2DossierPutFailureBody(saved), {
+      status: workshop2DossierPutFailureStatus(saved),
+    });
   }
 
   return NextResponse.json({

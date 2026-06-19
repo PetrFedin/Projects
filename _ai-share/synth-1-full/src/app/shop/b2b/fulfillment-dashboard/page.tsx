@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Package, BarChart2, RefreshCcw } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
+import { withShopB2bCoreLegacyGuard } from '@/app/shop/b2b/shop-b2b-core-legacy-guard';
 import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getFulfillmentDashboardCrossRoleLinks } from '@/lib/data/entity-links';
 import { ShopB2bContentHeader } from '@/components/shop/ShopB2bContentHeader';
@@ -36,7 +37,7 @@ const MOCK_REPLENISH = [
   },
 ];
 
-export default function FulfillmentDashboardPage() {
+function FulfillmentDashboardPageContent() {
   return (
     <CabinetPageContent maxWidth="4xl" className="space-y-6">
       <ShopB2bContentHeader lead="Каналы исполнения и пополнение (ZEOS / zDirect). Ниже — связки с заказами бренда, производством и трекингом." />
@@ -178,3 +179,8 @@ export default function FulfillmentDashboardPage() {
     </CabinetPageContent>
   );
 }
+
+export default withShopB2bCoreLegacyGuard(
+  ROUTES.shop.b2bFulfillmentDashboard,
+  FulfillmentDashboardPageContent
+);

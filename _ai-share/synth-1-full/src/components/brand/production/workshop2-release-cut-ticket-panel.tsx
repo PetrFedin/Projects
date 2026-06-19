@@ -23,6 +23,7 @@ import {
   labelWorkshop2CutTicketStatusRu,
   listWorkshop2CutTicketStatusOrder,
 } from '@/lib/production/workshop2-cut-ticket-status-machine';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 type Props = {
   dossier: Workshop2DossierPhase1 | null;
@@ -136,7 +137,7 @@ export function Workshop2ReleaseCutTicketPanel({
         <Scissors className="h-4 w-4 text-indigo-500" />
         Cut ticket · Roll-lot
       </p>
-      <p className="text-text-secondary text-[11px]">{mirror.hintRu}</p>
+      <p className="text-text-secondary text-[11px]">{workshop2PgMirrorStr(mirror, 'hintRu')}</p>
 
       {mirror.cutTicketGateRequired ? (
         <Badge

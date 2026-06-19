@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "byCollectionId": {
+    "SS27": {
+      "collectionId": "SS27",
+      "articleCount": 4,
+      "pxmOverlayCount": 1,
+      "pdfHref": "/api/workshop2/collections/SS27/linesheet.pdf",
+      "generatedAt": "2026-06-12T03:00:28.923Z",
+      "sources": [
+        "w2_published",
+        "centric_pxm"
+      ],
+      "linesheetId": "LS-SS27-mqac9vnf"
+    }
+  },
+  "history": [
+    {
+      "collectionId": "SS27",
+      "articleCount": 4,
+      "pxmOverlayCount": 1,
+      "pdfHref": "/api/workshop2/collections/SS27/linesheet.pdf",
+      "generatedAt": "2026-06-12T03:00:28.923Z",
+      "sources": [
+        "w2_published",
+        "centric_pxm"
+      ],
+      "linesheetId": "LS-SS27-mqac9vnf"
+    },
+    {
+      "collectionId": "SS27",
+      "articleCount": 4,
+      "pxmOverlayCount": 1,
+      "pdfHref": "/api/workshop2/collections/SS27/linesheet.pdf",
+      "generatedAt": "2026-06-12T02:50:33.894Z",
+      "sources": [
+        "w2_published",
+        "centric_pxm"
+      ],
+      "linesheetId": "LS-SS27-mqabx4iu"
+    },
+    {
+      "collectionId": "SS27",
+      "articleCount": 4,
+      "pxmOverlayCount": 1,
+      "pdfHref": "/api/workshop2/collections/SS27/linesheet.pdf",
+      "generatedAt": "2026-06-12T02:44:49.859Z",
+      "sources": [
+        "w2_published",
+        "centric_pxm"
+      ],
+      "linesheetId": "LS-SS27-mqabpr2b"
+    },
+    {
+      "collectionId": "SS27",
+      "articleCount": 4,
+      "pxmOverlayCount": 1,
+      "pdfHref": "/api/workshop2/collections/SS27/linesheet.pdf",
+      "generatedAt": "2026-06-12T02:43:16.736Z",
+      "sources": [
+        "w2_published",
+        "centric_pxm"
+      ],
+      "linesheetId": "LS-SS27-mqabnr7k"
+    },
+    {
+      "collectionId": "SS27",
+      "articleCount": 3,
+      "pxmOverlayCount": 1,
+      "pdfHref": "/api/workshop2/collections/SS27/linesheet.pdf",
+      "generatedAt": "2026-06-12T00:37:35.911Z",
+      "sources": [
+        "w2_published",
+        "centric_pxm"
+      ],
+      "linesheetId": "LS-SS27-mqa764o7"
+    },
+    {
+      "collectionId": "SS27",
+      "articleCount": 3,
+      "pxmOverlayCount": 1,
+      "pdfHref": "/api/workshop2/collections/SS27/linesheet.pdf",
+      "generatedAt": "2026-06-12T00:22:37.950Z",
+      "sources": [
+        "w2_published",
+        "centric_pxm"
+      ],
+      "linesheetId": "LS-SS27-mqa6mvsu"
+    },
+    {
+      "collectionId": "SS27",
+      "articleCount": 4,
+      "pxmOverlayCount": 1,
+      "pdfHref": "/api/workshop2/collections/SS27/linesheet.pdf",
+      "generatedAt": "2026-06-12T00:21:58.728Z",
+      "sources": [
+        "w2_published",
+        "centric_pxm"
+      ],
+      "linesheetId": "LS-SS27-mqa6m1jc"
+    }
+  ]
+}

@@ -4,6 +4,10 @@
 import { evaluateWorkshop2InfoPickMatrixFillGaps } from '@/lib/production/workshop2-infopick-matrix-fill-gaps';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2InfopickMatrixMirror(
   dossier: Workshop2DossierPhase1,
@@ -61,8 +65,8 @@ export function evaluateWorkshop2InfopickMatrixMirrorGate(
       id: 'infopick.matrix.required',
       severity: 'blocker',
       messageRu:
-        mirror.hintRu ??
-        `Заполните ${mirror.missingMatrixCount} обязательных полей матрицы InfoPick.`,
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        `Заполните ${workshop2PgMirrorNum(mirror, 'missingMatrixCount', typeof mirror.missingMatrixCount === 'number' ? mirror.missingMatrixCount : 0)} обязательных полей матрицы InfoPick.`,
     };
   }
   return null;

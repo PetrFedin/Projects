@@ -29,6 +29,7 @@ import { useArticleWorkspace } from '@/components/brand/production/article-works
 import { fetchWorkshop2SampleOrders } from '@/lib/production/workshop2-sample-api-client';
 
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import {
   summarizeWorkshop2AqlInspectionStatus,
   summarizeWorkshop2AqlPanelDisplayFromMirror,
@@ -232,12 +233,12 @@ export function Workshop2AQLInspectionPanel({
     summary: aqlStatus.hintRu,
     readiness:
       aqlStatus.state !== 'ready'
-        ? `Qty: ${aqlStatus.orderQty} (${aqlStatus.qtySource}) Â· sample: ${aqlStatus.sampleSize}`
-        : 'AQL ÑÐ°ÑÑÑÑ Ð³Ð¾ÑÐ¾Ð²',
+        ? `Qty: ${aqlStatus.orderQty} (${aqlStatus.qtySource}) · sample: ${aqlStatus.sampleSize}`
+        : 'AQL расчёт готов',
     nextAction: aqlStatus.isFail
-      ? 'Ð¡ÐºÐ¾ÑÑÐµÐºÑÐ¸ÑÑÐ¹ÑÐµ Ð´ÐµÑÐµÐºÑÑ Ð¸Ð»Ð¸ Ð¿Ð°ÑÑÐ¸Ñ'
-      : 'Ð¡Ð¾ÑÑÐ°Ð½Ð¸ÑÐµ AQL mirror Ð² Ð´Ð¾ÑÑÐµ',
-    blockers: aqlStatus.isFail ? ['AQL fail â Ð¿Ð°ÑÑÐ¸Ñ Ð½Ðµ Ð¿ÑÐ¾ÑÐ¾Ð´Ð¸Ñ'] : undefined,
+      ? 'Скорректируйте дефекты или партию'
+      : 'Сохраните AQL mirror в досье',
+    blockers: aqlStatus.isFail ? ['AQL fail — партия не проходит'] : undefined,
   };
 
   return (
@@ -248,8 +249,8 @@ export function Workshop2AQLInspectionPanel({
     >
       <Workshop2OperationalPanelChrome
         icon={AlertTriangle}
-        title="ÐÐ°Ð»ÑÐºulator Ð¸Ð½ÑÐ¿ÐµÐºÑÐ¸Ð¸ (AQL)"
-        description={`Ð Ð°ÑÑÑÑ Ð²ÑÐ±Ð¾ÑÐºÐ¸ ISO 2859-1 (AQL).${sampleOrderQty ? ` qty Ð¾Ð±ÑÐ°Ð·ÑÐ° Ð¸Ð· API: ${sampleOrderQty}` : ''}`}
+        title="Калькulator инспекции (AQL)"
+        description={`Расчёт выборки ISO 2859-1 (AQL).${sampleOrderQty ? ` qty образца из API: ${sampleOrderQty}` : ''}`}
         meta={<Workshop2OperationalMetaChips {...aqlMeta} />}
         actions={
           <>
@@ -260,12 +261,14 @@ export function Workshop2AQLInspectionPanel({
               busy={persisting}
               disabled={!dossier || aqlSignoffBlocked}
               onClick={() => void persistAqlToPg()}
-              title="qcAqlMirror â PG"
+              title="qcAqlMirror → PG"
             />
-            {dossier?.qcAqlMirror?.recordedAt ? (
+            {workshop2PgMirrorStr(dossier?.qcAqlMirror, 'recordedAt') ? (
               <span className="text-text-muted font-mono text-[10px]">
                 mirror{' '}
-                {new Date(dossier.qcAqlMirror.recordedAt).toLocaleString('ru-RU', {
+                {new Date(
+                  workshop2PgMirrorStr(dossier?.qcAqlMirror, 'recordedAt')!
+                ).toLocaleString('ru-RU', {
                   dateStyle: 'short',
                   timeStyle: 'short',
                 })}
@@ -274,7 +277,7 @@ export function Workshop2AQLInspectionPanel({
             {batches.length > 0 && (
               <Select value={activeBatch?.id || ''} onValueChange={setSelectedBatchId}>
                 <SelectTrigger className="h-8 w-[180px] bg-white text-xs">
-                  <SelectValue placeholder="ÐÑÐ±ÐµÑÐ¸ÑÐµ Ð¿Ð°ÑÑÐ¸Ñ" />
+                  <SelectValue placeholder="Выберите партию" />
                 </SelectTrigger>
                 <SelectContent>
                   {batches.map((b) => (
@@ -309,13 +312,13 @@ export function Workshop2AQLInspectionPanel({
                 : 'border-emerald-500 bg-emerald-50/50 text-emerald-500'
             )}
           >
-            {isFail ? 'ÐÐ ÐÐ' : 'ÐÐ ÐÐÐ¯Ð¢Ð'}
+            {isFail ? 'БРАК' : 'ПРИНЯТО'}
           </div>
         </div>
 
         <div className="mb-6 grid grid-cols-2 gap-6 md:grid-cols-4">
           <div className="space-y-2">
-            <Label className="text-text-secondary">Ð Ð°Ð·Ð¼ÐµÑ Ð¿Ð°ÑÑÐ¸Ð¸ (ÑÑ.)</Label>
+            <Label className="text-text-secondary">Размер партии (шт.)</Label>
             <Input
               type="number"
               value={orderQty}
@@ -325,32 +328,32 @@ export function Workshop2AQLInspectionPanel({
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-text-secondary">Ð£ÑÐ¾Ð²ÐµÐ½Ñ AQL</Label>
+            <Label className="text-text-secondary">Уровень AQL</Label>
             <Select value={aqlLevel} onValueChange={setAqlLevel}>
               <SelectTrigger className="font-mono text-lg">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1.5">1.5 (Ð¶ÑÑÑÐºÐ¸Ð¹)</SelectItem>
-                <SelectItem value="2.5">2.5 (ÑÑÐ°Ð½Ð´Ð°ÑÑ)</SelectItem>
-                <SelectItem value="4.0">4.0 (ÑÐ¼ÑÐ³ÑÑÐ½Ð½ÑÐ¹)</SelectItem>
+                <SelectItem value="1.5">1.5 (жёсткий)</SelectItem>
+                <SelectItem value="2.5">2.5 (стандарт)</SelectItem>
+                <SelectItem value="4.0">4.0 (смягчённый)</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
-            <Label className="text-text-secondary">ÐÐ±ÑÑÐ¼ Ð²ÑÐ±Ð¾ÑÐºÐ¸</Label>
+            <Label className="text-text-secondary">Объём выборки</Label>
             <div className="text-text-primary font-mono text-3xl font-bold">{sampleSize}</div>
           </div>
           <div className="space-y-2">
-            <Label className="text-text-secondary">ÐÑÐ¾Ð³</Label>
+            <Label className="text-text-secondary">Итог</Label>
             <div className="mt-1 flex items-center gap-2">
               {isFail ? (
                 <div className="flex items-center gap-2 text-lg font-semibold text-red-600">
-                  <XCircle className="h-6 w-6" /> ÐÐµ Ð¿ÑÐ¸Ð½ÑÑÐ¾
+                  <XCircle className="h-6 w-6" /> Не принято
                 </div>
               ) : (
                 <div className="flex items-center gap-2 text-lg font-semibold text-emerald-600">
-                  <CheckCircle2 className="h-6 w-6" /> ÐÑÐ¸Ð½ÑÑÐ¾
+                  <CheckCircle2 className="h-6 w-6" /> Принято
                 </div>
               )}
             </div>
@@ -361,15 +364,15 @@ export function Workshop2AQLInspectionPanel({
           <Table>
             <TableHeader className="bg-bg-surface2">
               <TableRow>
-                <TableHead className="w-[200px]">Ð¢Ð¸Ð¿ Ð´ÐµÑÐµÐºÑÐ°</TableHead>
-                <TableHead>ÐÐ¾ÑÐ¾Ð³Ð¸ (Ð¿ÑÐ¸Ð½ÑÑÑ / Ð¾ÑÐºÐ»Ð¾Ð½Ð¸ÑÑ)</TableHead>
-                <TableHead>ÐÐ°Ð¹Ð´ÐµÐ½Ð¾</TableHead>
-                <TableHead>Ð¡ÑÐ°ÑÑÑ</TableHead>
+                <TableHead className="w-[200px]">Тип дефекта</TableHead>
+                <TableHead>Пороги (принять / отклонить)</TableHead>
+                <TableHead>Найдено</TableHead>
+                <TableHead>Статус</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               <TableRow>
-                <TableCell className="font-medium text-red-600">ÐÑÐ¸ÑÐ¸ÑÐµÑÐºÐ¸Ð¹</TableCell>
+                <TableCell className="font-medium text-red-600">Критический</TableCell>
                 <TableCell className="font-mono">0 / 1</TableCell>
                 <TableCell>
                   <Input
@@ -382,19 +385,19 @@ export function Workshop2AQLInspectionPanel({
                 </TableCell>
                 <TableCell>
                   {criticalFound > 0 ? (
-                    <Badge variant="destructive">ÐÑÐ°Ðº</Badge>
+                    <Badge variant="destructive">Брак</Badge>
                   ) : (
                     <Badge
                       variant="outline"
                       className="border-emerald-200 bg-emerald-50 text-emerald-700"
                     >
-                      ÐÐ¾ÑÐ¼Ð°
+                      Норма
                     </Badge>
                   )}
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="font-medium text-amber-600">ÐÐ½Ð°ÑÐ¸ÑÐµÐ»ÑÐ½ÑÐ¹</TableCell>
+                <TableCell className="font-medium text-amber-600">Значительный</TableCell>
                 <TableCell className="font-mono">
                   {majorAqlPlan.acceptLimit} / {majorAqlPlan.rejectLimit}
                 </TableCell>
@@ -409,19 +412,19 @@ export function Workshop2AQLInspectionPanel({
                 </TableCell>
                 <TableCell>
                   {majorFound >= majorAqlPlan.rejectLimit ? (
-                    <Badge variant="destructive">ÐÑÐ°Ðº</Badge>
+                    <Badge variant="destructive">Брак</Badge>
                   ) : (
                     <Badge
                       variant="outline"
                       className="border-emerald-200 bg-emerald-50 text-emerald-700"
                     >
-                      ÐÐ¾ÑÐ¼Ð°
+                      Норма
                     </Badge>
                   )}
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="font-medium text-blue-600">ÐÐµÐ·Ð½Ð°ÑÐ¸ÑÐµÐ»ÑÐ½ÑÐ¹</TableCell>
+                <TableCell className="font-medium text-blue-600">Незначительный</TableCell>
                 <TableCell className="font-mono">
                   {minorAqlPlan.acceptLimit} / {minorAqlPlan.rejectLimit}
                 </TableCell>
@@ -436,13 +439,13 @@ export function Workshop2AQLInspectionPanel({
                 </TableCell>
                 <TableCell>
                   {minorFound >= minorAqlPlan.rejectLimit ? (
-                    <Badge variant="destructive">ÐÑÐ°Ðº</Badge>
+                    <Badge variant="destructive">Брак</Badge>
                   ) : (
                     <Badge
                       variant="outline"
                       className="border-emerald-200 bg-emerald-50 text-emerald-700"
                     >
-                      ÐÐ¾ÑÐ¼Ð°
+                      Норма
                     </Badge>
                   )}
                 </TableCell>

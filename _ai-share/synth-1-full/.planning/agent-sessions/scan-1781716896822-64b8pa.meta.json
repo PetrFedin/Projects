@@ -1,0 +1,14 @@
+{
+  "sessionId": "scan-1781716896822-64b8pa",
+  "taskId": "scan-project",
+  "taskTitle": "Сканирование проекта (роли × столпы × разделы)",
+  "status": "done",
+  "startedAt": "2026-06-17T17:21:36.823Z",
+  "pid": 46220,
+  "repoRoot": "/Users/petr/Projects",
+  "taskPromptFile": "/Users/petr/Projects/_ai-share/synth-1-full/.planning/agent-sessions/scan-1781716896822-64b8pa.prompt.txt",
+  "updatedAt": "2026-06-17T17:24:50.062Z",
+  "cursorAgentId": "agent-b3a727a6-0538-4e9a-802f-fdc1140bba51",
+  "runId": "run-1bb559d4-2752-4b27-b4f7-9e961eb60764",
+  "runStatus": "finished"
+}

@@ -37,10 +37,12 @@ export type Workshop2DossierPanelPostMainTrailProps = {
     exportLanguage: 'ru' | 'ru_en' | 'ru_zh';
     onExportLanguageChange: (lang: 'ru' | 'ru_en' | 'ru_zh') => void;
     finalTzSpecDocumentHtml: string;
+    factoryPackDocumentHtml: string;
     phase1DossierJsonUtf8Bytes: number;
     tzWriteDisabled: boolean;
     onDownloadHtml: () => void;
     onPrintPdf: () => void;
+    onDownloadFactoryPack: () => void;
   };
   attrComments: {
     openAttrId: string | null;

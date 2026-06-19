@@ -5,11 +5,14 @@ import { WorkshopInlineHintIcon } from '@/components/brand/production/workshop2-
 interface DossierAttributeInputProps {
   attribute: DossierAttributeDisplayDefinition;
   onChange: (value: string | string[] | number | null) => void;
+  /** E2E / Platform Core golden path */
+  inputTestId?: string;
 }
 
 export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({
   attribute,
   onChange,
+  inputTestId,
 }) => {
   const renderInput = () => {
     switch (attribute.uiType) {
@@ -20,6 +23,7 @@ export const DossierAttributeInput: React.FC<DossierAttributeInputProps> = ({
             value={attribute.value as string}
             onChange={(e) => onChange(e.target.value)}
             placeholder={attribute.placeholder}
+            data-testid={inputTestId}
             className="h-8 w-full rounded-md border bg-white px-2 py-1 text-[11px]"
           />
         );

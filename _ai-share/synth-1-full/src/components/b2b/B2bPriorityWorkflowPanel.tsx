@@ -13,6 +13,7 @@ import type {
   PriorityWorkflowGroup,
   PriorityWorkflowVariant,
 } from '@/lib/data/b2b-priority-workflow-groups';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 
 const VARIANT_ACCENT: Record<PriorityWorkflowVariant, string> = {
   production: 'border-l-slate-600',
@@ -38,6 +39,7 @@ export function B2bPriorityWorkflowPanel({
   lead = 'Компактная навигация по ядрам: ТЗ → отшив, оптовый контур, исполнение; чаты и календарь — надстройка.',
   className,
 }: B2bPriorityWorkflowPanelProps) {
+  if (isPlatformCoreMode()) return null;
   const visible = groups.filter((g) => g.links.length > 0);
   if (!visible.length) return null;
 

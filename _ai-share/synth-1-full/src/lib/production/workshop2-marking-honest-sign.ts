@@ -1,12 +1,13 @@
 /**
  * Wave 9 RU: маркировка «Честный ЗНАК» — journal-only без fake ACK от ЦРПТ.
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type {
+  Workshop2DossierPhase1,
+  Workshop2MarkingHonestSignMirror,
+} from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2ProcessEnvLike } from '@/lib/production/workshop2-live-integration-probes-env';
 
-export type Workshop2MarkingHonestSignMirror = NonNullable<
-  Workshop2DossierPhase1['markingHonestSignMirror']
->;
+export type { Workshop2MarkingHonestSignMirror };
 
 export function isWorkshop2MarkingApiConfigured(
   env: Workshop2ProcessEnvLike = process.env

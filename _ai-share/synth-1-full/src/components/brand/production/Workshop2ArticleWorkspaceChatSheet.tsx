@@ -61,6 +61,14 @@ export function Workshop2ArticleWorkspaceChatSheet({
   }, [refreshUnread]);
 
   useEffect(() => {
+    if (typeof EventSource === 'undefined') return;
+    const es = new EventSource('/api/platform-core/comms/inbox-stream');
+    es.onmessage = () => void refreshUnread();
+    es.onerror = () => es.close();
+    return () => es.close();
+  }, [refreshUnread]);
+
+  useEffect(() => {
     if (open) {
       writeWorkshop2ContextualChatLastReadAt(contextId);
       setUnreadCount(0);
@@ -99,8 +107,6 @@ export function Workshop2ArticleWorkspaceChatSheet({
           <ContextualChatThread
             contextType={WORKSHOP2_ARTICLE_CONTEXT_TYPE}
             contextId={contextId}
-            collectionId={collectionId}
-            articleId={articleId}
             className="h-[calc(100vh-8rem)]"
           />
         </div>

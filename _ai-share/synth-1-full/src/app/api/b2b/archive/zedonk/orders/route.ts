@@ -1,27 +1,35 @@
 /**
- * GET /api/b2b/zedonk/orders — приём заказов из Zedonk (и при необходимости из JOOR/NuOrder через него).
- * Query: since, until, status, limit.
+ * GET /api/b2b/archive/zedonk/orders — upstream list for spine import (live credentials only).
  */
-
-import { NextResponse } from 'next/server';
 import { getZedonkConfigFromEnv } from '@/lib/b2b/integrations/archive/zedonk-client';
 import { zedonkFetchOrders } from '@/lib/b2b/integrations/archive/zedonk-client';
+import {
+  archiveUpstreamFetchFailedResponse,
+  archiveUpstreamNotConfiguredResponse,
+  parseArchiveUpstreamQuery,
+  toSpineImportOrderPayloadList,
+} from '@/lib/integrations/spine/archive-upstream-orders.server';
 
 export async function GET(request: Request) {
+  const config = getZedonkConfigFromEnv();
+  if (!config) {
+    return archiveUpstreamNotConfiguredResponse('Агентская консолидация');
+  }
+
+  const { since, until, status, limit } = parseArchiveUpstreamQuery(request);
+
   try {
-    const { searchParams } = new URL(request.url);
-    const since = searchParams.get('since') ?? undefined;
-    const until = searchParams.get('until') ?? undefined;
-    const status = searchParams.get('status') ?? undefined;
-    const limitParam = searchParams.get('limit');
-    const limit = limitParam ? parseInt(limitParam, 10) : undefined;
-    const config = getZedonkConfigFromEnv();
-    const orders = await zedonkFetchOrders(config, { since, until, status, limit });
-    return NextResponse.json(orders);
+    const imported = await zedonkFetchOrders(config, { since, until, status, limit });
+    const payloads = toSpineImportOrderPayloadList(
+      imported.map((o) => ({
+        id: o.id,
+        ...(o.raw ? (o.raw as Record<string, unknown>) : {}),
+      }))
+    );
+    return Response.json(payloads);
   } catch (e) {
-    return NextResponse.json(
-      { error: e instanceof Error ? e.message : 'Failed to fetch orders' },
-      { status: 500 }
+    return archiveUpstreamFetchFailedResponse(
+      e instanceof Error ? e.message : 'Не удалось загрузить заказы из upstream'
     );
   }
 }

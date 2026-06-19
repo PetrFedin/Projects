@@ -1,6 +1,7 @@
 'use client';
 
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
+import { formatWorkshop2PersistToastTitle } from '@/lib/production/workshop2-persist-toast-messages';
 import { Workshop2PassportHubPanel } from '@/components/brand/production/Workshop2PassportHubPanel';
 import { Workshop2DossierPanelSectionTzSignoffBridge } from '@/components/brand/production/workshop2-phase1-dossier-panel-section-tz-signoff-bridge';
 import { Workshop2DossierGeneralIdentityBlock } from '@/components/brand/production/workshop2-phase1-dossier-panel-section-body-general-identity';
@@ -29,6 +30,8 @@ import type { Workshop2AttrComment } from '@/components/brand/production/worksho
 import type { Workshop2DossierViewProfile } from '@/lib/production/workshop2-dossier-view-infrastructure';
 import { Workshop2OperationalPgMirrorChip } from '@/components/brand/production/workshop2-operational-panel-chrome';
 import { summarizeWorkshop2TzGeneralPgMirror } from '@/lib/production/workshop2-operational-pg-mirror-status';
+void formatWorkshop2PersistToastTitle;
+
 export type Workshop2DossierSectionBodyGeneralProps = {
   sectionReadinessUi: Record<DossierSection, { pct: number }>;
   sectionGateErrorsById: Record<DossierSection, string[]>;
@@ -144,6 +147,8 @@ export type Workshop2DossierSectionBodyGeneralProps = {
     dueAt: string | undefined
   ) => void;
   onOpenPulse?: () => void;
+  collectionId?: string;
+  articleId?: string;
   tzBlockersFooter: ReactNode;
 };
 
@@ -229,6 +234,8 @@ export function Workshop2DossierSectionBodyGeneral({
   notifyStakeholdersForSectionSignoff,
   setSignoffDeadline,
   tzBlockersFooter,
+  collectionId,
+  articleId,
 }: Workshop2DossierSectionBodyGeneralProps) {
   return (
     <div className="space-y-4">
@@ -286,6 +293,8 @@ export function Workshop2DossierSectionBodyGeneral({
 
       {/* Панель Change Requests (CR) */}
       <Workshop2ChangeRequestsPanel
+        collectionId={collectionId ?? ''}
+        articleId={articleId ?? ''}
         dossier={dossier}
         setDossier={setDossier}
         tzWriteDisabled={tzWriteDisabled}
@@ -345,6 +354,8 @@ export function Workshop2DossierSectionBodyGeneral({
         toggleDeferAttribute={toggleDeferAttribute}
         attrCommentsById={attrCommentsById}
         openAttrComments={openAttrComments}
+        collectionId={collectionId}
+        articleId={articleId}
       />
       <Workshop2DossierGeneralArticleStartBlock
         isPhase1={isPhase1}

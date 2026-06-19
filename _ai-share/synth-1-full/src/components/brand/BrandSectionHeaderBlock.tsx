@@ -8,12 +8,15 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { Button } from '@/components/ui/button';
 import { getBrandSectionMeta } from '@/lib/data/brand-navigation';
 import { useBrandSectionActions } from '@/providers/brand-section-actions';
+import { shouldSuppressCabinetHubLayoutChrome } from '@/lib/platform-core-ui-surfaces';
 
 /**
  * Единый блок заголовка раздела: breadcrumb + иконка + название + описание + кнопки справа.
  * Устраняет дублирование SectionInfoCard и короткого пути.
  */
 export function BrandSectionHeaderBlock() {
+  if (shouldSuppressCabinetHubLayoutChrome()) return null;
+
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { actions: contextActions } = useBrandSectionActions();

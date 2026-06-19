@@ -10,6 +10,7 @@ import type {
 import type { Workshop2B2bOrderRecord } from '@/lib/production/workshop2-b2b-order-lifecycle';
 import type { Workshop2BrandCalendarSyncEvent } from '@/lib/production/workshop2-brand-calendar-sync';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorNum } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import type { Workshop2ProcessEnvLike } from '@/lib/production/workshop2-live-integration-probes-env';
 
 import type { Workshop2B2bPaymentTermsRu } from '@/lib/production/workshop2-b2b-order-lifecycle';
@@ -78,7 +79,16 @@ export function resolveWorkshop2B2bMatrixAvailabilityHint(input: {
   cell: Workshop2B2bMatrixCell;
 }): Workshop2B2bAvailabilityHint {
   const wms = input.dossier?.internalWmsMirror;
-  const onHand = Math.max(0, Math.round(wms?.onHandQty ?? 0));
+  const onHand = Math.max(
+    0,
+    Math.round(
+      workshop2PgMirrorNum(
+        wms,
+        'onHandQty',
+        typeof wms?.onHandQty === 'number' ? wms.onHandQty : 0
+      )
+    )
+  );
   if (onHand > 0) {
     const perCell = Math.max(1, Math.floor(onHand / Math.max(1, input.cell.moq)));
     return { labelRu: `${perCell} шт`, availableQty: perCell, onRequest: false };
@@ -357,6 +367,7 @@ export function buildWorkshop2B2bDeliveryCalendarEventFromOrder(
     id: `b2b-ship-order-${order.id}`,
     collectionId: order.collectionId,
     articleId: order.articleId,
+    b2bOrderId: order.id,
     source: 'b2b',
     title: `Отгрузка по заказу ${order.id}`,
     startAt: `${date}T09:00:00.000Z`,

@@ -6,6 +6,8 @@ import {
   getOperationalApiActorRole,
 } from '@/lib/order/b2b-operational-api-server';
 import { mergeOperationalStatusPersisted } from '@/lib/order/b2b-operational-status-persistence.file';
+import { applyOperationalImportStatusPatch } from '@/lib/integrations/spine/operational-import-handoff.service';
+import { isIntegrationImportedWholesaleOrderId } from '@/lib/integrations/spine/integration-ui-utils';
 
 /**
  * PATCH /api/b2b/v1/operational-orders/:orderId/status
@@ -79,7 +81,7 @@ export async function PATCH(req: NextRequest, ctx: { params: Promise<{ orderId: 
     );
   }
 
-  const row = findOperationalOrderForRequest(req, decoded);
+  const row = await findOperationalOrderForRequest(req, decoded);
   if (!row) {
     return NextResponse.json(
       {
@@ -88,6 +90,42 @@ export async function PATCH(req: NextRequest, ctx: { params: Promise<{ orderId: 
         meta: { requestId, mode, apiVersion: 'v1' as const },
       },
       { status: 404, headers: { 'x-request-id': requestId } }
+    );
+  }
+
+  if (isIntegrationImportedWholesaleOrderId(row.order)) {
+    const spineResult = await applyOperationalImportStatusPatch({
+      wholesaleOrderId: row.order,
+      idempotencyKey,
+      status,
+    });
+    if (!spineResult.ok) {
+      return NextResponse.json(
+        {
+          ok: false as const,
+          error: { code: spineResult.code, message: spineResult.message },
+          meta: { requestId, mode, apiVersion: 'v1' as const },
+        },
+        { status: spineResult.httpStatus ?? 409, headers: { 'x-request-id': requestId } }
+      );
+    }
+    return NextResponse.json(
+      {
+        ok: true as const,
+        data: {
+          wholesaleOrderId: spineResult.wholesaleOrderId,
+          status: spineResult.status,
+          updatedAt: spineResult.updatedAt,
+          spineConfirmed: spineResult.spineConfirmed,
+        },
+        meta: {
+          requestId,
+          mode,
+          apiVersion: 'v1' as const,
+          idempotentReplay: spineResult.idempotentReplay,
+        },
+      },
+      { headers: { 'x-request-id': requestId } }
     );
   }
 

@@ -29,8 +29,8 @@ export function SidebarOrgHeaderGate() {
       const id = window.requestIdleCallback(() => setReady(true), { timeout: 2500 });
       return () => window.cancelIdleCallback(id);
     }
-    const timer = window.setTimeout(() => setReady(true), 1200);
-    return () => window.clearTimeout(timer);
+    const timer = setTimeout(() => setReady(true), 1200);
+    return () => clearTimeout(timer);
   }, []);
 
   if (!ready) return <SidebarOrgHeaderPlaceholder />;

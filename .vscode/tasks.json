@@ -113,6 +113,32 @@
       "problemMatcher": []
     },
     {
+      "label": "synth-1-full: core bootstrap (PG + seeds)",
+      "type": "shell",
+      "command": "npm run core:bootstrap",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: dev core (:3001)",
+      "type": "shell",
+      "command": "bash scripts/core-dev.sh",
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "synth-1-full: smoke core",
+      "type": "shell",
+      "command": "npm run smoke:core",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
       "label": "synth-1-full: verify dev-perf (static)",
       "type": "shell",
       "command": "npm run verify:dev-perf",

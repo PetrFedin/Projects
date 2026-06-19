@@ -224,3 +224,57 @@ async def get_payment_status(
     client = PaymentClient()
     status = await client.get_payment_status(payment_id)
     return GenericResponse(data=status)
+
+
+class YukassaPaymentRequest(PydanticBase):
+    amount_rub: float
+    order_id: str
+    description: str = ""
+    return_url: str = "https://example.com/return"
+
+
+class StripePaymentRequest(PydanticBase):
+    amount_cents: int
+    order_id: str
+    description: str = ""
+    return_url: str = "https://example.com/return"
+    currency: str = "usd"
+
+
+@router.post("/payments/yukassa/init", response_model=GenericResponse[dict])
+async def init_yukassa_payment(
+    data: YukassaPaymentRequest,
+    current_user: User = Depends(deps.get_current_active_user),
+):
+    from app.integrations.yukassa import YukassaClient
+
+    client = YukassaClient()
+    result = await client.create_payment(
+        amount_rub=data.amount_rub,
+        order_id=data.order_id,
+        description=data.description,
+        return_url=data.return_url,
+    )
+    if not result.get("success"):
+        raise HTTPException(status_code=400, detail=result.get("error", "Yukassa init failed"))
+    return GenericResponse(data=result)
+
+
+@router.post("/payments/stripe/init", response_model=GenericResponse[dict])
+async def init_stripe_payment(
+    data: StripePaymentRequest,
+    current_user: User = Depends(deps.get_current_active_user),
+):
+    from app.integrations.stripe_client import StripeClient
+
+    client = StripeClient()
+    result = await client.create_payment(
+        amount_cents=data.amount_cents,
+        order_id=data.order_id,
+        description=data.description,
+        return_url=data.return_url,
+        currency=data.currency,
+    )
+    if not result.get("success"):
+        raise HTTPException(status_code=400, detail=result.get("error", "Stripe init failed"))
+    return GenericResponse(data=result)

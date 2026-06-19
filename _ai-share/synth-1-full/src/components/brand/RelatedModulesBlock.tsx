@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 import { finalizeRelatedModuleLinks, type EntityLink } from '@/lib/data/entity-links';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 
 interface RelatedModulesBlockProps {
   title?: string;
@@ -21,6 +22,8 @@ export function RelatedModulesBlock({
   links,
   className,
 }: RelatedModulesBlockProps) {
+  if (isPlatformCoreMode()) return null;
+
   const safeLinks = finalizeRelatedModuleLinks(links ?? []).filter(
     (link): link is EntityLink => typeof link.href === 'string' && link.href.length > 0
   );

@@ -5,20 +5,10 @@ import { jsonWorkshop2ErrorRu } from '@/lib/production/workshop2-api-error-ru';
 import { withWorkshop2ApiErrorRu } from '@/lib/production/workshop2-api-route-ru';
 import { NextRequest, NextResponse } from 'next/server';
 import {
-  applyWorkshop2MaterialRequisitionStatusToDossier,
-  patchWorkshop2MaterialRequisitionSupplierStatus,
+  getWorkshop2MaterialRequisitionById,
   type Workshop2MaterialRequisitionSupplierStatus,
 } from '@/lib/server/workshop2-material-requisition-repository';
-import {
-  getWorkshop2ServerDossierRecord,
-  putWorkshop2ServerDossierRecord,
-} from '@/lib/server/workshop2-phase1-dossier-server-store';
-import { enqueueWorkshop2DomainEvent } from '@/lib/server/workshop2-domain-events';
-import { appendWorkshop2ContextualSystemMessage } from '@/lib/server/workshop2-contextual-messages-repository';
-import {
-  WORKSHOP2_ARTICLE_CONTEXT_TYPE,
-  workshop2ArticleContextId,
-} from '@/lib/production/workshop2-domain-event-types';
+import { confirmWorkshop2SupplierMaterialRequest } from '@/lib/server/workshop2-supplier-material-request-confirm';
 import { guardWorkshop2Route, WORKSHOP2_WRITE_ROLES } from '@/lib/server/workshop2-route-auth';
 import { resolveWorkshop2UpdatedBy } from '@/lib/server/workshop2-api-context';
 
@@ -61,65 +51,32 @@ export const PATCH = withWorkshop2ApiErrorRu(async function patchSupplierMateria
 
   const note = body.note != null ? String(body.note) : undefined;
   const updatedBy = resolveWorkshop2UpdatedBy(req, String(body.updatedBy ?? ''), auth.actor);
+  const b2bOrderId = String(body.b2bOrderId ?? '').trim();
 
-  const requisition = await patchWorkshop2MaterialRequisitionSupplierStatus({
-    id: reqId,
-    status,
-    note,
-    updatedBy,
-  });
-  if (!requisition) {
+  const existing = await getWorkshop2MaterialRequisitionById(reqId);
+  if (!existing) {
     return jsonWorkshop2ErrorRu(404, 'not_found');
   }
 
-  const record = await getWorkshop2ServerDossierRecord(
-    requisition.collectionId,
-    requisition.articleId
-  );
-  if (record) {
-    const nextDossier = applyWorkshop2MaterialRequisitionStatusToDossier({
-      dossier: record.dossier,
-      requisition,
-    });
-    await putWorkshop2ServerDossierRecord({
-      collectionId: requisition.collectionId,
-      articleId: requisition.articleId,
-      dossier: nextDossier,
-      baseVersion: record.version,
-      updatedBy: updatedBy || 'supplier-material-request',
-      txMeta: { eventType: 'supply_material_request_updated' },
-    });
+  const result = await confirmWorkshop2SupplierMaterialRequest({
+    requisitionId: reqId,
+    status,
+    note,
+    updatedBy: updatedBy ?? undefined,
+    b2bOrderId: b2bOrderId || undefined,
+  });
+  if (!result) {
+    return jsonWorkshop2ErrorRu(404, 'not_found');
   }
 
   const statusRu = status === 'confirmed' ? 'подтверждена' : 'отклонена';
-  const chatLine = `Поставщик: заявка ${requisition.materialLabel ?? requisition.id} — ${statusRu}.${note ? ` ${note}` : ''}`;
-
-  void enqueueWorkshop2DomainEvent({
-    type: 'supply.material_request.updated',
-    collectionId: requisition.collectionId,
-    articleId: requisition.articleId,
-    payload: {
-      requisitionId: requisition.id,
-      status: requisition.status,
-      supplierDecision: status,
-      note: note ?? null,
-      materialLabel: requisition.materialLabel ?? null,
-    },
-  }).catch(() => {
-    /* best-effort */
-  });
-
-  void appendWorkshop2ContextualSystemMessage({
-    contextType: WORKSHOP2_ARTICLE_CONTEXT_TYPE,
-    contextId: workshop2ArticleContextId(requisition.collectionId, requisition.articleId),
-    message: chatLine,
-  }).catch(() => {
-    /* best-effort */
-  });
 
   return NextResponse.json({
     ok: true,
-    requisition,
-    messageRu: `Заявка ${statusRu} — зеркало досье и чат обновлены.`,
+    idempotent: result.idempotent,
+    requisition: result.requisition,
+    messageRu: result.idempotent
+      ? `Заявка уже ${statusRu} — повторное подтверждение не требуется.`
+      : `Заявка ${statusRu} — зеркало досье и чат обновлены.`,
   });
 });

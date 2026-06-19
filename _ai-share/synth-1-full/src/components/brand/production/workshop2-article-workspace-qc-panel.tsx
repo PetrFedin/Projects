@@ -39,17 +39,9 @@ export function Workshop2ArticleQcPanel({
         </Button>
       ) : null}
       <div id="workshop2-qc-aql-cross-ref" data-testid="workshop2-qc-aql-cross-ref">
-        <Workshop2AQLInspectionPanel
-          dossier={dossier}
-          collectionId={ref.collectionId}
-          articleId={String(ref.articleId)}
-        />
+        <Workshop2AQLInspectionPanel dossier={dossier} />
       </div>
-      <SupplierQcScorecard
-        dossier={dossier}
-        collectionId={ref.collectionId}
-        articleId={String(ref.articleId)}
-      />
+      <SupplierQcScorecard supplierId="supplier-demo" dossier={dossier} />
     </div>
   );
 }

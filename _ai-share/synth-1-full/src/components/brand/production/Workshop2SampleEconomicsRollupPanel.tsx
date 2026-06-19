@@ -77,7 +77,7 @@ export function Workshop2SampleEconomicsRollupPanel({
         deltaPct: rollup.deltaPct,
       },
     };
-    await saveWorkshop2DossierToApi(collectionId, articleId, merged);
+    await saveWorkshop2DossierToApi({ collectionId, articleId, dossier: merged });
   };
 
   return (

@@ -40,6 +40,7 @@ interface ComposerProps {
   onUnarchiveChat: () => void;
   onOpenCreateTask?: () => void;
   onAttachProduct?: () => void;
+  slimCore?: boolean;
 }
 
 export const Composer: React.FC<ComposerProps> = ({
@@ -60,6 +61,7 @@ export const Composer: React.FC<ComposerProps> = ({
   onUnarchiveChat,
   onOpenCreateTask,
   onAttachProduct,
+  slimCore = false,
 }) => {
   if (activeChat?.isArchived) {
     return (
@@ -87,7 +89,13 @@ export const Composer: React.FC<ComposerProps> = ({
   }
 
   return (
-    <div className="relative z-10 mx-auto w-full max-w-4xl border-t border-slate-100 bg-white p-3 transition-all">
+    <div
+      className={cn(
+        'relative z-10 mx-auto w-full max-w-4xl border-t border-slate-100 bg-white p-3 transition-all',
+        slimCore && 'max-md:sticky max-md:bottom-0 max-md:z-20 max-md:pb-safe max-md:bg-white/95 max-md:backdrop-blur-sm'
+      )}
+    >
+      {!slimCore && (
       <div className="scrollbar-hide mb-2.5 flex gap-1.5 overflow-x-auto py-0.5">
         <Button
           variant="outline"
@@ -143,6 +151,7 @@ export const Composer: React.FC<ComposerProps> = ({
           </Button>
         )}
       </div>
+      )}
 
       <div className="group/composer relative">
         <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 p-1 shadow-inner transition-all duration-300 hover:shadow-md">
@@ -169,41 +178,45 @@ export const Composer: React.FC<ComposerProps> = ({
               >
                 <Paperclip className="h-4 w-4" />
               </Button>
-              <div className="mx-1 h-4 w-px bg-slate-200" />
-              <Button
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  'relative h-8 w-8 overflow-hidden rounded-lg transition-all',
-                  recording
-                    ? 'bg-rose-50 text-rose-600 shadow-inner'
-                    : 'text-slate-400 hover:bg-white hover:text-indigo-600'
-                )}
-                onClick={recording ? onStopRecording : onStartRecording}
-              >
-                {recording ? (
-                  <>
-                    <MicOff className="relative z-10 h-4 w-4" />
-                    <span className="absolute inset-0 animate-ping bg-rose-200/50 opacity-20" />
-                  </>
-                ) : (
-                  <Mic className="h-4 w-4" />
-                )}
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  'h-8 w-8 rounded-lg transition-all hover:bg-white',
-                  isAiProcessing
-                    ? 'animate-pulse text-indigo-600'
-                    : 'text-slate-400 hover:text-indigo-600'
-                )}
-                onClick={onProcessAiCorrection}
-                disabled={isAiProcessing || !composerText}
-              >
-                <Sparkles className="h-4 w-4" />
-              </Button>
+              {!slimCore && (
+                <>
+                  <div className="mx-1 h-4 w-px bg-slate-200" />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      'relative h-8 w-8 overflow-hidden rounded-lg transition-all',
+                      recording
+                        ? 'bg-rose-50 text-rose-600 shadow-inner'
+                        : 'text-slate-400 hover:bg-white hover:text-indigo-600'
+                    )}
+                    onClick={recording ? onStopRecording : onStartRecording}
+                  >
+                    {recording ? (
+                      <>
+                        <MicOff className="relative z-10 h-4 w-4" />
+                        <span className="absolute inset-0 animate-ping bg-rose-200/50 opacity-20" />
+                      </>
+                    ) : (
+                      <Mic className="h-4 w-4" />
+                    )}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      'h-8 w-8 rounded-lg transition-all hover:bg-white',
+                      isAiProcessing
+                        ? 'animate-pulse text-indigo-600'
+                        : 'text-slate-400 hover:text-indigo-600'
+                    )}
+                    onClick={onProcessAiCorrection}
+                    disabled={isAiProcessing || !composerText}
+                  >
+                    <Sparkles className="h-4 w-4" />
+                  </Button>
+                </>
+              )}
               <div className="mx-1 h-4 w-px bg-slate-200" />
               <Button
                 variant="ghost"

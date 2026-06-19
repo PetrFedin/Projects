@@ -45,7 +45,7 @@ export type Workshop2ReferencesSource = 'postgres' | 'static';
 
 function staticColors(): Workshop2RefColorRow[] {
   return getWorkshop2ColorMasterPalette().map((c) => ({
-    code: c.code,
+    code: c.code ?? c.name.slice(0, 8).toUpperCase().replace(/\s+/g, '-'),
     name: c.name,
     hex: c.hex,
     ...(c.pantone ? { pantone: c.pantone } : {}),
@@ -598,7 +598,7 @@ function categoryLeafFromHandbook(leafId: string): Workshop2CategoryLeafMeta | n
     l1: leaf.l1Name,
     l2: leaf.l2Name,
     l3: leaf.l3Name,
-    defaultAudienceHint: profile.defaultAudienceId,
+    defaultAudienceHint: undefined,
     productionProfile: profile as unknown as Record<string, unknown>,
   };
 }

@@ -56,14 +56,17 @@ const roomHandlers = new Map<string, Set<RoomHandler>>();
 /** Подписка на Redis для комнаты (один subscriber на процесс). */
 export async function ensureWorkshop2RedisSubscriber(): Promise<void> {
   if (!isWorkshop2RedisConfigured()) return;
-  if (subscriberReady) return subscriberReady;
+  if (subscriberReady) {
+    await subscriberReady;
+    return;
+  }
   subscriberReady = (async () => {
     const redis = await getRedisModule();
     if (!redis) return;
     const sub = redis.createClient({ url: process.env.REDIS_URL!.trim() });
     sub.on('error', (e) => console.warn('[workshop2-redis] subscriber', e));
     await sub.connect();
-    subscriberClient = sub;
+    subscriberClient = sub as unknown as { quit: () => Promise<void> };
     await sub.pSubscribe(`${CHANNEL_PREFIX}*`, (message, channel) => {
       const room = channel.slice(CHANNEL_PREFIX.length);
       let event: Workshop2RealtimeEvent;
@@ -81,7 +84,7 @@ export async function ensureWorkshop2RedisSubscriber(): Promise<void> {
       }
     });
   })();
-  return subscriberReady;
+  await subscriberReady;
 }
 
 export function subscribeWorkshop2RedisRoom(room: string, handler: RoomHandler): () => void {

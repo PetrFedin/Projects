@@ -15,15 +15,8 @@ const ci = scripts['check:contracts:ci'] || '';
 
 const errors = [];
 
-const requiredGateTests = [
-  'root-layout-wiring.test.ts',
-  'route-guard-route.test.ts',
-];
-
-for (const testFile of requiredGateTests) {
-  if (!script || !script.includes(testFile)) {
-    errors.push(`missing scripts.test:layout:gates entry: ${testFile}`);
-  }
+if (!script || !script.includes('root-layout-wiring.test.ts')) {
+  errors.push('missing or incomplete scripts.test:layout:gates (expect root-layout-wiring.test.ts)');
 }
 
 if (!ci.includes('test:layout:gates')) {

@@ -1,0 +1,243 @@
+# Wave 33–36: Workshop2 CI — unit (required), MES E2E + PG gate (optional), RU signoff E2E (required on main).
+name: Workshop2 CI
+
+env:
+  WORKSHOP2_PG_GATE_REQUIRED: ${{ github.ref == 'refs/heads/main' && 'true' || (github.event_name == 'workflow_dispatch' && inputs.pg_gate_required && 'true' || 'false') }}
+  # Wave 48: PR label `e2e-required` → fail RU signoff + iPad E2E (same as main)
+  WORKSHOP2_E2E_REQUIRED: ${{ github.ref == 'refs/heads/main' && 'true' || (github.event_name == 'workflow_dispatch' && (inputs.e2e_required || inputs.e2e_required_pr) && 'true') || (github.event_name == 'pull_request' && contains(toJSON(github.event.pull_request.labels.*.name), 'e2e-required') && 'true') || 'false' }}
+  WORKSHOP2_IPAD_E2E_PR_REQUIRED: ${{ (github.event_name == 'pull_request' && contains(toJSON(github.event.pull_request.labels.*.name), 'e2e-required')) || (github.event_name == 'workflow_dispatch' && inputs.e2e_required_pr == true) && 'true' || 'false' }}
+  WORKSHOP2_IPAD_E2E_REQUIRED: ${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      pg_gate_required:
+        description: 'Fail CI when PG gate fails'
+        type: boolean
+        default: false
+      e2e_required:
+        description: 'Fail CI when RU signoff E2E fails'
+        type: boolean
+        default: false
+      e2e_required_pr:
+        description: 'PR only: fail when e2e-ru-signoff or ipad-e2e fails (default false; main still required)'
+        type: boolean
+        default: false
+  push:
+    paths:
+      - 'src/**/workshop2*'
+      - 'src/app/api/workshop2/**'
+      - 'src/app/api/shop/b2b/**'
+      - 'scripts/**workshop2*'
+      - 'data/workshop2/**'
+      - 'e2e/workshop2*.spec.ts'
+      - 'e2e/b2b-ru-buyer-path.spec.ts'
+      - '.github/workflows/workshop2-ci.yml'
+      - 'playwright.config.ts'
+      - 'e2e/workshop2-sample-shop*.ts'
+      - 'playwright.sample-shop.config.ts'
+      - 'scripts/ci-workshop2-sample-shop-e2e.sh'
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+    paths:
+      - 'src/**/workshop2*'
+      - 'src/app/api/workshop2/**'
+      - 'src/app/api/shop/b2b/**'
+      - 'scripts/**workshop2*'
+      - 'data/workshop2/**'
+      - 'e2e/workshop2*.spec.ts'
+      - 'e2e/b2b-ru-buyer-path.spec.ts'
+      - '.github/workflows/workshop2-ci.yml'
+      - 'playwright.config.ts'
+      - 'e2e/workshop2-sample-shop*.ts'
+      - 'playwright.sample-shop.config.ts'
+      - 'scripts/ci-workshop2-sample-shop-e2e.sh'
+
+jobs:
+  workshop2-unit:
+    name: workshop2 unit (required)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: workshop2
+          POSTGRES_PASSWORD: workshop2_dev
+          POSTGRES_DB: workshop2
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U workshop2 -d workshop2"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      WORKSHOP2_DATABASE_URL: postgresql://workshop2:workshop2_dev@localhost:5433/workshop2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Workshop2 unit tests
+        run: npm run test:workshop2:unit
+
+  workshop2-mes-e2e:
+    name: workshop2 MES E2E (optional)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: MES mock + contract E2E
+        run: npm run test:workshop2:mes-e2e
+
+  workshop2-pg-gate:
+    name: workshop2 PG gate (optional)
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ env.WORKSHOP2_PG_GATE_REQUIRED != 'true' }}
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: workshop2
+          POSTGRES_PASSWORD: workshop2_dev
+          POSTGRES_DB: workshop2
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U workshop2 -d workshop2"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      WORKSHOP2_DATABASE_URL: postgresql://workshop2:workshop2_dev@localhost:5433/workshop2
+      WORKSHOP2_PG_ONLY: 'true'
+      WORKSHOP2_DEV_BYPASS_AUTH: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: PG-only CI gate (staging-up + verify)
+        run: bash scripts/ci-workshop2-pg-only-gate.sh
+
+  workshop2-sample-shop-e2e:
+    name: workshop2 sample-shop E2E (optional)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    continue-on-error: true
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: workshop2
+          POSTGRES_PASSWORD: workshop2_dev
+          POSTGRES_DB: workshop2
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U workshop2 -d workshop2"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      CI: 'true'
+      PLAYWRIGHT_BASE_URL: http://127.0.0.1:3123
+      PLAYWRIGHT_E2E_PORT: '3123'
+      WORKSHOP2_DATABASE_URL: postgresql://workshop2:workshop2_dev@localhost:5433/workshop2
+      WORKSHOP2_DEV_BYPASS_AUTH: 'true'
+      WORKSHOP2_MARKET: ru
+      WORKSHOP2_EDO_PROVIDER: mock
+      WORKSHOP2_EDO_MOCK_STAGING: 'true'
+      WORKSHOP2_ALLOW_SAME_ORIGIN_BROWSER: 'true'
+      NODE_OPTIONS: '--max-old-space-size=12288'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Sample-shop E2E (external dev:e2e)
+        run: bash scripts/ci-workshop2-sample-shop-e2e.sh
+
+  e2e-ru-signoff:
+    name: e2e RU signoff (lean)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    continue-on-error: ${{ env.WORKSHOP2_E2E_REQUIRED != 'true' }}
+    env:
+      CI: 'true'
+      PLAYWRIGHT_BASE_URL: http://127.0.0.1:3123
+      PLAYWRIGHT_E2E_PORT: '3123'
+      WORKSHOP2_DEV_BYPASS_AUTH: 'true'
+      WORKSHOP2_MARKET: ru
+      WORKSHOP2_EDO_PROVIDER: mock
+      WORKSHOP2_EDO_MOCK_STAGING: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: RU signoff (playwright webServer → dev:e2e)
+        run: npm run test:e2e:ru-signoff
+
+  ipad-e2e:
+    name: ipad B2B E2E (optional)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    continue-on-error: ${{ env.WORKSHOP2_IPAD_E2E_REQUIRED != 'true' && env.WORKSHOP2_IPAD_E2E_PR_REQUIRED != 'true' }}
+    env:
+      CI: 'true'
+      PLAYWRIGHT_BASE_URL: http://127.0.0.1:3123
+      PLAYWRIGHT_E2E_PORT: '3123'
+      WORKSHOP2_DEV_BYPASS_AUTH: 'true'
+      WORKSHOP2_MARKET: ru
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: B2B iPad landscape E2E
+        run: npm run test:e2e:b2b-ipad
+
+  workshop2-probe-alert:
+    name: workshop2 probe-alert (optional, main)
+    runs-on: ubuntu-latest
+    needs: [workshop2-unit]
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Probe alert (requires WORKSHOP2_PROBE_ALERT_BASE_URL secret)
+        env:
+          WORKSHOP2_PROBE_ALERT_BASE_URL: ${{ secrets.WORKSHOP2_PROBE_ALERT_BASE_URL }}
+        run: |
+          if [ -z "$WORKSHOP2_PROBE_ALERT_BASE_URL" ]; then
+            echo "[probe-alert] SKIP — no WORKSHOP2_PROBE_ALERT_BASE_URL secret"
+            exit 0
+          fi
+          npm run workshop2:probe-alert

@@ -8,6 +8,10 @@ import {
   getWorkshop2ServerDossierRecord,
   putWorkshop2ServerDossierRecord,
 } from '@/lib/server/workshop2-phase1-dossier-server-store';
+import {
+  workshop2DossierPutFailureMessageRu,
+  workshop2DossierPutFailureStatus,
+} from '@/lib/server/workshop2-dossier-put-utils';
 import { guardWorkshop2Route, WORKSHOP2_WRITE_ROLES } from '@/lib/server/workshop2-route-auth';
 import { resolveWorkshop2UpdatedBy } from '@/lib/server/workshop2-api-context';
 
@@ -39,7 +43,7 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
     txMeta: { eventType: 'workshop2_fit3d_staging' },
   });
   if (!saved.ok) {
-    return jsonWorkshop2ErrorRu(409, String(saved.reason));
+    return jsonWorkshop2ErrorRu(workshop2DossierPutFailureStatus(saved), workshop2DossierPutFailureMessageRu(saved));
   }
 
   const status = !result.ok && !result.skipped ? 502 : 200;

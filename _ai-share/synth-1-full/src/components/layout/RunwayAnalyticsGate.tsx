@@ -18,8 +18,8 @@ export function RunwayAnalyticsGate() {
       const id = window.requestIdleCallback(() => setMounted(true), { timeout: 3000 });
       return () => window.cancelIdleCallback(id);
     }
-    const timer = window.setTimeout(() => setMounted(true), 1500);
-    return () => window.clearTimeout(timer);
+    const timer = globalThis.setTimeout(() => setMounted(true), 1500);
+    return () => globalThis.clearTimeout(timer);
   }, [isPublicShell]);
 
   if (!isPublicShell || !mounted) return null;

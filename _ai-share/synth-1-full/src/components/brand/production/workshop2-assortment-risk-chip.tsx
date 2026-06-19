@@ -23,9 +23,12 @@ export function Workshop2AssortmentRiskChip({
   useEffect(() => {
     let cancelled = false;
     void fetch(`/api/workshop2/collections/${encodeURIComponent(collectionId)}/assortment-risk`)
-      .then((r) => (r.ok ? r.json() : null))
+      .then(async (r) => {
+        if (!r.ok) return null;
+        return (await r.json()) as { rollup?: Rollup };
+      })
       .then((data) => {
-        if (!cancelled && data?.rollup) setRollup(data.rollup as Rollup);
+        if (!cancelled && data?.rollup) setRollup(data.rollup);
       })
       .catch(() => {
         if (!cancelled) setRollup(null);

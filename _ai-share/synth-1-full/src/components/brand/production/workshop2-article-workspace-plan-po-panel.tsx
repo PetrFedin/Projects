@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import * as LucideIcons from 'lucide-react';
 import { useArticleWorkspace } from '@/components/brand/production/article-workspace-context';
 import {
   Workshop2OperationalPanelChrome,
@@ -28,9 +29,13 @@ export function Workshop2ArticlePlanPoPanel({
   if (loading || !bundle) return <p className="text-text-secondary text-sm">Загрузка…</p>;
   return (
     <Workshop2OperationalPanelShell>
-      <Workshop2OperationalPanelChrome title="План · PO" description="Plan PO panel" />
+      <Workshop2OperationalPanelChrome
+        icon={LucideIcons.CalendarRange}
+        title="План · PO"
+        description="Plan PO panel"
+      />
       {dossier ? (
-        <Workshop2B2BIntegrationPanel dossier={dossier} articleId={articleId} busy={busy} />
+        <Workshop2B2BIntegrationPanel dossier={dossier} articleId={articleId} />
       ) : null}
     </Workshop2OperationalPanelShell>
   );

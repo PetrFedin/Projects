@@ -6,6 +6,8 @@ export function isRouteGuardPublicPath(pathname: string | null | undefined): boo
   if (!pathname) return true;
   return (
     pathname === '/' ||
+    pathname === '/platform' ||
+    pathname.startsWith('/platform/') ||
     pathname.startsWith('/b/') ||
     pathname.startsWith('/terms') ||
     pathname.startsWith('/privacy') ||

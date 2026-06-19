@@ -17,6 +17,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useIdentitySwitch } from '@/hooks/use-identity-switch';
 import { ROUTES } from '@/lib/routes';
+import { CORE_CHAIN_ROLE_KEYS, isPlatformCoreMode } from '@/lib/cabinet-core-mode';
 
 const roles = [
   {
@@ -112,15 +113,20 @@ function RolePanelContent() {
     }
   };
 
+  const coreMode = isPlatformCoreMode();
+  const visibleRoles = coreMode
+    ? roles.filter((r) => CORE_CHAIN_ROLE_KEYS.has(r.roleKey))
+    : roles;
+
   const panel = (
     <aside
       className="fixed right-2 top-1/2 z-[10050] flex max-h-[min(560px,calc(100vh-6rem))] -translate-y-1/2 touch-manipulation select-none flex-col gap-2 overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white/95 p-2.5 shadow-2xl backdrop-blur-md"
       aria-label="Демо: переключение роли"
     >
       <p className="text-text-muted px-0.5 text-center text-[8px] font-black uppercase leading-tight tracking-widest">
-        Роли
+        {coreMode ? 'Цепочка' : 'Роли'}
       </p>
-      {roles.map((role) => {
+      {visibleRoles.map((role) => {
         const isActive =
           role.roleKey === 'manufacturer' || role.roleKey === 'supplier'
             ? pathname.startsWith('/factory') && currentRole === role.roleKey

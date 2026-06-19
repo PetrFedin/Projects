@@ -1,6 +1,32 @@
 import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { initialConversations, mockChatHistories } from '@/lib/data/messages-data';
+import {
+  fetchBrandPgContextualMessages,
+  fetchPgContextualThreads,
+  postBrandPgContextualMessage,
+} from '@/lib/brand/brand-pg-contextual-chat-client';
+import type { PgContextualThreadsCabinet } from '@/lib/server/pg-contextual-message-threads-handler';
+import {
+  buildPgB2bOrderChatId,
+  buildPlaceholderB2bOrderChat,
+  isBrandPgContextChatId,
+  mapBrandPgThreadsToChats,
+  parseBrandPgContextChatId,
+  type BrandPgThreadRow,
+} from '@/lib/brand/brand-messages-pg-threads';
+import { WORKSHOP2_B2B_ORDER_CONTEXT_TYPE } from '@/lib/production/workshop2-b2b-order-lifecycle';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { mergePlatformCoreB2bInboxChats } from '@/lib/platform-core-b2b-inbox-merge';
+import {
+  usePlatformCoreB2bInboxOrderIds,
+  type PlatformCoreB2bInboxCabinet,
+} from '@/hooks/use-platform-core-b2b-inbox-order-ids';
+import { useShopCoreBuyerId } from '@/hooks/use-shop-core-buyer-id';
+import { usePlatformCoreB2bRegistryPoll } from '@/hooks/use-platform-core-b2b-registry-poll';
+import { usePgContextualActorId } from '@/hooks/use-pg-contextual-actor-id';
+import { markPgChatSeen } from '@/lib/communications/pg-contextual-read-state';
+import { isIntegrationImportedWholesaleOrderId } from '@/lib/integrations/spine/integration-ui-utils';
 import { Chat as ChatConversation, ChatMessage, UserRole } from '@/lib/types';
 import { ID } from '../types';
 import { canInteract } from '@/lib/interaction-policy';
@@ -19,11 +45,21 @@ import {
   resolveCourseTitleForAcademy,
 } from '@/lib/academy/academy-course-chats';
 
+function resolvePgThreadsCabinet(role: UserRole): PgContextualThreadsCabinet | null {
+  if (role === 'brand') return 'brand';
+  if (role === 'shop' || role === 'b2b') return 'shop';
+  if (role === 'manufacturer' || role === 'supplier') return 'factory';
+  return null;
+}
+
 export function useChatState(initialRole?: string) {
   const searchParams = useSearchParams();
+  const pgThreadsOnly = isPlatformCoreMode();
   const [currentRole, setCurrentRole] = React.useState<UserRole>(
     (initialRole as UserRole) || 'admin'
   );
+  const [pgThreadRows, setPgThreadRows] = React.useState<BrandPgThreadRow[]>([]);
+  const [pgMessagesCache, setPgMessagesCache] = React.useState<Record<string, ChatMessage[]>>({});
 
   const [academyEnrollVersion, setAcademyEnrollVersion] = React.useState(0);
 
@@ -71,41 +107,143 @@ export function useChatState(initialRole?: string) {
     return [...filteredConversations, ...extra.filter((c) => !ids.has(c.id))];
   }, [filteredConversations, chatParam, academyEnrollVersion]);
 
+  const coreMode = isPlatformCoreMode();
+
   const conversationsWithMatrix = React.useMemo(() => {
+    if (pgThreadsOnly || coreMode) return withDeepLinkAcademy;
     const matrixRow = matrixContextChatRow({ get: spGet });
     if (!matrixRow) return withDeepLinkAcademy;
     const rest = withDeepLinkAcademy.filter((c) => c.id !== matrixRow.id);
     return [matrixRow, ...rest];
-  }, [withDeepLinkAcademy, spGet]);
+  }, [withDeepLinkAcademy, spGet, coreMode, pgThreadsOnly]);
+
+  const pgThreadsCabinet = React.useMemo(
+    () => resolvePgThreadsCabinet(currentRole),
+    [currentRole]
+  );
+
+  const b2bInboxCabinet = React.useMemo((): PlatformCoreB2bInboxCabinet | null => {
+    if (!pgThreadsOnly) return null;
+    if (currentRole === 'brand') return 'brand';
+    if (currentRole === 'shop' || currentRole === 'b2b') return 'shop';
+    if (currentRole === 'manufacturer') return 'manufacturer';
+    if (currentRole === 'supplier') return 'supplier';
+    return null;
+  }, [pgThreadsOnly, currentRole]);
+
+  const { buyerId: shopInboxBuyerId } = useShopCoreBuyerId();
+  const { orderIds: b2bInboxOrderIds } = usePlatformCoreB2bInboxOrderIds(
+    b2bInboxCabinet,
+    b2bInboxCabinet === 'shop' ? shopInboxBuyerId : undefined
+  );
+
+  const pgThreadsReaderCabinet = pgThreadsOnly ? pgThreadsCabinet : currentRole === 'brand' ? 'brand' : null;
+  const pgReaderId = usePgContextualActorId(pgThreadsReaderCabinet ?? 'brand');
+
+  const refreshPgThreads = React.useCallback(() => {
+    const cabinet = pgThreadsOnly ? pgThreadsCabinet : currentRole === 'brand' ? 'brand' : null;
+    if (!cabinet) return;
+    void fetchPgContextualThreads(cabinet, pgReaderId).then(({ threads }) => {
+      setPgThreadRows(threads);
+    });
+  }, [pgThreadsOnly, currentRole, pgThreadsCabinet, pgReaderId]);
+
+  const { tick: registryTick } = usePlatformCoreB2bRegistryPoll(
+    Boolean(pgThreadsOnly && pgThreadsCabinet)
+  );
+
+  React.useEffect(() => {
+    refreshPgThreads();
+  }, [refreshPgThreads, registryTick]);
+
+  const pgChats = React.useMemo(() => {
+    const mapped = mapBrandPgThreadsToChats(pgThreadRows);
+    if (!b2bInboxCabinet || b2bInboxOrderIds.length === 0) return mapped;
+    return mergePlatformCoreB2bInboxChats(mapped, b2bInboxOrderIds, {
+      placeholders: !coreMode,
+    });
+  }, [pgThreadRows, b2bInboxCabinet, b2bInboxOrderIds, coreMode]);
+
+  const chatFromUrl = searchParams?.get('chat');
+  const contextTypeFromUrl = searchParams?.get('contextType');
+  const contextIdFromUrl = searchParams?.get('contextId');
+  const orderContextIdFromUrl =
+    searchParams?.get('orderId')?.trim() || searchParams?.get('order')?.trim() || '';
+  const contextualChatFromUrl = React.useMemo(() => {
+    const contextType = contextTypeFromUrl?.trim() || (orderContextIdFromUrl ? 'b2b_order' : '');
+    const contextId = contextIdFromUrl?.trim() || orderContextIdFromUrl;
+    if (!contextType || !contextId) return null;
+    return `w2ctx:${contextType}:${contextId}`;
+  }, [contextTypeFromUrl, contextIdFromUrl, orderContextIdFromUrl]);
+
+  const conversationsWithPg = React.useMemo(() => {
+    let merged: ChatConversation[];
+    if (pgThreadsOnly) {
+      merged = pgChats;
+    } else if (pgChats.length === 0) {
+      merged = conversationsWithMatrix;
+    } else {
+      const ids = new Set(pgChats.map((c) => c.id));
+      const rest = conversationsWithMatrix.filter((c) => !ids.has(c.id));
+      merged = [...pgChats, ...rest];
+    }
+    if (contextualChatFromUrl && !merged.some((c) => c.id === contextualChatFromUrl)) {
+      const parsed = parseBrandPgContextChatId(contextualChatFromUrl);
+      if (parsed?.contextType === WORKSHOP2_B2B_ORDER_CONTEXT_TYPE && parsed.contextId) {
+        return [buildPlaceholderB2bOrderChat(parsed.contextId), ...merged];
+      }
+    }
+    return merged;
+  }, [pgThreadsOnly, pgChats, conversationsWithMatrix, contextualChatFromUrl]);
 
   const [chats, setChats] = React.useState<ChatConversation[]>(filteredConversations);
   const [activeChatId, setActiveChatId] = React.useState<ID>(filteredConversations[0]?.id || '');
 
   React.useEffect(() => {
-    setChats(conversationsWithMatrix);
+    setChats(conversationsWithPg);
     if (
-      conversationsWithMatrix.length > 0 &&
-      (!activeChatId || !conversationsWithMatrix.find((c) => c.id === activeChatId))
+      conversationsWithPg.length > 0 &&
+      (!activeChatId || !conversationsWithPg.find((c) => c.id === activeChatId))
     ) {
-      setActiveChatId(conversationsWithMatrix[0].id);
+      setActiveChatId(conversationsWithPg[0].id);
     }
-  }, [conversationsWithMatrix]);
+  }, [conversationsWithPg]);
 
-  const chatFromUrl = searchParams?.get('chat');
+  const coreDefaultOrderChatId = React.useMemo(() => {
+    if (!coreMode) return null;
+    const spineHit = b2bInboxOrderIds.find((id) => isIntegrationImportedWholesaleOrderId(id));
+    const orderId = spineHit ?? b2bInboxOrderIds[0];
+    return orderId ? buildPgB2bOrderChatId(orderId) : null;
+  }, [coreMode, b2bInboxOrderIds]);
+
   React.useEffect(() => {
-    if (chatFromUrl && conversationsWithMatrix.some((c) => c.id === chatFromUrl)) {
+    if (chatFromUrl && conversationsWithPg.some((c) => c.id === chatFromUrl)) {
       setActiveChatId(chatFromUrl);
+      return;
     }
-  }, [chatFromUrl, conversationsWithMatrix]);
+    if (contextualChatFromUrl && conversationsWithPg.some((c) => c.id === contextualChatFromUrl)) {
+      setActiveChatId(contextualChatFromUrl);
+      return;
+    }
+    if (
+      coreMode &&
+      !chatFromUrl &&
+      !contextualChatFromUrl &&
+      coreDefaultOrderChatId &&
+      conversationsWithPg.some((c) => c.id === coreDefaultOrderChatId)
+    ) {
+      setActiveChatId(coreDefaultOrderChatId);
+    }
+  }, [chatFromUrl, contextualChatFromUrl, conversationsWithPg, coreMode, coreDefaultOrderChatId]);
 
   /** Из матрицы: чат по артикулу; иначе — предпочтительный канал этапа (не розница). */
   const stagesStep = searchParams?.get('stagesStep') || '';
   const stageChatAppliedRef = React.useRef('');
   const matrixChatAppliedRef = React.useRef('');
   React.useEffect(() => {
-    if (chatFromUrl) return;
+    if (pgThreadsOnly || chatFromUrl) return;
     const mid = matrixContextChatId({ get: spGet });
-    if (mid && stagesStep && conversationsWithMatrix.some((c) => c.id === mid)) {
+    if (mid && stagesStep && conversationsWithPg.some((c) => c.id === mid)) {
       const key = `${stagesStep}:${searchParams?.get('sku')?.trim() ?? ''}`;
       if (matrixChatAppliedRef.current !== key) {
         setActiveChatId(mid);
@@ -118,22 +256,44 @@ export function useChatState(initialRole?: string) {
     if (stageChatAppliedRef.current === stagesStep) return;
     const want = STAGE_PREFERRED_CHAT_ID[stagesStep];
     if (!want) return;
-    if (conversationsWithMatrix.some((c) => c.id === want)) {
+    if (conversationsWithPg.some((c) => c.id === want)) {
       setActiveChatId(want);
       stageChatAppliedRef.current = stagesStep;
     }
-  }, [stagesStep, chatFromUrl, conversationsWithMatrix, spGet, searchParams]);
+  }, [stagesStep, chatFromUrl, conversationsWithPg, spGet, searchParams, pgThreadsOnly]);
 
   const messagesForChat = React.useCallback(
     (id: ID): ChatMessage[] => {
-      const mid = matrixContextChatId({ get: spGet });
-      if (mid && id === mid) return matrixContextMessages({ get: spGet });
+      if (isBrandPgContextChatId(String(id))) {
+        return pgMessagesCache[String(id)] ?? [];
+      }
+      if (!pgThreadsOnly) {
+        const mid = matrixContextChatId({ get: spGet });
+        if (mid && id === mid) return matrixContextMessages({ get: spGet });
+      }
       const academySeed = getAcademyChatSeedMessages(String(id));
       if (academySeed?.length) return academySeed;
       return (mockChatHistories as any)[id] ?? [];
     },
-    [spGet]
+    [spGet, pgMessagesCache, pgThreadsOnly]
   );
+
+  React.useEffect(() => {
+    if (!activeChatId || !isBrandPgContextChatId(String(activeChatId))) return;
+    const parsed = parseBrandPgContextChatId(String(activeChatId));
+    if (!parsed) return;
+    const key = String(activeChatId);
+    let cancelled = false;
+    void fetchBrandPgContextualMessages(parsed.contextType, parsed.contextId).then((rows) => {
+      if (!cancelled) {
+        setPgMessagesCache((prev) => ({ ...prev, [key]: rows }));
+        setMessages(rows);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [activeChatId]);
 
   const [messages, setMessages] = React.useState<ChatMessage[]>(() =>
     activeChatId ? messagesForChat(activeChatId) : []
@@ -143,10 +303,20 @@ export function useChatState(initialRole?: string) {
     if (activeChatId) setMessages(messagesForChat(activeChatId));
   }, [activeChatId, messagesForChat]);
 
+  const pgMarkSeenReaderId = pgThreadsReaderCabinet ? pgReaderId : undefined;
+
+  React.useEffect(() => {
+    if (!activeChatId || !isBrandPgContextChatId(String(activeChatId))) return;
+    const key = String(activeChatId);
+    const thread = pgThreadRows.find((t) => `w2ctx:${t.contextType}:${t.contextId}` === key);
+    const seenCount = Math.max(thread?.messageCount ?? 0, messages.length);
+    if (seenCount > 0) markPgChatSeen(key, seenCount, pgMarkSeenReaderId);
+  }, [activeChatId, messages.length, pgThreadRows, pgMarkSeenReaderId]);
+
   const [chatQuery, setChatQuery] = React.useState('');
   const [msgSearch, setMsgSearch] = React.useState('');
   const [tab, setTab] = React.useState<'feed' | 'tasks' | 'archived' | 'starred'>('feed');
-  const [activeGroup, setActiveGroup] = React.useState<string>((initialRole as any) || 'all');
+  const [activeGroup, setActiveGroup] = React.useState<string>('all');
   const [composerText, setComposerText] = React.useState('');
   const [isPrivate, setIsPrivate] = React.useState(false);
 
@@ -163,11 +333,32 @@ export function useChatState(initialRole?: string) {
   const onSendMessage = () => {
     if (!composerText.trim()) return;
     const currentUserName = 'Petr';
+    const text = composerText.trim();
+    const parsed = parseBrandPgContextChatId(String(activeChatId));
+    if (parsed) {
+      void postBrandPgContextualMessage({
+        contextType: parsed.contextType,
+        contextId: parsed.contextId,
+        message: text,
+        sender: currentUserName,
+      }).then((ok) => {
+        if (!ok) return;
+        const key = String(activeChatId);
+        void fetchBrandPgContextualMessages(parsed.contextType, parsed.contextId).then((rows) => {
+          setPgMessagesCache((prev) => ({ ...prev, [key]: rows }));
+          setMessages(rows);
+          refreshPgThreads();
+        });
+      });
+      setComposerText('');
+      setIsPrivate(false);
+      return;
+    }
     const newMessage: ChatMessage = {
       id: Date.now(),
       chatId: activeChatId,
       user: currentUserName,
-      text: composerText,
+      text,
       time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }),
       type: 'message',
       isPrivate,

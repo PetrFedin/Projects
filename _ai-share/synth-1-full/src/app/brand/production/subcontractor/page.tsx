@@ -73,9 +73,9 @@ export default function SubcontractorPage() {
   const [contractors, setContractors] = useState<SewingPlanPartnerRow[]>([]);
 
   useEffect(() => {
-    fetch('/api/brand/sewing-contractors')
-      .then((res) => res.json())
-      .then((payload: Workshop2SewingContractorsPayload) => {
+    void fetch('/api/brand/sewing-contractors')
+      .then(async (res) => {
+        const payload = (await res.json()) as Workshop2SewingContractorsPayload;
         if (payload?.partners) {
           setContractors(payload.partners);
         }

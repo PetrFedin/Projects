@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "byArticleKey": {
+    "SS27:demo-ss27-01": {
+      "collectionId": "SS27",
+      "articleId": "demo-ss27-01",
+      "centricStyleId": "CENTRIC-PXM-demo-ss27-01",
+      "heroUrl": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80",
+      "assets": [
+        {
+          "assetId": "CENTRIC-PXM-demo-ss27-01-hero",
+          "url": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80",
+          "kind": "hero",
+          "mimeType": "image/jpeg"
+        },
+        {
+          "assetId": "CENTRIC-PXM-demo-ss27-01-linesheet",
+          "url": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80",
+          "kind": "linesheet",
+          "mimeType": "image/jpeg"
+        }
+      ],
+      "importedAt": "2026-06-12T00:37:35.008Z"
+    }
+  }
+}

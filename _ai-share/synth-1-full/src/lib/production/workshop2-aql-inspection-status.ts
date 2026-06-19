@@ -9,6 +9,10 @@ import {
 } from '@/lib/production/workshop2-qc-aql-dossier-persist';
 import { collectWorkshop2PanelExportGateChecks } from '@/lib/production/workshop2-panel-gate-ui';
 import type { Workshop2ApiGateCheck } from '@/lib/production/workshop2-api-gate-messages';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2AqlQtySource = 'batch' | 'sample_order' | 'fallback';
 
@@ -73,19 +77,20 @@ export function summarizeWorkshop2AqlPanelDisplayFromMirror(input: {
   const mirror = input.dossier?.qcAqlMirror;
   if (!mirror?.recordedAt) return input.live;
 
+  const sampleSize = workshop2PgMirrorNum(mirror, 'sampleSize');
   const state: Workshop2AqlInspectionStatus['state'] = mirror.isFail
     ? 'fail'
-    : mirror.sampleSize > 0
+    : sampleSize > 0
       ? 'ready'
       : 'partial';
 
   return {
     ...input.live,
-    orderQty: mirror.orderQty ?? input.live.orderQty,
-    sampleSize: mirror.sampleSize ?? input.live.sampleSize,
+    orderQty: workshop2PgMirrorNum(mirror, 'orderQty') || input.live.orderQty,
+    sampleSize: sampleSize || input.live.sampleSize,
     isFail: Boolean(mirror.isFail),
     state,
-    hintRu: mirror.hintRu ?? input.live.hintRu,
+    hintRu: workshop2PgMirrorStr(mirror, 'hintRu') || input.live.hintRu,
   };
 }
 

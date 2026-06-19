@@ -104,19 +104,19 @@ export function extractCadMeasuresFromDossierPom(
       ? baseSizeKey
       : Object.keys(perSizeDimensions)[0]!;
   const row = perSizeDimensions[key] ?? {};
-  return Object.entries(row)
-    .map(([label, valueText], i) => {
-      const trimmed = valueText.trim();
-      if (!trimmed) return null;
-      const num = Number.parseFloat(trimmed.replace(',', '.'));
-      return {
+  return Object.entries(row).flatMap(([label, valueText], i): Workshop2CadMeasureEntry[] => {
+    const trimmed = valueText.trim();
+    if (!trimmed) return [];
+    const num = Number.parseFloat(trimmed.replace(',', '.'));
+    return [
+      {
         id: `pom-${i}`,
         label,
         valueCm: Number.isFinite(num) ? num : undefined,
-        source: 'dossier_pom' as const,
-      };
-    })
-    .filter((x): x is Workshop2CadMeasureEntry => x != null);
+        source: 'dossier_pom',
+      },
+    ];
+  });
 }
 
 export function mergeCadMeasureLists(

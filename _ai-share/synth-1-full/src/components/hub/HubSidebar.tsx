@@ -6,6 +6,10 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
+import {
+  isPlatformCoreCabinetNavLink,
+  platformCoreCabinetNavLinkClass,
+} from '@/lib/platform-core-cabinet-chrome';
 import { SYNTHA_SIDEBAR_CLUSTERS, sortNavGroupsByOrder } from '@/lib/data/syntha-nav-clusters';
 
 type NavLink = {
@@ -66,7 +70,7 @@ export function HubSidebar({
   /** Accessible name для `<nav>` — e2e и screen readers (client cabinet). */
   ariaLabel?: string;
   /** Если заданы вместе с порядками — секции «Ядра 1–3» и «Архив». */
-  sidebarClusters?: typeof SYNTHA_SIDEBAR_CLUSTERS;
+  sidebarClusters?: ReadonlyArray<(typeof SYNTHA_SIDEBAR_CLUSTERS)[number]>;
   coreGroupOrder?: readonly string[];
   archiveGroupOrder?: readonly string[];
 }) {
@@ -215,17 +219,23 @@ export function HubSidebar({
                   );
                 }
 
+                const linkClass = cn(
+                  'flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
+                  active
+                    ? `${activeBgClass} text-white`
+                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                );
+
                 return (
                   <Link
                     key={link.value}
                     href={link.href}
                     onClick={onNavigate}
-                    className={cn(
-                      'flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
-                      active
-                        ? `${activeBgClass} text-white`
-                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-                    )}
+                    className={
+                      isPlatformCoreCabinetNavLink(link.value)
+                        ? platformCoreCabinetNavLinkClass(active, linkClass)
+                        : linkClass
+                    }
                   >
                     <link.icon className="h-3.5 w-3.5 shrink-0" aria-hidden />
                     <span className="min-w-0 truncate">{link.label}</span>

@@ -46,6 +46,7 @@ const PLM_TONE_CLASS: Record<Workshop2PlmOutboxBadge['tone'], string> = {
   ok: 'border-emerald-200 bg-emerald-50/80 text-emerald-800',
   pending: 'border-amber-200 bg-amber-50/80 text-amber-900',
   awaiting_ack: 'border-sky-200 bg-sky-50/80 text-sky-900',
+  failed: 'border-rose-200 bg-rose-50/80 text-rose-900',
 };
 
 const TZ_PHASE_LABEL: Record<Workshop2WorkspaceTzPhaseStep, string> = {
@@ -91,7 +92,7 @@ export function buildWorkshop2WorkspaceHeaderSync(input: {
   plm: { pending: number; awaitingAck: number; autoAckEnabled?: boolean };
   plmLastEventHint?: string | null;
 }): Workshop2WorkspaceHeaderSync {
-  const readiness = calculateDossierReadiness(input.dossier, null);
+  const readiness = calculateDossierReadiness(input.dossier ?? null, null);
   const lifecycle = normalizeLifecycle(input.dossier?.lifecycleState);
   const canSendToFactory = input.pulse?.canSendToFactory ?? false;
 

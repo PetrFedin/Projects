@@ -3,6 +3,10 @@
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
+import {
   appendWorkshop2QcAutoChangeRequest,
   shouldAutoDraftWorkshop2QcChangeRequest,
 } from '@/lib/production/workshop2-qc-defect-change-request';
@@ -18,6 +22,13 @@ export type Workshop2MesQcDefectPayload = {
   mesEventId?: string;
   detectedAt?: string;
 };
+
+function workshop2QcPanelSupplierSource(
+  mirror: Workshop2DossierPhase1['qcPanelMirror']
+): 'purchase_order' | 'seed_default' | 'none' {
+  const raw = workshop2PgMirrorStr(mirror, 'supplierSource');
+  return raw === 'purchase_order' || raw === 'seed_default' || raw === 'none' ? raw : 'none';
+}
 
 export function parseWorkshop2MesQcIngestBody(body: unknown): Workshop2MesQcDefectPayload | null {
   if (!body || typeof body !== 'object') return null;
@@ -95,21 +106,22 @@ export function applyWorkshop2MesQcDefectToDossier(input: {
     },
   ];
 
-  const batchCount = (input.dossier.qcPanelMirror?.batchCount ?? 0) + 1;
-  const failedBatchCount = (input.dossier.qcPanelMirror?.failedBatchCount ?? 0) + failedIncrement;
-  const pendingBatchCount = input.dossier.qcPanelMirror?.pendingBatchCount ?? 0;
+  const panel = input.dossier.qcPanelMirror;
+  const batchCount = workshop2PgMirrorNum(panel, 'batchCount') + 1;
+  const failedBatchCount = workshop2PgMirrorNum(panel, 'failedBatchCount') + failedIncrement;
+  const pendingBatchCount = workshop2PgMirrorNum(panel, 'pendingBatchCount');
 
   const withMirror = persistWorkshop2QcPanelMirrorToDossier(input.dossier, {
     batchCount,
     pendingBatchCount,
     failedBatchCount,
-    hasSampleOrder: input.dossier.qcPanelMirror?.hasSampleOrder ?? false,
+    hasSampleOrder: panel?.hasSampleOrder === true,
     hasInspectorLink: true,
-    supplierId: input.dossier.qcPanelMirror?.supplierId ?? '',
-    supplierSource: input.dossier.qcPanelMirror?.supplierSource ?? 'none',
-    purchaseOrderCount: input.dossier.qcPanelMirror?.purchaseOrderCount ?? 0,
-    poConfirmedCount: input.dossier.qcPanelMirror?.poConfirmedCount ?? 0,
-    activeSampleOrderId: input.dossier.qcPanelMirror?.activeSampleOrderId,
+    supplierId: workshop2PgMirrorStr(panel, 'supplierId'),
+    supplierSource: workshop2QcPanelSupplierSource(panel),
+    purchaseOrderCount: workshop2PgMirrorNum(panel, 'purchaseOrderCount'),
+    poConfirmedCount: workshop2PgMirrorNum(panel, 'poConfirmedCount'),
+    activeSampleOrderId: workshop2PgMirrorStr(panel, 'activeSampleOrderId') || undefined,
   });
 
   let dossier: Workshop2DossierPhase1 = {

@@ -66,8 +66,8 @@ export function SupplierQcScorecard({
     let active = true;
     setLoading(true);
     fetch(`/api/brand/workshop2/qc/supplier-scorecard?supplierId=${supplierId}`)
-      .then((res) => res.json())
-      .then((json) => {
+      .then(async (res) => {
+        const json = (await res.json()) as ScorecardData;
         if (active) {
           setData(json);
           setLoading(false);
@@ -120,7 +120,7 @@ export function SupplierQcScorecard({
         description: formatWorkshop2PersistToastDescription({
           mirrorField: 'supplierQcSnapshot',
           ok: res.ok,
-          okHintRu: 'Ð¡Ð½Ð¸Ð¼Ð¾Ðº PO scorecard Ð·Ð°Ð¿Ð¸ÑÐ°Ð½ Ð² Ð´Ð¾ÑÑÐµ.',
+          okHintRu: 'Снимок PO scorecard записан в досье.',
           reason: res.reason,
         }),
         variant: res.ok ? 'default' : 'destructive',
@@ -132,9 +132,9 @@ export function SupplierQcScorecard({
 
   if (loading) {
     return (
-      <WidgetContainer title="Ð ÐµÐ¹ÑÐ¸Ð½Ð³ Ð¿ÑÐ¾Ð¸Ð·Ð²Ð¾Ð´Ð¸ÑÐµÐ»Ñ">
+      <WidgetContainer title="Рейтинг производителя">
         <div className="text-text-secondary flex h-48 items-center justify-center text-sm">
-          ÐÐ°Ð³ÑÑÐ·ÐºÐ° ÑÐµÐ¹ÑÐ¸Ð½Ð³Ð°...
+          Загрузка рейтинга...
         </div>
       </WidgetContainer>
     );
@@ -142,9 +142,9 @@ export function SupplierQcScorecard({
 
   if (!data) {
     return (
-      <WidgetContainer title="Ð ÐµÐ¹ÑÐ¸Ð½Ð³ Ð¿ÑÐ¾Ð¸Ð·Ð²Ð¾Ð´Ð¸ÑÐµÐ»Ñ">
+      <WidgetContainer title="Рейтинг производителя">
         <div className="text-text-secondary flex h-48 items-center justify-center text-sm">
-          ÐÐ°Ð½Ð½ÑÐµ Ð½ÐµÐ´Ð¾ÑÑÑÐ¿Ð½Ñ
+          Данные недоступны
         </div>
       </WidgetContainer>
     );
@@ -152,7 +152,7 @@ export function SupplierQcScorecard({
 
   if (data.source === 'empty' || data.totalBatches === 0) {
     return (
-      <WidgetContainer title="Ð ÐµÐ¹ÑÐ¸Ð½Ð³ Ð¿ÑÐ¾Ð¸Ð·Ð²Ð¾Ð´Ð¸ÑÐµÐ»Ñ (PO)">
+      <WidgetContainer title="Рейтинг производителя (PO)">
         <div className="mt-2 flex flex-wrap items-center gap-2">
           <span data-testid="workshop2-supplier-qc-pg-chip">
             <Workshop2OperationalPgMirrorChip {...pgMirror} />
@@ -160,7 +160,7 @@ export function SupplierQcScorecard({
         </div>
         <p className="text-text-secondary mt-3 text-sm leading-relaxed">
           {data.hintRu ??
-            'ÐÐµÑ Ð·Ð°ÐºÐ°Ð·Ð¾Ð² Ð½Ð° Ð·Ð°ÐºÑÐ¿ÐºÑ Ñ ÑÑÐ¸Ð¼ Ð¿Ð¾ÑÑÐ°Ð²ÑÐ¸ÐºÐ¾Ð¼ â scorecard ÑÑÑÐ¾Ð¸ÑÑÑ Ð¸Ð· PO, Ð½Ðµ Ð¸Ð· ÑÐ¸ÐºÑÐ¸ÑÐ¾Ð²Ð°Ð½Ð½Ð¾Ð³Ð¾ mock.'}
+            'Нет заказов на закупку с этим поставщиком — scorecard строится из PO, не из фиксированного mock.'}
         </p>
         <p className="text-text-muted mt-2 text-[11px]">supplierId: {supplierId}</p>
       </WidgetContainer>
@@ -168,13 +168,13 @@ export function SupplierQcScorecard({
   }
 
   const pieData = [
-    { name: 'ÐÑÐ¸Ð½ÑÑÐ¾', value: data.passed, color: COLORS.passed },
-    { name: 'ÐÐ¾ÑÐ°Ð±Ð¾ÑÐºÐ°', value: data.rework, color: COLORS.rework },
-    { name: 'ÐÑÐ°Ðº', value: data.failed, color: COLORS.failed },
+    { name: 'Принято', value: data.passed, color: COLORS.passed },
+    { name: 'Доработка', value: data.rework, color: COLORS.rework },
+    { name: 'Брак', value: data.failed, color: COLORS.failed },
   ];
 
   return (
-    <WidgetContainer title="Ð ÐµÐ¹ÑÐ¸Ð½Ð³ Ð¿ÑÐ¾Ð¸Ð·Ð²Ð¾Ð´Ð¸ÑÐµÐ»Ñ (AQL)">
+    <WidgetContainer title="Рейтинг производителя (AQL)">
       <div className="mt-2 flex flex-wrap items-center gap-2">
         <span data-testid="workshop2-supplier-qc-pg-chip">
           <Workshop2OperationalPgMirrorChip {...pgMirror} />
@@ -183,7 +183,7 @@ export function SupplierQcScorecard({
           <Workshop2DossierPersistButton
             busy={persisting}
             className="h-7 text-[10px]"
-            title="supplierQcSnapshot â PG"
+            title="supplierQcSnapshot → PG"
             onClick={() => void persistToDossier()}
           />
         ) : null}
@@ -193,12 +193,12 @@ export function SupplierQcScorecard({
           <p className="text-text-secondary mb-1 text-sm font-medium">Pass Rate</p>
           <div className="text-text-primary text-4xl font-bold">{data.passRate.toFixed(1)}%</div>
           <p className="text-text-muted mt-2 text-xs">
-            {data.totalBatches} Ð¿Ð°ÑÑÐ¸Ð¹ Ð¿ÑÐ¾Ð²ÐµÑÐµÐ½Ð¾
+            {data.totalBatches} партий проверено
           </p>
         </div>
 
         <div className="flex h-40 flex-col items-center">
-          <p className="text-text-secondary mb-2 text-xs font-semibold">Ð¡ÑÐ°ÑÑÑ Ð¿Ð°ÑÑÐ¸Ð¹</p>
+          <p className="text-text-secondary mb-2 text-xs font-semibold">Статус партий</p>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -227,7 +227,7 @@ export function SupplierQcScorecard({
         </div>
 
         <div className="flex h-40 flex-col items-center">
-          <p className="text-text-secondary mb-2 text-xs font-semibold">Ð§Ð°ÑÑÑÐµ Ð´ÐµÑÐµÐºÑÑ</p>
+          <p className="text-text-secondary mb-2 text-xs font-semibold">Частые дефекты</p>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data.defectTypes}

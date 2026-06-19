@@ -1,0 +1,125 @@
+{"role":"user","text":"SYNTHA Platform Core — глубокое сканирование проекта для планировщика развития.\nSession: scan-1781716924973-cjo0s4\nCollection: SS27\nЛокальный аудит уже добавил 0 пункт(ов). Твоя задача — найти дополнительные пробелы в коде и UX.\n\n## Матрица роли × столпы × разделы (канон аудита)\n{\n  \"collectionId\": \"SS27\",\n  \"pillars\": [\n    {\n      \"id\": \"development\",\n      \"title\": \"Разработка\"\n    },\n    {\n      \"id\": \"sample_collection\",\n      \"title\": \"Коллекция и витрина\"\n    },\n    {\n      \"id\": \"collection_order\",\n      \"title\": \"Оптовый заказ\"\n    },\n    {\n      \"id\": \"order_production\",\n      \"title\": \"Производство\"\n    },\n    {\n      \"id\": \"comms\",\n      \"title\": \"Связь\"\n    }\n  ],\n  \"cells\": [\n    {\n      \"roleId\": \"brand\",\n      \"role\": \"Бренд\",\n      \"pillarId\": \"development\",\n      \"active\": true,\n      \"liveScore\": 6.6,\n      \"summary\": \"W2 golden: hub + досье + состав из PG; localStorage overlay для SS27/FW27 отключён в Platform Core.\",\n      \"bad\": [],\n      \"fix\": [],\n      \"workspaceHref\": \"/brand/production/workshop2?w2col=SS27&collection=SS27&orderId=B2B-DEMO-SHOP1-SS27&article=demo-ss27-01&buyerId=shop1\",\n      \"sections\": [\n        {\n          \"id\": \"brand-dev-w2-hub\",\n          \"label\": \"Цех разработки · коллекция\",\n          \"liveScore\": 7.5,\n          \"bad\": [],\n          \"fix\": [\n            \"Investor-summary read-only отдельно\"\n          ],\n          \"href\": \"/brand/production/workshop2?w2col=SS27\"\n        },\n        {\n          \"id\": \"brand-dev-dossier\",\n          \"label\": \"Досье артикула · техзадание\",\n          \"liveScore\": 7.2,\n          \"bad\": [\n            \"Investor-summary read-only отдельно\"\n          ],\n          \"fix\": [],\n          \"href\": \"/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=general\"\n        },\n        {\n          \"id\": \"brand-dev-range\",\n          \"label\": \"Планировщик ассортимента\",\n          \"liveScore\": 7.3,\n          \"bad\": [\n            \"Нет drag-reorder между tier\"\n          ],\n          \"fix\": [\n            \"Drag-","at":"2026-06-17T17:22:05.390Z"}
+{"role":"system","text":"Cursor local agent · cwd /Users/petr/Projects","at":"2026-06-17T17:22:05.390Z"}
+{"role":"assistant","text":"П","at":"2026-06-17T17:22:13.933Z","stream":true}
+{"role":"assistant","text":"ров","at":"2026-06-17T17:22:13.933Z","stream":true}
+{"role":"assistant","text":"ож","at":"2026-06-17T17:22:13.933Z","stream":true}
+{"role":"assistant","text":"у","at":"2026-06-17T17:22:13.933Z","stream":true}
+{"role":"assistant","text":" г","at":"2026-06-17T17:22:13.933Z","stream":true}
+{"role":"assistant","text":"луб","at":"2026-06-17T17:22:13.934Z","stream":true}
+{"role":"assistant","text":"ок","at":"2026-06-17T17:22:13.934Z","stream":true}
+{"role":"assistant","text":"ое","at":"2026-06-17T17:22:13.934Z","stream":true}
+{"role":"assistant","text":" ск","at":"2026-06-17T17:22:13.934Z","stream":true}
+{"role":"assistant","text":"ан","at":"2026-06-17T17:22:13.934Z","stream":true}
+{"role":"assistant","text":"ирован","at":"2026-06-17T17:22:13.934Z","stream":true}
+{"role":"assistant","text":"ие","at":"2026-06-17T17:22:13.934Z","stream":true}
+{"role":"assistant","text":" ре","at":"2026-06-17T17:22:13.934Z","stream":true}
+{"role":"assistant","text":"п","at":"2026-06-17T17:22:13.935Z","stream":true}
+{"role":"assistant","text":"оз","at":"2026-06-17T17:22:13.935Z","stream":true}
+{"role":"assistant","text":"итор","at":"2026-06-17T17:22:13.935Z","stream":true}
+{"role":"assistant","text":"ия","at":"2026-06-17T17:22:13.935Z","stream":true}
+{"role":"assistant","text":":","at":"2026-06-17T17:22:13.935Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:22:13.935Z","stream":true}
+{"role":"assistant","text":"щ","at":"2026-06-17T17:22:13.935Z","stream":true}
+{"role":"assistant","text":"у","at":"2026-06-17T17:22:14.081Z","stream":true}
+{"role":"assistant","text":" проб","at":"2026-06-17T17:22:14.082Z","stream":true}
+{"role":"assistant","text":"ел","at":"2026-06-17T17:22:14.082Z","stream":true}
+{"role":"assistant","text":"ы","at":"2026-06-17T17:22:14.082Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:22:14.082Z","stream":true}
+{"role":"assistant","text":" код","at":"2026-06-17T17:22:14.083Z","stream":true}
+{"role":"assistant","text":"е","at":"2026-06-17T17:22:14.086Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:22:14.087Z","stream":true}
+{"role":"assistant","text":" UX","at":"2026-06-17T17:22:14.091Z","stream":true}
+{"role":"assistant","text":",","at":"2026-06-17T17:22:14.091Z","stream":true}
+{"role":"assistant","text":" котор","at":"2026-06-17T17:22:14.106Z","stream":true}
+{"role":"assistant","text":"ых","at":"2026-06-17T17:22:14.110Z","stream":true}
+{"role":"assistant","text":" н","at":"2026-06-17T17:22:14.110Z","stream":true}
+{"role":"assistant","text":"ет","at":"2026-06-17T17:22:14.111Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:22:14.116Z","stream":true}
+{"role":"assistant","text":" мат","at":"2026-06-17T17:22:14.127Z","stream":true}
+{"role":"assistant","text":"ри","at":"2026-06-17T17:22:14.138Z","stream":true}
+{"role":"assistant","text":"це","at":"2026-06-17T17:22:14.139Z","stream":true}
+{"role":"assistant","text":" ауд","at":"2026-06-17T17:22:14.143Z","stream":true}
+{"role":"assistant","text":"ита","at":"2026-06-17T17:22:14.143Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:22:14.148Z","stream":true}
+{"role":"assistant","text":"З","at":"2026-06-17T17:25:47.337Z","stream":true}
+{"role":"assistant","text":"ап","at":"2026-06-17T17:25:47.337Z","stream":true}
+{"role":"assistant","text":"ис","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":"ы","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":"ва","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":"ю","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":" JSON","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":"ф","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":"ай","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":"л","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":" с","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":" у","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":"ник","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":"аль","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":"ными","at":"2026-06-17T17:25:47.338Z","stream":true}
+{"role":"assistant","text":" наход","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":"к","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":"ами","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":",","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":" не","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":" д","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":"уб","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":"ли","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":"ру","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":"я","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":" мат","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":"ри","at":"2026-06-17T17:25:47.339Z","stream":true}
+{"role":"assistant","text":"ц","at":"2026-06-17T17:25:47.340Z","stream":true}
+{"role":"assistant","text":"у","at":"2026-06-17T17:25:47.340Z","stream":true}
+{"role":"assistant","text":" и","at":"2026-06-17T17:25:47.340Z","stream":true}
+{"role":"assistant","text":" не","at":"2026-06-17T17:25:47.340Z","stream":true}
+{"role":"assistant","text":"дав","at":"2026-06-17T17:25:47.340Z","stream":true}
+{"role":"assistant","text":"н","at":"2026-06-17T17:25:47.340Z","stream":true}
+{"role":"assistant","text":"ие","at":"2026-06-17T17:25:47.340Z","stream":true}
+{"role":"assistant","text":" ск","at":"2026-06-17T17:25:47.340Z","stream":true}
+{"role":"assistant","text":"аны","at":"2026-06-17T17:25:47.340Z","stream":true}
+{"role":"assistant","text":".\n","at":"2026-06-17T17:25:47.340Z","stream":true}
+{"role":"assistant","text":"С","at":"2026-06-17T17:26:07.385Z","stream":true}
+{"role":"assistant","text":"кан","at":"2026-06-17T17:26:07.387Z","stream":true}
+{"role":"assistant","text":"ирован","at":"2026-06-17T17:26:07.387Z","stream":true}
+{"role":"assistant","text":"ие","at":"2026-06-17T17:26:07.388Z","stream":true}
+{"role":"assistant","text":" зав","at":"2026-06-17T17:26:07.388Z","stream":true}
+{"role":"assistant","text":"ерш","at":"2026-06-17T17:26:07.389Z","stream":true}
+{"role":"assistant","text":"ено","at":"2026-06-17T17:26:07.389Z","stream":true}
+{"role":"assistant","text":".","at":"2026-06-17T17:26:07.389Z","stream":true}
+{"role":"assistant","text":" Ф","at":"2026-06-17T17:26:07.390Z","stream":true}
+{"role":"assistant","text":"айл записан: `_ai-share/synth-1-full/.planning/planner-scan-scan-1781716924973-cjo0s4.json`\n\n**30","at":"2026-06-17T17:26:07.390Z","stream":true}
+{"role":"assistant","text":" development** + **14 techDebt** — только новые пункты относительно матрицы аудита.\n\n### Топ-5 наход","at":"2026-06-17T17:26:07.390Z","stream":true}
+{"role":"assistant","text":"ок\n\n1. **W2 T&A — мёртвая секция** — `w2sec=time-and-action` парсится в `null`, хот","at":"2026-06-17T17:26:07.391Z","stream":true}
+{"role":"assistant","text":"я panel и API существуют; deep-link в досье не работает.\n\n2. **MOQ в мат","at":"2026-06-17T17:26:07.391Z","stream":true}
+{"role":"assistant","text":"рице vs checkout** — badge предупреждает о нарушении MOQ, но checkout и `cart/lines` не","at":"2026-06-17T17:26:07.392Z","stream":true}
+{"role":"assistant","text":" блокируют отправку заказа ниже минимума.\n\n3. **Integration ATS в Core matrix** — в Platform Core матрица вс","at":"2026-06-17T17:26:07.464Z","stream":true}
+{"role":"assistant","text":"ё ещё тянет DEMO NuOrder/JOOR/AM/AIMS badges, что расходится с политикой «без сторон","at":"2026-06-17T17:26:07.560Z","stream":true}
+{"role":"assistant","text":"них платформ в core».\n\n4. **Асимметрия fail-closed comms** — brand messages блокируют","at":"2026-06-17T17:26:07.735Z","stream":true}
+{"role":"assistant","text":" `source=memory`, shop/factory рендерят inbox без такого guard → разное поведение при","at":"2026-06-17T17:26:07.760Z","stream":true}
+{"role":"assistant","text":" unset PG.\n\n5. **Error states без recovery** — кабинет sample_collection, linesheets и showroom при API","at":"2026-06-17T17:26:07.859Z","stream":true}
+{"role":"assistant","text":" error показывают dead-end copy («недоступен» / «не опубликована») без retry и cross-links; e2","at":"2026-06-17T17:26:07.954Z","stream":true}
+{"role":"assistant","text":"e","at":"2026-06-17T17:26:08.039Z","stream":true}
+{"role":"assistant","text":" `","at":"2026-06-17T17:26:08.039Z","stream":true}
+{"role":"assistant","text":"core","at":"2026-06-17T17:26:08.039Z","stream":true}
+{"role":"assistant","text":"-","at":"2026-06-17T17:26:08.039Z","stream":true}
+{"role":"assistant","text":"06","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":"`","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":" уже","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":" о","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":"ж","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":"и","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":"да","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":"ет","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":" escape","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":" links","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":",","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":" котор","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":"ых","at":"2026-06-17T17:26:08.040Z","stream":true}
+{"role":"assistant","text":" в","at":"2026-06-17T17:26:08.041Z","stream":true}
+{"role":"assistant","text":" UI","at":"2026-06-17T17:26:08.041Z","stream":true}
+{"role":"assistant","text":" н","at":"2026-06-17T17:26:08.041Z","stream":true}
+{"role":"assistant","text":"ет","at":"2026-06-17T17:26:08.041Z","stream":true}
+{"role":"assistant","text":".","at":"2026-06-17T17:26:08.041Z","stream":true}
+{"role":"assistant","text":"Сканирование завершено. Файл записан: `_ai-share/synth-1-full/.planning/planner-scan-scan-1781716924973-cjo0s4.json`\n\n**30 development** + **14 techDebt** — только новые пункты относительно матрицы аудита.\n\n### Топ-5 находок\n\n1. **W2 T&A — мёртвая секция** — `w2sec=time-and-action` парсится в `null`, хотя panel и API существуют; deep-link в досье не работает.\n\n2. **MOQ в матрице vs checkout** — badge предупреждает о нарушении MOQ, но checkout и `cart/lines` не блокируют отправку заказа ниже минимума.\n\n3. **Integration ATS в Core matrix** — в Platform Core матрица всё ещё тянет DEMO NuOrder/JOOR/AM/AIMS badges, что расходится с политикой «без сторонних платформ в core».\n\n4. **Асимметрия fail-closed comms** — brand messages блокируют `source=memory`, shop/factory рендерят inbox без такого guard → разное поведение при unset PG.\n\n5. **Error states без recovery** — кабинет sample_collection, linesheets и showroom при API error показывают dead-end copy («недоступен» / «не опубликована») без retry и cross-links; e2e `core-06` уже ожидает escape links, которых в UI нет.","at":"2026-06-17T17:26:08.927Z","done":true,"status":"finished"}
+{"role":"system","text":"Сканирование загружено в планировщик: +44 пункт(ов). Обновите вкладку План.","at":"2026-06-17T17:26:09.555Z"}

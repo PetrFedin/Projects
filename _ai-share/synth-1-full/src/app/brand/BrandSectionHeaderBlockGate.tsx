@@ -25,8 +25,8 @@ export function BrandSectionHeaderBlockGate() {
       const id = window.requestIdleCallback(() => setReady(true), { timeout: 3000 });
       return () => window.cancelIdleCallback(id);
     }
-    const timer = window.setTimeout(() => setReady(true), 1500);
-    return () => window.clearTimeout(timer);
+    const timer = setTimeout(() => setReady(true), 1500);
+    return () => clearTimeout(timer);
   }, [shouldMount]);
 
   if (!shouldMount || !ready) return null;

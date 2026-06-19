@@ -7,6 +7,10 @@ import {
 } from '@/lib/production/workshop2-signoff-stages-config';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export function buildWorkshop2SignoffStagesProgressMirror(input: {
   dossier: Workshop2DossierPhase1;
@@ -44,7 +48,7 @@ export function evaluateWorkshop2SignoffStagesProgressMirrorGate(
     id: 'signoff.stages.mirror_blocked',
     severity: 'blocker',
     messageRu:
-      mirror.hintRu ??
-      `Signoff этапы: ${mirror.stagesComplete}/${mirror.stagesTotal} — синхронизируйте setup.`,
+      workshop2PgMirrorStr(mirror, 'hintRu') ||
+      `Signoff этапы: ${workshop2PgMirrorNum(mirror, 'stagesComplete', typeof mirror.stagesComplete === 'number' ? mirror.stagesComplete : 0)}/${workshop2PgMirrorNum(mirror, 'stagesTotal', typeof mirror.stagesTotal === 'number' ? mirror.stagesTotal : 0)} — синхронизируйте setup.`,
   };
 }

@@ -20,8 +20,8 @@ export interface OrchestrationResult {
 export class SupplyChainOrchestrator {
   constructor() {
     // Подписка на падение стока для авто-пополнения
-    eventBus.subscribe(DomainEventTypes.inventory.stockLow, async (event: StockLowEvent) => {
-      await this.handleLowStock(event);
+    eventBus.subscribe(DomainEventTypes.inventory.stockLow, async (event) => {
+      await this.handleLowStock(event as StockLowEvent);
     });
   }
 

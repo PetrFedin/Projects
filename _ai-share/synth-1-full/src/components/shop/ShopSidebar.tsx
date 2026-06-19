@@ -6,6 +6,10 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
+import {
+  isPlatformCoreCabinetNavLink,
+  platformCoreCabinetNavLinkClass,
+} from '@/lib/platform-core-cabinet-chrome';
 import type { shopNavGroups } from '@/lib/data/shop-navigation-normalized';
 import {
   SHOP_ARCHIVE_GROUP_ORDER,
@@ -13,6 +17,12 @@ import {
   SYNTHA_SIDEBAR_CLUSTERS,
   sortNavGroupsByOrder,
 } from '@/lib/data/syntha-nav-clusters';
+import {
+  SHOP_CORE_PILLARS_NAV_ORDER,
+  filterNavGroupsForCoreSidebar,
+  resolveSidebarClustersForCore,
+  shouldHideNavArchiveCluster,
+} from '@/lib/cabinet-core-mode';
 
 type NavGroup = (typeof shopNavGroups)[number];
 type NavLink = NavGroup['links'][number];
@@ -47,24 +57,28 @@ export function ShopSidebar({
   groups,
   className,
   onNavigate,
+  ariaLabel = 'Меню магазина',
 }: {
   groups: NavGroup[];
   className?: string;
   onNavigate?: () => void;
+  ariaLabel?: string;
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const clusteredSections = useMemo(() => {
+    const coreOrder = shouldHideNavArchiveCluster() ? SHOP_CORE_PILLARS_NAV_ORDER : SHOP_CORE_GROUP_ORDER;
     const core = sortNavGroupsByOrder(
       groups.filter((g) => (g as { clusterId?: string }).clusterId === 'syntha-cores'),
-      SHOP_CORE_GROUP_ORDER
+      coreOrder
     );
     const archive = sortNavGroupsByOrder(
       groups.filter((g) => (g as { clusterId?: string }).clusterId === 'archive'),
       SHOP_ARCHIVE_GROUP_ORDER
     );
-    return SYNTHA_SIDEBAR_CLUSTERS.map((c) => ({
+    const clusters = resolveSidebarClustersForCore();
+    return clusters.map((c) => ({
       ...c,
       groups: c.id === 'syntha-cores' ? core : archive,
     }));
@@ -216,17 +230,23 @@ export function ShopSidebar({
                   );
                 }
 
+                const linkClass = cn(
+                  'flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
+                  active
+                    ? 'bg-text-primary text-white'
+                    : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
+                );
+
                 return (
                   <Link
                     key={link.value}
                     href={linkHref}
                     onClick={onNavigate}
-                    className={cn(
-                      'flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-colors',
-                      active
-                        ? 'bg-text-primary text-white'
-                        : 'text-text-secondary hover:bg-bg-surface2 hover:text-text-primary'
-                    )}
+                    className={
+                      isPlatformCoreCabinetNavLink(link.value)
+                        ? platformCoreCabinetNavLinkClass(active, linkClass)
+                        : linkClass
+                    }
                   >
                     <link.icon className="h-3.5 w-3.5 shrink-0" />
                     <span className="flex-1 truncate">{link.label}</span>
@@ -242,6 +262,7 @@ export function ShopSidebar({
 
   return (
     <nav
+      aria-label={ariaLabel}
       className={cn(
         'border-border-default scrollbar-hide flex h-full flex-col overflow-y-auto border-r bg-white',
         className

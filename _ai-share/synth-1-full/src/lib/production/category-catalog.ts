@@ -23,6 +23,11 @@ export {
   type TaxonomyLeafAlias,
 } from './category-handbook-leaves';
 export {
+  getCategoryHandbookFilterTree,
+  type CategoryHandbookFilterAudience,
+  type CategoryHandbookFilterNode,
+} from './category-handbook-filter-tree';
+export {
   formatComplianceSummary,
   formatStockUnitRu,
   getResolvedLeafProductionProfile,

@@ -18,7 +18,7 @@ export function useWorkshop2Phase1DossierHandbookCheckReportExpansionEffects(p: 
 
   useEffect(() => {
     if (!handbookCheckSnapshot || !handbookCheckClean) return;
-    const id = window.setTimeout(() => setHandbookCheckReportExpanded(false), 5000);
-    return () => window.clearTimeout(id);
+    const id = globalThis.setTimeout(() => setHandbookCheckReportExpanded(false), 5000);
+    return () => globalThis.clearTimeout(id);
   }, [handbookCheckSnapshot?.checkedAtIso, handbookCheckClean]);
 }

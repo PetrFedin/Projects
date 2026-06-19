@@ -7,6 +7,10 @@ import type { Workshop2ActivityEntry } from '@/lib/production/workshop2-activity
 import { persistWorkshop2HubActivityMirrorToDossier } from '@/lib/production/workshop2-hub-activity-dossier-persist';
 import { listWorkshop2DossierEvents } from '@/lib/server/workshop2-phase1-dossier-server-store';
 import {
+  workshop2DossierPutFailureMessageRu,
+  workshop2DossierPutFailureStatus,
+} from '@/lib/server/workshop2-dossier-put-utils';
+import {
   getWorkshop2ServerDossierRecord,
   putWorkshop2ServerDossierRecord,
 } from '@/lib/server/workshop2-phase1-dossier-server-store';
@@ -66,7 +70,7 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
   });
 
   if (!saved.ok) {
-    return jsonWorkshop2ErrorRu(409, String(saved.reason));
+    return jsonWorkshop2ErrorRu(workshop2DossierPutFailureStatus(saved), workshop2DossierPutFailureMessageRu(saved));
   }
 
   return NextResponse.json({

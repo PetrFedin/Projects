@@ -7,8 +7,8 @@ export function calculateLoyaltyRewards(product: Product): LoyaltyRewardV1 {
   let multiplier = 1.0;
   const perks: string[] = [];
 
-  // Eco-bonus
-  if (product.sustainability.length > 0) {
+  // Eco-bonus — sustainability опционален в lean catalog
+  if ((product.sustainability?.length ?? 0) > 0) {
     multiplier += 0.2;
     perks.push('Eco-Bonus: +20% points');
   }

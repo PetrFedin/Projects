@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { b2bV1SynthaActorRoleHeaders } from '@/lib/auth/b2b-v1-api-client-headers';
+import { usePlatformCoreB2bRegistryPoll } from '@/hooks/use-platform-core-b2b-registry-poll';
 import { listB2BOrdersForOperationalUi } from '@/lib/order/b2b-orders-list-read-model';
 import { parseOperationalOrdersV1ListResponse } from '@/lib/order/operational-order-dto.schema';
 import { operationalOrderListRowDtoToB2BOrder } from '@/lib/order/operational-order-dto';
@@ -32,6 +33,25 @@ function fetchOperationalOrders(actor: OperationalOrdersListActor): B2BOrder[] {
  */
 export function useOperationalOrdersList(actor: OperationalOrdersListActor): B2BOrder[] {
   const [rows, setRows] = useState<B2BOrder[] | null>(null);
+  const [pollTick, setPollTick] = useState(0);
+  const { tick: registryTick } = usePlatformCoreB2bRegistryPoll(actor === 'shop');
+
+  useEffect(() => {
+    if (actor !== 'shop') return;
+    const refresh = () => setPollTick((t) => t + 1);
+    const onFocus = () => refresh();
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') refresh();
+    };
+    window.addEventListener('focus', onFocus);
+    document.addEventListener('visibilitychange', onVisible);
+    const timer = window.setInterval(refresh, 30_000);
+    return () => {
+      window.removeEventListener('focus', onFocus);
+      document.removeEventListener('visibilitychange', onVisible);
+      window.clearInterval(timer);
+    };
+  }, [actor]);
 
   useEffect(() => {
     const headers = ACTOR_HEADERS[actor];
@@ -71,7 +91,7 @@ export function useOperationalOrdersList(actor: OperationalOrdersListActor): B2B
     return () => {
       cancelled = true;
     };
-  }, [actor]);
+  }, [actor, pollTick, registryTick]);
 
   return useMemo(() => rows ?? fetchOperationalOrders(actor), [rows, actor]);
 }

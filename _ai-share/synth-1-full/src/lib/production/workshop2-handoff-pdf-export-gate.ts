@@ -4,6 +4,10 @@
 import type { HandbookCategoryLeaf } from '@/lib/production/category-handbook-leaves';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { evaluateWorkshop2HandoffPdfExportReadiness } from '@/lib/production/workshop2-handoff-pdf-export-readiness';
+import {
+  workshop2PgMirrorNum,
+  workshop2PgMirrorStr,
+} from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 export type Workshop2HandoffPdfExportGateCheck = {
   id: string;
@@ -24,26 +28,34 @@ export function evaluateWorkshop2HandoffPdfExportGate(input: {
 }): Workshop2HandoffPdfExportGateResult {
   const mirror = input.dossier.handoffPdfMirror;
   const readiness = mirror
-    ? {
-        hasSketchImage: mirror.hasSketchImage,
-        sketchSheetCount: 0,
-        openVisualGateCount: mirror.openVisualGateCount,
-        handoffReady: mirror.handoffReady,
-        blockerCount: mirror.blockerCount,
-        state: mirror.state,
-        hintRu: mirror.hintRu,
-        blockers:
-          mirror.state === 'blocked'
-            ? [mirror.hintRu ?? 'PDF handoff заблокирован в PG.']
-            : mirror.state === 'warn'
-              ? [mirror.hintRu ?? 'PDF handoff с предупреждениями.']
-              : [],
-      }
+    ? (() => {
+        const mirrorState = mirror.state;
+        const state =
+          mirrorState === 'blocked' || mirrorState === 'warn' || mirrorState === 'ready'
+            ? mirrorState
+            : 'blocked';
+        const hintRu = workshop2PgMirrorStr(mirror, 'hintRu');
+        return {
+          hasSketchImage: mirror.hasSketchImage === true,
+          sketchSheetCount: 0,
+          openVisualGateCount: workshop2PgMirrorNum(mirror, 'openVisualGateCount'),
+          handoffReady: mirror.handoffReady === true,
+          blockerCount: workshop2PgMirrorNum(mirror, 'blockerCount'),
+          state,
+          hintRu,
+          blockers:
+            state === 'blocked'
+              ? [hintRu || 'PDF handoff заблокирован в PG.']
+              : state === 'warn'
+                ? [hintRu || 'PDF handoff с предупреждениями.']
+                : [],
+        };
+      })()
     : evaluateWorkshop2HandoffPdfExportReadiness(input);
   const checks: Workshop2HandoffPdfExportGateCheck[] = readiness.blockers.map((msg, i) => ({
     id: `handoff_pdf.${i}`,
     severity: readiness.state === 'blocked' ? 'blocker' : 'warning',
-    messageRu: msg,
+    messageRu: typeof msg === 'string' ? msg : 'PDF handoff заблокирован.',
   }));
 
   if (readiness.state === 'warn' && checks.length === 0 && readiness.hintRu) {
@@ -54,9 +66,14 @@ export function evaluateWorkshop2HandoffPdfExportGate(input: {
     });
   }
 
+  const state: Workshop2HandoffPdfExportGateResult['state'] =
+    readiness.state === 'blocked' || readiness.state === 'warn' || readiness.state === 'ready'
+      ? readiness.state
+      : 'blocked';
+
   return {
-    allowed: readiness.state !== 'blocked',
-    state: readiness.state,
+    allowed: state !== 'blocked',
+    state,
     checks,
   };
 }

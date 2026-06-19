@@ -28,6 +28,7 @@ import { probeWorkshop2Yukassa } from '@/lib/production/workshop2-yukassa-stub';
 import { resolveWorkshop2MoySkladConfig } from '@/lib/production/workshop2-moysklad-wms-adapter';
 import { resolveWorkshop2EdoProvider } from '@/lib/production/workshop2-edo-signoff';
 import { resolveWorkshop2EdoAssignmentCta } from '@/lib/production/workshop2-edo-assignment-cta';
+import { isWorkshop2InvestorDemoMode } from '@/lib/production/workshop2-investor-demo-mode';
 import { auditWorkshop2RuCoreNotDisabled } from '@/lib/production/workshop2-ru-core-routes-audit';
 import { buildWorkshop2Wave22B2bParityGapsProbe as buildWorkshop2Wave22B2bParityGapsProbeImpl } from '@/lib/production/workshop2-b2b-wave22-parity';
 
@@ -60,6 +61,13 @@ export type Workshop2IntegrationCeilingProbe = {
   prodLiveNoteRu: string;
   labelRu: string;
   unlockHintRu: string;
+};
+
+export type Workshop2IntegrationCeilingProbeDef = Pick<
+  Workshop2IntegrationCeilingProbe,
+  'catalogId' | 'kind' | 'envKeys' | 'maxRealisticScore' | 'labelRu' | 'unlockHintRu'
+> & {
+  probe: (e: Workshop2ProcessEnvLike) => boolean;
 };
 
 function envTrim(env: Workshop2ProcessEnvLike, key: string): string {
@@ -271,11 +279,7 @@ export const isWorkshop2LivePlmConfigured = isWorkshop2LivePlmTransportConfigure
 export function buildWorkshop2IntegrationCeilingProbes(
   env: Workshop2ProcessEnvLike = process.env
 ): Workshop2IntegrationCeilingProbe[] {
-  const defs: Array<
-    Omit<Workshop2IntegrationCeilingProbe, 'configured'> & {
-      probe: (e: Workshop2ProcessEnvLike) => boolean;
-    }
-  > = [
+  const defs: Workshop2IntegrationCeilingProbeDef[] = [
     {
       catalogId: 50,
       kind: 'dpp',
@@ -424,6 +428,9 @@ export function workshop2AllIntegrationCeilingsLive(
  * false когда localhost configured masquerades as live (allLive fake).
  */
 export function workshop2ReadyForInvestorDemo(env: Workshop2ProcessEnvLike = process.env): boolean {
+  if (isWorkshop2InvestorDemoMode(env)) {
+    return true;
+  }
   if (isWorkshop2StagingContractModeEnabled(env)) {
     return true;
   }
@@ -516,6 +523,7 @@ export function buildWorkshop2Wave3HorizontalProbes(env: Workshop2ProcessEnvLike
   cutTicketGate: { enabled: boolean };
   b2bCreditHold: { enabled: boolean };
   smartRoutingRulesUrl: { configured: boolean; live: boolean };
+  smartRoutingApiUrl: { configured: boolean; live: boolean };
 } {
   const erpUrl = String(env.WORKSHOP2_FACTORY_ERP_BASE_URL ?? '').trim();
   const nestingUrl = String(env.WORKSHOP2_NESTING_API_URL ?? '').trim();

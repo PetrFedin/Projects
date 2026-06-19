@@ -92,7 +92,7 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
   }
 
   const b = body as Record<string, unknown>;
-  const auth = guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES, {
     bodyActorLabel: String(b.createdBy ?? ''),
   });
   if (auth instanceof NextResponse) return auth;
@@ -101,7 +101,8 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
     return jsonWorkshop2ErrorRu(400, 'invalid_path');
   }
 
-  const createdBy = resolveWorkshop2UpdatedBy(req, String(b.createdBy ?? ''), auth.actor);
+  const createdBy =
+    resolveWorkshop2UpdatedBy(req, String(b.createdBy ?? ''), auth.actor) ?? 'sample-order-api';
 
   const existingOrders = await listWorkshop2SampleOrders({
     collectionId: cid,
@@ -194,7 +195,12 @@ export async function POST(req: NextRequest, ctx: RouteCtx) {
       collectionId: cid,
       articleId: aid,
       organizationId: resolveWorkshop2OrganizationId(req),
-      contractorId: b.contractorId != null ? String(b.contractorId) : undefined,
+      contractorId:
+        b.contractorId != null
+          ? String(b.contractorId)
+          : b.factoryId != null
+            ? String(b.factoryId)
+            : undefined,
       dueDate: b.dueDate != null ? String(b.dueDate) : undefined,
       sizes:
         b.sizes && typeof b.sizes === 'object' ? (b.sizes as Workshop2SampleOrderSizes) : undefined,

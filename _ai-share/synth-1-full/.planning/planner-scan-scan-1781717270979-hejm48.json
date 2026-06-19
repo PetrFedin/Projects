@@ -1,0 +1,437 @@
+{
+  "collection": "SS27",
+  "development": [
+    {
+      "id": "scan-dev-w2-pg-fail-localstorage-fallback",
+      "kind": "gap",
+      "priority": "P0",
+      "title": "[Бренд] W2 hub: при недоступности PG — overlay localStorage + readPath flip",
+      "evidence": "workshop2-local-state-provider.tsx:879 readPath = workshop2PgServerAvailable ? 'api' : 'localStorage'; workshop2-pg-collection-hydrate.ts:111,122 — articles:[] + readPath localStorage",
+      "href": "/brand/production/workshop2?w2col=SS27",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-shop-sample-request-api-orphan",
+      "kind": "gap",
+      "priority": "P0",
+      "title": "[Магазин] POST /api/shop/b2b/sample-request реализован, UI showroom/matrix не вызывает",
+      "evidence": "src/app/api/shop/b2b/sample-request/route.ts:1-100 — requisition+dossier+chat; grep UI callers → 0 (только parity doc workshop2-b2b-wave22-parity.ts:281)",
+      "href": "/shop/b2b/showroom?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-mfr-factory-ack-api-no-factory-ui",
+      "kind": "gap",
+      "priority": "P1",
+      "title": "[Производство] factory-ack API есть, factory dossier не вызывает — ack симулируется на стороне бренда",
+      "evidence": "handoff/factory-ack/route.ts:1-53; factory dossier page.tsx:55-58 — только Workshop2InteractiveFactoryPortal; Workshop2TechPackHandoffBlock.tsx:472-477 setFactoryReceived локально без fetch factory-ack",
+      "href": "/factory/production/dossier/demo-ss27-01?collection=SS27",
+      "roleId": "manufacturer",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-mfr-interactive-portal-ephemeral",
+      "kind": "bug",
+      "priority": "P1",
+      "title": "[Производство] Interactive Tech Pack: pins/accept/reject только в React state сессии",
+      "evidence": "Workshop2InteractiveFactoryPortal.tsx:29-30,64-94 useState pins/status; toast «бренд получит уведомление» — только window.dispatchEvent('factory-pin-added')",
+      "href": "/factory/production/dossier/demo-ss27-01?collection=SS27",
+      "roleId": "manufacturer",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-mfr-dossier-local-before-pg",
+      "kind": "gap",
+      "priority": "P1",
+      "title": "[Производство] resolveFactoryDossier: localStorage dossier приоритетнее PG record",
+      "evidence": "factory/production/dossier/[articleId]/page.tsx:31-34 getWorkshop2Phase1Dossier() до getWorkshop2ServerDossierRecord() в цикле candidates",
+      "href": "/factory/production/dossier/demo-ss27-01?collection=SS27",
+      "roleId": "manufacturer",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-techpack-handoff-simulates-factory",
+      "kind": "gap",
+      "priority": "P1",
+      "title": "[Бренд] Tech-pack handoff: кнопка «Производство приняло» на стороне бренда, не cross-role",
+      "evidence": "Workshop2TechPackHandoffBlock.tsx:113,472-477 — setFactoryReceived({ at, by }) в brand dossier; factoryReceivedAt записывается без factory-ack POST",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=assignment",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-dossier-offline-cache-drift",
+      "kind": "gap",
+      "priority": "P1",
+      "title": "[Бренд] Dossier persist: offline API → localStorage mirror для non-golden коллекций",
+      "evidence": "use-workshop2-phase1-dossier-persist.ts:228-234 savedOk = apiOffline && !coreGolden ? setWorkshop2Phase1Dossier(...) — drift при восстановлении PG",
+      "href": "/brand/production/workshop2?w2col=SS27&article=demo-ss27-01",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-collection-inventory-local-overlay",
+      "kind": "gap",
+      "priority": "P1",
+      "title": "[Бренд] Collection inventory overlay в localStorage сливается в W2 display",
+      "evidence": "use-brand-production-local-inventory.ts:28-42 autosave saveLocalCollectionInventory; use-brand-production-collection-flow-page.ts:81 merge в floor UI",
+      "href": "/brand/production?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-shop-comms-strip-no-refresh",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Магазин] CommsNotificationCenterStrip: one-shot fetch без poll/SSE/registry bump",
+      "evidence": "CommsNotificationCenterStrip.tsx:95-156 — единственный useEffect fetch threads+calendar; нет setInterval/listener на registryTick",
+      "href": "/shop/core?pillar=comms&collection=SS27",
+      "roleId": "shop",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-brand-qc-scorecard-split-brain",
+      "kind": "gap",
+      "priority": "P1",
+      "title": "[Бренд] QC supplier scorecard: UI в dossier, API отдаёт hardcoded mockData",
+      "evidence": "supplier-qc-scorecard.tsx:68 fetch scorecard; qc/supplier-scorecard/route.ts:12-27 «Mock data until read-model DB» — расхождение с dossier QC persist",
+      "href": "/brand/production/workshop2/c/SS27/a/demo-ss27-01?w2sec=qc",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-range-planner-partial-blend",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Бренд] Range planner dataSource=partial: PG sku + demo tier budgets без явного блокера edit",
+      "evidence": "workshop2-range-planner-pg.ts:273-277 dataSource partial когда hasPgArticles && !budgetFromPg; range-planner-core.tsx disclaimer слабее error/retry path",
+      "href": "/brand/range-planner?collection=SS27",
+      "roleId": "brand",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-brand-vault-virus-scan-prod-handoff-block",
+      "kind": "gap",
+      "priority": "P1",
+      "title": "[Бренд] Vault virus-scan: prod без WORKSHOP2_VIRUS_SCAN_URL → pending блокирует handoff gate",
+      "evidence": "workshop2-vault-virus-scan.ts:77-84 resolveInitialStatus → pending в production; evaluateWorkshop2VaultVirusScanHandoffGate.ts:98+ blocker при pending count",
+      "href": "/brand/b2b-orders/B2B-DEMO-SHOP1-SS27?pillar=order_production#production-handoff",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-brand-calendar-user-task-auxiliary-store",
+      "kind": "gap",
+      "priority": "P1",
+      "title": "[Бренд] Calendar user-task: memory/file fallback когда PG disabled — не видны другим ролям",
+      "evidence": "platform-core-user-calendar-task.ts:116-128 listPlatformCoreUserCalendarTasks → memoryByCollection + data/platform-core-user-calendar-tasks.json без PG sync",
+      "href": "/brand/calendar?collection=SS27&layers=orders,tasks",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-mfr-messages-no-dossier-attach-picker",
+      "kind": "add",
+      "priority": "P1",
+      "title": "[Производство] Factory messages: compose без attach из vault/dossier exports",
+      "evidence": "factory/messages/messages-core.tsx — slim MessagesPage; contextual messages repo поддерживает vault attachment (workshop2-contextual-messages-repository.ts:31), factory UI не экспонирует picker",
+      "href": "/factory/messages?contextType=b2b_order&contextId=B2B-DEMO-SHOP1-SS27&role=manufacturer",
+      "roleId": "manufacturer",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-sup-brand-suppliers-legacy-side-path",
+      "kind": "improve",
+      "priority": "P1",
+      "title": "[Поставщик] Brand /suppliers legacy redirect — supplier BOM не в едином PG catalog nav spine",
+      "evidence": "brand/suppliers/suppliers-core-redirect.tsx:27 «mock suppliers hub → factory materials»; supplier-audit bad Legacy suppliers hub; RoleCoreCabinetHub catalog link только в hub aside, не в pim nav groups",
+      "href": "/factory/supplier/core?pillar=development&collection=SS27",
+      "roleId": "supplier",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-shop-hub-dead-hash-hrefs",
+      "kind": "bug",
+      "priority": "P2",
+      "title": "[Магазин] SampleCollectionPillarCard: href=\"#\" когда snapshot.shopShowroomHref/shopMatrixHref null",
+      "evidence": "SampleCollectionPillarCard.tsx:132 shopShowroomHref ?? '#'; L147 shopMatrixHref ?? '#' — тупик до загрузки pillar snapshot",
+      "href": "/shop/core?pillar=sample_collection&collection=SS27",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-shop-b2b-documents-mock-static",
+      "kind": "gap",
+      "priority": "P2",
+      "title": "[Магазин] B2B documents: mockDocuments static, не привязаны к order spine PG",
+      "evidence": "shop/b2b/documents/page.tsx:33-57 const mockDocuments — Syntha Lab/Nordic Wool rows без API fetch по buyerId/orderId",
+      "href": "/shop/b2b/documents",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-shop-rep-offline-drafts-localstorage",
+      "kind": "gap",
+      "priority": "P2",
+      "title": "[Магазин] Sales rep portal: offline order drafts в localStorage до sync",
+      "evidence": "sales-rep-portal/page.tsx:94-116 WORKSHOP2_B2B_OFFLINE_DRAFT_STORAGE_KEY; workshop2-b2b-wave22-parity.ts:209 key constant",
+      "href": "/shop/b2b/sales-rep-portal",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-shop-showroom-3d-sdk-stub",
+      "kind": "gap",
+      "priority": "P2",
+      "title": "[Магазин] 3D showroom panel: SDK-stub embed вместо live stream",
+      "evidence": "B2b3dStreamPanel.tsx:257-287 data-testid=\"b2b-3d-stream-sdk-stub\" — placeholder iframe без WORKSHOP2_3D_STREAM_URL",
+      "href": "/shop/b2b/showroom?collection=SS27",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-brand-production-operations-localstorage",
+      "kind": "gap",
+      "priority": "P2",
+      "title": "[Бренд] Production operations tab: вся модель localStorage без PG/API",
+      "evidence": "brand/production/operations/page.tsx:102-104 «Единая модель без API: данные в localStorage»; loadBrandProductionState/resetBrandProductionToSeed",
+      "href": "/brand/production/operations",
+      "roleId": "brand",
+      "pillarId": "order_production"
+    },
+    {
+      "id": "scan-dev-brand-b2b-message-templates-local",
+      "kind": "gap",
+      "priority": "P2",
+      "title": "[Бренд] B2B chat custom templates: drafts только localStorage",
+      "evidence": "platform-core-b2b-message-templates-storage.ts:11-44 PLATFORM_CORE_B2B_MESSAGE_TEMPLATES_LS_KEY — не sync cross-device/PG",
+      "href": "/brand/messages?order=B2B-DEMO-SHOP1-SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-brand-w2-bell-60s-poll",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] W2 notifications bell в chrome: poll 60s, без SSE bump",
+      "evidence": "Workshop2BrandNotificationsBell.tsx:31-42 fetch /api/brand/notifications/workshop2 + setInterval(load, 60_000)",
+      "href": "/brand/production/workshop2?w2col=SS27",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-shop-messages-no-notification-strip",
+      "kind": "gap",
+      "priority": "P2",
+      "title": "[Магазин] Full /shop/messages workspace: нет CommsNotificationCenterStrip (только hub pillar)",
+      "evidence": "shop/messages/messages-core.tsx:9-19 — PlatformCoreCommsWorkspaceExtras + MessagesPage; strip монтируется в CommsPillarCard.tsx:239-252 hub-only",
+      "href": "/shop/messages?contextType=b2b_order&contextId=B2B-DEMO-SHOP1-SS27",
+      "roleId": "shop",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-shop-partner-session-localstorage",
+      "kind": "gap",
+      "priority": "P2",
+      "title": "[Магазин] Accept invite: partner session/tier в localStorage",
+      "evidence": "shop/b2b/accept-invite/page.tsx:45-46 b2b_partner_session, b2b_partner_tier keys — не PG onboarding state",
+      "href": "/shop/b2b/accept-invite",
+      "roleId": "shop",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-brand-w2-chat-drawer-30s-poll",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Article workspace chat panel: unread refresh setInterval 30s (доп. к matrix SSE gap)",
+      "evidence": "Workshop2ArticleWorkspaceChatPanel.tsx:58 setInterval(refreshUnread, 30_000); ChatSheet.tsx:59 — тот же паттерн",
+      "href": "/brand/messages?contextType=workshop2_article&contextId=SS27%3Ademo-ss27-01",
+      "roleId": "brand",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-brand-sc-pillar-w2-dead-hash",
+      "kind": "bug",
+      "priority": "P2",
+      "title": "[Бренд] SampleCollectionPillarCard brand: workshop2Href fallback «#» до snapshot",
+      "evidence": "SampleCollectionPillarCard.tsx:103 status?.workshop2Href ?? '#' — dead click на brand core sample_collection до hydrate",
+      "href": "/brand/core?pillar=sample_collection&collection=SS27",
+      "roleId": "brand",
+      "pillarId": "sample_collection"
+    },
+    {
+      "id": "scan-dev-shop-rep-commission-payout-stub",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Магазин] Rep portal commission payout: Wave 6 stub без bank ACK",
+      "evidence": "sales-rep-portal/page.tsx:422-428 data-testid=\"shop-b2b-commission-payout-stub\" — payout_pending в PG без transfer confirm",
+      "href": "/shop/b2b/sales-rep-portal",
+      "roleId": "shop",
+      "pillarId": "collection_order"
+    },
+    {
+      "id": "scan-dev-sup-procurement-no-brand-push-on-dev-bom",
+      "kind": "add",
+      "priority": "P2",
+      "title": "[Поставщик] Development BOM view: изменение fill-rate не bump development-status для бренда",
+      "evidence": "materials-core.tsx view=development — read BOM lines; bulk-confirm/patch material-request шлёт chat только из procurement path (core-02), dev view без status-stream event",
+      "href": "/factory/production/materials?collection=SS27&article=demo-ss27-01&view=development&role=supplier",
+      "roleId": "supplier",
+      "pillarId": "development"
+    },
+    {
+      "id": "scan-dev-mfr-handoff-queue-no-po-inbox-merge",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Производство] Comms sidebar: inbox по одному orderId, не merge всех PO из production orders list",
+      "evidence": "factory/messages/messages-core.tsx b2bInboxOrderIds from URL/context; manufacturer-audit bad «Нет единого inbox по всем PO» — код не агрегирует /factory/production/orders rows",
+      "href": "/factory/messages?contextType=b2b_order&contextId=B2B-DEMO-SHOP1-SS27&role=manufacturer",
+      "roleId": "manufacturer",
+      "pillarId": "comms"
+    },
+    {
+      "id": "scan-dev-brand-investor-summary-side-path-leak",
+      "kind": "improve",
+      "priority": "P2",
+      "title": "[Бренд] Investor summary: side invest path с CTA в investor-brief вне hub pillar gate",
+      "evidence": "investor-summary/page.tsx:56-57 «Не часть golden path Platform Core hub» + disclaimer, но L122 Link → /investor-brief без read-only lock на brief sections",
+      "href": "/brand/production/workshop2/investor-summary",
+      "roleId": "brand",
+      "pillarId": "development"
+    }
+  ],
+  "techDebt": [
+    {
+      "id": "scan-td-virus-scan-handoff-prod-blocker",
+      "category": "stub",
+      "priority": "P0",
+      "title": "Vault virus-scan stub: prod без URL → pending блокирует handoff",
+      "action": "fix",
+      "hint": "Prod default clean когда WORKSHOP2_VIRUS_SCAN_URL unset, или explicit ops banner + bypass для demo SS27",
+      "source": "cursor-scan",
+      "evidence": "src/lib/production/workshop2-vault-virus-scan.ts:77-84"
+    },
+    {
+      "id": "scan-td-b2b-order-status-route-no-test",
+      "category": "test-gap",
+      "priority": "P0",
+      "title": "PATCH shop/b2b/orders/[id]/status — нет route.test.ts (commission + system message + domain event)",
+      "action": "add",
+      "hint": "Colocated route.test.ts по образцу phase1-dossier routes",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/shop/b2b/orders/[id]/status/route.ts:1"
+    },
+    {
+      "id": "scan-td-legacy-api-tests-drift",
+      "category": "test-gap",
+      "priority": "P1",
+      "title": "workshop2-legacy-api-routes.test ожидает 503, time-and-action route отдаёт in-memory mock 200",
+      "action": "fix",
+      "hint": "Align route с fail-closed PG или обновить test intent",
+      "source": "cursor-scan",
+      "evidence": "src/lib/production/__tests__/workshop2-legacy-api-routes.test.ts:9-14 vs src/app/api/brand/workshop2/phase1-dossier/time-and-action/route.ts:4-48"
+    },
+    {
+      "id": "scan-td-contextual-messages-no-route-test",
+      "category": "test-gap",
+      "priority": "P1",
+      "title": "/api/messages/contextual — только lib tests, нет HTTP contract test",
+      "action": "add",
+      "hint": "GET/POST 400, sender resolution, PG round-trip",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/messages/contextual/route.ts:16"
+    },
+    {
+      "id": "scan-td-smoke-suite-shop-b2b-gap",
+      "category": "test-gap",
+      "priority": "P1",
+      "title": "workshop2-api-routes-smoke покрывает только W2 demo-ss27-01, без shop/b2b spine routes",
+      "action": "add",
+      "hint": "Добавить smoke: linesheet, showroom, inbound/order-webhook, factory-ack, sample-request",
+      "source": "cursor-scan",
+      "evidence": "src/lib/production/__tests__/workshop2-api-routes-smoke.test.ts:4"
+    },
+    {
+      "id": "scan-td-linesheet-placeholder-cover",
+      "category": "stub",
+      "priority": "P1",
+      "title": "LineSheetGenerator mapPublishedArticle: cover всегда /images/placeholder-product.png",
+      "action": "fix",
+      "hint": "Resolve cover из dossier vault mirror или showroom publish payload",
+      "source": "cursor-scan",
+      "evidence": "src/components/brand/linesheet/LineSheetGenerator.tsx:72-76"
+    },
+    {
+      "id": "scan-td-inbound-webhook-calendar-stub",
+      "category": "stub",
+      "priority": "P1",
+      "title": "B2B inbound order-webhook: calendar event = stub payload, не calendar-events write",
+      "action": "fix",
+      "hint": "POST platform-core/calendar-events/user-task или PG calendar write вместо buildWorkshop2B2bInboundCalendarStubEvent",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/shop/b2b/inbound/order-webhook/route.ts:53"
+    },
+    {
+      "id": "scan-td-b2b-intake-allocate-mock-tx",
+      "category": "stub",
+      "priority": "P1",
+      "title": "/api/b2b/intake/allocate — Zod-validated plan без реальной PG transaction/lock",
+      "action": "fix",
+      "hint": "Implement inventory lock + persist allocation plan; commented BEGIN/COMMIT only",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/b2b/intake/allocate/route.ts:44-66"
+    },
+    {
+      "id": "scan-td-supplier-scorecard-mock-api",
+      "category": "mock",
+      "priority": "P1",
+      "title": "qc/supplier-scorecard route — hardcoded mockData, UI dossier QC persist отдельно",
+      "action": "fix",
+      "hint": "Read from dossier supplierQcMirror или PG supplier_scorecard table",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/workshop2/qc/supplier-scorecard/route.ts:12-27"
+    },
+    {
+      "id": "scan-td-commission-export-erp-journal-503",
+      "category": "stub",
+      "priority": "P2",
+      "title": "commissions/export-erp возвращает 503 при mode=journal_stub",
+      "action": "fix",
+      "hint": "Wire WORKSHOP2_COMMISSION_ERP_URL или honest UI disable на rep portal stub card",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/shop/b2b/commissions/export-erp/route.ts:27-28"
+    },
+    {
+      "id": "scan-td-monster-wholesale-order-matrix",
+      "category": "monster-file",
+      "priority": "P2",
+      "title": "WholesaleOrderMatrix.tsx ~1028 строк на shop B2B golden path",
+      "action": "merge",
+      "hint": "Extract grid, paste import, cart POST + unit tests",
+      "source": "cursor-scan",
+      "evidence": "src/components/b2b/WholesaleOrderMatrix.tsx:1027"
+    },
+    {
+      "id": "scan-td-shop-nav-mock-side-paths-index",
+      "category": "nav-dead-end",
+      "priority": "P2",
+      "title": "shop-navigation-path-index рекламирует MOCK side-paths (tenders, social-feed, video-consultation)",
+      "action": "change",
+      "hint": "Filter by platform-core-side-paths-registry или badge MOCK в nav search index",
+      "source": "cursor-scan",
+      "evidence": "src/lib/data/shop-navigation-path-index.ts:178+"
+    },
+    {
+      "id": "scan-td-ai-fit-url-trust-substring",
+      "category": "stub",
+      "priority": "P2",
+      "title": "fit-sessions ai-analysis: open TODO T-03-01 trust filter substring-based",
+      "action": "fix",
+      "hint": "Allowlist hostnames или signed URL validation перед fetch",
+      "source": "cursor-scan",
+      "evidence": "src/app/api/brand/workshop2/fit-sessions/ai-analysis/route.ts:25"
+    }
+  ]
+}

@@ -72,6 +72,71 @@ export async function createWorkshop2MaterialRequisition(input: {
   return record;
 }
 
+export async function upsertWorkshop2MaterialRequisition(input: {
+  id: string;
+  collectionId: string;
+  articleId: string;
+  organizationId?: string;
+  bomLineRef?: string;
+  materialLabel?: string;
+  quantity?: number;
+  unit?: string;
+  status?: string;
+  createdBy?: string;
+  payload?: Record<string, unknown>;
+}): Promise<Workshop2MaterialRequisitionRecord> {
+  const id = input.id.trim();
+  const createdAt = new Date().toISOString();
+  const record: Workshop2MaterialRequisitionRecord = {
+    id,
+    collectionId: input.collectionId,
+    articleId: input.articleId,
+    bomLineRef: input.bomLineRef,
+    materialLabel: input.materialLabel,
+    quantity: input.quantity,
+    unit: input.unit,
+    status: input.status ?? 'draft',
+    createdAt,
+    createdBy: input.createdBy,
+  };
+
+  if (!isWorkshop2PostgresEnabled()) {
+    const idx = memoryReqs.findIndex((r) => r.id === id);
+    if (idx >= 0) memoryReqs[idx] = { ...memoryReqs[idx]!, ...record };
+    else memoryReqs.push(record);
+    return record;
+  }
+
+  await ensureWorkshop2PgSchema();
+  const orgId = input.organizationId?.trim() || 'org-brand-001';
+  await getWorkshop2PgPool().query(
+    `INSERT INTO workshop2_material_requisitions
+      (id, collection_id, article_id, organization_id, bom_line_ref, material_label, quantity, unit, status, payload, created_by)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::jsonb, $11)
+     ON CONFLICT (id) DO UPDATE SET
+       bom_line_ref = EXCLUDED.bom_line_ref,
+       material_label = EXCLUDED.material_label,
+       quantity = EXCLUDED.quantity,
+       unit = EXCLUDED.unit,
+       status = EXCLUDED.status,
+       payload = EXCLUDED.payload`,
+    [
+      id,
+      input.collectionId,
+      input.articleId,
+      orgId,
+      input.bomLineRef ?? null,
+      input.materialLabel ?? null,
+      input.quantity ?? null,
+      input.unit ?? null,
+      record.status,
+      JSON.stringify(input.payload ?? {}),
+      input.createdBy ?? null,
+    ]
+  );
+  return record;
+}
+
 export async function listWorkshop2MaterialRequisitions(input: {
   collectionId: string;
   articleId: string;
@@ -90,6 +155,43 @@ export async function listWorkshop2MaterialRequisitions(input: {
      WHERE collection_id = $1 AND article_id = $2 AND organization_id = $3
      ORDER BY created_at DESC`,
     [input.collectionId, input.articleId, orgId]
+  );
+  return res.rows.map((row) => ({
+    id: String(row.id),
+    collectionId: String(row.collection_id),
+    articleId: String(row.article_id),
+    bomLineRef: row.bom_line_ref != null ? String(row.bom_line_ref) : undefined,
+    materialLabel: row.material_label != null ? String(row.material_label) : undefined,
+    quantity: row.quantity != null ? Number(row.quantity) : undefined,
+    unit: row.unit != null ? String(row.unit) : undefined,
+    status: String(row.status),
+    createdAt: new Date(row.created_at).toISOString(),
+    createdBy: row.created_by != null ? String(row.created_by) : undefined,
+  }));
+}
+
+export async function listWorkshop2MaterialRequisitionsByCollection(input: {
+  collectionId: string;
+  organizationId?: string;
+  limit?: number;
+}): Promise<Workshop2MaterialRequisitionRecord[]> {
+  const collectionId = input.collectionId.trim();
+  if (!collectionId) return [];
+  const limit = Math.min(Math.max(input.limit ?? 100, 1), 200);
+
+  if (!isWorkshop2PostgresEnabled()) {
+    return memoryReqs.filter((r) => r.collectionId === collectionId).slice(0, limit);
+  }
+
+  await ensureWorkshop2PgSchema();
+  const orgId = input.organizationId?.trim() || 'org-brand-001';
+  const res = await getWorkshop2PgPool().query(
+    `SELECT id, collection_id, article_id, bom_line_ref, material_label, quantity, unit, status, created_at, created_by
+     FROM workshop2_material_requisitions
+     WHERE collection_id = $1 AND organization_id = $2
+     ORDER BY created_at DESC
+     LIMIT $3`,
+    [collectionId, orgId, limit]
   );
   return res.rows.map((row) => ({
     id: String(row.id),
@@ -201,6 +303,44 @@ export function applyWorkshop2MaterialRequisitionStatusToDossier(input: {
     ...input.dossier,
     bomRequisitionByLineRef: refs,
   };
+}
+
+/** Есть ли подтверждённая заявка на материал по каждому артикулу заказа. */
+export async function areWorkshop2MaterialRequisitionsConfirmedForArticles(input: {
+  collectionId: string;
+  articleIds: string[];
+  organizationId?: string;
+}): Promise<{ allConfirmed: boolean; confirmedArticleIds: string[] }> {
+  const unique = [...new Set(input.articleIds.map((id) => id.trim()).filter(Boolean))];
+  if (unique.length === 0) {
+    return { allConfirmed: false, confirmedArticleIds: [] };
+  }
+  const confirmedArticleIds: string[] = [];
+  for (const articleId of unique) {
+    const reqs = await listWorkshop2MaterialRequisitions({
+      collectionId: input.collectionId,
+      articleId,
+      organizationId: input.organizationId,
+    });
+    if (reqs.some((r) => r.status === 'supplier_confirmed')) {
+      confirmedArticleIds.push(articleId);
+    }
+  }
+  return {
+    allConfirmed: confirmedArticleIds.length === unique.length,
+    confirmedArticleIds,
+  };
+}
+
+/** Карта articleId → supplier_confirmed для supplier forecast snapshot. */
+export async function batchWorkshop2SupplierConfirmedByArticle(input: {
+  collectionId: string;
+  articleIds: string[];
+  organizationId?: string;
+}): Promise<Record<string, boolean>> {
+  const { confirmedArticleIds } = await areWorkshop2MaterialRequisitionsConfirmedForArticles(input);
+  const confirmed = new Set(confirmedArticleIds);
+  return Object.fromEntries(input.articleIds.map((id) => [id, confirmed.has(id)]));
 }
 
 export function clearWorkshop2MaterialRequisitionsMemoryForTests(): void {

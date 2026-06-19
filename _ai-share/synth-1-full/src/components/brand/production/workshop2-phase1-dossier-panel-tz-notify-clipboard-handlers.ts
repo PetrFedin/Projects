@@ -111,7 +111,7 @@ export function notifyStakeholdersForSectionSignoffAction(
 
       if (!res.ok) throw new Error('Failed to send notification via API');
 
-      const data = await res.json();
+      const data = (await res.json()) as { delivered?: boolean };
 
       toast({
         title: url

@@ -92,7 +92,7 @@ function FitSessionCard({
 
       if (!res.ok) throw new Error('Failed to analyze fit');
 
-      const data = await res.json();
+      const data = (await res.json()) as { aiFitAnalysis?: FitSession['aiFitAnalysis'] };
       if (data.aiFitAnalysis) {
         void mergeBundle({
           fitGold: {
@@ -582,11 +582,15 @@ function FitSessionCard({
 export function Workshop2ArticleFitGoldPanel({
   dossier = null,
   createdByLabel,
+  categoryLeafId,
+  articleUrlSegment,
 }: {
   dossier?: Workshop2DossierPhase1 | null;
   createdByLabel?: string;
+  categoryLeafId?: string;
+  articleUrlSegment?: string;
 } = {}) {
-  const { bundle, loading, mergeBundle, dataMode } = useArticleWorkspace();
+  const { bundle, loading, mergeBundle, dataMode, ref, setDossier } = useArticleWorkspace();
   const { toast } = useToast();
   const [newSessionCadVersion, setNewSessionCadVersion] = useState<string>('');
 
@@ -596,6 +600,17 @@ export function Workshop2ArticleFitGoldPanel({
 
   return (
     <div className="space-y-4">
+      {dossier && categoryLeafId && articleUrlSegment ? (
+        <Workshop2ArticleSamplePanel
+          dossier={dossier}
+          collectionId={ref.collectionId}
+          categoryLeafId={categoryLeafId}
+          articleUrlSegment={articleUrlSegment}
+          onDossierPatch={(patch) =>
+            setDossier((prev) => (prev ? { ...prev, ...patch } : prev))
+          }
+        />
+      ) : null}
       <div className="border-border-default rounded-xl border bg-white p-4 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div className="flex min-w-0 flex-1 items-start gap-3">

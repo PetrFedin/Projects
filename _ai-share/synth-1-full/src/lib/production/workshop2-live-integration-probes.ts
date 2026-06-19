@@ -25,9 +25,11 @@ import {
 import { probeWorkshop2MarkingHonestSign } from '@/lib/production/workshop2-marking-honest-sign';
 import { probeWorkshop2Erp1c } from '@/lib/production/workshop2-erp-1c-stub';
 import { probeWorkshop2Yukassa } from '@/lib/production/workshop2-yukassa-stub';
+import { probeWorkshop2Stripe } from '@/lib/production/workshop2-stripe-stub';
 import { resolveWorkshop2MoySkladConfig } from '@/lib/production/workshop2-moysklad-wms-adapter';
 import { resolveWorkshop2EdoProvider } from '@/lib/production/workshop2-edo-signoff';
 import { resolveWorkshop2EdoAssignmentCta } from '@/lib/production/workshop2-edo-assignment-cta';
+import { isWorkshop2InvestorDemoMode } from '@/lib/production/workshop2-investor-demo-mode';
 import { auditWorkshop2RuCoreNotDisabled } from '@/lib/production/workshop2-ru-core-routes-audit';
 import { buildWorkshop2Wave22B2bParityGapsProbe as buildWorkshop2Wave22B2bParityGapsProbeImpl } from '@/lib/production/workshop2-b2b-wave22-parity';
 
@@ -60,6 +62,13 @@ export type Workshop2IntegrationCeilingProbe = {
   prodLiveNoteRu: string;
   labelRu: string;
   unlockHintRu: string;
+};
+
+export type Workshop2IntegrationCeilingProbeDef = Pick<
+  Workshop2IntegrationCeilingProbe,
+  'catalogId' | 'kind' | 'envKeys' | 'maxRealisticScore' | 'labelRu' | 'unlockHintRu'
+> & {
+  probe: (e: Workshop2ProcessEnvLike) => boolean;
 };
 
 function envTrim(env: Workshop2ProcessEnvLike, key: string): string {
@@ -271,11 +280,7 @@ export const isWorkshop2LivePlmConfigured = isWorkshop2LivePlmTransportConfigure
 export function buildWorkshop2IntegrationCeilingProbes(
   env: Workshop2ProcessEnvLike = process.env
 ): Workshop2IntegrationCeilingProbe[] {
-  const defs: Array<
-    Omit<Workshop2IntegrationCeilingProbe, 'configured'> & {
-      probe: (e: Workshop2ProcessEnvLike) => boolean;
-    }
-  > = [
+  const defs: Workshop2IntegrationCeilingProbeDef[] = [
     {
       catalogId: 50,
       kind: 'dpp',
@@ -424,6 +429,9 @@ export function workshop2AllIntegrationCeilingsLive(
  * false когда localhost configured masquerades as live (allLive fake).
  */
 export function workshop2ReadyForInvestorDemo(env: Workshop2ProcessEnvLike = process.env): boolean {
+  if (isWorkshop2InvestorDemoMode(env)) {
+    return true;
+  }
   if (isWorkshop2StagingContractModeEnabled(env)) {
     return true;
   }
@@ -516,11 +524,13 @@ export function buildWorkshop2Wave3HorizontalProbes(env: Workshop2ProcessEnvLike
   cutTicketGate: { enabled: boolean };
   b2bCreditHold: { enabled: boolean };
   smartRoutingRulesUrl: { configured: boolean; live: boolean };
+  smartRoutingApiUrl: { configured: boolean; live: boolean };
 } {
   const erpUrl = String(env.WORKSHOP2_FACTORY_ERP_BASE_URL ?? '').trim();
   const nestingUrl = String(env.WORKSHOP2_NESTING_API_URL ?? '').trim();
   const slackUrl = String(env.WORKSHOP2_SLACK_WEBHOOK_URL ?? '').trim();
   const rulesUrl = String(env.WORKSHOP2_SMART_ROUTING_RULES_URL ?? '').trim();
+  const smartRoutingApiUrl = String(env.WORKSHOP2_SMART_ROUTING_API_URL ?? '').trim();
   const edoProvider =
     String(env.WORKSHOP2_EDO_PROVIDER ?? '')
       .trim()
@@ -571,6 +581,12 @@ export function buildWorkshop2Wave3HorizontalProbes(env: Workshop2ProcessEnvLike
     smartRoutingRulesUrl: {
       configured: Boolean(rulesUrl),
       live: rulesUrl ? isWorkshop2IntegrationUrlProductionLive(rulesUrl) : false,
+    },
+    smartRoutingApiUrl: {
+      configured: Boolean(smartRoutingApiUrl),
+      live: smartRoutingApiUrl
+        ? isWorkshop2IntegrationUrlProductionLive(smartRoutingApiUrl)
+        : false,
     },
   };
 }
@@ -820,6 +836,7 @@ export function buildWorkshop2Wave9RuHorizontalProbes(env: Workshop2ProcessEnvLi
   markingHonestSign: ReturnType<typeof probeWorkshop2MarkingHonestSign>;
   erp1c: ReturnType<typeof probeWorkshop2Erp1c>;
   yukassa: ReturnType<typeof probeWorkshop2Yukassa>;
+  stripe: ReturnType<typeof probeWorkshop2Stripe>;
   domesticLogistics: { journalOnly: boolean };
   globalIntegrationsHidden: string[];
 } {
@@ -841,6 +858,7 @@ export function buildWorkshop2Wave9RuHorizontalProbes(env: Workshop2ProcessEnvLi
     markingHonestSign: probeWorkshop2MarkingHonestSign(env),
     erp1c: probeWorkshop2Erp1c(env),
     yukassa: probeWorkshop2Yukassa(env),
+    stripe: probeWorkshop2Stripe(env),
     domesticLogistics: { journalOnly: true },
     globalIntegrationsHidden,
   };
@@ -3024,7 +3042,7 @@ export function buildWorkshop2Wave20RuMaturityProbe(env: Workshop2ProcessEnvLike
     const { findHandbookLeafById } =
       require('@/lib/production/category-handbook-leaves') as typeof import('@/lib/production/category-handbook-leaves');
     const leaf = findHandbookLeafById('catalog-apparel-g0-l0');
-    const demo = buildWorkshop2Ss27MenCoat01FullTzDemoDossier(leaf, 'wave20-probe');
+    const demo = buildWorkshop2Ss27MenCoat01FullTzDemoDossier(leaf ?? null, 'wave20-probe');
     const uat = buildWorkshop2Ss27UatChecklistResponse({ dossiers: [demo], env });
     uatAutoPassed = uat.autoPassed;
     uatTotal = uat.items.length || 15;
@@ -3111,8 +3129,41 @@ export function buildWorkshop2Wave20RuMaturityProbe(env: Workshop2ProcessEnvLike
   };
 }
 
-/** Re-export Wave 28–29 FS probes (реализация в server-модуле, API импортирует отсюда). */
+/** Re-export Wave 28–29 FS probes. */
 export {
   buildWorkshop2Wave28DeadEndsFixedProbe,
   buildWorkshop2Wave29ModuleHealthProbe,
 } from '@/lib/production/workshop2-wave-probes-fs.server';
+
+/** Re-export Wave 35b–51 (mid restore). */
+export {
+  buildWorkshop2Wave35bProdReadinessProbe,
+  buildWorkshop2Wave36ReleaseReadyProbe,
+  buildWorkshop2Wave37StagingMobileProbe,
+  buildWorkshop2Wave38IntegrationsLiveProbe,
+  buildWorkshop2Wave38bGreenRestoredProbe,
+  buildWorkshop2Wave39PlatformHealthProbe,
+  buildWorkshop2Wave40ShipReadyProbe,
+  buildWorkshop2Wave41InvestorNativeB2bProbe,
+  buildWorkshop2Wave42InvestorDemoCompleteProbe,
+  buildWorkshop2Wave43DeepInvestorReadyProbe,
+  buildWorkshop2Wave44LiveStagingReadyProbe,
+  buildWorkshop2Wave45StagingProdReadyProbe,
+  buildWorkshop2Wave46ProductionCutoverReadyProbe,
+  buildWorkshop2Wave47RoadmapReadyProbe,
+  buildWorkshop2Wave48InvestorShipReadyProbe,
+  buildWorkshop2Wave49ProdOpsReadyProbe,
+  buildWorkshop2Wave50ProdMergeReadyProbe,
+  buildWorkshop2Wave51ProdCutoverReadyProbe,
+} from '@/lib/production/workshop2-wave-probes-fs-mid.server';
+
+/** Re-export Wave 52–58 FS probes. */
+export {
+  buildWorkshop2Wave52ProdLiveReadyProbe,
+  buildWorkshop2Wave53ProdSlaReadyProbe,
+  buildWorkshop2Wave54ProdHardeningReadyProbe,
+  buildWorkshop2Wave55InvestorFreezeReadyProbe,
+  buildWorkshop2Wave56PostFreezeReadyProbe,
+  buildWorkshop2Wave57PostFreezeLiveProbe,
+  buildWorkshop2Wave58InvestorShowReadyProbe,
+} from '@/lib/production/workshop2-wave-probes-fs-wave52-57.server';

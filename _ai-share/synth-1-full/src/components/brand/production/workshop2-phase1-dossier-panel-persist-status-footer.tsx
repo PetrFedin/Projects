@@ -27,7 +27,12 @@ export function Workshop2DossierPersistStatusFooter({
           </span>
         ) : null}
         {savedHint ? (
-          <span className="text-[11px] font-medium text-emerald-700">{savedHint}</span>
+          <span
+            className="text-[11px] font-medium text-emerald-700"
+            data-testid="workshop2-dossier-persist-saved-hint"
+          >
+            {savedHint}
+          </span>
         ) : null}
         {saveError ? (
           <span className="text-[11px] font-medium text-red-600">{saveError}</span>

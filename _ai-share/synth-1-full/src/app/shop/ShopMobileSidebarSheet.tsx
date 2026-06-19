@@ -3,12 +3,12 @@
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { ShopSidebarHeader } from '@/components/shop/ShopSidebarHeader';
 import { ShopLayoutSidebarPanel } from '@/app/shop/ShopLayoutSidebarPanel';
-import type { Resource, Action } from '@/lib/rbac';
+import type { Resource, Action, PlatformRole } from '@/lib/rbac';
 
 type ShopMobileSidebarSheetProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  role: string;
+  role: PlatformRole;
   can: (resource: Resource, action: Action) => boolean;
 };
 

@@ -52,6 +52,7 @@ export type HomeShowroomShowcaseContextValue = {
   carousels: CmsHomeConfig['carousels'];
   filteredShowroomProducts: Product[];
   totalLookCards: typeof totalLookCards;
+  showroomLayout?: 'default' | 'platform-core';
 };
 
 const HomeShowroomLookDialogContext = createContext<HomeShowroomLookDialogContextValue | null>(
@@ -110,6 +111,7 @@ type HomeShowroomMidFoldProviderProps = {
   globalCategory: GlobalCategory;
   carousels: CmsHomeConfig['carousels'];
   children: ReactNode;
+  showroomLayout?: 'default' | 'platform-core';
 };
 
 /** Linesheet, brands tab, look dialog и showroom — четыре context для точечных re-renders. */
@@ -120,6 +122,7 @@ export function HomeShowroomMidFoldProvider({
   globalCategory,
   carousels,
   children,
+  showroomLayout = 'default',
 }: HomeShowroomMidFoldProviderProps) {
   const { toast } = useToast();
   const router = useRouter();
@@ -180,6 +183,7 @@ export function HomeShowroomMidFoldProvider({
       carousels,
       filteredShowroomProducts,
       totalLookCards,
+      showroomLayout,
     }),
     [
       viewRole,
@@ -192,6 +196,7 @@ export function HomeShowroomMidFoldProvider({
       router,
       carousels,
       filteredShowroomProducts,
+      showroomLayout,
     ]
   );
 

@@ -38,10 +38,26 @@ export type Workshop2RealtimeEvent =
       articleId: string;
       editors: Workshop2PresenceEditor[];
     }
-  | { type: 'ping'; ts: string };
+  | { type: 'ping'; ts: string }
+  | { type: 'CHAIN_STATUS_BUMP'; orderIds?: string[]; ts: string }
+  | { type: 'B2B_REGISTRY_BUMP'; reason?: string; ts: string }
+  | { type: 'COMMS_INBOX_BUMP'; reason?: string; ts: string }
+  | { type: 'DEVELOPMENT_STATUS_BUMP'; collectionIds?: string[]; ts: string }
+  | {
+      type: 'CONTEXTUAL_MESSAGE_APPENDED';
+      contextType: string;
+      contextId: string;
+      messageId: string;
+      sender: string;
+      createdAt: string;
+    };
 
 export function workshop2RealtimeRoomKey(collectionId: string, articleId: string): string {
   return `workshop2:${collectionId}:${articleId}`;
+}
+
+export function workshop2ContextualRoomKey(contextType: string, contextId: string): string {
+  return `contextual:${contextType.trim()}:${contextId.trim()}`;
 }
 
 type RoomListener = (event: Workshop2RealtimeEvent) => void;
@@ -186,6 +202,24 @@ class Workshop2RealtimeHub {
 
   roomSubscriberCount(room: string): number {
     return this.subscriberCounts.get(room) ?? 0;
+  }
+
+  publishContextualMessageAppended(input: {
+    contextType: string;
+    contextId: string;
+    messageId: string;
+    sender: string;
+    createdAt: string;
+  }): void {
+    const room = workshop2ContextualRoomKey(input.contextType, input.contextId);
+    this.publish(room, {
+      type: 'CONTEXTUAL_MESSAGE_APPENDED',
+      contextType: input.contextType.trim(),
+      contextId: input.contextId.trim(),
+      messageId: input.messageId,
+      sender: input.sender,
+      createdAt: input.createdAt,
+    });
   }
 }
 

@@ -23,7 +23,7 @@ export async function GET(req: NextRequest, ctx: RouteCtx) {
   }
 
   const org = resolveWorkshop2OrganizationId(req);
-  const record = await getWorkshop2ServerDossierRecord(cid, aid, org);
+  const record = await getWorkshop2ServerDossierRecord(cid, aid);
   if (!record) {
     return jsonWorkshop2ErrorRu(404, 'dossier_not_found');
   }

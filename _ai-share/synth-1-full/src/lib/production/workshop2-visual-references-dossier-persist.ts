@@ -3,6 +3,7 @@
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import type { Workshop2HandoffReadinessCheck } from '@/lib/production/workshop2-handoff-readiness';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import {
   evaluateWorkshop2VisualReferencesReadiness,
   type Workshop2VisualReferencesReadinessInput,
@@ -52,7 +53,9 @@ export function evaluateWorkshop2VisualReferencesExportGate(
     return {
       id: 'visual.refs.not_ready',
       severity: 'blocker',
-      messageRu: mirror.hintRu ?? 'Визуальные референсы не готовы — ZIP ТЗ заблокирован.',
+      messageRu:
+        workshop2PgMirrorStr(mirror, 'hintRu') ||
+        'Визуальные референсы не готовы — ZIP ТЗ заблокирован.',
     };
   }
   return null;

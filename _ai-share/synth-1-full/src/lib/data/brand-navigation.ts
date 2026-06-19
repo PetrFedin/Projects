@@ -436,7 +436,7 @@ export const brandNavGroups = [
         value: 'shop-b2b-payment',
         icon: CreditCard,
         href: ROUTES.shop.b2bPayment,
-        description: 'JOOR Pay и этапы оплаты в интерфейсе байера.',
+        description: 'Оплата и этапы инвойса в интерфейсе байера.',
       },
       {
         label: 'Подать заявку (сторона байера)',

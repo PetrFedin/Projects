@@ -1,5 +1,7 @@
 'use client';
 
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import { ShopB2bLegacyTailCorePage } from '@/app/shop/b2b/shop-b2b-legacy-tail-core';
 import { CabinetPageContent } from '@/components/layout/cabinet-page-content';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,6 +15,10 @@ import { RelatedModulesBlock } from '@/components/brand/RelatedModulesBlock';
 import { getShopB2BHubLinks } from '@/lib/data/entity-links';
 
 export default function B2BOrderDraftsPage() {
+  if (isPlatformCoreMode()) {
+    return <ShopB2bLegacyTailCorePage legacyPath={ROUTES.shop.b2bOrderDrafts} />;
+  }
+
   const versions = getWorkingOrderVersions();
   const consolidated = getConsolidatedDraft();
   const draftVersions = versions.filter(
@@ -21,14 +27,14 @@ export default function B2BOrderDraftsPage() {
 
   return (
     <CabinetPageContent maxWidth="4xl" className="space-y-6">
-      <ShopB2bContentHeader lead="JOOR: незавершённые заказы по коллекциям — продолжить в матрице или Working Order." />
+      <ShopB2bContentHeader lead="Незавершённые заказы по коллекциям — продолжить в матрице или рабочем заказе." />
 
       {consolidated && consolidated.lines.length > 0 && (
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="text-sm font-black uppercase">Сводный черновик агента</CardTitle>
             <CardDescription>
-              Zedonk: один драфт по разным брендам. MOV/MOQ по бренду.
+              Один черновик по нескольким брендам. MOV/MOQ проверяются по каждому бренду.
             </CardDescription>
           </CardHeader>
           <CardContent>

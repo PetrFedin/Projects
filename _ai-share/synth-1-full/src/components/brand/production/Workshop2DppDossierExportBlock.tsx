@@ -15,6 +15,7 @@ import {
 } from '@/lib/production/workshop2-dpp-export-gate';
 import { validateWorkshop2DppJsonLdForExport } from '@/lib/production/workshop2-dpp-jsonld-validator';
 import { saveWorkshop2DossierToApi } from '@/lib/production/workshop2-api-client';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import { Workshop2CeilingIntegrationBlock } from '@/components/brand/production/Workshop2CeilingIntegrationBlock';
 import { fetchWorkshop2LiveIntegrationProbes } from '@/lib/production/workshop2-live-integration-probes-client';
 import { buildWorkshop2ApiRequestHeaders } from '@/lib/production/workshop2-api-client-headers';
@@ -55,7 +56,7 @@ export function Workshop2DppDossierExportBlock({
 
   useEffect(() => {
     void fetchWorkshop2LiveIntegrationProbes().then((p) => {
-      if (p) setDppLiveConfigured(p.dpp);
+      if (p?.probes) setDppLiveConfigured(Boolean(p.probes.dpp));
     });
   }, []);
   const registryHonesty = useMemo(
@@ -128,8 +129,10 @@ export function Workshop2DppDossierExportBlock({
       <Workshop2CeilingIntegrationBlock
         catalogId={50}
         kind="dpp"
-        partnerAckId={dossier.dppRegistryDraftMirror?.partnerAckId ?? null}
-        stagingContractMode={dossier.dppRegistryDraftMirror?.stagingContractMode}
+        partnerAckId={workshop2PgMirrorStr(dossier.dppRegistryDraftMirror, 'partnerAckId') || null}
+        stagingContractMode={
+          workshop2PgMirrorStr(dossier.dppRegistryDraftMirror, 'stagingContractMode') === 'true'
+        }
         disabledReasonRu={
           !dppLiveConfigured
             ? 'WORKSHOP2_DPP_REGISTRY_URL не задан — staging POST недоступен (fail-closed).'
@@ -329,7 +332,7 @@ export function Workshop2DppDossierExportBlock({
                   articleName,
                 });
                 const next = { ...dossier, dppExportValidation: record };
-                await saveWorkshop2DossierToApi(collectionId, articleId, next);
+                await saveWorkshop2DossierToApi({ collectionId, articleId, dossier: next });
                 onDossierSaved?.(next);
               } finally {
                 setValidating(false);

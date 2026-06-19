@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import type { Workshop2ReleaseProductionStripModel } from '@/lib/production/workshop2-release-production-display';
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
 import { workshop2ContextToProductionFloorFromSampleOrder } from '@/lib/production/workshop2-floor-bridge';
+import { workshop2PgMirrorNum } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 
 type Props = {
   model: Workshop2ReleaseProductionStripModel;
@@ -57,6 +58,8 @@ export function Workshop2ReleaseProductionStrip({
     activeSampleOrderStatus
   );
   const taMirror = dossier?.planTaMirror;
+  const taOverdue = taMirror ? workshop2PgMirrorNum(taMirror, 'overdueCount') : 0;
+  const taDelayed = taMirror ? workshop2PgMirrorNum(taMirror, 'delayedCount') : 0;
   const planHref = model.chipLinks.plan.href;
 
   return (
@@ -101,21 +104,19 @@ export function Workshop2ReleaseProductionStrip({
                 {model.developmentPathLabelRu}
               </Badge>
             ) : null}
-            {taMirror && (taMirror.overdueCount > 0 || taMirror.delayedCount > 0) ? (
+            {taMirror && (taOverdue > 0 || taDelayed > 0) ? (
               <Link href={planHref} data-testid="workshop2-release-strip-ta-risk">
                 <Badge
                   variant="outline"
                   className={cn(
                     'cursor-pointer text-[10px] font-normal',
-                    taMirror.overdueCount > 0
+                    taOverdue > 0
                       ? 'border-rose-300 bg-rose-50 text-rose-900'
                       : 'border-amber-300 bg-amber-50 text-amber-900'
                   )}
                 >
                   T&amp;A{' '}
-                  {taMirror.overdueCount > 0
-                    ? `просроч. ${taMirror.overdueCount}`
-                    : `задерж. ${taMirror.delayedCount}`}
+                  {taOverdue > 0 ? `просроч. ${taOverdue}` : `задерж. ${taDelayed}`}
                 </Badge>
               </Link>
             ) : null}

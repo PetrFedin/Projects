@@ -1,4 +1,6 @@
 import { redirect } from 'next/navigation';
+import { getPlatformCoreDemo } from '@/lib/platform-core-hub-matrix';
+import { workshop2ArticleHref } from '@/lib/production/workshop2-url';
 
 export default async function Workshop2CollectionRedirectPage({
   params,
@@ -6,5 +8,6 @@ export default async function Workshop2CollectionRedirectPage({
   params: Promise<{ collectionId: string }>;
 }) {
   const { collectionId } = await params;
-  redirect(`/brand/production/workshop2/c/${encodeURIComponent(collectionId)}/a/demo-ss27-01`);
+  const { demoArticleId } = getPlatformCoreDemo(collectionId);
+  redirect(workshop2ArticleHref(collectionId, demoArticleId));
 }

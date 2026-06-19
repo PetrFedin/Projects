@@ -38,7 +38,7 @@ async function postVaultPresign(req: NextRequest, ctx: RouteCtx) {
   }
 
   const b = body as Record<string, unknown>;
-  const auth = guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES);
+  const auth = await guardWorkshop2Route(req, WORKSHOP2_WRITE_ROLES);
   if (auth instanceof NextResponse) return auth;
 
   if (!cid || !aid) {

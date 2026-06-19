@@ -1,18 +1,11 @@
 /**
  * Wave 10 RU: зеркало costingRub в паспорте — sync из BOM rollup (без обязательной кнопки).
  */
-import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import type { Workshop2DossierPhase1, Workshop2PassportCostingRubMirror } from '@/lib/production/workshop2-dossier-phase1.types';
 import { computeWorkshop2BomCostingRollup } from '@/lib/production/workshop2-bom-costing';
 import { shouldShowWorkshop2RubInUi } from '@/lib/production/workshop2-rub-currency';
 
-export type Workshop2CostingRubMirror = {
-  estimatedFobRub: number;
-  materialsRub: number;
-  trimsRub: number;
-  operationsRub: number;
-  syncedAt: string;
-  source: 'bom_rollup' | 'passport_target_fob';
-};
+export type Workshop2CostingRubMirror = Workshop2PassportCostingRubMirror;
 
 export function resolveWorkshop2CostingRubFromDossier(
   dossier: Workshop2DossierPhase1

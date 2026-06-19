@@ -2,6 +2,7 @@
  * Wave Q — честный статус BOM↔supply sync при file-store persist (без fake PG ACK).
  */
 import type { Workshop2DossierPhase1 } from '@/lib/production/workshop2-dossier-phase1.types';
+import { workshop2PgMirrorStr } from '@/lib/production/workshop2-dossier-pg-mirror-utils';
 import {
   isWorkshop2FilePersistStoreMode,
   isWorkshop2PgPrimaryStoreMode,
@@ -26,10 +27,12 @@ export function buildWorkshop2SupplyBomSyncHonesty(input: {
   const filePersistOnly = isWorkshop2FilePersistStoreMode(input.storeMode);
   const supplyBomSyncAt =
     input.supplyBomSyncAt?.trim() ||
-    input.dossier.supplyBundleMirror?.supplyBomSyncAt?.trim() ||
+    workshop2PgMirrorStr(input.dossier.supplyBundleMirror, 'supplyBomSyncAt') ||
     null;
   const bomTouchedAt =
-    input.dossier.updatedAt?.trim() || input.dossier.bomNodesMirror?.mirroredAt?.trim() || null;
+    input.dossier.updatedAt?.trim() ||
+    workshop2PgMirrorStr(input.dossier.bomNodesMirror, 'mirroredAt') ||
+    null;
   const bomResyncNeeded = Boolean(
     supplyBomSyncAt &&
     bomTouchedAt &&

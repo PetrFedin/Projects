@@ -80,7 +80,11 @@ export function Workshop2DossierMaterialSectionBody({
   );
 
   return (
-    <div id="w2-material-hub" className="scroll-mt-24 space-y-4 px-1 sm:px-2">
+    <div
+      id="w2-material-hub"
+      data-testid="workshop2-dossier-material-hub"
+      className="scroll-mt-24 space-y-4 px-1 sm:px-2"
+    >
       <div
         id="w2-material-fields"
         className="border-border-default scroll-mt-24 space-y-4 rounded-xl border bg-white p-4 shadow-sm"
@@ -96,7 +100,10 @@ export function Workshop2DossierMaterialSectionBody({
       <Workshop2CompositionLabelSpecBlock
         spec={dossier.compositionLabelSpec}
         onChange={(next) =>
-          setDossier((p: Workshop2DossierPhase1) => ({ ...p, compositionLabelSpec: next }))
+          setDossier((p: Workshop2DossierPhase1) => ({
+            ...p,
+            compositionLabelSpec: { ...(p.compositionLabelSpec ?? {}), ...next },
+          }))
         }
         tzWriteDisabled={tzWriteDisabled}
         dossier={dossier}

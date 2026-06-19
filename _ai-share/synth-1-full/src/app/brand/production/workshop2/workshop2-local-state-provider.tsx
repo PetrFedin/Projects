@@ -14,6 +14,9 @@ import {
 import { useAuth } from '@/providers/auth-provider';
 import { initialOrderItems } from '@/lib/order-data';
 import { getProductionDataPort } from '@/lib/production-data';
+import {
+  enrichWorkshop2ArticleRows,
+} from '@/lib/production/workshop2-article-category-facets';
 import { deriveStagesArticleFacets } from '@/lib/production/stages-tab-facets';
 import { subscribeUnifiedSkuFlowSaved } from '@/lib/production/sku-flow-sync';
 import {
@@ -24,6 +27,8 @@ import { appendWorkshop2ArticleActivity } from '@/lib/production/workshop2-activ
 import {
   applyWorkshop2ArticleCommit,
   applyWorkshop2BulkNewArticles,
+  applyWorkshop2PgPublishedArticleRows,
+  ensureWorkshop2PlatformCoreCollectionInInventory,
   archiveWorkshop2Collection,
   defaultWorkshop2ActiveIds,
   listWorkshop2ArticlePickerLines,
@@ -71,6 +76,31 @@ import type {
   Workshop2CollectionListItem,
   Workshop2CollectionMetrics,
 } from '@/components/brand/production/Workshop2TabContent';
+import {
+  fetchWorkshop2PublishedArticlesFromApi,
+  hydrateWorkshop2PlatformCoreCollectionFromPg,
+  resolveWorkshop2PublishedArticlesForHub,
+  type Workshop2PgPublishedArticleRow,
+} from '@/lib/production/workshop2-pg-collection-hydrate';
+import { isPlatformCoreMode } from '@/lib/cabinet-core-mode';
+import {
+  isPlatformCoreEmptyChainCollection,
+  isPlatformCoreGoldenCollectionId,
+  PLATFORM_CORE_DEMO_PRESETS,
+} from '@/lib/platform-core-demo-context';
+import {
+  buildWorkshop2PgSourceStats,
+  type Workshop2PgSourceStats,
+} from '@/lib/production/workshop2-pg-source-stats';
+import {
+  getRangePlannerOverlayForCollection,
+  syncRangePlannerOverlayFromDevelopmentStatus,
+} from '@/lib/production/workshop2-range-planner-overlay';
+import { resolveWorkshop2BackendStatusFromHealth } from '@/components/brand/production/use-workshop2-backend-status-hint';
+import {
+  isWorkshop2PgAuthoritativeCollection,
+  stripPlatformCoreGoldenArticleOverlay,
+} from '@/lib/production/workshop2-platform-core-inventory';
 
 /** Демо SS27: «Создана», пока нет строк с `createdInWorkshop2At` в этой подборке. */
 const WORKSHOP2_SS27_CARD_META_CREATED = '2026-01-15T09:00:00.000Z';
@@ -100,6 +130,28 @@ function formatWorkshop2CardDateTime(iso: string): string {
   } catch {
     return iso;
   }
+}
+
+function mapPgPublishedToArticleRows(
+  rows: Workshop2PgPublishedArticleRow[],
+  localRaw: unknown[]
+): Workshop2ArticleRow[] {
+  const rawById = new Map<string, unknown>();
+  for (const item of localRaw) {
+    const line = item as LocalOrderLine & { id?: string };
+    const id = String(line.id ?? '').trim();
+    if (id) rawById.set(id, item);
+  }
+  const mergedRaw = rows.map((row) => {
+    const existing = rawById.get(row.articleId);
+    if (existing) return existing;
+    return {
+      id: row.articleId,
+      sku: row.sku ?? row.articleId,
+      name: row.name ?? row.articleId,
+    };
+  });
+  return mapRawToArticleRows(mergedRaw);
 }
 
 function mapRawToArticleRows(raw: unknown[]): Workshop2ArticleRow[] {
@@ -146,6 +198,15 @@ function mapRawToArticleRows(raw: unknown[]): Workshop2ArticleRow[] {
         ? it.createdInWorkshop2By.trim()
         : undefined;
     const tzRow = normalizeWorkshopTzSignatoryBindings(it.workshopTzSignatoryBindings);
+    const lineSeason =
+      typeof it.workshopLineSeason === 'string' && it.workshopLineSeason.trim()
+        ? it.workshopLineSeason.trim()
+        : undefined;
+    const tagsRaw = it.workshopTags;
+    const workshopTags =
+      Array.isArray(tagsRaw) && tagsRaw.length > 0
+        ? tagsRaw.filter((t): t is string => typeof t === 'string' && t.trim().length > 0)
+        : undefined;
     return {
       id: String(it.id ?? `idx-${idx}`),
       ...(intCode ? { internalArticleCode: intCode } : {}),
@@ -165,6 +226,8 @@ function mapRawToArticleRows(raw: unknown[]): Workshop2ArticleRow[] {
       articleThumbDataUrl,
       categoryLeafId: catLeaf || undefined,
       workshopAttachments: attachments,
+      ...(lineSeason ? { workshopLineSeason: lineSeason } : {}),
+      ...(workshopTags?.length ? { workshopTags } : {}),
       ...(tzRow ? { workshopTzSignatoryBindings: tzRow } : {}),
     };
   });
@@ -204,7 +267,10 @@ export type Workshop2LocalStateApi = {
   onUpdateUserCollection: (id: string, patch: Workshop2UserCollectionUpdate) => boolean;
   onUpdateSs27Meta: (patch: Workshop2Ss27MetaPatch) => boolean;
   articlePickerLines: LocalOrderLine[];
-  onCommitWorkshop2Article: (collectionId: string, commit: Workshop2ArticleCommit) => boolean;
+  onCommitWorkshop2Article: (
+    collectionId: string,
+    commit: Workshop2ArticleCommit
+  ) => string | false;
   onBulkAddWorkshop2Articles: (
     collectionId: string,
     rows: { sku: string; name?: string }[]
@@ -215,6 +281,22 @@ export type Workshop2LocalStateApi = {
     articleId: string,
     patch: Workshop2ArticleLinePatch
   ) => boolean;
+  syncPublishedArticlesFromPg: (collectionId: string) => Promise<{
+    added: number;
+    skippedDuplicates: number;
+    publishedCount: number;
+    dossiersHydrated: number;
+  }>;
+  /** @alias syncPublishedArticlesFromPg — состав + метаданные досье из PG. */
+  hydrateCollectionFromPg: (collectionId: string) => Promise<{
+    added: number;
+    skippedDuplicates: number;
+    publishedCount: number;
+    dossiersHydrated: number;
+  }>;
+  preferPgApiForPublishedArticles: boolean;
+  getPgSourceStats: (collectionId: string) => Workshop2PgSourceStats | undefined;
+  refreshPgSourceStats: (collectionId: string) => Promise<Workshop2PgSourceStats | null>;
   highlightArticleId: string | null;
 };
 
@@ -248,9 +330,41 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
   );
   const [storageStaleBanner, setStorageStaleBanner] = useState(false);
   const [highlightArticleId, setHighlightArticleId] = useState<string | null>(null);
+  const [workshop2PgServerAvailable, setWorkshop2PgServerAvailable] = useState(false);
+  const [pgSourceStatsByCollection, setPgSourceStatsByCollection] = useState<
+    Record<string, Workshop2PgSourceStats>
+  >({});
+  const [pgHubArticlesByCollection, setPgHubArticlesByCollection] = useState<
+    Record<string, Workshop2PgPublishedArticleRow[]>
+  >({});
 
   useEffect(() => {
-    setLocalInventory(loadLocalCollectionInventory());
+    const loaded = loadLocalCollectionInventory();
+    setLocalInventory(
+      isPlatformCoreMode() ? stripPlatformCoreGoldenArticleOverlay(loaded) : loaded
+    );
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    void fetch('/api/workshop2/health', { cache: 'no-store' })
+      .then(async (res) => {
+        if (cancelled) return;
+        if (!res.ok) {
+          setWorkshop2PgServerAvailable(false);
+          return;
+        }
+        const json = (await res.json()) as { ok?: boolean; postgres?: string; storeMode?: string };
+        setWorkshop2PgServerAvailable(
+          resolveWorkshop2BackendStatusFromHealth(json) === 'server'
+        );
+      })
+      .catch(() => {
+        if (!cancelled) setWorkshop2PgServerAvailable(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -270,14 +384,36 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
   }, [highlightArticleId]);
 
   useEffect(() => {
-    saveLocalCollectionInventory(localInventory);
-  }, [localInventory]);
+    const toPersist =
+      isPlatformCoreMode() && workshop2PgServerAvailable
+        ? stripPlatformCoreGoldenArticleOverlay(localInventory)
+        : localInventory;
+    saveLocalCollectionInventory(toPersist);
+  }, [localInventory, workshop2PgServerAvailable]);
 
   const seedOrderLines = useMemo(() => initialOrderItems as unknown as LocalOrderLine[], []);
 
   const articlePickerLines = useMemo(
     () => listWorkshop2ArticlePickerLines(localInventory, seedOrderLines),
     [localInventory, seedOrderLines]
+  );
+
+  const resolveArticleRowsForCollection = useCallback(
+    (collectionId: string, localRaw: unknown[]): Workshop2ArticleRow[] => {
+      let rows: Workshop2ArticleRow[];
+      if (
+        isPlatformCoreMode() &&
+        workshop2PgServerAvailable &&
+        isPlatformCoreGoldenCollectionId(collectionId) &&
+        (pgHubArticlesByCollection[collectionId]?.length ?? 0) > 0
+      ) {
+        rows = mapPgPublishedToArticleRows(pgHubArticlesByCollection[collectionId]!, localRaw);
+      } else {
+        rows = mapRawToArticleRows(localRaw);
+      }
+      return enrichWorkshop2ArticleRows(collectionId, rows);
+    },
+    [pgHubArticlesByCollection, workshop2PgServerAvailable]
   );
 
   const activeCollectionList = useMemo((): Workshop2CollectionListItem[] => {
@@ -301,7 +437,7 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
       byId.set(WORKSHOP2_COLLECTION_ID, {
         id: WORKSHOP2_COLLECTION_ID,
         displayName: ss27m?.displayName?.trim() || WORKSHOP2_COLLECTION_ID,
-        articleRows: mapRawToArticleRows(ss27Raw),
+        articleRows: resolveArticleRowsForCollection(WORKSHOP2_COLLECTION_ID, ss27Raw),
         kind: 'ss27',
         coverDataUrl: covers[WORKSHOP2_COLLECTION_ID],
         cardTimestamps: {
@@ -329,7 +465,7 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
       byId.set(uc.id, {
         id: uc.id,
         displayName: uc.name,
-        articleRows: mapRawToArticleRows(raw),
+        articleRows: resolveArticleRowsForCollection(uc.id, raw),
         kind: 'user',
         coverDataUrl: covers[uc.id],
         cardTimestamps: {
@@ -351,7 +487,7 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
     const defaultIds = defaultWorkshop2ActiveIds(localInventory);
     const orderedIds = mergeWorkshop2ActiveOrder(localInventory, defaultIds);
     return orderedIds.map((id) => byId.get(id)).filter(Boolean) as Workshop2CollectionListItem[];
-  }, [localInventory]);
+  }, [localInventory, resolveArticleRowsForCollection]);
 
   const archivedCollectionList = useMemo((): Workshop2CollectionListItem[] => {
     const covers = localInventory.collectionCovers ?? {};
@@ -363,7 +499,7 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
       return {
         id: uc.id,
         displayName: uc.name,
-        articleRows: mapRawToArticleRows(raw),
+        articleRows: resolveArticleRowsForCollection(uc.id, raw),
         kind: 'user',
         coverDataUrl: covers[uc.id],
         cardTimestamps: {
@@ -395,7 +531,7 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
       out.unshift({
         id: WORKSHOP2_COLLECTION_ID,
         displayName: ss27m?.displayName?.trim() || WORKSHOP2_COLLECTION_ID,
-        articleRows: mapRawToArticleRows(ss27Raw),
+        articleRows: resolveArticleRowsForCollection(WORKSHOP2_COLLECTION_ID, ss27Raw),
         kind: 'ss27',
         coverDataUrl: covers[WORKSHOP2_COLLECTION_ID],
         cardTimestamps: {
@@ -418,7 +554,7 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
       });
     }
     return out;
-  }, [localInventory]);
+  }, [localInventory, resolveArticleRowsForCollection]);
 
   const allCollectionsForFlow = useMemo(
     () => [...activeCollectionList, ...archivedCollectionList],
@@ -527,6 +663,9 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
 
   const handleBulkWorkshop2Articles = useCallback(
     (collectionId: string, rows: { sku: string; name?: string }[]) => {
+      if (isWorkshop2PgAuthoritativeCollection(collectionId, workshop2PgServerAvailable)) {
+        return { added: 0, skippedDuplicates: rows.length };
+      }
       const leaf = getHandbookCategoryLeaves()[0]?.leafId ?? 'catalog-apparel-g0-l0';
       let stats = { added: 0, skippedDuplicates: 0 };
       setLocalInventory((prev) => {
@@ -536,7 +675,7 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
       });
       return stats;
     },
-    [createdByLabel]
+    [createdByLabel, workshop2PgServerAvailable]
   );
 
   const handleArchive = useCallback((collectionId: string) => {
@@ -593,7 +732,10 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
   );
 
   const handleArticleCommit = useCallback(
-    (collectionId: string, commit: Workshop2ArticleCommit): boolean => {
+    (collectionId: string, commit: Workshop2ArticleCommit): string | false => {
+      if (isWorkshop2PgAuthoritativeCollection(collectionId, workshop2PgServerAvailable)) {
+        return false;
+      }
       let applied: ApplyWorkshop2ArticleResult | undefined;
       setLocalInventory((prev) => {
         const r = applyWorkshop2ArticleCommit(prev, collectionId, commit, createdByLabel);
@@ -615,15 +757,18 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
             tzSignatoryBindings: nb,
           });
         }
-        return true;
+        return newArticleId;
       }
       return false;
     },
-    [createdByLabel]
+    [createdByLabel, workshop2PgServerAvailable]
   );
 
   const handlePatchWorkshop2ArticleLine = useCallback(
     (collectionId: string, articleId: string, patch: Workshop2ArticleLinePatch): boolean => {
+      if (isWorkshop2PgAuthoritativeCollection(collectionId, workshop2PgServerAvailable)) {
+        return false;
+      }
       let ok = false;
       setLocalInventory((prev) => {
         const next = patchWorkshop2ArticleLine(prev, collectionId, articleId, patch);
@@ -640,11 +785,14 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
       }
       return ok;
     },
-    [createdByLabel]
+    [createdByLabel, workshop2PgServerAvailable]
   );
 
   const handleRemoveWorkshop2Article = useCallback(
     (collectionId: string, articleId: string) => {
+      if (isWorkshop2PgAuthoritativeCollection(collectionId, workshop2PgServerAvailable)) {
+        return;
+      }
       removeWorkshop2Phase1Dossier(collectionId, articleId);
       const key = storageKeyForCollectionId(collectionId);
       setLocalInventory((prev) => removeArticleFromInventory(prev, key, articleId, collectionId));
@@ -659,13 +807,140 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
         return { ...prev, [collectionId]: next };
       });
     },
-    [emptyDoc]
+    [emptyDoc, workshop2PgServerAvailable]
   );
 
   const reloadInventoryAfterExternalChange = useCallback(() => {
-    setLocalInventory(loadLocalCollectionInventory());
+    const loaded = loadLocalCollectionInventory();
+    setLocalInventory(
+      isPlatformCoreMode() ? stripPlatformCoreGoldenArticleOverlay(loaded) : loaded
+    );
     setStorageStaleBanner(false);
   }, []);
+
+  const refreshPgSourceStats = useCallback(
+    async (collectionId: string): Promise<Workshop2PgSourceStats | null> => {
+      const cid = collectionId.trim();
+      if (!cid) return null;
+      const inv = loadLocalCollectionInventory();
+      const { articles, readPath } = await resolveWorkshop2PublishedArticlesForHub({
+        collectionId: cid,
+        preferApi: workshop2PgServerAvailable,
+        localInventory: inv,
+        seedLines: seedOrderLines,
+      });
+      const stats = buildWorkshop2PgSourceStats({
+        collectionId: cid,
+        pgArticles: articles,
+        localInventory: inv,
+        seedLines: seedOrderLines,
+        rangePlannerOverlay: getRangePlannerOverlayForCollection(cid),
+        publishedArticlesReadPath: readPath,
+      });
+      setPgSourceStatsByCollection((prev) => ({ ...prev, [cid]: stats }));
+      return stats;
+    },
+    [seedOrderLines, workshop2PgServerAvailable]
+  );
+
+  const getPgSourceStats = useCallback(
+    (collectionId: string) => pgSourceStatsByCollection[collectionId.trim()],
+    [pgSourceStatsByCollection]
+  );
+
+  const syncPublishedArticlesFromPg = useCallback(
+    async (collectionId: string) => {
+      const cid = collectionId.trim();
+      const empty = { added: 0, skippedDuplicates: 0, publishedCount: 0, dossiersHydrated: 0 };
+      if (!cid) return empty;
+      const { articles, dossiersHydrated } = await hydrateWorkshop2PlatformCoreCollectionFromPg(cid, {
+        preferApi: workshop2PgServerAvailable,
+        localInventory: loadLocalCollectionInventory(),
+        seedLines: seedOrderLines,
+      });
+      const pgAuthoritative = isWorkshop2PgAuthoritativeCollection(cid, workshop2PgServerAvailable);
+      const leaf = getHandbookCategoryLeaves()[0]?.leafId ?? 'catalog-apparel-g0-l0';
+      const rows = articles.map((a) => ({
+        articleId: a.articleId,
+        sku: a.sku?.trim() || a.articleId,
+        name: a.name?.trim() || a.articleId,
+      }));
+      let stats = { added: 0, skippedDuplicates: 0 };
+      if (pgAuthoritative) {
+        setPgHubArticlesByCollection((prev) => ({ ...prev, [cid]: articles }));
+        setLocalInventory((prev) =>
+          ensureWorkshop2PlatformCoreCollectionInInventory(prev, cid, createdByLabel)
+        );
+        stats = { added: 0, skippedDuplicates: rows.length };
+      } else {
+        setLocalInventory((prev) => {
+          const withCollection = ensureWorkshop2PlatformCoreCollectionInInventory(
+            prev,
+            cid,
+            createdByLabel
+          );
+          if (!rows.length) {
+            return withCollection;
+          }
+          const r = applyWorkshop2PgPublishedArticleRows(
+            withCollection,
+            cid,
+            rows,
+            leaf,
+            createdByLabel
+          );
+          stats = { added: r.added, skippedDuplicates: r.skippedDuplicates };
+          return r.inventory;
+        });
+      }
+      const rangeOverlay = await syncRangePlannerOverlayFromDevelopmentStatus(cid);
+      const readPath = workshop2PgServerAvailable ? 'api' : 'localStorage';
+      setPgSourceStatsByCollection((prev) => ({
+        ...prev,
+        [cid]: buildWorkshop2PgSourceStats({
+          collectionId: cid,
+          pgArticles: articles,
+          localInventory: loadLocalCollectionInventory(),
+          seedLines: seedOrderLines,
+          rangePlannerOverlay: rangeOverlay ?? getRangePlannerOverlayForCollection(cid),
+          publishedArticlesReadPath: readPath,
+        }),
+      }));
+      return { ...stats, publishedCount: articles.length, dossiersHydrated };
+    },
+    [createdByLabel, seedOrderLines, workshop2PgServerAvailable]
+  );
+
+  const hydrateCollectionFromPg = syncPublishedArticlesFromPg;
+
+  useEffect(() => {
+    if (!workshop2PgServerAvailable || !isPlatformCoreMode()) {
+      setPgHubArticlesByCollection({});
+      return;
+    }
+    const collectionIds = Object.keys(PLATFORM_CORE_DEMO_PRESETS).filter(
+      (id) => !isPlatformCoreEmptyChainCollection(id)
+    );
+    let cancelled = false;
+    void (async () => {
+      const entries = await Promise.all(
+        collectionIds.map(async (cid) => {
+          const articles = await fetchWorkshop2PublishedArticlesFromApi(cid);
+          return [cid, articles] as const;
+        })
+      );
+      if (!cancelled) {
+        setPgHubArticlesByCollection(Object.fromEntries(entries));
+      }
+      for (const cid of collectionIds) {
+        if (cancelled) break;
+        await syncPublishedArticlesFromPg(cid);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [workshop2PgServerAvailable, syncPublishedArticlesFromPg]);
 
   const value = useMemo(
     (): Workshop2LocalStateApi => ({
@@ -690,6 +965,11 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
       onBulkAddWorkshop2Articles: handleBulkWorkshop2Articles,
       onRemoveWorkshop2Article: handleRemoveWorkshop2Article,
       onPatchWorkshop2ArticleLine: handlePatchWorkshop2ArticleLine,
+      syncPublishedArticlesFromPg,
+      hydrateCollectionFromPg,
+      preferPgApiForPublishedArticles: workshop2PgServerAvailable,
+      getPgSourceStats,
+      refreshPgSourceStats,
       highlightArticleId,
     }),
     [
@@ -714,6 +994,11 @@ export function Workshop2LocalStateProvider({ children }: { children: ReactNode 
       handleBulkWorkshop2Articles,
       handleRemoveWorkshop2Article,
       handlePatchWorkshop2ArticleLine,
+      syncPublishedArticlesFromPg,
+      hydrateCollectionFromPg,
+      workshop2PgServerAvailable,
+      getPgSourceStats,
+      refreshPgSourceStats,
       highlightArticleId,
     ]
   );

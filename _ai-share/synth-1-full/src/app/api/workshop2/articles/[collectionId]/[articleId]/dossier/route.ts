@@ -11,6 +11,10 @@ import {
   getWorkshop2ServerDossierStoreMode,
   putWorkshop2ServerDossierRecord,
 } from '@/lib/server/workshop2-phase1-dossier-server-store';
+import {
+  workshop2DossierPutFailureBody,
+  workshop2DossierPutFailureStatus,
+} from '@/lib/server/workshop2-dossier-put-utils';
 import { workshop2DossierStoreModeMessageRu } from '@/lib/production/workshop2-dossier-store-mode';
 import { notifyWorkshop2PlmOnDossierSaved } from '@/lib/server/workshop2-plm-runtime';
 import {
@@ -39,6 +43,8 @@ import { syncWorkshop2CostingRubMirrorOnDossier } from '@/lib/production/worksho
 import { listWorkshop2SampleOrders } from '@/lib/server/workshop2-sample-order-repository';
 import { buildWorkshop2DossierLinkedPaths } from '@/lib/production/workshop2-dossier-linked-paths';
 import { applyWorkshop2SupplyBatchPatchOnDossier } from '@/lib/production/workshop2-supply-batch-patch';
+import { preserveWorkshop2ServerWinsFieldsOnDossierPut } from '@/lib/production/workshop2-dossier-version-merge-policy';
+import { getWorkshop2B2bDossierEditLock } from '@/lib/server/workshop2-b2b-production-handoff';
 import type { SupplySnapshot } from '@/lib/production/article-workspace/types';
 
 type RouteCtx = { params: Promise<{ collectionId: string; articleId: string }> };
@@ -93,6 +99,8 @@ async function getDossier(req: NextRequest, ctx: RouteCtx) {
       });
     }
 
+    const b2bEditLock = await getWorkshop2B2bDossierEditLock({ collectionId: cid, articleId: aid });
+
     return NextResponse.json({
       ok: true,
       storeMode: getWorkshop2ServerDossierStoreMode(),
@@ -101,6 +109,7 @@ async function getDossier(req: NextRequest, ctx: RouteCtx) {
       version: record.version,
       updatedAt: record.updatedAt,
       dossier: record.dossier,
+      b2bEditLock,
     });
   } catch (e) {
     if (e instanceof Error && e.message.includes('WORKSHOP2_DATABASE_URL_NOT_CONFIGURED')) {
@@ -130,6 +139,21 @@ async function putDossier(req: NextRequest, ctx: RouteCtx) {
 
   if (!cid || !aid) {
     return jsonWorkshop2ErrorRu(400, 'invalid_path');
+  }
+
+  const editLock = await getWorkshop2B2bDossierEditLock({ collectionId: cid, articleId: aid });
+  if (editLock.locked) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: 'b2b_dossier_locked',
+        messageRu:
+          editLock.messageRu ??
+          'ТЗ заблокировано после передачи заказа в производство — правки только через новый заказ.',
+        b2bEditLock: editLock,
+      },
+      { status: 409 }
+    );
   }
 
   const baseVersion = (body as { baseVersion?: number })?.baseVersion;
@@ -197,6 +221,8 @@ async function putDossier(req: NextRequest, ctx: RouteCtx) {
     /* новое досье */
   }
 
+  dossierToSave = preserveWorkshop2ServerWinsFieldsOnDossierPut(priorDossier, dossierToSave);
+
   try {
     const result = await putWorkshop2ServerDossierRecord({
       collectionId: cid,
@@ -211,12 +237,10 @@ async function putDossier(req: NextRequest, ctx: RouteCtx) {
     if (!result.ok) {
       return NextResponse.json(
         {
-          ok: false,
-          error: 'version_conflict',
           message: 'Конфликт версий: досье изменено другим пользователем',
-          currentVersion: result.currentVersion,
+          ...workshop2DossierPutFailureBody(result),
         },
-        { status: 409 }
+        { status: workshop2DossierPutFailureStatus(result) }
       );
     }
 

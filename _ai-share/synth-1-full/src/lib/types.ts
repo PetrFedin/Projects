@@ -532,6 +532,103 @@ export interface ProductImage {
   isCover?: boolean;
 }
 
+/** Runway / scroll-switcher product display mode. */
+export type ProductDisplayMode = 'scroll-video' | 'standard';
+
+export type RunwayLookItem = {
+  name: string;
+  price: number;
+  imageUrl: string;
+  slug: string;
+};
+
+export type ProductScrollSwitcherSection = {
+  id: string;
+  label: string;
+  color: string;
+  material?: string;
+  dimensions?: string;
+  thumbImageUrl?: string;
+  sectionImageUrl?: string;
+  sectionVideoUrl?: string;
+  colorName?: string;
+  variantSku?: string;
+  price?: number;
+  sectionStory?: string;
+  sectionAiTip?: string;
+  sectionLookItems?: RunwayLookItem[];
+  /** Runway / scroll-switcher legacy field aliases */
+  heroUrl?: string;
+  thumbUrl?: string;
+  sectionTitle?: string;
+  sectionDescription?: string;
+  posterUrl?: string;
+};
+
+/** Per-product runway chrome tokens (CSS vars on switcher root). */
+export type RunwayTheme = {
+  accentColor?: string;
+  panelStyle?: 'solid' | 'glass';
+};
+
+export type ScrollExperienceConfigFeatures = {
+  autoTour?: boolean;
+  comparePeek?: boolean;
+  kenBurns?: boolean;
+  searchHoverPreview?: boolean;
+  stickyBar?: boolean;
+  socialProof?: boolean;
+  entryCta?: boolean;
+  priceDeltaHighlight?: boolean;
+  kioskMode?: boolean;
+};
+
+/** scroll-experience.json v2/v3 — runway feature flags and defaults. */
+export type ScrollExperienceConfig = {
+  version?: 2 | 3;
+  featuredProductSlug?: string;
+  brandFeatured?: Record<string, string>;
+  defaultSectionColors?: string[];
+  defaultSectionLabels?: string[];
+  defaults?: {
+    sectionColors?: string[];
+    sectionLabels?: string[];
+  };
+  features?: ScrollExperienceConfigFeatures;
+  enableCatalogBadge?: boolean;
+  enableQuickViewEntry?: boolean;
+  showSocialProof?: boolean;
+  showCampaignTagline?: boolean;
+  enableKenBurns?: boolean;
+  enableComparePeek?: boolean;
+  enableScrollSpring?: boolean;
+  enableAutoTour?: boolean;
+  enableUserOptions?: boolean;
+  enableStickyBar?: boolean;
+  enableEntryCta?: boolean;
+  enablePriceDeltaHighlight?: boolean;
+  enableKioskMode?: boolean;
+  enableInvestorBanner?: boolean;
+  investorBannerMessage?: string;
+  enableSearchHoverPreview?: boolean;
+  layout?: 'minimal' | 'full';
+  heroProductSlugs?: string[];
+  heroScrollVideoSlugs?: string[];
+  runwayBadgeHeroOnly?: boolean;
+  featuredMode?: 'interactive' | 'compact';
+  badgeShimmer?: boolean;
+  abTestRunwayDefault?: boolean;
+  abTestFlagshipSlugs?: string[];
+  brandRunwayEnabled?: Record<string, boolean>;
+  investorDemoDoc?: string;
+  demoEntryPath?: string;
+  webhookUrl?: string;
+  analyticsWebhookUrl?: string;
+  videoCdnBaseUrl?: string;
+  brandVideoCdnBaseUrl?: Record<string, string>;
+  videoCdnSignedQuery?: string;
+};
+
 export interface Product {
   id: string;
   slug: string;
@@ -584,6 +681,13 @@ export interface Product {
   /** PNG/WebP прозрачной оправы для виртуальной примерки (eyewear) */
   eyewearFrameUrl?: string;
   model3dUrls?: { url: string }[];
+  /** Runway scroll-video experience (brand admin / catalog). */
+  displayMode?: ProductDisplayMode;
+  featuredScrollExperience?: boolean;
+  scrollVideoUrl?: string;
+  scrollSwitcherSections?: ProductScrollSwitcherSection[];
+  /** Optional runway chrome tokens for scroll-video PDP. */
+  runwayTheme?: RunwayTheme;
 }
 
 export interface CartItem extends Product {
@@ -1344,3 +1448,11 @@ export interface Auction {
     matchAnalysis: string;
   };
 }
+
+/** Client `/client/sewing-patterns` intent attached to B2B order create. */
+export type OrderSewingIntentSnapshot = {
+  clientSewingIntentHandbookLeafId: string;
+  clientSewingIntentPathLabel?: string;
+  clientSewingIntentSnapshotAt?: string;
+  clientSewingIntentMeasures: Record<string, number>;
+};
